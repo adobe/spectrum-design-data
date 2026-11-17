@@ -228,6 +228,8 @@ export function checkInventory(
         "data-vis-examples.ts",
         "data-vis-preview.ts",
         "data-vis-chart-runtime.ts",
+        "token-inspector-warmup.ts",
+        "classification-term-menu.ts",
       ].includes(file)
         ? { ...check, scope: "element", resources: "small" }
         : file === "analysis-packaged-reference.ts"

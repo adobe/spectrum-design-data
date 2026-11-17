@@ -23,12 +23,6 @@ import { orderedVocabularyFixture } from "./fixtures/orderedVocabulary";
 
 assertTaxonomy(dataset.system.taxonomy);
 const input = orderedVocabularyFixture(dataset.system.taxonomy);
-input.terms.push({
-  id: "ead04990-42c3-4483-ba37-c77410f31c57",
-  categoryId: "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-  value: "Base horizontal spacing",
-  description: "Formerly shipped source used by the migration fixture.",
-});
 const upgraded = upgradeOrderedVocabulary(input);
 const taxonomy = { ...upgraded, order: defaultOrderedGroups(upgraded) };
 const current = canonicalDesignSystemDataset(designSystemDefaults);
@@ -80,26 +74,25 @@ for (const [scope, sourceId, termId, expected] of [
     "spacing",
     "spacing-scale-af9cf747-5c46-41a8-b37c-1fe306f506c4",
     "ead04990-42c3-4483-ba37-c77410f31c57",
-    "spacing-base-horizontal-100",
+    "base-spacing-horizontal-100",
   ],
   [
     "spacing",
     "spacing-scale-95a2557d-d4bb-4102-a129-2b1f33ddf5cc",
     "240bd9ba-271a-405d-9514-a627942d6b42",
-    "spacing-base-gap-100",
+    "base-gap-100",
   ],
   ["size", "size-scale-1", "55198c75-7de7-4284-ba9a-0eaa2e47aeb7", "size-100"],
   [
     "radius",
     "radius-scale-5eb175b0-4f95-4e9f-9937-4f7f84ae7572",
     "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
-    "radius-100",
+    "corner-radius-100",
   ],
 ] as const) {
   const legacy = { categoryId: "dfcbbcb5-6519-4a25-b437-1e25fec967b4", termId };
   const reference = upgradeDimensionName(scope, sourceId, legacy, taxonomy);
   assert.equal(name(reference, scope), expected);
-  assert.equal(reference.termId, termId);
   assert.deepEqual(
     upgradeDimensionName(scope, sourceId, reference, taxonomy),
     reference,
@@ -109,10 +102,41 @@ for (const [scope, sourceId, termId, expected] of [
     termId,
   });
   const custom = upgradeDimensionName(scope, "custom-scale", legacy, taxonomy);
-  assert.ok(
-    name(custom, scope).includes("global") ||
-      name(custom, scope).includes("base"),
-    "Custom sources retain their native name instead of guessing a classification.",
+  assert.equal(
+    name(custom, scope),
+    `${scope === "radius" ? "corner-radius" : scope}-100`,
+    "Unknown legacy sources fall back to their foundation's Property term.",
+  );
+}
+for (const [scope, scaleId, expected] of [
+  ["spacing", "spacing-scale-1", "spacing-100"],
+  [
+    "spacing",
+    "spacing-scale-95a2557d-d4bb-4102-a129-2b1f33ddf5cc",
+    "base-gap-100",
+  ],
+  ["spacing", "82fb3a3c-4a5e-4d88-b1ec-b4b9105204d4", "accessory-spacing-100"],
+  [
+    "spacing",
+    "4fc8de62-537c-44da-8772-ec2bdbcc9b7c",
+    "accessory-spacing-affixed-100",
+  ],
+  ["spacing", "5d3d6a7a-36c9-4a53-9f15-447f2a1e68f6", "component-spacing-100"],
+  ["size", "size-scale-1", "size-100"],
+  ["size", "ca20c7d6-6b97-4281-a905-b2a83202e5df", "ui-icon-size-100"],
+  [
+    "radius",
+    "radius-scale-5eb175b0-4f95-4e9f-9937-4f7f84ae7572",
+    "corner-radius-100",
+  ],
+] as const) {
+  const scale = current.system.foundations[scope].scales.find(
+    (item) => item.id === scaleId,
+  )!;
+  assert.equal(
+    name(scale.name as ClassifiedNameReference, scope),
+    expected,
+    "Shipped scales are named by their classification, not a Foundation scale term.",
   );
 }
 for (const [metricId, reference] of Object.entries(

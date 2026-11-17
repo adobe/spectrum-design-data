@@ -37,6 +37,7 @@ export function hasEffectiveTokenEdits(...snapshots: EditSessionSnapshot[]) {
   return snapshots.some(
     (snapshot) =>
       !!snapshot.styles?.recipes.length ||
+      !!snapshot.styles?.colorRoles.length ||
       Object.values(snapshot.browserTokenEdits ?? {}).some(
         (edit) =>
           edit.authoring &&

@@ -115,9 +115,11 @@ assert.equal(dimension.schemaVersion, 3);
 assert.deepEqual(
   dimension.tokens.find(
     (token) =>
-      token.name.tokenCategory === "spacing" && token.name.scaleIndex === 100,
+      token.name.property === "spacing" &&
+      Object.keys(token.name).length === 2 &&
+      token.name.scaleIndex === 100,
   )!.name,
-  { tokenCategory: "spacing", scaleIndex: 100 },
+  { property: "spacing", scaleIndex: 100 },
 );
 const renamed = withLineHeightName(
   snapshot.typography,

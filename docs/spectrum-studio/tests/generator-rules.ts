@@ -595,7 +595,8 @@ const propertyCategory = fullSnapshot.taxonomy!.categories.find(
   (category) => category.key === "property",
 )!;
 const propertyTerm = fullSnapshot.taxonomy!.terms.find(
-  (term) => term.categoryId === propertyCategory.id && term.value === "radius",
+  (term) =>
+    term.categoryId === propertyCategory.id && term.value === "corner radius",
 )!;
 assert.ok(propertyTerm);
 const affectedRadius = full.semantics.find(

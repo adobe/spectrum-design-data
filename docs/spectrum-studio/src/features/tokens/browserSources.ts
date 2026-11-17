@@ -17,7 +17,10 @@ import {
 } from "../taxonomy/model";
 import type { ColorSystemDocument } from "../color-system/model";
 import type { TaxonomyDocument } from "../taxonomy/model";
-import { governedFoundationContext } from "../taxonomy/foundationGovernance";
+import {
+  DIMENSION_PROPERTY_VALUES,
+  governedFoundationContext,
+} from "../taxonomy/foundationGovernance";
 import type { DimensionScope } from "../taxonomy/model";
 import { dimensionIssues } from "../scales/issues";
 import type { Rule } from "../logic/model";
@@ -134,8 +137,7 @@ function sourceBatch(
                   "Unavailable radius: values must be finite and non-negative.",
               }),
             taxonomyEvidence: {
-              property: domain,
-              foundationScale: scale.name,
+              property: DIMENSION_PROPERTY_VALUES[domain],
               scaleIndex: token.step,
             },
             taxonomySource: typographyNaming

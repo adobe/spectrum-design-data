@@ -9,8 +9,7 @@ import {
 } from "./model";
 
 export const ORDERED_CATEGORY_IDS = {
-  tokenCategory: "e4f99e18-de9b-4e35-8e19-51ef1103e8db",
-  role: "11c250f8-e57b-436e-95b8-6296c2b89165",
+  colorRole: "11c250f8-e57b-436e-95b8-6296c2b89165",
   affordance: "4357df60-b3b1-4206-bd27-5dea6e7a4474",
   element: "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
   visibility: "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
@@ -23,14 +22,12 @@ export const ORDERED_CATEGORY_IDS = {
 } as const;
 
 export const DEFAULT_GROUP_KEYS = [
-  "tokenCategory",
   "colorFamily",
   "contrastLabel",
   "surfaceName",
-  "foundationScale",
   "typographyMetric",
   "structure",
-  "role",
+  "colorRole",
   "affordance",
   "element",
   "visibility",
@@ -49,8 +46,7 @@ export const DEFAULT_GROUP_KEYS = [
 ] as const;
 
 const vocabulary: Record<string, readonly (readonly [string, string])[]> = {
-  tokenCategory: [["014d018b-da56-4a93-9190-753ad548a4c2", "spacing"]],
-  role: [
+  colorRole: [
     ["d20e0d12-0915-4d33-91f4-ba1b6272326f", "positive"],
     ["b1529dac-f806-4cf4-828e-18053154d25f", "negative"],
     ["c987efac-c9dd-413b-8f9d-973815d089e4", "informative"],
@@ -126,6 +122,7 @@ const vocabulary: Record<string, readonly (readonly [string, string])[]> = {
     ["aecefcb0-9505-4985-a297-d21e42113fd8", "app"],
   ],
   property: [
+    ["014d018b-da56-4a93-9190-753ad548a4c2", "spacing"],
     ["995ee216-3c2a-4269-bd5c-a3a9b474ead7", "indent"],
     ["31d59200-639b-4c93-8fbf-fc7df5f0ce2a", "opacity"],
     ["dbabc8b1-acf4-49da-817a-ec82cbb76796", "length"],
@@ -153,8 +150,7 @@ const vocabulary: Record<string, readonly (readonly [string, string])[]> = {
 };
 
 const labels: Record<keyof typeof ORDERED_CATEGORY_IDS, string> = {
-  tokenCategory: "Token category",
-  role: "Role",
+  colorRole: "Color role",
   affordance: "Affordance",
   element: "Element",
   visibility: "Visibility",

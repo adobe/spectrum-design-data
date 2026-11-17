@@ -74,6 +74,7 @@ export function createScopedStyleCatalog() {
       !current.styles ||
       !sameInput(accepted) ||
       candidate.styles.publications !== current.styles.publications ||
+      candidate.styles.colorRoles !== current.styles.colorRoles ||
       !identitiesOnly(candidate)
     )
       return componentTokenCatalog(candidate, colorWitness);
@@ -108,7 +109,7 @@ export function createScopedStyleCatalog() {
       );
       const owners = new Set(changed.map((recipe) => recipe.id));
       const output = buildStyleArtifacts(
-        { ...candidate.styles!, recipes: changed },
+        { ...candidate.styles!, recipes: changed, colorRoles: [] },
         input.taxonomy,
         input.rules,
         input.modeSets,

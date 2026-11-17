@@ -46,9 +46,13 @@ import Edit from "@react-spectrum/s2/icons/Edit";
 import Checkmark from "@react-spectrum/s2/icons/Checkmark";
 import Close from "@react-spectrum/s2/icons/Close";
 import {
+  TAXONOMY_TOKEN_TYPES,
+  TAXONOMY_TOKEN_TYPE_LABELS,
   updateTaxonomy,
+  withTaxonomyTokenTypes,
   type TaxonomyCategory,
   type TaxonomyDocument,
+  type TaxonomyScope,
   type TaxonomyTerm,
 } from "../../features/taxonomy/model";
 import type { ReferencedTaxonomySource } from "../../features/taxonomy/referenceValidation";
@@ -108,15 +112,12 @@ const termValueStyles = style({
   gap: 4,
   minWidth: 0,
 });
-const applicableScopes = [
-  { id: "colors", label: "Colors" },
-  { id: "typography", label: "Typography" },
-  { id: "spacing", label: "Spacing" },
-  { id: "size", label: "Size" },
-  { id: "radius", label: "Corner radius" },
-  { id: "elevation", label: "Elevation" },
-  { id: "structures", label: "Structures" },
-] as const;
+const applicableScopes = TAXONOMY_TOKEN_TYPES.map((id) => ({
+  id,
+  label: TAXONOMY_TOKEN_TYPE_LABELS[id],
+}));
+const isTokenTypeScope = (scope: TaxonomyScope) =>
+  applicableScopes.some((item) => item.id === scope);
 
 export function TaxonomyEditor({
   document,
@@ -488,13 +489,11 @@ export function TaxonomyEditor({
           label="Applicable token types"
           orientation="horizontal"
           isDisabled={!editable}
-          value={draft.scopes}
+          value={draft.scopes.filter(isTokenTypeScope)}
           onChange={(checked) =>
             setDraft({
               ...draft,
-              scopes: applicableScopes
-                .filter((scope) => checked.includes(scope.id))
-                .map((scope) => scope.id),
+              scopes: withTaxonomyTokenTypes(draft.scopes, checked),
             })
           }
         >

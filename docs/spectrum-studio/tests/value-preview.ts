@@ -52,6 +52,8 @@ for (const [property, element, attribute, kind] of [
   [ids.lineHeight, undefined, undefined, "line-height"],
   [STRUCTURE_TERM_IDS.radius, undefined, undefined, "radius"],
   [ids.blur, undefined, ids.shadow, "shadow-blur"],
+  [ids.size, undefined, undefined, "block"],
+  [ids.spacing, undefined, undefined, "block"],
   [ids.offset, undefined, ids.shadow, "shadow-offset-y"],
 ] as const)
   assert.equal(

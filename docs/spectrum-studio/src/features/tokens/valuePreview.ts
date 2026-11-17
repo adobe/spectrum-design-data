@@ -68,6 +68,7 @@ export const PREVIEW_TERM_IDS = {
   blur: "b44f2c34-0bd1-434a-bbdf-e76ff1faa47d",
   offset: "c8a9ce12-b5e9-4104-b9a4-cb4324ec80b8",
   length: "dbabc8b1-acf4-49da-817a-ec82cbb76796",
+  spacing: "014d018b-da56-4a93-9190-753ad548a4c2",
 } as const;
 
 export function createValuePreview(
@@ -132,6 +133,7 @@ export function classificationPreviewKind(
     !attribute &&
     [
       PREVIEW_TERM_IDS.length,
+      PREVIEW_TERM_IDS.spacing,
       STRUCTURE_TERM_IDS.width,
       STRUCTURE_TERM_IDS.height,
       STRUCTURE_TERM_IDS.gap,

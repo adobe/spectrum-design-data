@@ -11,9 +11,26 @@ import type { TypographyDocument } from "../typography/model";
 import type { DimensionDocument } from "../scales/foundation";
 import { clampScaleRange, scaleStepName } from "../scales/stepNames";
 import { assertColorGovernance } from "./colorGovernance";
+import type { DimensionScope } from "./model";
 import { DIMENSION_SCOPES } from "./model";
 import type { ElevationDocument } from "../elevation/model";
 import type { Rule } from "../logic/model";
+
+/** Registry Property term that names each dimension foundation's primitives. */
+export const DIMENSION_PROPERTY_VALUES: Record<DimensionScope, string> = {
+  spacing: "spacing",
+  size: "size",
+  radius: "corner radius",
+};
+
+const foundationPropertyValue = (scope: TaxonomyScope) =>
+  scope === "colors"
+    ? "color"
+    : scope === "elevation"
+      ? "drop shadow"
+      : ((DIMENSION_PROPERTY_VALUES as Partial<Record<TaxonomyScope, string>>)[
+          scope
+        ] ?? scope);
 
 export function governedFoundationContext(
   document: TaxonomyDocument,
@@ -30,7 +47,7 @@ export function governedFoundationContext(
   );
   if (
     name.classification &&
-    ["typography", "size", "radius"].includes(scope) &&
+    (["typography", ...DIMENSION_SCOPES] as TaxonomyScope[]).includes(scope) &&
     (!property || !classification[property.id])
   ) {
     throw new Error(
@@ -39,7 +56,7 @@ export function governedFoundationContext(
   }
   const fields: [string, string | number][] = name.classification
     ? []
-    : [["property", scope === "colors" ? "color" : scope]];
+    : [["property", foundationPropertyValue(scope)]];
   if (index !== undefined) fields.push(["scaleIndex", index]);
   for (const [key, value] of fields) {
     const category = document.categories.find(

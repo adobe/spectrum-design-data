@@ -42,18 +42,13 @@ export type NewTokenStep =
   | ({ kind: "category" } & NewTokenQuestion)
   | { kind: "review" };
 
-export const classificationScopeFor = (
-  tier: NewTokenTier,
-  type: NewTokenType,
-): TaxonomyScope => (tier === "primitive" ? type : "structures");
-
 /** Categories asked for this tier and type, in the taxonomy's name order. */
 export function newTokenQuestions(
   taxonomy: TaxonomyDocument,
   tier: NewTokenTier,
   type: NewTokenType,
 ): NewTokenQuestion[] {
-  const scope = classificationScopeFor(tier, type);
+  const scope: TaxonomyScope = type;
   return taxonomy.order.flatMap((id) => {
     const category = taxonomy.categories.find((item) => item.id === id);
     if (
@@ -116,7 +111,7 @@ export function newTokenPreview(
   const projection = projectClassification(
     taxonomy,
     classification,
-    classificationScopeFor(answers.tier, answers.type),
+    answers.type,
     answers.tier,
   );
   const duplicate = projection.name
@@ -161,9 +156,6 @@ export function createNewTokenEdit(
           type,
           unit: newTokenUnit(type),
           groupId: `manual-${type}`,
-          ...(answers.tier !== "primitive"
-            ? { scope: "structures" as const }
-            : {}),
         },
       },
     },

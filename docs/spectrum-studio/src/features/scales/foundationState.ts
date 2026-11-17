@@ -111,21 +111,13 @@ export function createDimensionFoundationState<Version extends number>(
   const namedDocumentAtom = withTaxonomyContributions(
     storedDocumentAtom,
     (document) =>
-      document.scales.flatMap((scale) => [
-        {
+      document.scales.flatMap((scale) =>
+        Array.from({ length: scale.below + scale.above + 1 }, (_, index) => ({
           sourceId: taxonomyDimensionSourceId(scope, scale.id),
-          field: "foundationScale",
-          value: scale.name,
-        },
-        ...Array.from(
-          { length: scale.below + scale.above + 1 },
-          (_, index) => ({
-            sourceId: taxonomyDimensionSourceId(scope, scale.id),
-            field: "scaleIndex",
-            value: scaleStepName(index - scale.below, scale.below),
-          }),
-        ),
-      ]),
+          field: "scaleIndex",
+          value: scaleStepName(index - scale.below, scale.below),
+        })),
+      ),
     (value): value is DimensionDocument<Version> =>
       isDimensionDocument(value, schemaVersion),
     key,

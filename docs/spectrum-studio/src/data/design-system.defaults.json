@@ -10172,17 +10172,23 @@
           "cardinality": "one",
           "scopes": [
             "colors",
+            "opacity",
             "typography",
             "spacing",
             "size",
             "radius",
             "elevation",
-            "opacity",
+            "motion",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "primitive",
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
@@ -10198,7 +10204,56 @@
           "required": false,
           "includeInProjections": true,
           "allowedTokenTiers": [
+            "primitive"
+          ]
+        },
+        {
+          "id": "521c31da-b22d-4529-a543-aec2f4a4bb04",
+          "key": "renderingBehavior",
+          "name": "Rendering behavior",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors"
+          ],
+          "required": false,
+          "includeInProjections": true,
+          "allowedTokenTiers": [
             "primitive",
+            "semantic"
+          ]
+        },
+        {
+          "id": "5d3a4c7f-38d4-4566-88f4-8a0cfad2aad8",
+          "key": "modeBehavior",
+          "name": "Mode behavior",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors"
+          ],
+          "required": false,
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "primitive",
+            "semantic"
+          ]
+        },
+        {
+          "id": "3342daf2-e935-43f6-93ad-7de760503e56",
+          "key": "layer",
+          "name": "Layer",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
+            "colors"
+          ],
+          "required": false,
+          "includeInProjections": true,
+          "allowedTokenTiers": [
             "semantic"
           ]
         },
@@ -10206,31 +10261,11 @@
           "id": "d8be9a69-fac3-495d-8be4-6a12311817a3",
           "key": "surfaceName",
           "name": "Surface name",
-          "description": "",
+          "description": "This category needs addressed",
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
             "colors",
-            "styles"
-          ],
-          "required": false,
-          "includeInProjections": true,
-          "allowedTokenTiers": [
-            "primitive"
-          ]
-        },
-        {
-          "id": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "key": "foundationScale",
-          "name": "Foundation scale",
-          "description": "",
-          "valueType": "string",
-          "cardinality": "one",
-          "scopes": [
-            "spacing",
-            "size",
-            "radius",
-            "elevation",
             "styles"
           ],
           "required": false,
@@ -10248,19 +10283,19 @@
           "cardinality": "one",
           "scopes": [
             "colors",
+            "opacity",
             "typography",
             "spacing",
             "size",
             "radius",
             "elevation",
-            "opacity",
+            "motion",
             "styles"
           ],
           "required": false,
           "includeInProjections": true,
           "allowedTokenTiers": [
-            "primitive",
-            "semantic"
+            "primitive"
           ]
         },
         {
@@ -10271,17 +10306,17 @@
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
-            "colors",
-            "typography",
             "spacing",
             "size",
-            "radius",
-            "elevation",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1001",
@@ -10291,17 +10326,17 @@
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
-            "colors",
-            "typography",
             "spacing",
             "size",
-            "radius",
-            "elevation",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1002",
@@ -10311,17 +10346,16 @@
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
-            "colors",
-            "typography",
             "spacing",
-            "size",
-            "radius",
-            "elevation",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "b07988e3-0510-4bf5-a531-86ea718b1003",
@@ -10331,7 +10365,26 @@
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
-            "colors",
+            "spacing",
+            "size",
+            "radius",
+            "structures",
+            "styles"
+          ],
+          "required": false,
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "semantic"
+          ]
+        },
+        {
+          "id": "b07988e3-0510-4bf5-a531-86ea718b1004",
+          "key": "size",
+          "name": "Size",
+          "description": "",
+          "valueType": "string",
+          "cardinality": "one",
+          "scopes": [
             "typography",
             "spacing",
             "size",
@@ -10348,67 +10401,21 @@
           ]
         },
         {
-          "id": "b07988e3-0510-4bf5-a531-86ea718b1004",
-          "key": "size",
-          "name": "Size",
-          "description": "",
-          "valueType": "string",
-          "cardinality": "one",
-          "scopes": [
-            "colors",
-            "typography",
-            "spacing",
-            "size",
-            "radius",
-            "elevation",
-            "structures",
-            "styles"
-          ],
-          "required": false,
-          "includeInProjections": true
-        },
-        {
-          "id": "e4f99e18-de9b-4e35-8e19-51ef1103e8db",
-          "key": "tokenCategory",
-          "name": "Token category",
-          "description": "",
-          "valueType": "string",
-          "cardinality": "one",
-          "scopes": [
-            "colors",
-            "typography",
-            "spacing",
-            "size",
-            "radius",
-            "elevation",
-            "structures",
-            "styles"
-          ],
-          "required": false,
-          "includeInProjections": true
-        },
-        {
           "id": "11c250f8-e57b-436e-95b8-6296c2b89165",
-          "key": "role",
-          "name": "Role",
+          "key": "colorRole",
+          "name": "Color role",
           "description": "",
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
             "colors",
-            "typography",
-            "spacing",
-            "size",
-            "radius",
-            "elevation",
             "structures",
             "styles"
           ],
           "required": false,
           "includeInProjections": true,
           "allowedTokenTiers": [
-            "semantic",
-            "component"
+            "semantic"
           ]
         },
         {
@@ -10420,19 +10427,13 @@
           "cardinality": "one",
           "scopes": [
             "colors",
-            "typography",
-            "spacing",
-            "size",
-            "radius",
-            "elevation",
             "structures",
             "styles"
           ],
           "required": false,
           "includeInProjections": true,
           "allowedTokenTiers": [
-            "semantic",
-            "component"
+            "semantic"
           ]
         },
         {
@@ -10447,19 +10448,21 @@
             "typography",
             "spacing",
             "size",
-            "radius",
             "elevation",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "semantic"
+          ]
         },
         {
           "id": "9e71a9cf-5039-4c1e-b61c-0dcf20b452a6",
           "key": "anatomy",
           "name": "Anatomy",
-          "description": "",
+          "description": "This category needs addressed",
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
@@ -10482,16 +10485,15 @@
           "cardinality": "one",
           "scopes": [
             "colors",
-            "typography",
-            "spacing",
-            "size",
-            "radius",
-            "elevation",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "ca732a26-decb-4746-9afc-3567ec0d445e",
@@ -10502,16 +10504,20 @@
           "cardinality": "one",
           "scopes": [
             "colors",
-            "typography",
             "spacing",
             "size",
             "radius",
             "elevation",
+            "motion",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "f65fecd0-3e68-4531-927d-cd52c203c0de",
@@ -10521,23 +10527,24 @@
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
-            "colors",
-            "typography",
             "spacing",
             "size",
             "radius",
-            "elevation",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "semantic",
+            "component"
+          ]
         },
         {
           "id": "25fb04b2-3b64-410c-aa3d-782ced59b6c3",
           "key": "shape",
           "name": "Shape",
-          "description": "",
+          "description": "This category needs addressed",
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
@@ -10562,11 +10569,7 @@
           "cardinality": "one",
           "scopes": [
             "colors",
-            "typography",
-            "spacing",
-            "size",
-            "radius",
-            "elevation",
+            "motion",
             "structures",
             "styles"
           ],
@@ -10586,11 +10589,7 @@
           "cardinality": "one",
           "scopes": [
             "colors",
-            "typography",
-            "spacing",
-            "size",
-            "radius",
-            "elevation",
+            "motion",
             "structures",
             "styles"
           ],
@@ -10610,22 +10609,28 @@
           "cardinality": "one",
           "scopes": [
             "colors",
+            "opacity",
             "typography",
             "spacing",
             "size",
             "radius",
             "elevation",
+            "motion",
             "structures",
             "styles"
           ],
           "required": false,
-          "includeInProjections": true
+          "includeInProjections": true,
+          "allowedTokenTiers": [
+            "primitive",
+            "semantic"
+          ]
         },
         {
           "id": "6248662b-d1a7-45e1-b89d-521c08eea9b5",
           "key": "style",
           "name": "Style",
-          "description": "",
+          "description": "This category needs addressed",
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
@@ -10638,7 +10643,7 @@
           "id": "01e1ee2e-6501-4e20-a20a-e204873f6afc",
           "key": "fontWeight",
           "name": "Font weight",
-          "description": "",
+          "description": "This category needs addressed",
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
@@ -10654,7 +10659,7 @@
           "id": "8c5383a1-6f48-49c5-bb9b-fffe7c9aec41",
           "key": "family",
           "name": "Family",
-          "description": "The family of a font-family primitive.",
+          "description": "This category needs addressed",
           "valueType": "string",
           "cardinality": "one",
           "scopes": [
@@ -10818,13 +10823,13 @@
         {
           "id": "39b46d90-7157-4a98-9902-723d72646617",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "elevation",
+          "value": "drop shadow",
           "description": ""
         },
         {
           "id": "e809f072-65ad-4189-927c-5348330fc56c",
           "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
-          "value": "radius",
+          "value": "corner radius",
           "description": ""
         },
         {
@@ -11183,18 +11188,6 @@
           "description": ""
         },
         {
-          "id": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
-          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "global",
-          "description": ""
-        },
-        {
-          "id": "240bd9ba-271a-405d-9514-a627942d6b42",
-          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "base gap",
-          "description": ""
-        },
-        {
           "id": "14d24bdb-e1ad-4186-82e8-02cc953c5f05",
           "categoryId": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
           "value": 20,
@@ -11340,7 +11333,7 @@
         },
         {
           "id": "014d018b-da56-4a93-9190-753ad548a4c2",
-          "categoryId": "e4f99e18-de9b-4e35-8e19-51ef1103e8db",
+          "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
           "value": "spacing",
           "description": ""
         },
@@ -11825,24 +11818,6 @@
           "description": ""
         },
         {
-          "id": "91fa9b0c-9fe8-44f1-8cb6-5f971c86e2c5",
-          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "accessory spacing",
-          "description": ""
-        },
-        {
-          "id": "ffd466bc-4b71-4ddc-9e0f-7556a8df37a7",
-          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "accessory affixed spacing",
-          "description": ""
-        },
-        {
-          "id": "0904997d-8a2d-438b-ac71-be3832251b55",
-          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "accessory icon",
-          "description": ""
-        },
-        {
           "id": "f1f80acb-112b-4ea4-9679-416fb7bfa4b1",
           "categoryId": "b07988e3-0510-4bf5-a531-86ea718b1003",
           "value": "accessory-workflow-item",
@@ -11852,18 +11827,6 @@
           "id": "9ca0dbba-d6ac-4ed4-8eaf-315b37da7f31",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
           "value": "accessory-presentation",
-          "description": ""
-        },
-        {
-          "id": "c9c9b1bd-34f4-4bb6-a565-dd112862e3f4",
-          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "base workflow icon",
-          "description": ""
-        },
-        {
-          "id": "e641a4e5-484e-471b-af1e-cbe1125254ba",
-          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "ui icon",
           "description": ""
         },
         {
@@ -11894,12 +11857,6 @@
           "id": "180d4503-d709-4edc-809f-f90f804ef130",
           "categoryId": "ca732a26-decb-4746-9afc-3567ec0d445e",
           "value": "vertical-padding",
-          "description": ""
-        },
-        {
-          "id": "ce501be2-a3df-4c52-bcc6-fbdc9f8ed8d9",
-          "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-          "value": "scale 1",
           "description": ""
         },
         {
@@ -11976,11 +11933,12 @@
         }
       ],
       "order": [
-        "e4f99e18-de9b-4e35-8e19-51ef1103e8db",
         "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "521c31da-b22d-4529-a543-aec2f4a4bb04",
+        "5d3a4c7f-38d4-4566-88f4-8a0cfad2aad8",
         "d8be9a69-fac3-495d-8be4-6a12311817a3",
-        "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
         "b07988e3-0510-4bf5-a531-86ea718b1003",
+        "3342daf2-e935-43f6-93ad-7de760503e56",
         "11c250f8-e57b-436e-95b8-6296c2b89165",
         "4357df60-b3b1-4206-bd27-5dea6e7a4474",
         "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
@@ -23432,10 +23390,10 @@
             "parameters": {},
             "roundingRuleId": "rule-spacing-rounding",
             "name": {
-              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-              "termId": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+              "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+              "termId": "014d018b-da56-4a93-9190-753ad548a4c2",
               "classification": {
-                "e4f99e18-de9b-4e35-8e19-51ef1103e8db": "014d018b-da56-4a93-9190-753ad548a4c2"
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "014d018b-da56-4a93-9190-753ad548a4c2"
               }
             }
           },
@@ -23451,10 +23409,9 @@
             "roundingRuleId": "rule-whole-numbers",
             "hideFromPublishing": true,
             "name": {
-              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-              "termId": "240bd9ba-271a-405d-9514-a627942d6b42",
+              "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+              "termId": "b07988e3-0510-4bf5-a531-86ea718b1102",
               "classification": {
-                "e4f99e18-de9b-4e35-8e19-51ef1103e8db": "014d018b-da56-4a93-9190-753ad548a4c2",
                 "b07988e3-0510-4bf5-a531-86ea718b1003": "b5cf8569-078f-40b1-8207-dddddd3aa2a5",
                 "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1102"
               }
@@ -23472,11 +23429,11 @@
             "roundingRuleId": "rule-whole-numbers",
             "hideFromPublishing": true,
             "name": {
-              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-              "termId": "91fa9b0c-9fe8-44f1-8cb6-5f971c86e2c5",
+              "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+              "termId": "014d018b-da56-4a93-9190-753ad548a4c2",
               "classification": {
-                "e4f99e18-de9b-4e35-8e19-51ef1103e8db": "014d018b-da56-4a93-9190-753ad548a4c2",
-                "dfcbbcb5-6519-4a25-b437-1e25fec967b4": "91fa9b0c-9fe8-44f1-8cb6-5f971c86e2c5"
+                "b07988e3-0510-4bf5-a531-86ea718b1003": "4402f568-5db9-4cee-93a3-e3e9421dd170",
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "014d018b-da56-4a93-9190-753ad548a4c2"
               }
             }
           },
@@ -23490,11 +23447,12 @@
             "roundingRuleId": "rule-whole-numbers",
             "hideFromPublishing": true,
             "name": {
-              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-              "termId": "ffd466bc-4b71-4ddc-9e0f-7556a8df37a7",
+              "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+              "termId": "014d018b-da56-4a93-9190-753ad548a4c2",
               "classification": {
-                "e4f99e18-de9b-4e35-8e19-51ef1103e8db": "014d018b-da56-4a93-9190-753ad548a4c2",
-                "dfcbbcb5-6519-4a25-b437-1e25fec967b4": "ffd466bc-4b71-4ddc-9e0f-7556a8df37a7"
+                "b07988e3-0510-4bf5-a531-86ea718b1003": "4402f568-5db9-4cee-93a3-e3e9421dd170",
+                "b07988e3-0510-4bf5-a531-86ea718b1000": "58d98056-7c04-4915-91b7-3c11a14b7f09",
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "014d018b-da56-4a93-9190-753ad548a4c2"
               }
             }
           },
@@ -23508,11 +23466,11 @@
             "roundingRuleId": "rule-whole-numbers",
             "componentSizeScaling": true,
             "name": {
-              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-              "termId": "ce501be2-a3df-4c52-bcc6-fbdc9f8ed8d9",
+              "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+              "termId": "014d018b-da56-4a93-9190-753ad548a4c2",
               "classification": {
-                "e4f99e18-de9b-4e35-8e19-51ef1103e8db": "014d018b-da56-4a93-9190-753ad548a4c2",
-                "dfcbbcb5-6519-4a25-b437-1e25fec967b4": "ce501be2-a3df-4c52-bcc6-fbdc9f8ed8d9"
+                "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "ac662c53-df93-4c8a-aecd-2981b2446d67",
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "014d018b-da56-4a93-9190-753ad548a4c2"
               }
             }
           }
@@ -23530,8 +23488,8 @@
             "roundingRuleId": "rule-spacing-rounding",
             "startStep": 4,
             "name": {
-              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-              "termId": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+              "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+              "termId": "273990a0-e71e-4249-9628-7e8fa689747b",
               "classification": {
                 "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "273990a0-e71e-4249-9628-7e8fa689747b"
               }
@@ -23549,11 +23507,11 @@
             "roundingRuleId": "rule-whole-numbers",
             "hideFromPublishing": false,
             "name": {
-              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-              "termId": "e641a4e5-484e-471b-af1e-cbe1125254ba",
+              "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+              "termId": "273990a0-e71e-4249-9628-7e8fa689747b",
               "classification": {
-                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "273990a0-e71e-4249-9628-7e8fa689747b",
-                "dfcbbcb5-6519-4a25-b437-1e25fec967b4": "e641a4e5-484e-471b-af1e-cbe1125254ba"
+                "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "c8bb5451-b245-4de7-806a-ea006a15a1ae",
+                "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "273990a0-e71e-4249-9628-7e8fa689747b"
               }
             }
           }
@@ -23570,8 +23528,8 @@
             "parameters": {},
             "roundingRuleId": "rule-whole-numbers",
             "name": {
-              "categoryId": "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-              "termId": "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
+              "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+              "termId": "e809f072-65ad-4189-927c-5348330fc56c",
               "classification": {
                 "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "e809f072-65ad-4189-927c-5348330fc56c"
               }

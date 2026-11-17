@@ -24,6 +24,7 @@ import { deleteAliasAtom, aliasesAtom } from "../features/tokens/aliasState";
 import { isSelectableBrowserToken } from "../features/tokens/view/tokenTablePresentation";
 import { PreviewToolbar } from "../components/PreviewToolbar";
 import { tokenDialogCatalogAtom } from "../features/tokens/dialogState";
+import { scheduleTokenInspectorWarmup } from "../features/tokens/inspectorWarmup";
 import { allModeTokenTableRows } from "../features/tokens/view/allModeTokenTable";
 
 function AllModeTokenBrowser(props: TokenBrowserViewProps) {
@@ -86,6 +87,7 @@ export default function Tokens() {
   useEffect(() => {
     if (!isEditing) setSelectedIds(new Set());
   }, [isEditing]);
+  useEffect(() => scheduleTokenInspectorWarmup(store), [store]);
   useEffect(() => {
     const eligible = new Set(
       tokens.filter(isSelectableBrowserToken).map((token) => token.id),

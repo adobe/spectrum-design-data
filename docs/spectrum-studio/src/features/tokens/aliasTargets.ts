@@ -42,7 +42,11 @@ export function canonicalAliasRows(
     projectionPolicy,
     options,
   );
-  if (excludeStyles || !source.styles?.recipes.length) return baseRows;
+  if (
+    excludeStyles ||
+    (!source.styles?.recipes.length && !source.styles?.colorRoles.length)
+  )
+    return baseRows;
   const output = buildStylesForSource(source, selections);
   const foundationRows = excludeColors
     ? canonicalBaseAliasRows(source, semantics, projectionPolicy, {

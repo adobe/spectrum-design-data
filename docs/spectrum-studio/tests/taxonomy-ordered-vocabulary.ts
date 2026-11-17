@@ -10,6 +10,7 @@ import {
 import {
   assertTaxonomy,
   projectClassification,
+  type TaxonomyScope,
 } from "../src/features/taxonomy/model";
 import { orderedVocabularyFixture } from "./fixtures/orderedVocabulary";
 
@@ -60,70 +61,80 @@ assert.throws(
   () => defaultOrderedGroups(missingGroup),
   /Missing default taxonomy group contrastLabel/,
 );
-const projection = (values: Record<string, string | number>) =>
+const projection = (
+  values: Record<string, string | number>,
+  scope: TaxonomyScope,
+) =>
   projectClassification(
     defaults,
     classificationFromValues(defaults, values),
-    values.colorFamily || values.surfaceName
-      ? "colors"
-      : values.tokenCategory
-        ? "spacing"
-        : "typography",
+    scope,
   );
-for (const [fields, expected] of [
-  [{ element: "Text", property: "size", scaleIndex: 100 }, "text-size-100"],
+for (const [fields, expected, scope] of [
+  [
+    { element: "Text", property: "size", scaleIndex: 100 },
+    "text-size-100",
+    "typography",
+  ],
   [
     { element: "Body", property: "Line height", scaleIndex: 100 },
     "body-line-height-100",
+    "typography",
   ],
   [
     { element: "Body", property: "Unitless line height", scaleIndex: 100 },
     "body-unitless-line-height-100",
+    "typography",
   ],
   [
     { element: "Workflow-icon", property: "size", scaleIndex: 100 },
     "workflow-icon-size-100",
+    "typography",
   ],
-  [{ tokenCategory: "Spacing", scaleIndex: 100 }, "spacing-100"],
-  [{ property: "size", scaleIndex: 100 }, "size-100"],
-  [{ property: "radius", scaleIndex: 100 }, "radius-100"],
+  [{ property: "spacing", scaleIndex: 100 }, "spacing-100", "spacing"],
+  [{ property: "size", scaleIndex: 100 }, "size-100", "size"],
+  [
+    { property: "corner radius", scaleIndex: 100 },
+    "corner-radius-100",
+    "radius",
+  ],
   [
     {
-      tokenCategory: "Spacing",
+      property: "spacing",
       structure: "Base",
       axis: "Horizontal",
       scaleIndex: 100,
     },
-    "spacing-base-horizontal-100",
+    "base-spacing-horizontal-100",
+    "spacing",
   ],
   [
-    {
-      tokenCategory: "Spacing",
-      structure: "Base",
-      property: "gap",
-      scaleIndex: 100,
-    },
-    "spacing-base-gap-100",
+    { structure: "Base", property: "gap", scaleIndex: 100 },
+    "base-gap-100",
+    "spacing",
   ],
   [
     { element: "Surface", attribute: "Shadow", scaleIndex: 100 },
     "surface-shadow-100",
+    "elevation",
   ],
   [
     { surfaceName: "Floating surface", property: "color" },
     "floating-surface-color",
+    "colors",
   ],
   [
     { colorFamily: "Illustrator Orange", property: "color" },
     "illustrator-orange-color",
+    "colors",
   ],
-] as [Record<string, string | number>, string][]) {
-  const output = projection(fields);
+] as [Record<string, string | number>, string, TaxonomyScope][]) {
+  const output = projection(fields, scope);
   assert.deepEqual(output.issues, [], expected);
   assert.equal(output.name, expected);
   const reorderedFields = Object.fromEntries(Object.entries(fields).reverse());
   assert.equal(
-    projection(reorderedFields).name,
+    projection(reorderedFields, scope).name,
     expected,
     "Object order cannot override the Registry order.",
   );

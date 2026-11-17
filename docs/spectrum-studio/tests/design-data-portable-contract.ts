@@ -39,6 +39,7 @@ import {
   type BrowserTokenEdits,
 } from "../src/features/tokens/browserModel";
 import { dimensionNameClassification } from "../src/features/taxonomy/foundationNames";
+import { dimensionNameReference } from "../src/features/taxonomy/naming";
 import {
   canonicalAliasRows,
   completeAliasSource,
@@ -122,27 +123,24 @@ native.system.foundations.spacing.scales[0].bindings = {
   },
 };
 const fixtureTermId = crypto.randomUUID();
+const structureCategoryId = "b07988e3-0510-4bf5-a531-86ea718b1003";
 native.system.taxonomy = registerTerm(
   native.system.taxonomy,
-  "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+  structureCategoryId,
   "Fixture",
   fixtureTermId,
 );
-const fixtureReference = {
-  categoryId: "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-  termId: fixtureTermId,
-};
 native.system.foundations.spacing.scales.push({
   id: "fixture-recipe",
-  name: "Fixture",
-  nameRef: {
-    ...fixtureReference,
-    classification: dimensionNameClassification(
-      "spacing",
-      fixtureReference,
-      native.system.taxonomy,
-    ),
-  },
+  name: "fixture spacing",
+  nameRef: dimensionNameReference(
+    native.system.taxonomy,
+    {
+      ...dimensionNameClassification("spacing", native.system.taxonomy),
+      [structureCategoryId]: fixtureTermId,
+    },
+    "spacing",
+  ),
   hideFromPublishing: false,
   scaleTypeId: "fixture-expression",
   parameters: { step: 3 },

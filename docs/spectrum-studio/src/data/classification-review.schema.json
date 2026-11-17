@@ -162,6 +162,7 @@
             "elevation",
             "opacity",
             "structures",
+            "styles",
             "motion"
           ]
         },

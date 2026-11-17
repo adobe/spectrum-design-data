@@ -64,8 +64,7 @@ export function browserElevationSources(
       unit: "",
       shadows: level.shadows,
       taxonomyEvidence: {
-        property: "elevation",
-        foundationScale: groupLabel,
+        property: "drop shadow",
         scaleIndex: level.step,
       },
       taxonomySource: governedFoundationContext(

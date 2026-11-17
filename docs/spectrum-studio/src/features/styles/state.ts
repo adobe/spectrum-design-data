@@ -167,7 +167,12 @@ function scopedStyleArtifacts(
     if (previous?.inputs.every((value, index) => value === inputs[index]))
       return previous.artifacts;
     const artifacts = buildStyleArtifacts(
-      { ...document, recipes: [recipe], publications: rows ?? [] },
+      {
+        ...document,
+        recipes: [recipe],
+        publications: rows ?? [],
+        colorRoles: [],
+      },
       source.taxonomy,
       source.rules,
       source.modeSets,
@@ -505,19 +510,22 @@ export const addColorRoleAtom = atom(
     if (!roleTermId) {
       const name = input.name?.trim();
       if (!name) throw new Error("Choose or enter a role.");
-      taxonomy = registerTerm(taxonomy, ORDERED_CATEGORY_IDS.role, name, () =>
-        crypto.randomUUID(),
+      taxonomy = registerTerm(
+        taxonomy,
+        ORDERED_CATEGORY_IDS.colorRole,
+        name,
+        () => crypto.randomUUID(),
       );
       roleTermId = taxonomy.terms.find(
         (term) =>
-          term.categoryId === ORDERED_CATEGORY_IDS.role &&
+          term.categoryId === ORDERED_CATEGORY_IDS.colorRole &&
           taxonomyValueKey(term.value) === taxonomyValueKey(name),
       )?.id;
     } else if (
       !taxonomy.terms.some(
         (term) =>
           term.id === roleTermId &&
-          term.categoryId === ORDERED_CATEGORY_IDS.role,
+          term.categoryId === ORDERED_CATEGORY_IDS.colorRole,
       )
     )
       throw new Error("Choose an available role.");

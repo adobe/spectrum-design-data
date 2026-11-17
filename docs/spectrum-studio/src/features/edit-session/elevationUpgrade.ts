@@ -28,7 +28,7 @@ export function upgradeElevationSnapshot(
   const categories = defaults.taxonomy.categories.filter(
     (category) =>
       nameCategories.has(category.id) ||
-      ["property", "foundationScale", "scaleIndex"].includes(category.key),
+      ["property", "scaleIndex"].includes(category.key),
   );
   for (const category of categories) {
     const existing = taxonomy.categories.find(
@@ -55,7 +55,7 @@ export function upgradeElevationSnapshot(
   for (const term of defaults.taxonomy.terms.filter(
     (term) =>
       nameTerms.has(term.id) ||
-      (term.categoryId === property.id && term.value === "elevation") ||
+      (term.categoryId === property.id && term.value === "drop shadow") ||
       (term.categoryId === steps.id &&
         [100, 200, 300].includes(Number(term.value))),
   )) {

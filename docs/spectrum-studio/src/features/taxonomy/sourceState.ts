@@ -11,9 +11,13 @@ import {
   taxonomyColorSourceId,
   taxonomyPaletteSourceId,
   taxonomySurfaceSourceId,
+  type Classification,
+  type DimensionScope,
 } from "./model";
 import {
   assertRegisteredSourceNames,
+  dimensionNameReference,
+  dimensionScaleLabel,
   registeredSourceName,
   selectSourceName,
 } from "./naming";
@@ -230,5 +234,48 @@ export const editFoundationNameAtom = atom(
         ),
       });
     }
+  },
+);
+
+/** Names a dimension scale by its Registry classification; the label is derived, never typed. */
+export const editDimensionScaleClassificationAtom = atom(
+  null,
+  (
+    get,
+    set,
+    input: {
+      scope: DimensionScope;
+      scaleId: string;
+      classification: Classification;
+    },
+  ) => {
+    if (!get(editModeAtom))
+      throw new Error("Enter edit mode to change foundation names.");
+    const taxonomy = get(taxonomyDocumentAtom);
+    const nameRef = dimensionNameReference(
+      taxonomy,
+      input.classification,
+      input.scope,
+    );
+    const name = dimensionScaleLabel(
+      taxonomy,
+      input.classification,
+      input.scope,
+    );
+    const rename = <T extends { scales: { id: string }[] }>(document: T): T => {
+      if (!document.scales.some((scale) => scale.id === input.scaleId))
+        throw new Error("This scale no longer exists.");
+      return {
+        ...document,
+        scales: document.scales.map((scale) =>
+          scale.id === input.scaleId ? { ...scale, name, nameRef } : scale,
+        ),
+      };
+    };
+    if (input.scope === "spacing")
+      set(spacingDocumentAtom, rename(get(spacingDocumentAtom)));
+    else if (input.scope === "size")
+      set(sizeDocumentAtom, rename(get(sizeDocumentAtom)));
+    else set(radiusDocumentAtom, rename(get(radiusDocumentAtom)));
   },
 );

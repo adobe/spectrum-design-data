@@ -3,6 +3,7 @@ import type { Classification, DimensionScope, TaxonomyDocument } from "./model";
 import type { TaxonomyNameReference } from "./naming";
 import { classificationFromValues } from "./orderedVocabulary";
 import { taxonomyValueKey } from "./model";
+import { DIMENSION_PROPERTY_VALUES } from "./foundationGovernance";
 
 export interface ClassifiedNameReference extends TaxonomyNameReference {
   classification?: Classification;
@@ -15,42 +16,38 @@ const dimensionNames: Record<
   "spacing-scale-1": {
     scope: "spacing",
     termId: "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
-    values: { tokenCategory: "Spacing" },
+    values: { property: DIMENSION_PROPERTY_VALUES.spacing },
   },
   "size-scale-1": {
     scope: "size",
     termId: "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
-    values: { property: "size" },
+    values: { property: DIMENSION_PROPERTY_VALUES.size },
   },
   "radius-scale-5eb175b0-4f95-4e9f-9937-4f7f84ae7572": {
     scope: "radius",
     termId: "55198c75-7de7-4284-ba9a-0eaa2e47aeb7",
-    values: { property: "radius" },
+    values: { property: DIMENSION_PROPERTY_VALUES.radius },
   },
   "spacing-scale-af9cf747-5c46-41a8-b37c-1fe306f506c4": {
     scope: "spacing",
     termId: "ead04990-42c3-4483-ba37-c77410f31c57",
-    values: { tokenCategory: "Spacing", structure: "Base", axis: "Horizontal" },
+    values: { structure: "Base", axis: "Horizontal", property: "spacing" },
   },
   "spacing-scale-95a2557d-d4bb-4102-a129-2b1f33ddf5cc": {
     scope: "spacing",
     termId: "240bd9ba-271a-405d-9514-a627942d6b42",
-    values: { tokenCategory: "Spacing", structure: "Base", property: "gap" },
+    values: { structure: "Base", property: "gap" },
   },
 };
 
+/** Legacy fallback: a dimension scale is named by its foundation's Property term. */
 export function dimensionNameClassification(
   scope: DimensionScope,
-  reference: TaxonomyNameReference,
   taxonomy: TaxonomyDocument,
 ): Classification {
-  return {
-    ...classificationFromValues(
-      taxonomy,
-      scope === "spacing" ? { tokenCategory: "Spacing" } : { property: scope },
-    ),
-    [reference.categoryId]: reference.termId,
-  };
+  return classificationFromValues(taxonomy, {
+    property: DIMENSION_PROPERTY_VALUES[scope],
+  });
 }
 
 export function upgradeDimensionName(
@@ -61,22 +58,20 @@ export function upgradeDimensionName(
 ): ClassifiedNameReference {
   if (reference.classification) return structuredClone(reference);
   const mapping = dimensionNames[sourceId];
-  const value = taxonomy.terms.find(
-    (term) => term.id === reference.termId,
-  )?.value;
-  const shippedLabel =
-    sourceId === "spacing-scale-af9cf747-5c46-41a8-b37c-1fe306f506c4"
-      ? "Base horizontal spacing"
-      : sourceId === "spacing-scale-95a2557d-d4bb-4102-a129-2b1f33ddf5cc"
-        ? "Base gap"
-        : "Global";
   const classification =
-    mapping?.scope === scope &&
-    reference.termId === mapping.termId &&
-    taxonomyValueKey(value ?? "") === taxonomyValueKey(shippedLabel)
+    mapping?.scope === scope && reference.termId === mapping.termId
       ? classificationFromValues(taxonomy, mapping.values)
-      : dimensionNameClassification(scope, reference, taxonomy);
-  return { ...reference, classification };
+      : dimensionNameClassification(scope, taxonomy);
+  const property = taxonomy.categories.find(
+    (category) => category.key === "property",
+  );
+  return property && typeof classification[property.id] === "string"
+    ? {
+        categoryId: property.id,
+        termId: classification[property.id] as string,
+        classification,
+      }
+    : { ...reference, classification };
 }
 
 const metricMappings: Record<

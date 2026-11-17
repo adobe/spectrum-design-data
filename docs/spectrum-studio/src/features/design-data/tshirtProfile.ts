@@ -286,8 +286,8 @@ export function assertTshirtGraph(
   modeSets: readonly TshirtGraphModeSet[] = [],
 ) {
   const byId = new Map<string, TshirtTokenRecord>(),
-    names = new Set<string>(),
-    formatted = new Set<string>();
+    names = new Map<string, TshirtTokenRecord>(),
+    formatted = new Map<string, TshirtTokenRecord>();
   for (const token of tokens) {
     if (token.conceptId || canonicalName(token)) {
       if (!validateToken(token))
@@ -336,13 +336,15 @@ export function assertTshirtGraph(
       }),
     );
     const displayKey = canonicalJson([displayName, context]);
-    if (byId.has(token.uuid) || names.has(name) || formatted.has(displayKey))
+    const duplicate =
+      byId.get(token.uuid) ?? names.get(name) ?? formatted.get(displayKey);
+    if (duplicate)
       throw new Error(
-        "Duplicate emitted token UUID, structured name or formatted name.",
+        `Duplicate emitted token UUID, structured name or formatted name: "${displayName}" (${token.uuid}) collides with "${canonicalName(duplicate) ?? formatTshirtName(duplicate.name)}" (${duplicate.uuid}).`,
       );
     byId.set(token.uuid, token);
-    names.add(name);
-    formatted.add(displayKey);
+    names.set(name, token);
+    formatted.set(displayKey, token);
   }
   for (const token of tokens) {
     const visited = new Set<string>();

@@ -12,7 +12,9 @@ import {
   DialogContainer,
   Header,
   Heading,
+  Link as TextLink,
   PickerItem,
+  Skeleton,
   Tag,
   TagGroup,
   Text,
@@ -40,13 +42,20 @@ import {
 } from "../../features/tokens/tokenAssignments";
 import type { CanonicalAliasRow } from "../../features/tokens/aliasTargets";
 import type { ModeSet } from "../../features/modes/model";
-import type { TaxonomyDocument } from "../../features/taxonomy/model";
+import {
+  TAXONOMY_TOKEN_TYPE_LABELS,
+  type TaxonomyDocument,
+} from "../../features/taxonomy/model";
 import {
   createDialogDraft,
   dialogClassification,
   resolveDialogTokens,
   type TokenDialogDraft,
 } from "../../features/tokens/dialogModel";
+import {
+  aliasSourceToken,
+  tokenClassificationScope,
+} from "../../features/tokens/classificationScope";
 import type { ColorOutputSettings } from "../../features/color-system/outputSettings";
 import { TokenValueField } from "./TokenValueField";
 import { ClassificationTerms } from "./ClassificationTerms";
@@ -79,6 +88,10 @@ export interface TokenInspectorProps {
   aliases: BrowserToken[];
   components: { id: string; label: string; count: number }[];
   usageError?: string;
+  /** Shows a skeleton inside the same dialog while derived data is computed. */
+  isLoading?: boolean;
+  /** Fades the content in when it replaces the loading skeleton. */
+  revealContent?: boolean;
   onSave: (draft: TokenDialogDraft) => void;
   onClose: () => void;
   onOpenToken: (id: string) => void;
@@ -163,6 +176,7 @@ export function TokenInspector(props: TokenInspectorProps) {
     [draft, original, props.modeKey],
   );
   const tokens = useMemo(() => {
+    if (props.isLoading) return [];
     const document = resolveColorDocument(
       props.colorSystem,
       modesForSelection(
@@ -190,8 +204,17 @@ export function TokenInspector(props: TokenInspectorProps) {
         ? token
         : { ...token, value: resolved[index].value },
     );
-  }, [rows, edits, taxonomy, draft, props.colorSystem, props.modeSets]);
+  }, [
+    rows,
+    edits,
+    taxonomy,
+    draft,
+    props.colorSystem,
+    props.modeSets,
+    props.isLoading,
+  ]);
   const token = tokens.find((item) => item.id === original.id) ?? original;
+  const aliasToken = aliasSourceToken(token);
   const editable = isEditing && !original.alias;
   const deprecated = draft.deprecated;
   const released = props.releasedIds.has(token.id);
@@ -211,10 +234,11 @@ export function TokenInspector(props: TokenInspectorProps) {
     draft.classification,
     taxonomy,
   );
+  const formulaProjection = dialogClassification(token, undefined, taxonomy);
   const selected = Object.fromEntries(modePairs(draft.modeKey));
   const opacitySurface = useMemo(
     () =>
-      original.type === "opacity"
+      original.type === "opacity" && !props.isLoading
         ? modePreviewSurface(
             props.colorSystem,
             modesForSelection(
@@ -230,7 +254,13 @@ export function TokenInspector(props: TokenInspectorProps) {
             props.modeSets,
           )
         : undefined,
-    [original.type, props.colorSystem, props.modeSets, draft.modeKey],
+    [
+      original.type,
+      props.colorSystem,
+      props.modeSets,
+      draft.modeKey,
+      props.isLoading,
+    ],
   );
   const applicableIds = new Set(
     rows
@@ -281,13 +311,38 @@ export function TokenInspector(props: TokenInspectorProps) {
     const key = row?.context ?? draft.modeKey;
     setDraft({ ...draft, assignments: { ...draft.assignments, [key]: null } });
   }
+  const title = projection.issues.length ? token.name : projection.name;
+  // Keeps the same DialogContainer/Dialog position as the loaded view so the
+  // modal stays mounted and does not replay its entry animation.
+  if (props.isLoading)
+    return (
+      <>
+        <DialogContainer onDismiss={props.onClose}>
+          <Dialog size="L">
+            <Heading slot="title">{title}</Heading>
+            <Content>
+              <Skeleton isLoading>
+                <div
+                  className={styles.root}
+                  data-component="TokenInspectorLoading"
+                  aria-busy="true"
+                >
+                  <Text>Loading token details placeholder text</Text>
+                  <Text>Loading token value and mode details</Text>
+                  <Text>Loading classification terms and aliases</Text>
+                  <Text>Loading component usage</Text>
+                </div>
+              </Skeleton>
+            </Content>
+          </Dialog>
+        </DialogContainer>
+      </>
+    );
   return (
     <>
       <DialogContainer onDismiss={() => navigate(props.onClose)}>
         <Dialog size="L" isKeyboardDismissDisabled={!!pendingNavigation}>
-          <Heading slot="title">
-            {projection.issues.length ? token.name : projection.name}
-          </Heading>
+          <Heading slot="title">{title}</Heading>
           <Header>
             <Badge
               variant={
@@ -300,7 +355,10 @@ export function TokenInspector(props: TokenInspectorProps) {
             </Badge>
           </Header>
           <Content>
-            <div className={styles.root} data-component="TokenInspector">
+            <div
+              className={`${styles.root}${props.revealContent ? " reveal-fade-in" : ""}`}
+              data-component="TokenInspector"
+            >
               <div className={styles.wrap}>
                 {modeSets.map((set) => (
                   <ModeSetPicker
@@ -412,31 +470,27 @@ export function TokenInspector(props: TokenInspectorProps) {
                     <ClassificationTerms
                       taxonomy={taxonomy}
                       tier={token.tier}
-                      scope={
-                        token.classificationScope ??
-                        (token.semantic
-                          ? "structures"
-                          : token.type === "motion"
-                            ? "size"
-                            : token.type)
-                      }
+                      scope={tokenClassificationScope(token)}
                       value={draft.classification ?? projection.classification}
                       onChange={(classification) =>
                         setDraft({ ...draft, classification })
                       }
-                    />
-                    {generated && (
-                      <div
-                        className={
-                          draft.classification ? styles.warning : styles.help
-                        }
-                      >
-                        {draft.classification ? (
+                      formulaValue={
+                        generated && draft.classification
+                          ? formulaProjection.classification
+                          : undefined
+                      }
+                      description={
+                        generated && !draft.classification
+                          ? "Classification generated by formula"
+                          : undefined
+                      }
+                      errorMessage={
+                        generated && draft.classification ? (
                           <>
                             Classification overrides formula-generated
-                            classification.
-                            <ActionButton
-                              isQuiet
+                            classification.{" "}
+                            <TextLink
                               onPress={() =>
                                 setDraft({
                                   ...draft,
@@ -445,13 +499,12 @@ export function TokenInspector(props: TokenInspectorProps) {
                               }
                             >
                               Reset classification
-                            </ActionButton>
+                            </TextLink>
+                            .
                           </>
-                        ) : (
-                          "Classification generated by formula"
-                        )}
-                      </div>
-                    )}
+                        ) : undefined
+                      }
+                    />
                   </section>
                   <Picker
                     label="Lifecycle status"
@@ -657,19 +710,20 @@ export function TokenInspector(props: TokenInspectorProps) {
             <Heading slot="title">Create new alias</Heading>
             <Content>
               <div className={styles.stack}>
+                <Text>
+                  Token type:{" "}
+                  <strong>
+                    {TAXONOMY_TOKEN_TYPE_LABELS[
+                      token.type as keyof typeof TAXONOMY_TOKEN_TYPE_LABELS
+                    ] ?? token.type}
+                  </strong>
+                </Text>
                 <Text>Classification</Text>
                 <ClassificationTerms
                   tier={token.tier}
                   value={aliasClassification}
                   taxonomy={taxonomy}
-                  scope={
-                    token.classificationScope ??
-                    (token.semantic
-                      ? "structures"
-                      : token.type === "motion"
-                        ? "size"
-                        : token.type)
-                  }
+                  scope={tokenClassificationScope(aliasToken)}
                   onChange={setAliasClassification}
                 />
                 <Text>References {token.name} in all supported modes.</Text>
@@ -684,7 +738,7 @@ export function TokenInspector(props: TokenInspectorProps) {
                 variant="accent"
                 onPress={() => {
                   const projection = dialogClassification(
-                    token,
+                    aliasToken,
                     aliasClassification,
                     taxonomy,
                   );
@@ -698,7 +752,7 @@ export function TokenInspector(props: TokenInspectorProps) {
                     draft.aliases.some(
                       (alias) =>
                         dialogClassification(
-                          token,
+                          aliasToken,
                           alias.classification,
                           taxonomy,
                         ).name === aliasName,

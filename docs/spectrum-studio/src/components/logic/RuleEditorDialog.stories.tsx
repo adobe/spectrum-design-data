@@ -42,6 +42,23 @@ export const SpacingLadder: Story = {
   },
 };
 
+export const DeferredUntilOpen: Story = {
+  name: "Builds the draft only when opened",
+  args: { createDraft: fn(() => structuredClone(spacingRule)) },
+  play: async ({ args, canvasElement }) => {
+    await expect(args.createDraft).not.toHaveBeenCalled();
+    await userEvent.click(
+      within(canvasElement).getByRole("button", { name: "Edit rounding rule" }),
+    );
+    await waitFor(() =>
+      expect(
+        within(canvasElement.ownerDocument.body).getByRole("dialog"),
+      ).toBeVisible(),
+    );
+    await expect(args.createDraft).toHaveBeenCalled();
+  },
+};
+
 export const DepthOneHundred: Story = {
   args: {
     createDraft: () => ({

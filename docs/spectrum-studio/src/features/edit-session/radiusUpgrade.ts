@@ -20,7 +20,7 @@ export function upgradeRadiusSnapshot(input: unknown): EditSessionSnapshot {
   const defaults = designSystemDefaults.system;
   const radius = structuredClone(defaults.foundations.radius);
   const taxonomy = snapshot.taxonomy!;
-  const requiredKeys = ["property", "foundationScale", "scaleIndex"];
+  const requiredKeys = ["property", "scaleIndex"];
   for (const key of requiredKeys) {
     const category = defaults.taxonomy.categories.find(
       (category) => category.key === key,
@@ -54,7 +54,7 @@ export function upgradeRadiusSnapshot(input: unknown): EditSessionSnapshot {
         defaults.taxonomy.categories.find(
           (category) => category.key === "property",
         )!.id &&
-        term.value === "radius") ||
+        term.value === "corner radius") ||
       (term.categoryId ===
         defaults.taxonomy.categories.find(
           (category) => category.key === "scaleIndex",

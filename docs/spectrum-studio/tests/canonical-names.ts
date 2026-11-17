@@ -6,10 +6,13 @@ import { designSystemDefaults } from "../src/data/defaults";
 import { composeDesignSystemDefaults } from "../src/features/design-data/validation";
 import {
   registeredSourceName,
+  resolveNamedSource,
   canonicalDimensionDocument,
+  dimensionScaleNameCollisions,
 } from "../src/features/taxonomy/naming";
 import { SCALE_TYPE_DEFAULTS } from "../src/features/scales/scaleType";
 import { taxonomyValueKey } from "../src/features/taxonomy/model";
+import { numericValuesMayBeShared } from "../src/features/taxonomy/valueDomains";
 import type { CanonicalDesignSystemDataset } from "../src/features/design-data/model";
 import { changeCountAtom } from "../src/features/changelog/state";
 import {
@@ -29,7 +32,10 @@ import {
   captureDimensionSource,
 } from "../src/features/design-data/dimensionArtifacts";
 import { authoringSnapshotAtom } from "../src/features/edit-session/state";
-import { editFoundationNameAtom } from "../src/features/taxonomy/sourceState";
+import {
+  editDimensionScaleClassificationAtom,
+  editFoundationNameAtom,
+} from "../src/features/taxonomy/sourceState";
 import { browserTokenSourcesAtom } from "../src/features/tokens/browserState";
 import {
   generatedTypographyAtom,
@@ -45,10 +51,13 @@ const canonical: CanonicalDesignSystemDataset = JSON.parse(
   ),
 );
 const taxonomy = canonical.system.taxonomy;
-assert.equal(
-  new Set(taxonomy.terms.map((term) => taxonomyValueKey(term.value))).size,
-  taxonomy.terms.length,
-);
+for (const [index, term] of taxonomy.terms.entries())
+  for (const other of taxonomy.terms.slice(index + 1))
+    assert(
+      taxonomyValueKey(term.value) !== taxonomyValueKey(other.value) ||
+        numericValuesMayBeShared(term, other, taxonomy.categories),
+      `"${term.value}" is owned by more than one category.`,
+    );
 for (const source of [
   ...canonical.system.foundations.color.palette,
   ...canonical.system.foundations.color.scales,
@@ -65,14 +74,24 @@ for (const scope of ["spacing", "size"] as const)
   for (const source of canonical.system.foundations[scope].scales) {
     assert(registeredSourceName(taxonomy, source.name, scope));
   }
+for (const scope of ["spacing", "size", "radius"] as const) {
+  const names = canonical.system.foundations[scope].scales.map(
+    (source) => resolveNamedSource(source, taxonomy, scope).name,
+  );
+  assert.equal(
+    new Set(names).size,
+    names.length,
+    `Classified ${scope} scales resolve to their full classification label, so exporters never give two scales the same name.`,
+  );
+}
 for (const reference of Object.values(
   canonical.system.foundations.typography.metricNames,
 ))
   assert(registeredSourceName(taxonomy, reference, "typography"));
-assert.equal(
+assert.notEqual(
   canonical.system.foundations.spacing.scales[0].name.termId,
   canonical.system.foundations.size.scales[0].name.termId,
-  "Shared Global labels reuse their registered identity while output classifications differ.",
+  "Each foundation's default scale is named by its own Property term.",
 );
 const malformed = structuredClone(canonical);
 malformed.system.foundations.color.scales[0].name.termId = crypto.randomUUID();
@@ -82,7 +101,7 @@ assert.throws(
 );
 const wrongCategory = structuredClone(canonical);
 wrongCategory.system.foundations.color.scales[0].name.categoryId =
-  "dfcbbcb5-6519-4a25-b437-1e25fec967b4";
+  "d8be9a69-fac3-495d-8be4-6a12311817a3";
 assert.throws(
   () => composeDesignSystemDefaults(wrongCategory, SCALE_TYPE_DEFAULTS),
   /incompatible/,
@@ -97,44 +116,76 @@ assert.equal(
 store.set(enterEditModeAtom);
 const spacing = store.get(spacingDocumentAtom);
 const reference = spacing.scales[0].nameRef!;
-store.set(spacingDocumentAtom, {
-  ...spacing,
-  scales: spacing.scales.map((source, index) =>
-    index === 0 ? { ...source, name: "Universal" } : source,
-  ),
+const sizeBefore = store.get(sizeDocumentAtom);
+const baseClassification = {
+  ...reference.classification!,
+  "b07988e3-0510-4bf5-a531-86ea718b1003":
+    "b5cf8569-078f-40b1-8207-dddddd3aa2a5",
+};
+store.set(editDimensionScaleClassificationAtom, {
+  scope: "spacing",
+  scaleId: spacing.scales[0].id,
+  classification: baseClassification,
 });
 assert.equal(
-  store.get(sizeDocumentAtom).scales[0].name,
-  "universal",
-  "A shared registry rename changes every consuming source.",
+  store.get(spacingDocumentAtom).scales[0].name,
+  "base spacing",
+  "A scale's name is its classification, read in Registry order.",
 );
-assert.equal(
-  store
-    .get(taxonomyDocumentAtom)
-    .terms.find((term) => term.id === reference.termId)?.value,
-  "universal",
+assert.deepEqual(store.get(spacingDocumentAtom).scales[0].nameRef, {
+  categoryId: reference.categoryId,
+  termId: reference.termId,
+  classification: baseClassification,
+});
+assert.deepEqual(
+  store.get(sizeDocumentAtom),
+  sizeBefore,
+  "Classifying one scale leaves other foundations unchanged.",
 );
-assert.deepEqual(store.get(spacingDocumentAtom).scales[0].nameRef, reference);
 assert.deepEqual(
   canonicalDimensionDocument(store.get(spacingDocumentAtom)).scales[0].name,
-  reference,
+  store.get(spacingDocumentAtom).scales[0].nameRef,
 );
+assert.deepEqual(
+  dimensionScaleNameCollisions(
+    store.get(spacingDocumentAtom),
+    store.get(taxonomyDocumentAtom),
+    "spacing",
+  ),
+  [],
+);
+store.set(editDimensionScaleClassificationAtom, {
+  scope: "spacing",
+  scaleId: spacing.scales[1].id,
+  classification: baseClassification,
+});
+assert.deepEqual(
+  dimensionScaleNameCollisions(
+    store.get(spacingDocumentAtom),
+    store.get(taxonomyDocumentAtom),
+    "spacing",
+  ).map((collision) => collision.scaleIds),
+  [[spacing.scales[0].id, spacing.scales[1].id]],
+  "Duplicate classifications are reported as a diagnostic, not an error.",
+);
+store.set(editDimensionScaleClassificationAtom, {
+  scope: "spacing",
+  scaleId: spacing.scales[1].id,
+  classification: spacing.scales[1].nameRef!.classification!,
+});
 store.set(saveEditAtom);
-store.set(spacingDocumentAtom, {
-  ...store.get(spacingDocumentAtom),
-  scales: store
-    .get(spacingDocumentAtom)
-    .scales.map((source, index) =>
-      index === 0 ? { ...source, name: "Later draft" } : source,
-    ),
+store.set(enterEditModeAtom);
+store.set(editDimensionScaleClassificationAtom, {
+  scope: "spacing",
+  scaleId: spacing.scales[0].id,
+  classification: reference.classification!,
 });
 store.set(cancelEditAtom);
 assert.equal(
   store.get(spacingDocumentAtom).scales[0].name,
-  "universal",
+  "base spacing",
   "Cancel uses this page's most recent Save baseline.",
 );
-assert.equal(store.get(sizeDocumentAtom).scales[0].name, "universal");
 
 const colors = store.get(colorSystemDocumentAtom);
 const before = store.get(taxonomyDocumentAtom);

@@ -7,6 +7,7 @@ import {
   registerTerm,
   taxonomyColorSourceId,
   taxonomyIssues,
+  withTaxonomyTokenTypes,
 } from "../src/features/taxonomy/model";
 import {
   groupBrowserCards,
@@ -139,7 +140,7 @@ assert.throws(
   () =>
     registerTerm(
       document,
-      "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+      "d8be9a69-fac3-495d-8be4-6a12311817a3",
       " Focus ",
       crypto.randomUUID(),
     ),
@@ -171,7 +172,7 @@ assert(
       ...document.terms,
       {
         id: crypto.randomUUID(),
-        categoryId: "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
+        categoryId: "d8be9a69-fac3-495d-8be4-6a12311817a3",
         value: " RED ",
         description: "",
       },
@@ -193,11 +194,7 @@ assert(
 );
 assert.throws(
   () =>
-    contributeTerms(
-      document,
-      [],
-      [{ field: "foundationScale", value: " Focus " }],
-    ),
+    contributeTerms(document, [], [{ field: "surfaceName", value: " Focus " }]),
   /already owned/,
 );
 assert(
@@ -646,6 +643,58 @@ assert.equal(
     .get(taxonomyDocumentAtom)
     .terms.filter((term) => String(term.value) === "100").length,
   1,
+);
+// Token types and naming contexts are separate: editing types keeps Structures and Styles.
+assert.deepEqual(
+  withTaxonomyTokenTypes(
+    ["colors", "structures", "spacing", "styles"],
+    ["motion", "colors"],
+  ),
+  ["colors", "motion", "structures", "styles"],
+);
+const defaults = createTaxonomyDefaults();
+assert.doesNotThrow(() =>
+  assertTaxonomy({
+    ...defaults,
+    categories: defaults.categories.map((category) =>
+      category.key === "interaction"
+        ? { ...category, scopes: ["motion"] }
+        : category,
+    ),
+  }),
+);
+const defaultCategory = (key: string) =>
+  defaults.categories.find((category) => category.key === key)!;
+assert.deepEqual(defaultCategory("structure").scopes, [
+  "spacing",
+  "size",
+  "radius",
+  "structures",
+  "styles",
+]);
+assert.deepEqual(defaultCategory("structure").allowedTokenTiers, ["semantic"]);
+assert.equal(defaultCategory("colorRole").name, "Color role");
+for (const key of ["tokenCategory", "foundationScale", "role"])
+  assert.equal(
+    defaults.categories.some((category) => category.key === key),
+    false,
+    `${key} is no longer a default category.`,
+  );
+assert.ok(
+  defaultCategory("number").scopes.includes("colors") &&
+    defaultCategory("number").allowedTokenTiers?.includes("semantic"),
+  "Semantic layer tokens take their index from Number.",
+);
+// Shipped foundation names use these categories, so their token types must allow them.
+assert.ok(defaultCategory("property").scopes.includes("radius"));
+for (const scope of ["typography", "elevation"] as const)
+  assert.ok(defaultCategory("element").scopes.includes(scope));
+for (const key of ["renderingBehavior", "modeBehavior", "layer"])
+  assert.ok(defaultCategory(key), `${key} is a default category.`);
+assert.equal(
+  defaults.order.length,
+  defaults.categories.length,
+  "Every default category is ordered.",
 );
 console.log(
   "Taxonomy normalization, ownership, projections, identity, tree and export guardrails passed.",

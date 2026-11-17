@@ -197,8 +197,8 @@ assert.equal(
   taxonomy.terms.find(
     (term) => term.id === "39b46d90-7157-4a98-9902-723d72646617",
   )?.value,
-  "elevation",
-  "The native Structure elevation slot still needs its Property term.",
+  "drop shadow",
+  "Elevation tokens use the Property drop shadow; Attribute already owns shadow.",
 );
 
 function rejects(

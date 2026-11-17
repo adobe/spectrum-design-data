@@ -67,7 +67,7 @@ export function ColorRolesAccordionItem() {
     () =>
       new Map(
         taxonomy.terms
-          .filter((term) => term.categoryId === ORDERED_CATEGORY_IDS.role)
+          .filter((term) => term.categoryId === ORDERED_CATEGORY_IDS.colorRole)
           .map((term) => [term.id, term]),
       ),
     [taxonomy.terms],

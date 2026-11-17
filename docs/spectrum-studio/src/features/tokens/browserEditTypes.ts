@@ -33,6 +33,7 @@ export interface TokenAuthoring {
     /** Missing for new tokens that do not reference another token yet. */
     targetId?: string;
     groupId: string;
+    /** Legacy marker for semantic tokens before explicit tiers; no longer written. */
     scope?: "structures";
   };
   lifecycle?: {

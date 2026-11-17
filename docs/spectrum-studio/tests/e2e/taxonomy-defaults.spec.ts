@@ -113,7 +113,7 @@ for (const width of [1440, 390]) {
       "workflow-icon-size-100",
       "spacing-100",
       "size-100",
-      "radius-100",
+      "corner-radius-100",
       "surface-shadow-100",
     ];
     for (const name of names)

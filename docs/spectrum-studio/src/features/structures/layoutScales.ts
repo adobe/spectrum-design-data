@@ -218,23 +218,13 @@ export function createLayoutScale<Source extends LayoutScaleSource>(
     throw new Error(
       "The formula and rounding must preserve the entered value at the base.",
     );
-  // Allocate names before reconciliation so saved/working migrations share identities.
-  const nameCategory = taxonomy.categories.find(
-    (item) => item.key === "foundationScale",
-  );
+  // Allocate step terms before reconciliation so saved/working migrations share identities.
   const stepCategory = taxonomy.categories.find(
     (item) => item.key === "scaleIndex",
   );
-  if (!nameCategory || !stepCategory)
-    throw new Error(
-      "The Foundation naming categories are unavailable in the Registry.",
-    );
-  let registry = registerTerm(
-    taxonomy,
-    nameCategory.id,
-    scale.name,
-    allocate(`${key}:name`),
-  );
+  if (!stepCategory)
+    throw new Error("The Scale index category is unavailable in the Registry.");
+  let registry = taxonomy;
   for (let index = -below; index <= above; index++) {
     const step = scaleStepName(index, below);
     registry = registerTerm(

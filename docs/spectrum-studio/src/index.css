@@ -38,6 +38,16 @@ h6 {
 @keyframes fade-out { to { opacity: 0; } }
 @keyframes fade-in { from { opacity: 0; } }
 
+.reveal-fade-in {
+  animation: 160ms ease-out both fade-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-fade-in {
+    animation: none;
+  }
+}
+
 
 .dialog-title {
   /* No view-transition-name here. Let it transition with the root to avoid text scaling artifacts. */

@@ -54,7 +54,9 @@ export interface TokenComboBoxProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isMixed?: boolean;
-  error?: string;
+  /** Help text shown below the field when there is no error. */
+  description?: ReactNode;
+  error?: ReactNode;
   isOptionAllowed?: (option: TokenComboBoxOption) => boolean;
   menuWidth?: number;
   inline?: boolean;
@@ -116,6 +118,7 @@ export function TokenComboBox({
   isDisabled = false,
   isRequired = false,
   isMixed = false,
+  description,
   error,
   isOptionAllowed,
   menuWidth,
@@ -374,6 +377,7 @@ export function TokenComboBox({
           isDisabled={isDisabled}
           isInvalid={!!fieldError}
           errorMessage={fieldError}
+          description={description}
           validationBehavior={customValue ? "aria" : undefined}
           placeholder={
             isMixed

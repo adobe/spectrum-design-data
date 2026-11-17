@@ -42,17 +42,23 @@ const keys = (
 // Questions follow scope, allowed tiers and the taxonomy's name order.
 const rawColors = keys("primitive", "colors");
 assert.ok(rawColors.includes("colorFamily"));
-assert.ok(rawColors.includes("property"));
+assert.ok(rawColors.includes("scaleIndex"));
 assert.ok(
-  !rawColors.includes("structure"),
+  !rawColors.includes("property"),
   "Purpose-only categories are hidden.",
 );
 const purposeColors = keys("semantic", "colors");
-assert.ok(purposeColors.includes("structure"));
+assert.ok(purposeColors.includes("property"));
 assert.ok(
   !purposeColors.includes("colorFamily"),
   "Raw-only categories are hidden.",
 );
+// Semantic tokens are asked questions for their real type, not a shared "structures" scope.
+assert.ok(
+  !purposeColors.includes("structure"),
+  "Structure does not apply to colors.",
+);
+assert.ok(keys("semantic", "spacing").includes("structure"));
 assert.ok(
   !purposeColors.includes("number"),
   "Categories without terms are skipped.",
@@ -78,7 +84,7 @@ const legacy: TaxonomyDocument = {
   }),
 };
 assert.ok(
-  newTokenQuestions(legacy, "primitive", "colors").some(
+  newTokenQuestions(legacy, "primitive", "spacing").some(
     (question) => question.category.id === structure.id,
   ),
 );
@@ -196,7 +202,7 @@ const valued = store.get(browserTokensAtom).find((token) => token.id === id);
 assert.equal(valued?.validationError, undefined);
 assert.ok(valued?.value, "The saved value resolves.");
 
-// Purpose-based drafts use structure scope.
+// Purpose-based drafts keep their real token type instead of a "structures" scope.
 const purposeAnswers: NewTokenAnswers = {
   tier: "semantic",
   type: "spacing",
@@ -208,8 +214,9 @@ const purposeAnswers: NewTokenAnswers = {
 const purposeId = store.set(createNewTokenAtom, { answers: purposeAnswers });
 assert.equal(
   store.get(browserTokenEditsAtom)[purposeId].authoring?.manual?.scope,
-  "structures",
+  undefined,
 );
+assert.deepEqual(newTokenPreview(taxonomy, purposeAnswers, []).issues, []);
 
 // Cancelling the edit session discards the drafts.
 store.set(cancelEditAtom);

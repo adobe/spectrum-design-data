@@ -71,13 +71,25 @@ export interface RuleEditorDialogProps {
   onDelete?: () => void;
 }
 
-export function RuleEditorDialog({
-  trigger,
+// Each card mounts this closed; the form's draft and impact work runs only once opened.
+export function RuleEditorDialog({ trigger, ...props }: RuleEditorDialogProps) {
+  return (
+    <DialogTrigger>
+      {trigger}
+      <Dialog size="L">
+        {({ close }) => <RuleEditorForm {...props} close={close} />}
+      </Dialog>
+    </DialogTrigger>
+  );
+}
+
+function RuleEditorForm({
   title,
   createDraft,
   onSave,
   onDelete,
-}: RuleEditorDialogProps) {
+  close,
+}: Omit<RuleEditorDialogProps, "trigger"> & { close: () => void }) {
   const notify = useNotify();
   const [draft, setDraft] = useState<Rule>(createDraft);
   const [inlineEditing, setInlineEditing] = useState(false);
@@ -192,215 +204,189 @@ export function RuleEditorDialog({
   );
 
   return (
-    <DialogTrigger
-      onOpenChange={(isOpen) => {
-        if (isOpen) {
-          setDraft(createDraft());
-          setInlineEditing(false);
-          setGeneratorEdit(emptyGeneratorEdit());
-        }
-      }}
-    >
-      {trigger}
-      <Dialog size="L">
-        {({ close }) => (
-          <>
-            <Heading slot="title">{title}</Heading>
-            <Content>
-              <div className={formStyles} data-component="RuleEditorDialog">
-                <div className={identityStyles}>
-                  <TextField
-                    label="Name"
-                    isRequired
-                    value={draft.name}
-                    validationBehavior="aria"
-                    isInvalid={!isNameValid}
-                    errorMessage="Enter a name."
-                    onChange={(name) =>
-                      setDraft((current) => ({ ...current, name }))
-                    }
-                  />
-                  <Picker
-                    label="Type"
-                    labelPosition="top"
-                    selectedKey={draft.type}
-                    isDisabled={!canChangeType || inlineEditing}
-                    disabledKeys={RULE_TYPES.filter(
-                      (type) => !type.isAvailable,
-                    ).map((type) => type.id)}
-                    onSelectionChange={(key) => {
-                      if (
-                        key === "conditional" ||
-                        key === "rounding" ||
-                        key === "tshirt-sizing" ||
-                        key === "generator" ||
-                        key === "scale-naming"
-                      ) {
-                        setGeneratorEdit(emptyGeneratorEdit());
-                        setDraft((current) => ({
-                          ...createRule(key),
-                          id: current.id,
-                          name: current.name,
-                          description: current.description,
-                        }));
-                      }
-                    }}
-                  >
-                    {RULE_TYPES.map((type) => (
-                      <PickerItem
-                        key={type.id}
-                        id={type.id}
-                        textValue={type.label}
-                      >
-                        {type.isAvailable
-                          ? type.label
-                          : `${type.label} (coming soon)`}
-                      </PickerItem>
-                    ))}
-                  </Picker>
-                </div>
-                <TextArea
-                  label="Description"
-                  value={draft.description}
-                  onChange={(description) =>
-                    setDraft((current) => ({ ...current, description }))
-                  }
-                />
-                {!isTshirtRule(draft) && (
-                  <RuleApplicabilityField
-                    rule={draft}
-                    isReadOnly={inlineEditing}
-                    onChange={(applicability) =>
-                      setDraft((rule) => ({ ...rule, applicability }))
-                    }
-                  />
-                )}
-                {draft.type === "conditional" ? (
-                  <ConditionalRuleEditor
-                    rule={draft}
-                    sources={sources}
-                    modeSets={snapshot.modeSets}
-                    color={snapshot.colorSystem}
-                    rules={rules}
-                    onChange={setDraft}
-                    onEditingChange={setInlineEditing}
-                  />
-                ) : draft.type === "rounding" ? (
-                  <RoundingRuleEditor
-                    rule={draft}
-                    references={references}
-                    onChange={setDraft}
-                    onEditingChange={setInlineEditing}
-                  />
-                ) : draft.type === "scale-naming" ? (
-                  <ScaleNamingRuleEditor rule={draft} onChange={setDraft} />
-                ) : (
-                  <TshirtSizingRuleEditor
-                    rule={draft}
-                    references={references}
-                    onChange={setDraft}
-                    taxonomy={taxonomy}
-                    edit={generatorEdit}
-                    onEditChange={setGeneratorEdit}
-                    removedUses={removedUses}
-                  />
-                )}
-                {renamedTerms.map((term) => (
-                  <InlineAlert key={term.id} variant="notice">
-                    <Heading>Shared Size term will be renamed</Heading>
-                    <Content>
-                      {termLabel(
-                        taxonomy.terms.find((item) => item.id === term.id)!
-                          .value,
-                      )}{" "}
-                      → {termLabel(term.value)}. Used by{" "}
-                      {rules
-                        .filter(isTshirtRule)
-                        .filter((rule) =>
-                          rule.mappings.some(
-                            (mapping) => mapping.termId === term.id,
-                          ),
-                        )
-                        .map((rule) => rule.name)
-                        .concat(
-                          (snapshot.structures?.structures ?? [])
-                            .filter((structure) =>
-                              structureGeneration(
-                                structure,
-                              ).sizeTermIds.includes(term.id),
-                            )
-                            .map((structure) => structure.name),
-                        )
-                        .join(", ") || "this rule"}
-                      . The Registry term and all of its uses share this name.
-                    </Content>
-                  </InlineAlert>
-                ))}
-                {prepared.error && (
-                  <InlineAlert variant="negative">
-                    <Heading>Check Generator options</Heading>
-                    <Content>{prepared.error}</Content>
-                  </InlineAlert>
-                )}
-                <h3 className={sectionTitleStyles}>Used by</h3>
-                <RuleUsedBy impacts={impact.items} />
-                {impact.error && (
-                  <InlineAlert variant="negative">
-                    <Heading>Check affected output</Heading>
-                    <Content>{impact.error}</Content>
-                  </InlineAlert>
-                )}
-              </div>
-            </Content>
-            <ButtonGroup>
-              {onDelete && (
-                <Button
-                  variant="negative"
-                  fillStyle="outline"
-                  onPress={() => {
-                    onDelete();
-                    close();
-                  }}
-                >
-                  Delete rule
-                </Button>
+    <>
+      <Heading slot="title">{title}</Heading>
+      <Content>
+        <div className={formStyles} data-component="RuleEditorDialog">
+          <div className={identityStyles}>
+            <TextField
+              label="Name"
+              isRequired
+              value={draft.name}
+              validationBehavior="aria"
+              isInvalid={!isNameValid}
+              errorMessage="Enter a name."
+              onChange={(name) => setDraft((current) => ({ ...current, name }))}
+            />
+            <Picker
+              label="Type"
+              labelPosition="top"
+              selectedKey={draft.type}
+              isDisabled={!canChangeType || inlineEditing}
+              disabledKeys={RULE_TYPES.filter((type) => !type.isAvailable).map(
+                (type) => type.id,
               )}
-              <Button variant="secondary" onPress={close}>
-                Cancel
-              </Button>
-              <Button
-                variant="accent"
-                isDisabled={
-                  !isNameValid ||
-                  !isRule(draft) ||
-                  !!impact.error ||
-                  impact.items.some((item) => item.errors?.length) ||
-                  !!prepared.error ||
-                  inlineEditing ||
-                  conditionErrors.length > 0
+              onSelectionChange={(key) => {
+                if (
+                  key === "conditional" ||
+                  key === "rounding" ||
+                  key === "tshirt-sizing" ||
+                  key === "generator" ||
+                  key === "scale-naming"
+                ) {
+                  setGeneratorEdit(emptyGeneratorEdit());
+                  setDraft((current) => ({
+                    ...createRule(key),
+                    id: current.id,
+                    name: current.name,
+                    description: current.description,
+                  }));
                 }
-                onPress={() => {
-                  try {
-                    onSave(
-                      { ...draft, name: draft.name.trim() },
-                      isTshirtRule(draft) ? generatorEdit : undefined,
-                    );
-                    close();
-                  } catch (failure) {
-                    notify.error(
-                      failure instanceof Error
-                        ? failure.message
-                        : String(failure),
-                    );
-                  }
-                }}
-              >
-                Save
-              </Button>
-            </ButtonGroup>
-          </>
+              }}
+            >
+              {RULE_TYPES.map((type) => (
+                <PickerItem key={type.id} id={type.id} textValue={type.label}>
+                  {type.isAvailable
+                    ? type.label
+                    : `${type.label} (coming soon)`}
+                </PickerItem>
+              ))}
+            </Picker>
+          </div>
+          <TextArea
+            label="Description"
+            value={draft.description}
+            onChange={(description) =>
+              setDraft((current) => ({ ...current, description }))
+            }
+          />
+          {!isTshirtRule(draft) && (
+            <RuleApplicabilityField
+              rule={draft}
+              isReadOnly={inlineEditing}
+              onChange={(applicability) =>
+                setDraft((rule) => ({ ...rule, applicability }))
+              }
+            />
+          )}
+          {draft.type === "conditional" ? (
+            <ConditionalRuleEditor
+              rule={draft}
+              sources={sources}
+              modeSets={snapshot.modeSets}
+              color={snapshot.colorSystem}
+              rules={rules}
+              onChange={setDraft}
+              onEditingChange={setInlineEditing}
+            />
+          ) : draft.type === "rounding" ? (
+            <RoundingRuleEditor
+              rule={draft}
+              references={references}
+              onChange={setDraft}
+              onEditingChange={setInlineEditing}
+            />
+          ) : draft.type === "scale-naming" ? (
+            <ScaleNamingRuleEditor rule={draft} onChange={setDraft} />
+          ) : (
+            <TshirtSizingRuleEditor
+              rule={draft}
+              references={references}
+              onChange={setDraft}
+              taxonomy={taxonomy}
+              edit={generatorEdit}
+              onEditChange={setGeneratorEdit}
+              removedUses={removedUses}
+            />
+          )}
+          {renamedTerms.map((term) => (
+            <InlineAlert key={term.id} variant="notice">
+              <Heading>Shared Size term will be renamed</Heading>
+              <Content>
+                {termLabel(
+                  taxonomy.terms.find((item) => item.id === term.id)!.value,
+                )}{" "}
+                → {termLabel(term.value)}. Used by{" "}
+                {rules
+                  .filter(isTshirtRule)
+                  .filter((rule) =>
+                    rule.mappings.some((mapping) => mapping.termId === term.id),
+                  )
+                  .map((rule) => rule.name)
+                  .concat(
+                    (snapshot.structures?.structures ?? [])
+                      .filter((structure) =>
+                        structureGeneration(structure).sizeTermIds.includes(
+                          term.id,
+                        ),
+                      )
+                      .map((structure) => structure.name),
+                  )
+                  .join(", ") || "this rule"}
+                . The Registry term and all of its uses share this name.
+              </Content>
+            </InlineAlert>
+          ))}
+          {prepared.error && (
+            <InlineAlert variant="negative">
+              <Heading>Check Generator options</Heading>
+              <Content>{prepared.error}</Content>
+            </InlineAlert>
+          )}
+          <h3 className={sectionTitleStyles}>Used by</h3>
+          <RuleUsedBy impacts={impact.items} />
+          {impact.error && (
+            <InlineAlert variant="negative">
+              <Heading>Check affected output</Heading>
+              <Content>{impact.error}</Content>
+            </InlineAlert>
+          )}
+        </div>
+      </Content>
+      <ButtonGroup>
+        {onDelete && (
+          <Button
+            variant="negative"
+            fillStyle="outline"
+            onPress={() => {
+              onDelete();
+              close();
+            }}
+          >
+            Delete rule
+          </Button>
         )}
-      </Dialog>
-    </DialogTrigger>
+        <Button variant="secondary" onPress={close}>
+          Cancel
+        </Button>
+        <Button
+          variant="accent"
+          isDisabled={
+            !isNameValid ||
+            !isRule(draft) ||
+            !!impact.error ||
+            impact.items.some((item) => item.errors?.length) ||
+            !!prepared.error ||
+            inlineEditing ||
+            conditionErrors.length > 0
+          }
+          onPress={() => {
+            try {
+              onSave(
+                { ...draft, name: draft.name.trim() },
+                isTshirtRule(draft) ? generatorEdit : undefined,
+              );
+              close();
+            } catch (failure) {
+              notify.error(
+                failure instanceof Error ? failure.message : String(failure),
+              );
+            }
+          }}
+        >
+          Save
+        </Button>
+      </ButtonGroup>
+    </>
   );
 }

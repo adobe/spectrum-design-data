@@ -55,7 +55,6 @@ export function governedColorContext(
   if (!source?.nameRef)
     throw new Error("A color source must reference its registered name.");
   const classification: Classification = {
-    ...Object.fromEntries([governedTerm(taxonomy, "property", "color")]),
     [source.nameRef.categoryId]: source.nameRef.termId,
   };
   if (!palette) {
@@ -138,10 +137,7 @@ export function governedDataVisContext(
     id: dataVisSourceId(scaleId),
     stepId: memberId,
     governed: {
-      ...Object.fromEntries([
-        governedTerm(taxonomy, "property", "color"),
-        governedTerm(taxonomy, "number", index + 1),
-      ]),
+      ...Object.fromEntries([governedTerm(taxonomy, "number", index + 1)]),
       [scale.nameRef.categoryId]: scale.nameRef.termId,
     },
   };

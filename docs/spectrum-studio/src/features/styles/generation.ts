@@ -18,6 +18,7 @@ import { ruleAppliesTo } from "../logic/applicability";
 import type { Rule } from "../logic/model";
 import type { ModeSet } from "../modes/model";
 import { canonicalTokenModeKey } from "../tokens/browserModel";
+import { tokenUuid } from "../tokens/model";
 import { PREVIEW_TERM_IDS } from "../tokens/valuePreview";
 import { ORDERED_CATEGORY_IDS } from "../taxonomy/orderedVocabulary";
 import { concreteColor } from "../color-system/data-vis/colors";
@@ -658,11 +659,123 @@ export function buildStyleArtifacts(
           }
         }
     }
+    rows.push(...colorRoleRows(document, taxonomy, contexts, report));
     return mergeStyleArtifacts(
       [{ rows, issues }],
       checkNames && !includeLocalVariants,
     );
   });
+}
+
+// Each color role aliases every step of its assigned scale. Identities derive
+// from the role and step, so re-pointing the role keeps overrides and only
+// changes each alias target.
+function colorRoleRows(
+  document: StylesDocument,
+  taxonomy: TaxonomyDocument,
+  contexts: readonly StyleContext[],
+  report: (recipeId: string, message: string) => void,
+): StyleRow[] {
+  const rows: StyleRow[] = [];
+  const category = (key: string) =>
+    taxonomy.categories.find((category) => category.key === key);
+  const propertyCategory = category("property");
+  const scaleIndexCategory = category("scaleIndex");
+  const colorTerm = taxonomy.terms.find(
+    (term) =>
+      term.categoryId === propertyCategory?.id &&
+      propertyValues.color.includes(String(term.value)),
+  );
+  for (const role of document.colorRoles) {
+    const roleTerm = taxonomy.terms.find((term) => term.id === role.roleTermId);
+    if (!roleTerm) {
+      report(role.id, "Choose a registered Role term for this color role.");
+      continue;
+    }
+    if (!propertyCategory || !colorTerm || !scaleIndexCategory) {
+      report(
+        role.id,
+        "Color role tokens need registered Property (color) and Scale index terms.",
+      );
+      continue;
+    }
+    for (const context of contexts) {
+      const references = context.references.filter(
+        (reference) =>
+          reference.property === "color" &&
+          reference.familyId === role.scaleId &&
+          reference.index !== undefined,
+      );
+      if (!references.length) {
+        report(
+          role.id,
+          `${roleTerm.value}: the assigned color scale has no available steps.`,
+        );
+        continue;
+      }
+      const modeKey = canonicalTokenModeKey(context.selection);
+      for (const reference of references) {
+        const index = reference.index!;
+        const indexTerm = taxonomy.terms.find(
+          (term) =>
+            term.categoryId === scaleIndexCategory.id && term.value === index,
+        );
+        if (!indexTerm) {
+          report(
+            role.id,
+            `${roleTerm.value}: scale index ${index} needs a Registry term.`,
+          );
+          continue;
+        }
+        const classification: Classification = {
+          [roleTerm.categoryId]: roleTerm.id,
+          [propertyCategory.id]: colorTerm.id,
+          [scaleIndexCategory.id]: indexTerm.id,
+        };
+        const projection = projectClassification(
+          taxonomy,
+          classification,
+          "styles",
+          "semantic",
+        );
+        if (projection.issues.length) {
+          projection.issues.forEach((issue) => report(role.id, issue));
+          continue;
+        }
+        rows.push({
+          conceptId: tokenUuid(`color-role:v1:${role.id}:${index}`),
+          recipeId: role.id,
+          key: JSON.stringify(["colorRole", index]),
+          name: projection.name,
+          classification,
+          property: "color",
+          value: reference.value,
+          unit: reference.unit ?? "",
+          optionIds: [],
+          familyId: role.scaleId,
+          scaleIndex: index,
+          referenceId: reference.browserId ?? reference.id,
+          context: context.modes,
+          modeKey,
+          token: {
+            uuid: tokenUuid(`color-role-row:v1:${role.id}:${index}:${modeKey}`),
+            name: {
+              ...Object.fromEntries(
+                Object.entries(projection.flat).filter(
+                  (entry): entry is [string, string | number] =>
+                    typeof entry[1] === "string" ||
+                    typeof entry[1] === "number",
+                ),
+              ),
+              ...context.modes,
+            },
+            $ref: reference.uuid,
+          },
+        });
+      }
+    }
+  }
+  return rows;
 }
 
 export function synchronizeStylePublications(

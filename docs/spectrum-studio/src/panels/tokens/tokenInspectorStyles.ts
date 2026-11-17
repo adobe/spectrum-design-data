@@ -106,7 +106,6 @@ export const inspectorStyles = {
     borderRadius: "lg",
   }),
   warning: style({ color: "negative", font: "body-sm" }),
-  help: style({ color: "neutral-subdued", font: "body-sm" }),
   description: style({ font: "body", margin: 0 }),
   layerFields: style({
     display: "grid",

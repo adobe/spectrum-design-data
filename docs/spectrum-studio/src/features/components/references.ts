@@ -456,7 +456,9 @@ function buildComponentTokenCatalog(
     (edit) => edit.authoring,
   );
   const rows =
-    source.styles?.recipes.length || hasAuthoringEdits
+    source.styles?.recipes.length ||
+    source.styles?.colorRoles.length ||
+    hasAuthoringEdits
       ? canonicalAliasRows(
           completeAliasSource(source),
           variants,

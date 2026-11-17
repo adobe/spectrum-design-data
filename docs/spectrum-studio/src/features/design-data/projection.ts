@@ -37,6 +37,7 @@ import {
   composeDesignSystemDefaults,
 } from "./validation";
 import { authoringOutputMetadata } from "./projectionMetadata";
+import { designDataNameFields } from "./taxonomyCrosswalk";
 import {
   browserAssignmentId,
   emptyOutputMetadata,
@@ -267,6 +268,10 @@ export function projectAuthoringDataset(
       );
       for (const alias of aliasReferencePacket(system.aliases, targets)) {
         const target = targets.find((target) => target.rowId === alias.$ref);
+        const targetProperty =
+          target?.token.projection &&
+          designDataNameFields(target.token.projection.flat, target.token.type)
+            .property;
         add(
           "compatibility-aliases",
           alias.uuid,
@@ -279,9 +284,9 @@ export function projectAuthoringDataset(
             classification: "generated",
             conceptId: alias.aliasId,
             context: namedContext(alias.context),
-            ...(target?.token.projection?.flat.property && {
+            ...(targetProperty && {
               structuredName: {
-                property: target.token.projection.flat.property,
+                property: targetProperty,
                 legacyKey: alias.name,
               },
             }),

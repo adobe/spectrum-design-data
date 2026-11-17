@@ -298,10 +298,10 @@ const concepts = spacingStore.get(savedBrowserConceptIdsAtom).size;
 spacingStore.set(enterEditModeAtom);
 const spacingTaxonomy = spacingStore.get(taxonomyDocumentAtom);
 const category = spacingTaxonomy.categories.find(
-  (item) => item.key === "tokenCategory",
+  (item) => item.key === "property",
 )!;
 const term = spacingTaxonomy.terms.find(
-  (item) => item.categoryId === category.id,
+  (item) => item.categoryId === category.id && item.value === "spacing",
 )!;
 spacingStore.set(taxonomyDocumentAtom, {
   ...spacingTaxonomy,

@@ -17,6 +17,7 @@ import type { TypographyDocument } from "../typography/model";
 import type { DimensionDocument } from "../scales/foundation";
 import {
   assertTaxonomy,
+  blockingProjectionIssues,
   projectClassification,
   registerTerm,
   taxonomyValueKey,
@@ -33,7 +34,8 @@ import {
 import type { Rule } from "../logic/model";
 import { STANDARD_SCALE_NAMING_RULE } from "../logic/scaleNaming";
 import { assertColorGovernance } from "./colorGovernance";
-import { dimensionNameClassification } from "./foundationNames";
+import { DIMENSION_PROPERTY_VALUES } from "./foundationGovernance";
+import { classificationFromValues } from "./orderedVocabulary";
 
 export interface TaxonomyNameReference {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
@@ -140,9 +142,31 @@ export function resolveNamedSource<T extends { name: TaxonomyNameReference }>(
 ): Omit<T, "name"> & { name: string; nameRef: TaxonomyNameReference } {
   return {
     ...source,
-    name: registeredSourceName(taxonomy, source.name, scope),
+    name: sourceDisplayName(taxonomy, source.name, scope),
     nameRef: source.name,
   };
+}
+
+const DIMENSION_SCOPES: readonly TaxonomyScope[] = [
+  "spacing",
+  "size",
+  "radius",
+];
+
+/** A classified dimension scale is named by its whole classification, not only its Property term. */
+function sourceDisplayName(
+  taxonomy: TaxonomyDocument,
+  reference: TaxonomyNameReference,
+  scope: TaxonomyScope,
+): string {
+  const term = registeredSourceName(taxonomy, reference, scope);
+  return reference.classification && DIMENSION_SCOPES.includes(scope)
+    ? dimensionScaleLabel(
+        taxonomy,
+        reference.classification,
+        scope as DimensionScope,
+      )
+    : term;
 }
 
 export function canonicalNamedSource<
@@ -414,12 +438,70 @@ export function reconcileColorSourceNames(
   return { taxonomy: next, document: resolveColorSourceNames(result, next) };
 }
 
+/** Display label for a dimension scale, read from its classification segments. */
+export function dimensionScaleLabel(
+  taxonomy: TaxonomyDocument,
+  classification: Classification,
+  scope: DimensionScope,
+): string {
+  const projection = projectClassification(taxonomy, classification, scope);
+  const issues = blockingProjectionIssues(projection);
+  if (issues.length) throw new Error(issues.join(" "));
+  return projection.segments
+    .flatMap((segment) => segment.values.map(String))
+    .join(" ");
+}
+
+/** A dimension scale's name points at its Property term; the classification carries the rest. */
+export function dimensionNameReference(
+  taxonomy: TaxonomyDocument,
+  classification: Classification,
+  scope: DimensionScope,
+): TaxonomyNameReference {
+  const property = taxonomy.categories.find(
+    (category) => category.key === "property",
+  );
+  const termId = property && classification[property.id];
+  if (!property || typeof termId !== "string")
+    throw new Error(`Each ${scope} scale needs a Property term.`);
+  return { categoryId: property.id, termId, classification };
+}
+
+export function defaultDimensionClassification(
+  taxonomy: TaxonomyDocument,
+  scope: DimensionScope,
+): Classification {
+  return classificationFromValues(taxonomy, {
+    property: DIMENSION_PROPERTY_VALUES[scope],
+  });
+}
+
+/** Scales that share a classification would publish the same token names. Reported, never thrown. */
+export function dimensionScaleNameCollisions(
+  document: DimensionDocument,
+  taxonomy: TaxonomyDocument,
+  scope: DimensionScope,
+): { scaleIds: string[]; message: string }[] {
+  const owners = new Map<string, DimensionDocument["scales"]>();
+  for (const scale of document.scales) {
+    const classification = scale.nameRef?.classification;
+    if (!classification) continue;
+    const name = projectClassification(taxonomy, classification, scope).name;
+    owners.set(name, [...(owners.get(name) ?? []), scale]);
+  }
+  return [...owners.values()]
+    .filter((scales) => scales.length > 1)
+    .map((scales) => ({
+      scaleIds: scales.map((scale) => scale.id),
+      message: `${scales.map((scale) => scale.name).join(" and ")} share the same classification, so their tokens would have the same names.`,
+    }));
+}
+
 export function resolveDimensionSourceNames<T extends DimensionDocument>(
   document: T,
   taxonomy: TaxonomyDocument,
   scope: DimensionScope,
 ): T {
-  assertRegisteredSourceNames(document.scales, taxonomy, scope);
   return {
     ...document,
     scales: document.scales.map((source) => {
@@ -427,55 +509,37 @@ export function resolveDimensionSourceNames<T extends DimensionDocument>(
         throw new Error(
           `${scope} source ${source.id} has no registered name reference.`,
         );
-      return {
-        ...source,
-        name: registeredSourceName(taxonomy, source.nameRef, scope),
-      };
+      const name = sourceDisplayName(taxonomy, source.nameRef, scope);
+      return source.name === name ? source : { ...source, name };
     }),
   };
 }
 
+/** Keeps each scale's name tied to its classification. Never creates Registry terms. */
 export function reconcileDimensionSourceNames<T extends DimensionDocument>(
   taxonomy: TaxonomyDocument,
   previous: T,
   document: T,
   scope: DimensionScope,
 ) {
-  let next = taxonomy;
+  void previous;
   const scales = document.scales.map((source) => {
-    const before = previous.scales.find(
-      (candidate) => candidate.id === source.id,
-    );
-    const result = reconcileName(
-      before,
-      source,
-      next,
-      "dfcbbcb5-6519-4a25-b437-1e25fec967b4",
-      scope,
-    );
-    next = result.taxonomy;
-    if (
-      result.source.nameRef &&
-      (!before || source.nameRef?.termId !== before.nameRef?.termId)
-    ) {
-      const reference = result.source.nameRef;
-      result.source = {
-        ...result.source,
-        nameRef: {
-          ...reference,
-          classification: before?.nameRef?.classification
-            ? {
-                ...before.nameRef.classification,
-                [reference.categoryId]: reference.termId,
-              }
-            : dimensionNameClassification(scope, reference, next),
-        },
-      };
-    }
-    return result.source;
+    const classification =
+      source.nameRef?.classification ??
+      defaultDimensionClassification(taxonomy, scope);
+    const nameRef = dimensionNameReference(taxonomy, classification, scope);
+    return source.nameRef?.categoryId === nameRef.categoryId &&
+      source.nameRef.termId === nameRef.termId &&
+      source.nameRef.classification === classification
+      ? source
+      : { ...source, nameRef };
   });
   return {
-    taxonomy: next,
-    document: resolveDimensionSourceNames({ ...document, scales }, next, scope),
+    taxonomy,
+    document: resolveDimensionSourceNames(
+      { ...document, scales },
+      taxonomy,
+      scope,
+    ),
   };
 }

@@ -5,6 +5,7 @@ import standardSchema from "../../data/classification-standard.schema.json" with
 import { canonicalJson } from "../design-data/canonicalJson";
 import type { CanonicalAliasRow } from "../tokens/aliasTargets";
 import { aliasReferencePacket, type AliasDocument } from "../tokens/aliases";
+import { tokenClassificationScope } from "../tokens/classificationScope";
 import {
   tokenOutputMetadata,
   tokenOutputDiagnostics,
@@ -93,10 +94,7 @@ export function classificationReviewUsages(
   aliases: AliasDocument,
 ): StandardizationUsage[] {
   const canonical: StandardizationUsage[] = rows.map((row) => {
-    const scope =
-      row.token.semantic || row.token.classificationScope
-        ? "structures"
-        : row.token.type;
+    const scope = tokenClassificationScope(row.token);
     const projection = row.token.projection;
     const computed =
       projection &&

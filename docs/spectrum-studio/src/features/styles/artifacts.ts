@@ -121,7 +121,8 @@ export function buildStylesForSource(
   source: StyleAuthoringSource,
   selections?: readonly Record<string, string>[],
 ) {
-  if (!source.styles?.recipes.length) return { rows: [], issues: [] };
+  if (!source.styles?.recipes.length && !source.styles?.colorRoles.length)
+    return { rows: [], issues: [] };
   if (!source.taxonomy)
     return {
       rows: [],
@@ -144,6 +145,10 @@ export function styleBrowserToken(
   const recipe = (source.styles ?? EMPTY_STYLES).recipes.find(
     (recipe) => recipe.id === row.recipeId,
   );
+  const role = recipe
+    ? undefined
+    : source.styles?.colorRoles.find((role) => role.id === row.recipeId);
+  const labelTermId = recipe?.name.termId ?? role?.roleTermId;
   return {
     id: row.conceptId,
     rowId: row.token.uuid,
@@ -156,9 +161,9 @@ export function styleBrowserToken(
           : "typography",
     groupId: row.metricId ?? row.recipeId,
     groupLabel:
-      recipe && source.taxonomy
+      labelTermId && source.taxonomy
         ? String(
-            source.taxonomy.terms.find((term) => term.id === recipe.name.termId)
+            source.taxonomy.terms.find((term) => term.id === labelTermId)
               ?.value ?? "Styles",
           )
         : "Styles",

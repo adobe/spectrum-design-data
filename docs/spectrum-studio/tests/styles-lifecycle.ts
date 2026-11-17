@@ -527,7 +527,7 @@ const roleNames = (snapshot: typeof roleDefaults) =>
       snapshot.taxonomy!.terms.find(
         (term) =>
           term.id === role.roleTermId &&
-          term.categoryId === ORDERED_CATEGORY_IDS.role,
+          term.categoryId === ORDERED_CATEGORY_IDS.colorRole,
       )?.value,
       role.scaleId,
     ]),
@@ -592,7 +592,7 @@ assert.equal(roleNames(roleWorking).brand, "scale-48");
 assert.equal(
   roleWorking.taxonomy!.terms.find((term) => term.id === added.roleTermId)
     ?.categoryId,
-  ORDERED_CATEGORY_IDS.role,
+  ORDERED_CATEGORY_IDS.colorRole,
   "A typed role name registers a new Role term.",
 );
 assert(

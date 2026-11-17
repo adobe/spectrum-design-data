@@ -35,6 +35,7 @@ import {
 import { createLegacyIdentitySnapshot } from "./fixtures/legacyIdentity";
 import { browserTokenEditsAtom } from "../src/features/tokens/browserEdits";
 import { scaleContrasts } from "../src/features/color-system/contrastSteps";
+import { designDataNameFields } from "../src/features/design-data/taxonomyCrosswalk";
 
 const store = createStore();
 const baseline = store.get(authoringSnapshotAtom);
@@ -53,15 +54,19 @@ for (const scope of ["colors", "typography", "spacing", "size"]) {
   assert.equal(
     source.projection!.flat.property,
     scope === "colors"
-      ? "color"
+      ? undefined
       : scope === "typography"
         ? "size"
         : scope === "spacing"
-          ? undefined
+          ? "spacing"
           : "size",
   );
-  if (scope === "spacing")
-    assert.equal(source.projection!.flat.tokenCategory, "spacing");
+  if (scope === "colors")
+    assert.equal(
+      designDataNameFields(source.projection!.flat, "colors").property,
+      "color",
+      "Primitive colors omit Property in Studio; the crosswalk restores design-data's color property.",
+    );
   const before = legacyStore.get(taxonomyDocumentAtom);
   assert.throws(
     () =>

@@ -15,9 +15,46 @@ export type TaxonomyScope =
   | "typography"
   | "elevation"
   | "opacity"
+  | "motion"
   | "structures"
   | "styles"
   | DimensionScope;
+/** Token types a category can apply to. Other scopes are internal naming contexts. */
+export const TAXONOMY_TOKEN_TYPES = [
+  "colors",
+  "opacity",
+  "typography",
+  "spacing",
+  "size",
+  "radius",
+  "elevation",
+  "motion",
+] as const satisfies readonly TaxonomyScope[];
+export const TAXONOMY_TOKEN_TYPE_LABELS: Record<
+  (typeof TAXONOMY_TOKEN_TYPES)[number],
+  string
+> = {
+  colors: "Colors",
+  opacity: "Opacity",
+  typography: "Typography",
+  spacing: "Spacing",
+  size: "Size",
+  radius: "Corner radius",
+  elevation: "Shadow",
+  motion: "Motion",
+};
+const isTaxonomyTokenType = (scope: TaxonomyScope) =>
+  (TAXONOMY_TOKEN_TYPES as readonly TaxonomyScope[]).includes(scope);
+/** Replaces a category's token types while keeping its naming contexts (Structures, Styles). */
+export function withTaxonomyTokenTypes(
+  scopes: readonly TaxonomyScope[],
+  tokenTypes: readonly string[],
+): TaxonomyScope[] {
+  return [
+    ...TAXONOMY_TOKEN_TYPES.filter((type) => tokenTypes.includes(type)),
+    ...scopes.filter((scope) => !isTaxonomyTokenType(scope)),
+  ];
+}
 export type TaxonomyValue = string | number;
 export interface TaxonomyCategory {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
@@ -105,6 +142,7 @@ const scopes: TaxonomyScope[] = [
   "typography",
   "elevation",
   "opacity",
+  "motion",
   "structures",
   "styles",
   ...DIMENSION_SCOPES,

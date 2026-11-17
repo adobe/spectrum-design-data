@@ -3148,6 +3148,7 @@
       "enum": [
         "colors",
         "elevation",
+        "motion",
         "opacity",
         "radius",
         "size",

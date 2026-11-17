@@ -29,6 +29,7 @@ import type {
   TokenShadowLayer,
 } from "./browserEditTypes";
 import { isTokenAuthoring } from "./tokenAssignments";
+import { tokenClassificationScope } from "./classificationScope";
 import type { UiSwatchSource } from "../color-system/data-vis/model";
 import type { ValuePreviewDescriptor } from "./valuePreview";
 import { UNCLASSIFIED_TIER_MESSAGE, type TokenTier } from "./tier";
@@ -111,7 +112,7 @@ export interface BrowserTokenSource {
   referenceName?: string;
   literalShadows?: TokenShadowLayer[];
   classificationOverride?: Classification;
-  classificationScope?: "structures" | "styles";
+  classificationScope?: "styles";
   manual?: boolean;
   lifecycle?: NonNullable<BrowserTokenEdit["authoring"]>["lifecycle"];
 }
@@ -291,13 +292,7 @@ function projectTokenBatch(
       const projection = projectClassification(
         document,
         token.classificationOverride,
-        token.style || token.classificationScope === "styles"
-          ? "styles"
-          : token.semantic || token.classificationScope === "structures"
-            ? "structures"
-            : token.type === "motion"
-              ? "size"
-              : token.type,
+        tokenClassificationScope(token),
         token.tier,
       );
       return {
@@ -321,15 +316,7 @@ function projectTokenBatch(
       document,
       token.id,
       token.taxonomyEvidence ?? {},
-      token.classificationScope ??
-        (token.type as
-          | "colors"
-          | "typography"
-          | "spacing"
-          | "size"
-          | "radius"
-          | "opacity"
-          | "elevation"),
+      tokenClassificationScope(token),
       token.taxonomySource,
       token.tier,
     );

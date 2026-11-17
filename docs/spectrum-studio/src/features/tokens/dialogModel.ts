@@ -14,6 +14,7 @@ import {
   type BrowserTokenEdits,
 } from "./browserModel";
 import type { TokenAssignment, TokenAuthoring } from "./browserEditTypes";
+import { tokenClassificationScope } from "./classificationScope";
 import {
   compatibleTokenTypes,
   literalAssignment,
@@ -92,8 +93,7 @@ function draftEdits(
     if (!isTokenTier(draft.tier))
       throw new Error("Choose a supported token tier.");
     authoring.manual.tier = draft.tier;
-    if (draft.tier === "primitive") delete authoring.manual.scope;
-    else authoring.manual.scope = "structures";
+    delete authoring.manual.scope;
   }
   if (!draft.deprecated && authoring.lifecycle)
     delete authoring.lifecycle.frozen;
@@ -303,9 +303,6 @@ export function commitDialogDraft(
           unit: original.unit,
           targetId: draft.tokenId,
           groupId: original.groupId,
-          ...(original.semantic || original.classificationScope === "structures"
-            ? { scope: "structures" as const }
-            : {}),
         },
       },
     };
@@ -405,12 +402,7 @@ export function dialogClassification(
       token.taxonomySource?.governed ??
       token.projection?.classification ??
       {},
-    token.classificationScope ??
-      (token.semantic
-        ? "structures"
-        : token.type === "motion"
-          ? "size"
-          : token.type),
+    tokenClassificationScope(token),
     token.tier,
   );
   if (token.manual && !token.tier) {

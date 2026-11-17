@@ -12,7 +12,13 @@ import {
   type Atom,
   type WritableAtom,
 } from "jotai";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import type { DimensionValuePolicy } from "../../features/scales/issues";
 import { EditOnly, useIsReadOnly } from "../../components/editable";
 import { NumberField } from "../../components/fields/NumberField";
@@ -41,7 +47,10 @@ import {
 import { editingScaleTypeIdAtom } from "../../state/view/logicView";
 import { activePageAtom } from "../../state/view/navigation";
 import { ScaleTypeSettingsFields } from "./ScaleTypeSettingsFields";
-import { SourceNameEditor } from "../registry/SourceNameEditor";
+import { ClassificationTerms } from "../tokens/ClassificationTerms";
+import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
+import { editDimensionScaleClassificationAtom } from "../../features/taxonomy/sourceState";
+import { dimensionScaleNameCollisions } from "../../features/taxonomy/naming";
 import { DimensionScaleCard } from "./DimensionScaleCard";
 
 /** The atoms and wording of one foundation made of dimension scales, such as spacing or size. */
@@ -225,13 +234,47 @@ function ScaleNameField({
   onNameFocused: () => void;
 }) {
   const foundation = useFoundation();
+  const isReadOnly = useIsReadOnly();
+  const taxonomy = useAtomValue(taxonomyDocumentAtom);
+  const document = useAtomValue(foundation.documentAtom);
+  const editClassification = useSetAtom(editDimensionScaleClassificationAtom);
+  const [error, setError] = useState("");
+  // Classification has no single text input to focus; clear the request once shown.
+  useEffect(() => {
+    if (focusName) onNameFocused();
+  }, [focusName, onNameFocused]);
+  const collision = dimensionScaleNameCollisions(
+    document,
+    taxonomy,
+    foundation.noun,
+  ).find((item) => item.scaleIds.includes(scale.id))?.message;
+  if (isReadOnly || !scale.nameRef?.classification)
+    return <Text>Name: {termLabel(scale.name)}</Text>;
   return (
-    <SourceNameEditor
-      sourceId={`${foundation.noun}:${scale.id}`}
-      label="Name"
-      presentation="text"
-      focusName={focusName}
-      onNameFocused={onNameFocused}
+    <ClassificationTerms
+      value={scale.nameRef.classification}
+      taxonomy={taxonomy}
+      scope={foundation.noun}
+      tier="primitive"
+      description={
+        collision ??
+        `Name: ${termLabel(scale.name)}. Built from the Registry terms below.`
+      }
+      errorMessage={error || undefined}
+      onChange={(classification) => {
+        try {
+          editClassification({
+            scope: foundation.noun,
+            scaleId: scale.id,
+            classification,
+          });
+          setError("");
+        } catch (failure) {
+          setError(
+            failure instanceof Error ? failure.message : String(failure),
+          );
+        }
+      }}
     />
   );
 }
