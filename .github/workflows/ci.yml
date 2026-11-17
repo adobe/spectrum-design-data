@@ -93,12 +93,14 @@ jobs:
       # On a warm hit this turns a full 455-crate recompile into an incremental
       # build — the single biggest CI speedup in this repo.
       # Only main saves the cache (rust-cache-warm.yml); PRs restore it.
+      # The key hashes sdk/Cargo.toml: rust-cache ignores the workspace root manifest, so a
+      # profile change there (opt-level) would otherwise reuse a cache built with the old one.
       # The workspace is sdk/, so its target dir is "target" relative to it.
       - name: Cache Cargo build
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: sdk
-          shared-key: rust-ci
+          shared-key: rust-ci-${{ hashFiles('sdk/Cargo.toml') }}
           save-if: false
       # wasm-pack is pinned in .prototools and installed by setup-toolchain below.
       - uses: moonrepo/setup-toolchain@v0
