@@ -454,7 +454,9 @@ test("design-data-query follows aliases to a final value", async (t) => {
   const small = tokens.find((tok) => tok.name === "container-padding-small");
   t.is(small?.value, "12px");
   // Every shown token with a name has a value or is a composite we cannot flatten.
-  const unresolved = tokens.filter((tok) => tok.value === undefined);
+  const unresolved = tokens.filter(
+    (tok) => tok.value === undefined && tok.values === undefined,
+  );
   t.is(unresolved.length, 0, JSON.stringify(unresolved.slice(0, 2)));
 });
 
