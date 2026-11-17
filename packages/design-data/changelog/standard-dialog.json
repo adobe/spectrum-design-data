@@ -69,6 +69,34 @@
           "metadata": {"count":30,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/body","name":"body","fields":[],"after":{"name":"body","description":"Description text."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/cancel-action","name":"cancel-action","fields":[],"after":{"name":"cancel-action","description":"Button that dismisses without acting."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/close-button","name":"close-button","fields":[],"after":{"name":"close-button","description":"Button in the top corner that dismisses the dialog."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Dialog surface.","required":true,"contains":["cover-image","title","header-content","body","footer-content","primary-action","secondary-action","cancel-action","close-button"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/cover-image","name":"cover-image","fields":[],"after":{"name":"cover-image","description":"Optional image at the top."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/footer-content","name":"footer-content","fields":[],"after":{"name":"footer-content","description":"Optional content at the start of the footer, such as a checkbox."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/header-content","name":"header-content","fields":[],"after":{"name":"header-content","description":"Optional content beside or below the title."}},
+            {"id":"12ddd7e7-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/primary-action","name":"primary-action","fields":[],"after":{"name":"primary-action","description":"Main confirmation button."}},
+            {"id":"12ddd7e7-8","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/secondary-action","name":"secondary-action","fields":[],"after":{"name":"secondary-action","description":"Alternative action button."}},
+            {"id":"12ddd7e7-9","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/title","name":"title","fields":[],"after":{"name":"title","description":"Dialog title.","required":true}},
+            {"id":"12ddd7e7-10","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web standard dialog and relationships (body, title). Unsure: overlay backdrop is not in the Figma tree, so left out."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

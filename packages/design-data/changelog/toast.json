@@ -159,6 +159,29 @@
           "metadata": {"count":32,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"toast/anatomy/button","name":"button","fields":[],"after":{"name":"button","description":"Optional action button, shown with actionLabel."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"toast/anatomy/close-button","name":"close-button","fields":[],"after":{"name":"close-button","description":"Button that dismisses the toast; always drawn.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"toast/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Rounded surface holding the message and actions.","required":true,"contains":["icon","text","button","close-button"]}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"toast/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Status icon chosen by variant; optional (neutral has none)."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"toast/anatomy/text","name":"text","fields":[],"after":{"name":"text","description":"Message text.","required":true}},
+            {"id":"12ddd7e7-5","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"toast/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP Toast.tsx:622 (close button always drawn), Toast.tsx:331-333 (neutral has no icon), Toast.tsx:605-618 (optional action button). Figma S2 Web toast frames."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

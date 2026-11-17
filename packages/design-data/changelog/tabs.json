@@ -216,6 +216,30 @@
           "metadata": {"count":4,"fields":["context","contextQualifier","scope.options.orientation"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the focused tab.","presentIn":["keyboard-focus"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Icon in a tab; optional."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/anatomy/indicator","name":"indicator","fields":[],"after":{"name":"indicator","description":"Selection indicator (underline) marking the selected tab; a sibling of tab-item, not inside it."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Text in a tab; optional."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/anatomy/tab-item","name":"tab-item","fields":[],"after":{"name":"tab-item","description":"One tab; repeated.","required":true,"contains":["icon","label"]}},
+            {"id":"12ddd7e7-5","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/states/keyboard-focus","name":"keyboard-focus","fields":[],"after":{"name":"keyboard-focus","trigger":"interaction"}},
+            {"id":"12ddd7e7-6","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP Tabs.tsx:350,550 and gen2 tabs/tabs.css:65-107 draw the selection indicator as a sibling of the tab item, so tab-item contains only icon and label. Figma S2 Web tabs page (Tab: Content stack and Underline). keyboard-focus state added for focus-indicator. No baseline divider found in RSP/SWC: unverified, not declared."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

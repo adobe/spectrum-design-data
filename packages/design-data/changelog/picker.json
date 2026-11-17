@@ -338,6 +338,35 @@
           "metadata": {"count":6,"fields":["contextQualifier","scope.options.isError"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Bordered box that frames the value and the disclosure icon.","required":true,"contains":["leading-icon","prefix","value","placeholder","error-icon","in-field-progress-circle","disclosure-icon"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/disclosure-icon","name":"disclosure-icon","fields":[],"after":{"name":"disclosure-icon","description":"Chevron at the end of the field that shows the picker opens a menu.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/error-icon","name":"error-icon","fields":[],"after":{"name":"error-icon","description":"Alert icon shown when the field is invalid."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Text label that names the field, placed above or beside it."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the field for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message shown below the field."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/in-field-progress-circle","name":"in-field-progress-circle","fields":[],"after":{"name":"in-field-progress-circle","description":"Progress circle shown before the chevron while options load."}},
+            {"id":"12ddd7e7-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/leading-icon","name":"leading-icon","fields":[],"after":{"name":"leading-icon","description":"Icon at the start of the field."}},
+            {"id":"12ddd7e7-8","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/placeholder","name":"placeholder","fields":[],"after":{"name":"placeholder","description":"Hint text shown when nothing is selected."}},
+            {"id":"12ddd7e7-9","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/prefix","name":"prefix","fields":[],"after":{"name":"prefix","description":"Short fixed text shown before the value or placeholder."}},
+            {"id":"12ddd7e7-10","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Currently selected item."}},
+            {"id":"12ddd7e7-11","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"picker/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP Picker.tsx:287,736-739 (loading progress circle before the chevron; chevron is a plain disclosure icon); asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Popup menu left out as its own component."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

@@ -3,5 +3,26 @@
   "specVersion": "1.0.0-draft",
   "component": "segmented-text-field",
   "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
-  "releases": []
+  "releases": [
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-text-field/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Frame that holds the row of segments.","required":true,"contains":["segment"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-text-field/anatomy/segment","name":"segment","fields":[],"after":{"name":"segment","description":"One editable piece of a structured value, drawn as its own rounded cell.","required":true}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-text-field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"No Figma page (SAME PAGE AS text-field) and no relationship parts. Derived from the description and the gap and corner-radius relationships. Unsure whether the segments sit in a shared container with its own border."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    }
+  ]
 }

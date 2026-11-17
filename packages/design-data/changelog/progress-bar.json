@@ -141,6 +141,29 @@
           "metadata": {"count":3,"fields":["contextQualifier","scope.options.staticColor"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Whole progress bar: header row and track.","required":true,"contains":["label","value","track"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"Filled portion of the track; animates when indeterminate.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Field label shown at top or side by labelPosition. Hidden by hideLabel."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/track","name":"track","fields":[],"after":{"name":"track","description":"Rounded bar behind the fill.","required":true,"contains":["fill"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Percentage text in the header. Hidden when no value label."}},
+            {"id":"12ddd7e7-5","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Progress bar). fill required though empty at 0%. Side label position moves the header; same parts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

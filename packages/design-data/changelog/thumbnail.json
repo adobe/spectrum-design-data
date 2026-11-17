@@ -80,6 +80,27 @@
           "metadata": {"count":33,"fields":["contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"thumbnail/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Rounded frame that clips the thumbnail.","required":true,"contains":["opacity-checkerboard","image"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"thumbnail/anatomy/image","name":"image","fields":[],"after":{"name":"image","description":"The picture shown in the thumbnail; optional via Show image."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"thumbnail/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[],"after":{"name":"opacity-checkerboard","description":"Checkerboard tile pattern shown behind transparent image areas."}},
+            {"id":"12ddd7e7-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"thumbnail/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web thumbnail page; SWC gen2 Thumbnail.ts:16 and thumbnail.css:24 draw the checkerboard behind transparent images. border removed as container styling (thumbnail.css:37-42); square renamed to opacity-checkerboard and relationship scope.part repointed."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

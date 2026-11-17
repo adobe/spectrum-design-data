@@ -123,6 +123,30 @@
           "metadata": {"count":36,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Whole meter: header row, track and optional help text.","required":true,"contains":["label","value","track","help-text"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"Filled portion of the track, colored by variant.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Optional supporting text below the track."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Field label above or beside the track. Hidden by hideLabel."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/track","name":"track","fields":[],"after":{"name":"track","description":"Rounded bar behind the fill.","required":true,"contains":["fill"]}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Percentage or value text at the end of the header. Hidden when no value label."}},
+            {"id":"12ddd7e7-6","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web Meter (Show help text prop, Header with Field label and value, Track, .Meter fill); help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

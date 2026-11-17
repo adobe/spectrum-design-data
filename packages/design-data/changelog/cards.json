@@ -164,6 +164,31 @@
           "metadata": {"count":110,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"cards/anatomy/action-button","name":"action-button","fields":[],"after":{"name":"action-button","description":"Action button beside the title."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"cards/anatomy/checkbox","name":"checkbox","fields":[],"after":{"name":"checkbox","description":"Selection checkbox in the top corner."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"cards/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Card surface.","required":true,"contains":["preview","checkbox","title","description","icon","action-button"]}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"cards/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Card description text."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"cards/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Icon beside the description."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"cards/anatomy/preview","name":"preview","fields":[],"after":{"name":"preview","description":"Image or media area."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"cards/anatomy/title","name":"title","fields":[],"after":{"name":"title","description":"Card title."}},
+            {"id":"12ddd7e7-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"cards/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web Card (Collection) as representative; cards umbrella covers several variants. Unsure: parts per variant."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }
