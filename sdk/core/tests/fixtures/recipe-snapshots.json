@@ -580,6 +580,16 @@
     "isDisabled=true,isRequired=true,necessityIndicator=\"icon\"": "e3635d3c924bd4a9",
     "isDisabled=true,isRequired=true,necessityIndicator=\"text\"": "8e91c518610e4d10"
   },
+  "help-text": {
+    "hideIcon=false,isDisabled=false,variant=\"negative\"": "b0c6363937c0ab18",
+    "hideIcon=false,isDisabled=false,variant=\"neutral\"": "1bc4c99f2bed8e26",
+    "hideIcon=false,isDisabled=true,variant=\"negative\"": "8d518461e0e1cbd2",
+    "hideIcon=false,isDisabled=true,variant=\"neutral\"": "38055843eaa50b4e",
+    "hideIcon=true,isDisabled=false,variant=\"negative\"": "5d3b53187b45884e",
+    "hideIcon=true,isDisabled=false,variant=\"neutral\"": "e440c695a15c172e",
+    "hideIcon=true,isDisabled=true,variant=\"negative\"": "4ec73c26b1420544",
+    "hideIcon=true,isDisabled=true,variant=\"neutral\"": "2f656d34bebc6036"
+  },
   "meter": {
     "hideLabel=false,staticColor=\"black\",variant=\"informative\"": "e40db84b993963c9",
     "hideLabel=false,staticColor=\"black\",variant=\"negative\"": "c6eb05e1c515f65f",

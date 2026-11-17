@@ -230,6 +230,37 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Help text: the alert icon shows only for the negative variant, and a disabled state wins over
+    // the variant colour, so the icon and text are both grey.
+    if name == "help-text" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        out.push((
+            "negative",
+            req(
+                vec![],
+                with(&[("variant", "negative".into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "negative-disabled-hidden-icon",
+            req(
+                vec![],
+                with(&[
+                    ("variant", "negative".into()),
+                    ("isDisabled", true.into()),
+                    ("hideIcon", true.into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+    }
     // Divider: every size, both orientations, and each static colour. The regular fill and the
     // static fills are separate relationships, so this guards which one wins.
     if name == "divider" {

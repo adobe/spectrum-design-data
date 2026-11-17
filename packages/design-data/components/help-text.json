@@ -77,8 +77,14 @@
   },
   "anatomy": [
     {
-      "name": "error-icon",
-      "description": "Alert icon shown only for the error (negative) variant. Hidden by hideIcon."
+      "name": "container",
+      "description": "Row that holds the status icon and the text.",
+      "required": true,
+      "contains": ["icon", "text"]
+    },
+    {
+      "name": "icon",
+      "description": "Alert icon shown for the negative variant. Hidden by hideIcon."
     },
     {
       "name": "text",
@@ -87,9 +93,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "RSP Field.tsx:374 (no background of its own, so no container) and Field.tsx:446-448 (icon only for errors). Figma S2 Web (Show error icon prop)."
+    "notes": "Matches Figma S2 Web (Help text): a row with an optional AlertTriangle instance and the text. React Spectrum has no separate container (Field.tsx:374 styles the row itself); container is kept as the recipe root. Icon shown only for the negative variant (Field.tsx:446-448). Renamed error-icon to icon."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }

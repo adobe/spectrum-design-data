@@ -338,7 +338,10 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -361,7 +364,10 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Text and alert icon (warning)",
     "contextRole": ["label", "icon"],
