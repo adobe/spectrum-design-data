@@ -299,3 +299,53 @@ fn the_embedded_dataset_is_checked() {
         .failure()
         .stderr(contains("needs design-data CLI 99.0.0"));
 }
+
+/// How many times `needle` appears in `haystack`.
+fn count(haystack: &str, needle: &str) -> usize {
+    haystack.matches(needle).count()
+}
+
+/// A command that goes through both the pre-dispatch `cli_version` check and data resolution
+/// (which checks `dataset.json`) prints each warning once, not once per place that notices it.
+#[test]
+fn a_command_that_hits_both_checks_warns_once_per_message() {
+    // Two different warnings at once: the dataset's `requires.cli` is not an exact version, and
+    // the project's `cli_version` excludes this CLI.
+    let p = project_with_dataset_json(r#"{"requires":{"cli":">=0.40"}}"#);
+    write_config(p.path(), "cli_version = \">=99.0.0\"\n");
+    let out = query(p.path(), &[]).success().get_output().stderr.clone();
+    let stderr = String::from_utf8_lossy(&out);
+    assert_eq!(count(&stderr, "not an exact version"), 1, "{stderr}");
+    assert_eq!(count(&stderr, "this project's"), 1, "{stderr}");
+}
+
+/// The same with the escape flag on a command that writes committed output: the "continuing"
+/// warning for the project range and for the dataset are each printed once.
+#[test]
+fn the_escape_flag_warns_once_per_message_on_an_output_command() {
+    let p = project_with_dataset_json(r#"{"requires":{"cli":"99.0.0"}}"#);
+    write_config(p.path(), "cli_version = \">=99.0.0\"\n");
+    let out = Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(p.path())
+        .args([
+            "render",
+            "button",
+            "--format",
+            "scene",
+            "--ignore-data-requirements",
+        ])
+        .assert()
+        .success()
+        .get_output()
+        .stderr
+        .clone();
+    let stderr = String::from_utf8_lossy(&out);
+    assert_eq!(count(&stderr, "this project's"), 1, "{stderr}");
+    assert_eq!(
+        count(&stderr, "this dataset needs design-data CLI 99.0.0"),
+        1,
+        "{stderr}"
+    );
+    assert_eq!(count(&stderr, "Continuing because"), 2, "{stderr}");
+}
