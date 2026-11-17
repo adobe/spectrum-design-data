@@ -62,6 +62,41 @@
           "minLength": 1,
           "description": "The stylistic attribute this relationship describes (e.g. color, width, padding)."
         },
+        "between": {
+          "type": "object",
+          "minProperties": 1,
+          "description": "The two endpoints of a gap or padding (for example space-between, padding, edge-to-content). Either end may be omitted. Each end is a position, a generic anatomy term, or an anatomy part declared on the component (SPEC-101, same vocabulary as a space-between token endpoint, SPEC-047).",
+          "properties": {
+            "from": { "type": "string", "minLength": 1 },
+            "to": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
+        "object": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The styling surface (registry/token-objects.json, SPEC-101)."
+        },
+        "position": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Location relative to another object or edge (registry/positions.json, SPEC-101)."
+        },
+        "structure": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A reusable visual pattern (registry/structures.json, SPEC-101)."
+        },
+        "qualifier": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A behavioral or layout modifier that is not a state, variant or position (registry/qualifiers.json, SPEC-101)."
+        },
+        "icon": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Icon identity (registry/icon-terms.json, SPEC-101)."
+        },
         "options": {
           "type": "object",
           "description": "Option-scoped narrowing (e.g. variant, size, style, arbitrary component option keys). Each string value MUST validate against the referenced component's options.<key>.values (SPEC-053); a boolean option (for example isSelected) takes `true` or `false`; a numeric option (for example scaleIndex) takes a number; an array matches when any listed value matches. `state` is the exception: an ordered array of atomic state ids validated against the component's declared states (SPEC-054).",
