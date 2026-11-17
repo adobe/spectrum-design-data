@@ -108,4 +108,8 @@ Beads sync to Jira (`DNA` project) weekly. Use the `beads-jira-sync` skill (`.ai
 * **Scout**: semantic search and cross-package references for the whole repo. Run `memory_search` before `investigate`, and `memory_write` after durable findings.
 * **Ferrograph**: exact call graph, blast radius, and dead code for `sdk/` Rust only. Its index is at `sdk/.ferrograph`; `cd sdk` before using the CLI.
 * Rust structural questions go to Ferrograph; everything else goes to Scout.
+* **Worktrees** (`../sdd-<topic>`): MCP servers are bound to the directory they started in.
+  * Start the agent in the worktree, and Ferrograph builds `sdk/.ferrograph` there on first launch (about 5 seconds).
+  * An agent that moves into a worktree later keeps talking to the original checkout. Run `ferrograph index --output .ferrograph` in the worktree's `sdk/` and use the CLI (`ferrograph callers`, `blast`), or restart the agent there.
+  * Scout attaches a worktree on its own as an overlay of the main checkout. Its default repository is still the one the server started in, so pass `repo` with the worktree path on every Scout call, or you read the main checkout's files.
 * **corp-jira** needs a local `adobe-mcp-servers` checkout; its path in `.mcp.json` is machine-specific.
