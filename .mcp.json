@@ -27,7 +27,7 @@
       "command": "/bin/sh",
       "args": [
         "-c",
-        "cd sdk && { [ -e .ferrograph ] || ferrograph index --output .ferrograph >&2; } && exec ferrograph mcp"
+        "cd sdk && { [ -e .ferrograph ] || ferrograph index --output .ferrograph >&2 || :; } && exec ferrograph mcp"
       ],
       "env": {
         "FERROGRAPH_DB": ".ferrograph"
