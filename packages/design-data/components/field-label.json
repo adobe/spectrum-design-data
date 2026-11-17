@@ -81,7 +81,17 @@
     "isDisabled": { "type": "boolean", "default": false }
   },
   "anatomy": [
-    { "name": "asterisk", "description": "Required-field indicator." }
+    {
+      "name": "container",
+      "description": "Row that holds the label and the required-field indicator.",
+      "required": true,
+      "contains": ["label", "necessity-indicator"]
+    },
+    { "name": "label", "description": "Text label.", "required": true },
+    {
+      "name": "necessity-indicator",
+      "description": "Required-field indicator."
+    }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }

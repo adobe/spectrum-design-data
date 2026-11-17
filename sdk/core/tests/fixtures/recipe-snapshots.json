@@ -564,6 +564,16 @@
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=false": "57519a71eeaa3883",
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=true": "1a4e8e40835af643"
   },
+  "field-label": {
+    "isDisabled=false,isRequired=false,necessityIndicator=\"icon\"": "e987aa3d8107968c",
+    "isDisabled=false,isRequired=false,necessityIndicator=\"text\"": "eb54ad45f85b1f48",
+    "isDisabled=false,isRequired=true,necessityIndicator=\"icon\"": "63e65bc055dfeb33",
+    "isDisabled=false,isRequired=true,necessityIndicator=\"text\"": "b50b8ad062ebf5c4",
+    "isDisabled=true,isRequired=false,necessityIndicator=\"icon\"": "f275ecf8bc51273c",
+    "isDisabled=true,isRequired=false,necessityIndicator=\"text\"": "80bebcf9c7df7288",
+    "isDisabled=true,isRequired=true,necessityIndicator=\"icon\"": "e3635d3c924bd4a9",
+    "isDisabled=true,isRequired=true,necessityIndicator=\"text\"": "8e91c518610e4d10"
+  },
   "radio-button": {
     "isDisabled=false,isEmphasized=false,isSelected=false": "d93bd40b67688387",
     "isDisabled=false,isEmphasized=false,isSelected=true": "01f286f873a5c5af",
