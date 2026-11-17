@@ -151,7 +151,7 @@
     "component": "number-field",
     "uuid": "295eaf01-cfae-4514-ae5a-4aafa68555c8",
     "deprecated": true,
-    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
+    "deprecated_comment": "Replaced by calculated sizing: the rendered input height x 4 (aspect-ratio-800 is the multiplier), not a fixed width.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -171,7 +171,7 @@
     "component": "number-field",
     "uuid": "3eca271c-0817-4e00-a826-0f54f467ea05",
     "deprecated": true,
-    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
+    "deprecated_comment": "Replaced by calculated sizing: the rendered input height x 4 (aspect-ratio-800 is the multiplier), not a fixed width.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -191,7 +191,7 @@
     "component": "number-field",
     "uuid": "7978b992-5862-4f9c-b578-b4d2ca6b601a",
     "deprecated": true,
-    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
+    "deprecated_comment": "Replaced by calculated sizing: the rendered input height x 4 (aspect-ratio-800 is the multiplier), not a fixed width.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -211,7 +211,7 @@
     "component": "number-field",
     "uuid": "c23d0d28-eda0-43c9-8f48-da9920731e37",
     "deprecated": true,
-    "deprecated_comment": "Replaced by the shared aspect-ratio scale.",
+    "deprecated_comment": "Replaced by calculated sizing: the rendered input height x 4 (aspect-ratio-800 is the multiplier), not a fixed width.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
