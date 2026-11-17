@@ -153,6 +153,10 @@
           "else": { "not": { "required": ["icon"] } }
         },
         {
+          "if": { "properties": { "kind": { "const": "text" } } },
+          "else": { "not": { "required": ["text"] } }
+        },
+        {
           "if": { "properties": { "kind": { "const": "component" } } },
           "then": {
             "required": ["component", "sizeMap"],
@@ -223,6 +227,19 @@
         },
         "icon": {
           "$ref": "#/$defs/iconRef"
+        },
+        "text": {
+          "type": "object",
+          "minProperties": 1,
+          "description": "For a text part: where its copy comes from instead of the request label. `option` names a string option (used when set); `fraction` shows the fraction as a rounded percentage.",
+          "properties": {
+            "option": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+            },
+            "fraction": { "$ref": "#/$defs/fraction" }
+          },
+          "additionalProperties": false
         },
         "pressTarget": {
           "type": "string",
@@ -374,6 +391,17 @@
         }
       ]
     },
+    "fraction": {
+      "type": "object",
+      "required": ["value"],
+      "description": "A share of a range read from numeric options: (value - min) / (max - min), clamped to 0..1. `min` defaults to 0 and `max` to 1 when the option is unset or absent.",
+      "properties": {
+        "value": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" },
+        "min": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" },
+        "max": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" }
+      },
+      "additionalProperties": false
+    },
     "conditionalValueSource": {
       "type": "object",
       "properties": {
@@ -384,9 +412,12 @@
           "type": "integer"
         },
         "relativeTo": {
-          "enum": ["height"]
+          "enum": ["height", "parent"]
         },
         "value": {},
+        "fraction": {
+          "$ref": "#/$defs/fraction"
+        },
         "token": {
           "$ref": "#/$defs/tokenSelector"
         },
@@ -404,6 +435,9 @@
         },
         {
           "required": ["relationship"]
+        },
+        {
+          "required": ["fraction"]
         }
       ],
       "description": "A value source with optional `when`, `priority` and `relativeTo`. Used alone or in an ordered list."

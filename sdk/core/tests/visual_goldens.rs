@@ -164,6 +164,41 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let opts = HashMap::from([("items".to_string(), items)]);
         out.push(("three-items", req(vec![], opts, "light", "desktop")));
     }
+    // Progress bar: the fill is a share of the track and the value text a percentage, so the
+    // defaults (no value) show an empty bar. These show a half-full bar and an indeterminate one.
+    if name == "progress-bar" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        out.push((
+            "half",
+            req(vec![], with(&[("value", 0.5.into())]), "light", "desktop"),
+        ));
+        out.push((
+            "indeterminate",
+            req(
+                vec![],
+                with(&[("isIndeterminate", true.into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "static-white-custom-label",
+            req(
+                vec![],
+                with(&[
+                    ("value", 0.75.into()),
+                    ("valueLabel", "3 of 4".into()),
+                    ("staticColor", "white".into()),
+                ]),
+                "dark",
+                "desktop",
+            ),
+        ));
+    }
     // Divider: every size, both orientations, and each static colour. The regular fill and the
     // static fills are separate relationships, so this guards which one wins.
     if name == "divider" {
