@@ -1,0 +1,235 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "meter",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": ["width", "labelPosition"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["header", "track", "help-text"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "minWidth": {
+          "relationship": {
+            "property": "minimum-width",
+            "context": "Minimum width"
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "spacing",
+            "context": "Spacing (field label to progress bar)"
+          }
+        }
+      }
+    },
+    "header": {
+      "kind": "box",
+      "children": ["label", "value"],
+      "visibleWhen": {
+        "options": {
+          "label": true,
+          "hideLabel": false
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "gap": {
+          "relationship": {
+            "property": "spacing",
+            "context": "Minimum spacing (field label to text)"
+          }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Text"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height-100",
+            "context": "Text"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Text"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "context": "Text"
+          }
+        },
+        "grow": {
+          "value": true
+        }
+      }
+    },
+    "value": {
+      "kind": "text",
+      "props": {
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Text"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height-100",
+            "context": "Text"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Text"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "context": "Text"
+          }
+        }
+      },
+      "text": {
+        "option": "valueLabel",
+        "fraction": {
+          "value": "value",
+          "min": "minValue",
+          "max": "maxValue"
+        }
+      }
+    },
+    "track": {
+      "kind": "box",
+      "children": ["fill"],
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Meter (thickness)"
+          }
+        },
+        "grow": {
+          "value": true
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Meter (rounding)"
+          },
+          "relativeTo": "height"
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "context": "Track and indicator"
+          }
+        }
+      }
+    },
+    "fill": {
+      "kind": "box",
+      "props": {
+        "width": {
+          "fraction": {
+            "value": "value",
+            "min": "minValue",
+            "max": "maxValue"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Meter (rounding)"
+          },
+          "relativeTo": "height"
+        },
+        "fill": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "context": "Control"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": ["white", "black"]
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Track and indicator"
+            }
+          }
+        ]
+      }
+    },
+    "help-text": {
+      "kind": "text",
+      "props": {
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Text"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height-100",
+            "context": "Text"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Text"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "context": "Text"
+          }
+        }
+      },
+      "text": {
+        "option": "helpText"
+      },
+      "visibleWhen": {
+        "options": {
+          "helpText": true
+        }
+      }
+    }
+  }
+}

@@ -199,6 +199,37 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Meter: variants set the fill colour through relationships, and a static colour must win over
+    // the variant. The defaults (no value) show an empty bar.
+    if name == "meter" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        for variant in ["positive", "notice", "negative"] {
+            let opts = with(&[("value", 0.5.into()), ("variant", variant.into())]);
+            let label = format!("{variant}-half");
+            out.push((
+                Box::leak(label.into_boxed_str()),
+                req(vec![], opts, "light", "desktop"),
+            ));
+        }
+        out.push((
+            "static-black-help-text",
+            req(
+                vec![],
+                with(&[
+                    ("value", 0.75.into()),
+                    ("variant", "negative".into()),
+                    ("staticColor", "black".into()),
+                    ("helpText", "Help text".into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+    }
     // Divider: every size, both orientations, and each static colour. The regular fill and the
     // static fills are separate relationships, so this guards which one wins.
     if name == "divider" {
