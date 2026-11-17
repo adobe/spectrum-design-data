@@ -565,10 +565,10 @@
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=true": "1a4e8e40835af643"
   },
   "close-button": {
-    "isDisabled=false,staticColor=\"black\"": "5fa1f735f39c2de5",
-    "isDisabled=false,staticColor=\"white\"": "eb12b4911437abeb",
-    "isDisabled=true,staticColor=\"black\"": "04b4d184e0399411",
-    "isDisabled=true,staticColor=\"white\"": "6178f32c6e88fd61"
+    "isDisabled=false,staticColor=\"black\"": "06358763615680c7",
+    "isDisabled=false,staticColor=\"white\"": "090bc53b39c99d33",
+    "isDisabled=true,staticColor=\"black\"": "595ee671818e331d",
+    "isDisabled=true,staticColor=\"white\"": "119ff9503e9d3e95"
   },
   "divider": {
     "orientation=\"horizontal\",staticColor=\"black\"": "f1f00f6d8d14208d",
