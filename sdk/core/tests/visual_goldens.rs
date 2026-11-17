@@ -248,6 +248,15 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
         out.push((
+            "negative-disabled",
+            req(
+                vec![],
+                with(&[("variant", "negative".into()), ("isDisabled", true.into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
             "negative-disabled-hidden-icon",
             req(
                 vec![],
