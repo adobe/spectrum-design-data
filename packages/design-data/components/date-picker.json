@@ -204,5 +204,38 @@
       { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
       { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
+  },
+  "anatomy": [
+    { "name": "field-label", "description": "Label for the field." },
+    {
+      "name": "field",
+      "description": "Bordered input box that holds the date value and calendar button.",
+      "contains": ["value", "in-field-button"]
+    },
+    { "name": "value", "description": "Date or date range segments." },
+    {
+      "name": "in-field-button",
+      "description": "Calendar icon button that opens the popover."
+    },
+    { "name": "help-text", "description": "Description or error message." },
+    {
+      "name": "popover",
+      "description": "Popover that opens from the field.",
+      "contains": ["calendar"]
+    },
+    {
+      "name": "calendar",
+      "description": "Calendar shown in the popover.",
+      "contains": ["day"]
+    },
+    {
+      "name": "day",
+      "description": "One date cell in the calendar. Styled for selected, error, unavailable and current-day."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web date picker. Placeholder cells treated as part of value; focus indicator and error icon omitted (no states declared). Day added because tokens reference date-picker day (SPEC-020)."
   }
 }

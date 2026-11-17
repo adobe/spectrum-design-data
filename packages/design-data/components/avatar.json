@@ -53,44 +53,147 @@
       "type": "number",
       "default": 500,
       "values": [
-        { "value": 50 },
-        { "value": 75 },
-        { "value": 100 },
-        { "value": 200 },
-        { "value": 300 },
-        { "value": 400 },
-        { "value": 500 },
-        { "value": 600 },
-        { "value": 700 },
-        { "value": 800 },
-        { "value": 900 },
-        { "value": 1000 },
-        { "value": 1100 },
-        { "value": 1200 },
-        { "value": 1300 },
-        { "value": 1400 },
-        { "value": 1500 }
+        {
+          "value": 50
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 100
+        },
+        {
+          "value": 200
+        },
+        {
+          "value": 300
+        },
+        {
+          "value": 400
+        },
+        {
+          "value": 500
+        },
+        {
+          "value": 600
+        },
+        {
+          "value": 700
+        },
+        {
+          "value": 800
+        },
+        {
+          "value": 900
+        },
+        {
+          "value": 1000
+        },
+        {
+          "value": 1100
+        },
+        {
+          "value": 1200
+        },
+        {
+          "value": 1300
+        },
+        {
+          "value": 1400
+        },
+        {
+          "value": 1500
+        }
       ]
     },
     "image": {
       "type": "string",
       "default": "user image",
       "values": [
-        { "value": "user image" },
-        { "value": "gradient image" },
-        { "value": "gradient" },
-        { "value": "guest image" },
-        { "value": "initials" }
+        {
+          "value": "user image"
+        },
+        {
+          "value": "gradient image"
+        },
+        {
+          "value": "gradient"
+        },
+        {
+          "value": "guest image"
+        },
+        {
+          "value": "initials"
+        }
       ]
     },
-    "isDisabled": { "type": "boolean", "default": false },
-    "showStroke": { "type": "boolean", "default": false }
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "showStroke": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular frame of the avatar.",
+      "required": true,
+      "contains": [
+        "user-image",
+        "image",
+        "initials",
+        "guest-icon",
+        "focus-indicator"
+      ]
+    },
+    {
+      "name": "user-image",
+      "description": "Profile photo shown for the User image style."
+    },
+    {
+      "name": "image",
+      "description": "Generated gradient artwork shown for the Gradient image style."
+    },
+    {
+      "name": "initials",
+      "description": "Text initials shown for the Initials style."
+    },
+    {
+      "name": "guest-icon",
+      "description": "Guest glyph shown for the Guest style."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the component for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web avatar page (Photo, .Gradient image subcomponent, initials, guest, Stroke layer). stroke removed as container styling (RSP Avatar.tsx:71-79); gradient-image folded into registry term image."
   },
   "states": [
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "disabled", "trigger": "prop" }
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "accessibility": { "focusable": false }
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "focusable": false
+  }
 }

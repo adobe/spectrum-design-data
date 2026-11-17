@@ -28,5 +28,34 @@
         "title": "Name, Role, Value"
       }
     ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Tray surface that slides in from an edge.",
+      "required": true,
+      "contains": ["gripper", "title", "description", "close-button"]
+    },
+    {
+      "name": "gripper",
+      "description": "Drag handle."
+    },
+    {
+      "name": "title",
+      "description": "Tray title."
+    },
+    {
+      "name": "description",
+      "description": "Text under the title."
+    },
+    {
+      "name": "close-button",
+      "description": "Button that dismisses the tray."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tray and .Tray header. Leading/trailing action slots left out; subtitle renamed to registry term description; gripper appears at two positions in the tree."
   }
 }

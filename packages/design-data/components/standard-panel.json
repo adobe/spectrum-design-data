@@ -131,5 +131,29 @@
     "hideDivider": { "type": "boolean", "default": false }
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
-  "accessibility": { "focusable": false }
+  "accessibility": { "focusable": false },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Panel surface.",
+      "required": true,
+      "contains": ["gripper", "title", "close-button", "back-button", "divider"]
+    },
+    { "name": "gripper", "description": "Drag handle at the top center." },
+    { "name": "title", "description": "Panel title." },
+    {
+      "name": "close-button",
+      "description": "Button in the top corner that dismisses the panel."
+    },
+    {
+      "name": "back-button",
+      "description": "Optional button that goes back a level."
+    },
+    { "name": "divider", "description": "Line under the title area." }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web standard panel; relationships name gripper and title. Unsure: section dividers in the With sections variant."
+  }
 }

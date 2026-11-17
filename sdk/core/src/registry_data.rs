@@ -1384,6 +1384,18 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
+      "id": "opacity-checkerboard",
+      "label": "Opacity checkerboard",
+      "description": "Checkerboard pattern drawn behind transparent content (a color handle fill, a color slider track, a thumbnail image). Also a component of its own",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "prefix",
+      "label": "Prefix",
+      "description": "Non-interactive text placed before the value inside a field (e.g. a currency symbol or protocol)",
+      "usedIn": ["s2-docs"]
+    },
+    {
       "id": "field-label",
       "label": "Field Label",
       "description": "Field label component used as a named anatomy part within a group component (checkbox-group, radio-group, tag-field)",
@@ -1458,7 +1470,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "image",
       "label": "Image",
-      "description": "Image element used as a named anatomy part within thumbnail, avatar, or dialog components",
+      "description": "Image element used as a named anatomy part within thumbnail, avatar, or dialog components. A gradient or photo that fills the same area is the same part",
       "usedIn": ["s2-docs"]
     },
     {

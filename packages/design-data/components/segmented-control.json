@@ -79,7 +79,14 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "isFluid": {
       "type": "boolean",
@@ -89,7 +96,14 @@
     "alignment": {
       "type": "string",
       "default": "start",
-      "values": [{ "value": "start" }, { "value": "center" }]
+      "values": [
+        {
+          "value": "start"
+        },
+        {
+          "value": "center"
+        }
+      ]
     },
     "hideTracker": {
       "type": "boolean",
@@ -103,7 +117,14 @@
     "keyboardActivation": {
       "type": "string",
       "default": "manual",
-      "values": [{ "value": "manual" }, { "value": "automatic" }]
+      "values": [
+        {
+          "value": "manual"
+        },
+        {
+          "value": "automatic"
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -136,14 +157,70 @@
       }
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Track background behind the items.",
+      "contains": ["item", "selection"],
+      "required": true
+    },
+    {
+      "name": "item",
+      "description": "One segment with an icon, a label or both; repeated.",
+      "required": true,
+      "contains": ["icon", "label", "focus-indicator"]
+    },
+    {
+      "name": "icon",
+      "description": "Icon in a segment; optional."
+    },
+    {
+      "name": "label",
+      "description": "Text in a segment; optional."
+    },
+    {
+      "name": "selection",
+      "description": "Sliding indicator that marks the selected segment; a sibling of the items inside the track."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused segment.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP SegmentedControl.tsx:116-121,255 draws the track and a sliding selection indicator over the items; Figma S2 Web segmented control page. 'item' kept (not segmented-control-item) by owner decision to avoid new *-item terms. keyboard-focus and disabled states added."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
-  }
+  },
+  "states": [
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
+  ]
 }

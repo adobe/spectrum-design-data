@@ -138,6 +138,72 @@
     { "name": "focus-+-not-hover", "trigger": "prop" },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "container",
+      "description": "Bordered box that frames the value and its in-field icons.",
+      "required": true,
+      "contains": [
+        "leading-icon",
+        "prefix",
+        "value",
+        "placeholder",
+        "drag-handle",
+        "error-icon",
+        "validation-marker"
+      ]
+    },
+    {
+      "name": "leading-icon",
+      "description": "Icon at the start of the field."
+    },
+    {
+      "name": "prefix",
+      "description": "Short fixed text such as # shown before the value or placeholder."
+    },
+    {
+      "name": "value",
+      "description": "Text the user entered."
+    },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown while the field is empty."
+    },
+    {
+      "name": "drag-handle",
+      "description": "Corner grip for resizing the area; hidden by hideDragIcon."
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon shown at the end of the field when it is invalid."
+    },
+    {
+      "name": "validation-marker",
+      "description": "Checkmark shown at the end of the field when the value is valid."
+    },
+    {
+      "name": "character-count",
+      "description": "Running count of characters entered."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Text area page, relationship contexts; RSP Field.tsx:118-166 (asterisk inside field-label), Field.tsx:201-241 (FieldGroup border is styling on container). drag-handle, validation-marker and character-count are tracked by a separate bead (Spectrum-1-only check)."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "textbox",

@@ -19,5 +19,51 @@
     { "name": "selected-hover", "trigger": "interaction" },
     { "name": "selected-keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row background; fills when the item is selected or highlighted.",
+      "required": true,
+      "contains": [
+        "drag-handle",
+        "checkbox",
+        "visual",
+        "header",
+        "actions",
+        "disclosure-indicator"
+      ]
+    },
+    { "name": "drag-handle", "description": "Grip for reordering the item." },
+    {
+      "name": "checkbox",
+      "description": "Selection checkbox shown in a selection mode."
+    },
+    {
+      "name": "visual",
+      "description": "Icon or thumbnail at the start of the content."
+    },
+    {
+      "name": "header",
+      "description": "Text of the item; the relationships set its minimum width."
+    },
+    {
+      "name": "actions",
+      "description": "Row of action buttons at the end of the item."
+    },
+    {
+      "name": "disclosure-indicator",
+      "description": "Chevron that marks the item as navigable."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the row for keyboard focus.",
+      "presentIn": ["keyboard-focus", "selected-keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). The part name header comes from the relationship scope; Figma calls it Visual + Text. Selection checkbox inferred from Selection mode."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

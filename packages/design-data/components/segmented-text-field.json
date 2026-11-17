@@ -9,5 +9,23 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Frame that holds the row of segments.",
+      "required": true,
+      "contains": ["segment"]
+    },
+    {
+      "name": "segment",
+      "description": "One editable piece of a structured value, drawn as its own rounded cell.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma page (SAME PAGE AS text-field) and no relationship parts. Derived from the description and the gap and corner-radius relationships. Unsure whether the segments sit in a shared container with its own border."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

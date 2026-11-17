@@ -109,6 +109,48 @@
     { "name": "focus-+-not-hover", "trigger": "prop" },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Text label that names the field; hidden with hideLabel."
+    },
+    {
+      "name": "container",
+      "description": "Rounded box that frames the search icon, value and clear button.",
+      "required": true,
+      "contains": ["leading-icon", "value", "placeholder", "in-field-button"]
+    },
+    {
+      "name": "leading-icon",
+      "description": "Magnifying-glass search icon at the start of the field."
+    },
+    {
+      "name": "value",
+      "description": "Text the user entered."
+    },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown while the field is empty."
+    },
+    {
+      "name": "in-field-button",
+      "description": "Clear button at the end of the field, shown when there is a value."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP SearchField.tsx:178 (shared ClearButton = in-field-button); registry leading-icon is the search icon in search-field; label is the embedded field-label; border is styling on container (Field.tsx:201-241)."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "textbox",

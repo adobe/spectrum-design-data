@@ -71,6 +71,29 @@
     "isEmphasized": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row of rating items.",
+      "required": true,
+      "contains": ["indicator"]
+    },
+    {
+      "name": "indicator",
+      "description": "Star icon for one rating step. Filled, half filled or empty by value.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Ring drawn for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (.Rating item subcomponent, five star instances). Relationship scope.part 'indicator' is covered. 'Layout', 'Down', 'Hover', 'Emphasized' contexts are states or options, not parts."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

@@ -10,5 +10,37 @@
     "documentationUrl": "https://spectrum.adobe.com/page/card-horizontal/"
   },
   "states": [{ "name": "default" }],
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Card surface.",
+      "required": true,
+      "contains": [
+        "preview",
+        "checkbox",
+        "thumbnail",
+        "title",
+        "description",
+        "action-button"
+      ]
+    },
+    { "name": "preview", "description": "Image area at the start." },
+    { "name": "checkbox", "description": "Selection checkbox." },
+    {
+      "name": "thumbnail",
+      "description": "Small image, in the basic variant."
+    },
+    { "name": "title", "description": "Card title." },
+    { "name": "description", "description": "Card description." },
+    {
+      "name": "action-button",
+      "description": "Action button, in the basic variant."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Card (Horizontal) and Horizontal basic, merged. Unsure: which parts belong to which variant."
+  }
 }

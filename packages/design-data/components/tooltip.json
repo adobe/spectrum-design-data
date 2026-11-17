@@ -79,14 +79,22 @@
     }
   ],
   "options": {
-    "label": { "type": "string" },
+    "label": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "neutral",
       "values": [
-        { "value": "neutral" },
-        { "value": "informative" },
-        { "value": "negative" }
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "informative"
+        },
+        {
+          "value": "negative"
+        }
       ]
     },
     "hasIcon": {
@@ -103,13 +111,24 @@
       "type": "string",
       "default": "top",
       "values": [
-        { "value": "top" },
-        { "value": "bottom" },
-        { "value": "left" },
-        { "value": "right" }
+        {
+          "value": "top"
+        },
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "left"
+        },
+        {
+          "value": "right"
+        }
       ]
     },
-    "shouldFlip": { "type": "boolean", "default": false },
+    "shouldFlip": {
+      "type": "boolean",
+      "default": false
+    },
     "offset": {
       "type": "number",
       "default": 4,
@@ -121,7 +140,35 @@
       "description": "units: pixels"
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded bubble holding the text.",
+      "required": true,
+      "contains": ["label", "icon"]
+    },
+    {
+      "name": "label",
+      "description": "Tooltip message text.",
+      "required": true
+    },
+    {
+      "name": "icon",
+      "description": "Optional status icon, shown with hasIcon."
+    },
+    {
+      "name": "tip",
+      "description": "Small pointer on the bubble edge toward the source. Absent with no tip placement."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Tooltip: text plus Tip vector). Icon (hasIcon option, not in Figma) is tracked by a separate bead (Spectrum-1-only check). Tip is drawn outside the bubble, so container does not enclose it."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "tooltip",
     "focusable": false,
@@ -131,7 +178,11 @@
         "level": "AA",
         "title": "Content on Hover or Focus"
       },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

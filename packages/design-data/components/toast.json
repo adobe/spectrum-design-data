@@ -90,30 +90,80 @@
     }
   ],
   "options": {
-    "text": { "type": "string" },
+    "text": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "neutral",
       "values": [
-        { "value": "neutral" },
-        { "value": "informative" },
-        { "value": "positive" },
-        { "value": "negative" }
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "informative"
+        },
+        {
+          "value": "positive"
+        },
+        {
+          "value": "negative"
+        }
       ]
     },
     "actionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
     },
-    "isAutoDismissible": { "type": "boolean", "default": false }
+    "isAutoDismissible": {
+      "type": "boolean",
+      "default": false
+    }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded surface holding the message and actions.",
+      "required": true,
+      "contains": ["icon", "text", "button", "close-button"]
+    },
+    {
+      "name": "icon",
+      "description": "Status icon chosen by variant; optional (neutral has none)."
+    },
+    {
+      "name": "text",
+      "description": "Message text.",
+      "required": true
+    },
+    {
+      "name": "button",
+      "description": "Optional action button, shown with actionLabel."
+    },
+    {
+      "name": "close-button",
+      "description": "Button that dismisses the toast; always drawn.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP Toast.tsx:622 (close button always drawn), Toast.tsx:331-333 (neutral has no icon), Toast.tsx:605-618 (optional action button). Figma S2 Web toast frames."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["dismiss"],
     "focusable": true,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "4.1.3", "level": "AA", "title": "Status Messages" }
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
     ]
   }
 }

@@ -42,6 +42,18 @@
       ]
     }
   },
+  "anatomy": [
+    {
+      "name": "square",
+      "description": "Single alternating square of the checkerboard pattern.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma page; parts from relationship contexts. Helper component; one minimal part."
+  },
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
