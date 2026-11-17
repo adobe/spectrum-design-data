@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
+"@adobe/design-data-wasm": patch
 ---
 
 Added draft anatomy (`anatomyReview.status: draft`) to the 63 components that had relationships
