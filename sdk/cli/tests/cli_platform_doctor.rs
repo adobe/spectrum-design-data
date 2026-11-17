@@ -156,6 +156,10 @@ fn json_output_lists_every_check_with_a_status() {
         ["manifest", "bindings", "pin", "cli", "registry", "shadows", "latest"],
         "{report}"
     );
+    let mut unique = ids.clone();
+    unique.sort_unstable();
+    unique.dedup();
+    assert_eq!(unique.len(), ids.len(), "duplicate check ids: {ids:?}");
     assert_eq!(report["errors"], 1, "{report}");
     let bindings = report["checks"]
         .as_array()
@@ -188,4 +192,66 @@ fn without_a_configured_manifest_it_says_so() {
         .assert()
         .code(2)
         .stderr(contains("no platform manifest configured"));
+}
+
+/// A broken setup is what doctor is for: a `cli_version` that is not a range is a failed `config`
+/// check with the message that names the key, and a report, not a bare error.
+#[test]
+fn a_malformed_cli_version_is_a_finding_not_a_crash() {
+    let p = project("ios", "cli_version = \"latest\"\n", None);
+    doctor(p.path(), &[])
+        .code(1)
+        .stdout(contains("FAIL config"))
+        .stdout(contains("`cli_version`"))
+        .stdout(contains("1 error(s)"));
+    let out = doctor(p.path(), &["--format", "json"])
+        .code(1)
+        .get_output()
+        .stdout
+        .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["checks"][0]["id"], "config", "{report}");
+    assert_eq!(report["checks"][0]["status"], "error");
+    assert!(
+        report["manifest"].is_null(),
+        "no manifest was resolved: {report}"
+    );
+}
+
+/// An invalid manifest and a foundation that will not load are two findings with two ids: a
+/// consumer keyed by `id` must not lose one.
+#[test]
+fn an_invalid_manifest_and_an_unloadable_foundation_are_distinct_checks() {
+    let p = tempfile::tempdir().unwrap();
+    let empty_root = p.path().join("empty-foundation");
+    fs::create_dir_all(&empty_root).unwrap();
+    fs::write(p.path().join("manifest.json"), r#"{"not": "a manifest"}"#).unwrap();
+    fs::write(
+        p.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n\n[platforms]\nfixture = \"manifest.json\"\n",
+            empty_root.display()
+        ),
+    )
+    .unwrap();
+    let out = doctor(p.path(), &["--format", "json"])
+        .code(1)
+        .get_output()
+        .stdout
+        .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    let ids: Vec<&str> = report["checks"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| c["id"].as_str().unwrap())
+        .collect();
+    let mut unique = ids.clone();
+    unique.sort_unstable();
+    unique.dedup();
+    assert_eq!(unique.len(), ids.len(), "duplicate check ids: {ids:?}");
+    assert!(
+        ids.contains(&"manifest") && ids.contains(&"foundation"),
+        "{ids:?}"
+    );
 }

@@ -68,7 +68,7 @@ impl Check {
 #[derive(Debug, Serialize)]
 struct Report {
     platform: Option<String>,
-    manifest: String,
+    manifest: Option<String>,
     checks: Vec<Check>,
     errors: usize,
     warnings: usize,
@@ -84,19 +84,37 @@ fn foundation_repo(config: Option<&data_source::DesignDataConfig>) -> String {
 
 pub fn run(id: Option<String>, latest: bool, format: OutputFormat) -> miette::Result<ExitCode> {
     // Doctor reports an unmet requirement as a finding, so it resolves without enforcing them.
-    let mut resolved = crate::resolve_data_source_unchecked(CliPathOverrides {
+    let mut resolved = match crate::resolve_data_source_unchecked(CliPathOverrides {
         platform_id: id,
         ..Default::default()
-    })?;
+    }) {
+        Ok(resolved) => resolved,
+        // A broken setup (an unparseable `cli_version`, a source that cannot be found) is what
+        // doctor is for: report it as a finding instead of dying with no report.
+        Err(e) => {
+            let c = check(
+                "config",
+                Status::Error,
+                format!("the platform configuration could not be resolved: {e}"),
+            );
+            return finish(None, None, vec![c], format);
+        }
+    };
     let Some(manifest_path) = resolved.platform_manifest.clone() else {
         eprintln!(
             "design-data: error: no platform manifest configured (pass a platform id, or set `default_platform` in `.design-data.toml`)"
         );
         return Ok(ExitCode::from(2));
     };
-    let project = crate::project_config()?;
-    let config = project.as_ref().map(|(_, c)| c);
     let mut checks: Vec<Check> = Vec::new();
+    let project = match crate::project_config() {
+        Ok(project) => project,
+        Err(e) => {
+            checks.push(check("config", Status::Error, format!("{e}")));
+            None
+        }
+    };
+    let config = project.as_ref().map(|(_, c)| c);
 
     // The manifest, merged with its extensions and schema-checked. If it cannot be read, the
     // checks that need it are skipped, not guessed at.
@@ -123,7 +141,7 @@ pub fn run(id: Option<String>, latest: bool, format: OutputFormat) -> miette::Re
     let mut platform_graph = None;
     match (&foundation, &manifest_json) {
         (Err(e), _) => checks.push(check(
-            "manifest",
+            "foundation",
             Status::Error,
             format!("the foundation data could not be loaded: {e}"),
         )),
@@ -201,7 +219,10 @@ pub fn run(id: Option<String>, latest: bool, format: OutputFormat) -> miette::Re
 
     // The CLI against what the data and the project need of it.
     let mut unmet = crate::data_requirements(&resolved);
-    unmet.errors.extend(crate::project_cli_range_finding()?);
+    match crate::project_cli_range_finding() {
+        Ok(finding) => unmet.errors.extend(finding),
+        Err(e) => unmet.errors.push(format!("{e}")),
+    }
     let cli = env!("CARGO_PKG_VERSION");
     checks.push(if unmet.errors.is_empty() && unmet.warnings.is_empty() {
         check(
@@ -274,14 +295,24 @@ pub fn run(id: Option<String>, latest: bool, format: OutputFormat) -> miette::Re
         latest_check(manifest_pin.as_deref(), &foundation_repo(config))
     });
 
-    let errors = checks.iter().filter(|c| c.status == Status::Error).count();
-    let warnings = checks.iter().filter(|c| c.status == Status::Warn).count();
     let platform = manifest_json
         .as_ref()
         .and_then(|m| m.get("platform")?.as_str().map(String::from));
+    finish(platform, Some(&manifest_path), checks, format)
+}
+
+/// Count, print (pretty or JSON) and choose the exit code: 1 if any check failed.
+fn finish(
+    platform: Option<String>,
+    manifest_path: Option<&Path>,
+    checks: Vec<Check>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let errors = checks.iter().filter(|c| c.status == Status::Error).count();
+    let warnings = checks.iter().filter(|c| c.status == Status::Warn).count();
     let report = Report {
         platform,
-        manifest: manifest_path.display().to_string(),
+        manifest: manifest_path.map(|p| p.display().to_string()),
         checks,
         errors,
         warnings,
@@ -291,7 +322,7 @@ pub fn run(id: Option<String>, latest: bool, format: OutputFormat) -> miette::Re
             "{}",
             serde_json::to_string_pretty(&report).into_diagnostic()?
         ),
-        OutputFormat::Pretty => print_pretty(&report, &manifest_path),
+        OutputFormat::Pretty => print_pretty(&report),
     }
     Ok(if errors > 0 {
         ExitCode::from(1)
@@ -330,15 +361,19 @@ fn latest_check(manifest_pin: Option<&str>, repo: &str) -> Check {
     }
 }
 
-fn print_pretty(report: &Report, manifest_path: &Path) {
+fn print_pretty(report: &Report) {
     println!(
-        "design-data platform doctor{} ({})",
+        "design-data platform doctor{}{}",
         report
             .platform
             .as_deref()
             .map(|p| format!(" {p}"))
             .unwrap_or_default(),
-        manifest_path.display()
+        report
+            .manifest
+            .as_deref()
+            .map(|m| format!(" ({m})"))
+            .unwrap_or_default()
     );
     for c in &report.checks {
         let marker = match c.status {
