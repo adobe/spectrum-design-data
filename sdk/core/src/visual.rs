@@ -1513,6 +1513,43 @@ impl Ctx<'_> {
         active
     }
 
+    /// `(value - min) / (max - min)` of the numeric options a `fraction` names, clamped to 0..1.
+    fn fraction(&self, spec: &Value) -> f64 {
+        let num = |key: &str, default: f64| {
+            spec.get(key)
+                .and_then(Value::as_str)
+                .and_then(|n| self.option(n).as_f64())
+                .unwrap_or(default)
+        };
+        let (value, min, max) = (num("value", 0.0), num("min", 0.0), num("max", 1.0));
+        if max > min {
+            ((value - min) / (max - min)).clamp(0.0, 1.0)
+        } else {
+            0.0
+        }
+    }
+
+    /// A text part's copy: its `text.option` when that string option is set, else its
+    /// `text.fraction` as a percentage, else the request label.
+    fn text_of(&self, part: &Value, label: &str) -> String {
+        let Some(text) = part.get("text") else {
+            return label.to_string();
+        };
+        if let Some(Value::String(s)) = text
+            .get("option")
+            .and_then(Value::as_str)
+            .map(|n| self.option(n))
+        {
+            if !s.is_empty() {
+                return s;
+            }
+        }
+        match text.get("fraction") {
+            Some(f) => format!("{}%", (self.fraction(f) * 100.0).round()),
+            None => label.to_string(),
+        }
+    }
+
     fn eval(&mut self, source: Option<&Value>) -> Option<Resolved> {
         let source = source?;
         let chosen = match source {
@@ -1537,6 +1574,15 @@ impl Ctx<'_> {
             .get("relativeTo")
             .and_then(Value::as_str)
             .map(String::from);
+        if let Some(spec) = chosen.get("fraction") {
+            return Some(Resolved {
+                value: self.fraction(spec).to_string(),
+                token: String::new(),
+                relative_to: Some("parent".into()),
+                chain: Vec::new(),
+                relationship: None,
+            });
+        }
         if let Some(v) = chosen.get("value") {
             let literal = match v {
                 Value::Bool(b) => Some(b.to_string()),
@@ -2677,10 +2723,11 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                 node.font_size =
                                     fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                                 node.font_weight = fw.map(|f| f.value);
-                                node.text = Some(req.label.clone());
+                                let copy = cx.text_of(np, &req.label);
+                                node.text = Some(copy.clone());
                                 node.w = text_width(
                                     req,
-                                    &req.label,
+                                    &copy,
                                     node.font_size,
                                     node.font_weight.as_deref(),
                                 );
@@ -2832,7 +2879,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.font_family = ff.map(|f| f.value);
                 c.font_size = fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                 c.font_weight = fw.map(|f| f.value);
-                let text = req.label.clone();
+                let text = cx.text_of(part, &req.label);
                 c.w = text_width(req, &text, c.font_size, c.font_weight.as_deref());
                 if let Some(r) = lh.as_ref().filter(|r| r.num().is_none()) {
                     cx.diags.push(format!(
@@ -3294,8 +3341,19 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             ] {
                 track(&mut tokens, n, r);
             }
-            let w2 = nw.as_ref().and_then(Resolved::num).unwrap_or(cw);
-            let h2 = nh.as_ref().and_then(Resolved::num).unwrap_or(ch);
+            let of_parent = |r: &Option<Resolved>, whole: f64| {
+                r.as_ref().and_then(|r| {
+                    r.num().map(|v| {
+                        if r.relative_to.as_deref() == Some("parent") {
+                            v * whole
+                        } else {
+                            v
+                        }
+                    })
+                })
+            };
+            let w2 = of_parent(&nw, cw).unwrap_or(cw);
+            let h2 = of_parent(&nh, ch).unwrap_or(ch);
             let inset = (ch - h2) / 2.0;
             let nx = match justify.as_ref().map(|j| j.value.as_str()) {
                 Some("end") => cx0 + cw - w2 - inset,
@@ -4437,6 +4495,55 @@ mod tests {
         assert_eq!(s.nodes[0].w, 98.0);
         assert_eq!(s.diagnostics.len(), 1, "{:?}", s.diagnostics);
         assert!(s.diagnostics[0].contains("minWidth is relative to the height"));
+    }
+
+    #[test]
+    fn a_fraction_sizes_a_nested_box_and_fills_a_text_part_as_a_percentage() {
+        let frac = serde_json::json!({ "value": "value", "min": "minValue", "max": "maxValue" });
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["t", "track"], "props": {
+                    "direction": lit("column".into()), "width": lit(100.into()) } },
+                "t": { "kind": "text", "text": { "option": "valueLabel", "fraction": frac } },
+                "track": { "kind": "box", "children": ["fill"], "props": {
+                    "height": lit(10.into()) } },
+                "fill": { "kind": "box", "props": {
+                    "width": { "fraction": frac }, "justify": lit("end".into()) } }
+            }
+        });
+        let at = |opts: &[(&str, Value)]| {
+            let (g, _) = load();
+            let mut r = req(&[]);
+            r.options = opts
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            let s = build_scene(&g, &recipe, &r).unwrap();
+            (
+                part(&s, "fill").unwrap().w,
+                part(&s, "t").unwrap().text.clone().unwrap(),
+            )
+        };
+        let n = |v: f64| serde_json::json!(v);
+        // min 0, max 1 by default.
+        assert_eq!(at(&[("value", n(0.25))]), (25.0, "25%".into()));
+        // A range, and a value past it, clamped.
+        let range = [("minValue", n(10.0)), ("maxValue", n(20.0))];
+        assert_eq!(
+            at(&[range[0].clone(), range[1].clone(), ("value", n(15.0))]).0,
+            50.0
+        );
+        assert_eq!(
+            at(&[range[0].clone(), range[1].clone(), ("value", n(99.0))]),
+            (100.0, "100%".into())
+        );
+        // No value: empty, and a set valueLabel replaces the percentage.
+        assert_eq!(at(&[]), (0.0, "0%".into()));
+        assert_eq!(
+            at(&[("value", n(0.5)), ("valueLabel", "Half".into())]),
+            (50.0, "Half".into())
+        );
     }
 
     #[test]

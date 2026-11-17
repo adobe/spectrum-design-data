@@ -73,6 +73,15 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
                     .extend(s.iter().filter_map(|x| x.as_str().map(String::from)));
             }
         }
+        let text_option = node.get("text").and_then(|t| t.get("option"));
+        for name in text_option.into_iter().chain(
+            node.get("fraction")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flat_map(|f| f.values()),
+        ) {
+            used.options.extend(name.as_str().map(String::from));
+        }
         if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
             used.options.extend(option_template_names(sel));
             for e in expand_selector(sel, &sizes, &options) {

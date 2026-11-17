@@ -574,6 +574,16 @@
     "isDisabled=true,isRequired=true,necessityIndicator=\"icon\"": "e3635d3c924bd4a9",
     "isDisabled=true,isRequired=true,necessityIndicator=\"text\"": "8e91c518610e4d10"
   },
+  "progress-bar": {
+    "hideLabel=false,isIndeterminate=false,staticColor=\"black\"": "a40b6a9eeab84c20",
+    "hideLabel=false,isIndeterminate=false,staticColor=\"white\"": "b8100ea6451b28e4",
+    "hideLabel=false,isIndeterminate=true,staticColor=\"black\"": "dfbbad14f2c00a49",
+    "hideLabel=false,isIndeterminate=true,staticColor=\"white\"": "ae70214dc4c563fd",
+    "hideLabel=true,isIndeterminate=false,staticColor=\"black\"": "1bba38a5c391a409",
+    "hideLabel=true,isIndeterminate=false,staticColor=\"white\"": "dd389804a8e2cf3d",
+    "hideLabel=true,isIndeterminate=true,staticColor=\"black\"": "9b43d1e326f5dc56",
+    "hideLabel=true,isIndeterminate=true,staticColor=\"white\"": "89106a0069e31012"
+  },
   "radio-button": {
     "isDisabled=false,isEmphasized=false,isSelected=false": "d93bd40b67688387",
     "isDisabled=false,isEmphasized=false,isSelected=true": "01f286f873a5c5af",

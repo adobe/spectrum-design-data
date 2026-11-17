@@ -61,15 +61,10 @@
     }
   ],
   "options": {
-    "variant": {
-      "type": "string",
-      "default": "default",
-      "values": [{ "value": "default" }, { "value": "over background" }]
-    },
     "staticColor": {
       "type": "string",
-      "description": "Static color can only be white, otherwise it is default.",
-      "values": [{ "value": "white" }]
+      "description": "Static color for use on colored backgrounds. White draws a light bar, black a dark one. Unset is the regular bar.",
+      "values": [{ "value": "white" }, { "value": "black" }]
     },
     "label": { "type": "string" },
     "labelPosition": {
@@ -111,7 +106,12 @@
       "name": "container",
       "description": "Whole progress bar: header row and track.",
       "required": true,
-      "contains": ["label", "value", "track"]
+      "contains": ["header", "track"]
+    },
+    {
+      "name": "header",
+      "description": "Row that holds the label and the value text above the track. Not drawn when the label is hidden.",
+      "contains": ["label", "value"]
     },
     {
       "name": "label",
@@ -134,9 +134,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (Progress bar). fill required though empty at 0%. Side label position moves the header; same parts."
+    "notes": "Matches Figma S2 Web (Progress bar): its Header frame is the header part, and its Indicator is the fill. Fill is required though empty at 0%. With labelPosition side the label and value flank the track; the parts are the same."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
