@@ -81,14 +81,7 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     },
     "items": {
       "type": "array",
@@ -127,18 +120,13 @@
             "default": false,
             "description": "This overrides density and is only applicable to horizontal tabs."
           },
-          "isEmphasized": {
-            "type": "boolean",
-            "default": false
-          },
+          "isEmphasized": { "type": "boolean", "default": false },
           "alignment": {
             "type": "string",
             "enum": ["start", "center"],
             "default": "start"
           },
-          "selectedItem": {
-            "description": "(list of available items)"
-          },
+          "selectedItem": { "description": "(list of available items)" },
           "keyboardActivation": {
             "type": "string",
             "enum": ["manual", "automatic"],
@@ -178,9 +166,7 @@
     "reviewedIn": "1.0.0-draft",
     "notes": "RSP Tabs.tsx:350,550 and gen2 tabs/tabs.css:65-107 draw the selection indicator as a sibling of the tab item, so tab-item contains only icon and label. Figma S2 Web tabs page (Tab: Content stack and Underline). keyboard-focus state added for focus-indicator. No baseline divider found in RSP/SWC: unverified, not declared."
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
       "token": "tab-item-to-tab-item-compact-horizontal-medium",
@@ -196,16 +182,8 @@
     "focusable": true,
     "keyboardIntents": ["navigate-items"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   },
   "states": [

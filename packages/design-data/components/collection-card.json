@@ -24,14 +24,26 @@
         "action-button"
       ]
     },
-    { "name": "preview", "description": "Image or media area." },
+    {
+      "name": "preview",
+      "description": "Image or media area."
+    },
     {
       "name": "checkbox",
       "description": "Selection checkbox in the top corner."
     },
-    { "name": "title", "description": "Card title." },
-    { "name": "description", "description": "Card description text." },
-    { "name": "icon", "description": "Icon beside the description." },
+    {
+      "name": "title",
+      "description": "Card title."
+    },
+    {
+      "name": "description",
+      "description": "Card description text."
+    },
+    {
+      "name": "icon",
+      "description": "Icon beside the description."
+    },
     {
       "name": "action-button",
       "description": "Action button beside the title."

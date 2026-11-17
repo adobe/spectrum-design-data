@@ -69,10 +69,6 @@
     "reviewedIn": "1.0.0-draft",
     "notes": "RSP ColorHandle.tsx:82-84,174-182 (loupe shadow on the container, checkerboard behind the fill)."
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }

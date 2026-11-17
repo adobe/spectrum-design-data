@@ -28,7 +28,10 @@
       "name": "month-button",
       "description": "Chevron button that moves to the previous or next month."
     },
-    { "name": "month-label", "description": "Month and year text." },
+    {
+      "name": "month-label",
+      "description": "Month and year text."
+    },
     {
       "name": "weekday-label",
       "description": "Single-letter weekday heading above the day grid."

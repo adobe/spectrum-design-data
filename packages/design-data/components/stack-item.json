@@ -33,7 +33,10 @@
         "disclosure-indicator"
       ]
     },
-    { "name": "drag-handle", "description": "Grip for reordering the item." },
+    {
+      "name": "drag-handle",
+      "description": "Grip for reordering the item."
+    },
     {
       "name": "checkbox",
       "description": "Selection checkbox shown in a selection mode."

@@ -206,18 +206,27 @@
     ]
   },
   "anatomy": [
-    { "name": "field-label", "description": "Label for the field." },
+    {
+      "name": "field-label",
+      "description": "Label for the field."
+    },
     {
       "name": "field",
       "description": "Bordered input box that holds the date value and calendar button.",
       "contains": ["value", "in-field-button"]
     },
-    { "name": "value", "description": "Date or date range segments." },
+    {
+      "name": "value",
+      "description": "Date or date range segments."
+    },
     {
       "name": "in-field-button",
       "description": "Calendar icon button that opens the popover."
     },
-    { "name": "help-text", "description": "Description or error message." },
+    {
+      "name": "help-text",
+      "description": "Description or error message."
+    },
     {
       "name": "popover",
       "description": "Popover that opens from the field.",

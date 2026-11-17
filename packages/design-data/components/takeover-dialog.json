@@ -87,7 +87,11 @@
         "secondary-action"
       ]
     },
-    { "name": "title", "description": "Dialog title.", "required": true },
+    {
+      "name": "title",
+      "description": "Dialog title.",
+      "required": true
+    },
     {
       "name": "header-content",
       "description": "Optional custom content in the header."

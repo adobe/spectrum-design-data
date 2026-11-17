@@ -48,20 +48,11 @@
     }
   ],
   "options": {
-    "text": {
-      "type": "string"
-    },
+    "text": { "type": "string" },
     "variant": {
       "type": "string",
       "default": "neutral",
-      "values": [
-        {
-          "value": "neutral"
-        },
-        {
-          "value": "negative"
-        }
-      ]
+      "values": [{ "value": "neutral" }, { "value": "negative" }]
     },
     "hideIcon": {
       "type": "boolean",
@@ -72,18 +63,10 @@
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
     "isDisabled": {
@@ -108,10 +91,6 @@
     "reviewedIn": "1.0.0-draft",
     "notes": "RSP Field.tsx:374 (no background of its own, so no container) and Field.tsx:446-448 (icon only for errors). Figma S2 Web (Show error icon prop)."
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }

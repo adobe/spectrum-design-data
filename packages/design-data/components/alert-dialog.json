@@ -83,36 +83,20 @@
     }
   ],
   "options": {
-    "title": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
     "variant": {
       "type": "string",
       "default": "confirmation",
       "values": [
-        {
-          "value": "confirmation"
-        },
-        {
-          "value": "information"
-        },
-        {
-          "value": "warning"
-        },
-        {
-          "value": "destructive"
-        },
-        {
-          "value": "error"
-        }
+        { "value": "confirmation" },
+        { "value": "information" },
+        { "value": "warning" },
+        { "value": "destructive" },
+        { "value": "error" }
       ]
     },
-    "primaryActionLabel": {
-      "type": "string"
-    },
+    "primaryActionLabel": { "type": "string" },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -123,25 +107,15 @@
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      {
-        "criterion": "2.4.3",
-        "level": "A",
-        "title": "Focus Order"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   },
   "anatomy": [

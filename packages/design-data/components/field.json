@@ -20,7 +20,10 @@
       "required": true,
       "contains": ["value"]
     },
-    { "name": "value", "description": "Content shown inside the field." },
+    {
+      "name": "value",
+      "description": "Content shown inside the field."
+    },
     {
       "name": "help-text",
       "description": "Description or error message shown below the field."

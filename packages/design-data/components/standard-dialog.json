@@ -97,19 +97,35 @@
         "close-button"
       ]
     },
-    { "name": "cover-image", "description": "Optional image at the top." },
-    { "name": "title", "description": "Dialog title.", "required": true },
+    {
+      "name": "cover-image",
+      "description": "Optional image at the top."
+    },
+    {
+      "name": "title",
+      "description": "Dialog title.",
+      "required": true
+    },
     {
       "name": "header-content",
       "description": "Optional content beside or below the title."
     },
-    { "name": "body", "description": "Description text." },
+    {
+      "name": "body",
+      "description": "Description text."
+    },
     {
       "name": "footer-content",
       "description": "Optional content at the start of the footer, such as a checkbox."
     },
-    { "name": "primary-action", "description": "Main confirmation button." },
-    { "name": "secondary-action", "description": "Alternative action button." },
+    {
+      "name": "primary-action",
+      "description": "Main confirmation button."
+    },
+    {
+      "name": "secondary-action",
+      "description": "Alternative action button."
+    },
     {
       "name": "cancel-action",
       "description": "Button that dismisses without acting."
