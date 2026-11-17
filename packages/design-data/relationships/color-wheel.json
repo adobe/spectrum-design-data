@@ -32,23 +32,56 @@
   {
     "scope": {
       "component": "color-wheel",
-      "property": "minimum-width"
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
-    "$ref": "db351495-cc43-4fb6-9e36-404e6d7cf375",
-    "uuid": "7b8d0a85-c15b-5d0b-a99a-2b0a2140cb87"
+    "$ref": "647244c3-b071-45c1-94f7-3be32cfebabe",
+    "uuid": "4f527a3c-8094-5a47-924e-cb4b5891dad7"
   },
   {
     "scope": {
       "component": "color-wheel",
-      "property": "width"
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "context": "Width (minimum)",
+    "contextRole": ["width"],
+    "contextQualifier": "minimum",
+    "$ref": "6733cd28-a949-40f7-bd36-034af9c0261f",
+    "uuid": "cb00b69d-5d08-5fbf-a339-8ab598c78149"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Track width",
     "contextRole": ["width"],
-    "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
-    "uuid": "6ed026b6-240d-5c82-a845-8b6f644a66b3"
+    "$ref": "424db2a9-5795-400b-a98a-58081d311bff",
+    "uuid": "d26c357d-d4d4-5f4e-90c8-cb1e3d79ba83"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "context": "Track width",
+    "contextRole": ["width"],
+    "$ref": "07e3ac46-3f96-4c00-aa6a-09840ee04bdd",
+    "uuid": "c09f6258-9e4f-57c1-9251-202220c53be2"
   },
   {
     "scope": {
@@ -136,17 +169,11 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "175px",
+    "value": "144px",
     "uuid": "647244c3-b071-45c1-94f7-3be32cfebabe",
     "legacyKey": "color-wheel-minimum-width",
     "setUuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Referenced primitive size-1200 (144px); component-specific to Color wheel, not a container concept.",
-      "replacedBy": "db351495-cc43-4fb6-9e36-404e6d7cf375"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 442 of the mapping sheet."
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   },
   {
     "scope": {
@@ -157,17 +184,11 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "219px",
+    "value": "180px",
     "uuid": "6733cd28-a949-40f7-bd36-034af9c0261f",
     "legacyKey": "color-wheel-minimum-width",
     "setUuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Referenced primitive size-1200 (144px); component-specific to Color wheel, not a container concept.",
-      "replacedBy": "db351495-cc43-4fb6-9e36-404e6d7cf375"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 442 of the mapping sheet."
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   },
   {
     "scope": {

@@ -251,7 +251,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "1120px",
+        "value": "680px",
         "uuid": "bf8a005e-30cf-5497-9622-af0e0e5273fc"
       }
     }
@@ -1890,7 +1890,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "440px",
+        "value": "248px",
         "uuid": "a44e6674-a29c-50a6-aacf-189e380d87e2"
       }
     }
@@ -1982,7 +1982,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "360px",
+        "value": "216px",
         "uuid": "88275409-4b27-5174-93c3-fcd00ed110ef"
       }
     }

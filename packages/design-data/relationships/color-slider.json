@@ -22,22 +22,54 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "minimum-length"
+      "property": "minimum-length",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Length",
     "contextRole": ["size"],
-    "$ref": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
-    "uuid": "392b1d6b-86c0-56a8-bc5b-9e45236e0943"
+    "$ref": "54aad7a1-df6a-414a-82b4-7976c912a8e5",
+    "uuid": "dda65889-6e69-570e-b780-3a8db88675ef"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "width"
+      "property": "minimum-length",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "context": "Length",
+    "contextRole": ["size"],
+    "$ref": "120308f7-4220-420e-b836-20176a8184b7",
+    "uuid": "04788dec-8ea8-5536-9747-d8ec2bcb6352"
+  },
+  {
+    "scope": {
+      "component": "color-slider",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width",
     "contextRole": ["width"],
-    "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
-    "uuid": "b1b926fb-ec45-5e81-8c96-fb5c3014ee74"
+    "$ref": "424db2a9-5795-400b-a98a-58081d311bff",
+    "uuid": "0a01a2fb-63fc-574e-b263-c0d0d823a510"
+  },
+  {
+    "scope": {
+      "component": "color-slider",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "context": "Width",
+    "contextRole": ["width"],
+    "$ref": "07e3ac46-3f96-4c00-aa6a-09840ee04bdd",
+    "uuid": "9586e4f1-5740-5769-9165-25470f0ed81c"
   },
   {
     "scope": {
@@ -211,13 +243,7 @@
     "uuid": "54aad7a1-df6a-414a-82b4-7976c912a8e5",
     "legacyKey": "color-slider-minimum-length",
     "setUuid": "8b687fbe-e7dd-449a-8356-6bbaf0537d18",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Referenced primitive size-900 directly, no change.",
-      "replacedBy": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 440 of the mapping sheet."
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   },
   {
     "scope": {
@@ -232,12 +258,6 @@
     "uuid": "120308f7-4220-420e-b836-20176a8184b7",
     "legacyKey": "color-slider-minimum-length",
     "setUuid": "8b687fbe-e7dd-449a-8356-6bbaf0537d18",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Referenced primitive size-900 directly, no change.",
-      "replacedBy": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 440 of the mapping sheet."
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   }
 ]

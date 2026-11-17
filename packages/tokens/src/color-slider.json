@@ -47,8 +47,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-slider",
     "uuid": "8b687fbe-e7dd-449a-8356-6bbaf0537d18",
-    "deprecated": true,
-    "deprecated_comment": "Referenced primitive size-900 directly, no change.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -60,7 +58,6 @@
         "value": "100px",
         "uuid": "120308f7-4220-420e-b836-20176a8184b7"
       }
-    },
-    "renamed": "size-900"
+    }
   }
 }

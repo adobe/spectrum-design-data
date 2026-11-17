@@ -7717,8 +7717,8 @@
       "legacyKey": "banner-width",
       "scale": "mobile"
     },
-    "value": "1120px",
-    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "value": "680px",
+    "rationale": "Mobile value hand-set to the previous S2 mobile value instead of desktop x 1.25 (Matt Davey, size tokens thread).",
     "uuid": "bf8a005e-30cf-5497-9622-af0e0e5273fc",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "1a25cf01-2a40-5363-a679-c12fd38c692b",
@@ -8286,8 +8286,8 @@
       "legacyKey": "container-minimum-width-extra-large",
       "scale": "mobile"
     },
-    "value": "360px",
-    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "value": "216px",
+    "rationale": "Mobile value hand-set to the previous S2 mobile value instead of desktop x 1.25 (Matt Davey, size tokens thread).",
     "uuid": "88275409-4b27-5174-93c3-fcd00ed110ef",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "29aac31c-d90d-5e68-9b4f-bf05cb24775d",
@@ -8432,8 +8432,8 @@
       "legacyKey": "container-maximum-width-large",
       "scale": "mobile"
     },
-    "value": "440px",
-    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "value": "248px",
+    "rationale": "Mobile value hand-set to the previous S2 mobile value instead of desktop x 1.25 (Matt Davey, size tokens thread).",
     "uuid": "a44e6674-a29c-50a6-aacf-189e380d87e2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "aad2f686-d47b-547b-a102-8f5c5bf56fba",

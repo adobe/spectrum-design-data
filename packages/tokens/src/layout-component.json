@@ -1282,7 +1282,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "440px",
+        "value": "312px",
         "uuid": "a0f9bdf9-571b-54a9-b43a-09328c82eadd"
       }
     }

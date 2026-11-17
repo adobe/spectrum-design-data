@@ -97,7 +97,6 @@ for (const [file, key, targetKey, count] of [
     1,
   ],
   ["tooltip", "tooltip-maximum-width", "container-maximum-width-2x-small", 2],
-  ["color-wheel", "color-wheel-minimum-width", "size-1200", 2],
   [
     "illustrated-message",
     "illustrated-message-horizontal-maximum-width",
@@ -156,5 +155,29 @@ test("mobile twins are desktop x 1.25, rounded half up", (t) => {
       "desktop",
       "mobile",
     ]);
+  }
+});
+
+test("hand-set mobile values keep the previous S2 mobile size", (t) => {
+  for (const [key, mobile] of [
+    ["banner-width", "680px"],
+    ["container-maximum-width-large", "248px"],
+    ["container-minimum-width-extra-large", "216px"],
+    ["field-width-2x-large", "312px"],
+  ]) {
+    t.is(legacyTokens[key].sets.mobile.value, mobile, key);
+  }
+});
+
+test("color controls stay active and scale 1.25x on mobile", (t) => {
+  for (const [key, desktop, mobile] of [
+    ["color-control-track-width", "24px", "30px"],
+    ["color-slider-minimum-length", "80px", "100px"],
+    ["color-wheel-minimum-width", "144px", "180px"],
+  ]) {
+    t.is(legacyTokens[key].sets.desktop.value, desktop, key);
+    t.is(legacyTokens[key].sets.mobile.value, mobile, key);
+    t.falsy(legacyTokens[key].deprecated, key);
+    t.falsy(legacyTokens[key].renamed, key);
   }
 });

@@ -2624,8 +2624,8 @@
       "anatomy": "field",
       "scale": "mobile"
     },
-    "value": "440px",
-    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "value": "312px",
+    "rationale": "Mobile value hand-set to the previous S2 mobile value instead of desktop x 1.25 (Matt Davey, size tokens thread).",
     "uuid": "a0f9bdf9-571b-54a9-b43a-09328c82eadd",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "conceptId": "8115d62e-159b-5802-8d24-03fdafa4dfc2",
