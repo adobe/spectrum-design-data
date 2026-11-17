@@ -1706,7 +1706,7 @@ fn run_render(
     }
     // A chosen font sets the layout widths too, so boxes fit the text drawn in them; an
     // explicit --text-metrics still wins. The fallback is the committed table's own font.
-    let chosen = font_status.as_ref().is_none_or(|s| !s.fallback);
+    let chosen = font_status.as_ref().is_none_or(|s| s.installed);
     if text_metrics.is_none() && chosen {
         if let Some(first) = sources.first() {
             let font = design_data_core::raster::font::Font::parse(first.data.clone())
@@ -4592,6 +4592,8 @@ fn run_fonts(json: bool) -> miette::Result<ExitCode> {
             "  {}",
             if st.found {
                 "Found."
+            } else if st.installed {
+                "Not found: the fallback Adobe Clean VF is used."
             } else {
                 "Not found: the bundled fallback is used."
             }

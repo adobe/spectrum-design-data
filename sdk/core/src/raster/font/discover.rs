@@ -145,6 +145,15 @@ fn inspect_file(path: &Path) -> Option<Inspect> {
 /// out not to parse it is reported and the next best is tried, so a damaged file never keeps a
 /// good one from being used.
 pub fn discover(target: &str, env: &Env, fallback: Option<FontSource>) -> Resolved {
+    discover_with(target, super::resolve::INTERMEDIATE_FAMILY, env, fallback)
+}
+
+fn discover_with(
+    target: &str,
+    intermediate: &str,
+    env: &Env,
+    fallback: Option<FontSource>,
+) -> Resolved {
     let mut env_rejected = None;
     if let Some(path) = &env.font_override {
         let origin = path.display().to_string();
@@ -186,7 +195,7 @@ pub fn discover(target: &str, env: &Env, fallback: Option<FontSource>) -> Resolv
     }
     let mut unusable: Vec<(String, String)> = Vec::new();
     loop {
-        let mut resolver = Resolver::new(target);
+        let mut resolver = Resolver::with_intermediate(target, intermediate);
         resolver.searched = searched.clone();
         if let Some((origin, reason)) = &env_rejected {
             resolver.reject(origin, reason);
@@ -200,7 +209,7 @@ pub fn discover(target: &str, env: &Env, fallback: Option<FontSource>) -> Resolv
             }
         }
         let mut resolved = resolver.finish(fallback.clone());
-        if !resolved.status.found {
+        if !resolved.status.installed {
             return resolved;
         }
         let origin = resolved.status.using.clone();
@@ -417,6 +426,45 @@ mod tests {
         put(&path, &big);
         assert!(inspect_file(&path).is_none());
         assert!(inspect_file(&home.path().join("nope.ttf")).is_none());
+    }
+
+    const MID: &str = "SourceSans3VF";
+
+    #[test]
+    fn an_installed_intermediate_is_the_fallback_and_the_target_still_wins() {
+        let home = tempfile::tempdir().unwrap();
+        let fonts = home.path().join("Library/Fonts");
+        put(&fonts.join("a-mid.ttf"), SS3);
+        let fb = FontSource {
+            data: vec![1],
+            origin: "bundled Source Sans 3".into(),
+        };
+        let env = mac(home.path());
+        let out = discover_with("Not Installed", MID, &env, Some(fb));
+        assert!(!out.status.found && out.status.fallback && out.status.installed);
+        assert_eq!(out.status.family, MID);
+        assert!(out.status.using.ends_with("a-mid.ttf"));
+        assert_ne!(
+            out.font.unwrap().data,
+            vec![1u8],
+            "the file's bytes are read"
+        );
+        // With the target present as well, the target is chosen and is not a fallback.
+        let out = discover_with(MID, "Other", &env, None);
+        assert!(out.status.found && !out.status.fallback);
+    }
+
+    #[test]
+    fn an_explicit_font_beats_an_installed_intermediate() {
+        let home = tempfile::tempdir().unwrap();
+        put(&home.path().join("Library/Fonts/mid.ttf"), SS3);
+        let mine = home.path().join("mine.ttf");
+        put(&mine, SS3);
+        let mut env = mac(home.path());
+        env.font_override = Some(mine.clone());
+        let out = discover_with("Not Installed", MID, &env, None);
+        assert_eq!(out.status.using, mine.display().to_string());
+        assert!(out.status.found && !out.status.fallback && out.status.installed);
     }
 
     #[test]

@@ -19,9 +19,7 @@
   {
     "id": "button-hover",
     "component": "button",
-    "states": [
-      "hover"
-    ]
+    "states": ["hover"]
   },
   {
     "id": "button-xl",

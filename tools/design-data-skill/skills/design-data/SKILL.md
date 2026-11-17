@@ -136,8 +136,8 @@ the SVG as a PNG.
 
 ### `design-data-font-status`
 
-Which font draws text in PNG renders: `{ found, fallback, using, rejected, related,
-help, searched }`. Optional: `fontPath` to check a specific file. Call it before a
+Which font draws text in PNG renders: `{ found, fallback, using, family, installed,
+rejected, related, help, searched }`. Optional: `fontPath` to check a specific file. Call it before a
 PNG when the user cares about typography, or any time a render's `font.fallback` is
 true.
 
@@ -145,15 +145,18 @@ true.
 
 PNG text uses **Adobe Clean Spectrum VF** when it is installed on the user's machine:
 the server finds it by itself in the usual font folders and in Creative Cloud's font
-cache, so there is nothing to ask the user for. When it is not installed, the server
-draws text in a bundled open font (Source Sans 3) and says so.
+cache, so there is nothing to ask the user for. Order: Adobe Clean Spectrum VF Roman
+(`.ttf`), then Adobe Clean VF Roman (`.ttf`), then a bundled open font (Source Sans 3).
+Adobe Clean Serif VF, Italic and `.otf` files are never used.
 
 Follow the status, not a guess:
 
 * `font.found` is `true`: the real font was used. Do not tell the user to download or
   install anything.
-* `font.fallback` is `true`: say that the text is drawn in a similar open font and may
-  differ slightly in width, and do not call the image exact. Then pass on `font.help`.
+* `font.fallback` is `true`: name the font actually used (`font.family`, `font.using`; it
+  is Adobe Clean VF when `font.installed` is `true`, else bundled Source Sans 3), say its
+  metrics, spacing and wrapping may differ from Adobe Clean Spectrum VF, and do not call
+  the image exact. Then pass on `font.help`.
   For an Adobe employee that means: download `AdobeCleanSpectrumVF-Roman.ttf` from the
   Brand Center (<https://inside.corp.adobe.com/content/inside/en/brand-center/font.html>,
   employees only) and install it (double-click the file). If they are not at Adobe they
@@ -161,8 +164,8 @@ Follow the status, not a guess:
 * `font.rejected` lists files that were found but cannot be used (for example the `.otf`
   version: only the `.ttf` file works, and the Italic file is not used for upright
   text). Tell the user which file and why.
-* `font.related` lists other Adobe Clean fonts on the machine. Creative Cloud's "Adobe
-  Clean" is a different font from Adobe Clean Spectrum VF and is not used.
+* `font.related` lists other Adobe Clean fonts on the machine. Creative Cloud's static
+  "Adobe Clean" is a different font and is not used.
 * The user says the font is installed but `found` is `false`: ask for the file's full
   path and pass it as `fontPath`. To make it permanent, they set `DESIGN_DATA_FONT` to
   that path in the MCP server's `env` (in the MCP configuration), or pick the file in the
