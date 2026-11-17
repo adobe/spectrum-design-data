@@ -270,6 +270,32 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
+    // over the dark scheme, where the neutral colours would not show.
+    if name == "close-button" {
+        out.push((
+            "hover",
+            req(vec!["hover".into()], HashMap::new(), "light", "desktop"),
+        ));
+        out.push((
+            "keyboard-focus",
+            req(
+                vec!["keyboard-focus".into()],
+                HashMap::new(),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "static-white-hover",
+            req(
+                vec!["hover".into()],
+                HashMap::from([("staticColor".to_string(), Value::String("white".into()))]),
+                "dark",
+                "desktop",
+            ),
+        ));
+    }
     // Divider: every size, both orientations, and each static colour. The regular fill and the
     // static fills are separate relationships, so this guards which one wins.
     if name == "divider" {
