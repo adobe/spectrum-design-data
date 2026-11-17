@@ -1,5 +1,47 @@
 # @adobe/design-data-wasm
 
+## 0.27.0
+
+### Minor Changes
+
+- [#1900](https://github.com/adobe/spectrum-design-data/pull/1900) [`91bd3db`](https://github.com/adobe/spectrum-design-data/commit/91bd3db6028db50eedf16cd0cbf5922ae9018505) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a divider visual recipe and anatomy.
+  - Divider declares one part, `line`, added to the anatomy registry.
+  - New `staticColor` option (`white`, `black`); unset is the regular gray line.
+  - Fill relationships pin `size`, `staticColor` and `orientation` in `scope.options`.
+  - The four static fills now point at the non-deprecated `transparent-static-*` tokens, following
+    their `replacedBy` links. Alpha changes: white s/m 0.14 to 0.16, white l 0.85 to 0.80, black l
+    0.84 to 0.80. Black s/m stays 0.12. No token values change.
+
+- [#1907](https://github.com/adobe/spectrum-design-data/pull/1907) [`004414b`](https://github.com/adobe/spectrum-design-data/commit/004414b89fe24cf5af1bc0b357cc30f0a9764b9f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a help text visual recipe.
+  - Help text renders size, the neutral and negative variants, `hideIcon` and `isDisabled`. The alert
+    icon shows only for the negative variant and follows the text color, gray when disabled.
+  - Help text anatomy is reviewed: `container`, `icon` (was `error-icon`) and `text`.
+  - The neutral and negative `content-color` relationships are pinned to `variant`.
+  - The workflow icon set gains `alert-triangle`.
+
+- [#1906](https://github.com/adobe/spectrum-design-data/pull/1906) [`08621b7`](https://github.com/adobe/spectrum-design-data/commit/08621b798e778b097d0384b13fa15ce10c25f111) Thanks [@GarthDB](https://github.com/GarthDB)! - Meter and progress-bar draw the gap between header, track and help text from `base-gap-*`.
+  - The `Spacing (field label to progress bar)` relationship now points at `base-gap-small`,
+    `-medium`, `-large` and `-extra-large` by size (4, 6, 6, 6px), the tokens Figma binds as
+    `Base/Gap/*`. It pointed at `spacing-75` (4px at every size).
+  - Removed the `labelPosition` option from meter, which Figma does not have. A consumer that
+    passes it to meter now gets an unknown option.
+
+- [#1904](https://github.com/adobe/spectrum-design-data/pull/1904) [`0f4550d`](https://github.com/adobe/spectrum-design-data/commit/0f4550df695bd0386595d7df6c8d8ee1427fd343) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a meter visual recipe.
+  - Meter renders size, value (with `minValue` and `maxValue`), the four variants, `hideLabel`, help
+    text, and white and black static colors. `labelPosition: side` is not drawn yet.
+  - Meter anatomy is reviewed and gains a `header` part.
+  - New options `staticColor`, `labelPosition`, `minValue` and `maxValue`; `value` loses its 0 to 1
+    limit. Variant fill colors and static colors are pinned in relationships (new `Control` context).
+
+- [#1901](https://github.com/adobe/spectrum-design-data/pull/1901) [`5030209`](https://github.com/adobe/spectrum-design-data/commit/5030209fdc50f8161684368b8d0c65f2537e9620) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a progress-bar visual recipe, and recipe support for a fill amount and option text.
+  - New value source `fraction` (`value`, `min`, `max` option names) and `relativeTo: "parent"` size a
+    nested box as a share of its parent. A text part's new `text` field reads a string option or shows
+    the fraction as a percentage.
+  - Progress bar renders size, value, indeterminate (one fixed frame), hideLabel, and white and black
+    static colors. `labelPosition: side` is not drawn yet.
+  - Progress bar anatomy is reviewed and gains a `header` part. The `variant` option (Spectrum 1 only)
+    is removed, and `staticColor` gains `black` with its three relationships.
+
 ## 0.26.1
 
 ### Patch Changes
