@@ -1,0 +1,60 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+
+# Builds the Rust targets CI uses on main and saves the Cargo cache. Pull requests only
+# restore it (save-if: false in ci.yml), so they start with compiled dependencies instead of
+# a cold ~290-crate build. Keep the steps in step with the Rust job in ci.yml.
+name: Rust cache warm
+on:
+  push:
+    branches: [main]
+    paths:
+      - "sdk/**"
+      - "packages/design-data/**"
+      - ".github/workflows/rust-cache-warm.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  warm:
+    name: Warm Rust cache
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          targets: wasm32-unknown-unknown
+          components: clippy, rustfmt
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest@0.9.114
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: sdk
+          shared-key: rust-ci
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      # `moon run` (not `moon ci`) so every Rust target builds, not only the affected ones.
+      - name: Build everything the Rust CI job builds
+        run: moon run $(jq -r '.rust[]' .github/ci-targets.json | tr '\n' ' ')
