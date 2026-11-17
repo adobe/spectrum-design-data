@@ -346,6 +346,7 @@ recipe_tests! {
     checkbox => "checkbox",
     divider => "divider",
     field_label => "field-label",
+    help_text => "help-text",
     meter => "meter",
     progress_bar => "progress-bar",
     radio_button => "radio-button",
