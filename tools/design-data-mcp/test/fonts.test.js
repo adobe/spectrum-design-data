@@ -308,3 +308,109 @@ test("files to exclude and reasons to report are honoured", (t) => {
   t.regex(status.help, /x\.ttf but it cannot be drawn \(broken\)\./);
   t.is(status.rejected[0].origin, only);
 });
+
+test("fallback order: target, then Adobe Clean VF (a fallback, not found), then bundled", (t) => {
+  // The fixture font stands in for the intermediate family; the target is absent.
+  const mid = tmp();
+  copyFont(join(mid, "Fonts", "clean-vf.ttf"));
+  const opts = { target: "Nothing Installed", intermediate: TARGET, env: {} };
+  const viaMid = findFont(wasm, { ...opts, dirs: [join(mid, "Fonts")] });
+  t.false(viaMid.status.found);
+  t.true(viaMid.status.fallback);
+  t.true(viaMid.status.installed);
+  t.is(viaMid.status.family, TARGET);
+  t.true(viaMid.status.using.endsWith("clean-vf.ttf"));
+  t.regex(viaMid.status.help, /metrics, spacing and wrapping/);
+  t.is(viaMid.fonts[0].fallback, undefined, "the installed file is drawn");
+  t.true(Buffer.from(viaMid.fonts[0].data).equals(readFileSync(CORE_FONT)));
+
+  // The target wins when both are installed.
+  const both = tmp();
+  copyFont(join(both, "a-mid.ttf"));
+  const win = findFont(wasm, {
+    target: TARGET,
+    intermediate: "Other Family",
+    dirs: [both],
+    env: {},
+  });
+  t.true(win.status.found);
+  t.false(win.status.fallback);
+
+  // Neither installed: bundled.
+  const none = findFont(wasm, { dirs: [tmp()], env: {} });
+  t.true(none.status.fallback);
+  t.false(none.status.installed);
+  t.is(none.status.family, "Source Sans 3");
+  t.true(none.fonts[0].fallback);
+});
+
+test("Adobe Clean Serif VF, Italic and .otf files are never chosen", (t) => {
+  const root = tmp();
+  put(join(root, "serif.ttf"), fakeFont("\0\x01\0\0", "Adobe Clean Serif VF"));
+  put(
+    join(root, "italic.ttf"),
+    fakeFont("\0\x01\0\0", "Adobe Clean VF", "Italic"),
+  );
+  put(join(root, "clean.otf"), fakeFont("OTTO", "Adobe Clean VF"));
+  const { status } = findFont(wasm, { dirs: [root], env: {} });
+  t.false(status.installed);
+  t.is(status.using, "bundled Source Sans 3");
+  t.deepEqual(status.related, ["Adobe Clean Serif VF"]);
+  t.is(status.rejected.length, 2);
+});
+
+test("an explicit font beats an installed Adobe Clean VF", (t) => {
+  const root = tmp();
+  const mid = join(root, "Fonts", "clean-vf.ttf");
+  const mine = join(root, "mine.ttf");
+  copyFont(mid);
+  copyFont(mine);
+  const opts = { target: "Nothing Installed", intermediate: TARGET };
+  const viaArg = findFont(wasm, {
+    ...opts,
+    fontPath: mine,
+    dirs: [join(root, "Fonts")],
+    env: {},
+  });
+  t.true(viaArg.explicit);
+  t.is(viaArg.status.using, mine);
+  t.false(viaArg.status.fallback);
+  const viaEnv = findFont(wasm, {
+    ...opts,
+    dirs: [join(root, "Fonts")],
+    env: { DESIGN_DATA_FONT: mine },
+  });
+  t.is(viaEnv.status.using, mine);
+});
+
+test("a scan that settled on the fallback is repeated so a later Spectrum VF is found", (t) => {
+  const dir = join(tmp(), "Fonts");
+  copyFont(join(dir, "clean-vf.ttf"));
+  const opts = {
+    dirs: [dir],
+    target: "Wanted Family",
+    intermediate: TARGET,
+    env: {},
+  };
+  const first = findFont(wasm, opts).status;
+  t.true(first.installed);
+  t.false(first.found);
+  put(join(dir, "wanted.ttf"), fakeFont("\0\x01\0\0", "Wanted Family"));
+  t.false(findFont(wasm, opts).status.found, "still remembered");
+  const real = Date.now;
+  Date.now = () => real() + 60_000;
+  try {
+    const later = findFont(wasm, opts).status;
+    t.true(later.found);
+    t.true(later.using.endsWith("wanted.ttf"));
+  } finally {
+    Date.now = real;
+  }
+});
+
+test("a named font reports its family", (t) => {
+  const mine = join(tmp(), "mine.ttf");
+  copyFont(mine);
+  const { status } = findFont(wasm, { fontPath: mine, dirs: [], env: {} });
+  t.is(status.family, TARGET);
+});

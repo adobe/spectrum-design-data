@@ -202,6 +202,43 @@ test("chooseFont picks the variable Roman TrueType file and explains the rest", 
   t.throws(() => chooseFont("not an array", undefined, undefined));
 });
 
+test("chooseFont falls back to Adobe Clean VF, never Serif, Italic or CFF", (t) => {
+  const c = (origin, family, subfamily, flavor = "truetype") => ({
+    origin,
+    flavor,
+    family,
+    subfamily,
+    variable: true,
+  });
+  const mid = chooseFont(
+    [
+      c("serif.ttf", "Adobe Clean Serif VF", "Regular"),
+      c("it.ttf", "Adobe Clean VF", "Italic"),
+      c("clean.otf", "Adobe Clean VF", "Regular", "cff"),
+      c("clean.ttf", "Adobe Clean VF", "Regular"),
+    ],
+    undefined,
+    "bundled",
+  );
+  t.false(mid.found);
+  t.true(mid.fallback);
+  t.true(mid.installed);
+  t.is(mid.using, "clean.ttf");
+  t.is(mid.family, "Adobe Clean VF");
+  t.is(mid.rejected.length, 0);
+  t.false(mid.help.includes("Italic"));
+  const both = chooseFont(
+    [
+      c("clean.ttf", "Adobe Clean VF", "Regular"),
+      c("spectrum.ttf", "Adobe Clean Spectrum VF", "Regular"),
+    ],
+    undefined,
+    "bundled",
+  );
+  t.true(both.found);
+  t.is(both.using, "spectrum.ttf");
+});
+
 test("renderComponentSvg sizes the layout with the first non-fallback font", (t) => {
   const ds = Dataset.embedded();
   try {

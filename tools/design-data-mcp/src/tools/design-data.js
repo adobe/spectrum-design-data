@@ -137,6 +137,85 @@ export function fontSummary(status, full = false) {
 
 const RELATED_SHOWN = 5;
 
+const DEFAULT_QUERY_LIMIT = 25;
+const MAX_QUERY_LIMIT = 200;
+const MODE_FIELDS = ["colorScheme", "scale", "contrast"];
+
+let _uuidIndex;
+/** uuid -> token record, built once; used to follow alias chains by $ref. */
+function uuidIndex(ds) {
+  if (!_uuidIndex) _uuidIndex = new Map(ds.query("").map((t) => [t.uuid, t]));
+  return _uuidIndex;
+}
+
+const isDeprecated = (token) => Boolean(token.raw?.lifecycle?.deprecatedIn);
+
+let _modeSets;
+/** The dataset's mode-sets as [{ name, modes }], read once. */
+function modeSets(ds) {
+  if (!_modeSets) _modeSets = ds.primer().modeSets;
+  return _modeSets;
+}
+
+/**
+ * The final value of a token, as `{ value }`, or `{ values }` when it depends on a mode the
+ * token's own name does not pin. Following the alias chain saves an agent one query per hop,
+ * but an alias like `accent-content-color-default` has no `colorScheme` of its own while its
+ * target does: a single value would silently be the light one.
+ */
+function tokenValue(ds, token) {
+  if (token.raw.value !== undefined) return { value: token.raw.value };
+  const name = token.raw.name ?? {};
+  if (name.legacyKey) {
+    const ref = `{${name.legacyKey}}`;
+    const pinned = {};
+    for (const mode of MODE_FIELDS) if (name[mode]) pinned[mode] = name[mode];
+    const base = ds.resolveReference(ref, pinned);
+    if (base?.value !== undefined) {
+      const values = {};
+      for (const { name: set, modes } of modeSets(ds)) {
+        if (pinned[set]) continue;
+        const byMode = {};
+        for (const mode of modes) {
+          byMode[mode] = ds.resolveReference(ref, {
+            ...pinned,
+            [set]: mode,
+          })?.value;
+        }
+        if (new Set(Object.values(byMode)).size > 1) values[set] = byMode;
+      }
+      return Object.keys(values).length ? { values } : { value: base.value };
+    }
+  }
+  let current = token;
+  for (let hop = 0; hop < 8; hop++) {
+    const ref = current.aliasTarget ?? current.raw.$ref;
+    const next = ref && uuidIndex(ds).get(ref);
+    if (!next) return {};
+    if (next.raw.value !== undefined) return { value: next.raw.value };
+    current = next;
+  }
+  return {};
+}
+
+/** Name, final value, layer and modes: what an agent needs, without `raw` or file paths. */
+function compactToken(ds, token) {
+  const { legacyKey, ...fields } = token.raw.name ?? {};
+  const out = {
+    name:
+      legacyKey ??
+      Object.entries(fields)
+        .map(([key, value]) => `${key}=${[value].flat().join("+")}`)
+        .join(" "),
+    ...tokenValue(ds, token),
+    layer: token.layer,
+    uuid: token.uuid,
+  };
+  for (const mode of MODE_FIELDS) if (fields[mode]) out[mode] = fields[mode];
+  if (isDeprecated(token)) out.deprecated = true;
+  return out;
+}
+
 export function createDesignDataTools() {
   return [
     // ── primer ─────────────────────────────────────────────────────────────
@@ -225,7 +304,12 @@ export function createDesignDataTools() {
         "`property=*color*`, `colorScheme=dark`. " +
         "Property names are exact or wildcard (e.g. `*color*`); variant values are " +
         "listed in the dataset, so `variant=accent` matches nothing. " +
-        "Returns an array of matching token objects.",
+        "Returns { total, shown, tokens }: each token has its name, final value (aliases " +
+        "already followed; `values` by mode instead when it differs by colorScheme, scale or " +
+        "contrast), layer, uuid and modes, active tokens first. At most `limit` " +
+        "(default 25) are shown; when `total` is larger, narrow the filter " +
+        "(state=, property=, colorScheme=) instead of raising the limit. " +
+        'Pass detail "full" for the complete token objects.',
       inputSchema: {
         type: "object",
         properties: {
@@ -234,13 +318,52 @@ export function createDesignDataTools() {
             description:
               'Query expression, e.g. "component=button" or "property=color-*,component=action-button"',
           },
+          limit: {
+            type: "integer",
+            minimum: 1,
+            maximum: MAX_QUERY_LIMIT,
+            description: `Maximum tokens to return (default ${DEFAULT_QUERY_LIMIT}, max ${MAX_QUERY_LIMIT})`,
+            default: DEFAULT_QUERY_LIMIT,
+          },
+          detail: {
+            type: "string",
+            enum: ["compact", "full"],
+            description:
+              "compact (default): name, value, layer, uuid, modes. full: the complete token objects (large).",
+            default: "compact",
+          },
         },
         required: ["filter"],
         additionalProperties: false,
       },
-      async handler({ filter }) {
+      async handler({
+        filter,
+        limit = DEFAULT_QUERY_LIMIT,
+        detail = "compact",
+      }) {
         const ds = await getDataset();
-        return ds.query(filter);
+        const matches = ds.query(filter);
+        const ordered = [
+          ...matches.filter((t) => !isDeprecated(t)),
+          ...matches.filter(isDeprecated),
+        ];
+        const cap = Math.min(
+          Math.max(Math.trunc(Number(limit)) || DEFAULT_QUERY_LIMIT, 1),
+          MAX_QUERY_LIMIT,
+        );
+        const shown = ordered.slice(0, cap);
+        const out = {
+          total: matches.length,
+          shown: shown.length,
+          tokens:
+            detail === "full" ? shown : shown.map((t) => compactToken(ds, t)),
+        };
+        if (matches.length > shown.length) {
+          out.hint =
+            `Showing ${shown.length} of ${matches.length}. Narrow the filter ` +
+            "(state=, property=, colorScheme=, scale=) instead of raising limit.";
+        }
+        return out;
       },
     },
 
@@ -255,7 +378,8 @@ export function createDesignDataTools() {
       description:
         "Suggest Spectrum tokens matching a natural-language intent using Jaccard similarity " +
         "scoring over token name segments, name-object fields, and description text. " +
-        "Returns matches ranked by confidence with token name, layer, value, and name object. " +
+        "Returns matches ranked by confidence, each with its token name, final value (aliases " +
+        "already followed; `values` by mode when it differs by mode), layer, uuid and modes. " +
         "Use when the user describes what they need rather than knowing the token name.",
       inputSchema: {
         type: "object",
@@ -276,7 +400,13 @@ export function createDesignDataTools() {
       },
       async handler({ intent, limit = 5 }) {
         const ds = await getDataset();
-        return ds.suggest(intent, undefined, limit);
+        return ds.suggest(intent, undefined, limit).map((match) => {
+          const token = uuidIndex(ds).get(match.tokenUuid);
+          return {
+            ...(token ? compactToken(ds, token) : { name: match.tokenName }),
+            confidence: match.confidence,
+          };
+        });
       },
     },
 
@@ -582,11 +712,11 @@ export function createDesignDataTools() {
         "(see design-data-visual-recipe). SVG label boxes are sized with Adobe Clean Spectrum VF when " +
         "it is installed on this machine (not with fontPath), otherwise with Source Sans 3 widths. PNG text uses Adobe Clean Spectrum VF when it is " +
         "installed on this machine (found automatically, or set with the fontPath argument " +
-        "or the DESIGN_DATA_FONT environment variable), otherwise a bundled open font. The " +
-        "result includes a font status: when font.fallback is true, tell the user the text " +
-        "may differ slightly and pass on font.help (it says how to install the font); do " +
-        "not call the image exact. When font.found is true, do not tell the user to " +
-        "download anything.",
+        "or the DESIGN_DATA_FONT environment variable), else Adobe Clean VF (Roman .ttf), " +
+        "else a bundled open font. The result includes a font status: when font.fallback is " +
+        "true, tell the user which font was used (font.using, font.family), that its " +
+        "metrics, spacing and wrapping may differ, and pass on font.help; do not call the " +
+        "image exact. When font.found is true, do not tell the user to download anything.",
       inputSchema: {
         type: "object",
         properties: {
@@ -781,8 +911,10 @@ export function createDesignDataTools() {
       },
       description:
         "Check which font draws text in PNG renders from design-data-render: Adobe Clean " +
-        "Spectrum VF if it is installed on this machine, otherwise a bundled open font. " +
-        "Returns { found, fallback, using, rejected, related, searched, help }. When " +
+        "Spectrum VF if it is installed on this machine, else Adobe Clean VF (Roman .ttf), else " +
+        "a bundled open font. Returns { found, fallback, using, family, installed, rejected, " +
+        "related, searched, help }; found means Adobe Clean Spectrum VF (or a font you chose), " +
+        "installed means a font file on this machine is used. When " +
         "fallback is true, tell the user and pass on help (Adobe employees can download the " +
         "font from the Brand Center; they install the .ttf, or point DESIGN_DATA_FONT or " +
         "fontPath at it). If the user says it is installed but found is false, ask for the " +

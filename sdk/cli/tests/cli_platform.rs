@@ -996,6 +996,38 @@ fn validate_manifest_and_show_report_a_foundation_pin_mismatch() {
     .stdout(contains("embedded").not());
 }
 
+/// `platform doctor` reports the two pins disagreeing as a failed `pin` check (MANIFEST-002), next
+/// to the other checks. The github source is served from a pre-filled cache; the network is
+/// blocked, so a cache miss fails loudly.
+#[cfg(unix)]
+#[test]
+fn platform_doctor_reports_a_foundation_pin_mismatch() {
+    let (project, cache) = pinned_project(
+        "@adobe/spectrum-design-data@3.9.0",
+        "@adobe/spectrum-design-data@3.10.0",
+    );
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["platform", "doctor", "fixture"],
+    )
+    .code(1)
+    .stdout(contains("FAIL pin"))
+    .stdout(contains("3.9.0"))
+    .stdout(contains("3.10.0"))
+    .stdout(contains("MANIFEST-002"));
+    let (ok, ok_cache) = pinned_project(
+        "@adobe/spectrum-design-data@3.10.0",
+        "@adobe/spectrum-design-data@3.10.0",
+    );
+    with_cache(
+        ok.path(),
+        ok_cache.path(),
+        &["platform", "doctor", "fixture"],
+    )
+    .stdout(contains("ok   pin"));
+}
+
 #[cfg(unix)]
 #[test]
 fn matching_pins_pass_with_or_without_the_package_prefix() {

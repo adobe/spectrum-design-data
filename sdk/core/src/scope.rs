@@ -31,9 +31,24 @@ pub const ANY_OF: &str = "anyOf";
 pub const MAX_VARIANTS: usize = 64;
 
 /// The fields of a relationship `scope` this engine knows. A record with any other field is
-/// refused: dropping an unknown identity field (`between`, `object` ...) would make two records
-/// that differ only by it look identical.
-const SCOPE_KEYS: &[&str] = &["component", "part", "property", "options"];
+/// refused: dropping an unknown identity field would make two records that differ only by it
+/// look identical.
+const SCOPE_KEYS: &[&str] = &[
+    "component",
+    "part",
+    "property",
+    "options",
+    "between",
+    "object",
+    "position",
+    "structure",
+    "qualifier",
+    "icon",
+];
+
+/// The descriptive scope fields that hold one registry term. `scope.between` is the pair
+/// `{from, to}` and is checked on its own.
+pub const DESCRIPTIVE_FIELDS: &[&str] = &["object", "position", "structure", "qualifier", "icon"];
 
 const NEWER: &str =
     "The data is newer than this engine: upgrade the CLI or the @adobe/design-data-* packages";
@@ -63,7 +78,9 @@ fn state_alternatives(element: &Value) -> Option<&Vec<Value>> {
 /// understand: a solver that dropped an unknown pin would apply the record to every request,
 /// which is silent wrong output.
 ///
-/// A `scope` may only hold `component`, `part`, `property` and `options`.
+/// A `scope` may only hold `component`, `part`, `property`, `options`, `between` (an object
+/// with a non-empty string `from` and/or `to`) and the descriptive fields in
+/// [`DESCRIPTIVE_FIELDS`] (each a non-empty string).
 ///
 /// Understood shapes (deny by default; a new shape is added here when the solver learns it):
 /// * `state`: an array whose elements are state strings or `{ "anyOf": [strings] }`;
@@ -82,6 +99,9 @@ pub fn unsupported_shape(raw: &Value) -> Option<String> {
         return Some(format!(
             "scope.{key} is a field this engine does not know. {NEWER}"
         ));
+    }
+    if let Some(why) = unsupported_descriptive(raw) {
+        return Some(why);
     }
     let options = raw.pointer("/scope/options")?;
     let Some(options) = options.as_object() else {
@@ -134,6 +154,31 @@ pub fn unsupported_shape(raw: &Value) -> Option<String> {
         ));
     }
     None
+}
+
+fn non_empty_string(v: &Value) -> bool {
+    v.as_str().is_some_and(|s| !s.is_empty())
+}
+
+/// A `scope.between` or descriptive field whose value is not the shape this engine reads.
+fn unsupported_descriptive(raw: &Value) -> Option<String> {
+    let scope = raw.get("scope")?.as_object()?;
+    for key in DESCRIPTIVE_FIELDS {
+        if let Some(v) = scope.get(*key).filter(|v| !non_empty_string(v)) {
+            return Some(format!(
+                "scope.{key} has a value this engine does not support ({v}). {NEWER}"
+            ));
+        }
+    }
+    let between = scope.get("between")?;
+    let ok = between.as_object().is_some_and(|b| {
+        !b.is_empty()
+            && b.iter()
+                .all(|(k, v)| (k == "from" || k == "to") && non_empty_string(v))
+    });
+    (!ok).then(|| {
+        format!("scope.between has a value this engine does not support ({between}). {NEWER}")
+    })
 }
 
 /// How many variants `options` expands to, before conflicting ones are dropped.
@@ -524,7 +569,7 @@ mod tests {
         let known =
             json!({"scope": {"component": "x", "part": "p", "property": "y", "options": {}}});
         assert_eq!(unsupported_shape(&known), None);
-        for field in ["between", "object", "from", "slot"] {
+        for field in ["from", "to", "slot", "variant"] {
             let mut rec = known.clone();
             rec["scope"][field] = json!("x");
             let why = unsupported_shape(&rec).unwrap_or_else(|| panic!("{field}"));
@@ -532,8 +577,40 @@ mod tests {
             assert!(why.contains("newer than this engine"), "{why}");
         }
         // Without an options object the field is still seen.
-        let bare = json!({"scope": {"component": "x", "property": "y", "between": {"from": "a"}}});
-        assert!(unsupported_shape(&bare).unwrap().contains("scope.between"));
+        let bare = json!({"scope": {"component": "x", "property": "y", "slot": "a"}});
+        assert!(unsupported_shape(&bare).unwrap().contains("scope.slot"));
+    }
+
+    #[test]
+    fn descriptive_scope_fields_are_accepted_with_the_right_shape() {
+        let rec = |extra: Value| {
+            let mut r = json!({"scope": {"component": "x", "property": "y", "options": {}}});
+            for (k, v) in extra.as_object().unwrap() {
+                r["scope"][k] = v.clone();
+            }
+            r
+        };
+        for ok in [
+            json!({"between": {"from": "top", "to": "text"}}),
+            json!({"between": {"from": "top"}}),
+            json!({"between": {"to": "text"}}),
+            json!({"object": "background", "position": "top", "structure": "base"}),
+            json!({"qualifier": "stacked", "icon": "chevron"}),
+        ] {
+            assert_eq!(unsupported_shape(&rec(ok.clone())), None, "{ok}");
+        }
+        for bad in [
+            json!({"between": {}}),
+            json!({"between": "top"}),
+            json!({"between": {"from": "top", "via": "x"}}),
+            json!({"between": {"from": 3}}),
+            json!({"object": ""}),
+            json!({"position": ["top"]}),
+            json!({"icon": null}),
+        ] {
+            let why = unsupported_shape(&rec(bad.clone())).unwrap_or_else(|| panic!("{bad}"));
+            assert!(why.contains("upgrade the CLI"), "{why}");
+        }
     }
 
     #[test]

@@ -125,12 +125,54 @@ Each entry is a local path, relative to the file, or a `github` pin to a manifes
 in another repository. A repo with exactly one manifest can keep using the older
 top-level `manifest = "path/to/manifest.json"` key. It still works.
 
+If you commit what the CLI generates (fixtures, exports, renders), pin the CLI
+that makes it. A different CLI can draw the same data differently, and a
+contributor with another version otherwise gets different files without a word.
+Add a semver range at the top of `.design-data.toml`:
+
+```toml
+cli_version = ">=0.36.5, <0.38.0"   # or "=0.40.1" for one exact version
+```
+
+A bare `"0.40.1"` is a caret range (`>=0.40.1, <0.41.0`), as in Cargo. Outside
+the range, the commands whose output you commit or ship (`render`,
+`render-compare`, `export`, `catalog export`, `spec-sheet`, `site`,
+`figma export`) stop with an error, and every other command warns.
+`--ignore-data-requirements` runs anyway and warns each time; it is a flag only,
+never a config setting. This is your project's setting, separate from a
+dataset's own `requires.cli`. A CLI older than the release that added
+`cli_version` rejects the file with `unknown field`, so everyone on the project
+needs a CLI that has it.
+
 List what's configured. A `*` marks the default:
 
 ```sh
 design-data platform list
 design-data platform show react-spectrum
 ```
+
+### Check the whole setup
+
+`design-data platform doctor` runs every check from this section and reports
+them together, so you see everything wrong at once:
+
+```sh
+design-data platform doctor            # the default platform
+design-data platform doctor --latest   # also asks GitHub for the newest release
+```
+
+It checks that the manifest applies to the foundation and that every binding in
+your recipes resolves (`MANIFEST-001`), that `foundationVersion` and `[source]`
+name the same release (`MANIFEST-002`), that this CLI meets what the dataset
+(`requires.cli`) and your project (`cli_version`) ask of it, that the platform
+is in `platform-implementations.json`, and which of your extensions replace a
+foundation artifact of the same name. Those are allowed, and each is a candidate
+to promote, so doctor lists them as notes. With `--latest`, a pin behind the
+newest release gets a warning that includes the `platform impact` command to run.
+
+Doctor reports every finding and never refuses to run, including when the CLI is
+too old for the data. It exits 1 if any check fails, so it works as a CI step.
+Warnings and notes don't change the exit code.
 
 ## Choose a platform
 

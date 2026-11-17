@@ -1,5 +1,28 @@
 # @adobe/design-data-spec
 
+## 4.22.0
+
+### Minor Changes
+
+- [#1881](https://github.com/adobe/spectrum-design-data/pull/1881) [`fd1c1c3`](https://github.com/adobe/spectrum-design-data/commit/fd1c1c3662fefbf6d6f0a84c010d707c8db2f4ba) Thanks [@GarthDB](https://github.com/GarthDB)! - `dataset.json` can declare `requires.cli`, the oldest design-data CLI that can read the dataset
+  correctly, as an exact version (not a range; a dataset says what it needs, not what future CLIs
+  will do). This dataset declares `0.40.0`: CLI 0.37.0 refuses its `anyOf` state pins ("the data
+  is newer than this engine") and 0.40.0 reads them.
+
+  `dataset.schema.json` and `spec/dataset-layout.md` gain the field. A CLI older than
+  `requires.cli`, or older than a declared `layoutRevision`, now exits with an error instead of
+  reading the data wrongly; `--ignore-data-requirements` reads it anyway and warns on every run
+  (command line only, never a config file). Datasets released before this one have no `requires`
+  and are not checked. CI renders a smoke set with the released minimum CLI and the current one
+  and fails if the scenes differ.
+
+- [#1893](https://github.com/adobe/spectrum-design-data/pull/1893) [`20035e0`](https://github.com/adobe/spectrum-design-data/commit/20035e0e291e73d48509f255c52c0d2daafbceb3) Thanks [@GarthDB](https://github.com/GarthDB)! - A relationship `scope` may carry `between` (`{ from, to }`, the endpoints of a gap or padding) and
+  the descriptive fields `object`, `position`, `structure`, `qualifier` and `icon`, each a registry
+  term. New rule SPEC-101 (warning) checks each value against the vocabulary of the same-named
+  name-object field; `between` ends resolve like a space-between endpoint (SPEC-047). An engine
+  **MUST** refuse a `between` or descriptive value that is not the shape given. No data uses the
+  fields yet.
+
 ## 4.21.1
 
 ### Patch Changes

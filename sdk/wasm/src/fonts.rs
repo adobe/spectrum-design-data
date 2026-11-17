@@ -13,7 +13,7 @@
 //! the right one, with the same rules and wording as the native CLI.
 
 use design_data_core::raster::font::names_in_table;
-use design_data_core::raster::font::resolve::{Resolver, TARGET_FAMILY};
+use design_data_core::raster::font::resolve::{Resolver, INTERMEDIATE_FAMILY, TARGET_FAMILY};
 use design_data_core::raster::font::{Flavor, Inspect};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
@@ -58,16 +58,21 @@ pub fn describe_font(
 
 /// Pick the text font from `candidates` (`[{ origin, flavor, family, subfamily, variable }]`,
 /// each from `describeFont`). `fallbackName` names the font the caller will use when none
-/// matches (for the message), or is omitted when there is none. Returns the status:
-/// `{ target, found, using, fallback, rejected, related, searched, help }`.
+/// matches (for the message), or is omitted when there is none. `intermediate` is the family
+/// tried when `target` is missing (default Adobe Clean VF). Returns the status:
+/// `{ target, found, using, family, installed, fallback, rejected, related, searched, help }`.
 #[wasm_bindgen(js_name = "chooseFont")]
 pub fn choose_font(
     candidates: JsValue,
     target: Option<String>,
     fallback_name: Option<String>,
+    intermediate: Option<String>,
 ) -> Result<JsValue, JsValue> {
     let candidates: Vec<Candidate> = serde_wasm_bindgen::from_value(candidates).map_err(js_err)?;
-    let mut resolver = Resolver::new(target.as_deref().unwrap_or(TARGET_FAMILY));
+    let mut resolver = Resolver::with_intermediate(
+        target.as_deref().unwrap_or(TARGET_FAMILY),
+        intermediate.as_deref().unwrap_or(INTERMEDIATE_FAMILY),
+    );
     for c in &candidates {
         resolver.offer_info(&c.origin, &c.info);
     }

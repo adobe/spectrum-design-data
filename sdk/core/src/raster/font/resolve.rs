@@ -16,6 +16,11 @@ use serde::Serialize;
 use std::collections::BTreeSet;
 
 pub const TARGET_FAMILY: &str = "Adobe Clean Spectrum VF";
+/// Used, as a fallback, when the target family is missing: Adobe Clean VF (Roman, `.ttf`).
+/// Adobe Clean Serif VF is a different family and is never taken for it.
+pub const INTERMEDIATE_FAMILY: &str = "Adobe Clean VF";
+/// The bundled open font of last resort.
+pub const BUNDLED_FAMILY: &str = "Source Sans 3";
 /// Where Adobe employees get the font (employees only).
 pub const DOWNLOAD_URL: &str =
     "https://inside.corp.adobe.com/content/inside/en/brand-center/font.html";
@@ -33,13 +38,21 @@ pub struct Rejected {
 pub struct FontStatus {
     /// The family looked for.
     pub target: String,
-    /// True when `using` is the target family (or a font the user chose explicitly).
+    /// True when `using` is the target family (or a font the user chose explicitly). Adobe
+    /// Clean VF is a fallback: it leaves this false and `fallback` true.
     pub found: bool,
     /// Path of the font text is drawn with, or the bundled fallback's name.
     pub using: String,
-    /// True when text is drawn in the bundled fallback.
+    /// Family of the font text is drawn with (empty when there is none).
+    pub family: String,
+    /// True when `using` is a font file on this machine (or named by the user), whether or
+    /// not it is the target. False for the bundled font and for placeholder bars.
+    pub installed: bool,
+    /// True whenever text is not drawn in the target family: Adobe Clean VF or the bundled
+    /// font. Its metrics, spacing and wrapping may differ.
     pub fallback: bool,
-    /// Files of the target family that cannot be used (a CFF `.otf`, an italic).
+    /// Files of the target family that cannot be used (a CFF `.otf`, an italic), plus Adobe
+    /// Clean VF files that cannot be used when no Adobe font was chosen.
     pub rejected: Vec<Rejected>,
     /// Other Adobe Clean families on the machine (Creative Cloud's Adobe Clean), not used.
     pub related: Vec<String>,
@@ -60,21 +73,45 @@ pub struct Resolved {
 pub struct Resolver {
     target: String,
     key: String,
+    intermediate: String,
+    mid_key: String,
     best: Option<(u8, String, Option<Vec<u8>>)>,
     rejected: Vec<Rejected>,
+    /// Unusable Adobe Clean VF files: reported only when no Adobe font was chosen.
+    mid_rejected: Vec<Rejected>,
     related: BTreeSet<String>,
     pub searched: Vec<String>,
 }
 
 impl Resolver {
     pub fn new(target: &str) -> Self {
+        Self::with_intermediate(target, INTERMEDIATE_FAMILY)
+    }
+
+    /// As `new`, with the intermediate fallback family named (so tests can use a real
+    /// fixture font as a stand-in for Adobe Clean VF).
+    pub fn with_intermediate(target: &str, intermediate: &str) -> Self {
         Self {
             target: target.into(),
             key: family_key(target),
+            intermediate: intermediate.into(),
+            mid_key: family_key(intermediate),
             best: None,
             rejected: vec![],
+            mid_rejected: vec![],
             related: BTreeSet::new(),
             searched: vec![],
+        }
+    }
+
+    /// 20 for the target family, 10 for the intermediate one, else not a candidate.
+    fn tier(&self, key: &str) -> Option<u8> {
+        if key == self.key {
+            Some(20)
+        } else if key == self.mid_key {
+            Some(10)
+        } else {
+            None
         }
     }
 
@@ -87,14 +124,19 @@ impl Resolver {
             return;
         };
         let key = family_key(&family);
-        if key != self.key {
+        let Some(tier) = self.tier(&key) else {
             if key.starts_with("adobeclean") {
                 self.related.insert(family);
             }
             return;
-        }
+        };
+        let list = if tier == 20 {
+            &mut self.rejected
+        } else {
+            &mut self.mid_rejected
+        };
         let mut reject = |reason: &str| {
-            self.rejected.push(Rejected {
+            list.push(Rejected {
                 origin: origin.into(),
                 reason: reason.into(),
             })
@@ -114,7 +156,7 @@ impl Resolver {
         if let Err(e) = Font::parse(data.clone()) {
             return reject(&format!("cannot be read: {e}"));
         }
-        let rank = if info.variable { 2 } else { 1 };
+        let rank = tier + if info.variable { 2 } else { 1 };
         if self.best.as_ref().is_none_or(|b| rank > b.0) {
             self.best = Some((rank, origin.into(), Some(data)));
         }
@@ -128,14 +170,19 @@ impl Resolver {
             return;
         };
         let key = family_key(&family);
-        if key != self.key {
+        let Some(tier) = self.tier(&key) else {
             if key.starts_with("adobeclean") {
                 self.related.insert(family);
             }
             return;
-        }
+        };
+        let list = if tier == 20 {
+            &mut self.rejected
+        } else {
+            &mut self.mid_rejected
+        };
         let mut reject = |reason: &str| {
-            self.rejected.push(Rejected {
+            list.push(Rejected {
                 origin: origin.into(),
                 reason: reason.into(),
             })
@@ -146,7 +193,7 @@ impl Resolver {
         if is_italic(info) {
             return reject(ITALIC_REASON);
         }
-        let rank = if info.variable { 2 } else { 1 };
+        let rank = tier + if info.variable { 2 } else { 1 };
         if self.best.as_ref().is_none_or(|b| rank > b.0) {
             self.best = Some((rank, origin.into(), None));
         }
@@ -163,26 +210,47 @@ impl Resolver {
     /// The best match, else `fallback`, with the status that explains it.
     pub fn finish(self, fallback: Option<FontSource>) -> Resolved {
         let related: Vec<String> = self.related.into_iter().collect();
+        let mut rejected = self.rejected;
+        if self.best.is_none() {
+            rejected.extend(self.mid_rejected);
+        }
         let mut status = FontStatus {
             target: self.target.clone(),
             found: false,
             using: String::new(),
+            family: String::new(),
+            installed: false,
             fallback: false,
-            rejected: self.rejected,
+            rejected,
             related,
             searched: self.searched,
             help: String::new(),
         };
-        if let Some((_, origin, data)) = self.best {
-            status.found = true;
-            status.help = format!("Using {origin}.");
+        if let Some((rank, origin, data)) = self.best {
+            let primary = rank >= 20;
+            status.installed = true;
+            status.found = primary;
+            status.fallback = !primary;
+            status.family = if primary {
+                self.target
+            } else {
+                self.intermediate
+            };
             status.using = origin.clone();
+            status.help = if primary {
+                format!("Using {origin}.")
+            } else {
+                help(&status)
+            };
             return Resolved {
                 font: data.map(|data| FontSource { data, origin }),
                 status,
             };
         }
         status.fallback = fallback.is_some();
+        if status.fallback {
+            status.family = BUNDLED_FAMILY.into();
+        }
         status.using = fallback
             .as_ref()
             .map_or("placeholder bars".into(), |f| f.origin.clone());
@@ -217,6 +285,8 @@ pub fn explicit(origin: &str, data: Vec<u8>, via: &str) -> Result<Resolved, Stri
             target: TARGET_FAMILY.into(),
             found: true,
             using: origin.into(),
+            family: family.clone(),
+            installed: true,
             fallback: false,
             rejected: vec![],
             related: vec![],
@@ -239,10 +309,17 @@ fn help(s: &FontStatus) -> String {
             s.target
         ));
     }
-    parts.push(format!(
-        "{} was not found, so text is drawn in {} and may differ slightly in width.",
-        s.target, s.using
-    ));
+    if s.installed {
+        parts.push(format!(
+            "{} was not found, so text is drawn in {} ({}), a fallback whose metrics, spacing and wrapping may differ.",
+            s.target, s.family, s.using
+        ));
+    } else {
+        parts.push(format!(
+            "{} was not found, so text is drawn in {} (fallback typography may differ in metrics, spacing and wrapping).",
+            s.target, s.using
+        ));
+    }
     parts.push(format!(
         "Adobe employees can download it from the Brand Center ({DOWNLOAD_URL}). \
          Install AdobeCleanSpectrumVF-Roman.ttf (double-click it), or set {ENV_VAR} to the file's path."
@@ -438,6 +515,138 @@ pub(crate) mod tests {
         assert_eq!(out.status.using, "d.ttf");
         assert_eq!(out.status.rejected.len(), 2);
         assert_eq!(out.status.related, vec!["Adobe Clean"]);
+    }
+
+    fn offer(r: &mut Resolver, origin: &str, family: &str, sub: &str, flavor: Flavor) {
+        r.offer_info(
+            origin,
+            &Inspect {
+                flavor,
+                family: Some(family.into()),
+                subfamily: Some(sub.into()),
+                variable: true,
+            },
+        );
+    }
+
+    fn bundled() -> Option<FontSource> {
+        Some(FontSource {
+            data: vec![],
+            origin: "bundled Source Sans 3".into(),
+        })
+    }
+
+    #[test]
+    fn fallback_order_is_spectrum_then_adobe_clean_vf_then_bundled() {
+        let tt = Flavor::TrueType;
+        // 1. Spectrum VF alone, and Spectrum VF preferred when both are present.
+        for both in [false, true] {
+            let mut r = Resolver::new(TARGET_FAMILY);
+            if both {
+                offer(&mut r, "clean.ttf", INTERMEDIATE_FAMILY, "Regular", tt);
+            }
+            offer(&mut r, "spectrum.ttf", TARGET_FAMILY, "Regular", tt);
+            if both {
+                offer(&mut r, "clean2.ttf", INTERMEDIATE_FAMILY, "Regular", tt);
+            }
+            let st = r.finish(bundled()).status;
+            assert!(st.found && !st.fallback && st.installed, "{st:?}");
+            assert_eq!(
+                (st.using.as_str(), st.family.as_str()),
+                ("spectrum.ttf", TARGET_FAMILY)
+            );
+        }
+        // 2. Adobe Clean VF alone: used, but still a fallback and not "found".
+        let mut r = Resolver::new(TARGET_FAMILY);
+        offer(&mut r, "clean.ttf", INTERMEDIATE_FAMILY, "Regular", tt);
+        let st = r.finish(bundled()).status;
+        assert!(!st.found && st.fallback && st.installed, "{st:?}");
+        assert_eq!(
+            (st.using.as_str(), st.family.as_str()),
+            ("clean.ttf", INTERMEDIATE_FAMILY)
+        );
+        assert!(st.help.contains("Adobe Clean VF (clean.ttf)"));
+        assert!(st.help.contains("metrics, spacing and wrapping"));
+        assert!(st.related.is_empty());
+        // 3. Neither: the bundled font.
+        let st = Resolver::new(TARGET_FAMILY).finish(bundled()).status;
+        assert!(!st.found && st.fallback && !st.installed);
+        assert_eq!(st.family, BUNDLED_FAMILY);
+        assert!(st.help.contains("metrics, spacing and wrapping"));
+    }
+
+    #[test]
+    fn unsuitable_adobe_fonts_are_never_chosen_for_upright_ui() {
+        let mut r = Resolver::new(TARGET_FAMILY);
+        offer(
+            &mut r,
+            "serif.ttf",
+            "Adobe Clean Serif VF",
+            "Regular",
+            Flavor::TrueType,
+        );
+        offer(
+            &mut r,
+            "italic.ttf",
+            INTERMEDIATE_FAMILY,
+            "Italic",
+            Flavor::TrueType,
+        );
+        offer(
+            &mut r,
+            "clean.otf",
+            INTERMEDIATE_FAMILY,
+            "Regular",
+            Flavor::Cff,
+        );
+        let st = r.finish(bundled()).status;
+        assert!(
+            !st.installed && st.using == "bundled Source Sans 3",
+            "{st:?}"
+        );
+        assert_eq!(st.related, vec!["Adobe Clean Serif VF"]);
+        assert_eq!(st.rejected.len(), 2);
+    }
+
+    #[test]
+    fn unusable_adobe_clean_vf_files_are_not_reported_when_the_roman_one_is_used() {
+        let mut r = Resolver::new(TARGET_FAMILY);
+        offer(
+            &mut r,
+            "it.ttf",
+            INTERMEDIATE_FAMILY,
+            "Italic",
+            Flavor::TrueType,
+        );
+        offer(
+            &mut r,
+            "r.ttf",
+            INTERMEDIATE_FAMILY,
+            "Regular",
+            Flavor::TrueType,
+        );
+        let st = r.finish(bundled()).status;
+        assert_eq!(st.using, "r.ttf");
+        assert!(
+            st.rejected.is_empty() && !st.help.contains("Italic"),
+            "{st:?}"
+        );
+    }
+
+    #[test]
+    fn adobe_clean_vf_is_read_from_bytes_too() {
+        let mut r = Resolver::new(TARGET_FAMILY);
+        r.offer("clean.ttf", SS3.to_vec());
+        assert!(
+            !r.finish(None).status.installed,
+            "other families are ignored"
+        );
+        let mut r = Resolver::new(TARGET_FAMILY);
+        r.offer(
+            "cff.otf",
+            fake_font(b"OTTO", INTERMEDIATE_FAMILY, "Regular"),
+        );
+        assert_eq!(r.finish(None).status.rejected.len(), 1);
     }
 
     #[test]
