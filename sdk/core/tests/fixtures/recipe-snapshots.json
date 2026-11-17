@@ -564,6 +564,12 @@
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=false": "57519a71eeaa3883",
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=true": "1a4e8e40835af643"
   },
+  "divider": {
+    "orientation=\"horizontal\",staticColor=\"black\"": "f1f00f6d8d14208d",
+    "orientation=\"horizontal\",staticColor=\"white\"": "226dfeac1c4ddbab",
+    "orientation=\"vertical\",staticColor=\"black\"": "7d98fe2c02da865f",
+    "orientation=\"vertical\",staticColor=\"white\"": "8b9aac0dbdfbf65d"
+  },
   "field-label": {
     "isDisabled=false,isRequired=false,necessityIndicator=\"icon\"": "e987aa3d8107968c",
     "isDisabled=false,isRequired=false,necessityIndicator=\"text\"": "eb54ad45f85b1f48",

@@ -55,19 +55,24 @@
       "type": "string",
       "default": "horizontal",
       "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+    },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color for use on colored backgrounds. White draws a light line, black a dark one. Unset is the regular gray line.",
+      "values": [{ "value": "white" }, { "value": "black" }]
     }
   },
   "anatomy": [
     {
-      "name": "container",
-      "description": "Thin bar that separates content. Horizontal or vertical by orientation.",
+      "name": "line",
+      "description": "The dividing mark. Thickness is set by size; it spans the layout width (horizontal) or height (vertical).",
       "required": true
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web has one Bar layer; no other parts. Relationship contexts (Fill, Thickness, Horizontal) name no part, so a single container stands for the whole line."
+    "notes": "Single part, named line for its role (a mark that divides), not track (no moving fill) or the component name. Not focusable, no states, no label. staticColor is declared as white and black (unset is React Spectrum's and Figma's auto)."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }

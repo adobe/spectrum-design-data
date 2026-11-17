@@ -199,6 +199,27 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Divider: every size, both orientations, and each static colour. The regular fill and the
+    // static fills are separate relationships, so this guards which one wins.
+    if name == "divider" {
+        for size in ["s", "m", "l"] {
+            for orientation in ["horizontal", "vertical"] {
+                for color in [None, Some("white"), Some("black")] {
+                    let mut opts = HashMap::from([(
+                        "orientation".to_string(),
+                        Value::String(orientation.into()),
+                    )]);
+                    if let Some(c) = color {
+                        opts.insert("staticColor".into(), Value::String(c.into()));
+                    }
+                    let mut r = req(vec![], opts, "light", "desktop");
+                    r.size = size.into();
+                    let label = format!("{size}-{orientation}-{}", color.unwrap_or("default"));
+                    out.push((Box::leak(label.into_boxed_str()), r));
+                }
+            }
+        }
+    }
     // Checkbox, radio button and switch wrap their label too: the control stays on the first line.
     if matches!(name, "checkbox" | "radio-button" | "switch") {
         let mut r = req(vec![], HashMap::new(), "light", "desktop");
