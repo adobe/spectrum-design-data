@@ -65,6 +65,19 @@ impl ValidationRule for Rule {
                 .get(component)
                 .and_then(|c| c.raw.get("options"))
                 .and_then(Value::as_object);
+            // Scope fields beyond component/property/options also identify a record.
+            let identity: String = raw
+                .pointer("/scope")
+                .and_then(Value::as_object)
+                .map(|s| {
+                    s.iter()
+                        .filter(|(k, _)| {
+                            !["component", "property", "options"].contains(&k.as_str())
+                        })
+                        .map(|(k, v)| format!("|{k}={v}"))
+                        .collect()
+                })
+                .unwrap_or_default();
             let context = raw.get("context").and_then(Value::as_str).unwrap_or("");
             for (name, value) in options {
                 if RESERVED.contains(&name.as_str())
@@ -80,7 +93,11 @@ impl ValidationRule for Rule {
                     context.to_string(),
                     target.to_string(),
                     name.clone(),
-                    serde_json::to_string(&rest).unwrap_or_default(),
+                    format!(
+                        "{}{}",
+                        serde_json::to_string(&rest).unwrap_or_default(),
+                        identity
+                    ),
                 );
                 groups
                     .entry(key)
@@ -193,6 +210,15 @@ mod tests {
             rel(json!({"size": "l", "extra": 2}), "t4"),
         ]);
         assert_eq!(n, 0);
+    }
+
+    #[test]
+    fn records_that_differ_in_another_scope_field_are_not_merged() {
+        let mut a = rel(json!({"size": "m"}), "t");
+        a["scope"]["between"] = json!({"from": "top", "to": "control"});
+        let mut b = rel(json!({"size": "l"}), "t");
+        b["scope"]["between"] = json!({"from": "top", "to": "label"});
+        assert_eq!(run(vec![a, b]), 0);
     }
 
     #[test]
