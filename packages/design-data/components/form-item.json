@@ -15,10 +15,6 @@
       "description": "Text label that names the field, placed above or beside it."
     },
     {
-      "name": "necessity-indicator",
-      "description": "Mark or text after the label that shows the field is required or optional."
-    },
-    {
       "name": "help-text",
       "description": "Description or error message shown below the field."
     }
@@ -26,7 +22,7 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Field label page (label only) plus the relationship context for spacing between label, field and help text. The field itself is another component, not a part."
+    "notes": "Figma S2 Web Field label page plus the label/field/help-text spacing relationship; RSP Field.tsx:118-166 (asterisk inside field-label). The field itself is another component, not a part."
   },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

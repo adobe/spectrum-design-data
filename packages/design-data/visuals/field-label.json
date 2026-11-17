@@ -13,7 +13,7 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["label", "asterisk"],
+      "children": ["label", "necessity-indicator"],
       "props": {
         "direction": {
           "value": "row"
@@ -107,7 +107,7 @@
         }
       }
     },
-    "asterisk": {
+    "necessity-indicator": {
       "kind": "icon",
       "icon": {
         "set": "ui",

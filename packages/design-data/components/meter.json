@@ -65,28 +65,59 @@
       "type": "string",
       "default": "informative",
       "values": [
-        { "value": "informative" },
-        { "value": "positive" },
-        { "value": "notice" },
-        { "value": "negative" }
+        {
+          "value": "informative"
+        },
+        {
+          "value": "positive"
+        },
+        {
+          "value": "notice"
+        },
+        {
+          "value": "negative"
+        }
       ]
     },
-    "label": { "type": "string" },
-    "hideLabel": { "type": "boolean", "default": false },
-    "valueLabel": { "type": "string" },
-    "width": { "type": "number" },
+    "label": {
+      "type": "string"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "valueLabel": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number"
+    },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
-    "value": { "type": "number", "minimum": 0, "maximum": 1 },
-    "helpText": { "type": "string" }
+    "value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "helpText": {
+      "type": "string"
+    }
   },
   "anatomy": [
     {
@@ -122,14 +153,20 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (Meter + .Meter fill). Used label (not field-label) to match label contexts; fill required though empty at 0%. Unsure whether help-text is styled by this component or the help-text component."
+    "notes": "Figma S2 Web Meter (Show help text prop, Header with Field label and value, Track, .Meter fill); help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "meter",
     "focusable": false,
     "wcag": [
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

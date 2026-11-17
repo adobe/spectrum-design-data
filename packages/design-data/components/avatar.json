@@ -53,38 +53,88 @@
       "type": "number",
       "default": 500,
       "values": [
-        { "value": 50 },
-        { "value": 75 },
-        { "value": 100 },
-        { "value": 200 },
-        { "value": 300 },
-        { "value": 400 },
-        { "value": 500 },
-        { "value": 600 },
-        { "value": 700 },
-        { "value": 800 },
-        { "value": 900 },
-        { "value": 1000 },
-        { "value": 1100 },
-        { "value": 1200 },
-        { "value": 1300 },
-        { "value": 1400 },
-        { "value": 1500 }
+        {
+          "value": 50
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 100
+        },
+        {
+          "value": 200
+        },
+        {
+          "value": 300
+        },
+        {
+          "value": 400
+        },
+        {
+          "value": 500
+        },
+        {
+          "value": 600
+        },
+        {
+          "value": 700
+        },
+        {
+          "value": 800
+        },
+        {
+          "value": 900
+        },
+        {
+          "value": 1000
+        },
+        {
+          "value": 1100
+        },
+        {
+          "value": 1200
+        },
+        {
+          "value": 1300
+        },
+        {
+          "value": 1400
+        },
+        {
+          "value": 1500
+        }
       ]
     },
     "image": {
       "type": "string",
       "default": "user image",
       "values": [
-        { "value": "user image" },
-        { "value": "gradient image" },
-        { "value": "gradient" },
-        { "value": "guest image" },
-        { "value": "initials" }
+        {
+          "value": "user image"
+        },
+        {
+          "value": "gradient image"
+        },
+        {
+          "value": "gradient"
+        },
+        {
+          "value": "guest image"
+        },
+        {
+          "value": "initials"
+        }
       ]
     },
-    "isDisabled": { "type": "boolean", "default": false },
-    "showStroke": { "type": "boolean", "default": false }
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "showStroke": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "anatomy": [
     {
@@ -93,10 +143,10 @@
       "required": true,
       "contains": [
         "user-image",
-        "gradient-image",
+        "image",
         "initials",
         "guest-icon",
-        "stroke"
+        "focus-indicator"
       ]
     },
     {
@@ -104,7 +154,7 @@
       "description": "Profile photo shown for the User image style."
     },
     {
-      "name": "gradient-image",
+      "name": "image",
       "description": "Generated gradient artwork shown for the Gradient image style."
     },
     {
@@ -116,10 +166,6 @@
       "description": "Guest glyph shown for the Guest style."
     },
     {
-      "name": "stroke",
-      "description": "Outline drawn when Show stroke is on, which separates overlapping avatars."
-    },
-    {
       "name": "focus-indicator",
       "description": "Outline drawn around the component for keyboard focus.",
       "presentIn": ["keyboard-focus"]
@@ -128,13 +174,26 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web avatar page (Style variants user image, gradient image, initials, guest; Stroke layer). Relationship 'Text' context mapped to initials; gradient-image and stroke are new names."
+    "notes": "Figma S2 Web avatar page (Photo, .Gradient image subcomponent, initials, guest, Stroke layer). stroke removed as container styling (RSP Avatar.tsx:71-79); gradient-image folded into registry term image."
   },
   "states": [
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "disabled", "trigger": "prop" }
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "accessibility": { "focusable": false }
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "focusable": false
+  }
 }

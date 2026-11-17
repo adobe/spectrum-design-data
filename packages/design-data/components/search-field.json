@@ -111,20 +111,23 @@
   ],
   "anatomy": [
     {
-      "name": "label",
-      "description": "Text label for the field; hidden with hideLabel."
+      "name": "field-label",
+      "description": "Text label that names the field; hidden with hideLabel."
     },
     {
       "name": "container",
       "description": "Rounded box that frames the search icon, value and clear button.",
       "required": true,
-      "contains": ["icon", "value", "placeholder", "in-field-button"]
+      "contains": ["leading-icon", "value", "placeholder", "in-field-button"]
     },
     {
-      "name": "icon",
+      "name": "leading-icon",
       "description": "Magnifying-glass search icon at the start of the field."
     },
-    { "name": "value", "description": "Text the user entered." },
+    {
+      "name": "value",
+      "description": "Text the user entered."
+    },
     {
       "name": "placeholder",
       "description": "Hint text shown while the field is empty."
@@ -146,7 +149,7 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Search field page (icon + text only in default tree), relationship contexts. in-field-button (clear) comes from React Spectrum SearchField, absent from the Figma dump."
+    "notes": "RSP SearchField.tsx:178 (shared ClearButton = in-field-button); registry leading-icon is the search icon in search-field; label is the embedded field-label; border is styling on container (Field.tsx:201-241)."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

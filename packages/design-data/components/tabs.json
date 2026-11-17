@@ -81,7 +81,14 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -120,13 +127,18 @@
             "default": false,
             "description": "This overrides density and is only applicable to horizontal tabs."
           },
-          "isEmphasized": { "type": "boolean", "default": false },
+          "isEmphasized": {
+            "type": "boolean",
+            "default": false
+          },
           "alignment": {
             "type": "string",
             "enum": ["start", "center"],
             "default": "start"
           },
-          "selectedItem": { "description": "(list of available items)" },
+          "selectedItem": {
+            "description": "(list of available items)"
+          },
           "keyboardActivation": {
             "type": "string",
             "enum": ["manual", "automatic"],
@@ -141,7 +153,7 @@
       "name": "tab-item",
       "description": "One tab; repeated.",
       "required": true,
-      "contains": ["icon", "label", "indicator"]
+      "contains": ["icon", "label"]
     },
     {
       "name": "icon",
@@ -153,19 +165,22 @@
     },
     {
       "name": "indicator",
-      "description": "Underline marking the selected tab."
+      "description": "Selection indicator (underline) marking the selected tab; a sibling of tab-item, not inside it."
     },
     {
       "name": "focus-indicator",
-      "description": "Outline drawn around the focused tab."
+      "description": "Outline drawn around the focused tab.",
+      "presentIn": ["keyboard-focus"]
     }
   ],
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web tabs page (Tab: Content stack and Underline). No container drawn; selected and selected-with-keyboard-focus relationship contexts are states, not parts. No states declared, so focus-indicator has no presentIn."
+    "notes": "RSP Tabs.tsx:350,550 and gen2 tabs/tabs.css:65-107 draw the selection indicator as a sibling of the tab item, so tab-item contains only icon and label. Figma S2 Web tabs page (Tab: Content stack and Underline). keyboard-focus state added for focus-indicator. No baseline divider found in RSP/SWC: unverified, not declared."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
     {
       "token": "tab-item-to-tab-item-compact-horizontal-medium",
@@ -181,8 +196,22 @@
     "focusable": true,
     "keyboardIntents": ["navigate-items"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
-  }
+  },
+  "states": [
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ]
 }

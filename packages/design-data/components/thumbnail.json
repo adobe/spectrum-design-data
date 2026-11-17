@@ -47,47 +47,76 @@
     "size": {
       "type": "number",
       "values": [
-        { "value": 50 },
-        { "value": 75 },
-        { "value": 100 },
-        { "value": 200 },
-        { "value": 300 },
-        { "value": 400 },
-        { "value": 500 },
-        { "value": 600 },
-        { "value": 700 },
-        { "value": 800 },
-        { "value": 900 },
-        { "value": 1000 }
+        {
+          "value": 50
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 100
+        },
+        {
+          "value": 200
+        },
+        {
+          "value": 300
+        },
+        {
+          "value": 400
+        },
+        {
+          "value": 500
+        },
+        {
+          "value": 600
+        },
+        {
+          "value": 700
+        },
+        {
+          "value": 800
+        },
+        {
+          "value": 900
+        },
+        {
+          "value": 1000
+        }
       ]
     }
   },
   "anatomy": [
     {
       "name": "container",
-      "description": "Rounded frame that clips and outlines the thumbnail.",
+      "description": "Rounded frame that clips the thumbnail.",
       "required": true,
-      "contains": ["square", "image", "border"]
+      "contains": ["opacity-checkerboard", "image"]
     },
     {
-      "name": "square",
+      "name": "opacity-checkerboard",
       "description": "Checkerboard tile pattern shown behind transparent image areas."
     },
     {
       "name": "image",
       "description": "The picture shown in the thumbnail; optional via Show image."
-    },
-    {
-      "name": "border",
-      "description": "Thin outline drawn around the thumbnail."
     }
   ],
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web thumbnail page (Checkerboard, Image, Border). Relationship part 'square' is read as the checkerboard tile instead of adding opacity-checkerboard; border is a new name."
+    "notes": "Figma S2 Web thumbnail page; SWC gen2 Thumbnail.ts:16 and thumbnail.css:24 draw the checkerboard behind transparent images. border removed as container styling (thumbnail.css:37-42); square renamed to opacity-checkerboard and relationship scope.part repointed."
   },
-  "states": [{ "name": "disabled", "trigger": "prop" }],
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "accessibility": { "focusable": false }
+  "states": [
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "focusable": false
+  }
 }

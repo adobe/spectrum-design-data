@@ -146,10 +146,6 @@
       "description": "Text label that names the field, placed above or beside it."
     },
     {
-      "name": "necessity-indicator",
-      "description": "Mark or text after the label that shows the field is required or optional."
-    },
-    {
       "name": "container",
       "description": "Bordered box that frames the value and the disclosure icon.",
       "required": true,
@@ -159,6 +155,7 @@
         "value",
         "placeholder",
         "error-icon",
+        "in-field-progress-circle",
         "disclosure-icon"
       ]
     },
@@ -170,7 +167,10 @@
       "name": "prefix",
       "description": "Short fixed text shown before the value or placeholder."
     },
-    { "name": "value", "description": "Currently selected item." },
+    {
+      "name": "value",
+      "description": "Currently selected item."
+    },
     {
       "name": "placeholder",
       "description": "Hint text shown when nothing is selected."
@@ -178,6 +178,10 @@
     {
       "name": "error-icon",
       "description": "Alert icon shown when the field is invalid."
+    },
+    {
+      "name": "in-field-progress-circle",
+      "description": "Progress circle shown before the chevron while options load."
     },
     {
       "name": "disclosure-icon",
@@ -197,7 +201,7 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Picker page (label, value, End container chevron) and relationship contexts. The popup menu is left out as its own component."
+    "notes": "RSP Picker.tsx:287,736-739 (loading progress circle before the chevron; chevron is a plain disclosure icon); asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Popup menu left out as its own component."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

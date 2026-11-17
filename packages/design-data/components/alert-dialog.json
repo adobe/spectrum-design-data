@@ -83,20 +83,36 @@
     }
   ],
   "options": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "confirmation",
       "values": [
-        { "value": "confirmation" },
-        { "value": "information" },
-        { "value": "warning" },
-        { "value": "destructive" },
-        { "value": "error" }
+        {
+          "value": "confirmation"
+        },
+        {
+          "value": "information"
+        },
+        {
+          "value": "warning"
+        },
+        {
+          "value": "destructive"
+        },
+        {
+          "value": "error"
+        }
       ]
     },
-    "primaryActionLabel": { "type": "string" },
+    "primaryActionLabel": {
+      "type": "string"
+    },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -107,15 +123,25 @@
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   },
   "anatomy": [
@@ -124,6 +150,7 @@
       "description": "Dialog surface.",
       "required": true,
       "contains": [
+        "icon",
         "title",
         "description",
         "primary-action",
@@ -131,13 +158,27 @@
         "cancel-action"
       ]
     },
-    { "name": "title", "description": "Dialog title.", "required": true },
+    {
+      "name": "title",
+      "description": "Dialog title.",
+      "required": true
+    },
+    {
+      "name": "icon",
+      "description": "Status icon shown for the error and warning variants only."
+    },
     {
       "name": "description",
       "description": "Explanatory text under the title."
     },
-    { "name": "primary-action", "description": "Main confirmation button." },
-    { "name": "secondary-action", "description": "Alternative action button." },
+    {
+      "name": "primary-action",
+      "description": "Main confirmation button."
+    },
+    {
+      "name": "secondary-action",
+      "description": "Alternative action button."
+    },
     {
       "name": "cancel-action",
       "description": "Button that dismisses without acting."
@@ -146,6 +187,6 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web alert dialog; no icon or overlay drawn in the Figma tree, though suggest.md lists icon/overlay. Unsure: icon per variant."
+    "notes": "RSP AlertDialog.tsx:126-131 and 1st-gen alert-dialog/src/AlertDialog.ts:106-111 draw an icon for error and warning only (optional icon part); not in the Figma tree."
   }
 }

@@ -390,7 +390,7 @@
   {
     "scope": {
       "component": "thumbnail",
-      "part": "square",
+      "part": "opacity-checkerboard",
       "property": "opacity-checkerboard-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

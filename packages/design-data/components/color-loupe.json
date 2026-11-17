@@ -55,15 +55,24 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Teardrop magnifier shape with its borders and shadow, filled with the sampled color.",
-      "required": true
+      "description": "Teardrop magnifier shape filled with the sampled color; borders and shadow are container styling.",
+      "required": true,
+      "contains": ["opacity-checkerboard"]
+    },
+    {
+      "name": "opacity-checkerboard",
+      "description": "Checkerboard behind the sampled color so transparency reads."
     }
   ],
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (.Color loupe elements: inner fill, inner border, outer border). One part: nothing else is styled separately. Shadow contexts unresolved."
+    "notes": "RSP ColorHandle.tsx:82-84,174-182 (loupe shadow on the container, checkerboard behind the fill)."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "accessibility": { "focusable": false }
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "focusable": false
+  }
 }

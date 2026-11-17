@@ -53,44 +53,68 @@
       "default": "hue",
       "description": "Which channel of the color this handle controls. Use 'alpha' for opacity.",
       "values": [
-        { "value": "hue" },
-        { "value": "saturation" },
-        { "value": "lightness" },
-        { "value": "red" },
-        { "value": "green" },
-        { "value": "blue" },
-        { "value": "alpha" }
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        },
+        {
+          "value": "alpha"
+        }
       ]
     },
-    "isDisabled": { "type": "boolean", "default": false }
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "anatomy": [
     {
       "name": "container",
-      "description": "Circular handle with its outer and inner border.",
+      "description": "Circular handle; dark and white rings and drop shadow are container styling.",
       "required": true,
-      "contains": ["fill", "ring"]
+      "contains": ["fill", "opacity-checkerboard"]
     },
     {
       "name": "fill",
-      "description": "Selected color shown inside the handle; hidden when the handle fill is off."
+      "description": "Selected color shown inside the handle; hidden when Show handle fill is off."
     },
     {
-      "name": "ring",
-      "description": "Ring drawn around the handle fill.",
-      "required": true
+      "name": "opacity-checkerboard",
+      "description": "Checkerboard behind the fill so transparency reads."
     }
   ],
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (outer border, fill, ring, inner border). Drop shadow context left without a part; checkerboard omitted as its own component."
+    "notes": "RSP ColorHandle.tsx:52-81 and gen2 color-handle.css:35-82 (rings/shadow are styling on one element); ring part removed; relationship file has no scope.part."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
-    "wcag": [{ "criterion": "2.1.1", "level": "A", "title": "Keyboard" }]
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      }
+    ]
   }
 }

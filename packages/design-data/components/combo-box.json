@@ -185,10 +185,6 @@
       "description": "Text label that names the field, placed above or beside it."
     },
     {
-      "name": "necessity-indicator",
-      "description": "Mark or text after the label that shows the field is required or optional."
-    },
-    {
       "name": "container",
       "description": "Bordered box that frames the text entry and the field button.",
       "required": true,
@@ -199,7 +195,7 @@
         "placeholder",
         "error-icon",
         "in-field-progress-circle",
-        "field-button"
+        "in-field-button"
       ]
     },
     {
@@ -227,8 +223,8 @@
       "description": "Progress circle shown in the field while options load."
     },
     {
-      "name": "field-button",
-      "description": "Chevron button at the end of the field that opens the menu.",
+      "name": "in-field-button",
+      "description": "Square chevron button with its own background at the end of the field that opens the menu.",
       "required": true
     },
     {
@@ -244,7 +240,7 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Combo box page (default tree: label, value, End container with in-field button + chevron) and relationship contexts. The popup menu is left out as its own component."
+    "notes": "RSP ComboBox.tsx:171-219,731-743 (separate square in-field button with own background), gen2 infield-button; asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Popup menu left out as its own component."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
