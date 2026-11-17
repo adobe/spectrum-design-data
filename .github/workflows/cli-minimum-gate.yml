@@ -38,12 +38,14 @@ jobs:
       - name: Install lld
         run: sudo apt-get update && sudo apt-get install -y lld
       # Only main saves the cache (rust-cache-warm.yml); PRs restore it.
+      # The key hashes sdk/Cargo.toml: rust-cache ignores the workspace root manifest, so a
+      # profile change there (opt-level) would otherwise reuse a cache built with the old one.
       # The workspace is sdk/, so its target dir is "target" relative to it.
       - name: Cache Cargo build
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: sdk
-          shared-key: rust-ci
+          shared-key: rust-ci-${{ hashFiles('sdk/Cargo.toml') }}
           save-if: false
       - name: Build the current CLI
         run: cargo build --manifest-path sdk/Cargo.toml -p design-data-cli
