@@ -49,8 +49,6 @@ jobs:
         with:
           workspaces: sdk
           shared-key: rust-ci
-          # Save even if a flaky test fails the job; the compiled output is still valid.
-          cache-on-failure: true
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
@@ -58,6 +56,15 @@ jobs:
         uses: ./.github/actions/cache-pnpm-store
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      # `moon run` (not `moon ci`) so every Rust target builds, not only the affected ones.
-      - name: Build everything the Rust CI job builds
+      # rust-cache saves only when the job succeeds, and a key can't be overwritten, so an
+      # early failure must not save a near-empty cache. This step compiles everything the
+      # Rust CI job compiles (dev, test and wasm profiles) and must pass.
+      - name: Compile the workspace
+        run: |
+          moon run sdk:build sdk-wasm:build
+          cargo nextest run --manifest-path sdk/Cargo.toml --workspace --no-run
+      # Warm-up only: PR CI is the gate, so a flaky target here must not drop the cache.
+      # `moon run` (not `moon ci`) so every Rust target runs, not only the affected ones.
+      - name: Run the remaining Rust targets
+        continue-on-error: true
         run: moon run $(jq -r '.rust[]' .github/ci-targets.json | tr '\n' ' ')
