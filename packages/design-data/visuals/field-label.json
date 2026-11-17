@@ -9,7 +9,7 @@
     "l": 200,
     "xl": 300
   },
-  "notVisual": ["labelPosition", "necessityIndicator"],
+  "notVisual": ["labelPosition"],
   "parts": {
     "container": {
       "kind": "box",
