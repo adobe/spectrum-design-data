@@ -19,7 +19,7 @@
           "value": "column"
         },
         "align": {
-          "value": "center"
+          "value": "start"
         },
         "minWidth": {
           "relationship": {
