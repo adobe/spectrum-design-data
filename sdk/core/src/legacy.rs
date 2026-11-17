@@ -735,12 +735,9 @@ fn ctr_to_legacy_token(rel: &Map<String, Value>) -> Option<Map<String, Value>> {
     }
 
     let mut name = Map::new();
-    if let Some(options) = scope
-        .and_then(|s| s.get("options"))
-        .and_then(|v| v.as_object())
-    {
-        for (k, v) in options {
-            name.insert(k.clone(), v.clone());
+    if let Some(scope) = scope {
+        for (k, v) in crate::scope::options_with_descriptive(scope) {
+            name.insert(k, v);
         }
     }
     if let Some(component) = scope.and_then(|s| s.get("component")) {
@@ -1338,6 +1335,27 @@ mod tests {
             "$ref": "some-uuid"
         }));
         assert!(ctr_to_legacy_token(&plain).is_some());
+    }
+
+    #[test]
+    fn descriptive_scope_fields_give_the_same_legacy_name_as_options() {
+        let old = obj(json!({
+            "scope": {"component": "tabs", "property": "gap",
+                "options": {"from": "edge", "to": "text", "object": "o", "size": "m"}},
+            "legacyKey": "k", "$ref": "u"
+        }));
+        let new = obj(json!({
+            "scope": {"component": "tabs", "property": "gap",
+                "between": {"from": "edge", "to": "text"}, "object": "o",
+                "options": {"size": "m"}},
+            "legacyKey": "k", "$ref": "u"
+        }));
+        let (old, new) = (
+            ctr_to_legacy_token(&old).unwrap(),
+            ctr_to_legacy_token(&new).unwrap(),
+        );
+        assert_eq!(old, new);
+        assert_eq!(old["name"]["from"], "edge");
     }
 
     #[test]

@@ -178,9 +178,8 @@ impl<'a> Index<'a> {
             .map(|r| {
                 let scope = r.raw.get("scope").cloned().unwrap_or(Value::Null);
                 let options = scope
-                    .get("options")
-                    .and_then(Value::as_object)
-                    .cloned()
+                    .as_object()
+                    .map(crate::scope::options_with_descriptive)
                     .unwrap_or_default();
                 let s = |k: &str| scope.get(k).and_then(Value::as_str).map(String::from);
                 let ref_ = r.raw.get("$ref").and_then(Value::as_str).map(String::from);

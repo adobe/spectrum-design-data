@@ -89,6 +89,35 @@ fn pin_matches(pin: &Value, request: &str) -> bool {
     }
 }
 
+/// What a record's scope says beyond its options: `between` and the descriptive fields. Two
+/// records that differ here measure different things, so they are not ties. Empty for a record
+/// that keeps those keys in `scope.options`, so existing groups do not change.
+fn scope_identity(r: &Value) -> String {
+    let Some(scope) = r.get("scope").and_then(Value::as_object) else {
+        return String::new();
+    };
+    [
+        "between",
+        "object",
+        "position",
+        "structure",
+        "qualifier",
+        "icon",
+    ]
+    .iter()
+    .filter_map(|k| Some(format!("{k}={}", scope.get(*k)?)))
+    .collect::<Vec<_>>()
+    .join(" ")
+}
+
+/// A record's context with its scope identity, so the group label says what tells them apart.
+fn group_context(r: &Value, context: &str) -> String {
+    match scope_identity(r) {
+        id if id.is_empty() => context.to_string(),
+        id => format!("{context} [{id}]"),
+    }
+}
+
 /// Groups with at least one tie, and groups too large to enumerate, as `property / context`
 /// labels.
 fn tied_groups(component: &Value, records: &[Value]) -> (Vec<String>, Vec<String>) {
@@ -119,7 +148,7 @@ fn tied_groups(component: &Value, records: &[Value]) -> (Vec<String>, Vec<String
             })
             .unwrap_or_default();
         let entry = groups
-            .entry((property.to_string(), context.to_string()))
+            .entry((property.to_string(), group_context(r, context)))
             .or_default()
             .entry(serde_json::to_string(&pins).unwrap())
             .or_insert_with(|| (pins, BTreeSet::new()));
@@ -299,6 +328,76 @@ fn actual() -> (Counts, BTreeMap<String, Vec<String>>, Vec<String>) {
 }
 
 #[test]
+fn records_that_differ_in_between_are_not_ties() {
+    let component = serde_json::json!({"options": {
+        "size": {"values": [{"value": "s"}, {"value": "m"}]},
+        "isQuiet": {"type": "boolean"}}});
+    let rec = |options: Value, to: &str, rf: &str| {
+        serde_json::json!({"scope": {"component": "x", "property": "gap",
+            "between": {"from": "top", "to": to}, "options": options},
+            "context": "Spacing", "$ref": rf})
+    };
+    // A small quiet request matches both records at the same specificity: a tie when the
+    // endpoints agree, and none when they differ.
+    let a = |to: &str| rec(serde_json::json!({"size": "s"}), to, "a");
+    let b = |to: &str| rec(serde_json::json!({"isQuiet": true}), to, "b");
+    let (tied, _) = tied_groups(&component, &[a("label"), b("label")]);
+    let (apart, _) = tied_groups(&component, &[a("label"), b("icon")]);
+    assert_eq!(tied.len(), 1, "{tied:?}");
+    assert!(apart.is_empty(), "{apart:?}");
+}
+
+#[test]
+fn descriptive_fields_separate_ties_and_the_old_place_does_not() {
+    let component = serde_json::json!({"options": {
+        "size": {"values": [{"value": "s"}, {"value": "m"}]},
+        "isQuiet": {"type": "boolean"}}});
+    let rec = |scope_extra: Value, options: Value, rf: &str| {
+        let mut r = serde_json::json!({"scope": {"component": "x", "property": "gap",
+            "options": options}, "context": "Spacing", "$ref": rf});
+        for (k, v) in scope_extra.as_object().unwrap() {
+            r["scope"][k] = v.clone();
+        }
+        r
+    };
+    let s = |extra: Value| rec(extra, serde_json::json!({"size": "s"}), "a");
+    let q = |extra: Value| rec(extra, serde_json::json!({"isQuiet": true}), "b");
+    for field in ["object", "position", "structure", "qualifier", "icon"] {
+        let same = [
+            s(serde_json::json!({field: "x"})),
+            q(serde_json::json!({field: "x"})),
+        ];
+        let apart = [
+            s(serde_json::json!({field: "x"})),
+            q(serde_json::json!({field: "y"})),
+        ];
+        assert_eq!(tied_groups(&component, &same).0.len(), 1, "{field}");
+        assert!(tied_groups(&component, &apart).0.is_empty(), "{field}");
+    }
+    // Keys still in `scope.options` are not identity here, so the baseline does not move.
+    let old = |to: &str| {
+        rec(
+            serde_json::json!({}),
+            serde_json::json!({"size": "s", "to": to}),
+            "a",
+        )
+    };
+    let old_q = |to: &str| {
+        rec(
+            serde_json::json!({}),
+            serde_json::json!({"isQuiet": true, "to": to}),
+            "b",
+        )
+    };
+    assert_eq!(
+        tied_groups(&component, &[old("label"), old_q("icon")])
+            .0
+            .len(),
+        1
+    );
+}
+
+#[test]
 fn relationship_option_ties_match_the_baseline() {
     let (actual, detail, too_big) = actual();
     assert!(
@@ -452,7 +551,7 @@ fn same_pin_set_groups(
         groups
             .entry((
                 property.to_string(),
-                context.to_string(),
+                group_context(r, context),
                 serde_json::to_string(&pins).unwrap(),
             ))
             .or_default()
