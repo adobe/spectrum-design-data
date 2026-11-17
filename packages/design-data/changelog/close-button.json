@@ -157,6 +157,44 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.20.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-17",
+      "commit": "eb0cf536599de9748049b0c30d0843b6b21cb1fd",
+      "commits": [
+        {
+          "commit": "8a4eaa3c43eadaeacbed97efb838470c72cd48cf",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1917,"title":"feat(design-data): close button visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/1917"},
+          "entries": [
+            {"id":"8a4eaa3c-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":null},"record":"1bfc1c8f-f469-597c-8442-e537707b9ec0","name":"color","fields":[{"path":"$ref","before":"64e2dbc2-05fa-43d7-80ae-d4d11c55348f","after":"8de4888d-8da5-45a0-8d5d-64a734993ae4"}]},
+            {"id":"8a4eaa3c-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":null},"record":"07602829-b7f9-5965-aa60-bd5982f80720","name":"color","fields":[{"path":"$ref","before":"abd011c4-87a5-4b1f-82e2-e94d118f417f","after":"0a676e7a-8a89-4607-a918-3abcfb0234a2"}]},
+            {"id":"8a4eaa3c-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":null},"record":"4aa6650c-5232-505f-89f4-8a5aaf47aa38","name":"color","fields":[{"path":"$ref","before":"3605974e-8f93-4907-81b3-fb6ab55d03f8","after":"eaad36fe-2827-4404-8876-060de75c2b34"}]},
+            {"id":"8a4eaa3c-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Cross icon (static white)"],"scope":{"property":"color","options":{"staticColor":"white","state":["down"]}},"record":"76e1ce17-eafa-53bc-bc7b-c2d179b34748","name":"color[state=?,staticColor=white]","fields":[],"after":"c5c823c6-1911-4e0e-ba2f-5105f467e108"},
+            {"id":"8a4eaa3c-4","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Cross icon (static white)"],"scope":{"property":"color","options":{"staticColor":"white","state":["keyboard-focus"]}},"record":"ab7d7503-46f5-5c66-a724-9989d1e2c578","name":"color[state=?,staticColor=white]","fields":[],"after":"c5c823c6-1911-4e0e-ba2f-5105f467e108"},
+            {"id":"8a4eaa3c-5","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Cross icon (static black)"],"scope":{"property":"color","options":{"staticColor":"black","state":["down"]}},"record":"3a3a1e3a-9a46-5afd-9fce-9adee7e9b418","name":"color[state=?,staticColor=black]","fields":[],"after":"c0a331f9-53e3-4c72-b5e3-139d730a1752"},
+            {"id":"8a4eaa3c-6","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Cross icon (static black)"],"scope":{"property":"color","options":{"staticColor":"black","state":["keyboard-focus"]}},"record":"1712e73a-fab6-53e1-9d45-b4dadb0e3b66","name":"color[state=?,staticColor=black]","fields":[],"after":"c0a331f9-53e3-4c72-b5e3-139d730a1752"},
+            {"id":"8a4eaa3c-7","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"close-button/options/iconSize","name":"iconSize","fields":[],"before":{"type":"string"}},
+            {"id":"8a4eaa3c-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"close-button/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP CloseButton.tsx:43,67-71: container always present, its transparent-at-rest fill is styling. Figma S2 Web close button page draws only the icon frame.","after":"Matches Figma S2 Web (Close button): a circular container with the cross icon, static white and black drawn. RSP CloseButton.tsx:43,67-71: container always present, its transparent-at-rest fill is styling; hover, keyboard focus and press share one fill. Figma draws no focus or down state. iconSize removed: neither Figma nor RSP has it (RSP derives the icon size from size)."}]},
+            {"id":"8a4eaa3c-9","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"close-button/visual","name":"close-button","fields":[]}
+          ],
+          "metadata": {"count":19,"fields":["anatomyReview.status","scope.options.isDisabled","scope.options.size","scope.options.state","scope.options.staticColor"]}
+        },
+        {
+          "commit": "eb0cf536599de9748049b0c30d0843b6b21cb1fd",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1922,"title":"fix(design-data): close button static hover and disabled colors","url":"https://github.com/adobe/spectrum-design-data/pull/1922"},
+          "entries": [
+            {"id":"eb0cf536-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Cross icon (static white)"],"scope":{"property":"color","options":{"staticColor":"white","isDisabled":true}},"record":"d851324a-bee9-5a2e-a2d5-230bb5232c66","name":"color[isDisabled=?,staticColor=white]","fields":[{"path":"$ref","before":"fbd40c55-bb12-43ff-9fa6-c93884befc89","after":"12e610d4-e3dc-4e86-9c09-09d86915b6f1"}]},
+            {"id":"eb0cf536-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background (static white)"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"b4213fe6-f8f9-5446-83c2-7054df5e67b0","name":"color[staticColor=white]","fields":[{"path":"$ref","before":"a1b64a62-7c78-415e-a9be-c86acbf361ca","after":"936db837-bc5a-40b0-a0e8-8e39b9fc62cb"}]},
+            {"id":"eb0cf536-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Cross icon (static black)"],"scope":{"property":"color","options":{"staticColor":"black","isDisabled":true}},"record":"ea9a8a5e-298a-5dbe-b4bb-e0a870585c5b","name":"color[isDisabled=?,staticColor=black]","fields":[{"path":"$ref","before":"579e401c-de49-41af-a8c7-a0a070c31979","after":"b769453b-586c-4dd2-b3a1-ddf5964160bc"}]},
+            {"id":"eb0cf536-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background (static black)"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"df2cf738-5a42-5946-a101-9180e1d9fb5e","name":"color[staticColor=black]","fields":[{"path":"$ref","before":"7565eb32-d745-4fc3-8779-a717f8ba910a","after":"a84ecad8-8005-4ce4-add6-7f83f7e05ba0"}]}
+          ]
+        }
+      ]
     }
   ]
 }
