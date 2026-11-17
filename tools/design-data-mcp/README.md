@@ -67,19 +67,19 @@ any network failure (offline/air-gapped use is unaffected); set
 
 ## Tools
 
-| Tool                           | Description                                                                         |
-| ------------------------------ | ----------------------------------------------------------------------------------- |
-| `design-data-primer`           | Session-start overview: token count, mode-sets, components, guidelines, provenance  |
-| `design-data-query`            | Filter tokens by query expression (`component=button`, `property=color-*`)          |
-| `design-data-suggest`          | Natural-language token suggestions with Jaccard similarity confidence scores        |
-| `design-data-component`        | Full component schema (variants, sizes, states, props) by kebab-case ID             |
-| `design-data-component-search` | Search components by name, description, or docs text; returns id, category, snippet |
-| `design-data-resolve`          | Resolve a token's concrete value for a mode context (colorScheme, scale, contrast)  |
-| `design-data-guideline-list`   | List available Spectrum design guideline pages, optionally filtered by category     |
-| `design-data-guideline`        | Full guideline document by slug ID (purpose, rules, accessibility, examples)        |
-| `design-data-visual-recipe`    | Visual recipe (parts, layout, token bindings) for components that have one          |
-| `design-data-render`           | Render a component with a recipe to SVG (default) or PNG for a size, states, mode   |
-| `design-data-font-status`      | Which font draws PNG text: Adobe Clean Spectrum VF if installed, else a fallback    |
+| Tool                           | Description                                                                           |
+| ------------------------------ | ------------------------------------------------------------------------------------- |
+| `design-data-primer`           | Session-start overview: token count, mode-sets, components, guidelines, provenance    |
+| `design-data-query`            | Filter tokens by query expression (`component=button`, `property=color-*`)            |
+| `design-data-suggest`          | Natural-language token suggestions with Jaccard similarity confidence scores          |
+| `design-data-component`        | Full component schema (variants, sizes, states, props) by kebab-case ID               |
+| `design-data-component-search` | Search components by name, description, or docs text; returns id, category, snippet   |
+| `design-data-resolve`          | Resolve a token's concrete value for a mode context (colorScheme, scale, contrast)    |
+| `design-data-guideline-list`   | List available Spectrum design guideline pages, optionally filtered by category       |
+| `design-data-guideline`        | Full guideline document by slug ID (purpose, rules, accessibility, examples)          |
+| `design-data-visual-recipe`    | Visual recipe (parts, layout, token bindings) for components that have one            |
+| `design-data-render`           | Render a component with a recipe to SVG (default) or PNG for a size, states, mode     |
+| `design-data-font-status`      | Which font draws PNG text: Adobe Clean Spectrum VF, else Adobe Clean VF, else bundled |
 
 ## Fonts for PNG renders
 
@@ -91,16 +91,19 @@ folders and in Creative Cloud's font cache (any hidden subfolder under
 The result says which font it used (`font.using`) and whether it fell back
 (`font.fallback`); call `design-data-font-status` to check without rendering.
 
-If the font is not installed, text is drawn in a bundled open font (Source Sans 3, SIL
-Open Font License) and the result says so, with the install steps. The fallback is close
-but not identical: widths differ slightly and the image should not be called exact.
+Fallback order: (1) Adobe Clean Spectrum VF Roman `.ttf`; (2) Adobe Clean VF Roman `.ttf`;
+(3) a bundled open font (Source Sans 3, SIL Open Font License). Anything other than the first
+reports `font.fallback: true` and names the font used (`font.using`, `font.family`);
+`font.found` is true only for Adobe Clean Spectrum VF (or a font you chose), and
+`font.installed` is true when a font file on your machine is used. A fallback's metrics,
+spacing and wrapping may differ, so the image should not be called exact. Adobe Clean Serif
+VF, Italic files and `.otf` files are never used for upright UI text.
 
 **Getting the font.** Adobe employees can download Adobe Clean Spectrum VF from the
 [Brand Center](https://inside.corp.adobe.com/content/inside/en/brand-center/font.html)
 (employees only). Install `AdobeCleanSpectrumVF-Roman.ttf`: double-click it and choose
 Install Font. Use the `.ttf` file; the `.otf` (PostScript outline) version and the Italic file are
-not used. Creative Cloud's "Adobe Clean" is a different font from Adobe Clean Spectrum VF
-and is not used either. The font is read from your machine and never bundled or sent
+not used. Creative Cloud's static "Adobe Clean" is a different font and is not used. The font is read from your machine and never bundled or sent
 anywhere.
 
 **Pointing at a font that is somewhere else.** Any of these works, in this order:

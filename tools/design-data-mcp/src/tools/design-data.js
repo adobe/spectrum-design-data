@@ -581,11 +581,11 @@ export function createDesignDataTools() {
         'a PNG image with format "png". Only components with a recipe can be rendered ' +
         "(see design-data-visual-recipe). PNG text uses Adobe Clean Spectrum VF when it is " +
         "installed on this machine (found automatically, or set with the fontPath argument " +
-        "or the DESIGN_DATA_FONT environment variable), otherwise a bundled open font. The " +
-        "result includes a font status: when font.fallback is true, tell the user the text " +
-        "may differ slightly and pass on font.help (it says how to install the font); do " +
-        "not call the image exact. When font.found is true, do not tell the user to " +
-        "download anything.",
+        "or the DESIGN_DATA_FONT environment variable), else Adobe Clean VF (Roman .ttf), " +
+        "else a bundled open font. The result includes a font status: when font.fallback is " +
+        "true, tell the user which font was used (font.using, font.family), that its " +
+        "metrics, spacing and wrapping may differ, and pass on font.help; do not call the " +
+        "image exact. When font.found is true, do not tell the user to download anything.",
       inputSchema: {
         type: "object",
         properties: {
@@ -762,8 +762,10 @@ export function createDesignDataTools() {
       },
       description:
         "Check which font draws text in PNG renders from design-data-render: Adobe Clean " +
-        "Spectrum VF if it is installed on this machine, otherwise a bundled open font. " +
-        "Returns { found, fallback, using, rejected, related, searched, help }. When " +
+        "Spectrum VF if it is installed on this machine, else Adobe Clean VF (Roman .ttf), else " +
+        "a bundled open font. Returns { found, fallback, using, family, installed, rejected, " +
+        "related, searched, help }; found means Adobe Clean Spectrum VF (or a font you chose), " +
+        "installed means a font file on this machine is used. When " +
         "fallback is true, tell the user and pass on help (Adobe employees can download the " +
         "font from the Brand Center; they install the .ttf, or point DESIGN_DATA_FONT or " +
         "fontPath at it). If the user says it is installed but found is false, ask for the " +

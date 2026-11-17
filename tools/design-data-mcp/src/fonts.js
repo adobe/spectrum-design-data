@@ -15,8 +15,8 @@
  * walks the machine's font folders, reads only each file's table directory and `name`
  * table (a few KB), and hands what it learned to the wasm `chooseFont`, which applies the
  * same rules and wording as the `design-data fonts` command. Only the chosen file is read in
- * full. When nothing matches, the bundled Source Sans 3 (SIL OFL) is used and the status
- * says how to install the real font.
+ * full. Order: Adobe Clean Spectrum VF, then Adobe Clean VF (Roman .ttf; a fallback), then the
+ * bundled Source Sans 3 (SIL OFL). The status says how to install the real font.
  */
 
 import {
@@ -230,6 +230,7 @@ const isUnset = (v) => !v || /^\$\{[^}]*\}$/.test(String(v).trim());
  * @param {string} [opts.fontPath]   explicit font file (a tool argument)
  * @param {string[]} [opts.dirs]     folders to search (default: this machine's)
  * @param {string} [opts.target]     family to look for (default: Adobe Clean Spectrum VF)
+ * @param {string} [opts.intermediate] fallback family (default: Adobe Clean VF)
  * @param {object} [opts.env]        environment (default: process.env)
  * @param {string[]} [opts.exclude]  files to skip, because they could not be drawn
  * @param {{origin: string, reason: string}[]} [opts.skipped]  why, for the status
@@ -242,6 +243,7 @@ export function findFont(
     dirs,
     env = process.env,
     target = TARGET_FAMILY,
+    intermediate,
     exclude = [],
     skipped = [],
   } = {},
@@ -262,6 +264,8 @@ export function findFont(
           target: TARGET_FAMILY,
           found: true,
           using: font.origin,
+          family: null,
+          installed: true,
           fallback: false,
           rejected: [],
           related: [],
@@ -283,17 +287,17 @@ export function findFont(
     const usable = candidates.filter(
       (c) => !exclude.includes(c.origin) && !gone.includes(c.origin),
     );
-    const status = wasm.chooseFont(usable, target, FALLBACK_NAME);
+    const status = wasm.chooseFont(usable, target, FALLBACK_NAME, intermediate);
     status.searched = searched;
     return { status, age };
   };
   let { status, age } = attempt(false);
   // A remembered "not found" goes stale: the user installs the font and asks again.
-  if (!status.found && age > NOT_FOUND_TTL_MS) ({ status } = attempt(true));
+  if (!status.installed && age > NOT_FOUND_TTL_MS) ({ status } = attempt(true));
   let data;
   // A chosen file can have gone away since the scan (the font was uninstalled): note it,
   // skip it and scan again, a couple of times at most.
-  for (let tries = 0; status.found && !data; tries++) {
+  for (let tries = 0; status.installed && !data; tries++) {
     try {
       data = readFileSync(status.using);
     } catch (e) {
@@ -306,7 +310,7 @@ export function findFont(
       status =
         tries < 2
           ? attempt(true).status
-          : wasm.chooseFont([], target, FALLBACK_NAME);
+          : wasm.chooseFont([], target, FALLBACK_NAME, intermediate);
     }
   }
   if (rejected.length) {
@@ -316,7 +320,7 @@ export function findFont(
       " " +
       status.help;
   }
-  if (status.found && data) {
+  if (status.installed && data) {
     return { explicit: false, fonts: [{ data, origin: status.using }], status };
   }
   return {
