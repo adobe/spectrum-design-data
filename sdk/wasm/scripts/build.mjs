@@ -19,7 +19,7 @@
  * Run via `moon run sdk-wasm:build` or directly with `node scripts/build.mjs`
  * from the sdk/wasm directory.
  *
- * Set `WASM_NO_OPT=1` to skip wasm-opt. Pull request CI does, since it only
+ * Set `WASM_NO_OPT=1` (exactly "1") to skip wasm-opt. Pull request CI does, since it only
  * tests the output; releases leave it unset and ship the optimized binary.
  */
 
@@ -29,7 +29,7 @@ import { dirname, join } from 'node:path';
 import { rmSync } from 'node:fs';
 
 const cwd = dirname(fileURLToPath(import.meta.url + '/..'));
-const noOpt = process.env.WASM_NO_OPT ? ['--no-opt'] : [];
+const noOpt = process.env.WASM_NO_OPT === '1' ? ['--no-opt'] : [];
 
 function build(target, outDir) {
   console.log(`\n→ wasm-pack build --target ${target} --out-dir ${outDir} -- --features embedded`);
