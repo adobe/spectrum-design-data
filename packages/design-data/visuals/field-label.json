@@ -1,0 +1,148 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "field-label",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": ["labelPosition", "necessityIndicator"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["label", "asterisk"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "start"
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "context": "Minimum height"
+          }
+        },
+        "gap": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "relationship": {
+              "property": "text-to-asterisk-small",
+              "context": "Spacing (label to asterisk icon)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "text-to-asterisk-medium",
+              "context": "Spacing (label to asterisk icon)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "relationship": {
+              "property": "text-to-asterisk-large",
+              "context": "Spacing (label to asterisk icon)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "relationship": {
+              "property": "text-to-asterisk-extra-large",
+              "context": "Spacing (label to asterisk icon)"
+            }
+          }
+        ]
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "overflow": {
+          "value": "wrap"
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Label"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height-100",
+            "context": "Label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Label"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "context": "Label and asterisk icon"
+          }
+        }
+      }
+    },
+    "asterisk": {
+      "kind": "icon",
+      "icon": {
+        "set": "ui",
+        "name": "asterisk"
+      },
+      "visibleWhen": {
+        "options": {
+          "isRequired": true,
+          "necessityIndicator": "icon"
+        }
+      },
+      "props": {
+        "width": [
+          {
+            "relationship": {
+              "property": "size",
+              "context": "Asterisk UI icon asset"
+            }
+          }
+        ],
+        "height": [
+          {
+            "relationship": {
+              "property": "size",
+              "context": "Asterisk UI icon asset"
+            }
+          }
+        ],
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "context": "Label and asterisk icon"
+          }
+        }
+      }
+    }
+  }
+}
