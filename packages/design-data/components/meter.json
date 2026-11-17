@@ -77,11 +77,6 @@
       ]
     },
     "label": { "type": "string" },
-    "labelPosition": {
-      "type": "string",
-      "default": "top",
-      "values": [{ "value": "top" }, { "value": "side" }]
-    },
     "hideLabel": { "type": "boolean", "default": false },
     "valueLabel": { "type": "string" },
     "width": { "type": "number" },
@@ -139,7 +134,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Matches Figma S2 Web (Meter): its Header frame is the header part, Track and '.Meter fill' are track and fill. help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts. With labelPosition side the label and value flank the track; the parts are the same."
+    "notes": "Matches Figma S2 Web (Meter): its Header frame is the header part, Track and '.Meter fill' are track and fill. help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

@@ -9,7 +9,7 @@
     "l": 200,
     "xl": 300
   },
-  "notVisual": ["width", "labelPosition"],
+  "notVisual": ["width"],
   "parts": {
     "container": {
       "kind": "box",
@@ -29,7 +29,7 @@
         },
         "gap": {
           "relationship": {
-            "property": "spacing",
+            "property": "gap",
             "context": "Spacing (field label to progress bar)"
           }
         }
