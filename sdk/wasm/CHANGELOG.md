@@ -1,5 +1,32 @@
 # @adobe/design-data-wasm
 
+## 0.28.0
+
+### Minor Changes
+
+- [#1917](https://github.com/adobe/spectrum-design-data/pull/1917) [`8a4eaa3`](https://github.com/adobe/spectrum-design-data/commit/8a4eaa3c43eadaeacbed97efb838470c72cd48cf) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a close button visual recipe.
+  - Close button renders size, hover, down and keyboard focus, `isDisabled` and the white and black
+    static colors. Down, hover and keyboard focus share one fill, as in React Spectrum.
+  - Close button anatomy is reviewed (`container`, `icon`, `focus-indicator`).
+  - The `iconSize` option is removed: Figma and React Spectrum derive the cross size from `size`.
+  - The hover fill relationship now points at gray-200 (was gray-100), as in Figma and React
+    Spectrum. Cross size, static color and disabled color relationships are pinned in
+    `scope.options`.
+
+- [#1921](https://github.com/adobe/spectrum-design-data/pull/1921) [`323b31e`](https://github.com/adobe/spectrum-design-data/commit/323b31e190b7585a45fafb1bf4cb34610bc1e12d) Thanks [@GarthDB](https://github.com/GarthDB)! - Clean up help text data.
+  - The `isDisabled` option no longer says help text cannot be both disabled and negative. Figma and
+    React Spectrum draw the combination, and the recipe renders it.
+  - Remove the help text `Minimum height` relationships (they pointed at control heights, 24 to
+    48px) and the top/bottom edge spacing to text and to icon. Figma sizes help text to its text
+    (16 to 22px) with no padding, and the recipe binds none of them.
+
+### Patch Changes
+
+- [#1922](https://github.com/adobe/spectrum-design-data/pull/1922) [`eb0cf53`](https://github.com/adobe/spectrum-design-data/commit/eb0cf536599de9748049b0c30d0843b6b21cb1fd) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the close button static colors to match Figma and React Spectrum. The hover fill uses
+  `transparent-white/black-200` (0.14 / 0.12, was the 100 tokens) and the disabled cross uses
+  `transparent-white/black-400` (0.21 / 0.22, was an alias of the 100 tokens). The same tokens
+  `action-button` and `button` use for static hover and disabled.
+
 ## 0.27.0
 
 ### Minor Changes
