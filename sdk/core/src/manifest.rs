@@ -686,6 +686,11 @@ pub fn bare_version(pin: &str) -> &str {
     pin.rsplit_once('@').map_or(pin, |(_, v)| v).trim()
 }
 
+/// The exact version a pin names (`@adobe/spectrum-design-data@3.15.1` or `3.15.1`), if it is one.
+pub fn exact_version(pin: &str) -> Option<semver::Version> {
+    semver::Version::parse(bare_version(pin)).ok()
+}
+
 /// The package a pin names, if it says: `@adobe/spectrum-design-data` for
 /// `@adobe/spectrum-design-data@3.15.1`, nothing for `3.15.1`.
 fn pin_package(pin: &str) -> Option<&str> {
@@ -752,6 +757,68 @@ pub fn check_foundation_pin(manifest_pin: Option<&str>, source: Option<&SourceCo
             source: source.to_string(),
         }
     }
+}
+
+/// A manifest extension that replaces a foundation artifact of the same name, instead of adding
+/// one. Replacing is allowed (it is how a platform owns a recipe), but it is also the sign of
+/// something the foundation might adopt, so `platform doctor` lists them.
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+pub struct Shadow {
+    /// `components`, `visuals`, `fields` or `guidelines`: the extension categories that
+    /// add-or-replace by name.
+    pub category: &'static str,
+    pub name: String,
+}
+
+/// The extension entries in `manifest` whose name is already in `foundation` (the graph loaded
+/// without the manifest applied).
+pub fn shadowed_artifacts(foundation: &TokenGraph, manifest: &Value) -> Vec<Shadow> {
+    fn entries<'a>(manifest: &'a Value, category: &str) -> impl Iterator<Item = &'a Value> {
+        manifest
+            .get("extensions")
+            .and_then(|e| e.get(category))
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+    }
+    let mut out = Vec::new();
+    let mut check = |category: &'static str, name: Option<&str>, known: &[&String]| {
+        if let Some(name) = name.filter(|n| known.iter().any(|k| k.as_str() == *n)) {
+            out.push(Shadow {
+                category,
+                name: name.to_string(),
+            });
+        }
+    };
+    let components: Vec<&String> = foundation.components.iter().map(|c| &c.name).collect();
+    let visuals: Vec<&String> = foundation.visuals.iter().map(|v| &v.component).collect();
+    let fields: Vec<&String> = foundation.fields.iter().map(|f| &f.name).collect();
+    let guidelines: Vec<&String> = foundation.guidelines.iter().map(|g| &g.name).collect();
+    for e in entries(manifest, "components") {
+        check(
+            "components",
+            e.get("name").and_then(Value::as_str),
+            &components,
+        );
+    }
+    for e in entries(manifest, "visuals") {
+        check(
+            "visuals",
+            e.pointer("/recipe/component").and_then(Value::as_str),
+            &visuals,
+        );
+    }
+    for e in entries(manifest, "fields") {
+        check("fields", e.get("name").and_then(Value::as_str), &fields);
+    }
+    for e in entries(manifest, "guidelines") {
+        check(
+            "guidelines",
+            e.get("name").and_then(Value::as_str),
+            &guidelines,
+        );
+    }
+    out
 }
 
 #[cfg(test)]
@@ -1530,5 +1597,42 @@ mod tests {
         );
         assert!(error.contains("failed schema validation"), "{error}");
         assert!(error.contains("componentName"), "{error}");
+    }
+
+    #[test]
+    fn an_extension_with_a_foundation_namesake_is_a_shadow() {
+        use crate::graph::{ComponentRecord, Layer, VisualRecord};
+        let mut g = TokenGraph::default();
+        g.components.push(ComponentRecord {
+            name: "button".into(),
+            file: "button.json".into(),
+            raw: json!({ "name": "button" }),
+            layer: Layer::Foundation,
+        });
+        g.visuals.push(VisualRecord {
+            component: "badge".into(),
+            file: "badge.json".into(),
+            raw: json!({}),
+            layer: Layer::Foundation,
+        });
+        let manifest = json!({ "extensions": {
+            "components": [{ "name": "button" }, { "name": "tab-bar-ios" }],
+            "visuals": [{ "file": "x.json", "recipe": { "component": "badge" } },
+                        { "file": "y.json", "recipe": { "component": "status-light" } }]
+        } });
+        assert_eq!(
+            shadowed_artifacts(&g, &manifest),
+            vec![
+                Shadow {
+                    category: "components",
+                    name: "button".into()
+                },
+                Shadow {
+                    category: "visuals",
+                    name: "badge".into()
+                },
+            ]
+        );
+        assert!(shadowed_artifacts(&g, &json!({})).is_empty());
     }
 }

@@ -89,6 +89,11 @@ pub enum FetchError {
         #[source]
         source: io::Error,
     },
+    /// The releases asked for held no `@adobe/spectrum-design-data` release.
+    #[error(
+        "no @adobe/spectrum-design-data release found in the newest {checked} releases of {repo}"
+    )]
+    NoRelease { repo: String, checked: usize },
     /// A local filesystem operation failed.
     #[error("cache I/O error: {0}")]
     Io(#[from] io::Error),
@@ -353,6 +358,63 @@ fn fetch_github(
     prune_after_fetch(&root, base, &safe_repo, evict);
 
     Ok(root)
+}
+
+/// Ask GitHub for `repo`'s recent releases and pick the newest with `pick`. The API rejects a
+/// request without a `User-Agent`, which the archive downloads do not need.
+///
+/// The repo releases a dozen packages together, so a page of 100 holds only a handful of
+/// foundation releases and a few waves without one would push the newest off the first page:
+/// look through up to [`RELEASE_PAGES`] pages, newest first, and stop at the first page that has
+/// one (or the first short page, the end of the list).
+const RELEASE_PAGES: usize = 5;
+
+pub(crate) fn latest_release(
+    repo: &str,
+    pick: fn(&serde_json::Value) -> Option<semver::Version>,
+) -> Result<semver::Version, FetchError> {
+    let rt = tokio::runtime::Runtime::new().map_err(FetchError::Io)?;
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(30))
+        .user_agent(concat!("design-data-cli/", env!("CARGO_PKG_VERSION")))
+        .build()
+        .map_err(|e| FetchError::Network {
+            url: repo.to_string(),
+            source: e,
+        })?;
+    let mut checked = 0;
+    for page in 1..=RELEASE_PAGES {
+        let url = format!("https://api.github.com/repos/{repo}/releases?per_page=100&page={page}");
+        let releases: serde_json::Value = rt.block_on(async {
+            let net = |e| FetchError::Network {
+                url: url.clone(),
+                source: e,
+            };
+            client
+                .get(&url)
+                .header("Accept", "application/vnd.github+json")
+                .send()
+                .await
+                .map_err(net)?
+                .error_for_status()
+                .map_err(net)?
+                .json()
+                .await
+                .map_err(net)
+        })?;
+        if let Some(version) = pick(&releases) {
+            return Ok(version);
+        }
+        let on_page = releases.as_array().map_or(0, Vec::len);
+        checked += on_page;
+        if on_page < 100 {
+            break;
+        }
+    }
+    Err(FetchError::NoRelease {
+        repo: repo.to_string(),
+        checked,
+    })
 }
 
 /// Entries are flat under `github/` as `{safe_repo}@{segment}`, so scan that dir and prune only

@@ -72,6 +72,33 @@ pub fn unmet_requirements(dataset_root: &Path, running_cli: &str, engine_layout:
     out
 }
 
+/// Parse a project's `cli_version` (a semver range). The error names the key and the syntax.
+pub fn parse_cli_range(range: &str) -> Result<semver::VersionReq, String> {
+    semver::VersionReq::parse(range).map_err(|e| {
+        format!(
+            "`cli_version` is '{range}', which is not a semver range ({e}). \
+             Use for example \">=0.36.5, <0.38.0\", or \"=0.40.1\" for one exact version"
+        )
+    })
+}
+
+/// Why `running_cli` is outside the project's `cli_version` range, or `None` when it is inside
+/// (or the range or version cannot be read: [`parse_cli_range`] reports a bad range when the
+/// config is loaded). A prerelease build is compared as the release it leads up to.
+pub fn cli_range_mismatch(range: &str, running_cli: &str) -> Option<String> {
+    let req = parse_cli_range(range).ok()?;
+    let have = semver::Version::parse(running_cli).ok()?;
+    let core = semver::Version::new(have.major, have.minor, have.patch);
+    if req.matches(&core) {
+        return None;
+    }
+    Some(format!(
+        "this project's `.design-data.toml` says its generated files are made with design-data \
+         CLI {range} (this is {have}). Install a CLI in that range, or change `cli_version` \
+         when the project moves to a new one."
+    ))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -156,6 +183,41 @@ mod tests {
             let u = unmet_requirements(d.path(), "0.1.0", 2);
             assert!(u.errors.is_empty(), "{bad}: {u:?}");
             assert_eq!(u.warnings.len(), 1, "{bad}: {u:?}");
+        }
+    }
+
+    #[test]
+    fn a_cli_inside_the_project_range_is_fine_and_outside_is_a_mismatch() {
+        let r = ">=0.36.5, <0.38.0";
+        for ok in ["0.36.5", "0.37.0", "0.37.9", "0.37.0-dev"] {
+            assert_eq!(cli_range_mismatch(r, ok), None, "{ok}");
+        }
+        for bad in ["0.36.4", "0.38.0", "0.40.1"] {
+            let m = cli_range_mismatch(r, bad).unwrap_or_default();
+            assert!(m.contains(r) && m.contains(bad), "{bad}: {m}");
+        }
+    }
+
+    #[test]
+    fn one_exact_version_and_the_caret_default() {
+        assert_eq!(cli_range_mismatch("=0.40.1", "0.40.1"), None);
+        assert!(cli_range_mismatch("=0.40.1", "0.40.2").is_some());
+        // A bare version is a caret range, as in Cargo: >=0.40.1, <0.41.0.
+        assert_eq!(cli_range_mismatch("0.40.1", "0.40.9"), None);
+        assert!(cli_range_mismatch("0.40.1", "0.41.0").is_some());
+    }
+
+    #[test]
+    fn a_range_that_is_not_semver_is_an_error_naming_the_key() {
+        for bad in ["latest", ">=", "~~1"] {
+            let msg = parse_cli_range(bad).expect_err(bad);
+            assert!(
+                msg.contains("`cli_version`") && msg.contains(bad),
+                "{bad}: {msg}"
+            );
+        }
+        for ok in ["=0.40.1", "0.40", ">=0.36.5, <0.38.0"] {
+            assert!(parse_cli_range(ok).is_ok(), "{ok}");
         }
     }
 }

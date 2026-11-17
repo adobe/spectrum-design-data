@@ -17,6 +17,7 @@ use chrono::Utc;
 mod authoring;
 mod changelog;
 mod data;
+mod doctor;
 mod format;
 mod lifecycle;
 mod render_batch;
@@ -82,9 +83,10 @@ struct Cli {
     /// optional positional flattened in via `TuiArgs`.
     #[arg(long, global = true)]
     platform: Option<String>,
-    /// Read a dataset even when its `dataset.json` says this CLI is too old for it
-    /// (`requires.cli`, or a newer `layoutRevision`). Results may be wrong. There is no
-    /// config-file or environment equivalent, and every run warns while it is in use.
+    /// Run anyway when the dataset says this CLI is too old for it (`requires.cli`, or a newer
+    /// `layoutRevision` in `dataset.json`) or this project's `cli_version` excludes this CLI.
+    /// Results may be wrong. There is no config-file or environment equivalent, and every run
+    /// warns while it is in use.
     #[arg(long, global = true)]
     ignore_data_requirements: bool,
 }
@@ -706,6 +708,21 @@ enum PlatformSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Check a platform repo's health in one go: the manifest applies and every recipe binding
+    /// resolves, the `foundationVersion` and `[source]` pins agree, this CLI meets what the
+    /// dataset and the project ask of it, the platform is registered, and which extensions
+    /// replace a foundation artifact. Reports every finding, never refuses. Exits 1 on an error.
+    /// `--latest` also asks GitHub how far behind the newest release the pin is
+    Doctor {
+        /// Platform id (default: the configured `default_platform`)
+        id: Option<String>,
+        /// Ask GitHub for the newest foundation release and compare (needs the network)
+        #[arg(long)]
+        latest: bool,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Which data changes between two foundation releases hit what a platform binds: the
     /// relationship contexts and tokens its recipes name, the options they read, and the
     /// relationships its manifest overrides. Reads the `--to` release's component changelogs.
@@ -1124,36 +1141,113 @@ fn data_requirements(resolved: &data_source::ResolvedData) -> data_source::requi
     }
 }
 
-/// Set once the requirements warnings have been printed: a command may resolve its data more
-/// than once, and each warning belongs to the run, not to each resolve.
-static REQUIREMENTS_WARNED: std::sync::atomic::AtomicBool =
-    std::sync::atomic::AtomicBool::new(false);
+/// Whether the command being run writes output a project commits or ships (`render`,
+/// `export`, `site`, ...), set once in `main`. A project's `cli_version` is an error for these
+/// and a warning for the rest.
+static COMMITS_OUTPUT: OnceLock<bool> = OnceLock::new();
+
+/// Commands whose output a project commits or ships: a different CLI can write different files.
+fn produces_committed_output(command: &Commands) -> bool {
+    match command {
+        Commands::Render { .. }
+        | Commands::RenderCompare { .. }
+        | Commands::Export { .. }
+        | Commands::SpecSheet { .. }
+        | Commands::Site { .. } => true,
+        // Only the subcommands that write files: a read-only one added later is not blocked.
+        Commands::Catalog { sub } => matches!(sub, CatalogSub::Export { .. }),
+        Commands::Figma { sub } => matches!(sub, FigmaSub::Export { .. }),
+        _ => false,
+    }
+}
+
+/// Why this CLI is outside the project's `cli_version`, if the project sets one.
+fn project_cli_range_finding() -> miette::Result<Option<String>> {
+    Ok(project_config()?.and_then(|(_, config)| {
+        config.cli_version.and_then(|range| {
+            data_source::requirements::cli_range_mismatch(&range, env!("CARGO_PKG_VERSION"))
+        })
+    }))
+}
+
+/// Hold this CLI to the project's `cli_version`, once, before any command runs: a command that
+/// never resolves a dataset (`render-compare` reads scenes and a measured file) still produces
+/// output the project commits. An error for a command that writes committed output, a warning
+/// for the rest. `platform show` and `platform doctor` are skipped: they report it themselves.
+fn enforce_project_cli_range(command: &Commands) -> miette::Result<()> {
+    if matches!(
+        command,
+        Commands::Platform {
+            sub: PlatformSub::Show { .. } | PlatformSub::Doctor { .. }
+        }
+    ) {
+        return Ok(());
+    }
+    let commits_output = COMMITS_OUTPUT.get().copied().unwrap_or(false);
+    let finding = match project_cli_range_finding() {
+        Ok(finding) => finding,
+        // A command that writes nothing a project commits does not need the config; the ones
+        // that do report a broken one themselves.
+        Err(_) if !commits_output => return Ok(()),
+        Err(e) => return Err(e),
+    };
+    let Some(finding) = finding else {
+        return Ok(());
+    };
+    if !commits_output {
+        warn_once(&finding);
+        return Ok(());
+    }
+    if IGNORE_DATA_REQUIREMENTS.get().copied().unwrap_or(false) {
+        warn_once(&format!(
+            "{finding} Continuing because --ignore-data-requirements is set; results may be wrong."
+        ));
+        return Ok(());
+    }
+    miette::bail!(
+        "{finding}\nPass --ignore-data-requirements to continue anyway; results may be wrong."
+    )
+}
+
+/// Print a requirements warning at most once per run. A command can resolve its data more than
+/// once, and the pre-dispatch `cli_version` check can name the same thing a later check does;
+/// each message belongs to the run, not to each place that notices it.
+///
+/// Deduplicates on the message text, so a message must be the same string each time it is
+/// raised: the ones here are built from versions, layout numbers and the range only. Do not put
+/// a path or a count in one. Two different datasets in one run (`diff OLD NEW`) give different
+/// messages and both print.
+fn warn_once(message: &str) {
+    static PRINTED: OnceLock<std::sync::Mutex<HashSet<String>>> = OnceLock::new();
+    let printed = PRINTED.get_or_init(Default::default);
+    let first = printed
+        .lock()
+        .map_or(true, |mut set| set.insert(message.to_string()));
+    if first {
+        eprintln!("warning: {message}");
+    }
+}
 
 /// Refuse a dataset whose `dataset.json` needs a newer CLI than this one (`requires.cli`, or a
 /// `layoutRevision` newer than this engine's). A dataset that does not say asks for nothing.
 fn enforce_data_requirements(resolved: &data_source::ResolvedData) -> miette::Result<()> {
     let unmet = data_requirements(resolved);
-    let first = !REQUIREMENTS_WARNED.swap(true, std::sync::atomic::Ordering::Relaxed);
-    if first {
-        for w in &unmet.warnings {
-            eprintln!("warning: {w}");
-        }
+    for w in &unmet.warnings {
+        warn_once(w);
     }
     if unmet.errors.is_empty() {
         return Ok(());
     }
     if IGNORE_DATA_REQUIREMENTS.get().copied().unwrap_or(false) {
-        if first {
-            for e in &unmet.errors {
-                eprintln!(
-                    "warning: {e} Continuing because --ignore-data-requirements is set; results may be wrong."
-                );
-            }
+        for e in &unmet.errors {
+            warn_once(&format!(
+                "{e} Continuing because --ignore-data-requirements is set; results may be wrong."
+            ));
         }
         return Ok(());
     }
     miette::bail!(
-        "{}\nPass --ignore-data-requirements to read it anyway; results may be wrong.",
+        "{}\nPass --ignore-data-requirements to continue anyway; results may be wrong.",
         unmet.errors.join("\n")
     )
 }
@@ -2252,7 +2346,8 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
         platform_id: Some(id.to_string()),
         ..Default::default()
     })?;
-    let requirements = data_requirements(&resolved);
+    let mut requirements = data_requirements(&resolved);
+    requirements.errors.extend(project_cli_range_finding()?);
     let Some(manifest_path) = resolved.platform_manifest.clone() else {
         eprintln!("design-data: error: platform \"{id}\" resolved but has no manifest path");
         return Ok(ExitCode::from(2));
@@ -4945,11 +5040,20 @@ fn main() -> ExitCode {
         Some(Commands::Tui(args)) => return run_tui(args),
         Some(other) => other,
     };
+    COMMITS_OUTPUT
+        .set(produces_committed_output(&command))
+        .expect("main runs exactly once; COMMITS_OUTPUT is set exactly once here");
+
+    if let Err(e) = enforce_project_cli_range(&command) {
+        eprintln!("Error: {e:?}");
+        return ExitCode::from(2);
+    }
 
     let result = match command {
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),
             PlatformSub::Show { id, format } => run_platform_show(&id, format),
+            PlatformSub::Doctor { id, latest, format } => doctor::run(id, latest, format),
             PlatformSub::Impact {
                 id,
                 from,

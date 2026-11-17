@@ -60,7 +60,9 @@ Without configuration, the embedded Spectrum snapshot is used automatically (off
 To apply a platform manifest, register it under `[platforms]` and select it with
 `--platform <id>` (after the subcommand), `DESIGN_DATA_PLATFORM`, or
 `default_platform`. `design-data catalog export --out DIR` writes the
-platform-merged component and guideline catalogs. See
+platform-merged component and guideline catalogs. A project that commits generated
+output can pin the CLI with a top-level `cli_version = ">=0.36.5, <0.38.0"`.
+`design-data platform doctor` checks a platform repo's whole setup in one go. See
 [Configuring design-data for your platform](https://opensource.adobe.com/spectrum-design-data/articles/configuring-design-data-for-your-platform/).
 
 ## License

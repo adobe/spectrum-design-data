@@ -42,7 +42,7 @@ const EXPECTED_TOOLS = [
 
 // ── design-data-suggest (wasm-backed) ────────────────────────────────────────
 
-test("design-data-suggest returns ranked results in richer Rust shape", async (t) => {
+test("design-data-suggest returns ranked compact results with final values", async (t) => {
   const tools = Object.fromEntries(
     createDesignDataTools().map((tool) => [tool.name, tool]),
   );
@@ -53,18 +53,21 @@ test("design-data-suggest returns ranked results in richer Rust shape", async (t
   t.true(Array.isArray(results));
   t.true(results.length > 0);
   for (const r of results) {
-    t.true(Object.hasOwn(r, "tokenName"), "result has tokenName");
+    t.true(Object.hasOwn(r, "name"), "result has name");
     t.true(Object.hasOwn(r, "confidence"), "result has confidence");
     t.true(Object.hasOwn(r, "layer"), "result has layer");
     t.is(typeof r.confidence, "number");
     t.true(r.confidence > 0 && r.confidence <= 1);
-    // tokenName must be a resolved name (e.g. legacyKey), never the raw
-    // "<file>:<index>" cascade graph key.
+    // name must be a resolved name (e.g. legacyKey), never the raw
+    // "<file>:<index>" cascade graph key, and no file paths are sent.
     t.false(
-      /\.json:\d+$/.test(r.tokenName),
-      `tokenName "${r.tokenName}" looks like a raw graph key, not a resolved name`,
+      /\.json:\d+$/.test(r.name),
+      `name "${r.name}" looks like a raw graph key, not a resolved name`,
     );
+    t.false(Object.hasOwn(r, "file"));
   }
+  // Aliases are followed: a suggested token always carries its final value.
+  t.true(results.some((r) => typeof r.value === "string"));
 });
 
 test("design-data-suggest respects limit", async (t) => {
@@ -412,12 +415,150 @@ test("design-data-query component=button returns tokens bound to the component",
   const results = await byName()["design-data-query"].handler({
     filter: "component=button",
   });
-  t.true(results.length > 0);
+  t.true(results.total > 0);
   const narrowed = await byName()["design-data-query"].handler({
     filter: "component=button,state=hover",
   });
-  t.true(narrowed.length > 0);
-  t.true(narrowed.length < results.length);
+  t.true(narrowed.total > 0);
+  t.true(narrowed.total < results.total);
+});
+
+test("design-data-query is capped, compact and says how to narrow", async (t) => {
+  const query = byName()["design-data-query"];
+  const wide = await query.handler({ filter: "property=*color*" });
+  t.true(wide.total > 25);
+  t.is(wide.shown, 25);
+  t.is(wide.tokens.length, 25);
+  t.regex(wide.hint, /Showing 25 of \d+/);
+  // The point of the cap: a broad query stays small enough to read.
+  t.true(JSON.stringify(wide).length < 12_000);
+  for (const token of wide.tokens) {
+    t.false(Object.hasOwn(token, "raw"));
+    t.false(/\.json:\d+$/.test(token.name));
+  }
+  const raised = await query.handler({ filter: "component=button", limit: 3 });
+  t.is(raised.shown, 3);
+  const full = await query.handler({
+    filter: "component=button",
+    limit: 2,
+    detail: "full",
+  });
+  t.true(Object.hasOwn(full.tokens[0], "raw"));
+});
+
+test("design-data-query follows aliases to a final value", async (t) => {
+  const { tokens } = await byName()["design-data-query"].handler({
+    filter: "property=padding",
+    limit: 200,
+  });
+  const small = tokens.find((tok) => tok.name === "container-padding-small");
+  t.is(small?.value, "12px");
+  // Every shown token with a name has a value or is a composite we cannot flatten.
+  const unresolved = tokens.filter(
+    (tok) => tok.value === undefined && tok.values === undefined,
+  );
+  t.is(unresolved.length, 0, JSON.stringify(unresolved.slice(0, 2)));
+});
+
+test("design-data-query gives per-mode values when an alias depends on a mode it does not name", async (t) => {
+  const query = byName()["design-data-query"];
+  const find = async (filter, key) =>
+    (await query.handler({ filter, limit: 200 })).tokens.find(
+      (tok) => tok.name === key,
+    );
+  // No colorScheme in its own name, but its target differs by colorScheme.
+  const content = await find(
+    "property=content-color",
+    "accent-content-color-default",
+  );
+  t.is(content.value, undefined);
+  t.deepEqual(Object.keys(content.values.colorScheme).sort(), [
+    "dark",
+    "light",
+    "wireframe",
+  ]);
+  t.not(content.values.colorScheme.light, content.values.colorScheme.dark);
+  const shadow = await find("property=color", "drop-shadow-dragged-color");
+  t.is(shadow.values.colorScheme.dark, "rgba(0, 0, 0, 0.6)");
+  // A value that is the same in every mode stays a single value.
+  const padding = await find("property=padding", "container-padding-small");
+  t.is(padding.value, "12px");
+  t.is(padding.values, undefined);
+});
+
+test("every alias value is explained by at most one mode-set", async (t) => {
+  t.timeout(60_000);
+  // tokenValue varies one mode-set at a time. That is complete only while a token's value
+  // depends on a single mode-set. A token that needs a combination (a high-contrast value
+  // that differs only in dark, say) would show a wrong value, so check every combination.
+  const wasm = await import("@adobe/design-data-wasm");
+  const ds = wasm.Dataset.embedded();
+  const sets = ds.primer().modeSets;
+  const offenders = [];
+  const checked = new Set();
+  for (const token of ds.query("")) {
+    const name = token.raw.name ?? {};
+    if (token.raw.value !== undefined || !name.legacyKey) continue;
+    const ref = `{${name.legacyKey}}`;
+    const pinned = {};
+    for (const { name: set } of sets) if (name[set]) pinned[set] = name[set];
+    // Aliases of the same target with the same pinned modes resolve alike: check one.
+    const group = `${token.raw.$ref}|${JSON.stringify(pinned)}`;
+    if (checked.has(group)) continue;
+    checked.add(group);
+    const free = sets.filter(({ name: set }) => !pinned[set]);
+    const valueOf = (context) =>
+      ds.resolveReference(ref, { ...pinned, ...context })?.value;
+    const varying = free.filter(
+      ({ name: set, modes }) =>
+        new Set(modes.map((mode) => valueOf({ [set]: mode }))).size > 1,
+    );
+    // Every combination of the free mode-sets must match the value from changing
+    // only the one varying set (or the default when none varies).
+    let combos = [{}];
+    for (const { name: set, modes } of free) {
+      combos = combos.flatMap((c) =>
+        modes.map((mode) => ({ ...c, [set]: mode })),
+      );
+    }
+    const only = varying.length === 1 ? varying[0].name : undefined;
+    const bad =
+      varying.length > 1 ||
+      combos.some(
+        (combo) =>
+          valueOf(combo) !== valueOf(only ? { [only]: combo[only] } : {}),
+      );
+    if (bad) offenders.push(name.legacyKey);
+  }
+  t.deepEqual(
+    offenders,
+    [],
+    "these tokens depend on a combination of mode-sets: tokenValue in src/tools/design-data.js must resolve combinations",
+  );
+});
+
+test("design-data-query clamps limit at both ends", async (t) => {
+  const query = byName()["design-data-query"];
+  for (const [limit, shown] of [
+    [-1, 1],
+    [0, 25],
+    [null, 25],
+    ["abc", 25],
+    [1000, 200],
+  ]) {
+    const result = await query.handler({ filter: "property=*color*", limit });
+    t.is(result.shown, shown, `limit ${limit}`);
+  }
+});
+
+test("design-data-query lists active tokens before deprecated ones", async (t) => {
+  const { tokens } = await byName()["design-data-query"].handler({
+    filter: "property=size",
+    limit: 200,
+  });
+  const firstDeprecated = tokens.findIndex((tok) => tok.deprecated);
+  t.true(firstDeprecated > 0);
+  t.true(tokens.slice(firstDeprecated).every((tok) => tok.deprecated));
 });
 
 test("design-data-query description lists only filterable fields", (t) => {
