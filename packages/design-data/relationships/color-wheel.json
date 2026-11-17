@@ -12,7 +12,10 @@
   {
     "scope": {
       "component": "color-wheel",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width",
     "contextRole": ["width"],
@@ -22,7 +25,10 @@
   {
     "scope": {
       "component": "color-wheel",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Width",
     "contextRole": ["width"],

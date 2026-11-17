@@ -321,9 +321,12 @@
   {
     "scope": {
       "component": "field-label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Label and asterisk icon (disabled)",
+    "context": "Label and asterisk icon",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "f929df3a-fcfc-5e73-b7d7-aea32fe08f4a"
   },

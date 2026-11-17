@@ -1,5 +1,93 @@
 # @adobe/design-data-skill
 
+## 2.2.8
+
+### Patch Changes
+
+- Updated dependencies [[`1b01d40`](https://github.com/adobe/spectrum-design-data/commit/1b01d40baf3edafef26ca9e3a2d96c288e86cf31), [`374bbd8`](https://github.com/adobe/spectrum-design-data/commit/374bbd844ae6c08d2869730f6cd96d0f16741aeb)]:
+  - @adobe/design-data-mcp@1.13.6
+
+## 2.2.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.5
+
+## 2.2.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.4
+
+## 2.2.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.3
+
+## 2.2.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.2
+
+## 2.2.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.1
+
+## 2.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`0e290c0`](https://github.com/adobe/spectrum-design-data/commit/0e290c08a5542f0bf107d76c1e4a4e1d34284ba1)]:
+  - @adobe/design-data-mcp@1.13.0
+
+## 2.2.1
+
+### Patch Changes
+
+- [#1787](https://github.com/adobe/spectrum-design-data/pull/1787) [`46f7b73`](https://github.com/adobe/spectrum-design-data/commit/46f7b738f868b164aa5781c627687a08620ad07b) Thanks [@GarthDB](https://github.com/GarthDB)! - Document installing the plugin in the GitHub Copilot app, and that a new session is needed.
+  - **`README.md`**: adds the Copilot app steps (Customize, marketplace, Install) and says to
+    start a new session after installing, because an already-open session does not load the
+    plugin's tools. Also says "all of them" instead of "all eight" for the read-only tools.
+
+- Updated dependencies [[`544047f`](https://github.com/adobe/spectrum-design-data/commit/544047fe07b51c40928d23785f97147377fa948e)]:
+  - @adobe/design-data-mcp@1.12.1
+
+## 2.2.0
+
+### Minor Changes
+
+- [#1780](https://github.com/adobe/spectrum-design-data/pull/1780) [`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e) Thanks [@GarthDB](https://github.com/GarthDB)! - Tell agents how PNG text gets its font.
+  - **`skills/design-data/SKILL.md`**: documents `format: "png"`, `design-data-font-status` and
+    a Fonts section: relay `font.fallback` and `font.help`, point Adobe employees to the Brand
+    Center `.ttf`, ask for a path when the user says it is installed, and never say to download
+    what was found.
+  - **Plugin and marketplace descriptions**: mention SVG and PNG renders.
+
+### Patch Changes
+
+- Updated dependencies [[`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e)]:
+  - @adobe/design-data-mcp@1.12.0
+
+## 2.1.0
+
+### Minor Changes
+
+- [#1775](https://github.com/adobe/spectrum-design-data/pull/1775) [`36b9c3d`](https://github.com/adobe/spectrum-design-data/commit/36b9c3d00a761a27cd9b50ad60da11b31a3de895) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the new `design-data-visual-recipe` and `design-data-render` MCP tools in the skill.
+
+### Patch Changes
+
+- Updated dependencies [[`36b9c3d`](https://github.com/adobe/spectrum-design-data/commit/36b9c3d00a761a27cd9b50ad60da11b31a3de895)]:
+  - @adobe/design-data-mcp@1.11.0
+
 ## 2.0.3
 
 ### Patch Changes

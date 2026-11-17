@@ -46,14 +46,14 @@ export async function measureInPage({ family, weights, first, last }) {
   return { weights: out, test700At14px: cv.measureText("Test").width };
 }
 
-export function buildTable({ weights, test700At14px }, { kit, family, date }) {
+export function buildTable({ weights, test700At14px }, { kit, family, date, platform = `${process.platform}-${process.arch}` }) {
   return {
     font: family,
     source: `Adobe Fonts kit ${kit}, measured in headless Chrome. Derived from a licensed font: never commit or publish.`,
     generated: "platform-capture text-metrics: Chrome canvas measureText at 1000 px, units 1/1000 em",
     format:
       "weight -> { adv: advance of ASCII 32..126, kern: two-character pair -> adjustment }; other characters measure 0.46 em",
-    meta: { generated: date, kit, family, test700At14px: Math.round(test700At14px * 1000) / 1000 },
+    meta: { generated: date, kit, family, test700At14px: Math.round(test700At14px * 1000) / 1000, platform },
     ...weights,
   };
 }

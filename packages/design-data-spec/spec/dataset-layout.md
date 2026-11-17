@@ -60,6 +60,10 @@ A dataset **MAY** carry a root **descriptor** to make its structure and target s
 * **`.design-data.toml`** — a project-level config (TOML) that primarily declares where the dataset lives (`[source]`) and cache overrides. It is consumed during [discovery](#dataset-discovery) tier 2.
 * **`dataset.json`** — an OPTIONAL JSON descriptor placed at the dataset root that **MAY** declare which optional directories are present, pin the spec version the dataset targets, and override default discovery paths. It **MUST** conform to [`dataset.schema.json`](../schemas/dataset.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/dataset.schema.json`).
 
+A `dataset.json` **MAY** carry `layoutRevision`, an integer naming the visual layout revision its recipes were authored against (see [Component visuals](component-visuals.md)). A renderer whose own revision differs **SHOULD** warn, because the same recipe can lay out differently. A dataset without the field is revision 0.
+
+A `dataset.json` **MAY** carry `requires.cli`, the oldest design-data CLI that can read the dataset correctly, as an exact version (`"0.40.0"`), not a range. A dataset can say what it needs, not what future CLIs will do, so there is no maximum; a layout change that breaks older engines is covered by `layoutRevision`. The CLI is 0.x, where a minor release can break, so "this CLI or newer" is a promise about the floor only. A CLI older than `requires.cli`, or whose layout revision is older than `layoutRevision`, **MUST NOT** read the dataset without being told to: the `design-data` CLI exits with an error, and `--ignore-data-requirements` (command line only, never a config file) reads it anyway and warns on every run. A dataset without `requires` asks for nothing, so data released before the field existed is not checked.
+
 **NORMATIVE:** Neither descriptor is required. A dataset with a conformant `tokens/` directory and no descriptor is fully conformant. When a `dataset.json` is present it **MUST** validate against `dataset.schema.json`, but its absence **MUST NOT** be treated as an error.
 
 ## Structural validation

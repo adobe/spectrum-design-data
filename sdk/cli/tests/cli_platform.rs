@@ -679,6 +679,432 @@ fn catalog_export_platform_recipe_replaces_foundation_recipe() {
     assert_eq!(recipe["sizeScale"], json!({"zz": 1}));
 }
 
+/// h890.36.8 (GH #1866): `validate-manifest` reports a platform-owned recipe that binds a
+/// relationship the data does not have (MANIFEST-001), where it used to print "is valid".
+#[test]
+fn validate_manifest_reports_a_platform_recipe_binding_a_missing_context() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    let write_recipe = |context: &str| {
+        fs::write(
+            dir.join("action-button.json"),
+            json!({"component": "action-button", "root": "container", "sizeScale": {"m": 100},
+                "parts": {"container": {"kind": "box", "props": {
+                    "fill": {"relationship": {
+                        "property": "color", "context": context}}}}}})
+            .to_string(),
+        )
+        .unwrap();
+    };
+
+    // A context the data has passes.
+    write_recipe("Background");
+    design_data(project.path(), &["validate-manifest"])
+        .success()
+        .stdout(contains("is valid"));
+
+    // A context it does not have fails: a bogus one, and the name data 3.15.0 renamed to
+    // "Background" (action-button, #1827).
+    for missing in ["BogusContext", "Background (selected, non emphasized)"] {
+        write_recipe(missing);
+        design_data(project.path(), &["validate-manifest"])
+            .code(1)
+            .stderr(contains("MANIFEST-001 (validate-manifest)"))
+            .stderr(contains(missing));
+    }
+    let out = design_data(project.path(), &["validate-manifest", "--format", "json"])
+        .code(1)
+        .get_output()
+        .stdout
+        .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["valid"], false);
+    assert_eq!(report["bindings"][0]["component"], "action-button");
+}
+
+/// A platform recipe that nests a foundation component (a `component` part, as Rune's
+/// radio-group nests radio-button) must still be checked, not reported as uncompilable:
+/// `validate-manifest` has to load the foundation recipes the nested part resolves to.
+#[test]
+fn validate_manifest_resolves_a_nested_foundation_component_recipe() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    fs::write(
+        dir.join("radio-group.json"),
+        json!({"component": "radio-group", "root": "container", "sizeScale": {"m": 100},
+            "parts": {
+                "container": {"kind": "box", "children": ["item"], "props": {}},
+                "item": {"kind": "component", "component": "radio-button",
+                    "sizeMap": {"m": "m"}, "with": {"isSelected": true}}}})
+        .to_string(),
+    )
+    .unwrap();
+    design_data(project.path(), &["validate-manifest"])
+        .success()
+        .stdout(contains("is valid"));
+}
+
+/// With the foundation recipes loaded, a nested component that exists in neither the
+/// foundation nor the platform is still reported.
+#[test]
+fn validate_manifest_reports_a_nested_component_that_exists_nowhere() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    fs::write(
+        dir.join("radio-group.json"),
+        json!({"component": "radio-group", "root": "container", "sizeScale": {"m": 100},
+            "parts": {
+                "container": {"kind": "box", "children": ["item"], "props": {}},
+                "item": {"kind": "component", "component": "no-such-component",
+                    "sizeMap": {"m": "m"}}}})
+        .to_string(),
+    )
+    .unwrap();
+    design_data(project.path(), &["validate-manifest"])
+        .code(1)
+        .stderr(contains("MANIFEST-001 (validate-manifest)"))
+        .stderr(contains("no-such-component"));
+}
+
+/// h890.36.7 (GH #1868): `platform impact` lists what a release range changed for a platform's
+/// own recipe bindings, read from this repo's real changelogs. Data 3.15.0 renamed the
+/// action-button context `Background (selected, non emphasized)` to `Background` (#1827).
+#[test]
+fn platform_impact_reports_a_context_renamed_in_the_release_range() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "3.14.0", "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    let dir = project.path().join("extensions/visuals");
+    fs::create_dir_all(&dir).unwrap();
+    let write_recipe = |context: &str| {
+        fs::write(
+            dir.join("action-button.json"),
+            json!({"component": "action-button", "root": "container", "sizeScale": {"m": 100},
+                "parts": {"container": {"kind": "box", "props": {
+                    "fill": {"relationship": {"property": "color", "context": context}}}}}})
+            .to_string(),
+        )
+        .unwrap();
+    };
+    let changelog = repo_root().join("packages/design-data/changelog");
+    let impact = |extra: &[&str]| {
+        let mut args = vec![
+            "platform",
+            "impact",
+            "--to",
+            "3.15.1",
+            "--changelog-dir",
+            changelog.to_str().unwrap(),
+        ];
+        args.extend_from_slice(extra);
+        design_data(project.path(), &args)
+    };
+
+    // The recipe binds the name 3.15.0 renamed: breaks, and says where and why.
+    write_recipe("Background (selected, non emphasized)");
+    impact(&[])
+        .code(1)
+        .stdout(contains("BREAKS"))
+        .stdout(contains("renamed to 'Background'"))
+        .stdout(contains("action-button.json#/parts/container/props/fill"))
+        .stdout(contains("relationship\n").not())
+        .stdout(contains("1827"));
+    let out = impact(&["--format", "json"])
+        .code(1)
+        .get_output()
+        .stdout
+        .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["from"], "3.14.0");
+    assert_eq!(report["findings"][0]["class"], "breaks");
+
+    // Starting at the release that made the rename, there is nothing left to report for it.
+    impact(&["--from", "3.15.0"])
+        .success()
+        .stdout(contains("BREAKS").not());
+
+    // A binding to the new name does not break.
+    write_recipe("Background");
+    impact(&[]).success().stdout(contains("BREAKS").not());
+
+    // A range that is not ordered is refused.
+    design_data(
+        project.path(),
+        &[
+            "platform",
+            "impact",
+            "--from",
+            "3.15.1",
+            "--to",
+            "3.14.0",
+            "--changelog-dir",
+            changelog.to_str().unwrap(),
+        ],
+    )
+    .failure()
+    .stderr(contains("must be older"));
+}
+
+#[cfg(unix)]
+/// A project whose `[source]` is a github tag, served from a pre-filled cache (a symlink to this
+/// checkout's `packages/`) so no test touches the network, and a manifest with `foundation`.
+fn pinned_project(foundation: &str, source_tag: &str) -> (tempfile::TempDir, tempfile::TempDir) {
+    let cache = tempfile::tempdir().expect("cache dir");
+    let segment = source_tag.replace(['/', '@'], "-");
+    // `<repo>@tag-<tag with / and @ as ->`: the tag already starts with `-`, so this is `tag--`
+    // in the directory name and not `tag---`.
+    let root = cache.path().join(format!(
+        "sources/github/adobe-spectrum-design-data@tag-{segment}"
+    ));
+    fs::create_dir_all(&root).unwrap();
+    std::os::unix::fs::symlink(repo_root().join("packages"), root.join("packages")).unwrap();
+    fs::write(root.join(".complete"), "3").unwrap();
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": foundation, "platform": "fixture"})
+            .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"github\"\nrepo = \"adobe/spectrum-design-data\"\ntag = \"{source_tag}\"\n\n[platforms]\nfixture = \"manifest.json\"\n"
+        ),
+    )
+    .unwrap();
+    (project, cache)
+}
+
+#[cfg(unix)]
+fn with_cache(
+    project: &std::path::Path,
+    cache: &std::path::Path,
+    args: &[&str],
+) -> assert_cmd::assert::Assert {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project)
+        .env("DESIGN_DATA_CACHE_DIR", cache)
+        // A cache miss must fail loudly, not quietly download the tag: nothing is listening.
+        .env("HTTPS_PROXY", "http://127.0.0.1:9")
+        .env("https_proxy", "http://127.0.0.1:9")
+        .args(args)
+        .assert()
+}
+
+/// h890.36.4 (GH #1741): the pin is written twice, in the manifest and in `[source]`.
+#[cfg(unix)]
+#[test]
+fn validate_manifest_and_show_report_a_foundation_pin_mismatch() {
+    let (project, cache) = pinned_project(
+        "@adobe/spectrum-design-data@3.9.0",
+        "@adobe/spectrum-design-data@3.10.0",
+    );
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["validate-manifest", "--platform", "fixture"],
+    )
+    .code(1)
+    .stderr(contains("MANIFEST-002 (validate-manifest)"))
+    .stderr(contains("'3.9.0'"))
+    .stderr(contains("'3.10.0'"));
+    let out = with_cache(
+        project.path(),
+        cache.path(),
+        &[
+            "validate-manifest",
+            "--platform",
+            "fixture",
+            "--format",
+            "json",
+        ],
+    )
+    .code(1)
+    .get_output()
+    .stdout
+    .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["pin"]["status"], "mismatch");
+    // `platform show` compares with the source, not the embedded build, and does not fail.
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["platform", "show", "fixture"],
+    )
+    .success()
+    .stdout(contains("MISMATCH"))
+    .stdout(contains("3.10.0"))
+    .stdout(contains("embedded").not());
+}
+
+#[cfg(unix)]
+#[test]
+fn matching_pins_pass_with_or_without_the_package_prefix() {
+    let (project, cache) = pinned_project("3.10.0", "@adobe/spectrum-design-data@3.10.0");
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["validate-manifest", "--platform", "fixture"],
+    )
+    .success()
+    .stdout(contains("is valid"));
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["platform", "show", "fixture"],
+    )
+    .success()
+    .stdout(contains("pins agree"))
+    .stdout(contains("may be drifted").not());
+}
+
+/// A manifest from outside the project (`--manifest`, or a remote platform entry fetched into
+/// the cache) pins its own foundation: it is not compared with this project's `[source]`.
+#[cfg(unix)]
+#[test]
+fn a_manifest_from_outside_the_project_is_not_compared_with_its_source() {
+    let (project, cache) = pinned_project(
+        "@adobe/spectrum-design-data@3.10.0",
+        "@adobe/spectrum-design-data@3.10.0",
+    );
+    let elsewhere = tempfile::tempdir().expect("other repo");
+    fs::write(
+        elsewhere.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "platform": "fixture",
+            "foundationVersion": "@adobe/spectrum-design-data@3.9.0"})
+        .to_string(),
+    )
+    .unwrap();
+    let foreign = elsewhere.path().join("manifest.json");
+    let out = with_cache(
+        project.path(),
+        cache.path(),
+        &[
+            "validate-manifest",
+            "--manifest",
+            foreign.to_str().unwrap(),
+            "--format",
+            "json",
+        ],
+    )
+    .success()
+    .get_output()
+    .stdout
+    .clone();
+    let report: serde_json::Value = serde_json::from_slice(&out).expect("json report");
+    assert_eq!(report["pin"]["status"], "skipped", "{report}");
+    assert!(
+        report["pin"]["reason"]
+            .as_str()
+            .unwrap()
+            .contains("not in this project"),
+        "{report}"
+    );
+    // The project's own manifest, with the same different pin, is still compared.
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "platform": "fixture",
+            "foundationVersion": "@adobe/spectrum-design-data@3.9.0"})
+        .to_string(),
+    )
+    .unwrap();
+    with_cache(
+        project.path(),
+        cache.path(),
+        &["validate-manifest", "--platform", "fixture"],
+    )
+    .code(1)
+    .stderr(contains("MANIFEST-002"));
+}
+
+#[test]
+fn a_path_source_is_not_compared_with_the_manifest_pin() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({"specVersion": "1.0.0-draft", "foundationVersion": "@adobe/spectrum-design-data@3.9.0",
+            "platform": "fixture"})
+        .to_string(),
+    )
+    .unwrap();
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n\n[platforms]\nfixture = \"manifest.json\"\n",
+            repo_root().display()
+        ),
+    )
+    .unwrap();
+    design_data(
+        project.path(),
+        &["validate-manifest", "--platform", "fixture"],
+    )
+    .success()
+    .stdout(contains("is valid"));
+    design_data(project.path(), &["platform", "show", "fixture"])
+        .success()
+        .stdout(contains("not compared"));
+}
+
 #[test]
 fn catalog_export_into_reused_dir_removes_stale_files() {
     let out = tempfile::tempdir().expect("out dir");
@@ -767,6 +1193,58 @@ fn render_applies_the_selected_platform_and_names_it_in_diagnostics() {
             .success()
             .stderr(contains("warning").not());
     }
+}
+
+/// h890.36.5: `render --strict` turns an unresolved binding into exit 1 (output is still
+/// written); without it the same render exits 0, and a clean render passes `--strict`.
+#[test]
+fn render_strict_fails_on_an_unresolved_binding() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join("manifest.json"),
+        json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "fixture-drop",
+            "exclude": ["property=height"]
+        })
+        .to_string(),
+    )
+    .expect("write manifest");
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n[platforms]\nfixture-drop = \"manifest.json\"\n",
+            repo_root().display()
+        ),
+    )
+    .expect("write config");
+    let render = |strict: bool| {
+        let mut cmd = Command::cargo_bin("design-data").expect("design-data binary");
+        cmd.current_dir(project.path()).args([
+            "render",
+            "button",
+            "--platform",
+            "fixture-drop",
+            "--format",
+            "scene",
+        ]);
+        if strict {
+            cmd.arg("--strict");
+        }
+        cmd.assert()
+    };
+    render(false).success();
+    render(true)
+        .code(1)
+        .stderr(contains("--strict:"))
+        .stdout(contains("\"nodes\""));
+    Command::cargo_bin("design-data")
+        .expect("design-data binary")
+        .current_dir(repo_root())
+        .args(["render", "button", "--format", "scene", "--strict"])
+        .assert()
+        .success();
 }
 
 /// p6ga.8.37: a platform with `componentAliases` (button -> button-ios) and its own recipe.

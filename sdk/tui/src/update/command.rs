@@ -34,6 +34,7 @@ use crate::find::FindWizardState;
 use crate::message::Message;
 use crate::model::Model;
 use crate::naming::NamingWizardState;
+use crate::preview::PreviewRequest;
 use crate::task::Task;
 use crate::wizard::WizardState;
 
@@ -342,6 +343,22 @@ fn dispatch_command(
             model.open_modal(Modal::Authoring(Box::new(am)));
             model.status_message = None;
             Task::none()
+        }
+        Some(Command::Preview) => {
+            let request = match PreviewRequest::parse(rest) {
+                Ok(r) => r,
+                Err(e) => {
+                    model.status_message = Some(StatusMessage::error(e));
+                    return Task::none();
+                }
+            };
+            let Some(source) = ctx.preview.clone() else {
+                model.status_message = Some(StatusMessage::error("preview: no dataset loaded"));
+                return Task::none();
+            };
+            // The first preview loads the recipes, so it runs off the UI thread.
+            model.status_message = Some(StatusMessage::info("rendering preview…"));
+            Task::cmd(move || Message::PreviewDone(Box::new(source.render(&request))))
         }
         Some(Command::Quit) => {
             model.quit = true;

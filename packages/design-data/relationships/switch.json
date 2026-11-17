@@ -874,55 +874,69 @@
   {
     "scope": {
       "component": "switch",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
     "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
     "uuid": "87bc748f-a434-5b6e-9183-f6d9407401bd"
   },
   {
     "scope": {
       "component": "switch",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
     "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe",
     "uuid": "64def50c-75fa-50b6-8607-b6ceaea11d76"
   },
   {
     "scope": {
       "component": "switch",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
     "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1",
     "uuid": "143e1daa-8a2d-5aed-ab60-dc8d22f81912"
   },
   {
     "scope": {
       "component": "switch",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
     "$ref": "71dcd137-f767-4d2c-b6ac-942b99ac8621",
     "uuid": "2ca8e89f-fc26-53bc-b3a8-be4c3396aa97"
   },
   {
     "scope": {
       "component": "switch",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Label (disabled)",
+    "context": "Label",
     "contextRole": ["label"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "b360eaec-6c9e-50de-905d-7f88cd5a7231"
   },
@@ -1724,11 +1738,14 @@
     "scope": {
       "component": "switch",
       "part": "track",
-      "property": "background-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false
+      }
     },
-    "context": "Control (selected, non emphasized)",
-    "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
+    "context": "Track",
+    "contextRole": ["track"],
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "717958c7-0976-5238-88c7-cb29a2365675"
   },
@@ -1736,11 +1753,14 @@
     "scope": {
       "component": "switch",
       "part": "track",
-      "property": "background-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false
+      }
     },
-    "context": "Control (selected, non emphasized)",
-    "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
+    "context": "Track",
+    "contextRole": ["track"],
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "68452152-2f5b-5564-9d4b-b5db2bfefcc6"
   },
@@ -1748,11 +1768,14 @@
     "scope": {
       "component": "switch",
       "part": "track",
-      "property": "background-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false
+      }
     },
-    "context": "Control (selected, non emphasized)",
-    "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
+    "context": "Track",
+    "contextRole": ["track"],
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "c7c9abd5-a747-525e-909a-9ddbc11ff2c2"
   },
@@ -1760,11 +1783,14 @@
     "scope": {
       "component": "switch",
       "part": "track",
-      "property": "background-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false
+      }
     },
-    "context": "Control (selected, non emphasized)",
-    "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
+    "context": "Track",
+    "contextRole": ["track"],
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "ec607bb3-1a34-5426-b8d3-8558f0b80e27"
   },
@@ -1816,11 +1842,13 @@
     "scope": {
       "component": "switch",
       "part": "track",
-      "property": "border-color"
+      "property": "border-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Control (disabled)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "39dd2f6d-736b-548c-a5d1-de6df98955fe"
   },
@@ -1828,13 +1856,32 @@
     "scope": {
       "component": "switch",
       "part": "track",
-      "property": "background-color"
+      "property": "background-color",
+      "options": {
+        "isDisabled": true,
+        "isSelected": true
+      }
     },
-    "context": "Control (disabled, selected)",
-    "contextRole": ["control"],
-    "contextQualifier": "disabled, selected",
+    "context": "Track",
+    "contextRole": ["track"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "52e8e73b-21f2-5ae1-862d-8edc2fe38b5c"
+  },
+  {
+    "scope": {
+      "component": "switch",
+      "part": "track",
+      "property": "background-color",
+      "options": {
+        "isDisabled": true,
+        "isSelected": true,
+        "isEmphasized": false
+      }
+    },
+    "context": "Track",
+    "contextRole": ["track"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "2d87406b-503d-4b96-bd2e-2298ea8e0f33"
   },
   {
     "scope": {
@@ -1884,11 +1931,13 @@
     "scope": {
       "component": "switch",
       "part": "handle",
-      "property": "background-color"
+      "property": "background-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Control (disabled)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "211ef619-ec3d-5945-af9e-10b8a8dc6a49"
   },

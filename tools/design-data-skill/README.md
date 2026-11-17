@@ -24,12 +24,35 @@ tools/design-data-skill/
 
 ## Installation
 
+**Install it once, from one place.** The plugin is published in two marketplaces: the Design AI
+Marketplace and `adobe/spectrum-design-data`. Use one. Every copy registers an MCP server and a
+skill both called `design-data`, so a second copy (or a `design-data` entry in a repo's
+`mcp.json` or `.github/mcp.json`) gives the client duplicates, and it may expose none of them.
+If the assistant says it has no `design-data` tools, check **Customize → Installed** (Copilot app)
+or `copilot plugin list` for more than one `design-data` or `spectrum-design-data` plugin, remove
+the extras, and start a new session. If you install the plugin, remove any `design-data`
+entry you added by hand from an MCP config.
+
 ### Claude Code
 
 ```
 /plugin marketplace add adobe/spectrum-design-data
 /plugin install spectrum-design-data@spectrum-design-data
 ```
+
+### GitHub Copilot app
+
+Click **Customize** in the sidebar, use the marketplace settings control next to the
+marketplace dropdown to add the Git repository `adobe/spectrum-design-data`, then find
+**spectrum-design-data** on the Browse page and click **Install**. Under **Installed**, check
+that its toggle is on. The app's own steps are in
+[Customizing the GitHub Copilot app](https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app).
+
+**Start a new session after installing.** A session that was already open does not pick up the
+plugin's tools. An agent in such a session may look for the answer another way (reading code,
+or starting its own copy of the server) and give a result that does not come from the
+installed plugin. In a new session, ask it to use only the design-data MCP tools; if it says
+it has no such tool, the server did not start (it needs Node.js `>=20.12.0` on the app's PATH).
 
 ### GitHub Copilot CLI
 
@@ -38,7 +61,7 @@ copilot plugin marketplace add adobe/spectrum-design-data
 copilot plugin install spectrum-design-data@spectrum-design-data
 ```
 
-Copilot should not prompt for this plugin's tools: all eight are read-only and
+Copilot should not prompt for this plugin's tools: all of them are read-only and
 declare it. If a client or setting still asks for approval, you can pre-approve
 the server by name (`design-data`, from the plugin's `.mcp.json`):
 
@@ -64,11 +87,26 @@ This installs only the skill. Add the MCP server to `.cursor/mcp.json` yourself:
   "mcpServers": {
     "design-data": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-mcp@1.10.4"]
+      "args": ["-y", "@adobe/design-data-mcp@1.13.6"]
     }
   }
 }
 ```
+
+## Updating
+
+Plugins do not update themselves. After a new release, update by hand and start a new session
+(Claude Code needs a restart):
+
+* **Copilot app:** Customize → Installed → the plugin's menu → Update, or **Update all**.
+* **Copilot CLI:** `copilot plugin marketplace update spectrum-design-data`, then
+  `copilot plugin update spectrum-design-data@spectrum-design-data`. A copy installed from the
+  Design AI Marketplace uses `@design-marketplace` instead.
+* **Claude Code:** `claude plugin marketplace update spectrum-design-data`, then
+  `claude plugin update spectrum-design-data@spectrum-design-data`.
+
+The installed version shows next to the plugin's name. The current one is in
+[`package.json`](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/package.json).
 
 ## What the plugin includes
 
@@ -87,7 +125,9 @@ This installs only the skill. Add the MCP server to `.cursor/mcp.json` yourself:
   `DESIGN_DATA_SKIP_VERSION_CHECK=1` to disable it.
 * **Tools:** `design-data-primer`, `design-data-query`, `design-data-suggest`,
   `design-data-component`, `design-data-component-search`, `design-data-resolve`,
-  `design-data-guideline-list`, `design-data-guideline`. Inputs are documented in
+  `design-data-guideline-list`, `design-data-guideline`,
+  `design-data-visual-recipe`, `design-data-render` (SVG, or PNG using Adobe Clean Spectrum VF
+  when it is installed, else an open fallback), `design-data-font-status`. Inputs are documented in
   [SKILL.md](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/skills/design-data/SKILL.md).
 
 ## Data and freshness

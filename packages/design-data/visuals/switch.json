@@ -34,6 +34,7 @@
       "props": {
         "direction": { "value": "row" },
         "align": { "value": "center" },
+        "justify": { "value": "start" },
         "minHeight": {
           "relationship": {
             "property": "component-height-{sizeIndex}",
@@ -100,21 +101,21 @@
             "when": { "options": { "isSelected": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (selected, non emphasized)"
+              "context": "Track"
             }
           },
           {
             "when": { "options": { "isSelected": true, "isEmphasized": true } },
             "relationship": {
               "property": "content-color",
-              "context": "Control (selected, emphasized)"
+              "context": "Control"
             }
           },
           {
             "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (disabled, selected)"
+              "context": "Track"
             },
             "priority": 10
           }
@@ -130,29 +131,21 @@
             "when": { "options": { "isSelected": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (selected, non emphasized)"
+              "context": "Track"
             }
           },
           {
             "when": { "options": { "isSelected": true, "isEmphasized": true } },
             "relationship": {
               "property": "content-color",
-              "context": "Control (selected, emphasized)"
+              "context": "Control"
             }
-          },
-          {
-            "when": { "options": { "isDisabled": true } },
-            "relationship": {
-              "property": "border-color",
-              "context": "Control (disabled)"
-            },
-            "priority": 10
           },
           {
             "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": {
               "property": "background-color",
-              "context": "Control (disabled, selected)"
+              "context": "Track"
             },
             "priority": 11
           }
@@ -195,14 +188,6 @@
             "relationship": { "property": "color", "context": "Control" }
           },
           {
-            "when": { "options": { "isDisabled": true } },
-            "relationship": {
-              "property": "background-color",
-              "context": "Control (disabled)"
-            },
-            "priority": 10
-          },
-          {
             "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": { "property": "color", "context": "Control" },
             "priority": 11
@@ -235,14 +220,6 @@
         "color": [
           {
             "relationship": { "property": "content-color", "context": "Label" }
-          },
-          {
-            "when": { "options": { "isDisabled": true } },
-            "relationship": {
-              "property": "content-color",
-              "context": "Label (disabled)"
-            },
-            "priority": 10
           }
         ]
       }

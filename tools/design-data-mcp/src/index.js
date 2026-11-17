@@ -40,7 +40,12 @@ const SERVER_INSTRUCTIONS =
   `the package version, so there is nothing to update separately. To get newer Spectrum data, ` +
   `install the latest published package (npx -y @adobe/design-data-mcp@latest — plain ` +
   `"npx -y @adobe/design-data-mcp" can reuse a cached older build). Call design-data-primer ` +
-  `and read provenance.designDataVersion to see the embedded dataset version.`;
+  `and read provenance.designDataVersion to see the embedded dataset version. ` +
+  `design-data-render draws SVG by default and PNG on request. PNG text uses Adobe Clean ` +
+  `Spectrum VF when it is installed on this machine (found automatically, or set with ` +
+  `DESIGN_DATA_FONT or the fontPath argument), otherwise a bundled open font. Call ` +
+  `design-data-font-status to see which, and when it reports a fallback, tell the user ` +
+  `and pass on its help text; do not present the image as exact.`;
 
 export function createMCPServer() {
   const server = new Server(
@@ -67,6 +72,10 @@ export function createMCPServer() {
 
     try {
       const result = await tool.handler(request.params.arguments ?? {});
+      // A handler can return MCP content itself (an image plus text, say).
+      if (result && Array.isArray(result.content)) {
+        return { content: result.content };
+      }
       return {
         content: [
           {

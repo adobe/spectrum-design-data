@@ -121,11 +121,13 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isEmphasized": true
+      }
     },
-    "context": "Background (emphasized)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "emphasized",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "fe4a3714-2b9c-5630-a3db-67f310657803"
   },
@@ -430,9 +432,9 @@
       "component": "action-bar",
       "property": "content-color"
     },
-    "context": "Control (selected, non emphasized)",
+    "context": "Control (selected)",
     "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
+    "contextQualifier": "selected",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "118c5be9-e4f1-5a09-b76e-9a681c1ae30e"
   },
@@ -441,9 +443,9 @@
       "component": "action-bar",
       "property": "content-color"
     },
-    "context": "Control (selected, non emphasized)",
+    "context": "Control (selected)",
     "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
+    "contextQualifier": "selected",
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "80a0ae3e-219f-5216-bd8c-d3f6287eab37"
   },
@@ -452,53 +454,65 @@
       "component": "action-bar",
       "property": "content-color"
     },
-    "context": "Control (selected, non emphasized)",
+    "context": "Control (selected)",
     "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
+    "contextQualifier": "selected",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "7f0c0238-b081-572f-8f97-139eb989e766"
   },
   {
     "scope": {
       "component": "action-bar",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control (selected)",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected",
     "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
     "uuid": "6095dcb4-02e3-5e29-97e5-92e58b2ffcf4"
   },
   {
     "scope": {
       "component": "action-bar",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control (selected)",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected",
     "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe",
     "uuid": "e57055a1-a322-5c10-8790-c65b863d2b38"
   },
   {
     "scope": {
       "component": "action-bar",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control (selected)",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected",
     "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1",
     "uuid": "9787caf6-3e38-5cd0-b4ea-4a6f78f6fab6"
   },
   {
     "scope": {
       "component": "action-bar",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control (selected)",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
+    "contextQualifier": "selected",
     "$ref": "71dcd137-f767-4d2c-b6ac-942b99ac8621",
     "uuid": "a28f0359-65bc-5bd4-b8fb-6498e4cfd58d"
   },

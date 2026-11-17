@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-design-data",
-  "version": "3.11.4",
+  "version": "3.16.0",
   "description": "Spectrum design tokens in cascade format — the canonical source of truth for @adobe/spectrum-tokens",
   "type": "module",
   "repository": {
@@ -24,6 +24,7 @@
     "./fields/*": "./fields/*.json",
     "./mode-sets/*": "./mode-sets/*.json",
     "./guidelines/*": "./guidelines/*.json",
+    "./visuals/*": "./visuals/*.json",
     "./registry/sizes.json": "./registry/sizes.json",
     "./registry/states.json": "./registry/states.json",
     "./registry/variants.json": "./registry/variants.json",
@@ -52,12 +53,14 @@
     "./registry/navigation-terms.json": "./registry/navigation-terms.json"
   },
   "files": [
+    "dataset.json",
     "tokens/",
     "components/",
     "changelog/",
     "fields/",
     "mode-sets/",
     "guidelines/",
+    "visuals/",
     "icons/",
     "registry/",
     "llms.txt",

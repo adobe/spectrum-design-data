@@ -2,172 +2,209 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "vertical-height"
+      "property": "vertical-height",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Component height and width (vertical)",
+    "context": "Component height and width",
     "contextRole": ["size"],
-    "contextQualifier": "vertical",
     "$ref": "c039a7cf-4fff-4550-a985-b87b8ac7f64f",
     "uuid": "ce1f8fa1-7bf5-5f2c-88cc-7b2fc64d5037"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "vertical-height"
+      "property": "vertical-height",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Component height and width (vertical)",
+    "context": "Component height and width",
     "contextRole": ["size"],
-    "contextQualifier": "vertical",
     "$ref": "368d6eab-1019-5c9d-8f2c-a50e9b80c6be",
     "uuid": "9b5fe9fc-2baa-52d5-b0af-4fa6629397af"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "vertical-edge-to-content"
+      "property": "vertical-edge-to-content",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Padding (vertical)",
+    "context": "Padding",
     "contextRole": ["spacing"],
-    "contextQualifier": "vertical",
     "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d",
     "uuid": "fdc11d7e-c7ad-55fd-b7b1-be275211e667"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "vertical-illustration-to-label"
+      "property": "vertical-illustration-to-label",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Spacing (illustration to text, vertical)",
+    "context": "Spacing (illustration to text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "illustration to text, vertical",
+    "contextQualifier": "illustration to text",
     "$ref": "9c79efdc-ab56-4f2e-b44d-5641d2480964",
     "uuid": "7588a9bc-4ec5-5219-a712-10bd38d09201"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-width"
+      "property": "horizontal-width",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Component width (horizontal)",
+    "context": "Component width",
     "contextRole": ["width"],
-    "contextQualifier": "horizontal",
     "$ref": "d24e6f8e-4af2-4c4a-8a4a-f2cd06d8edb5",
     "uuid": "002a7f09-2dd4-5f58-804a-49b549872181"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-width"
+      "property": "horizontal-width",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Component width (horizontal)",
+    "context": "Component width",
     "contextRole": ["width"],
-    "contextQualifier": "horizontal",
     "$ref": "9c841959-1968-5b0f-b68d-434277a9837d",
     "uuid": "06959bf8-c6aa-5a11-a713-2ffc73b0cb67"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-minimum-width"
+      "property": "horizontal-minimum-width",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Component minimum width (horizontal)",
+    "context": "Component minimum width",
     "contextRole": ["width"],
-    "contextQualifier": "horizontal",
     "$ref": "21fbb997-609d-44f2-a3ac-44c8fd2b3d3d",
     "uuid": "fb12f38e-7349-5979-b83f-652b19b6c196"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-minimum-width"
+      "property": "horizontal-minimum-width",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Component minimum width (horizontal)",
+    "context": "Component minimum width",
     "contextRole": ["width"],
-    "contextQualifier": "horizontal",
     "$ref": "19f0bd0b-b589-530a-9091-87ea8a68eeb4",
     "uuid": "b8ea637f-e397-56f5-8ba7-274061f816d4"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-minimum-height"
+      "property": "horizontal-minimum-height",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Component minimum height (horizontal)",
+    "context": "Component minimum height",
     "$ref": "50a7fb55-51f5-43e1-b931-16834a1f641e",
     "uuid": "4aabe76d-9ca2-5d6f-8830-f8ad7b3a9c40"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-minimum-height"
+      "property": "horizontal-minimum-height",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Component minimum height (horizontal)",
+    "context": "Component minimum height",
     "$ref": "45c81193-a3ae-5340-bd87-5ffb4f270094",
     "uuid": "d6d6939a-f5be-516f-babc-71c1f0a8b678"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-top-to-content"
+      "property": "horizontal-top-to-content",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Padding (horizontal)",
+    "context": "Padding",
     "contextRole": ["spacing"],
-    "contextQualifier": "horizontal",
     "$ref": "81e5f983-4ca0-4d45-89f0-4accd78d7946",
     "uuid": "cf9589d9-0e24-5c81-baf1-4a6a8dee15dd"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-start-to-content"
+      "property": "horizontal-start-to-content",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Padding (horizontal)",
+    "context": "Padding",
     "contextRole": ["spacing"],
-    "contextQualifier": "horizontal",
     "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d",
     "uuid": "f6e793f8-28ca-5f5f-99aa-2f13e7391fc1"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-end-to-content"
+      "property": "horizontal-end-to-content",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Padding (horizontal)",
+    "context": "Padding",
     "contextRole": ["spacing"],
-    "contextQualifier": "horizontal",
     "$ref": "4b6cd7dd-2b7c-4fec-935e-8ea88de4c412",
     "uuid": "fb0687d7-9674-525f-b415-a11b6c21e55f"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-label-to-description"
+      "property": "horizontal-label-to-description",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Spacing (label to description, horizontal)",
+    "context": "Spacing (label to description)",
     "contextRole": ["spacing"],
-    "contextQualifier": "label to description, horizontal",
+    "contextQualifier": "label to description",
     "$ref": "52f0ce69-d419-4f27-b1fd-eaad3726017a",
     "uuid": "086fb88c-5b35-5113-b95b-c3dc743f35ce"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-illustration-to-label"
+      "property": "horizontal-illustration-to-label",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Spacing (illustration to label, horizontal)",
+    "context": "Spacing (illustration to label)",
     "contextRole": ["spacing"],
-    "contextQualifier": "illustration to label, horizontal",
+    "contextQualifier": "illustration to label",
     "$ref": "bd1948af-f4eb-46ed-9ab5-cbd93b5e0935",
     "uuid": "5cf99cf7-4bb3-5f7a-8139-bd392d1512b3"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "border-width"
+      "property": "border-width",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Border (selected)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "selected",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "81ee3be1-82c5-59fa-b47d-5ef570751637"
   },
@@ -204,11 +241,13 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "thickness"
+      "property": "thickness",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Border (selected)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "selected",
     "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
     "uuid": "c0dcf46a-f713-5fda-89df-5e82cda2dbe0"
   },
@@ -236,11 +275,13 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "font-family"
+      "property": "font-family",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Text (vertical)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "vertical",
     "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
     "uuid": "e5122b9b-4e1c-5aa5-901d-043dec4fa2cd"
   },
@@ -249,75 +290,86 @@
       "component": "select-box",
       "property": "font-weight"
     },
-    "context": "Text (vertical)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "vertical",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "f295ae97-7593-58c8-85d3-fa438d74ce13"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "font-style"
+      "property": "font-style",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Text (vertical)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "vertical",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "456c48ed-5428-507a-9bb5-2fbb3360a2cb"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "font-size-100"
+      "property": "font-size-100",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Text (vertical)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "vertical",
     "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
     "uuid": "04fd03ef-5f74-5aae-be05-ff4fb7e94a61"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "font-size-100"
+      "property": "font-size-100",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Text (vertical)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "vertical",
     "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
     "uuid": "9b1ea683-1e4c-51bf-953d-9d237fc1bd25"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "line-height-100"
+      "property": "line-height-100",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Text (vertical)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "vertical",
     "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
     "uuid": "ad4e0d62-d9da-52f1-8bd9-c42a09e95966"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "line-height-100"
+      "property": "line-height-100",
+      "options": {
+        "orientation": "vertical"
+      }
     },
-    "context": "Text (vertical)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "vertical",
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "3821f658-6fe2-5ca7-8dd8-a08e5408570f"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "font-weight"
+      "property": "font-weight",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
-    "context": "Text (horizontal)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "horizontal",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
     "uuid": "10af25eb-f5e9-508d-b199-880a0ee8a350"
   },
@@ -384,44 +436,52 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Border (selected)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "selected",
     "$ref": "4bbb81b1-09fb-4ebe-80b5-cebb75c13839",
     "uuid": "b3350be7-1569-5591-a07b-b963e78e1f65"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Border (selected)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "selected",
     "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c",
     "uuid": "ec975257-e502-53c1-9912-881bc7610e21"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Border (selected)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "selected",
     "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f",
     "uuid": "4e91aff9-2568-500c-9bbf-611c14b45eab"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Border (selected)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "selected",
     "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978",
     "uuid": "002540b5-1bc7-53da-afda-e21507ee763c"
   },

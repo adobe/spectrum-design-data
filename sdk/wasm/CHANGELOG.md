@@ -1,5 +1,141 @@
 # @adobe/design-data-wasm
 
+## 0.25.0
+
+### Minor Changes
+
+- [#1865](https://github.com/adobe/spectrum-design-data/pull/1865) [`1b01d40`](https://github.com/adobe/spectrum-design-data/commit/1b01d40baf3edafef26ca9e3a2d96c288e86cf31) Thanks [@GarthDB](https://github.com/GarthDB)! - SVG label text now uses the font stack `'Adobe Clean Spectrum VF', adobe-clean-spectrum-vf,
+'Adobe Clean', 'Source Sans 3', sans-serif`. Browsers match family names exactly, so the old
+  lead name `adobe-clean-spectrum-vf` missed an installed Adobe Clean Spectrum VF and the label
+  fell to the generic sans-serif, about 18 % wider: "Save changes" (700, 16 px) measured
+  106.73 px against about 90 px and overran the button's right padding.
+
+  `renderComponentSvg(request, fonts?)` takes the same font list as `renderComponentPng` and
+  sizes the layout with the first non-fallback font. `design-data-render` passes the installed
+  Adobe Clean Spectrum VF when it finds one, so SVG boxes fit the text a viewer with that font
+  draws. Without it the Source Sans 3 table is used, as before.
+
+## 0.24.0
+
+### Minor Changes
+
+- [#1857](https://github.com/adobe/spectrum-design-data/pull/1857) [`2a1e521`](https://github.com/adobe/spectrum-design-data/commit/2a1e521b6f62f5e65f5b3db15379a7888c929392) Thanks [@GarthDB](https://github.com/GarthDB)! - Report the new rule SPEC-100 (relationship records that differ only in one option's value)
+  when validating.
+
+- [#1848](https://github.com/adobe/spectrum-design-data/pull/1848) [`da44b61`](https://github.com/adobe/spectrum-design-data/commit/da44b61596c59dfdd3434fca196e7f48f3ff95b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Report the any-of rules SPEC-094 to SPEC-099 when validating (proposal 017). No data uses an
+  any-of yet, so existing data reports nothing new.
+
+- [#1847](https://github.com/adobe/spectrum-design-data/pull/1847) [`d12b8bc`](https://github.com/adobe/spectrum-design-data/commit/d12b8bce115b3c2f494de0b9d3739191b4ed8287) Thanks [@GarthDB](https://github.com/GarthDB)! - Understand any-of in relationship scopes (proposal 017). The solver expands `scope.options.anyOf`
+  and `{ "anyOf": [...] }` state elements into one candidate per alternative when a recipe is
+  compiled, so a record can apply to "selected or indeterminate" without duplicates. The compiled
+  recipe format is unchanged. No data uses an any-of yet.
+
+- [#1863](https://github.com/adobe/spectrum-design-data/pull/1863) [`8d25409`](https://github.com/adobe/spectrum-design-data/commit/8d2540928d4618fe4340b570a33eb4f8f22cb680) Thanks [@GarthDB](https://github.com/GarthDB)! - Refuse a relationship record whose `scope` has a field the engine does not know. The error names
+  the file, the record and the field and says the data is newer than the engine. The committed data
+  has none, so nothing changes today.
+
+- [#1856](https://github.com/adobe/spectrum-design-data/pull/1856) [`7a5a511`](https://github.com/adobe/spectrum-design-data/commit/7a5a51166a61074fd9435d415f1f7ee2248fcb2e) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-093 reports an error instead of a warning, so a relationship `context` that names an option
+  value fails validation.
+
+### Patch Changes
+
+- [#1855](https://github.com/adobe/spectrum-design-data/pull/1855) [`d3d8bc5`](https://github.com/adobe/spectrum-design-data/commit/d3d8bc5bcc7fcace8aa410c7d563a3ca6fcae780) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-093 now reads a `size` value in its spelled form: `m` matches `medium` and `xl` matches
+  `extra large`, so a context such as `Height (medium)` is reported.
+
+## 0.23.0
+
+### Minor Changes
+
+- [#1846](https://github.com/adobe/spectrum-design-data/pull/1846) [`254adf1`](https://github.com/adobe/spectrum-design-data/commit/254adf11b565f4768a69340a5ccadc1e72303dbe) Thanks [@GarthDB](https://github.com/GarthDB)! - Refuse a relationship whose `scope.options` holds a value shape the engine does not understand,
+  when a platform manifest adds or overrides a relationship (`applyPlatform`). The error names the
+  record and says the data is newer than the engine. Every shape in use today is still accepted.
+
+  The embedded relationship data goes through the same check when the engine loads it, so a build
+  that embeds data newer than its own code fails at startup instead of rendering wrong output.
+
+## 0.22.0
+
+### Minor Changes
+
+- [#1793](https://github.com/adobe/spectrum-design-data/pull/1793) [`87c45e3`](https://github.com/adobe/spectrum-design-data/commit/87c45e3f76bcac529106629619d923544ca9d1e5) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove the `status-light` "Height", "Spacing (top/bottom edge to label)" and
+  "Spacing (top edge to dot)" relationships (20 records). They described a 32px
+  control container with 7px of block padding, carried over from the deprecated
+  `status-light-top-to-dot-*` tokens. Both the official S2 - Web Figma file and
+  React Spectrum S2 render Status light as one text line (18px at M) with no
+  minimum height or block padding. A recipe should size it from the label line
+  height and place the dot by centring on the first line.
+
+## 0.21.2
+
+### Patch Changes
+
+- [#1816](https://github.com/adobe/spectrum-design-data/pull/1816) [`8b06028`](https://github.com/adobe/spectrum-design-data/commit/8b06028b7d5cf01ec1d2bf824a8d8f06b0d954e8) Thanks [@GarthDB](https://github.com/GarthDB)! - Mark the action-button and badge content icon as optional, so the component explorer
+  offers a "None" icon choice. Figma and React Spectrum S2 let both omit the icon.
+
+## 0.21.1
+
+### Patch Changes
+
+- [#1804](https://github.com/adobe/spectrum-design-data/pull/1804) [`039914f`](https://github.com/adobe/spectrum-design-data/commit/039914f80477d12846434c8024daa6defcf2b3e8) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `layoutRevision` to `dataset.json` and publish `dataset.json` with the data package. The
+  renderer has its own layout revision and the CLI warns when it differs from the data's, so a
+  CLI newer than the data (the #1799 case) is reported instead of silently rendering differently.
+
+- [#1796](https://github.com/adobe/spectrum-design-data/pull/1796) [`331dc43`](https://github.com/adobe/spectrum-design-data/commit/331dc43983087cfd807dd364240b234fc4ef0dab) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `repeat` to visual recipes: a recipe can draw its root once per entry of an
+  array option, stacked in a column. The accordion recipe repeats its item over
+  `items`, so a render can show several items with their own titles and open state
+  (`isExpanded`, `hasSwitch`, `hasActionButton`). A request without `items` renders
+  exactly as before.
+
+- [#1795](https://github.com/adobe/spectrum-design-data/pull/1795) [`0e290c0`](https://github.com/adobe/spectrum-design-data/commit/0e290c08a5542f0bf107d76c1e4a4e1d34284ba1) Thanks [@GarthDB](https://github.com/GarthDB)! - `design-data-render` takes an `icon` field to replace a content icon: `{ "set": "workflow",
+"name": "edit" }`, or `"none"`. It now reports a diagnostic when `options.icon` is passed,
+  because that option is not drawn. Fixes #1794.
+
+- [#1805](https://github.com/adobe/spectrum-design-data/pull/1805) [`0276017`](https://github.com/adobe/spectrum-design-data/commit/027601793b6ea70dc113669d3037b0797761930f) Thanks [@GarthDB](https://github.com/GarthDB)! - A row recipe that binds no `minHeight` and no block padding now hugs its content instead of
+  being 32px high (layout revision 2). A row with no flowed children is now 0 high, not 32.
+  Recipes outside this repository that relied on the 32 must bind `minHeight` or block padding.
+  No shipped recipe changes: the render snapshots and the iOS recipes are identical. Fixes #1800.
+
+- [#1807](https://github.com/adobe/spectrum-design-data/pull/1807) [`5b20b30`](https://github.com/adobe/spectrum-design-data/commit/5b20b303e2eb2a24942f208bdc405beb99bd4a45) Thanks [@GarthDB](https://github.com/GarthDB)! - Declare the `selected` state of `select-box`, `stack-item` and `tree-view` with
+  `trigger: "prop"`, as the state model and RFC-A require for a state driven by
+  `isSelected`. It was `interaction`. The compound `selected-*` states keep their
+  `interaction` trigger.
+
+## 0.21.0
+
+### Minor Changes
+
+- [#1780](https://github.com/adobe/spectrum-design-data/pull/1780) [`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e) Thanks [@GarthDB](https://github.com/GarthDB)! - Render components to PNG, and pick the text font from descriptors.
+  - **`Dataset.renderComponentPng(request, fonts, options)`**: returns `{ png, diagnostics }`.
+    A font not marked `fallback` also sets the layout text widths, so boxes fit their text.
+    `options` takes `pixelRatio` and `background`.
+  - **`describeFont` and `chooseFont`**: WebAssembly cannot read the disk, so a caller reads each
+    font's `name` table, describes it, and lets `chooseFont` pick Adobe Clean Spectrum VF with
+    the same rules and wording as the `design-data` CLI.
+  - The slim `@adobe/design-data-wasm-visual` build is unchanged and has no rasterizer.
+
+### Patch Changes
+
+- [#1781](https://github.com/adobe/spectrum-design-data/pull/1781) [`2f7023f`](https://github.com/adobe/spectrum-design-data/commit/2f7023f33fcd2e3ddcbac8c5e443a26142f5c0d8) Thanks [@GarthDB](https://github.com/GarthDB)! - Center a row's content in the visual renderer when `minWidth` or `width`
+  leaves free space, so a button with no icon no longer pushes its label left.
+
+## 0.20.0
+
+### Minor Changes
+
+- [#1775](https://github.com/adobe/spectrum-design-data/pull/1775) [`36b9c3d`](https://github.com/adobe/spectrum-design-data/commit/36b9c3d00a761a27cd9b50ad60da11b31a3de895) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes to the embedded data and render them to SVG.
+  - MCP: new `design-data-visual-recipe` and `design-data-render` tools.
+  - WASM: `Dataset.embedded()` now carries recipes. New `visualRecipes()`,
+    `visualRecipe(name)` and `renderComponentSvg(request)`.
+  - `@adobe/spectrum-design-data` publishes `visuals/` and exports `./visuals/*`.
+
+### Patch Changes
+
+- [#1774](https://github.com/adobe/spectrum-design-data/pull/1774) [`d5a64c4`](https://github.com/adobe/spectrum-design-data/commit/d5a64c4c59c03a38f89e70f0cb11b959d4c84d84) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `status-light` dot relationships for the `gray`, `red`, `orange`, `green`
+  and `blue` colors and the `accent` role (3 records each: light, dark, wireframe),
+  pointing at the existing `*-visual-color` tokens. Add `accent` and `blue` to the
+  component's `variant` options. The set now matches the official S2 - Web Figma
+  file's status light.
+
 ## 0.19.3
 
 ### Patch Changes

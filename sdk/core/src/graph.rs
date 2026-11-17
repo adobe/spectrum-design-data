@@ -81,6 +81,13 @@ pub struct ComponentRecord {
     pub layer: Layer,
 }
 
+/// Why this engine cannot use a relationship record's `scope` (an unknown field, or an
+/// `options` value it does not support), or `None` when every field and value has a shape it
+/// understands (see [`crate::scope::unsupported_shape`]).
+pub fn unsupported_scope_shape(raw: &Value) -> Option<String> {
+    crate::scope::unsupported_shape(raw)
+}
+
 /// One platform-extension declaration (spec-format JSON, `platform-extension.json`
 /// shape), annotating existing registry ids or mode-set values with platform terminology.
 /// Populated only via a platform manifest's `extensions.platformExtensions` — there
@@ -1546,6 +1553,11 @@ impl TokenGraph {
             for (index, entry) in entries.iter().enumerate() {
                 match entry.get("op").and_then(|v| v.as_str()) {
                     None => {
+                        if let Some(why) = unsupported_scope_shape(entry) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.relationships entry {index}: {why}"
+                            )));
+                        }
                         let uuid = entry
                             .get("uuid")
                             .and_then(|v| v.as_str())
@@ -1580,6 +1592,12 @@ impl TokenGraph {
                                  relationship object)"
                             ))
                         })?;
+                        if let Some(why) = unsupported_scope_shape(&value) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.relationships override for uuid \
+                                 \"{target_uuid}\": {why}"
+                            )));
+                        }
                         let target = self
                             .relationships
                             .iter_mut()
@@ -1899,6 +1917,12 @@ impl TokenGraph {
                 continue;
             };
             for (index, item) in items.iter().enumerate() {
+                if let Some(why) = unsupported_scope_shape(item) {
+                    return Err(CoreError::ParseError(format!(
+                        "{} record {index}: {why}",
+                        path.display()
+                    )));
+                }
                 let uuid = item
                     .get("uuid")
                     .and_then(|v| v.as_str())
@@ -3759,6 +3783,117 @@ mod tests {
         });
         let err = g.apply_platform_manifest(&manifest).unwrap_err();
         assert!(err.to_string().contains("missing a \"uuid\""));
+    }
+
+    #[test]
+    fn scope_shape_accepts_every_shape_in_use() {
+        for options in [
+            json!({"size": "m", "isSelected": true, "scaleIndex": 100}),
+            json!({"size": ["s", "m"], "isSelected": [false, true]}),
+            json!({"state": ["selected", "hover"], "scale": "desktop"}),
+            json!({}),
+        ] {
+            let rec = json!({"scope": {"component": "x", "property": "y", "options": options}});
+            assert_eq!(unsupported_scope_shape(&rec), None, "{rec}");
+        }
+        // No scope or no options: nothing to refuse.
+        assert_eq!(unsupported_scope_shape(&json!({"value": 1})), None);
+        assert_eq!(
+            unsupported_scope_shape(&json!({"scope": {"component": "x", "property": "y"}})),
+            None
+        );
+    }
+
+    #[test]
+    fn scope_shape_refuses_what_the_solver_cannot_read() {
+        for options in [
+            json!({"size": {"min": 1}}),
+            json!({"size": [["s"], "m"]}),
+            json!({"size": null}),
+            json!({"state": "hover"}),
+        ] {
+            let rec = json!({"scope": {"component": "x", "property": "y", "options": options}});
+            let why = unsupported_scope_shape(&rec).expect("refused");
+            assert!(why.contains("upgrade the CLI"), "{why}");
+        }
+        let not_object = json!({"scope": {"component": "x", "property": "y", "options": ["a"]}});
+        assert!(unsupported_scope_shape(&not_object)
+            .unwrap()
+            .contains("not an object"));
+    }
+
+    #[test]
+    fn loading_relationships_refuses_an_unsupported_shape() {
+        let dir = std::env::temp_dir().join(format!("ddscope-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let good = json!([{"scope": {"component": "x", "property": "y", "options": {"size": ["s"]}}, "uuid": "a", "$ref": "t"}]);
+        std::fs::write(dir.join("good.json"), good.to_string()).unwrap();
+        assert_eq!(TokenGraph::load_spec_relationships(&dir).unwrap().len(), 1);
+        let bad = json!([{"scope": {"component": "x", "property": "y", "options": {"future": {"a": 1}}}, "uuid": "b", "$ref": "t"}]);
+        std::fs::write(dir.join("bad.json"), bad.to_string()).unwrap();
+        let err = TokenGraph::load_spec_relationships(&dir)
+            .unwrap_err()
+            .to_string();
+        std::fs::remove_dir_all(&dir).unwrap();
+        assert!(
+            err.contains("bad.json") && err.contains("record 0"),
+            "{err}"
+        );
+        assert!(err.contains("upgrade the CLI"), "{err}");
+    }
+
+    #[test]
+    fn loading_relationships_refuses_an_unknown_scope_field() {
+        let dir = std::env::temp_dir().join(format!("ddscope-field-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let bad = json!([{"scope": {"component": "x", "property": "y", "between": {"from": "top", "to": "text"}}, "uuid": "b", "$ref": "t"}]);
+        std::fs::write(dir.join("bad.json"), bad.to_string()).unwrap();
+        let err = TokenGraph::load_spec_relationships(&dir)
+            .unwrap_err()
+            .to_string();
+        std::fs::remove_dir_all(&dir).unwrap();
+        assert!(
+            err.contains("scope.between") && err.contains("record 0"),
+            "{err}"
+        );
+        assert!(err.contains("upgrade the CLI"), "{err}");
+    }
+
+    #[test]
+    fn manifest_relationship_add_and_override_refuse_an_unsupported_shape() {
+        let any_of = json!({"scope": {"component": "button", "property": "color",
+            "options": {"future": {"min": 1}}}, "value": "#fff", "uuid": "u-new"});
+        let mut g = foundation_graph();
+        let add = json!({
+            "specVersion": "1.0.0-draft", "foundationVersion": "1.0.0",
+            "extensions": {"relationships": [any_of.clone()]}
+        });
+        let err = g.apply_platform_manifest(&add).unwrap_err().to_string();
+        assert!(err.contains("upgrade the CLI"), "{err}");
+
+        let mut g = foundation_graph();
+        let over = json!({
+            "specVersion": "1.0.0-draft", "foundationVersion": "1.0.0",
+            "extensions": {"relationships": [{"op": "override", "uuid": "u-x", "value": any_of}]}
+        });
+        let err = g.apply_platform_manifest(&over).unwrap_err().to_string();
+        assert!(err.contains("upgrade the CLI"), "{err}");
+    }
+
+    #[test]
+    fn manifest_relationship_remove_is_not_checked_for_a_scope() {
+        // A remove entry selects by uuid and carries no scope; the shape gate must not touch it.
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft", "foundationVersion": "1.0.0",
+            "extensions": {"relationships": [{"op": "remove", "uuid": "u-missing"}]}
+        });
+        let err = g
+            .apply_platform_manifest(&manifest)
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("does not exist"), "{err}");
+        assert!(!err.contains("upgrade the CLI"), "{err}");
     }
 
     #[test]

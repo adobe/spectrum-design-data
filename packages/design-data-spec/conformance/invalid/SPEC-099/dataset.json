@@ -1,0 +1,43 @@
+{
+  "tokens": [],
+  "relationships": [
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap",
+        "options": {
+          "anyOf": [
+            {
+              "isSelected": true
+            },
+            {
+              "isDisabled": true
+            }
+          ]
+        }
+      },
+      "context": "Control",
+      "$ref": "aaaaaaaa-0099-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0099-4000-8000-000000000002",
+      "legacyKey": "accordion-gap"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
+      "name": "accordion",
+      "displayName": "Accordion",
+      "meta": {
+        "category": "actions"
+      },
+      "options": {
+        "isSelected": {
+          "type": "boolean"
+        },
+        "isDisabled": {
+          "type": "boolean"
+        }
+      }
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import { searchComponents } from "@adobe/design-data/component";
 import { listGuidelines, loadGuideline } from "@adobe/design-data/guideline";
 
 import { checkDatasetFreshness } from "../dataset-freshness.js";
+import { findFont } from "../fonts.js";
 
 let _wasm;
 /** Lazy-load and cache the wasm module (nodejs target, no init() required). */
@@ -120,6 +121,21 @@ function loadGuidelineManifest() {
   if (!existsSync(guidelinesDir)) return null;
   return { guidelines: listGuidelines(guidelinesDir) };
 }
+
+/**
+ * The font status as sent to the model. `searched` (long) only when asked for, and `related`
+ * capped: a machine with Creative Cloud can list nineteen Adobe Clean families, none used.
+ */
+export function fontSummary(status, full = false) {
+  const { searched, related, ...rest } = status;
+  const out = { ...rest, related: related.slice(0, RELATED_SHOWN) };
+  if (related.length > RELATED_SHOWN) {
+    out.relatedMore = related.length - RELATED_SHOWN;
+  }
+  return full ? { ...out, searched } : out;
+}
+
+const RELATED_SHOWN = 5;
 
 export function createDesignDataTools() {
   return [
@@ -513,6 +529,279 @@ export function createDesignDataTools() {
       },
       async handler({ id }) {
         return loadDataFile("guidelines", id);
+      },
+    },
+
+    // ── visual recipe ───────────────────────────────────────────────────────
+    {
+      name: "design-data-visual-recipe",
+      annotations: {
+        title: "Design Data: Get Visual Recipe",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Get the visual recipe (parts, layout, and token bindings used to draw it) for a " +
+        "Spectrum component by ID, e.g. button, action-button, badge. Only components " +
+        "with a recipe are available; use design-data-render to draw one as SVG.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          id: {
+            type: "string",
+            description: "Component ID in kebab-case, e.g. action-button",
+          },
+        },
+        required: ["id"],
+        additionalProperties: false,
+      },
+      async handler({ id }) {
+        const ds = await getDataset();
+        const recipe = ds.visualRecipe(id);
+        if (!recipe) {
+          throw new Error(
+            `No visual recipe for "${id}". Available: ${ds.visualRecipes().join(", ")}`,
+          );
+        }
+        return recipe;
+      },
+    },
+
+    // ── render ──────────────────────────────────────────────────────────────
+    {
+      name: "design-data-render",
+      annotations: {
+        title: "Design Data: Render Component",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Render a Spectrum component from its visual recipe, resolving token values for the " +
+        "given size, states, options, and mode. Returns SVG markup as text by default, or " +
+        'a PNG image with format "png". Only components with a recipe can be rendered ' +
+        "(see design-data-visual-recipe). SVG label boxes are sized with Adobe Clean Spectrum VF when " +
+        "it is installed on this machine (not with fontPath), otherwise with Source Sans 3 widths. PNG text uses Adobe Clean Spectrum VF when it is " +
+        "installed on this machine (found automatically, or set with the fontPath argument " +
+        "or the DESIGN_DATA_FONT environment variable), otherwise a bundled open font. The " +
+        "result includes a font status: when font.fallback is true, tell the user the text " +
+        "may differ slightly and pass on font.help (it says how to install the font); do " +
+        "not call the image exact. When font.found is true, do not tell the user to " +
+        "download anything.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          component: {
+            type: "string",
+            description: "Component ID in kebab-case, e.g. action-button",
+          },
+          size: {
+            type: "string",
+            description: 'Size, e.g. "s", "m", "l" (default: "m")',
+            default: "m",
+          },
+          states: {
+            type: "array",
+            items: { type: "string" },
+            description: 'Interaction states, e.g. ["hover"] or ["focus-ring"]',
+          },
+          options: {
+            type: "object",
+            description:
+              "Component options from the recipe, e.g. { isSelected: true, variant: 'accent' }",
+          },
+          icon: {
+            description:
+              'Replace the component\'s content icon (e.g. a button\'s icon): { "set": "workflow", "name": "edit" }, ' +
+              'or "none" to hide an optional one. Do not use options.icon: it is ignored. ' +
+              "A name the catalog lacks is reported in diagnostics.",
+            oneOf: [
+              { type: "string", enum: ["none"] },
+              {
+                type: "object",
+                properties: {
+                  set: { type: "string" },
+                  name: { type: "string" },
+                },
+                required: ["set", "name"],
+                additionalProperties: false,
+              },
+            ],
+          },
+          colorScheme: {
+            type: "string",
+            description:
+              'Color scheme mode, e.g. "light" or "dark" (default: light)',
+          },
+          scale: {
+            type: "string",
+            description:
+              'Scale mode, e.g. "desktop" or "mobile" (default: desktop)',
+          },
+          label: {
+            type: "string",
+            description:
+              'Label text for components that show one (default: "Label")',
+          },
+          width: {
+            type: "number",
+            description: "Demo width in px for the root (optional)",
+          },
+          format: {
+            type: "string",
+            enum: ["svg", "png"],
+            description:
+              'Output format: "svg" (default, text) or "png" (an image, with a font status)',
+            default: "svg",
+          },
+          pixelRatio: {
+            type: "number",
+            minimum: 1,
+            maximum: 4,
+            description: "Pixels per unit for PNG output (default: 2)",
+          },
+          fontPath: {
+            type: "string",
+            description:
+              "Path to a TrueType (.ttf) font file for PNG text, e.g. a copy of " +
+              "AdobeCleanSpectrumVF-Roman.ttf. Optional: an installed copy is found automatically.",
+          },
+        },
+        required: ["component"],
+        additionalProperties: false,
+      },
+      async handler({
+        component,
+        size = "m",
+        states = [],
+        options = {},
+        icon,
+        colorScheme = "light",
+        scale = "desktop",
+        label = "Label",
+        width,
+        format = "svg",
+        pixelRatio = 2,
+        fontPath,
+      }) {
+        if (format !== "svg" && format !== "png") {
+          throw new Error('format must be "svg" or "png"');
+        }
+        const ds = await getDataset();
+        const request = {
+          component,
+          size,
+          states,
+          options,
+          mode: { colorScheme, scale },
+          label,
+        };
+        if (width !== undefined) request.width = width;
+        if (icon !== undefined) request.icon = icon;
+        if (format === "svg") {
+          // Size the layout with the installed Adobe Clean Spectrum VF when there is one, so
+          // the boxes fit the text a viewer with that font draws. A font named with fontPath
+          // or DESIGN_DATA_FONT is not used: the SVG stack still asks for Adobe Clean, so
+          // sizing for another font would mismatch. Source Sans 3 is the built-in table.
+          const { fonts } = findFont(await getWasm(), {
+            env: { ...process.env, DESIGN_DATA_FONT: undefined },
+          });
+          try {
+            return ds.renderComponentSvg(
+              request,
+              fonts.filter((f) => !f.fallback),
+            );
+          } catch (e) {
+            // A font found on the machine that will not parse must not stop the SVG.
+            if (!/^font /.test(String(e?.message ?? e))) throw e;
+            return ds.renderComponentSvg(request);
+          }
+        }
+
+        if (!(pixelRatio >= 1 && pixelRatio <= 4)) {
+          throw new Error("pixelRatio must be between 1 and 4");
+        }
+        const wasm = await getWasm();
+        // A font the user named must work. One found on the machine should never keep the
+        // picture from being drawn: if it will not parse, say so, skip it and choose again.
+        const skipped = [];
+        let found;
+        let out;
+        for (;;) {
+          found = findFont(wasm, {
+            fontPath,
+            exclude: skipped.map((s) => s.origin),
+            skipped,
+          });
+          try {
+            out = ds.renderComponentPng(request, found.fonts, { pixelRatio });
+            break;
+          } catch (e) {
+            const message = String(e?.message ?? e);
+            if (
+              found.explicit ||
+              found.fonts[0].fallback ||
+              !/^font /.test(message)
+            ) {
+              throw e;
+            }
+            skipped.push({
+              origin: found.status.using,
+              reason: `cannot be drawn (${message.replace(/^font [^:]*: /, "")})`,
+            });
+          }
+        }
+        const { status } = found;
+        return {
+          content: [
+            {
+              type: "image",
+              data: Buffer.from(out.png).toString("base64"),
+              mimeType: "image/png",
+            },
+            {
+              type: "text",
+              text: JSON.stringify(
+                { font: fontSummary(status), diagnostics: out.diagnostics },
+                null,
+                2,
+              ),
+            },
+          ],
+        };
+      },
+    },
+
+    // ── font status ─────────────────────────────────────────────────────────
+    {
+      name: "design-data-font-status",
+      annotations: {
+        title: "Design Data: Font Status",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Check which font draws text in PNG renders from design-data-render: Adobe Clean " +
+        "Spectrum VF if it is installed on this machine, otherwise a bundled open font. " +
+        "Returns { found, fallback, using, rejected, related, searched, help }. When " +
+        "fallback is true, tell the user and pass on help (Adobe employees can download the " +
+        "font from the Brand Center; they install the .ttf, or point DESIGN_DATA_FONT or " +
+        "fontPath at it). If the user says it is installed but found is false, ask for the " +
+        "file path and pass it as fontPath. Do not tell the user to download anything when " +
+        "found is true. Never offer or attach the font file.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          fontPath: {
+            type: "string",
+            description:
+              "Path to a TrueType (.ttf) font file to check instead of searching",
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ fontPath }) {
+        const wasm = await getWasm();
+        return fontSummary(findFont(wasm, { fontPath }).status, true);
       },
     },
   ];

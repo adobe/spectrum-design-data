@@ -2,82 +2,12 @@
   {
     "scope": {
       "component": "status-light",
-      "property": "component-height-75"
+      "property": "size"
     },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
-    "uuid": "03352eb9-9af2-59fe-9eb9-9b50a00bee3f"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-height-75"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
-    "uuid": "4e90bd9c-58a0-5e7d-876c-481f555fb0db"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-height-100"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
-    "uuid": "a6cc9f53-d5ee-5977-beee-21315ce0fd27"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-height-100"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
-    "uuid": "18cae166-39b3-5a39-8fff-7a1c96825571"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-height-200"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
-    "uuid": "62bbd499-9f4e-5895-af4d-a5cf625fe5bf"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-height-200"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
-    "uuid": "6fbfd6b1-eff0-59c1-b13d-55153af57bd9"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-height-300"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
-    "uuid": "f2bc1292-0854-5b9f-88f1-d2f1fc1afbf7"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-height-300"
-    },
-    "context": "Height",
-    "contextRole": ["height"],
-    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
-    "uuid": "ecbaa2c0-ca34-5cb6-943e-a6989b624730"
+    "context": "Dot size",
+    "contextRole": ["size"],
+    "$ref": "0d252df3-59fc-422e-8f47-d4c894660eb9",
+    "uuid": "4de101d7-6a1d-5385-a436-b072a8df2006"
   },
   {
     "scope": {
@@ -86,8 +16,8 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "0d252df3-59fc-422e-8f47-d4c894660eb9",
-    "uuid": "4de101d7-6a1d-5385-a436-b072a8df2006"
+    "$ref": "5945e9fe-311a-4d2c-8052-ca4eae4c7c63",
+    "uuid": "cdb5bb11-5867-5a51-98d8-634d1fb1fa80"
   },
   {
     "scope": {
@@ -106,6 +36,16 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
+    "$ref": "a7fc9ca1-ad6d-47cb-8798-4a18ba4acc79",
+    "uuid": "24bbd4dc-0a12-538e-b63b-915acb3f006a"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "size"
+    },
+    "context": "Dot size",
+    "contextRole": ["size"],
     "$ref": "7f5f9ac3-2029-4cd2-8a4b-e16c58122487",
     "uuid": "7bb107c5-1ebb-57d0-9c4e-0ca0c4cb9790"
   },
@@ -116,8 +56,28 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
+    "$ref": "6554dae9-18b6-4c90-b2f4-8aeaab0724ad",
+    "uuid": "b382d33d-7809-5e2c-ab8a-3946ef0a0d15"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "size"
+    },
+    "context": "Dot size",
+    "contextRole": ["size"],
     "$ref": "b0281fdc-b044-45e6-af04-e56913432575",
     "uuid": "233e2ac3-3d39-5d98-bb51-8e097f783702"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "size"
+    },
+    "context": "Dot size",
+    "contextRole": ["size"],
+    "$ref": "38b8d9c8-d340-4123-88bc-f739cfde91e9",
+    "uuid": "d4217b9c-28b3-5063-aaa8-bb0d0ea8bda3"
   },
   {
     "scope": {
@@ -162,138 +122,6 @@
     "contextQualifier": "dot to label",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "1cffb44b-8816-50b2-9dab-2f3b4b5a7170"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to dot)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top edge to dot",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "c6a9dbb9-a96e-5e23-b296-970d721ba6d9"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to dot)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top edge to dot",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "44971c04-831e-5a5f-b250-950887c02638"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to dot)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top edge to dot",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "2d63a43f-b3ae-5d38-8af8-a09d3ad4b1cb"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "space-between"
-    },
-    "context": "Spacing (top edge to dot)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top edge to dot",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "aafd6589-c76b-5fff-81e9-51131ab3754c"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to label",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "94fd88db-6341-5f6a-b3d1-857eb73ab1cf"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to label",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "cf21cbff-0a76-576e-a596-2fa9ae45cd2f"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to label",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "c0cc7415-f9e4-5aac-9088-ed5249c21376"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to label",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "a19f9437-8353-58f0-abab-ee55a6c075f0"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to label",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "3d72a391-854d-59ab-b18e-5598de848629"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to label",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "61816daa-a16b-5b4a-9608-ecac3701d4e1"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-bottom-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to label",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "7d65228c-af85-5d7d-a0c8-a9550cd3a074"
-  },
-  {
-    "scope": {
-      "component": "status-light",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to label",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "2880abd9-3623-5572-888a-80c54c6e6f93"
   },
   {
     "scope": {
@@ -634,6 +462,48 @@
     "contextPart": "Dot",
     "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
     "uuid": "976ce579-c783-532f-ad94-af0c3f4839cb"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "accent"
+      }
+    },
+    "context": "Semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322",
+    "uuid": "a18e0db7-802f-51f0-ad54-8fc8d5b52f23"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "accent"
+      }
+    },
+    "context": "Semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89",
+    "uuid": "93f1855f-b1b9-5b0b-8635-9de9e3b3342a"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "accent"
+      }
+    },
+    "context": "Semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190",
+    "uuid": "54f6d3dd-64df-5236-8917-586919e3c16b"
   },
   {
     "scope": {
@@ -1222,6 +1092,216 @@
     "contextPart": "Dot",
     "$ref": "7e749788-d92d-4ad5-b4d2-446e77c5a041",
     "uuid": "e56d1644-1a91-53bf-aac9-b58f681168b1"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "gray"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "744537db-023b-4833-8262-9c349b0915ee",
+    "uuid": "2a1767ee-96b9-5cf4-a4eb-08e20e85ac55"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "gray"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "0f7a39c2-3ee7-4ff0-873f-334c81054b77",
+    "uuid": "2c1d0383-9740-57c7-a89d-177348d11d61"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "gray"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "e8113995-d2ec-4089-a050-9b393eb9e403",
+    "uuid": "94aac01c-af12-514b-b99b-f188e03d1472"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "red"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "7fe7c804-7e6b-48ac-b1fa-b88874e0a330",
+    "uuid": "660d3943-8cc7-5ff2-9ab7-7ae1acd851a5"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "red"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "870f90ab-7f3e-41b6-9c11-59e9c4ff82c6",
+    "uuid": "40b440ae-514f-5801-a6fc-2e53e37c01d6"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "red"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "834d0a71-9060-4ce0-8e25-8b062ef89b19",
+    "uuid": "c0019731-c4e7-520d-b535-175e97da6d53"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "orange"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "8fdaf9e0-bd3e-4188-84bd-7abf72e50b58",
+    "uuid": "d047ceec-20b2-5169-9261-b109340c7ee9"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "orange"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "e7bf9977-2edf-48bc-8099-ad95e57b55b1",
+    "uuid": "3bfad833-e6da-5ae5-9d05-8772066373d8"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "orange"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "f76b6279-2d64-47fe-a531-1737a834b21a",
+    "uuid": "7fd9d9cf-7054-583b-938f-82bd5cfeea1b"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "green"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "83f76815-8660-425e-80e6-825a5be0628f",
+    "uuid": "fd6cb2f2-6574-5345-9dc5-307e8bd38e92"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "green"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "1219770d-543d-4216-9e87-c158f8a74df6",
+    "uuid": "7d2729f6-14de-5e43-b045-a52edda4d8c3"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "green"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "4aba2da7-3eed-4a11-830c-58cc4f6bb6cb",
+    "uuid": "f2ac2182-a4ba-5d64-b7b1-9c66538655c2"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "blue"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "b7cca44c-7c7d-4904-8f2c-d5bde4ea42a2",
+    "uuid": "dfe6ac57-caed-5467-b7a0-540299253994"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "blue"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "63fe16ed-70fa-4eaf-918c-f642ff69ce05",
+    "uuid": "6ea8a7e9-9126-555d-bb9c-eb8af69f8654"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "property": "color",
+      "options": {
+        "variant": "blue"
+      }
+    },
+    "context": "Non-semantic (Dot)",
+    "contextRole": ["background"],
+    "contextPart": "Dot",
+    "$ref": "0f058412-085d-4670-8cd5-964ed903a20a",
+    "uuid": "37ecd687-cf46-53e1-9f20-4868eff600c7"
   },
   {
     "scope": {

@@ -512,33 +512,39 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Control (selected, non emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
     "$ref": "7289003d-78b6-4c61-aada-a3252a7a9bd2",
     "uuid": "6b55d3f1-23ea-5570-958c-8c85e4607a27"
   },
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Control (selected, non emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
     "$ref": "018f02b1-2f01-4b48-8161-4a0e9d2eed09",
     "uuid": "13a06041-f43b-5322-b89a-03f82346201f"
   },
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Control (selected, non emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, non emphasized",
     "$ref": "1b040ae6-315e-49a5-9363-62ba79b139ff",
     "uuid": "f6e60d30-4c92-50ba-9a44-787df420f98b"
   },
@@ -585,66 +591,82 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Control (disabled)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "fa8b03c5-a144-515f-96e3-ce6f36320cc8"
   },
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
     "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
     "uuid": "653e8c41-955d-57c2-98e2-e5ac5fcabb70"
   },
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
     "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe",
     "uuid": "80a4e21d-a780-5255-a6e0-4a1ff86b2d0c"
   },
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
     "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1",
     "uuid": "cbe517b0-5be6-5a7e-a1cf-019dad96382d"
   },
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "background-color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true
+      }
     },
-    "context": "Control (selected, emphasized)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "selected, emphasized",
     "$ref": "71dcd137-f767-4d2c-b6ac-942b99ac8621",
     "uuid": "1de2cafb-80f4-58f1-954d-a68c43b2dc5c"
   },
   {
     "scope": {
       "component": "radio-button",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Label (disabled)",
+    "context": "Label",
     "contextRole": ["label"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "c8033b95-dcc5-5ee4-9e38-7313c4266ed8"
   },

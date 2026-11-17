@@ -119,3 +119,18 @@ test("renderScene maps an aliased component to the platform's target", (t) => {
     ds.free();
   }
 });
+
+test("embedded dataset carries recipes and renders a component by name", (t) => {
+  const ds = Dataset.embedded();
+  try {
+    t.true(ds.visualRecipes().includes("action-button"));
+    t.is(ds.visualRecipe("action-button").component, "action-button");
+    t.is(ds.visualRecipe("zzz-none"), undefined);
+    t.true(ds.renderComponentSvg(request()).startsWith("<svg"));
+    t.throws(() => ds.renderComponentSvg({ ...request(), component: "zzz" }), {
+      message: /no visual recipe/,
+    });
+  } finally {
+    ds.free();
+  }
+});

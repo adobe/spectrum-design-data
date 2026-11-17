@@ -1,0 +1,20 @@
+{
+  "tokens": [],
+  "relationships": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
+      "name": "accordion",
+      "displayName": "Accordion",
+      "meta": {
+        "category": "actions"
+      },
+      "options": {
+        "anyOf": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  ]
+}

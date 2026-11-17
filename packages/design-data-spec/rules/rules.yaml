@@ -632,7 +632,8 @@ rules:
       Combines the intent of SPEC-019 (component-variant-valid, error) and SPEC-040
       (component-option-field-valid, warning) into a single error-severity rule for
       CTRs, since a CTR's options are the whole of its scope rather than one field
-      among many name-object keys.
+      among many name-object keys. The pins inside each alternative of a `scope.options.anyOf`
+      (proposal 017) are checked the same way.
     message: "Relationship '{relationship}' has {key} '{value}' which is not declared on component '{component}'"
     spec_ref: spec/relationship-format.md#scope-fields
     introduced_in: "1.0.0-draft"
@@ -645,7 +646,8 @@ rules:
     assert: >
       Each element of a CTR's `scope.options.state` array MUST match the `name` of a
       declared state on the referenced component, when state declarations are present.
-      Mirrors SPEC-022 (component-state-valid) for the CTR scope object.
+      Mirrors SPEC-022 (component-state-valid) for the CTR scope object. The members of an
+      `{ "anyOf": [...] }` element (proposal 017) are checked the same way.
     message: "Relationship '{relationship}' references undeclared state '{state}' on component '{component}'"
     spec_ref: spec/relationship-format.md#scope-fields
     introduced_in: "1.0.0-draft"
@@ -1242,5 +1244,132 @@ rules:
       A live relationship with no `context` SHOULD be referenced, directly or through other
       relationships' `$ref` uuids, by a relationship that has a `context`.
     message: "Relationship {scope} has no context and no contexted record references it; add a context so a recipe can bind it"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-093
+    name: relationship-context-names-option
+    severity: error
+    layer: 2
+    category: relationship
+    note: >
+      A condition on a component option belongs in `scope.options`: a record that pins no option
+      is the default for its `(property, context)`, and a recipe picks the record that pins the
+      most options matching its request. A parenthesised part of `context` that equals a declared
+      option value, a boolean option name (`emphasized`) or its negation (`non emphasized`)
+      repeats the option inside the string. `default` is flagged only when a sibling record with
+      the same main word names an option value; `Width (default)` beside `Width (minimum)` names a
+      measurement. Interaction states are not checked.
+    assert: >
+      A relationship `context` MUST NOT name a value of an option the component declares; pin
+      it in `scope.options` instead.
+    message: "Relationship context '{context}' names {options}; pin scope.options instead (a record that pins no option is the default), or says default beside records that name an option value; leave the default record unpinned and drop the word"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-094
+    name: relationship-state-repeated
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      `scope.options.state` is an AND of its elements, and an element may be an any-of
+      (proposal 017). A state that appears in more than one element, as in
+      `["down", { "anyOf": ["down", "hover"] }]`, counts once in the expansion but is almost
+      always a mistake.
+    assert: >
+      A state SHOULD appear in at most one element of a `scope.options.state` array.
+    message: "Relationship scope lists state '{state}' in {n} elements of its state array; list it once"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-095
+    name: component-option-name-reserved
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      `anyOf` is a reserved key of `scope.options` (proposal 017), so a relationship could not
+      pin a component option with that name.
+    assert: >
+      A component MUST NOT declare an option named `anyOf`.
+    message: "Component '{component}' declares an option named 'anyOf', which is reserved in relationship scopes"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-096
+    name: relationship-any-of-single-option
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      An `anyOf` whose alternatives all pin the same single option is an any-of over one option's
+      values, which an array value says directly.
+    assert: >
+      An `anyOf` SHOULD NOT pin the same single option in every alternative; use an array value
+      (`size: ["s", "m"]`).
+    message: "Relationship anyOf pins only '{option}' in every alternative; use an array value for '{option}' instead"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-097
+    name: relationship-any-of-redundant
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      An alternative is an AND and the `anyOf` is an OR, so an alternative that contains another
+      alternative adds nothing. An alternative that repeats a pin the record already has is
+      redundant too, and one that contradicts a pin of the record can never match.
+    assert: >
+      An `anyOf` alternative SHOULD NOT repeat or contradict a pin of the record, and SHOULD NOT
+      equal or contain another alternative.
+    message: "Relationship anyOf alternative {i} is covered by alternative {j}; remove it"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-098
+    name: relationship-any-of-undeclared
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      The solver keeps only declared options, so an alternative whose keys are all undeclared
+      becomes empty and always matches. Skipped for a component that declares no options.
+    assert: >
+      Each `anyOf` alternative SHOULD pin at least one option the component declares.
+    message: "Relationship anyOf alternative {i} pins no option the component declares, so it would always match"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-099
+    name: relationship-any-of-legacy-key
+    severity: error
+    layer: 2
+    category: relationship
+    note: >
+      A relationship with a `legacyKey` has a legacy token counterpart, and a legacy token name
+      cannot express an any-of. The legacy conversion skips such a record, so its token would
+      vanish from the legacy output.
+    assert: >
+      A relationship that uses an any-of MUST NOT carry a `legacyKey`.
+    message: "Relationship with legacyKey '{legacyKey}' uses an anyOf; a legacy token cannot express it, so remove the legacyKey or the anyOf"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-100
+    name: relationship-options-mergeable
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      Relationship records of one component that share `property`, `context` and `$ref` and have
+      the same pins except for one declared option say the same thing twice. One record that pins
+      an array (`size: ["m", "l"]`) says it once. Records with a `legacyKey` are skipped, because
+      each names a legacy token, as are records that use an any-of.
+    assert: >
+      Relationship records that differ only in one declared option's value SHOULD be merged into
+      one record that pins an array.
+    message: "{n} relationship records for '{property}' / '{context}' differ only in option '{option}' ({values}); merge them into one record that pins an array, or drop a record whose values another one covers"
     spec_ref: spec/relationship-format.md#context
     introduced_in: "1.0.0-draft"

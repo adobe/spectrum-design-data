@@ -724,6 +724,16 @@ fn ctr_to_legacy_token(rel: &Map<String, Value>) -> Option<Map<String, Value>> {
 
     let scope = rel.get("scope").and_then(|v| v.as_object());
 
+    // The legacy token name cannot express an any-of (proposal 017): a record that uses one
+    // has no legacy counterpart and must not carry a `legacyKey`.
+    if scope
+        .and_then(|s| s.get("options"))
+        .and_then(Value::as_object)
+        .is_some_and(|o| crate::scope::variants(o).len() > 1)
+    {
+        return None;
+    }
+
     let mut name = Map::new();
     if let Some(options) = scope
         .and_then(|s| s.get("options"))
@@ -1311,6 +1321,23 @@ mod tests {
         assert_eq!(tok["name"]["legacyKey"], "button-label-color-accent");
         assert_eq!(tok["value"], "#fff");
         assert_eq!(tok["uuid"], "ctr-0001");
+    }
+
+    #[test]
+    fn a_relationship_with_an_any_of_has_no_legacy_counterpart() {
+        let rel = obj(json!({
+            "scope": {"component": "button", "property": "color",
+                "options": {"anyOf": [{"isSelected": true}, {"isIndeterminate": true}]}},
+            "legacyKey": "button-color",
+            "$ref": "some-uuid"
+        }));
+        assert!(ctr_to_legacy_token(&rel).is_none());
+        let plain = obj(json!({
+            "scope": {"component": "button", "property": "color", "options": {"size": "m"}},
+            "legacyKey": "button-color",
+            "$ref": "some-uuid"
+        }));
+        assert!(ctr_to_legacy_token(&plain).is_some());
     }
 
     #[test]

@@ -59,6 +59,7 @@
       "default": "informative",
       "values": [
         { "value": "informative" },
+        { "value": "accent" },
         { "value": "neutral" },
         { "value": "positive" },
         { "value": "notice" },
@@ -80,7 +81,8 @@
         { "value": "red" },
         { "value": "orange" },
         { "value": "green" },
-        { "value": "cyan" }
+        { "value": "cyan" },
+        { "value": "blue" }
       ]
     },
     "size": {

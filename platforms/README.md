@@ -209,5 +209,7 @@ outputs (JS token exports and `--spectrum-*` CSS custom properties) before
 either team is asked to adopt it.
 
 `rune` is the first platform whose manifest lives in its own repo
-([`GarthDB/spectrum-rune`](https://github.com/GarthDB/spectrum-rune)); it has no
-directory here and is registered as a remote `[platforms.rune]` entry.
+([`GarthDB/spectrum-rune`](https://github.com/GarthDB/spectrum-rune)). It has no
+directory and no `[platforms.<id>]` entry here: its repo pins this dataset, and this
+repo does not follow its releases. The registry lists its id so the manifest's
+`platform` field validates.

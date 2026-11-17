@@ -77,6 +77,25 @@
           "metadata": {"count":2,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "46c51e6dc5d7a729f8836cf0a53434f428333fcd",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1845,"title":"fix(design-data): pin options in ten small components' relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1845"},
+          "entries": [
+            {"id":"46c51e6d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing"],"scope":{"property":"spacing","options":{"orientation":"horizontal"}},"record":"3351e4f9-18f7-574a-95cd-0a46385fef51","name":"spacing[orientation=horizontal]","fields":[{"path":"context","before":"Spacing (horizontal)","after":"Spacing"}]},
+            {"id":"46c51e6d-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing"],"scope":{"property":"spacing","options":{"orientation":"horizontal"}},"record":"7d497d62-8aa1-5e73-859e-9ae1753c61f2","name":"spacing[orientation=horizontal]","fields":[{"path":"context","before":"Spacing (horizontal)","after":"Spacing"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextQualifier","scope.options.orientation"]}
+        }
+      ]
     }
   ]
 }

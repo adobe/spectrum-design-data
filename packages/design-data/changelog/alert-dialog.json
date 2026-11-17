@@ -121,6 +121,31 @@
           "metadata": {"count":36,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.3",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "e75543372e5a75e0e0f6580047191af3f0de2e1b",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1840,"title":"fix(design-data): pin variant in alert-dialog relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1840"},
+          "entries": [
+            {"id":"e7554337-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":{"variant":["error","warning"]}},"record":"ad57f6f4-f87e-5fc6-9302-6c0dda544500","name":"workflow-icon-size-100[variant=?]","fields":[{"path":"context","before":"Icon (error and warning variants)","after":"Icon"}]},
+            {"id":"e7554337-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":{"variant":["error","warning"]}},"record":"8429edc7-72c8-56d6-aa83-53e43304fe66","name":"workflow-icon-size-100[variant=?]","fields":[{"path":"context","before":"Icon (error and warning variants)","after":"Icon"}]},
+            {"id":"e7554337-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"variant":"warning"}},"record":"7a7776f7-b007-56d9-a751-5641d147f3b0","name":"color[variant=warning]","fields":[{"path":"context","before":"Icon (warning variant)","after":"Icon"}]},
+            {"id":"e7554337-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"variant":"warning"}},"record":"9c2c71dc-aac0-5d8f-80a1-f68e666077ff","name":"color[variant=warning]","fields":[{"path":"context","before":"Icon (warning variant)","after":"Icon"}]},
+            {"id":"e7554337-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"variant":"warning"}},"record":"de568f59-23a2-528c-a865-f6b30113aca5","name":"color[variant=warning]","fields":[{"path":"context","before":"Icon (warning variant)","after":"Icon"}]},
+            {"id":"e7554337-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"variant":"error"}},"record":"00d32cb0-97c0-55a4-96aa-7a356276e426","name":"color[variant=error]","fields":[{"path":"context","before":"Icon (error variant)","after":"Icon"}]},
+            {"id":"e7554337-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"variant":"error"}},"record":"f9f50d80-fa29-5e1d-90b2-71c9a533937c","name":"color[variant=error]","fields":[{"path":"context","before":"Icon (error variant)","after":"Icon"}]},
+            {"id":"e7554337-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"variant":"error"}},"record":"7902bab7-9659-5372-9826-adb93ecdfd39","name":"color[variant=error]","fields":[{"path":"context","before":"Icon (error variant)","after":"Icon"}]}
+          ],
+          "metadata": {"count":8,"fields":["contextQualifier","scope.options.variant"]}
+        }
+      ]
     }
   ]
 }

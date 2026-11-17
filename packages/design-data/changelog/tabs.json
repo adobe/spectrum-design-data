@@ -198,6 +198,24 @@
           "metadata": {"count":26,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.6",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "46c51e6dc5d7a729f8836cf0a53434f428333fcd",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1845,"title":"fix(design-data): pin options in ten small components' relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1845"},
+          "entries": [
+            {"id":"46c51e6d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (between tab items)"],"scope":{"property":"to-tab-item-horizontal-medium","options":{"orientation":"horizontal"}},"record":"997ffb60-9e33-561b-a57a-bd268fc52a39","name":"to-tab-item-horizontal-medium[orientation=horizontal]","fields":[{"path":"context","before":"Spacing (between tab items, horizontal)","after":"Spacing (between tab items)"}]}
+          ],
+          "metadata": {"count":4,"fields":["context","contextQualifier","scope.options.orientation"]}
+        }
+      ]
     }
   ]
 }

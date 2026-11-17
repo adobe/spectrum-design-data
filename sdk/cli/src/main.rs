@@ -82,12 +82,18 @@ struct Cli {
     /// optional positional flattened in via `TuiArgs`.
     #[arg(long, global = true)]
     platform: Option<String>,
+    /// Read a dataset even when its `dataset.json` says this CLI is too old for it
+    /// (`requires.cli`, or a newer `layoutRevision`). Results may be wrong. There is no
+    /// config-file or environment equivalent, and every run warns while it is in use.
+    #[arg(long, global = true)]
+    ignore_data_requirements: bool,
 }
 
 /// Arguments for launching the interactive TUI (bare invocation or `tui` subcommand).
 #[derive(Args)]
 struct TuiArgs {
-    /// Path to the token dataset directory (default: current directory).
+    /// Path to the token dataset directory (default: resolved from `.design-data.toml`, the
+    /// enclosing repo checkout, or the embedded dataset).
     #[arg(value_name = "DATASET")]
     dataset: Option<PathBuf>,
     /// Path to the components directory (default: spec-bundled).
@@ -116,6 +122,8 @@ struct TuiArgs {
     snapshot_ansi: bool,
 }
 
+// Parsed once at startup, so the size of the largest variant (`Render`) costs nothing.
+#[allow(clippy::large_enum_variant)]
 #[derive(Subcommand)]
 enum Commands {
     /// Inspect configured `[platforms.<id>]` manifest profiles (h890.27.6)
@@ -252,7 +260,7 @@ enum Commands {
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
     },
-    /// Render a component from its visual recipe to SVG (draft)
+    /// Render a component from its visual recipe to SVG or PNG (draft)
     Render {
         /// Component name (e.g. action-button)
         #[arg(value_name = "COMPONENT", required_unless_present = "batch")]
@@ -295,15 +303,37 @@ enum Commands {
         /// Directory containing cascade-format .tokens.json files
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
-        /// Output format: `svg` or `scene` (resolved scene graph as JSON)
-        #[arg(long, default_value = "svg", value_parser = ["svg", "scene"])]
+        /// Output format: `svg`, `png` (needs --output) or `scene` (resolved scene graph as JSON)
+        #[arg(long, default_value = "svg", value_parser = ["svg", "png", "scene"])]
         format: String,
+        /// Pixels per unit for `--format png`
+        #[arg(
+            long,
+            value_name = "N",
+            default_value_t = 2.0,
+            conflicts_with = "batch"
+        )]
+        pixel_ratio: f64,
+        /// TrueType font file for `--format png` text (repeatable; default: bundled Source Sans 3)
+        #[arg(long = "font", value_name = "FILE")]
+        fonts: Vec<PathBuf>,
         /// Write output here instead of stdout
         #[arg(long, short, value_name = "FILE")]
         output: Option<PathBuf>,
         /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
         #[arg(long, value_name = "FILE")]
         text_metrics: Option<PathBuf>,
+        /// Exit 1 when the render reports any diagnostic, such as a binding that does not resolve (a part drawn without its colour or type).
+        /// Output is still written; the warnings are on stderr
+        #[arg(long)]
+        strict: bool,
+    },
+    /// Check which font draws text in PNG previews (Adobe Clean Spectrum VF) and how to install it.
+    /// Exits 0 when the font is found and 1 when the bundled fallback would be used.
+    Fonts {
+        /// Print the status as JSON
+        #[arg(long)]
+        json: bool,
     },
     /// Compare scenes from `render --batch` with measured platform values (draft)
     RenderCompare {
@@ -676,6 +706,27 @@ enum PlatformSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Which data changes between two foundation releases hit what a platform binds: the
+    /// relationship contexts and tokens its recipes name, the options they read, and the
+    /// relationships its manifest overrides. Reads the `--to` release's component changelogs.
+    /// Exits 1 when something a binding names was renamed or removed
+    Impact {
+        /// Platform id (default: the configured `default_platform`)
+        id: Option<String>,
+        /// Release the platform is on now (default: the manifest's `foundationVersion`)
+        #[arg(long, value_name = "VERSION")]
+        from: Option<String>,
+        /// Release to move to, e.g. 3.15.1
+        #[arg(long, value_name = "VERSION")]
+        to: String,
+        /// Read `<dataset>/changelog` from this directory instead of fetching the `--to`
+        /// release (offline, or a local checkout)
+        #[arg(long, value_name = "DIR")]
+        changelog_dir: Option<PathBuf>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Emit a standalone, publishable repo for a local `[platforms.<id>]` entry
     /// (manifest.json, extensions/, README, LICENSE, `.design-data.toml` pinned
     /// at the entry's `foundationVersion`, and a CI validation workflow), plus
@@ -1027,10 +1078,22 @@ enum QueryFormat {
 /// equivalent — [`data_source::resolve`] already reads that env var directly.
 static GLOBAL_PLATFORM_ID: OnceLock<Option<String>> = OnceLock::new();
 
+/// `--ignore-data-requirements`, set once in `main`. Command line only, on purpose: a config
+/// or environment setting would make the escape the permanent default.
+static IGNORE_DATA_REQUIREMENTS: OnceLock<bool> = OnceLock::new();
+
 /// Resolve `overrides` against the current working directory. Shared by every
 /// command handler so the config/probing/embedded-snapshot tiers in
 /// [`data_source::resolve`] are applied consistently everywhere.
-fn resolve_data_source(
+fn resolve_data_source(overrides: CliPathOverrides) -> miette::Result<data_source::ResolvedData> {
+    let resolved = resolve_data_source_unchecked(overrides)?;
+    enforce_data_requirements(&resolved)?;
+    Ok(resolved)
+}
+
+/// [`resolve_data_source`] without the `dataset.json` requirements check, for a command that
+/// reports them (`platform show`) instead of refusing to run.
+fn resolve_data_source_unchecked(
     mut overrides: CliPathOverrides,
 ) -> miette::Result<data_source::ResolvedData> {
     if overrides.platform_id.is_none() {
@@ -1038,6 +1101,61 @@ fn resolve_data_source(
     }
     let cwd = std::env::current_dir().into_diagnostic()?;
     data_source::resolve(&cwd, &overrides).into_diagnostic()
+}
+
+/// What the resolved dataset's `dataset.json` needs that this CLI does not meet. It reads
+/// `<tokens root>/../dataset.json`, which is the dataset's own only when `tokens/` sits where
+/// the standard layout puts it: a dataset that moved it (`paths.tokens`, or a custom `--path`)
+/// is not checked rather than risk reading an unrelated file.
+fn data_requirements(resolved: &data_source::ResolvedData) -> data_source::requirements::Unmet {
+    let root = resolved.tokens_root.parent().filter(|_| {
+        resolved
+            .tokens_root
+            .file_name()
+            .is_some_and(|n| n == "tokens")
+    });
+    match root {
+        Some(root) => data_source::requirements::unmet_requirements(
+            root,
+            env!("CARGO_PKG_VERSION"),
+            design_data_core::visual::LAYOUT_REVISION,
+        ),
+        None => Default::default(),
+    }
+}
+
+/// Set once the requirements warnings have been printed: a command may resolve its data more
+/// than once, and each warning belongs to the run, not to each resolve.
+static REQUIREMENTS_WARNED: std::sync::atomic::AtomicBool =
+    std::sync::atomic::AtomicBool::new(false);
+
+/// Refuse a dataset whose `dataset.json` needs a newer CLI than this one (`requires.cli`, or a
+/// `layoutRevision` newer than this engine's). A dataset that does not say asks for nothing.
+fn enforce_data_requirements(resolved: &data_source::ResolvedData) -> miette::Result<()> {
+    let unmet = data_requirements(resolved);
+    let first = !REQUIREMENTS_WARNED.swap(true, std::sync::atomic::Ordering::Relaxed);
+    if first {
+        for w in &unmet.warnings {
+            eprintln!("warning: {w}");
+        }
+    }
+    if unmet.errors.is_empty() {
+        return Ok(());
+    }
+    if IGNORE_DATA_REQUIREMENTS.get().copied().unwrap_or(false) {
+        if first {
+            for e in &unmet.errors {
+                eprintln!(
+                    "warning: {e} Continuing because --ignore-data-requirements is set; results may be wrong."
+                );
+            }
+        }
+        return Ok(());
+    }
+    miette::bail!(
+        "{}\nPass --ignore-data-requirements to read it anyway; results may be wrong.",
+        unmet.errors.join("\n")
+    )
 }
 
 fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
@@ -1215,6 +1333,15 @@ fn load_visual_graph(
         .find(|d| d.is_dir())
         .unwrap_or_else(|| PathBuf::from("visuals"))
     });
+    if load_visuals {
+        if let Some(w) = resolved
+            .tokens_root
+            .parent()
+            .and_then(design_data_core::visual::layout_revision_warning)
+        {
+            eprintln!("warning: {w}");
+        }
+    }
     if load_visuals && visuals_dir.is_dir() {
         graph.visuals = TokenGraph::load_spec_visuals(&visuals_dir)
             .into_diagnostic()
@@ -1448,12 +1575,56 @@ fn run_render(
     visuals_path: Option<PathBuf>,
     path: Option<PathBuf>,
     format: String,
+    pixel_ratio: f64,
+    fonts: Vec<PathBuf>,
     output: Option<PathBuf>,
     text_metrics: Option<PathBuf>,
+    strict: bool,
 ) -> miette::Result<ExitCode> {
-    let text_metrics = load_text_metrics(text_metrics.as_deref())?;
+    if format == "png" && output.is_none() {
+        miette::bail!("--format png writes binary data: pass --output <FILE>");
+    }
+    let mut text_metrics = load_text_metrics(text_metrics.as_deref())?;
+    let mut sources = fonts
+        .iter()
+        .map(|p| {
+            std::fs::read(p)
+                .map(|data| design_data_core::raster::FontSource {
+                    data,
+                    origin: p.display().to_string(),
+                })
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to read --font {}", p.display()))
+        })
+        .collect::<miette::Result<Vec<_>>>()?;
+    // Without --font a PNG looks for Adobe Clean Spectrum VF on this machine, else uses the
+    // bundled Source Sans 3 and says so.
+    let mut font_status = None;
+    if sources.is_empty() && format == "png" {
+        use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
+        let found = discover::discover(
+            TARGET_FAMILY,
+            &discover::Env::current(),
+            Some(design_data_core::raster::fallback_font()),
+        );
+        sources.extend(found.font);
+        font_status = Some(found.status);
+    }
+    // A chosen font sets the layout widths too, so boxes fit the text drawn in them; an
+    // explicit --text-metrics still wins. The fallback is the committed table's own font.
+    let chosen = font_status.as_ref().is_none_or(|s| !s.fallback);
+    if text_metrics.is_none() && chosen {
+        if let Some(first) = sources.first() {
+            let font = design_data_core::raster::font::Font::parse(first.data.clone())
+                .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?;
+            text_metrics = Some(
+                font.text_metrics()
+                    .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?,
+            );
+        }
+    }
     if let (Some(file), Some(dir)) = (&batch, &out) {
-        return render_batch::run_batch(file, dir, visuals_path, path, text_metrics);
+        return render_batch::run_batch(file, dir, visuals_path, path, text_metrics, strict);
     }
     let component = component.expect("clap requires COMPONENT without --batch");
     let (graph, visuals_dir, platform) = load_visual_env(path, visuals_path, true)?;
@@ -1491,11 +1662,39 @@ fn run_render(
         width,
     };
     let scene = visual::build_scene(&graph, recipe, &req).map_err(|e| miette::miette!(e))?;
+    let exit = if strict && !scene.diagnostics.is_empty() {
+        eprintln!(
+            "error: --strict: {} render diagnostic(s), see the warnings above",
+            scene.diagnostics.len()
+        );
+        ExitCode::from(1)
+    } else {
+        ExitCode::SUCCESS
+    };
     for d in &scene.diagnostics {
         match &platform {
             Some(p) => eprintln!("warning: platform '{}': {d}", p.id),
             None => eprintln!("warning: {d}"),
         }
+    }
+    if format == "png" {
+        let opts = design_data_core::raster::RasterOptions {
+            scale: pixel_ratio,
+            background: None,
+        };
+        if let Some(st) = font_status.as_ref().filter(|s| s.fallback) {
+            eprintln!("warning: {}", st.help);
+        }
+        let out = design_data_core::raster::scene_to_png(&scene, &sources, &opts)
+            .map_err(|e| miette::miette!("{e}"))?;
+        for d in &out.diagnostics {
+            eprintln!("warning: {d}");
+        }
+        let p = output.expect("checked above");
+        std::fs::write(&p, out.png)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to write {}", p.display()))?;
+        return Ok(exit);
     }
     let svg = if format == "scene" {
         serde_json::to_string_pretty(&scene).into_diagnostic()?
@@ -1508,7 +1707,7 @@ fn run_render(
             .wrap_err_with(|| format!("failed to write {}", p.display()))?,
         None => println!("{svg}"),
     }
-    Ok(ExitCode::SUCCESS)
+    Ok(exit)
 }
 
 fn run_resolve(
@@ -1886,14 +2085,174 @@ fn run_platform_list(format: OutputFormat) -> miette::Result<ExitCode> {
     Ok(ExitCode::SUCCESS)
 }
 
+/// `design-data platform impact`: the data changes between two foundation releases that touch
+/// what a platform binds, read from the `--to` release's component changelogs. Exits 1 when a
+/// binding names something renamed or removed.
+fn run_platform_impact(
+    id: Option<String>,
+    from: Option<String>,
+    to: &str,
+    changelog_dir: Option<PathBuf>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    use design_data_core::platform_impact as pi;
+    let resolved = resolve_data_source(CliPathOverrides {
+        platform_id: id,
+        ..Default::default()
+    })?;
+    let Some(manifest_path) = resolved.platform_manifest.clone() else {
+        eprintln!("design-data: error: no platform manifest configured (pass a platform id, or set `default_platform` in `.design-data.toml`)");
+        return Ok(ExitCode::from(2));
+    };
+    let manifest_json: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(&manifest_path)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to read {}", manifest_path.display()))?,
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("{} is not JSON", manifest_path.display()))?;
+    let from_text = from
+        .or_else(|| {
+            manifest_json
+                .get("foundationVersion")
+                .and_then(|v| v.as_str())
+                .map(str::to_string)
+        })
+        .ok_or_else(|| {
+            miette::miette!("pass --from: the manifest has no `foundationVersion` to start from")
+        })?;
+    let parse = |label: &str, text: &str| {
+        pi::parse_version(text)
+            .map_err(|e| miette::miette!("--{label} '{text}' is not a release version: {e}"))
+    };
+    let (from_v, to_v) = (parse("from", &from_text)?, parse("to", to)?);
+    if from_v >= to_v {
+        miette::bail!("--from {from_v} must be older than --to {to_v}");
+    }
+
+    let dir = match changelog_dir {
+        Some(d) => d,
+        None => {
+            let cwd = std::env::current_dir().into_diagnostic()?;
+            let config = data_source::find_config(&cwd)
+                .into_diagnostic()?
+                .map(|(_, c)| c);
+            let repo = match config.as_ref().and_then(|c| c.source.as_ref()) {
+                Some(data_source::SourceConfig::Github { repo, .. }) => repo.clone(),
+                _ => "adobe/spectrum-design-data".to_string(),
+            };
+            let cache = config
+                .as_ref()
+                .and_then(|c| c.cache.as_ref())
+                .and_then(|c| c.dir.clone());
+            data_source::foundation_dataset_dir(&repo, &to_v.to_string(), cache.as_deref())
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to fetch foundation {to_v}"))?
+                .join("changelog")
+        }
+    };
+    if !dir.is_dir() {
+        miette::bail!(
+            "no changelog at {}: the {to_v} data has none, or --changelog-dir is wrong",
+            dir.display()
+        );
+    }
+
+    // The graph with the manifest applied, so the platform's own recipes are in it.
+    let (graph, _, _) = load_visual_graph(&resolved, None, false)?;
+    let bindings = pi::collect_bindings(&graph, &manifest_json);
+    let report = pi::impact(&bindings, &dir, &from_v, &to_v)
+        .into_diagnostic()
+        .wrap_err("failed to read the changelogs")?;
+    let breaks = report.findings.iter().any(|f| f.class == pi::Class::Breaks);
+
+    match format {
+        OutputFormat::Json => println!(
+            "{}",
+            serde_json::to_string_pretty(&report).into_diagnostic()?
+        ),
+        OutputFormat::Pretty => {
+            println!(
+                "design-data: platform impact {} -> {} ({} component(s) bound, {} relationship and {} token binding(s))",
+                report.from,
+                report.to,
+                bindings.components.len(),
+                bindings.relationships.len(),
+                bindings.tokens.len()
+            );
+            for class in [pi::Class::Breaks, pi::Class::Changes] {
+                let list: Vec<_> = report
+                    .findings
+                    .iter()
+                    .filter(|f| f.class == class)
+                    .collect();
+                if list.is_empty() {
+                    continue;
+                }
+                println!(
+                    "\n{} ({})",
+                    match class {
+                        pi::Class::Breaks => "BREAKS: a binding names something renamed or removed",
+                        pi::Class::Changes =>
+                            "CHANGES: a binding still resolves, to something different",
+                    },
+                    list.len()
+                );
+                for f in list {
+                    let times = if f.entries > 1 {
+                        format!(" (x{})", f.entries)
+                    } else {
+                        String::new()
+                    };
+                    println!("  {} @ {}: {}{times}", f.component, f.release, f.message);
+                    let cwd = std::env::current_dir().ok();
+                    for b in &f.bindings {
+                        let shown = cwd
+                            .as_ref()
+                            .and_then(|cwd| {
+                                b.strip_prefix(&format!("{}/", cwd.display()))
+                                    .map(str::to_string)
+                            })
+                            .unwrap_or_else(|| b.clone());
+                        println!("      binding: {shown}");
+                    }
+                    if let Some(s) = &f.source {
+                        println!("      source:  {s}");
+                    }
+                }
+            }
+            if report.findings.is_empty() {
+                println!(
+                    "\nNothing in releases {} to {} touches what this platform binds.",
+                    report.from, report.to
+                );
+            }
+            for c in &report.no_changelog {
+                println!("\nnote: no changelog for '{c}' in the {} data", report.to);
+            }
+            for n in &report.notes {
+                println!("\nnote: {n}");
+            }
+        }
+    }
+    Ok(if breaks {
+        ExitCode::from(1)
+    } else {
+        ExitCode::SUCCESS
+    })
+}
+
 /// `design-data platform show <id>` (h890.27.6): resolve one named platform
 /// entry (fetching it if remote), and report its location, identity fields,
 /// and an advisory `foundationVersion`-vs-this-build drift check.
 fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode> {
-    let resolved = resolve_data_source(CliPathOverrides {
+    // `show` only prints identity and pin information, so a dataset this CLI is too old for is
+    // a finding here, not a reason to refuse to run.
+    let resolved = resolve_data_source_unchecked(CliPathOverrides {
         platform_id: Some(id.to_string()),
         ..Default::default()
     })?;
+    let requirements = data_requirements(&resolved);
     let Some(manifest_path) = resolved.platform_manifest.clone() else {
         eprintln!("design-data: error: platform \"{id}\" resolved but has no manifest path");
         return Ok(ExitCode::from(2));
@@ -1913,23 +2272,44 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
     let platform_version = str_field("platformVersion");
     let repository = str_field("repository");
     let foundation_version = str_field("foundationVersion");
-    let drift = foundation_version.as_deref().map(|fv| {
-        let version = fv.rsplit_once('@').map_or(fv, |(_, v)| v);
-        if version == data_source::EMBEDDED_DATA_VERSION {
-            format!("in sync (matches this build's embedded foundation {fv})")
-        } else {
-            format!(
-                "manifest declares foundationVersion \"{fv}\"; this build's embedded \
-                 foundation is \"{}\" — may be drifted",
-                data_source::EMBEDDED_DATA_VERSION
-            )
+    // The pin is stated twice, in the manifest and in `[source]` (GH #1741): compare with the
+    // source this project resolves. Only a project with no `[source]` uses the embedded build,
+    // and only then is that the thing to compare with.
+    let project = project_config()?;
+    let config = project.as_ref().map(|(_, c)| c);
+    let pin = check_project_pin(
+        foundation_version.as_deref(),
+        &manifest_path,
+        project.as_ref(),
+    );
+    let drift = foundation_version.as_deref().map(|fv| match &pin {
+        manifest::PinCheck::Agree { version } => {
+            format!("pins agree: foundationVersion and `[source]` both name {version}")
+        }
+        manifest::PinCheck::Mismatch { manifest, source } => {
+            format!("MISMATCH: foundationVersion is {manifest} but `[source]` pins {source}")
+        }
+        manifest::PinCheck::Unverifiable { reason } => format!("not verified: {reason}"),
+        manifest::PinCheck::Skipped { reason } => {
+            if config.is_some_and(|c| c.source.is_some()) {
+                format!("not compared: {reason}")
+            } else {
+                let version = manifest::bare_version(fv);
+                if version == data_source::EMBEDDED_DATA_VERSION {
+                    format!("in sync (matches this build's embedded foundation {fv})")
+                } else {
+                    format!(
+                        "manifest declares foundationVersion \"{fv}\"; this build's embedded \
+                         foundation is \"{}\" — may be drifted",
+                        data_source::EMBEDDED_DATA_VERSION
+                    )
+                }
+            }
         }
     });
 
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let entry_detail = data_source::find_config(&cwd)
-        .into_diagnostic()?
-        .and_then(|(_, config)| config.platforms)
+    let entry_detail = config
+        .and_then(|c| c.platforms.as_ref())
         .and_then(|platforms| platforms.get(id).map(describe_platform_entry));
 
     match format {
@@ -1945,7 +2325,9 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
                     "platformVersion": platform_version,
                     "repository": repository,
                     "foundationVersion": foundation_version,
+                    "pin": pin,
                     "drift": drift,
+                    "requirements": requirements,
                 })
             );
         }
@@ -1966,6 +2348,9 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
             }
             if let Some(d) = &drift {
                 println!("  foundation: {d}");
+            }
+            for finding in requirements.errors.iter().chain(&requirements.warnings) {
+                println!("  requirements: {finding}");
             }
         }
     }
@@ -2361,6 +2746,39 @@ fn run_platform_eject(
     Ok(ExitCode::SUCCESS)
 }
 
+/// The `.design-data.toml` the current directory resolves to (and its directory), if any. A
+/// malformed one is an error, as it was before the pin check existed.
+fn project_config() -> miette::Result<Option<(PathBuf, data_source::DesignDataConfig)>> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    Ok(data_source::find_config(&cwd)
+        .into_diagnostic()?
+        .map(|(file, config)| (file.parent().map(Path::to_path_buf).unwrap_or(cwd), config)))
+}
+
+/// Compare a manifest's `foundationVersion` with this project's `[source]` (GH #1741), but only
+/// when the manifest is the project's own. A manifest passed with `--manifest` from another
+/// repo, or fetched for a remote `[platforms.<id>]` entry, lives outside the project and can pin
+/// a different foundation for good reason, so it is not compared.
+fn check_project_pin(
+    manifest_pin: Option<&str>,
+    manifest_path: &Path,
+    project: Option<&(PathBuf, data_source::DesignDataConfig)>,
+) -> manifest::PinCheck {
+    let Some((dir, config)) = project else {
+        return manifest::check_foundation_pin(manifest_pin, None);
+    };
+    let inside = match (manifest_path.canonicalize(), dir.canonicalize()) {
+        (Ok(file), Ok(dir)) => file.starts_with(dir),
+        _ => false,
+    };
+    if !inside {
+        return manifest::PinCheck::Skipped {
+            reason: "the manifest is not in this project (`--manifest`, or a remote platform entry), so its pin is not compared with this project's `[source]`".into(),
+        };
+    }
+    manifest::check_foundation_pin(manifest_pin, config.source.as_ref())
+}
+
 /// checks (include/exclude query parse, override-target resolution).
 ///
 /// Exit codes: `0` valid; `1` validation failure (schema violation, unlocatable schema,
@@ -2400,6 +2818,65 @@ fn run_validate_manifest(
 
     match manifest::apply_configured(&mut graph, &resolved) {
         Ok(_) => {
+            // MANIFEST-001: a platform-owned recipe binding the data does not have. Not a
+            // registry rule, so `validate` is unchanged; SPEC-076/079 stay warnings.
+            // The cached graph above has no foundation recipes or icons, so a platform recipe
+            // that nests a foundation component (radio-group -> radio-button) could not be
+            // compiled. Check on the graph `render` uses: everything loaded, manifest applied.
+            let (full_graph, _, _) = load_visual_graph(&resolved, None, true)?;
+            let unresolved =
+                design_data_core::validate::rules::manifest_bindings::unresolved_platform_bindings(
+                    &full_graph,
+                );
+            // MANIFEST-002: the pin is written twice (the manifest's `foundationVersion` and the
+            // project's `[source]`); they must name the same release (GH #1741). A positional
+            // PATH replaces the source, so there is nothing to compare then.
+            let manifest_pin = std::fs::read_to_string(&manifest_path)
+                .ok()
+                .and_then(|text| serde_json::from_str::<serde_json::Value>(&text).ok())
+                .and_then(|m| m.get("foundationVersion")?.as_str().map(String::from));
+            let pin = if explicit_path.is_some() {
+                manifest::PinCheck::Skipped {
+                    reason: "a positional PATH replaces the `[source]`".into(),
+                }
+            } else {
+                check_project_pin(
+                    manifest_pin.as_deref(),
+                    &manifest_path,
+                    project_config()?.as_ref(),
+                )
+            };
+            let mut messages: Vec<String> = Vec::new();
+            if let manifest::PinCheck::Mismatch { manifest, source } = &pin {
+                messages.push(format!(
+                    "MANIFEST-002 (validate-manifest): foundationVersion '{manifest}' does not match the `[source]` pin '{source}' in `.design-data.toml`; both must name the same release"
+                ));
+            }
+            messages.extend(unresolved.iter().map(|b| b.message()));
+            if !messages.is_empty() {
+                match format {
+                    OutputFormat::Json => println!(
+                        "{}",
+                        serde_json::json!({
+                            "valid": false,
+                            "manifest": manifest_path.display().to_string(),
+                            "error": messages.join("\n"),
+                            "pin": pin,
+                            "bindings": unresolved,
+                        })
+                    ),
+                    OutputFormat::Pretty => {
+                        eprintln!(
+                            "design-data: error: {} failed validation:",
+                            manifest_path.display()
+                        );
+                        for m in &messages {
+                            eprintln!("{m}");
+                        }
+                    }
+                }
+                return Ok(ExitCode::from(1));
+            }
             // Advisory-only: does the manifest's optional `platform` identity field
             // (h890.27.1) match a known id in the platform-implementations registry?
             // Never affects the exit code — `platform` is a SHOULD, not a MUST.
@@ -2419,6 +2896,7 @@ fn run_validate_manifest(
                             "valid": true,
                             "manifest": manifest_path.display().to_string(),
                             "warning": identity_warning,
+                            "pin": pin,
                         })
                     );
                 }
@@ -2426,6 +2904,9 @@ fn run_validate_manifest(
                     println!("design-data: {} is valid", manifest_path.display());
                     if let Some(warning) = &identity_warning {
                         eprintln!("design-data: warning: {warning}");
+                    }
+                    if let manifest::PinCheck::Unverifiable { reason } = &pin {
+                        eprintln!("design-data: warning: foundation pin not verified: {reason}");
                     }
                 }
             }
@@ -4000,6 +4481,50 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     }
 }
 
+fn run_fonts(json: bool) -> miette::Result<ExitCode> {
+    use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
+    let found = discover::discover(
+        TARGET_FAMILY,
+        &discover::Env::current(),
+        Some(design_data_core::raster::fallback_font()),
+    );
+    let st = &found.status;
+    if json {
+        println!("{}", serde_json::to_string_pretty(st).into_diagnostic()?);
+    } else {
+        println!("Font for PNG previews: {}", st.target);
+        println!(
+            "  {}",
+            if st.found {
+                "Found."
+            } else {
+                "Not found: the bundled fallback is used."
+            }
+        );
+        println!("  Using:    {}", st.using);
+        if !st.searched.is_empty() {
+            println!("  Searched: {}", st.searched.join("\n            "));
+        }
+        for r in &st.rejected {
+            println!("  Skipped:  {} {}", r.origin, r.reason);
+        }
+        if !st.related.is_empty() {
+            println!(
+                "  Other Adobe Clean fonts here (not used): {}",
+                st.related.join(", ")
+            );
+        }
+        if !st.found {
+            println!("\n{}", st.help);
+        }
+    }
+    Ok(if st.found {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    })
+}
+
 /// `design-data catalog export --out DIR`: write the component and guideline
 /// catalogs after the selected platform manifest (if any) is applied, in the
 /// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` +
@@ -4361,8 +4886,29 @@ fn run_write_token(key: &str, target: &Path, opts: WriteTokenOpts<'_>) -> miette
 
 /// Launch the interactive TUI from a set of parsed TUI arguments.
 fn run_tui(args: TuiArgs) -> ExitCode {
+    let dataset = match args.dataset {
+        Some(d) => d,
+        None => match resolve_data_source(CliPathOverrides::default()) {
+            Ok(r) => {
+                if args.allow_write
+                    && matches!(r.provenance, data_source::Provenance::Embedded { .. })
+                {
+                    eprintln!(
+                        "Error: --allow-write needs an explicit DATASET path; the embedded \
+                         dataset is a read-only cache copy."
+                    );
+                    return ExitCode::from(2);
+                }
+                r.tokens_root
+            }
+            Err(e) => {
+                eprintln!("Error: {e:?}");
+                return ExitCode::from(2);
+            }
+        },
+    };
     let opts = LaunchOptions {
-        dataset: args.dataset.unwrap_or_else(|| PathBuf::from(".")),
+        dataset,
         components: args.components,
         mode_sets: args.mode_sets,
         allow_write: args.allow_write,
@@ -4387,6 +4933,9 @@ fn main() -> ExitCode {
     GLOBAL_PLATFORM_ID
         .set(cli.platform.clone())
         .expect("main runs exactly once; GLOBAL_PLATFORM_ID is set exactly once here");
+    IGNORE_DATA_REQUIREMENTS
+        .set(cli.ignore_data_requirements)
+        .expect("main runs exactly once; IGNORE_DATA_REQUIREMENTS is set exactly once here");
 
     // Bare invocation (no subcommand) or explicit `tui` subcommand → launch the TUI.
     let command = match cli.command {
@@ -4399,6 +4948,13 @@ fn main() -> ExitCode {
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),
             PlatformSub::Show { id, format } => run_platform_show(&id, format),
+            PlatformSub::Impact {
+                id,
+                from,
+                to,
+                changelog_dir,
+                format,
+            } => run_platform_impact(id, from, &to, changelog_dir, format),
             PlatformSub::Eject {
                 id,
                 out,
@@ -4487,6 +5043,7 @@ fn main() -> ExitCode {
             exclude_typography,
             path,
         } => run_suggest_context(components, out, exclude_typography, path),
+        Commands::Fonts { json } => run_fonts(json),
         Commands::RenderCompare {
             scenes,
             measured,
@@ -4517,8 +5074,11 @@ fn main() -> ExitCode {
             visuals_path,
             path,
             format,
+            pixel_ratio,
+            fonts,
             output,
             text_metrics,
+            strict,
         } => run_render(
             component,
             batch,
@@ -4534,8 +5094,11 @@ fn main() -> ExitCode {
             visuals_path,
             path,
             format,
+            pixel_ratio,
+            fonts,
             output,
             text_metrics,
+            strict,
         ),
         Commands::SpecSheet {
             component,

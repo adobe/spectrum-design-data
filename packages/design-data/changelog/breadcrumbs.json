@@ -172,6 +172,70 @@
           "metadata": {"count":49,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.4",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "6296be3701c705fb73cd370f8f65a06122cd3ec1",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1837,"title":"fix(design-data): pin isMultiline in breadcrumbs relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1837"},
+          "entries": [
+            {"id":"6296be37-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (breadcrumb item/title to separator icon)"],"scope":{"property":"space-between","options":{"isMultiline":true}},"record":"449501ee-604a-5f5b-a86c-506ec415e492","name":"space-between[isMultiline=?]","fields":[{"path":"context","before":"Spacing (breadcrumb item/title to separator icon, multiline)","after":"Spacing (breadcrumb item/title to separator icon)"}]},
+            {"id":"6296be37-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (start and end edge to text)"],"scope":{"property":"space-between","options":{"isMultiline":true}},"record":"d770f0a5-928e-55b6-b558-1556d64ac974","name":"space-between[isMultiline=?]","fields":[{"path":"context","before":"Spacing (start and end edge to text, multiline)","after":"Spacing (start and end edge to text)"}]},
+            {"id":"6296be37-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text)"],"scope":{"property":"space-between","options":{"isMultiline":true}},"record":"67f8abc9-fa1e-52bf-8b54-f440708397b7","name":"space-between[isMultiline=?]","fields":[{"path":"context","before":"Spacing (top and bottom edge to text, multiline)","after":"Spacing (top and bottom edge to text)"}]},
+            {"id":"6296be37-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text)"],"scope":{"property":"space-between","options":{"isMultiline":true}},"record":"81ee9e5a-5ab8-50d1-a4f1-8c47e79ccba2","name":"space-between[isMultiline=?]","fields":[{"path":"context","before":"Spacing (top and bottom edge to text, multiline)","after":"Spacing (top and bottom edge to text)"}]},
+            {"id":"6296be37-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (top edge to separator icon)"],"scope":{"property":"space-between","options":{"isMultiline":true}},"record":"eda1af25-5f68-5d44-9b16-d368221b564f","name":"space-between[isMultiline=?]","fields":[{"path":"context","before":"Spacing (top edge to separator icon, multiline)","after":"Spacing (top edge to separator icon)"}]},
+            {"id":"6296be37-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (separator icon to bottom text)"],"scope":{"property":"space-between","options":{"isMultiline":true}},"record":"8ffc999b-897e-553a-8ac8-2b03dedf1867","name":"space-between[isMultiline=?]","fields":[{"path":"context","before":"Spacing (separator icon to bottom text, multiline)","after":"Spacing (separator icon to bottom text)"}]},
+            {"id":"6296be37-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (truncated menu button to bottom text)"],"scope":{"property":"space-between","options":{"isMultiline":true}},"record":"b8bde66c-e67e-54a4-8a15-fbb9da3a14ad","name":"space-between[isMultiline=?]","fields":[{"path":"context","before":"Spacing (truncated menu button to bottom text, multiline)","after":"Spacing (truncated menu button to bottom text)"}]},
+            {"id":"6296be37-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (breadcrumb item and title)"],"scope":{"property":"font-size-75","options":{"isMultiline":true}},"record":"f96502d4-d961-58fe-90db-7e6034a61468","name":"font-size-75[isMultiline=?]","fields":[{"path":"context","before":"Text (breadcrumb item and title, multiline)","after":"Text (breadcrumb item and title)"}]},
+            {"id":"6296be37-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (breadcrumb item and title)"],"scope":{"property":"font-size-75","options":{"isMultiline":true}},"record":"ee54c952-1a19-56e9-8af7-6f4e67b4441f","name":"font-size-75[isMultiline=?]","fields":[{"path":"context","before":"Text (breadcrumb item and title, multiline)","after":"Text (breadcrumb item and title)"}]},
+            {"id":"6296be37-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (breadcrumb item and title)"],"scope":{"property":"font-weight","options":{"isMultiline":true}},"record":"0ab4fd78-cb57-5c42-ac1b-487e8421c225","name":"font-weight[isMultiline=?]","fields":[{"path":"context","before":"Text (breadcrumb item and title, multiline)","after":"Text (breadcrumb item and title)"}]},
+            {"id":"6296be37-10","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (breadcrumb item and title)"],"scope":{"property":"font-size","options":{"isMultiline":true}},"record":"c10fd0c4-be4d-5ec9-bf23-7cba7df077dc","name":"font-size[isMultiline=?]","fields":[{"path":"context","before":"Text (breadcrumb item and title, multiline)","after":"Text (breadcrumb item and title)"}]}
+          ],
+          "metadata": {"count":11,"fields":["contextQualifier","scope.options.isMultiline"]}
+        }
+      ]
+    },
+    {
+      "release": "3.16.0",
+      "version": "1.1.5",
+      "bump": "patch",
+      "date": "2026-11-16",
+      "commit": "8d2540928d4618fe4340b570a33eb4f8f22cb680",
+      "commits": [
+        {
+          "commit": "a3c769f4fb1ecadd645086e405076a0d07966595",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1853,"title":"feat(data): replace the breadcrumbs state context with a state any-of","url":"https://github.com/adobe/spectrum-design-data/pull/1853"},
+          "entries": [
+            {"id":"a3c769f4-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Breadcrumb item"],"scope":{"property":"underline-thickness","options":{"state":[{"anyOf":["hover","down","keyboard-focus"]}]}},"record":"e0f15f2a-7334-53ea-b536-0e39d527e150","name":"underline-thickness[state=?]","fields":[{"path":"context","before":"Breadcrumb item (hover, down, focus states)","after":"Breadcrumb item"}]},
+            {"id":"a3c769f4-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Breadcrumb item"],"scope":{"property":"text-underline-gap","options":{"state":[{"anyOf":["hover","down","keyboard-focus"]}]}},"record":"9bc9cf05-3e95-5782-8fd6-d4fbf935eb81","name":"text-underline-gap[state=?]","fields":[{"path":"context","before":"Breadcrumb item (hover, down, focus states)","after":"Breadcrumb item"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextQualifier","scope.options.state"]}
+        },
+        {
+          "commit": "d3d8bc5bcc7fcace8aa410c7d563a3ca6fcae780",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1855,"title":"feat(core): read spelled size words in the context-option rule and migrate breadcrumbs","url":"https://github.com/adobe/spectrum-design-data/pull/1855"},
+          "entries": [
+            {"id":"d3d8bc5b-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-100","options":{"size":"m"}},"record":"d9f2ea22-d01c-5aab-8314-c48dea7066ed","name":"component-height-100[size=m]","fields":[{"path":"context","before":"Height (medium)","after":"Height"}]},
+            {"id":"d3d8bc5b-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-100","options":{"size":"m"}},"record":"24532fba-6b80-570d-b3e9-8da90802a38f","name":"component-height-100[size=m]","fields":[{"path":"context","before":"Height (medium)","after":"Height"}]},
+            {"id":"d3d8bc5b-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (breadcrumb item/title to separator icon)"],"scope":{"property":"space-between","options":{"size":"m","isMultiline":false}},"record":"7dfc68ac-8492-57a7-9b7c-5081e6f48ada","name":"space-between[isMultiline=?,size=m]","fields":[{"path":"context","before":"Spacing (breadcrumb item/title to separator icon, medium)","after":"Spacing (breadcrumb item/title to separator icon)"}]},
+            {"id":"d3d8bc5b-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (start and end edge to text)"],"scope":{"property":"space-between","options":{"size":"m","isMultiline":false}},"record":"925b8764-cbf8-50b2-ab8c-05a38040599b","name":"space-between[isMultiline=?,size=m]","fields":[{"path":"context","before":"Spacing (start and end edge to text, medium)","after":"Spacing (start and end edge to text)"}]},
+            {"id":"d3d8bc5b-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text)"],"scope":{"property":"component-top-to-text-100","options":{"size":"m"}},"record":"54f9428f-9a7e-5310-a8be-05b77ebc800c","name":"component-top-to-text-100[size=m]","fields":[{"path":"context","before":"Spacing (top and bottom edge to text, medium)","after":"Spacing (top and bottom edge to text)"}]},
+            {"id":"d3d8bc5b-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text)"],"scope":{"property":"component-bottom-to-text-100","options":{"size":"m"}},"record":"b7eee15e-09cc-5837-8f4e-3e53aa56d572","name":"component-bottom-to-text-100[size=m]","fields":[{"path":"context","before":"Spacing (top and bottom edge to text, medium)","after":"Spacing (top and bottom edge to text)"}]},
+            {"id":"d3d8bc5b-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to separator icon)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"a02cb2bc-5d30-54e9-b00f-fa589ac09aa4","name":"space-between[size=m]","fields":[{"path":"context","before":"Spacing (top and bottom edge to separator icon, medium)","after":"Spacing (top and bottom edge to separator icon)"}]},
+            {"id":"d3d8bc5b-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (breadcrumb item and title)"],"scope":{"property":"font-size-100","options":{"size":"m"}},"record":"883c2715-67a4-5dd4-807e-903a573f4f73","name":"font-size-100[size=m]","fields":[{"path":"context","before":"Text (breadcrumb item and title, medium)","after":"Text (breadcrumb item and title)"}]},
+            {"id":"d3d8bc5b-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (breadcrumb item and title)"],"scope":{"property":"font-size-100","options":{"size":"m"}},"record":"fc0bedf4-497a-5654-9823-ff53ca53375c","name":"font-size-100[size=m]","fields":[{"path":"context","before":"Text (breadcrumb item and title, medium)","after":"Text (breadcrumb item and title)"}]}
+          ],
+          "metadata": {"count":9,"fields":["contextQualifier","scope.options.isMultiline","scope.options.size"]}
+        }
+      ]
     }
   ]
 }

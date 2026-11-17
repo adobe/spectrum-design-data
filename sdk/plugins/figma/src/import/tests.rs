@@ -1490,13 +1490,12 @@ fn platform_scale_modes_compared_individually_when_one_diverges() {
     }
 }
 
-/// The `accent-color-100`-shaped bug: a `.Color theme` variable whose
-/// design-data concept has no member for *any* of Light/Dark/Wireframe
-/// (a plain single-scheme alias, not a genuinely per-scheme set) rolls
-/// up to `SkippedUncovered`, not `MultiModeMismatch` — "nothing to
-/// compare in any mode" is a coverage gap, not a divergence.
+/// A `.Color theme` variable whose design-data record is a plain literal with
+/// no `colorScheme` member (for example `static-blue-1000`) has one value for
+/// every mode, so each Figma mode is compared against it. When Figma's modes
+/// agree with that value the variable matches.
 #[test]
-fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
+fn single_scheme_literal_compares_against_every_figma_mode() {
     let var = mock_variable(
         "colorTheme/accent-color-100",
         "COLOR",
@@ -1510,9 +1509,6 @@ fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
         ],
     );
     let meta = mock_meta_color_theme(var);
-    // A plain single-scheme alias, not a real per-scheme set: one member,
-    // no `colorScheme` field at all, so a light/dark/wireframe lookup
-    // never finds a match — every mode is genuinely uncovered.
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("tokens.json");
     let mut f = std::fs::File::create(&path).unwrap();
@@ -1533,15 +1529,368 @@ fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
     let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
 
     let report = diff_values(&meta, &graph, None).unwrap();
-    assert_eq!(report.counts.multi_mode_mismatch, 0);
-    assert_eq!(report.counts.skipped_uncovered, 1);
-    assert_eq!(report.counts.matched, 0);
+    assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
+    assert_eq!(report.counts.skipped_uncovered, 0);
+}
+
+/// The same borrowing one hop away: an alias whose `$ref` target is a palette
+/// set that lacks Figma's Wireframe mode. `resolve_concept_in_context` returns
+/// the lowest-uuid child when none matches, which here is the Dark member, so
+/// without the per-hop check Wireframe (black in Figma) would falsely match it.
+#[test]
+fn an_alias_to_a_palette_set_missing_a_mode_stays_uncovered_for_that_mode() {
+    let c = |v: f64| json!({"r": v, "g": v, "b": v, "a": 1.0});
+    let var = mock_variable(
+        "colorTheme/accent-color-100",
+        "COLOR",
+        vec![
+            ("m-light", c(1.0)),
+            ("m-dark", c(0.0)),
+            ("m-wireframe", c(0.0)),
+        ],
+    );
+    let meta = mock_meta_color_theme(var);
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let palette = |scheme: &str, value: &str| {
+        json!({
+            "$schema": "https://example.com/color.json",
+            "name": {"colorFamily": "blue", "scaleIndex": 100, "colorScheme": scheme},
+            "value": value,
+            "uuid": format!("u-blue-100-{scheme}"),
+            "conceptId": "su-blue-100",
+        })
+    };
+    write!(
+        f,
+        "{}",
+        json!([
+            palette("light", "#ffffff"),
+            palette("dark", "#000000"),
+            {
+                "$schema": "https://example.com/color.json",
+                "name": {"colorRole": "accent", "legacyKey": "accent-color-100"},
+                "$ref": "su-blue-100",
+                "uuid": "u-accent-color-100",
+                "conceptId": "su-accent-color-100",
+            },
+        ])
+    )
+    .unwrap();
+    let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
+
+    let report = diff_values(&meta, &graph, None).unwrap();
     match &report.entries[0].class {
-        DiffClass::SkippedUncovered { reason } => {
-            assert_eq!(reason, "multimode-uncovered");
+        DiffClass::PartiallyUncovered { modes } => {
+            let by_mode: HashMap<&str, &DiffClass> =
+                modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+            assert!(matches!(by_mode["Light"], DiffClass::Match));
+            assert!(matches!(by_mode["Dark"], DiffClass::Match));
+            assert!(
+                matches!(by_mode["Wireframe"], DiffClass::SkippedUncovered { .. }),
+                "{:?}",
+                by_mode["Wireframe"]
+            );
         }
-        other => panic!("expected SkippedUncovered, got {other:?}"),
+        other => panic!("expected PartiallyUncovered, got {other:?}"),
     }
+}
+
+/// A real per-scheme set that has no member for one of Figma's modes must not
+/// borrow another member's value for it: the context-free `record` is an
+/// arbitrary sibling (Light), so the missing mode stays uncovered instead of
+/// being compared to the wrong scheme.
+#[test]
+fn a_set_missing_a_mode_does_not_borrow_a_sibling_value() {
+    let c = |v: f64| json!({"r": v, "g": v, "b": v, "a": 1.0});
+    let var = mock_variable(
+        "colorTheme/accent-color-100",
+        "COLOR",
+        vec![
+            ("m-light", c(1.0)),
+            ("m-dark", c(0.0)),
+            ("m-wireframe", c(0.0)),
+        ],
+    );
+    let meta = mock_meta_color_theme(var);
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let member = |scheme: &str, value: &str| {
+        json!({
+            "$schema": "https://example.com/color.json",
+            "name": {"colorRole": "accent", "colorScheme": scheme, "legacyKey": "accent-color-100"},
+            "value": value,
+            "uuid": format!("u-accent-color-100-{scheme}"),
+            "conceptId": "su-accent-color-100",
+        })
+    };
+    write!(
+        f,
+        "{}",
+        json!([member("light", "#ffffff"), member("dark", "#000000")])
+    )
+    .unwrap();
+    let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
+
+    let report = diff_values(&meta, &graph, None).unwrap();
+    match &report.entries[0].class {
+        DiffClass::PartiallyUncovered { modes } => {
+            let by_mode: HashMap<&str, &DiffClass> =
+                modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+            assert!(matches!(by_mode["Light"], DiffClass::Match));
+            assert!(matches!(by_mode["Dark"], DiffClass::Match));
+            assert!(
+                matches!(by_mode["Wireframe"], DiffClass::SkippedUncovered { .. }),
+                "{:?}",
+                by_mode["Wireframe"]
+            );
+        }
+        other => panic!("expected PartiallyUncovered, got {other:?}"),
+    }
+}
+
+/// The real shape of `accent-color-100`: a single-valued alias (`$ref` to a
+/// palette set) with a `conceptId` but no `colorScheme` member of its own.
+/// Each Figma mode must follow the alias chain in that mode's context, so a
+/// variable whose palette target differs per scheme compares per mode
+/// instead of rolling up to `multimode-uncovered`.
+#[test]
+fn single_valued_alias_to_a_palette_set_compares_through_its_ref() {
+    let var = mock_variable(
+        "colorTheme/accent-color-100",
+        "COLOR",
+        vec![
+            ("m-light", json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0})),
+            ("m-dark", json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0})),
+            (
+                "m-wireframe",
+                json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0}),
+            ),
+        ],
+    );
+    let meta = mock_meta_color_theme(var);
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let palette = |scheme: &str, value: &str| {
+        json!({
+            "$schema": "https://example.com/color.json",
+            "name": {"colorFamily": "blue", "scaleIndex": 100, "colorScheme": scheme},
+            "value": value,
+            "uuid": format!("u-blue-100-{scheme}"),
+            "conceptId": "su-blue-100",
+        })
+    };
+    write!(
+        f,
+        "{}",
+        json!([
+            palette("light", "#ffffff"),
+            palette("dark", "#000000"),
+            palette("wireframe", "#ffffff"),
+            {
+                "$schema": "https://example.com/color.json",
+                "name": {"colorRole": "accent", "legacyKey": "accent-color-100"},
+                "$ref": "su-blue-100",
+                "uuid": "u-accent-color-100",
+                "conceptId": "su-accent-color-100",
+            },
+        ])
+    )
+    .unwrap();
+    let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
+
+    let report = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(report.counts.skipped_uncovered, 0, "{:?}", report.entries);
+    assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
+}
+
+/// Builds a graph with one single-valued `accent-color-100` alias whose
+/// `$ref` is `target_ref`, plus an optional plain (single-value, no
+/// `colorScheme` member) target token `u-target`.
+fn alias_graph(target_ref: &str, target_value: Option<&str>) -> TokenGraph {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut rows = vec![json!({
+        "$schema": "https://example.com/color.json",
+        "name": {"colorRole": "accent", "legacyKey": "accent-color-100"},
+        "$ref": target_ref,
+        "uuid": "u-accent-color-100",
+        "conceptId": "su-accent-color-100",
+    })];
+    if let Some(v) = target_value {
+        rows.push(json!({
+            "$schema": "https://example.com/color.json",
+            "name": {"colorFamily": "blue", "scaleIndex": 100},
+            "value": v,
+            "uuid": "u-target",
+            "conceptId": "su-target",
+        }));
+    }
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(f, "{}", json!(rows)).unwrap();
+    with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap())
+}
+
+fn accent_color_100(light: f64, dark: f64, wireframe: f64) -> VariablesMeta {
+    let c = |v: f64| json!({"r": v, "g": v, "b": v, "a": 1.0});
+    mock_meta_color_theme(mock_variable(
+        "colorTheme/accent-color-100",
+        "COLOR",
+        vec![
+            ("m-light", c(light)),
+            ("m-dark", c(dark)),
+            ("m-wireframe", c(wireframe)),
+        ],
+    ))
+}
+
+/// A `$ref` that resolves to nothing leaves every mode uncovered; it must
+/// not be reported as a mismatch.
+#[test]
+fn single_valued_alias_with_an_unresolvable_ref_stays_uncovered() {
+    let report = diff_values(
+        &accent_color_100(1.0, 1.0, 1.0),
+        &alias_graph("su-missing", None),
+        None,
+    )
+    .unwrap();
+    assert_eq!(report.counts.skipped_uncovered, 1, "{:?}", report.entries);
+    assert_eq!(report.counts.multi_mode_mismatch, 0);
+    assert_eq!(report.counts.matched, 0);
+}
+
+/// An alias to a plain single-value token compares that one value against
+/// every Figma mode: all agree is a match.
+#[test]
+fn single_valued_alias_to_a_plain_token_matches_when_every_mode_agrees() {
+    let report = diff_values(
+        &accent_color_100(1.0, 1.0, 1.0),
+        &alias_graph("su-target", Some("#ffffff")),
+        None,
+    )
+    .unwrap();
+    assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
+    assert_eq!(report.counts.skipped_uncovered, 0);
+}
+
+/// ...and a Figma mode that differs from that single value is now reported
+/// as a per-mode mismatch (it used to roll up to `multimode-uncovered`).
+#[test]
+fn single_valued_alias_to_a_plain_token_reports_the_mode_that_differs() {
+    let report = diff_values(
+        &accent_color_100(1.0, 0.0, 1.0),
+        &alias_graph("su-target", Some("#ffffff")),
+        None,
+    )
+    .unwrap();
+    assert_eq!(report.counts.multi_mode_mismatch, 1, "{:?}", report.entries);
+    match &report.entries[0].class {
+        DiffClass::MultiModeMismatch { modes } => {
+            let by_mode: HashMap<&str, &DiffClass> =
+                modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+            assert!(matches!(by_mode["Light"], DiffClass::Match));
+            assert!(matches!(by_mode["Dark"], DiffClass::ValueMismatch { .. }));
+        }
+        other => panic!("expected MultiModeMismatch, got {other:?}"),
+    }
+}
+
+/// Dark matches while Light and Wireframe hold a value shape the diff cannot
+/// convert. No mode disagrees, so this is a coverage gap, not a mismatch.
+#[test]
+fn matching_and_unconvertible_modes_report_skipped_not_mismatch() {
+    let var = mock_variable(
+        "colorTheme/color-wheel-border-color",
+        "COLOR",
+        vec![
+            ("m-light", json!({"unsupported": true})),
+            ("m-dark", json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0})),
+            ("m-wireframe", json!({"unsupported": true})),
+        ],
+    );
+    let meta = mock_meta_color_theme(var);
+    let graph = mock_color_set_graph(
+        "color-wheel-border-color",
+        json!("#000000"),
+        json!("#ffffff"),
+        json!("#000000"),
+    );
+
+    let report = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(report.counts.multi_mode_mismatch, 0, "{:?}", report.entries);
+    assert_eq!(report.counts.skipped_uncovered, 1);
+    match &report.entries[0].class {
+        DiffClass::PartiallyUncovered { modes } => {
+            let by_mode: HashMap<&str, &DiffClass> =
+                modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+            assert!(matches!(by_mode["Dark"], DiffClass::Match));
+            assert!(matches!(
+                by_mode["Light"],
+                DiffClass::SkippedUncovered { .. }
+            ));
+        }
+        other => panic!("expected PartiallyUncovered, got {other:?}"),
+    }
+}
+
+/// Figma stores a transparency variable as a color plus an alias to an opacity
+/// variable (FLOAT on a 0 to 100 scale). The diff folds the opacity into the
+/// alpha and compares against the rgba design-data stores per scheme.
+#[test]
+fn a_color_with_an_opacity_alias_compares_as_rgba() {
+    let opacity = mock_variable(
+        "colorTheme/opacity-100",
+        "FLOAT",
+        vec![
+            ("m-light", json!(4.0)),
+            ("m-dark", json!(4.0)),
+            ("m-wireframe", json!(4.0)),
+        ],
+    );
+    let op = json!({"type": "VARIABLE_ALIAS", "id": opacity.id.clone()});
+    let pair = |c: f64| json!({"color": {"r": c, "g": c, "b": c, "a": 1.0}, "opacity": op.clone()});
+    let var = mock_variable(
+        "colorTheme/transparent-neutral-100",
+        "COLOR",
+        vec![
+            ("m-light", pair(0.0)),
+            ("m-dark", pair(1.0)),
+            ("m-wireframe", pair(0.0)),
+        ],
+    );
+    let mut meta = mock_meta_color_theme(var);
+    meta.variables.insert(opacity.id.clone(), opacity);
+    let graph = mock_color_set_graph(
+        "transparent-neutral-100",
+        json!("rgba(0, 0, 0, 0.04)"),
+        json!("rgba(255, 255, 255, 0.04)"),
+        json!("rgba(0, 0, 0, 0.04)"),
+    );
+
+    let report = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(report.counts.matched, 1, "{:?}", report.entries);
+    assert_eq!(report.counts.skipped_uncovered, 0);
+
+    // A different opacity step is a real mismatch, not a skip.
+    let graph = mock_color_set_graph(
+        "transparent-neutral-100",
+        json!("rgba(0, 0, 0, 0.08)"),
+        json!("rgba(255, 255, 255, 0.08)"),
+        json!("rgba(0, 0, 0, 0.08)"),
+    );
+    let report = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(report.counts.multi_mode_mismatch, 1, "{:?}", report.entries);
+}
+
+/// A literal opacity has no known scale, so it is not guessed at.
+#[test]
+fn a_color_with_a_literal_opacity_stays_unconvertible() {
+    let meta = mock_meta(vec![]);
+    let value = json!({"color": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0}, "opacity": 4.0});
+    assert!(resolve_figma_value(&meta, &value, 0, None).is_none());
 }
 
 /// A follow-up PR #1416 review finding: the `diff_multimode` routing
@@ -1798,11 +2147,12 @@ fn diff_multimode_reports_uncovered_when_no_set_member_matches_mode() {
     let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
 
     let report = diff_values(&meta, &graph, None).unwrap();
-    assert_eq!(report.counts.multi_mode_mismatch, 1);
+    assert_eq!(report.counts.multi_mode_mismatch, 0);
+    assert_eq!(report.counts.skipped_uncovered, 1);
     assert_eq!(report.counts.matched, 0);
 
     match &report.entries[0].class {
-        DiffClass::MultiModeMismatch { modes } => {
+        DiffClass::PartiallyUncovered { modes } => {
             let by_mode: HashMap<&str, &DiffClass> =
                 modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
             assert!(matches!(by_mode["Light"], DiffClass::Match));
@@ -1814,7 +2164,7 @@ fn diff_multimode_reports_uncovered_when_no_set_member_matches_mode() {
                 other => panic!("expected SkippedUncovered for Wireframe, got {other:?}"),
             }
         }
-        other => panic!("expected MultiModeMismatch, got {other:?}"),
+        other => panic!("expected PartiallyUncovered, got {other:?}"),
     }
 }
 

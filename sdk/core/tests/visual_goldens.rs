@@ -155,6 +155,14 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             .map(|o| (o.to_string(), Value::Bool(true)))
             .collect();
         out.push(("direct-actions", req(vec![], on, "light", "desktop")));
+        // The container: three items, the first open, drawn as one stack.
+        let items = serde_json::json!([
+            { "label": "Title 1", "isExpanded": true },
+            { "label": "Title 2" },
+            { "label": "Title 3" }
+        ]);
+        let opts = HashMap::from([("items".to_string(), items)]);
+        out.push(("three-items", req(vec![], opts, "light", "desktop")));
     }
     // Checkbox, radio button and switch wrap their label too: the control stays on the first line.
     if matches!(name, "checkbox" | "radio-button" | "switch") {

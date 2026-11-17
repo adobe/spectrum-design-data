@@ -4,7 +4,16 @@
   "component": "accordion",
   "root": "item",
   "sizeScale": { "s": 100, "m": 200, "l": 300, "xl": 400 },
-  "notVisual": ["items", "isMultiple", "down"],
+  "notVisual": ["isMultiple", "down"],
+  "repeat": {
+    "option": "items",
+    "label": "label",
+    "with": {
+      "isOpen": "isExpanded",
+      "hasSwitch": "hasSwitch",
+      "hasActionButton": "hasActionButton"
+    }
+  },
   "parts": {
     "item": {
       "kind": "box",

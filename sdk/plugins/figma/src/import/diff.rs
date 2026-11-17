@@ -22,7 +22,7 @@ use super::naming::{invert_name, resolve_alias_target};
 use super::resolve::{
     collapse_modes, default_source_context, diff_against_source, multimode_name_field,
     record_concept_id, record_is_font_name, record_is_opacity, resolve_figma_value,
-    resolve_set_member_in_context, scale_aligned_source_value,
+    resolve_ref_chain_in_context, resolve_set_member_in_context, scale_aligned_source_value,
 };
 use crate::mapping::build_export_payload;
 use crate::types::{FigmaVariable, VariablesMeta};
@@ -52,6 +52,11 @@ pub enum DiffClass {
     /// [`DiffClass::Match`] — full agreement across modes is reported as a
     /// plain [`DiffClass::Match`] instead.
     MultiModeMismatch { modes: Vec<ModeDiff> },
+    /// A genuinely multi-mode variable where no mode disagrees but at least
+    /// one could not be compared (for example Dark matches and Light holds a
+    /// value shape the diff cannot convert). Counted with
+    /// [`DiffClass::SkippedUncovered`]; `modes` says which modes were compared.
+    PartiallyUncovered { modes: Vec<ModeDiff> },
 }
 
 /// One Figma mode's classification within a [`DiffClass::MultiModeMismatch`].
@@ -114,8 +119,10 @@ pub struct DiffReport {
 /// Rolls up to a plain [`DiffClass::Match`] when every mode agrees, to
 /// [`DiffClass::SkippedUncovered`] when every mode is uncovered (no
 /// design-data value to compare in any mode — a coverage gap, not a
-/// divergence), else [`DiffClass::MultiModeMismatch`] listing every mode's
-/// own classification (matches included, for context).
+/// divergence), to [`DiffClass::MultiModeMismatch`] when at least one mode
+/// disagrees (listing every mode's own classification, matches included, for
+/// context), else to [`DiffClass::PartiallyUncovered`]: some modes match and
+/// the rest could not be compared.
 fn diff_multimode(
     variable: &FigmaVariable,
     meta: &VariablesMeta,
@@ -182,6 +189,19 @@ fn diff_multimode(
                         })
                         .flatten()
                 })
+                .or_else(|| {
+                    // A record that is not itself a member of this mode set (no
+                    // `name.<field>`), for example a single-valued alias such as
+                    // `accent-color-100` or a plain literal such as `static-blue-1000`,
+                    // has one value for every mode. Resolve it in this mode's context
+                    // (following its `$ref` chain if it has one). A set member that is
+                    // merely missing this mode is excluded: `record` may then be an
+                    // arbitrary sibling, so the mode stays uncovered.
+                    (!graph.has_relationship_record(legacy_key)
+                        && record.raw.get("name").and_then(|n| n.get(field)).is_none())
+                    .then(|| resolve_ref_chain_in_context(graph, record, field, &mode_key))
+                    .flatten()
+                })
         });
 
         let class = if let Some(None) = dd_resolution {
@@ -233,8 +253,17 @@ fn diff_multimode(
         DiffClass::SkippedUncovered {
             reason: "multimode-uncovered".to_string(),
         }
-    } else {
+    } else if modes.iter().any(|m| {
+        matches!(
+            m.class,
+            DiffClass::ValueMismatch { .. } | DiffClass::FigmaOnly
+        )
+    }) {
         DiffClass::MultiModeMismatch { modes }
+    } else {
+        // Some modes match and the rest could not be compared. No mode
+        // disagrees, so this is a coverage gap, not a mismatch.
+        DiffClass::PartiallyUncovered { modes }
     }
 }
 
@@ -348,7 +377,9 @@ pub fn diff_values_with_options(
             let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
             match &class {
                 DiffClass::Match => counts.matched += 1,
-                DiffClass::SkippedUncovered { .. } => counts.skipped_uncovered += 1,
+                DiffClass::SkippedUncovered { .. } | DiffClass::PartiallyUncovered { .. } => {
+                    counts.skipped_uncovered += 1
+                }
                 _ => counts.multi_mode_mismatch += 1,
             }
             entries.push(DiffEntry {

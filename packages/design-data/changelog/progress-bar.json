@@ -121,6 +121,26 @@
           "metadata": {"count":36,"fields":["contextPart","contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.0.7",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "46c51e6dc5d7a729f8836cf0a53434f428333fcd",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1845,"title":"fix(design-data): pin options in ten small components' relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1845"},
+          "entries": [
+            {"id":"46c51e6d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"218fa7b5-8f93-586c-abb4-39f2f25a11b7","name":"color[staticColor=white]","fields":[{"path":"context","before":"Text (white)","after":"Text"}]},
+            {"id":"46c51e6d-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"b6ecaa25-23e6-55b5-b8d5-7764013bb36e","name":"color[staticColor=white]","fields":[{"path":"context","before":"Track and indicator (white)","after":"Track and indicator"}]},
+            {"id":"46c51e6d-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"0410adfb-10ea-5de0-a668-13ecc400150b","name":"color[staticColor=white]","fields":[{"path":"context","before":"Track and indicator (white)","after":"Track and indicator"}]}
+          ],
+          "metadata": {"count":3,"fields":["contextQualifier","scope.options.staticColor"]}
+        }
+      ]
     }
   ]
 }

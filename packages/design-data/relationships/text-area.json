@@ -955,55 +955,65 @@
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "6effed65-3d52-465f-9eb2-7994f1ee90fb",
     "uuid": "c2fa45cb-0b8e-5ea5-af9f-d6d5435a5213"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "496571fc-18ce-44a3-a89e-40ff6397adcd",
     "uuid": "fe8d2424-4337-5713-82ae-0545cf55ef92"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "63abd660-13c4-47b8-be9e-61e270b95212",
     "uuid": "b15254bd-48ba-51f5-b1fd-c30704b3a2b8"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "aae2b3a5-1f68-4832-9539-62227179e69e",
     "uuid": "55d41384-f0e0-584e-966f-fb52a2794e4e"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Border (error)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "error",
     "$ref": "393cb93a-3d0a-4118-a2ee-451fdc871b0f",
     "uuid": "2b9f1be5-efec-5ea5-8786-9ec4dc40ac28"
   },

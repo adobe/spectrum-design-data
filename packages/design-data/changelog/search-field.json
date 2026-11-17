@@ -255,6 +255,25 @@
           "metadata": {"count":90,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.0.11",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "46c51e6dc5d7a729f8836cf0a53434f428333fcd",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1845,"title":"fix(design-data): pin options in ten small components' relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1845"},
+          "entries": [
+            {"id":"46c51e6d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background and border"],"scope":{"property":"content-color","options":{"isDisabled":true}},"record":"9988e1ee-b1cc-5647-bdd4-501535d37c1c","name":"content-color[isDisabled=?]","fields":[{"path":"context","before":"Background and border (disabled)","after":"Background and border"}]},
+            {"id":"46c51e6d-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"8c590e3a-4b52-535b-8b9c-4ca1de0798e7","name":"color[isDisabled=?]","fields":[{"path":"context","before":"Background and border (disabled)","after":"Background and border"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextQualifier","scope.options.isDisabled"]}
+        }
+      ]
     }
   ]
 }

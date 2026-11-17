@@ -62,7 +62,27 @@ Open the palette with `:` (command mode) or `/` (fuzzy-find mode).
 | `:resolve property=<name>[,<mode-set>=<mode>...]` | Show cascade resolution for a property with optional mode overrides. The ★ column marks the winning token. |
 | `:describe <component>`                           | Inspect a component schema (JSON, scrollable).                                                             |
 | `:validate`                                       | Validate all loaded tokens against their `$schema`. Shows Sev / Rule / Token / Message.                    |
+| `:preview <component> [options]`                  | Draw a component from its visual recipe in an overlay. See [Component preview](#component-preview).        |
 | `:new [<intent>]`                                 | Open the four-screen token authoring wizard.                                                               |
+
+***
+
+## Component preview
+
+`:preview button` draws the component in an overlay, using the same renderer as
+`design-data render --format png`. Options are `size=l`, `state=hover`, `scheme=dark` and
+`scale=mobile`. The picture is made of half-block characters (`▀`, one pixel on top and one
+below in each cell), so it works in any truecolor terminal and inside tmux. Press `c` to
+switch light and dark, `s` for the next size, `t` to cycle hover, down and keyboard focus,
+and `Esc` or `q` to close.
+
+* **Data:** the first preview loads the recipes, relationships and icons (the `visuals/`
+  directory next to the token directory), so it takes a moment; later ones reuse them. A
+  dataset with no `visuals/` directory says so.
+* **Font:** text uses Adobe Clean Spectrum VF when it is installed on this machine and a
+  bundled open font otherwise. The footer shows which; on the fallback it says to run
+  `design-data fonts`, which explains where it looked and how to install the font.
+* **Not in this version:** inline images (Kitty, iTerm2) for a sharper picture.
 
 ***
 
@@ -118,6 +138,15 @@ Relaunch without `--no-resume-wizard` to restore.
 | Click row    | Select that row                           |
 | `y`          | Yank selected name / message to clipboard |
 | `Esc`        | Return to empty view                      |
+
+### Component preview
+
+| Key         | Action                         |
+| ----------- | ------------------------------ |
+| `c`         | Switch light and dark          |
+| `s`         | Next size                      |
+| `t`         | Cycle none, hover, down, focus |
+| `Esc` / `q` | Close                          |
 
 ### Describe view
 

@@ -332,6 +332,28 @@
           "metadata": {"count":130,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.6",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "d7bec9ffae3b320fa4ddccd612d812c99d36570e",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1843,"title":"fix(design-data): pin isError in field relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1843"},
+          "entries": [
+            {"id":"d7bec9ff-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"12caa17a-5971-54ad-8bbb-59bcf8cc493f","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"eed95b88-db2a-5bb8-a8a8-6aa7a86833e0","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"33e409cc-9f12-5884-b6db-77651ce9eb0d","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"eea8a913-6027-5b00-ad09-0909fbcb8536","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]},
+            {"id":"d7bec9ff-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true}},"record":"737f17b6-6b71-5905-ab0e-6a11f8ac5427","name":"color[isError=?]","fields":[{"path":"context","before":"Border (error)","after":"Border"}]}
+          ],
+          "metadata": {"count":5,"fields":["contextQualifier","scope.options.isError"]}
+        }
+      ]
     }
   ]
 }

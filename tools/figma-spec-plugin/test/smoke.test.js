@@ -21,7 +21,13 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildPayloads, coreSource } from "../payloads.mjs";
-import { actionFor, plan, record } from "../plan.mjs";
+import {
+  actionFor,
+  plan,
+  record,
+  textMetricsNote,
+  textMetricsStamp,
+} from "../plan.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "../../..");
@@ -601,6 +607,63 @@ test("plan creates, updates or skips a component's Figma file by sheet hash", (t
   t.is(actionFor(undefined, "h"), "create");
 });
 
+test("a run with a kit text-metrics table records a stamp and explains a mismatch", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "plan-kit-"));
+  const registryPath = join(dir, "figma-files.json");
+  const table = (v, adv = 1) => {
+    const f = join(dir, `table-${v}-${adv}.json`);
+    writeFileSync(
+      f,
+      JSON.stringify({
+        meta: {
+          family: "adobe-clean-spectrum-vf",
+          test700At14px: v,
+          generated: "2026-11-16",
+          kit: "https://example.test/kit.css",
+          platform: "linux-x64",
+        },
+        400: { adv: [adv], kern: {} },
+        700: { adv: [adv], kern: {} },
+      }),
+    );
+    return f;
+  };
+  writeFileSync(
+    registryPath,
+    JSON.stringify({
+      plan: "p",
+      project: "1",
+      files: { switch: { fileKey: "K", hash: "old" } },
+    }),
+  );
+  const stamp = record({
+    component: "switch",
+    hash: "h",
+    registryPath,
+    textMetrics: table(23.673),
+  }).textMetrics;
+  t.is(stamp.test700At14px, 23.673);
+  t.is(stamp.family, "adobe-clean-spectrum-vf");
+  t.false(JSON.stringify(stamp).includes("example.test"));
+  t.is(stamp.platform, "linux-x64");
+  t.regex(stamp.fingerprint, /^[0-9a-f]{16}$/);
+  const entry = () =>
+    JSON.parse(readFileSync(registryPath, "utf8")).files.switch;
+  t.regex(textMetricsNote(entry(), null), /pass --text-metrics/);
+  t.is(textMetricsNote(entry(), textMetricsStamp(table(23.673))), null);
+  t.regex(
+    textMetricsNote(entry(), textMetricsStamp(table(23.665))),
+    /another platform, Chrome or font version/,
+  );
+  // Same test value, different advances: the fingerprint still catches it.
+  t.regex(
+    textMetricsNote(entry(), textMetricsStamp(table(23.673, 2))),
+    /another platform, Chrome or font version/,
+  );
+  record({ component: "switch", hash: "h2", registryPath });
+  t.is(entry().textMetrics, undefined);
+});
+
 test("undrawn markers get an outlined row badge and a note under the visual", async (t) => {
   const { figma, page } = mock();
   await figma.ui.onmessage({
@@ -692,7 +755,7 @@ test("icon parts draw their catalog paths via createNodeFromSvg", async (t) => {
       if (n.rotation) rotated++;
     }
   }
-  t.true(seen.has("ui/chevron") && seen.has("ui/dash"));
+  t.true(seen.has("ui/chevron") && seen.has("ui/checkmark"));
   t.true(rotated > 0);
 });
 
@@ -710,7 +773,8 @@ test("an icon without a drawing keeps the placeholder plus", async (t) => {
   await figma.ui.onmessage({ type: "render-sheet", sheet: s });
   t.is(page.children[0].findAll((f) => f.svg).length, 0);
   const plus = page.children[0].findAll(
-    (f) => f.type === "FRAME" && f.children.length === 2 && f.name === "dash",
+    (f) =>
+      f.type === "FRAME" && f.children.length === 2 && f.name === "checkmark",
   );
   t.true(n > 0 && plus.length > 0);
 });
@@ -722,10 +786,11 @@ test("an icon Figma cannot import draws the placeholder instead of failing the s
     throw new Error("cannot parse svg");
   };
   await figma.ui.onmessage({ type: "render-sheet", sheet: s });
-  const dash = page.children[0].findAll(
-    (f) => f.type === "FRAME" && f.name === "dash" && f.children.length === 2,
+  const placeholder = page.children[0].findAll(
+    (f) =>
+      f.type === "FRAME" && f.name === "checkmark" && f.children.length === 2,
   );
-  t.true(dash.length > 0);
+  t.true(placeholder.length > 0);
 });
 
 test("a comma-separated viewBox still centres the rotation", async (t) => {

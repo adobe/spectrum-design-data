@@ -446,6 +446,8 @@ pub enum Modal {
     Help(HelpModal),
     /// Token lifecycle action-picker (si6.2).
     Authoring(Box<AuthoringMenuState>),
+    /// A component drawn from its visual recipe (`:preview`).
+    Preview(Box<crate::preview::PreviewState>),
 }
 
 impl Modal {
@@ -464,7 +466,7 @@ impl Modal {
         match self {
             Modal::Wizard(ws) => apply_scroll_delta(&mut ws.diff_scroll, delta),
             Modal::Help(hm) => apply_scroll_delta(&mut hm.scroll, delta),
-            Modal::Find(_) | Modal::Naming(_) | Modal::Authoring(_) => {}
+            Modal::Find(_) | Modal::Naming(_) | Modal::Authoring(_) | Modal::Preview(_) => {}
         }
     }
 
@@ -509,6 +511,7 @@ impl Modal {
             }
             Modal::Help(_) => "Help".to_string(),
             Modal::Authoring(am) => am.screen_label(),
+            Modal::Preview(pv) => format!("Preview — {}", pv.request.component),
         }
     }
 }

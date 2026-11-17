@@ -74,6 +74,9 @@ include!(concat!(env!("OUT_DIR"), "/embedded_relationships.rs"));
 include!(concat!(env!("OUT_DIR"), "/embedded_icons.rs"));
 
 #[cfg(feature = "embedded")]
+include!(concat!(env!("OUT_DIR"), "/embedded_visuals.rs"));
+
+#[cfg(feature = "embedded")]
 fn load_embedded_graph() -> Result<TokenGraph, String> {
     let graph = cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())?;
     let mut relationships = Vec::new();
@@ -81,6 +84,9 @@ fn load_embedded_graph() -> Result<TokenGraph, String> {
         let rows: Vec<serde_json::Value> =
             serde_json::from_str(text).map_err(|e| format!("{filename}: {e}"))?;
         for (index, raw) in rows.into_iter().enumerate() {
+            if let Some(why) = design_data_core::graph::unsupported_scope_shape(&raw) {
+                return Err(format!("{filename} record {index}: {why}"));
+            }
             relationships.push(design_data_core::graph::RelationshipRecord {
                 file: std::path::PathBuf::from("relationships").join(filename),
                 index,
@@ -96,7 +102,23 @@ fn load_embedded_graph() -> Result<TokenGraph, String> {
                 .map_err(|e| e.to_string())?,
         );
     }
-    Ok(graph.with_relationships(relationships).with_icons(icons))
+    let mut visuals = Vec::new();
+    for (filename, text) in EMBEDDED_VISUALS {
+        let raw: serde_json::Value =
+            serde_json::from_str(text).map_err(|e| format!("{filename}: {e}"))?;
+        if let Some(component) = raw.get("component").and_then(|v| v.as_str()) {
+            visuals.push(design_data_core::graph::VisualRecord {
+                component: component.to_string(),
+                file: std::path::PathBuf::from("visuals").join(filename),
+                raw: raw.clone(),
+                layer: design_data_core::graph::Layer::Foundation,
+            });
+        }
+    }
+    Ok(graph
+        .with_relationships(relationships)
+        .with_icons(icons)
+        .with_visuals(visuals))
 }
 
 // ---------------------------------------------------------------------------
@@ -246,6 +268,136 @@ impl Dataset {
     pub fn render_svg(&self, recipe: JsValue, request: JsValue) -> Result<String, JsValue> {
         let scene = self.scene(recipe, request)?;
         Ok(design_data_core::visual::scene_to_svg(&scene))
+    }
+
+    /// Names of the components that have a visual recipe in this dataset.
+    #[wasm_bindgen(js_name = "visualRecipes")]
+    pub fn visual_recipes(&self) -> Vec<String> {
+        let mut names: Vec<String> = self
+            .graph
+            .visuals
+            .iter()
+            .map(|v| v.component.clone())
+            .collect();
+        names.sort();
+        names
+    }
+
+    /// The visual recipe for a component (after platform aliases), or `undefined`.
+    #[wasm_bindgen(js_name = "visualRecipe")]
+    pub fn visual_recipe(&self, component: &str) -> Result<JsValue, JsValue> {
+        match self.graph.visual_recipe(component) {
+            Some(r) => {
+                use serde::Serialize;
+                r.raw
+                    .serialize(&serde_wasm_bindgen::Serializer::json_compatible())
+                    .map_err(js_err)
+            }
+            None => Ok(JsValue::UNDEFINED),
+        }
+    }
+
+    /// Render a component to SVG using the dataset's own recipe for `request.component`.
+    /// Throws when the component has no recipe.
+    ///
+    /// `fonts` is optional, in the shape `renderComponentPng` takes. The first font not marked
+    /// `fallback` supplies the layout text widths, so boxes fit the text the viewer will draw
+    /// when it has that font. Without one, the committed Source Sans 3 table is used.
+    #[wasm_bindgen(js_name = "renderComponentSvg")]
+    pub fn render_component_svg(
+        &self,
+        request: JsValue,
+        fonts: Option<JsValue>,
+    ) -> Result<String, JsValue> {
+        use design_data_core::raster::font::Font;
+        let fonts = fonts.unwrap_or(JsValue::UNDEFINED);
+        let mut request: design_data_core::visual::RenderRequest =
+            serde_wasm_bindgen::from_value(request).map_err(js_err)?;
+        request.component = self
+            .graph
+            .canonical_component(&request.component)
+            .to_string();
+        let recipe = self
+            .graph
+            .visual_recipe(&request.component)
+            .ok_or_else(|| js_err(format!("no visual recipe for '{}'", request.component)))?;
+        if request.text_metrics.is_none() {
+            let (sources, layout_from) = read_fonts(&fonts)?;
+            if let Some(i) = layout_from {
+                let font = Font::parse(sources[i].data.clone())
+                    .map_err(|e| js_err(format!("font {}: {e}", sources[i].origin)))?;
+                request.text_metrics = Some(font.text_metrics().map_err(js_err)?);
+            }
+        }
+        let scene = design_data_core::visual::build_scene_cached(
+            &self.graph,
+            &recipe.raw,
+            &request,
+            &self.scenes,
+        )
+        .map_err(js_err)?;
+        Ok(design_data_core::visual::scene_to_svg(&scene))
+    }
+
+    /// Render a component to PNG using the dataset's own recipe for `request.component`.
+    ///
+    /// `fonts` is `[{ data: Uint8Array, origin: string, fallback?: boolean }]`, TrueType files
+    /// the caller found (see `describeFont` and `chooseFont`). The first font that is not
+    /// marked `fallback` also supplies the layout text widths, so boxes fit the text drawn in
+    /// them. `options` is `{ pixelRatio?: number (default 2), background?: string }`.
+    /// Returns `{ png: Uint8Array, diagnostics: string[] }`; throws when the component has no
+    /// recipe or a font cannot be read.
+    #[wasm_bindgen(js_name = "renderComponentPng")]
+    pub fn render_component_png(
+        &self,
+        request: JsValue,
+        fonts: JsValue,
+        options: JsValue,
+    ) -> Result<JsValue, JsValue> {
+        use design_data_core::raster::{font::Font, scene_to_png, RasterOptions};
+        let mut request: design_data_core::visual::RenderRequest =
+            serde_wasm_bindgen::from_value(request).map_err(js_err)?;
+        request.component = self
+            .graph
+            .canonical_component(&request.component)
+            .to_string();
+        let recipe = self
+            .graph
+            .visual_recipe(&request.component)
+            .ok_or_else(|| js_err(format!("no visual recipe for '{}'", request.component)))?;
+        let (sources, layout_from) = read_fonts(&fonts)?;
+        if request.text_metrics.is_none() {
+            if let Some(i) = layout_from {
+                let font = Font::parse(sources[i].data.clone())
+                    .map_err(|e| js_err(format!("font {}: {e}", sources[i].origin)))?;
+                request.text_metrics = Some(font.text_metrics().map_err(js_err)?);
+            }
+        }
+        let scene = design_data_core::visual::build_scene_cached(
+            &self.graph,
+            &recipe.raw,
+            &request,
+            &self.scenes,
+        )
+        .map_err(js_err)?;
+        let mut opts = RasterOptions::default();
+        if let Some(p) = js_number(&options, "pixelRatio") {
+            opts.scale = p;
+        }
+        opts.background = js_string(&options, "background");
+        let out = scene_to_png(&scene, &sources, &opts).map_err(js_err)?;
+        let diagnostics = js_sys::Array::new();
+        for d in scene.diagnostics.iter().chain(&out.diagnostics) {
+            diagnostics.push(&JsValue::from_str(d));
+        }
+        let result = js_sys::Object::new();
+        js_sys::Reflect::set(
+            &result,
+            &"png".into(),
+            &js_sys::Uint8Array::from(&out.png[..]),
+        )?;
+        js_sys::Reflect::set(&result, &"diagnostics".into(), &diagnostics)?;
+        Ok(result.into())
     }
 
     // -----------------------------------------------------------------------
@@ -618,6 +770,48 @@ impl Dataset {
     pub fn token_count(&self) -> usize {
         self.graph.tokens.len()
     }
+}
+
+/// The font entries of a `renderComponentPng` call, and the index of the one layout follows.
+fn read_fonts(
+    fonts: &JsValue,
+) -> Result<(Vec<design_data_core::raster::FontSource>, Option<usize>), JsValue> {
+    use wasm_bindgen::JsCast;
+    let mut out = Vec::new();
+    let mut layout = None;
+    if fonts.is_undefined() || fonts.is_null() {
+        return Ok((out, layout));
+    }
+    let list: js_sys::Array = fonts
+        .clone()
+        .dyn_into()
+        .map_err(|_| js_err("fonts must be an array of { data, origin }"))?;
+    for (i, entry) in list.iter().enumerate() {
+        let data: js_sys::Uint8Array = js_sys::Reflect::get(&entry, &"data".into())?
+            .dyn_into()
+            .map_err(|_| js_err(format!("fonts[{i}].data must be a Uint8Array")))?;
+        let origin = js_string(&entry, "origin").unwrap_or_else(|| format!("font {i}"));
+        let fallback = js_sys::Reflect::get(&entry, &"fallback".into())
+            .ok()
+            .and_then(|v| v.as_bool())
+            .unwrap_or(false);
+        if layout.is_none() && !fallback {
+            layout = Some(out.len());
+        }
+        out.push(design_data_core::raster::FontSource {
+            data: data.to_vec(),
+            origin,
+        });
+    }
+    Ok((out, layout))
+}
+
+fn js_string(obj: &JsValue, key: &str) -> Option<String> {
+    js_sys::Reflect::get(obj, &key.into()).ok()?.as_string()
+}
+
+fn js_number(obj: &JsValue, key: &str) -> Option<f64> {
+    js_sys::Reflect::get(obj, &key.into()).ok()?.as_f64()
 }
 
 impl Dataset {

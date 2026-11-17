@@ -346,33 +346,39 @@
   {
     "scope": {
       "component": "progress-bar",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Text (white)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "white",
     "$ref": "13ee65f0-4bb9-4213-905d-92c1b788a702",
     "uuid": "218fa7b5-8f93-586c-abb4-39f2f25a11b7"
   },
   {
     "scope": {
       "component": "progress-bar",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and indicator (white)",
+    "context": "Track and indicator",
     "contextRole": ["track", "control"],
-    "contextQualifier": "white",
     "$ref": "23791534-8963-4ff8-bfb4-15108da47103",
     "uuid": "b6ecaa25-23e6-55b5-b8d5-7764013bb36e"
   },
   {
     "scope": {
       "component": "progress-bar",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and indicator (white)",
+    "context": "Track and indicator",
     "contextRole": ["track", "control"],
-    "contextQualifier": "white",
     "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f",
     "uuid": "0410adfb-10ea-5de0-a668-13ecc400150b"
   },

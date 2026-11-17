@@ -47,4 +47,9 @@ fn main() {
         embed_dir("icons", "EMBEDDED_ICONS"),
     )
     .expect("write embedded icons source");
+    std::fs::write(
+        output.join("embedded_visuals.rs"),
+        embed_dir("visuals", "EMBEDDED_VISUALS"),
+    )
+    .expect("write embedded visuals source");
 }

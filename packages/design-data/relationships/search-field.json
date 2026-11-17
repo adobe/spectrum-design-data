@@ -900,22 +900,26 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Background and border (disabled)",
+    "context": "Background and border",
     "contextRole": ["background", "border"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "9988e1ee-b1cc-5647-bdd4-501535d37c1c"
   },
   {
     "scope": {
       "component": "search-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Background and border (disabled)",
+    "context": "Background and border",
     "contextRole": ["background", "border"],
-    "contextQualifier": "disabled",
     "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
     "uuid": "8c590e3a-4b52-535b-8b9c-4ca1de0798e7"
   },

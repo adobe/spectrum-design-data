@@ -561,6 +561,31 @@
           "metadata": {"count":310,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.16.0",
+      "version": "4.0.0",
+      "bump": "major",
+      "date": "2026-11-16",
+      "commit": "8d2540928d4618fe4340b570a33eb4f8f22cb680",
+      "commits": [
+        {
+          "commit": "2a1e521b6f62f5e65f5b3db15379a7888c929392",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1857,"title":"feat(core): warn on relationship records that differ in one option value and merge them","url":"https://github.com/adobe/spectrum-design-data/pull/1857"},
+          "entries": [
+            {"id":"2a1e521b-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":[false,true],"isPending":[false,true],"style":"fill","variant":["accent","negative"]}},"record":"ba06a85c-faaa-53e6-bd5f-5f54f8cdc84a","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=fill,variant=?]","fields":[],"before":"64e2dbc2-05fa-43d7-80ae-d4d11c55348f"},
+            {"id":"2a1e521b-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":[false,true],"isPending":[false,true],"style":"fill","variant":["accent","negative"]}},"record":"21277a00-0e2a-533e-a458-0d4c532e26ef","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=fill,variant=?]","fields":[],"before":"abd011c4-87a5-4b1f-82e2-e94d118f417f"},
+            {"id":"2a1e521b-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":[false,true],"isPending":[false,true],"style":"fill","variant":["accent","negative"]}},"record":"30aaddab-687e-51df-9d29-87f770c8fcc1","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=fill,variant=?]","fields":[],"before":"3605974e-8f93-4907-81b3-fb6ab55d03f8"},
+            {"id":"2a1e521b-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":[false,true],"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"3229c540-1859-5ff2-99ae-a8acef67eb7c","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"},
+            {"id":"2a1e521b-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":[false,true],"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"e79ad143-a8cd-5da8-854e-15ad18508a91","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"c34dd99f-e576-4c98-a89d-86dd47514c55"},
+            {"id":"2a1e521b-5","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":[false,true],"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"04aaa069-8147-5f9b-8077-7c34c8860267","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"4634f126-2240-4de9-b244-ab2b833d70ef"},
+            {"id":"2a1e521b-6","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":false,"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"aa61d2f4-911e-5d10-9905-c46e58e732c5","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"},
+            {"id":"2a1e521b-7","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":false,"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"59d3c0ad-0892-52e1-b839-2d6876dd69e5","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"c34dd99f-e576-4c98-a89d-86dd47514c55"},
+            {"id":"2a1e521b-8","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"color","options":{"isDisabled":true,"isLabelHidden":false,"isPending":false,"style":["fill","outline"],"variant":["accent","negative"]}},"record":"ea0ea52e-5ed0-512b-bb3c-6b971e726184","name":"color[isDisabled=?,isLabelHidden=?,isPending=?,style=?,variant=?]","fields":[],"before":"4634f126-2240-4de9-b244-ab2b833d70ef"}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -150,6 +150,39 @@
           "metadata": {"count":50,"fields":["contextPart","contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.0.8",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "2d4d639c756af46abd6ecb0caff2a57ace6000c1",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1836,"title":"fix(design-data): pin shape and isSelected in swatch relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1836"},
+          "entries": [
+            {"id":"2d4d639c-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"shape":"square"}},"record":"3449ecf5-49e4-556a-b2a0-9cff071a46d2","name":"size[shape=square]","fields":[{"path":"context","before":"Size (square)","after":"Size"}]},
+            {"id":"2d4d639c-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"shape":"square"}},"record":"ebd04ea9-95db-5ac7-84ab-7fe618ce20a9","name":"size[shape=square]","fields":[{"path":"context","before":"Size (square)","after":"Size"}]},
+            {"id":"2d4d639c-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"shape":"square"}},"record":"bd134807-e7d9-5767-816c-1845fc9f19cc","name":"size[shape=square]","fields":[{"path":"context","before":"Size (square)","after":"Size"}]},
+            {"id":"2d4d639c-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"shape":"square"}},"record":"1f8d1ca5-b272-5a96-96bb-5a930418c0e8","name":"size[shape=square]","fields":[{"path":"context","before":"Size (square)","after":"Size"}]},
+            {"id":"2d4d639c-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"shape":"square"}},"record":"143631c9-e88e-595d-b3c8-1598738e7f11","name":"size[shape=square]","fields":[{"path":"context","before":"Size (square)","after":"Size"}]},
+            {"id":"2d4d639c-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"shape":"square"}},"record":"373d881b-22c1-5c75-962d-583958bda689","name":"size[shape=square]","fields":[{"path":"context","before":"Size (square)","after":"Size"}]},
+            {"id":"2d4d639c-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"shape":"square"}},"record":"09465fb0-b8c9-5f1e-84ee-0abaf9c22826","name":"size[shape=square]","fields":[{"path":"context","before":"Size (square)","after":"Size"}]},
+            {"id":"2d4d639c-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"shape":"square"}},"record":"2cd94925-cca2-5622-8762-e0c489122d5d","name":"size[shape=square]","fields":[{"path":"context","before":"Size (square)","after":"Size"}]},
+            {"id":"2d4d639c-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width-multiplier","options":{"shape":"rectangle"}},"record":"73db7c11-62ec-57b0-bc58-8116c11e715f","name":"width-multiplier[shape=rectangle]","fields":[{"path":"context","before":"Width (rectangle)","after":"Width"}]},
+            {"id":"2d4d639c-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border and inner border"],"scope":{"property":"border-width","options":{"isSelected":true}},"record":"db0b902f-a67a-5d69-b06e-f6ef5f991e3c","name":"border-width[isSelected=?]","fields":[{"path":"context","before":"Border and inner border (selected)","after":"Border and inner border"}]},
+            {"id":"2d4d639c-10","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border and inner border"],"scope":{"property":"color","options":{"isSelected":true}},"record":"25fd892f-7c36-5043-b525-082e2e048d7f","name":"color[isSelected=?]","fields":[{"path":"context","before":"Border and inner border (selected)","after":"Border and inner border"}]},
+            {"id":"2d4d639c-11","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border and inner border"],"scope":{"property":"color","options":{"isSelected":true}},"record":"3333f8f0-f497-50d0-a699-f43d7b3f5add","name":"color[isSelected=?]","fields":[{"path":"context","before":"Border and inner border (selected)","after":"Border and inner border"}]},
+            {"id":"2d4d639c-12","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border and inner border"],"scope":{"property":"color","options":{"isSelected":true}},"record":"d1b64de1-95d0-5e74-b2d5-d2e6f2f266f6","name":"color[isSelected=?]","fields":[{"path":"context","before":"Border and inner border (selected)","after":"Border and inner border"}]},
+            {"id":"2d4d639c-13","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border and inner border"],"scope":{"property":"color","options":{"isSelected":true}},"record":"3d4a4bb0-8521-59b8-ad34-34a9c8d60cd3","name":"color[isSelected=?]","fields":[{"path":"context","before":"Border and inner border (selected)","after":"Border and inner border"}]},
+            {"id":"2d4d639c-14","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border and inner border"],"scope":{"property":"color","options":{"isSelected":true}},"record":"ac426ab2-a8bb-5c1d-bf80-df4519479bd9","name":"color[isSelected=?]","fields":[{"path":"context","before":"Border and inner border (selected)","after":"Border and inner border"}]},
+            {"id":"2d4d639c-15","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border and inner border"],"scope":{"property":"color","options":{"isSelected":true}},"record":"5885fb35-3ce3-5fb2-a345-eab49454498a","name":"color[isSelected=?]","fields":[{"path":"context","before":"Border and inner border (selected)","after":"Border and inner border"}]}
+          ],
+          "metadata": {"count":16,"fields":["contextPart","contextQualifier","scope.options.isSelected","scope.options.shape"]}
+        }
+      ]
     }
   ]
 }

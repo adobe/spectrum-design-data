@@ -223,6 +223,7 @@ fn screen_3_enter_advances_to_screen_4() {
     let fixtures = fixtures_path();
     let graph = make_graph();
     let ctx = UpdateCtx {
+        preview: None,
         graph: &graph,
         dataset_path: Some(fixtures.as_path()),
         components_dir: None,
@@ -253,6 +254,7 @@ fn screen_4_empty_rationale_blocks_submit() {
     let fixtures = fixtures_path();
     let graph = make_graph();
     let ctx = UpdateCtx {
+        preview: None,
         graph: &graph,
         dataset_path: Some(fixtures.as_path()),
         components_dir: None,
@@ -279,6 +281,7 @@ fn screen_4_diff_preview_is_populated_on_enter() {
     let fixtures = fixtures_path();
     let graph = make_graph();
     let ctx = UpdateCtx {
+        preview: None,
         graph: &graph,
         dataset_path: Some(fixtures.as_path()),
         components_dir: None,
@@ -314,6 +317,7 @@ fn screen_4_submit_closes_modal_and_sets_status() {
     let fixtures = fixtures_path();
     let graph = make_graph();
     let ctx = UpdateCtx {
+        preview: None,
         graph: &graph,
         dataset_path: Some(fixtures.as_path()),
         components_dir: None,
@@ -356,6 +360,7 @@ fn screen_4_multi_mode_diff_emits_sets_for_every_row() {
     let fixtures = fixtures_path();
     let graph = make_graph_with_modes();
     let ctx = UpdateCtx {
+        preview: None,
         graph: &graph,
         dataset_path: Some(fixtures.as_path()),
         components_dir: None,
@@ -402,6 +407,7 @@ fn screen_3_assembled_token_serializes_every_mode_row_as_sets() {
     let fixtures = fixtures_path();
     let graph = make_graph_with_modes();
     let ctx = UpdateCtx {
+        preview: None,
         graph: &graph,
         dataset_path: Some(fixtures.as_path()),
         components_dir: None,
@@ -448,6 +454,7 @@ fn submit_does_not_create_foundation_json_without_allow_write() {
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
     let foundation_file = tmpdir.path().join("foundation.json");
     let ctx = UpdateCtx {
+        preview: None,
         graph: &graph,
         dataset_path: Some(tmpdir.path()),
         components_dir: None,

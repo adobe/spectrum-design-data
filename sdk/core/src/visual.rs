@@ -500,6 +500,8 @@ pub struct CompiledVariant {
     parts: serde_json::Map<String, Value>,
     /// Icon geometry the parts' `drawing` keys name (see `CompileCx::attach_drawings`).
     drawings: serde_json::Map<String, Value>,
+    /// The recipe's `repeat` declaration: draw the root once per entry of an array option.
+    repeat: Option<Value>,
 }
 
 impl CompiledVariant {
@@ -539,16 +541,18 @@ impl CompiledVariant {
                 .unwrap_or_default(),
             parts,
             drawings,
+            repeat: compiled.get("repeat").filter(|r| r.is_object()).cloned(),
         })
     }
 
-    /// The variant as one JSON document, `{root, optionDefaults, parts, drawings}`.
+    /// The variant as one JSON document, `{root, optionDefaults, parts, drawings, repeat}`.
     pub fn to_value(&self) -> Value {
         serde_json::json!({
             "root": self.root,
             "optionDefaults": self.option_defaults,
             "parts": self.parts,
             "drawings": self.drawings,
+            "repeat": self.repeat,
         })
     }
 
@@ -559,6 +563,7 @@ impl CompiledVariant {
             "optionDefaults": v["optionDefaults"],
             "variants": { "": v["parts"] },
             "drawings": v["drawings"],
+            "repeat": v["repeat"],
         });
         Self::from_compiled(&wrap, "")
     }
@@ -936,16 +941,20 @@ impl<'a> CompileCx<'a> {
                 let r = &self.graph.relationships[i];
                 let scope = r.raw.get("scope");
                 if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
-                    refs.push((
-                        rf.to_string(),
-                        pinned_options(scope, &declared),
-                        scope_state_ids(scope),
-                        RelationshipRef {
-                            uuid: r.uuid.clone(),
-                            context: context.clone(),
-                            property: property.clone(),
-                        },
-                    ));
+                    // A record with an any-of is one candidate per alternative, so the solver
+                    // and the compiled format only ever see plain pins and states.
+                    for (options, states) in scope_variants(scope, &declared) {
+                        refs.push((
+                            rf.to_string(),
+                            options,
+                            states,
+                            RelationshipRef {
+                                uuid: r.uuid.clone(),
+                                context: context.clone(),
+                                property: property.clone(),
+                            },
+                        ));
+                    }
                 }
             }
             self.lookup
@@ -1702,29 +1711,36 @@ impl Ctx<'_> {
 /// state, `scale` and `colorScheme` are modes.
 const RELATIONSHIP_RESERVED_OPTIONS: &[&str] = &["state", "scale", "colorScheme"];
 
-/// State ids a relationship's `scope.options.state` pins, normalized like a token
-/// `name.state` (so `key-focus` is `keyboard-focus`). They replace the token's own.
-fn scope_state_ids(scope: Option<&Value>) -> Vec<String> {
-    let state = scope
-        .and_then(|s| s.get("options"))
-        .and_then(|o| o.get("state"));
-    name_states(state.map(|v| serde_json::json!({ "state": v })).as_ref())
-}
-
-/// The component options a relationship's `scope.options` pins, or `None` when it pins none.
-/// Keys the component does not declare as options are ignored.
-fn pinned_options(scope: Option<&Value>, declared: &[&str]) -> Option<Value> {
+/// The candidates a relationship's scope stands for, as `(component option pins, state ids)`.
+/// A record without an any-of (proposal 017) is one candidate. The pins keep only options the
+/// component declares and leave out `state`, `scale`, `colorScheme` and `anyOf`; the states are
+/// normalized like a token `name.state` (so `key-focus` is `keyboard-focus`) and replace the
+/// token's own.
+fn scope_variants(scope: Option<&Value>, declared: &[&str]) -> Vec<(Option<Value>, Vec<String>)> {
     let options = scope
         .and_then(|s| s.get("options"))
-        .and_then(Value::as_object)?;
-    let pinned: serde_json::Map<String, Value> = options
-        .iter()
-        .filter(|(k, _)| {
-            !RELATIONSHIP_RESERVED_OPTIONS.contains(&k.as_str()) && declared.contains(&k.as_str())
+        .and_then(Value::as_object);
+    let Some(options) = options else {
+        return vec![(None, Vec::new())];
+    };
+    crate::scope::variants(options)
+        .into_iter()
+        .map(|v| {
+            let pinned: serde_json::Map<String, Value> = v
+                .options
+                .into_iter()
+                .filter(|(k, _)| {
+                    !RELATIONSHIP_RESERVED_OPTIONS.contains(&k.as_str())
+                        && declared.contains(&k.as_str())
+                })
+                .collect();
+            let states = v.states.iter().flat_map(|s| state_ids(s)).collect();
+            (
+                (!pinned.is_empty()).then_some(Value::Object(pinned)),
+                states,
+            )
         })
-        .map(|(k, v)| (k.clone(), v.clone()))
-        .collect();
-    (!pinned.is_empty()).then_some(Value::Object(pinned))
+        .collect()
 }
 
 /// A token's `name.state` as individual state ids. Legacy compound ids such as
@@ -1770,7 +1786,8 @@ pub(crate) fn state_ids(raw: &str) -> Vec<String> {
 }
 
 /// The states a relationship `scope.options` selects: its `state` entries plus the state of
-/// each true boolean option in `OPTION_STATES`.
+/// each true boolean option in `OPTION_STATES`. Pass the options of one variant
+/// (`crate::scope::variants`), whose states are plain strings: an any-of is several records.
 pub(crate) fn scope_states(options: &serde_json::Map<String, Value>) -> Vec<Value> {
     let mut states: Vec<Value> = match options.get("state") {
         Some(Value::Array(a)) => a.clone(),
@@ -1872,6 +1889,14 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
                             }
                         }
                     }
+                    if k == "repeat" {
+                        // The array option a recipe repeats its root over counts as read.
+                        if let Some(name) = x.get("option").and_then(Value::as_str) {
+                            if !used.iter().any(|u| u == name) {
+                                used.push(name.to_string());
+                            }
+                        }
+                    }
                     if k == "options" {
                         if let Some(opts) = x.as_object() {
                             for name in opts.keys() {
@@ -1942,10 +1967,10 @@ pub fn recipe_options_in(
         let Some(opts) = r.raw.pointer("/scope/options").and_then(Value::as_object) else {
             continue;
         };
-        for key in opts.keys() {
+        for key in crate::scope::option_names(opts) {
             let reserved = RELATIONSHIP_RESERVED_OPTIONS.contains(&key.as_str());
-            if !reserved && declared.contains(&key.as_str()) && !used.contains(key) {
-                used.push(key.clone());
+            if !reserved && declared.contains(&key.as_str()) && !used.contains(&key) {
+                used.push(key);
             }
         }
     }
@@ -2026,6 +2051,7 @@ pub fn compile_recipe(
         "optionDefaults": option_defaults,
         "variants": variants,
         "drawings": drawings,
+        "repeat": recipe.get("repeat"),
     }))
 }
 
@@ -2078,6 +2104,7 @@ fn compile_variant(
         option_defaults,
         parts: compiled,
         drawings,
+        repeat: recipe.get("repeat").cloned(),
     })
 }
 
@@ -2130,10 +2157,112 @@ pub fn build_scene_cached(
     solve(&*cache.variant(graph, recipe, req)?, req)
 }
 
+/// Lay out a compiled variant for one request. A recipe with `repeat` draws its root once
+/// per entry of the array option and stacks the copies in a column; without entries (or
+/// without `repeat`) it is [`solve_one`]. Each copy is solved as its own request, so the
+/// container's options reach every item and an item's fields override them.
+pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
+    let Some(rep) = variant.repeat.as_ref() else {
+        return solve_one(variant, req);
+    };
+    let entries = rep
+        .get("option")
+        .and_then(Value::as_str)
+        .and_then(|o| req.options.get(o))
+        .and_then(Value::as_array);
+    let items: Vec<&Value> = entries
+        .map(|a| a.iter().filter(|i| i.is_object()).collect())
+        .unwrap_or_default();
+    let skipped = entries.map_or(0, |a| a.len() - items.len());
+    if items.is_empty() {
+        let mut scene = solve_one(variant, req)?;
+        if skipped > 0 {
+            scene.diagnostics.push(format!(
+                "repeat: the entries of '{}' must be objects; drawing one plain root",
+                rep["option"].as_str().unwrap_or_default()
+            ));
+        }
+        return Ok(scene);
+    }
+    let item_req = |item: &Value, width: Option<f64>| {
+        let mut r = req.clone();
+        r.width = width.or(req.width);
+        if let Some(l) = rep
+            .get("label")
+            .and_then(Value::as_str)
+            .and_then(|f| item.get(f))
+            .and_then(Value::as_str)
+        {
+            r.label = l.to_string();
+        }
+        for (opt, field) in rep
+            .get("with")
+            .and_then(Value::as_object)
+            .into_iter()
+            .flatten()
+        {
+            if let Some(v) = field.as_str().and_then(|f| item.get(f)) {
+                r.options.insert(opt.clone(), v.clone());
+            }
+        }
+        r
+    };
+    let mut scenes = items
+        .iter()
+        .map(|i| solve_one(variant, &item_req(i, None)))
+        .collect::<Result<Vec<_>, _>>()?;
+    let root_w = |s: &Scene| s.nodes.first().map_or(0.0, |n| n.w);
+    let widest = scenes.iter().map(root_w).fold(0.0, f64::max);
+    if scenes.iter().any(|s| root_w(s) != widest) {
+        scenes = items
+            .iter()
+            .map(|i| solve_one(variant, &item_req(i, Some(widest))))
+            .collect::<Result<Vec<_>, _>>()?;
+    }
+    let id = variant.root.as_str();
+    let (mut y, mut nodes, mut diagnostics) = (0.0, Vec::new(), Vec::new());
+    if skipped > 0 {
+        diagnostics.push(format!(
+            "repeat: {skipped} entries that are not objects were skipped"
+        ));
+    }
+    let mut first = None;
+    for (i, mut s) in scenes.into_iter().enumerate() {
+        let Some(root) = s.nodes.first() else {
+            continue;
+        };
+        let (ox, oy, h) = (root.x, root.y, root.h);
+        for (j, mut n) in std::mem::take(&mut s.nodes).into_iter().enumerate() {
+            n.part = if j == 0 {
+                format!("{id}-{}", i + 1)
+            } else {
+                format!("{id}-{}.{}", i + 1, n.part)
+            };
+            n.x -= ox - RING_MARGIN;
+            n.y += y - oy + RING_MARGIN;
+            nodes.push(n);
+        }
+        diagnostics.extend(
+            s.diagnostics
+                .drain(..)
+                .map(|d| format!("{id}-{}: {d}", i + 1)),
+        );
+        y += h;
+        first.get_or_insert(s);
+    }
+    let mut out = first.ok_or("repeat: no copy drew a root")?;
+    out.height = y + 2.0 * RING_MARGIN;
+    out.width = widest + 2.0 * RING_MARGIN;
+    out.press = None;
+    out.nodes = nodes;
+    out.diagnostics = diagnostics;
+    Ok(out)
+}
+
 /// Lay out a compiled variant for one request: choose candidates by state, option and
 /// `when`, then place the parts. A pure function of its arguments; it needs no token graph.
 /// `req` must have the size and mode the variant was compiled for.
-pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
+fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
     let parts = &variant.parts;
     let root_id = variant.root.as_str();
     let root = parts.get(root_id).ok_or("root part not found")?;
@@ -2142,6 +2271,12 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         option_defaults: &variant.option_defaults,
         diags: Vec::new(),
     };
+    if req.options.contains_key("icon") {
+        cx.diags.push(
+            "option 'icon' is not drawn and was ignored; use the request's icon field ({set, name} or \"none\")"
+                .into(),
+        );
+    }
     let rp = |cx: &mut Ctx, part: &Value, name: &str| -> Option<Resolved> {
         debug_assert!(
             reads_prop(part, std::ptr::eq(part, root), name),
@@ -2818,16 +2953,13 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         }
         _ => (pad_bs, pad_be),
     };
-    // An unset `height` is the content plus the block padding: the tallest flowed child in a
-    // row (only when the recipe binds block padding or a `minHeight`; otherwise the 32
-    // default), or the stacked children in a column. `minHeight` is the floor.
+    // An unset `height` is the content plus the block padding: the stacked children in a
+    // column, the tallest flowed child in a row. `minHeight` is the floor.
     let h = explicit_h.unwrap_or_else(|| {
         let content = if column {
             sum_h + pad_bs + pad_be
-        } else if block_padded || min_h.is_some() {
-            tallest + pad_bs + pad_be
         } else {
-            32.0
+            tallest + pad_bs + pad_be
         };
         match min_h {
             Some(m) if content <= m + 1e-6 => m,
@@ -2927,7 +3059,6 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         gap: (flow.len() > 1).then_some(gap),
         padding: [pad_bs, pad_e, pad_be, pad_s],
     };
-    let mut x = ox + pad_s;
     let mut y = oy
         + pad_bs
         + if column {
@@ -2942,6 +3073,14 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         flow.iter().map(|c| c.grow).sum()
     };
     let free_w = (w - sum_w - pad_s - pad_e).max(0.0);
+    // A row with no growing part justifies its content in the space a minWidth or width leaves.
+    let mut x = ox
+        + pad_s
+        + if column || total_grow > 0.0 {
+            0.0
+        } else {
+            axis_offset(&justify, free_w)
+        };
     for mut c in flow {
         // A column stretches a box that has no width of its own across its inner width.
         let cw = if column && c.kind == "box" && c.auto_w {
@@ -3393,13 +3532,15 @@ pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     };
 
     if req.icon == Some(IconOverride::None)
-        && cx.option("isLabelHidden") == Value::Bool(true)
+        && !nodes
+            .iter()
+            .any(|n| n.kind == "text" && n.text.as_deref().is_some_and(|t| !t.is_empty()))
         && parts.values().any(|p| {
             is_content_icon(p) == (true, true) && cx.when_score(p.get("visibleWhen")).is_some()
         })
     {
         cx.diags
-            .push("icon none with isLabelHidden leaves the component with nothing to draw".into());
+            .push("icon none with no label text leaves the component with no icon or label".into());
     }
 
     // Every icon node names the icon its part references and carries its compiled drawing.
@@ -3614,7 +3755,7 @@ fn rounded_path(x: f64, y: f64, w: f64, h: f64, r: [f64; 4]) -> String {
 }
 
 const DEFAULT_FONT_STACK: &str =
-    "adobe-clean-spectrum-vf, Adobe Clean, 'Source Sans 3', sans-serif";
+    "'Adobe Clean Spectrum VF', adobe-clean-spectrum-vf, 'Adobe Clean', 'Source Sans 3', sans-serif";
 
 const GENERIC_FAMILIES: &[&str] = &[
     "serif",
@@ -3927,9 +4068,60 @@ pub fn scene_to_svg(scene: &Scene) -> String {
     s
 }
 
+/// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
+/// same change whenever a solver change alters how existing recipes render
+/// (a changed `recipe-snapshots.json`).
+pub const LAYOUT_REVISION: u32 = 2;
+
+/// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
+/// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
+pub fn layout_revision_warning(root: &std::path::Path) -> Option<String> {
+    if !root.join("visuals").is_dir() {
+        return None;
+    }
+    let data = std::fs::read_to_string(root.join("dataset.json"))
+        .ok()
+        .and_then(|s| serde_json::from_str::<Value>(&s).ok())
+        .and_then(|v| v.get("layoutRevision")?.as_u64())
+        .unwrap_or(0);
+    let engine = u64::from(LAYOUT_REVISION);
+    match data.cmp(&engine) {
+        std::cmp::Ordering::Equal => None,
+        std::cmp::Ordering::Less => Some(format!(
+            "this data targets layout revision {data}, this renderer is revision {engine}: \
+             recipes can lay out differently. Use a newer data release, or an older CLI."
+        )),
+        std::cmp::Ordering::Greater => Some(format!(
+            "this data targets layout revision {data}, this renderer is revision {engine}: \
+             upgrade the CLI."
+        )),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn layout_revision_matches_the_data() {
+        let root =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data");
+        assert_eq!(layout_revision_warning(&root), None);
+    }
+
+    #[test]
+    fn layout_revision_warns_on_missing_and_newer() {
+        let dir = std::env::temp_dir().join(format!("ddrev-{}", std::process::id()));
+        std::fs::create_dir_all(dir.join("visuals")).unwrap();
+        let old = layout_revision_warning(&dir).unwrap();
+        assert!(old.contains("revision 0"), "{old}");
+        std::fs::write(dir.join("dataset.json"), r#"{"layoutRevision": 99}"#).unwrap();
+        assert!(layout_revision_warning(&dir)
+            .unwrap()
+            .contains("upgrade the CLI"));
+        std::fs::remove_dir_all(&dir).unwrap();
+        assert_eq!(layout_revision_warning(&dir), None);
+    }
     use std::path::PathBuf;
 
     fn root() -> PathBuf {
@@ -4292,6 +4484,53 @@ mod tests {
     }
 
     #[test]
+    fn a_row_centres_its_content_in_a_min_width_wider_than_the_content() {
+        let (g, _) = load();
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["i"], "props": {
+                    "minWidth": lit(100.into()), "height": lit(20.into()),
+                    "paddingInlineStart": lit(10.into()), "paddingInlineEnd": lit(10.into()) } },
+                "i": { "kind": "box", "props": { "width": lit(16.into()), "height": lit(16.into()) } }
+            }
+        });
+        let s = build_scene(&g, &recipe, &req(&[])).unwrap();
+        let i = part(&s, "i").unwrap();
+        assert_eq!(i.x, 8.0 + (100.0 - 16.0) / 2.0);
+    }
+
+    #[test]
+    fn a_row_justifies_end_and_start_and_a_growing_child_takes_the_free_space() {
+        let (g, _) = load();
+        let scene = |justify: Option<&str>, grow: bool| {
+            let mut root = serde_json::json!({
+                "minWidth": lit(100.into()), "height": lit(20.into()),
+                "paddingInlineStart": lit(10.into()), "paddingInlineEnd": lit(10.into()) });
+            if let Some(j) = justify {
+                root["justify"] = lit(j.into());
+            }
+            let mut i = serde_json::json!({ "width": lit(16.into()), "height": lit(16.into()) });
+            if grow {
+                i["grow"] = lit(true.into());
+            }
+            let recipe = serde_json::json!({
+                "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+                "parts": {
+                    "r": { "kind": "box", "children": ["i"], "props": root },
+                    "i": { "kind": "box", "props": i }
+                }
+            });
+            let s = build_scene(&g, &recipe, &req(&[])).unwrap();
+            part(&s, "i").unwrap().clone()
+        };
+        assert_eq!(scene(Some("start"), false).x, 8.0 + 10.0);
+        assert_eq!(scene(Some("end"), false).x, 8.0 + 100.0 - 10.0 - 16.0);
+        let grown = scene(None, true);
+        assert_eq!((grown.x, grown.w), (8.0 + 10.0, 80.0));
+    }
+
+    #[test]
     fn a_growing_text_keeps_its_width_and_the_next_part_moves_to_the_row_end() {
         let (g, _) = load();
         let recipe = |grow: bool| {
@@ -4303,7 +4542,7 @@ mod tests {
                 "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
                 "parts": {
                     "r": { "kind": "box", "children": ["t", "i"], "props": {
-                        "width": lit(300.into()), "height": lit(20.into()),
+                        "width": lit(300.into()), "height": lit(20.into()), "justify": lit("start".into()),
                         "paddingInlineStart": lit(10.into()), "paddingInlineEnd": lit(10.into()) } },
                     "t": { "kind": "text", "props": t },
                     "i": { "kind": "box", "props": { "width": lit(16.into()), "height": lit(16.into()) } }
@@ -4948,6 +5187,58 @@ mod tests {
         s.nodes.iter().find(|n| n.part == id)
     }
 
+    fn accordion_items(items: Value) -> Scene {
+        let (g, _) = load();
+        let g = g.with_visuals(TokenGraph::load_spec_visuals(&root().join("visuals")).unwrap());
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/accordion.json")).unwrap(),
+        )
+        .unwrap();
+        let mut r = req(&[]);
+        r.component = "accordion".into();
+        r.label = "Title".into();
+        r.options.insert("items".into(), items);
+        build_scene(&g, &recipe, &r).unwrap()
+    }
+
+    #[test]
+    fn repeat_skips_entries_that_are_not_objects_with_a_diagnostic() {
+        let s = accordion_items(serde_json::json!(["A", "B"]));
+        assert!(part(&s, "item").is_some());
+        assert!(s.diagnostics.iter().any(|d| d.contains("must be objects")));
+        let s = accordion_items(serde_json::json!(["A", { "label": "B" }]));
+        assert!(part(&s, "item-1").is_some() && part(&s, "item-2").is_none());
+        assert!(s.diagnostics.iter().any(|d| d.contains("skipped")));
+    }
+
+    #[test]
+    fn repeat_stacks_one_root_per_entry_with_its_own_label_and_open_state() {
+        let one = accordion_items(serde_json::json!([]));
+        assert!(
+            part(&one, "item").is_some(),
+            "no entries draws the plain root"
+        );
+        let s = accordion_items(serde_json::json!([
+            { "label": "First", "isExpanded": true },
+            { "label": "A much longer second title" },
+            { "label": "Third" }
+        ]));
+        let item = |n: usize| part(&s, &format!("item-{n}")).unwrap();
+        assert!(part(&s, "item").is_none());
+        assert_eq!(
+            part(&s, "item-2.title").unwrap().text.as_deref(),
+            Some("A much longer second title")
+        );
+        // Only the first entry is open, so it is the tallest.
+        assert!(item(1).h > item(2).h);
+        assert_eq!(item(2).h, item(3).h);
+        // Stacked in order, flush, and all as wide as the widest.
+        assert_eq!(item(2).y, item(1).y + item(1).h);
+        assert_eq!(item(3).y, item(2).y + item(2).h);
+        assert!(item(1).w == item(2).w && item(2).w == item(3).w);
+        assert_eq!(s.height, item(3).y + item(3).h + RING_MARGIN);
+    }
+
     #[test]
     fn option_conditions_accept_an_array_of_values() {
         let (g, _) = load();
@@ -5145,13 +5436,15 @@ mod tests {
     fn font_family_leads_the_default_stack_only_when_bound() {
         let svg = |p: Value| scene_to_svg(&label_scene(p));
         let unbound = svg(serde_json::json!({ "fontSize": { "value": 10 } }));
-        assert!(unbound.contains("font-family=\"adobe-clean-spectrum-vf,"));
+        assert!(
+            unbound.contains("font-family=\"'Adobe Clean Spectrum VF', adobe-clean-spectrum-vf,")
+        );
         let bound = svg(serde_json::json!({
             "fontSize": { "value": 10 },
             "fontFamily": { "value": "SF Pro" }
         }));
         assert!(
-            bound.contains("font-family=\"'SF Pro', adobe-clean-spectrum-vf,"),
+            bound.contains("font-family=\"'SF Pro', 'Adobe Clean Spectrum VF',"),
             "{bound}"
         );
     }
@@ -5246,8 +5539,9 @@ mod tests {
     }
 
     #[test]
-    fn no_block_padding_keeps_the_default_height() {
-        assert_eq!(padded_box(serde_json::json!({})).nodes[0].h, 32.0);
+    fn no_block_padding_hugs_the_content() {
+        let s = padded_box(serde_json::json!({}));
+        assert_eq!(s.nodes[0].h, part(&s, "label").unwrap().h);
     }
 
     #[test]
@@ -5414,6 +5708,114 @@ mod tests {
         assert_eq!(pins, ["accent", "primary"]);
     }
 
+    /// A `gadget` whose `color` relationships bind a plain token and a checked token.
+    fn any_of_graph(plain_scope: Value, checked_scope: Value) -> TokenGraph {
+        let mut g = TokenGraph::default();
+        g.components.push(crate::graph::ComponentRecord {
+            name: "gadget".into(),
+            file: PathBuf::from("components/gadget.json"),
+            raw: serde_json::json!({"name": "gadget", "options": {
+                "isSelected": {"type": "boolean", "default": false},
+                "isIndeterminate": {"type": "boolean", "default": false}}}),
+            layer: crate::graph::Layer::Foundation,
+        });
+        for (key, color) in [("plain", "#111111"), ("checked", "#0000ff")] {
+            g.tokens.insert(
+                key.into(),
+                crate::graph::TokenRecord {
+                    name: key.into(),
+                    file: PathBuf::from("tokens.json"),
+                    index: 0,
+                    schema_url: None,
+                    uuid: Some(key.into()),
+                    alias_target: None,
+                    raw: serde_json::json!({"value": color,
+                        "name": {"property": "color", "variant": key}}),
+                    layer: Default::default(),
+                },
+            );
+        }
+        let rel = |index: usize, rf: &str, options: Value| crate::graph::RelationshipRecord {
+            file: PathBuf::from("relationships/gadget.json"),
+            index,
+            uuid: Some(format!("rel-{index}")),
+            raw: serde_json::json!({"$ref": rf, "context": "Control",
+                "scope": {"component": "gadget", "property": "color", "options": options}}),
+        };
+        g.relationships = vec![
+            rel(0, "plain", plain_scope),
+            rel(1, "checked", checked_scope),
+        ];
+        g
+    }
+
+    fn any_of_fill(g: &TokenGraph, options: &[(&str, bool)], states: &[&str]) -> String {
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box", "props": {
+                "fill": {"relationship": {"property": "color", "context": "Control"}}}}}
+        });
+        let mut r = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            states: states.iter().map(|s| s.to_string()).collect(),
+            ..Default::default()
+        };
+        for (k, v) in options {
+            r.options.insert((*k).into(), Value::Bool(*v));
+        }
+        let scene = build_scene(g, &recipe, &r).unwrap();
+        assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+        scene.nodes[0].fill.clone().unwrap()
+    }
+
+    #[test]
+    fn an_option_any_of_applies_for_each_alternative() {
+        let g = any_of_graph(
+            serde_json::json!({}),
+            serde_json::json!({"anyOf": [{"isSelected": true}, {"isIndeterminate": true}]}),
+        );
+        let fill = |o: &[(&str, bool)]| any_of_fill(&g, o, &[]);
+        assert_eq!(fill(&[]), "#111111");
+        assert_eq!(fill(&[("isSelected", true)]), "#0000ff");
+        assert_eq!(fill(&[("isIndeterminate", true)]), "#0000ff");
+        assert_eq!(
+            fill(&[("isSelected", true), ("isIndeterminate", true)]),
+            "#0000ff",
+            "both alternatives match and share a token, so there is no tie"
+        );
+
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box", "props": {
+                "fill": {"relationship": {"property": "color", "context": "Control"}}}}}
+        });
+        let c = compile_recipe(&g, &recipe, "gadget", &[HashMap::new()]).unwrap();
+        let cands = c["variants"]["m||"]["box"]["props"]["fill"]["candidates"]
+            .as_array()
+            .unwrap();
+        assert_eq!(
+            cands.len(),
+            3,
+            "the any-of compiles to one candidate per alternative"
+        );
+        assert!(cands
+            .iter()
+            .all(|c| c.get("anyOf").is_none() && c["options"].get("anyOf").is_none()));
+    }
+
+    #[test]
+    fn a_state_any_of_applies_for_each_member() {
+        let g = any_of_graph(
+            serde_json::json!({"state": ["default"]}),
+            serde_json::json!({"state": [{"anyOf": ["hover", "down"]}]}),
+        );
+        let fill = |states: &[&str]| any_of_fill(&g, &[], states);
+        assert_eq!(fill(&[]), "#111111");
+        assert_eq!(fill(&["hover"]), "#0000ff");
+        assert_eq!(fill(&["down"]), "#0000ff");
+    }
+
     #[test]
     fn placeholder_names_skip_literal_braces() {
         let v = serde_json::json!({"a": "{size}-{style}", "b": ["{a b}", "x{{y}", "{}"]});
@@ -5566,6 +5968,30 @@ mod tests {
         build_scene(&g, &recipe, &req).unwrap()
     }
 
+    #[test]
+    fn options_icon_is_reported_as_ignored() {
+        let g = icon_graph();
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box"}}
+        });
+        let mut req = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            ..Default::default()
+        };
+        assert!(build_scene(&g, &recipe, &req)
+            .unwrap()
+            .diagnostics
+            .is_empty());
+        req.options.insert("icon".into(), serde_json::json!("edit"));
+        let d = build_scene(&g, &recipe, &req).unwrap().diagnostics;
+        assert!(
+            d.iter().any(|m| m.contains("option 'icon' is not drawn")),
+            "{d:?}"
+        );
+    }
+
     fn pick(set: &str, name: &str) -> Option<IconOverride> {
         Some(IconOverride::Icon {
             set: set.into(),
@@ -5634,7 +6060,10 @@ mod tests {
             serde_json::json!({"set": "ui", "name": "mark", "content": true, "optional": true});
         let scene = override_scene(icon, Some(IconOverride::None));
         assert!(scene.nodes.iter().all(|n| n.part != "mark"));
-        assert!(scene.diagnostics.is_empty());
+        assert!(scene
+            .diagnostics
+            .iter()
+            .all(|d| !d.contains("not optional")));
     }
 
     #[test]
@@ -5656,7 +6085,8 @@ mod tests {
             serde_json::json!({
                 "component": "gadget", "root": "box", "sizeScale": {"m": 100},
                 "parts": {
-                    "box": {"kind": "box", "children": ["mark"]},
+                    "box": {"kind": "box", "children": ["mark", "label"]},
+                    "label": {"kind": "text"},
                     "mark": {"kind": "icon", "icon": icon,
                         "visibleWhen": {"options": {"shown": visible}},
                         "props": {"width": {"value": 10}, "height": {"value": 10}}}
@@ -5667,10 +6097,7 @@ mod tests {
             component: "gadget".into(),
             size: "m".into(),
             icon: Some(IconOverride::None),
-            options: HashMap::from([
-                ("isLabelHidden".into(), true.into()),
-                ("shown".into(), true.into()),
-            ]),
+            options: HashMap::from([("shown".into(), true.into())]),
             ..Default::default()
         };
         let warned = |visible| {
@@ -5681,6 +6108,14 @@ mod tests {
         };
         assert!(warned(true));
         assert!(!warned(false));
+        let labelled = RenderRequest {
+            label: "Go".into(),
+            ..req
+        };
+        assert!(build_scene(&g, &recipe(true), &labelled)
+            .unwrap()
+            .diagnostics
+            .is_empty());
     }
 
     #[test]

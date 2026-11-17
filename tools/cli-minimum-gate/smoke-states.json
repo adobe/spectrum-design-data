@@ -1,0 +1,84 @@
+[
+  {
+    "id": "button-accent",
+    "component": "button",
+    "options": {
+      "variant": "accent",
+      "style": "fill"
+    }
+  },
+  {
+    "id": "button-secondary-dark",
+    "component": "button",
+    "options": {
+      "variant": "secondary",
+      "style": "outline"
+    },
+    "colorScheme": "dark"
+  },
+  {
+    "id": "button-hover",
+    "component": "button",
+    "states": ["hover"]
+  },
+  {
+    "id": "button-xl",
+    "component": "button",
+    "size": "xl",
+    "label": "Longer label"
+  },
+  {
+    "id": "badge",
+    "component": "badge"
+  },
+  {
+    "id": "badge-dark-mobile",
+    "component": "badge",
+    "colorScheme": "dark",
+    "scale": "mobile"
+  },
+  {
+    "id": "checkbox-selected",
+    "component": "checkbox",
+    "options": {
+      "isSelected": true
+    }
+  },
+  {
+    "id": "checkbox-disabled",
+    "component": "checkbox",
+    "options": {
+      "isDisabled": true
+    }
+  },
+  {
+    "id": "switch-selected",
+    "component": "switch",
+    "options": {
+      "isSelected": true
+    }
+  },
+  {
+    "id": "radio-selected",
+    "component": "radio-button",
+    "options": {
+      "isSelected": true
+    }
+  },
+  {
+    "id": "action-button",
+    "component": "action-button"
+  },
+  {
+    "id": "action-button-quiet-selected",
+    "component": "action-button",
+    "options": {
+      "isQuiet": true,
+      "isSelected": true
+    }
+  },
+  {
+    "id": "accordion",
+    "component": "accordion"
+  }
+]

@@ -14,7 +14,7 @@
 // Figma MCP; see .ai/skills/figma-spec-sheets/SKILL.md.
 //
 //   node plan.mjs plan [--all | <component>...] [-o <dir>] [--registry <file>] [--text-metrics <file>]
-//   node plan.mjs record <component> --hash <sha> [--file-key <key>] [--registry <file>]
+//   node plan.mjs record <component> --hash <sha> [--file-key <key>] [--registry <file>] [--text-metrics <file>]
 
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -40,6 +40,45 @@ const cliPath = () =>
     resolve(root, process.env.CARGO_TARGET_DIR ?? "sdk/target"),
     "debug/design-data",
   );
+
+/**
+ * What a text-metrics table says about where it was measured. The table is derived from a licensed
+ * font and is never committed, so the registry keeps only this stamp (no kit URL, no advances).
+ * `test700At14px` moves when the platform, Chrome or the font changes.
+ */
+export function textMetricsStamp(file) {
+  const t = readJson(file);
+  const m = t.meta ?? {};
+  return {
+    family: m.family,
+    test700At14px: m.test700At14px,
+    // Short hash of the advances and kerning at both weights: it moves with any change to them.
+    fingerprint: createHash("sha256")
+      .update(JSON.stringify([t[400], t[700]]))
+      .digest("hex")
+      .slice(0, 16),
+    generated: m.generated,
+    // Where the table was measured (the generator writes it), not where this runs.
+    platform: m.platform ?? "unknown",
+  };
+}
+
+/** Why a hash may not reproduce: the entry and the run used different text-metrics tables. */
+export function textMetricsNote(entry, stamp) {
+  const had = entry?.textMetrics;
+  if (had && !stamp)
+    return `registered with the ${had.family} kit table (test700At14px ${had.test700At14px}, ${had.platform}); pass --text-metrics to compare`;
+  if (!had && stamp && entry?.fileKey)
+    return "registered with the default text-metrics table; this run uses the kit table";
+  if (
+    had &&
+    stamp &&
+    (had.test700At14px !== stamp.test700At14px ||
+      had.fingerprint !== stamp.fingerprint)
+  )
+    return `kit table ${stamp.fingerprint} (test700At14px ${stamp.test700At14px}, ${stamp.platform}) differs from the registered ${had.fingerprint} (${had.test700At14px}, ${had.platform}): another platform, Chrome or font version`;
+  return null;
+}
 
 /** The action an agent takes for one component: create the file, update it, or nothing. */
 export function actionFor(entry, hash) {
@@ -85,6 +124,7 @@ export function plan({
       ? components
       : Object.keys(registry.files);
   const core = coreSource();
+  const stamp = textMetrics ? textMetricsStamp(textMetrics) : null;
   const items = wanted.map((component) => {
     const sheetFile = join(sheets, `${component}.json`);
     const changelogFile = join(
@@ -117,6 +157,8 @@ export function plan({
       hash,
       payloads: [],
     };
+    const note = textMetricsNote(entry, stamp);
+    if (note) item.note = note;
     if (action !== "current") {
       const dir = join(out, "payloads", component);
       mkdirSync(dir, { recursive: true });
@@ -154,6 +196,7 @@ export function record({
   fileKey,
   registryPath = defaultRegistry,
   date,
+  textMetrics,
 }) {
   const registry = readJson(registryPath);
   const entry = registry.files[component] ?? {};
@@ -161,6 +204,7 @@ export function record({
     fileKey: fileKey ?? entry.fileKey ?? null,
     hash,
     generatedAt: date ?? new Date().toISOString().slice(0, 10),
+    ...(textMetrics ? { textMetrics: textMetricsStamp(textMetrics) } : {}),
   };
   if (!registry.files[component].fileKey)
     throw new Error(`'${component}' has no fileKey: pass --file-key`);
@@ -202,11 +246,12 @@ function main(argv) {
       hash: opts.hash,
       fileKey: opts.fileKey,
       registryPath: opts.registry,
+      textMetrics: opts.textMetrics,
     });
     console.error(`recorded ${opts.positional[0]}: ${JSON.stringify(r)}`);
   } else {
     throw new Error(
-      "usage: plan.mjs plan [--all | <component>...] [-o dir] [--text-metrics file] | record <component> --hash <sha> [--file-key k]",
+      "usage: plan.mjs plan [--all | <component>...] [-o dir] [--text-metrics file] | record <component> --hash <sha> [--file-key k] [--text-metrics file]",
     );
   }
 }

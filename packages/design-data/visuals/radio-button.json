@@ -42,6 +42,9 @@
         "align": {
           "value": "center"
         },
+        "justify": {
+          "value": "start"
+        },
         "minHeight": {
           "relationship": {
             "property": "component-height-{sizeIndex}",
@@ -137,20 +140,8 @@
               }
             },
             "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, non emphasized)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true,
-                "isEmphasized": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (selected, emphasized)"
+              "property": "background-color",
+              "context": "Control"
             }
           },
           {
@@ -162,7 +153,7 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Control (disabled)"
+              "context": "Control"
             },
             "priority": 10
           }
@@ -173,18 +164,6 @@
               "property": "content-color",
               "context": "Control"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Control (disabled)"
-            },
-            "priority": 10
           }
         ]
       }
@@ -259,18 +238,6 @@
               "property": "content-color",
               "context": "Label"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "context": "Label (disabled)"
-            },
-            "priority": 10
           }
         ]
       }

@@ -280,6 +280,57 @@
           "metadata": {"count":6,"fields":["context","contextQualifier"]}
         }
       ]
+    },
+    {
+      "release": "3.13.0",
+      "version": "1.0.14",
+      "bump": "patch",
+      "date": "2026-11-13",
+      "commit": "bf03145172d55980e7bc23c22c622a31ff2a0256",
+      "commits": [
+        {
+          "commit": "5b20b303e2eb2a24942f208bdc405beb99bd4a45",
+          "date": "2026-11-13",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1807,"title":"fix(design-data): declare selected as a prop-driven state on three components","url":"https://github.com/adobe/spectrum-design-data/pull/1807"},
+          "entries": [
+            {"id":"5b20b303-0","kind":"state","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tree-view/states/selected","name":"selected","fields":[{"path":"trigger","before":"interaction","after":"prop"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.0.15",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "5ce2aa3c4ed45b01a5fb6200d45ba478b6d9d8e9",
+          "date": "2026-11-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1835,"title":"fix(design-data): pin selectionStyle in tree-view relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1835"},
+          "entries": [
+            {"id":"5ce2aa3c-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (edge to checkbox)"],"scope":{"property":"space-between","options":{"selectionStyle":"checkbox"}},"record":"55c1e072-6ae7-5afb-9eed-d6d75adaf1a8","name":"space-between[selectionStyle=checkbox]","fields":[{"path":"context","before":"Spacing (edge to checkbox, checkbox)","after":"Spacing (edge to checkbox)"}]},
+            {"id":"5ce2aa3c-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border width (selected)"],"scope":{"property":"border-width","options":{"selectionStyle":"highlight"}},"record":"8a8d1c1a-6792-5131-8a21-513fca05b580","name":"border-width[selectionStyle=highlight]","fields":[{"path":"context","before":"Border width (selected, highlight)","after":"Border width (selected)"}]},
+            {"id":"5ce2aa3c-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"color","options":null},"record":"fba9e9ed-088d-5c95-8fdf-b704059ead08","name":"color","fields":[{"path":"context","before":"Background (selected, checkbox)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"color","options":null},"record":"a5fbe4b7-c5fc-5087-ade8-ad395bc799fb","name":"color","fields":[{"path":"context","before":"Background (selected, checkbox)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"color","options":null},"record":"48bd927e-838c-56df-9ac2-6b25fb09fbee","name":"color","fields":[{"path":"context","before":"Background (selected, checkbox)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"color","options":null},"record":"6629a25d-c2be-5699-84b9-18e1f322d1c7","name":"color","fields":[{"path":"context","before":"Background (selected, checkbox)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"color","options":null},"record":"d58bff93-ce3b-54d2-aec6-f72d22a66218","name":"color","fields":[{"path":"context","before":"Background (selected, checkbox)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"color","options":null},"record":"db64ee48-d22b-54f6-a559-3a81d3de3394","name":"color","fields":[{"path":"context","before":"Background (selected, checkbox)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"color","options":{"selectionStyle":"highlight"}},"record":"e8fa0269-141b-5a64-aa5f-1ec49f05e25c","name":"color[selectionStyle=highlight]","fields":[{"path":"context","before":"Background (selected, highlight)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"opacity","options":{"selectionStyle":"highlight"}},"record":"1ea7f0c4-96b6-5f8f-a622-4d0cdef4e4c8","name":"opacity[selectionStyle=highlight]","fields":[{"path":"context","before":"Background (selected, highlight)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-10","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"color","options":{"selectionStyle":"highlight"}},"record":"52ab8770-f367-5c2c-9bd3-bbd405524677","name":"color[selectionStyle=highlight]","fields":[{"path":"context","before":"Background (selected, highlight)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-11","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background (selected)"],"scope":{"property":"opacity","options":{"selectionStyle":"highlight"}},"record":"2fbbfcdc-72ef-530f-aab5-90a55025acd3","name":"opacity[selectionStyle=highlight]","fields":[{"path":"context","before":"Background (selected, highlight)","after":"Background (selected)"}]},
+            {"id":"5ce2aa3c-12","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border (selected)"],"scope":{"property":"content-color","options":{"selectionStyle":"highlight"}},"record":"185a04cb-a1ad-54f8-887a-75a2ee8ba194","name":"content-color[selectionStyle=highlight]","fields":[{"path":"context","before":"Border (selected, highlight)","after":"Border (selected)"}]},
+            {"id":"5ce2aa3c-13","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label and icon (selected)"],"scope":{"property":"content-color","options":null},"record":"0187ef2e-bcf3-5759-aa00-a12205b2eb61","name":"content-color","fields":[{"path":"context","before":"Label and icon (selected, checkbox and highlight)","after":"Label and icon (selected)"}]},
+            {"id":"5ce2aa3c-14","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label and icon (selected)"],"scope":{"property":"content-color","options":null},"record":"d278c4d2-6529-52af-916b-6902e350c266","name":"content-color","fields":[{"path":"context","before":"Label and icon (selected, checkbox and highlight)","after":"Label and icon (selected)"}]},
+            {"id":"5ce2aa3c-15","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label and icon (selected)"],"scope":{"property":"content-color","options":null},"record":"feb1f9ea-753f-5cf4-a127-c57c91d57e2b","name":"content-color","fields":[{"path":"context","before":"Label and icon (selected, checkbox and highlight)","after":"Label and icon (selected)"}]},
+            {"id":"5ce2aa3c-16","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Label and icon (selected)"],"scope":{"property":"content-color","options":null},"record":"beded186-295f-59df-95fb-7ccb9300591b","name":"content-color","fields":[{"path":"context","before":"Label and icon (selected, checkbox and highlight)","after":"Label and icon (selected)"}]}
+          ],
+          "metadata": {"count":18,"fields":["context","contextQualifier","scope.options.selectionStyle"]}
+        }
+      ]
     }
   ]
 }

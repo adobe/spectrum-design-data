@@ -30,12 +30,16 @@ pub mod legacy;
 pub mod manifest;
 pub mod migrate;
 pub mod naming;
+pub mod platform_impact;
 pub mod primer;
 pub mod query;
+#[cfg(feature = "raster")]
+pub mod raster;
 pub mod record_diff;
 pub mod registry;
 pub mod report;
 pub mod schema;
+pub mod scope;
 pub mod suggest;
 pub mod text_metrics;
 pub mod validate;

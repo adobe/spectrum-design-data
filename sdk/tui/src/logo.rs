@@ -50,6 +50,10 @@ pub(crate) const COMMANDS: &[(&str, &str)] = &[
     ("name [<intent>]", "Open the token naming wizard"),
     ("find", "Open the fuzzy-find token explorer"),
     ("authoring", "Open the token lifecycle action-picker"),
+    (
+        "preview <component>",
+        "Draw a component from its visual recipe",
+    ),
     ("quit", "Quit the TUI"),
     ("?", "Toggle help"),
 ];

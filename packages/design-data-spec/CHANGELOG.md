@@ -1,5 +1,94 @@
 # @adobe/design-data-spec
 
+## 4.21.1
+
+### Patch Changes
+
+- [#1865](https://github.com/adobe/spectrum-design-data/pull/1865) [`1b01d40`](https://github.com/adobe/spectrum-design-data/commit/1b01d40baf3edafef26ca9e3a2d96c288e86cf31) Thanks [@GarthDB](https://github.com/GarthDB)! - SVG label text now uses the font stack `'Adobe Clean Spectrum VF', adobe-clean-spectrum-vf,
+'Adobe Clean', 'Source Sans 3', sans-serif`. Browsers match family names exactly, so the old
+  lead name `adobe-clean-spectrum-vf` missed an installed Adobe Clean Spectrum VF and the label
+  fell to the generic sans-serif, about 18 % wider: "Save changes" (700, 16 px) measured
+  106.73 px against about 90 px and overran the button's right padding.
+
+  `renderComponentSvg(request, fonts?)` takes the same font list as `renderComponentPng` and
+  sizes the layout with the first non-fallback font. `design-data-render` passes the installed
+  Adobe Clean Spectrum VF when it finds one, so SVG boxes fit the text a viewer with that font
+  draws. Without it the Source Sans 3 table is used, as before.
+
+## 4.21.0
+
+### Minor Changes
+
+- [#1857](https://github.com/adobe/spectrum-design-data/pull/1857) [`2a1e521`](https://github.com/adobe/spectrum-design-data/commit/2a1e521b6f62f5e65f5b3db15379a7888c929392) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-100 (warning): relationship records of one component that share `property`, `context`
+  and `$ref` and differ only in the value of one declared option SHOULD be one record that pins
+  an array. Records with a `legacyKey` and records that use an any-of are skipped. It has a
+  conformance case.
+
+- [#1848](https://github.com/adobe/spectrum-design-data/pull/1848) [`da44b61`](https://github.com/adobe/spectrum-design-data/commit/da44b61596c59dfdd3434fca196e7f48f3ff95b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Add rules SPEC-094 to SPEC-099 for any-of in relationship scopes (proposal 017): a state repeated
+  across elements of one state array (SPEC-094), a component option named `anyOf` (SPEC-095, error),
+  an `anyOf` over one option (SPEC-096), a redundant alternative (SPEC-097), an alternative that
+  pins no declared option (SPEC-098), and a record with a `legacyKey` that uses an any-of
+  (SPEC-099, error). Each has a conformance case.
+
+- [#1847](https://github.com/adobe/spectrum-design-data/pull/1847) [`d12b8bc`](https://github.com/adobe/spectrum-design-data/commit/d12b8bce115b3c2f494de0b9d3739191b4ed8287) Thanks [@GarthDB](https://github.com/GarthDB)! - Add any-of to relationship scopes (proposal 017). `scope.options.anyOf` is an array of option
+  conditions: the record applies when its other pins match and at least one alternative matches, so
+  "selected or indeterminate" is one record. An element of `scope.options.state` may be
+  `{ "anyOf": [state, ...] }`. A record with an any-of is equivalent to one record per alternative
+  with the same `$ref`. `anyOf` is reserved as an option name, an any-of cannot be used on a record
+  that carries its own `value` or a `legacyKey`, and SPEC-053 and SPEC-054 check each alternative
+  and member. `relationship.schema.json` accepts both forms.
+  `relationship.schema.json` also allows numeric option pins (for example `scaleIndex`), which the
+  data already uses.
+
+- [#1863](https://github.com/adobe/spectrum-design-data/pull/1863) [`8d25409`](https://github.com/adobe/spectrum-design-data/commit/8d2540928d4618fe4340b570a33eb4f8f22cb680) Thanks [@GarthDB](https://github.com/GarthDB)! - An engine MUST refuse a relationship record whose `scope` has a field it does not know
+  (`component`, `part`, `property` and `options` are the known ones), and MUST NOT ignore it. This
+  is the gate that ships before new scope fields (`between`, bead p6ga.21.24) are allowed in data,
+  so an engine built before them fails loudly instead of treating two records that differ only by
+  such a field as identical.
+
+- [#1856](https://github.com/adobe/spectrum-design-data/pull/1856) [`7a5a511`](https://github.com/adobe/spectrum-design-data/commit/7a5a51166a61074fd9435d415f1f7ee2248fcb2e) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-093 is now an error: a relationship `context` MUST NOT name a value of an option the
+  component declares, a boolean option name or its negation (proposal 017, bead p6ga.21.9). A
+  `size` value counts in its spelled form (`m` is `medium`). The data in this repository has no
+  violation left, so the baseline entry is gone.
+
+## 4.20.0
+
+### Minor Changes
+
+- [#1846](https://github.com/adobe/spectrum-design-data/pull/1846) [`254adf1`](https://github.com/adobe/spectrum-design-data/commit/254adf11b565f4768a69340a5ccadc1e72303dbe) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the rule that an engine must refuse a relationship record whose `scope.options` holds a value
+  shape it does not understand, instead of ignoring the key. The understood shapes are an array of
+  strings for `state`, and a string, number or boolean (or an array of those) for every other
+  option. This lets a later version add a shape, such as an any-of across options, without an older
+  engine silently applying the record to every request.
+
+## 4.19.0
+
+### Minor Changes
+
+- [#1822](https://github.com/adobe/spectrum-design-data/pull/1822) [`5574cc4`](https://github.com/adobe/spectrum-design-data/commit/5574cc4b6835105742025f482c3305f5642dc6e3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add rule SPEC-093 (`relationship-context-names-option`, warning). A relationship `context` that
+  names a component option value, such as `Control (selected, non emphasized)`, should pin that
+  option in `scope.options` instead. A record that pins no option is the default, so the default
+  value needs no label in the context. Existing data is held at a baseline until it is migrated.
+
+## 4.18.0
+
+### Minor Changes
+
+- [#1804](https://github.com/adobe/spectrum-design-data/pull/1804) [`039914f`](https://github.com/adobe/spectrum-design-data/commit/039914f80477d12846434c8024daa6defcf2b3e8) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `layoutRevision` to `dataset.json` and publish `dataset.json` with the data package. The
+  renderer has its own layout revision and the CLI warns when it differs from the data's, so a
+  CLI newer than the data (the #1799 case) is reported instead of silently rendering differently.
+
+- [#1796](https://github.com/adobe/spectrum-design-data/pull/1796) [`331dc43`](https://github.com/adobe/spectrum-design-data/commit/331dc43983087cfd807dd364240b234fc4ef0dab) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `repeat` to visual recipes: a recipe can draw its root once per entry of an
+  array option, stacked in a column. The accordion recipe repeats its item over
+  `items`, so a render can show several items with their own titles and open state
+  (`isExpanded`, `hasSwitch`, `hasActionButton`). A request without `items` renders
+  exactly as before.
+
+- [#1805](https://github.com/adobe/spectrum-design-data/pull/1805) [`0276017`](https://github.com/adobe/spectrum-design-data/commit/027601793b6ea70dc113669d3037b0797761930f) Thanks [@GarthDB](https://github.com/GarthDB)! - A row recipe that binds no `minHeight` and no block padding now hugs its content instead of
+  being 32px high (layout revision 2). A row with no flowed children is now 0 high, not 32.
+  Recipes outside this repository that relied on the 32 must bind `minHeight` or block padding.
+  No shipped recipe changes: the render snapshots and the iOS recipes are identical. Fixes #1800.
+
 ## 4.17.1
 
 ### Patch Changes

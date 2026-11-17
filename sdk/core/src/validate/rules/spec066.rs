@@ -16,7 +16,9 @@
 //! binds carries the state, or when it is implied: `size` by `sizeScale`,
 //! `label` by a text part, and `isDisabled` / `isSelected` by the `disabled` /
 //! `selected` states (and the reverse). `notVisual` names MUST be declared and
-//! SHOULD NOT also be used.
+//! SHOULD NOT also be used. A `repeat` block MUST name a declared array option, its
+//! `with` keys MUST be declared options, and its `label` and `with` fields MUST be
+//! properties of that option's item schema (when it lists any).
 
 use std::collections::BTreeSet;
 
@@ -95,6 +97,9 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
     });
+    if let Some(o) = v.raw.pointer("/repeat/option").and_then(Value::as_str) {
+        used.options.insert(o.into());
+    }
     if !sizes.is_empty() {
         used.options.insert("size".into());
     }
@@ -182,6 +187,45 @@ impl ValidationRule for Rule {
                             "State '{state}' of '{name}' does not affect the recipe; use it in a condition or list it in notVisual"
                         ),
                     ));
+                }
+            }
+            if let Some(rep) = v.raw.get("repeat").and_then(Value::as_object) {
+                let opt = rep.get("option").and_then(Value::as_str).unwrap_or("");
+                let def = comp.raw.pointer(&format!("/options/{opt}"));
+                let mut bad = |path: &str, msg: String| {
+                    out.push(warning(self.id(), v, path, msg));
+                };
+                match def {
+                    None => bad(
+                        "/repeat/option",
+                        format!("repeat names option '{opt}', which '{name}' does not declare"),
+                    ),
+                    Some(d) if d.get("type").and_then(Value::as_str) != Some("array") => bad(
+                        "/repeat/option",
+                        format!("repeat names option '{opt}' of '{name}', which is not an array"),
+                    ),
+                    Some(d) => {
+                        let fields = d.pointer("/items/properties").and_then(Value::as_object);
+                        let with = rep.get("with").and_then(Value::as_object);
+                        let mapped = with.into_iter().flatten().filter_map(|(k, f)| {
+                            if !options.contains(k) {
+                                bad(
+                                    "/repeat/with",
+                                    format!("repeat sets '{k}', which '{name}' does not declare as an option"),
+                                );
+                            }
+                            f.as_str()
+                        });
+                        let label = rep.get("label").and_then(Value::as_str);
+                        for f in mapped.chain(label).collect::<Vec<_>>() {
+                            if fields.is_some_and(|p| !p.contains_key(f)) {
+                                bad(
+                                    "/repeat",
+                                    format!("repeat reads entry field '{f}', which the items of '{opt}' do not declare"),
+                                );
+                            }
+                        }
+                    }
                 }
             }
             for nv in &not_visual {
@@ -276,6 +320,35 @@ mod tests {
         assert_eq!(diags.len(), 1, "{diags:?}");
         assert_eq!(diags[0].severity, Severity::Warning);
         assert!(diags[0].message.contains("'isReadOnly'"));
+    }
+
+    #[test]
+    fn repeat_must_name_a_declared_array_option_and_known_fields() {
+        let comp = json!({
+            "name": "switch",
+            "options": {
+                "isSelected": {"type": "boolean"},
+                "isReadOnly": {"type": "boolean"},
+                "items": {"type": "array", "items": {"type": "object", "properties": {"label": {}, "on": {}}}}
+            },
+            "states": [{"name": "hover"}, {"name": "selected"}]
+        });
+        let r = |rep: serde_json::Value| {
+            let d = run(
+                recipe(json!({"notVisual": ["isReadOnly"], "repeat": rep})),
+                comp.clone(),
+            );
+            d.into_iter().map(|d| d.message).collect::<Vec<_>>()
+        };
+        let ok = json!({"option": "items", "label": "label", "with": {"isSelected": "on"}});
+        assert!(r(ok).is_empty());
+        let has = |m: Vec<String>, t: &str| m.iter().any(|x| x.contains(t));
+        assert!(has(r(json!({"option": "itms"})), "does not declare"));
+        assert!(has(r(json!({"option": "isSelected"})), "not an array"));
+        let m = r(
+            json!({"option": "items", "label": "title", "with": {"nope": "on", "isSelected": "gone"}}),
+        );
+        assert_eq!(m.len(), 3, "{m:?}");
     }
 
     #[test]
