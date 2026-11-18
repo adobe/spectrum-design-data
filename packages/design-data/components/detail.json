@@ -30,6 +30,9 @@
       "default": "m",
       "values": [
         {
+          "value": "xs"
+        },
+        {
           "value": "s"
         },
         {

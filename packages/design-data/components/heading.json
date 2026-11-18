@@ -43,6 +43,9 @@
       "default": "m",
       "values": [
         {
+          "value": "xxs"
+        },
+        {
           "value": "xs"
         },
         {
@@ -62,6 +65,9 @@
         },
         {
           "value": "xxxl"
+        },
+        {
+          "value": "xxxxl"
         }
       ]
     }

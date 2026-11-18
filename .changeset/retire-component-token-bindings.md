@@ -16,5 +16,8 @@ Remove the component `tokenBindings` field. Relationships carry that data.
   relationship is now scoped to size `m`; `s`, `l` and `xl` have their own. The three names
   were referenced but never defined.
 - **Tabs, date picker:** four bindings that had no relationship now have one.
+- **Component data:** declares anatomy parts, sizes and a `default` state that relationships
+  already used (steplist, menu, table, tag-field, body, heading, detail); list-view and
+  radio-button relationships now name their existing parts.
 - **Agent MCP:** `describe_component` returns `relationships`; docs no longer mention
   `tokenBindings`.

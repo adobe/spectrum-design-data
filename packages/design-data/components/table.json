@@ -209,7 +209,8 @@
       "name": "header-row-checkbox",
       "description": "Select-all checkbox within the column header row."
     },
-    { "name": "section-header" }
+    { "name": "section-header" },
+    { "name": "divider" }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
