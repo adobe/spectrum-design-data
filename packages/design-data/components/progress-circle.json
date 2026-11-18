@@ -53,10 +53,10 @@
     }
   ],
   "options": {
-    "variant": {
+    "staticColor": {
       "type": "string",
-      "default": "default",
-      "values": [{ "value": "default" }, { "value": "over background" }]
+      "description": "Static color for use on colored backgrounds. White draws a light ring, black a dark one. Unset is the regular ring.",
+      "values": [{ "value": "white" }, { "value": "black" }]
     },
     "value": {
       "type": "number",
@@ -69,7 +69,7 @@
     },
     "maxValue": {
       "type": "number",
-      "default": 1,
+      "default": 100,
       "description": "Not applicable when indeterminate."
     },
     "size": {
@@ -92,9 +92,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (Progress circle page shared with in-field-progress-circle). No container: the track is the outermost drawn element. fill left optional because it is absent at 0%."
+    "notes": "Matches Figma S2 Web (Progress circle): its Track ellipse is the track and its Fill is the fill. No container: the track is the outermost drawn element. fill is optional because it is absent at 0%, and a full ring at 100%."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

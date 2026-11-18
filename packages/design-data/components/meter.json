@@ -92,7 +92,7 @@
     },
     "value": { "type": "number" },
     "minValue": { "type": "number", "default": 0 },
-    "maxValue": { "type": "number", "default": 1 },
+    "maxValue": { "type": "number", "default": 100 },
     "helpText": { "type": "string" }
   },
   "anatomy": [

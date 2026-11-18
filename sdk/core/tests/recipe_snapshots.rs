@@ -350,6 +350,7 @@ recipe_tests! {
     help_text => "help-text",
     meter => "meter",
     progress_bar => "progress-bar",
+    progress_circle => "progress-circle",
     radio_button => "radio-button",
     switch => "switch",
 }
