@@ -21,6 +21,9 @@ in step 2. All design-data work happens in a separate worktree.
   refactors. If something the brief doesn't cover is needed, stop and ask.
 * Ask one question at a time with the `ask_user` tool, with choices where
   possible. Use plain English.
+* Approval must come from the user. An automatic answer such as "the user is
+  not available" (for example in autopilot mode) is not approval. Stop at
+  that approval point, report what's done and what needs approval, and wait.
 * Never commit to `main`, force push, stash, reset or rebase the user's
   checkout. Never mix Studio changes into the pull request.
 * Follow the root `AGENTS.md` rules and the
@@ -105,6 +108,9 @@ Then install dependencies inside the new worktree with
   worktree path is taken, stop and ask.
 * Do all remaining steps inside the worktree. RFC files don't exist on `main`;
   rely on what you read in steps 1 and 2.
+* Never switch, commit to or otherwise change the user's own checkout and
+  branch. Record that branch (`git branch --show-current`) before starting, and
+  confirm in step 10 that it is still checked out there.
 
 ## 4. Implement the brief
 
@@ -245,19 +251,31 @@ about it. Prepared with help from an AI agent.
 
 ## 9. Push and open the draft pull request
 
-After approval, from the worktree:
+After approval, from the worktree. Always request review from `GarthDB` and
+add the `enhancement` label:
 
 ```bash
 git push -u origin feat/rfc-<slug>
 gh pr create --draft --base main --head feat/rfc-<slug> --assignee @me \
+  --reviewer GarthDB --label enhancement \
   --title "<title>" --body-file <body file outside the repository>
 ```
+
+If `gh pr create` is refused (for example, "As an Enterprise Managed User,
+you cannot access this content"), don't switch accounts on your own. Tell the
+user they can sign in to a personal account with `gh auth login`. If an app
+`GH_TOKEN` overrides that login, run `env -u GH_TOKEN gh pr create …` once they
+confirm. Otherwise give them the compare link,
+`https://github.com/adobe/spectrum-design-data/compare/main...feat/rfc-<slug>?expand=1`,
+and the body file path so they can open the draft PR in the browser.
 
 ## 10. Report back
 
 Tell the user, briefly:
 
 * The draft pull request link and branch.
+* That their original checkout is still on the branch recorded in step 3. If
+  it isn't, switch it back before reporting.
 * The worktree path, and that it can be removed after merge with
   `git worktree remove ../spectrum-design-data-rfc-<slug>`.
 * Whether the RFC brief was written back (uncommitted) in the Studio checkout.
