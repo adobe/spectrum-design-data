@@ -38,6 +38,26 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "61399b3fa6f9c57e57db3f9cdc848cf2f01ef3e3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1933,"title":"feat(design-data): opacity-checkerboard visual recipe; checkerboard pattern, dimension source","url":"https://github.com/adobe/spectrum-design-data/pull/1933"},
+          "entries": [
+            {"id":"61399b3f-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/options/size","name":"size","fields":[],"after":{"type":"string","default":"m","values":[{"value":"s"},{"value":"m"}]}},
+            {"id":"61399b3f-1","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/options/verticalSize","name":"verticalSize","fields":[{"path":"default","after":16}]},
+            {"id":"61399b3f-2","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/options/horizontalSize","name":"horizontalSize","fields":[{"path":"default","after":24}]},
+            {"id":"61399b3f-3","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual","name":"opacity-checkerboard","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

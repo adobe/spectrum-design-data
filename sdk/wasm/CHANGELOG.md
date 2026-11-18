@@ -1,5 +1,60 @@
 # @adobe/design-data-wasm
 
+## 0.30.0
+
+### Minor Changes
+
+- [#1931](https://github.com/adobe/spectrum-design-data/pull/1931) [`3d38baa`](https://github.com/adobe/spectrum-design-data/commit/3d38baa1177069600f2f3aa4810857dde98dc7d0) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an in-field progress circle visual recipe. It draws one fixed arc frame, since the component
+  has no determinate form.
+  - Renders size (s, m, l, xl) and the white and black static colors, all bound through
+    relationships. Anatomy (track, fill) is reviewed.
+  - Static color records now pin `scope.options.staticColor` instead of naming the color in the
+    context, and bind the `transparent-static-*` replacements for the deprecated
+    `transparent-white` and `transparent-black` tokens. Their alpha moves to 0.16 and 0.96.
+  - Sizes follow Figma S2 Web: 16, 18, 20 and 22 px on desktop (m, l and xl were 20, 22 and 26).
+    Mobile m, l and xl become 23, 25 and 28 px (desktop x 1.25); mobile s stays 18 px.
+  - Thickness uses `progress-circle-thickness-small` (2 px desktop, 3 px mobile) at every size, as
+    Figma and React Spectrum draw it. The "S1 Thickness" medium and large records are removed.
+
+- [#1933](https://github.com/adobe/spectrum-design-data/pull/1933) [`61399b3`](https://github.com/adobe/spectrum-design-data/commit/61399b3fa6f9c57e57db3f9cdc848cf2f01ef3e3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the opacity-checkerboard visual recipe, with the renderer features it needs.
+  - New box props `patternFill` and `patternSize`: a box draws a checkerboard of squares of
+    `patternSize` in its `fill` and `patternFill`, `fill` at the top-left, clipped to its corners.
+    SVG uses a `<pattern>`, PNG draws the squares. Scene nodes carry a `pattern` field.
+  - New value source `{"dimension": "<name>"}`: a size in pixels the request carries in a numeric
+    option, for an extent no token holds. An invalid value is dropped with a diagnostic.
+  - Relationship-owned alias tokens (a `$ref` and no `context`) now resolve, so a relationship
+    can bind the checkerboard colors, which alias palette tokens.
+  - opacity-checkerboard declares a `size` option (`s`, `m`, default `m`) that its square size
+    relationships already pinned, and defaults for `verticalSize` (16) and `horizontalSize` (24).
+    Anatomy is still draft until reviewed.
+
+- [#1936](https://github.com/adobe/spectrum-design-data/pull/1936) [`67a4cab`](https://github.com/adobe/spectrum-design-data/commit/67a4cabd057de53e36b8ee3c561dbdff9ee2f3b7) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the thumbnail visual recipe.
+  - Draws size (all 12 values, desktop and mobile), the opacity checkerboard, the rounded corners,
+    the inset border and the disabled look (opacity 0.3). The image is not drawn yet.
+  - The 24 Size relationships now pin the `size` option, so each size picks its own token.
+  - thumbnail declares `hideImage` and `isDisabled` options and a default `size` of 500.
+    Anatomy is still draft until reviewed.
+
+### Patch Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`0b8924f`](https://github.com/adobe/spectrum-design-data/commit/0b8924f15646d42b4787537648f079eb86d0c9c3) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Refine size tokens per the Size semantic tokens RFC (SDS-16264, SDS-16083).
+  - **New shared tokens**: 149 added (`banner-*`, `base-*`, `container-*`, `size-*`, `field-width-*`).
+  - **Deprecations**: 231 deprecated, 17 with no replacement; 45 computed or platform tokens stay.
+  - **Calculated sizing**: 6 replacements are calculated (input height x 4, media width / ratio).
+  - **Mobile**: 59 shared tokens get a mobile value (x 1.25, half up); 4 widths keep their S2
+    mobile values. 11 component tokens stay active at their S2 sizes: 3 color controls, 7 color
+    area, wheel and handle sizes (x 1.25 on mobile), and the thumbnail checkerboard (4px).
+  - **Width exceptions**: `illustrated-message-vertical-maximum-width` is 352px,
+    `card-minimum-width-large` is 288px, and both dialog minimum widths stay 288px,
+    on desktop and mobile.
+  - **Divider and tooltip tip**: divider L is 4px desktop, 5px mobile; tooltip tip is 4x8px, 5x10px.
+  - **Value changes**: `field-width-*` return at 144/192/240/288px; divider minimum length is 16px.
+  - **Relationships**: 499 repointed to shared tokens, 24 duplicates removed.
+  - **visuals/accordion.json**: size M preview width uses `field-width-large`.
+  - **design-data-wasm**: rebuilt so the embedded dataset has these changes.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+
 ## 0.29.0
 
 ### Minor Changes

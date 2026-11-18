@@ -101,6 +101,26 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height & width"],"scope":{"property":"height","options":null},"record":"be327284-79fe-40b7-b996-8ad176d40d8e","name":"height","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"}],"rationale":"Deprecated via refine-from-sheets from row 361 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height & width"],"scope":{"property":"height","options":null},"record":"be327284-79fe-40b7-b996-8ad176d40d8e","name":"height","fields":[{"path":"lifecycle.deprecatedComment","after":"Full-screen behavior (100% of viewport), not a fixed size; not appropriate for a foundational token."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 361 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 361 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height & width"],"scope":{"property":"width","options":null},"record":"bb70e39d-c686-4cd2-a991-6b51fa16d9df","name":"width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"}],"rationale":"Deprecated via refine-from-sheets from row 362 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height & width"],"scope":{"property":"width","options":null},"record":"bb70e39d-c686-4cd2-a991-6b51fa16d9df","name":"width","fields":[{"path":"lifecycle.deprecatedComment","after":"Full-screen behavior (100% of viewport), not a fixed size; not appropriate for a foundational token."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 362 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 362 of the mapping sheet."}
+          ]
+        }
+      ]
     }
   ]
 }

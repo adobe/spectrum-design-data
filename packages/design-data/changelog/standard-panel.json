@@ -43,6 +43,28 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width (maximum)"],"scope":{"property":"maximum-width","options":null},"record":"11400ef3-c995-41bc-8a9d-eb389d95f360","name":"maximum-width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"}],"rationale":"Deprecated via refine-from-sheets from row 276 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (maximum)"],"scope":{"property":"maximum-width","options":null},"record":"11400ef3-c995-41bc-8a9d-eb389d95f360","name":"maximum-width","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 276 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 276 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":null},"record":"37ab7428-8175-409f-8e74-55e51a962139","name":"minimum-width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"21fbb997-609d-44f2-a3ac-44c8fd2b3d3d"}],"rationale":"Deprecated via refine-from-sheets from row 277 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":null},"record":"37ab7428-8175-409f-8e74-55e51a962139","name":"minimum-width","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 277 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 277 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":null},"record":"41cd9d92-4d69-4aaa-9c95-e980aa5eb992","name":"width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"}],"rationale":"Deprecated via refine-from-sheets from row 278 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":null},"record":"41cd9d92-4d69-4aaa-9c95-e980aa5eb992","name":"width","fields":[{"path":"lifecycle.deprecatedComment","after":"Manually adjusted per t-shirt size, bounded by separate min/max tokens; not appropriate for a foundational token."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 278 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 278 of the mapping sheet."}
+          ]
+        }
+      ]
     }
   ]
 }

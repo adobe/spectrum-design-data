@@ -146,7 +146,7 @@
     },
     "context": "Maximum width",
     "contextRole": ["width"],
-    "$ref": "45258afa-543b-4fbc-a621-677d8081c2f1",
+    "$ref": "b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057",
     "uuid": "30e0637c-033b-5a5b-b437-aa6f08ce26da"
   },
   {
@@ -446,7 +446,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "480px",
     "uuid": "45258afa-543b-4fbc-a621-677d8081c2f1",
-    "legacyKey": "alert-dialog-maximum-width"
+    "legacyKey": "alert-dialog-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 12 of the mapping sheet."
   },
   {
     "scope": {

@@ -3,5 +3,24 @@
   "specVersion": "1.0.0-draft",
   "component": "color-control",
   "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
-  "releases": []
+  "releases": [
+    {
+      "release": "3.22.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"424db2a9-5795-400b-a98a-58081d311bff","name":"width[scale=desktop]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"07e3ac46-3f96-4c00-aa6a-09840ee04bdd","name":"width[scale=mobile]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}
+          ]
+        }
+      ]
+    }
+  ]
 }

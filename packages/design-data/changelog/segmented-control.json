@@ -230,6 +230,26 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":null},"record":"4aaef8d2-aa58-46b8-837c-15d794cfcdb5","name":"height","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"61de58a3-53ed-4dd8-8937-08920b00968c"}],"rationale":"Deprecated via refine-from-sheets from row 251 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":null},"record":"4aaef8d2-aa58-46b8-837c-15d794cfcdb5","name":"height","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 251 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 251 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width (maximum)"],"scope":{"property":"maximum-width","options":null},"record":"efa7a73d-611e-44a1-8ea5-0bad83ef77de","name":"maximum-width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"2038fafb-2a72-462e-bf57-1b6c45b6a2a5"}],"rationale":"Deprecated via refine-from-sheets from row 252 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (maximum)"],"scope":{"property":"maximum-width","options":null},"record":"efa7a73d-611e-44a1-8ea5-0bad83ef77de","name":"maximum-width","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 252 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 252 of the mapping sheet."}
+          ]
+        }
+      ]
     }
   ]
 }

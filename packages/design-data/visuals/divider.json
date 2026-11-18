@@ -53,7 +53,7 @@
           },
           "relationship": {
             "property": "vertical-minimum-height",
-            "context": "Horizontal"
+            "context": "Vertical"
           }
         },
         "cornerRadius": {

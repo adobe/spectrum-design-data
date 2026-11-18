@@ -7,7 +7,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "39c39c14-0500-4bf6-a542-967697aaff41",
+    "$ref": "188453d2-7e27-414d-b5a2-680653844526",
     "uuid": "bac11c8a-34c5-568a-8c03-d3d28d9171a2"
   },
   {
@@ -18,7 +18,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "976298d3-326f-43da-aa71-bbd2dc1fad3d",
+    "$ref": "1e14bd31-91d6-5968-9a56-2c543145dc45",
     "uuid": "57ad31a4-567c-5298-9cad-d19b7dac5864"
   },
   {
@@ -29,7 +29,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
+    "$ref": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d",
     "uuid": "6cba1098-05be-5dcb-828a-ece20f9cc639"
   },
   {
@@ -40,7 +40,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "db379ff6-9ef2-44ee-9fce-32f1a53d68da",
+    "$ref": "96d49f3b-62aa-5948-ad46-4c069630ad48",
     "uuid": "88b0cf8d-1162-5b11-aabb-01d93e443bc4"
   },
   {
@@ -51,7 +51,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
+    "$ref": "0fb38ac8-dbfb-442a-b142-3435102fe879",
     "uuid": "999ee532-b177-5685-a5fa-4630904746b6"
   },
   {
@@ -62,7 +62,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "88dfd273-555a-49bc-9271-a63ad45964e2",
+    "$ref": "2422391b-9ccc-521a-a4b8-0ce1aa01bb7b",
     "uuid": "68a3e909-1c7c-547e-bf0b-575c77352a6e"
   },
   {
@@ -73,7 +73,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "23090def-780a-48cb-b644-8edd55189d46",
+    "$ref": "4c09da43-93d3-46ed-8302-dc685d099097",
     "uuid": "e5313e70-a06e-5067-971c-a95c61f0acaa"
   },
   {
@@ -84,7 +84,7 @@
     "context": "Width (default)",
     "contextRole": ["width"],
     "contextQualifier": "default",
-    "$ref": "068a256a-8dfc-4616-bdc1-8895441ba90b",
+    "$ref": "14c5152e-77ae-5f05-b80c-286323b648b4",
     "uuid": "8b599c58-23fa-5ac3-b579-096c8b3eb9c7"
   },
   {
@@ -150,7 +150,7 @@
     "context": "Height (slider control)",
     "contextRole": ["height"],
     "contextQualifier": "slider control",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "2557acbe-7850-5f43-a744-07f7169992f5"
   },
   {
@@ -161,7 +161,7 @@
     "context": "Height (slider control)",
     "contextRole": ["height"],
     "contextQualifier": "slider control",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "2d83dc53-a61e-500e-8618-4a0718c06926"
   },
   {
@@ -172,7 +172,7 @@
     "context": "Height (slider control)",
     "contextRole": ["height"],
     "contextQualifier": "slider control",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "fcb1c528-fa70-552d-9c03-db4e92a87e03"
   },
   {
@@ -183,7 +183,7 @@
     "context": "Height (slider control)",
     "contextRole": ["height"],
     "contextQualifier": "slider control",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "3f8549ce-d841-5642-98ee-989f2e085350"
   },
   {
@@ -194,7 +194,7 @@
     "context": "Height (slider control)",
     "contextRole": ["height"],
     "contextQualifier": "slider control",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "ef31feb3-de44-51c7-a2d4-32acd3ce4367"
   },
   {
@@ -205,7 +205,7 @@
     "context": "Height (slider control)",
     "contextRole": ["height"],
     "contextQualifier": "slider control",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "df82c29f-35de-5194-a543-944425c60905"
   },
   {
@@ -216,7 +216,7 @@
     "context": "Height (slider control)",
     "contextRole": ["height"],
     "contextQualifier": "slider control",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "0e2d200c-1dd0-55f8-8627-4392ead32c85"
   },
   {
@@ -227,7 +227,7 @@
     "context": "Height (slider control)",
     "contextRole": ["height"],
     "contextQualifier": "slider control",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "1a6e6268-5547-5949-8220-f7738ab34708"
   },
   {
@@ -238,7 +238,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "688b473d-84bc-4964-b985-63cf5fdbf7d4",
+    "$ref": "95da353d-54f0-4a42-bc7d-4b1e99571f96",
     "uuid": "3f8e1ecd-2658-5111-bf2b-c295545a7dd8"
   },
   {
@@ -249,7 +249,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "fea1de33-ef0f-4c50-ab19-75542f995d35",
+    "$ref": "b3704430-52a4-5bcf-936d-dfa4a4c4faa2",
     "uuid": "e0265821-e343-593a-8490-092badd161de"
   },
   {
@@ -260,7 +260,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "404ce1f8-593c-4738-b9a6-d1969a95b20e",
+    "$ref": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5",
     "uuid": "ced8d92a-0eeb-576d-9a68-694cc70a2ec9"
   },
   {
@@ -271,7 +271,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "b17da639-665a-4a4c-8105-f30503b823a0",
+    "$ref": "ff2d5a3d-dddb-52b7-b182-71f100ed8b80",
     "uuid": "c398eb61-40cb-55c5-b78b-b28a2addb68c"
   },
   {
@@ -282,7 +282,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "920a0f76-d61d-4362-8b50-fb6a98e62229",
+    "$ref": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20",
     "uuid": "b2d4f7b9-35ca-53d7-beb4-3ebc9342335e"
   },
   {
@@ -293,7 +293,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "3f14b28b-1289-4a72-89b0-b2fbcf54325e",
+    "$ref": "c25b80df-3ec6-508a-9c75-e550972cce19",
     "uuid": "1ae8f682-f8b8-5e2d-b5d5-ac17b35532eb"
   },
   {
@@ -304,7 +304,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "0b83b5fd-117d-4257-bf77-fce39bfa8e3b",
+    "$ref": "1139d209-51e9-4020-9a76-4fa0f4e7c868",
     "uuid": "a55dd1ff-4066-5a5a-81eb-90e1061b78df"
   },
   {
@@ -315,7 +315,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "caa26be5-d26c-4e5a-aae8-87e0380920da",
+    "$ref": "8bca789b-593d-5563-8bd5-eeb1b987631b",
     "uuid": "29a8f53d-0156-5f9f-b970-5a82883828df"
   },
   {
@@ -326,7 +326,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "c2e986a2-2b56-4a82-b4a2-87850ca90d8c",
+    "$ref": "95da353d-54f0-4a42-bc7d-4b1e99571f96",
     "uuid": "e931fca4-fc96-55a3-9391-c1d38ae8a959"
   },
   {
@@ -337,7 +337,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "a93712dc-247e-46f4-bb42-d2d1b8896d7e",
+    "$ref": "b3704430-52a4-5bcf-936d-dfa4a4c4faa2",
     "uuid": "1e2f7f62-acaa-5ae9-8c22-27c0cd825741"
   },
   {
@@ -348,7 +348,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "0d211640-08bf-4a09-98d8-1398ba70b072",
+    "$ref": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5",
     "uuid": "301cd91a-cc44-557f-a9f5-ca0b18d6b523"
   },
   {
@@ -359,7 +359,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "18e1a338-5256-41a4-88f7-76b7fb3911c6",
+    "$ref": "ff2d5a3d-dddb-52b7-b182-71f100ed8b80",
     "uuid": "7e2ff638-7453-5e02-931a-057ffbcd3435"
   },
   {
@@ -370,7 +370,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "2305cfb2-f26d-44e0-90ef-3258b8f46e0d",
+    "$ref": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20",
     "uuid": "aa045009-cfdf-5eb0-a02b-bd0f7b75c030"
   },
   {
@@ -381,7 +381,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "5aa8e5c5-2156-49e6-9bb8-ad99b4a1b997",
+    "$ref": "c25b80df-3ec6-508a-9c75-e550972cce19",
     "uuid": "99899c26-f7d5-58ad-a786-fbee796cb874"
   },
   {
@@ -392,7 +392,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "1aa8c3a6-29ff-44ec-9b11-51c041ef44f1",
+    "$ref": "1139d209-51e9-4020-9a76-4fa0f4e7c868",
     "uuid": "bb686fea-df8e-5bfb-aa26-89ecefcbca23"
   },
   {
@@ -403,7 +403,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "01ca9561-7b0b-4030-ba1b-85d336537ebc",
+    "$ref": "8bca789b-593d-5563-8bd5-eeb1b987631b",
     "uuid": "12c8a311-2f31-5bcd-aa11-c99c3a9bc8c9"
   },
   {
@@ -414,7 +414,7 @@
     "context": "Handle (size)",
     "contextRole": ["control"],
     "contextQualifier": "size",
-    "$ref": "94045357-9bb7-4d16-b035-342465834a92",
+    "$ref": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e",
     "uuid": "b50d1ad3-7469-56c8-b3ff-b1223d7f20a0"
   },
   {
@@ -2269,7 +2269,13 @@
     "uuid": "0b83b5fd-117d-4257-bf77-fce39bfa8e3b",
     "legacyKey": "slider-handle-extra-large",
     "setUuid": "20b237d5-bc48-444b-af9f-262fca263017",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 422 of the mapping sheet."
   },
   {
     "scope": {
@@ -2286,7 +2292,13 @@
     "uuid": "caa26be5-d26c-4e5a-aae8-87e0380920da",
     "legacyKey": "slider-handle-extra-large",
     "setUuid": "20b237d5-bc48-444b-af9f-262fca263017",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 422 of the mapping sheet."
   },
   {
     "scope": {
@@ -2318,7 +2330,13 @@
     "uuid": "1aa8c3a6-29ff-44ec-9b11-51c041ef44f1",
     "legacyKey": "slider-handle-height-precision-extra-large",
     "setUuid": "09bfdc82-d00d-4ccd-aa0e-50165eb25b86",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 264 of the mapping sheet."
   },
   {
     "scope": {
@@ -2336,7 +2354,13 @@
     "uuid": "01ca9561-7b0b-4030-ba1b-85d336537ebc",
     "legacyKey": "slider-handle-height-precision-extra-large",
     "setUuid": "09bfdc82-d00d-4ccd-aa0e-50165eb25b86",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 264 of the mapping sheet."
   },
   {
     "scope": {
@@ -2354,7 +2378,13 @@
     "uuid": "2305cfb2-f26d-44e0-90ef-3258b8f46e0d",
     "legacyKey": "slider-handle-height-precision-large",
     "setUuid": "ebeccac6-b463-430e-bbdb-35bc6df037c4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 265 of the mapping sheet."
   },
   {
     "scope": {
@@ -2372,7 +2402,13 @@
     "uuid": "5aa8e5c5-2156-49e6-9bb8-ad99b4a1b997",
     "legacyKey": "slider-handle-height-precision-large",
     "setUuid": "ebeccac6-b463-430e-bbdb-35bc6df037c4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 265 of the mapping sheet."
   },
   {
     "scope": {
@@ -2390,7 +2426,13 @@
     "uuid": "0d211640-08bf-4a09-98d8-1398ba70b072",
     "legacyKey": "slider-handle-height-precision-medium",
     "setUuid": "cd14d5d1-8002-444b-9f61-8067a8a4bc42",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 266 of the mapping sheet."
   },
   {
     "scope": {
@@ -2408,7 +2450,13 @@
     "uuid": "18e1a338-5256-41a4-88f7-76b7fb3911c6",
     "legacyKey": "slider-handle-height-precision-medium",
     "setUuid": "cd14d5d1-8002-444b-9f61-8067a8a4bc42",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 266 of the mapping sheet."
   },
   {
     "scope": {
@@ -2426,7 +2474,13 @@
     "uuid": "c2e986a2-2b56-4a82-b4a2-87850ca90d8c",
     "legacyKey": "slider-handle-height-precision-small",
     "setUuid": "6350ac7a-e459-43c7-bc3b-19665cd14dab",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 267 of the mapping sheet."
   },
   {
     "scope": {
@@ -2444,7 +2498,13 @@
     "uuid": "a93712dc-247e-46f4-bb42-d2d1b8896d7e",
     "legacyKey": "slider-handle-height-precision-small",
     "setUuid": "6350ac7a-e459-43c7-bc3b-19665cd14dab",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 267 of the mapping sheet."
   },
   {
     "scope": {
@@ -2461,7 +2521,13 @@
     "uuid": "920a0f76-d61d-4362-8b50-fb6a98e62229",
     "legacyKey": "slider-handle-large",
     "setUuid": "5996b0a0-c3a0-4b3e-9d11-207af0956ce7",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 423 of the mapping sheet."
   },
   {
     "scope": {
@@ -2478,7 +2544,13 @@
     "uuid": "3f14b28b-1289-4a72-89b0-b2fbcf54325e",
     "legacyKey": "slider-handle-large",
     "setUuid": "5996b0a0-c3a0-4b3e-9d11-207af0956ce7",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 423 of the mapping sheet."
   },
   {
     "scope": {
@@ -2495,7 +2567,13 @@
     "uuid": "404ce1f8-593c-4738-b9a6-d1969a95b20e",
     "legacyKey": "slider-handle-medium",
     "setUuid": "33313db4-702e-4730-af46-2c7b419e5b39",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 424 of the mapping sheet."
   },
   {
     "scope": {
@@ -2512,7 +2590,13 @@
     "uuid": "b17da639-665a-4a4c-8105-f30503b823a0",
     "legacyKey": "slider-handle-medium",
     "setUuid": "33313db4-702e-4730-af46-2c7b419e5b39",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 424 of the mapping sheet."
   },
   {
     "scope": {
@@ -2526,7 +2610,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
     "uuid": "94045357-9bb7-4d16-b035-342465834a92",
-    "legacyKey": "slider-handle-precision-width"
+    "legacyKey": "slider-handle-precision-width",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 268 of the mapping sheet."
   },
   {
     "scope": {
@@ -2703,7 +2793,13 @@
     "uuid": "688b473d-84bc-4964-b985-63cf5fdbf7d4",
     "legacyKey": "slider-handle-small",
     "setUuid": "20a6802a-e741-47a7-9279-4bf7e2f024df",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 425 of the mapping sheet."
   },
   {
     "scope": {
@@ -2720,7 +2816,13 @@
     "uuid": "fea1de33-ef0f-4c50-ab19-75542f995d35",
     "legacyKey": "slider-handle-small",
     "setUuid": "20a6802a-e741-47a7-9279-4bf7e2f024df",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 425 of the mapping sheet."
   },
   {
     "scope": {
@@ -2734,7 +2836,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "211a95ca-f83e-4711-83ed-a723258d8336",
-    "legacyKey": "slider-track-height-large"
+    "legacyKey": "slider-track-height-large",
+    "rationale": "Deprecated via refine-from-sheets from row 269 of the mapping sheet."
   },
   {
     "scope": {
@@ -2748,7 +2851,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "c2eb2949-9471-4dc5-b02b-384627dbdea2",
-    "legacyKey": "slider-track-height-medium"
+    "legacyKey": "slider-track-height-medium",
+    "rationale": "Deprecated via refine-from-sheets from row 270 of the mapping sheet."
   },
   {
     "scope": {

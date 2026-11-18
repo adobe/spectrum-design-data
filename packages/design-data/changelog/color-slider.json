@@ -139,6 +139,33 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"424db2a9-5795-400b-a98a-58081d311bff","name":"width[scale=desktop]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"07e3ac46-3f96-4c00-aa6a-09840ee04bdd","name":"width[scale=mobile]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":null},"record":"3300c749-5daf-5c83-9ee1-8298311c1db5","name":"length","fields":[{"path":"$ref","before":"11442823-3e61-425a-a24b-a4a0747a06c4","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}]},
+            {"id":"0b8924f1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":null},"record":"98bcc125-1ac7-5730-8546-ce2a0fa3782f","name":"length","fields":[{"path":"$ref","before":"c42de1ce-088a-4918-a7dc-36507c8acedf","after":"ec422181-d393-5f76-83c9-fc6a1a354262"}]},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"desktop"}},"record":"11442823-3e61-425a-a24b-a4a0747a06c4","name":"length[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}],"rationale":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"desktop"}},"record":"11442823-3e61-425a-a24b-a4a0747a06c4","name":"length[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared bar-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."},
+            {"id":"0b8924f1-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"mobile"}},"record":"c42de1ce-088a-4918-a7dc-36507c8acedf","name":"length[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}],"rationale":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"mobile"}},"record":"c42de1ce-088a-4918-a7dc-36507c8acedf","name":"length[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared bar-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"minimum-length","options":{"scale":"desktop"}},"record":"54aad7a1-df6a-414a-82b4-7976c912a8e5","name":"minimum-length[scale=desktop]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"minimum-length","options":{"scale":"mobile"}},"record":"120308f7-4220-420e-b836-20176a8184b7","name":"minimum-length[scale=mobile]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}
+          ],
+          "metadata": {"count":4,"fields":["scope.options.scale","uuid"]}
+        }
+      ]
     }
   ]
 }
