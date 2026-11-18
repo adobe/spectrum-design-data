@@ -2227,16 +2227,16 @@ pub fn build_scene(
     build_scene_cached(graph, recipe, req, &SceneCache::default())
 }
 
-/// `req`, or a copy at the component's default `size` when the recipe's `sizeScale` has no entry
-/// for the requested one. The tools default to `m`, which a component with a numeric size (an
-/// avatar's 500) does not declare.
+/// `req`, or a copy at the component's default `size` when the request is for `m`, the tools'
+/// implicit default, and the recipe's `sizeScale` has no `m`, as a component with a numeric size
+/// (an avatar's 500) does not. Any other size the recipe lacks stays an error.
 fn with_default_size<'a>(
     graph: &TokenGraph,
     recipe: &Value,
     req: &'a RenderRequest,
 ) -> std::borrow::Cow<'a, RenderRequest> {
     let scale = recipe.get("sizeScale");
-    if scale.is_none_or(|s| s.get(&req.size).is_some()) {
+    if req.size != "m" || scale.is_none_or(|s| s.get(&req.size).is_some()) {
         return std::borrow::Cow::Borrowed(req);
     }
     let default = graph

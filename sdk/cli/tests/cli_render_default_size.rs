@@ -56,3 +56,17 @@ fn an_explicit_size_is_kept() {
     let w = scene["nodes"][0]["w"].as_f64().unwrap();
     assert_eq!(w, 64.0);
 }
+
+#[test]
+fn an_undeclared_explicit_size_is_still_an_error() {
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../.."))
+        .args(["render", "button", "--size", "xxl", "--format", "scene"])
+        .output()
+        .unwrap();
+    assert!(!out.status.success());
+    assert!(String::from_utf8_lossy(&out.stderr).contains("no sizeScale entry for size 'xxl'"));
+    let out = render_avatar(&["--size", "77"]);
+    assert!(!out.status.success());
+}
