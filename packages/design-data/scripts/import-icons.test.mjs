@@ -95,10 +95,12 @@ test("UI icons group by name and scale, workflow icons by name; unsized files ar
   assert.equal(sets.workflow.source.commit, "0".repeat(40));
   assert.deepEqual(unregistered(sets, { values: [{ id: "chevron" }] }), [
     "workflow:add",
+    "workflow:alert-triangle",
     "workflow:delete",
     "workflow:edit",
     "workflow:search",
     "workflow:settings",
+    "workflow:user",
   ]);
 });
 

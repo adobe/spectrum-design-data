@@ -63,7 +63,11 @@ impl ValidationRule for Rule {
             let sizes: BTreeSet<String> = option_values(size)
                 .unwrap_or_default()
                 .iter()
-                .filter_map(|s| s.as_str().map(str::to_string))
+                .filter_map(|s| match s {
+                    Value::String(s) => Some(s.clone()),
+                    Value::Number(n) => Some(n.to_string()),
+                    _ => None,
+                })
                 .collect();
             for key in scale.keys().filter(|k| !sizes.contains(*k)) {
                 out.push(error(
@@ -140,6 +144,14 @@ mod tests {
         assert_eq!(d.len(), 1);
         assert_eq!(d[0].rule_id.as_deref(), Some("SPEC-063"));
         assert!(d[0].message.contains("'xs'"));
+    }
+
+    #[test]
+    fn numeric_size_values_match_their_string_keys() {
+        let numeric = json!({"name": "button", "options": {"size": {"type": "number",
+            "values": [{"value": 50}, {"value": 75}]}}});
+        assert!(run_with(numeric.clone(), json!({"50": 50, "75": 75})).is_empty());
+        assert_eq!(run_with(numeric, json!({"50": 50, "100": 100})).len(), 2);
     }
 
     #[test]

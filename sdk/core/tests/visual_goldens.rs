@@ -353,6 +353,43 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Avatar: the disabled dim on a gradient backdrop, the stroke over the dark scheme, and a
+    // large size on mobile with the 1px stroke (the 2px stroke from size 1000 has no token yet).
+    if name == "avatar" {
+        let with = |image: &str, extra: Option<(&str, bool)>| {
+            let mut o = HashMap::from([("image".to_string(), Value::String(image.into()))]);
+            if let Some((k, v)) = extra {
+                o.insert(k.to_string(), Value::Bool(v));
+            }
+            o
+        };
+        out.push((
+            "initials-disabled",
+            req(
+                vec![],
+                with("initials", Some(("isDisabled", true))),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "guest-stroke-dark",
+            req(
+                vec![],
+                with("guest", Some(("showStroke", true))),
+                "dark",
+                "desktop",
+            ),
+        ));
+        let mut r = req(
+            vec![],
+            with("gradient image", Some(("showStroke", true))),
+            "light",
+            "mobile",
+        );
+        r.size = "1000".into();
+        out.push(("gradient-image-large-mobile", r));
+    }
     // Divider: every size, both orientations, and each static colour. The regular fill and the
     // static fills are separate relationships, so this guards which one wins.
     if name == "divider" {

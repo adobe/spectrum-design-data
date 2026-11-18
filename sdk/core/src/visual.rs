@@ -978,7 +978,12 @@ impl<'a> CompileCx<'a> {
         });
         let mut cands = Vec::new();
         for (rf, options, states, rel) in &refs {
-            if let Some(t) = self.graph.resolve_alias_key(rf) {
+            // A concept id (a palette color set) picks its member for the request's mode.
+            let target = self
+                .graph
+                .resolve_alias_in_context(rf, &self.mode_ctx())
+                .or_else(|| self.graph.resolve_alias_key(rf));
+            if let Some(t) = target {
                 cands.push((t, options.clone(), states.clone(), Some(rel.clone())));
             } else if let Some(t) = self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf)) {
                 cands.push((t, options.clone(), states.clone(), Some(rel.clone())));
@@ -2222,6 +2227,34 @@ pub fn build_scene(
     build_scene_cached(graph, recipe, req, &SceneCache::default())
 }
 
+/// `req`, or a copy at the component's default `size` when the request is for `m`, the tools'
+/// implicit default, and the recipe's `sizeScale` has no `m`, as a component with a numeric size
+/// (an avatar's 500) does not. Any other size the recipe lacks stays an error.
+fn with_default_size<'a>(
+    graph: &TokenGraph,
+    recipe: &Value,
+    req: &'a RenderRequest,
+) -> std::borrow::Cow<'a, RenderRequest> {
+    let scale = recipe.get("sizeScale");
+    if req.size != "m" || scale.is_none_or(|s| s.get(&req.size).is_some()) {
+        return std::borrow::Cow::Borrowed(req);
+    }
+    let default = graph
+        .components
+        .iter()
+        .find(|c| c.name == req.component)
+        .and_then(|c| c.raw.pointer("/options/size/default"))
+        .and_then(value_to_string)
+        .filter(|d| scale.is_some_and(|s| s.get(d).is_some()));
+    match default {
+        Some(size) => std::borrow::Cow::Owned(RenderRequest {
+            size,
+            ..req.clone()
+        }),
+        None => std::borrow::Cow::Borrowed(req),
+    }
+}
+
 /// Like [`build_scene`], reusing compiled variants from `cache`. Use one cache per graph
 /// when rendering many requests (a matrix); results are identical.
 pub fn build_scene_cached(
@@ -2230,7 +2263,8 @@ pub fn build_scene_cached(
     req: &RenderRequest,
     cache: &SceneCache,
 ) -> Result<Scene, String> {
-    solve(&*cache.variant(graph, recipe, req)?, req)
+    let req = with_default_size(graph, recipe, req);
+    solve(&*cache.variant(graph, recipe, &req)?, &req)
 }
 
 /// Lay out a compiled variant for one request. A recipe with `repeat` draws its root once
