@@ -163,6 +163,27 @@
           "metadata": {"count":1,"fields":["scope.options.isDisabled"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "42efcfe2c90937f421fd9b2f0aa2666505179939",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1895,"title":"feat(design-data): field-label visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/1895"},
+          "entries": [
+            {"id":"42efcfe2-0","kind":"anatomy-part","change":"renamed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"field-label/anatomy/necessity-indicator","name":"necessity-indicator","fields":[],"before":"asterisk"},
+            {"id":"42efcfe2-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"field-label/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Row that holds the label and the required-field indicator.","required":true,"contains":["label","necessity-indicator"]}},
+            {"id":"42efcfe2-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"field-label/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Text label.","required":true}},
+            {"id":"42efcfe2-3","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"field-label/visual","name":"field-label","fields":[]}
+          ],
+          "metadata": {"count":6,"fields":["scope.options.size"]}
+        }
+      ]
     }
   ]
 }

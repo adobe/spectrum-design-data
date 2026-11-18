@@ -355,6 +355,24 @@
     "hasHoldIcon=true,hideLabel=true,isDisabled=true,isEmphasized=true,isPending=true,isQuiet=true,isSelected=true,staticColor=\"black\"": "d7da195e5d25fc79",
     "hasHoldIcon=true,hideLabel=true,isDisabled=true,isEmphasized=true,isPending=true,isQuiet=true,isSelected=true,staticColor=\"white\"": "b1d670e2f333e29d"
   },
+  "avatar": {
+    "image=\"gradient image\",isDisabled=false,showStroke=false": "50b2d8527e53ca3a",
+    "image=\"gradient image\",isDisabled=false,showStroke=true": "ed869a9cea8637d6",
+    "image=\"gradient image\",isDisabled=true,showStroke=false": "7de3f10b1348751a",
+    "image=\"gradient image\",isDisabled=true,showStroke=true": "b99b55190a7674ca",
+    "image=\"guest\",isDisabled=false,showStroke=false": "c39e27a9ffc3ca82",
+    "image=\"guest\",isDisabled=false,showStroke=true": "0d48055e37ace60c",
+    "image=\"guest\",isDisabled=true,showStroke=false": "7220e18404475540",
+    "image=\"guest\",isDisabled=true,showStroke=true": "b31fa447002b1826",
+    "image=\"initials\",isDisabled=false,showStroke=false": "768e9f0845706d87",
+    "image=\"initials\",isDisabled=false,showStroke=true": "35c5c21f764e5a37",
+    "image=\"initials\",isDisabled=true,showStroke=false": "37e97366053dd03b",
+    "image=\"initials\",isDisabled=true,showStroke=true": "7ac992650c31069f",
+    "image=\"user image\",isDisabled=false,showStroke=false": "0ec097f298dc6564",
+    "image=\"user image\",isDisabled=false,showStroke=true": "b62f9791c022469e",
+    "image=\"user image\",isDisabled=true,showStroke=false": "12017f43ad66c99a",
+    "image=\"user image\",isDisabled=true,showStroke=true": "0610120d1905f60c"
+  },
   "badge": {
     "style=\"bold\",variant=\"accent\"": "b1cbe14d8d7d7531",
     "style=\"bold\",variant=\"blue\"": "e0d816b5da3db4d9",
@@ -563,6 +581,72 @@
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=false,isSelected=true": "e69ff730d88efe00",
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=false": "235189121d284140",
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=true": "bdc8d89a34bca808"
+  },
+  "close-button": {
+    "isDisabled=false,staticColor=\"black\"": "03900204c1801a03",
+    "isDisabled=false,staticColor=\"white\"": "26be6a89d289da1f",
+    "isDisabled=true,staticColor=\"black\"": "b92a70cb11f46659",
+    "isDisabled=true,staticColor=\"white\"": "05dba9e8ac60a33d"
+  },
+  "divider": {
+    "orientation=\"horizontal\",staticColor=\"black\"": "d0974b4d62da2fc5",
+    "orientation=\"horizontal\",staticColor=\"white\"": "423a86f843aeb603",
+    "orientation=\"vertical\",staticColor=\"black\"": "abc8fcc7d8319291",
+    "orientation=\"vertical\",staticColor=\"white\"": "f8329439370fb5d7"
+  },
+  "field-label": {
+    "isDisabled=false,isRequired=false,necessityIndicator=\"icon\"": "3ccf2873f9ae2d10",
+    "isDisabled=false,isRequired=false,necessityIndicator=\"text\"": "33babf56398adb20",
+    "isDisabled=false,isRequired=true,necessityIndicator=\"icon\"": "4fdcec08945461f5",
+    "isDisabled=false,isRequired=true,necessityIndicator=\"text\"": "03297e667309f8ee",
+    "isDisabled=true,isRequired=false,necessityIndicator=\"icon\"": "66eff700e61d366c",
+    "isDisabled=true,isRequired=false,necessityIndicator=\"text\"": "acff8b6b0fb957e4",
+    "isDisabled=true,isRequired=true,necessityIndicator=\"icon\"": "d0c68da3f4cfc611",
+    "isDisabled=true,isRequired=true,necessityIndicator=\"text\"": "70f94b332c194486"
+  },
+  "help-text": {
+    "hideIcon=false,isDisabled=false,variant=\"negative\"": "b0c6363937c0ab18",
+    "hideIcon=false,isDisabled=false,variant=\"neutral\"": "1bc4c99f2bed8e26",
+    "hideIcon=false,isDisabled=true,variant=\"negative\"": "8d518461e0e1cbd2",
+    "hideIcon=false,isDisabled=true,variant=\"neutral\"": "38055843eaa50b4e",
+    "hideIcon=true,isDisabled=false,variant=\"negative\"": "5d3b53187b45884e",
+    "hideIcon=true,isDisabled=false,variant=\"neutral\"": "e440c695a15c172e",
+    "hideIcon=true,isDisabled=true,variant=\"negative\"": "4ec73c26b1420544",
+    "hideIcon=true,isDisabled=true,variant=\"neutral\"": "2f656d34bebc6036"
+  },
+  "meter": {
+    "hideLabel=false,staticColor=\"black\",variant=\"informative\"": "fde57887dabb2021",
+    "hideLabel=false,staticColor=\"black\",variant=\"negative\"": "e1ea8bd2ff1ea313",
+    "hideLabel=false,staticColor=\"black\",variant=\"notice\"": "777be18474b7d977",
+    "hideLabel=false,staticColor=\"black\",variant=\"positive\"": "367aa64e7a4a540f",
+    "hideLabel=false,staticColor=\"white\",variant=\"informative\"": "2605809475904875",
+    "hideLabel=false,staticColor=\"white\",variant=\"negative\"": "3dfb485a74564c97",
+    "hideLabel=false,staticColor=\"white\",variant=\"notice\"": "5df20fa3cf8da777",
+    "hideLabel=false,staticColor=\"white\",variant=\"positive\"": "669f131a335d5a53",
+    "hideLabel=true,staticColor=\"black\",variant=\"informative\"": "86de4b233f718893",
+    "hideLabel=true,staticColor=\"black\",variant=\"negative\"": "4daf0a254db3dd49",
+    "hideLabel=true,staticColor=\"black\",variant=\"notice\"": "7da0b14857a53171",
+    "hideLabel=true,staticColor=\"black\",variant=\"positive\"": "c81e4ef09774a2ed",
+    "hideLabel=true,staticColor=\"white\",variant=\"informative\"": "56ba5daae7820011",
+    "hideLabel=true,staticColor=\"white\",variant=\"negative\"": "54def7b598001a3f",
+    "hideLabel=true,staticColor=\"white\",variant=\"notice\"": "7d7b96aa2aa64f7f",
+    "hideLabel=true,staticColor=\"white\",variant=\"positive\"": "1b83538827cefc83"
+  },
+  "progress-bar": {
+    "hideLabel=false,isIndeterminate=false,staticColor=\"black\"": "241e06c51545910b",
+    "hideLabel=false,isIndeterminate=false,staticColor=\"white\"": "d5de40e69b0a6abf",
+    "hideLabel=false,isIndeterminate=true,staticColor=\"black\"": "d0ea969236a5a585",
+    "hideLabel=false,isIndeterminate=true,staticColor=\"white\"": "5cc2a377bb13a563",
+    "hideLabel=true,isIndeterminate=false,staticColor=\"black\"": "73c882d889f0e3a9",
+    "hideLabel=true,isIndeterminate=false,staticColor=\"white\"": "5352b121af30f437",
+    "hideLabel=true,isIndeterminate=true,staticColor=\"black\"": "3414e6b78194d518",
+    "hideLabel=true,isIndeterminate=true,staticColor=\"white\"": "6c00ec0f4f58aa9a"
+  },
+  "progress-circle": {
+    "isIndeterminate=false,staticColor=\"black\"": "de70894f42d5edc4",
+    "isIndeterminate=false,staticColor=\"white\"": "9dc11942da4cfae8",
+    "isIndeterminate=true,staticColor=\"black\"": "3927c03e61092fe2",
+    "isIndeterminate=true,staticColor=\"white\"": "b7f2efb239218fb2"
   },
   "radio-button": {
     "isDisabled=false,isEmphasized=false,isSelected=false": "58a7acb5c21a5322",

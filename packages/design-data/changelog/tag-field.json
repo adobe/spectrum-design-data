@@ -136,6 +136,31 @@
           "metadata": {"count":65,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-field/anatomy/error-icon","name":"error-icon","fields":[],"after":{"name":"error-icon","description":"Alert icon shown for the invalid state."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-field/anatomy/field","name":"field","fields":[],"after":{"name":"field","description":"Bordered input area that holds the tags and the text area.","required":true,"contains":["tag","text-area","error-icon"]}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-field/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Label above the field."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-field/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the field for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-field/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message under the field."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-field/anatomy/tag","name":"tag","fields":[],"after":{"name":"tag","description":"One removable tag; repeated."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-field/anatomy/text-area","name":"text-area","fields":[],"after":{"name":"text-area","description":"Text input after the tags."}},
+            {"id":"12ddd7e7-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web tag field page (Field label, Field with tags, help text). text-area and error-icon taken from relationships and React Spectrum, not the default Figma tree; relationship 'Alert icon' mapped to error-icon."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

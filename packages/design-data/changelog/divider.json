@@ -93,6 +93,55 @@
           "metadata": {"count":15,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"divider/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Thin bar that separates content. Horizontal or vertical by orientation.","required":true}},
+            {"id":"12ddd7e7-1","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"divider/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web has one Bar layer; no other parts. Relationship contexts (Fill, Thickness, Horizontal) name no part, so a single container stands for the whole line."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.19.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-17",
+      "commit": "3ed6e984292bbcb3a5193cf474148290138fef4a",
+      "commits": [
+        {
+          "commit": "91bd3db6028db50eedf16cd0cbf5922ae9018505",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1900,"title":"feat(design-data): divider anatomy and visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/1900"},
+          "entries": [
+            {"id":"91bd3db6-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Fill"],"scope":{"property":"color","options":{"staticColor":"white","size":["s","m"]}},"record":"69b1bf02-069c-5aa2-b0b9-b6913423dc13","name":"color[size=?,staticColor=white]","fields":[{"path":"$ref","before":"936db837-bc5a-40b0-a0e8-8e39b9fc62cb","after":"c459ce5a-1d40-490f-bde6-c409bd334487"}]},
+            {"id":"91bd3db6-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Fill"],"scope":{"property":"color","options":{"staticColor":"white","size":["s","m"]}},"record":"69b1bf02-069c-5aa2-b0b9-b6913423dc13","name":"color[size=?,staticColor=white]","fields":[{"path":"context","before":"Fill (white)","after":"Fill"}]},
+            {"id":"91bd3db6-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Fill"],"scope":{"property":"color","options":{"staticColor":"white","size":"l"}},"record":"7929d31a-ef63-5090-9831-25732039c423","name":"color[size=l,staticColor=white]","fields":[{"path":"$ref","before":"b85836bf-af47-412a-900a-4ec5ad0733b2","after":"cd537630-a18b-4f62-95ff-2b77a56130d3"}]},
+            {"id":"91bd3db6-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Fill"],"scope":{"property":"color","options":{"staticColor":"white","size":"l"}},"record":"7929d31a-ef63-5090-9831-25732039c423","name":"color[size=l,staticColor=white]","fields":[{"path":"context","before":"Fill (white)","after":"Fill"}]},
+            {"id":"91bd3db6-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Fill"],"scope":{"property":"color","options":{"staticColor":"black","size":["s","m"]}},"record":"30db5612-bc47-5d49-8750-d0738fa52daa","name":"color[size=?,staticColor=black]","fields":[{"path":"$ref","before":"a84ecad8-8005-4ce4-add6-7f83f7e05ba0","after":"57ebdfa0-1bc1-42e5-871a-6d09b29ad5da"}]},
+            {"id":"91bd3db6-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Fill"],"scope":{"property":"color","options":{"staticColor":"black","size":["s","m"]}},"record":"30db5612-bc47-5d49-8750-d0738fa52daa","name":"color[size=?,staticColor=black]","fields":[{"path":"context","before":"Fill (black)","after":"Fill"}]},
+            {"id":"91bd3db6-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Fill"],"scope":{"property":"color","options":{"staticColor":"black","size":"l"}},"record":"76c4c311-af54-5f84-a48b-d3813f63838a","name":"color[size=l,staticColor=black]","fields":[{"path":"$ref","before":"3e89f180-b0f0-4de0-904b-c80f0210a361","after":"b32a1253-f86f-46db-be89-85b4ab34bcf9"}]},
+            {"id":"91bd3db6-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Fill"],"scope":{"property":"color","options":{"staticColor":"black","size":"l"}},"record":"76c4c311-af54-5f84-a48b-d3813f63838a","name":"color[size=l,staticColor=black]","fields":[{"path":"context","before":"Fill (black)","after":"Fill"}]},
+            {"id":"91bd3db6-8","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"divider/options/staticColor","name":"staticColor","fields":[],"after":{"type":"string","description":"Static color for use on colored backgrounds. White draws a light line, black a dark one. Unset is the regular gray line.","values":[{"value":"white"},{"value":"black"}]}},
+            {"id":"91bd3db6-9","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"divider/anatomy/container","name":"container","fields":[],"before":{"name":"container","description":"Thin bar that separates content. Horizontal or vertical by orientation.","required":true}},
+            {"id":"91bd3db6-10","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"divider/anatomy/line","name":"line","fields":[],"after":{"name":"line","description":"The dividing mark. Thickness is set by size; it spans the layout width (horizontal) or height (vertical).","required":true}},
+            {"id":"91bd3db6-11","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"divider/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web has one Bar layer; no other parts. Relationship contexts (Fill, Thickness, Horizontal) name no part, so a single container stands for the whole line.","after":"Single part, named line for its role (a mark that divides), not track (no moving fill) or the component name. Not focusable, no states, no label. staticColor is declared as white and black (unset is React Spectrum's and Figma's auto)."}]},
+            {"id":"91bd3db6-12","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"divider/visual","name":"divider","fields":[]}
+          ],
+          "metadata": {"count":15,"fields":["anatomyReview.status","contextQualifier","scope.options.orientation","scope.options.size","scope.options.staticColor"]}
+        }
+      ]
     }
   ]
 }

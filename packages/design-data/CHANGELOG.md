@@ -1,5 +1,95 @@
 # @adobe/spectrum-design-data
 
+## 3.20.0
+
+### Minor Changes
+
+- [#1917](https://github.com/adobe/spectrum-design-data/pull/1917) [`8a4eaa3`](https://github.com/adobe/spectrum-design-data/commit/8a4eaa3c43eadaeacbed97efb838470c72cd48cf) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a close button visual recipe.
+  - Close button renders size, hover, down and keyboard focus, `isDisabled` and the white and black
+    static colors. Down, hover and keyboard focus share one fill, as in React Spectrum.
+  - Close button anatomy is reviewed (`container`, `icon`, `focus-indicator`).
+  - The `iconSize` option is removed: Figma and React Spectrum derive the cross size from `size`.
+  - The hover fill relationship now points at gray-200 (was gray-100), as in Figma and React
+    Spectrum. Cross size, static color and disabled color relationships are pinned in
+    `scope.options`.
+
+- [#1921](https://github.com/adobe/spectrum-design-data/pull/1921) [`323b31e`](https://github.com/adobe/spectrum-design-data/commit/323b31e190b7585a45fafb1bf4cb34610bc1e12d) Thanks [@GarthDB](https://github.com/GarthDB)! - Clean up help text data.
+  - The `isDisabled` option no longer says help text cannot be both disabled and negative. Figma and
+    React Spectrum draw the combination, and the recipe renders it.
+  - Remove the help text `Minimum height` relationships (they pointed at control heights, 24 to
+    48px) and the top/bottom edge spacing to text and to icon. Figma sizes help text to its text
+    (16 to 22px) with no padding, and the recipe binds none of them.
+
+### Patch Changes
+
+- [#1922](https://github.com/adobe/spectrum-design-data/pull/1922) [`eb0cf53`](https://github.com/adobe/spectrum-design-data/commit/eb0cf536599de9748049b0c30d0843b6b21cb1fd) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the close button static colors to match Figma and React Spectrum. The hover fill uses
+  `transparent-white/black-200` (0.14 / 0.12, was the 100 tokens) and the disabled cross uses
+  `transparent-white/black-400` (0.21 / 0.22, was an alias of the 100 tokens). The same tokens
+  `action-button` and `button` use for static hover and disabled.
+
+- [#1914](https://github.com/adobe/spectrum-design-data/pull/1914) [`adb103c`](https://github.com/adobe/spectrum-design-data/commit/adb103c86d4864b2a87576d08229561f6409d6cf) Thanks [@GarthDB](https://github.com/GarthDB)! - Raise the dataset's `requires.cli` to 0.50.0. The progress-bar recipe uses the `fraction` and
+  `text` recipe keys, so an older CLI now refuses the dataset instead of drawing an empty fill.
+
+## 3.19.0
+
+### Minor Changes
+
+- [#1900](https://github.com/adobe/spectrum-design-data/pull/1900) [`91bd3db`](https://github.com/adobe/spectrum-design-data/commit/91bd3db6028db50eedf16cd0cbf5922ae9018505) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a divider visual recipe and anatomy.
+  - Divider declares one part, `line`, added to the anatomy registry.
+  - New `staticColor` option (`white`, `black`); unset is the regular gray line.
+  - Fill relationships pin `size`, `staticColor` and `orientation` in `scope.options`.
+  - The four static fills now point at the non-deprecated `transparent-static-*` tokens, following
+    their `replacedBy` links. Alpha changes: white s/m 0.14 to 0.16, white l 0.85 to 0.80, black l
+    0.84 to 0.80. Black s/m stays 0.12. No token values change.
+
+- [#1907](https://github.com/adobe/spectrum-design-data/pull/1907) [`004414b`](https://github.com/adobe/spectrum-design-data/commit/004414b89fe24cf5af1bc0b357cc30f0a9764b9f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a help text visual recipe.
+  - Help text renders size, the neutral and negative variants, `hideIcon` and `isDisabled`. The alert
+    icon shows only for the negative variant and follows the text color, gray when disabled.
+  - Help text anatomy is reviewed: `container`, `icon` (was `error-icon`) and `text`.
+  - The neutral and negative `content-color` relationships are pinned to `variant`.
+  - The workflow icon set gains `alert-triangle`.
+
+- [#1906](https://github.com/adobe/spectrum-design-data/pull/1906) [`08621b7`](https://github.com/adobe/spectrum-design-data/commit/08621b798e778b097d0384b13fa15ce10c25f111) Thanks [@GarthDB](https://github.com/GarthDB)! - Meter and progress-bar draw the gap between header, track and help text from `base-gap-*`.
+  - The `Spacing (field label to progress bar)` relationship now points at `base-gap-small`,
+    `-medium`, `-large` and `-extra-large` by size (4, 6, 6, 6px), the tokens Figma binds as
+    `Base/Gap/*`. It pointed at `spacing-75` (4px at every size).
+  - Removed the `labelPosition` option from meter, which Figma does not have. A consumer that
+    passes it to meter now gets an unknown option.
+
+- [#1904](https://github.com/adobe/spectrum-design-data/pull/1904) [`0f4550d`](https://github.com/adobe/spectrum-design-data/commit/0f4550df695bd0386595d7df6c8d8ee1427fd343) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a meter visual recipe.
+  - Meter renders size, value (with `minValue` and `maxValue`), the four variants, `hideLabel`, help
+    text, and white and black static colors. `labelPosition: side` is not drawn yet.
+  - Meter anatomy is reviewed and gains a `header` part.
+  - New options `staticColor`, `labelPosition`, `minValue` and `maxValue`; `value` loses its 0 to 1
+    limit. Variant fill colors and static colors are pinned in relationships (new `Control` context).
+
+- [#1901](https://github.com/adobe/spectrum-design-data/pull/1901) [`5030209`](https://github.com/adobe/spectrum-design-data/commit/5030209fdc50f8161684368b8d0c65f2537e9620) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a progress-bar visual recipe, and recipe support for a fill amount and option text.
+  - New value source `fraction` (`value`, `min`, `max` option names) and `relativeTo: "parent"` size a
+    nested box as a share of its parent. A text part's new `text` field reads a string option or shows
+    the fraction as a percentage.
+  - Progress bar renders size, value, indeterminate (one fixed frame), hideLabel, and white and black
+    static colors. `labelPosition: side` is not drawn yet.
+  - Progress bar anatomy is reviewed and gains a `header` part. The `variant` option (Spectrum 1 only)
+    is removed, and `staticColor` gains `black` with its three relationships.
+
+## 3.18.0
+
+### Minor Changes
+
+- [#1896](https://github.com/adobe/spectrum-design-data/pull/1896) [`12ddd7e`](https://github.com/adobe/spectrum-design-data/commit/12ddd7e78e685a853d7a1afb4ba837ab13a9660b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added draft anatomy (`anatomyReview.status: draft`) to the 63 components that had relationships
+  but no anatomy. Parts follow the S2 Web Figma file, with relationship contexts, React Spectrum
+  and Spectrum Web Components as fallbacks. Shadows, borders and strokes are styling on a part,
+  not parts (new line in the anatomy format chapter). Added the `prefix` and `opacity-checkerboard`
+  anatomy terms. The required-field indicator is declared only on `field-label`. `tabs` and
+  `segmented-control` declare a `keyboard-focus` state, and `segmented-control` a `disabled`
+  state. A reviewer still has to confirm each component before a visual recipe depends on it.
+
+- [#1895](https://github.com/adobe/spectrum-design-data/pull/1895) [`42efcfe`](https://github.com/adobe/spectrum-design-data/commit/42efcfe2c90937f421fd9b2f0aa2666505179939) Thanks [@GarthDB](https://github.com/GarthDB)! - Added a visual recipe for `field-label`: a label with an optional required-field indicator,
+  bound through the component's relationships. The component now declares `container` and
+  `label` anatomy parts, and its indicator part is renamed from `asterisk` to the registered
+  `necessity-indicator` (draft anatomy, no known consumers). The asterisk size relationships are
+  pinned by `size`, so each size resolves to one token.
+
 ## 3.17.0
 
 ### Minor Changes

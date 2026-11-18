@@ -146,6 +146,31 @@
           "metadata": {"count":8,"fields":["contextQualifier","scope.options.variant"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/anatomy/cancel-action","name":"cancel-action","fields":[],"after":{"name":"cancel-action","description":"Button that dismisses without acting."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Dialog surface.","required":true,"contains":["icon","title","description","primary-action","secondary-action","cancel-action"]}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Explanatory text under the title."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Status icon shown for the error and warning variants only."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/anatomy/primary-action","name":"primary-action","fields":[],"after":{"name":"primary-action","description":"Main confirmation button."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/anatomy/secondary-action","name":"secondary-action","fields":[],"after":{"name":"secondary-action","description":"Alternative action button."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"alert-dialog/anatomy/title","name":"title","fields":[],"after":{"name":"title","description":"Dialog title.","required":true}},
+            {"id":"12ddd7e7-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP AlertDialog.tsx:126-131 and 1st-gen alert-dialog/src/AlertDialog.ts:106-111 draw an icon for error and warning only (optional icon part); not in the Figma tree."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

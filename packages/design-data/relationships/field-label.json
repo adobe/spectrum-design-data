@@ -258,7 +258,8 @@
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "property": "size",
+      "options": { "size": ["s", "m"] }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "d04b37cc-2c35-49af-9e92-9993264e405a",
@@ -267,7 +268,8 @@
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "property": "size",
+      "options": { "size": ["s", "m"] }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "f6f11ca3-b78b-4207-868f-f834c19e8d3d",
@@ -276,7 +278,8 @@
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "l" }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "49892fb4-a9df-4882-a656-7f9ffb9558bc",
@@ -285,7 +288,8 @@
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "l" }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "3f1b200b-d341-41e4-ae7b-c981ccb492f7",
@@ -294,7 +298,8 @@
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "xl" }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "93506e7b-f388-4cf8-bd73-e7d96da935d5",
@@ -303,7 +308,8 @@
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "xl" }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "a1cdad1f-6537-4c35-a87b-45d8e161ee46",

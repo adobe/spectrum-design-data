@@ -232,6 +232,32 @@
           "metadata": {"count":71,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/calendar","name":"calendar","fields":[],"after":{"name":"calendar","description":"Calendar shown in the popover.","contains":["day"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/day","name":"day","fields":[],"after":{"name":"day","description":"One date cell in the calendar. Styled for selected, error, unavailable and current-day."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/field","name":"field","fields":[],"after":{"name":"field","description":"Bordered input box that holds the date value and calendar button.","contains":["value","in-field-button"]}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Label for the field."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/in-field-button","name":"in-field-button","fields":[],"after":{"name":"in-field-button","description":"Calendar icon button that opens the popover."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/popover","name":"popover","fields":[],"after":{"name":"popover","description":"Popover that opens from the field.","contains":["calendar"]}},
+            {"id":"12ddd7e7-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Date or date range segments."}},
+            {"id":"12ddd7e7-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web date picker. Placeholder cells treated as part of value; focus indicator and error icon omitted (no states declared). Day added because tokens reference date-picker day (SPEC-020)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

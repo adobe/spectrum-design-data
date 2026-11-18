@@ -78,6 +78,26 @@
           "metadata": {"count":9,"fields":["contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/anatomy/color-handle","name":"color-handle","fields":[],"after":{"name":"color-handle","description":"Circular handle marking the selected color position.","required":true}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Two-dimensional gradient surface; border is container styling.","required":true,"contains":["color-handle"]}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP ColorArea.tsx:69-79 (border on the area), ColorHandle.tsx:37-40 and gen2 color-handle.css:85-95 (handle grows on focus, no separate ring); focus-indicator dropped."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

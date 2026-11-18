@@ -120,6 +120,26 @@
           "metadata": {"count":36,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar-group/anatomy/avatar","name":"avatar","fields":[],"after":{"name":"avatar","description":"One avatar in the overlapping stack.","required":true}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar-group/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Text label such as the member count; optional via Show label."}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web avatar group page (Stack of Avatar instances plus Label text). Relationship contexts mention a layout and a group-to-label spacing that were not made parts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

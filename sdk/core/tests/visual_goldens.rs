@@ -164,6 +164,253 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let opts = HashMap::from([("items".to_string(), items)]);
         out.push(("three-items", req(vec![], opts, "light", "desktop")));
     }
+    // Progress bar: the fill is a share of the track and the value text a percentage, so the
+    // defaults (no value) show an empty bar. These show a half-full bar and an indeterminate one.
+    if name == "progress-bar" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        out.push((
+            "half",
+            req(vec![], with(&[("value", 50.into())]), "light", "desktop"),
+        ));
+        out.push((
+            "indeterminate",
+            req(
+                vec![],
+                with(&[("isIndeterminate", true.into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "static-white-custom-label",
+            req(
+                vec![],
+                with(&[
+                    ("value", 75.into()),
+                    ("valueLabel", "3 of 4".into()),
+                    ("staticColor", "white".into()),
+                ]),
+                "dark",
+                "desktop",
+            ),
+        ));
+    }
+    // Progress circle: the arc is a share of the ring from 12 o'clock, clockwise. The defaults (no
+    // value) show an empty ring; these show a half ring, the indeterminate frame, a large
+    // three-quarter ring and a static white and black one.
+    if name == "progress-circle" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        // (label, size, options, color scheme). Size is the request's, not an option.
+        type Case<'a> = (&'static str, &'static str, &'a [(&'a str, Value)], &'a str);
+        let cases: [Case; 5] = [
+            ("half", "m", &[("value", 50.into())], "light"),
+            (
+                "indeterminate",
+                "m",
+                &[("isIndeterminate", true.into())],
+                "light",
+            ),
+            (
+                "large-three-quarters",
+                "l",
+                &[("value", 75.into())],
+                "light",
+            ),
+            (
+                "static-white-small",
+                "s",
+                &[("value", 25.into()), ("staticColor", "white".into())],
+                "dark",
+            ),
+            (
+                "static-black-full",
+                "m",
+                &[("value", 100.into()), ("staticColor", "black".into())],
+                "light",
+            ),
+        ];
+        for (label, size, opts, scheme) in cases {
+            let mut r = req(vec![], with(opts), scheme, "desktop");
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
+    // Meter: variants set the fill colour through relationships, and a static colour must win over
+    // the variant. The defaults (no value) show an empty bar.
+    if name == "meter" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        for variant in ["positive", "notice", "negative"] {
+            let opts = with(&[("value", 50.into()), ("variant", variant.into())]);
+            let label = format!("{variant}-half");
+            out.push((
+                Box::leak(label.into_boxed_str()),
+                req(vec![], opts, "light", "desktop"),
+            ));
+        }
+        out.push((
+            "static-black-help-text",
+            req(
+                vec![],
+                with(&[
+                    ("value", 75.into()),
+                    ("variant", "negative".into()),
+                    ("staticColor", "black".into()),
+                    ("helpText", "Help text".into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+    }
+    // Help text: the alert icon shows only for the negative variant, and a disabled state wins over
+    // the variant colour, so the icon and text are both grey.
+    if name == "help-text" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        out.push((
+            "negative",
+            req(
+                vec![],
+                with(&[("variant", "negative".into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "negative-disabled",
+            req(
+                vec![],
+                with(&[("variant", "negative".into()), ("isDisabled", true.into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "negative-disabled-hidden-icon",
+            req(
+                vec![],
+                with(&[
+                    ("variant", "negative".into()),
+                    ("isDisabled", true.into()),
+                    ("hideIcon", true.into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+    }
+    // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
+    // over the dark scheme, where the neutral colours would not show.
+    if name == "close-button" {
+        out.push((
+            "hover",
+            req(vec!["hover".into()], HashMap::new(), "light", "desktop"),
+        ));
+        out.push((
+            "keyboard-focus",
+            req(
+                vec!["keyboard-focus".into()],
+                HashMap::new(),
+                "light",
+                "desktop",
+            ),
+        ));
+        // Disabled wins over a state for the static cross colour: both records pin two options.
+        out.push((
+            "static-black-disabled-hover",
+            req(
+                vec!["hover".into()],
+                HashMap::from([
+                    ("staticColor".to_string(), Value::String("black".into())),
+                    ("isDisabled".to_string(), Value::Bool(true)),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "static-white-hover",
+            req(
+                vec!["hover".into()],
+                HashMap::from([("staticColor".to_string(), Value::String("white".into()))]),
+                "dark",
+                "desktop",
+            ),
+        ));
+    }
+    // Avatar: the disabled dim on a gradient backdrop, the stroke over the dark scheme, and a
+    // large size on mobile with the 1px stroke (the 2px stroke from size 1000 has no token yet).
+    if name == "avatar" {
+        let with = |image: &str, extra: Option<(&str, bool)>| {
+            let mut o = HashMap::from([("image".to_string(), Value::String(image.into()))]);
+            if let Some((k, v)) = extra {
+                o.insert(k.to_string(), Value::Bool(v));
+            }
+            o
+        };
+        out.push((
+            "initials-disabled",
+            req(
+                vec![],
+                with("initials", Some(("isDisabled", true))),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "guest-stroke-dark",
+            req(
+                vec![],
+                with("guest", Some(("showStroke", true))),
+                "dark",
+                "desktop",
+            ),
+        ));
+        let mut r = req(
+            vec![],
+            with("gradient image", Some(("showStroke", true))),
+            "light",
+            "mobile",
+        );
+        r.size = "1000".into();
+        out.push(("gradient-image-large-mobile", r));
+    }
+    // Divider: every size, both orientations, and each static colour. The regular fill and the
+    // static fills are separate relationships, so this guards which one wins.
+    if name == "divider" {
+        for size in ["s", "m", "l"] {
+            for orientation in ["horizontal", "vertical"] {
+                for color in [None, Some("white"), Some("black")] {
+                    let mut opts = HashMap::from([(
+                        "orientation".to_string(),
+                        Value::String(orientation.into()),
+                    )]);
+                    if let Some(c) = color {
+                        opts.insert("staticColor".into(), Value::String(c.into()));
+                    }
+                    let mut r = req(vec![], opts, "light", "desktop");
+                    r.size = size.into();
+                    let label = format!("{size}-{orientation}-{}", color.unwrap_or("default"));
+                    out.push((Box::leak(label.into_boxed_str()), r));
+                }
+            }
+        }
+    }
     // Checkbox, radio button and switch wrap their label too: the control stays on the first line.
     if matches!(name, "checkbox" | "radio-button" | "switch") {
         let mut r = req(vec![], HashMap::new(), "light", "desktop");

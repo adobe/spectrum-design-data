@@ -64,6 +64,24 @@
     "height": { "type": "number", "default": 192, "description": "units: px" },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Two-dimensional gradient surface; border is container styling.",
+      "required": true,
+      "contains": ["color-handle"]
+    },
+    {
+      "name": "color-handle",
+      "description": "Circular handle marking the selected color position.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP ColorArea.tsx:69-79 (border on the area), ColorHandle.tsx:37-40 and gen2 color-handle.css:85-95 (handle grows on focus, no separate ring); focus-indicator dropped."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

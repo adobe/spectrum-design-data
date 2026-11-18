@@ -96,6 +96,25 @@
           "metadata": {"count":2,"fields":["contextQualifier","scope.options.orientation"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"button-group/anatomy/button","name":"button","fields":[],"after":{"name":"button","description":"One button in the group; repeated.","required":true}},
+            {"id":"12ddd7e7-1","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"button-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web button group page (only Button instances). Group draws nothing itself; no container."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

@@ -98,5 +98,49 @@
       { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
       { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Card surface.",
+      "required": true,
+      "contains": [
+        "preview",
+        "checkbox",
+        "title",
+        "description",
+        "icon",
+        "action-button"
+      ]
+    },
+    {
+      "name": "preview",
+      "description": "Image or media area."
+    },
+    {
+      "name": "checkbox",
+      "description": "Selection checkbox in the top corner."
+    },
+    {
+      "name": "title",
+      "description": "Card title."
+    },
+    {
+      "name": "description",
+      "description": "Card description text."
+    },
+    {
+      "name": "icon",
+      "description": "Icon beside the description."
+    },
+    {
+      "name": "action-button",
+      "description": "Action button beside the title."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Card (Collection) as representative; cards umbrella covers several variants. Unsure: parts per variant."
   }
 }

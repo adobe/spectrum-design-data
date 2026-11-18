@@ -2,7 +2,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "thickness"
+      "property": "thickness",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Thickness",
     "contextRole": ["thickness"],
@@ -12,7 +15,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "thickness"
+      "property": "thickness",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Thickness",
     "contextRole": ["thickness"],
@@ -22,7 +28,11 @@
   {
     "scope": {
       "component": "divider",
-      "property": "thickness"
+      "property": "thickness",
+      "options": {
+        "size": "l",
+        "scale": "desktop"
+      }
     },
     "context": "Thickness",
     "contextRole": ["thickness"],
@@ -32,7 +42,24 @@
   {
     "scope": {
       "component": "divider",
-      "property": "horizontal-minimum-width"
+      "property": "thickness",
+      "options": {
+        "size": "l",
+        "scale": "mobile"
+      }
+    },
+    "context": "Thickness",
+    "contextRole": ["thickness"],
+    "$ref": "2680a852-162b-527c-a292-35a053f8bd54",
+    "uuid": "58dfce93-f93b-5bdb-9168-b0fae6db235e"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "horizontal-minimum-width",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
     "context": "Horizontal",
     "contextRole": ["layout"],
@@ -42,7 +69,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "vertical-minimum-height"
+      "property": "vertical-minimum-height",
+      "options": {
+        "orientation": "vertical"
+      }
     },
     "context": "Vertical",
     "contextRole": ["layout"],
@@ -52,7 +82,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "size": ["s", "m"]
+      }
     },
     "context": "Fill",
     "contextRole": ["track"],
@@ -62,7 +95,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "size": ["s", "m"]
+      }
     },
     "context": "Fill",
     "contextRole": ["track"],
@@ -72,7 +108,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "size": ["s", "m"]
+      }
     },
     "context": "Fill",
     "contextRole": ["track"],
@@ -82,7 +121,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Fill",
     "contextRole": ["track"],
@@ -92,7 +134,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Fill",
     "contextRole": ["track"],
@@ -102,7 +147,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Fill",
     "contextRole": ["track"],
@@ -112,51 +160,66 @@
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "white",
+        "size": ["s", "m"]
+      }
     },
-    "context": "Fill (white)",
+    "context": "Fill",
     "contextRole": ["track"],
-    "contextQualifier": "white",
-    "$ref": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb",
+    "$ref": "c459ce5a-1d40-490f-bde6-c409bd334487",
     "uuid": "69b1bf02-069c-5aa2-b0b9-b6913423dc13"
   },
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "white",
+        "size": "l"
+      }
     },
-    "context": "Fill (white)",
+    "context": "Fill",
     "contextRole": ["track"],
-    "contextQualifier": "white",
-    "$ref": "b85836bf-af47-412a-900a-4ec5ad0733b2",
+    "$ref": "cd537630-a18b-4f62-95ff-2b77a56130d3",
     "uuid": "7929d31a-ef63-5090-9831-25732039c423"
   },
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "black",
+        "size": ["s", "m"]
+      }
     },
-    "context": "Fill (black)",
+    "context": "Fill",
     "contextRole": ["track"],
-    "contextQualifier": "black",
-    "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
+    "$ref": "57ebdfa0-1bc1-42e5-871a-6d09b29ad5da",
     "uuid": "30db5612-bc47-5d49-8750-d0738fa52daa"
   },
   {
     "scope": {
       "component": "divider",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "black",
+        "size": "l"
+      }
     },
-    "context": "Fill (black)",
+    "context": "Fill",
     "contextRole": ["track"],
-    "contextQualifier": "black",
-    "$ref": "3e89f180-b0f0-4de0-904b-c80f0210a361",
+    "$ref": "b32a1253-f86f-46db-be89-85b4ab34bcf9",
     "uuid": "76c4c311-af54-5f84-a48b-d3813f63838a"
   },
   {
     "scope": {
       "component": "divider",
-      "property": "horizontal-minimum-width"
+      "property": "horizontal-minimum-width",
+      "options": {
+        "orientation": "horizontal"
+      }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "200px",
@@ -229,7 +292,10 @@
   {
     "scope": {
       "component": "divider",
-      "property": "vertical-minimum-height"
+      "property": "vertical-minimum-height",
+      "options": {
+        "orientation": "vertical"
+      }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "200px",

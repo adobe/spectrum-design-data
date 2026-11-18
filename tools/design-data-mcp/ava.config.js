@@ -16,6 +16,10 @@ export default {
   // shared dist/design-data-mcp-bundle staging dir. Running them concurrently causes
   // EEXIST races; serial execution avoids this without needing a lockfile.
   concurrency: 1,
+  // AVA's default 10s without a finished test fails the run. design-data.test.js has one
+  // synchronous wasm loop (every alias value ...) that takes 20-45s when CI is loaded, so the
+  // other tests cannot finish meanwhile.
+  timeout: "2m",
   environmentVariables: {
     NODE_ENV: "test",
   },

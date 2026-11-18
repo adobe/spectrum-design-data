@@ -2,6 +2,6 @@
   "specVersion": "1.0.0-draft",
   "layoutRevision": 2,
   "requires": {
-    "cli": "0.40.0"
+    "cli": "0.50.0"
   }
 }

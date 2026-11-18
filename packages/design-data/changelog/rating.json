@@ -119,6 +119,27 @@
           "metadata": {"count":21,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"rating/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Row of rating items.","required":true,"contains":["indicator"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"rating/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Ring drawn for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"rating/anatomy/indicator","name":"indicator","fields":[],"after":{"name":"indicator","description":"Star icon for one rating step. Filled, half filled or empty by value.","required":true}},
+            {"id":"12ddd7e7-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"rating/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (.Rating item subcomponent, five star instances). Relationship scope.part 'indicator' is covered. 'Layout', 'Down', 'Hover', 'Emphasized' contexts are states or options, not parts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

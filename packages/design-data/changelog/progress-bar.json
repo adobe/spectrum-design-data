@@ -141,6 +141,69 @@
           "metadata": {"count":3,"fields":["contextQualifier","scope.options.staticColor"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Whole progress bar: header row and track.","required":true,"contains":["label","value","track"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"Filled portion of the track; animates when indeterminate.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Field label shown at top or side by labelPosition. Hidden by hideLabel."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/track","name":"track","fields":[],"after":{"name":"track","description":"Rounded bar behind the fill.","required":true,"contains":["fill"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Percentage text in the header. Hidden when no value label."}},
+            {"id":"12ddd7e7-5","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Progress bar). fill required though empty at 0%. Side label position moves the header; same parts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.19.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-17",
+      "commit": "3ed6e984292bbcb3a5193cf474148290138fef4a",
+      "commits": [
+        {
+          "commit": "5030209fdc50f8161684368b8d0c65f2537e9620",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1901,"title":"feat(design-data): progress-bar visual recipe; fraction sizes and option text in recipes","url":"https://github.com/adobe/spectrum-design-data/pull/1901"},
+          "entries": [
+            {"id":"5030209f-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"staticColor":"black"}},"record":"56ae39b9-282c-5820-92d2-fb97bb536295","name":"content-color[staticColor=black]","fields":[],"after":"9b7919b5-764c-4f93-b4c7-39d8bf7f2b51"},
+            {"id":"5030209f-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"5adc2357-e39f-5025-827a-4d2606b7f49b","name":"color[staticColor=black]","fields":[],"after":"c6d40ce0-bcee-4b56-9e63-a51ee1579ef0"},
+            {"id":"5030209f-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"content-color","options":{"staticColor":"black"}},"record":"92c7db5f-812f-5e0f-b347-bf69745f9baa","name":"content-color[staticColor=black]","fields":[],"after":"0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9"},
+            {"id":"5030209f-3","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"progress-bar/options/variant","name":"variant","fields":[],"before":{"type":"string","default":"default","values":[{"value":"default"},{"value":"over background"}]}},
+            {"id":"5030209f-4","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/options/staticColor","name":"staticColor","fields":[{"path":"description","before":"Static color can only be white, otherwise it is default.","after":"Static color for use on colored backgrounds. White draws a light bar, black a dark one. Unset is the regular bar."}]},
+            {"id":"5030209f-5","kind":"option-value","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/options/staticColor/values/black","name":"black","fields":[],"after":{"value":"black"}},
+            {"id":"5030209f-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/anatomy/header","name":"header","fields":[],"after":{"name":"header","description":"Row that holds the label and the value text above the track. Not drawn when the label is hidden.","contains":["label","value"]}},
+            {"id":"5030209f-7","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/anatomy/container","name":"container","fields":[{"path":"contains","before":["label","value","track"],"after":["header","track"]}]},
+            {"id":"5030209f-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web (Progress bar). fill required though empty at 0%. Side label position moves the header; same parts.","after":"Matches Figma S2 Web (Progress bar): its Header frame is the header part, and its Indicator is the fill. Fill is required though empty at 0%. With labelPosition side the label and value flank the track; the parts are the same."}]},
+            {"id":"5030209f-9","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"progress-bar/visual","name":"progress-bar","fields":[]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.status","scope.property"]}
+        },
+        {
+          "commit": "08621b798e778b097d0384b13fa15ce10c25f111",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1906,"title":"fix(design-data): meter and progress-bar gap from base-gap tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1906"},
+          "entries": [
+            {"id":"08621b79-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"spacing","options":null},"record":"301c2476-d7ac-50d1-9b9e-0cf88a332cea","name":"spacing","fields":[],"before":"576a60a3-ca80-46c5-a066-ba7b6197decd"},
+            {"id":"08621b79-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"gap","options":{"size":"s"}},"record":"e2b5b880-8918-5ac2-bcf9-8ed7f71cad81","name":"gap[size=s]","fields":[],"after":"1247c1ab-9e31-482a-832c-d32911a1e698"},
+            {"id":"08621b79-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"gap","options":{"size":"m"}},"record":"e22bd77e-50e6-5a01-b25e-e31a2dc87c58","name":"gap[size=m]","fields":[],"after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"},
+            {"id":"08621b79-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"gap","options":{"size":"l"}},"record":"79605781-c82e-5d8b-ba47-174bfdcc78ed","name":"gap[size=l]","fields":[],"after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"},
+            {"id":"08621b79-4","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"gap","options":{"size":"xl"}},"record":"1057e470-3436-5bbe-abcb-1cbe58ec29fc","name":"gap[size=xl]","fields":[],"after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"},
+            {"id":"08621b79-5","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"progress-bar/visual/parts/container","name":"container","fields":[{"path":"props.gap.relationship.property","before":"spacing","after":"gap"}]}
+          ]
+        }
+      ]
     }
   ]
 }

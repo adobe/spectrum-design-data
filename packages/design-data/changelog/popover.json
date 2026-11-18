@@ -104,6 +104,26 @@
           "metadata": {"count":16,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Surface holding the content; border and drop shadow are container styling.","required":true,"contains":["tip"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/tip","name":"tip","fields":[],"after":{"name":"tip","description":"Arrow pointing at the source; shares the surface fill and border; hidden when the tip is off."}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP Popover.tsx:165-271 and gen2 popover.css:183-200 (tip shares surface fill/border, shadow on container); content dropped (no own style); relationship part tip kept."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

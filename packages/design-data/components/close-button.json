@@ -60,13 +60,35 @@
         { "value": "xl" }
       ]
     },
-    "iconSize": { "type": "string" },
     "staticColor": {
       "type": "string",
       "description": "Static color must not be set for the default version of this component.",
       "values": [{ "value": "white" }, { "value": "black" }]
     },
     "isDisabled": { "type": "boolean", "default": false }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular hit-surface background; transparent at rest, fills on hover and down.",
+      "required": true,
+      "contains": ["icon"]
+    },
+    {
+      "name": "icon",
+      "description": "Cross mark, with static white and black variants.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the component for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Matches Figma S2 Web (Close button): a circular container with the cross icon, static white and black drawn. RSP CloseButton.tsx:43,67-71: container always present, its transparent-at-rest fill is styling; hover, keyboard focus and press share one fill. Figma draws no focus or down state. iconSize removed: neither Figma nor RSP has it (RSP derives the icon size from size)."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

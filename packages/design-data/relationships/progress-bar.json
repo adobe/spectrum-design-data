@@ -22,13 +22,58 @@
   {
     "scope": {
       "component": "progress-bar",
-      "property": "spacing"
+      "property": "gap",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (field label to progress bar)",
     "contextRole": ["spacing"],
     "contextQualifier": "field label to progress bar",
-    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
-    "uuid": "301c2476-d7ac-50d1-9b9e-0cf88a332cea"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "e2b5b880-8918-5ac2-bcf9-8ed7f71cad81"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "e22bd77e-50e6-5a01-b25e-e31a2dc87c58"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "79605781-c82e-5d8b-ba47-174bfdcc78ed"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "1057e470-3436-5bbe-abcb-1cbe58ec29fc"
   },
   {
     "scope": {
@@ -346,7 +391,7 @@
   {
     "scope": {
       "component": "progress-bar",
-      "property": "color",
+      "property": "content-color",
       "options": {
         "staticColor": "white"
       }
@@ -372,7 +417,7 @@
   {
     "scope": {
       "component": "progress-bar",
-      "property": "color",
+      "property": "content-color",
       "options": {
         "staticColor": "white"
       }
@@ -381,6 +426,45 @@
     "contextRole": ["track", "control"],
     "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f",
     "uuid": "0410adfb-10ea-5de0-a668-13ecc400150b"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "content-color",
+      "options": {
+        "staticColor": "black"
+      }
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "9b7919b5-764c-4f93-b4c7-39d8bf7f2b51",
+    "uuid": "56ae39b9-282c-5820-92d2-fb97bb536295"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "color",
+      "options": {
+        "staticColor": "black"
+      }
+    },
+    "context": "Track and indicator",
+    "contextRole": ["track", "control"],
+    "$ref": "c6d40ce0-bcee-4b56-9e63-a51ee1579ef0",
+    "uuid": "5adc2357-e39f-5025-827a-4d2606b7f49b"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "content-color",
+      "options": {
+        "staticColor": "black"
+      }
+    },
+    "context": "Track and indicator",
+    "contextRole": ["track", "control"],
+    "$ref": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9",
+    "uuid": "92c7db5f-812f-5e0f-b347-bf69745f9baa"
   },
   {
     "scope": {

@@ -204,6 +204,32 @@
           "metadata": {"count":45,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Track background behind the items.","contains":["item","selection"],"required":true}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the focused segment.","presentIn":["keyboard-focus"]}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Icon in a segment; optional."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/anatomy/item","name":"item","fields":[],"after":{"name":"item","description":"One segment with an icon, a label or both; repeated.","required":true,"contains":["icon","label","focus-indicator"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Text in a segment; optional."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/anatomy/selection","name":"selection","fields":[],"after":{"name":"selection","description":"Sliding indicator that marks the selected segment; a sibling of the items inside the track."}},
+            {"id":"12ddd7e7-6","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/states/disabled","name":"disabled","fields":[],"after":{"name":"disabled","trigger":"prop"}},
+            {"id":"12ddd7e7-7","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/states/keyboard-focus","name":"keyboard-focus","fields":[],"after":{"name":"keyboard-focus","trigger":"interaction"}},
+            {"id":"12ddd7e7-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP SegmentedControl.tsx:116-121,255 draws the track and a sliding selection indicator over the items; Figma S2 Web segmented control page. 'item' kept (not segmented-control-item) by owner decision to avoid new *-item terms. keyboard-focus and disabled states added."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

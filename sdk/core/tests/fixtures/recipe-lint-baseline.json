@@ -7,7 +7,9 @@
     "checkbox": 16
   },
   "SPEC-069": {
-    "accordion": 8
+    "accordion": 8,
+    "close-button": 16,
+    "field-label": 2
   },
   "SPEC-086": {
     "action-button": 1

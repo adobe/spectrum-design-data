@@ -116,6 +116,29 @@
           "metadata": {"count":13,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/color-handle","name":"color-handle","fields":[],"after":{"name":"color-handle","description":"Handle marking the selected channel value.","required":true}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Field label above the track."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[],"after":{"name":"opacity-checkerboard","description":"Checkerboard behind the track for opacity channels."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/track","name":"track","fields":[],"after":{"name":"track","description":"Gradient track holding the handle and checkerboard.","required":true,"contains":["color-handle","opacity-checkerboard"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Current channel value shown beside the label."}},
+            {"id":"12ddd7e7-5","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring); container and focus-indicator dropped, no relationship scope.part names them."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

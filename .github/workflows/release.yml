@@ -52,9 +52,13 @@ jobs:
       hasChangesets: ${{ steps.cs.outputs.hasChangesets }}
       cliReleaseNeeded: ${{ steps.cli.outputs.cliReleaseNeeded }}
     steps:
+      # The checkout token is git's push credential. The default GITHUB_TOKEN is a GitHub App
+      # and cannot push workflow files, so a version-branch or tag push is rejected whenever
+      # main's .github/workflows changed since that commit. GH_TOKEN is a PAT with `workflow` scope.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Detect CLI release
         id: cli
@@ -170,11 +174,13 @@ jobs:
       - name: Install lld
         run: sudo apt-get update && sudo apt-get install -y lld
 
+      # Restore-only: rust-cache-warm.yml saves this cache on main. The key hashes sdk/Cargo.toml.
       - name: Cache Cargo build
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: "sdk -> sdk/target"
-          key: wasm
+          workspaces: sdk
+          shared-key: rust-ci-${{ hashFiles('sdk/Cargo.toml') }}
+          save-if: false
 
       - uses: actions/setup-node@v4
         with:
@@ -341,9 +347,11 @@ jobs:
       contents: write
       id-token: write # Required for npm trusted publishing (OIDC)
     steps:
+      # Pushes the package tags, so it needs the PAT with `workflow` scope too (see the changesets job).
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:

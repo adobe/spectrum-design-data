@@ -74,6 +74,18 @@
       "values": [{ "value": "white" }]
     }
   },
+  "anatomy": [
+    {
+      "name": "ring",
+      "description": "Rounded outline that pulses to draw attention.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (single RECT Ring). Corner rounding and static color are options, not parts."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }

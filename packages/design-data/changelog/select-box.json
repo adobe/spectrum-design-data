@@ -214,6 +214,30 @@
           "metadata": {"count":29,"fields":["contextQualifier","scope.options.isSelected","scope.options.orientation"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"select-box/anatomy/checkbox","name":"checkbox","fields":[],"after":{"name":"checkbox","description":"Checkbox shown when enabled."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"select-box/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Bordered card that holds the content.","required":true,"contains":["illustration","label","description","checkbox"]}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"select-box/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Supplementary description."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"select-box/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"select-box/anatomy/illustration","name":"illustration","fields":[],"after":{"name":"illustration","description":"Illustration or icon."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"select-box/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Label text."}},
+            {"id":"12ddd7e7-6","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"select-box/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Content frame, Text frame; checkbox is a property). Hover is a visual state, not a part."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

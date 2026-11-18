@@ -2,7 +2,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "50"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -12,7 +15,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "50"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -22,7 +28,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "75"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -32,7 +41,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "75"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -42,7 +54,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "100"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -52,7 +67,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "100"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -62,7 +80,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "200"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -72,7 +93,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "200"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -82,7 +106,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "300"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -92,7 +119,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "300"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -102,7 +132,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "400"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -112,7 +145,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "400"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -122,7 +158,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "500"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -132,7 +171,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "500"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -142,7 +184,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "600"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -152,7 +197,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "600"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -162,7 +210,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "700"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -172,7 +223,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "700"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -182,7 +236,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "800"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -192,7 +249,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "800"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -202,7 +262,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "900"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -212,7 +275,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "900"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -222,7 +288,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1000"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -232,7 +301,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1000"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -242,7 +314,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1100"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -252,7 +327,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1100"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -262,7 +340,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1200"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -272,7 +353,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1200"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -282,7 +366,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1300"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -292,7 +379,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1300"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -302,7 +392,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1400"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -312,7 +405,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1400"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -322,7 +418,10 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1500"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -332,22 +431,15 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1500"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
     "$ref": "06359a10-02d1-4886-a841-940b5ffbb0f0",
     "uuid": "bc143415-13d1-502e-823e-cebc8ccfecb5"
-  },
-  {
-    "scope": {
-      "component": "avatar",
-      "property": "border-width"
-    },
-    "context": "Border",
-    "contextRole": ["border"],
-    "$ref": "2d4cd3ad-cc2c-4ad5-9475-c73882c5201e",
-    "uuid": "1d552f3d-22dc-5b9c-9d4b-63a4fef32a6f"
   },
   {
     "scope": {
@@ -509,6 +601,8 @@
       "component": "avatar",
       "property": "border-width"
     },
+    "context": "Border",
+    "contextRole": ["border"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
     "uuid": "2d4cd3ad-cc2c-4ad5-9475-c73882c5201e",
@@ -1574,5 +1668,59 @@
     "uuid": "620ee6f3-eb3d-40ad-854b-9edceb897c7f",
     "legacyKey": "gradient-stop-3-avatar",
     "private": true
+  },
+  {
+    "scope": {
+      "component": "avatar",
+      "property": "color",
+      "options": {
+        "image": "user image"
+      }
+    },
+    "context": "Background (image)",
+    "contextRole": ["background"],
+    "contextPart": "image",
+    "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",
+    "uuid": "9b358b31-ee6e-5c01-8561-ccc18bacbe73"
+  },
+  {
+    "scope": {
+      "component": "avatar",
+      "property": "color",
+      "options": {
+        "image": ["gradient image", "initials", "guest"]
+      }
+    },
+    "context": "Background (image)",
+    "contextRole": ["background"],
+    "contextPart": "image",
+    "$ref": "5502c9f3-e4ca-4ed8-aa57-fe2e3e739b3d",
+    "uuid": "bb126050-4093-5d18-950b-20af87922e26"
+  },
+  {
+    "scope": {
+      "component": "avatar",
+      "property": "color",
+      "options": {
+        "image": "initials"
+      }
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "1416b50c-34a9-5067-80f2-07b9a95bb982",
+    "uuid": "5764670f-8a33-52f4-bf35-74cd49338903"
+  },
+  {
+    "scope": {
+      "component": "avatar",
+      "property": "color",
+      "options": {
+        "image": "guest"
+      }
+    },
+    "context": "Icon",
+    "contextRole": ["icon"],
+    "$ref": "1416b50c-34a9-5067-80f2-07b9a95bb982",
+    "uuid": "632782ba-e8c8-5491-9c2c-d47d8809e056"
   }
 ]

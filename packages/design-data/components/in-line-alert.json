@@ -59,6 +59,40 @@
       "description": "If undefined, this button does not appear."
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Bordered or filled surface holding the alert content.",
+      "required": true,
+      "contains": ["icon", "title", "description", "button", "link"]
+    },
+    {
+      "name": "icon",
+      "description": "Status icon chosen by variant."
+    },
+    {
+      "name": "title",
+      "description": "Alert heading. Hidden when no heading."
+    },
+    {
+      "name": "description",
+      "description": "Alert body text.",
+      "required": true
+    },
+    {
+      "name": "button",
+      "description": "Optional action button, shown with actionLabel."
+    },
+    {
+      "name": "link",
+      "description": "Optional link, shown with href."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (In-line alert; Show title/button/link props). Style option picks border, subtle or bold fill on the container. Spacing context 'Description to Link' names a link/button-link; used registry link."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "focusable": false,

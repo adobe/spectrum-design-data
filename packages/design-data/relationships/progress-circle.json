@@ -177,44 +177,52 @@
   {
     "scope": {
       "component": "progress-circle",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and fill (white)",
+    "context": "Track and fill",
     "contextRole": ["track", "track"],
-    "contextQualifier": "white",
     "$ref": "23791534-8963-4ff8-bfb4-15108da47103",
     "uuid": "a788986d-f5c8-5a42-b302-15358ed74859"
   },
   {
     "scope": {
       "component": "progress-circle",
-      "property": "color"
+      "property": "content-color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and fill (white)",
+    "context": "Track and fill",
     "contextRole": ["track", "track"],
-    "contextQualifier": "white",
     "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f",
     "uuid": "a256c2a6-6d0f-51ed-9af8-00d03f163c32"
   },
   {
     "scope": {
       "component": "progress-circle",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "black"
+      }
     },
-    "context": "Track and fill (black)",
+    "context": "Track and fill",
     "contextRole": ["track", "track"],
-    "contextQualifier": "black",
     "$ref": "c6d40ce0-bcee-4b56-9e63-a51ee1579ef0",
     "uuid": "784b960b-9b78-596b-b43a-15546999eee7"
   },
   {
     "scope": {
       "component": "progress-circle",
-      "property": "color"
+      "property": "content-color",
+      "options": {
+        "staticColor": "black"
+      }
     },
-    "context": "Track and fill (black)",
+    "context": "Track and fill",
     "contextRole": ["track", "track"],
-    "contextQualifier": "black",
     "$ref": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9",
     "uuid": "8fec7f0f-3acf-559d-bb52-881d8d5d65a9"
   },

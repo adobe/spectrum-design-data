@@ -86,6 +86,40 @@
       "description": "Set to true to allow multiple selections."
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Bordered card that holds the content.",
+      "required": true,
+      "contains": ["illustration", "label", "description", "checkbox"]
+    },
+    {
+      "name": "illustration",
+      "description": "Illustration or icon."
+    },
+    {
+      "name": "label",
+      "description": "Label text."
+    },
+    {
+      "name": "description",
+      "description": "Supplementary description."
+    },
+    {
+      "name": "checkbox",
+      "description": "Checkbox shown when enabled."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Content frame, Text frame; checkbox is a property). Hover is a visual state, not a part."
+  },
   "states": [
     { "name": "down", "trigger": "interaction" },
     { "name": "hover", "trigger": "interaction" },

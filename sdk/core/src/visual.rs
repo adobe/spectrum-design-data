@@ -84,7 +84,17 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
         ],
     ),
     ("icon", &["color", "width", "height", "rotation"]),
-    ("progress", &["color", "width", "height", "trackColor"]),
+    (
+        "progress",
+        &[
+            "color",
+            "width",
+            "height",
+            "trackColor",
+            "strokeWidth",
+            "sweep",
+        ],
+    ),
     (
         "text",
         &[
@@ -267,6 +277,9 @@ pub struct SceneNode {
     pub fill: Option<String>,
     pub stroke: Option<String>,
     pub stroke_width: f64,
+    /// Fraction of a `progress` ring the arc covers (0 to 1); unset draws the fixed spinner arc.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sweep: Option<f64>,
     pub radius: f64,
     /// Per-corner radii `[top-left, top-right, bottom-right, bottom-left]` (left-to-right),
     /// set only when the corners differ.
@@ -965,7 +978,12 @@ impl<'a> CompileCx<'a> {
         });
         let mut cands = Vec::new();
         for (rf, options, states, rel) in &refs {
-            if let Some(t) = self.graph.resolve_alias_key(rf) {
+            // A concept id (a palette color set) picks its member for the request's mode.
+            let target = self
+                .graph
+                .resolve_alias_in_context(rf, &self.mode_ctx())
+                .or_else(|| self.graph.resolve_alias_key(rf));
+            if let Some(t) = target {
                 cands.push((t, options.clone(), states.clone(), Some(rel.clone())));
             } else if let Some(t) = self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf)) {
                 cands.push((t, options.clone(), states.clone(), Some(rel.clone())));
@@ -1513,6 +1531,43 @@ impl Ctx<'_> {
         active
     }
 
+    /// `(value - min) / (max - min)` of the numeric options a `fraction` names, clamped to 0..1.
+    fn fraction(&self, spec: &Value) -> f64 {
+        let num = |key: &str, default: f64| {
+            spec.get(key)
+                .and_then(Value::as_str)
+                .and_then(|n| self.option(n).as_f64())
+                .unwrap_or(default)
+        };
+        let (value, min, max) = (num("value", 0.0), num("min", 0.0), num("max", 1.0));
+        if max > min {
+            ((value - min) / (max - min)).clamp(0.0, 1.0)
+        } else {
+            0.0
+        }
+    }
+
+    /// A text part's copy: its `text.option` when that string option is set, else its
+    /// `text.fraction` as a percentage, else the request label.
+    fn text_of(&self, part: &Value, label: &str) -> String {
+        let Some(text) = part.get("text") else {
+            return label.to_string();
+        };
+        if let Some(Value::String(s)) = text
+            .get("option")
+            .and_then(Value::as_str)
+            .map(|n| self.option(n))
+        {
+            if !s.is_empty() {
+                return s;
+            }
+        }
+        match text.get("fraction") {
+            Some(f) => format!("{}%", (self.fraction(f) * 100.0).round()),
+            None => label.to_string(),
+        }
+    }
+
     fn eval(&mut self, source: Option<&Value>) -> Option<Resolved> {
         let source = source?;
         let chosen = match source {
@@ -1537,6 +1592,15 @@ impl Ctx<'_> {
             .get("relativeTo")
             .and_then(Value::as_str)
             .map(String::from);
+        if let Some(spec) = chosen.get("fraction") {
+            return Some(Resolved {
+                value: self.fraction(spec).to_string(),
+                token: String::new(),
+                relative_to: Some("parent".into()),
+                chain: Vec::new(),
+                relationship: None,
+            });
+        }
         if let Some(v) = chosen.get("value") {
             let literal = match v {
                 Value::Bool(b) => Some(b.to_string()),
@@ -1880,6 +1944,23 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
                             }
                         }
                     }
+                    // A `fraction` reads the options it names; a text part's `text.option` too.
+                    let named: Vec<&str> = match (k.as_str(), x) {
+                        ("fraction", Value::Object(f)) => {
+                            f.values().filter_map(Value::as_str).collect()
+                        }
+                        ("text", t) => t
+                            .get("option")
+                            .and_then(Value::as_str)
+                            .into_iter()
+                            .collect(),
+                        _ => Vec::new(),
+                    };
+                    for name in named {
+                        if !used.iter().any(|u| u == name) {
+                            used.push(name.to_string());
+                        }
+                    }
                     if k == "with" {
                         // A `component` part binds a nested option to a host option.
                         let hosts = x.as_object().into_iter().flat_map(|w| w.values());
@@ -2146,6 +2227,34 @@ pub fn build_scene(
     build_scene_cached(graph, recipe, req, &SceneCache::default())
 }
 
+/// `req`, or a copy at the component's default `size` when the request is for `m`, the tools'
+/// implicit default, and the recipe's `sizeScale` has no `m`, as a component with a numeric size
+/// (an avatar's 500) does not. Any other size the recipe lacks stays an error.
+fn with_default_size<'a>(
+    graph: &TokenGraph,
+    recipe: &Value,
+    req: &'a RenderRequest,
+) -> std::borrow::Cow<'a, RenderRequest> {
+    let scale = recipe.get("sizeScale");
+    if req.size != "m" || scale.is_none_or(|s| s.get(&req.size).is_some()) {
+        return std::borrow::Cow::Borrowed(req);
+    }
+    let default = graph
+        .components
+        .iter()
+        .find(|c| c.name == req.component)
+        .and_then(|c| c.raw.pointer("/options/size/default"))
+        .and_then(value_to_string)
+        .filter(|d| scale.is_some_and(|s| s.get(d).is_some()));
+    match default {
+        Some(size) => std::borrow::Cow::Owned(RenderRequest {
+            size,
+            ..req.clone()
+        }),
+        None => std::borrow::Cow::Borrowed(req),
+    }
+}
+
 /// Like [`build_scene`], reusing compiled variants from `cache`. Use one cache per graph
 /// when rendering many requests (a matrix); results are identical.
 pub fn build_scene_cached(
@@ -2154,7 +2263,8 @@ pub fn build_scene_cached(
     req: &RenderRequest,
     cache: &SceneCache,
 ) -> Result<Scene, String> {
-    solve(&*cache.variant(graph, recipe, req)?, req)
+    let req = with_default_size(graph, recipe, req);
+    solve(&*cache.variant(graph, recipe, &req)?, &req)
 }
 
 /// Lay out a compiled variant for one request. A recipe with `repeat` draws its root once
@@ -2424,6 +2534,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         stroke: Option<String>,
         fill: Option<String>,
         stroke_width: f64,
+        sweep: Option<f64>,
         radius: Option<Resolved>,
         tokens: Vec<TokenRef>,
         row: Option<Row>,
@@ -2501,6 +2612,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             stroke: None,
             fill: None,
             stroke_width: 0.0,
+            sweep: None,
             radius: None,
             tokens,
             row: None,
@@ -2614,6 +2726,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             fill: None,
                             stroke: None,
                             stroke_width: 0.0,
+                            sweep: None,
                             radius: 0.0,
                             radii: None,
                             text: None,
@@ -2677,10 +2790,11 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                 node.font_size =
                                     fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                                 node.font_weight = fw.map(|f| f.value);
-                                node.text = Some(req.label.clone());
+                                let copy = cx.text_of(np, &req.label);
+                                node.text = Some(copy.clone());
                                 node.w = text_width(
                                     req,
-                                    &req.label,
+                                    &copy,
                                     node.font_size,
                                     node.font_weight.as_deref(),
                                 );
@@ -2818,6 +2932,10 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     let tc = rp(&mut cx, part, "trackColor");
                     track(&mut c.tokens, "trackColor", &tc);
                     c.stroke = tc.map(|t| t.value);
+                    let psw = rp(&mut cx, part, "strokeWidth");
+                    track(&mut c.tokens, "strokeWidth", &psw);
+                    c.stroke_width = psw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                    c.sweep = rp(&mut cx, part, "sweep").as_ref().and_then(Resolved::num);
                 }
             }
             "text" => {
@@ -2832,7 +2950,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.font_family = ff.map(|f| f.value);
                 c.font_size = fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                 c.font_weight = fw.map(|f| f.value);
-                let text = req.label.clone();
+                let text = cx.text_of(part, &req.label);
                 c.w = text_width(req, &text, c.font_size, c.font_weight.as_deref());
                 if let Some(r) = lh.as_ref().filter(|r| r.num().is_none()) {
                     cx.diags.push(format!(
@@ -3002,6 +3120,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         fill: fill.map(|f| f.value),
         stroke: stroke.map(|s| s.value),
         stroke_width: stroke_w.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+        sweep: None,
         radius: root_radius,
         radii,
         text: None,
@@ -3163,6 +3282,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             fill: c.fill,
             stroke: c.stroke,
             stroke_width: c.stroke_width,
+            sweep: c.sweep,
             radius: 0.0,
             radii: None,
             text: c.text,
@@ -3265,6 +3385,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     fill: None,
                     stroke: None,
                     stroke_width: 0.0,
+                    sweep: None,
                     radius: 0.0,
                     radii: None,
                     text: None,
@@ -3294,8 +3415,19 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             ] {
                 track(&mut tokens, n, r);
             }
-            let w2 = nw.as_ref().and_then(Resolved::num).unwrap_or(cw);
-            let h2 = nh.as_ref().and_then(Resolved::num).unwrap_or(ch);
+            let of_parent = |r: &Option<Resolved>, whole: f64| {
+                r.as_ref().and_then(|r| {
+                    r.num().map(|v| {
+                        if r.relative_to.as_deref() == Some("parent") {
+                            v * whole
+                        } else {
+                            v
+                        }
+                    })
+                })
+            };
+            let w2 = of_parent(&nw, cw).unwrap_or(cw);
+            let h2 = of_parent(&nh, ch).unwrap_or(ch);
             let inset = (ch - h2) / 2.0;
             let nx = match justify.as_ref().map(|j| j.value.as_str()) {
                 Some("end") => cx0 + cw - w2 - inset,
@@ -3312,6 +3444,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 fill: nfill.map(|f| f.value),
                 stroke: nstroke.map(|s| s.value),
                 stroke_width: nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+                sweep: None,
                 radius: clamp_radius(px(&nradius, h2), w2, h2),
                 radii: None,
                 text: None,
@@ -3345,6 +3478,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             fill: None,
             stroke: None,
             stroke_width: 0.0,
+            sweep: None,
             radius: 0.0,
             radii: None,
             text: None,
@@ -3470,6 +3604,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             fill: None,
             stroke: stroke.map(|s| s.value),
             stroke_width: sw_n,
+            sweep: None,
             radius: r0 + off,
             radii: None,
             text: None,
@@ -3671,6 +3806,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         fill: None,
         stroke: None,
         stroke_width: 0.0,
+        sweep: None,
         radius: 0.0,
         radii: None,
         text: None,
@@ -4035,18 +4171,29 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                 );
             }
             "progress" => {
-                let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
-                let r = n.w.min(n.h) / 2.0 - n.w.min(n.h) / 18.0;
-                let sw = (n.w.min(n.h) / 9.0).max(1.0);
+                let (cx, cy, r, sw) = progress_geometry(n);
+                let sweep = n.sweep.unwrap_or(0.25);
+                let end = sweep * std::f64::consts::TAU;
+                let round = |v: f64| (v * 1e6).round() / 1e6;
+                let color = esc(n.color.as_deref().unwrap_or("currentColor"));
+                let arc = if sweep >= 1.0 {
+                    format!("<circle cx=\"{cx}\" cy=\"{cy}\" r=\"{r}\" stroke=\"{color}\"/>")
+                } else if sweep > 0.0 {
+                    format!(
+                        "<path d=\"M{} {}A{r} {r} 0 {} 1 {} {}\" stroke=\"{color}\" stroke-linecap=\"round\"/>",
+                        cx,
+                        cy - r,
+                        u8::from(sweep > 0.5),
+                        if n.sweep.is_some() { round(cx + r * end.sin()) } else { cx + r },
+                        if n.sweep.is_some() { round(cy - r * end.cos()) } else { cy }
+                    )
+                } else {
+                    String::new()
+                };
                 let _ = write!(
                     s,
-                    "<g {attrs} fill=\"none\" stroke-width=\"{sw}\"><circle cx=\"{cx}\" cy=\"{cy}\" r=\"{r}\" stroke=\"{}\"/><path d=\"M{} {}A{r} {r} 0 0 1 {} {}\" stroke=\"{}\" stroke-linecap=\"round\"/></g>",
-                    esc(n.stroke.as_deref().unwrap_or("none")),
-                    cx,
-                    cy - r,
-                    cx + r,
-                    cy,
-                    esc(n.color.as_deref().unwrap_or("currentColor"))
+                    "<g {attrs} fill=\"none\" stroke-width=\"{sw}\"><circle cx=\"{cx}\" cy=\"{cy}\" r=\"{r}\" stroke=\"{}\"/>{arc}</g>",
+                    esc(n.stroke.as_deref().unwrap_or("none"))
                 );
             }
             "icon" => {
@@ -4066,6 +4213,19 @@ pub fn scene_to_svg(scene: &Scene) -> String {
     }
     s.push_str("</svg>");
     s
+}
+
+/// Center, ring radius and stroke width of a `progress` node. A bound `strokeWidth` is the
+/// thickness; otherwise a ninth of the diameter. The ring sits inside the box, so its radius is
+/// half the diameter less half the stroke.
+pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
+    let side = n.w.min(n.h);
+    let sw = if n.stroke_width > 0.0 {
+        n.stroke_width
+    } else {
+        (side / 9.0).max(1.0)
+    };
+    (n.x + n.w / 2.0, n.y + n.h / 2.0, side / 2.0 - sw / 2.0, sw)
 }
 
 /// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
@@ -4437,6 +4597,105 @@ mod tests {
         assert_eq!(s.nodes[0].w, 98.0);
         assert_eq!(s.diagnostics.len(), 1, "{:?}", s.diagnostics);
         assert!(s.diagnostics[0].contains("minWidth is relative to the height"));
+    }
+
+    #[test]
+    fn a_fraction_sizes_a_nested_box_and_fills_a_text_part_as_a_percentage() {
+        let frac = serde_json::json!({ "value": "value", "min": "minValue", "max": "maxValue" });
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["t", "track"], "props": {
+                    "direction": lit("column".into()), "width": lit(100.into()) } },
+                "t": { "kind": "text", "text": { "option": "valueLabel", "fraction": frac } },
+                "track": { "kind": "box", "children": ["fill"], "props": {
+                    "height": lit(10.into()) } },
+                "fill": { "kind": "box", "props": {
+                    "width": { "fraction": frac }, "justify": lit("end".into()) } }
+            }
+        });
+        let (read, _) = recipe_options(&recipe);
+        for name in ["value", "minValue", "maxValue", "valueLabel"] {
+            assert!(read.iter().any(|r| r == name), "{name} is read: {read:?}");
+        }
+        let at = |opts: &[(&str, Value)]| {
+            let (g, _) = load();
+            let mut r = req(&[]);
+            r.options = opts
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            let s = build_scene(&g, &recipe, &r).unwrap();
+            (
+                part(&s, "fill").unwrap().w,
+                part(&s, "t").unwrap().text.clone().unwrap(),
+            )
+        };
+        let n = |v: f64| serde_json::json!(v);
+        // min 0, max 1 by default.
+        assert_eq!(at(&[("value", n(0.25))]), (25.0, "25%".into()));
+        // A range, and a value past it, clamped.
+        let range = [("minValue", n(10.0)), ("maxValue", n(20.0))];
+        assert_eq!(
+            at(&[range[0].clone(), range[1].clone(), ("value", n(15.0))]).0,
+            50.0
+        );
+        assert_eq!(
+            at(&[range[0].clone(), range[1].clone(), ("value", n(99.0))]),
+            (100.0, "100%".into())
+        );
+        // No value: empty, and a set valueLabel replaces the percentage.
+        assert_eq!(at(&[]), (0.0, "0%".into()));
+        assert_eq!(
+            at(&[("value", n(0.5)), ("valueLabel", "Half".into())]),
+            (50.0, "Half".into())
+        );
+    }
+
+    #[test]
+    fn a_progress_sweep_draws_an_arc_of_a_fraction_and_unset_keeps_the_spinner_frame() {
+        let frac = serde_json::json!({ "value": "value" });
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "children": ["p"] }, "p": { "kind": "progress", "props": {
+                "width": lit(32.into()), "height": lit(32.into()),
+                "strokeWidth": lit(3.into()),
+                "color": lit("#0000ff".into()), "trackColor": lit("#cccccc".into()),
+                "sweep": [{ "when": { "options": { "isIndeterminate": false } }, "fraction": frac }]
+            } } }
+        });
+        let (read, _) = recipe_options(&recipe);
+        assert!(read.iter().any(|r| r == "value"), "{read:?}");
+        let svg = |opts: &[(&str, Value)]| {
+            let (g, _) = load();
+            let mut r = req(&[]);
+            r.options = opts
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            let s = build_scene(&g, &recipe, &r).unwrap();
+            (part(&s, "p").unwrap().sweep, scene_to_svg(&s))
+        };
+        let n = |v: f64| serde_json::json!(v);
+        // Radius is (32 - 3) / 2 = 14.5: the ring sits inside the box.
+        let (sweep, s) = svg(&[("value", n(0.5))]);
+        assert_eq!(sweep, Some(0.5));
+        assert!(
+            s.contains("r=\"14.5\"") && s.contains("stroke-width=\"3\""),
+            "{s}"
+        );
+        // Half: from the top to the bottom, clockwise, small-arc flag 0.
+        assert!(s.contains("M24 9.5A14.5 14.5 0 0 1 24 38.5"), "{s}");
+        // Three quarters takes the large arc.
+        assert!(svg(&[("value", n(0.75))]).1.contains("0 1 1 9.5 24"));
+        // Nothing at 0, a full ring at 1, and past the range is clamped.
+        assert!(!svg(&[]).1.contains("<path"));
+        assert_eq!(svg(&[("value", n(2.0))]).0, Some(1.0));
+        assert!(!svg(&[("value", n(1.0))]).1.contains("<path"));
+        // Indeterminate matches no entry: the fixed quarter-arc frame.
+        let (sweep, s) = svg(&[("isIndeterminate", true.into()), ("value", n(0.9))]);
+        assert_eq!(sweep, None);
+        assert!(s.contains("M24 9.5A14.5 14.5 0 0 1 38.5 24"), "{s}");
     }
 
     #[test]

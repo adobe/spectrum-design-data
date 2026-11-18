@@ -261,9 +261,7 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
         }
         "text" => draw_text(cv, xf, n, fonts, diags),
         "progress" => {
-            let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
-            let side = n.w.min(n.h);
-            let (r, sw) = (side / 2.0 - side / 18.0, (side / 9.0).max(1.0));
+            let (cx, cy, r, sw) = crate::visual::progress_geometry(n);
             let reach = (r + sw) * 2.0;
             let bb = (
                 cx - reach / 2.0,
@@ -276,14 +274,21 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                     (x - cx).hypot(y - cy) - r
                 });
             }
-            if let Some(c) = color_of(n.color.as_deref(), "color", &n.part, diags) {
-                // A quarter arc from the top to the right, clockwise, with round caps.
+            let sweep = n.sweep.unwrap_or(0.25);
+            if let (true, Some(c)) = (
+                sweep > 0.0,
+                color_of(n.color.as_deref(), "color", &n.part, diags),
+            ) {
+                // An arc from the top, clockwise, with round caps; no sweep is a quarter.
+                let end = sweep * std::f64::consts::TAU;
+                let (ex, ey) = (cx + r * end.sin(), cy - r * end.cos());
                 paint(cv, xf, bb, c, Paint::Band(sw / 2.0), |x, y| {
                     let (qx, qy) = (x - cx, y - cy);
-                    if qx >= 0.0 && qy <= 0.0 {
+                    let a = qx.atan2(-qy).rem_euclid(std::f64::consts::TAU);
+                    if sweep >= 1.0 || a <= end {
                         qx.hypot(qy) - r
                     } else {
-                        qx.hypot(qy + r).min((qx - r).hypot(qy))
+                        (x - cx).hypot(y - (cy - r)).min((x - ex).hypot(y - ey))
                     }
                 });
             }
@@ -506,6 +511,7 @@ mod tests {
             fill: None,
             stroke: None,
             stroke_width: 0.0,
+            sweep: None,
             radius: 0.0,
             radii: None,
             text: None,
@@ -663,6 +669,23 @@ mod tests {
         assert_eq!(at(&img, 36, 4)[0], 0);
         assert_eq!(at(&img, 36, 68), [204, 204, 204, 255]);
         assert_eq!(at(&img, 36, 36)[3], 0);
+    }
+
+    #[test]
+    fn progress_sweep_fills_that_share_of_the_ring_clockwise_from_the_top() {
+        let mut n = node("progress", "p", 0.0, 0.0, 36.0, 36.0);
+        n.stroke = Some("#cccccc".into());
+        n.color = Some("#0000ff".into());
+        n.sweep = Some(0.5);
+        let (img, _) = render(&scene(36.0, 36.0, vec![n.clone()]), 2.0);
+        // Right half is the arc, the left half the track.
+        assert_eq!(at(&img, 68, 36)[2], 255);
+        assert_eq!(at(&img, 68, 36)[0], 0);
+        assert_eq!(at(&img, 4, 36), [204, 204, 204, 255]);
+        // No sweep draws no arc at all.
+        n.sweep = Some(0.0);
+        let (img, _) = render(&scene(36.0, 36.0, vec![n]), 2.0);
+        assert_eq!(at(&img, 68, 36), [204, 204, 204, 255]);
     }
 
     #[test]

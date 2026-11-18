@@ -24,7 +24,15 @@ const S2 = "packages/@react-spectrum/s2";
 const UI_DIR = `${S2}/ui-icons`;
 const WORKFLOW_DIR = `${S2}/s2wf-icons`;
 // Demo workflow icons; Add is the default. The full set (about 400) stays out.
-export const WORKFLOW_ICONS = ["Add", "Edit", "Delete", "Settings", "Search"];
+export const WORKFLOW_ICONS = [
+  "Add",
+  "Edit",
+  "Delete",
+  "Settings",
+  "Search",
+  "AlertTriangle",
+  "User",
+];
 const SCHEMA =
   "https://opensource.adobe.com/spectrum-design-data/schemas/v0/icon-set.schema.json";
 

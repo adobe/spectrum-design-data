@@ -117,6 +117,27 @@
           "metadata": {"count":2,"fields":["contextQualifier","scope.options.isDisabled"]}
         }
       ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-handle/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Circular handle; dark and white rings and drop shadow are container styling.","required":true,"contains":["fill","opacity-checkerboard"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-handle/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"Selected color shown inside the handle; hidden when Show handle fill is off."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-handle/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[],"after":{"name":"opacity-checkerboard","description":"Checkerboard behind the fill so transparency reads."}},
+            {"id":"12ddd7e7-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-handle/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP ColorHandle.tsx:52-81 and gen2 color-handle.css:35-82 (rings/shadow are styling on one element); ring part removed; relationship file has no scope.part."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }
