@@ -1,0 +1,48 @@
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Component drawings — UI COMPONENT REFERENCE</title>
+<style>
+:root{color-scheme:light}
+body{margin:0;background:#fff;color:#000;font-family:Arimo,Helvetica,Arial,sans-serif;padding:24px}
+.tb{border:1.2px solid #000;border-radius:16px;max-width:1200px;margin:0 auto 24px;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.tb .row{display:flex;border-top:.8px solid #000}.tb .row:first-child{border-top:0}
+.tb .cell{padding:8px 12px;border-left:.8px solid #000;flex:1}.tb .cell:first-child{border-left:0}
+.tb .lab{font-size:9.5px;color:#555}.tb .val{margin-top:3px}
+.tb h1{margin:0;font-weight:300;font-size:30px;letter-spacing:.18em}
+.notes{padding:10px 14px;font-size:10.5px;line-height:1.5}
+.grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
+.card{display:block;color:inherit;text-decoration:none;border:1.2px solid #000;border-radius:16px;overflow:hidden;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.card:hover,.card:focus-visible{outline:2px solid #000;outline-offset:3px}
+.card img{display:block;width:100%;aspect-ratio:720/440;object-fit:cover;border-bottom:.8px solid #000}
+.card .head{display:flex;border-bottom:.8px solid #000}
+.card .cell{padding:8px 12px;border-left:.8px solid #000}.card .cell:first-child{border-left:0;flex:1}
+.card .lab{font-size:9.5px;color:#555}.card .val{margin-top:3px}
+.card h2{margin:0;font-weight:300;font-size:22px;letter-spacing:.16em}
+.card p{margin:0;padding:10px 12px;font-size:10.5px;line-height:1.5;text-transform:none;letter-spacing:.02em}
+.foot{max-width:1200px;margin:16px auto 0;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.08em}
+</style></head><body>
+<div class="tb">
+  <div class="row">
+    <div class="cell" style="flex:3"><h1>COMPONENT DRAWINGS</h1><div class="val">Dimensional drawings generated from visual recipes</div></div>
+    <div class="cell"><div class="lab">SHEETS</div><div class="val">2</div></div>
+    <div class="cell"><div class="lab">UNITS</div><div class="val">PX</div></div>
+  </div>
+  <div class="row"><div class="notes"><b>NOTES:</b> EACH SHEET IS DRAWN FROM THE RESOLVED RENDER OF A COMPONENT'S VISUAL RECIPE, SO EVERY VALUE TRACES TO A TOKEN OR A FORMULA. SHEETS ARE MONOCHROME BY DEFAULT AND ARE INTERACTIVE: CHANGE SIZE, STATE AND COLOR, AND HOVER ANY CODE TO HIGHLIGHT IT. ANYTHING NOT IN THE SOURCE IS MARKED [TBD].</div></div>
+</div>
+<div class="grid">
+  <a class="card" href="switch/">
+    <img src="switch-thumb.jpg" alt="Switch plan view with dimensions" width="720" height="430">
+    <div class="head"><div class="cell"><h2>SWITCH</h2></div><div class="cell"><div class="lab">DWG NO.</div><div class="val">UI-SWITCH-001</div></div><div class="cell"><div class="lab">REV</div><div class="val">C</div></div></div>
+    <div class="head"><div class="cell"><div class="lab">RECIPE</div><div class="val">switch.json · foundation, desktop</div></div><div class="cell"><div class="lab">SIZES</div><div class="val">S–XL</div></div></div>
+    <p>Track, handle and label. Animated off/on with the dimensions following the handle. Color, light/dark and emphasized.</p>
+  </a>
+  <a class="card" href="button-ios/">
+    <img src="button-thumb.jpg" alt="iOS button plan view with dimensions" width="720" height="440">
+    <div class="head"><div class="cell"><h2>BUTTON · IOS</h2></div><div class="cell"><div class="lab">DWG NO.</div><div class="val">UI-BUTTON-IOS-001</div></div><div class="cell"><div class="lab">REV</div><div class="val">A</div></div></div>
+    <div class="head"><div class="cell"><div class="lab">RECIPE</div><div class="val">button-ios.json · platform ios</div></div><div class="cell"><div class="lab">SIZES</div><div class="val">S–L</div></div></div>
+    <p>Capsule with leading icon and label. Animated size and label changes, primary and accent styles, rest, hover, down and disabled states, light and dark.</p>
+  </a>
+</div>
+<div class="foot"><span>2026-11-17 | UI COMPONENT REFERENCE</span><span>INDEX | 1</span></div>
+</body></html>

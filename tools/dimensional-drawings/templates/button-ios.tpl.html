@@ -1,0 +1,362 @@
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/flz1ovt.css">
+<title>UI-BUTTON-IOS-001 — Button (iOS), architecture</title>
+<style>
+:root{color-scheme:light}
+body{margin:0;background:#fff;color:#000;font-family:Arimo,Helvetica,Arial,sans-serif;padding:24px}
+.tb{border:1.2px solid #000;border-radius:16px;max-width:1700px;margin:0 auto 12px;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.tb .row{display:flex;border-top:.8px solid #000}.tb .row:first-child{border-top:0}
+.tb .cell{padding:8px 12px;border-left:.8px solid #000;flex:1}.tb .cell:first-child{border-left:0}
+.tb .lab{font-size:9.5px;color:#555}.tb .val{margin-top:3px}
+.tb h1{margin:0;font-weight:300;font-size:30px;letter-spacing:.18em}
+.notes{columns:2;column-gap:40px;padding:10px 14px;font-size:10.5px;line-height:1.5}
+.vars .cell{font-size:10.5px;text-transform:none;letter-spacing:.02em}
+.ctl{max-width:1700px;margin:0 auto 10px;display:flex;flex-wrap:wrap;row-gap:8px;gap:24px;align-items:center;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.grp{display:flex;align-items:center;gap:8px}
+.grp button{font:inherit;letter-spacing:.1em;background:#fff;color:#000;border:1px solid #000;border-radius:999px;padding:5px 14px;cursor:pointer}
+.grp button[aria-pressed=true]{background:#000;color:#fff}
+.grp button:disabled{opacity:.35;cursor:default}
+.grp button:focus-visible{outline:2px solid #000;outline-offset:2px}
+.hint{color:#555;width:100%}
+#fontst{color:#555}
+.txt{font:inherit;letter-spacing:.04em;border:1px solid #000;border-radius:999px;padding:5px 14px;width:16ch;text-transform:none}
+.txt:focus-visible{outline:2px solid #000;outline-offset:2px}
+.lbl{font-family:"adobe-clean-spectrum-vf","Source Sans 3",system-ui,sans-serif}
+.back{max-width:1700px;margin:0 auto 8px;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.back a{color:#000}
+.frame{max-width:1700px;margin:0 auto;overflow-x:auto}
+svg{width:100%;min-width:1100px;display:block}
+.foot{max-width:1700px;margin:6px auto;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.08em}
+svg text{font-family:Arimo,Helvetica,Arial,sans-serif;user-select:none}
+.dt{font-size:11px;paint-order:stroke;stroke:#fff;stroke-width:3px}
+.sl{font-size:9px;letter-spacing:.12em;fill:#333}
+.vt{font-size:12px;letter-spacing:.14em}.vs{font-size:9.5px;fill:#555;letter-spacing:.08em}
+.obj{fill:none;stroke:#000;stroke-width:1.6}
+.dim{stroke:#000;stroke-width:.7;fill:none}.ext{stroke:#000;stroke-width:.55}
+.cl{stroke:#000;stroke-width:.5;stroke-dasharray:14 3 2 3;fill:none}
+.slot{fill:none;stroke:#000;stroke-width:1;stroke-dasharray:4 3}
+.tbl text{font-size:10.5px}.tbl .h{font-size:9.5px;letter-spacing:.1em;fill:#555}
+[data-size]{cursor:pointer}
+.hl.obj,.hl.slot{stroke-width:3}
+text.hl{font-weight:700}
+rect.row.hl{fill:#ddd}
+.colhl{fill:#ececec}
+</style></head><body>
+
+<div class="back"><a href="../">← All drawings</a></div>
+<div class="tb">
+  <div class="row">
+    <div class="cell" style="flex:3"><h1>BUTTON</h1><div class="val">iOS · capsule, leading icon, label · architecture only</div></div>
+    <div class="cell"><div class="lab">DWG NO.</div><div class="val">UI-BUTTON-IOS-001</div></div>
+    <div class="cell"><div class="lab">REV</div><div class="val">A</div></div>
+    <div class="cell"><div class="lab">SHEETS</div><div class="val">1 / 1</div></div>
+    <div class="cell"><div class="lab">UNITS</div><div class="val">PX (PT)</div></div>
+    <div class="cell" style="flex:1.4"><div class="lab">SCALE</div><div class="val">UP TO 4.5:1 PLAN · 1.8:1 RANGE · 2.2:1 EXPLODED (FIT TO WIDTH)</div></div>
+    <div class="cell" style="flex:2"><div class="lab">SOURCE</div><div class="val">Visual recipe button-ios.json · platform ios · size <span id="src">M</span></div></div>
+  </div>
+  <div class="row"><div class="notes"><b>NOTES: (UNLESS OTHERWISE SPECIFIED)</b><br>
+    1. DO NOT SCALE THE DRAWING. VALUES COME FROM THE RESOLVED RENDER OF THE RECIPE FOR THE SELECTED SIZE.<br>
+    2. ALL UNITS PX. CODES MAP TO VARIABLES IN THE TABLES; FORMULAS SHOW THEIR RESULT.<br>
+    3. ICON IS FROM THE S2 WORKFLOW SET (20 PX GRID, SCALED TO Z1) IN ITS SQUARE SLOT. LABEL TEXT IS MEASURED IN THE FONT SHOWN (SEE FONT STATUS), SO LABEL WIDTH AND W CHANGE WITH THE TEXT. HUG = SIZED BY CONTENT.<br>
+    4. GEOMETRY IS IDENTICAL IN REST, HOVER, DOWN AND DISABLED. STATES CHANGE COLOR ONLY.<br>
+    5. HOVER AND DOWN RESOLVE TO THE SAME VALUES IN THIS RECIPE (BOTH STYLES, BOTH SCHEMES).<br>
+    6. GRAYSCALE BY DEFAULT. WITH COLOR ON, FILL AND CONTENT SHOW THE RESOLVED TOKEN VALUES. THE DARK STAGE IS A VIEWING AID, NOT A TOKEN.<br>
+    7. TOKENS ARE THE IOS STOPGAP SET (button-ios-stopgap).</div></div>
+  <div class="row vars" id="vars"></div>
+</div>
+
+<div class="ctl">
+  <div class="grp" role="group" aria-label="Size"><span>SIZE</span>
+    <button data-opt="size" data-v="s" aria-pressed="false">S</button><button data-opt="size" data-v="m" aria-pressed="true">M</button><button data-opt="size" data-v="l" aria-pressed="false">L</button></div>
+  <div class="grp" role="group" aria-label="Label"><span>LABEL</span>
+    <button data-opt="label" data-v="shown" aria-pressed="true">SHOWN</button><button data-opt="label" data-v="hidden" aria-pressed="false">HIDDEN</button></div>
+  <div class="grp" role="group" aria-label="Color"><span>COLOR</span>
+    <button data-opt="color" data-v="off" aria-pressed="true">OFF</button><button data-opt="color" data-v="on" aria-pressed="false">ON</button></div>
+  <div class="grp" role="group" aria-label="Style"><span>STYLE</span>
+    <button data-opt="style" data-v="primary" aria-pressed="false" disabled>PRIMARY</button><button data-opt="style" data-v="accent" aria-pressed="true" disabled>ACCENT</button></div>
+  <div class="grp" role="group" aria-label="State"><span>STATE</span>
+    <button data-opt="st" data-v="rest" aria-pressed="true" disabled>REST</button><button data-opt="st" data-v="hover" aria-pressed="false" disabled>HOVER</button><button data-opt="st" data-v="down" aria-pressed="false" disabled>DOWN</button><button data-opt="st" data-v="disabled" aria-pressed="false" disabled>DISABLED</button></div>
+  <div class="grp" role="group" aria-label="Scheme"><span>SCHEME</span>
+    <button data-opt="scheme" data-v="light" aria-pressed="true" disabled>LIGHT</button><button data-opt="scheme" data-v="dark" aria-pressed="false" disabled>DARK</button></div>
+  <div class="grp"><label for="txt">LABEL TEXT</label><input id="txt" class="txt" value="Label" maxlength="32" autocomplete="off" spellcheck="false"></div>
+  <div class="grp"><label for="icon">ICON</label><select id="icon" class="txt" aria-label="Icon"></select></div>
+  <span id="fontst"></span>
+  <span class="hint">Style, state and scheme apply once color is on · hover a code or feature to highlight it · click a size in the range</span>
+</div>
+
+<div class="frame"><svg id="s" viewBox="0 0 1700 1060" role="img" aria-label="Dimensional drawing of an iOS button"></svg></div>
+<div class="foot"><span>2026-11-17 | UI COMPONENT REFERENCE</span><span>BUTTON (IOS), ARCHITECTURE | 1</span></div>
+
+<script type="application/json" id="data">__DATA__</script>
+<script>
+// Values: resolved renders of button-ios.json (design-data render --platform ios --batch).
+const DATA=JSON.parse(document.getElementById('data').textContent);
+const SZ=DATA.sizes,KEYS=['s','m','l'],K=4.5,FONT='adobe-clean-spectrum-vf';
+let text='Label';
+const mctx=document.createElement('canvas').getContext('2d');
+const measure=(s,fs,fw)=>{mctx.font=`${fw} ${fs*40}px ${FONT}, "Source Sans 3", system-ui, sans-serif`;return mctx.measureText(s).width/40};
+const state={icon:'add',size:'m',hidden:false,color:false,style:'accent',st:'rest',dark:false};
+const fmt=n=>String(+(+n).toFixed(2));
+
+const NS='http://www.w3.org/2000/svg',svg=document.getElementById('s');
+let cur=svg;
+const el=(t,a={},p=cur)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
+const T=(x,y,s,c='dt',o={})=>{const e=el('text',{x,y,class:c,'text-anchor':o.a||'middle',...(o.r?{transform:`rotate(${o.r} ${x} ${y})`}:{})});e.textContent=s;if(o.code)e.dataset.code=o.code;return e};
+const L=(x1,y1,x2,y2,c='dim',p=cur,m)=>el('line',{x1,y1,x2,y2,class:c,...(m?{'marker-start':'url(#ar)','marker-end':'url(#ar)'}:{})},p);
+const R=(x,y,w,h,c,rx=0,p=cur)=>el('rect',{x,y,width:w,height:h,rx,class:c},p);
+const codeOf=s=>(s.match(/^[A-Z]+\d?/)||[''])[0];
+
+const defs=el('defs');
+defs.innerHTML='<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 1 L10 5 L0 9z"/></marker>';
+R(8,8,1684,1044,'obj',18).setAttribute('stroke-width',1.2);
+const gNotes=el('g'),gPlan=el('g'),gStrip=el('g'),gExp=el('g'),gTab=el('g');
+
+// ---------- parameters (interpolated during size / label transitions) ----------
+function params(sk,hidden){
+  const z=SZ[sk],CH=hidden?z.Z:z.LH,LW=hidden?0:measure(text,z.FS,z.FW),G=hidden?0:z.G;
+  const H=2*z.P2+CH,W=2*z.P1+z.Z+G+LW;
+  return {P1:z.P1,P2:z.P2,G,Z:z.Z,LH:z.LH,CH,LW,H,W,R:Math.min(z.Rtok,H/2),Rtok:z.Rtok,IC:(H-z.Z)/2,FS:z.FS,sk,hidden};
+}
+const lerpP=(a,b,t)=>{const o={...b};for(const k of ['P1','P2','G','Z','LH','CH','LW','H','W','R','IC','FS'])o[k]=a[k]+(b[k]-a[k])*t;return o};
+const anim={from:params('m',false),to:params('m',false),lblFrom:params('m',false),t:1,raf:0};
+const nowP=()=>anim.t>=1?anim.to:lerpP(anim.from,anim.to,anim.t);
+const lblP=()=>anim.t>=.5?anim.to:anim.lblFrom;
+
+function dimH(x1,x2,y,e1,e2,label,code){
+  const w=Math.abs(x2-x1),need=anim.t<1?label.length*6.4+8:12;if(w<need)label='';
+  const up=y<e1;
+  L(x1,e1+(up?3:-3),x1,y+(up?-5:5),'ext');L(x2,e2+(y<e2?3:-3),x2,y+(y<e2?-5:5),'ext');
+  L(x1,y,x2,y,'dim',cur,1);if(label)T((x1+x2)/2,y-6,label,'dt',{code:code||codeOf(label)});
+}
+function dimV(y1,y2,x,e1,e2,label,side='l',code){
+  const w=Math.abs(y2-y1),need=anim.t<1?label.length*6.4+8:12;if(w<need)label='';
+  const l=x<e1;
+  L(e1+(l?3:-3),y1,x+(l?-5:5),y1,'ext');L(e2+(x<e2?3:-3),y2,x+(x<e2?-5:5),y2,'ext');
+  L(x,y1,x,y2,'dim',cur,1);
+  if(label)T(x+(side==='l'?-6:6),(y1+y2)/2,label,'dt',{r:side==='l'?-90:90,code:code||codeOf(label)});
+}
+function nb(x,y,n){const b=R(x-8,y-8,16,16,'obj',0);b.setAttribute('stroke-width',.9);b.style.fill='#fff';T(x,y+4,n,'dt');}
+function callout(px,py,ex,ey,label,a='start',code){
+  el('circle',{cx:px,cy:py,r:2.2,fill:'#000'});L(px,py,ex,ey);L(ex,ey,ex+(a==='start'?14:-14),ey);
+  T(ex+(a==='start'?18:-18),ey+4,label,'dt',{a,code:code||codeOf(label)});
+}
+function view(x,y,t,sub){T(x,y,t,'vt',{a:'start'});T(x,y+14,sub,'vs',{a:'start'});}
+const hit=(e,codes)=>{e.dataset.code=codes;e.style.pointerEvents='all';return e};
+
+// Spectrum 2 workflow icons (Apache-2.0, react-spectrum s2wf-icons), 20 px grid.
+function drawIcon(parent,x,y,size,fill){
+  const g=el('g',{transform:`translate(${x} ${y}) scale(${size/20})`,style:'pointer-events:none'},parent);
+  for(const pth of DATA.icons[state.icon].paths)el('path',{d:pth.d,fill},g);
+}
+
+// ---------- colors ----------
+const colors=()=>{
+  if(!state.color)return null;
+  const c=DATA.colors[state.style][state.dark?'dark':'light'][state.st];
+  return {fill:c.fill[1],content:c.content[1]};
+};
+
+// ---------- static notes ----------
+cur=gNotes;
+view(40,50,'NOTES','KEYED TO BOXED NUMBERS');
+[[1,'CONTAINER  ·  CAPSULE, HUG WIDTH. H1 = 2·P2 + LH. R1 = MIN(TOKEN, H1 ÷ 2).'],[2,'ICON  ·  Z1 SQUARE, LEADING, CENTERED. INSET IC = (H1 − Z1) ÷ 2.'],[3,'LABEL SLOT  ·  HUG, LH HIGH, STARTS P2 FROM TOP. HIDES WITH LABEL.'],[4,'GAP  ·  G1 BETWEEN ICON AND LABEL. ZERO WHEN LABEL IS HIDDEN.']]
+  .forEach((n,i)=>{nb(52,92+i*30,n[0]);T(70,96+i*30,n[1],'sl',{a:'start'})});
+const formulaTxt=T(40,230,'','sl',{a:'start'});
+
+function mini(cx,cy,k,p,col){
+  const x0=cx-p.W*k/2,y0=cy-p.H*k/2;
+  R(x0,y0,p.W*k,p.H*k,'obj',p.R*k).style.fill=col?col.fill:'#f2f2f2';
+  const ic=R(x0+p.P1*k,y0+p.IC*k,p.Z*k,p.Z*k,'slot');
+  drawIcon(cur,x0+p.P1*k,y0+p.IC*k,p.Z*k,col?col.content:'#000');
+  if(col)ic.style.stroke=col.content;
+  if(p.LW>1){
+    const lb=R(x0+(p.P1+p.Z+p.G)*k,y0+p.P2*k,p.LW*k,p.LH*k,'slot');if(col)lb.style.stroke=col.content;
+    const t=el('text',{x:x0+(p.P1+p.Z+p.G)*k,y:y0+p.P2*k+p.LH*k/2,'dominant-baseline':'central',class:'lbl',style:`font-size:${p.FS*k}px;font-weight:${SZ[p.sk].FW};fill:${col?col.content:'#000'}`});t.textContent=text;
+  }
+}
+
+function render(){
+  const p=nowP(),q=lblP(),z=SZ[state.size],col=colors();
+  const k=Math.min(K,520/p.W),ox=730,oy=170,W=p.W*k,H=p.H*k;
+  document.getElementById('src').textContent=z.n;
+  document.getElementById('vars').innerHTML=[`P1 · inline-pad ${fmt(q.P1)}`,`P2 · block-pad ${fmt(q.P2)}`,`G1 · gap ${fmt(q.G||SZ[q.sk].G)}`,`Z1 · icon ${fmt(q.Z)}`,`LH · label-lh ${fmt(q.LH)}`,`LW · label-w ${q.hidden?'—':fmt(q.LW)}`,`H1 · 2·P2 + ${q.hidden?'Z1':'LH'} = ${fmt(q.H)}`,`R1 · MIN(${fmt(q.Rtok)}, H1 ÷ 2) = ${fmt(q.R)}`].map(s=>`<div class="cell">${s}</div>`).join('');
+  const cur_={size:state.size,label:state.hidden?'hidden':'shown',color:state.color?'on':'off',style:state.style,st:state.st,scheme:state.dark?'dark':'light'};
+  document.querySelectorAll('[data-opt]').forEach(b=>{
+    const o=b.dataset.opt;b.setAttribute('aria-pressed',cur_[o]===b.dataset.v);
+    if(['style','st','scheme'].includes(o))b.disabled=!state.color;
+  });
+  cur=gNotes;formulaTxt.textContent=`IC = (H1 − Z1) ÷ 2 = ${fmt(q.IC)}   ·   H1 = 2·P2 + ${q.hidden?'Z1':'LH'} = ${fmt(q.H)}   ·   R1 = MIN(${fmt(q.Rtok)}, ${fmt(q.H/2)}) = ${fmt(q.R)}`;
+
+  // ---------- PLAN ----------
+  cur=gPlan;gPlan.replaceChildren();
+  view(ox-110,60,'PLAN VIEW'+(state.color?' · '+state.style.toUpperCase()+' · '+state.st.toUpperCase():''),'SCALE '+fmt(k)+':1 · SIZE '+z.n+(state.hidden?' · ICON ONLY':''));
+  if(state.color&&state.dark){const sg=R(ox-18,oy-18,W+36,H+36,'obj',18);sg.style.fill='#000';sg.style.stroke='none'}
+  const box=hit(R(ox,oy,W,H,'obj',p.R*k),'H1 R1 P1 P2');
+  box.style.fill=col?col.fill:'#f2f2f2';if(col&&state.dark)box.style.stroke='#8a8a8a';
+  const ix=ox+p.P1*k,iy=oy+p.IC*k,lx=ox+(p.P1+p.Z+p.G)*k,ly=oy+p.P2*k;
+  const stk=col?col.content:null;
+  const icon=hit(R(ix,iy,p.Z*k,p.Z*k,'slot'),'Z1 IC');if(stk)icon.style.stroke=stk;
+  drawIcon(cur,ix,iy,p.Z*k,stk||'#000');
+  if(p.LW>2){
+    const lb=hit(R(lx,ly,p.LW*k,p.LH*k,'slot'),'LH LW P2');if(stk)lb.style.stroke=stk;
+    const t=el('text',{x:lx,y:ly+p.LH*k/2,'dominant-baseline':'central',class:'lbl',style:`font-size:${p.FS*k}px;font-weight:${z.FW};fill:${stk||'#000'};pointer-events:none`});t.textContent=text;
+  }
+  L(ox-30,oy+H/2,ox+W+30,oy+H/2,'cl');
+  const bandY=oy+p.P2*k/2;
+  nb(ox+W/2,p.LW>2?bandY:oy+H-p.P2*k/2,1);nb(ix+p.Z*k/2,bandY,2);
+  if(p.LW>2){nb(lx+p.LW*k/2,bandY,3);nb(ix+p.Z*k+p.G*k/2,bandY,4)}
+  const top=oy-34,rx=ox+W;
+  dimH(ox,ix,top,oy,iy,'P1  '+fmt(q.P1));
+  dimH(ix,ix+p.Z*k,top,iy,iy,'Z1  '+fmt(q.Z));
+  if(p.LW>2){
+    dimH(ix+p.Z*k,lx,top,iy,ly,'G1  '+fmt(q.G));
+    dimH(lx,lx+p.LW*k,top,ly,ly,'LW  '+fmt(q.LW),'LW');
+    dimH(lx+p.LW*k,rx,top,ly,oy,'P1  '+fmt(q.P1));
+  }else dimH(ix+p.Z*k,rx,top,iy,oy,'P1  '+fmt(q.P1));
+  dimH(ox,rx,oy-74,oy,oy,'W  =  2·P1 + Z1'+(q.hidden?'':' + G1 + LABEL'),'P1 Z1 G1');
+  const lc=q.hidden?'Z1  ':'LH  ';
+  dimV(oy,oy+p.P2*k,ox-34,ox,ox,'P2  '+fmt(q.P2));
+  dimV(oy+p.P2*k,oy+p.P2*k+p.CH*k,ox-34,ox,ox,lc+fmt(q.hidden?q.Z:q.LH),'l',q.hidden?'Z1':'LH');
+  dimV(oy+p.P2*k+p.CH*k,oy+H,ox-34,ox,ox,'P2  '+fmt(q.P2),'l','P2');
+  dimV(oy,oy+H,ox-74,ox,ox,'H1  '+fmt(q.H)+'  (HUG)');
+  const xr=ix+p.Z*k;
+  dimV(oy,iy,rx+34,xr,rx,'IC  '+fmt(q.IC),'r');
+  dimV(iy,iy+p.Z*k,rx+34,xr,xr,'Z1  '+fmt(q.Z),'r');
+  dimV(iy+p.Z*k,oy+H,rx+34,xr,rx,'IC  '+fmt(q.IC),'r','IC');
+  const r=p.R*k,cx=ox+r,cy=oy+H-r;
+  callout(cx-r*.7071,cy+r*.7071,cx-r*.7071-14,oy+H+30,'R1  '+fmt(q.R)+(q.R<q.Rtok-.005?'  (TOKEN '+fmt(q.Rtok)+')':''),'end');
+
+  // ---------- SIZE RANGE ----------
+  cur=gStrip;gStrip.replaceChildren();
+  view(ox-110,610,'SIZE RANGE','SCALE UP TO 1.8:1 · CLICK TO SELECT');
+  KEYS.forEach((key,i)=>{
+    const cxm=ox+10+i*215,cym=730,g=el('g',{});g.dataset.size=key;cur=g;
+    const pp=params(key,state.hidden);
+    const b=R(cxm-100,cym-64,200,150,'slot');b.setAttribute('style',`pointer-events:all;${key===state.size?'':'stroke:none'}`);
+    if(state.color&&state.dark){const st=R(cxm-104,cym-60,208,120,'obj',10);st.style.fill='#000';st.style.stroke='none'}
+    mini(cxm,cym,Math.min(1.8,190/pp.W),pp,col);
+    T(cxm,cym+76,`${SZ[key].n}  ·  ${fmt(pp.W)} × ${fmt(pp.H)}`,'sl');
+    cur=gStrip;
+  });
+
+  // ---------- EXPLODED ----------
+  cur=gExp;gExp.replaceChildren();
+  view(40,560,'EXPLODED VIEW','SCALE UP TO 2.2:1 · LAYERS, BOTTOM TO TOP');
+  const sc=Math.min(2.2,300/(.94*p.W)),A=.94*sc,Bq=.17*sc,C=-.34*sc,D=.47*sc,tx=250,ty0=860;
+  const P=(u,v,zz)=>[tx+A*u+C*v,ty0+Bq*u+D*v-zz];
+  const layer=(zz,fn)=>{const g=el('g',{transform:`matrix(${A} ${Bq} ${C} ${D} ${tx} ${ty0-zz})`});fn(g);return g};
+  const rr=(g,x,y,w,h,rx,fill,dash)=>el('rect',{x,y,width:w,height:h,rx,fill,stroke:col&&dash?col.content:'#000','stroke-width':dash?1:1.4,'vector-effect':'non-scaling-stroke',...(dash?{'stroke-dasharray':'4 3'}:{})},g);
+  if(state.color&&state.dark){
+    const pts=[[0,0,0],[0,p.H,0],[p.W,0,0],[p.W,p.H,0],[0,0,60],[p.W,p.H,60]].map(a=>P(...a));
+    const x0=Math.min(...pts.map(a=>a[0]))-16,x1=Math.max(...pts.map(a=>a[0]))+16,y0=Math.min(...pts.map(a=>a[1]))-16,y1=Math.max(...pts.map(a=>a[1]))+16;
+    const st=R(x0,y0,x1-x0,y1-y0,'obj',10);st.style.fill='#000';st.style.stroke='none';
+  }
+  layer(0,g=>rr(g,0,0,p.W,p.H,p.R,col?col.fill:'#f2f2f2'));
+  layer(60,g=>{rr(g,p.P1,p.IC,p.Z,p.Z,0,'none',1);drawIcon(g,p.P1,p.IC,p.Z,col?col.content:'#000');if(p.LW>2)rr(g,p.P1+p.Z+p.G,p.P2,p.LW,p.LH,0,'none',1)});
+  [[60,'ICON SLOT  ·  Z1',[p.P1,p.IC+p.Z/2],'l','Z1 IC'],[0,'CONTAINER  ·  CAPSULE, R1',[0,p.H/2],'l','H1 R1 P1 P2']].forEach(([zz,t,[u,v],side,code])=>{
+    const [px,py]=P(u,v,zz);T(40,py-6,t,'sl',{a:'start',code});L(40,py,px,py);el('circle',{cx:px,cy:py,r:2.2,fill:'#000'})});
+  if(p.LW>2){const [px,py]=P(p.P1+p.Z+p.G+p.LW,p.P2+p.LH/2,60);T(600,py-6,'LABEL SLOT  ·  HUG','sl',{a:'start',code:'LH P2'});L(600,py,px,py);el('circle',{cx:px,cy:py,r:2.2,fill:'#000'})}
+
+  // ---------- TABLES ----------
+  cur=gTab;gTab.replaceChildren();
+  function table(x,y,title,head,rows,w,hl,hlRow){
+    T(x,y,title,'vt',{a:'start'});y+=10;
+    const tot=w.reduce((a,b)=>a+b,0),Ht=20*(rows.length+1);
+    if(hl>0)R(x+w.slice(0,hl).reduce((a,b)=>a+b,0),y,w[hl],Ht,'colhl');
+    if(hlRow>=0)R(x,y+20*(hlRow+1),tot,20,'colhl');
+    const g=el('g',{class:'tbl'});
+    R(x,y,tot,Ht,'obj',0,g).setAttribute('stroke-width',1);
+    let cx=x;head.forEach((h,i)=>{const t=el('text',{x:cx+6,y:y+14,class:'h'},g);t.textContent=h;cx+=w[i]});
+    rows.forEach((r,j)=>{
+      const yy=y+20*(j+1),code=(r[0].match(/^[A-Z]+\d?/)||[''])[0];
+      const rw=R(x,yy,tot,20,'row',0,g);rw.setAttribute('fill','transparent');if(code&&/^[A-Z]+\d?$/.test(code)&&!/^(FILL|CONTENT)/.test(r[0]))rw.dataset.code=code;
+      L(x,yy,x+tot,yy,'ext',g);let cx=x;
+      r.forEach((c,i)=>{const t=el('text',{x:cx+6,y:yy+14,style:'pointer-events:none'},g);t.textContent=c;cx+=w[i]});
+    });
+    let c2=x;w.slice(0,-1).forEach(wi=>{c2+=wi;L(c2,y,c2,y+Ht,'ext',g)});
+    return y+Ht+34;
+  }
+  let yy=50;
+  const col1=KEYS.indexOf(state.size)+1,S=SZ,pr=KEYS.map(s=>params(s,false));
+  const row=(l,f)=>[l,...KEYS.map(s=>fmt(f(s)))];
+  yy=table(1330,yy,'SIZE (BY SCALE)',['CODE','S','M','L'],[
+    row('P1  inline-pad',s=>S[s].P1),row('P2  block-pad',s=>S[s].P2),row('G1  gap',s=>S[s].G),row('Z1  icon',s=>S[s].Z),row('LH  label-lh',s=>S[s].LH),row('LW  label-w',s=>measure(text,S[s].FS,S[s].FW)),row('FS  font-size',s=>S[s].FS),
+    row('H1  2·P2 + LH',s=>params(s,false).H),row('H1  icon only',s=>params(s,true).H),row('R1  token',s=>S[s].Rtok),row('R1  effective',s=>params(s,false).R)
+  ],[150,60,60,60],col1);
+  yy=table(1330,yy,`TOKENS (SIZE ${z.n})`,['CODE','TOKEN'],[
+    ['P1',z.tok.P1],['P2',z.tok.P2],['G1',z.tok.G],['Z1',z.tok.Z],['LH',z.tok.LH],['FS',z.tok.FS],['R1',z.tok.R],['FW',z.tok.FW+'  ('+z.FW+')']
+  ],[60,270],0);
+  const cs=DATA.colors[state.style][state.dark?'dark':'light'];
+  const crow=[['FILL · REST',cs.rest.fill],['FILL · HOVER',cs.hover.fill],['FILL · DOWN',cs.down.fill],['FILL · DISABLED',cs.disabled.fill],['CONTENT',cs.rest.content],['CONTENT · OFF',cs.disabled.content]];
+  const c0=yy+10,hlr={rest:0,hover:1,down:2,disabled:3}[state.st];
+  yy=table(1330,yy,`COLOR (${state.style.toUpperCase()}, ${state.dark?'DARK':'LIGHT'})`,['PART','TOKEN'],crow.map(([a,b])=>[a,b[0]]),[110,220],0,state.color?hlr:-1);
+  if(state.color){
+    crow.forEach(([,b],i)=>{if(state.dark)R(1330+302,c0+20*(i+1)+3,22,14,'obj').setAttribute('style','fill:#000;stroke:none');const sw=R(1330+304,c0+20*(i+1)+4,18,12,'obj');sw.setAttribute('style',`fill:${b[1]};stroke-width:.8`);const ti=el('title',{},sw);ti.textContent=b[1]});
+  }
+  T(1330,yy-14,'HOVER AND DOWN RESOLVE TO THE SAME VALUES (NOTE 5)','sl',{a:'start'});
+}
+
+// ---------- interaction ----------
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function retarget(){
+  cancelAnimationFrame(anim.raf);
+  const now=nowP(),to=params(state.size,state.hidden);
+  anim.lblFrom=anim.to;anim.from=now;anim.to=to;anim.t=0;
+  const t0=performance.now(),dur=reduce?0:240;
+  const step=n=>{
+    const pr=dur?Math.min(1,(n-t0)/dur):1;
+    anim.t=pr<.5?2*pr*pr:1-Math.pow(-2*pr+2,2)/2;if(pr>=1)anim.t=1;
+    render();if(pr<1)anim.raf=requestAnimationFrame(step);
+  };
+  anim.raf=requestAnimationFrame(step);
+}
+const setOpt=(o,v)=>{
+  if(o==='size'){state.size=v;retarget();return}
+  if(o==='label'){state.hidden=v==='hidden';retarget();return}
+  if(o==='color')state.color=v==='on';
+  else if(o==='style')state.style=v;
+  else if(o==='st')state.st=v;
+  else if(o==='scheme')state.dark=v==='dark';
+  render();
+};
+document.querySelectorAll('[data-opt]').forEach(b=>b.onclick=()=>setOpt(b.dataset.opt,b.dataset.v));
+svg.addEventListener('click',e=>{const s=e.target.closest('[data-size]');if(s)setOpt('size',s.dataset.size)});
+const sel=document.getElementById('icon');
+sel.innerHTML=Object.keys(DATA.icons).map(n=>`<option value="${n}">${n}</option>`).join('');
+sel.value=state.icon;
+sel.onchange=()=>{state.icon=sel.value;render()};
+const txt=document.getElementById('txt'),fontst=document.getElementById('fontst');
+txt.oninput=()=>{text=txt.value;retarget()};
+fontst.textContent='FONT · LOADING';
+document.fonts.load(`600 18px ${FONT}`,'Label').then(fs=>{
+  fontst.textContent=fs.length&&fs[0].status==='loaded'?'FONT · ADOBE CLEAN SPECTRUM VF (ADOBE FONTS KIT)':'FONT · FALLBACK, KIT NOT LOADED';
+  retarget();
+}).catch(()=>{fontst.textContent='FONT · FALLBACK, KIT NOT LOADED'});
+
+const clearHl=()=>svg.querySelectorAll('.hl').forEach(e=>e.classList.remove('hl'));
+svg.addEventListener('mouseover',e=>{
+  clearHl();
+  const t=e.target.closest('[data-code]');if(!t)return;
+  const codes=new Set(t.dataset.code.split(' '));
+  svg.querySelectorAll('[data-code]').forEach(n=>{if(n.dataset.code.split(' ').some(c=>codes.has(c)))n.classList.add('hl')});
+});
+svg.addEventListener('mouseleave',clearHl);
+
+const hv=location.hash.slice(1).split(',');
+if(SZ[hv[0]])state.size=hv[0];
+if(hv.includes('hidden'))state.hidden=true;
+for(const n of Object.keys(DATA.icons))if(hv.includes(n))state.icon=n;
+for(const s of hv)if(s.startsWith('text='))text=decodeURIComponent(s.slice(5));
+document.getElementById('txt').value=text;
+if(hv.includes('color'))state.color=true;
+if(hv.includes('dark'))state.dark=true;
+for(const s of['primary','accent'])if(hv.includes(s))state.style=s;
+for(const s of['hover','down','disabled'])if(hv.includes(s))state.st=s;
+sel.value=state.icon;
+anim.from=anim.to=anim.lblFrom=params(state.size,state.hidden);
+render();
+</script>
+</body></html>

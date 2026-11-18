@@ -1,0 +1,971 @@
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>UI-SWITCH-001 — Switch, architecture (interactive)</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      body {
+        margin: 0;
+        background: #fff;
+        color: #000;
+        font-family: Arimo, Helvetica, Arial, sans-serif;
+        padding: 24px;
+      }
+      .tb {
+        border: 1.2px solid #000;
+        border-radius: 16px;
+        max-width: 1700px;
+        margin: 0 auto 12px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .tb .row {
+        display: flex;
+        border-top: 0.8px solid #000;
+      }
+      .tb .row:first-child {
+        border-top: 0;
+      }
+      .tb .cell {
+        padding: 8px 12px;
+        border-left: 0.8px solid #000;
+        flex: 1;
+      }
+      .tb .cell:first-child {
+        border-left: 0;
+      }
+      .tb .lab {
+        font-size: 9.5px;
+        color: #555;
+      }
+      .tb .val {
+        margin-top: 3px;
+      }
+      .tb h1 {
+        margin: 0;
+        font-weight: 300;
+        font-size: 30px;
+        letter-spacing: 0.18em;
+      }
+      .notes {
+        columns: 2;
+        column-gap: 40px;
+        padding: 10px 14px;
+        font-size: 10.5px;
+        line-height: 1.5;
+      }
+      .vars .cell {
+        font-size: 10.5px;
+        text-transform: none;
+        letter-spacing: 0.02em;
+      }
+      .ctl {
+        max-width: 1700px;
+        margin: 0 auto 10px;
+        display: flex;
+        gap: 28px;
+        align-items: center;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .grp {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .grp button {
+        font: inherit;
+        letter-spacing: 0.1em;
+        background: #fff;
+        color: #000;
+        border: 1px solid #000;
+        border-radius: 999px;
+        padding: 5px 14px;
+        cursor: pointer;
+      }
+      .grp button[aria-pressed="true"] {
+        background: #000;
+        color: #fff;
+      }
+      .grp button:focus-visible {
+        outline: 2px solid #000;
+        outline-offset: 2px;
+      }
+      .ctl{flex-wrap:wrap;row-gap:8px}
+      .grp button:disabled{opacity:.35;cursor:default}
+      .hint {
+        color: #555;
+        margin-left: auto;
+      }
+      .frame {
+        max-width: 1700px;
+        margin: 0 auto;
+        overflow-x: auto;
+      }
+      svg {
+        width: 100%;
+        min-width: 1100px;
+        display: block;
+      }
+      .foot {
+        max-width: 1700px;
+        margin: 6px auto;
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+      }
+      svg text {
+        font-family: Arimo, Helvetica, Arial, sans-serif;
+        user-select: none;
+      }
+      .dt {
+        font-size: 11px;
+        paint-order: stroke;
+        stroke: #fff;
+        stroke-width: 3px;
+      }
+      .sl {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        fill: #333;
+      }
+      .vt {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+      }
+      .vs {
+        font-size: 9.5px;
+        fill: #555;
+        letter-spacing: 0.08em;
+      }
+      .obj {
+        fill: none;
+        stroke: #000;
+        stroke-width: 1.6;
+      }
+      .dim {
+        stroke: #000;
+        stroke-width: 0.7;
+        fill: none;
+      }
+      .ext {
+        stroke: #000;
+        stroke-width: 0.55;
+      }
+      .cl {
+        stroke: #000;
+        stroke-width: 0.5;
+        stroke-dasharray: 14 3 2 3;
+        fill: none;
+      }
+      .slot {
+        fill: none;
+        stroke: #000;
+        stroke-width: 1;
+        stroke-dasharray: 4 3;
+      }
+      .hug {
+        fill: #e6e6e6;
+      }
+      .tbl text {
+        font-size: 10.5px;
+      }
+      .tbl .h {
+        font-size: 9.5px;
+        letter-spacing: 0.1em;
+        fill: #555;
+      }
+      [data-toggle],
+      [data-size] {
+        cursor: pointer;
+      }
+      .hl.obj,
+      .hl.slot {
+        stroke-width: 3;
+      }
+      text.hl {
+        font-weight: 700;
+      }
+      rect.row.hl {
+        fill: #ddd;
+      }
+      .colhl {
+        fill: #ececec;
+      }
+    </style></head>
+  <body>
+    <div style="max-width:1700px;margin:0 auto 8px;font-size:10px;letter-spacing:.1em;text-transform:uppercase"><a style="color:#000" href="../">← All drawings</a></div>
+    <div class="tb">
+      <div class="row">
+        <div class="cell" style="flex: 3">
+          <h1>SWITCH</h1>
+          <div class="val">
+            Toggle control · track, handle, label · architecture only
+          </div>
+        </div>
+        <div class="cell">
+          <div class="lab">DWG NO.</div>
+          <div class="val">UI-SWITCH-001</div>
+        </div>
+        <div class="cell">
+          <div class="lab">REV</div>
+          <div class="val">C</div>
+        </div>
+        <div class="cell">
+          <div class="lab">SHEETS</div>
+          <div class="val">1 / 1</div>
+        </div>
+        <div class="cell">
+          <div class="lab">UNITS</div>
+          <div class="val">PX</div>
+        </div>
+        <div class="cell" style="flex: 1.4">
+          <div class="lab">SCALE</div>
+          <div class="val">6:1 PLAN · 4:1 RANGE · 3:1 EXPLODED</div>
+        </div>
+        <div class="cell" style="flex: 2">
+          <div class="lab">SOURCE</div>
+          <div class="val">
+            Visual recipe switch.json · desktop, <span id="sch">light</span> · size
+            <span id="src">M</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="notes">
+          <b>NOTES: (UNLESS OTHERWISE SPECIFIED)</b><br />
+          1. DO NOT SCALE THE DRAWING. VALUES COME FROM THE RESOLVED RENDER OF
+          THE RECIPE FOR THE SELECTED SIZE.<br />
+          2. ALL UNITS PX. CODES MAP TO VARIABLES IN THE TABLES; FORMULAS SHOW
+          THEIR RESULT.<br />
+          3. THE LABEL IS A PLACEHOLDER SLOT. NO TEXT-WIDTH DIMENSIONS.<br />
+          4. HUG = SIZED BY CONTENT. FLEX = TAKES REMAINING SPACE. FILL = PARENT
+          WIDTH.<br />
+          5. DOWN (PRESS) AND KEYBOARD-FOCUS STATES ARE DEFINED BY THE RECIPE
+          BUT NOT DRAWN. VALUES [TBD] ON THIS SHEET.<br />
+          6. GRAYSCALE BY DEFAULT. WITH COLOR ON, TRACK AND HANDLE FILLS SHOW THE
+          RESOLVED TOKEN VALUES; OUTLINES STAY DRAWING LINES. LABEL IS A SLOT.
+        </div>
+      </div>
+      <div class="row vars" id="vars"></div>
+    </div>
+
+    <div class="ctl">
+      <div class="grp" role="group" aria-label="Size">
+        <span>SIZE</span> <button data-size="s" aria-pressed="false">S</button
+        ><button data-size="m" aria-pressed="true">M</button
+        ><button data-size="l" aria-pressed="false">L</button
+        ><button data-size="xl" aria-pressed="false">XL</button>
+      </div>
+      <div class="grp" role="group" aria-label="State">
+        <span>STATE</span> <button data-on="0" aria-pressed="true">OFF</button
+        ><button data-on="1" aria-pressed="false">ON</button>
+      </div>
+      <div class="grp" role="group" aria-label="Color">
+        <span>COLOR</span> <button data-opt="color" data-v="0" aria-pressed="true">OFF</button
+        ><button data-opt="color" data-v="1" aria-pressed="false">ON</button>
+      </div>
+      <div class="grp" role="group" aria-label="Scheme">
+        <span>SCHEME</span> <button data-opt="scheme" data-v="0" aria-pressed="true" disabled>LIGHT</button
+        ><button data-opt="scheme" data-v="1" aria-pressed="false" disabled>DARK</button>
+      </div>
+      <div class="grp" role="group" aria-label="Emphasized">
+        <span>EMPHASIZED</span> <button data-opt="emph" data-v="0" aria-pressed="true" disabled>OFF</button
+        ><button data-opt="emph" data-v="1" aria-pressed="false" disabled>ON</button>
+      </div>
+      <span class="hint"
+        >Hover a code or feature to highlight it · click the track or handle to
+        toggle · click a size in the range</span
+      >
+    </div>
+
+    <div class="frame">
+      <svg
+        id="s"
+        viewBox="0 0 1700 1060"
+        role="img"
+        aria-label="Dimensional drawing of a switch"
+      ></svg>
+    </div>
+    <div class="foot">
+      <span>2026-11-17 | UI COMPONENT REFERENCE</span
+      ><span>SWITCH, ARCHITECTURE | 1</span>
+    </div>
+
+    <script>
+      // Values: resolved renders of switch.json (design-data render --batch), desktop, light.
+      const SZ = {
+        s: {
+          n: "S",
+          name: "small",
+          idx: 75,
+          H1: 24,
+          W1: 22,
+          H2: 14,
+          H3: 6,
+          H4: 8,
+          G1: 4,
+          LH: 16,
+          FS: 12,
+        },
+        m: {
+          n: "M",
+          name: "medium",
+          idx: 100,
+          H1: 32,
+          W1: 26,
+          H2: 16,
+          H3: 8,
+          H4: 10,
+          G1: 6,
+          LH: 18,
+          FS: 14,
+        },
+        l: {
+          n: "L",
+          name: "large",
+          idx: 200,
+          H1: 40,
+          W1: 30,
+          H2: 18,
+          H3: 10,
+          H4: 12,
+          G1: 6,
+          LH: 20,
+          FS: 16,
+        },
+        xl: {
+          n: "XL",
+          name: "extra-large",
+          idx: 300,
+          H1: 48,
+          W1: 34,
+          H2: 20,
+          H3: 12,
+          H4: 14,
+          G1: 6,
+          LH: 22,
+          FS: 18,
+        },
+      };
+      const KEYS = Object.keys(SZ),
+        LW = 32,
+        B = 2;
+      const state = { size: "m", on: false, t: 0, color: false, dark: false, emph: false };
+      // Resolved values from design-data render (switch, size M): [hex, token]
+      const PAL = {
+        light: { G: ["#FFFFFF", "color-gray-25-light"], N: ["#292929", "neutral-content-color-default"], A: ["#3B63FB", "accent-content-color-default"] },
+        dark: { G: ["#111111", "color-gray-25-dark"], N: ["#DBDBDB", "neutral-content-color-default"], A: ["#5681FF", "accent-content-color-default"] },
+      };
+      const fills = (t) => {
+        if (!state.color) return null;
+        const p = PAL[state.dark ? "dark" : "light"], on = t >= 0.5;
+        return { track: p[on ? (state.emph ? "A" : "N") : "G"][0], handle: p[on ? "G" : "N"][0] };
+      };
+
+      const NS = "http://www.w3.org/2000/svg",
+        svg = document.getElementById("s");
+      let cur = svg;
+      const el = (t, a = {}, p = cur) => {
+        const e = document.createElementNS(NS, t);
+        for (const k in a) e.setAttribute(k, a[k]);
+        p.appendChild(e);
+        return e;
+      };
+      const T = (x, y, s, c = "dt", o = {}) => {
+        const e = el("text", {
+          x,
+          y,
+          class: c,
+          "text-anchor": o.a || "middle",
+          ...(o.r ? { transform: `rotate(${o.r} ${x} ${y})` } : {}),
+        });
+        e.textContent = s;
+        if (o.code) e.dataset.code = o.code;
+        return e;
+      };
+      const L = (x1, y1, x2, y2, c = "dim", p = cur, m) =>
+        el(
+          "line",
+          {
+            x1,
+            y1,
+            x2,
+            y2,
+            class: c,
+            ...(m
+              ? { "marker-start": "url(#ar)", "marker-end": "url(#ar)" }
+              : {}),
+          },
+          p,
+        );
+      const R = (x, y, w, h, c, rx = 0, p = cur) =>
+        el("rect", { x, y, width: w, height: h, rx, class: c }, p);
+      const codeOf = (s) => (s.match(/^[A-Z]+\d?/) || [""])[0];
+
+      const defs = el("defs");
+      defs.innerHTML =
+        '<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 1 L10 5 L0 9z"/></marker>';
+      R(8, 8, 1684, 1044, "obj", 18).setAttribute("stroke-width", 1.2);
+      const gNotes = el("g"),
+        gPlan = el("g"),
+        gStrip = el("g"),
+        gExp = el("g"),
+        gTab = el("g");
+
+      function dimH(x1, x2, y, e1, e2, label, code) {
+        const up = y < e1;
+        L(x1, e1 + (up ? 3 : -3), x1, y + (up ? -5 : 5), "ext");
+        L(x2, e2 + (y < e2 ? 3 : -3), x2, y + (y < e2 ? -5 : 5), "ext");
+        L(x1, y, x2, y, "dim", cur, 1);
+        T((x1 + x2) / 2, y - 6, label, "dt", { code: code || codeOf(label) });
+      }
+      function dimV(y1, y2, x, e1, e2, label, side = "l", code) {
+        const l = x < e1;
+        L(e1 + (l ? 3 : -3), y1, x + (l ? -5 : 5), y1, "ext");
+        L(e2 + (x < e2 ? 3 : -3), y2, x + (x < e2 ? -5 : 5), y2, "ext");
+        L(x, y1, x, y2, "dim", cur, 1);
+        T(x + (side === "l" ? -6 : 6), (y1 + y2) / 2, label, "dt", {
+          r: side === "l" ? -90 : 90,
+          code: code || codeOf(label),
+        });
+      }
+      function nb(x, y, n) {
+        R(x - 8, y - 8, 16, 16, "obj", 0).setAttribute("stroke-width", 0.9);
+        T(x, y + 4, n, "dt");
+      }
+      function callout(px, py, ex, ey, label, a = "start", code) {
+        el("circle", { cx: px, cy: py, r: 2.2, fill: "#000" });
+        L(px, py, ex, ey);
+        L(ex, ey, ex + (a === "start" ? 14 : -14), ey);
+        T(ex + (a === "start" ? 18 : -18), ey + 4, label, "dt", {
+          a,
+          code: code || codeOf(label),
+        });
+      }
+      function view(x, y, t, sub) {
+        T(x, y, t, "vt", { a: "start" });
+        T(x, y + 14, sub, "vs", { a: "start" });
+      }
+      const hit = (e, codes, toggle) => {
+        e.dataset.code = codes;
+        if (toggle) e.dataset.toggle = "1";
+        e.style.pointerEvents = "all";
+        return e;
+      };
+
+      function geom(zk, t) {
+        const z = SZ[zk],
+          { H1, W1, H2, H3, H4, LH } = z;
+        const S1 = (H1 - H2) / 2,
+          S2 = (H1 - LH) / 2,
+          S3 = (H2 - H3) / 2,
+          S4 = (H2 - H4) / 2,
+          onX = W1 - H4 - S4;
+        const hs = H3 + (H4 - H3) * t;
+        return {
+          z,
+          S1,
+          S2,
+          S3,
+          S4,
+          onX,
+          hs,
+          hx: S3 + (onX - S3) * t,
+          hy: (H2 - hs) / 2,
+        };
+      }
+
+      // ---------- static notes ----------
+      cur = gNotes;
+      const notes = [
+        [1, "TRACK  ·  PILL, R1 = H2 ÷ 2. BORDER B1 DRAWN INSIDE THE BOX."],
+        [
+          2,
+          "HANDLE  ·  CENTERED ON TRACK. INSET S3 (OFF) / S4 (ON) = (H2 − HANDLE) ÷ 2.",
+        ],
+        [3, "LABEL SLOT  ·  HUG, WRAPS. CENTERED IN H1, S2 = (H1 − LH) ÷ 2."],
+        [
+          4,
+          "CONTAINER  ·  ROW, CENTERED, MIN HEIGHT H1. TRACK CENTERED, S1 = (H1 − H2) ÷ 2.",
+        ],
+      ];
+      view(40, 50, "NOTES", "KEYED TO BOXED NUMBERS");
+      notes.forEach((n, i) => {
+        nb(52, 92 + i * 30, n[0]);
+        T(70, 96 + i * 30, n[1], "sl", { a: "start" });
+      });
+      const travelTxt = T(40, 230, "", "sl", { a: "start" });
+      travelTxt.dataset.code = "W1 H4 S3 S4";
+
+      function mini(cx, cy, k, zk, t) {
+        // track + handle only, centered at cx,cy
+        const g = geom(zk, t),
+          { W1, H2 } = g.z;
+        R(
+          cx - (W1 * k) / 2,
+          cy - (H2 * k) / 2,
+          W1 * k,
+          H2 * k,
+          "obj",
+          (H2 * k) / 2,
+        );
+        R(
+          cx - (W1 * k) / 2 + g.hx * k,
+          cy - (g.hs * k) / 2,
+          g.hs * k,
+          g.hs * k,
+          "obj hug",
+          (g.hs * k) / 2,
+        );
+      }
+
+      function render(final = true) {
+        const zk = state.size,
+          { z, S1, S2, S3, S4, onX, hs, hx, hy } = geom(zk, state.t);
+        const { H1, W1, H2, H3, H4, G1, LH } = z,
+          on = state.on;
+        document.getElementById("src").textContent = z.n;
+        document.getElementById("sch").textContent = state.dark ? "dark" : "light";
+        const f = fills(state.t);
+        document.querySelectorAll("[data-opt]").forEach((b) => {
+          const o = b.dataset.opt, v = b.dataset.v === "1";
+          const val = o === "color" ? state.color : o === "scheme" ? state.dark : state.emph;
+          b.setAttribute("aria-pressed", val === v);
+          if (o !== "color") b.disabled = !state.color;
+        });
+        document.getElementById("vars").innerHTML = [
+          `W1 · track-w ${W1}`,
+          `H1 · container-min ${H1}`,
+          `H2 · track-h ${H2}`,
+          `H3 · handle-off ${H3}`,
+          `H4 · handle-on ${H4}`,
+          `S3 · (H2 − H3) ÷ 2 = ${S3}`,
+          `R1 · H2 ÷ 2 = ${H2 / 2}`,
+        ]
+          .map((s) => `<div class="cell">${s}</div>`)
+          .join("");
+        document
+          .querySelectorAll("[data-size]")
+          .forEach((b) =>
+            b.setAttribute("aria-pressed", b.dataset.size === zk),
+          );
+        document
+          .querySelectorAll("[data-on]")
+          .forEach((b) =>
+            b.setAttribute("aria-pressed", (b.dataset.on === "1") === on),
+          );
+
+        cur = gNotes;
+        travelTxt.textContent = `HANDLE TRAVEL  =  (W1 − H4 − S4) − S3  =  (${W1} − ${H4} − ${S4}) − ${S3}  =  ${onX - S3}`;
+
+        // ---------- PLAN ----------
+        cur = gPlan;
+        gPlan.replaceChildren();
+        const k = 6,
+          ox = 690,
+          oy = 170,
+          W = W1 + G1 + LW,
+          cw = W * k,
+          ch = H1 * k,
+          ty = oy + S1 * k,
+          lx = ox + (W1 + G1) * k,
+          ly = oy + S2 * k;
+        view(
+          ox - 110,
+          60,
+          "PLAN VIEW · " + (on ? "ON" : "OFF"),
+          "SCALE 6:1 · SIZE " + z.n,
+        );
+        hit(R(ox, oy, cw, ch, "slot"), "H1 S1");
+        hit(R(ox, ty, W1 * k, H2 * k, "obj", (H2 * k) / 2), "W1 H2 R1 B1", 1);
+        R(
+          ox + B * k,
+          ty + B * k,
+          (W1 - 2 * B) * k,
+          (H2 - 2 * B) * k,
+          "slot",
+          ((H2 - 2 * B) * k) / 2,
+        ).setAttribute(
+          "style",
+          "stroke-dasharray:2 3;stroke-width:.6;pointer-events:none",
+        );
+        if (state.t > 0.02)
+          R(
+            ox + S3 * k,
+            ty + ((H2 - H3) / 2) * k,
+            H3 * k,
+            H3 * k,
+            "slot",
+            (H3 * k) / 2,
+          ).setAttribute("style", "pointer-events:none");
+        hit(
+          R(ox + hx * k, ty + hy * k, hs * k, hs * k, "obj hug", (hs * k) / 2),
+          "H3 H4 R2 S3 S4",
+          1,
+        );
+        if (f) {
+          gPlan.querySelector('[data-code="W1 H2 R1 B1"]').style.fill = f.track;
+          gPlan.querySelector('[data-code="H3 H4 R2 S3 S4"]').style.fill = f.handle;
+        }
+        hit(R(lx, ly, LW * k, LH * k, "slot"), "LH S2");
+        L(lx, ly, lx + LW * k, ly + LH * k, "slot");
+        L(lx + LW * k, ly, lx, ly + LH * k, "slot");
+        T(lx + (LW * k) / 2, oy + ch / 2 + 4, "LABEL SLOT · HUG", "sl");
+        L(ox - 30, oy + ch / 2, ox + cw + 30, oy + ch / 2, "cl");
+        L(ox + (W1 * k) / 2, oy - 30, ox + (W1 * k) / 2, oy + ch + 30, "cl");
+        nb(ox + (W1 * k) / 2, oy + (S1 * k) / 2, 1);
+        nb(
+          ox + (hx + hs / 2) * k,
+          oy + (S1 * k) / 2 + (S1 * k < 40 ? 0 : 0),
+          2,
+        );
+        nb(lx + 20, ly + 20, 3);
+        nb(ox + 14, oy + 14, 4);
+        {
+          const top = oy - 34;
+          dimH(ox, ox + W1 * k, top, oy, ty, "W1  " + W1);
+          dimH(ox + W1 * k, lx, top, ty, oy, "G1  " + G1);
+          dimH(lx, lx + LW * k, top, oy, oy, "LABEL · HUG", "LH");
+          dimH(ox, ox + cw, oy - 74, oy, oy, "W  =  W1 + G1 + LABEL", "W1 G1");
+          dimV(oy, ty, ox - 34, ox, ox, "S1  " + S1);
+          dimV(ty, ty + H2 * k, ox - 34, ox, ox, "H2  " + H2);
+          dimV(ty + H2 * k, oy + ch, ox - 34, ox, ox, "S1  " + S1, "l", "S1");
+          dimV(oy, oy + ch, ox - 74, ox, ox, "H1  " + H1 + "  (MIN)");
+          const rx = ox + cw;
+          dimV(oy, ly, rx + 34, rx, rx, "S2  " + S2, "r");
+          dimV(ly, ly + LH * k, rx + 34, rx, rx, "LH  " + LH, "r");
+          dimV(ly + LH * k, oy + ch, rx + 34, rx, rx, "S2  " + S2, "r", "S2");
+          // handle dimensions follow the handle through the transition
+          const anim = state.t > 0 && state.t < 1;
+          const dh = (x1_, x2_, y_, e1_, e2_, label, code) =>
+            dimH(x1_, x2_, y_, e1_, e2_, anim && Math.abs(x2_ - x1_) < label.length * 6.4 + 8 ? "" : label, code);
+          const by = oy + ch + 44,
+            hb = ty + (hy + hs) * k,
+            late = state.t >= 0.5,
+            x1 = ox + hx * k,
+            x2 = ox + (hx + hs) * k,
+            x3 = ox + W1 * k;
+          dh(ox, x1, by, hb, hb, late ? `W1 − H4 − S4 = ${onX}` : "S3  " + S3, late ? "W1 H4 S4" : "S3");
+          dh(x1, x2, by, hb, hb, (late ? "H4  " + H4 : "H3  " + H3));
+          dh(x2, x3, by, hb, ty + H2 * k, late ? "S4  " + S4 : `W1 − H3 − S3 = ${W1 - H3 - S3}`, late ? "S4" : "W1 H3 S3");
+          if ((hx - S3) * k > 1)
+            dimH(ox + S3 * k, x1, by + 34, ty + ((H2 - H3) / 2) * k + H3 * k, hb,
+              (hx - S3) * k >= 40 ? "TRAVEL  " + Math.round(hx - S3) : "", "S3 S4 W1 H4");
+          const r = (H2 * k) / 2,
+            cxr = ox + (W1 - H2 / 2) * k,
+            cyt = ty + r;
+          callout(
+            cxr + r * 0.7071,
+            cyt - r * 0.7071,
+            cxr + r * 0.7071 + 18,
+            oy + (S1 * k) / 2,
+            "R1  " + H2 / 2,
+          );
+          const hr = (hs * k) / 2,
+            hcx = ox + (hx + hs / 2) * k,
+            hcy = ty + (hy + hs / 2) * k;
+          const r2 = (late ? H4 : H3) / 2;
+          late
+            ? callout(hcx - hr * 0.7071, hcy - hr * 0.7071, hcx - hr * 0.7071 - 30, hcy - hr * 0.7071, "R2  " + r2, "end")
+            : callout(hcx + hr * 0.7071, hcy - hr * 0.7071, hcx + hr * 0.7071 + 30, hcy - hr * 0.7071, "R2  " + r2);
+          callout(
+            ox + W1 * k * 0.62,
+            ty + (H2 - B / 2) * k,
+            ox + W1 * k * 0.62 + 16,
+            ty + H2 * k + 26,
+            "B1  " + B,
+          );
+        }
+
+        // ---------- SIZE RANGE ----------
+        cur = gStrip;
+        gStrip.replaceChildren();
+        view(
+          ox - 110,
+          610,
+          "SIZE RANGE",
+          "SCALE 4:1 · TRACK AND HANDLE · CLICK TO SELECT",
+        );
+        KEYS.forEach((key, i) => {
+          const cx = ox - 20 + i * 150,
+            cy = 720,
+            s = SZ[key],
+            g = el("g", {});
+          g.dataset.size = key;
+          cur = g;
+          const sel = key === zk;
+          const bx = R(cx - 72, cy - 50, 144, 100, sel ? "slot" : "slot", 0);
+          bx.setAttribute(
+            "style",
+            `pointer-events:all;${sel ? "" : "stroke:none"}`,
+          );
+          mini(cx, cy, 4, key, state.t);
+          if (f) {
+            g.children[1].style.fill = f.track;
+            g.children[2].style.fill = f.handle;
+          }
+          T(cx, cy + 44, `${s.n}  ·  ${s.W1} × ${s.H2}`, "sl");
+          cur = gStrip;
+        });
+
+        // ---------- EXPLODED ----------
+        cur = gExp;
+        gExp.replaceChildren();
+        view(40, 560, "EXPLODED VIEW", "SCALE 3:1 · LAYERS, BOTTOM TO TOP");
+        const sc = 3,
+          A = 0.94 * sc,
+          Bq = 0.17 * sc,
+          C = -0.34 * sc,
+          D = 0.47 * sc,
+          tx = 300,
+          ty0 = 860;
+        const P = (u, v, zz) => [tx + A * u + C * v, ty0 + Bq * u + D * v - zz];
+        const layer = (zz, fn) => {
+          const g = el("g", {
+            transform: `matrix(${A} ${Bq} ${C} ${D} ${tx} ${ty0 - zz})`,
+          });
+          fn(g);
+          return g;
+        };
+        const rr = (g, x, y, w, h, rx, fill, dash) =>
+          el(
+            "rect",
+            {
+              x,
+              y,
+              width: w,
+              height: h,
+              rx,
+              fill,
+              stroke: "#000",
+              "stroke-width": dash ? 1 : 1.4,
+              "vector-effect": "non-scaling-stroke",
+              ...(dash ? { "stroke-dasharray": "4 3" } : {}),
+            },
+            g,
+          );
+        layer(0, (g) => rr(g, 0, 0, W, H1, 0, "none", 1));
+        layer(45, (g) => {
+          rr(g, 0, S1, W1, H2, H2 / 2, f ? f.track : "#f2f2f2");
+          rr(g, W1 + G1, S2, LW, LH, 0, "none", 1);
+        });
+        layer(90, (g) => rr(g, hx, S1 + hy, hs, hs, hs / 2, f ? f.handle : "#e6e6e6"));
+        [
+          [90, "HANDLE  ·  H3 / H4, R2", [hx, H1 / 2], "l", "H3 H4 R2"],
+          [45, "TRACK  ·  W1 × H2, R1, B1", [0, H1 / 2], "l", "W1 H2 R1 B1"],
+          [45, "LABEL SLOT  ·  HUG", [W1 + G1 + LW, H1 / 2], "r", "LH S2"],
+          [0, "CONTAINER  ·  MIN H1", [0, H1 / 2], "l", "H1 S1"],
+        ].forEach(([zz, t, [u, v], side, code]) => {
+          const [px, py] = P(u, v, zz),
+            x = side === "l" ? 40 : 580;
+          T(x, py - 6, t, "sl", { a: "start", code });
+          L(x, py, px, py);
+          el("circle", { cx: px, cy: py, r: 2.2, fill: "#000" });
+        });
+
+        // ---------- TABLES ----------
+        cur = gTab;
+        gTab.replaceChildren();
+        function table(x, y, title, head, rows, w, hl) {
+          T(x, y, title, "vt", { a: "start" });
+          y += 10;
+          const tot = w.reduce((a, b) => a + b, 0),
+            H = 20 * (rows.length + 1);
+          if (hl > 0) {
+            R(
+              x + w.slice(0, hl).reduce((a, b) => a + b, 0),
+              y,
+              w[hl],
+              H,
+              "colhl",
+            );
+          }
+          const g = el("g", { class: "tbl" });
+          R(x, y, tot, H, "obj", 0, g).setAttribute("stroke-width", 1);
+          let cx = x;
+          head.forEach((h, i) => {
+            const t = el("text", { x: cx + 6, y: y + 14, class: "h" }, g);
+            t.textContent = h;
+            cx += w[i];
+          });
+          rows.forEach((r, j) => {
+            const yy = y + 20 * (j + 1),
+              code = (r[0].match(/^[A-Z]+\d?(,\s*[A-Z]+\d?)*/) || [
+                "",
+              ])[0].replace(/,\s*/g, " ");
+            const rw = R(x, yy, tot, 20, "row", 0, g);
+            rw.setAttribute("fill", "transparent");
+            if (code) rw.dataset.code = code;
+            L(x, yy, x + tot, yy, "ext", g);
+            let cx = x;
+            r.forEach((c, i) => {
+              const t = el(
+                "text",
+                { x: cx + 6, y: yy + 14, style: "pointer-events:none" },
+                g,
+              );
+              t.textContent = c;
+              cx += w[i];
+            });
+          });
+          let c2 = x;
+          w.slice(0, -1).forEach((wi) => {
+            c2 += wi;
+            L(c2, y, c2, y + H, "ext", g);
+          });
+          return y + H + 34;
+        }
+        let yy = 50;
+        const col = KEYS.indexOf(zk) + 1;
+        const row = (label, f) => [label, ...KEYS.map((q) => String(SZ[q][f]))];
+        yy = table(
+          1330,
+          yy,
+          "SIZE (BY SCALE)",
+          ["CODE", "S", "M", "L", "XL"],
+          [
+            row("H1  container-min", "H1"),
+            row("W1  track-w", "W1"),
+            row("H2  track-h", "H2"),
+            row("H3  handle-off", "H3"),
+            row("H4  handle-on", "H4"),
+            row("G1  gap", "G1"),
+            row("LH  label-lh", "LH"),
+            row("FS  font-size", "FS"),
+            [
+              "S3  inset off",
+              ...KEYS.map((q) => String((SZ[q].H2 - SZ[q].H3) / 2)),
+            ],
+            [
+              "S4  inset on",
+              ...KEYS.map((q) => String((SZ[q].H2 - SZ[q].H4) / 2)),
+            ],
+            ["B1  border", ...KEYS.map(() => String(B))],
+          ],
+          [150, 45, 45, 45, 45],
+          col,
+        );
+        const nm = z.name;
+        yy = table(
+          1330,
+          yy,
+          `TOKENS (SIZE ${z.n})`,
+          ["CODE", "TOKEN"],
+          [
+            ["H1", `component-height-${z.idx}-desktop`],
+            ["W1", `switch-control-width-${nm}`],
+            ["H2", `switch-control-height-${nm}`],
+            ["H3", `switch-handle-size-${nm}`],
+            ["H4", `switch-handle-selected-size-${nm}`],
+            ["G1", `base-gap-${nm}`],
+            ["B1", "border-width-200"],
+            ["R1, R2", "corner-radius-full  (0.5 × h)"],
+            ["LH", `line-height-font-size-${z.idx}`],
+            ["FS", `font-size-${z.idx}`],
+          ],
+          [60, 270],
+          0,
+        );
+        const pal = PAL[state.dark ? "dark" : "light"], ac = state.emph ? "A" : "N", c0 = yy + 10;
+        yy = table(1330, yy, `COLOR (${state.dark ? "DARK" : "LIGHT"})`, ["PART", "OFF", "ON"], [
+          ["TRACK FILL", "G", ac], ["TRACK STROKE", "N", ac], ["HANDLE", "N", "G"], ["LABEL", "N", "N"],
+          ["G", pal.G[1], ""], ["N", pal.N[1], ""], ["A", pal.A[1], ""],
+        ], [110, 110, 110], on ? 2 : 1);
+        if (state.color) {
+          ["G", "N", "A"].forEach((c, i) => {
+            const sw = R(1330 + 304, c0 + 20 * (5 + i) + 4, 18, 12, "obj");
+            sw.setAttribute("style", `fill:${pal[c][0]};stroke-width:.8`);
+          });
+          T(1330, yy + 4, `G ${pal.G[0]}  ·  N ${pal.N[0]}  ·  A ${pal.A[0]}`, "sl", { a: "start" });
+        }
+        T(
+          1330,
+          yy - 14,
+          `S1 = (H1 − H2) ÷ 2 = ${S1}  ·  S2 = (H1 − LH) ÷ 2 = ${S2}`,
+          "sl",
+          { a: "start" },
+        );
+      }
+
+      // ---------- interaction ----------
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let raf = 0;
+      function setOn(on) {
+        state.on = on;
+        cancelAnimationFrame(raf);
+        const from = state.t,
+          to = on ? 1 : 0,
+          t0 = performance.now(),
+          dur = reduce ? 0 : 240;
+        const step = (now) => {
+          const p = dur ? Math.min(1, (now - t0) / dur) : 1,
+            e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+          state.t = from + (to - from) * e;
+          if (p < 1) {
+            render(false);
+            raf = requestAnimationFrame(step);
+          } else {
+            state.t = to;
+            render(true);
+          }
+        };
+        raf = requestAnimationFrame(step);
+      }
+      function setSize(k) {
+        state.size = k;
+        render(true);
+      }
+
+      svg.addEventListener("click", (e) => {
+        const s = e.target.closest("[data-size]");
+        if (s) return setSize(s.dataset.size);
+        if (e.target.closest("[data-toggle]")) setOn(!state.on);
+      });
+      document.querySelectorAll("[data-size]").forEach((b) => {
+        if (b.tagName === "BUTTON") b.onclick = () => setSize(b.dataset.size);
+      });
+      document
+        .querySelectorAll("[data-on]")
+        .forEach((b) => (b.onclick = () => setOn(b.dataset.on === "1")));
+
+      const clearHl = () =>
+        svg.querySelectorAll(".hl").forEach((e) => e.classList.remove("hl"));
+      svg.addEventListener("mouseover", (e) => {
+        clearHl();
+        const t = e.target.closest("[data-code]");
+        if (!t) return;
+        const codes = new Set(t.dataset.code.split(" "));
+        svg.querySelectorAll("[data-code]").forEach((n) => {
+          if (n.dataset.code.split(" ").some((c) => codes.has(c)))
+            n.classList.add("hl");
+        });
+      });
+      svg.addEventListener("mouseleave", clearHl);
+
+      document.querySelectorAll("[data-opt]").forEach((b) => (b.onclick = () => {
+        const v = b.dataset.v === "1";
+        if (b.dataset.opt === "color") state.color = v;
+        else if (b.dataset.opt === "scheme") state.dark = v;
+        else state.emph = v;
+        render(true);
+      }));
+      const hv = location.hash.slice(1).split(",");
+      if (hv.includes("color")) state.color = true;
+      if (hv.includes("dark")) state.dark = true;
+      if (hv.includes("emph")) state.emph = true;
+if (SZ[hv[0]]) state.size = hv[0];
+if (hv[1] === "on") { state.on = true; state.t = 1; }
+const tv = hv.find((s) => /^t[01.]/.test(s));
+      if (tv) { state.t = +tv.slice(1); state.on = true; }
+      render(true);
+    </script>
+  </body>
+</html>
