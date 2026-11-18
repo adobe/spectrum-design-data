@@ -10,6 +10,7 @@
     "position": 99
   },
   "scope": null,
+  "allowedTokenTiers": ["primitive", "semantic"],
   "required": false,
   "valueType": "integer",
   "excludeFromLegacyKey": true

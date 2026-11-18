@@ -69,6 +69,16 @@
         }
       ]
     },
+    "allowedTokenTiers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["primitive", "semantic", "component"]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Token tiers that may use this field: 'primitive' (foundation-level values), 'semantic' (shared purposes or structural roles) or 'component' (tokens defined for a specific component). Omit to allow every tier. Applies together with 'scope'."
+    },
     "required": {
       "type": "boolean",
       "description": "Whether this field must be present on every name object. Default: false.",
