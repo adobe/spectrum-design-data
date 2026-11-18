@@ -7,7 +7,7 @@
   "description": "An icon-only button inside another component that clears or removes its value, such as the remove control on a tag or the clear control in a search field.",
   "meta": {
     "category": "actions",
-    "documentationUrl": "https://spectrum.adobe.com/page/in-field-button/"
+    "documentationUrl": "https://spectrum.adobe.com/page/clear-button/"
   },
   "implementations": [
     {
@@ -64,7 +64,7 @@
     },
     {
       "name": "focus-indicator",
-      "description": "Outline drawn inside the container for keyboard focus.",
+      "description": "Outline drawn around the container for keyboard focus.",
       "presentIn": ["keyboard-focus"]
     }
   ],
