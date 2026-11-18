@@ -243,7 +243,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "18px",
+    "value": "20px",
     "uuid": "ef5f40e8-d6e9-45a7-b8cf-1689e44e713c",
     "legacyKey": "in-field-progress-circle-size-100",
     "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
@@ -259,7 +259,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "23px",
+    "value": "24px",
     "uuid": "c522b33c-93b8-491f-b4df-c241f5b5ade8",
     "legacyKey": "in-field-progress-circle-size-100",
     "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
@@ -275,7 +275,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "20px",
+    "value": "22px",
     "uuid": "86567889-978e-4dfe-8412-42c8f33c3f44",
     "legacyKey": "in-field-progress-circle-size-200",
     "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
@@ -291,7 +291,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "25px",
+    "value": "28px",
     "uuid": "85377238-7488-42e0-99ce-f4fd73316d24",
     "legacyKey": "in-field-progress-circle-size-200",
     "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
@@ -307,7 +307,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "22px",
+    "value": "26px",
     "uuid": "32d0a47d-c4bb-4955-aef0-28e07f429b92",
     "legacyKey": "in-field-progress-circle-size-300",
     "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
@@ -323,7 +323,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "28px",
+    "value": "30px",
     "uuid": "9e740bd1-b98a-416a-be82-20e222cab3b1",
     "legacyKey": "in-field-progress-circle-size-300",
     "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
