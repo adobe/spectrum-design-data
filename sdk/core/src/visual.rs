@@ -4392,9 +4392,12 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                 if let Some(p) = &n.pattern {
                     // The id names the whole definition, so SVGs inlined in one page can share an id only
                     // when the definitions are identical.
-                    let key: String = format!("{}-{}-{}-{}", p.alt, p.size, n.x, n.y)
+                    let key: String = format!("{}|{}|{}|{}", p.alt, p.size, n.x, n.y)
                         .chars()
-                        .map(|c| if c.is_ascii_alphanumeric() { c } else { '_' })
+                        .map(|c| match c.is_ascii_alphanumeric() {
+                            true => c.to_string(),
+                            false => format!("_{:x}_", c as u32),
+                        })
                         .collect();
                     let (id, z) = (format!("pattern-{key}"), p.size * 2.0);
                     let _ = write!(
@@ -4889,6 +4892,29 @@ mod tests {
             diags.iter().any(|d| d.contains("positive number")),
             "{diags:?}"
         );
+    }
+
+    #[test]
+    fn pattern_ids_differ_for_fractional_sizes_and_origins() {
+        let base = solve_width(&pattern_recipe("#000000".into(), 4.into()), None);
+        let id = |size: f64, x: f64| {
+            let mut scene = base.clone();
+            let n = &mut scene.nodes[0];
+            n.x = x;
+            n.y = 8.0;
+            n.pattern.as_mut().unwrap().size = size;
+            let svg = scene_to_svg(&scene);
+            svg.split("<pattern id=\"")
+                .nth(1)
+                .unwrap()
+                .split('"')
+                .next()
+                .unwrap()
+                .to_string()
+        };
+        assert_ne!(id(8.5, 8.0), id(8.0, 5.8));
+        assert_ne!(id(8.0, 15.0), id(8.01, 5.0));
+        assert_eq!(id(8.5, 8.0), id(8.5, 8.0));
     }
 
     #[test]
