@@ -35,6 +35,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "list-view",
     "uuid": "5dc02446-3f40-4370-b367-5f97b2ad3ca4",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -46,12 +48,15 @@
         "value": "50px",
         "uuid": "6ca2c317-7e17-41f7-8e2c-20a762fe284d"
       }
-    }
+    },
+    "renamed": "list-item-minimum-height"
   },
   "list-view-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "list-view",
     "uuid": "378170d5-ffa0-42fe-9f8a-421e539217ab",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -63,6 +68,7 @@
         "value": "240px",
         "uuid": "3f68b526-a22a-4086-a40d-3a875a6324b3"
       }
-    }
+    },
+    "renamed": "list-item-minimum-width-medium"
   }
 }

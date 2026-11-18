@@ -1183,7 +1183,7 @@ fn render_applies_the_selected_platform_and_names_it_in_diagnostics() {
             "specVersion": "1.0.0-draft",
             "foundationVersion": "1.0.0",
             "platform": "fixture-drop",
-            "exclude": ["property=component-height-100"]
+            "exclude": ["property=height"]
         })
         .to_string(),
     )
@@ -1238,7 +1238,7 @@ fn render_strict_fails_on_an_unresolved_binding() {
             "specVersion": "1.0.0-draft",
             "foundationVersion": "1.0.0",
             "platform": "fixture-drop",
-            "exclude": ["property=component-height-100"]
+            "exclude": ["property=height"]
         })
         .to_string(),
     )

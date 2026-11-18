@@ -12,7 +12,10 @@
   {
     "scope": {
       "component": "color-wheel",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width",
     "contextRole": ["width"],
@@ -22,7 +25,10 @@
   {
     "scope": {
       "component": "color-wheel",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Width",
     "contextRole": ["width"],
@@ -32,44 +38,56 @@
   {
     "scope": {
       "component": "color-wheel",
-      "property": "minimum-width"
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
     "$ref": "647244c3-b071-45c1-94f7-3be32cfebabe",
-    "uuid": "7b8d0a85-c15b-5d0b-a99a-2b0a2140cb87"
+    "uuid": "4f527a3c-8094-5a47-924e-cb4b5891dad7"
   },
   {
     "scope": {
       "component": "color-wheel",
-      "property": "minimum-width"
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Width (minimum)",
     "contextRole": ["width"],
     "contextQualifier": "minimum",
     "$ref": "6733cd28-a949-40f7-bd36-034af9c0261f",
-    "uuid": "a83028b4-f448-51cc-abd4-9c77d0eaffe1"
+    "uuid": "cb00b69d-5d08-5fbf-a339-8ab598c78149"
   },
   {
     "scope": {
       "component": "color-wheel",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Track width",
     "contextRole": ["width"],
     "$ref": "424db2a9-5795-400b-a98a-58081d311bff",
-    "uuid": "6ed026b6-240d-5c82-a845-8b6f644a66b3"
+    "uuid": "d26c357d-d4d4-5f4e-90c8-cb1e3d79ba83"
   },
   {
     "scope": {
       "component": "color-wheel",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Track width",
     "contextRole": ["width"],
     "$ref": "07e3ac46-3f96-4c00-aa6a-09840ee04bdd",
-    "uuid": "d45991dc-4e4d-5ee5-9675-f7599343b25f"
+    "uuid": "c09f6258-9e4f-57c1-9251-202220c53be2"
   },
   {
     "scope": {
@@ -157,11 +175,12 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "175px",
+    "value": "144px",
     "uuid": "647244c3-b071-45c1-94f7-3be32cfebabe",
     "legacyKey": "color-wheel-minimum-width",
     "setUuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread). Desktop is 144px (size-1200), smaller than the old 175px, and mobile follows that base."
   },
   {
     "scope": {
@@ -172,11 +191,12 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "219px",
+    "value": "180px",
     "uuid": "6733cd28-a949-40f7-bd36-034af9c0261f",
     "legacyKey": "color-wheel-minimum-width",
     "setUuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread). Desktop is 144px (size-1200), smaller than the old 175px, and mobile follows that base."
   },
   {
     "scope": {

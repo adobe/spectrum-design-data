@@ -2,29 +2,37 @@
   {
     "scope": {
       "component": "color-handle",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "scale": "desktop"
+      }
     },
-    "context": "Size (keyboard focus)",
+    "context": "Size",
     "contextRole": ["size"],
-    "contextQualifier": "keyboard focus",
     "$ref": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444",
     "uuid": "71ffdb80-5555-501f-821e-2efb410ed43c"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "scale": "mobile"
+      }
     },
-    "context": "Size (keyboard focus)",
+    "context": "Size",
     "contextRole": ["size"],
-    "contextQualifier": "keyboard focus",
     "$ref": "b81cc6a6-390f-43dc-a6c8-dd335c177da3",
     "uuid": "fd872767-bdd5-5132-b522-cf5787d61620"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "state": ["keyboard-focus"],
+        "scale": "desktop"
+      }
     },
     "context": "Size (keyboard focus)",
     "contextRole": ["size"],
@@ -35,7 +43,11 @@
   {
     "scope": {
       "component": "color-handle",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "state": ["keyboard-focus"],
+        "scale": "mobile"
+      }
     },
     "context": "Size (keyboard focus)",
     "contextRole": ["size"],
