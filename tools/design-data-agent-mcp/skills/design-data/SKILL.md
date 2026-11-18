@@ -118,7 +118,7 @@ text. Use this when the user describes what they need rather than knowing a toke
 Required: `id` (string) — kebab-case component ID, e.g. `button`, `action-button`
 
 Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`,
-and `tokenBindings`.
+and `relationships` (the component's token bindings).
 
 ***
 

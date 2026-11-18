@@ -167,16 +167,6 @@
     "notes": "RSP Tabs.tsx:350,550 and gen2 tabs/tabs.css:65-107 draw the selection indicator as a sibling of the tab item, so tab-item contains only icon and label. Figma S2 Web tabs page (Tab: Content stack and Underline). keyboard-focus state added for focus-indicator. No baseline divider found in RSP/SWC: unverified, not declared."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    {
-      "token": "tab-item-to-tab-item-compact-horizontal-medium",
-      "context": "Spacing (between tab items, horizontal)"
-    },
-    {
-      "token": "tab-selection-indicator-thickness",
-      "context": "Selection indicator (underline)"
-    }
-  ],
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,

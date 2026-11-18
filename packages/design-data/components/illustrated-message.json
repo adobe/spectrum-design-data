@@ -83,6 +83,9 @@
     }
   ],
   "options": {
+    "script": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+    },
     "illustration": {
       "type": "string",
       "description": "Optional illustration or icon displayed above the message."

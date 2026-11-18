@@ -1,0 +1,307 @@
+[
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "component-height-75"
+    },
+    "context": "Button size",
+    "contextRole": ["size"],
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "uuid": "311bf66f-f10e-57db-9c08-bd1ce33fb9ab"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "component-height-75"
+    },
+    "context": "Button size",
+    "contextRole": ["size"],
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
+    "uuid": "fbfedfa6-ab29-5cc4-9e4f-eaf172d8ae2a"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "component-height-100"
+    },
+    "context": "Button size",
+    "contextRole": ["size"],
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "uuid": "8ee811e4-38c5-5811-b4b4-9fa24806f0f7"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "component-height-100"
+    },
+    "context": "Button size",
+    "contextRole": ["size"],
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
+    "uuid": "fa90ae44-b4da-5f79-8c08-540b51c8f7c5"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "component-height-200"
+    },
+    "context": "Button size",
+    "contextRole": ["size"],
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "uuid": "de185912-982f-521c-8696-b3da6710c193"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "component-height-200"
+    },
+    "context": "Button size",
+    "contextRole": ["size"],
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
+    "uuid": "76ea95ef-f3fc-5b70-adde-8c92f0521289"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "component-height-300"
+    },
+    "context": "Button size",
+    "contextRole": ["size"],
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "uuid": "3be072a2-8d61-5221-886b-47e7b557d197"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "component-height-300"
+    },
+    "context": "Button size",
+    "contextRole": ["size"],
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
+    "uuid": "ab28b5a1-57bd-599f-9aae-4a3c5a05b6ef"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Cross icon size",
+    "contextRole": ["size"],
+    "$ref": "8e597833-1025-4de4-b34a-2f34201487c3",
+    "uuid": "62006079-5c88-54b7-9edd-0a1260c277f0"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Cross icon size",
+    "contextRole": ["size"],
+    "$ref": "622d259d-b52b-409a-bf58-04705d8423f9",
+    "uuid": "5be7c979-ba47-5ec7-ab7e-84aa427ef7a9"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Cross icon size",
+    "contextRole": ["size"],
+    "$ref": "c9fac273-0c5c-46cd-b774-ad566a540511",
+    "uuid": "4729acc8-61f1-5394-9064-cb8005b9b8a4"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Cross icon size",
+    "contextRole": ["size"],
+    "$ref": "11f924ca-5542-4864-b153-77363a32d690",
+    "uuid": "0c3e2ee3-2374-5dc9-99ae-5f3223f3673a"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Cross icon size",
+    "contextRole": ["size"],
+    "$ref": "5b416331-7910-4d64-9b5f-43fd1832d3a6",
+    "uuid": "9526b0bf-5bbd-57a4-ac18-2857fb69d221"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Cross icon size",
+    "contextRole": ["size"],
+    "$ref": "11f65b04-c50d-45bb-86bd-34520aa7db61",
+    "uuid": "1f600646-219e-5097-818e-d359b932401f"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Cross icon size",
+    "contextRole": ["size"],
+    "$ref": "f0a65c80-55e8-4ad3-b68c-8429c2fefcf5",
+    "uuid": "cf5384e0-5320-5cfb-8293-57dc4869b8df"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Cross icon size",
+    "contextRole": ["size"],
+    "$ref": "37867ac1-4101-4553-98e1-c8a94fdd2d66",
+    "uuid": "601ffa8a-c7cc-5ddf-adbb-932034250c5e"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "thickness"
+    },
+    "context": "Focus ring",
+    "contextRole": ["focus"],
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
+    "uuid": "c291d9a7-66f8-54dd-be6d-4ea1ce01bc72"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "gap"
+    },
+    "context": "Focus ring",
+    "contextRole": ["focus"],
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
+    "uuid": "90e4e751-78fe-5db8-a588-24833f8deab3"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "contextRole": ["icon"],
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "7a4ff5ec-0f1c-51a4-a373-060640655dca"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "contextRole": ["icon"],
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
+    "uuid": "d751175e-0cf0-5bd5-9149-ba21465271a8"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "contextRole": ["icon"],
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
+    "uuid": "1b9f2af7-596a-5e40-a78a-70e6c69699d7"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "contextRole": ["icon"],
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
+    "uuid": "0efc4828-96b8-5077-b416-503fa11ad661"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "contextRole": ["icon"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "4d045a56-084a-5462-97a0-a55419353136"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "contextRole": ["focus"],
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
+    "uuid": "463d2b3d-139b-572c-9b86-995cf3e95036"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
+    },
+    "context": "Focus ring",
+    "contextRole": ["focus"],
+    "$ref": "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13",
+    "uuid": "75c78e64-0379-5188-bbeb-ef3a89d289a9"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "color",
+      "options": {
+        "staticColor": "white",
+        "isDisabled": false
+      }
+    },
+    "context": "Cross icon",
+    "contextRole": ["icon"],
+    "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
+    "uuid": "8fe0a00c-f676-553f-92e0-923d64831886"
+  },
+  {
+    "scope": {
+      "component": "clear-button",
+      "property": "content-color",
+      "options": {
+        "staticColor": "white",
+        "isDisabled": true
+      }
+    },
+    "context": "Cross icon",
+    "contextRole": ["icon"],
+    "$ref": "fe319bca-0413-4ad8-a783-c64563e05816",
+    "uuid": "83e3984b-4cf4-5775-a00d-306bdce1b650"
+  }
+]

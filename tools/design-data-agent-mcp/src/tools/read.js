@@ -397,10 +397,8 @@ export function createReadTools() {
         }
         const component = JSON.parse(readFileSync(componentFile, "utf-8"));
 
-        // Component/Token Relationships (CTRs) migrated most tokenBindings out
-        // of the component file into relationships/<id>.json — merge them back
-        // in so callers relying on this tool for a component's token bindings
-        // still see them (see spectrum-design-data-x29.4).
+        // A component's token bindings live in relationships/<id>.json
+        // (Component/Token Relationships), not in the component file.
         const relationshipsDir = getCascadeAwareDir(
           config.relationshipsDir,
           "relationships",
