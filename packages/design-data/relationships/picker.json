@@ -1169,7 +1169,8 @@
       "component": "picker",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["hover"]
       }
     },
     "context": "Border",
@@ -1195,7 +1196,8 @@
       "component": "picker",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["focus-+-hover"]
       }
     },
     "context": "Border",
@@ -1208,7 +1210,8 @@
       "component": "picker",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["focus-+-not-hover"]
       }
     },
     "context": "Border",
@@ -1221,7 +1224,8 @@
       "component": "picker",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Border",

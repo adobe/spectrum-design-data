@@ -797,8 +797,8 @@
       "component": "text-area",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
     "uuid": "1b912462-93f5-55d0-b7aa-0d0bf9becc89"
   },
@@ -807,8 +807,8 @@
       "component": "text-area",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
     "uuid": "dde09f3a-96d7-5547-8caa-913ea6f6f181"
   },
@@ -817,8 +817,8 @@
       "component": "text-area",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
     "uuid": "9a494951-3166-5f68-8bfa-1d76a4bedb23"
   },
@@ -827,8 +827,8 @@
       "component": "text-area",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
     "uuid": "030715c8-f4c3-5e8c-aa6a-a4a84cd5e474"
   },
@@ -837,8 +837,8 @@
       "component": "text-area",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
     "uuid": "efd429f4-63c6-581d-a07e-92276f6f9a14"
   },
@@ -847,98 +847,125 @@
       "component": "text-area",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
     "uuid": "3ce0d02e-6257-5805-81b3-ebb4fa6927e6"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
     "uuid": "a4de2e93-56e6-5180-9d47-fb92263322f1"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
     "uuid": "442e0ebb-ccfe-5ece-a951-d2c2287210d7"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
     "uuid": "dda19acf-fae2-5796-bac2-6dd53fa8b4db"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c",
     "uuid": "d500aff7-2754-583f-9cc4-3d4099bf0f39"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f",
     "uuid": "e6a3104f-d0a4-55f0-90bd-9e0c641668d8"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978",
     "uuid": "08fc9f21-b32b-51b3-9459-d726b544df6e"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-not-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f",
     "uuid": "1bc19ada-a867-53d1-b791-30579b84e033"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-not-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7",
     "uuid": "e5d36ffd-0fb4-51c8-8401-1868e01844e0"
   },
   {
     "scope": {
       "component": "text-area",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-not-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128",
     "uuid": "195ce23a-34a1-56da-91b9-482d6457aee9"
   },
@@ -970,7 +997,8 @@
       "component": "text-area",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["hover"]
       }
     },
     "context": "Border",
@@ -983,7 +1011,8 @@
       "component": "text-area",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["focus-+-hover"]
       }
     },
     "context": "Border",
@@ -996,7 +1025,8 @@
       "component": "text-area",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["focus-+-not-hover"]
       }
     },
     "context": "Border",
@@ -1009,13 +1039,28 @@
       "component": "text-area",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["keyboard-focus"]
       }
     },
     "context": "Border",
     "contextRole": ["border"],
     "$ref": "393cb93a-3d0a-4118-a2ee-451fdc871b0f",
     "uuid": "2b9f1be5-efec-5ea5-8786-9ec4dc40ac28"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "property": "color",
+      "options": {
+        "isError": false,
+        "isDisabled": true
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
+    "uuid": "8308a1d7-8b9f-454a-97df-571e6d2f564e"
   },
   {
     "scope": {

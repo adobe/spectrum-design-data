@@ -894,8 +894,8 @@
       "component": "number-field",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
     "uuid": "b9d21940-7596-5e26-bdb2-7fcc894a1605"
   },
@@ -904,8 +904,8 @@
       "component": "number-field",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
     "uuid": "9ecceb18-5506-51f3-9c57-6fa7787b2f77"
   },
@@ -914,8 +914,8 @@
       "component": "number-field",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
     "uuid": "8b663e18-ecd0-5b29-bdf9-461b941f7fad"
   },
@@ -924,8 +924,8 @@
       "component": "number-field",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
     "uuid": "447de819-ee38-5c58-880a-df87e25ede8d"
   },
@@ -934,8 +934,8 @@
       "component": "number-field",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
     "uuid": "483968b3-cfe3-5ee0-b25c-ce9dc1c1b5ec"
   },
@@ -944,98 +944,125 @@
       "component": "number-field",
       "property": "color"
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
     "uuid": "86e6ffe3-731d-5367-9dcf-ab8bb02af667"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
     "uuid": "539388b0-2cc4-5b84-81a2-fbb6e475d2ed"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
     "uuid": "ebd7c95d-477d-5a87-9be6-2663eba16ed0"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
     "uuid": "0ed3ef51-014c-5594-8b40-e2f1fd8d00c0"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c",
     "uuid": "40fa3dfa-dffa-5b56-8090-edaf137e358a"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f",
     "uuid": "60d15311-ff83-5797-adde-c1c7cb588fa4"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978",
     "uuid": "3e9e4f11-c5da-5341-86ed-f8fa263bb693"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-not-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f",
     "uuid": "8dfebd21-1739-548a-9693-cb475930cdfa"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-not-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7",
     "uuid": "bf3de4c6-8747-5825-918a-002f7ea33b6e"
   },
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "state": ["focus-+-not-hover"]
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128",
     "uuid": "8f72aa92-1c12-52b9-8d41-068c122f2c3d"
   },
@@ -1057,7 +1084,8 @@
       "component": "number-field",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["hover"]
       }
     },
     "context": "Border",
@@ -1070,7 +1098,8 @@
       "component": "number-field",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["focus-+-hover"]
       }
     },
     "context": "Border",
@@ -1083,7 +1112,8 @@
       "component": "number-field",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "state": ["focus-+-not-hover"]
       }
     },
     "context": "Border",
@@ -1103,6 +1133,20 @@
     "contextRole": ["border"],
     "$ref": "393cb93a-3d0a-4118-a2ee-451fdc871b0f",
     "uuid": "a081da37-205f-51b0-8a57-06b4bd3f030d"
+  },
+  {
+    "scope": {
+      "component": "number-field",
+      "property": "color",
+      "options": {
+        "isError": false,
+        "isDisabled": true
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
+    "uuid": "bc3e3479-96fa-4e4c-81f7-9cd847ac99c4"
   },
   {
     "scope": {
