@@ -355,6 +355,24 @@
     "hasHoldIcon=true,hideLabel=true,isDisabled=true,isEmphasized=true,isPending=true,isQuiet=true,isSelected=true,staticColor=\"black\"": "53ae5b9de7157890",
     "hasHoldIcon=true,hideLabel=true,isDisabled=true,isEmphasized=true,isPending=true,isQuiet=true,isSelected=true,staticColor=\"white\"": "3d8952edd1e964c4"
   },
+  "avatar": {
+    "image=\"gradient image\",isDisabled=false,showStroke=false": "4d67f98007cbac86",
+    "image=\"gradient image\",isDisabled=false,showStroke=true": "b42c088262078e1f",
+    "image=\"gradient image\",isDisabled=true,showStroke=false": "4e85184b1064b22e",
+    "image=\"gradient image\",isDisabled=true,showStroke=true": "b8ace1a10cb7c14b",
+    "image=\"guest\",isDisabled=false,showStroke=false": "e3cf5d3712c00e8a",
+    "image=\"guest\",isDisabled=false,showStroke=true": "1219d8e55075c97d",
+    "image=\"guest\",isDisabled=true,showStroke=false": "a43212f34a4b67a0",
+    "image=\"guest\",isDisabled=true,showStroke=true": "cb567762a30ccb93",
+    "image=\"initials\",isDisabled=false,showStroke=false": "334360265a64caf3",
+    "image=\"initials\",isDisabled=false,showStroke=true": "cd9f767edf4b959a",
+    "image=\"initials\",isDisabled=true,showStroke=false": "bade85a37d551c47",
+    "image=\"initials\",isDisabled=true,showStroke=true": "52cfe06a6d80ff92",
+    "image=\"user image\",isDisabled=false,showStroke=false": "80b608f799a8f6fc",
+    "image=\"user image\",isDisabled=false,showStroke=true": "df01129a1931e457",
+    "image=\"user image\",isDisabled=true,showStroke=false": "32a002942a76445a",
+    "image=\"user image\",isDisabled=true,showStroke=true": "88f5e4ef89d6e665"
+  },
   "badge": {
     "style=\"bold\",variant=\"accent\"": "c3c5450dacfb9b49",
     "style=\"bold\",variant=\"blue\"": "49c231c28f9bb561",

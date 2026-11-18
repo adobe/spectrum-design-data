@@ -1,0 +1,157 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "avatar",
+  "root": "container",
+  "sizeScale": {
+    "50": 50,
+    "75": 75,
+    "100": 100,
+    "200": 200,
+    "300": 300,
+    "400": 400,
+    "500": 500,
+    "600": 600,
+    "700": 700,
+    "800": 800,
+    "900": 900,
+    "1000": 1000,
+    "1100": 1100,
+    "1200": 1200,
+    "1300": 1300,
+    "1400": 1400,
+    "1500": 1500
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["initials", "guest-icon"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "context": "Background (image)"
+          }
+        },
+        "opacity": {
+          "when": {
+            "options": {
+              "isDisabled": true
+            }
+          },
+          "relationship": {
+            "property": "opacity",
+            "context": "Disabled"
+          }
+        },
+        "stroke": {
+          "when": {
+            "options": {
+              "showStroke": true
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "context": "Border"
+          }
+        },
+        "strokeWidth": {
+          "when": {
+            "options": {
+              "showStroke": true
+            }
+          },
+          "relationship": {
+            "property": "border-width",
+            "context": "Border"
+          }
+        }
+      }
+    },
+    "initials": {
+      "kind": "text",
+      "visibleWhen": {
+        "options": {
+          "image": "initials"
+        }
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "context": "Text"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-100",
+            "context": "Text"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Text"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height-100",
+            "context": "Text"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Label"
+          }
+        }
+      }
+    },
+    "guest-icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "avatar"
+      },
+      "visibleWhen": {
+        "options": {
+          "image": "guest"
+        }
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Icon"
+          }
+        }
+      }
+    }
+  }
+}

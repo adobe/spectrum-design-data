@@ -204,7 +204,9 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
                                 .iter()
                                 .map(|(k, v)| (k.to_string(), v.to_string()))
                                 .collect(),
-                            label: "Label".into(),
+                            // The avatar's label is its initials, one letter here: the fixed
+                            // 14px font is wider than the size 50 circle with two (qkj5.194).
+                            label: if name == "avatar" { "A" } else { "Label" }.into(),
                             icon: None,
                             text_metrics: None,
                             width: None,
@@ -341,6 +343,7 @@ macro_rules! recipe_tests {
 recipe_tests! {
     accordion => "accordion",
     action_button => "action-button",
+    avatar => "avatar",
     badge => "badge",
     button => "button",
     checkbox => "checkbox",
