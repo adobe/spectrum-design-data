@@ -93,6 +93,32 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.21.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-18",
+      "commit": "c54ad0fcdb3450559eb80c46d5748384fa95485c",
+      "commits": [
+        {
+          "commit": "581dcb7dde593787893c6a905164f487cececff1",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1924,"title":"feat(design-data): progress-circle visual recipe; progress sweep and strokeWidth","url":"https://github.com/adobe/spectrum-design-data/pull/1924"},
+          "entries": [
+            {"id":"581dcb7d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"a788986d-f5c8-5a42-b302-15358ed74859","name":"color[staticColor=white]","fields":[{"path":"context","before":"Track and fill (white)","after":"Track and fill"}]},
+            {"id":"581dcb7d-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":{"staticColor":"white"}},"record":"a256c2a6-6d0f-51ed-9af8-00d03f163c32","name":"content-color[staticColor=white]","fields":[{"path":"context","before":"Track and fill (white)","after":"Track and fill"}]},
+            {"id":"581dcb7d-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"784b960b-9b78-596b-b43a-15546999eee7","name":"color[staticColor=black]","fields":[{"path":"context","before":"Track and fill (black)","after":"Track and fill"}]},
+            {"id":"581dcb7d-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":{"staticColor":"black"}},"record":"8fec7f0f-3acf-559d-bb52-881d8d5d65a9","name":"content-color[staticColor=black]","fields":[{"path":"context","before":"Track and fill (black)","after":"Track and fill"}]},
+            {"id":"581dcb7d-4","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"progress-circle/options/variant","name":"variant","fields":[],"before":{"type":"string","default":"default","values":[{"value":"default"},{"value":"over background"}]}},
+            {"id":"581dcb7d-5","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-circle/options/staticColor","name":"staticColor","fields":[],"after":{"type":"string","description":"Static color for use on colored backgrounds. White draws a light ring, black a dark one. Unset is the regular ring.","values":[{"value":"white"},{"value":"black"}]}},
+            {"id":"581dcb7d-6","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/options/maxValue","name":"maxValue","fields":[{"path":"default","before":1,"after":100}]},
+            {"id":"581dcb7d-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web (Progress circle page shared with in-field-progress-circle). No container: the track is the outermost drawn element. fill left optional because it is absent at 0%.","after":"Matches Figma S2 Web (Progress circle): its Track ellipse is the track and its Fill is the fill. No container: the track is the outermost drawn element. fill is optional because it is absent at 0%, and a full ring at 100%."}]},
+            {"id":"581dcb7d-8","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"progress-circle/visual","name":"progress-circle","fields":[]}
+          ],
+          "metadata": {"count":5,"fields":["anatomyReview.status","contextQualifier","scope.options.staticColor","scope.property"]}
+        }
+      ]
     }
   ]
 }

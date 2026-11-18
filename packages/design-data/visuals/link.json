@@ -1,0 +1,127 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "link",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["text"],
+      "props": {
+        "direction": { "value": "row" },
+        "align": { "value": "center" },
+        "justify": { "value": "center" },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Focus ring"
+          }
+        }
+      }
+    },
+    "text": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "relationship": { "property": "font-family", "context": "Text" }
+        },
+        "fontSize": {
+          "relationship": { "property": "font-size-100", "context": "Text" }
+        },
+        "fontWeight": {
+          "relationship": { "property": "font-weight", "context": "Text" }
+        },
+        "lineHeight": {
+          "relationship": { "property": "line-height-100", "context": "Text" }
+        },
+        "color": [
+          {
+            "relationship": { "property": "content-color", "context": "Text" }
+          },
+          {
+            "when": { "options": { "staticColor": "white" } },
+            "relationship": {
+              "property": "color",
+              "context": "Text (static white)"
+            }
+          },
+          {
+            "when": { "options": { "staticColor": "black" } },
+            "relationship": {
+              "property": "color",
+              "context": "Text (static black)"
+            }
+          }
+        ],
+        "textDecoration": [
+          {
+            "when": { "options": { "isStandalone": false } },
+            "value": "underline"
+          },
+          {
+            "when": { "options": { "isStandalone": true, "isQuiet": false } },
+            "value": "underline"
+          },
+          {
+            "when": {
+              "options": { "isStandalone": true, "isQuiet": true },
+              "states": ["hover"]
+            },
+            "value": "underline"
+          },
+          {
+            "when": {
+              "options": { "isStandalone": true, "isQuiet": true },
+              "states": ["keyboard-focus"]
+            },
+            "value": "underline"
+          }
+        ],
+        "underlineThickness": {
+          "relationship": {
+            "property": "underline-thickness",
+            "context": "Text"
+          }
+        },
+        "underlineOffset": {
+          "relationship": {
+            "property": "text-underline-gap",
+            "context": "Text"
+          }
+        }
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "visibleWhen": { "states": ["keyboard-focus"] },
+      "props": {
+        "stroke": [
+          { "relationship": { "property": "color", "context": "Focus ring" } },
+          {
+            "when": { "options": { "staticColor": "white" } },
+            "relationship": {
+              "property": "color",
+              "context": "Focus ring (static white)"
+            }
+          },
+          {
+            "when": { "options": { "staticColor": "black" } },
+            "relationship": {
+              "property": "color",
+              "context": "Focus ring (static black)"
+            }
+          }
+        ],
+        "strokeWidth": {
+          "relationship": { "property": "thickness", "context": "Focus ring" }
+        },
+        "gapToParent": {
+          "relationship": { "property": "gap", "context": "Focus ring" }
+        }
+      }
+    }
+  }
+}

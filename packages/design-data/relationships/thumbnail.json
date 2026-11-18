@@ -2,7 +2,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "50"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -12,7 +15,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "50"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -22,7 +28,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "75"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -32,7 +41,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "75"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -42,7 +54,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "100"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -52,7 +67,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "100"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -62,7 +80,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "200"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -72,7 +93,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "200"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -82,7 +106,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "300"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -92,7 +119,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "300"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -102,7 +132,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "400"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -112,7 +145,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "400"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -122,7 +158,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "500"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -132,7 +171,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "500"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -142,7 +184,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "600"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -152,7 +197,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "600"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -162,7 +210,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "700"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -172,7 +223,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "700"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -182,7 +236,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "800"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -192,7 +249,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "800"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -202,7 +262,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "900"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -212,7 +275,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "900"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -222,7 +288,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1000"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -232,7 +301,10 @@
   {
     "scope": {
       "component": "thumbnail",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "1000"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -255,7 +327,7 @@
       "property": "opacity-checkerboard-size"
     },
     "context": "Opacity Checkerboard",
-    "$ref": "2537f52b-5cae-4a35-a1f3-b1d4fe89060d",
+    "$ref": "0322f848-009a-45c4-ad4a-17d8f7e41995",
     "uuid": "49476ecc-c700-552d-9b50-da13b43ee13b"
   },
   {
@@ -396,13 +468,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "0322f848-009a-45c4-ad4a-17d8f7e41995",
-    "legacyKey": "thumbnail-opacity-checkerboard-square-size",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Consolidated into the shared opacity-checkerboard-square-size-* scale.",
-      "replacedBy": "2537f52b-5cae-4a35-a1f3-b1d4fe89060d"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 446 of the mapping sheet."
+    "legacyKey": "thumbnail-opacity-checkerboard-square-size"
   },
   {
     "scope": {

@@ -21,10 +21,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "thumbnail",
     "value": "4px",
-    "uuid": "0322f848-009a-45c4-ad4a-17d8f7e41995",
-    "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared opacity-checkerboard-square-size-* scale.",
-    "renamed": "opacity-checkerboard-square-size-small"
+    "uuid": "0322f848-009a-45c4-ad4a-17d8f7e41995"
   },
   "thumbnail-opacity-disabled": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

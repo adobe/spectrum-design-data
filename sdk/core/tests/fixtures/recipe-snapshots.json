@@ -614,6 +614,28 @@
     "hideIcon=true,isDisabled=true,variant=\"negative\"": "4ec73c26b1420544",
     "hideIcon=true,isDisabled=true,variant=\"neutral\"": "2f656d34bebc6036"
   },
+  "in-field-progress-circle": {
+    "staticColor=\"black\"": "8225b334cc14f0ff",
+    "staticColor=\"white\"": "fbb5a09e173951a3"
+  },
+  "link": {
+    "isQuiet=false,isStandalone=false,staticColor=\"black\",variant=\"primary\"": "2a08670ad80557e9",
+    "isQuiet=false,isStandalone=false,staticColor=\"black\",variant=\"secondary\"": "6bfea28d9fc7930d",
+    "isQuiet=false,isStandalone=false,staticColor=\"white\",variant=\"primary\"": "51383571335646c5",
+    "isQuiet=false,isStandalone=false,staticColor=\"white\",variant=\"secondary\"": "20abe6e1ba03846d",
+    "isQuiet=false,isStandalone=true,staticColor=\"black\",variant=\"primary\"": "3e84a52ce2cf1f26",
+    "isQuiet=false,isStandalone=true,staticColor=\"black\",variant=\"secondary\"": "9f81debba19b03ae",
+    "isQuiet=false,isStandalone=true,staticColor=\"white\",variant=\"primary\"": "7e6480fe34d9cf62",
+    "isQuiet=false,isStandalone=true,staticColor=\"white\",variant=\"secondary\"": "4657f412e7bdc7ae",
+    "isQuiet=true,isStandalone=false,staticColor=\"black\",variant=\"primary\"": "bdc831fc7b6eab75",
+    "isQuiet=true,isStandalone=false,staticColor=\"black\",variant=\"secondary\"": "be67e1aa4f18ab21",
+    "isQuiet=true,isStandalone=false,staticColor=\"white\",variant=\"primary\"": "3255398a34592f25",
+    "isQuiet=true,isStandalone=false,staticColor=\"white\",variant=\"secondary\"": "96e444251c5ed205",
+    "isQuiet=true,isStandalone=true,staticColor=\"black\",variant=\"primary\"": "14e34f8f8066fdde",
+    "isQuiet=true,isStandalone=true,staticColor=\"black\",variant=\"secondary\"": "68e4583025a338aa",
+    "isQuiet=true,isStandalone=true,staticColor=\"white\",variant=\"primary\"": "39d30407ed07567e",
+    "isQuiet=true,isStandalone=true,staticColor=\"white\",variant=\"secondary\"": "c1f5060e1537e1e6"
+  },
   "meter": {
     "hideLabel=false,staticColor=\"black\",variant=\"informative\"": "fde57887dabb2021",
     "hideLabel=false,staticColor=\"black\",variant=\"negative\"": "e1ea8bd2ff1ea313",
@@ -631,6 +653,18 @@
     "hideLabel=true,staticColor=\"white\",variant=\"negative\"": "54def7b598001a3f",
     "hideLabel=true,staticColor=\"white\",variant=\"notice\"": "7d7b96aa2aa64f7f",
     "hideLabel=true,staticColor=\"white\",variant=\"positive\"": "1b83538827cefc83"
+  },
+  "opacity-checkerboard": {
+    "horizontalSize=24,verticalSize=128": "5af4b24824cb3423",
+    "horizontalSize=24,verticalSize=16": "474ac9dd7bcc7ebf",
+    "horizontalSize=24,verticalSize=256": "2bdbc0b89c5147a7",
+    "horizontalSize=24,verticalSize=32": "dd774610dd6f4d87",
+    "horizontalSize=24,verticalSize=64": "7b8211d982b68b89",
+    "horizontalSize=40,verticalSize=128": "459e0c887e802a63",
+    "horizontalSize=40,verticalSize=16": "992f042ecc6022db",
+    "horizontalSize=40,verticalSize=256": "b7817713056fc64f",
+    "horizontalSize=40,verticalSize=32": "9f7f35754ee9beab",
+    "horizontalSize=40,verticalSize=64": "bb06438d115fef09"
   },
   "progress-bar": {
     "hideLabel=false,isIndeterminate=false,staticColor=\"black\"": "241e06c51545910b",
@@ -658,6 +692,32 @@
     "isDisabled=true,isEmphasized=true,isSelected=false": "b6ab1960ac246808",
     "isDisabled=true,isEmphasized=true,isSelected=true": "8164d9cc8dbe0530"
   },
+  "swatch": {
+    "cornerRounding=\"full\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "502affeb056c5dcf",
+    "cornerRounding=\"full\",isDisabled=false,isSelected=false,shape=\"square\"": "e64a025e6c8fbedb",
+    "cornerRounding=\"full\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "560cc93838310269",
+    "cornerRounding=\"full\",isDisabled=false,isSelected=true,shape=\"square\"": "f4f1353f1bea8443",
+    "cornerRounding=\"full\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "765ab09e9fa67a89",
+    "cornerRounding=\"full\",isDisabled=true,isSelected=false,shape=\"square\"": "6909b25990c57bff",
+    "cornerRounding=\"full\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "071270ad165413bf",
+    "cornerRounding=\"full\",isDisabled=true,isSelected=true,shape=\"square\"": "c3d7a45e4392b0d3",
+    "cornerRounding=\"none\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "7e40d79cf079abb1",
+    "cornerRounding=\"none\",isDisabled=false,isSelected=false,shape=\"square\"": "7e20efb1b2b45945",
+    "cornerRounding=\"none\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "45a49ccd5d7f5e27",
+    "cornerRounding=\"none\",isDisabled=false,isSelected=true,shape=\"square\"": "a12eb6f7b137487d",
+    "cornerRounding=\"none\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "cb8795b04073a95f",
+    "cornerRounding=\"none\",isDisabled=true,isSelected=false,shape=\"square\"": "8049290d6ab046c5",
+    "cornerRounding=\"none\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "5004caad8aa558f9",
+    "cornerRounding=\"none\",isDisabled=true,isSelected=true,shape=\"square\"": "782dc84b4bd0b711",
+    "cornerRounding=\"partial\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "b1403deb3b2d9bdb",
+    "cornerRounding=\"partial\",isDisabled=false,isSelected=false,shape=\"square\"": "ec2dc942facff441",
+    "cornerRounding=\"partial\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "3073d82000852829",
+    "cornerRounding=\"partial\",isDisabled=false,isSelected=true,shape=\"square\"": "c2caaadf2432f86d",
+    "cornerRounding=\"partial\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "23dc1a3bbd951b45",
+    "cornerRounding=\"partial\",isDisabled=true,isSelected=false,shape=\"square\"": "0411c1568b400c3d",
+    "cornerRounding=\"partial\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "192c70ee329b5dc7",
+    "cornerRounding=\"partial\",isDisabled=true,isSelected=true,shape=\"square\"": "1664339dab5a63b5"
+  },
   "switch": {
     "hideLabel=false,isDisabled=false,isEmphasized=false,isSelected=false": "73eb6022134087cb",
     "hideLabel=false,isDisabled=false,isEmphasized=false,isSelected=true": "1323d667d4eec4c3",
@@ -675,5 +735,9 @@
     "hideLabel=true,isDisabled=true,isEmphasized=false,isSelected=true": "6f842425a8c64de5",
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=false": "544a4cb2ae03b41f",
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=true": "1faf25a2ae0ce491"
+  },
+  "thumbnail": {
+    "isDisabled=false": "b74bcd06585f149d",
+    "isDisabled=true": "ada906e893454b1d"
   }
 }

@@ -866,3 +866,51 @@ test("plan passes --text-metrics to the CLI, and different widths change the has
     }).items[0].hash;
   t.not(hashOf(tableFile, "a"), hashOf(undefined, "b"));
 });
+
+test("rings, stroke opacity and text underlines in a scene are drawn", async (t) => {
+  const found = (component, pred) => {
+    const s = generate(component);
+    const block = s.pages
+      .flatMap((p) => p.blocks)
+      .find((b) => b.render?.scene?.nodes.some(pred));
+    return { s, block };
+  };
+  // Swatch: the 1px border is drawn at 0.42 alpha.
+  const sw = found("swatch", (n) => n.stroke_opacity !== undefined);
+  t.truthy(sw.block, "a swatch block with a translucent border");
+  let m = mock();
+  await m.figma.ui.onmessage({
+    type: "render-sheet",
+    sheet: sw.s,
+    pages: ["Layout"],
+  });
+  const border = m.page.findAll(
+    (n) => n.name === "border" && n.strokes?.length,
+  );
+  t.true(border.length > 0);
+  t.true(border.some((n) => Math.abs(n.strokes[0].opacity - 0.42) < 1e-6));
+  // Link: the standalone link is underlined by a line named for its part.
+  const ln = found("link", (n) => n.underline);
+  t.truthy(ln.block, "a link block with an underline");
+  m = mock();
+  await m.figma.ui.onmessage({
+    type: "render-sheet",
+    sheet: ln.s,
+    pages: ["Layout"],
+  });
+  t.true(m.page.findAll((n) => n.name === "text underline").length > 0);
+  // A ring in any scene is a stroke-only rectangle on the centre line.
+  const rg = found("button", (n) => n.kind === "ring");
+  if (rg.block) {
+    m = mock();
+    await m.figma.ui.onmessage({
+      type: "render-sheet",
+      sheet: rg.s,
+      pages: ["Layout"],
+    });
+    const ring = m.page.findOne((n) => n.name === "focus-indicator");
+    t.truthy(ring);
+    t.is(ring.strokeAlign, "CENTER");
+    t.deepEqual(ring.fills, []);
+  }
+});

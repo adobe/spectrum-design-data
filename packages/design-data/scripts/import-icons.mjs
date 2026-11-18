@@ -32,7 +32,18 @@ export const WORKFLOW_ICONS = [
   "Search",
   "AlertTriangle",
   "User",
+  "Cancel",
 ];
+// Icons S2 has no file for, drawn for a recipe. `source` says so; the test skips the
+// file-name check for them. `slash` is a diagonal band from bottom-left to top-right, one
+// eighth of the box thick (the swatch's empty slash).
+export const DRAWN_WORKFLOW_ICONS = {
+  slash: {
+    viewBox: "0 0 20 20",
+    paths: [{ d: "M3.5355 20H0v-3.5355L16.4645 0H20v3.5355Z" }],
+    source: "drawn",
+  },
+};
 const SCHEMA =
   "https://opensource.adobe.com/spectrum-design-data/schemas/v0/icon-set.schema.json";
 
@@ -151,6 +162,7 @@ export function buildSets({ sha, list, read }) {
       source: file,
     };
   }
+  Object.assign(workflow, DRAWN_WORKFLOW_ICONS);
   const sorted = (o) =>
     Object.fromEntries(
       Object.keys(o)

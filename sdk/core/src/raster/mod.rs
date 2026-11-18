@@ -218,8 +218,31 @@ fn color_of(s: Option<&str>, what: &str, part: &str, diags: &mut Vec<String>) ->
     c
 }
 
+/// Signed distance (negative inside) to the squares of a checkerboard that are not the
+/// top-left one, relative to its origin: the distance to the nearest cell edge, signed by parity.
+fn checker_sdf(u: f64, v: f64, size: f64) -> f64 {
+    let (cu, cv) = ((u / size).floor(), (v / size).floor());
+    let edge = |t: f64| {
+        let m = t.rem_euclid(size);
+        m.min(size - m)
+    };
+    let d = edge(u).min(edge(v));
+    if (cu + cv).rem_euclid(2.0) == 1.0 {
+        -d
+    } else {
+        d
+    }
+}
+
 fn corner_radii(n: &SceneNode) -> [f64; 4] {
     n.radii.unwrap_or([n.radius; 4])
+}
+
+/// The node's stroke color with `strokeOpacity` multiplied into its alpha.
+fn stroke_color(n: &SceneNode, diags: &mut Vec<String>) -> Option<Rgba> {
+    let c = color_of(n.stroke.as_deref(), "stroke", &n.part, diags)?;
+    let o = n.stroke_opacity.unwrap_or(1.0).clamp(0.0, 1.0) as f32;
+    Some(c.with_alpha(o))
 }
 
 fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &mut Vec<String>) {
@@ -232,8 +255,20 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                     rrect_sdf(x, y, n.x, n.y, n.w, n.h, r)
                 });
             }
+            if let Some(p) = &n.pattern {
+                if let Some(c) = color_of(Some(p.alt.as_str()), "patternFill", &n.part, diags) {
+                    let r = corner_radii(n);
+                    paint(cv, xf, bounds(0.0), c, Paint::Fill, |x, y| {
+                        rrect_sdf(x, y, n.x, n.y, n.w, n.h, r).max(checker_sdf(
+                            x - n.x,
+                            y - n.y,
+                            p.size,
+                        ))
+                    });
+                }
+            }
             if n.stroke_width > 0.0 {
-                if let Some(c) = color_of(n.stroke.as_deref(), "stroke", &n.part, diags) {
+                if let Some(c) = stroke_color(n, diags) {
                     // The SVG strokes the box inset by half the width, so the band is inside it.
                     let i = n.stroke_width / 2.0;
                     let r = corner_radii(n).map(|v| (v - i).max(0.0));
@@ -252,14 +287,17 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
             }
         }
         "ring" => {
-            if let Some(c) = color_of(n.stroke.as_deref(), "stroke", &n.part, diags) {
+            if let Some(c) = stroke_color(n, diags) {
                 let hw = n.stroke_width / 2.0;
                 paint(cv, xf, bounds(hw), c, Paint::Band(hw), |x, y| {
                     rrect_sdf(x, y, n.x, n.y, n.w, n.h, [n.radius; 4])
                 });
             }
         }
-        "text" => draw_text(cv, xf, n, fonts, diags),
+        "text" => {
+            draw_text(cv, xf, n, fonts, diags);
+            draw_underline(cv, xf, n, diags);
+        }
         "progress" => {
             let (cx, cy, r, sw) = crate::visual::progress_geometry(n);
             let reach = (r + sw) * 2.0;
@@ -338,6 +376,21 @@ fn pick_font<'a>(
         );
     }
     Some(chosen)
+}
+
+/// The line under a text node that binds `textDecoration: underline`, in the text's color.
+fn draw_underline(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
+    let Some(u) = n.underline else { return };
+    let color = color_of(n.color.as_deref(), "text", &n.part, diags).unwrap_or(Rgba::BLACK);
+    let (x, y, w, h) = u.rect(n);
+    paint(
+        cv,
+        xf,
+        (x, y, x + w, y + h),
+        color,
+        Paint::Fill,
+        |px, py| rrect_sdf(px, py, x, y, w, h, [0.0; 4]),
+    );
 }
 
 /// Text from the font's outlines, left aligned at the node's `x` and vertically centered on
@@ -521,6 +574,9 @@ mod tests {
             color: None,
             icon: None,
             rotation: None,
+            underline: None,
+            pattern: None,
+            stroke_opacity: None,
             tokens: vec![],
         }
     }
@@ -568,6 +624,24 @@ mod tests {
         assert_eq!(at(&img, 20, 12), [255, 0, 0, 255]);
         assert_eq!(at(&img, 2, 12), [0, 0, 0, 0]);
         assert_eq!(at(&img, 4, 12), [255, 0, 0, 255]);
+        assert!(d.is_empty());
+    }
+
+    #[test]
+    fn a_pattern_alternates_squares_starting_with_the_fill() {
+        let mut n = node("box", "root", 0.0, 0.0, 16.0, 16.0);
+        n.fill = Some("#ffffff".into());
+        n.pattern = Some(crate::visual::Pattern {
+            alt: "#000000".into(),
+            size: 4.0,
+        });
+        let (img, d) = render(&scene(16.0, 16.0, vec![n]), 1.0);
+        // Pixel centres inside the four cells of one tile: fill, alt / alt, fill.
+        assert_eq!(at(&img, 2, 2), [255, 255, 255, 255]);
+        assert_eq!(at(&img, 6, 2), [0, 0, 0, 255]);
+        assert_eq!(at(&img, 2, 6), [0, 0, 0, 255]);
+        assert_eq!(at(&img, 6, 6), [255, 255, 255, 255]);
+        assert_eq!(at(&img, 10, 2), [255, 255, 255, 255]);
         assert!(d.is_empty());
     }
 
@@ -740,6 +814,35 @@ mod tests {
             .filter(|&y| (0..img.width).any(|x| at(img, x, y)[3] > 127))
             .collect();
         Some((*rows.first()?, *rows.last()?))
+    }
+
+    #[test]
+    fn stroke_opacity_multiplies_the_stroke_alpha() {
+        let mut n = node("box", "frame", 2.0, 2.0, 12.0, 12.0);
+        n.stroke = Some("#000000".into());
+        n.stroke_width = 2.0;
+        n.stroke_opacity = Some(0.5);
+        let (img, _) = render(&scene(16.0, 16.0, vec![n]), 1.0);
+        let a = at(&img, 8, 2)[3];
+        assert!((127..=129).contains(&a), "{a}");
+        assert_eq!(at(&img, 8, 8)[3], 0);
+    }
+
+    #[test]
+    fn underline_is_a_line_under_the_text_in_its_color() {
+        let mut n = node("text", "label", 2.0, 2.0, 20.0, 12.0);
+        n.text = Some("Hi".into());
+        n.font_size = 10.0;
+        n.color = Some("#ff0000".into());
+        n.underline = Some(crate::visual::Underline {
+            thickness: 2.0,
+            offset: 1.0,
+        });
+        // Baseline: 2 + 6 + 3.5 = 11.5, so the line covers y 12.5 to 14.5.
+        assert_eq!(n.underline.unwrap().rect(&n), (2.0, 12.5, 20.0, 2.0));
+        let (img, _) = render(&scene(24.0, 16.0, vec![n]), 1.0);
+        assert_eq!(at(&img, 10, 13), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 10, 15)[3], 0);
     }
 
     #[test]

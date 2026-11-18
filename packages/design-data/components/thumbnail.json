@@ -46,6 +46,7 @@
   "options": {
     "size": {
       "type": "number",
+      "default": 500,
       "values": [
         { "value": 50 },
         { "value": 75 },
@@ -60,6 +61,14 @@
         { "value": 900 },
         { "value": 1000 }
       ]
+    },
+    "hideImage": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
     }
   },
   "anatomy": [

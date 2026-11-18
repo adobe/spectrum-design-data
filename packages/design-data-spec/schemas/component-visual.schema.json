@@ -225,6 +225,10 @@
           "pattern": "^[a-z][a-z0-9-]*$",
           "description": "For a ring: the part it outlines. Defaults to the root."
         },
+        "inside": {
+          "type": "boolean",
+          "description": "For a ring: draw it inside the outlined part's box, with `gapToParent` measured inward. Default false (outside)."
+        },
         "icon": {
           "$ref": "#/$defs/iconRef"
         },
@@ -299,6 +303,12 @@
               "fontWeight",
               "lineHeight",
               "overflow",
+              "strokeOpacity",
+              "patternFill",
+              "patternSize",
+              "textDecoration",
+              "underlineThickness",
+              "underlineOffset",
               "gapToParent",
               "rotation",
               "pressDifference",
@@ -419,6 +429,16 @@
         "fraction": {
           "$ref": "#/$defs/fraction"
         },
+        "option": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A color the request carries in this string option (hex, rgb() or rgba()). An unset, transparent or invalid value draws the part's unset look."
+        },
+        "dimension": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A size in pixels the request carries in this numeric option, for an extent no token holds. An unset option uses the component's declared default; a value that is not a positive number is dropped with a diagnostic."
+        },
         "token": {
           "$ref": "#/$defs/tokenSelector"
         },
@@ -439,6 +459,12 @@
         },
         {
           "required": ["fraction"]
+        },
+        {
+          "required": ["option"]
+        },
+        {
+          "required": ["dimension"]
         }
       ],
       "description": "A value source with optional `when`, `priority` and `relativeTo`. Used alone or in an ordered list."

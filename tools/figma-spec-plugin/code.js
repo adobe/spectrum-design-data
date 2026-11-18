@@ -86,9 +86,9 @@ function parseColor(s) {
   };
 }
 
-const paint = (s) => {
+const paint = (s, opacity) => {
   const p = parseColor(s);
-  return p ? [solid(p.c, p.o)] : [];
+  return p ? [solid(p.c, p.o * (opacity === undefined ? 1 : opacity))] : [];
 };
 
 function text(str, size, style, color) {
@@ -179,10 +179,23 @@ function sceneNodes(parent, scene, view) {
         ] = n.radii.map((v) => v * k);
       } else r.cornerRadius = n.radius * k;
       if (n.stroke && n.stroke_width > 0) {
-        r.strokes = paint(n.stroke);
+        r.strokes = paint(n.stroke, n.stroke_opacity);
         r.strokeWeight = n.stroke_width * k;
         r.strokeAlign = "INSIDE";
       }
+      parent.appendChild(r);
+    } else if (n.kind === "ring") {
+      // The scene's ring box is the centre line of its stroke.
+      const r = figma.createRectangle();
+      r.name = n.part;
+      r.resize(Math.max(w, 0.01), Math.max(h, 0.01));
+      r.x = x;
+      r.y = y;
+      r.fills = [];
+      r.cornerRadius = n.radius * k;
+      r.strokes = paint(n.stroke, n.stroke_opacity);
+      r.strokeWeight = n.stroke_width * k;
+      r.strokeAlign = "CENTER";
       parent.appendChild(r);
     } else if (n.kind === "text") {
       const t = text(n.text, n.font_size * k, styleFor(n.font_weight));
@@ -193,6 +206,22 @@ function sceneNodes(parent, scene, view) {
       parent.appendChild(t);
       t.x = x;
       t.y = y;
+      if (n.underline) {
+        // Same placement as the SVG and PNG renderers: the baseline is 0.35 x the font size
+        // below the centre of the line box.
+        const u = n.underline;
+        const c = parseColor(n.color) || { c: INK, o: 1 };
+        const line = rect(
+          x,
+          (n.y + n.h / 2 + 0.35 * n.font_size + u.offset) * k + view.y,
+          w,
+          u.thickness * k,
+          c.c,
+          c.o,
+        );
+        line.name = n.part + " underline";
+        parent.appendChild(line);
+      }
     } else if (n.kind === "icon") {
       const c = parseColor(n.color) || { c: INK, o: 1 };
       const drawing = n.icon && n.icon.drawing;
