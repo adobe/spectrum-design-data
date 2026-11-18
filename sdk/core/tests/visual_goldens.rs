@@ -243,6 +243,37 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // In-field progress circle: one fixed arc frame, sizes from the in-field size tokens, and the
+    // static colors. Defaults show the regular ring at medium.
+    if name == "in-field-progress-circle" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        type Case<'a> = (&'static str, &'static str, &'a [(&'a str, Value)], &'a str);
+        let cases: [Case; 4] = [
+            ("small", "s", &[], "light"),
+            ("extra-large", "xl", &[], "dark"),
+            (
+                "static-white-large",
+                "l",
+                &[("staticColor", "white".into())],
+                "dark",
+            ),
+            (
+                "static-black-medium",
+                "m",
+                &[("staticColor", "black".into())],
+                "light",
+            ),
+        ];
+        for (label, size, opts, scheme) in cases {
+            let mut r = req(vec![], with(opts), scheme, "desktop");
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
     // Meter: variants set the fill colour through relationships, and a static colour must win over
     // the variant. The defaults (no value) show an empty bar.
     if name == "meter" {
