@@ -107,7 +107,9 @@ under), `token`, `tier` and its value (`values` by mode when it differs). A bind
 `when` is the default; one with `when` replaces it under those options. Prefer this over
 `design-data-query` with `component=` to answer "what does X use for Y in state Z": the query
 returns tokens but not what each one is for. If the component has no binding for something, the
-data has none; say so instead of guessing.
+data has none; say so instead of guessing. `state` matches the component's declared state ids
+exactly, and states differ (`focus-+-not-hover` is not `keyboard-focus`); `otherStates` lists the
+other states with bindings, so check it before concluding a state has nothing.
 
 ### `design-data-component`
 

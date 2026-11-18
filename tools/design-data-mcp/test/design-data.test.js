@@ -980,6 +980,8 @@ test("design-data-component-tokens lists what a component uses, by context and s
     t.true(b.value !== undefined || b.values !== undefined);
   }
   t.true(background.bindings.some((b) => b.when?.state?.includes("hover")));
+  t.true(background.otherStates.length > 0);
+  t.false(background.otherStates.includes("hover"));
   const capped = await tool.handler({ component: "action-button", limit: 3 });
   t.is(capped.shown, 3);
   t.regex(capped.hint, /Narrow/);

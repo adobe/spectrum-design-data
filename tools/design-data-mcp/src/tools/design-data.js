@@ -621,7 +621,10 @@ export function createDesignDataTools() {
         "its border in the hover state' in one call, instead of querying tokens by component, " +
         "which does not say what each token is for. A binding without `when` is the default; one " +
         "with `when` replaces it under those options. Filter with `context`, `property` or " +
-        "`state`; at most `limit` (default 40) are shown, so narrow the filter when `total` is " +
+        "`state`, which matches the component's declared state ids exactly (text-field has both " +
+        "`focus-+-not-hover` and `keyboard-focus`; they are different states) and lists the other " +
+        "states that have bindings in `otherStates`, so a state with no binding of its own is " +
+        "visible without a second call; at most `limit` (default 40) are shown, so narrow the filter when `total` is " +
         "larger. If the component has no binding for something, the data has none: say so " +
         "instead of guessing.",
       inputSchema: {
@@ -682,10 +685,21 @@ export function createDesignDataTools() {
         }
         if (property)
           bindings = bindings.filter((b) => b.property === property);
+        let otherStates;
         if (state) {
-          bindings = bindings.filter(
-            (b) => !b.when?.state || appliesInState(b.when.state, state),
-          );
+          const applies = (b) =>
+            !b.when?.state || appliesInState(b.when.state, state);
+          otherStates = [
+            ...new Set(
+              bindings
+                .filter((b) => !applies(b))
+                .flatMap((b) => [b.when.state].flat())
+                .flatMap((s) =>
+                  typeof s === "string" ? [s] : (s?.anyOf ?? []),
+                ),
+            ),
+          ];
+          bindings = bindings.filter(applies);
         }
         const cap = Math.min(
           Math.max(
@@ -700,6 +714,7 @@ export function createDesignDataTools() {
           shown: Math.min(bindings.length, cap),
           bindings: bindings.slice(0, cap),
         };
+        if (otherStates?.length) out.otherStates = otherStates;
         if (bindings.length > cap) {
           out.hint = `Showing ${cap} of ${bindings.length}. Narrow with context, property or state.`;
         }
