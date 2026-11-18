@@ -875,5 +875,27 @@
       "deprecatedIn": "14.3.0",
       "deprecatedComment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
     }
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "property": "gap"
+    },
+    "context": "Thickness (strikethrough day)",
+    "contextRole": ["thickness"],
+    "contextPart": "strikethrough day",
+    "$ref": "3766d95f-33c6-4b9d-84c8-1a546ee98d32",
+    "uuid": "48db65be-3fe3-5cd5-8016-2285c16de6f5"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "property": "space-between"
+    },
+    "context": "Spacing (value to in-field button)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "value to in-field button",
+    "$ref": "19864654-c28c-4ad9-b35d-c669b33c5b9c",
+    "uuid": "c3f349b5-9928-5c9c-9a2c-50f971267a89"
   }
 ]

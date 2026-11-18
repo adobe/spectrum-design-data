@@ -11,8 +11,8 @@
 //! SPEC-055: ctr-ref-resolves
 //!
 //! A CTR's `$ref` value MUST resolve to a declared token or relationship
-//! `uuid` in the dataset. Mirrors SPEC-001 (alias-target-exists) and SPEC-027
-//! (token-binding-token-exists) for the CTR alias direction — a CTR may alias
+//! `uuid` in the dataset. Mirrors SPEC-001 (alias-target-exists) for the CTR
+//! alias direction — a CTR may alias
 //! either a token (existing corpus) or another CTR (relationship-to-relationship
 //! aliasing).
 

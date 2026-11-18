@@ -93,7 +93,7 @@ A separate Spectrum-oriented skill (embedded snapshot, bundled read-only MCP ser
 
 ## `describe_component` return shape
 
-The `describe_component` tool returns the component declaration object as stored in the dataset, extended with `tokenBindings` when Phase 6.7 data is present. A conforming implementation MUST include `tokenBindings` in the response when the component declaration contains that field.
+The `describe_component` tool returns the component declaration object as stored in the dataset, extended with the component's `relationships` (its token bindings) when a relationships file exists. A conforming implementation MUST include `relationships` in the response when one is present.
 
 ```json
 {
@@ -111,15 +111,11 @@ The `describe_component` tool returns the component declaration object as stored
     { "name": "hover",    "trigger": "interaction", "precedence": 50 },
     { "name": "keyboard-focus", "trigger": "interaction", "precedence": 60 },
     { "name": "disabled", "trigger": "prop" }
-  ],
-  "tokenBindings": [
-    { "token": "component-height-100", "context": "Minimum height" },
-    { "token": "corner-radius-full",   "context": "Rounding" }
   ]
 }
 ```
 
-`tokenBindings` enables agents to retrieve a complete picture of a component's token usage — including shared structure and foundation tokens that do not carry the component name in their name-object — without issuing a second `query_tokens` call.
+`relationships` lets agents retrieve a complete picture of a component's token usage — including shared structure and foundation tokens that do not carry the component name in their name-object — without issuing a second `query_tokens` call.
 
 ## Conformance
 

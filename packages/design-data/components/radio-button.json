@@ -89,20 +89,6 @@
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    {
-      "token": "neutral-content-color-selected-default",
-      "context": "Control (selected, non emphasized)"
-    },
-    {
-      "token": "neutral-content-color-selected-hover",
-      "context": "Control (selected, non emphasized)"
-    },
-    {
-      "token": "neutral-content-color-selected-key-focus",
-      "context": "Control (selected, non emphasized)"
-    }
-  ],
   "accessibility": {
     "role": "radio",
     "intents": ["choose"],

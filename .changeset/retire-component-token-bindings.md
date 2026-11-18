@@ -1,0 +1,20 @@
+---
+"@adobe/design-data-spec": major
+"@adobe/spectrum-design-data": minor
+"@adobe/spectrum-tokens": minor
+"@adobe/design-data-wasm": patch
+"@adobe/design-data-agent-mcp": patch
+---
+
+Remove the component `tokenBindings` field. Relationships carry that data.
+
+- **Spec (breaking):** `tokenBindings` is gone from `component.schema.json` and rule SPEC-027
+  is retired. A component that still has the field now fails schema validation. Use
+  `relationships/<component>.json`; SPEC-055 checks each `$ref`.
+- **Button:** adds `corner-radius-button-small` (12px), `corner-radius-button-large` (20px)
+  and `corner-radius-button-extra-large` (24px) for wrapping labels. The 16px wrapping
+  relationship is now scoped to size `m`; `s`, `l` and `xl` have their own. The three names
+  were referenced but never defined.
+- **Tabs, date picker:** four bindings that had no relationship now have one.
+- **Agent MCP:** `describe_component` returns `relationships`; docs no longer mention
+  `tokenBindings`.
