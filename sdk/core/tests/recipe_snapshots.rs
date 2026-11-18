@@ -351,6 +351,7 @@ recipe_tests! {
     divider => "divider",
     field_label => "field-label",
     help_text => "help-text",
+    link => "link",
     meter => "meter",
     progress_bar => "progress-bar",
     progress_circle => "progress-circle",

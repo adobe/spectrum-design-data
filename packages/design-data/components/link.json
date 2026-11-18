@@ -76,6 +76,7 @@
       "default": "primary",
       "values": [{ "value": "primary" }, { "value": "secondary" }]
     },
+    "isStandalone": { "type": "boolean", "default": true },
     "isQuiet": { "type": "boolean", "default": false },
     "staticColor": {
       "type": "string",
@@ -86,12 +87,8 @@
   "anatomy": [
     {
       "name": "text",
-      "description": "Link text, underlined according to quiet and placement.",
+      "description": "Link text. Underlined, except in a standalone quiet link at rest.",
       "required": true
-    },
-    {
-      "name": "icon",
-      "description": "Optional icon shown with the link."
     },
     {
       "name": "focus-indicator",
@@ -100,9 +97,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (Link; Show icon prop). Figma has no focus state; focus-indicator from the Focus ring contexts and states. Icon is in Figma but not in the options list."
+    "notes": "Matches React Spectrum Link.tsx and SWC gen2 link.css: a text label with a keyboard focus ring. Figma S2 Web (Link) has Show icon (hidden in every variant) but React Spectrum and SWC have no icon, so the icon part is removed. Figma has Default and Hover only; focus-indicator follows React Spectrum and SWC. Figma Placement (Standalone, Inline) is React Spectrum isStandalone. Figma Size (S, M, L, XL) is not declared: React Spectrum and SWC links take the surrounding font size."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

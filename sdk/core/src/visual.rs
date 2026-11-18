@@ -105,6 +105,9 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "lineHeight",
             "grow",
             "overflow",
+            "textDecoration",
+            "underlineThickness",
+            "underlineOffset",
         ],
     ),
     ("ring", &["stroke", "strokeWidth", "gapToParent"]),
@@ -297,7 +300,27 @@ pub struct SceneNode {
     /// Clockwise rotation of an `icon` in degrees about its center; unset draws it upright.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub rotation: Option<f64>,
+    /// A line under a `text` node, set when the recipe binds `textDecoration` to `underline`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub underline: Option<Underline>,
     pub tokens: Vec<TokenRef>,
+}
+
+/// An underline: `thickness` of the line and `offset`, the gap between the baseline and the
+/// top of the line. The baseline is taken 0.35 x `font_size` below the centre of the text's
+/// line box, so SVG and PNG agree whatever the font.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize)]
+pub struct Underline {
+    pub thickness: f64,
+    pub offset: f64,
+}
+
+impl Underline {
+    /// The line as `(x, y, width, height)` under a text node.
+    pub fn rect(&self, n: &SceneNode) -> (f64, f64, f64, f64) {
+        let baseline = n.y + n.h / 2.0 + 0.35 * n.font_size;
+        (n.x, baseline + self.offset, n.w, self.thickness)
+    }
 }
 
 /// An icon in the `icons/` catalog: `set` (`ui`, `workflow`) and icon `name`. On a scene
@@ -2412,6 +2435,30 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         tokens.extend(token_ref(prop, r));
     };
 
+    let underline_of = |cx: &mut Ctx, part: &Value, tokens: &mut Vec<TokenRef>| {
+        let td = rp(cx, part, "textDecoration");
+        track(tokens, "textDecoration", &td);
+        match td.as_ref().map(|r| r.value.trim()) {
+            Some("underline") => {
+                let thickness = rp(cx, part, "underlineThickness");
+                let offset = rp(cx, part, "underlineOffset");
+                track(tokens, "underlineThickness", &thickness);
+                track(tokens, "underlineOffset", &offset);
+                Some(Underline {
+                    thickness: thickness.as_ref().and_then(Resolved::num).unwrap_or(1.0),
+                    offset: offset.as_ref().and_then(Resolved::num).unwrap_or(1.0),
+                })
+            }
+            Some("none") | None => None,
+            Some(v) => {
+                cx.diags.push(format!(
+                    "textDecoration '{v}' is not one of underline, none"
+                ));
+                None
+            }
+        }
+    };
+
     let height = rp(&mut cx, root, "height");
     let min_height = rp(&mut cx, root, "minHeight");
     let root_width = rp(&mut cx, root, "width");
@@ -2530,6 +2577,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         font_size: f64,
         font_weight: Option<String>,
         font_family: Option<String>,
+        underline: Option<Underline>,
         color: Option<String>,
         stroke: Option<String>,
         fill: Option<String>,
@@ -2608,6 +2656,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_size: 0.0,
             font_weight: None,
             font_family: None,
+            underline: None,
             color: color.map(|c| c.value),
             stroke: None,
             fill: None,
@@ -2736,6 +2785,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             color: None,
                             icon: None,
                             rotation: None,
+                            underline: None,
                             tokens: Vec::new(),
                         };
                         let nw = rp(&mut cx, np, "width");
@@ -2790,6 +2840,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                 node.font_size =
                                     fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                                 node.font_weight = fw.map(|f| f.value);
+                                node.underline = underline_of(&mut cx, np, &mut tokens);
                                 let copy = cx.text_of(np, &req.label);
                                 node.text = Some(copy.clone());
                                 node.w = text_width(
@@ -2950,6 +3001,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.font_family = ff.map(|f| f.value);
                 c.font_size = fs.as_ref().and_then(Resolved::num).unwrap_or(14.0);
                 c.font_weight = fw.map(|f| f.value);
+                c.underline = underline_of(&mut cx, part, &mut c.tokens);
                 let text = cx.text_of(part, &req.label);
                 c.w = text_width(req, &text, c.font_size, c.font_weight.as_deref());
                 if let Some(r) = lh.as_ref().filter(|r| r.num().is_none()) {
@@ -3130,6 +3182,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         color: None,
         icon: None,
         rotation: None,
+        underline: None,
         tokens: container_tokens,
     }];
 
@@ -3289,6 +3342,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_size: c.font_size,
             font_weight: c.font_weight,
             font_family: c.font_family,
+            underline: c.underline,
             color: c.color,
             icon: None,
             rotation: None,
@@ -3395,6 +3449,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     color: color.map(|c| c.value),
                     icon: None,
                     rotation: rot.as_ref().and_then(Resolved::num),
+                    underline: None,
                     tokens,
                 });
                 continue;
@@ -3454,6 +3509,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 color: None,
                 icon: None,
                 rotation: None,
+                underline: None,
                 tokens,
             });
         }
@@ -3488,6 +3544,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             color: color.map(|c| c.value),
             icon: None,
             rotation: None,
+            underline: None,
             tokens,
         });
     }
@@ -3614,6 +3671,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             color: None,
             icon: None,
             rotation: None,
+            underline: None,
             tokens,
         });
     }
@@ -3816,6 +3874,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         color: None,
         icon: None,
         rotation: None,
+        underline: None,
         tokens: Vec::new(),
     }
 }
@@ -4169,6 +4228,14 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     esc(n.color.as_deref().unwrap_or("currentColor")),
                     esc(n.text.as_deref().unwrap_or(""))
                 );
+                if let Some(u) = n.underline {
+                    let (x, y, w, h) = u.rect(n);
+                    let _ = write!(
+                        s,
+                        "<rect x=\"{x}\" y=\"{y}\" width=\"{w}\" height=\"{h}\" fill=\"{}\"/>",
+                        esc(n.color.as_deref().unwrap_or("currentColor"))
+                    );
+                }
             }
             "progress" => {
                 let (cx, cy, r, sw) = progress_geometry(n);
