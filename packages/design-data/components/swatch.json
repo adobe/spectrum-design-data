@@ -77,18 +77,18 @@
       "name": "container",
       "description": "Frame of the swatch: its size, shape and corner rounding.",
       "required": true,
+      "contains": ["fill"]
+    },
+    {
+      "name": "fill",
+      "description": "The preview color. The border, band, slash and icon sit on it.",
       "contains": [
-        "fill",
         "opacity-checkerboard",
         "border",
         "inner-border",
         "slash",
         "icon"
       ]
-    },
-    {
-      "name": "fill",
-      "description": "The preview color."
     },
     {
       "name": "opacity-checkerboard",
@@ -108,8 +108,7 @@
     },
     {
       "name": "icon",
-      "description": "Cancel glyph drawn over a disabled swatch.",
-      "presentIn": ["disabled"]
+      "description": "Cancel glyph drawn over a disabled swatch."
     },
     {
       "name": "focus-indicator",
