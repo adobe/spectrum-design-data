@@ -730,15 +730,9 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "270px",
+    "value": "288px",
     "uuid": "549fbfad-78b7-430d-8fac-7d23084f2bea",
-    "legacyKey": "card-minimum-width-large",
-    "lifecycle": {
-      "deprecatedIn": "15.8.0",
-      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale.",
-      "replacedBy": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 76 of the mapping sheet."
+    "legacyKey": "card-minimum-width-large"
   },
   {
     "scope": {

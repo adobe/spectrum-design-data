@@ -305,14 +305,36 @@
     "description": "Spacing between child elements for base UI elements at small size"
   },
   "base-height-2x-large": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "56px",
-    "uuid": "2f79ea86-7400-464a-a04e-af2a156c87c3"
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "uuid": "9bcbccde-5c0d-52b3-994e-b648176e6953",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "56px",
+        "uuid": "2f79ea86-7400-464a-a04e-af2a156c87c3"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "70px",
+        "uuid": "a768028d-cd86-5360-8b8b-4636aadccab3"
+      }
+    }
   },
   "base-height-3x-large": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "64px",
-    "uuid": "a3c39fe1-9f46-4e76-9176-c589f28aa39f"
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "uuid": "1d2f7fdf-5a5a-525d-aee9-526b2e2fc52f",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "64px",
+        "uuid": "a3c39fe1-9f46-4e76-9176-c589f28aa39f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "80px",
+        "uuid": "4d741e1d-0e54-5554-a119-764ebd3dea57"
+      }
+    }
   },
   "base-height-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

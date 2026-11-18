@@ -337,11 +337,8 @@
   "card-minimum-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
-    "value": "270px",
-    "uuid": "549fbfad-78b7-430d-8fac-7d23084f2bea",
-    "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale.",
-    "renamed": "container-minimum-width-extra-large"
+    "value": "288px",
+    "uuid": "549fbfad-78b7-430d-8fac-7d23084f2bea"
   },
   "card-minimum-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

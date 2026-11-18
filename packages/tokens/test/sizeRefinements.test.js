@@ -103,12 +103,6 @@ for (const [file, key, targetKey, count] of [
     "container-maximum-width-2x-large",
     1,
   ],
-  [
-    "illustrated-message",
-    "illustrated-message-vertical-maximum-width",
-    "container-maximum-width-large",
-    1,
-  ],
   ["alert-banner", "alert-banner-minimum-height", "banner-minimum-height", 2],
 ]) {
   test(`${key} maps every scale to ${targetKey}`, async (t) => {
@@ -180,4 +174,70 @@ test("color controls stay active and scale 1.25x on mobile", (t) => {
     t.falsy(legacyTokens[key].deprecated, key);
     t.falsy(legacyTokens[key].renamed, key);
   }
+});
+
+test("shared heights gain mobile values so their old tokens rename to a mobile-aware token", (t) => {
+  for (const [key, desktop, mobile, olds] of [
+    ["base-height-2x-large", "56px", "70px", ["component-height-400"]],
+    ["base-height-3x-large", "64px", "80px", ["component-height-500"]],
+    [
+      "list-item-height-large",
+      "48px",
+      "60px",
+      ["table-row-height-large", "table-section-header-row-height-extra-large"],
+    ],
+    [
+      "list-item-height-extra-large",
+      "56px",
+      "70px",
+      ["table-row-height-extra-large"],
+    ],
+    [
+      "list-item-height-extra-small",
+      "24px",
+      "30px",
+      ["table-section-header-row-height-small"],
+    ],
+  ]) {
+    t.is(legacyTokens[key].sets.desktop.value, desktop, key);
+    t.is(legacyTokens[key].sets.mobile.value, mobile, key);
+    for (const old of olds) {
+      t.is(legacyTokens[old].renamed, key, old);
+      t.is(
+        legacyTokens[old].sets.mobile.value,
+        legacyTokens[key].sets.mobile.value,
+        old,
+      );
+    }
+  }
+});
+
+test("component tokens stay active at the sizes the S2 team set", (t) => {
+  for (const [key, desktop, mobile] of [
+    ["color-area-height", "192px", "240px"],
+    ["color-area-width", "192px", "240px"],
+    ["color-wheel-width", "192px", "240px"],
+    ["color-area-minimum-height", "64px", "80px"],
+    ["color-area-minimum-width", "64px", "80px"],
+    ["color-handle-size", "16px", "20px"],
+    ["color-handle-size-key-focus", "32px", "40px"],
+  ]) {
+    t.is(legacyTokens[key].sets.desktop.value, desktop, key);
+    t.is(legacyTokens[key].sets.mobile.value, mobile, key);
+    t.falsy(legacyTokens[key].deprecated, key);
+    t.falsy(legacyTokens[key].renamed, key);
+  }
+  for (const [key, value] of [
+    ["illustrated-message-vertical-maximum-width", "352px"],
+    ["card-minimum-width-large", "288px"],
+    ["standard-dialog-minimum-width", "288px"],
+    ["alert-dialog-minimum-width", "288px"],
+  ]) {
+    t.is(legacyTokens[key].value, value, key);
+    t.falsy(legacyTokens[key].deprecated, key);
+  }
+  t.is(
+    legacyTokens["illustrated-message-maximum-width"].value,
+    "{illustrated-message-vertical-maximum-width}",
+  );
 });

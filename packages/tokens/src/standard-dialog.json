@@ -47,10 +47,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "standard-dialog",
     "value": "288px",
-    "uuid": "27f2bc13-53e4-4416-8592-a2a44909d22d",
-    "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
-    "renamed": "container-minimum-width-extra-large"
+    "uuid": "27f2bc13-53e4-4416-8592-a2a44909d22d"
   },
   "standard-dialog-title-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

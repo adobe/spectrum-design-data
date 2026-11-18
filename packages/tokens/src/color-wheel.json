@@ -38,8 +38,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-wheel",
     "uuid": "f3ef148b-28ca-4bb2-9d13-a525bcbe03dc",
-    "deprecated": true,
-    "deprecated_comment": "Referenced primitive size-1300 (192px); component-specific to Color wheel, not a container concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -51,7 +49,6 @@
         "value": "240px",
         "uuid": "81d866f0-e2a6-4f27-bb22-6675cce4e937"
       }
-    },
-    "renamed": "size-1300"
+    }
   }
 }

@@ -80,7 +80,7 @@
   "illustrated-message-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "illustrated-message",
-    "value": "{container-maximum-width-large}",
+    "value": "{illustrated-message-vertical-maximum-width}",
     "uuid": "0e464925-5524-4fcc-a2f1-54ef42a2990a",
     "deprecated": true
   },
@@ -187,10 +187,7 @@
   "illustrated-message-vertical-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "illustrated-message",
-    "value": "380px",
-    "uuid": "95c055b0-f688-4405-8426-1b2302e32ebd",
-    "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
-    "renamed": "container-maximum-width-large"
+    "value": "352px",
+    "uuid": "95c055b0-f688-4405-8426-1b2302e32ebd"
   }
 }

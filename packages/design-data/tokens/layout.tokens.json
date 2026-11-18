@@ -8014,11 +8014,32 @@
       "structure": "base",
       "property": "height",
       "size": "xxl",
-      "legacyKey": "base-height-2x-large"
+      "legacyKey": "base-height-2x-large",
+      "scale": "desktop"
     },
     "value": "56px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "2f79ea86-7400-464a-a04e-af2a156c87c3",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "9bcbccde-5c0d-52b3-994e-b648176e6953"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "structure": "base",
+      "property": "height",
+      "size": "xxl",
+      "legacyKey": "base-height-2x-large",
+      "scale": "mobile"
+    },
+    "value": "70px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "a768028d-cd86-5360-8b8b-4636aadccab3",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "9bcbccde-5c0d-52b3-994e-b648176e6953",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
@@ -8029,11 +8050,32 @@
       "structure": "base",
       "property": "height",
       "size": "xxxl",
-      "legacyKey": "base-height-3x-large"
+      "legacyKey": "base-height-3x-large",
+      "scale": "desktop"
     },
     "value": "64px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "a3c39fe1-9f46-4e76-9176-c589f28aa39f",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "1d2f7fdf-5a5a-525d-aee9-526b2e2fc52f"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "structure": "base",
+      "property": "height",
+      "size": "xxxl",
+      "legacyKey": "base-height-3x-large",
+      "scale": "mobile"
+    },
+    "value": "80px",
+    "rationale": "Mobile value: desktop x 1.25, rounded half up.",
+    "uuid": "4d741e1d-0e54-5554-a119-764ebd3dea57",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "1d2f7fdf-5a5a-525d-aee9-526b2e2fc52f",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
