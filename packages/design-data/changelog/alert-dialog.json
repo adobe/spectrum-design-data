@@ -171,6 +171,25 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"30e0637c-033b-5a5b-b437-aa6f08ce26da","name":"maximum-width","fields":[{"path":"$ref","before":"45258afa-543b-4fbc-a621-677d8081c2f1","after":"b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"}]},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"45258afa-543b-4fbc-a621-677d8081c2f1","name":"maximum-width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"}],"rationale":"Deprecated via refine-from-sheets from row 12 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"45258afa-543b-4fbc-a621-677d8081c2f1","name":"maximum-width","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 12 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 12 of the mapping sheet."}
+          ]
+        }
+      ]
     }
   ]
 }
