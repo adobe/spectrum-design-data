@@ -234,13 +234,20 @@ fn checker_sdf(u: f64, v: f64, size: f64) -> f64 {
     }
 }
 
-/// The color of `g` at `(u, v)` in the box's unit space: the point's projection on the gradient
-/// line picks the segment, and the two stops' colors mix (not premultiplied, as SVG does).
-fn gradient_color(g: &crate::visual::Gradient, stops: &[(f64, Rgba)], u: f64, v: f64) -> Rgba {
-    let (dx, dy) = (g.to[0] - g.from[0], g.to[1] - g.from[1]);
+/// The color of `g` at the scene point `(x, y)` of the box `(bx, by, bw, bh)`: the point's
+/// projection on the gradient line, in pixels, picks the segment, and the two stops' colors mix
+/// (not premultiplied, as SVG does). Working in pixels keeps the bands square to the line.
+fn gradient_color(
+    g: &crate::visual::Gradient,
+    stops: &[(f64, Rgba)],
+    (bx, by, bw, bh): (f64, f64, f64, f64),
+    (x, y): (f64, f64),
+) -> Rgba {
+    let (fx, fy) = (bx + g.from[0] * bw, by + g.from[1] * bh);
+    let (dx, dy) = (bx + g.to[0] * bw - fx, by + g.to[1] * bh - fy);
     let len2 = dx * dx + dy * dy;
     let t = if len2 > 0.0 {
-        (((u - g.from[0]) * dx + (v - g.from[1]) * dy) / len2).clamp(0.0, 1.0)
+        (((x - fx) * dx + (y - fy) * dy) / len2).clamp(0.0, 1.0)
     } else {
         0.0
     };
@@ -307,7 +314,7 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                     bounds(0.0),
                     Paint::Fill,
                     |x, y| rrect_sdf(x, y, n.x, n.y, n.w, n.h, r),
-                    |x, y| gradient_color(g, &stops, (x - n.x) / n.w, (y - n.y) / n.h),
+                    |x, y| gradient_color(g, &stops, (n.x, n.y, n.w, n.h), (x, y)),
                 );
             } else if let Some(c) = color_of(n.fill.as_deref(), "fill", &n.part, diags) {
                 let r = corner_radii(n);
@@ -701,7 +708,7 @@ mod tests {
             to: [1.0, 0.5],
             stops: Vec::new(),
         };
-        let at = |u: f64, v: f64| gradient_color(&g, &stops, u, v);
+        let at = |u: f64, v: f64| gradient_color(&g, &stops, (0.0, 0.0, 1.0, 1.0), (u, v));
         // The ends and the middle stop are the stops; a quarter is half way to the next one.
         assert_eq!((at(0.0, 0.5).r, at(0.0, 0.5).b), (1.0, 0.0));
         assert_eq!((at(0.5, 0.0).b, at(0.5, 1.0).b), (1.0, 1.0));

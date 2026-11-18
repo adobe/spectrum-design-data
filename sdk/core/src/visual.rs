@@ -326,8 +326,9 @@ pub struct SceneNode {
 }
 
 /// A linear gradient across a box. `from` and `to` are the ends of the gradient line in the
-/// box's own unit space (`[0, 0]` is its top-left corner, `[1, 1]` the bottom-right), as SVG
-/// `objectBoundingBox` and Figma handles read them. Stops are in ascending `offset` order.
+/// box's own unit space (`[0, 0]` is its top-left corner, `[1, 1]` the bottom-right), as Figma
+/// handles give them; the gradient is drawn in pixels between those points. Stops are in
+/// ascending `offset` order.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct Gradient {
     pub from: [f64; 2],
@@ -1278,8 +1279,6 @@ impl<'a> CompileCx<'a> {
         (list, miss)
     }
 
-    /// Compile every binding of every part (`props` and a placement `inset`), and embed the
-    /// compiled recipe of every `component` part (see `compile_nested`).
     /// Compile the sources of a `gradient` value source's stops, which bind colors and offsets
     /// like any other prop.
     fn compile_gradient(&self, entry: &mut Value) {
@@ -1299,6 +1298,8 @@ impl<'a> CompileCx<'a> {
         }
     }
 
+    /// Compile every binding of every part (`props` and a placement `inset`), and embed the
+    /// compiled recipe of every `component` part (see `compile_nested`).
     fn compile_parts(
         &self,
         parts: &serde_json::Map<String, Value>,
@@ -4678,9 +4679,13 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             "box" => {
                 let mut layers = vec![(attrs.clone(), n.fill.clone())];
                 if let Some(g) = &n.gradient {
-                    // The id names the whole definition (an FNV-1a hash of it), so SVGs inlined in
-                    // one page share an id only when the definitions are identical.
-                    let key = format!("{g:?}")
+                    // The ends are in the box's unit space; the gradient is drawn in user space,
+                    // so its bands stay square to the line on a box that is not square.
+                    let (x1, y1) = (n.x + g.from[0] * n.w, n.y + g.from[1] * n.h);
+                    let (x2, y2) = (n.x + g.to[0] * n.w, n.y + g.to[1] * n.h);
+                    // The id names the whole definition (an FNV-1a hash of it and its box), so
+                    // SVGs inlined in one page share an id only when the definitions are identical.
+                    let key = format!("{g:?}|{x1}|{y1}|{x2}|{y2}")
                         .bytes()
                         .fold(0xcbf2_9ce4_8422_2325u64, |h, b| {
                             (h ^ u64::from(b)).wrapping_mul(0x0100_0000_01b3)
@@ -4688,8 +4693,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     let id = format!("gradient-{key:016x}");
                     let _ = write!(
                         s,
-                        "<defs><linearGradient id=\"{id}\" x1=\"{}\" y1=\"{}\" x2=\"{}\" y2=\"{}\">",
-                        g.from[0], g.from[1], g.to[0], g.to[1]
+                        "<defs><linearGradient id=\"{id}\" gradientUnits=\"userSpaceOnUse\" x1=\"{x1}\" y1=\"{y1}\" x2=\"{x2}\" y2=\"{y2}\">"
                     );
                     for stop in &g.stops {
                         let _ = write!(
@@ -5304,7 +5308,7 @@ mod tests {
             .iter()
             .zip([0.0, 1.0 / 3.0, 2.0 / 3.0, 1.0])
             .all(|(a, b)| (a - b).abs() < 1e-9));
-        // A 45deg line across a wide box is as long as the box is along that direction.
+        // A 90deg line across a wide box runs the full width.
         let g = p("linear-gradient(90deg, #000, #fff)", 20.0, 10.0).unwrap();
         assert!(close(g.from, [0.0, 0.5]) && close(g.to, [1.0, 0.5]));
         // Corner keywords run corner to corner on a square.
@@ -5321,6 +5325,24 @@ mod tests {
         ] {
             assert!(p(bad, 10.0, 10.0).is_none(), "{bad}");
         }
+    }
+
+    #[test]
+    fn an_angled_css_gradient_on_a_wide_box_runs_at_that_angle_in_pixels() {
+        let g =
+            parse_css_linear_gradient("linear-gradient(45deg, #000, #fff)", 20.0, 10.0).unwrap();
+        // In pixels the line is 45deg, whatever the box's shape: equal and opposite components.
+        let (dx, dy) = ((g.to[0] - g.from[0]) * 20.0, (g.to[1] - g.from[1]) * 10.0);
+        assert!((dx + dy).abs() < 1e-3 && (dx - 15.0).abs() < 1e-3, "{g:?}");
+        // The line is as long as the box is along that direction: (20 + 10) * sin(45deg).
+        assert!((dx.hypot(dy) - 30.0 * 45f64.to_radians().sin()).abs() < 1e-3);
+        // The SVG draws it in user space, so the bands are not skewed with the box.
+        let mut scene = solve_width(&gradient_recipe(literal_stops()), None);
+        scene.nodes[0].gradient = Some(g);
+        scene.nodes[0].w = 20.0;
+        scene.nodes[0].h = 10.0;
+        let svg = scene_to_svg(&scene);
+        assert!(svg.contains("gradientUnits=\"userSpaceOnUse\""), "{svg}");
     }
 
     #[test]
