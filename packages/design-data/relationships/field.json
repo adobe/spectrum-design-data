@@ -613,7 +613,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "188453d2-7e27-414d-b5a2-680653844526",
+    "$ref": "1e14bd31-91d6-5968-9a56-2c543145dc45",
     "uuid": "08c2390a-353b-4e6b-b025-dbaeaa5fdff2",
     "legacyKey": "field-width",
     "setUuid": "ad37a519-be52-492e-a816-03ed7608fe65",

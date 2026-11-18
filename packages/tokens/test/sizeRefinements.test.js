@@ -241,3 +241,21 @@ test("component tokens stay active at the sizes the S2 team set", (t) => {
     "{illustrated-message-vertical-maximum-width}",
   );
 });
+
+test("mobile relationships point at the mobile twin, not the desktop token", async (t) => {
+  for (const [file, key] of [
+    ["table", "table-row-height-large-regular"],
+    ["table", "table-row-height-extra-large-regular"],
+    ["table", "table-row-height-medium-regular"],
+    ["table", "table-row-height-small-regular"],
+    ["field", "field-width"],
+  ]) {
+    const relationships = await readJson(
+      new URL(`relationships/${file}.json`, sourceUrl),
+    );
+    const mobile = relationships.find(
+      (r) => r.legacyKey === key && r.scope.options.scale === "mobile",
+    );
+    t.is(byUuid.get(mobile.$ref).name.scale, "mobile", key);
+  }
+});
