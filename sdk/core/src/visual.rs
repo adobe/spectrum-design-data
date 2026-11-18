@@ -2444,9 +2444,19 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 let offset = rp(cx, part, "underlineOffset");
                 track(tokens, "underlineThickness", &thickness);
                 track(tokens, "underlineOffset", &offset);
+                let mut size_of = |name: &str, r: &Option<Resolved>| match r {
+                    None => 1.0,
+                    Some(r) => r.num().unwrap_or_else(|| {
+                        cx.diags.push(format!(
+                            "{name} '{}' is not a number or px value; using 1",
+                            r.value
+                        ));
+                        1.0
+                    }),
+                };
                 Some(Underline {
-                    thickness: thickness.as_ref().and_then(Resolved::num).unwrap_or(1.0),
-                    offset: offset.as_ref().and_then(Resolved::num).unwrap_or(1.0),
+                    thickness: size_of("underlineThickness", &thickness),
+                    offset: size_of("underlineOffset", &offset),
                 })
             }
             Some("none") | None => None,
