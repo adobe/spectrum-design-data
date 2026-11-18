@@ -14,6 +14,9 @@ Tokens now report semantic specificity, so people and agents can pick among toke
   in every mode) or `consider`. CLI `design-data refinements`, WASM `Dataset.refinements`, MCP
   `design-data-refinements` and agent MCP `token_refinements`.
 * **Results:** WASM `TokenResult` has `purposeFields` and `purposeCount`; MCP query shows
-  `purposeFields`; CLI `query` and `resolve` print `Purpose`.
-* **Primer:** `semanticSpecificity` explains it.
-* **Docs:** taxonomy and agent-surface chapters and the design-data skill describe it.
+  `purposeFields`; CLI `query` and `resolve` print `Purpose`; MCP query takes `sort: "specificity"`.
+* **Query:** `object`, `anatomy` and `colorRole` are filter keys.
+* **Component tokens:** MCP `design-data-component-tokens` (WASM `componentRelationships`) returns
+  what a component uses for each part and state, with values, in one call.
+* **Primer and docs:** `semanticSpecificity` in the primer; taxonomy, query and agent-surface
+  chapters and the skill (with a custom-component recipe).

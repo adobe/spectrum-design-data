@@ -139,6 +139,7 @@ const RELATED_SHOWN = 5;
 
 const DEFAULT_QUERY_LIMIT = 25;
 const MAX_QUERY_LIMIT = 200;
+const DEFAULT_COMPONENT_TOKENS_LIMIT = 40;
 const MODE_FIELDS = ["colorScheme", "scale", "contrast"];
 
 let _uuidIndex;
@@ -196,6 +197,112 @@ function tokenValue(ds, token) {
     current = next;
   }
   return {};
+}
+
+let _conceptRows;
+/** conceptId -> every mode row of that token, built once; a relationship may $ref a concept. */
+function conceptRows(ds) {
+  if (!_conceptRows) {
+    _conceptRows = new Map();
+    for (const t of ds.query("")) {
+      const id = t.raw.conceptId;
+      if (id) _conceptRows.set(id, [...(_conceptRows.get(id) ?? []), t]);
+    }
+  }
+  return _conceptRows;
+}
+
+/** A token's name without its mode fields, e.g. `property=color colorFamily=gray scaleIndex=300`. */
+function tokenLabel(token) {
+  const { legacyKey, ...fields } = token.raw.name ?? {};
+  if (legacyKey) return legacyKey;
+  return Object.entries(fields)
+    .filter(([key]) => !MODE_FIELDS.includes(key))
+    .map(([key, value]) => `${key}=${[value].flat().join("+")}`)
+    .join(" ");
+}
+
+/** The rows a relationship `$ref` points at: every mode row of the token, or just that row. */
+function refRows(ds, ref) {
+  const row = uuidIndex(ds).get(ref);
+  const concept = row?.raw.conceptId ?? ref;
+  return conceptRows(ds).get(concept) ?? (row ? [row] : []);
+}
+
+/** One value, or values by mode-set then mode, from the rows of one token. */
+function rowsValue(ds, rows) {
+  const byMode = {};
+  let plain;
+  for (const row of rows) {
+    const result = tokenValue(ds, row);
+    if (result.values) {
+      for (const [set, modes] of Object.entries(result.values)) {
+        byMode[set] = { ...byMode[set], ...modes };
+      }
+      continue;
+    }
+    const pinned = MODE_FIELDS.filter((mode) => row.raw.name?.[mode]);
+    if (!pinned.length) plain = result.value;
+    for (const set of pinned) {
+      byMode[set] = { ...byMode[set], [row.raw.name[set]]: result.value };
+    }
+  }
+  for (const [set, modes] of Object.entries(byMode)) {
+    if (
+      new Set(Object.values(modes).map((v) => JSON.stringify(v))).size === 1
+    ) {
+      plain = Object.values(modes)[0];
+      delete byMode[set];
+    }
+  }
+  return Object.keys(byMode).length ? { values: byMode } : { value: plain };
+}
+
+/** Whether a relationship's `state` pin (ids, or `{ anyOf: [...] }`) includes `state`. */
+function appliesInState(pin, state) {
+  return [pin].flat().some((s) => s === state || s?.anyOf?.includes(state));
+}
+
+/**
+ * A component's relationship records as bindings: which token it uses for what (`context`,
+ * `property`, `part`), under which options (`when`), with the token's final value. Records
+ * that differ only by the mode row they point at are one binding.
+ */
+function componentBindings(ds, component) {
+  const bindings = new Map();
+  for (const record of ds.componentRelationships(component)) {
+    const { part, property, options } = record.scope ?? {};
+    const rows = record.$ref ? refRows(ds, record.$ref) : [];
+    const token = rows[0] ? tokenLabel(rows[0]) : record.legacyKey;
+    const key = JSON.stringify([
+      record.context,
+      property,
+      part,
+      options,
+      token,
+    ]);
+    if (bindings.has(key)) continue;
+    const binding = { context: record.context, property };
+    if (part) binding.part = part;
+    if (options && Object.keys(options).length) binding.when = options;
+    if (token) binding.token = token;
+    if (rows[0]) binding.tier = rows[0].tier;
+    Object.assign(
+      binding,
+      rows.length ? rowsValue(ds, rows) : { value: record.value },
+    );
+    bindings.set(key, binding);
+  }
+  return [...bindings.values()];
+}
+
+const TIER_RANK = { primitive: 0, semantic: 1, component: 2 };
+
+/** Most specific first: tier, then purpose-field count (both from the token's name). */
+function bySpecificity(a, b) {
+  return (
+    TIER_RANK[b.tier] - TIER_RANK[a.tier] || b.purposeCount - a.purposeCount
+  );
 }
 
 /** Name, final value, layer and modes: what an agent needs, without `raw` or file paths. */
@@ -318,7 +425,9 @@ export function createDesignDataTools() {
       },
       description:
         "Filter Spectrum tokens by a query expression. " +
-        "Filterable fields: property, component, variant, state, colorScheme, scale, contrast, uuid, tier. " +
+        "Filterable fields: property, component, variant, state, colorScheme, scale, contrast, uuid, tier, " +
+        "and the purpose fields object (background, border, ...), anatomy and colorRole, which narrow " +
+        "to tokens for a part or role, e.g. `tier=semantic,object=background,colorRole=accent`. " +
         "`tier` is primitive, semantic or component, declared by the token or derived from its name and value; " +
         "e.g. `tier=semantic,property=color`. " +
         "`key=value` pairs join with `,` (AND) or `|` (OR); `!=` negates and `*` is a wildcard. " +
@@ -349,6 +458,13 @@ export function createDesignDataTools() {
             description: `Maximum tokens to return (default ${DEFAULT_QUERY_LIMIT}, max ${MAX_QUERY_LIMIT})`,
             default: DEFAULT_QUERY_LIMIT,
           },
+          sort: {
+            type: "string",
+            enum: ["name", "specificity"],
+            description:
+              "name (default): as matched. specificity: most specific first (tier, then purposeFields), deprecated last.",
+            default: "name",
+          },
           detail: {
             type: "string",
             enum: ["compact", "full"],
@@ -364,9 +480,12 @@ export function createDesignDataTools() {
         filter,
         limit = DEFAULT_QUERY_LIMIT,
         detail = "compact",
+        sort = "name",
       }) {
         const ds = await getDataset();
-        const matches = ds.query(filter);
+        const found = ds.query(filter);
+        const matches =
+          sort === "specificity" ? [...found].sort(bySpecificity) : found;
         const ordered = [
           ...matches.filter((t) => !isDeprecated(t)),
           ...matches.filter(isDeprecated),
@@ -483,6 +602,108 @@ export function createDesignDataTools() {
             `No token found for "${token}". Use a token name, uuid or conceptId, or the name shown by design-data-query.`,
           );
         return result;
+      },
+    },
+
+    // ── component tokens ────────────────────────────────────────────────────
+    {
+      name: "design-data-component-tokens",
+      annotations: {
+        title: "Design Data: Component Token Bindings",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Which tokens a component uses for what. Returns the component's relationship records as " +
+        "bindings: `context` (e.g. Background, Border, Label), `property`, `part`, `when` (the " +
+        "options and `state` the binding applies under), the `token` and its `tier`, and its " +
+        "final value (`values` by mode when it differs). Use this to answer 'what does X use for " +
+        "its border in the hover state' in one call, instead of querying tokens by component, " +
+        "which does not say what each token is for. A binding without `when` is the default; one " +
+        "with `when` replaces it under those options. Filter with `context`, `property` or " +
+        "`state`; at most `limit` (default 40) are shown, so narrow the filter when `total` is " +
+        "larger. If the component has no binding for something, the data has none: say so " +
+        "instead of guessing.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          component: {
+            type: "string",
+            description:
+              "Component ID in kebab-case, e.g. text-field, action-button",
+          },
+          context: {
+            type: "string",
+            description:
+              'Only bindings whose context contains this text (case-insensitive), e.g. "border"',
+          },
+          property: {
+            type: "string",
+            description:
+              'Only bindings for this property, e.g. "color" or "corner-radius"',
+          },
+          state: {
+            type: "string",
+            description:
+              'Only bindings that apply in this state, e.g. "hover" (bindings with no state are included)',
+          },
+          limit: {
+            type: "integer",
+            minimum: 1,
+            maximum: MAX_QUERY_LIMIT,
+            description: `Maximum bindings to return (default ${DEFAULT_COMPONENT_TOKENS_LIMIT})`,
+            default: DEFAULT_COMPONENT_TOKENS_LIMIT,
+          },
+        },
+        required: ["component"],
+        additionalProperties: false,
+      },
+      async handler({
+        component,
+        context,
+        property,
+        state,
+        limit = DEFAULT_COMPONENT_TOKENS_LIMIT,
+      }) {
+        const ds = await getDataset();
+        let bindings = componentBindings(ds, component);
+        if (!bindings.length) {
+          throw new Error(
+            `No relationships for "${component}". Call design-data-component-search or design-data-primer for component IDs.`,
+          );
+        }
+        if (context) {
+          const text = String(context).toLowerCase();
+          bindings = bindings.filter((b) =>
+            String(b.context ?? "")
+              .toLowerCase()
+              .includes(text),
+          );
+        }
+        if (property)
+          bindings = bindings.filter((b) => b.property === property);
+        if (state) {
+          bindings = bindings.filter(
+            (b) => !b.when?.state || appliesInState(b.when.state, state),
+          );
+        }
+        const cap = Math.min(
+          Math.max(
+            Math.trunc(Number(limit)) || DEFAULT_COMPONENT_TOKENS_LIMIT,
+            1,
+          ),
+          MAX_QUERY_LIMIT,
+        );
+        const out = {
+          component,
+          total: bindings.length,
+          shown: Math.min(bindings.length, cap),
+          bindings: bindings.slice(0, cap),
+        };
+        if (bindings.length > cap) {
+          out.hint = `Showing ${cap} of ${bindings.length}. Narrow with context, property or state.`;
+        }
+        return out;
       },
     },
 

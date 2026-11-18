@@ -15,7 +15,7 @@ when_to_use: >
   "Spectrum component options", design-data primer, query tokens, suggest token,
   resolve token value, component schema, Spectrum guideline, render a component, component
   preview or image (SVG or PNG), Adobe Clean font, @adobe/design-data-mcp.
-allowed-tools: mcp__plugin_spectrum-design-data_design-data__design-data-primer, mcp__plugin_spectrum-design-data_design-data__design-data-query, mcp__plugin_spectrum-design-data_design-data__design-data-suggest, mcp__plugin_spectrum-design-data_design-data__design-data-refinements, mcp__plugin_spectrum-design-data_design-data__design-data-component, mcp__plugin_spectrum-design-data_design-data__design-data-component-search, mcp__plugin_spectrum-design-data_design-data__design-data-resolve, mcp__plugin_spectrum-design-data_design-data__design-data-guideline-list, mcp__plugin_spectrum-design-data_design-data__design-data-guideline, mcp__plugin_spectrum-design-data_design-data__design-data-visual-recipe, mcp__plugin_spectrum-design-data_design-data__design-data-render, mcp__plugin_spectrum-design-data_design-data__design-data-font-status
+allowed-tools: mcp__plugin_spectrum-design-data_design-data__design-data-primer, mcp__plugin_spectrum-design-data_design-data__design-data-query, mcp__plugin_spectrum-design-data_design-data__design-data-suggest, mcp__plugin_spectrum-design-data_design-data__design-data-refinements, mcp__plugin_spectrum-design-data_design-data__design-data-component-tokens, mcp__plugin_spectrum-design-data_design-data__design-data-component, mcp__plugin_spectrum-design-data_design-data__design-data-component-search, mcp__plugin_spectrum-design-data_design-data__design-data-resolve, mcp__plugin_spectrum-design-data_design-data__design-data-guideline-list, mcp__plugin_spectrum-design-data_design-data__design-data-guideline, mcp__plugin_spectrum-design-data_design-data__design-data-visual-recipe, mcp__plugin_spectrum-design-data_design-data__design-data-render, mcp__plugin_spectrum-design-data_design-data__design-data-font-status
 ---
 
 # Spectrum Design Data
@@ -71,7 +71,8 @@ a session.** No required inputs.
 Filter tokens by expression. Required: `filter` (string), e.g. `component=button`,
 `component=button,state=hover`, `property=*color*`, `state=hover,colorScheme=dark`.
 Filterable fields: `property`, `component`, `variant`, `state`, `colorScheme`, `scale`,
-`contrast`, `uuid`, `tier`. `component` matches the tokens a component's relationships bind to.
+`contrast`, `uuid`, `tier`, and the purpose fields `object`, `anatomy` and `colorRole`
+(`tier=semantic,object=background,colorRole=accent`). `component` matches the tokens a component's relationships bind to.
 Optional: `limit` (integer, default 25, max 200) and `detail` (`compact`, the default, or
 `full`). Returns `{ total, shown, tokens }`. Each compact token has `name`, `value` (aliases
 already followed, so there is nothing to look up by uuid), `layer`, `uuid`, and its
@@ -95,6 +96,18 @@ Required: `token` (name, uuid or conceptId; for a token without a name, the `pro
 each of `narrower` and `broader`). Returns `{ token, specificity: { tier, purposeFields },
 narrower, narrowerTotal, broader, broaderTotal }`; each neighbor has `name`, `fields`,
 `specificity`, `valueMatch` and `differingModes`.
+
+### `design-data-component-tokens`
+
+Which tokens a component uses for what. Required: `component` (kebab-case ID). Optional:
+`context` (text the binding's context contains, e.g. `border`), `property`, `state` and `limit`
+(default 40). Returns `{ component, total, shown, bindings }`. Each binding has `context`
+(Background, Border, Label, ...), `property`, `part`, `when` (the options and `state` it applies
+under), `token`, `tier` and its value (`values` by mode when it differs). A binding without
+`when` is the default; one with `when` replaces it under those options. Prefer this over
+`design-data-query` with `component=` to answer "what does X use for Y in state Z": the query
+returns tokens but not what each one is for. If the component has no binding for something, the
+data has none; say so instead of guessing.
 
 ### `design-data-component`
 
@@ -212,6 +225,21 @@ drop them; each shows the `fields` it adds or lacks, and a `valueMatch`:
 Before using a narrower token, check its added fields against the use: `variant=subtle` or
 `subdued` marks a different style, not a more specific version of the same one. When nothing
 narrower fits, the general token is correct.
+
+## Building a custom component
+
+When the user builds something Spectrum has no component for, or changes an existing one:
+
+1. If a Spectrum component is close, call `design-data-component-tokens` for it to see which
+   token it uses for each part and state (`context`, `when.state`). Reuse its tokens for the
+   matching parts.
+2. For a part nothing covers, query the semantic tier by what it is for:
+   `tier=semantic,object=background,colorRole=neutral,state=hover` with `sort: "specificity"`.
+3. Call `design-data-refinements` on the closest token. Use a narrower token only if its added
+   fields fit the use, and tell the user when it is `consider`.
+4. Resolve each chosen token for every mode (`values` in the results), not just light.
+5. If the data has no token for a state or part, say so and name the nearest primitive as a
+   design decision. Do not state a gray, size or token name you did not read in a result.
 
 ## Workflow
 

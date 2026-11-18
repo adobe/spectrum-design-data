@@ -284,6 +284,32 @@ impl Dataset {
         names
     }
 
+    /// A component's relationship records (which token it uses for what, and under which
+    /// options), as the dataset stores them: `scope` (component, part, property, options),
+    /// `context`, `contextRole`, `$ref` and `uuid`. Deprecated records are left out. Empty when
+    /// the component has none.
+    ///
+    /// ```js
+    /// ds.componentRelationships("text-field").filter((r) => r.context === "Border");
+    /// ```
+    #[wasm_bindgen(js_name = "componentRelationships")]
+    pub fn component_relationships(&self, component: &str) -> Result<JsValue, JsValue> {
+        use serde::Serialize;
+        let records: Vec<&serde_json::Value> = self
+            .graph
+            .relationships
+            .iter()
+            .map(|r| &r.raw)
+            .filter(|raw| {
+                raw.pointer("/scope/component").and_then(|v| v.as_str()) == Some(component)
+                    && raw.pointer("/lifecycle/deprecatedIn").is_none()
+            })
+            .collect();
+        records
+            .serialize(&serde_wasm_bindgen::Serializer::json_compatible())
+            .map_err(js_err)
+    }
+
     /// The visual recipe for a component (after platform aliases), or `undefined`.
     #[wasm_bindgen(js_name = "visualRecipe")]
     pub fn visual_recipe(&self, component: &str) -> Result<JsValue, JsValue> {
