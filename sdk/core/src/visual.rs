@@ -55,6 +55,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "fill",
             "stroke",
             "strokeWidth",
+            "strokeOpacity",
             "pressDifference",
             "pressWidthRatio",
             "pressMinPerspective",
@@ -73,6 +74,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "fill",
             "stroke",
             "strokeWidth",
+            "strokeOpacity",
             "justify",
             "direction",
             "align",
@@ -110,7 +112,10 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "underlineOffset",
         ],
     ),
-    ("ring", &["stroke", "strokeWidth", "gapToParent"]),
+    (
+        "ring",
+        &["stroke", "strokeWidth", "strokeOpacity", "gapToParent"],
+    ),
     ("placed", &["color"]),
     ("component", &[]),
 ];
@@ -280,6 +285,9 @@ pub struct SceneNode {
     pub fill: Option<String>,
     pub stroke: Option<String>,
     pub stroke_width: f64,
+    /// Alpha of `stroke` (0 to 1), set when the recipe binds `strokeOpacity`; unset is opaque.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub stroke_opacity: Option<f64>,
     /// Fraction of a `progress` ring the arc covers (0 to 1); unset draws the fixed spinner arc.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sweep: Option<f64>,
@@ -1624,6 +1632,19 @@ impl Ctx<'_> {
                 relationship: None,
             });
         }
+        if let Some(name) = chosen.get("option").and_then(Value::as_str) {
+            // `solve_one` already dropped a value that is not a drawable color.
+            return match self.option(name) {
+                Value::String(s) if !s.trim().is_empty() => Some(Resolved {
+                    value: s,
+                    token: String::new(),
+                    relative_to,
+                    chain: Vec::new(),
+                    relationship: None,
+                }),
+                _ => None,
+            };
+        }
         if let Some(v) = chosen.get("value") {
             let literal = match v {
                 Value::Bool(b) => Some(b.to_string()),
@@ -1946,6 +1967,73 @@ fn truncate_line(text: &str, avail: f64, measure: &dyn Fn(&str) -> f64) -> Strin
 
 /// Whether an option value satisfies one wanted value. `true` also matches any
 /// non-empty string, e.g. an icon name; an unset option matches `false`.
+/// The alpha (0 to 1) of a CSS color a request can carry in an option read by an `option` value
+/// source: `#rgb`, `#rgba`, `#rrggbb`, `#rrggbbaa`, `rgb()` or `rgba()` (comma or space
+/// separated, optional `/ alpha`) and `transparent`. `None`: not one of those.
+fn css_color_alpha(s: &str) -> Option<f64> {
+    let s = s.trim().to_ascii_lowercase();
+    if s == "transparent" {
+        return Some(0.0);
+    }
+    if let Some(hex) = s.strip_prefix('#') {
+        if !hex.chars().all(|c| c.is_ascii_hexdigit()) {
+            return None;
+        }
+        let digit = |i: usize| (hex.as_bytes()[i] as char).to_digit(16).map(f64::from);
+        return match hex.len() {
+            3 | 6 => Some(1.0),
+            4 => Some(digit(3)? * 17.0 / 255.0),
+            8 => Some((digit(6)? * 16.0 + digit(7)?) / 255.0),
+            _ => None,
+        };
+    }
+    let body = s
+        .strip_prefix("rgba(")
+        .or_else(|| s.strip_prefix("rgb("))?
+        .strip_suffix(')')?;
+    let parts: Vec<&str> = body
+        .split(|c: char| c == ',' || c == '/' || c.is_whitespace())
+        .filter(|p| !p.is_empty())
+        .collect();
+    if parts.len() != 3 && parts.len() != 4 {
+        return None;
+    }
+    let num = |p: &str| p.strip_suffix('%').unwrap_or(p).parse::<f64>().ok();
+    parts.iter().map(|p| num(p)).collect::<Option<Vec<_>>>()?;
+    match parts.get(3) {
+        None => Some(1.0),
+        Some(p) => {
+            let a = num(p)?;
+            Some((if p.ends_with('%') { a / 100.0 } else { a }).clamp(0.0, 1.0))
+        }
+    }
+}
+
+/// Names of the options the parts' props read through an `option` value source.
+fn option_source_names(parts: &serde_json::Map<String, Value>) -> Vec<String> {
+    fn walk(v: &Value, out: &mut Vec<String>) {
+        match v {
+            Value::Array(a) => a.iter().for_each(|x| walk(x, out)),
+            Value::Object(o) => {
+                if let Some(n) = o.get("option").and_then(Value::as_str) {
+                    if !out.iter().any(|x| x == n) {
+                        out.push(n.to_string());
+                    }
+                }
+                o.values().for_each(|x| walk(x, out));
+            }
+            _ => {}
+        }
+    }
+    let mut out = Vec::new();
+    for part in parts.values() {
+        if let Some(props) = part.get("props") {
+            walk(props, &mut out);
+        }
+    }
+    out
+}
+
 fn option_matches(have: &Value, want: &Value) -> bool {
     have == want
         || (have.is_null() && *want == Value::Bool(false))
@@ -1977,6 +2065,7 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
                             .and_then(Value::as_str)
                             .into_iter()
                             .collect(),
+                        ("option", Value::String(name)) => vec![name.as_str()],
                         _ => Vec::new(),
                     };
                     for name in named {
@@ -2399,10 +2488,44 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let parts = &variant.parts;
     let root_id = variant.root.as_str();
     let root = parts.get(root_id).ok_or("root part not found")?;
+    // An option an `option` value source reads must be a solid color. A value that is not one
+    // is dropped with a diagnostic, and a fully transparent one is dropped quietly, so the part
+    // draws its unset look (React Spectrum draws the empty slash for alpha 0).
+    let mut diags = Vec::new();
+    let mut dropped = Vec::new();
+    for name in option_source_names(parts) {
+        let Some(v) = req.options.get(&name).filter(|v| !v.is_null()) else {
+            continue;
+        };
+        match v.as_str().map(|s| (s, css_color_alpha(s))) {
+            Some((_, Some(a))) if a <= 0.0 => dropped.push(name),
+            Some((_, Some(_))) => {}
+            Some((s, None)) if s.trim().is_empty() => dropped.push(name),
+            _ => {
+                diags.push(format!(
+                    "option '{name}' value {v} is not a solid color (hex, rgb(), rgba() or transparent); gradients and images are not drawn. Drawing the unset look"
+                ));
+                dropped.push(name);
+            }
+        }
+    }
+    let cleaned;
+    let req = if dropped.is_empty() {
+        req
+    } else {
+        cleaned = {
+            let mut r = req.clone();
+            for n in &dropped {
+                r.options.remove(n);
+            }
+            r
+        };
+        &cleaned
+    };
     let mut cx = Ctx {
         req,
         option_defaults: &variant.option_defaults,
-        diags: Vec::new(),
+        diags,
     };
     if req.options.contains_key("icon") {
         cx.diags.push(
@@ -2482,6 +2605,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let fill = rp(&mut cx, root, "fill");
     let stroke = rp(&mut cx, root, "stroke");
     let stroke_w = rp(&mut cx, root, "strokeWidth");
+    let stroke_o = rp(&mut cx, root, "strokeOpacity");
     let corner_names = [
         "cornerRadiusStartStart",
         "cornerRadiusStartEnd",
@@ -2496,6 +2620,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     for (n, r) in [
         ("stroke", &stroke),
         ("strokeWidth", &stroke_w),
+        ("strokeOpacity", &stroke_o),
         ("width", &root_width),
         ("minWidth", &min_width),
         ("height", &height),
@@ -2592,6 +2717,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         stroke: Option<String>,
         fill: Option<String>,
         stroke_width: f64,
+        stroke_opacity: Option<f64>,
         sweep: Option<f64>,
         radius: Option<Resolved>,
         tokens: Vec<TokenRef>,
@@ -2671,6 +2797,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             stroke: None,
             fill: None,
             stroke_width: 0.0,
+            stroke_opacity: None,
             sweep: None,
             radius: None,
             tokens,
@@ -2706,6 +2833,9 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 let bfill = rp(&mut cx, part, "fill");
                 let bstroke = rp(&mut cx, part, "stroke");
                 let bsw = rp(&mut cx, part, "strokeWidth");
+                let bso = rp(&mut cx, part, "strokeOpacity");
+                track(&mut c.tokens, "strokeOpacity", &bso);
+                c.stroke_opacity = bso.as_ref().and_then(Resolved::num);
                 track(&mut c.tokens, "fill", &bfill);
                 track(&mut c.tokens, "stroke", &bstroke);
                 track(&mut c.tokens, "strokeWidth", &bsw);
@@ -2796,6 +2926,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             icon: None,
                             rotation: None,
                             underline: None,
+                            stroke_opacity: None,
                             tokens: Vec::new(),
                         };
                         let nw = rp(&mut cx, np, "width");
@@ -2867,11 +2998,14 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                 let nfill = rp(&mut cx, np, "fill");
                                 let nstroke = rp(&mut cx, np, "stroke");
                                 let nsw = rp(&mut cx, np, "strokeWidth");
+                                let nso = rp(&mut cx, np, "strokeOpacity");
+                                node.stroke_opacity = nso.as_ref().and_then(Resolved::num);
                                 let nr = rp(&mut cx, np, "cornerRadius");
                                 for (n, r) in [
                                     ("fill", &nfill),
                                     ("stroke", &nstroke),
                                     ("strokeWidth", &nsw),
+                                    ("strokeOpacity", &nso),
                                     ("cornerRadius", &nr),
                                 ] {
                                     track(&mut tokens, n, r);
@@ -3182,6 +3316,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         fill: fill.map(|f| f.value),
         stroke: stroke.map(|s| s.value),
         stroke_width: stroke_w.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+        stroke_opacity: stroke_o.as_ref().and_then(Resolved::num),
         sweep: None,
         radius: root_radius,
         radii,
@@ -3345,6 +3480,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             fill: c.fill,
             stroke: c.stroke,
             stroke_width: c.stroke_width,
+            stroke_opacity: c.stroke_opacity,
             sweep: c.sweep,
             radius: 0.0,
             radii: None,
@@ -3460,6 +3596,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     icon: None,
                     rotation: rot.as_ref().and_then(Resolved::num),
                     underline: None,
+                    stroke_opacity: None,
                     tokens,
                 });
                 continue;
@@ -3467,6 +3604,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             let nfill = rp(&mut cx, np, "fill");
             let nstroke = rp(&mut cx, np, "stroke");
             let nsw = rp(&mut cx, np, "strokeWidth");
+            let nso = rp(&mut cx, np, "strokeOpacity");
             let nradius = rp(&mut cx, np, "cornerRadius");
             let justify = rp(&mut cx, np, "justify");
             for (n, r) in [
@@ -3475,6 +3613,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 ("fill", &nfill),
                 ("stroke", &nstroke),
                 ("strokeWidth", &nsw),
+                ("strokeOpacity", &nso),
                 ("cornerRadius", &nradius),
                 ("justify", &justify),
             ] {
@@ -3509,6 +3648,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 fill: nfill.map(|f| f.value),
                 stroke: nstroke.map(|s| s.value),
                 stroke_width: nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+                stroke_opacity: nso.as_ref().and_then(Resolved::num),
                 sweep: None,
                 radius: clamp_radius(px(&nradius, h2), w2, h2),
                 radii: None,
@@ -3555,6 +3695,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             icon: None,
             rotation: None,
             underline: None,
+            stroke_opacity: None,
             tokens,
         });
     }
@@ -3623,13 +3764,21 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         }
         let stroke = rp(&mut cx, part, "stroke");
         let sw = rp(&mut cx, part, "strokeWidth");
+        let so = rp(&mut cx, part, "strokeOpacity");
         let gp = rp(&mut cx, part, "gapToParent");
         let mut tokens = Vec::new();
         track(&mut tokens, "stroke", &stroke);
         track(&mut tokens, "strokeWidth", &sw);
+        track(&mut tokens, "strokeOpacity", &so);
         track(&mut tokens, "gapToParent", &gp);
         let sw_n = sw.as_ref().and_then(Resolved::num).unwrap_or(2.0);
-        let off = gp.as_ref().and_then(Resolved::num).unwrap_or(2.0) + sw_n / 2.0;
+        // An `inside` ring sits within the part's box, its gap measured inward.
+        let sign = if part.get("inside") == Some(&Value::Bool(true)) {
+            -1.0
+        } else {
+            1.0
+        };
+        let off = sign * (gp.as_ref().and_then(Resolved::num).unwrap_or(2.0) + sw_n / 2.0);
         let target = part
             .get("around")
             .and_then(Value::as_str)
@@ -3671,8 +3820,9 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             fill: None,
             stroke: stroke.map(|s| s.value),
             stroke_width: sw_n,
+            stroke_opacity: so.as_ref().and_then(Resolved::num),
             sweep: None,
-            radius: r0 + off,
+            radius: (r0 + off).max(0.0),
             radii: None,
             text: None,
             font_size: 0.0,
@@ -3885,6 +4035,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         icon: None,
         rotation: None,
         underline: None,
+        stroke_opacity: None,
         tokens: Vec::new(),
     }
 }
@@ -4161,6 +4312,10 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             esc(&n.part),
             esc(&toks)
         );
+        let so = n
+            .stroke_opacity
+            .map(|o| format!(" stroke-opacity=\"{o}\""))
+            .unwrap_or_default();
         match n.kind.as_str() {
             "box" => {
                 if let Some(r) = n.radii {
@@ -4187,7 +4342,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     if let Some(r) = n.radii {
                         let _ = write!(
                             s,
-                            "<path d=\"{}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\"/>",
+                            "<path d=\"{}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\"{so}/>",
                             rounded_path(
                                 n.x + i,
                                 n.y + i,
@@ -4201,7 +4356,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     } else {
                         let _ = write!(
                             s,
-                            "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\"/>",
+                            "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\"{so}/>",
                             n.x + i,
                             n.y + i,
                             n.w - n.stroke_width,
@@ -4216,7 +4371,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             "ring" => {
                 let _ = write!(
                     s,
-                    "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\"/>",
+                    "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\"{so}/>",
                     n.x,
                     n.y,
                     n.w,

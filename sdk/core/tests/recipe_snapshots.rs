@@ -356,6 +356,7 @@ recipe_tests! {
     progress_bar => "progress-bar",
     progress_circle => "progress-circle",
     radio_button => "radio-button",
+    swatch => "swatch",
     switch => "switch",
 }
 
