@@ -624,6 +624,12 @@
     "hideLabel=true,isIndeterminate=true,staticColor=\"black\"": "56c865e34be7c8f6",
     "hideLabel=true,isIndeterminate=true,staticColor=\"white\"": "334e441bb8eef958"
   },
+  "progress-circle": {
+    "isIndeterminate=false,staticColor=\"black\"": "f0dfdf9cba3a24e4",
+    "isIndeterminate=false,staticColor=\"white\"": "ae7cbd69a9f8ea98",
+    "isIndeterminate=true,staticColor=\"black\"": "ec845a740bf6f93a",
+    "isIndeterminate=true,staticColor=\"white\"": "59d7cdb7fbffc8f2"
+  },
   "radio-button": {
     "isDisabled=false,isEmphasized=false,isSelected=false": "d93bd40b67688387",
     "isDisabled=false,isEmphasized=false,isSelected=true": "01f286f873a5c5af",

@@ -84,7 +84,17 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
         ],
     ),
     ("icon", &["color", "width", "height", "rotation"]),
-    ("progress", &["color", "width", "height", "trackColor"]),
+    (
+        "progress",
+        &[
+            "color",
+            "width",
+            "height",
+            "trackColor",
+            "strokeWidth",
+            "sweep",
+        ],
+    ),
     (
         "text",
         &[
@@ -267,6 +277,9 @@ pub struct SceneNode {
     pub fill: Option<String>,
     pub stroke: Option<String>,
     pub stroke_width: f64,
+    /// Fraction of a `progress` ring the arc covers (0 to 1); unset draws the fixed spinner arc.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sweep: Option<f64>,
     pub radius: f64,
     /// Per-corner radii `[top-left, top-right, bottom-right, bottom-left]` (left-to-right),
     /// set only when the corners differ.
@@ -2487,6 +2500,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         stroke: Option<String>,
         fill: Option<String>,
         stroke_width: f64,
+        sweep: Option<f64>,
         radius: Option<Resolved>,
         tokens: Vec<TokenRef>,
         row: Option<Row>,
@@ -2564,6 +2578,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             stroke: None,
             fill: None,
             stroke_width: 0.0,
+            sweep: None,
             radius: None,
             tokens,
             row: None,
@@ -2677,6 +2692,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             fill: None,
                             stroke: None,
                             stroke_width: 0.0,
+                            sweep: None,
                             radius: 0.0,
                             radii: None,
                             text: None,
@@ -2882,6 +2898,10 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     let tc = rp(&mut cx, part, "trackColor");
                     track(&mut c.tokens, "trackColor", &tc);
                     c.stroke = tc.map(|t| t.value);
+                    let psw = rp(&mut cx, part, "strokeWidth");
+                    track(&mut c.tokens, "strokeWidth", &psw);
+                    c.stroke_width = psw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                    c.sweep = rp(&mut cx, part, "sweep").as_ref().and_then(Resolved::num);
                 }
             }
             "text" => {
@@ -3066,6 +3086,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         fill: fill.map(|f| f.value),
         stroke: stroke.map(|s| s.value),
         stroke_width: stroke_w.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+        sweep: None,
         radius: root_radius,
         radii,
         text: None,
@@ -3227,6 +3248,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             fill: c.fill,
             stroke: c.stroke,
             stroke_width: c.stroke_width,
+            sweep: c.sweep,
             radius: 0.0,
             radii: None,
             text: c.text,
@@ -3329,6 +3351,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     fill: None,
                     stroke: None,
                     stroke_width: 0.0,
+                    sweep: None,
                     radius: 0.0,
                     radii: None,
                     text: None,
@@ -3387,6 +3410,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 fill: nfill.map(|f| f.value),
                 stroke: nstroke.map(|s| s.value),
                 stroke_width: nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+                sweep: None,
                 radius: clamp_radius(px(&nradius, h2), w2, h2),
                 radii: None,
                 text: None,
@@ -3420,6 +3444,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             fill: None,
             stroke: None,
             stroke_width: 0.0,
+            sweep: None,
             radius: 0.0,
             radii: None,
             text: None,
@@ -3545,6 +3570,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             fill: None,
             stroke: stroke.map(|s| s.value),
             stroke_width: sw_n,
+            sweep: None,
             radius: r0 + off,
             radii: None,
             text: None,
@@ -3746,6 +3772,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         fill: None,
         stroke: None,
         stroke_width: 0.0,
+        sweep: None,
         radius: 0.0,
         radii: None,
         text: None,
@@ -4110,18 +4137,29 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                 );
             }
             "progress" => {
-                let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
-                let r = n.w.min(n.h) / 2.0 - n.w.min(n.h) / 18.0;
-                let sw = (n.w.min(n.h) / 9.0).max(1.0);
+                let (cx, cy, r, sw) = progress_geometry(n);
+                let sweep = n.sweep.unwrap_or(0.25);
+                let end = sweep * std::f64::consts::TAU;
+                let round = |v: f64| (v * 1e6).round() / 1e6;
+                let color = esc(n.color.as_deref().unwrap_or("currentColor"));
+                let arc = if sweep >= 1.0 {
+                    format!("<circle cx=\"{cx}\" cy=\"{cy}\" r=\"{r}\" stroke=\"{color}\"/>")
+                } else if sweep > 0.0 {
+                    format!(
+                        "<path d=\"M{} {}A{r} {r} 0 {} 1 {} {}\" stroke=\"{color}\" stroke-linecap=\"round\"/>",
+                        cx,
+                        cy - r,
+                        u8::from(sweep > 0.5),
+                        if n.sweep.is_some() { round(cx + r * end.sin()) } else { cx + r },
+                        if n.sweep.is_some() { round(cy - r * end.cos()) } else { cy }
+                    )
+                } else {
+                    String::new()
+                };
                 let _ = write!(
                     s,
-                    "<g {attrs} fill=\"none\" stroke-width=\"{sw}\"><circle cx=\"{cx}\" cy=\"{cy}\" r=\"{r}\" stroke=\"{}\"/><path d=\"M{} {}A{r} {r} 0 0 1 {} {}\" stroke=\"{}\" stroke-linecap=\"round\"/></g>",
-                    esc(n.stroke.as_deref().unwrap_or("none")),
-                    cx,
-                    cy - r,
-                    cx + r,
-                    cy,
-                    esc(n.color.as_deref().unwrap_or("currentColor"))
+                    "<g {attrs} fill=\"none\" stroke-width=\"{sw}\"><circle cx=\"{cx}\" cy=\"{cy}\" r=\"{r}\" stroke=\"{}\"/>{arc}</g>",
+                    esc(n.stroke.as_deref().unwrap_or("none"))
                 );
             }
             "icon" => {
@@ -4141,6 +4179,19 @@ pub fn scene_to_svg(scene: &Scene) -> String {
     }
     s.push_str("</svg>");
     s
+}
+
+/// Center, ring radius and stroke width of a `progress` node. A bound `strokeWidth` is the
+/// thickness; otherwise a ninth of the diameter. The ring sits inside the box, so its radius is
+/// half the diameter less half the stroke.
+pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
+    let side = n.w.min(n.h);
+    let sw = if n.stroke_width > 0.0 {
+        n.stroke_width
+    } else {
+        (side / 9.0).max(1.0)
+    };
+    (n.x + n.w / 2.0, n.y + n.h / 2.0, side / 2.0 - sw / 2.0, sw)
 }
 
 /// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
@@ -4565,6 +4616,52 @@ mod tests {
             at(&[("value", n(0.5)), ("valueLabel", "Half".into())]),
             (50.0, "Half".into())
         );
+    }
+
+    #[test]
+    fn a_progress_sweep_draws_an_arc_of_a_fraction_and_unset_keeps_the_spinner_frame() {
+        let frac = serde_json::json!({ "value": "value" });
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "children": ["p"] }, "p": { "kind": "progress", "props": {
+                "width": lit(32.into()), "height": lit(32.into()),
+                "strokeWidth": lit(3.into()),
+                "color": lit("#0000ff".into()), "trackColor": lit("#cccccc".into()),
+                "sweep": [{ "when": { "options": { "isIndeterminate": false } }, "fraction": frac }]
+            } } }
+        });
+        let (read, _) = recipe_options(&recipe);
+        assert!(read.iter().any(|r| r == "value"), "{read:?}");
+        let svg = |opts: &[(&str, Value)]| {
+            let (g, _) = load();
+            let mut r = req(&[]);
+            r.options = opts
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            let s = build_scene(&g, &recipe, &r).unwrap();
+            (part(&s, "p").unwrap().sweep, scene_to_svg(&s))
+        };
+        let n = |v: f64| serde_json::json!(v);
+        // Radius is (32 - 3) / 2 = 14.5: the ring sits inside the box.
+        let (sweep, s) = svg(&[("value", n(0.5))]);
+        assert_eq!(sweep, Some(0.5));
+        assert!(
+            s.contains("r=\"14.5\"") && s.contains("stroke-width=\"3\""),
+            "{s}"
+        );
+        // Half: from the top to the bottom, clockwise, small-arc flag 0.
+        assert!(s.contains("M24 9.5A14.5 14.5 0 0 1 24 38.5"), "{s}");
+        // Three quarters takes the large arc.
+        assert!(svg(&[("value", n(0.75))]).1.contains("0 1 1 9.5 24"));
+        // Nothing at 0, a full ring at 1, and past the range is clamped.
+        assert!(!svg(&[]).1.contains("<path"));
+        assert_eq!(svg(&[("value", n(2.0))]).0, Some(1.0));
+        assert!(!svg(&[("value", n(1.0))]).1.contains("<path"));
+        // Indeterminate matches no entry: the fixed quarter-arc frame.
+        let (sweep, s) = svg(&[("isIndeterminate", true.into()), ("value", n(0.9))]);
+        assert_eq!(sweep, None);
+        assert!(s.contains("M24 9.5A14.5 14.5 0 0 1 38.5 24"), "{s}");
     }
 
     #[test]

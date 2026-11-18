@@ -199,6 +199,47 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Progress circle: the arc is a share of the ring from 12 o'clock, clockwise. The defaults (no
+    // value) show an empty ring; these show a half ring, the indeterminate frame, a large
+    // three-quarter ring and a static white and black one.
+    if name == "progress-circle" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        type Case<'a> = (&'static str, &'a [(&'a str, Value)], &'a str);
+        let cases: [Case; 5] = [
+            ("half", &[("value", 0.5.into())], "light"),
+            (
+                "indeterminate",
+                &[("isIndeterminate", true.into())],
+                "light",
+            ),
+            (
+                "large-three-quarters",
+                &[("size", "l".into()), ("value", 0.75.into())],
+                "light",
+            ),
+            (
+                "static-white-small",
+                &[
+                    ("size", "s".into()),
+                    ("value", 0.25.into()),
+                    ("staticColor", "white".into()),
+                ],
+                "dark",
+            ),
+            (
+                "static-black-full",
+                &[("value", 1.into()), ("staticColor", "black".into())],
+                "light",
+            ),
+        ];
+        for (label, opts, scheme) in cases {
+            out.push((label, req(vec![], with(opts), scheme, "desktop")));
+        }
+    }
     // Meter: variants set the fill colour through relationships, and a static colour must win over
     // the variant. The defaults (no value) show an empty bar.
     if name == "meter" {
