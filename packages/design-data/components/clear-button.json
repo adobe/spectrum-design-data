@@ -69,9 +69,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Proposed from React Spectrum ClearButton.tsx (round, transparent, inset focus ring) and SWC 1st-gen sp-clear-button. Same parts as close-button: the cross is the icon. Figma draws no clear button, only a bare cross glyph inside the tag. Waiting for owner review."
+    "notes": "From React Spectrum ClearButton.tsx (round, transparent, inset focus ring) and SWC 1st-gen sp-clear-button. Same parts as close-button: the cross is the icon. Figma draws no clear button, only a bare cross glyph inside the tag."
   },
   "states": [
     {
