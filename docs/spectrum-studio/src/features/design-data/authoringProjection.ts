@@ -29,6 +29,7 @@ export function projectSnapshot(
             ...(snapshot.opacity && { opacity: snapshot.opacity }),
             color: snapshot.colorSystem,
             typography: snapshot.typography,
+            icons: snapshot.icons ?? defaults.system.foundations.icons,
             spacing: snapshot.spacing ?? defaults.system.foundations.spacing,
             size: snapshot.size ?? defaults.system.foundations.size,
             radius: snapshot.radius ?? defaults.system.foundations.radius,

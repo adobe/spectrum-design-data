@@ -52,6 +52,13 @@ export const CHANGE_DOMAINS = {
     label: "Typography",
     sourceKind: "typography",
   },
+  icons: {
+    topic: "foundations",
+    category: "icons",
+    label: "Icons",
+    sourceKind: "icons-scale",
+    collection: "scales",
+  },
   spacing: {
     topic: "foundations",
     category: "spacing",
@@ -183,6 +190,7 @@ const TOPIC_LABELS: Record<ChangeTopic, string> = {
 export const FOUNDATION_LABELS: Record<string, string> = {
   color: "Color",
   typography: "Typography",
+  icons: "Icons",
   spacing: "Spacing",
   size: "Size",
   radius: "Corner radius",

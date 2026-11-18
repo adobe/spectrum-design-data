@@ -162,6 +162,78 @@ Reusable pieces that live outside `components/` (reuse them, do not copy):
 `panels/registry/SourceNameEditor.tsx`, `panels/foundations/DimensionFoundationPanel.tsx`,
 `panels/components/ComponentsPanel.tsx`.
 
+## Foundations preview standards
+
+Every Foundations tab and its View area follow these patterns. Reuse the
+shared owners instead of restyling per view.
+
+- **First accordion item:** the first item in every Foundations panel has no
+  top border. Apply `firstAccordionItemStyle` from `panels/accordionStyles.ts`.
+  `FoundationModeSettings` does this when nothing is passed in `before`.
+- **Preview controls:** mode pickers and adaptive controls live in the View
+  header, at the end of the `ViewSwitcher` row (`PreviewToolbar
+  placement="header"`), on every view. Do not add a second toolbar or an
+  overlay inside a view. Choosing a mode from a panel's Mode sets item still
+  switches the preview mode.
+- **Labels:** every scale label (indices, token names, values, contrasts,
+  deviations, opacities, sizes, shadow values and table columns) uses
+  `previewLabelStyles` from `views/previewLabelStyles.ts` (12 px, detail,
+  80% opacity). Scale names, such as "Cinnamon", use `previewScaleNameStyles`
+  (16 px bold). Do not set `font-size` for preview labels in CSS.
+- **System background:** the `elementsSurfaceStyles` class, the
+  `elementsSurfaceStyleAtom` style and `data-elements-surface` go on the
+  element that holds the samples, not on a padded outer wrapper.
+- **Theme color on samples:** text, bars and icons take the surface color.
+  S2 icons use `iconStyle({ color: "white" | "black" })` chosen from the
+  surface text color (`surfaceIconTone()` in `fields/IconSamplePicker.tsx`).
+- **Swatches:** color and opacity swatches and their label columns are 110 px
+  wide (`views/color-system/alignedSwatchStyles.ts`).
+- **Dimension scales:** spacing and size show one column per step, left to
+  right, with bars sharing a baseline. Bar height is the value; the index sits
+  above the px value under each bar (`views/spacing/SpacingBar.tsx`).
+- **Shadow values:** when Show values is on, show plain lines with no
+  disclosure: `blur: Xpx`, `vertical offset: Ypx`, `opacity: Z%`. Add the
+  layer name above them only when a level has more than one layer.
+- **Optional table columns:** a Show menu column that is off collapses
+  completely, and its related header control is hidden. Metric columns that
+  are off keep their space so samples don't shift.
+
+## Analyze view standards
+
+Every Analyze view (Color, Data vis, Opacity, Typography, Icons, Spacing,
+Size, Radius, Elevation) uses the shared layout in
+`views/analyze/AnalyzeLayout.tsx`. Don't build page headers, cards or values
+tables by hand.
+
+- **Order:** `AnalyzePage` (title, then the optional badge), tabs if the page
+  has them, one `AnalyzeSettings` row, then an `AnalyzeCardGrid` of
+  `ChartCard`s. Notes and status messages go inside the card they explain.
+- **Shared scale strip:** a swatch strip that every card refers to (such as
+  the Opacity scale) sits between the settings row and the card grid, full
+  width and outside any card.
+- **Title:** the foundation name only ("Color", "Data vis", "Opacity").
+- **Badge:** "Preview data" shows only when the charts on screen depend on an
+  adaptive or mode setting moved off its published value. Use
+  `usePreviewData([...])` with the page's setting patterns, such as
+  `"opacity.*"`. Pages whose data comes from documents (Typography, Icons)
+  show no badge.
+- **Settings row:** settings that change every chart on the page. Pages with
+  several scales put a Scale picker first ("Icon scale" for Icons), with
+  "All scales" as its first option where an overview exists.
+- **Card settings:** a setting that changes only one chart goes in that
+  card's header (`ChartCard settings`).
+- **Show values:** each card that has a chart gets its own values table via
+  `ChartCard values` and `AnalyzeValuesTable`. There's no page-wide Show
+  values button. Name tables `<subject> values`.
+- **Wording:** "By setting" / "By token", and "Settings shown" / "Tokens
+  shown". Don't use "Lines", "Overview" / "Detail" or "By scale".
+- **Compare (Typography, Icons):** list each mode set that manages the
+  foundation by name (such as "Scale" or "Text size"), then "Adaptive
+  settings". Compare one mode set at a time and hold the others at their
+  default modes. Never combine mode sets on one axis.
+- **Grid:** one card fills the width; two or more cards sit side by side at
+  1000 px and wider.
+
 ## Existing inconsistencies (not precedent)
 
 Raw S2 components are still used where a wrapper exists, in about 15 files for

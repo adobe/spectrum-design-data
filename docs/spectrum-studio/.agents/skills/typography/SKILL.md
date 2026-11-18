@@ -21,8 +21,10 @@ formula, rounding rules and interpolations, and `modes` for dials.
 - `lineHeights` are cards: a `defaultValue` multiplier and an optional adaptive mapping from font size
   to multiplier (an interpolation from the library). Each card produces a length token and a unitless
   token. `previewLineHeightId` picks the Elements sample.
-- `iconography` aligns icon size either to text (a second scale from `baseSize`) or to a line-height
-  card's length.
+- Icon sizes moved to the Icons foundation (`features/icons`, schema 12). Each icon scale's
+  `source` is Follow Typography (the Type scale from `base`), Formula, or a line-height card's
+  length. Icons scales that use a line height are reported by `lineHeightConsumers`, and removing that
+  card moves them to the replacement. `splitTypographyIconography` upgrades schema 11 documents.
 - Metric names (`metricNames`) are Registry references (`TaxonomyNameReference`), not strings; names are
   projections (see `taxonomy-vocabulary`). New metrics register terms through the contributions path.
 - `isTypographyDocument` is the shape guard. Schema or field changes need a lossless upgrade and the
@@ -43,9 +45,11 @@ described in `modes`.
 
 ## One generation path
 
-`generateTypography(document, textZoom, rules, scaleTypes, interpolations)`
+`generateTypography(document, textZoom, rules, scaleTypes, interpolations, icons)`
 (`typographyGeneration.ts`) is the only path. Call it; do not recompute sizes. It builds on
-`generateScale` (`formula-engine`), clamps, then derives line heights and icon sizes. Each output token
+`generateScale` (`formula-engine`), clamps, then derives line heights. Each output token's
+`iconSize` comes from the Icons foundation's Workflow scale (`features/icons/generate.ts`,
+`workflowIconSizes`), so pass the current Icons document. Each output token
 has `position`, `scale` (step name), `fontSize`, `lineHeights` by card id, `iconSize`, `ratio` and
 `textZoom`.
 

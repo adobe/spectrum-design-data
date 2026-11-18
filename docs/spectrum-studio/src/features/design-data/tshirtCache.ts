@@ -35,6 +35,7 @@ export function tshirtCacheSource(source: TshirtAuthoringSource) {
     namingProfile: "leonardo-structure-naming-v2",
     color: source.colorSystem,
     typography: source.typography,
+    icons: source.icons,
     spacing: source.spacing,
     size: source.size,
     radius: source.radius,

@@ -28,6 +28,8 @@ import {
 } from "../taxonomy/naming";
 import { typographyTokenGroups } from "../typography/typographyTokens";
 import { isTypographyDocument } from "../typography/model";
+import { isIconsDocument } from "../icons/model";
+import { upgradeIconsFoundation } from "../icons/upgrade";
 import { assertFoundationGovernance } from "../taxonomy/foundationGovernance";
 import { DIMENSION_SCOPES } from "../taxonomy/model";
 import { isElevationDocument } from "../elevation/model";
@@ -95,6 +97,7 @@ export function canonicalDesignSystemDataset(
         radius: canonicalDimensionDocument(foundations.radius),
         elevation: foundations.elevation,
         typography: { ...foundations.typography, metricNames: { ...metrics } },
+        icons: foundations.icons,
       },
     },
   };
@@ -115,7 +118,9 @@ export function composeDesignSystemDefaults(
     input = {
       ...input,
       system: upgradeScaleKeys(
-        upgradeNativeSizingFields(upgradeTokenTierData(input.system)),
+        upgradeNativeSizingFields(
+          upgradeTokenTierData(upgradeIconsFoundation(input.system)),
+        ),
       ),
     };
   if (!validateShape(input)) {
@@ -174,6 +179,7 @@ export function composeDesignSystemDefaults(
             ...dataset.system.foundations.typography,
             fonts: namedFonts.fonts,
           },
+          icons: dataset.system.foundations.icons,
           spacing: {
             ...dataset.system.foundations.spacing,
             scales: dataset.system.foundations.spacing.scales.map((source) =>
@@ -523,6 +529,32 @@ export function composeDesignSystemDefaults(
         interpolationIds,
         `/system/scaleTypes/${formula.id}`,
       );
+  const icons = foundations.icons;
+  if (!isIconsDocument(icons))
+    issues.push("/system/foundations/icons: invalid Icons settings or scales");
+  else {
+    reference(
+      icons.roundingRuleId,
+      roundingRuleIds,
+      "/system/foundations/icons/roundingRuleId",
+    );
+    const lineHeightIds = new Set(
+      typography.lineHeights.map((card) => card.id),
+    );
+    for (const scale of icons.scales) {
+      reference(
+        scale.scaleTypeId,
+        formulaIds,
+        `/system/foundations/icons/${scale.id}/scaleTypeId`,
+      );
+      if (scale.source === "line-height")
+        reference(
+          scale.lineHeightId ?? "",
+          lineHeightIds,
+          `/system/foundations/icons/${scale.id}/lineHeightId`,
+        );
+    }
+  }
   for (const foundation of DIMENSION_SCOPES) {
     const document = foundations[foundation];
     unique(document.scales, `/system/foundations/${foundation}/scales`);

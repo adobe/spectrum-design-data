@@ -68,6 +68,7 @@ export type FoundationKind =
   | "surface"
   | "settings"
   | "typography"
+  | "icons-scale"
   | "spacing-scale"
   | "size-scale"
   | "radius-scale"

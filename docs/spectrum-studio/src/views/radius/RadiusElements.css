@@ -34,5 +34,6 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  white-space: normal;
   overflow-wrap: anywhere;
 }

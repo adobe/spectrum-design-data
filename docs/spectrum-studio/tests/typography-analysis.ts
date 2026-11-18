@@ -7,6 +7,7 @@ import type { Mode, ModeSet } from "../src/features/modes/model";
 import { SCALE_TYPE_DEFAULTS } from "../src/features/scales/scaleType";
 import { generateScale } from "../src/features/scales/generate";
 import { TYPOGRAPHY_DEFAULTS } from "../src/features/typography/defaults";
+import { iconsFromTypographyIconography } from "../src/features/icons/upgrade";
 import { TYPOGRAPHY_INTERPOLATIONS } from "../src/features/typography/lineHeightInterpolations";
 import {
   buildTypeScaleComparisons,
@@ -71,18 +72,25 @@ for (const outputUnit of TYPOGRAPHY_UNITS) {
       ...structuredClone(TYPOGRAPHY_DEFAULTS),
       outputUnit,
       textZoom: 3,
+    };
+    const icons = iconsFromTypographyIconography({
+      ...document,
       iconography:
         alignment === "text"
           ? { alignment, baseSize: 18 }
           : { alignment, baseSize: 18, lineHeightId: "heading" },
-    };
+    });
     const before = structuredClone(document);
-    const datasets = buildTypographyComparisons(
-      document,
-      sets,
-      registry,
-      library,
+    const datasets = buildTypographyComparisons(document, sets, registry, {
+      ...library,
+      icons,
+    });
+    assert.deepEqual(
+      datasets.modes!.map((set) => [set.id, set.name]),
+      [[owner.id, owner.name]],
+      "Only mode sets that manage typography are offered.",
     );
+    const named = datasets.modes![0].data;
     assert.equal(datasets.zoom.settings.length, 13);
     assert.equal(
       datasets.zoom.settings.filter((setting) => setting.isRequired).length,
@@ -93,12 +101,12 @@ for (const outputUnit of TYPOGRAPHY_UNITS) {
       3,
     );
     assert.equal(
-      datasets.modes!.settings.find((setting) => setting.isRequired)!.textZoom,
+      named.settings.find((setting) => setting.isRequired)!.textZoom,
       3,
       "Default mode inherits the shared base, not its stale override.",
     );
     assert.deepEqual(
-      datasets.modes!.settings.map((setting) => setting.id),
+      named.settings.map((setting) => setting.id),
       ["smaller", "default", "large", "same"],
     );
     assert.equal(defaultComparisonSelection(datasets.zoom.settings).length, 3);
@@ -107,8 +115,8 @@ for (const outputUnit of TYPOGRAPHY_UNITS) {
       datasets.zoom.steps.map((step) => step.id),
     );
     assert.deepEqual(
-      defaultComparisonSelection(datasets.modes!.steps, "tokens"),
-      datasets.modes!.steps.map((step) => step.id),
+      defaultComparisonSelection(named.steps, "tokens"),
+      named.steps.map((step) => step.id),
     );
     assert.deepEqual(comparisonSelection(datasets.zoom.settings, []), [
       "zoom:3",
@@ -116,7 +124,7 @@ for (const outputUnit of TYPOGRAPHY_UNITS) {
     assert.deepEqual(comparisonSelection(datasets.zoom.steps, ["removed"]), [
       "100",
     ]);
-    for (const dataset of [datasets.zoom, datasets.modes!]) {
+    for (const dataset of [datasets.zoom, named]) {
       for (const [row, setting] of dataset.settings.entries()) {
         const expected = generateTypography(
           document,
@@ -124,6 +132,7 @@ for (const outputUnit of TYPOGRAPHY_UNITS) {
           library.rules,
           library.scaleTypes,
           library.interpolations,
+          icons,
         );
         for (const [column, token] of expected.entries()) {
           assert.equal(
@@ -187,14 +196,8 @@ for (const outputUnit of TYPOGRAPHY_UNITS) {
         );
       }
     }
-    assert.deepEqual(
-      datasets.modes!.metrics[0].rows[2],
-      datasets.modes!.metrics[0].rows[3],
-    );
-    assert.notEqual(
-      datasets.modes!.settings[2].id,
-      datasets.modes!.settings[3].id,
-    );
+    assert.deepEqual(named.metrics[0].rows[2], named.metrics[0].rows[3]);
+    assert.notEqual(named.settings[2].id, named.settings[3].id);
     assert.deepEqual(document, before);
   }
 }

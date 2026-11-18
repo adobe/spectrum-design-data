@@ -45,6 +45,8 @@ import { SIZE_DEFAULTS } from "../size/defaults";
 import { sizeDocumentAtom } from "../size/state";
 import { radiusDocumentAtom } from "../radius/state";
 import { RADIUS_DEFAULTS } from "../radius/defaults";
+import { iconsDocumentAtom } from "../icons/documentState";
+import { ICONS_DEFAULTS } from "../icons/defaults";
 import {
   RULE_DEFAULTS,
   removeRuleAtom,
@@ -461,6 +463,7 @@ function referenceDocuments(get: Getter): RuleReferenceDocuments {
     spacing: get(spacingDocumentAtom),
     size: get(sizeDocumentAtom),
     radius: get(radiusDocumentAtom),
+    icons: get(iconsDocumentAtom),
   };
 }
 
@@ -473,6 +476,7 @@ function repointToShippedRules(get: Getter, set: Setter, onlyRuleId?: string) {
       spacing: SPACING_DEFAULTS,
       size: SIZE_DEFAULTS,
       radius: RADIUS_DEFAULTS,
+      icons: ICONS_DEFAULTS,
     }).map((consumer) => [consumer.id, consumer.ruleId]),
   );
   const documents = referenceDocuments(get);
@@ -1330,6 +1334,7 @@ export const revertChangeTopicAtom = atom(
       set(colorSystemDocumentAtom, structuredClone(defaultColorDocument));
       removeColorTokenRecords(get, set, categoricalIds);
       set(typographyDocumentAtom, structuredClone(TYPOGRAPHY_DEFAULTS));
+      set(iconsDocumentAtom, structuredClone(ICONS_DEFAULTS));
       set(spacingDocumentAtom, structuredClone(SPACING_DEFAULTS));
       set(sizeDocumentAtom, structuredClone(SIZE_DEFAULTS));
       set(radiusDocumentAtom, structuredClone(RADIUS_DEFAULTS));

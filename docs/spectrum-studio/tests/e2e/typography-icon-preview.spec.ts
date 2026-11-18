@@ -15,6 +15,18 @@ test.afterEach(async ({ page }) => {
   expect(errors.get(page)).toEqual([]);
 });
 
+/** The Sample icon column starts hidden; turn it on from the Show menu. */
+async function showSampleIcon(page: Page) {
+  await expect(
+    page.getByRole("combobox", { name: "Sample icon", exact: true }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: /Show$/ }).press("Enter");
+  await page
+    .getByRole("option", { name: "Sample icon", exact: true })
+    .press("Space");
+  await page.keyboard.press("Escape");
+}
+
 async function openTypography(
   page: Page,
   width: number,
@@ -59,6 +71,7 @@ async function openTypography(
     .getByRole("navigation", { name: "Navigation" })
     .getByRole("button", { name: "Collapse", exact: true })
     .press("Enter");
+  await showSampleIcon(page);
   await expect(page.locator(".typographyElementIcon svg")).toHaveCount(
     generateTypography(snapshot.typography).length,
   );
@@ -120,10 +133,10 @@ for (const width of [1600, 480]) {
       expect(row.iconWidth).toBeCloseTo(expected[index].iconSize, 2);
       expect(row.iconHeight).toBeCloseTo(expected[index].iconSize, 2);
     }
-    const labels = ["Font size", "Line height", "Icon size"];
-    const metrics = ["font-size", "line-height", "icon-size"];
-    let mask = 7;
-    for (const next of [0, 1, 2, 3, 4, 5, 6, 7]) {
+    const labels = ["Font size", "Line height"];
+    const metrics = ["font-size", "line-height"];
+    let mask = 3;
+    for (const next of [0, 1, 2, 3]) {
       await page.getByRole("button", { name: /Show$/ }).press("Enter");
       for (let index = 0; index < labels.length; index++) {
         if (Boolean(mask & (1 << index)) !== Boolean(next & (1 << index))) {
@@ -238,12 +251,17 @@ for (const width of [1600, 480]) {
       .dispatchEvent("click");
     await expect(
       page.getByRole("combobox", { name: "Sample icon" }),
-    ).toHaveValue("Home");
+    ).toHaveCount(0);
+    await expect(page.locator(".typographyElementIcon")).toHaveCount(0);
     await expect(
       page.locator(
         ".typographyElementHeader .typographyElementValue[aria-hidden='false']",
       ),
-    ).toHaveCount(3);
+    ).toHaveCount(2);
+    await showSampleIcon(page);
+    await expect(
+      page.getByRole("combobox", { name: "Sample icon" }),
+    ).toHaveValue("Home");
   });
 }
 
@@ -331,9 +349,10 @@ test("Icon size Analysis chart and values follow the independent icon line-heigh
     analysis.getByRole("heading", { name: "Icon size (px)", exact: true }),
   ).toBeVisible();
   await analysis
+    .getByRole("region", { name: "Icon size chart", exact: true })
     .getByRole("button", { name: "Show values", exact: true })
     .click();
-  const table = analysis.getByRole("table", { name: "Type scale values" });
+  const table = analysis.getByRole("table", { name: "Icon size values" });
   await expect(
     table.getByRole("columnheader", { name: "Icon size", exact: true }),
   ).toHaveCount(1);
@@ -390,6 +409,7 @@ test("Adaptive text size updates icon samples without changing authored Analysis
   await page
     .getByRole("radio", { name: "Elements", exact: true })
     .dispatchEvent("click");
+  await showSampleIcon(page);
   await expect(page.locator(".typographyRampPreview")).toHaveAttribute(
     "data-text-zoom",
     "3",
@@ -407,6 +427,7 @@ test("Adaptive text size updates icon samples without changing authored Analysis
     .dispatchEvent("click");
   const analysis = page.locator('[data-component="TypographyAnalyze"]');
   await analysis
+    .getByRole("region", { name: "Icon size chart", exact: true })
     .getByRole("button", { name: "Show values", exact: true })
     .click();
   const cells = await analysis
@@ -421,9 +442,9 @@ test("Adaptive text size updates icon samples without changing authored Analysis
   );
   await analysis.getByRole("button", { name: /Compare$/ }).click();
   await page
-    .getByRole("option", { name: "Adaptive text scaling steps", exact: true })
+    .getByRole("option", { name: "Adaptive settings", exact: true })
     .click();
-  await analysis.getByRole("button", { name: /Lines$/ }).click();
+  await analysis.getByRole("button", { name: /Settings shown$/ }).click();
   await page.getByRole("option", { name: /Zoom 3/ }).click();
   await page.keyboard.press("Escape");
   const previewCells = await analysis

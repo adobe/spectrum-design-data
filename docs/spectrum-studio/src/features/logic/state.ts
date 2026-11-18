@@ -3,6 +3,7 @@ import { atom, type Getter, type Setter } from "jotai";
 import { spacingDocumentAtom } from "../spacing/state";
 import { sizeDocumentAtom } from "../size/state";
 import { radiusDocumentAtom } from "../radius/state";
+import { iconsDocumentAtom } from "../icons/documentState";
 import { typographyDocumentAtom } from "../typography/state";
 import {
   consumersOf,
@@ -43,6 +44,7 @@ const referenceDocumentsAtom = atom(
     spacing: get(spacingDocumentAtom),
     size: get(sizeDocumentAtom),
     radius: get(radiusDocumentAtom),
+    icons: get(iconsDocumentAtom),
     structures: get(structuresDocumentAtom),
     color: get(colorSystemDocumentAtom),
     styles: get(authoringSourceSnapshotAtom).styles,
@@ -62,6 +64,7 @@ export function writeReferences(
   set(spacingDocumentAtom, documents.spacing);
   if (documents.size) set(sizeDocumentAtom, documents.size);
   if (documents.radius) set(radiusDocumentAtom, documents.radius);
+  if (documents.icons) set(iconsDocumentAtom, documents.icons);
 }
 
 function writeRuleSources(
@@ -81,6 +84,9 @@ function writeRuleSources(
         : []),
       ...(documents.radius
         ? [["foundations/radius", documents.radius] as const]
+        : []),
+      ...(documents.icons
+        ? [["foundations/icons", documents.icons] as const]
         : []),
     ]),
     () => {

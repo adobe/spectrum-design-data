@@ -1,5 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { upgradeTypographyFontsSnapshot } from "../typography/fontsUpgrade";
+import { upgradeIconsSnapshot } from "../icons/upgrade";
+import { iconsDocumentAtom } from "../icons/documentState";
+import { ICONS_DEFAULTS } from "../icons/defaults";
+import { isIconsDocument, type IconsDocument } from "../icons/model";
 import { pendingLayoutScaleAtom } from "../structures/layoutScaleState";
 import { atom, type Getter } from "jotai";
 import {
@@ -220,6 +224,8 @@ export interface EditSessionSnapshot {
   taxonomy?: TaxonomyDocument;
   colorSystem: ColorSystemDocument;
   typography: TypographyDocument;
+  /** Optional only so the type accepts records before the Iconography upgrade; stored checks require it. */
+  icons?: IconsDocument;
   /** Optional so snapshots saved before spacing existed stay valid. */
   spacing?: SpacingDocument;
   /** Optional so snapshots saved before size existed stay valid. */
@@ -251,6 +257,7 @@ const snapshotValidators = {
   aliases: optionalSnapshotField(isAliasDocument),
   taxonomy: optionalSnapshotField(isTaxonomyDocument),
   typography: isTypographyDocument,
+  icons: optionalSnapshotField(isIconsDocument),
   spacing: optionalSnapshotField(isSpacingDocument),
   size: optionalSnapshotField(isSizeDocument),
   radius: optionalSnapshotField(isRadiusDocument),
@@ -291,7 +298,9 @@ export const editSessionSnapshotAtom =
     // v1 to v3 predate user-defined formulas, so their typography, spacing, size and formula library are upgraded together.
     migrate: (data, fromVersion) => {
       if (fromVersion >= 4 && fromVersion < AUTHORING_RECORD_VERSION) {
-        const upgraded = upgradeTypographyFontsSnapshot(data);
+        const upgraded = upgradeIconsSnapshot(
+          upgradeTypographyFontsSnapshot(data),
+        );
         return isSnapshot(upgraded) ? upgraded : null;
       }
       if (
@@ -337,7 +346,7 @@ export const editSessionSnapshotAtom =
         (Array.isArray(rest.scaleTypes) && !scaleTypes)
       )
         return null;
-      return {
+      return upgradeIconsSnapshot({
         ...rest,
         colorSystem,
         typography: upgradeTypographySizingDocument(migratedTypography),
@@ -347,7 +356,7 @@ export const editSessionSnapshotAtom =
         ...(Array.isArray(curves) && {
           interpolations: curves.map(upgradeLegacyInterpolation),
         }),
-      } as unknown as EditSessionSnapshot;
+      }) as unknown as EditSessionSnapshot;
     },
   });
 
@@ -360,6 +369,7 @@ function captureSourceSnapshot(get: Getter): EditSessionSnapshot {
     taxonomy: get(taxonomyDocumentAtom),
     colorSystem: get(colorSystemDocumentAtom),
     typography: get(typographyDocumentAtom),
+    icons: get(iconsDocumentAtom),
     spacing: get(spacingDocumentAtom),
     size: get(sizeDocumentAtom),
     radius: get(radiusDocumentAtom),
@@ -411,6 +421,7 @@ export function createDefaultSnapshot(): EditSessionSnapshot {
     taxonomy: structuredClone(designSystemDefaults.system.taxonomy),
     colorSystem: createColorDefaults(),
     typography: structuredClone(TYPOGRAPHY_DEFAULTS),
+    icons: structuredClone(ICONS_DEFAULTS),
     spacing: structuredClone(SPACING_DEFAULTS),
     size: structuredClone(SIZE_DEFAULTS),
     radius: structuredClone(RADIUS_DEFAULTS),
@@ -440,6 +451,7 @@ export function assertStoredSnapshot(
     !isSnapshot(value) ||
     value === null ||
     !value.taxonomy ||
+    !value.icons ||
     !value.spacing ||
     !value.size ||
     !value.radius ||
@@ -629,10 +641,12 @@ export function assertStoredSnapshot(
     ) ||
     !rules.has(value.typography.textRoundingRuleId) ||
     !rules.has(value.typography.lineHeightRoundingRuleId) ||
+    !rules.has(value.icons.roundingRuleId) ||
     [
       ...value.spacing.scales,
       ...value.size.scales,
       ...value.radius.scales,
+      ...value.icons.scales,
     ].some(
       (scale) =>
         !formulas.has(scale.scaleTypeId) || !rules.has(scale.roundingRuleId),
@@ -647,6 +661,7 @@ export function assertStoredSnapshot(
     value.rules,
     value.scaleTypes,
     value.interpolations,
+    value.icons,
   );
   const typographyCoordinates = [
     ...typographyReferenceCoordinates(value.typography),
@@ -732,6 +747,7 @@ export const restoreAuthoringSnapshotAtom = atom(
         snapshot.componentSizing ?? { ...COMPONENT_SIZING_DEFAULTS },
       );
       set(typographyDocumentAtom, snapshot.typography);
+      set(iconsDocumentAtom, snapshot.icons!);
       if (snapshot.spacing) set(spacingDocumentAtom, snapshot.spacing);
       if (snapshot.size) set(sizeDocumentAtom, snapshot.size);
       if (snapshot.radius) set(radiusDocumentAtom, snapshot.radius);
@@ -950,6 +966,7 @@ export const resetAllAuthoringAtom = atom(null, (get, set) => {
 const componentSourceFields: Record<string, keyof EditSessionSnapshot> = {
   "foundations/color": "colorSystem",
   "foundations/typography": "typography",
+  "foundations/icons": "icons",
   "foundations/spacing": "spacing",
   "foundations/size": "size",
   "foundations/radius": "radius",

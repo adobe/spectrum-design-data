@@ -30,6 +30,8 @@ import {
 } from "./scaleTypeLibrary";
 import { elevationDocumentAtom } from "../elevation/state";
 import type { ElevationDocument } from "../elevation/model";
+import type { IconScale, IconsDocument } from "../icons/model";
+import { iconsDocumentAtom } from "../icons/documentState";
 import {
   assertAuthoringUpdates,
   withValidatedAuthoringUpdates,
@@ -41,6 +43,13 @@ export interface ScaleTypeConsumer {
   label: string;
 }
 
+/** Line height icon scales read a Typography line height, so they use no formula. */
+function iconFormulaScales(icons?: IconsDocument) {
+  return (icons?.scales ?? []).filter(
+    (scale) => scale.source !== "line-height",
+  );
+}
+
 /** Every foundation scale that uses a formula; the source for "Used by", the delete guard and the fallback. */
 export function scaleTypeConsumers(
   spacing: SpacingDocument,
@@ -48,6 +57,7 @@ export function scaleTypeConsumers(
   typography?: TypographyDocument,
   radius?: RadiusDocument,
   elevation?: ElevationDocument,
+  icons?: IconsDocument,
 ): ScaleTypeConsumer[] {
   return [
     ...(typography
@@ -57,17 +67,16 @@ export function scaleTypeConsumers(
             scaleTypeId: typography.scaleTypeId,
             label: "Typography › Font sizes",
           },
-          ...(typography.iconography.alignment === "text"
-            ? [
-                {
-                  id: "typography/icons",
-                  scaleTypeId: typography.scaleTypeId,
-                  label: "Typography › Iconography",
-                },
-              ]
-            : []),
         ]
       : []),
+    ...iconFormulaScales(icons).map((scale) => ({
+      id: `icons/${scale.id}`,
+      scaleTypeId:
+        scale.source === "follow-typography"
+          ? TYPOGRAPHY_SCALE_TYPE_ID
+          : scale.scaleTypeId,
+      label: `Icons › ${scale.name}`,
+    })),
     ...spacing.scales.map((scale) => ({
       id: `spacing/${scale.id}`,
       scaleTypeId: scale.scaleTypeId,
@@ -98,10 +107,11 @@ export const scaleTypeConsumersAtom = atom((get) =>
     get(typographyDocumentAtom),
     get(radiusDocumentAtom),
     get(elevationDocumentAtom),
+    get(iconsDocumentAtom),
   ),
 );
 
-type Foundation = "typography" | DimensionScope;
+type Foundation = "typography" | "icons" | DimensionScope;
 
 export interface IgnoredOverride {
   consumer: ScaleTypeConsumer;
@@ -116,6 +126,7 @@ export function ignoredOverrides(
   spacing: SpacingDocument,
   size: SizeDocument,
   radius?: RadiusDocument,
+  icons?: IconsDocument,
 ): IgnoredOverride[] {
   const locked = draft.parameters.filter((parameter) => !parameter.overridable);
   const partsFor = (
@@ -132,24 +143,38 @@ export function ignoredOverrides(
     size,
     typography,
     radius,
+    undefined,
+    icons,
   ).filter((consumer) => consumer.scaleTypeId === draft.id);
+  const scales = (prefix: string, list: readonly DimensionScale[]) =>
+    list.map((scale) => [`${prefix}/${scale.id}`, scale] as const);
+  const byConsumer = new Map<
+    string,
+    Pick<DimensionScale, "parameters" | "base">
+  >([
+    ...scales("spacing", spacing.scales),
+    ...scales("size", size.scales),
+    ...scales("radius", radius?.scales ?? []),
+    // Follow Typography uses the Type scale's own parameters, so only its base can be overridden.
+    ...(icons?.scales ?? []).map(
+      (scale) =>
+        [
+          `icons/${scale.id}`,
+          scale.source === "formula"
+            ? scale
+            : { parameters: {}, base: scale.base },
+        ] as const,
+    ),
+  ]);
   return consumers.flatMap((consumer) => {
-    const parts =
-      consumer.id === "typography/text-size"
-        ? []
-        : (() => {
-            const scale = [
-              ...spacing.scales,
-              ...size.scales,
-              ...(radius?.scales ?? []),
-            ].find((candidate) => consumer.id.endsWith(`/${candidate.id}`));
-            return scale ? partsFor(scale.parameters, scale.base) : [];
-          })();
+    const scale = byConsumer.get(consumer.id);
+    const parts = scale ? partsFor(scale.parameters, scale.base) : [];
     return parts.length > 0 ? [{ consumer, parts }] : [];
   });
 }
 const SHIPPED_FORMULA: Readonly<Record<Foundation, string>> = {
   typography: TYPOGRAPHY_SCALE_TYPE_ID,
+  icons: TYPOGRAPHY_SCALE_TYPE_ID,
   spacing: SPACING_SCALE_TYPE_ID,
   size: SIZE_SCALE_TYPE_ID,
   radius: RADIUS_SCALE_TYPE_ID,
@@ -171,14 +196,14 @@ export function fallbackScaleTypeId(
 }
 
 /** Parameters, bindings and the base override belong to one formula, so a fallback starts from its own values. */
-function withFallback(
-  scale: DimensionScale,
+function withFallback<Scale extends DimensionScale | IconScale>(
+  scale: Scale,
   scaleTypeId: string,
-): DimensionScale {
+): Scale {
   const { bindings, base, ...rest } = scale;
   void bindings;
   void base;
-  return { ...rest, scaleTypeId, parameters: {} };
+  return { ...rest, scaleTypeId, parameters: {} } as Scale;
 }
 
 function typographyWithFallback(
@@ -192,14 +217,22 @@ function typographyWithFallback(
 
 export type RemovedScaleType = RemovedLibraryItem<ScaleType>;
 
-function mapScales(
-  get: Getter,
-  set: Setter,
-  transform: (
-    scale: DimensionScale,
-    foundation: DimensionScope,
-  ) => DimensionScale,
-) {
+type ScaleTransform = <Scale extends DimensionScale | IconScale>(
+  scale: Scale,
+  foundation: DimensionScope | "icons",
+) => Scale;
+
+/** Only Formula icon scales own their formula settings; the others follow Typography. */
+function iconsWithTransform(icons: IconsDocument, transform: ScaleTransform) {
+  const scales = icons.scales.map((scale) =>
+    scale.source === "formula" ? transform(scale, "icons") : scale,
+  );
+  return scales.some((scale, index) => scale !== icons.scales[index])
+    ? { ...icons, scales }
+    : icons;
+}
+
+function mapScales(get: Getter, set: Setter, transform: ScaleTransform) {
   const spacing = get(spacingDocumentAtom);
   const spacingScales = spacing.scales.map((scale) =>
     transform(scale, "spacing"),
@@ -214,6 +247,9 @@ function mapScales(
   const radiusScales = radius.scales.map((scale) => transform(scale, "radius"));
   if (radiusScales.some((scale, index) => scale !== radius.scales[index]))
     set(radiusDocumentAtom, { ...radius, scales: radiusScales });
+  const icons = get(iconsDocumentAtom);
+  const nextIcons = iconsWithTransform(icons, transform);
+  if (nextIcons !== icons) set(iconsDocumentAtom, nextIcons);
 }
 
 /** Deleting is refused while any foundation scale uses the formula; the editor lists where it is used. */
@@ -238,7 +274,7 @@ export const removeScaleTypeWithFallbackAtom = atom(
     const item = current.find((formula) => formula.id === id);
     if (!item || item.locked || id === TYPOGRAPHY_SCALE_TYPE_ID) return null;
     const library = current.filter((formula) => formula.id !== id);
-    const transform = (scale: DimensionScale, foundation: DimensionScope) =>
+    const transform: ScaleTransform = (scale, foundation) =>
       scale.scaleTypeId === id
         ? withFallback(scale, fallbackScaleTypeId(foundation, library))
         : scale;
@@ -253,6 +289,10 @@ export const removeScaleTypeWithFallbackAtom = atom(
     const updates = new Map<string, unknown>([
       ["logic/scale-types", library],
       ["foundations/typography", nextTypography],
+      [
+        "foundations/icons",
+        iconsWithTransform(get(iconsDocumentAtom), transform),
+      ],
     ]);
     for (const [scope, document] of [
       ["spacing", get(spacingDocumentAtom)],
@@ -283,6 +323,9 @@ export const normalizeScaleTypeReferencesAtom = atom(null, (get, set) => {
     ...get(spacingDocumentAtom).scales,
     ...get(sizeDocumentAtom).scales,
     ...get(radiusDocumentAtom).scales,
+    ...get(iconsDocumentAtom).scales.filter(
+      (scale) => scale.source === "formula",
+    ),
   ].some((scale) => !known.has(scale.scaleTypeId));
   if (!typographyMissing && !scalesMissing) return false;
   mapScales(get, set, (scale, foundation) =>
@@ -329,7 +372,10 @@ function alignLockedBindings(
   return changed ? next : bindings;
 }
 
-function withAlignedBindings(scale: DimensionScale, formula?: ScaleType) {
+function withAlignedBindings<Scale extends DimensionScale | IconScale>(
+  scale: Scale,
+  formula?: ScaleType,
+): Scale {
   const bindings =
     formula && alignLockedBindings(scale.bindings, formula, true);
   return bindings && bindings !== scale.bindings
@@ -341,7 +387,7 @@ export const replaceScaleTypeWithConsumersAtom = atom(
   null,
   (get, set, item: ScaleType) => {
     const library = scaleTypeLibraryWithReplacement(get, item);
-    const transform = (scale: DimensionScale) =>
+    const transform: ScaleTransform = (scale) =>
       withAlignedBindings(
         scale,
         library.find((formula) => formula.id === scale.scaleTypeId),
@@ -349,17 +395,26 @@ export const replaceScaleTypeWithConsumersAtom = atom(
     const spacing = get(spacingDocumentAtom);
     const size = get(sizeDocumentAtom);
     const radius = get(radiusDocumentAtom);
+    const icons = get(iconsDocumentAtom);
     const nextSpacing = {
       ...spacing,
-      scales: spacing.scales.map(transform),
+      scales: spacing.scales.map((scale) => transform(scale, "spacing")),
     };
-    const nextSize = { ...size, scales: size.scales.map(transform) };
-    const nextRadius = { ...radius, scales: radius.scales.map(transform) };
+    const nextSize = {
+      ...size,
+      scales: size.scales.map((scale) => transform(scale, "size")),
+    };
+    const nextRadius = {
+      ...radius,
+      scales: radius.scales.map((scale) => transform(scale, "radius")),
+    };
+    const nextIcons = iconsWithTransform(icons, transform);
     const updates = new Map<string, unknown>([
       ["logic/scale-types", library],
       ["foundations/spacing", nextSpacing],
       ["foundations/size", nextSize],
       ["foundations/radius", nextRadius],
+      ["foundations/icons", nextIcons],
     ]);
     withValidatedAuthoringUpdates(get, updates, () => {
       set(scaleTypesAtom, library);
@@ -375,6 +430,7 @@ export const replaceScaleTypeWithConsumersAtom = atom(
         nextRadius.scales.some((scale, index) => scale !== radius.scales[index])
       )
         set(radiusDocumentAtom, nextRadius);
+      if (nextIcons !== icons) set(iconsDocumentAtom, nextIcons);
     });
   },
 );

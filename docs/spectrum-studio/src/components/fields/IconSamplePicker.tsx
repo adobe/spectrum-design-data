@@ -6,24 +6,20 @@ import {
   Text,
   type TextFieldRef,
 } from "@react-spectrum/s2";
-import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import {
+  iconStyle as spectrumIconStyle,
+  style,
+} from "@react-spectrum/s2/style" with { type: "macro" };
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   spectrumIconLoaders,
   type SpectrumIconName,
 } from "../../features/icons/spectrumIconCatalog.generated";
 import { useIconSample } from "../../features/icons/useIconSample";
+import { SPECTRUM_ICON_OPTIONS } from "../../features/icons/iconSearch";
 import { fittedMenuWidth } from "./menuSizing";
 import "./IconSamplePicker.css";
 
-const items = (Object.keys(spectrumIconLoaders) as SpectrumIconName[]).map(
-  (id) => ({
-    id,
-    label: id
-      .replace(/([a-z])([A-Z])/g, "$1 $2")
-      .replace(/([A-Z])([A-Z][a-z])/g, "$1 $2"),
-  }),
-);
 const iconStyle = style({
   display: "flex",
   alignItems: "center",
@@ -33,8 +29,30 @@ const iconStyle = style({
   flexShrink: 0,
   gridArea: "[icon]",
 });
+const toneStyles = {
+  white: spectrumIconStyle({ color: "white" }),
+  black: spectrumIconStyle({ color: "black" }),
+};
 
-function MenuIcon({ name }: { name: SpectrumIconName }) {
+/** White or black icon color for a preview surface, matching its text color. */
+export function surfaceIconTone(textColor: string | undefined) {
+  return textColor?.toLowerCase() === "#ffffff" ? "white" : "black";
+}
+
+/** A Spectrum icon that loads only once it scrolls into view. */
+export function LazySpectrumIcon({
+  name,
+  size = 20,
+  inheritColor = false,
+  tone,
+}: {
+  name: SpectrumIconName;
+  size?: number;
+  /** Use the surrounding text color, for previews on custom surfaces. */
+  inheritColor?: boolean;
+  /** Fill for icons on a themed preview surface; see `surfaceIconTone`. */
+  tone?: keyof typeof toneStyles;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const [visible, setVisible] = useState(false);
   const icon = useIconSample(name, visible);
@@ -51,11 +69,21 @@ function MenuIcon({ name }: { name: SpectrumIconName }) {
     return () => observer.disconnect();
   }, []);
   return (
-    <span ref={ref} className={iconStyle} data-icon-name={name}>
+    <span
+      ref={ref}
+      className={iconStyle}
+      style={size === 20 ? undefined : { width: size, height: size }}
+      data-icon-name={name}
+    >
       {icon.status === "ready" ? (
         <icon.Icon
           aria-hidden="true"
-          UNSAFE_style={{ width: 20, height: 20 }}
+          styles={tone ? toneStyles[tone] : undefined}
+          UNSAFE_style={{
+            width: size,
+            height: size,
+            ...((inheritColor || tone) && { color: "inherit" }),
+          }}
         />
       ) : icon.status === "error" ? (
         <span role="alert" aria-label={icon.message} title={icon.message}>
@@ -93,8 +121,8 @@ export function IconSamplePicker({
     measurement = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const offered = allowedIcons
-    ? items.filter((item) => allowedIcons.includes(item.id))
-    : items;
+    ? SPECTRUM_ICON_OPTIONS.filter((item) => allowedIcons.includes(item.id))
+    : SPECTRUM_ICON_OPTIONS;
   useLayoutEffect(() => {
     const probe = measurement.current,
       trigger = input.current?.getInputElement()?.parentElement;
@@ -146,7 +174,7 @@ export function IconSamplePicker({
       >
         {(item) => (
           <ComboBoxItem id={item.id} textValue={item.label}>
-            <MenuIcon name={item.id} />
+            <LazySpectrumIcon name={item.id} />
             <Text slot="label">{item.label}</Text>
           </ComboBoxItem>
         )}

@@ -26,6 +26,7 @@ import {
 import { spacingDocumentAtom } from "../../features/spacing/state";
 import { sizeDocumentAtom } from "../../features/size/state";
 import { radiusDocumentAtom } from "../../features/radius/state";
+import { iconsDocumentAtom } from "../../features/icons/documentState";
 import { typographyDocumentAtom } from "../../features/typography/state";
 import {
   createScaleType,
@@ -107,6 +108,7 @@ export function ScaleTypeEditorLayout({
   const spacing = useAtomValue(spacingDocumentAtom);
   const size = useAtomValue(sizeDocumentAtom);
   const radius = useAtomValue(radiusDocumentAtom);
+  const icons = useAtomValue(iconsDocumentAtom);
   const [draft, setDraft] = useState<ScaleType | null>(() =>
     initialDraft
       ? structuredClone(initialDraft)
@@ -160,7 +162,7 @@ export function ScaleTypeEditorLayout({
   const canSave = isDirty && !nameError && issues.length === 0;
   const ignored = isReadOnly
     ? []
-    : ignoredOverrides(draft, typography, spacing, size, radius);
+    : ignoredOverrides(draft, typography, spacing, size, radius, icons);
 
   function save() {
     if (!draft) return;

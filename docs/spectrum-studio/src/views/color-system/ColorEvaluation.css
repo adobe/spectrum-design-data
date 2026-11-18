@@ -13,7 +13,6 @@
   position: absolute;
   z-index: 1;
   line-height: 1;
-  font-size: 14px;
 }
 
 .colorEvaluationOverride {
@@ -37,7 +36,6 @@
 .colorEvaluationDeviation,
 .colorEvaluationContrast {
   bottom: 7px;
-  opacity: 0.6;
 }
 
 .colorEvaluationDeviation {

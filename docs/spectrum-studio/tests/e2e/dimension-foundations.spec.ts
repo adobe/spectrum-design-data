@@ -374,7 +374,7 @@ test("Shared Registry-backed renames update Spacing and Size while UUIDs and gen
     .getByRole("list", { name: "Global spacing values" })
     .locator('[data-testid="spacing-bar"]')
     .evaluateAll((bars) =>
-      bars.map((bar) => bar.getBoundingClientRect().width),
+      bars.map((bar) => bar.getBoundingClientRect().height),
     );
   const name = page
     .locator(`[data-dimension-scale="${global.id}"]`)
@@ -389,7 +389,7 @@ test("Shared Registry-backed renames update Spacing and Size while UUIDs and gen
       .getByRole("list", { name: "Shared layout spacing values" })
       .locator('[data-testid="spacing-bar"]')
       .evaluateAll((bars) =>
-        bars.map((bar) => bar.getBoundingClientRect().width),
+        bars.map((bar) => bar.getBoundingClientRect().height),
       ),
   ).toEqual(values);
   await foundation(page, "Size");
@@ -444,7 +444,7 @@ test("All shipped spacing examples stay visible, keep exact lengths and switch c
       await list
         .locator('[data-testid="spacing-bar"]')
         .evaluateAll((bars) =>
-          bars.map((bar) => bar.getBoundingClientRect().width),
+          bars.map((bar) => bar.getBoundingClientRect().height),
         ),
     ).toEqual(values);
     await expect(list.getByRole("listitem")).toHaveCount(5);
@@ -524,9 +524,15 @@ test("Adaptive Spacing and Size compare one variable at a time without changing 
   };
   await seed(page, snapshot);
   await foundation(page, "Spacing", "Analyze");
-  const chart = page
-    .locator('[data-component="DimensionScaleComparison"]')
-    .first();
+  const root = page.locator('[data-component="SpacingAnalyze"]');
+  await root.getByRole("button", { name: /^Scale/ }).click();
+  await page
+    .getByRole("option", {
+      name: snapshot.spacing!.scales[0].name,
+      exact: true,
+    })
+    .click();
+  const chart = root.locator('[data-component="DimensionScaleComparison"]');
   await expect(chart).toHaveAttribute("data-comparison-source", "modes");
   const originalRecord = await page.evaluate(
     (key) => localStorage.getItem(key),
@@ -545,7 +551,7 @@ test("Adaptive Spacing and Size compare one variable at a time without changing 
     (key) => localStorage.getItem(key),
     DIMENSION_ARTIFACT_STORAGE_KEY,
   );
-  await chart.getByRole("button", { name: /Lines$/ }).click();
+  await root.getByRole("button", { name: /Settings shown$/ }).click();
   await expect(
     page.getByRole("option", { name: /always visible/ }),
   ).toHaveAttribute("aria-disabled", "true");
@@ -592,16 +598,16 @@ test("Adaptive Spacing and Size compare one variable at a time without changing 
       expected.modes!.settings.findIndex((setting) => setting.isRequired)
     ].map((point) => point.value),
   );
-  await chart.getByRole("radio", { name: "By token", exact: true }).click();
+  await root.getByRole("radio", { name: "By token", exact: true }).click();
   await expect(
     chart.locator('g[data-series-id="100"][data-baseline="true"]'),
   ).toHaveCount(1);
   await expect(chart.locator("g[data-series-id]")).toHaveCount(18);
-  await chart.getByRole("button", { name: /Lines$/ }).click();
+  await root.getByRole("button", { name: /Tokens shown$/ }).click();
   await page.getByRole("option", { name: "20", exact: true }).click();
   await page.keyboard.press("Escape");
   await expect(chart.locator('g[data-series-id="20"]')).toHaveCount(0);
-  await chart.getByRole("button", { name: /Compare$/ }).click();
+  await root.getByRole("button", { name: /Compare$/ }).click();
   await page
     .getByRole("option", { name: "Adaptive settings", exact: true })
     .click();
@@ -618,24 +624,29 @@ test("Adaptive Spacing and Size compare one variable at a time without changing 
       (row) => row[values.findIndex((value) => value.index === 0)].value,
     ),
   );
-  await chart.getByRole("button", { name: /Connected variable$/ }).click();
+  await root.getByRole("button", { name: /Connected variable$/ }).click();
   await page
     .getByRole("option", { name: "Overall contrast", exact: true })
     .click();
   await expect(chart.getByRole("img", { name: /by token$/ })).toBeVisible();
   await expect(chart.locator('tr[data-step-id="100"]')).toHaveCount(61);
   await expectFixedChartSizing(chart);
-  const staticChart = page
-    .locator('[data-component="DimensionScaleComparison"]')
-    .nth(1);
-  await expect(staticChart.getByRole("radio")).toHaveCount(0);
+  await root.getByRole("button", { name: /^Scale/ }).click();
+  await page
+    .getByRole("option", {
+      name: snapshot.spacing!.scales[1].name,
+      exact: true,
+    })
+    .click();
+  await expect(root.getByRole("radio")).toHaveCount(0);
   await foundation(page, "Size", "Analyze");
+  const sizeRoot = page.locator('[data-component="SizeAnalyze"]');
   const sizeChart = page.locator('[data-component="DimensionScaleComparison"]');
   await expect(sizeChart).toHaveAttribute("data-comparison-source", "modes");
   await expect(
-    sizeChart.getByRole("button", { name: /Connected variable$/ }),
+    sizeRoot.getByRole("button", { name: /Connected variable$/ }),
   ).toHaveCount(0);
-  await sizeChart.getByRole("radio", { name: "By token" }).click();
+  await sizeRoot.getByRole("radio", { name: "By token" }).click();
   await expect(
     sizeChart.locator('g[data-series-id="100"][data-baseline="true"]'),
   ).toHaveCount(1);

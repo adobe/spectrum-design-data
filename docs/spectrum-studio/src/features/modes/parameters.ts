@@ -24,6 +24,7 @@ export type FoundationId =
   | "color"
   | "opacity"
   | "typography"
+  | "icons"
   | "spacing"
   | "size"
   | "radius"
@@ -68,6 +69,7 @@ export const FOUNDATIONS: readonly FoundationDefinition[] = [
   { id: "color", label: "Color" },
   { id: "opacity", label: "Opacity" },
   { id: "typography", label: "Typography" },
+  { id: "icons", label: "Icons" },
   { id: "spacing", label: "Spacing" },
   { id: "size", label: "Size" },
   { id: "radius", label: "Corner radius" },

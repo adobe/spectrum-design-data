@@ -13,7 +13,6 @@ import {
   Dialog,
   DialogContainer,
   Heading,
-  LabeledValue,
   PickerItem,
   Text,
   Tab,
@@ -35,7 +34,6 @@ import {
   updateFontAtom,
   removeFontAtom,
   restoreFontAtom,
-  generatedTypographyAtom,
   lineHeightConsumers,
   removeLineHeightAtom,
   renameLineHeightAtom,
@@ -72,13 +70,14 @@ import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { lineHeightName } from "../../features/typography/lineHeightNames";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
-  formatTypographyLength,
   fromTypographyUnit,
   isTypographyUnit,
   toTypographyUnit,
   TYPOGRAPHY_UNITS,
 } from "../../features/typography/units";
+import { iconsDocumentAtom } from "../../features/icons/documentState";
 import { FoundationModeSettings } from "./FoundationModeSettings";
+import { firstAccordionItemStyle } from "../accordionStyles";
 import { FoundationParameterSettings } from "./FoundationParameterSettings";
 import { TypeScaleFields } from "../typography/TypeScaleFields";
 import { LineHeightCard } from "../typography/LineHeightCard";
@@ -209,7 +208,7 @@ export function FoundationsTypographyPanel() {
   const isReadOnly = useIsReadOnly();
   const document = useAtomValue(typographyDocumentAtom);
   const resolved = useAtomValue(resolvedTypographyDocumentAtom);
-  const tokens = useAtomValue(generatedTypographyAtom);
+  const icons = useAtomValue(iconsDocumentAtom);
   const modeOwners = useAtomValue(authoringCapabilityOwnersAtom);
   const registry = useAtomValue(taxonomyDocumentAtom);
   const library = useAtomValue(scaleTypesAtom);
@@ -255,13 +254,8 @@ export function FoundationsTypographyPanel() {
       setRemovingId(null);
     });
   }
-  const lineHeightChoices = document.lineHeights.map((card) => (
-    <PickerItem id={card.id} key={card.id}>
-      {name(card.id)}
-    </PickerItem>
-  ));
   const systemSettings = (
-    <AccordionItem id="system-settings">
+    <AccordionItem id="system-settings" UNSAFE_style={firstAccordionItemStyle}>
       <AccordionItemTitle>System settings</AccordionItemTitle>
       <AccordionItemPanel UNSAFE_className={String(panel)}>
         <div className={stack}>
@@ -320,7 +314,7 @@ export function FoundationsTypographyPanel() {
           <RoundingRulePicker
             labelPosition="side"
             label="Text size rounding"
-            valueTypes={["font-size", "workflow-icon-size"]}
+            valueType="font-size"
             ruleId={document.textRoundingRuleId}
             onChange={(textRoundingRuleId) => patch({ textRoundingRuleId })}
           />
@@ -348,12 +342,7 @@ export function FoundationsTypographyPanel() {
         aria-label="Typography controls"
         selectedKey={selectedTab}
         onSelectionChange={(key) => {
-          if (
-            key === "fonts" ||
-            key === "font-sizes" ||
-            key === "line-heights" ||
-            key === "iconography"
-          )
+          if (key === "fonts" || key === "font-sizes" || key === "line-heights")
             setSelectedTab(key);
         }}
       >
@@ -361,7 +350,6 @@ export function FoundationsTypographyPanel() {
           <Tab id="fonts">Fonts</Tab>
           <Tab id="font-sizes">Font sizes</Tab>
           <Tab id="line-heights">Line heights</Tab>
-          <Tab id="iconography">Iconography</Tab>
         </TabList>
         <TabPanel styles={tabPanelStyles} id="fonts">
           <div className={tabStack}>
@@ -492,95 +480,13 @@ export function FoundationsTypographyPanel() {
                   }
                 }}
                 onDelete={() => {
-                  if (lineHeightConsumers(document, card.id).length) {
+                  if (lineHeightConsumers(document, card.id, icons).length) {
                     setReplacementId(null);
                     setRemovingId(card.id);
                   } else deleteCard(card.id);
                 }}
               />
             ))}
-          </div>
-        </TabPanel>
-        <TabPanel styles={tabPanelStyles} id="iconography">
-          <div className={tabStack}>
-            <EditablePicker
-              label="Alignment"
-              selectedKey={document.iconography.alignment}
-              displayValue={
-                document.iconography.alignment === "text"
-                  ? "Text sizes"
-                  : "Line heights"
-              }
-              onSelectionChange={(key) => {
-                if (key === "text")
-                  patch({
-                    iconography: {
-                      alignment: "text",
-                      baseSize: document.iconography.baseSize,
-                    },
-                  });
-                if (key === "line-height")
-                  patch({
-                    iconography: {
-                      alignment: "line-height",
-                      baseSize: document.iconography.baseSize,
-                      lineHeightId: document.previewLineHeightId,
-                    },
-                  });
-              }}
-            >
-              <PickerItem id="text">Text sizes</PickerItem>
-              <PickerItem id="line-height">Line heights</PickerItem>
-            </EditablePicker>
-            {document.iconography.alignment === "text" ? (
-              <EditableNumberField
-                key={`icon-${unit}`}
-                label={`Base size (${unit})`}
-                value={toTypographyUnit(document.iconography.baseSize, unit)}
-                minValue={0}
-                step={toTypographyUnit(1, unit)}
-                formatOptions={{ maximumFractionDigits: 6 }}
-                onChange={(value) =>
-                  attempt(() =>
-                    update({
-                      iconography: {
-                        ...document.iconography,
-                        baseSize: fromTypographyUnit(value, unit),
-                      },
-                    }),
-                  )
-                }
-              />
-            ) : (
-              <>
-                <LabeledValue
-                  label={`Base size (${unit})`}
-                  value={formatTypographyLength(
-                    tokens.find((token) => token.position === 0)!.iconSize,
-                    unit,
-                  )}
-                />
-                <EditablePicker
-                  label="Line height"
-                  selectedKey={document.iconography.lineHeightId}
-                  displayValue={name(document.iconography.lineHeightId)}
-                  onSelectionChange={(key) => {
-                    if (
-                      key != null &&
-                      document.iconography.alignment === "line-height"
-                    )
-                      patch({
-                        iconography: {
-                          ...document.iconography,
-                          lineHeightId: String(key),
-                        },
-                      });
-                  }}
-                >
-                  {lineHeightChoices}
-                </EditablePicker>
-              </>
-            )}
           </div>
         </TabPanel>
       </Tabs>
@@ -625,7 +531,10 @@ export function FoundationsTypographyPanel() {
                   <div className={stack}>
                     <Text>
                       Used by:{" "}
-                      {lineHeightConsumers(document, removingId).join(", ")}.
+                      {lineHeightConsumers(document, removingId, icons).join(
+                        ", ",
+                      )}
+                      .
                     </Text>
                     {document.lineHeights.length > 1 ? (
                       <Picker

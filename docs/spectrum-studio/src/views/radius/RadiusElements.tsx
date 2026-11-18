@@ -8,6 +8,10 @@ import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import { RadiusSample } from "./RadiusSample";
 import { elementsSurfaceStyleAtom } from "../../state/view/elementsSurface";
 import { elementsSurfaceStyles } from "../elementsSurfaceStyles";
+import {
+  previewLabelStyles,
+  previewScaleNameStyles,
+} from "../previewLabelStyles";
 import "../chartLayout.css";
 
 const container = style({
@@ -56,7 +60,7 @@ export function RadiusElements() {
           >
             <h3
               id={`${scale.id}-radius-heading`}
-              className={style({ font: "title", margin: 0 })}
+              className={previewScaleNameStyles}
             >
               {termLabel(scale.name)}
             </h3>
@@ -67,17 +71,17 @@ export function RadiusElements() {
               {values.map((value) => (
                 <li key={value.step} className="radiusElement">
                   <RadiusSample radius={value.value} label={value.name} />
-                  <div className="radiusElementDetails">
-                    <Text>
+                  <p className={`${previewLabelStyles} radiusElementDetails`}>
+                    <span>
                       {value.name}
                       {value.index === 0 ? " (base)" : ""}
-                    </Text>
-                    <Text>
+                    </span>
+                    <span>
                       {Number.isFinite(value.value) && value.value >= 0
                         ? `${value.value}px`
                         : "Unavailable radius"}
-                    </Text>
-                  </div>
+                    </span>
+                  </p>
                 </li>
               ))}
             </ul>

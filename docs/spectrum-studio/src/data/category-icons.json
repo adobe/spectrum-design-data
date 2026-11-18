@@ -22,6 +22,7 @@
     "color": "Color",
     "opacity": "ViewTransparency",
     "typography": "TextSize",
+    "icons": "VectorDraw",
     "spacing": "DistributeSpaceVertically",
     "size": "Maximize",
     "radius": "CornerRadiusEach",

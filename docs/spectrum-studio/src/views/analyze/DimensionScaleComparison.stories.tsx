@@ -15,7 +15,7 @@ const meta = {
       </div>
     ),
   ],
-  args: { noun: "spacing", input: dimensionExampleInput() },
+  args: { noun: "spacing", input: dimensionExampleInput(), detail: true },
 } satisfies Meta<typeof DimensionScaleComparison>;
 export default meta;
 type Story = StoryObj<typeof meta>;

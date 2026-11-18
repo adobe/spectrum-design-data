@@ -7,7 +7,7 @@ import {
 
 export type DimensionValuePolicy = "positive" | "non-negative";
 export function dimensionIssues(
-  values: readonly GeneratedDimensionValue[],
+  values: readonly Pick<GeneratedDimensionValue, "raw" | "value">[],
   policy: DimensionValuePolicy = "positive",
 ) {
   const issues: DimensionScaleIssue[] =

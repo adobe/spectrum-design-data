@@ -1,5 +1,4 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { Text } from "@react-spectrum/s2";
 import type { CSSProperties, ReactNode } from "react";
 import { memo } from "react";
 import type { GeneratedTypographyToken } from "../../features/typography/model";
@@ -8,7 +7,11 @@ import {
   formatTypographyNumber,
   type TypographyUnit,
 } from "../../features/typography/units";
-import type { TypographyDisplayMode } from "./typographyPreview";
+import { previewLabelStyles } from "../previewLabelStyles";
+import {
+  typographyRampColumns,
+  type TypographyDisplayMode,
+} from "./typographyPreview";
 import "./TypographyElements.css";
 
 export const TypographyRamp = memo(function TypographyRamp({
@@ -27,44 +30,46 @@ export const TypographyRamp = memo(function TypographyRamp({
   renderIcon: (size: number) => ReactNode;
 }) {
   const iconTrack = Math.max(72, ...tokens.map((token) => token.iconSize));
-  const gridStyle: CSSProperties = {
-    gridTemplateColumns: `44px 70px 100px minmax(240px, 1fr) 90px ${iconTrack}px`,
-    minWidth: 704 + iconTrack,
-    fontSize: 14,
-  };
+  const gridStyle: CSSProperties = typographyRampColumns(
+    displayModes,
+    iconTrack,
+  );
   const hidden = (mode: TypographyDisplayMode) => !displayModes.includes(mode);
+  const showIcon = !hidden("sample-icon");
   return (
     <>
       <div
         className="typographyElement typographyElementHeader"
         style={gridStyle}
       >
-        <div className="typographyElementMeta">Index</div>
+        <div className="typographyElementMeta">
+          <span className={previewLabelStyles}>Index</span>
+        </div>
         <div
           className="typographyElementValue"
           data-metric="font-size"
           aria-hidden={hidden("font-size")}
         >
-          Font size
+          <span className={previewLabelStyles}>Font size</span>
         </div>
         <div
           className="typographyElementValue"
           data-metric="line-height"
           aria-hidden={hidden("line-height")}
         >
-          Line height
+          <span className={previewLabelStyles}>Line height</span>
         </div>
-        <div className="typographyElementSample">
-          <Text>Sample text</Text>
+        {showIcon && (
+          <div
+            className="typographyElementIconHeading"
+            data-metric="sample-icon"
+          >
+            <span className={previewLabelStyles}>Sample icon</span>
+          </div>
+        )}
+        <div className="typographyElementSampleHeading">
+          <span className={previewLabelStyles}>Sample text</span>
         </div>
-        <div
-          className="typographyElementValue"
-          data-metric="icon-size"
-          aria-hidden={hidden("icon-size")}
-        >
-          Icon size
-        </div>
-        <div className="typographyElementIconHeading">Sample icon</div>
       </div>
       {tokens.map((token) => {
         const height = token.lineHeights[lineHeightId];
@@ -76,29 +81,34 @@ export const TypographyRamp = memo(function TypographyRamp({
             data-scale={token.scale}
           >
             <div className="typographyElementMeta">
-              <Text>{token.scale}</Text>
+              <span className={previewLabelStyles}>{token.scale}</span>
             </div>
             <div
               className="typographyElementValue"
               data-metric="font-size"
               aria-hidden={hidden("font-size")}
             >
-              <Text slot="description">
+              <span className={previewLabelStyles}>
                 {formatTypographyLength(token.fontSize, outputUnit)}
-              </Text>
+              </span>
             </div>
             <div
               className="typographyElementValue"
               data-metric="line-height"
               aria-hidden={hidden("line-height")}
             >
-              <Text slot="description">
+              <span className={previewLabelStyles}>
                 {formatTypographyLength(height.length, outputUnit)}{" "}
                 <span className="typographyElementValueDetail">
                   ({formatTypographyNumber(height.multiplier)})
                 </span>
-              </Text>
+              </span>
             </div>
+            {showIcon && (
+              <div className="typographyElementIcon" aria-hidden="true">
+                {renderIcon(token.iconSize)}
+              </div>
+            )}
             <div
               className="typographyElementSample"
               style={{
@@ -107,18 +117,6 @@ export const TypographyRamp = memo(function TypographyRamp({
               }}
             >
               {sampleText}
-            </div>
-            <div
-              className="typographyElementValue"
-              data-metric="icon-size"
-              aria-hidden={hidden("icon-size")}
-            >
-              <Text slot="description">
-                {formatTypographyLength(token.iconSize, outputUnit)}
-              </Text>
-            </div>
-            <div className="typographyElementIcon" aria-hidden="true">
-              {renderIcon(token.iconSize)}
             </div>
           </div>
         );

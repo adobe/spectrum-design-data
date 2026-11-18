@@ -2,7 +2,8 @@
 import type { FoundationId } from "../modes/parameters";
 import type { PlatformDivergenceCell, SystemInsights } from "./model";
 
-const DIVERGENCE_TOTALS: Record<FoundationId, number> = {
+// Sample fixture data predates the Icons foundation.
+const DIVERGENCE_TOTALS: Record<Exclude<FoundationId, "icons">, number> = {
   color: 278,
   typography: 55,
   spacing: 64,
@@ -26,7 +27,7 @@ const DIVERGENCE_OVERRIDES: Record<string, number[]> = {
 const divergenceCells: PlatformDivergenceCell[] = Object.entries(
   DIVERGENCE_OVERRIDES,
 ).flatMap(([platformId, counts]) =>
-  (Object.keys(DIVERGENCE_TOTALS) as FoundationId[]).map(
+  (Object.keys(DIVERGENCE_TOTALS) as (keyof typeof DIVERGENCE_TOTALS)[]).map(
     (foundationId, index) => ({
       platformId,
       foundationId,

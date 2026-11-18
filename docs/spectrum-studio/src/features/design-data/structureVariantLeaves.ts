@@ -134,6 +134,7 @@ function resourcesFor(
           complete.rules,
           complete.scaleTypes,
           complete.interpolations,
+          source.icons,
         ),
         naming: {
           registry: complete.taxonomy,

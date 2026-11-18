@@ -13,6 +13,7 @@ import {
 } from "../../features/logic/scaleTypeLibrary";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { modeSetsAtom } from "../../features/modes/state";
+import { iconsDocumentAtom } from "../../features/icons/documentState";
 
 const containerStyle = style({
   display: "flex",
@@ -30,6 +31,7 @@ export function TypographyCssExport() {
   const rules = useAtomValue(rulesAtom);
   const scaleTypes = useAtomValue(scaleTypesAtom);
   const interpolations = useAtomValue(interpolationsAtom);
+  const icons = useAtomValue(iconsDocumentAtom);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">(
     "idle",
   );
@@ -45,6 +47,7 @@ export function TypographyCssExport() {
       interpolations,
       registry: taxonomy,
       modeSets,
+      icons,
       ...(useTaxonomyNames && { taxonomy }),
     });
   } catch (failure) {

@@ -87,6 +87,9 @@
                 "typography": {
                   "$ref": "#/definitions/TypographyDocument"
                 },
+                "icons": {
+                  "$ref": "#/definitions/IconsDocument"
+                },
                 "spacing": {
                   "$ref": "#/definitions/CanonicalSpacingDocument"
                 },
@@ -104,6 +107,7 @@
               "required": [
                 "color",
                 "elevation",
+                "icons",
                 "radius",
                 "size",
                 "spacing",
@@ -5006,7 +5010,7 @@
       "properties": {
         "schemaVersion": {
           "type": "number",
-          "const": 11
+          "const": 12
         },
         "metricNames": {
           "$ref": "#/definitions/TypographyMetricNames"
@@ -5060,9 +5064,6 @@
         "previewLineHeightId": {
           "type": "string"
         },
-        "iconography": {
-          "$ref": "#/definitions/TypographyIconography"
-        },
         "hideFromPublishing": {
           "type": "boolean"
         }
@@ -5071,7 +5072,6 @@
       "required": [
         "componentSize",
         "fonts",
-        "iconography",
         "largeSizes",
         "lineHeightRoundingRuleId",
         "lineHeights",
@@ -5213,46 +5213,158 @@
         "to"
       ]
     },
-    "TypographyIconography": {
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "alignment": {
-              "type": "string",
-              "const": "text"
-            },
-            "baseSize": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "alignment",
-            "baseSize"
-          ]
+    "IconsDocument": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
         },
-        {
-          "type": "object",
-          "properties": {
-            "alignment": {
-              "type": "string",
-              "const": "line-height"
-            },
-            "baseSize": {
-              "type": "number"
-            },
-            "lineHeightId": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "alignment",
-            "baseSize",
-            "lineHeightId"
-          ]
+        "roundingRuleId": {
+          "description": "Every icon scale rounds with this rule, so it is set once in System settings.",
+          "type": "string"
+        },
+        "minIconSize": {
+          "type": "number"
+        },
+        "maxIconSize": {
+          "type": "number"
+        },
+        "scales": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IconScale"
+          }
         }
+      },
+      "additionalProperties": false,
+      "required": [
+        "maxIconSize",
+        "minIconSize",
+        "roundingRuleId",
+        "scales",
+        "schemaVersion"
+      ]
+    },
+    "IconScale": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/IconSizeSource",
+          "description": "Follow Typography uses the shared Type scale and `base`; Formula uses any formula; Line height uses a Typography line height."
+        },
+        "lineHeightId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "base": {
+          "description": "Overrides the formula's base; ignored when the formula does not allow it.",
+          "type": "number"
+        },
+        "parameters": {
+          "description": "Per-scale overrides of the formula's parameters; only parts the formula allows take effect.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "below": {
+          "type": "number"
+        },
+        "above": {
+          "type": "number"
+        },
+        "hideFromPublishing": {
+          "type": "boolean"
+        },
+        "scaleTypeId": {
+          "type": "string"
+        },
+        "bindings": {
+          "description": "Keyed by parameter id, or `base`.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ParameterBinding"
+          }
+        },
+        "componentSizeScaling": {
+          "description": "Apply component size before rounding, rather than at a Structure consumer.",
+          "type": "boolean"
+        },
+        "startStep": {
+          "description": "Formula step that is named 100 (default 0, the base). Lets a scale start partway along its curve.",
+          "type": "number"
+        },
+        "roundingRuleId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "above",
+        "below",
+        "id",
+        "name",
+        "parameters",
+        "roundingRuleId",
+        "scaleTypeId",
+        "source"
+      ]
+    },
+    "IconSizeSource": {
+      "enum": [
+        "follow-typography",
+        "formula",
+        "line-height"
+      ],
+      "type": "string"
+    },
+    "ParameterBinding": {
+      "description": "Makes a scale parameter follow a mode parameter; values between points are interpolated, and outside the range they hold the end values.",
+      "type": "object",
+      "properties": {
+        "modeParameterId": {
+          "type": "string"
+        },
+        "method": {
+          "$ref": "#/definitions/InterpolationMethod"
+        },
+        "points": {
+          "description": "At least two points, sorted by `at`.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BindingPoint"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "modeParameterId",
+        "points"
+      ]
+    },
+    "BindingPoint": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "description": "Value of the bound mode parameter.",
+          "type": "number"
+        },
+        "value": {
+          "description": "Value the scale parameter takes there.",
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "at",
+        "value"
       ]
     },
     "CanonicalSpacingDocument": {
@@ -5342,49 +5454,6 @@
         "parameters",
         "roundingRuleId",
         "scaleTypeId"
-      ]
-    },
-    "ParameterBinding": {
-      "description": "Makes a scale parameter follow a mode parameter; values between points are interpolated, and outside the range they hold the end values.",
-      "type": "object",
-      "properties": {
-        "modeParameterId": {
-          "type": "string"
-        },
-        "method": {
-          "$ref": "#/definitions/InterpolationMethod"
-        },
-        "points": {
-          "description": "At least two points, sorted by `at`.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BindingPoint"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "method",
-        "modeParameterId",
-        "points"
-      ]
-    },
-    "BindingPoint": {
-      "type": "object",
-      "properties": {
-        "at": {
-          "description": "Value of the bound mode parameter.",
-          "type": "number"
-        },
-        "value": {
-          "description": "Value the scale parameter takes there.",
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "at",
-        "value"
       ]
     },
     "CanonicalSizeDocument": {
@@ -5611,6 +5680,9 @@
                 "typography": {
                   "$ref": "#/definitions/TypographyDocument"
                 },
+                "icons": {
+                  "$ref": "#/definitions/IconsDocument"
+                },
                 "spacing": {
                   "$ref": "#/definitions/CanonicalSpacingDocument"
                 },
@@ -5628,6 +5700,7 @@
               "required": [
                 "color",
                 "elevation",
+                "icons",
                 "radius",
                 "size",
                 "spacing",

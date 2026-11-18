@@ -15,6 +15,7 @@ import {
   type ScaleType,
 } from "../scales/scaleType";
 import { typographyDocumentAtom } from "../typography/state";
+import { iconsDocumentAtom } from "../icons/documentState";
 import { interpolationConsumers } from "./interpolationConsumers";
 import { validateTypographyGeneration } from "../typography/typographyGeneration";
 import { rulesAtom } from "./library";
@@ -146,7 +147,10 @@ export function scaleTypeLibraryWithReplacement(get: Getter, item: ScaleType) {
     )
   )
     throw new Error("Choose an available adaptive interpolation.");
-  if (item.id === TYPOGRAPHY_SCALE_TYPE_ID) {
+  if (
+    item.id === TYPOGRAPHY_SCALE_TYPE_ID ||
+    get(iconsDocumentAtom).scales.some((scale) => scale.scaleTypeId === item.id)
+  ) {
     validateTypographyGeneration(
       get(typographyDocumentAtom),
       get(rulesAtom),
@@ -154,6 +158,7 @@ export function scaleTypeLibraryWithReplacement(get: Getter, item: ScaleType) {
         formula.id === item.id ? item : formula,
       ),
       get(interpolationsAtom),
+      get(iconsDocumentAtom),
     );
   }
   const { locked, ...authored } = item;
@@ -196,6 +201,7 @@ export const replaceInterpolationAtom = atom(
       get(interpolationsAtom).map((shape) =>
         shape.id === item.id ? item : shape,
       ),
+      get(iconsDocumentAtom),
     );
     set(interpolationActions.replace, item);
   },

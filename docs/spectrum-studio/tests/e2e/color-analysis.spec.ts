@@ -52,7 +52,7 @@ test("Chromaticity filters all three charts by scale independently of Lightness"
     (key) => localStorage.getItem(key),
     AUTHORING_STORAGE_KEY,
   );
-  await expect(picker).toContainText("All");
+  await expect(picker).toContainText("All scales");
   await root.getByText("Show scale paths", { exact: true }).click();
   await expect(root.locator("[data-scale-path]")).toHaveCount(scales.length);
   for (const channel of ["hue", "chroma"]) {
@@ -68,7 +68,7 @@ test("Chromaticity filters all three charts by scale independently of Lightness"
   await picker.click();
   const options = page.getByRole("listbox");
   await expect(
-    options.getByRole("option", { name: "All", exact: true }),
+    options.getByRole("option", { name: "All scales", exact: true }),
   ).toBeVisible();
   await options.press("End");
   await expect(
@@ -114,7 +114,7 @@ test("Chromaticity filters all three charts by scale independently of Lightness"
   await root.getByRole("tab", { name: "Chromaticity", exact: true }).click();
   await expect(picker).toContainText("Red");
   await picker.click();
-  await page.getByRole("option", { name: "All", exact: true }).click();
+  await page.getByRole("option", { name: "All scales", exact: true }).click();
   await expect(root.locator("[data-scale-path]")).toHaveCount(scales.length);
   for (const channel of ["hue", "chroma"])
     await expect(

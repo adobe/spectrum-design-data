@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { upgradeTypographyFontsSnapshot } from "../typography/fontsUpgrade";
+import { upgradeIconsSnapshot } from "../icons/upgrade";
 import {
   isFoundationModeAttachments,
   type FoundationModeAttachments,
@@ -182,45 +183,49 @@ export function readAuthoringRecord<T>(
     );
   }
   const identities = new Map<string, string>();
-  const working = upgradeTypographyFontsSnapshot(
-    upgradeTokenTierData(
-      decodeStructureSource(
-        value.version !== AUTHORING_RECORD_VERSION &&
-          value.version < 28 &&
-          upgrade
-          ? upgradeGeneratorRulesSnapshot(
-              upgrade(
-                upgradeScaleAdjustmentSnapshot(
-                  upgradeSizingFields(upgradeTokenTierData(value.working)),
+  const working = upgradeIconsSnapshot(
+    upgradeTypographyFontsSnapshot(
+      upgradeTokenTierData(
+        decodeStructureSource(
+          value.version !== AUTHORING_RECORD_VERSION &&
+            value.version < 28 &&
+            upgrade
+            ? upgradeGeneratorRulesSnapshot(
+                upgrade(
+                  upgradeScaleAdjustmentSnapshot(
+                    upgradeSizingFields(upgradeTokenTierData(value.working)),
+                  ),
+                  value.version,
                 ),
-                value.version,
-              ),
-            )
-          : value.working,
-        identities,
+              )
+            : value.working,
+          identities,
+        ),
       ),
+      identities,
     ),
-    identities,
   );
-  const saved = upgradeTypographyFontsSnapshot(
-    upgradeTokenTierData(
-      decodeStructureSource(
-        value.version !== AUTHORING_RECORD_VERSION &&
-          value.version < 28 &&
-          upgrade
-          ? upgradeGeneratorRulesSnapshot(
-              upgrade(
-                upgradeScaleAdjustmentSnapshot(
-                  upgradeSizingFields(upgradeTokenTierData(value.saved)),
+  const saved = upgradeIconsSnapshot(
+    upgradeTypographyFontsSnapshot(
+      upgradeTokenTierData(
+        decodeStructureSource(
+          value.version !== AUTHORING_RECORD_VERSION &&
+            value.version < 28 &&
+            upgrade
+            ? upgradeGeneratorRulesSnapshot(
+                upgrade(
+                  upgradeScaleAdjustmentSnapshot(
+                    upgradeSizingFields(upgradeTokenTierData(value.saved)),
+                  ),
+                  value.version,
                 ),
-                value.version,
-              ),
-            )
-          : value.saved,
-        identities,
+              )
+            : value.saved,
+          identities,
+        ),
       ),
+      identities,
     ),
-    identities,
   );
   const platformWorking =
     value.version < 25

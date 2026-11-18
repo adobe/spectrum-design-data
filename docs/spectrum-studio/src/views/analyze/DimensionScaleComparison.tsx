@@ -1,6 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
-  ActionButton,
   Content,
   Heading,
   InlineAlert,
@@ -11,7 +10,7 @@ import {
   Text,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useId, useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ScaleTypeGraph } from "../../components/logic/ScaleTypeGraph";
 import { FOUNDATION_PARAMETERS } from "../../features/modes/parameters";
 import {
@@ -25,61 +24,44 @@ import {
   type DimensionComparisonInput,
   type DimensionComparisons,
 } from "../../features/scales/dimensionComparisons";
+import {
+  AnalyzeCardGrid,
+  AnalyzeSettings,
+  ChartCard,
+  analyzeNoteStyles as noteStyle,
+  analyzeTableCellStyles as cellStyle,
+  analyzeTableHeaderStyles as headerStyle,
+  analyzeTableScrollStyles as tableScrollStyle,
+  analyzeTableStyles as tableStyle,
+} from "./AnalyzeLayout";
 import { formatAnalyzeNumber } from "./format";
 
-const panelStyle = style({
+const notesStyle = style({
   display: "flex",
   flexDirection: "column",
-  gap: 12,
-  backgroundColor: "layer-1",
-  borderRadius: "xl",
-  padding: 16,
-  minWidth: 0,
-});
-const controlsStyle = style({
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "end",
-  gap: 12,
-  minWidth: 0,
-});
-const headingStyle = style({ font: "title-sm", fontSize: "[14px]", margin: 0 });
-const noteStyle = style({
-  font: "body-sm",
-  color: "neutral-subdued",
-  margin: 0,
-});
-const tableStyle = style({
-  width: "full",
-  borderCollapse: "collapse",
-  font: "code-sm",
-});
-const cellStyle = style({
-  textAlign: "start",
-  padding: 8,
-  borderBottomWidth: 1,
-  borderStyle: "solid",
-  borderColor: "gray-200",
-});
-const tableScrollStyle = style({
-  overflow: "auto",
-  maxHeight: 420,
-  minWidth: 0,
+  gap: 4,
 });
 
+/**
+ * One dimension scale's chart. Overview shows the card with default settings; `detail`
+ * adds the page settings row (By setting or By token, Compare, Settings shown).
+ */
 export function DimensionScaleComparison({
   input,
   noun,
+  detail = false,
+  leadingSettings,
 }: {
   input: DimensionComparisonInput;
   noun: string;
+  detail?: boolean;
+  /** Page settings placed first in the settings row, such as the Scale picker. */
+  leadingSettings?: ReactNode;
 }) {
   const [parameter, setParameter] = useState<string>();
   const [view, setView] = useState<ComparisonView>("settings");
   const [source, setSource] = useState<"modes" | "range">();
   const [selections, setSelections] = useState<Record<string, string[]>>({});
-  const [showValues, setShowValues] = useState(false);
-  const valuesId = useId();
   const result = useMemo<{
     data?: DimensionComparisons;
     error?: string;
@@ -92,14 +74,33 @@ export function DimensionScaleComparison({
       };
     }
   }, [input, parameter]);
+  const withSettings = (
+    card: ReactNode,
+    settings?: ReactNode,
+    notes?: ReactNode,
+  ) =>
+    detail ? (
+      <>
+        {(leadingSettings || settings) && (
+          <AnalyzeSettings>
+            {leadingSettings}
+            {settings}
+          </AnalyzeSettings>
+        )}
+        {notes}
+        <AnalyzeCardGrid count={1}>{card}</AnalyzeCardGrid>
+      </>
+    ) : (
+      card
+    );
   if (!result.data)
-    return (
-      <section className={panelStyle} aria-label={`${input.scale.name} chart`}>
+    return withSettings(
+      <ChartCard title={input.scale.name} label={`${input.scale.name} chart`}>
         <InlineAlert variant="negative">
           <Heading>Could not compare {input.scale.name}</Heading>
           <Content>{result.error}</Content>
         </InlineAlert>
-      </section>
+      </ChartCard>,
     );
   const data = result.data;
   const adaptive = data.parameterId !== undefined;
@@ -133,109 +134,145 @@ export function DimensionScaleComparison({
         : [],
     ),
   );
-  return (
-    <section
-      className={panelStyle}
-      aria-label={`${input.scale.name} chart`}
-      data-component="DimensionScaleComparison"
-      data-scale-chart={input.scale.id}
-      data-chart-view={chartView}
-      data-comparison-source={chosenSource}
-      data-adaptive={adaptive}
-    >
-      <h3 className={headingStyle}>{`${input.scale.name} (px)`}</h3>
-      {adaptive && (
-        <div
-          className={controlsStyle}
-          role="group"
-          aria-label={`${input.scale.name} chart controls`}
+  const settings = adaptive && (
+    <>
+      <SegmentedControl
+        aria-label="Chart view"
+        selectedKey={chartView}
+        onSelectionChange={(key) => {
+          if (key === "settings" || key === "tokens") setView(key);
+        }}
+      >
+        <SegmentedControlItem id="settings">
+          <Text>By setting</Text>
+        </SegmentedControlItem>
+        <SegmentedControlItem id="tokens">
+          <Text>By token</Text>
+        </SegmentedControlItem>
+      </SegmentedControl>
+      {data.parameterIds.length > 1 && (
+        <Picker
+          label="Connected variable"
+          selectedKey={data.parameterId}
+          onSelectionChange={(key) => {
+            if (key != null) setParameter(String(key));
+          }}
         >
-          <SegmentedControl
-            aria-label="Chart view"
-            selectedKey={chartView}
-            onSelectionChange={(key) => {
-              if (key === "settings" || key === "tokens") setView(key);
-            }}
-          >
-            <SegmentedControlItem id="settings">
-              <Text>By scale</Text>
-            </SegmentedControlItem>
-            <SegmentedControlItem id="tokens">
-              <Text>By token</Text>
-            </SegmentedControlItem>
-          </SegmentedControl>
-          {data.parameterIds.length > 1 && (
-            <Picker
-              label="Connected variable"
-              selectedKey={data.parameterId}
-              onSelectionChange={(key) => {
-                if (key != null) setParameter(String(key));
-              }}
-            >
-              {data.parameterIds.map((id) => (
-                <PickerItem key={id} id={id}>
-                  {FOUNDATION_PARAMETERS.find((item) => item.id === id)
-                    ?.label ?? id}
-                </PickerItem>
-              ))}
-            </Picker>
-          )}
-          <Picker
-            label="Compare"
-            selectedKey={chosenSource}
-            onSelectionChange={(key) => {
-              if (key === "modes" || key === "range") setSource(key);
-            }}
-          >
-            <PickerItem id="modes" isDisabled={!data.modes}>
-              Named modes
+          {data.parameterIds.map((id) => (
+            <PickerItem key={id} id={id}>
+              {FOUNDATION_PARAMETERS.find((item) => item.id === id)?.label ??
+                id}
             </PickerItem>
-            <PickerItem id="range">Adaptive settings</PickerItem>
-          </Picker>
-          <Picker
-            label="Lines"
-            selectionMode="multiple"
-            value={selected}
-            onChange={(keys) =>
-              setSelections((previous) => ({
-                ...previous,
-                [selectionKey]: comparisonSelection(items, keys.map(String)),
-              }))
-            }
-          >
-            {items.map((item) => (
-              <PickerItem
-                key={item.id}
-                id={item.id}
-                isDisabled={item.isRequired}
-              >
-                {`${item.label}${item.isRequired ? " - always visible" : ""}`}
-              </PickerItem>
-            ))}
-          </Picker>
-        </div>
+          ))}
+        </Picker>
       )}
-      {adaptive && (
-        <p className={noteStyle}>
-          {chartView === "settings"
-            ? "The default setting stays visible. Other connected variables keep their current settings."
-            : "The base token stays visible. The reference marks the default setting."}
-        </p>
-      )}
-      {adaptive && !data.modes && (
+      <Picker
+        label="Compare"
+        selectedKey={chosenSource}
+        onSelectionChange={(key) => {
+          if (key === "modes" || key === "range") setSource(key);
+        }}
+      >
+        <PickerItem id="modes" isDisabled={!data.modes}>
+          Named modes
+        </PickerItem>
+        <PickerItem id="range">Adaptive settings</PickerItem>
+      </Picker>
+      <Picker
+        label={chartView === "settings" ? "Settings shown" : "Tokens shown"}
+        selectionMode="multiple"
+        value={selected}
+        onChange={(keys) =>
+          setSelections((previous) => ({
+            ...previous,
+            [selectionKey]: comparisonSelection(items, keys.map(String)),
+          }))
+        }
+      >
+        {items.map((item) => (
+          <PickerItem key={item.id} id={item.id} isDisabled={item.isRequired}>
+            {`${item.label}${item.isRequired ? " - always visible" : ""}`}
+          </PickerItem>
+        ))}
+      </Picker>
+    </>
+  );
+  const notes = adaptive && (
+    <div className={notesStyle}>
+      <p className={noteStyle}>
+        {chartView === "settings"
+          ? "The default setting stays visible. Other connected variables keep their current settings."
+          : "The base token stays visible. The reference marks the default setting."}
+      </p>
+      {!data.modes && (
         <p role="status" className={noteStyle}>
           No mode set manages {definition?.label}. Compare adaptive settings
           instead.
         </p>
       )}
-      {adaptive && data.modes?.settings.length === 1 && (
+      {data.modes?.settings.length === 1 && (
         <p className={noteStyle}>
           Only the default mode is available. Compare adaptive settings to see
           other values.
         </p>
       )}
+    </div>
+  );
+  const values = (
+    <div className={tableScrollStyle}>
+      <table
+        className={tableStyle}
+        aria-label={`${input.scale.name} comparison values`}
+      >
+        <thead>
+          <tr>
+            {["Setting", "Token", "Calculated", "Rounded"].map((label) => (
+              <th key={label} scope="col" className={headerStyle}>
+                {label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(({ setting, step, row, column }) => {
+            const point = metric.rows[row][column];
+            return (
+              <tr
+                key={`${setting.id}:${step.id}`}
+                data-setting-id={setting.id}
+                data-step-id={step.id}
+              >
+                <th scope="row" className={cellStyle}>
+                  {setting.label}
+                </th>
+                <td className={cellStyle}>{metric.tokenNames[column]}</td>
+                <td
+                  className={cellStyle}
+                >{`${formatAnalyzeNumber(point.raw)}px`}</td>
+                <td
+                  className={cellStyle}
+                  data-value={point.value}
+                >{`${formatAnalyzeNumber(point.value)}px`}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+  const card = (
+    <ChartCard
+      title={`${input.scale.name} (px)`}
+      label={`${input.scale.name} chart`}
+      component="DimensionScaleComparison"
+      data-scale-chart={input.scale.id}
+      data-chart-view={chartView}
+      data-comparison-source={chosenSource}
+      data-adaptive={adaptive}
+      values={values}
+    >
       <ScaleTypeGraph
-        label={`${input.scale.name} ${noun} ${chartView === "settings" ? "by scale" : "by token"}`}
+        label={`${input.scale.name} ${noun} ${chartView === "settings" ? "by setting" : "by token"}`}
         series={series}
         domain={metric.rows.flatMap((points, row) =>
           points.map((point, column) => ({
@@ -264,57 +301,7 @@ export function DimensionScaleComparison({
       <p className={noteStyle}>
         Lines show calculated values. Open circles show values after rounding.
       </p>
-      <div>
-        <ActionButton
-          aria-expanded={showValues}
-          aria-controls={valuesId}
-          onPress={() => setShowValues((value) => !value)}
-        >
-          <Text>{showValues ? "Hide values" : "Show values"}</Text>
-        </ActionButton>
-      </div>
-      {showValues && (
-        <div id={valuesId} className={tableScrollStyle}>
-          <table
-            className={tableStyle}
-            aria-label={`${input.scale.name} comparison values`}
-          >
-            <thead>
-              <tr>
-                {["Setting", "Token", "Calculated", "Rounded"].map((label) => (
-                  <th key={label} scope="col" className={cellStyle}>
-                    {label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map(({ setting, step, row, column }) => {
-                const point = metric.rows[row][column];
-                return (
-                  <tr
-                    key={`${setting.id}:${step.id}`}
-                    data-setting-id={setting.id}
-                    data-step-id={step.id}
-                  >
-                    <th scope="row" className={cellStyle}>
-                      {setting.label}
-                    </th>
-                    <td className={cellStyle}>{metric.tokenNames[column]}</td>
-                    <td
-                      className={cellStyle}
-                    >{`${formatAnalyzeNumber(point.raw)}px`}</td>
-                    <td
-                      className={cellStyle}
-                      data-value={point.value}
-                    >{`${formatAnalyzeNumber(point.value)}px`}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </section>
+    </ChartCard>
   );
+  return withSettings(card, settings || undefined, notes || undefined);
 }

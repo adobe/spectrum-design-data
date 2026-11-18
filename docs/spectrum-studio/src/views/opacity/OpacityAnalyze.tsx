@@ -2,39 +2,35 @@
 import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { useAtomValue } from "jotai";
+import type { ReactNode } from "react";
 import { ScaleGraph } from "../../components/charts/ScaleGraph";
 import { chartGutters } from "../../components/charts/chartViewport";
 import {
   opacityResultAtom,
   opacitySourceAtom,
 } from "../../features/opacity/state";
+import {
+  AnalyzeCardGrid,
+  AnalyzePage,
+  AnalyzeValuesTable,
+  ChartCard,
+  analyzeNoteStyles,
+  usePreviewData,
+} from "../analyze/AnalyzeLayout";
 import { ContrastRamp } from "../color-system/ContrastRamp";
-import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import {
   formatOpacityPercent,
   opacityEditDescription,
   opacityObservations,
 } from "./opacityPresentation";
 
-const layoutStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 20,
-  minWidth: 0,
-  minHeight: "full",
-  overflow: "auto",
-  padding: 16,
-});
-const chartStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 16,
-});
 const chartScrollStyles = style({ overflow: "auto", minWidth: 0 });
+const PREVIEW_DRIVERS = ["color.*", "opacity.*"];
 
 export function OpacityAnalyze() {
   const source = useAtomValue(opacitySourceAtom);
   const result = useAtomValue(opacityResultAtom);
+  const previewData = usePreviewData(PREVIEW_DRIVERS);
   let profile: ReturnType<typeof opacityObservations> | undefined;
   let error: string | undefined;
   try {
@@ -62,9 +58,35 @@ export function OpacityAnalyze() {
     label: `${level.name}: ${formatOpacityPercent(level.value)}. ${opacityEditDescription(level)}.`,
   }));
 
+  const minWidth = Math.max(
+    360,
+    observations.length * 36 + chartGutters.left + chartGutters.right,
+  );
+  const scroll = (label: string, children: ReactNode) => (
+    <div
+      className={chartScrollStyles}
+      role="region"
+      aria-label={label}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Wide charts scroll by keyboard.
+      tabIndex={0}
+    >
+      <div style={{ minWidth }}>{children}</div>
+    </div>
+  );
+  const backdrop = profile?.dark ? "black" : "white";
+  const note = profile && (
+    <p className={analyzeNoteStyles}>
+      Contrast uses serialized output over {backdrop}; the checkerboard and app
+      appearance do not affect measurements.
+    </p>
+  );
+
   return (
-    <div className={layoutStyles} data-component="OpacityAnalyze">
-      <FoundationsElementsHeader title="Opacity analysis" />
+    <AnalyzePage
+      component="OpacityAnalyze"
+      title="Opacity"
+      previewData={previewData}
+    >
       {result.issues.map((issue) => (
         <div key={issue} role="status">
           <Text>{issue}</Text>
@@ -76,41 +98,49 @@ export function OpacityAnalyze() {
         </div>
       )}
       {profile && (
-        <section className={chartStyles} aria-label="Opacity output analysis">
-          <div
-            className={chartScrollStyles}
-            role="region"
-            aria-label="Opacity analysis charts"
-            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- The strip and charts share a keyboard-scrollable region.
-            tabIndex={0}
+        <div
+          className={chartScrollStyles}
+          role="region"
+          aria-label="Opacity scale"
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Wide scales scroll by keyboard.
+          tabIndex={0}
+        >
+          <div style={{ minWidth: observations.length * 36 }}>
+            <ContrastRamp
+              kind="samples"
+              label="Opacity step progression"
+              background={profile.background}
+              samples={observations.map((level) => ({
+                id: level.id,
+                css: level.css,
+                description: `${level.name}, ${formatOpacityPercent(level.value)} opacity. ${opacityEditDescription(level)}. ${level.css}, measured against ${backdrop}.`,
+              }))}
+            />
+          </div>
+        </div>
+      )}
+      {profile && (
+        <AnalyzeCardGrid count={2}>
+          <ChartCard
+            title="Contrast (WCAG 2)"
+            label="Opacity contrast chart"
+            values={
+              <AnalyzeValuesTable
+                label="Opacity contrast values"
+                headings={["Scale index", "Opacity", "Contrast"]}
+                rows={observations.map((level) => ({
+                  id: level.id,
+                  values: [
+                    level.scaleIndex,
+                    formatOpacityPercent(level.value),
+                    `${level.contrast}:1`,
+                  ],
+                }))}
+              />
+            }
           >
-            <div
-              style={{
-                minWidth: Math.max(
-                  360,
-                  observations.length * 36 +
-                    chartGutters.left +
-                    chartGutters.right,
-                ),
-              }}
-            >
-              <div
-                style={{
-                  paddingLeft: chartGutters.left,
-                  paddingRight: chartGutters.right,
-                }}
-              >
-                <ContrastRamp
-                  kind="samples"
-                  label="Opacity step progression"
-                  background={profile.background}
-                  samples={observations.map((level) => ({
-                    id: level.id,
-                    css: level.css,
-                    description: `${level.name}, ${formatOpacityPercent(level.value)} opacity. ${opacityEditDescription(level)}. ${level.css}, measured against ${profile.dark ? "black" : "white"}.`,
-                  }))}
-                />
-              </div>
+            {scroll(
+              "Opacity contrast chart area",
               <ScaleGraph
                 kind="numeric"
                 label="Contrast (WCAG 2)"
@@ -126,7 +156,26 @@ export function OpacityAnalyze() {
                 ticks={ticks}
                 xLabel="Opacity scale index"
                 yLabel="WCAG 2 ratio"
+              />,
+            )}
+            {note}
+          </ChartCard>
+          <ChartCard
+            title="Opacity percentage"
+            label="Opacity percentage chart"
+            values={
+              <AnalyzeValuesTable
+                label="Opacity percentage values"
+                headings={["Scale index", "Opacity"]}
+                rows={observations.map((level) => ({
+                  id: level.id,
+                  values: [level.scaleIndex, formatOpacityPercent(level.value)],
+                }))}
               />
+            }
+          >
+            {scroll(
+              "Opacity percentage chart area",
               <ScaleGraph
                 kind="numeric"
                 label="Opacity percentage"
@@ -143,18 +192,11 @@ export function OpacityAnalyze() {
                 xLabel="Opacity scale index"
                 yLabel="Opacity"
                 percent
-              />
-            </div>
-          </div>
-        </section>
+              />,
+            )}
+          </ChartCard>
+        </AnalyzeCardGrid>
       )}
-      {profile && (
-        <Text>
-          Contrast uses serialized output over{" "}
-          {profile.dark ? "black" : "white"}; the checkerboard and app
-          appearance do not affect measurements.
-        </Text>
-      )}
-    </div>
+    </AnalyzePage>
   );
 }

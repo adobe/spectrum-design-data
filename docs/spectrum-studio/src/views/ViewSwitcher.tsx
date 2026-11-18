@@ -31,7 +31,9 @@ const containerStyles = style({
 
 const controlBarStyles = style({
   display: "flex",
-  justifyContent: "start",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: 16,
   height: "fit",
   paddingX: 16,
   paddingY: 12,
@@ -170,25 +172,15 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
             </SegmentedControlItem>
           ))}
         </SegmentedControl>
+        <PreviewToolbar placement="header" />
       </div>
       <div
         className={`${viewPanelStyles} ${configuration?.surface === "pasteboard" ? pasteboardStyles : ""}`}
         data-view={selectedView}
       >
         {selectedView === "apps" ? (
-          <div
-            style={{
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              flex: 1,
-              minHeight: 0,
-            }}
-          >
-            <PreviewToolbar />
-            <div style={{ overflow: "auto", flex: 1, minHeight: 0 }}>
-              {content}
-            </div>
+          <div style={{ overflow: "auto", flex: 1, minHeight: 0 }}>
+            {content}
           </div>
         ) : !configuration &&
           selectedView === "elements" &&

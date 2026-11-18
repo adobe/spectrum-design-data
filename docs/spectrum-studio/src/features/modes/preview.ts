@@ -73,6 +73,43 @@ export const displayedModeIdsAtom = atom((get) => {
   return displayed;
 });
 
+/**
+ * Previewed setting ids whose values match no published mode: their mode set shows as
+ * custom, or no mode set covers them and the value differs from the saved document.
+ */
+export const previewOnlyParameterIdsAtom = atom((get) => {
+  const modeSets = get(modeSetsAtom);
+  const preview = get(previewOverridesAtom);
+  const displayed = get(displayedModeIdsAtom);
+  const base = get(foundationDocumentsAtom);
+  const ids: string[] = [];
+  for (const id of Object.keys(preview)) {
+    if (preview[id] === undefined) continue;
+    const owners = modeSets.filter((modeSet) =>
+      responsibleParameterIds(modeSets, modeSet.id).includes(id),
+    );
+    const custom = owners.length
+      ? owners.some((modeSet) => displayed[modeSet.key] === CUSTOM_MODE_KEY)
+      : !parameterValuesMatch(preview[id], effectiveValue(undefined, id, base));
+    if (custom) ids.push(id);
+  }
+  return ids;
+});
+
+/** True when any chart driver, matched exactly or by `prefix.*`, is preview-only. */
+export function isPreviewDriven(
+  previewOnlyIds: readonly string[],
+  drivers: readonly string[],
+) {
+  return previewOnlyIds.some((id) =>
+    drivers.some((driver) =>
+      driver.endsWith(".*")
+        ? id.startsWith(driver.slice(0, -1))
+        : id === driver,
+    ),
+  );
+}
+
 /** Selects a mode and discards any preview that mode set is responsible for. */
 export const resetModeAtom = atom(
   null,

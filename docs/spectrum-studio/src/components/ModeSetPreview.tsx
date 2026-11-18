@@ -25,6 +25,7 @@ import {
 import { typographyDocumentAtom } from "../features/typography/state";
 import { resolveTypographyDocument } from "../features/typography/resolution";
 import { generateTypography } from "../features/typography/typographyGeneration";
+import { iconsDocumentAtom } from "../features/icons/documentState";
 import { elevationDocumentAtom } from "../features/elevation/state";
 import { resolveElevationDocument } from "../features/elevation/resolution";
 import { generateElevation, shadowCss } from "../features/elevation/generate";
@@ -178,6 +179,7 @@ function TypographyPreview({ mode }: { mode: Mode }) {
   const rules = useAtomValue(rulesAtom);
   const scaleTypes = useAtomValue(scaleTypesAtom);
   const interpolations = useAtomValue(interpolationsAtom);
+  const icons = useAtomValue(iconsDocumentAtom);
   const resolved = resolveTypographyDocument(base, [mode], undefined, {
     modeSets: sets,
   });
@@ -187,6 +189,7 @@ function TypographyPreview({ mode }: { mode: Mode }) {
     rules,
     scaleTypes,
     interpolations,
+    icons,
   ).sort((first, second) => first.fontSize - second.fontSize);
   const sampleByPosition = new Map(
     samples.map((sample) => [sample.position, sample]),

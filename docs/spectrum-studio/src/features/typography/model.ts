@@ -26,7 +26,7 @@ export type TypographyMetricId =
   | "workflow-icon-size"
   | `${string}-lineHeight`
   | `${string}-unitlessLineHeight`;
-export const TYPOGRAPHY_SCHEMA_VERSION = 11;
+export const TYPOGRAPHY_SCHEMA_VERSION = 12;
 export const TEXT_ZOOM_MIN = -4;
 export const TEXT_ZOOM_MAX = 8;
 export const clampTextZoom = (value: number) =>
@@ -49,10 +49,6 @@ export interface TypographyLineHeight {
   hasAdaptiveSettings: boolean;
   adaptive: InterpolationMapping;
 }
-
-export type TypographyIconography =
-  | { alignment: "text"; baseSize: number }
-  | { alignment: "line-height"; baseSize: number; lineHeightId: string };
 
 export interface TypographyMetricNames {
   [id: string]: TaxonomyNameReference;
@@ -78,7 +74,6 @@ export interface TypographyDocument extends FoundationPublishingMetadata {
   fonts: TypographyFont[];
   lineHeights: TypographyLineHeight[];
   previewLineHeightId: string;
-  iconography: TypographyIconography;
 }
 
 export interface GeneratedLineHeight {
@@ -201,15 +196,6 @@ export function isTypographyDocument(
     !document.lineHeights.some(
       (card) => card.id === document.previewLineHeightId,
     )
-  )
-    return false;
-  const icons = document.iconography;
-  if (
-    !icons ||
-    !positive(icons.baseSize) ||
-    (icons.alignment !== "text" && icons.alignment !== "line-height") ||
-    (icons.alignment === "line-height" &&
-      !document.lineHeights.some((card) => card.id === icons.lineHeightId))
   )
     return false;
   return typographyMetricIds(document as TypographyDocument).every((id) => {

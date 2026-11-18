@@ -71,6 +71,8 @@ export interface AliasAuthoringSource {
   styles?: import("../styles/model").StylesDocument;
   componentSizing?: ComponentSizingDocument;
   opacity?: OpacityDocument;
+  /** Workflow icon sizes; shipped Icons settings when absent. */
+  icons?: import("../icons/model").IconsDocument;
   colorSystem: ColorSystemDocument;
   typography: TypographyDocument;
   spacing: DimensionDocument;
@@ -133,6 +135,7 @@ export function completeAliasSource(
     styles: value.styles,
     componentSizing: value.componentSizing,
     opacity: value.opacity,
+    icons: value.icons,
     colorSystem,
     typography,
     spacing,
@@ -252,6 +255,7 @@ export function canonicalBaseAliasRows(
       source.rules,
       source.scaleTypes,
       source.interpolations,
+      source.icons,
     );
     const parameters = resolveModeParameterValues(
       {

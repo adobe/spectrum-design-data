@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { ColorSystemDocument } from "../color-system/model";
 import type { TypographyDocument } from "../typography/model";
+import type { IconsDocument } from "../icons/model";
 import type { SpacingDocument } from "../spacing/model";
 import type { SizeDocument } from "../size/model";
 import type { RadiusDocument } from "../radius/model";
@@ -44,6 +45,7 @@ export interface DesignSystemDataset {
       opacity?: OpacityDocument;
       color: ColorSystemDocument;
       typography: TypographyDocument;
+      icons: IconsDocument;
       spacing: SpacingDocument;
       size: SizeDocument;
       radius: RadiusDocument;
@@ -85,6 +87,7 @@ export interface CanonicalDesignSystemDataset extends Omit<
       opacity?: OpacityDocument;
       color: CanonicalColorDocument;
       typography: CanonicalTypographyDocument;
+      icons: IconsDocument;
       spacing: CanonicalSpacingDocument;
       size: CanonicalSizeDocument;
       radius: CanonicalRadiusDocument;

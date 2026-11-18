@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, within } from "@storybook/test";
 import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { AlignedSwatchRow } from "./AlignedSwatchRow";
@@ -52,7 +53,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Aligned: Story = {};
+export const Aligned: Story = {
+  play: async ({ canvasElement }) => {
+    const [scaleName, rowLabel] = within(canvasElement).getAllByText("Opacity");
+    await expect(getComputedStyle(scaleName).fontSize).toBe("16px");
+    await expect(getComputedStyle(rowLabel).fontSize).toBe("12px");
+    const cell = within(canvasElement).getByText("2%", {
+      selector: "div",
+    });
+    await expect(cell.getBoundingClientRect().width).toBe(110);
+  },
+};
 export const Narrow: Story = {
   decorators: [
     (Story) => (

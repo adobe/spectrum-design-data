@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import dataset from "../../data/design-system.defaults.json" with { type: "json" };
-import { TYPOGRAPHY_SCHEMA_VERSION, isTypographyFont } from "./model";
+import { isTypographyFont } from "./model";
 import { reconcileFontNames } from "./fontVocabulary";
 import { isTaxonomyDocument } from "../taxonomy/model";
 
@@ -34,7 +34,8 @@ export function upgradeTypographyFontsDocument(
   };
   return {
     ...value,
-    schemaVersion: TYPOGRAPHY_SCHEMA_VERSION,
+    // Schema 11 still holds Iconography; `splitTypographyIconography` performs 11 → 12.
+    schemaVersion: 11,
     fonts: Array.isArray(fonts)
       ? fonts.map((font: unknown) => {
           if (

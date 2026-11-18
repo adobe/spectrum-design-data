@@ -1,6 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
-  ActionButton,
   Checkbox,
   Content,
   Heading,
@@ -10,7 +9,7 @@ import {
   Text,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useId, useState } from "react";
+import { useState } from "react";
 import { ScaleTypeGraph } from "../../components/logic/ScaleTypeGraph";
 import {
   elevationComparisonOwner,
@@ -21,25 +20,28 @@ import type { ElevationDocument } from "../../features/elevation/model";
 import type { Mode, ModeSet } from "../../features/modes/model";
 import type { PreviewOverrides } from "../../features/modes/previewState";
 import type { OpacitySource } from "../../features/opacity/generation";
+import {
+  AnalyzeCardGrid,
+  AnalyzeSettings,
+  AnalyzeValuesTable,
+  ChartCard,
+  analyzeNoteStyles,
+} from "../analyze/AnalyzeLayout";
 import "../chartLayout.css";
 
-const panel = style({
+const column = style({
   display: "flex",
   flexDirection: "column",
-  gap: 12,
-  padding: 16,
-  backgroundColor: "layer-1",
-  color: "neutral",
-  font: "body-sm",
-  borderRadius: "xl",
+  gap: 16,
   minWidth: 0,
 });
-const controls = style({
-  display: "flex",
-  flexWrap: "wrap",
-  gap: 12,
-  alignItems: "end",
-});
+const METRIC_LABELS: Record<ElevationMetric, string> = {
+  blur: "blur",
+  offsetY: "vertical offset",
+  opacity: "opacity",
+};
+
+/** Elevation settings row and its one chart card. */
 export function ElevationComparison({
   document,
   modeSets,
@@ -56,8 +58,6 @@ export function ElevationComparison({
   const [metric, setMetric] = useState<ElevationMetric>("blur");
   const [compare, setCompare] = useState(false);
   const [modeIds, setModeIds] = useState<string[]>([]);
-  const [showValues, setShowValues] = useState(false);
-  const valuesId = useId();
   const owner = elevationComparisonOwner(metric, modeSets, opacitySource);
   const layerIds = document.layers.map((layer) => layer.id);
   let error = "";
@@ -78,21 +78,10 @@ export function ElevationComparison({
     error = failure instanceof Error ? failure.message : String(failure);
   }
   const points = series.flatMap((series) => series.points);
+  const unit = metric === "opacity" ? "%" : "px";
   return (
-    <section
-      className={`${panel} chartSingleGrid`}
-      data-component="ElevationComparison"
-      aria-label="Elevation chart"
-    >
-      <Heading level={3} UNSAFE_style={{ fontSize: 14 }}>
-        Elevation{" "}
-        {metric === "blur"
-          ? "blur"
-          : metric === "offsetY"
-            ? "vertical offset"
-            : "opacity"}
-      </Heading>
-      <div className={controls}>
+    <div className={column} data-component="ElevationComparison">
+      <AnalyzeSettings>
         <Picker
           label="Metric"
           selectedKey={metric}
@@ -132,66 +121,51 @@ export function ElevationComparison({
             ))}
           </Picker>
         )}
-      </div>
-      {error ? (
-        <InlineAlert variant="negative">
-          <Heading>Could not compare Elevation</Heading>
-          <Content>{error}</Content>
-        </InlineAlert>
-      ) : points.length ? (
-        <ScaleTypeGraph
-          label="Elevation comparison"
-          series={series}
-          domain={points}
-          ticks={series[0].points.map((point) => ({
-            index: point.index,
-            label: String(point.step),
-          }))}
-          reference={{ index: 0, label: "Base level" }}
-          xLabel="Token step"
-          yLabel={metric === "opacity" ? "%" : "px"}
-        />
-      ) : (
-        <Text>No shadows to compare.</Text>
-      )}
-      <Text>
-        All shadows are shown. Lengths are calculated without intermediate
-        rounding. Mode comparisons hold other settings fixed.
-      </Text>
-      <ActionButton
-        aria-expanded={showValues}
-        aria-controls={valuesId}
-        onPress={() => setShowValues((value) => !value)}
-      >
-        {showValues ? "Hide values" : "Show values"}
-      </ActionButton>
-      {showValues && (
-        <div id={valuesId} style={{ overflow: "auto" }}>
-          <table aria-label="Elevation comparison values">
-            <thead>
-              <tr>
-                <th scope="col">Shadow and mode</th>
-                <th scope="col">Token step</th>
-                <th scope="col">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {series.flatMap((line) =>
-                line.points.map((point) => (
-                  <tr key={`${line.id}:${point.index}`}>
-                    <th scope="row">{line.label}</th>
-                    <td>{point.step}</td>
-                    <td>
-                      {point.value}
-                      {metric === "opacity" ? "%" : "px"}
-                    </td>
-                  </tr>
-                )),
+      </AnalyzeSettings>
+      <AnalyzeCardGrid count={1}>
+        <ChartCard
+          title={`Elevation ${METRIC_LABELS[metric]} (${unit})`}
+          label="Elevation chart"
+          values={
+            <AnalyzeValuesTable
+              label="Elevation comparison values"
+              headings={["Shadow and mode", "Token step", "Value"]}
+              rows={series.flatMap((line) =>
+                line.points.map((point) => ({
+                  id: `${line.id}:${point.index}`,
+                  values: [line.label, point.step, `${point.value}${unit}`],
+                })),
               )}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </section>
+            />
+          }
+        >
+          {error ? (
+            <InlineAlert variant="negative">
+              <Heading>Could not compare Elevation</Heading>
+              <Content>{error}</Content>
+            </InlineAlert>
+          ) : points.length ? (
+            <ScaleTypeGraph
+              label="Elevation comparison"
+              series={series}
+              domain={points}
+              ticks={series[0].points.map((point) => ({
+                index: point.index,
+                label: String(point.step),
+              }))}
+              reference={{ index: 0, label: "Base level" }}
+              xLabel="Token step"
+              yLabel={unit}
+            />
+          ) : (
+            <Text>No shadows to compare.</Text>
+          )}
+          <p className={analyzeNoteStyles}>
+            All shadows are shown. Lengths are calculated without intermediate
+            rounding. Mode comparisons hold other settings fixed.
+          </p>
+        </ChartCard>
+      </AnalyzeCardGrid>
+    </div>
   );
 }

@@ -352,6 +352,8 @@ const {
   typographyDocumentAtom,
   updateTypographyAtom,
 } = await import("../src/features/typography/state");
+const { updateIconScaleAtom } = await import("../src/features/icons/state");
+const { WORKFLOW_ICON_SCALE_ID } = await import("../src/features/icons/model");
 const { replaceScaleTypeAtom, scaleTypesAtom } =
   await import("../src/features/logic/scaleTypeLibrary");
 const { taxonomyDocumentAtom } = await import("../src/features/taxonomy/state");
@@ -374,9 +376,10 @@ typographyEdit.set(replaceScaleTypeAtom, {
   ...formula,
   base: { ...formula.base, default: 18 },
 });
-typographyEdit.set(updateTypographyAtom, {
-  outputUnit: "pt",
-  iconography: { alignment: "line-height", baseSize: 30, lineHeightId },
+typographyEdit.set(updateTypographyAtom, { outputUnit: "pt" });
+typographyEdit.set(updateIconScaleAtom, {
+  id: WORKFLOW_ICON_SCALE_ID,
+  patch: { source: "line-height", base: 30, lineHeightId },
 });
 const textSize = typographyEdit
   .get(browserTokensAtom)

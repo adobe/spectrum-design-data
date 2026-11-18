@@ -22,6 +22,8 @@ import {
 import {
   CUSTOM_MODE_KEY,
   displayedModeIdsAtom,
+  isPreviewDriven,
+  previewOnlyParameterIdsAtom,
 } from "../src/features/modes/preview";
 import { TYPOGRAPHY_DEFAULTS } from "../src/features/typography/defaults";
 import {
@@ -539,11 +541,29 @@ assert.equal(
   "mode-text-scaling-largest",
   "previewing a preset's value selects it",
 );
+assert.deepEqual(
+  typeStore.get(previewOnlyParameterIdsAtom),
+  [],
+  "previewing a published mode's value is not preview data",
+);
 typeStore.set(setPreviewParameterAtom, {
   parameterId: "typography.textZoom",
   value: 5,
 });
 assert.equal(typeStore.get(displayedModeIdsAtom).textScaling, CUSTOM_MODE_KEY);
+assert.deepEqual(typeStore.get(previewOnlyParameterIdsAtom), [
+  "typography.textZoom",
+]);
+assert.equal(
+  isPreviewDriven(["typography.textZoom"], ["typography.*"]),
+  true,
+  "prefix drivers match preview-only settings",
+);
+assert.equal(
+  isPreviewDriven(["typography.textZoom"], ["color.*", "elevation.depth"]),
+  false,
+  "unrelated drivers ignore preview-only settings",
+);
 assert.equal(
   typeStore.get(displayedModeIdsAtom).colorScheme,
   "mode-light",

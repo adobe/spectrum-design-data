@@ -37,14 +37,6 @@ function parameters(document: TypographyDocument): Map<string, unknown> {
     "lineHeightOrder",
     document.lineHeights.map((card) => card.id),
   );
-  values.set("iconography/alignment", document.iconography.alignment);
-  values.set("iconography/baseSize", document.iconography.baseSize);
-  values.set(
-    "iconography/lineHeightId",
-    document.iconography.alignment === "line-height"
-      ? document.iconography.lineHeightId
-      : undefined,
-  );
   for (const [id, reference] of Object.entries(document.metricNames))
     values.set(`metricNames/${id}`, reference);
   for (const card of document.lineHeights) {

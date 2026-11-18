@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { TypographyDocument } from "./model";
 import type { ModeSet } from "../modes/model";
+import type { IconsDocument } from "../icons/model";
 import { parameterOwners } from "../modes/parameters";
 import { resolveTypographyDocument } from "./resolution";
 import { TEXT_ZOOM_MAX, TEXT_ZOOM_MIN } from "./model";
@@ -31,9 +32,17 @@ function declarations(
   interpolations: readonly Interpolation[],
   taxonomy?: TaxonomyDocument,
   naming?: TypographyNamingContext,
+  icons?: IconsDocument,
 ) {
   return typographyTokenValues(
-    generateTypography(document, textZoom, rules, scaleTypes, interpolations),
+    generateTypography(
+      document,
+      textZoom,
+      rules,
+      scaleTypes,
+      interpolations,
+      icons,
+    ),
     taxonomy,
     naming,
   ).map(
@@ -54,6 +63,7 @@ export function buildTypographyCss(
     taxonomy,
     registry,
     modeSets,
+    icons,
   }: {
     scope?: string;
     purpose?: "authoring" | "publishing";
@@ -63,6 +73,8 @@ export function buildTypographyCss(
     taxonomy?: TaxonomyDocument;
     registry?: TaxonomyDocument;
     modeSets?: readonly ModeSet[];
+    /** Live Icons settings; the Workflow scale supplies each step's icon size. */
+    icons?: IconsDocument;
   } = {},
 ) {
   if (purpose === "publishing" && document.hideFromPublishing) return "";
@@ -86,6 +98,7 @@ export function buildTypographyCss(
         interpolations,
         taxonomy,
         naming,
+        icons,
       ),
       "}",
     ];
@@ -103,6 +116,7 @@ export function buildTypographyCss(
           interpolations,
           taxonomy,
           naming,
+          icons,
         ),
         "}",
       );
@@ -133,6 +147,7 @@ export function buildTypographyCss(
             interpolations,
             taxonomy,
             naming,
+            icons,
           ),
           "}",
         );
@@ -158,6 +173,7 @@ export function buildTypographyCss(
               interpolations,
               taxonomy,
               naming,
+              icons,
             ),
             "}",
           );

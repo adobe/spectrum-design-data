@@ -13,6 +13,7 @@ import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import { ShadowSample } from "./ShadowSample";
 import { elementsSurfaceStyleAtom } from "../../state/view/elementsSurface";
 import { elementsSurfaceStyles } from "../elementsSurfaceStyles";
+import { previewLabelStyles } from "../previewLabelStyles";
 
 const container = style({
   display: "flex",
@@ -74,22 +75,31 @@ export function ElevationElements() {
                   {name}
                   {level.index === 0 ? " (base)" : ""}
                 </Text>
-                {showValues && (
-                  <details>
-                    <summary>Shadow values</summary>
-                    {level.shadows.map((shadow) => (
-                      <p key={shadow.layerId}>
-                        {
-                          document.layers.find(
-                            (layer) => layer.id === shadow.layerId,
-                          )?.label
-                        }
-                        : blur {shadow.blur}px, vertical offset {shadow.offsetY}
-                        px, opacity {shadow.opacity * 100}%
+                {showValues &&
+                  level.shadows.map((shadow) => {
+                    const layer = document.layers.find(
+                      (item) => item.id === shadow.layerId,
+                    )?.label;
+                    return (
+                      <p
+                        key={shadow.layerId}
+                        className={previewLabelStyles}
+                        data-shadow-values
+                      >
+                        {level.shadows.length > 1 && layer && (
+                          <>
+                            {layer}
+                            <br />
+                          </>
+                        )}
+                        blur: {shadow.blur}px
+                        <br />
+                        vertical offset: {shadow.offsetY}px
+                        <br />
+                        opacity: {shadow.opacity * 100}%
                       </p>
-                    ))}
-                  </details>
-                )}
+                    );
+                  })}
               </div>
             </li>
           );

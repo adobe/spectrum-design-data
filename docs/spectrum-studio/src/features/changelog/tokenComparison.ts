@@ -22,6 +22,7 @@ import {
 import { opacityStopsEnabled } from "../color-system/colorScaleType";
 import { opacityOutputIssues } from "../opacity/output";
 import { isFoundationPublished } from "../foundations/types";
+import { WORKFLOW_ICON_SCALE_ID } from "../icons/model";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
 import {
   structureSlot,
@@ -297,12 +298,25 @@ function dependencyPaths(
           formula.textSizeAdaptation.interpolationId,
         ),
       );
+    const workflowIcon =
+      token.groupId === "workflow-icon-size"
+        ? snapshot.icons?.scales.find(
+            (scale) => scale.id === WORKFLOW_ICON_SCALE_ID,
+          )
+        : undefined;
     const needsLineHeight =
       /-(?:unitlessLineHeight|lineHeight)$/.test(token.groupId) ||
-      (token.groupId === "workflow-icon-size" &&
-        snapshot.typography.iconography.alignment === "line-height");
-    if (token.groupId === "workflow-icon-size")
-      paths.push(["typography", "iconography"]);
+      workflowIcon?.source === "line-height";
+    if (token.groupId === "workflow-icon-size" && snapshot.icons) {
+      for (const key of ["roundingRuleId", "minIconSize", "maxIconSize"])
+        paths.push(["icons", key]);
+      paths.push(
+        entity("icons", "scales", WORKFLOW_ICON_SCALE_ID),
+        entity("rules", undefined, snapshot.icons.roundingRuleId),
+      );
+      if (workflowIcon?.source === "formula")
+        paths.push(entity("scaleTypes", undefined, workflowIcon.scaleTypeId));
+    }
     if (needsLineHeight) {
       paths.push(
         ["typography", "lineHeights"],
@@ -314,9 +328,8 @@ function dependencyPaths(
         ),
       );
       const lineId =
-        token.groupId === "workflow-icon-size" &&
-        snapshot.typography.iconography.alignment === "line-height"
-          ? snapshot.typography.iconography.lineHeightId
+        workflowIcon?.source === "line-height"
+          ? workflowIcon.lineHeightId
           : token.groupId.replace(/-(?:unitlessLineHeight|lineHeight)$/, "");
       const lineHeight = snapshot.typography.lineHeights.find(
         (candidate) => candidate.id === lineId,

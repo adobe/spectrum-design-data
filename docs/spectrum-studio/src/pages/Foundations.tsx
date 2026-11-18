@@ -11,6 +11,7 @@ import { FoundationsMotionPanel } from "../panels/foundations/FoundationsMotionP
 import { FoundationsSizePanel } from "../panels/foundations/FoundationsSizePanel";
 import { FoundationsSpacingPanel } from "../panels/foundations/FoundationsSpacingPanel";
 import { FoundationsTypographyPanel } from "../panels/foundations/FoundationsTypographyPanel";
+import { FoundationsIconsPanel } from "../panels/foundations/FoundationsIconsPanel";
 import { Text } from "@react-spectrum/s2";
 import { useAtomValue } from "jotai";
 import { lazy, Suspense } from "react";
@@ -25,6 +26,8 @@ import { SizeElements } from "../views/size/SizeElements";
 import { SizeAnalyze } from "../views/size/SizeAnalyze";
 import { SpacingAnalyze } from "../views/spacing/SpacingAnalyze";
 import { TypographyAnalyze } from "../views/typography/TypographyAnalyze";
+import { IconsElements } from "../views/IconsElements";
+import { IconsAnalyze } from "../views/analyze/IconsAnalyze";
 import { FoundationModeSettings } from "../panels/foundations/FoundationModeSettings";
 import { RadiusElements } from "../views/radius/RadiusElements";
 import { RadiusAnalyze } from "../views/radius/RadiusAnalyze";
@@ -86,6 +89,8 @@ export default function Foundations() {
       )
     ) : selectedFoundationTab === "typography" ? (
       <TypographyElements />
+    ) : selectedFoundationTab === "icons" ? (
+      <IconsElements />
     ) : selectedFoundationTab === "spacing" ? (
       <SpacingElements />
     ) : selectedFoundationTab === "size" ? (
@@ -114,6 +119,8 @@ export default function Foundations() {
       )
     ) : selectedFoundationTab === "typography" ? (
       <TypographyAnalyze />
+    ) : selectedFoundationTab === "icons" ? (
+      <IconsAnalyze />
     ) : selectedFoundationTab === "spacing" ? (
       <SpacingAnalyze />
     ) : selectedFoundationTab === "size" ? (
@@ -179,6 +186,13 @@ export default function Foundations() {
               label: "Typography",
               icon: <CategoryIcon category="typography" />,
               content: <FoundationsTypographyPanel />,
+              noPadding: true,
+            },
+            {
+              id: "icons",
+              label: "Icons",
+              icon: <CategoryIcon category="icons" />,
+              content: <FoundationsIconsPanel />,
               noPadding: true,
             },
             {

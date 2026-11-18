@@ -22,22 +22,24 @@ import {
 import { selectedDataVisScaleIdAtom } from "../../../state/view/dataVisView";
 import { DataVisComparisonTable } from "./DataVisComparisonTable";
 import { useDataVisDisplay, type DataVisDisplay } from "./useDataVisDisplay";
+import {
+  AnalyzeCardGrid,
+  AnalyzePage,
+  AnalyzeSettings,
+  AnalyzeValuesTable,
+  ChartCard,
+  analyzeNoteStyles,
+  usePreviewData,
+} from "../../analyze/AnalyzeLayout";
 
-const layout = style({
-  padding: 24,
-  display: "flex",
-  flexDirection: "column",
-  gap: 16,
-  overflow: "auto",
-  minHeight: 0,
-});
+const DATA_VIS_DRIVERS = ["color.*"];
 const row = style({
   display: "flex",
   flexWrap: "wrap",
   alignItems: "end",
   gap: 16,
 });
-const notice = style({ font: "body-sm", color: "neutral-subdued", margin: 0 });
+const notice = analyzeNoteStyles;
 const negative = style({ color: "negative" });
 const metricNames: Record<DataVisMetric, string> = {
   lightness: "Lightness",
@@ -53,27 +55,33 @@ export function DataVisAnalyze() {
     selected =
       displays.find((display) => display.definition.id === selectedId) ??
       displays[0];
+  const previewData = usePreviewData(DATA_VIS_DRIVERS);
   return (
-    <div className={layout} data-component="DataVisAnalyze">
-      <h1>Data vis analysis</h1>
+    <AnalyzePage
+      component="DataVisAnalyze"
+      title="Data vis"
+      previewData={previewData}
+    >
       {!selected ? (
         <Text>Add a data vis scale to compare its colors.</Text>
       ) : (
         <>
-          <Picker
-            label="Data vis scale"
-            selectedKey={selected.definition.id}
-            onSelectionChange={(id) => select(String(id))}
-          >
-            {displays.map((display) => (
-              <PickerItem
-                id={display.definition.id}
-                key={display.definition.id}
-              >
-                {termLabel(display.definition.name)}
-              </PickerItem>
-            ))}
-          </Picker>
+          <AnalyzeSettings>
+            <Picker
+              label="Data vis scale"
+              selectedKey={selected.definition.id}
+              onSelectionChange={(id) => select(String(id))}
+            >
+              {displays.map((display) => (
+                <PickerItem
+                  id={display.definition.id}
+                  key={display.definition.id}
+                >
+                  {termLabel(display.definition.name)}
+                </PickerItem>
+              ))}
+            </Picker>
+          </AnalyzeSettings>
           <Analysis
             key={selected.definition.id}
             display={selected}
@@ -82,7 +90,7 @@ export function DataVisAnalyze() {
           />
         </>
       )}
-    </div>
+    </AnalyzePage>
   );
 }
 
@@ -178,135 +186,178 @@ function Analysis({
               0.4,
             )
           : 1;
+  const measurementPicker = (
+    <Picker
+      label="Chart measurement"
+      selectedKey={metric}
+      onSelectionChange={(key) => {
+        if (
+          key === "lightness" ||
+          key === "chroma" ||
+          key === "hue" ||
+          key === "contrast"
+        )
+          setMetric(key);
+      }}
+    >
+      {Object.entries(metricNames).map(([id, label]) => (
+        <PickerItem id={id} key={id}>
+          {label}
+        </PickerItem>
+      ))}
+    </Picker>
+  );
   return (
     <>
-      <div className={row}>
-        <Picker
-          label="Chart measurement"
-          selectedKey={metric}
-          onSelectionChange={(key) => {
-            if (
-              key === "lightness" ||
-              key === "chroma" ||
-              key === "hue" ||
-              key === "contrast"
-            )
-              setMetric(key);
-          }}
-        >
-          {Object.entries(metricNames).map(([id, label]) => (
-            <PickerItem id={id} key={id}>
-              {label}
-            </PickerItem>
-          ))}
-        </Picker>
-        <Picker
-          label="Vision profile"
-          selectedKey={profile}
-          onSelectionChange={(key) => {
-            if (
-              key === "normal" ||
-              key === "protanopia" ||
-              key === "deuteranopia" ||
-              key === "tritanopia" ||
-              key === "achromatopsia"
-            )
-              setProfile(key);
-          }}
-        >
-          {Object.entries(VISION_PROFILE_LABELS).map(([id, label]) => (
-            <PickerItem id={id} key={id}>
-              {label}
-            </PickerItem>
-          ))}
-        </Picker>
-        <Picker
-          label="Compare against"
-          selectedKey={referenceKey}
-          onSelectionChange={(key) => {
-            setReferenceKey(String(key));
-            setPage(0);
-          }}
-        >
-          <PickerItem id="background">UI background</PickerItem>
-          <PickerItem id="adjacent">Adjacent colors</PickerItem>
-          <PickerItem id="all">All color pairs</PickerItem>
-          {display.observations.map((observation) => (
-            <PickerItem id={`color:${observation.id}`} key={observation.id}>
-              {observation.label}
-            </PickerItem>
-          ))}
-        </Picker>
-      </div>
       {result.error && (
         <p role="alert" className={negative}>
           {result.error}
         </p>
       )}
-      <ScaleGraph
-        kind="numeric"
-        label={`${termLabel(display.definition.name)} ${metricNames[metric].toLowerCase()}`}
-        series={[
-          {
-            id: display.definition.id,
-            label: metricNames[metric],
-            points: result.points,
-          },
-        ]}
-        xDomain={
-          continuous ? [0, 1] : [1, Math.max(2, display.observations.length)]
-        }
-        yDomain={[0, maximum]}
-        xLabel={continuous ? "Normalized position" : "Saved color order"}
-        yLabel={metricNames[metric]}
-        connectPoints={continuous}
-      />
-      {continuous && (
-        <p className={notice}>
-          The plotted colors are function samples, not an authored swatch count.
-          Neutral colors have no hue. Diverging arms share the exact center.
-        </p>
-      )}
-      {!continuous && (
-        <p className={notice}>
-          Each marker is a saved categorical member; there is no continuous
-          curve.
-        </p>
-      )}
-      <p className={notice}>
-        WCAG non-text checks use normal-vision rendered contrast, with a 3:1
-        threshold. Pair checks are relevant to adjacent graphical objects, not a
-        whole-chart certification. Delta E 2000 is a separate difference
-        measure, not a WCAG pass rule.
-      </p>
-      {profile !== "normal" && (
-        <p className={notice}>
-          Simulated swatches, colors and background are measured together.
-          Simulation contrast is not a WCAG result; grayscale is an
-          approximation.
-        </p>
-      )}
-      <DataVisComparisonTable rows={result.rows} deltaETarget={target} />
-      <Text>
-        {result.total} comparisons; page {result.page + 1} of {result.pageCount}
-        .
-      </Text>
-      {result.pageCount > 1 && (
-        <div className={row}>
-          <ActionButton
-            isDisabled={result.page === 0}
-            onPress={() => setPage(result.page - 1)}
-          >
-            Previous comparisons
-          </ActionButton>
-          <ActionButton
-            isDisabled={result.page + 1 === result.pageCount}
-            onPress={() => setPage(result.page + 1)}
-          >
-            Next comparisons
-          </ActionButton>
-        </div>
-      )}
+      <AnalyzeCardGrid count={2}>
+        <ChartCard
+          title={metricNames[metric]}
+          label="Data vis measurement chart"
+          settings={measurementPicker}
+          values={
+            <AnalyzeValuesTable
+              label={`${termLabel(display.definition.name)} ${metricNames[metric].toLowerCase()} values`}
+              headings={[
+                continuous ? "Normalized position" : "Saved color order",
+                "Color",
+                metricNames[metric],
+              ]}
+              rows={result.points.map((point, index) => ({
+                id: String(index),
+                values: [
+                  String(Number(point.x.toFixed(3))),
+                  display.observations[index]?.label ?? "",
+                  point.y === null
+                    ? "No chromatic hue"
+                    : String(Number(point.y.toFixed(2))),
+                ],
+              }))}
+            />
+          }
+        >
+          <ScaleGraph
+            kind="numeric"
+            label={`${termLabel(display.definition.name)} ${metricNames[metric].toLowerCase()}`}
+            series={[
+              {
+                id: display.definition.id,
+                label: metricNames[metric],
+                points: result.points,
+              },
+            ]}
+            xDomain={
+              continuous
+                ? [0, 1]
+                : [1, Math.max(2, display.observations.length)]
+            }
+            yDomain={[0, maximum]}
+            xLabel={continuous ? "Normalized position" : "Saved color order"}
+            yLabel={metricNames[metric]}
+            connectPoints={continuous}
+          />
+          {continuous && (
+            <p className={notice}>
+              The plotted colors are function samples, not an authored swatch
+              count. Neutral colors have no hue. Diverging arms share the exact
+              center.
+            </p>
+          )}
+          {!continuous && (
+            <p className={notice}>
+              Each marker is a saved categorical member; there is no continuous
+              curve.
+            </p>
+          )}
+        </ChartCard>
+        <ChartCard
+          title="Comparisons"
+          label="Data vis comparisons"
+          settings={
+            <>
+              <Picker
+                label="Vision profile"
+                selectedKey={profile}
+                onSelectionChange={(key) => {
+                  if (
+                    key === "normal" ||
+                    key === "protanopia" ||
+                    key === "deuteranopia" ||
+                    key === "tritanopia" ||
+                    key === "achromatopsia"
+                  )
+                    setProfile(key);
+                }}
+              >
+                {Object.entries(VISION_PROFILE_LABELS).map(([id, label]) => (
+                  <PickerItem id={id} key={id}>
+                    {label}
+                  </PickerItem>
+                ))}
+              </Picker>
+              <Picker
+                label="Compare against"
+                selectedKey={referenceKey}
+                onSelectionChange={(key) => {
+                  setReferenceKey(String(key));
+                  setPage(0);
+                }}
+              >
+                <PickerItem id="background">UI background</PickerItem>
+                <PickerItem id="adjacent">Adjacent colors</PickerItem>
+                <PickerItem id="all">All color pairs</PickerItem>
+                {display.observations.map((observation) => (
+                  <PickerItem
+                    id={`color:${observation.id}`}
+                    key={observation.id}
+                  >
+                    {observation.label}
+                  </PickerItem>
+                ))}
+              </Picker>
+            </>
+          }
+        >
+          <p className={notice}>
+            WCAG non-text checks use normal-vision rendered contrast, with a 3:1
+            threshold. Pair checks are relevant to adjacent graphical objects,
+            not a whole-chart certification. Delta E 2000 is a separate
+            difference measure, not a WCAG pass rule.
+          </p>
+          {profile !== "normal" && (
+            <p className={notice}>
+              Simulated swatches, colors and background are measured together.
+              Simulation contrast is not a WCAG result; grayscale is an
+              approximation.
+            </p>
+          )}
+          <DataVisComparisonTable rows={result.rows} deltaETarget={target} />
+          <Text>
+            {result.total} comparisons; page {result.page + 1} of{" "}
+            {result.pageCount}.
+          </Text>
+          {result.pageCount > 1 && (
+            <div className={row}>
+              <ActionButton
+                isDisabled={result.page === 0}
+                onPress={() => setPage(result.page - 1)}
+              >
+                Previous comparisons
+              </ActionButton>
+              <ActionButton
+                isDisabled={result.page + 1 === result.pageCount}
+                onPress={() => setPage(result.page + 1)}
+              >
+                Next comparisons
+              </ActionButton>
+            </div>
+          )}
+        </ChartCard>
+      </AnalyzeCardGrid>
       <p className={notice}>
         Finite samples cannot certify every function value or an entire chart.
         The chart must still provide labels, patterns, suitable adjacency and

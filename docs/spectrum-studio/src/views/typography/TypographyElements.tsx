@@ -29,8 +29,10 @@ import { termLabel } from "../../features/taxonomy/termPresentation";
 import { EditablePicker } from "../../components/editable";
 import { IconSamplePicker } from "../../components/fields/IconSamplePicker";
 import { useIconSample } from "../../features/icons/useIconSample";
+import { iconsDocumentAtom } from "../../features/icons/documentState";
 import { TypographyRamp } from "./TypographyRamp";
 import {
+  defaultTypographyDisplayModes,
   typographyDisplayModes,
   type TypographyDisplayMode,
 } from "./typographyPreview";
@@ -65,6 +67,7 @@ const typographyElementsInputAtom = atom((get) => ({
   scaleTypes: get(scaleTypesAtom),
   interpolations: get(interpolationsAtom),
   registry: get(taxonomyDocumentAtom),
+  icons: get(iconsDocumentAtom),
 }));
 
 export function TypographyElements() {
@@ -72,7 +75,7 @@ export function TypographyElements() {
   const { document, registry } = input;
   const update = useSetAtom(updateTypographyAtom);
   const [displayModes, setDisplayModes] = useState<TypographyDisplayMode[]>(
-    typographyDisplayModes,
+    defaultTypographyDisplayModes,
   );
   const [sampleText, setSampleText] = useState(
     "The quick brown fox jumps over the lazy dog",
@@ -97,6 +100,7 @@ export function TypographyElements() {
     scaleTypes,
     interpolations,
     registry: previewRegistry,
+    icons: previewIcons,
     surfaceStyle,
     icon: previewIcon,
   } = preview;
@@ -108,8 +112,9 @@ export function TypographyElements() {
         rules,
         scaleTypes,
         interpolations,
+        previewIcons,
       ),
-    [resolved, rules, scaleTypes, interpolations],
+    [resolved, rules, scaleTypes, interpolations, previewIcons],
   );
   const css = useMemo(
     () =>
@@ -120,8 +125,16 @@ export function TypographyElements() {
         scaleTypes,
         interpolations,
         registry: previewRegistry,
+        icons: previewIcons,
       }),
-    [previewDocument, rules, scaleTypes, interpolations, previewRegistry],
+    [
+      previewDocument,
+      rules,
+      scaleTypes,
+      interpolations,
+      previewRegistry,
+      previewIcons,
+    ],
   );
   const renderIcon = useCallback(
     (size: number) =>
@@ -163,7 +176,7 @@ export function TypographyElements() {
               >
                 <PickerItem id="font-size">Font size</PickerItem>
                 <PickerItem id="line-height">Line height</PickerItem>
-                <PickerItem id="icon-size">Icon size</PickerItem>
+                <PickerItem id="sample-icon">Sample icon</PickerItem>
               </Picker>
               <TextField
                 labelPosition="side"
@@ -171,10 +184,12 @@ export function TypographyElements() {
                 value={sampleText}
                 onChange={setSampleText}
               />
-              <IconSamplePicker
-                selectedIcon={selectedIcon}
-                onChange={setSelectedIcon}
-              />
+              {displayModes.includes("sample-icon") && (
+                <IconSamplePicker
+                  selectedIcon={selectedIcon}
+                  onChange={setSelectedIcon}
+                />
+              )}
               <EditablePicker
                 label="Sample line height"
                 selectedKey={document.previewLineHeightId}
@@ -199,10 +214,10 @@ export function TypographyElements() {
           }
         />
       </div>
-      {icon.status === "loading" && (
+      {displayModes.includes("sample-icon") && icon.status === "loading" && (
         <div role="status">Loading sample icon...</div>
       )}
-      {icon.status === "error" && (
+      {displayModes.includes("sample-icon") && icon.status === "error" && (
         <div role="alert">
           {icon.message}. Choose another sample icon or reload to retry.
         </div>

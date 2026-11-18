@@ -1,27 +1,18 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useAtomValue } from "jotai";
 import { useMemo } from "react";
-import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { typographyDocumentAtom } from "../../features/typography/state";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { modeSetsAtom } from "../../features/modes/state";
+import { iconsDocumentAtom } from "../../features/icons/documentState";
 import { rulesAtom } from "../../features/logic/library";
 import {
   interpolationsAtom,
   scaleTypesAtom,
 } from "../../features/logic/scaleTypeLibrary";
 import { buildTypographyComparisons } from "../../features/typography/comparisons";
-import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
+import { AnalyzePage } from "../analyze/AnalyzeLayout";
 import { TypographyComparisonView } from "./TypographyComparisonView";
-
-const containerStyle = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 20,
-  padding: 16,
-  minHeight: "full",
-  overflow: "auto",
-});
 
 export function TypographyAnalyze() {
   const document = useAtomValue(typographyDocumentAtom);
@@ -30,6 +21,7 @@ export function TypographyAnalyze() {
   const rules = useAtomValue(rulesAtom);
   const scaleTypes = useAtomValue(scaleTypesAtom);
   const interpolations = useAtomValue(interpolationsAtom);
+  const icons = useAtomValue(iconsDocumentAtom);
   const result = useMemo(() => {
     try {
       return {
@@ -37,20 +29,20 @@ export function TypographyAnalyze() {
           rules,
           scaleTypes,
           interpolations,
+          icons,
         }),
       };
     } catch (error) {
       if (!(error instanceof Error)) throw error;
       return { error: error.message };
     }
-  }, [document, modeSets, registry, rules, scaleTypes, interpolations]);
+  }, [document, modeSets, registry, rules, scaleTypes, interpolations, icons]);
   return (
-    <div data-component="TypographyAnalyze" className={containerStyle}>
-      <FoundationsElementsHeader title="Typography" />
+    <AnalyzePage component="TypographyAnalyze" title="Typography">
       <TypographyComparisonView
         {...result}
         initialLineHeightId={`${document.previewLineHeightId}-lineHeight`}
       />
-    </div>
+    </AnalyzePage>
   );
 }

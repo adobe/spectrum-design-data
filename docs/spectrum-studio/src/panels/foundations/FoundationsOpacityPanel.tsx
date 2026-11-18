@@ -34,6 +34,7 @@ import {
 } from "../../features/opacity/state";
 import { appColorSchemeAtom } from "../../state/view/appAppearance";
 import { FoundationModeSettings } from "./FoundationModeSettings";
+import { firstAccordionItemStyle } from "../accordionStyles";
 import { OpacityRamp } from "../../views/opacity/OpacityRamp";
 import { TokenComboBox } from "../../components/fields/TokenComboBox";
 import {
@@ -118,7 +119,10 @@ export function FoundationsOpacityPanel() {
       <FoundationModeSettings
         foundation="opacity"
         before={
-          <AccordionItem id="system-settings">
+          <AccordionItem
+            id="system-settings"
+            UNSAFE_style={firstAccordionItemStyle}
+          >
             <AccordionItemTitle>System settings</AccordionItemTitle>
             <AccordionItemPanel UNSAFE_className={String(accordionPanelStyles)}>
               <div className={settingsStyles}>

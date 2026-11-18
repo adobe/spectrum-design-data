@@ -1,8 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
-  ActionButton,
-  Badge,
   Checkbox,
   Content,
   Heading,
@@ -13,10 +11,9 @@ import {
   TabList,
   TabPanel,
   Tabs,
-  Text,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 import { Picker } from "../../components/fields/Picker";
 import { NumberField } from "../../components/fields/NumberField";
 import { ColorCanvas } from "../../components/color-picker/ColorCanvas";
@@ -55,37 +52,19 @@ import type {
   ContrastToken,
 } from "../../features/color-system/model";
 import type { ColorAnalysisPreferences } from "../../state/view/colorSystemView";
-import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
+import {
+  AnalyzeCardGrid,
+  AnalyzePage,
+  AnalyzeSettings,
+  AnalyzeValuesTable,
+  ChartCard,
+  analyzeNoteStyles,
+} from "../analyze/AnalyzeLayout";
 import { ContrastRamp } from "./ContrastRamp";
 import "../chartLayout.css";
 import "./ColorAnalyze.css";
 import type { Rule } from "../../features/logic/model";
 
-const rootStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 16,
-  padding: 16,
-  overflow: "auto",
-  minWidth: 0,
-  minHeight: 0,
-  color: "neutral",
-});
-const cardStyles = style({
-  backgroundColor: "layer-1",
-  borderRadius: "xl",
-  padding: 16,
-  minWidth: 0,
-  display: "flex",
-  flexDirection: "column",
-  gap: 12,
-});
-const controlsStyles = style({
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "center",
-  gap: 16,
-});
 const columnStyles = style({
   display: "flex",
   flexDirection: "column",
@@ -99,24 +78,7 @@ const lightnessWrapperStyles = style({
   paddingTop: 16,
   minWidth: 0,
 });
-const noteStyles = style({
-  font: "body-sm",
-  color: "neutral-subdued",
-  margin: 0,
-});
-const headingStyles = style({ font: "title-sm", margin: 0 });
-const tableStyles = style({
-  width: "full",
-  borderCollapse: "collapse",
-  font: "body-sm",
-});
-const cellStyles = style({
-  padding: 8,
-  textAlign: "start",
-  borderBottomWidth: 1,
-  borderStyle: "solid",
-  borderColor: "gray-200",
-});
+const noteStyles = analyzeNoteStyles;
 const config = getColorSpaceConfig("OKlch", "cartesian");
 const channels = ["a", "b"] as const;
 const number = (value: number) => Number(value.toFixed(2)).toString();
@@ -227,16 +189,7 @@ export function ColorAnalysisView({
   ]);
   const gamut = renderGamutForOutput(document.settings.colorOutput);
   return (
-    <div className={rootStyles} data-component="ColorAnalyze">
-      <FoundationsElementsHeader
-        title="Color analysis"
-        controls={
-          <>
-            <Badge variant="informative">Generated colors</Badge>
-            {isPreview && <Badge variant="notice">Current preview</Badge>}
-          </>
-        }
-      />
+    <AnalyzePage component="ColorAnalyze" title="Color" previewData={isPreview}>
       {overrideCount > 0 && (
         <p role="status" className={noteStyles}>
           {overrideCount} related color tokens have edits. These charts show
@@ -273,11 +226,12 @@ export function ColorAnalysisView({
               gamut={gamut}
               preferences={preferences}
               change={change}
+              valuesScaleId={valuesScale?.id}
             />
           </TabPanel>
           <TabPanel id="lightness">
             <div className={lightnessWrapperStyles}>
-              <div className={controlsStyles}>
+              <AnalyzeSettings>
                 <div className="colorAnalysisField">
                   <Picker
                     label="Reference scale"
@@ -325,124 +279,48 @@ export function ColorAnalysisView({
                     <PickerItem id="curve">Curve</PickerItem>
                   </Picker>
                 </div>
-              </div>
+              </AnalyzeSettings>
               {output.error && <AnalysisError message={output.error} />}
               {output.profile && (
-                <Lightness
-                  profile={output.profile}
-                  name={reference.name}
-                  preferences={preferences}
-                />
+                <AnalyzeCardGrid count={1}>
+                  <Lightness
+                    profile={output.profile}
+                    name={reference.name}
+                    preferences={preferences}
+                    values={
+                      <AnalyzeValuesTable
+                        label={`${termLabel(reference.name)} output values`}
+                        headings={[
+                          "Scale index",
+                          "Authored target",
+                          "Effective target",
+                          "Achieved contrast",
+                          "Calculated contrast",
+                          "Lightness (OKLab)",
+                          "Original color",
+                        ]}
+                        rows={output.profile.map((stop) => ({
+                          id: stop.id,
+                          values: [
+                            String(stop.scaleIndex),
+                            number(stop.authoredTarget),
+                            number(stop.target),
+                            number(stop.achieved),
+                            number(stop.calculated),
+                            percent(stop.lightness),
+                            stop.css,
+                          ],
+                        }))}
+                      />
+                    }
+                  />
+                </AnalyzeCardGrid>
               )}
             </div>
           </TabPanel>
         </Tabs>
       )}
-      <ActionButton
-        aria-expanded={preferences.showValues}
-        onPress={() => change({ showValues: !preferences.showValues })}
-      >
-        <Text>{preferences.showValues ? "Hide values" : "Show values"}</Text>
-      </ActionButton>
-      {preferences.showValues && derived.scales && (
-        <div className={cardStyles}>
-          {preferences.tab === "chromaticity" && valuesScale ? (
-            <>
-              <div className="colorAnalysisField">
-                <Picker
-                  label="Values for scale"
-                  selectedKey={valuesScale.id}
-                  onSelectionChange={(key) => {
-                    if (key !== null) change({ valuesScaleId: String(key) });
-                  }}
-                >
-                  {document.scales.map((scale) => (
-                    <PickerItem key={scale.id} id={scale.id}>
-                      {termLabel(scale.name)}
-                    </PickerItem>
-                  ))}
-                </Picker>
-              </div>
-              <ValuesTable
-                headings={[
-                  "Position (relative luminance)",
-                  "Hue",
-                  "Chroma",
-                  "Lightness (OKLab)",
-                ]}
-                rows={(
-                  derived.scales.find((item) => item.id === valuesScale.id)
-                    ?.samples ?? []
-                ).map((sample) => ({
-                  id: String(sample.position),
-                  values: [
-                    number(sample.position),
-                    sample.hue === null
-                      ? "Undefined (neutral)"
-                      : `${number(sample.hue)} deg`,
-                    number(sample.chroma),
-                    percent(sample.lightness),
-                  ],
-                }))}
-                label={`${termLabel(valuesScale.name)} trajectory values`}
-              />
-              <ValuesTable
-                headings={[
-                  "Key",
-                  "Hue",
-                  "Chroma",
-                  "Lightness (OKLab)",
-                  "Gamut",
-                ]}
-                rows={(
-                  derived.scales.find((item) => item.id === valuesScale.id)
-                    ?.keys ?? []
-                ).map((key, index) => ({
-                  id: key.id,
-                  values: [
-                    String(index + 1),
-                    key.hue === null
-                      ? "Undefined (neutral)"
-                      : `${number(key.hue)} deg`,
-                    number(key.chroma),
-                    percent(key.lightness),
-                    key.inGamut ? "In gamut" : "Outside output gamut",
-                  ],
-                }))}
-                label={`${termLabel(valuesScale.name)} scale key values`}
-              />
-            </>
-          ) : (
-            output.profile && (
-              <ValuesTable
-                label={`${termLabel(reference?.name ?? "")} output values`}
-                headings={[
-                  "Scale index",
-                  "Authored target",
-                  "Effective target",
-                  "Achieved contrast",
-                  "Calculated contrast",
-                  "Lightness (OKLab)",
-                  "Original color",
-                ]}
-                rows={output.profile.map((stop) => ({
-                  id: stop.id,
-                  values: [
-                    String(stop.scaleIndex),
-                    number(stop.authoredTarget),
-                    number(stop.target),
-                    number(stop.achieved),
-                    number(stop.calculated),
-                    percent(stop.lightness),
-                    stop.css,
-                  ],
-                }))}
-              />
-            )
-          )}
-        </div>
-      )}
-    </div>
+    </AnalyzePage>
   );
 }
 
@@ -460,11 +338,13 @@ function Chromaticity({
   gamut,
   preferences,
   change,
+  valuesScaleId,
 }: {
   scales: AnalysisScale[];
   gamut: RgbGamut;
   preferences: ColorAnalysisPreferences;
   change: (patch: Partial<ColorAnalysisPreferences>) => void;
+  valuesScaleId?: string;
 }) {
   const selectedScale = allScales.find(
     (scale) => scale.id === preferences.chromaticityScaleId,
@@ -517,9 +397,53 @@ function Chromaticity({
               y: sample[channel],
             })),
     }));
+  const valuesScale =
+    selectedScale ??
+    allScales.find((scale) => scale.id === valuesScaleId) ??
+    allScales[0];
+  const valuesPicker = !selectedScale && allScales.length > 1 && (
+    <div className="colorAnalysisField">
+      <Picker
+        label="Values for scale"
+        selectedKey={valuesScale?.id}
+        onSelectionChange={(key) => {
+          if (key !== null) change({ valuesScaleId: String(key) });
+        }}
+      >
+        {allScales.map((scale) => (
+          <PickerItem key={scale.id} id={scale.id}>
+            {termLabel(scale.name)}
+          </PickerItem>
+        ))}
+      </Picker>
+    </div>
+  );
+  const valuesName = termLabel(valuesScale?.name ?? "");
+  const trajectoryTable = (
+    <AnalyzeValuesTable
+      label={`${valuesName} trajectory values`}
+      headings={[
+        "Position (relative luminance)",
+        "Hue",
+        "Chroma",
+        "Lightness (OKLab)",
+      ]}
+      rows={(valuesScale?.samples ?? []).map((sample) => ({
+        id: String(sample.position),
+        values: [
+          number(sample.position),
+          sample.hue === null
+            ? "Undefined (neutral)"
+            : `${number(sample.hue)} deg`,
+          number(sample.chroma),
+          percent(sample.lightness),
+        ],
+      }))}
+    />
+  );
   return (
     <div className={lightnessWrapperStyles}>
-      <div className={controlsStyles}>
+      <AnalyzeSettings>
         <div className="colorAnalysisField">
           <Picker
             label="Color scale"
@@ -532,7 +456,7 @@ function Chromaticity({
                 });
             }}
           >
-            <PickerItem id="all">All</PickerItem>
+            <PickerItem id="all">All scales</PickerItem>
             {allScales.map((scale) => (
               <PickerItem key={scale.id} id={scale.id}>
                 {termLabel(scale.name)}
@@ -540,10 +464,66 @@ function Chromaticity({
             ))}
           </Picker>
         </div>
-      </div>
+      </AnalyzeSettings>
       <div className="colorAnalysisGrid">
-        <section className={cardStyles} aria-label="Hue and chroma analysis">
-          <h3 className={headingStyles}>Hue and chroma</h3>
+        <ChartCard
+          title="Hue and chroma"
+          settings={
+            <>
+              <Picker
+                label="Markers"
+                selectedKey={preferences.markerMode}
+                onSelectionChange={(key) => {
+                  if (key === "slices" || key === "keys")
+                    change({ markerMode: key });
+                }}
+              >
+                <PickerItem id="slices">Scale cross-sections</PickerItem>
+                <PickerItem id="keys">All key colors</PickerItem>
+              </Picker>
+              <Checkbox
+                isSelected={preferences.paths}
+                onChange={(paths) => change({ paths })}
+              >
+                Show scale paths
+              </Checkbox>
+              <Checkbox
+                isSelected={preferences.guides}
+                onChange={(guides) => change({ guides })}
+              >
+                Show radial guides
+              </Checkbox>
+            </>
+          }
+          values={
+            <div className={columnStyles}>
+              {valuesPicker}
+              {trajectoryTable}
+              <AnalyzeValuesTable
+                label={`${valuesName} scale key values`}
+                headings={[
+                  "Key",
+                  "Hue",
+                  "Chroma",
+                  "Lightness (OKLab)",
+                  "Gamut",
+                ]}
+                rows={(valuesScale?.keys ?? []).map((key, index) => ({
+                  id: key.id,
+                  values: [
+                    String(index + 1),
+                    key.hue === null
+                      ? "Undefined (neutral)"
+                      : `${number(key.hue)} deg`,
+                    number(key.chroma),
+                    percent(key.lightness),
+                    key.inGamut ? "In gamut" : "Outside output gamut",
+                  ],
+                }))}
+              />
+            </div>
+          }
+        >
           <p className={noteStyles}>
             OKLCh, {GAMUT_LABELS[gamut]} gamut. Distance is actual chroma, not
             relative saturation.
@@ -575,29 +555,6 @@ function Chromaticity({
               }}
             />
           </div>
-          <Picker
-            label="Markers"
-            selectedKey={preferences.markerMode}
-            onSelectionChange={(key) => {
-              if (key === "slices" || key === "keys")
-                change({ markerMode: key });
-            }}
-          >
-            <PickerItem id="slices">Scale cross-sections</PickerItem>
-            <PickerItem id="keys">All key colors</PickerItem>
-          </Picker>
-          <Checkbox
-            isSelected={preferences.paths}
-            onChange={(paths) => change({ paths })}
-          >
-            Show scale paths
-          </Checkbox>
-          <Checkbox
-            isSelected={preferences.guides}
-            onChange={(guides) => change({ guides })}
-          >
-            Show radial guides
-          </Checkbox>
           <p className={noteStyles}>
             Keys and complete paths project colors at other lightness levels.
             Their true positions can lie outside this slice's colored shape.
@@ -613,13 +570,36 @@ function Chromaticity({
               {missing.map((item) => item.scale.name).join(", ")}.
             </p>
           )}
-        </section>
+        </ChartCard>
         <div className={columnStyles}>
           {(["hue", "chroma"] as const).map((channel) => (
-            <section className={cardStyles} key={channel}>
-              <h3 className={headingStyles}>
-                {channel === "hue" ? "Hue" : "Chroma"}
-              </h3>
+            <ChartCard
+              key={channel}
+              title={channel === "hue" ? "Hue" : "Chroma"}
+              values={
+                <div className={columnStyles}>
+                  {valuesPicker}
+                  <AnalyzeValuesTable
+                    label={`${valuesName} ${channel} values`}
+                    headings={[
+                      "Position (relative luminance)",
+                      channel === "hue" ? "Hue" : "Chroma",
+                    ]}
+                    rows={(valuesScale?.samples ?? []).map((sample) => ({
+                      id: String(sample.position),
+                      values: [
+                        number(sample.position),
+                        channel === "chroma"
+                          ? number(sample.chroma)
+                          : sample.hue === null
+                            ? "Undefined (neutral)"
+                            : `${number(sample.hue)} deg`,
+                      ],
+                    }))}
+                  />
+                </div>
+              }
+            >
               <ScaleGraph
                 kind="numeric"
                 label={`${channel} along generated scales`}
@@ -642,7 +622,7 @@ function Chromaticity({
                 yLabel={channel === "hue" ? "Degrees" : "OKLCh chroma"}
                 markers={false}
               />
-            </section>
+            </ChartCard>
           ))}
         </div>
       </div>
@@ -851,10 +831,12 @@ function Lightness({
   profile,
   name,
   preferences,
+  values,
 }: {
   profile: OutputObservation[];
   name: string;
   preferences: ColorAnalysisPreferences;
+  values: ReactNode;
 }) {
   const points = (metric: "achieved" | "target" | "lightness") =>
     profile.map((stop, x) => ({
@@ -868,8 +850,12 @@ function Lightness({
     label: String(stop.scaleIndex),
   }));
   return (
-    <section className={cardStyles} aria-label={`${name} output analysis`}>
-      <h3 className={headingStyles}>{name}: generated Dynamic output</h3>
+    <ChartCard
+      title={`${termLabel(name)} generated output`}
+      label={`${name} output analysis`}
+      values={values}
+      defaultShowValues={preferences.showValues}
+    >
       <p className={noteStyles}>
         Output stops are ordered by effective target contrast, ascending.
         Grayscale preserves original OKLab lightness.
@@ -969,43 +955,6 @@ function Lightness({
         serialized surface, before device-specific gamut mapping. Curves change
         presentation only; markers are actual observations.
       </p>
-    </section>
-  );
-}
-
-function ValuesTable({
-  label,
-  headings,
-  rows,
-}: {
-  label: string;
-  headings: string[];
-  rows: { id: string; values: string[] }[];
-}) {
-  return (
-    <div className="colorAnalysisValues">
-      <table aria-label={label} className={tableStyles}>
-        <thead>
-          <tr>
-            {headings.map((heading) => (
-              <th key={heading} scope="col" className={cellStyles}>
-                {heading}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.id}>
-              {row.values.map((value, index) => (
-                <td key={index} className={cellStyles}>
-                  {value}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    </ChartCard>
   );
 }

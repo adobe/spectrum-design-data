@@ -62,12 +62,7 @@ const typographyTabs = typography.elements
       element.openingElement.tagName.getText(typography.file) === "Tab",
   )
   .map((element) => stringAttribute(element.openingElement, "id"));
-assert.deepEqual(typographyTabs, [
-  "fonts",
-  "font-sizes",
-  "line-heights",
-  "iconography",
-]);
+assert.deepEqual(typographyTabs, ["fonts", "font-sizes", "line-heights"]);
 assert.deepEqual(
   typography.elements
     .filter(
@@ -207,8 +202,8 @@ for (const name of readdirSync(directory).filter((file) =>
   }
 }
 assert.ok(
-  checked >= 4,
-  "Size, Opacity, Typography and Elevation must use the shared settings layout.",
+  checked >= 5,
+  "Size, Opacity, Typography, Icons and Elevation must use the shared settings layout.",
 );
 
 const shared = parse(

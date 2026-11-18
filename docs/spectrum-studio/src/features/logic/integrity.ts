@@ -3,6 +3,8 @@ import { atom } from "jotai";
 import { spacingDocumentAtom } from "../spacing/state";
 import { sizeDocumentAtom } from "../size/state";
 import { radiusDocumentAtom } from "../radius/state";
+import { iconsDocumentAtom } from "../icons/documentState";
+import type { IconsDocument } from "../icons/model";
 import type { RadiusDocument } from "../radius/model";
 import type { SizeDocument } from "../size/model";
 import type { SpacingDocument } from "../spacing/model";
@@ -18,6 +20,7 @@ export interface RuleState {
   spacing: SpacingDocument;
   size?: SizeDocument;
   radius?: RadiusDocument;
+  icons?: IconsDocument;
 }
 
 export interface NormalizedRuleState extends RuleState {
@@ -40,6 +43,7 @@ export function normalizeRuleState({
   spacing,
   size,
   radius,
+  icons,
 }: RuleState): NormalizedRuleState {
   const corrections: string[] = [];
   let library = [...rules];
@@ -70,6 +74,7 @@ export function normalizeRuleState({
     ...(radius && {
       radius: radius.pendingRules ? withoutPending(radius) : radius,
     }),
+    ...(icons && { icons }),
   };
   if (
     documents.typography !== typography ||
@@ -104,6 +109,7 @@ export const normalizeRuleStateAtom = atom(null, (get, set) => {
     spacing: get(spacingDocumentAtom),
     size: get(sizeDocumentAtom),
     radius: get(radiusDocumentAtom),
+    icons: get(iconsDocumentAtom),
   });
   if (normalized.corrections.length === 0) return normalized.corrections;
   set(rulesAtom, normalized.rules);
@@ -111,6 +117,7 @@ export const normalizeRuleStateAtom = atom(null, (get, set) => {
   set(spacingDocumentAtom, normalized.spacing);
   if (normalized.size) set(sizeDocumentAtom, normalized.size);
   if (normalized.radius) set(radiusDocumentAtom, normalized.radius);
+  if (normalized.icons) set(iconsDocumentAtom, normalized.icons);
   if (import.meta.env?.DEV)
     console.warn("Rule references corrected:", normalized.corrections);
   return normalized.corrections;

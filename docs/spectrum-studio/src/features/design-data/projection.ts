@@ -240,6 +240,7 @@ export function projectAuthoringDataset(
         colorSystem: system.foundations.color,
         componentSizing: system.componentSizing,
         typography: system.foundations.typography,
+        icons: system.foundations.icons,
         spacing: system.foundations.spacing,
         size: system.foundations.size,
         radius: system.foundations.radius,
@@ -549,6 +550,7 @@ export function projectAuthoringDataset(
           system.rules,
           system.scaleTypes,
           system.interpolations,
+          system.foundations.icons,
         );
         for (const row of projectBrowserTokens(
           resolveBrowserTokens(

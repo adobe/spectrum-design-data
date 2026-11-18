@@ -9,6 +9,7 @@ import {
   radiusFoundationSource,
 } from "./spacingFoundation";
 import { typographyFoundationSource } from "./typographyFoundation";
+import { iconsFoundationSource } from "./iconsFoundation";
 import { ruleSource } from "./logic";
 import { atom } from "jotai";
 import { taxonomyDocumentAtom } from "../../taxonomy/state";
@@ -75,6 +76,7 @@ export const FOUNDATION_IMPACT_SOURCES: readonly FoundationImpactSource[] = [
   opacityFoundationSource,
   colorFoundationSource,
   typographyFoundationSource,
+  iconsFoundationSource,
   spacingFoundationSource,
   sizeFoundationSource,
   radiusFoundationSource,

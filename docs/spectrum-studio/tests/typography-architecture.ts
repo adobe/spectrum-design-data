@@ -5,7 +5,6 @@ import { designSystemDefaults } from "../src/data/defaults";
 import { TYPOGRAPHY_DEFAULTS } from "../src/features/typography/defaults";
 import {
   COMPONENT_SIZES,
-  isTypographyDocument,
   TEXT_ZOOM_MIN,
   TEXT_ZOOM_MAX,
 } from "../src/features/typography/model";
@@ -320,16 +319,6 @@ assert.equal(
 const beforeInvalid = store.get(typographyDocumentAtom);
 assert.throws(() => store.set(updateTypographyAtom, { largeSizes: 15 }));
 assert.strictEqual(store.get(typographyDocumentAtom), beforeInvalid);
-assert.ok(
-  !isTypographyDocument({
-    ...TYPOGRAPHY_DEFAULTS,
-    iconography: {
-      alignment: "line-height",
-      baseSize: 16,
-      lineHeightId: "missing",
-    },
-  }),
-);
 const id = store.set(addLineHeightAtom);
 const added = store.get(typographyDocumentAtom);
 assert.equal(added.lineHeights.length, 4);
@@ -548,43 +537,6 @@ assert.strictEqual(
 
 const icons = createStore();
 icons.set(enterEditModeAtom);
-icons.set(updateTypographyAtom, {
-  iconography: { alignment: "text", baseSize: 32 },
-});
-assert.equal(
-  icons.get(generatedTypographyAtom).find((token) => token.position === 0)!
-    .iconSize,
-  32,
-);
-assert.equal(
-  icons.get(generatedTypographyAtom).find((token) => token.position === 1)!
-    .iconSize,
-  36,
-);
-icons.set(updateTypographyAtom, {
-  iconography: {
-    ...icons.get(typographyDocumentAtom).iconography,
-    alignment: "line-height",
-    lineHeightId: "body",
-  },
-});
-assert.ok(
-  icons
-    .get(generatedTypographyAtom)
-    .every((token) => token.iconSize === token.lineHeights.body.length),
-);
-icons.set(updateTypographyAtom, {
-  iconography: {
-    alignment: "text",
-    baseSize: icons.get(typographyDocumentAtom).iconography.baseSize,
-  },
-});
-assert.equal(
-  icons.get(generatedTypographyAtom).find((token) => token.position === 0)!
-    .iconSize,
-  32,
-  "switching alignment preserves the authored icon base",
-);
 assert.throws(
   () =>
     icons.set(updateTypographyAtom, { lineHeightRoundingRuleId: "missing" }),

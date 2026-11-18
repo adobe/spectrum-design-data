@@ -51,6 +51,7 @@ import {
 } from "../../state/view/modesView";
 import { FoundationModePopover } from "./FoundationModePopover";
 import { ColorSystemSettings } from "./ColorSystemSettings";
+import { firstAccordionItemStyle } from "../accordionStyles";
 
 const stack = style({
   display: "flex",
@@ -137,14 +138,22 @@ export function FoundationModeSettings({
     >
       {before}
       {foundation === "color" && (
-        <AccordionItem id="system-settings">
+        <AccordionItem
+          id="system-settings"
+          UNSAFE_style={before ? undefined : firstAccordionItemStyle}
+        >
           <AccordionItemTitle>System settings</AccordionItemTitle>
           <AccordionItemPanel UNSAFE_style={panelStyles}>
             <ColorSystemSettings />
           </AccordionItemPanel>
         </AccordionItem>
       )}
-      <AccordionItem id="mode-sets">
+      <AccordionItem
+        id="mode-sets"
+        UNSAFE_style={
+          before || foundation === "color" ? undefined : firstAccordionItemStyle
+        }
+      >
         <AccordionItemHeader>
           <AccordionItemTitle>Mode sets</AccordionItemTitle>
           {editing && (

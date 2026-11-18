@@ -38,12 +38,7 @@ export const InitialSections: Story = {
     await expect(
       canvas.getByRole("button", { name: "Font sizes" }),
     ).toHaveAttribute("aria-expanded", "true");
-    for (const title of [
-      "System settings",
-      "Mode sets",
-      "Line heights",
-      "Iconography",
-    ]) {
+    for (const title of ["System settings", "Mode sets", "Line heights"]) {
       await expect(canvas.getByRole("button", { name: title })).toHaveAttribute(
         "aria-expanded",
         "false",

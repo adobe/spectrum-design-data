@@ -9,7 +9,7 @@ const EXPECTED: number[] = JSON.parse(
   ),
 );
 
-for (const [story, widths] of [
+for (const [story, heights] of [
   ["default", [8]],
   ["smallest", [1]],
   ["largest", [144]],
@@ -29,17 +29,17 @@ for (const [story, widths] of [
       `/iframe.html?id=views-spacing-bar--${story}&viewMode=story`,
     );
     const bars = page.locator("[data-testid='spacing-bar']");
-    await expect(bars).toHaveCount(widths.length);
-    expect(
-      await bars.evaluateAll((elements) =>
-        elements.map((element) => element.getBoundingClientRect().width),
-      ),
-    ).toEqual([...widths]);
+    await expect(bars).toHaveCount(heights.length);
     expect(
       await bars.evaluateAll((elements) =>
         elements.map((element) => element.getBoundingClientRect().height),
       ),
-    ).toEqual(widths.map(() => 40));
+    ).toEqual([...heights]);
+    expect(
+      await bars.evaluateAll((elements) =>
+        elements.map((element) => element.getBoundingClientRect().width),
+      ),
+    ).toEqual(heights.map(() => 40));
     expect(errors).toEqual([]);
   });
 }

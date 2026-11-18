@@ -73,9 +73,14 @@ async function openAnalysis(page: Page, editing = false) {
 test("Shared controls protect the authored default and transpose exact values without saving comparisons", async ({
   page,
 }, info) => {
-  const { snapshot, baseline } = await openAnalysis(page);
+  const { snapshot, set, baseline } = await openAnalysis(page);
   const root = page.locator('[data-component="TypographyComparisonView"]');
   await expect(root).toHaveAttribute("data-comparison-source", "modes");
+  await root.getByRole("button", { name: /Compare$/ }).click();
+  const compareOptions = page.getByRole("option");
+  await expect(compareOptions.last()).toHaveText("Adaptive settings");
+  await page.getByRole("option", { name: set.name, exact: true }).click();
+  await expect(root).toHaveAttribute("data-comparison-mode-set", set.id);
   await expect(root.getByRole("img", { name: /by size setting$/ })).toHaveCount(
     3,
   );
@@ -85,7 +90,7 @@ test("Shared controls protect the authored default and transpose exact values wi
     (key) => localStorage.getItem(key),
     AUTHORING_STORAGE_KEY,
   );
-  await root.getByRole("button", { name: /Lines$/ }).click();
+  await root.getByRole("button", { name: /Settings shown$/ }).click();
   const required = page.getByRole("option", { name: /always visible/ });
   await expect(required).toHaveAttribute("aria-disabled", "true");
   await page.getByRole("option", { name: /Equal size/ }).click();
@@ -93,7 +98,10 @@ test("Shared controls protect the authored default and transpose exact values wi
   await expect(
     root.locator('g[data-series-id="analysis-Equal size"]'),
   ).toHaveCount(3);
-  await root.getByRole("button", { name: "Show values", exact: true }).click();
+  await root
+    .getByRole("region", { name: "Font size chart", exact: true })
+    .getByRole("button", { name: "Show values", exact: true })
+    .click();
   const expected = generateTypography(snapshot.typography);
   const defaultValues = await root
     .locator(`tr[data-setting-id="${baseline.id}"] [data-metric="font-size"]`)
@@ -144,9 +152,7 @@ test("Shared controls protect the authored default and transpose exact values wi
         )!.fontSize,
     ),
   );
-  await root
-    .getByRole("radio", { name: "By size setting", exact: true })
-    .click();
+  await root.getByRole("radio", { name: "By setting", exact: true }).click();
   await expect(
     root.locator('g[data-series-id="analysis-Equal size"]'),
   ).toHaveCount(3);
@@ -154,7 +160,7 @@ test("Shared controls protect the authored default and transpose exact values wi
     .getByRole("img", { name: "Font size by size setting" })
     .locator('g[data-baseline="true"] polyline');
   const originalPath = await baselinePath.getAttribute("points");
-  await root.getByRole("button", { name: /Lines$/ }).click();
+  await root.getByRole("button", { name: /Settings shown$/ }).click();
   await page.getByRole("option", { name: /Equal size/ }).click();
   await page.keyboard.press("Escape");
   await expect(
@@ -163,7 +169,7 @@ test("Shared controls protect the authored default and transpose exact values wi
   await expect(baselinePath).toHaveAttribute("points", originalPath!);
   await root.getByRole("button", { name: /Compare$/ }).click();
   await page
-    .getByRole("option", { name: "Adaptive text scaling steps", exact: true })
+    .getByRole("option", { name: "Adaptive settings", exact: true })
     .click();
   await expect(root).toHaveAttribute("data-comparison-source", "zoom");
   await expect(
@@ -220,7 +226,7 @@ test("Named text-size overrides coexist with adaptation and retain Save, Cancel 
   await slider.press("ArrowRight");
   await page.keyboard.press("Escape");
   const root = page.locator('[data-component="TypographyComparisonView"]');
-  await root.getByRole("button", { name: "Show values" }).click();
+  await root.getByRole("button", { name: "Show values" }).first().click();
   const read = () =>
     page.evaluate(
       (key) => JSON.parse(localStorage.getItem(key)!),
@@ -322,10 +328,11 @@ test("Type scale formula preview shares chart controls and responds to temporary
   await page
     .getByRole("textbox", { name: "Larger values", exact: true })
     .press("Tab");
+  await root.getByRole("radio", { name: "By setting", exact: true }).click();
   await root
-    .getByRole("radio", { name: "By size setting", exact: true })
+    .getByRole("button", { name: "Show values", exact: true })
+    .first()
     .click();
-  await root.getByRole("button", { name: "Show values", exact: true }).click();
   await expect(root.locator('tr[data-default-setting="true"]')).toHaveCount(10);
   await page.getByRole("button", { name: /Rounding$/ }).click();
   await page
@@ -371,7 +378,7 @@ test("Charts share rows responsively while retaining pixel-sized text, lines and
   const root = page.locator('[data-component="TypographyComparisonView"]');
   for (const width of [1280, 2560, 1600]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const view of ["By size setting", "By token"]) {
+    for (const view of ["By setting", "By token"]) {
       await root.getByRole("radio", { name: view, exact: true }).click();
       const gridWidth = await root
         .locator("[data-chart-grid]")
@@ -389,13 +396,11 @@ test("Charts share rows responsively while retaining pixel-sized text, lines and
       animations: "disabled",
     });
   }
-  await root.getByRole("button", { name: /Lines$/ }).click();
+  await root.getByRole("button", { name: /Tokens shown$/ }).click();
   await page.getByRole("option", { name: "50", exact: true }).click();
   await page.keyboard.press("Escape");
   await expect(root.locator('g[data-series-id="50"]')).toHaveCount(0);
-  await root
-    .getByRole("radio", { name: "By size setting", exact: true })
-    .click();
+  await root.getByRole("radio", { name: "By setting", exact: true }).click();
   await root.getByRole("radio", { name: "By token", exact: true }).click();
   await expect(root.locator('g[data-series-id="50"]')).toHaveCount(0);
 });
@@ -416,7 +421,7 @@ test("Typography chart cards wrap at their 550px minimum using the actual grid w
       "width",
       `${width}px`,
     );
-    for (const view of ["By size setting", "By token"]) {
+    for (const view of ["By setting", "By token"]) {
       await root.getByRole("radio", { name: view, exact: true }).click();
       const columns = width >= 1682 ? 3 : width >= 1116 ? 2 : 1;
       await expectChartColumns(root, columns);

@@ -5,7 +5,7 @@ import {
   resolvedColorSystemDocumentAtom,
 } from "../../features/color-system/state";
 import { overriddenTokenCountAtom } from "../../features/tokens/state";
-import { previewOverridesAtom } from "../../features/modes/previewState";
+import { usePreviewData } from "../analyze/AnalyzeLayout";
 import {
   colorAnalysisPreferencesAtom,
   rampSurfaceIdAtom,
@@ -14,12 +14,14 @@ import {
 import { ColorAnalysisView } from "./ColorAnalysisView";
 import { rulesAtom } from "../../features/logic/library";
 
+const COLOR_DRIVERS = ["color.*"];
+
 export function ColorAnalyze() {
   const document = useAtomValue(resolvedColorSystemDocumentAtom);
   const authored = useAtomValue(colorSystemDocumentAtom);
   const rules = useAtomValue(rulesAtom);
   const overrides = useAtomValue(overriddenTokenCountAtom);
-  const preview = useAtomValue(previewOverridesAtom);
+  const isPreview = usePreviewData(COLOR_DRIVERS);
   const selectedScaleId = useAtomValue(selectedColorScaleIdAtom);
   const [preferences, setPreferences] = useAtom(colorAnalysisPreferencesAtom);
   const [surfaceId, setSurfaceId] = useAtom(rampSurfaceIdAtom);
@@ -36,7 +38,7 @@ export function ColorAnalyze() {
         ),
       )}
       overrideCount={overrides}
-      isPreview={Object.keys(preview).some((key) => key.startsWith("color."))}
+      isPreview={isPreview}
       selectedScaleId={selectedScaleId}
       preferences={preferences}
       onPreferencesChange={setPreferences}

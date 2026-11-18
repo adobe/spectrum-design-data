@@ -3,6 +3,7 @@ import { atom } from "jotai";
 import { normalizeStructureEditorAfterReset } from "../structures/variants";
 import { rebaseGenerator } from "../logic/generator";
 import { isTshirtRule } from "../logic/model";
+import { WORKFLOW_ICON_SCALE_ID } from "../icons/model";
 import { restoreSwatchIndexAssignments } from "./swatchIndexReset";
 import { editModeAtom } from "../../state/view/editMode";
 import {
@@ -224,20 +225,29 @@ function lockedFormulaReason(
   source: BrowserTokenSource,
   snapshot: EditSessionSnapshot,
 ): string | undefined {
+  const workflowIcon =
+    source.type === "typography" && source.groupId === "workflow-icon-size"
+      ? snapshot.icons?.scales.find(
+          (scale) => scale.id === WORKFLOW_ICON_SCALE_ID,
+        )
+      : undefined;
   const formulaId =
-    source.type === "typography"
-      ? snapshot.typography.scaleTypeId
-      : source.type === "spacing"
-        ? snapshot.spacing?.scales.find((scale) => scale.id === source.groupId)
-            ?.scaleTypeId
-        : source.type === "size"
-          ? snapshot.size?.scales.find((scale) => scale.id === source.groupId)
-              ?.scaleTypeId
-          : source.type === "radius"
-            ? snapshot.radius?.scales.find(
-                (scale) => scale.id === source.groupId,
-              )?.scaleTypeId
-            : undefined;
+    workflowIcon?.source === "formula"
+      ? workflowIcon.scaleTypeId
+      : source.type === "typography"
+        ? snapshot.typography.scaleTypeId
+        : source.type === "spacing"
+          ? snapshot.spacing?.scales.find(
+              (scale) => scale.id === source.groupId,
+            )?.scaleTypeId
+          : source.type === "size"
+            ? snapshot.size?.scales.find((scale) => scale.id === source.groupId)
+                ?.scaleTypeId
+            : source.type === "radius"
+              ? snapshot.radius?.scales.find(
+                  (scale) => scale.id === source.groupId,
+                )?.scaleTypeId
+              : undefined;
   const formula = snapshot.scaleTypes?.find((item) => item.id === formulaId);
   if (
     formula &&

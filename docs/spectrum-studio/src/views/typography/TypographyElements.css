@@ -47,7 +47,6 @@
 .typographyElementHeader {
   padding-bottom: 8px;
   border-bottom: 1px solid var(--elements-preview-divider, var(--spectrum-gray-300));
-  font-weight: 600;
 }
 
 .typographyElementSample {

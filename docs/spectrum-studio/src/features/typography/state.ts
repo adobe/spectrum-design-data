@@ -53,6 +53,10 @@ import { assertStructureReferences } from "../structures/model";
 import { typographyReferenceCoordinates } from "../tokens/primitiveIdentity";
 import { resetTokenEdit } from "../tokens/canonicalIdentity";
 import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
+import { iconsDocumentAtom } from "../icons/documentState";
+import { ICONS_DEFAULTS } from "../icons/defaults";
+import { iconLineHeightUses, type IconsDocument } from "../icons/model";
+import { splitTypographyIconography } from "../icons/upgrade";
 export { resolveTypographyDocument } from "./resolution";
 
 const storedTypographyDocumentAtom = persistedAtom<TypographyDocument>({
@@ -61,7 +65,9 @@ const storedTypographyDocumentAtom = persistedAtom<TypographyDocument>({
   initialize: () => TYPOGRAPHY_DEFAULTS,
   validate: isTypographyDocument,
   migrate: (data) => {
-    const upgraded = upgradeTypographySizingDocument(data);
+    const upgraded = splitTypographyIconography(
+      upgradeTypographySizingDocument(data),
+    ).typography;
     return isTypographyDocument(upgraded) ? upgraded : null;
   },
 });
@@ -151,6 +157,7 @@ export const updateTypographyAtom = atom(
       get(rulesAtom),
       get(scaleTypesAtom),
       get(interpolationsAtom),
+      get(iconsDocumentAtom),
     );
     assertStructureReferences(
       get(structuresDocumentAtom),
@@ -170,14 +177,27 @@ export const updateTypographyAtom = atom(
 export function lineHeightConsumers(
   document: TypographyDocument,
   id: string,
+  icons: IconsDocument = ICONS_DEFAULTS,
 ): string[] {
   return [
     ...(document.previewLineHeightId === id ? ["Elements text sample"] : []),
-    ...(document.iconography.alignment === "line-height" &&
-    document.iconography.lineHeightId === id
-      ? ["Iconography"]
-      : []),
+    ...iconLineHeightUses(icons, id).map((scale) => `Icons › ${scale.name}`),
   ];
+}
+
+function withIconLineHeight(
+  icons: IconsDocument,
+  scaleIds: ReadonlySet<string>,
+  lineHeightId: string,
+): IconsDocument {
+  return {
+    ...icons,
+    scales: icons.scales.map((scale) =>
+      scaleIds.has(scale.id) && scale.source === "line-height"
+        ? { ...scale, lineHeightId }
+        : scale,
+    ),
+  };
 }
 
 export const addFontAtom = atom(null, (get, set) => {
@@ -313,6 +333,7 @@ export const addLineHeightAtom = atom(null, (get, set) => {
     get(rulesAtom),
     get(scaleTypesAtom),
     get(interpolationsAtom),
+    get(iconsDocumentAtom),
   );
   set(taxonomyDocumentAtom, next.taxonomy);
   set(typographyDocumentAtom, next.document);
@@ -343,7 +364,8 @@ export interface RemovedLineHeight {
   index: number;
   names: TypographyDocument["metricNames"];
   previewLineHeightId: string;
-  iconography: TypographyDocument["iconography"];
+  /** Icon scales whose line height was replaced. */
+  iconScaleIds: string[];
   replacementId?: string;
   edits: BrowserTokenEdits;
 }
@@ -362,7 +384,8 @@ export const removeLineHeightAtom = atom(
       (card) => card.id === input.id,
     );
     if (index < 0) throw new Error("This line height is no longer available.");
-    const consumers = lineHeightConsumers(document, input.id);
+    const icons = get(iconsDocumentAtom);
+    const consumers = lineHeightConsumers(document, input.id, icons);
     if (
       consumers.length &&
       (!input.replacementId ||
@@ -381,15 +404,16 @@ export const removeLineHeightAtom = atom(
         document.previewLineHeightId === input.id
           ? input.replacementId!
           : document.previewLineHeightId,
-      iconography:
-        document.iconography.alignment === "line-height" &&
-        document.iconography.lineHeightId === input.id
-          ? { ...document.iconography, lineHeightId: input.replacementId! }
-          : document.iconography,
     };
+    const iconScaleIds = iconLineHeightUses(icons, input.id).map(
+      (scale) => scale.id,
+    );
+    const nextIcons = iconScaleIds.length
+      ? withIconLineHeight(icons, new Set(iconScaleIds), input.replacementId!)
+      : icons;
     if (!isTypographyDocument(next))
       throw new Error(
-        "Keep an available line height for the text sample and Iconography.",
+        "Keep an available line height for the text sample and Icons.",
       );
     assertStructureReferences(
       get(structuresDocumentAtom),
@@ -420,10 +444,12 @@ export const removeLineHeightAtom = atom(
       get,
       new Map<string, unknown>([
         ["foundations/typography", next],
+        ["foundations/icons", nextIcons],
         ["tokens/browser/edits", edits],
       ]),
       () => {
         set(typographyDocumentAtom, next);
+        set(iconsDocumentAtom, nextIcons);
         set(browserTokenEditsAtom, edits);
       },
     );
@@ -432,7 +458,7 @@ export const removeLineHeightAtom = atom(
       index,
       names: document.metricNames,
       previewLineHeightId: document.previewLineHeightId,
-      iconography: document.iconography,
+      iconScaleIds,
       replacementId: input.replacementId,
       edits: removedEdits,
     };
@@ -468,14 +494,21 @@ export const restoreLineHeightAtom = atom(
         document.previewLineHeightId === removed.replacementId
           ? removed.card.id
           : document.previewLineHeightId,
-      iconography:
-        removed.iconography.alignment === "line-height" &&
-        removed.iconography.lineHeightId === removed.card.id &&
-        document.iconography.alignment === "line-height" &&
-        document.iconography.lineHeightId === removed.replacementId
-          ? { ...document.iconography, lineHeightId: removed.card.id }
-          : document.iconography,
     };
+    const icons = get(iconsDocumentAtom);
+    const nextIcons = withIconLineHeight(
+      icons,
+      new Set(
+        icons.scales
+          .filter(
+            (scale) =>
+              removed.iconScaleIds.includes(scale.id) &&
+              scale.lineHeightId === removed.replacementId,
+          )
+          .map((scale) => scale.id),
+      ),
+      removed.card.id,
+    );
     assertTypographyNames(next, get(taxonomyDocumentAtom));
     if (!isTypographyDocument(next))
       throw new Error(
@@ -486,6 +519,7 @@ export const restoreLineHeightAtom = atom(
       get(rulesAtom),
       get(scaleTypesAtom),
       get(interpolationsAtom),
+      nextIcons,
     );
     const edits = { ...get(browserTokenEditsAtom) };
     for (const [id, edit] of Object.entries(removed.edits)) {
@@ -516,10 +550,12 @@ export const restoreLineHeightAtom = atom(
       get,
       new Map<string, unknown>([
         ["foundations/typography", next],
+        ["foundations/icons", nextIcons],
         ["tokens/browser/edits", edits],
       ]),
       () => {
         set(typographyDocumentAtom, next);
+        set(iconsDocumentAtom, nextIcons);
         set(browserTokenEditsAtom, edits);
       },
     );
@@ -554,6 +590,7 @@ export const restoreTypographyDefaultsAtom = atom(null, (get, set) => {
     get(rulesAtom),
     get(scaleTypesAtom),
     get(interpolationsAtom),
+    get(iconsDocumentAtom),
   );
   assertStructureReferences(
     get(structuresDocumentAtom),
@@ -574,6 +611,7 @@ export const restoreTypographyDefaultsAtom = atom(null, (get, set) => {
         get(rulesAtom),
         get(scaleTypesAtom),
         get(interpolationsAtom),
+        get(iconsDocumentAtom),
       ),
     ).map((token) => token.id),
   );
@@ -616,6 +654,7 @@ export const generatedTypographyAtom = atom((get) =>
     get(rulesAtom),
     get(scaleTypesAtom),
     get(interpolationsAtom),
+    get(iconsDocumentAtom),
   ),
 );
 

@@ -76,45 +76,72 @@ export const KeyboardControls: Story = {
     radio.focus();
     await userEvent.keyboard(" ");
     await expect(radio).toHaveAttribute("aria-checked", "true");
-    await userEvent.click(canvas.getByRole("button", { name: "Show values" }));
-    await expect(
-      canvas.getByRole("table", { name: "Type scale values" }),
-    ).toBeVisible();
+    await userEvent.click(
+      canvas.getAllByRole("button", { name: "Show values" })[0],
+    );
+    await expect(canvas.getByRole("table", { name: / values$/ })).toBeVisible();
     canvasElement.dataset.playComplete = "true";
   },
 };
+const namedSettings = (labels: readonly string[]) =>
+  settings.slice(0, labels.length).map((setting, position) => ({
+    ...setting,
+    id: `mode:${position}`,
+    position,
+    isRequired: position === 0,
+    label: labels[position],
+  }));
+const namedDataset = (labels: readonly string[]): ComparisonDataset => ({
+  ...zoom,
+  settings: namedSettings(labels),
+  metrics: zoom.metrics.map((metric) => ({
+    ...metric,
+    rows: metric.rows.slice(0, labels.length),
+  })),
+});
 export const NamedModes: Story = {
-  name: "Named modes",
+  name: "Mode sets",
   args: {
     datasets: {
       zoom,
-      modes: {
-        ...zoom,
-        settings: settings.map((setting, position) => ({
-          ...setting,
-          id: `mode:${position}`,
-          position,
-          label: setting.isRequired
-            ? "Standard (default)"
-            : `Custom ${position}`,
-        })),
-      },
+      modes: [
+        {
+          id: "scale",
+          name: "Scale",
+          data: namedDataset(["desktop (default) (100%)", "mobile (121.43%)"]),
+        },
+        {
+          id: "text-size",
+          name: "Text size",
+          data: namedDataset([
+            "Default (100%)",
+            "Larger (127%)",
+            "Largest (160%)",
+          ]),
+        },
+      ],
     },
   },
 };
 export const OneSetting: Story = {
-  name: "One named setting",
+  name: "Mode set with one mode",
   args: {
     datasets: {
       zoom,
-      modes: {
-        ...zoom,
-        settings: [settings[1]],
-        metrics: zoom.metrics.map((metric) => ({
-          ...metric,
-          rows: [metric.rows[1]],
-        })),
-      },
+      modes: [
+        {
+          id: "text-size",
+          name: "Text size",
+          data: {
+            ...zoom,
+            settings: [settings[1]],
+            metrics: zoom.metrics.map((metric) => ({
+              ...metric,
+              rows: [metric.rows[1]],
+            })),
+          },
+        },
+      ],
     },
   },
 };

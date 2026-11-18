@@ -17,8 +17,8 @@ test("sub panel resizes by pointer and keyboard within its limits", async ({
   const resizer = page.getByRole("separator", { name: "Resize panel" });
   // The 1px end border sits outside the content width.
   const width = async () => Math.round((await panel.boundingBox())!.width) - 1;
-  await expect(resizer).toHaveAttribute("aria-valuenow", "360");
-  expect(await width()).toBe(360);
+  await expect(resizer).toHaveAttribute("aria-valuenow", "380");
+  expect(await width()).toBe(380);
 
   const handle = (await resizer.boundingBox())!;
   const y = handle.y + handle.height / 2;
@@ -26,11 +26,11 @@ test("sub panel resizes by pointer and keyboard within its limits", async ({
   await page.mouse.down();
   await page.mouse.move(handle.x + handle.width / 2 + 120, y, { steps: 5 });
   await page.mouse.up();
-  expect(await width()).toBe(480);
+  expect(await width()).toBe(500);
 
   await resizer.focus();
   await page.keyboard.press("ArrowLeft");
-  expect(await width()).toBe(464);
+  expect(await width()).toBe(484);
 
   await page.keyboard.press("Home");
   expect(await width()).toBe(300);
@@ -44,7 +44,7 @@ test("sub panel resizes by pointer and keyboard within its limits", async ({
   expect(await width()).toBe(Math.round(container.width - 300));
 
   await resizer.dblclick();
-  expect(await width()).toBe(360);
+  expect(await width()).toBe(380);
 
   expect(errors).toEqual([]);
 });

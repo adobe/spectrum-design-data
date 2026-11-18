@@ -141,14 +141,14 @@ test("Dimension chart stories retain fixed physical sizing, protected baselines 
           );
         if (story === "multiple-connections")
           await expect(
-            chart.getByRole("button", { name: /Connected variable$/ }),
+            page.getByRole("button", { name: /Connected variable$/ }),
           ).toBeVisible();
         if (story === "no-named-modes") {
           await expect(chart).toHaveAttribute(
             "data-comparison-source",
             "range",
           );
-          await expect(chart.getByRole("status")).toContainText(
+          await expect(page.getByRole("status")).toContainText(
             "No mode set manages",
           );
         }

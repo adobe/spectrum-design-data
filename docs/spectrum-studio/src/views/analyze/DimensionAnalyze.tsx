@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
+import { Picker, PickerItem } from "@react-spectrum/s2";
 import { useAtomValue, type Atom } from "jotai";
-import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import { useMemo, useState } from "react";
 import type {
   DimensionDocument,
   DimensionScale,
@@ -11,26 +12,18 @@ import { scaleTypesAtom } from "../../features/logic/scaleTypeLibrary";
 import { foundationDocumentsAtom } from "../../features/modes/foundationDocuments";
 import { modeParameterValuesAtom } from "../../features/modes/parameterValues";
 import { modeSetsAtom } from "../../features/modes/state";
-import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
+import { dimensionComparisonParameters } from "../../features/scales/dimensionComparisons";
+import {
+  AnalyzeCardGrid,
+  AnalyzePage,
+  AnalyzeSettings,
+  usePreviewData,
+} from "./AnalyzeLayout";
 import { DimensionScaleComparison } from "./DimensionScaleComparison";
-import "../chartLayout.css";
 import type { DimensionValuePolicy } from "../../features/scales/issues";
 
-const containerStyle = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 20,
-  padding: 16,
-  minHeight: "full",
-  overflow: "auto",
-  minWidth: 0,
-});
-const gridStyle = style({
-  display: "grid",
-  gap: 16,
-  minWidth: 0,
-  alignItems: "start",
-});
+/** Scale picker key that shows every scale's overview chart. */
+export const ALL_DIMENSION_SCALES = "all";
 
 export interface DimensionAnalyzeProps {
   /** Heading and lowercase noun, such as `Spacing` and `spacing`. */
@@ -41,6 +34,8 @@ export interface DimensionAnalyzeProps {
   >;
   documentAtom: Atom<DimensionDocument>;
   valuePolicy?: DimensionValuePolicy;
+  /** A scale id, or `all` for every scale's overview chart. */
+  initialScaleId?: string;
 }
 
 export function DimensionAnalyze({
@@ -49,6 +44,7 @@ export function DimensionAnalyze({
   generatedAtom,
   documentAtom,
   valuePolicy,
+  initialScaleId = ALL_DIMENSION_SCALES,
 }: DimensionAnalyzeProps) {
   const scales = useAtomValue(generatedAtom);
   const document = useAtomValue(documentAtom);
@@ -60,34 +56,87 @@ export function DimensionAnalyze({
   const documents = useAtomValue(foundationDocumentsAtom);
   const current = useAtomValue(modeParameterValuesAtom);
   const modeSets = useAtomValue(modeSetsAtom);
-  return (
-    <div
-      className={`${containerStyle} chartComparisonContainer`}
-      data-component={`${title}Analyze`}
+  const [chosenScaleId, setChosenScaleId] = useState(initialScaleId);
+  const drivers = useMemo(
+    () =>
+      scales.flatMap(({ scale }) => {
+        try {
+          return dimensionComparisonParameters(scale, scaleTypes);
+        } catch {
+          return [];
+        }
+      }),
+    [scales, scaleTypes],
+  );
+  const previewData = usePreviewData(drivers);
+  const detail = scales.find(({ scale }) => scale.id === chosenScaleId);
+  const inputFor = ({
+    scale,
+    values,
+  }: {
+    scale: DimensionScale;
+    values: GeneratedDimensionValue[];
+  }) => ({
+    valueType: noun,
+    scale,
+    values,
+    rules,
+    scaleTypes,
+    documents,
+    current,
+    modeSets,
+    valuePolicy,
+  });
+  const scalePicker = scales.length > 1 && (
+    <Picker
+      label="Scale"
+      selectedKey={detail ? detail.scale.id : ALL_DIMENSION_SCALES}
+      onSelectionChange={(key) => {
+        if (key != null) setChosenScaleId(String(key));
+      }}
     >
-      <FoundationsElementsHeader title={title} />
-      <div
-        className={`${gridStyle} ${scales.length > 1 ? "chartComparisonGrid" : "chartSingleGrid"}`}
-        data-chart-grid
-      >
-        {scales.map(({ scale, values }) => (
-          <DimensionScaleComparison
-            key={scale.id}
-            noun={noun}
-            input={{
-              valueType: noun,
-              scale,
-              values,
-              rules,
-              scaleTypes,
-              documents,
-              current,
-              modeSets,
-              valuePolicy,
-            }}
-          />
-        ))}
-      </div>
-    </div>
+      {[
+        <PickerItem key={ALL_DIMENSION_SCALES} id={ALL_DIMENSION_SCALES}>
+          All scales
+        </PickerItem>,
+        ...scales.map(({ scale }) => (
+          <PickerItem key={scale.id} id={scale.id}>
+            {scale.name}
+          </PickerItem>
+        )),
+      ]}
+    </Picker>
+  );
+  const single = scales.length === 1 ? scales[0] : undefined;
+  const shown = detail ?? single;
+  return (
+    <AnalyzePage
+      component={`${title}Analyze`}
+      title={title}
+      previewData={previewData}
+    >
+      {shown ? (
+        <DimensionScaleComparison
+          key={shown.scale.id}
+          noun={noun}
+          input={inputFor(shown)}
+          detail
+          leadingSettings={scalePicker || undefined}
+        />
+      ) : (
+        <>
+          {scalePicker && <AnalyzeSettings>{scalePicker}</AnalyzeSettings>}
+          <AnalyzeCardGrid count={scales.length}>
+            {scales.map((entry) => (
+              <DimensionScaleComparison
+                key={entry.scale.id}
+                noun={noun}
+                input={inputFor(entry)}
+              />
+            ))}
+          </AnalyzeCardGrid>
+        </>
+      )}
+    </AnalyzePage>
   );
 }

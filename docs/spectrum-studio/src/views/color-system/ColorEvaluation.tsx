@@ -64,6 +64,7 @@ import {
   alignedSwatchLabelStyles as tokenStyles,
 } from "./alignedSwatchStyles";
 import { AlignedSwatchRow } from "./AlignedSwatchRow";
+import { previewLabelStyles } from "../previewLabelStyles";
 import { elementsSurfaceStyle } from "../../state/view/elementsSurface";
 import { elementsSurfaceStyles } from "../elementsSurfaceStyles";
 import "./ColorEvaluation.css";
@@ -248,17 +249,23 @@ function ColorChip({
         </div>
       )}
       {showColorValue && (
-        <Text UNSAFE_className="colorEvaluationValue colorEvaluationSwatchText">
+        <Text
+          UNSAFE_className={`colorEvaluationValue colorEvaluationSwatchText ${previewLabelStyles}`}
+        >
           {value}
         </Text>
       )}
       {showContrast && deviation && (
-        <Text UNSAFE_className="colorEvaluationDeviation colorEvaluationSwatchText">
+        <Text
+          UNSAFE_className={`colorEvaluationDeviation colorEvaluationSwatchText ${previewLabelStyles}`}
+        >
           {deviation}
         </Text>
       )}
       {showContrast && (
-        <Text UNSAFE_className="colorEvaluationContrast colorEvaluationSwatchText">
+        <Text
+          UNSAFE_className={`colorEvaluationContrast colorEvaluationSwatchText ${previewLabelStyles}`}
+        >
           {color.measuredContrast.toFixed(2)}
         </Text>
       )}
@@ -502,7 +509,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
                 {contrasts.map((contrast, index) => (
                   <Text
                     key={contrast.id}
-                    UNSAFE_className={String(tokenStyles)}
+                    UNSAFE_className={`${tokenStyles} ${previewLabelStyles}`}
                   >
                     {contrastStepIndex(index, scale, rules, document.contrasts)}
                   </Text>

@@ -275,10 +275,22 @@ const comparisons = buildTypographyComparisons(
     interpolations: system.interpolations,
   },
 );
-assert.equal(comparisons.modes!.settings.length, 6);
-assert(
-  comparisons.modes!.settings.some((setting) => setting.textSize === 17 / 14),
+const scaleComparison = comparisons.modes!.find(
+  (set) => set.id === scaleSet.id,
+)!;
+assert.deepEqual(
+  scaleComparison.data.settings.map((setting) => setting.id),
+  [desktop.id, mobile.id],
+  "Scale is compared on its own, without text-size modes.",
 );
+assert(
+  scaleComparison.data.settings.some((setting) => setting.textSize === 17 / 14),
+);
+for (const set of comparisons.modes!) {
+  const source = system.modeSets.find((item) => item.id === set.id)!;
+  assert.equal(set.name, source.name);
+  assert.equal(set.data.settings.length, source.modes.length);
+}
 const snapshot = createDefaultSnapshot();
 const artifact = await buildDimensionArtifacts(
   captureDimensionSource(snapshot),

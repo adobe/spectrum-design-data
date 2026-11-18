@@ -50,17 +50,20 @@ const actionButtonOffsetStyles = style({ marginTop: 24 });
 export interface DimensionScaleCardProps {
   noun: string;
   scale: DimensionScale;
-  values: readonly GeneratedDimensionValue[];
+  values: readonly Pick<GeneratedDimensionValue, "raw" | "value">[];
   isReadOnly: boolean;
   canDelete: boolean;
   nameField: ReactNode;
   formulaField: ReactNode;
-  variables: ReactNode;
-  roundingField: ReactNode;
+  /** Omit when the scale's size source has no variables of its own. */
+  variables?: ReactNode;
+  /** Omit when the foundation sets rounding once for every scale. */
+  roundingField?: ReactNode;
   preview?: ReactNode;
   valuePolicy?: DimensionValuePolicy;
   onDelete: () => void;
-  onPublishingChange: (hidden: boolean) => void;
+  /** Omit when the scale cannot be hidden from publishing. */
+  onPublishingChange?: (hidden: boolean) => void;
 }
 
 export function DimensionScaleCard({
@@ -114,21 +117,25 @@ export function DimensionScaleCard({
       )}
       {formulaField}
       {roundingField}
-      <NestedPanelAccordion>
-        <AccordionItem id={variablesId}>
-          <AccordionItemTitle>Formula variables</AccordionItemTitle>
-          <AccordionItemPanel>
-            <div className={fieldsStyles}>{variables}</div>
-          </AccordionItemPanel>
-        </AccordionItem>
-      </NestedPanelAccordion>
-      <Checkbox
-        isSelected={scale.hideFromPublishing ?? false}
-        isDisabled={isReadOnly}
-        onChange={onPublishingChange}
-      >
-        Hide from publishing
-      </Checkbox>
+      {variables && (
+        <NestedPanelAccordion>
+          <AccordionItem id={variablesId}>
+            <AccordionItemTitle>Formula variables</AccordionItemTitle>
+            <AccordionItemPanel>
+              <div className={fieldsStyles}>{variables}</div>
+            </AccordionItemPanel>
+          </AccordionItem>
+        </NestedPanelAccordion>
+      )}
+      {onPublishingChange && (
+        <Checkbox
+          isSelected={scale.hideFromPublishing ?? false}
+          isDisabled={isReadOnly}
+          onChange={onPublishingChange}
+        >
+          Hide from publishing
+        </Checkbox>
+      )}
       {issues.length > 0 && (
         <InlineAlert variant={variant}>
           <Heading>Check this scale</Heading>

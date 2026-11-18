@@ -106,6 +106,8 @@ export interface TshirtAuthoringSource extends DimensionAuthoringSource {
   structures?: StructuresDocument;
   elevation?: ElevationDocument;
   opacity?: OpacityDocument;
+  /** Workflow icon sizes; shipped Icons settings when absent. */
+  icons?: import("../icons/model").IconsDocument;
   interpolations?: import("../scales/interpolationDefinition").Interpolation[];
   tokenOverrides?: import("../tokens/model").TokenOverrideMap;
   /** Tokens linked across all structures, kept when a build isolates one structure. */
@@ -816,6 +818,7 @@ function buildTshirtBatch(
                 rules,
                 scaleTypes,
                 snapshot.interpolations,
+                snapshot.icons,
               ),
               naming: {
                 registry: taxonomy,

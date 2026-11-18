@@ -6,6 +6,7 @@ import {
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { FoundationModeSettings } from "./FoundationModeSettings";
+import { firstAccordionItemStyle } from "../accordionStyles";
 import { FoundationParameterSettings } from "./FoundationParameterSettings";
 import {
   addSizeScaleAtom,
@@ -34,7 +35,7 @@ const sizeFoundation: DimensionFoundationBinding = {
 
 export function FoundationsSizePanel() {
   const systemSettings = (
-    <AccordionItem id="system-settings">
+    <AccordionItem id="system-settings" UNSAFE_style={firstAccordionItemStyle}>
       <AccordionItemTitle>System settings</AccordionItemTitle>
       <AccordionItemPanel UNSAFE_className={String(style({ padding: 0 }))}>
         <div className={style({ padding: 8 })}>

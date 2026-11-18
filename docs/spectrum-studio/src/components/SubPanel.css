@@ -1,5 +1,5 @@
 .subPanel {
-  --sub-panel-width: 360px;
+  --sub-panel-width: 380px;
 
   display: flex;
   flex-direction: column;

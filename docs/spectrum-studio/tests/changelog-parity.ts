@@ -32,6 +32,7 @@ import {
 } from "../src/features/changelog/resetPlans";
 import { browserSourcesForSnapshot } from "../src/features/tokens/browserSavedState";
 import { tokenUuid } from "../src/features/tokens/model";
+import { patchIconScale } from "../src/features/icons/state";
 
 const shipped = createDefaultSnapshot();
 const clean = compareAuthoring(shipped, shipped);
@@ -283,7 +284,10 @@ assert.ok(
   "unresolved authored token edits remain visible",
 );
 const simultaneous = structuredClone(changed);
-simultaneous.typography.iconography.baseSize += 2;
+simultaneous.icons!.scales[0] = patchIconScale(simultaneous.icons!.scales[0], {
+  source: "follow-typography",
+  base: (simultaneous.icons!.scales[0].base ?? 16) + 2,
+});
 const exactSources = comparePrimitiveTokens(
   shipped,
   simultaneous,
@@ -291,9 +295,9 @@ const exactSources = comparePrimitiveTokens(
 ).items.find((item) => item.id === generatedCard.id)!;
 assert.ok(
   !exactSources.upstream!.some((upstream) =>
-    upstream.title.includes("Iconography"),
+    /Iconography|Icons/.test(upstream.title),
   ),
-  "font size does not offer an unrelated iconography reset",
+  "font size does not offer an unrelated Icons reset",
 );
 const linkedScale = shipped.colorSystem.scales.find((scale) =>
   scale.stops.some((stop) => stop.paletteColorId),

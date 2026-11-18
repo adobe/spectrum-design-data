@@ -1,12 +1,12 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { Rule } from "../logic/model";
 import type { ModeSet } from "../modes/model";
-import { modeCombinations } from "../modes/combinations";
 import { parameterOwners, textZoomPercent } from "../modes/parameters";
 import { generateScale } from "../scales/generate";
 import type { Interpolation } from "../scales/interpolationDefinition";
 import type { ScaleType } from "../scales/scaleType";
 import type { TaxonomyDocument } from "../taxonomy/model";
+import type { IconsDocument } from "../icons/model";
 import { TEXT_ZOOM_MAX, TEXT_ZOOM_MIN, type TypographyDocument } from "./model";
 import { resolveTypographyDocument } from "./resolution";
 import {
@@ -33,8 +33,6 @@ export type {
   ComparisonView,
 } from "../scales/comparison";
 
-export type ComparisonSource = "modes" | "zoom";
-
 export interface ComparisonSetting extends ComparisonItem {
   textZoom: number;
   textSize: number;
@@ -42,12 +40,19 @@ export interface ComparisonSetting extends ComparisonItem {
 
 export type ComparisonDataset = ScaleComparisonDataset<ComparisonSetting>;
 
+/** One typography mode set compared on its own; other mode sets stay on their defaults. */
+export interface ModeSetComparison<T> {
+  id: string;
+  name: string;
+  data: T;
+}
+
 export type ComparisonDatasets = {
   zoom: ComparisonDataset;
-  modes?: ComparisonDataset;
+  modes?: readonly ModeSetComparison<ComparisonDataset>[];
 };
 
-interface ComparisonSample {
+export interface ComparisonSample {
   steps: readonly ComparisonItem[];
   metrics: readonly Omit<ComparisonMetric, "rows">[];
   values: readonly (readonly ComparisonValue[])[];
@@ -100,37 +105,47 @@ export function textSizeComparisonSettings(
       "Choose an available default mode before comparing typography.",
     );
   }
-  const modes = modeCombinations(axes)
-    .map((combination) => {
-      const resolved = resolveTypographyDocument(
-        document,
-        combination,
-        undefined,
-        {
-          modeSets: [...modeSets],
-        },
-      );
-      const { textZoom, textSize } = resolved;
-      assertZoom(textZoom);
-      const isRequired = combination.every(
-        (mode, index) => mode.id === axes[index].defaultModeId,
-      );
-      const name = combination.map((mode) => mode.name).join(" / ");
-      return {
-        id: combination.map((mode) => mode.id).join("/"),
-        textZoom,
-        textSize,
-        position: textZoom,
-        isRequired,
-        label: `${name}${isRequired && name.trim().toLowerCase() !== "default" ? " (default)" : ""} (${Number((textSize * textZoomPercent(textZoom)).toFixed(2))}%)`,
-      };
-    })
-    .sort((a, b) => a.textZoom - b.textZoom)
-    .map((mode, position) => ({ ...mode, position }));
+  const defaults = axes.map(
+    (set) => set.modes.find((mode) => mode.id === set.defaultModeId)!,
+  );
+  const modes = axes.map((set, axis) => ({
+    id: set.id,
+    name: set.name,
+    data: set.modes
+      .map((mode) => {
+        const combination = defaults.map((fallback, index) =>
+          index === axis ? mode : fallback,
+        );
+        const { textZoom, textSize } = resolveTypographyDocument(
+          document,
+          combination,
+          undefined,
+          { modeSets: [...modeSets] },
+        );
+        assertZoom(textZoom);
+        const isRequired = mode.id === set.defaultModeId;
+        const percent = Number(
+          (textSize * textZoomPercent(textZoom)).toFixed(2),
+        );
+        return {
+          percent,
+          setting: {
+            id: mode.id,
+            textZoom,
+            textSize,
+            isRequired,
+            label: `${mode.name}${isRequired && mode.name.trim().toLowerCase() !== "default" ? " (default)" : ""} (${percent}%)`,
+          },
+        };
+      })
+      .sort((a, b) => a.percent - b.percent)
+      .map(({ setting }, position) => ({ ...setting, position })),
+  }));
   return { zoom, modes };
 }
 
-function comparisonDatasets(
+/** Builds named-mode and text-zoom datasets from one sample per text setting; Typography and Icons share it. */
+export function comparisonDatasets(
   settings: ReturnType<typeof textSizeComparisonSettings>,
   generate: (textZoom: number, textSize: number) => ComparisonSample,
 ): ComparisonDatasets {
@@ -186,7 +201,14 @@ function comparisonDatasets(
   };
   return {
     zoom: build(settings.zoom),
-    ...(settings.modes ? { modes: build(settings.modes) } : {}),
+    ...(settings.modes
+      ? {
+          modes: settings.modes.map((set) => ({
+            ...set,
+            data: build(set.data),
+          })),
+        }
+      : {}),
   };
 }
 
@@ -198,6 +220,7 @@ export function buildTypographyComparisons(
     rules: readonly Rule[];
     scaleTypes: readonly ScaleType[];
     interpolations: readonly Interpolation[];
+    icons?: IconsDocument;
   },
 ): ComparisonDatasets {
   const naming = { names: document.metricNames, registry };
@@ -214,6 +237,7 @@ export function buildTypographyComparisons(
         library.rules,
         library.scaleTypes,
         library.interpolations,
+        library.icons,
       );
       metadata ??= {
         steps: tokens.map((token) => ({

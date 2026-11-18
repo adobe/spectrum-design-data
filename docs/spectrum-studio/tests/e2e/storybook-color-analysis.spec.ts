@@ -162,7 +162,10 @@ test("lightness is charted only in the Lightness tab", async ({ page }) => {
     ).toBeVisible();
     await root.getByRole("tab", { name: "Chromaticity", exact: true }).click();
   }
-  await root.getByRole("button", { name: "Show values", exact: true }).click();
+  await root
+    .getByRole("region", { name: "Hue and chroma chart", exact: true })
+    .getByRole("button", { name: "Show values", exact: true })
+    .click();
   for (const table of ["trajectory values", "scale key values"]) {
     await expect(
       root

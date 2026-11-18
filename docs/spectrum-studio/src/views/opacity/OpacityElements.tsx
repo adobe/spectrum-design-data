@@ -7,6 +7,7 @@ import {
   alignedSwatchLabelStyles as scaleIndexStyles,
 } from "../color-system/alignedSwatchStyles";
 import { AlignedSwatchRow } from "../color-system/AlignedSwatchRow";
+import { previewLabelStyles } from "../previewLabelStyles";
 import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import { opacityResultAtom } from "../../features/opacity/state";
 import { elementsSurfaceStyleAtom } from "../../state/view/elementsSurface";
@@ -58,7 +59,10 @@ export function OpacityElements() {
       >
         <AlignedSwatchRow label="Opacity" isScaleLabel>
           {result.levels.map((level) => (
-            <Text key={level.id} UNSAFE_className={String(scaleIndexStyles)}>
+            <Text
+              key={level.id}
+              UNSAFE_className={`${scaleIndexStyles} ${previewLabelStyles}`}
+            >
               {level.scaleIndex}
             </Text>
           ))}
@@ -78,7 +82,10 @@ export function OpacityElements() {
         </AlignedSwatchRow>
         <AlignedSwatchRow label="">
           {result.levels.map((level) => (
-            <Text key={level.id} UNSAFE_className={String(scaleIndexStyles)}>
+            <Text
+              key={level.id}
+              UNSAFE_className={`${scaleIndexStyles} ${previewLabelStyles}`}
+            >
               {formatOpacityPercent(level.value)}
               {level.overridden &&
                 (level.stale ? " (out of date)" : " (edited)")}

@@ -20,12 +20,12 @@ async function openSpacing(page: Page) {
   await page.getByRole("radio", { name: "Elements" }).dispatchEvent("click");
 }
 
-function barWidths(page: Page, scaleName: string) {
+function barHeights(page: Page, scaleName: string) {
   return page
     .getByRole("list", { name: `${scaleName} spacing values` })
     .locator("[data-testid='spacing-bar']")
     .evaluateAll((bars) =>
-      bars.map((bar) => bar.getBoundingClientRect().width),
+      bars.map((bar) => bar.getBoundingClientRect().height),
     );
 }
 
@@ -38,16 +38,16 @@ test("Spacing Elements renders the Global scale at its exact lengths", async ({
 
   const list = page.getByRole("list", { name: "Global spacing values" });
   await expect(list.getByRole("listitem")).toHaveCount(EXPECTED.length);
-  expect(await barWidths(page, "Global")).toEqual(EXPECTED);
+  expect(await barHeights(page, "Global")).toEqual(EXPECTED);
   await expect(list.getByRole("listitem").first()).toContainText("20");
   await expect(list.getByRole("listitem").first()).toContainText("1px");
   await expect(list.getByRole("listitem").last()).toContainText("1400");
-  const heights = await list
+  const widths = await list
     .locator("[data-testid='spacing-bar']")
     .evaluateAll((bars) =>
-      bars.map((bar) => bar.getBoundingClientRect().height),
+      bars.map((bar) => bar.getBoundingClientRect().width),
     );
-  expect(new Set(heights)).toEqual(new Set([40]));
+  expect(new Set(widths)).toEqual(new Set([40]));
 
   await expect(
     page.getByRole("button", { name: "Add spacing scale" }),
@@ -85,7 +85,7 @@ test("editing spacing parameters updates bars, change log, and Tokens", async ({
   await ratio.fill("1.5");
   await ratio.press("Enter");
   await expect
-    .poll(async () => (await barWidths(page, "Global"))[17])
+    .poll(async () => (await barHeights(page, "Global"))[17])
     .toBeGreaterThan(144);
   await page.getByRole("button", { name: "Add spacing scale" }).click();
   await expect(

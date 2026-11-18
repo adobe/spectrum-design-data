@@ -91,6 +91,8 @@ import { opacityDocumentAtom } from "../opacity/state";
 import { browserOpacitySources } from "../opacity/output";
 import { tokenOwningModeKey } from "./owningModes";
 import { componentSizingDocumentAtom } from "../foundations/componentSizingState";
+import { iconsDocumentAtom } from "../icons/documentState";
+import type { IconsDocument } from "../icons/model";
 import {
   COMPONENT_SIZING_DEFAULTS,
   type ComponentSizingDocument,
@@ -114,6 +116,7 @@ function savedSources(
   { includeColors = true }: { includeColors?: boolean } = {},
   opacity?: OpacityDocument,
   componentSizing: ComponentSizingDocument = COMPONENT_SIZING_DEFAULTS,
+  icons?: IconsDocument,
 ) {
   const parameters = resolveModeParameterValues(
     { color, typography, componentSizing },
@@ -172,6 +175,7 @@ function savedSources(
           rules,
           scaleTypes,
           interpolations,
+          icons,
         ),
         spacing.scales.map((scale) => ({
           scale,
@@ -252,6 +256,7 @@ export function browserSourcesForSnapshot(
     {},
     snapshot.opacity,
     snapshot.componentSizing,
+    snapshot.icons,
   );
   const modeKey = canonicalTokenModeKey(
     selectionForModes(snapshot.modeSets, modes),
@@ -311,6 +316,7 @@ export const savedBrowserTokensAtom = atom((get) => {
       {},
       get(opacityDocumentAtom),
       get(componentSizingDocumentAtom),
+      get(iconsDocumentAtom),
     );
     const baselineModes = defaults
       .map(
@@ -411,6 +417,7 @@ export const savedBrowserConceptIdsAtom = atom((get) => {
       { includeColors: false },
       snapshot.opacity,
       snapshot.componentSizing,
+      snapshot.icons,
     ).map((token) => token.id),
     ...generated.bundle.semantics.map((row) => row.conceptId),
     ...buildStylesForSource(snapshot).rows.map((row) => row.conceptId),

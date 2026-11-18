@@ -71,6 +71,7 @@ function tshirtSource(source: TshirtAuthoringSource): TshirtAuthoringSource {
     structures: source.structures,
     elevation: source.elevation,
     opacity: source.opacity,
+    icons: source.icons,
     interpolations: source.interpolations,
     tokenOverrides: source.tokenOverrides,
   };

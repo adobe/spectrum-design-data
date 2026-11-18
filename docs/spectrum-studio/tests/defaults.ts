@@ -245,6 +245,12 @@ rejects((candidate) => {
   candidate.system.foundations.typography.scaleTypeId = "missing";
 }, /scaleTypeId.*unresolved/);
 rejects((candidate) => {
+  Object.assign(candidate.system.foundations.icons.scales[0], {
+    source: "line-height",
+    lineHeightId: "missing",
+  });
+}, /icons\/workflow\/lineHeightId.*unresolved/);
+rejects((candidate) => {
   candidate.system.foundations.typography.textRoundingRuleId = "missing";
 }, /roundingRules.*unresolved/);
 rejects((candidate) => {

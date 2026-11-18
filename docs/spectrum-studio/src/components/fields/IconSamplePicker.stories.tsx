@@ -32,18 +32,20 @@ function Fixture({
   large = false,
   state,
   initialIcon = "Home",
+  initialModes,
   onChange,
 }: {
   hidden?: boolean;
   large?: boolean;
   state?: "loading" | "error";
   initialIcon?: SpectrumIconName;
+  initialModes?: TypographyDisplayMode[];
   onChange?: (icon: SpectrumIconName) => void;
 }) {
   const [selectedIcon, setSelectedIcon] =
     useState<SpectrumIconName>(initialIcon);
   const [displayModes, setDisplayModes] = useState<TypographyDisplayMode[]>(
-    hidden ? [] : typographyDisplayModes,
+    initialModes ?? (hidden ? ["sample-icon"] : typographyDisplayModes),
   );
   const loaded = useIconSample(selectedIcon);
   const status = state ?? loaded.status;
@@ -75,7 +77,7 @@ function Fixture({
         >
           <PickerItem id="font-size">Font size</PickerItem>
           <PickerItem id="line-height">Line height</PickerItem>
-          <PickerItem id="icon-size">Icon size</PickerItem>
+          <PickerItem id="sample-icon">Sample icon</PickerItem>
         </Picker>
       </div>
       {status === "loading" && <p role="status">Loading sample icon...</p>}
@@ -169,6 +171,43 @@ export const SearchAndKeyboard: Story = {
 export const HiddenLabels: Story = {
   name: "Hidden labels keep sample geometry",
   render: () => <Fixture hidden />,
+};
+export const ColumnOrder: Story = {
+  name: "Sample icon column sits before sample text",
+  play: async ({ canvasElement }) => {
+    const header = canvasElement.querySelector<HTMLElement>(
+      ".typographyElementHeader",
+    )!;
+    const labels = [...header.children].map((cell) => cell.textContent);
+    await expect(labels).toEqual([
+      "Index",
+      "Font size",
+      "Line height",
+      "Sample icon",
+      "Sample text",
+    ]);
+    await expect(header.textContent).not.toContain("Icon size");
+    const label = within(header).getByText("Font size");
+    await expect(getComputedStyle(label).fontSize).toBe("12px");
+    canvasElement.dataset.playComplete = "true";
+  },
+};
+export const SampleIconOff: Story = {
+  name: "Sample icon off collapses its column",
+  render: () => <Fixture initialModes={["font-size", "line-height"]} />,
+  play: async ({ canvasElement }) => {
+    await expect(
+      canvasElement.querySelectorAll(".typographyElementIcon"),
+    ).toHaveLength(0);
+    const header = canvasElement.querySelector<HTMLElement>(
+      ".typographyElementHeader",
+    )!;
+    await expect(header.textContent).not.toContain("Sample icon");
+    await expect(
+      getComputedStyle(header).gridTemplateColumns.split(" "),
+    ).toHaveLength(4);
+    canvasElement.dataset.playComplete = "true";
+  },
 };
 export const LargeIcons: Story = {
   name: "Large generated icons",

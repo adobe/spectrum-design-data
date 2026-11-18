@@ -21,6 +21,7 @@ import Add from "@react-spectrum/s2/icons/Add";
 import Delete from "@react-spectrum/s2/icons/Delete";
 import Edit from "@react-spectrum/s2/icons/Edit";
 import { Dialog } from "react-aria-components";
+import { firstAccordionItemStyle } from "../accordionStyles";
 import { useAtomValue, useStore } from "jotai";
 import { useMemo, useState } from "react";
 import {
@@ -90,7 +91,7 @@ export function ColorRolesAccordionItem() {
     (term) => !document.colorRoles.some((role) => role.roleTermId === term.id),
   );
   return (
-    <AccordionItem id="color-roles" UNSAFE_style={{ borderTopWidth: 0 }}>
+    <AccordionItem id="color-roles" UNSAFE_style={firstAccordionItemStyle}>
       <AccordionItemHeader>
         <AccordionItemTitle>Color roles</AccordionItemTitle>
         {editing && (

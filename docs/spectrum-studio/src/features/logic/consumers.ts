@@ -12,6 +12,9 @@ import { generateRadiusScale } from "../radius/generate";
 import { dimensionIssues } from "../scales/issues";
 import type { TypographyDocument } from "../typography/model";
 import { generateTypography } from "../typography/typographyGeneration";
+import type { IconScale, IconsDocument } from "../icons/model";
+import { withIconsRoundingRule } from "../icons/model";
+import { generateIconScale } from "../icons/generate";
 import type { ScaleType } from "../scales/scaleType";
 import type { Interpolation } from "../scales/interpolationDefinition";
 import { isTshirtRule, type Rule } from "./model";
@@ -40,6 +43,7 @@ export type RuleConsumerSlot =
   | { foundation: "spacing"; scaleId: string }
   | { foundation: "size"; scaleId: string }
   | { foundation: "radius"; scaleId: string }
+  | { foundation: "icons" }
   | { foundation: "color"; scaleId: string }
   | { foundation: "structures"; structureId: string; applicationId: string }
   | { foundation: "styles"; styleId: string; applicationId: string };
@@ -57,6 +61,8 @@ export interface RuleReferenceDocuments {
   /** Optional so callers that predate the Size foundation stay valid. */
   size?: SizeDocument;
   radius?: RadiusDocument;
+  /** Optional so callers that predate the Icons foundation stay valid. */
+  icons?: IconsDocument;
   /** Library used to generate spacing; shipped scale types when omitted. */
   scaleTypes?: readonly ScaleType[];
   /** Library used for line heights; shipped interpolations when omitted. */
@@ -74,6 +80,7 @@ export function ruleConsumers({
   spacing,
   size,
   radius,
+  icons,
   structures,
   styles,
   snapshot,
@@ -119,6 +126,16 @@ export function ruleConsumers({
       label: "Typography › Line heights",
       slot: { foundation: "typography", field: "lineHeightRoundingRuleId" },
     },
+    ...(icons
+      ? [
+          {
+            id: "icons/icon-size",
+            ruleId: icons.roundingRuleId,
+            label: "Icons › Icon size",
+            slot: { foundation: "icons" },
+          } satisfies RuleConsumer,
+        ]
+      : []),
     ...spacing.scales.map(
       (scale): RuleConsumer => ({
         id: `spacing/${scale.id}`,
@@ -172,7 +189,7 @@ export function reassignConsumers(
   consumers: readonly RuleConsumer[],
   ruleId: string | ((consumer: RuleConsumer) => string),
 ): RuleReferenceDocuments {
-  let { typography, spacing, size, radius } = documents;
+  let { typography, spacing, size, radius, icons } = documents;
   for (const consumer of consumers) {
     const next = typeof ruleId === "function" ? ruleId(consumer) : ruleId;
     const { slot } = consumer;
@@ -182,7 +199,9 @@ export function reassignConsumers(
       );
     if (slot.foundation === "color")
       throw new Error("Choose a naming rule in the color Scale Editor.");
-    if (slot.foundation === "typography")
+    if (slot.foundation === "icons")
+      icons = icons && withIconsRoundingRule(icons, next);
+    else if (slot.foundation === "typography")
       typography = { ...typography, [slot.field]: next };
     else if (slot.foundation === "size")
       size = size && {
@@ -218,6 +237,7 @@ export function reassignConsumers(
     spacing,
     ...(size && { size }),
     ...(radius && { radius }),
+    ...(icons && { icons }),
   };
 }
 
@@ -232,28 +252,44 @@ export interface ConsumerImpact {
 }
 
 function typographyValues(
-  document: TypographyDocument,
+  documents: RuleReferenceDocuments,
   rules: readonly Rule[],
   field: "textRoundingRuleId" | "lineHeightRoundingRuleId",
-  scaleTypes?: readonly ScaleType[],
-  interpolations?: readonly Interpolation[],
 ) {
-  return generateTypography(
+  const { typography: document, icons, scaleTypes, interpolations } = documents;
+  const tokens = generateTypography(
     document,
     undefined,
     rules,
     scaleTypes,
     interpolations,
-  ).flatMap((token) =>
-    field === "textRoundingRuleId"
-      ? [token.fontSize]
-      : [
-          ...Object.values(token.lineHeights).map((height) => height.length),
-          ...(document.iconography.alignment === "line-height"
-            ? [token.iconSize]
-            : []),
-        ],
+    icons,
   );
+  if (field === "textRoundingRuleId")
+    return tokens.map((token) => token.fontSize);
+  return [
+    ...tokens.flatMap((token) =>
+      Object.values(token.lineHeights).map((height) => height.length),
+    ),
+    // Line height icon scales copy line height lengths, so this rule changes them too.
+    ...(icons ? iconValues(documents, rules, "line-height") : []),
+  ];
+}
+
+function iconValues(
+  { typography, icons, scaleTypes, interpolations }: RuleReferenceDocuments,
+  rules: readonly Rule[],
+  source?: IconScale["source"],
+) {
+  return (icons?.scales ?? [])
+    .filter((scale) => !source || scale.source === source)
+    .flatMap((scale) =>
+      generateIconScale(icons!, scale, typography, undefined, {
+        rules,
+        scaleTypes,
+        interpolations,
+      }).map((value) => value.value),
+    );
 }
 
 function spacingValues(
@@ -423,21 +459,13 @@ export function draftRuleImpact(
       throw new Error("A rounding rule cannot generate Structure variants.");
     if (slot.foundation === "color")
       throw new Error("A rounding rule cannot name color steps.");
-    if (slot.foundation === "typography") {
-      const before = typographyValues(
-        documents.typography,
-        rules,
-        slot.field,
-        documents.scaleTypes,
-        documents.interpolations,
-      );
-      const after = typographyValues(
-        documents.typography,
-        withDraft,
-        slot.field,
-        documents.scaleTypes,
-        documents.interpolations,
-      );
+    if (slot.foundation === "typography" || slot.foundation === "icons") {
+      const values = (library: readonly Rule[]) =>
+        slot.foundation === "icons"
+          ? iconValues(documents, library)
+          : typographyValues(documents, library, slot.field);
+      const before = values(rules);
+      const after = values(withDraft);
       return {
         consumer,
         changed: after.filter((value, index) => value !== before[index]).length,
@@ -475,13 +503,15 @@ export function roundingConsumerTypes(consumer: RuleConsumer): RuleValueType[] {
   const slot = consumer.slot;
   return slot.foundation === "typography"
     ? slot.field === "textRoundingRuleId"
-      ? ["font-size", "workflow-icon-size"]
+      ? ["font-size"]
       : ["line-height"]
-    : slot.foundation === "spacing" ||
-        slot.foundation === "size" ||
-        slot.foundation === "radius"
-      ? [slot.foundation]
-      : [];
+    : slot.foundation === "icons"
+      ? ["workflow-icon-size"]
+      : slot.foundation === "spacing" ||
+          slot.foundation === "size" ||
+          slot.foundation === "radius"
+        ? [slot.foundation]
+        : [];
 }
 
 function radiusValues(

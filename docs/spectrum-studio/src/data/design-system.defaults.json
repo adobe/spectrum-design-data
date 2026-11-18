@@ -23566,7 +23566,7 @@
         ]
       },
       "typography": {
-        "schemaVersion": 11,
+        "schemaVersion": 12,
         "scaleTypeId": "scale-type-typography",
         "outputUnit": "px",
         "smallSizes": 2,
@@ -23655,11 +23655,6 @@
           }
         ],
         "previewLineHeightId": "body",
-        "iconography": {
-          "alignment": "line-height",
-          "baseSize": 16,
-          "lineHeightId": "component"
-        },
         "metricNames": {
           "font-size": {
             "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
@@ -23726,6 +23721,26 @@
             }
           }
         }
+      },
+      "icons": {
+        "schemaVersion": 1,
+        "roundingRuleId": "rule-text-size-rounding",
+        "minIconSize": 9,
+        "maxIconSize": 200,
+        "scales": [
+          {
+            "id": "workflow",
+            "name": "Workflow",
+            "source": "line-height",
+            "lineHeightId": "component",
+            "scaleTypeId": "scale-type-typography",
+            "base": 16,
+            "below": 2,
+            "above": 14,
+            "parameters": {},
+            "roundingRuleId": "rule-text-size-rounding"
+          }
+        ]
       }
     },
     "modeSets": [

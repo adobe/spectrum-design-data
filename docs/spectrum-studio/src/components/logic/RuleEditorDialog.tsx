@@ -35,6 +35,7 @@ import { structureGeneration } from "../../features/structures/model";
 import { RULE_TYPES } from "../../features/logic/registry";
 import { spacingDocumentAtom } from "../../features/spacing/state";
 import { radiusDocumentAtom } from "../../features/radius/state";
+import { iconsDocumentAtom } from "../../features/icons/documentState";
 import {
   interpolationsAtom,
   scaleTypesAtom,
@@ -98,6 +99,7 @@ function RuleEditorForm({
   const typography = useAtomValue(typographyDocumentAtom);
   const spacing = useAtomValue(spacingDocumentAtom);
   const radius = useAtomValue(radiusDocumentAtom);
+  const icons = useAtomValue(iconsDocumentAtom);
   const size = useAtomValue(sizeDocumentAtom);
   const references = useAtomValue(primitiveReferencesAtom);
   const snapshot = useAtomValue(authoringSnapshotAtom);
@@ -134,6 +136,7 @@ function RuleEditorForm({
           spacing,
           size,
           radius,
+          icons,
           scaleTypes,
           interpolations,
           structures: snapshot.structures,
@@ -156,6 +159,7 @@ function RuleEditorForm({
     spacing,
     size,
     radius,
+    icons,
     scaleTypes,
     interpolations,
     snapshot,

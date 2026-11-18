@@ -7,6 +7,7 @@ import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifact
 import { primitiveReferencesAtom } from "../src/features/tokens/primitiveReferenceState";
 import { resolveElements } from "../src/features/structures/elementResolution";
 import { typographyDocumentAtom } from "../src/features/typography/state";
+import { iconsDocumentAtom, patchIconScale } from "../src/features/icons/state";
 import {
   tshirtMappings,
   resolveTshirtRule,
@@ -242,9 +243,13 @@ for (const [name, values] of [
   }
 }
 const changed = structuredClone(snapshot);
-changed.typography.iconography = { alignment: "text", baseSize: 24 };
+changed.icons!.scales[0] = patchIconScale(changed.icons!.scales[0], {
+  source: "follow-typography",
+  base: 24,
+});
 const changedStore = createStore();
 changedStore.set(typographyDocumentAtom, changed.typography);
+changedStore.set(iconsDocumentAtom, changed.icons!);
 const changedReferences = changedStore.get(primitiveReferencesAtom);
 const changedRows = buildTshirtArtifacts(changed).semantics.filter(
   (row) =>

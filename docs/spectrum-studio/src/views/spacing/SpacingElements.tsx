@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { termLabel } from "../../features/taxonomy/termPresentation";
-import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
+import { previewScaleNameStyles } from "../previewLabelStyles";
 import { useAtomValue, type Atom } from "jotai";
 import { generatedSpacingAtom } from "../../features/spacing/state";
 import type {
@@ -47,7 +47,7 @@ export interface DimensionElementsProps {
   >;
 }
 
-/** Every scale of a dimension foundation as a table of values with a sample of each. */
+/** Every scale of a dimension foundation as a horizontal row of samples with their values. */
 export function DimensionElements({
   title,
   noun,
@@ -75,7 +75,7 @@ export function DimensionElements({
           >
             <h3
               id={`${noun}-${scale.id}-heading`}
-              className={style({ font: "title", margin: 0 })}
+              className={previewScaleNameStyles}
             >
               {termLabel(scale.name)}
             </h3>
@@ -86,20 +86,6 @@ export function DimensionElements({
               tabIndex={0}
               aria-label={`${termLabel(scale.name)} ${noun} values`}
             >
-              <div
-                className="spacingElement spacingElementHeader"
-                aria-hidden="true"
-              >
-                <div className="spacingElementMeta">
-                  <Text>Index</Text>
-                </div>
-                <div className="spacingElementValue">
-                  <Text>Value</Text>
-                </div>
-                <div className="spacingElementSample">
-                  <Text>Sample</Text>
-                </div>
-              </div>
               {values.map((value) => (
                 <SpacingBar
                   key={value.step}

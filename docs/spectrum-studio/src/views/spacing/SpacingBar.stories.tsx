@@ -12,7 +12,7 @@ const meta = {
   args: { step: 500, value: 8 },
   decorators: [
     (Story) => (
-      <div role="list">
+      <div role="list" className="spacingScaleList">
         <Story />
       </div>
     ),
@@ -22,33 +22,46 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-async function barWidth(canvasElement: HTMLElement, index = 0) {
-  const bars = canvasElement.querySelectorAll<HTMLElement>(
+function bars(canvasElement: HTMLElement) {
+  return canvasElement.querySelectorAll<HTMLElement>(
     "[data-testid='spacing-bar']",
   );
-  return bars[index].getBoundingClientRect().width;
+}
+
+async function barHeight(canvasElement: HTMLElement, index = 0) {
+  return bars(canvasElement)[index].getBoundingClientRect().height;
 }
 
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByText("500")).toBeVisible();
-    await expect(canvas.getByText("8px")).toBeVisible();
-    await expect(await barWidth(canvasElement)).toBe(8);
+    const index = canvas.getByText("500");
+    const value = canvas.getByText("8px");
+    await expect(index).toBeVisible();
+    await expect(value).toBeVisible();
+    await expect(await barHeight(canvasElement)).toBe(8);
+    // Index sits above the value, both under the bar, in the shared 12px label style.
+    const bar = bars(canvasElement)[0].getBoundingClientRect();
+    const indexBox = index.getBoundingClientRect();
+    await expect(indexBox.top).toBeGreaterThanOrEqual(bar.bottom);
+    await expect(value.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      indexBox.bottom,
+    );
+    await expect(getComputedStyle(value).fontSize).toBe("12px");
   },
 };
 
 export const Smallest: Story = {
   args: { step: 100, value: 1 },
   play: async ({ canvasElement }) => {
-    await expect(await barWidth(canvasElement)).toBe(1);
+    await expect(await barHeight(canvasElement)).toBe(1);
   },
 };
 
 export const Largest: Story = {
   args: { step: 1800, value: 144 },
   play: async ({ canvasElement }) => {
-    await expect(await barWidth(canvasElement)).toBe(144);
+    await expect(await barHeight(canvasElement)).toBe(144);
   },
 };
 
@@ -56,7 +69,7 @@ export const NegativeValueRendersEmpty: Story = {
   args: { step: 100, value: -3 },
   play: async ({ canvasElement }) => {
     await expect(within(canvasElement).getByText("-3px")).toBeVisible();
-    await expect(await barWidth(canvasElement)).toBe(0);
+    await expect(await barHeight(canvasElement)).toBe(0);
   },
 };
 
@@ -74,7 +87,15 @@ export const GlobalScale: Story = {
       canvasElement.querySelectorAll("[role='listitem']"),
     ).toHaveLength(values.length);
     for (const [index, value] of values.entries()) {
-      await expect(await barWidth(canvasElement, index)).toBe(value.value);
+      await expect(await barHeight(canvasElement, index)).toBe(value.value);
+    }
+    // Columns run left to right and share a bottom baseline.
+    const boxes = [...bars(canvasElement)].map((bar) =>
+      bar.getBoundingClientRect(),
+    );
+    for (let index = 1; index < boxes.length; index += 1) {
+      await expect(boxes[index].left).toBeGreaterThan(boxes[index - 1].left);
+      await expect(boxes[index].bottom).toBe(boxes[0].bottom);
     }
   },
 };

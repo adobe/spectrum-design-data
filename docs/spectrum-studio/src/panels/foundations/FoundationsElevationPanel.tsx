@@ -22,6 +22,7 @@ import {
   AccordionItemTitle,
 } from "@react-spectrum/s2";
 import { FoundationModeSettings } from "./FoundationModeSettings";
+import { firstAccordionItemStyle } from "../accordionStyles";
 import { FoundationParameterSettings } from "./FoundationParameterSettings";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 
@@ -61,7 +62,10 @@ export function FoundationsElevationPanel() {
       <FoundationModeSettings
         foundation="elevation"
         before={
-          <AccordionItem id="system-settings">
+          <AccordionItem
+            id="system-settings"
+            UNSAFE_style={firstAccordionItemStyle}
+          >
             <AccordionItemTitle>System settings</AccordionItemTitle>
             <AccordionItemPanel UNSAFE_className={String(settingsPanelStyles)}>
               <div className={settingsStyles}>

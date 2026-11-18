@@ -1,10 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { isRuleList, type Rule } from "../logic/model";
 import { RULE_DEFAULTS } from "../logic/defaults";
-import {
-  isFoundationPublishingMetadata,
-  type FoundationPublishingMetadata,
-} from "../foundations/types";
+import type { FoundationPublishingMetadata } from "../foundations/types";
 import {
   generateScale,
   scaleIssues,
@@ -12,7 +9,7 @@ import {
   type ScaleIssue,
   type ScaleSettings,
 } from "./generate";
-import { isBindingRecord } from "./interpolation";
+import { isDimensionScale } from "./dimensionScaleShape";
 import {
   migrateScaleReference,
   SCALE_TYPE_DEFAULTS,
@@ -51,38 +48,7 @@ export interface GeneratedDimensionValue {
   factor: number;
   value: number;
 }
-
-function isFiniteNumber(value: unknown): value is number {
-  return typeof value === "number" && Number.isFinite(value);
-}
-
-function isNumberRecord(value: unknown): value is Record<string, number> {
-  return (
-    !!value &&
-    typeof value === "object" &&
-    Object.values(value).every(isFiniteNumber)
-  );
-}
-
-export function isDimensionScale(value: unknown): value is DimensionScale {
-  if (!value || typeof value !== "object") return false;
-  const scale = value as Partial<DimensionScale>;
-  return (
-    typeof scale.id === "string" &&
-    isFoundationPublishingMetadata(scale) &&
-    typeof scale.name === "string" &&
-    typeof scale.scaleTypeId === "string" &&
-    (scale.componentSizeScaling === undefined ||
-      typeof scale.componentSizeScaling === "boolean") &&
-    (scale.base === undefined || isFiniteNumber(scale.base)) &&
-    isFiniteNumber(scale.below) &&
-    isFiniteNumber(scale.above) &&
-    (scale.startStep === undefined || Number.isSafeInteger(scale.startStep)) &&
-    isNumberRecord(scale.parameters) &&
-    (scale.bindings === undefined || isBindingRecord(scale.bindings)) &&
-    typeof scale.roundingRuleId === "string"
-  );
-}
+export { isDimensionScale } from "./dimensionScaleShape";
 
 export function isDimensionDocument<Version extends number>(
   value: unknown,
@@ -182,5 +148,5 @@ export type DimensionScaleIssue = ScaleIssue;
 
 /** Values must be finite, positive and distinct so every token has its own value. */
 export const dimensionScaleIssues: (
-  values: readonly GeneratedDimensionValue[],
+  values: readonly Pick<GeneratedDimensionValue, "value">[],
 ) => DimensionScaleIssue[] = scaleIssues;
