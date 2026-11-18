@@ -30,16 +30,17 @@ use design_data_core::diff::semantic_diff;
 use design_data_core::graph::TokenGraph;
 use design_data_core::primer;
 use design_data_core::query;
+use design_data_core::specificity;
 use design_data_core::suggest;
 use design_data_core::validate::relational::validate_relational;
 use wasm_bindgen::prelude::*;
 
 use crate::error::{js_err, to_js_error};
 use crate::types::{
-    AddedToken, DeletedToken, DeprecatedToken, DiffResult, PropertyChange, RenamedToken,
-    ResolutionContext as WasmContext, ResolveAlternative, ResolveNarrowing, ResolveResult,
-    RevertedToken, SuggestResult, SuggestResultArray, TokenResult, TokenResultArray, UpdatedToken,
-    ValidationResult,
+    AddedToken, DeletedToken, DeprecatedToken, DiffResult, PropertyChange, RefinementsResult,
+    RenamedToken, ResolutionContext as WasmContext, ResolveAlternative, ResolveNarrowing,
+    ResolveResult, RevertedToken, SuggestResult, SuggestResultArray, TokenResult, TokenResultArray,
+    UpdatedToken, ValidationResult,
 };
 
 // ---------------------------------------------------------------------------
@@ -472,6 +473,28 @@ impl Dataset {
         let records = query::filter(&self.graph, &filter);
         let results: Vec<TokenResult> = records.iter().map(|r| TokenResult::from(*r)).collect();
         Ok(TokenResultArray::new(results))
+    }
+
+    // -----------------------------------------------------------------------
+    // Refinements
+    // -----------------------------------------------------------------------
+
+    /// A token's semantic specificity (tier, then purpose-field count) and the same-property
+    /// tokens whose names add (narrower) or drop (broader) purpose fields, each marked
+    /// `"drop-in"` (same resolved value in every mode) or `"consider"`.
+    ///
+    /// `token` is a legacy name, uuid or conceptId. Returns `undefined` when none matches.
+    /// Whether an added field fits the use is for the caller to judge. Reads the embedded
+    /// field catalog, so it can differ from a dataset's own `fields/`.
+    ///
+    /// ```js
+    /// const r = ds.refinements("neutral-subdued-content-color-hover", 5);
+    /// r.broader[0].valueMatch; // "drop-in" | "consider"
+    /// ```
+    #[wasm_bindgen]
+    pub fn refinements(&self, token: &str, limit: Option<usize>) -> Option<RefinementsResult> {
+        let record = specificity::find(&self.graph, token)?;
+        Some(specificity::refinements(&self.graph, record, limit.unwrap_or(10)).into())
     }
 
     // -----------------------------------------------------------------------

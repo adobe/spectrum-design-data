@@ -273,7 +273,7 @@ export function createReadTools() {
             description:
               'Filter expression, e.g. "property=background-color". Valid keys: ' +
               "property, component, variant, state, colorScheme, scale, contrast, " +
-              'uuid, $schema, tier (primitive, semantic or component). Note: "component" is not currently populated on ' +
+              'uuid, $schema, tier (primitive, semantic or component). Results include purposeFields. Note: "component" is not currently populated on ' +
               "tokens — component=<id> always returns []; use describe_component instead.",
           },
         },
@@ -314,6 +314,40 @@ export function createReadTools() {
       async handler({ intent, limit = 5 }) {
         const ds = await getDataset();
         return ds.suggest(intent, undefined, limit);
+      },
+    },
+
+    {
+      name: "token_refinements",
+      description:
+        "Show a token's semantic specificity (tier, then purpose-field count, derived from its " +
+        "name) and the same-property tokens that are narrower (add purpose fields) or broader " +
+        "(drop them). Each neighbor lists `fields` it adds or lacks and a `valueMatch`: " +
+        '"drop-in" (same value in every mode) or "consider" (differs; see `differingModes`). ' +
+        "Specificity only orders tokens; check the added fields fit the use before swapping.",
+      inputSchema: {
+        type: "object",
+        required: ["token"],
+        properties: {
+          token: {
+            type: "string",
+            description:
+              "Token name (e.g. neutral-content-color-hover), uuid or conceptId",
+          },
+          limit: {
+            type: "number",
+            description:
+              "Maximum narrower and broader tokens, each (default: 10)",
+            default: 10,
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ token, limit = 10 }) {
+        const ds = await getDataset();
+        const result = ds.refinements(token, limit);
+        if (!result) throw new Error(`No token found for "${token}"`);
+        return result;
       },
     },
 

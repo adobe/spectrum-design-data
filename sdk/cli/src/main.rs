@@ -44,6 +44,7 @@ use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::primer;
 use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
+use design_data_core::specificity;
 use design_data_core::suggest;
 use design_data_core::text_metrics::TextMetrics;
 use design_data_core::token_tier;
@@ -571,6 +572,25 @@ enum Commands {
     Catalog {
         #[command(subcommand)]
         sub: CatalogSub,
+    },
+    /// Show a token's semantic specificity (tier, purpose fields) and the same-property tokens
+    /// with narrower or broader names, with whether swapping changes any resolved value
+    Refinements {
+        /// Token to look up: legacy name (e.g. background-color-default), uuid or conceptId
+        #[arg(value_name = "TOKEN")]
+        token: String,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Directory containing spec-format mode set declaration JSON files
+        #[arg(long, value_name = "DIR")]
+        mode_sets_path: Option<PathBuf>,
+        /// Maximum narrower and broader tokens to list, each
+        #[arg(long, default_value_t = 10)]
+        limit: usize,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
     },
     /// Suggest existing tokens that match a natural-language intent string
     Suggest {
@@ -1886,6 +1906,10 @@ fn run_resolve(
                         println!("Alias:     {r}");
                     }
                     println!("Tier:      {}", token_tier::effective(winner));
+                    println!(
+                        "Purpose:   {}",
+                        purpose_summary(&specificity::specificity(winner))
+                    );
                     println!("File:      {}", winner.file.display());
                     println!("Index:     {}", winner.index);
                     if let Some(uuid) = &winner.uuid {
@@ -3439,6 +3463,10 @@ fn run_query(
                     println!("    UUID:    {uuid}");
                     println!("    Schema:  {schema}");
                     println!("    Tier:    {}", token_tier::effective(t));
+                    println!(
+                        "    Purpose: {}",
+                        purpose_summary(&specificity::specificity(t))
+                    );
                     println!("    File:    {}", t.file.display());
                     println!();
                 }
@@ -4763,6 +4791,90 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     Ok(ExitCode::SUCCESS)
 }
 
+fn purpose_summary(s: &specificity::Specificity) -> String {
+    if s.purpose_fields.is_empty() {
+        "0 purpose fields".to_string()
+    } else {
+        format!(
+            "{} purpose field{}: {}",
+            s.purpose_count(),
+            if s.purpose_count() == 1 { "" } else { "s" },
+            s.purpose_fields.join(", ")
+        )
+    }
+}
+
+fn run_refinements(
+    reference: &str,
+    explicit_path: Option<&Path>,
+    mode_sets_path: Option<PathBuf>,
+    limit: usize,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        mode_sets: mode_sets_path,
+        ..Default::default()
+    })?;
+    let path = &resolved.tokens_root;
+    let mut graph = TokenGraph::open_cached_with_catalogs(
+        path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    let Some(token) = specificity::find(&graph, reference) else {
+        eprintln!("No token found for {reference:?}");
+        return Ok(ExitCode::from(1));
+    };
+    let r = specificity::refinements(&graph, token, limit);
+
+    if matches!(format, OutputFormat::Json) {
+        println!("{}", serde_json::to_string_pretty(&r).into_diagnostic()?);
+        return Ok(ExitCode::SUCCESS);
+    }
+    println!("{}", r.token);
+    println!(
+        "  Specificity: {}, {}",
+        r.specificity.tier,
+        purpose_summary(&r.specificity)
+    );
+    for (label, list, total) in [
+        ("Narrower (adds fields)", &r.narrower, r.narrower_total),
+        ("Broader (drops fields)", &r.broader, r.broader_total),
+    ] {
+        println!("\n  {label}: {total}");
+        for n in list {
+            let fields: Vec<String> = n
+                .fields
+                .iter()
+                .map(|(k, v)| {
+                    format!(
+                        "{k}={}",
+                        v.as_str().map_or_else(|| v.to_string(), str::to_string)
+                    )
+                })
+                .collect();
+            let m = match n.value_match {
+                specificity::ValueMatch::DropIn => "drop-in".to_string(),
+                specificity::ValueMatch::Consider => {
+                    format!("consider, differs in {}", n.differing_modes.join("; "))
+                }
+            };
+            println!("    {} [{}] ({m})", n.name, fields.join(" "));
+        }
+        if total > list.len() {
+            println!("    ... {} more (raise --limit)", total - list.len());
+        }
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_suggest(
     intent: &str,
     path: Option<&Path>,
@@ -5443,6 +5555,13 @@ fn main() -> ExitCode {
         Commands::Catalog { sub } => match sub {
             CatalogSub::Export { out } => run_catalog_export(&out),
         },
+        Commands::Refinements {
+            token,
+            path,
+            mode_sets_path,
+            limit,
+            format,
+        } => run_refinements(&token, path.as_deref(), mode_sets_path, limit, format),
         Commands::Suggest {
             intent,
             path,

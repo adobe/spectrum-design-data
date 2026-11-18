@@ -212,6 +212,7 @@ function compactToken(ds, token) {
     tier: token.tier,
     uuid: token.uuid,
   };
+  if (token.purposeFields?.length) out.purposeFields = token.purposeFields;
   for (const mode of MODE_FIELDS) if (fields[mode]) out[mode] = fields[mode];
   if (isDeprecated(token)) out.deprecated = true;
   return out;
@@ -258,6 +259,7 @@ export function createDesignDataTools() {
           provenance,
           modeSets,
           tokenTiers,
+          semanticSpecificity,
           taxonomyFields: coreFields,
         } = ds.primer();
         const modesOf = (name) =>
@@ -284,6 +286,7 @@ export function createDesignDataTools() {
             advisory: wasm.getAdvisoryFields() ?? [],
           },
           tokenTiers,
+          semanticSpecificity,
           fieldTiers: Object.fromEntries(
             (coreFields ?? [])
               .filter((f) => f.allowedTokenTiers || f.impliesTokenTier)
@@ -326,7 +329,8 @@ export function createDesignDataTools() {
         "listed in the dataset, so `variant=accent` matches nothing. " +
         "Returns { total, shown, tokens }: each token has its name, final value (aliases " +
         "already followed; `values` by mode instead when it differs by colorScheme, scale or " +
-        "contrast), layer, tier, uuid and modes, active tokens first. At most `limit` " +
+        "contrast), layer, tier, purposeFields (the name fields that give it a semantic role; " +
+        "more means more specific), uuid and modes, active tokens first. At most `limit` " +
         "(default 25) are shown; when `total` is larger, narrow the filter " +
         "(state=, property=, colorScheme=) instead of raising the limit. " +
         'Pass detail "full" for the complete token objects.',
@@ -427,6 +431,55 @@ export function createDesignDataTools() {
             confidence: match.confidence,
           };
         });
+      },
+    },
+
+    // ── refinements ─────────────────────────────────────────────────────────
+    {
+      name: "design-data-refinements",
+      annotations: {
+        title: "Design Data: Token Specificity and Refinements",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Show how specific a token is and which same-property tokens are narrower or broader. " +
+        "Specificity is tier, then the number of purpose fields (name fields that give a " +
+        "semantic role, such as colorRole, object, state); it is derived from the name, not " +
+        "stored. `narrower` tokens have every field of this token plus more purpose fields; " +
+        "`broader` tokens lack some of its purpose fields. `fields` lists what a neighbor adds " +
+        "(narrower) or lacks (broader). `valueMatch` is `drop-in` when the resolved value is " +
+        "the same in every mode, `consider` when it differs (`differingModes`, or `all`). " +
+        "Specificity only orders tokens: check that the added fields (for example " +
+        "variant=subtle) fit what you are building before using a narrower token, and treat " +
+        "`consider` as a design question. Use it to pick among tokens for a custom component " +
+        "or to check whether a more specific token exists for a state or part. " +
+        "Uses the embedded field catalog.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          token: {
+            type: "string",
+            description:
+              "Token name (e.g. neutral-content-color-hover), uuid or conceptId",
+          },
+          limit: {
+            type: "integer",
+            minimum: 1,
+            maximum: 50,
+            description:
+              "Maximum narrower and broader tokens to list, each (default 10)",
+            default: 10,
+          },
+        },
+        required: ["token"],
+        additionalProperties: false,
+      },
+      async handler({ token, limit = 10 }) {
+        const ds = await getDataset();
+        const result = ds.refinements(token, limit);
+        if (!result) throw new Error(`No token found for "${token}"`);
+        return result;
       },
     },
 

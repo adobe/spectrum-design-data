@@ -30,6 +30,7 @@ const EXPECTED_TOOLS = [
   "design-data-primer",
   "design-data-query",
   "design-data-suggest",
+  "design-data-refinements",
   "design-data-component",
   "design-data-component-search",
   "design-data-resolve",
@@ -247,9 +248,9 @@ test("design-data-render rejects a component without a recipe", async (t) => {
 
 // ── structural tests ──────────────────────────────────────────────────────────
 
-test("createDesignDataTools exposes eleven tools", (t) => {
+test("createDesignDataTools exposes twelve tools", (t) => {
   const tools = createDesignDataTools();
-  t.is(tools.length, 11);
+  t.is(tools.length, 12);
   t.deepEqual(
     tools.map(({ name }) => name),
     EXPECTED_TOOLS,
@@ -440,6 +441,7 @@ test("design-data-query shows each token's tier and filters by it", async (t) =>
 test("design-data-primer explains tiers and lists a field's allowed tiers", async (t) => {
   const primer = await byName()["design-data-primer"].handler({});
   t.regex(primer.tokenTiers, /tier=<tier>/);
+  t.regex(primer.semanticSpecificity, /refinements/);
   t.deepEqual(primer.fieldTiers.scaleIndex.allowedTokenTiers, [
     "primitive",
     "semantic",
@@ -934,3 +936,27 @@ test.serial(
     }
   },
 );
+
+test("design-data-refinements returns specificity and neighbors", async (t) => {
+  const result = await byName()["design-data-refinements"].handler({
+    token: "neutral-subdued-content-color-hover",
+  });
+  t.is(result.specificity.tier, "semantic");
+  t.true(result.specificity.purposeFields.includes("variant"));
+  t.is(result.broader[0].name, "neutral-content-color-hover");
+  t.deepEqual(result.broader[0].fields, { variant: "subdued" });
+  await t.throwsAsync(() =>
+    byName()["design-data-refinements"].handler({ token: "no-such-token" }),
+  );
+});
+
+test("design-data-query compact tokens list purposeFields", async (t) => {
+  const result = await byName()["design-data-query"].handler({
+    filter: "uuid=f24eb871-6419-4cef-88a2-cca8548ae31e",
+  });
+  t.deepEqual(result.tokens[0].purposeFields.sort(), [
+    "colorRole",
+    "object",
+    "state",
+  ]);
+});
