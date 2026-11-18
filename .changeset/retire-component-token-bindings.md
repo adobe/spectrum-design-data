@@ -20,5 +20,7 @@ Remove the component `tokenBindings` field. Relationships carry that data.
   used (steplist, menu, table, tag-field, card, stack-item, body, heading, detail). List-view
   and radio-button relationships now name their existing parts. Illustrated message uses a
   `script: cjk` option instead of `-cjk` sizes.
+- **Validation:** `design-data:validate` no longer downgrades component-rule errors to warnings.
+  Table declares the `xl` size its relationships use.
 - **Agent MCP:** `describe_component` returns `relationships`; docs no longer mention
   `tokenBindings`.

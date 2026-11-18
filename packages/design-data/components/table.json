@@ -80,8 +80,13 @@
     "size": {
       "type": "string",
       "default": "m",
-      "description": "Controls the density of table rows.",
-      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
+      "description": "Size scale for row metrics. Density is a separate option.",
+      "values": [
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
+      ]
     },
     "hideHeader": {
       "type": "boolean",

@@ -128,10 +128,6 @@ tasks:
   # --components-path loads packages/design-data/components/*.json so
   # component-aware rules (SPEC-018/020/022/026/031/035/040/051-054/064) actually
   # run instead of silently no-op'ing (see bead spectrum-design-data-0jm).
-  # --components-report-only downgrades their findings to warnings. Dangling
-  # token references are no longer part of that backlog: component tokenBindings
-  # (SPEC-027) is gone and relationship `$ref`s are checked by SPEC-055, which is
-  # not downgraded. Remove this flag once the SPEC-052/053/054 findings are fixed.
   validate:
     command: ../../sdk/target/debug/design-data
     args:
@@ -145,7 +141,6 @@ tasks:
       - ./visuals
       - --icons-path
       - ./icons
-      - --components-report-only
       - --exceptions-path
       - ./naming-exceptions.json
     toolchain: "system"

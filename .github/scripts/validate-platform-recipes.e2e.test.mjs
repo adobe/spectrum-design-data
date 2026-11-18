@@ -133,7 +133,6 @@ describe("platform recipe guard on ios", { concurrency: true }, () => {
           "./visuals",
           "--mode-sets-path",
           "./mode-sets",
-          "--components-report-only",
           "--exceptions-path",
           "./naming-exceptions.json",
           "--format",

@@ -4260,7 +4260,7 @@
       "part": "section-header",
       "property": "row-height",
       "options": {
-        "size": "extra-large",
+        "size": "xl",
         "scale": "desktop"
       }
     },
@@ -4285,7 +4285,7 @@
       "part": "section-header",
       "property": "row-height",
       "options": {
-        "size": "extra-large",
+        "size": "xl",
         "scale": "mobile"
       }
     },
@@ -4310,7 +4310,7 @@
       "part": "section-header",
       "property": "row-height",
       "options": {
-        "size": "large",
+        "size": "l",
         "scale": "desktop"
       }
     },
@@ -4335,7 +4335,7 @@
       "part": "section-header",
       "property": "row-height",
       "options": {
-        "size": "large",
+        "size": "l",
         "scale": "mobile"
       }
     },
@@ -4360,7 +4360,7 @@
       "part": "section-header",
       "property": "row-height",
       "options": {
-        "size": "medium",
+        "size": "m",
         "scale": "desktop"
       }
     },
@@ -4383,7 +4383,7 @@
       "part": "section-header",
       "property": "row-height",
       "options": {
-        "size": "medium",
+        "size": "m",
         "scale": "mobile"
       }
     },
@@ -4406,7 +4406,7 @@
       "part": "section-header",
       "property": "row-height",
       "options": {
-        "size": "small",
+        "size": "s",
         "scale": "desktop"
       }
     },
@@ -4431,7 +4431,7 @@
       "part": "section-header",
       "property": "row-height",
       "options": {
-        "size": "small",
+        "size": "s",
         "scale": "mobile"
       }
     },
