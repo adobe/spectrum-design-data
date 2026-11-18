@@ -582,6 +582,10 @@
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=false": "235189121d284140",
     "isDisabled=true,isEmphasized=true,isError=true,isIndeterminate=true,isSelected=true": "bdc8d89a34bca808"
   },
+  "clear-button": {
+    "isDisabled=false,staticColor=\"white\"": "c55129a7cc58affd",
+    "isDisabled=true,staticColor=\"white\"": "47e7583c22e37c85"
+  },
   "close-button": {
     "isDisabled=false,staticColor=\"black\"": "03900204c1801a03",
     "isDisabled=false,staticColor=\"white\"": "26be6a89d289da1f",
