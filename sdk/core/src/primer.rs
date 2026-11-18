@@ -58,7 +58,7 @@ pub const TOKEN_TIERS_SUMMARY: &str = "Every token has a tier: primitive (raw va
 (shared purposes or structural roles) or component (defined for one component). A token's tier is \
 its tokenTier when declared, otherwise derived: a name field implying component gives component; \
 an alias value gives semantic; a name field implying semantic gives semantic; otherwise primitive. \
-Only tokens whose name has a component field are in the component tier, not every token a component binds through relationships. Query it with tier=<tier>. A field's allowedTokenTiers limits where it may be used (SPEC-102).";
+Only tokens whose name has a component field are in the component tier, not every token a component binds through relationships. In the foundation dataset component-specific data lives in relationship records, so this tier is nearly or entirely empty there. Query it with tier=<tier>. A field's allowedTokenTiers limits where it may be used (SPEC-102).";
 
 /// Full primer payload assembled from a [`TokenGraph`].
 ///

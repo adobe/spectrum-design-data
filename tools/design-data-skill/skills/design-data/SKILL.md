@@ -180,8 +180,9 @@ Follow the status, not a guess:
 Every token is `primitive` (raw values), `semantic` (a shared purpose or structural role) or
 `component` (defined for one component). The tier is usually not written in the data: it is
 derived from the token's name fields and value, and a `tokenTier` on the token overrides it.
-The `component` tier holds only tokens whose name has a `component` field (5 today), not
-every token a component binds through relationships; use `component=<name>` for those.
+The `component` tier holds only tokens whose name has a `component` field, not every token a
+component binds through relationships; use `component=<name>` for those. In the foundation
+dataset component-specific data lives in relationship records, so that tier is nearly empty.
 Query results show `tier`, and `tier=semantic` filters by it. A field's `allowedTokenTiers`
 in the primer's `fieldTiers` says where it may be used (`scaleIndex` is for primitive and
 semantic tokens only).
