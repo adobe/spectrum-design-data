@@ -11,12 +11,12 @@ import {
 } from "../tokens/aliasTargets";
 import { canonicalTokenDefinitions } from "../tokens/canonicalCatalogue";
 import {
-  canonicalPrimitiveProperties,
   tokenIdentity,
   tokenIdentityRow,
   reconcileTokenIdentityRows,
   type TokenIdentity,
 } from "../tokens/canonicalIdentity";
+import { toDesignDataName } from "../design-data/taxonomyCrosswalk";
 import { componentTokenCatalog } from "../components/references";
 import type { ComponentsDocument } from "../components/model";
 import { canonicalTokenModeKey } from "../tokens/browserModel";
@@ -26,13 +26,14 @@ import { tokenUuid } from "../tokens/model";
 function serializedName(row: CanonicalAliasRow, axes: Set<string>) {
   const name =
     row.token.semantic?.token.name ?? row.token.projection?.flat ?? {};
-  const result = Object.fromEntries(
-    Object.entries(name).filter(
-      ([key]) => !axes.has(key) && key !== "legacyKey",
+  const result = toDesignDataName(
+    Object.fromEntries(
+      Object.entries(name).filter(
+        ([key]) => !axes.has(key) && key !== "legacyKey",
+      ),
     ),
-  );
-  const property = canonicalPrimitiveProperties[row.token.type];
-  if (!result.property && property) result.property = property;
+    { tokenType: row.token.type },
+  ) as Record<string, string | number>;
   if (
     row.token.type === "typography" &&
     result.element === "text" &&
@@ -40,21 +41,7 @@ function serializedName(row: CanonicalAliasRow, axes: Set<string>) {
   ) {
     delete result.element;
     result.property = `font-size-${result.scaleIndex}`;
-  } else if (row.token.type === "colors" && result.property === "color") {
-    if (typeof result.colorName === "string") {
-      result.colorFamily = result.colorName;
-      delete result.colorName;
-    }
-    if (
-      typeof result.contrastValue === "string" &&
-      /^\d+$/.test(result.contrastValue)
-    ) {
-      result.scaleIndex = Number(result.contrastValue);
-      delete result.contrastValue;
-    }
   }
-  if (typeof result.scaleIndex === "string" && /^\d+$/.test(result.scaleIndex))
-    result.scaleIndex = Number(result.scaleIndex);
   return result;
 }
 

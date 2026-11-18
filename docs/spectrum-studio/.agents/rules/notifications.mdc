@@ -24,6 +24,7 @@ explains them.
 | Adds or removes a small part (layer, element, property, binding, option, shadow layer, color stop) | None. Changes is the undo path | `notify.remove({ kind: <part kind>, … })` or plain setter |
 | Deletes an item that removes no exported names | Neutral toast with Undo | `notify.remove({ kind, run, undo })` |
 | Deletes anything that removes exported design-data names (token, alias, component, term in use, token-generating scale) | Destructive alert dialog, then neutral toast with Undo | `notify.remove(...)`. The dialog is chosen automatically |
+| Deletes a `lifecycle` kind (Registry term or category, color scale, alias) | Unshipped: toast with Undo. Shipped: rename/deprecate dialog, never deleted | `notify.remove({ …, lifecycle })`. See `deletion-and-deprecation.mdc` |
 | Something fails | Negative toast | `notify.error(failure)` |
 | Copies to clipboard | Neutral "Copied to clipboard" | `notify.copied()` |
 | Discards or resets many edits | Destructive alert dialog, no toast | wrap the action in `notify.quietly` |
@@ -63,13 +64,15 @@ for one click, and never toast from inside a store atom.
 ## Adding a new kind
 
 Add a row to `NOTIFICATION_KINDS` in `policy.ts` with a noun and a tier
-(`part`, `item`, or `api`). Give `api` kinds an `impact` sentence. Then use the
-kind at the callsite.
+(`part`, `item`, or `api`). Give `api` kinds an `impact` sentence. Classify it
+in `LIFECYCLE_KINDS` (`lifecycleKinds.ts`); kinds that reach design-data output
+are `lifecycle`. Then use the kind at the callsite.
 
 ## Enforcement
 
 - `pnpm test:notifications` runs `tests/notifications.ts` (rules) and
   `tests/notification-usage.ts`. The usage check fails on `ToastQueue` outside
-  the provider and on question-mark alert dialog titles.
+  the provider, on question-mark alert dialog titles, and on `notify.remove`
+  calls for `lifecycle` kinds without a `lifecycle` descriptor.
 - ESLint `no-restricted-imports` blocks `ToastQueue` and `ToastContainer`
   imports.

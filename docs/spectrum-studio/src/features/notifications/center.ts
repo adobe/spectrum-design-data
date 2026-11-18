@@ -10,9 +10,12 @@ import {
   deleteFlow,
   deleteImpactText,
   deletedText,
+  deprecatedText,
   errorText,
   failureOf,
   newIds,
+  NOTIFICATION_KINDS,
+  nounFor,
   pickNotice,
   termsAddedText,
   toastText,
@@ -20,7 +23,43 @@ import {
   type NotificationKindId,
 } from "./policy";
 
-export interface RemoveRequest<R> {
+export interface LifecycleCandidate {
+  id: string;
+  label: string;
+}
+
+/**
+ * How a delete follows the deletion and deprecation workflow. See
+ * .agents/rules/deletion-and-deprecation.mdc.
+ */
+export interface LifecycleRemoval<D = unknown> {
+  /** The item is in the shipped data, so it is deprecated, never deleted. */
+  shipped: boolean;
+  /** The shipped item is already deprecated. */
+  deprecated?: boolean;
+  /** Offered for simple items: keeps the ID and changes the value. */
+  rename?: { current: string; run: (name: string) => unknown };
+  /** Active items of the same kind (and token type) that can replace it. */
+  candidates?: readonly LifecycleCandidate[];
+  /** Marks the item deprecated. Returns what `undoDeprecate` needs. */
+  deprecate?: (replacementId?: string) => D;
+  undoDeprecate?: (result: D) => void;
+}
+
+/** What the lifecycle dialog shows. Each action throws when it fails. */
+export interface LifecycleChoice {
+  title: string;
+  /** The item's name, for example "Accent". */
+  name: string;
+  /** The kind's noun in lower case, for example "term". */
+  noun: string;
+  deprecated: boolean;
+  candidates: readonly LifecycleCandidate[];
+  rename?: { current: string; apply: (name: string) => void };
+  deprecate?: (replacementId?: string) => void;
+}
+
+export interface RemoveRequest<R, D = unknown> {
   kind: NotificationKindId;
   /** Overrides the kind's noun, for example "Spacing scale". */
   noun?: string;
@@ -37,6 +76,12 @@ export interface RemoveRequest<R> {
   local?: boolean;
   /** Set when the caller's own dialog already confirmed the delete. */
   confirmed?: boolean;
+  /**
+   * Required for kinds marked "lifecycle" in LIFECYCLE_KINDS. Shipped items
+   * open the lifecycle dialog instead of deleting; unshipped items delete
+   * right away with an Undo toast.
+   */
+  lifecycle?: LifecycleRemoval<D>;
 }
 
 export interface Notify {
@@ -47,7 +92,7 @@ export interface Notify {
     options?: { noun?: string },
   ) => R | undefined;
   /** Runs a delete with the silent, toast, or dialog flow its kind needs. */
-  remove: <R>(request: RemoveRequest<R>) => void;
+  remove: <R, D = unknown>(request: RemoveRequest<R, D>) => void;
   /** Runs an edit. Shows nothing unless it fails or creates registry terms. */
   edit: <R>(run: () => R) => R | undefined;
   /** Runs work that must not announce anything but errors (undo, revert). */
@@ -69,12 +114,15 @@ export interface NotificationCenterOptions {
   show: (notice: Notice, onClose: () => void) => () => void;
   /** Opens the delete confirmation dialog. */
   confirm: (dialog: DeleteDialog) => void;
+  /** Opens the rename/deprecate dialog for a shipped item. */
+  choose: (choice: LifecycleChoice) => void;
 }
 
 export function createNotificationCenter({
   store,
   show,
   confirm,
+  choose,
 }: NotificationCenterOptions): Notify & { start: () => () => void } {
   let depth = 0;
   let quiet = 0;
@@ -164,6 +212,44 @@ export function createNotificationCenter({
     }
   }
 
+  /** Runs a dialog action quietly and throws its failure for inline display. */
+  function settle<R>(run: () => R): R {
+    const result = quietly(run);
+    const failure = failureOf(result);
+    if (failure) throw new Error(failure);
+    return result;
+  }
+
+  function lifecycleChoice<R, D>(
+    request: RemoveRequest<R, D>,
+    lifecycle: LifecycleRemoval<D>,
+  ): LifecycleChoice {
+    const { rename, deprecate, undoDeprecate } = lifecycle;
+    return {
+      title: deleteDialogTitle(request.kind),
+      name: nounFor(request.kind, request.noun),
+      noun: NOTIFICATION_KINDS[request.kind].noun.toLowerCase(),
+      deprecated: !!lifecycle.deprecated,
+      candidates: lifecycle.candidates ?? [],
+      rename: rename && {
+        current: rename.current,
+        apply: (name) => void settle(() => rename.run(name)),
+      },
+      deprecate:
+        deprecate &&
+        ((replacementId) => {
+          const result = settle(() => deprecate(replacementId));
+          present({
+            variant: "neutral",
+            message: deprecatedText(request.kind, request.noun),
+            undo:
+              undoDeprecate &&
+              (() => quietly(() => act(() => undoDeprecate(result)))),
+          });
+        }),
+    };
+  }
+
   return {
     added: (kind, run, options) =>
       act(run, (_result, terms) => {
@@ -174,10 +260,17 @@ export function createNotificationCenter({
         };
       }),
     remove: (request) => {
-      const removed = request.local
-        ? 0
-        : previewRemovedTokenNames(store, request.run);
-      const flow = deleteFlow(request.kind, removed ?? 0);
+      const lifecycle = request.lifecycle;
+      if (lifecycle?.shipped) {
+        choose(lifecycleChoice(request, lifecycle));
+        return;
+      }
+      const removed =
+        request.local || lifecycle
+          ? 0
+          : previewRemovedTokenNames(store, request.run);
+      // Unshipped items were never published, so they delete with Undo.
+      const flow = lifecycle ? "toast" : deleteFlow(request.kind, removed ?? 0);
       const perform = () =>
         act(
           () => request.run(store),

@@ -1,6 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { dirname, resolve } from "node:path";
-import { existsSync, watch, type FSWatcher } from "node:fs";
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
+import { existsSync, statSync, watch, type FSWatcher } from "node:fs";
 import { loadEnv, type Plugin } from "vite";
 import {
   appRoot,
@@ -167,6 +169,82 @@ export function designDataAnalysisPlugin(): Plugin {
           }
         },
       );
+    },
+  };
+}
+
+/** Hash of the Studio source that shapes Analysis results (cache version). */
+export async function analysisCodeVersion(
+  entries = [resolve(appRoot, "src/features/design-data/analysis.worker.ts")],
+) {
+  const hash = createHash("sha256");
+  for (const file of await analysisCodeFiles(entries))
+    hash.update(file.slice(appRoot.length)).update(await readFile(file));
+  return hash.digest("hex").slice(0, 16);
+}
+
+const relativeImport =
+  /\bfrom\s*["'](\.{1,2}\/[^"'?]+)[^"']*["']|\bimport\s*\(?\s*["'](\.{1,2}\/[^"'?]+)[^"']*["']/g;
+
+/**
+ * Local files the entries load at runtime, following relative imports.
+ * Type-only imports are skipped; package imports are covered by the
+ * reference and engine parts of the cache key.
+ */
+export async function analysisCodeFiles(entries: readonly string[]) {
+  const found = new Set<string>();
+  const pending = [...entries];
+  while (pending.length) {
+    const file = pending.pop()!;
+    if (found.has(file)) continue;
+    found.add(file);
+    if (!/\.[cm]?[jt]sx?$/.test(file)) continue;
+    const source = await readFile(file, "utf8");
+    for (const match of source.matchAll(relativeImport)) {
+      const start = Math.max(
+        source.lastIndexOf("import", match.index),
+        source.lastIndexOf("export", match.index),
+      );
+      if (/^(?:import|export)\s+type\b/.test(source.slice(start, match.index)))
+        continue;
+      const target = resolve(dirname(file), match[1] ?? match[2]);
+      const resolved = [
+        target,
+        `${target}.ts`,
+        `${target}.tsx`,
+        `${target}.js`,
+        `${target}/index.ts`,
+      ].find(
+        (candidate) => existsSync(candidate) && statSync(candidate).isFile(),
+      );
+      if (resolved && !found.has(resolved)) pending.push(resolved);
+    }
+  }
+  return [...found].sort();
+}
+
+export function analysisCodeVersionPlugin(): Plugin {
+  const id = "\0virtual:analysis-code-version";
+  const roots = [
+    resolve(appRoot, "src/features"),
+    resolve(appRoot, "src/data"),
+  ];
+  return {
+    name: "analysis-code-version",
+    resolveId(source) {
+      if (source === "virtual:analysis-code-version") return id;
+    },
+    async load(source) {
+      if (source !== id) return;
+      return `export default ${JSON.stringify(await analysisCodeVersion())};`;
+    },
+    configureServer(server) {
+      const invalidate = analysisInputInvalidator(roots, [], () => {
+        const module = server.moduleGraph.getModuleById(id);
+        if (module) server.moduleGraph.invalidateModule(module);
+      });
+      for (const event of analysisWatchEvents)
+        server.watcher.on(event, invalidate);
     },
   };
 }

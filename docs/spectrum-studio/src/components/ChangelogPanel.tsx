@@ -58,6 +58,7 @@ import {
 import { ChangeFields } from "../views/changelog/ChangeFields";
 import { changeBadgeLabel } from "../views/changelog/logPresentation";
 import { ImpactOverview } from "../views/changelog/ImpactOverview";
+import { ChangesMoreMenu } from "../views/changelog/ChangesMoreMenu";
 import {
   persistenceIssuesAtom,
   PERSISTENCE_ISSUE_PREFIXES,
@@ -355,34 +356,39 @@ function ReadyChangelogPanel({ isCollapsed }: { isCollapsed: boolean }) {
           </h4>
         )}
         {!isCollapsed && (
-          <DialogTrigger>
-            <Button
-              variant="negative"
-              isDisabled={!hasChanges && !needsStorageReset}
-            >
-              Reset all
-            </Button>
-            <AlertDialog
-              variant="destructive"
-              title="Reset all changes"
-              primaryActionLabel="Reset"
-              onPrimaryAction={() => {
-                try {
-                  notify.quietly(resetAll);
-                } catch (failure) {
-                  notify.error(
-                    failure instanceof Error
-                      ? failure.message
-                      : String(failure),
-                  );
-                }
-              }}
-            >
-              Restore shipped defaults for all authored data and replace your
-              saved baseline. This also replaces any invalid stored authoring
-              data.
-            </AlertDialog>
-          </DialogTrigger>
+          <div
+            className={style({ display: "flex", alignItems: "center", gap: 4 })}
+          >
+            {canEdit && <ChangesMoreMenu isDisabled={!editing} />}
+            <DialogTrigger>
+              <Button
+                variant="negative"
+                isDisabled={!hasChanges && !needsStorageReset}
+              >
+                Reset all
+              </Button>
+              <AlertDialog
+                variant="destructive"
+                title="Reset all changes"
+                primaryActionLabel="Reset"
+                onPrimaryAction={() => {
+                  try {
+                    notify.quietly(resetAll);
+                  } catch (failure) {
+                    notify.error(
+                      failure instanceof Error
+                        ? failure.message
+                        : String(failure),
+                    );
+                  }
+                }}
+              >
+                Restore shipped defaults for all authored data and replace your
+                saved baseline. This also replaces any invalid stored authoring
+                data.
+              </AlertDialog>
+            </DialogTrigger>
+          </div>
         )}
       </div>
       {!isCollapsed && tokenComparison.status === "unavailable" && (

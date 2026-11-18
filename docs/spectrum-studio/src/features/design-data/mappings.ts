@@ -6,27 +6,14 @@ import type {
 } from "./comparison";
 import { modeDeclarations } from "./modeCoverage";
 import { fontSizeStep } from "./foundationValues";
+import { crosswalkNameFields } from "./taxonomyCrosswalk";
+import { comparisonName } from "./tokenPairing";
 
 export const REVIEWED_MAPPING_VERSION =
-  "foundation-color-ramp-v1-typography-size-v1";
+  "foundation-color-ramp-v2-typography-size-v1";
 
 const object = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
-const families = new Set([
-  "red",
-  "orange",
-  "yellow",
-  "green",
-  "cyan",
-  "blue",
-  "indigo",
-  "violet",
-  "purple",
-  "magenta",
-  "fuchsia",
-  "pink",
-  "gray",
-]);
 
 /** Validate the complete external mapping contract before it reaches comparison. */
 export function parseReviewedMappings(value: unknown): ReviewedMapping[] {
@@ -141,58 +128,67 @@ function modeValue(
   return typeof value === "string" ? value : undefined;
 }
 
+const RAMP_MODES = ["colorScheme", "contrast"];
+const RAMP_FIELDS = ["property", "colorFamily", "scaleIndex"];
+
+/**
+ * Pairs Studio color-ramp steps with design-data palette rows. App names go
+ * through the shared taxonomy crosswalk; the family must be the palette row's
+ * Registry color family (labels resolve to Registry IDs), not a local list.
+ */
 export function reviewedColorMappings(
   app: AnalysisInput,
   reference: AnalysisInput,
 ): ReviewedMapping[] {
-  const candidates = reference.records.filter(
-    (row) =>
-      row.category === "tokens" &&
-      row.source === "tokens/color-palette.tokens.json" &&
-      row.structuredName?.property === "color" &&
-      Object.keys(row.structuredName).every((key) =>
-        [
-          "property",
-          "colorFamily",
-          "scaleIndex",
-          "colorScheme",
-          "contrast",
-        ].includes(key),
-      ),
+  const vocabulary = reference.records.filter(
+    (row) => row.category === "registry" && object(row.value),
   );
+  const ramp = (name: Record<string, unknown>) =>
+    name.property === "color" &&
+    typeof name.colorFamily === "string" &&
+    Number.isSafeInteger(name.scaleIndex) &&
+    Object.keys(name).every((key) => RAMP_FIELDS.includes(key));
+  const candidates = reference.records.flatMap((row) => {
+    const name = comparisonName(row, "reference", vocabulary, RAMP_MODES);
+    return row.category === "tokens" &&
+      row.source === "tokens/color-palette.tokens.json" &&
+      ramp(name)
+      ? [{ row, name }]
+      : [];
+  });
   const mappings: ReviewedMapping[] = [];
   for (const left of app.records) {
-    const name = left.structuredName;
     if (
       left.category !== "tokens" ||
       left.classification !== "generated" ||
-      name?.property !== "color" ||
-      typeof name.colorName !== "string" ||
-      !families.has(name.colorName) ||
-      typeof name.contrastValue !== "string" ||
-      !/^\d+$/.test(name.contrastValue) ||
-      Object.keys(name).some(
-        (key) =>
-          ![
-            "property",
-            "colorName",
-            "contrastValue",
-            "colorScheme",
-            "contrast",
-          ].includes(key),
-      ) ||
-      Object.keys(left.context ?? {}).some(
-        (key) => !["colorScheme", "contrast"].includes(key),
-      )
+      left.structuredName?.property !== "color" ||
+      Object.keys(left.context ?? {}).some((key) => !RAMP_MODES.includes(key))
     )
       continue;
+    const tokenType = left.tokenType ?? "colors";
+    const name = comparisonName(
+      { ...left, tokenType },
+      "app",
+      vocabulary,
+      RAMP_MODES,
+    );
+    if (!ramp(name)) continue;
     const colorScheme = modeValue(left, app, "colorScheme");
     const contrast = modeValue(left, app, "contrast");
     if (!colorScheme || !contrast) continue;
-    for (const right of candidates) {
+    const nameFields = crosswalkNameFields(left.structuredName, { tokenType });
+    // A Registry label (e.g. "Gray") resolved to its ID is still a declared
+    // field translation, so an accepted RFC can excuse the visible difference.
+    if (
+      typeof left.structuredName.colorFamily === "string" &&
+      left.structuredName.colorFamily !== name.colorFamily &&
+      !nameFields.colorFamily
+    )
+      nameFields.colorFamily = { reference: "colorFamily" };
+    for (const { row: right, name: rightName } of candidates) {
       if (
-        right.structuredName?.colorFamily !== name.colorName ||
-        right.structuredName.scaleIndex !== Number(name.contrastValue) ||
+        rightName.colorFamily !== name.colorFamily ||
+        rightName.scaleIndex !== name.scaleIndex ||
         modeValue(right, reference, "colorScheme") !== colorScheme ||
         modeValue(right, reference, "contrast") !== contrast
       )
@@ -200,12 +196,9 @@ export function reviewedColorMappings(
       mappings.push({
         app: left.id,
         reference: right.id,
-        contextDefaults: ["colorScheme", "contrast"],
-        nameFields: {
-          colorName: { reference: "colorFamily" },
-          contrastValue: { reference: "scaleIndex", normalization: "integer" },
-        },
-        rationale: `${REVIEWED_MAPPING_VERSION}: foundational color-ramp ordinal, not equal contrast or equal RGB. App contrastTokenLabel/cascade export colorName→colorFamily and contrastValue→scaleIndex; reference fields/colorFamily.json and fields/scaleIndex.json. Exact family ${name.colorName}, ordinal ${name.contrastValue}, colorScheme ${colorScheme}, contrast ${contrast}; omitted modes use each input's declared default. Independent UUIDs retained; no aliases or extra axes inferred.`,
+        contextDefaults: RAMP_MODES,
+        ...(Object.keys(nameFields).length > 0 && { nameFields }),
+        rationale: `${REVIEWED_MAPPING_VERSION}: foundational color-ramp ordinal, not equal contrast or equal RGB. App names use the shared taxonomy crosswalk (docs/rfcs/taxonomy-crosswalk.md); the reference palette row supplies the Registry color family. Exact family ${String(name.colorFamily)}, scaleIndex ${String(name.scaleIndex)}, colorScheme ${colorScheme}, contrast ${contrast}; omitted modes use each input's declared default. Independent UUIDs retained; no aliases or extra axes inferred.`,
       });
     }
   }

@@ -62,13 +62,13 @@ commands where it is active.
 
 ## Limits and failure
 
-Small invocations reserve 256 MiB of aggregate sampled RSS, at most 16 owned
+Small invocations reserve 512 MiB of aggregate sampled RSS, at most 16 owned
 processes, and a 30-second deadline for the entire selection, including
 prerequisites. At most two small invocations may overlap across participating
-sessions/worktrees: their combined reservation cannot exceed 512 MiB.
+sessions/worktrees: their combined reservation cannot exceed 1 GiB.
 
-Approved heavy invocations run alone, reserving 1 GiB, at most 48 owned processes
-and a 60-second selection deadline. They cannot overlap small invocations.
+Approved heavy invocations run alone, reserving 4 GiB, at most 48 owned processes
+and a 180-second selection deadline. They cannot overlap small invocations.
 Both local classes limit each check's log to 2 MiB. Accounting includes the
 runner itself and its owned workload descendants, not just the child command.
 

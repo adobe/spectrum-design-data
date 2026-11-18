@@ -108,6 +108,98 @@ export function inventoryComparisonRows(
     : tree;
 }
 
+const labelOrder = new Intl.Collator();
+
+/** Combined comparison and inventory rows, sorted once by label. */
+export function sortedComparisonTree(
+  comparison: readonly TokenComparisonTreeRow[],
+  inventory: readonly TokenComparisonTreeRow[],
+): TokenComparisonTreeRow[] {
+  return [...comparison, ...inventory].sort((a, b) =>
+    labelOrder.compare(a.label, b.label),
+  );
+}
+
+const collapsedRows = new WeakMap<
+  TokenComparisonTreeRow,
+  TokenComparisonTreeRow
+>();
+
+/**
+ * Table items for the current expansion, limited to the first `limit` rows so
+ * large comparisons render in pages. A collapsed row keeps only its first
+ * child, so it still shows an expand control without building every hidden
+ * child. Unchanged rows keep their identity, letting the table reuse them.
+ */
+export function visibleComparisonTree(
+  tree: readonly TokenComparisonTreeRow[],
+  expanded: ReadonlySet<string>,
+  limit = Infinity,
+): TokenComparisonTreeRow[] {
+  return tree.slice(0, limit).map((row) => {
+    if (row.children.length <= 1 || expanded.has(row.id)) return row;
+    let collapsed = collapsedRows.get(row);
+    if (!collapsed) {
+      collapsed = {
+        ...row,
+        children: row.children.slice(0, 1),
+      } as TokenComparisonTreeRow;
+      collapsedRows.set(row, collapsed);
+    }
+    return collapsed;
+  });
+}
+
+/** Every row and child by ID, for details lookup. */
+export function comparisonRowIndex(
+  tree: readonly TokenComparisonTreeRow[],
+): Map<string, TokenComparisonTreeRow> {
+  const index = new Map<string, TokenComparisonTreeRow>();
+  for (const row of tree) {
+    index.set(row.id, row);
+    for (const child of row.children) index.set(child.id, child);
+  }
+  return index;
+}
+
+const valuesByContext = new WeakMap<
+  TokenInventoryEntry,
+  Map<string, TokenInventoryEntry["values"][number]>
+>();
+
+/** The counterpart sample with the same mode context, looked up once per entry. */
+export function counterpartSample(
+  counterpart: TokenInventoryEntry,
+  context: TokenInventoryEntry["values"][number]["context"] | undefined,
+) {
+  let values = valuesByContext.get(counterpart);
+  if (!values) {
+    values = new Map(
+      counterpart.values.map((value) => [canonicalJson(value.context), value]),
+    );
+    valuesByContext.set(counterpart, values);
+  }
+  return values.get(canonicalJson(context));
+}
+
+/** Distinct tokens represented by the given rows. */
+export function comparisonTokenCount(
+  rows: readonly TokenComparisonTreeRow[],
+): number {
+  return new Set(
+    rows.map((row) =>
+      "inventory" in row
+        ? canonicalJson([
+            row.inventory.side,
+            row.inventory.record.conceptId ??
+              row.inventory.record.identity ??
+              row.inventory.id,
+          ])
+        : row.concept.id,
+    ),
+  ).size;
+}
+
 export function tokenComparisonRows(
   concepts: readonly ColorOpacityConcept[],
   query: string,

@@ -3,10 +3,15 @@ import assert from "node:assert/strict";
 import { migrationTokensFixture } from "./fixtures/migration-tokens";
 import {
   comparisonModeSets,
+  comparisonRowIndex,
   comparisonSelectionIndex,
+  comparisonTokenCount,
+  counterpartSample,
   inventoryComparisonRows,
   modeResultSegments,
+  sortedComparisonTree,
   tokenComparisonRows,
+  visibleComparisonTree,
 } from "../src/views/analysis/tokenComparisonPresentation";
 import {
   resolveTokenTableSelection,
@@ -302,6 +307,54 @@ assert.equal(
   JSON.stringify({ confirmedExtra, enhancement }),
   presentationBefore,
   "De-duplication preserves source inventory and enhancement evidence.",
+);
+const sorted = sortedComparisonTree(tree, []);
+assert.deepEqual(
+  sorted.map((row) => row.label),
+  [...tree].map((row) => row.label).sort((a, b) => a.localeCompare(b)),
+  "Sorting once keeps the existing label order.",
+);
+const collapsed = visibleComparisonTree(sorted, new Set());
+assert.ok(
+  collapsed.every((row) => row.children.length === 1),
+  "Collapsed rows keep one child so they stay expandable.",
+);
+assert.deepEqual(
+  collapsed.map((row) => row.id),
+  sorted.map((row) => row.id),
+  "Collapsing never changes which rows are shown or their order.",
+);
+const opened = visibleComparisonTree(sorted, new Set([sorted[1].id]));
+assert.equal(opened[1], sorted[1], "An expanded row shows all its children.");
+assert.equal(opened[1].children.length, 2);
+assert.ok(
+  opened.every(
+    (row, position) => position === 1 || row === collapsed[position],
+  ),
+  "Expanding one row reuses every other row unchanged.",
+);
+const page = visibleComparisonTree(sorted, new Set([sorted[1].id]), 2);
+assert.ok(
+  page.length === 2 && page.every((row, position) => row === opened[position]),
+  "A page shows only the first rows, reusing the same row objects.",
+);
+const lookup = comparisonRowIndex(sorted);
+assert.equal(lookup.get(first.id), first, "Details find child rows by ID.");
+assert.equal(lookup.size, sorted.length + sorted.length * 2);
+assert.equal(comparisonTokenCount([...lookup.values()]), 4);
+const counterpartEntry = inventoryEntry("counterpart", {
+  values: [
+    { context: { colorScheme: "light" }, value: "#111", issue: null },
+    { context: { colorScheme: "dark" }, value: "#222", issue: null },
+  ],
+});
+assert.equal(
+  counterpartSample(counterpartEntry, { colorScheme: "dark" })?.value,
+  "#222",
+);
+assert.equal(
+  counterpartSample(counterpartEntry, { contrast: "high" }),
+  undefined,
 );
 assert.equal(
   JSON.stringify(assessment),

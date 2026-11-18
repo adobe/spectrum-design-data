@@ -86,9 +86,16 @@ the corresponding upstream field declarations:
 
 | Category | Allowed tiers |
 | --- | --- |
-| Color family | Primitive |
+| Color family | Primitive, Semantic |
+| Scale index | Primitive, Semantic |
 | Interactive context | Semantic, Component |
 | Interaction | Semantic, Component |
+
+Scale index allows Semantic so that color-role scales, such as
+`accent-color-100`, can keep the step number that design-data already
+publishes on semantic palette tokens. Color family allows Semantic for
+per-family semantic colors, such as the Icon style's outputs and
+design-data's icon and color-alias tokens.
 
 Omission means all tiers. An empty list, duplicate tier, or unknown tier is
 invalid metadata. Existing type/domain scope still applies: eligibility is
@@ -116,19 +123,20 @@ and saved baselines independently and does not mutate its input. Old manual
 tokens with an explicit `structures` scope upgrade to Semantic; cases without
 clear stored evidence remain unclassified with a review diagnostic.
 
-Two shipped-default exceptions are deliberate: Element and Attribute remain
-unrestricted. Existing Typography and Elevation foundations use Element terms
-such as Text, Body, and Surface, and the Attribute term Shadow. The old
-purpose-only question setting did not reflect this existing use. Restricting
-those categories to Semantic and Component would contradict the requirement
-that all foundation outputs are Primitive. Saved user
-restrictions are preserved rather than silently broadened.
+The shipped defaults follow the Registry's tier table, so Element is
+Semantic-only and Attribute is Semantic + Component. Existing Typography and
+Elevation foundations still use Element terms such as Text, Body, and Surface,
+and the Attribute term Shadow. Those Primitive outputs keep their names and
+show a tier diagnostic until they are reclassified (tracked in DEBT-044).
+Saved user restrictions are preserved rather than silently broadened.
 
 New incompatible assignments are rejected by authoring validation. Existing
 incompatible assignments remain present with diagnostics, and their terms
 remain visible for repair. Tier diagnostics do not make a previously usable
-primitive value unavailable to a Structure. Strict review/export can require
-classification repair without preventing the app from loading or editing.
+primitive value unavailable to a Structure or an alias. Strict alias and
+export validation block on other projection issues, but not on tier
+diagnostics alone (`blockingProjectionIssues`), so the app keeps loading,
+editing, and exporting while classification repair is pending.
 
 ## Evidence and enabled behavior
 
@@ -152,6 +160,27 @@ Component tokens but excluded from Primitive tokens.
 Local tests establish Studio behavior, not upstream acceptance. The existing
 `leonardo-flat-taxonomy-v1` packet is a local review format; adding tier
 metadata there does not make an upstream token schema accept it.
+
+## Agent implementation brief: scale index tiers
+
+This brief covers only crosswalk rule XW-018 (see
+[taxonomy-crosswalk.md](taxonomy-crosswalk.md)). The token-level tier field
+above needs its own review first.
+
+1. On a separate design-data branch, add the optional `allowedTokenTiers`
+   property shown above to
+   `packages/design-data-spec/schemas/field.schema.json`.
+2. Set `"allowedTokenTiers": ["primitive", "semantic"]` in
+   `packages/design-data/fields/scaleIndex.json`. Leave other fields without
+   it, which means all tiers.
+3. Do not change token UUIDs, names, values or serialization positions.
+4. Run `moon run design-data:validate`, `moon run sdk:codegen` and
+   `moon run sdk:codegen-check`. Add changesets for `@adobe/design-data-spec`
+   and `@adobe/spectrum-design-data`, then run
+   `node tools/changeset-linter/src/cli.js check --fail-on-warnings`.
+
+After it merges, Studio deletes XW-018 and regenerates
+[design-data-handoff.md](design-data-handoff.md).
 
 ## Limits and non-goals
 

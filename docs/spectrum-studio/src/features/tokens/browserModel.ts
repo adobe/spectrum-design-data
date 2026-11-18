@@ -510,6 +510,8 @@ export function isBrowserTokenEdits(
     }
     if (edit.description !== undefined && typeof edit.description !== "string")
       return false;
+    if (edit.removed !== undefined && typeof edit.removed !== "boolean")
+      return false;
     if (
       edit.status !== undefined &&
       edit.status !== "draft" &&

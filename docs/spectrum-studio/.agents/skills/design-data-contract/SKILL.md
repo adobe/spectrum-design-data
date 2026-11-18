@@ -1,6 +1,6 @@
 ---
 name: design-data-contract
-description: How spectrum-studio relates to the canonical design-data and specification packages in this monorepo. Use when a change adds or alters taxonomy, tokens, modes, schema, token names, export or output shapes, mappings, or anything that might differ from design-data; when editing the gap register (src/data/design-data-gaps.json); when touching the Analysis page; or when asked about alignment, parity, upstream proposals, or "audit". Covers the north star, four data buckets, register, commands, pinned evidence, and what must never block the app.
+description: How spectrum-studio relates to the canonical design-data and specification packages in this monorepo. Use when a change adds or alters taxonomy, tokens, modes, schema, token names, export or output shapes, mappings, or anything that might differ from design-data; when translating names, keys or terms between Studio and design-data, or changing migration analysis or the taxonomy crosswalk (src/data/taxonomy-crosswalk.json); when editing the gap register (src/data/design-data-gaps.json); when touching the Analysis page; or when asked about alignment, parity, upstream proposals, or "audit". Covers the north star, four data buckets, register, commands, pinned evidence, and what must never block the app.
 ---
 
 # Design-data contract
@@ -46,7 +46,7 @@ Schema and checks: `src/features/design-data/gaps.ts`. Never edit
 
 | Field | Values and meaning |
 | --- | --- |
-| `id` | `LTAX-nnn`, unique, stable. Next free ID: LTAX-017 (check the file) |
+| `id` | `LTAX-nnn`, unique, stable. Use the highest existing ID plus one (check the file) |
 | `kind` | `app-capability`, `spec-schema`, `sdk`, `token-content`, `intentional-policy`, `unassessable` |
 | `direction` | `app-to-reference`, `reference-to-app`, `joint` |
 | `owner` | `leonardo`, `upstream`, `joint` |
@@ -70,6 +70,29 @@ To add an entry: take the next ID, set `profile` and `revision`, choose `kind`,
 existing link IDs and local evidence paths. Then run `pnpm gaps:docs` and
 `pnpm test:design-data-gaps`. Ask the user before adding or changing entries
 beyond what the task requires.
+
+## The translation layer (crosswalk)
+
+When Studio's vocabulary differs from design-data's (field keys, term spellings,
+value types, fields one side lacks, tiers, default mode rows), the difference
+is a rule in `src/data/taxonomy-crosswalk.json`. Code reads it only through
+`src/features/design-data/taxonomyCrosswalk.ts` (`toDesignDataName` for output,
+`toComparisonName` for migration analysis). The full design is in
+`docs/rfcs/taxonomy-crosswalk.md`.
+
+- Never add a translation anywhere else: no local maps, alias tables or
+  string rewrites in matchers, exporters or Analysis. Add or extend a rule.
+- A new rule needs the next `XW-###` id, a `kind`, a linked gap ID, an RFC
+  line in `docs/rfcs/taxonomy-crosswalk.md`, `retireWhen` and `retireBy`
+  (`design-data`, `studio` or `decision`).
+- After changing rules, regenerate `docs/rfcs/design-data-handoff.md` with
+  `pnpm crosswalk:handoff` (never edit it by hand) and run the
+  `taxonomy-crosswalk` focused check.
+- Delete a rule only after the change it describes has merged; follow
+  "After a change merges" in the handoff page. Do not change canonical data
+  or Studio's Registry to hide a difference.
+- design-data changes are applied on a separate branch, following the RFC's
+  agent implementation brief. Do not include them in Studio work.
 
 ## Commands
 

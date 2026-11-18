@@ -10204,7 +10204,8 @@
           "required": false,
           "includeInProjections": true,
           "allowedTokenTiers": [
-            "primitive"
+            "primitive",
+            "semantic"
           ]
         },
         {
@@ -10295,7 +10296,8 @@
           "required": false,
           "includeInProjections": true,
           "allowedTokenTiers": [
-            "primitive"
+            "primitive",
+            "semantic"
           ]
         },
         {

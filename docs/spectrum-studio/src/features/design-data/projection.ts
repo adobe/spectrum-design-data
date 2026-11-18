@@ -37,7 +37,7 @@ import {
   composeDesignSystemDefaults,
 } from "./validation";
 import { authoringOutputMetadata } from "./projectionMetadata";
-import { designDataNameFields } from "./taxonomyCrosswalk";
+import { designDataNameFields, toDesignDataName } from "./taxonomyCrosswalk";
 import {
   browserAssignmentId,
   emptyOutputMetadata,
@@ -48,7 +48,10 @@ import { projectShadowValue } from "./shadowValue";
 import { resolveElevationDocument } from "../elevation/resolution";
 import { browserElevationSources } from "../elevation/output";
 import { buildTshirtArtifacts } from "./tshirtArtifacts";
-import { projectClassification } from "../taxonomy/model";
+import {
+  blockingProjectionIssues,
+  projectClassification,
+} from "../taxonomy/model";
 import { buildStylesForSource } from "../styles/artifacts";
 import { structureName } from "../structures/generation";
 import { aliasReferencePacket } from "../tokens/aliases";
@@ -91,6 +94,7 @@ export function projectAuthoringDataset(
 ): AnalysisInput {
   const records: AnalysisRecord[] = [];
   const errors: string[] = [];
+  const outputIssues: NonNullable<AnalysisInput["outputIssues"]> = [];
   let outputMetadata = emptyOutputMetadata();
   const add = (
     category: string,
@@ -410,7 +414,7 @@ export function projectAuthoringDataset(
       add(
         "tokens",
         token.uuid,
-        taxonomy && !taxonomy.issues.length
+        taxonomy && !blockingProjectionIssues(taxonomy).length
           ? taxonomy.name
           : canonicalJson(token.name),
         token.value,
@@ -435,25 +439,21 @@ export function projectAuthoringDataset(
       );
     }
     const combinations = modeCombinations(axes);
-    errors.push(
-      ...opacityOutputIssues({
-        opacity: system.foundations.opacity,
-        colorSystem: system.foundations.color,
-        modeSets: system.modeSets,
-        browserTokenEdits: browserEdits,
-      }),
-    );
-    for (const row of opacityRows(
-      {
-        opacity: system.foundations.opacity,
-        colorSystem: system.foundations.color,
-        modeSets: system.modeSets,
-        browserTokenEdits: browserEdits,
-      },
-      system.taxonomy,
-    )) {
+    const opacitySource = {
+      opacity: system.foundations.opacity,
+      colorSystem: system.foundations.color,
+      modeSets: system.modeSets,
+      browserTokenEdits: browserEdits,
+    };
+    const opacityIssues = opacityOutputIssues(opacitySource);
+    const opacityOutput = opacityRows(opacitySource, system.taxonomy);
+    // Without any rows the opacity inventory is unavailable as a whole.
+    if (!opacityOutput.length && opacityIssues.length)
+      errors.push(...opacityIssues);
+    else outputIssues.push(...opacityIssues.map((message) => ({ message })));
+    for (const row of opacityOutput) {
       if (!row.uuid || row.issues.length) {
-        errors.push(...row.issues);
+        outputIssues.push(...row.issues.map((message) => ({ message })));
         continue;
       }
       add(
@@ -468,11 +468,10 @@ export function projectAuthoringDataset(
           tokenType: "opacity",
           conceptId: row.conceptId,
           context: row.context,
-          structuredName: {
-            property: "opacity",
-            scaleIndex: row.scaleIndex,
-            ...row.context,
-          },
+          structuredName: toDesignDataName(
+            { scaleIndex: row.scaleIndex, ...row.context },
+            { tokenType: "opacity" },
+          ),
           classification: "generated",
           ...(row.value !== row.generatedValue && {
             overrides: { generatedValue: row.generatedValue },
@@ -688,13 +687,13 @@ export function projectAuthoringDataset(
       }
     }
     {
-      errors.push(
+      outputIssues.push(
         ...buildStylesForSource({
           ...system,
           ...system.foundations,
           colorSystem: system.foundations.color,
           browserTokenEdits: browserEdits,
-        }).issues.map((issue) => issue.message),
+        }).issues.map((issue) => ({ message: issue.message })),
       );
       const rows = canonicalAliasRows(
         completeAliasSource({
@@ -767,9 +766,26 @@ export function projectAuthoringDataset(
           assignments.push(browserAssignmentId(sourceId, "[]"));
         observe(row.rowId, recipe, context, "serialized-context", assignments);
       }
-      errors.push(
-        ...tokenOutputDiagnostics(rows).map((diagnostic) => diagnostic.message),
-      );
+      const rowIdsByToken = new Map<string, string[]>();
+      const tokenById = new Map(rows.map((row) => [row.token.id, row.token]));
+      for (const row of rows)
+        rowIdsByToken.set(row.token.id, [
+          ...(rowIdsByToken.get(row.token.id) ?? []),
+          row.rowId,
+        ]);
+      const diagnostics = new Map<string, Set<string>>();
+      for (const { tokenId, message } of tokenOutputDiagnostics(rows)) {
+        const ids = diagnostics.get(message) ?? new Set<string>();
+        const token = tokenById.get(tokenId);
+        // Only unresolved values block their own rows; lifecycle notes do not.
+        if (token && message === fontFamilyOutputIssue(token))
+          for (const id of rowIdsByToken.get(tokenId) ?? []) ids.add(id);
+        diagnostics.set(message, ids);
+      }
+      for (const [message, ids] of diagnostics)
+        outputIssues.push(
+          ids.size ? { message, recordIds: [...ids] } : { message },
+        );
     }
   } catch (error) {
     errors.push(error instanceof Error ? error.message : String(error));
@@ -818,6 +834,7 @@ export function projectAuthoringDataset(
         : []),
     ],
     errors,
+    outputIssues,
     limitations: [
       "Authoring definitions are app-owned extensions, not proposed-spec conformance.",
       "UI metadata is excluded. App token values use existing generators, publishing flags, mode owners, and overrides; temporary preview controls are excluded.",

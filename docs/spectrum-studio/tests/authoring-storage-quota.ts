@@ -62,8 +62,6 @@ try {
     await import("../src/features/edit-session/structureSourceCodec");
   const { upgradeStylesSnapshot } =
     await import("../src/features/edit-session/stylesUpgrade");
-  const { withStylesVocabulary } =
-    await import("../src/features/styles/vocabulary");
   const { buildStyleArtifacts } =
     await import("../src/features/styles/generation");
   const { styleContexts } = await import("../src/features/styles/artifacts");
@@ -128,9 +126,6 @@ try {
   assert.equal(loaded.isEditing, true);
 
   const legacy = structuredClone(saved);
-  legacy.taxonomy!.terms = legacy.taxonomy!.terms.filter(
-    (term) => term.id !== "042b4793-1403-4c88-a6e8-e8b993b3c254",
-  );
   legacy.taxonomy!.categories.find(
     (category) => category.key === "scaleIndex",
   )!.allowedTokenTiers = ["primitive"];
@@ -143,30 +138,16 @@ try {
       snapshot.modeSets,
       contexts,
     );
-  const broken = artifacts(legacy);
-  assert(broken.issues.some((issue) => issue.message.includes("fontWeight")));
-  assert(broken.issues.some((issue) => issue.message.includes("Scale index")));
-  const upgraded = upgradeStylesSnapshot(legacy);
-  assert.deepEqual(artifacts(upgraded).issues, []);
-  assert.deepEqual(
-    upgraded.styles,
-    legacy.styles,
-    "Repair does not reseed Styles or identities.",
+  assert(
+    artifacts(legacy).issues.some((issue) =>
+      issue.message.includes("Scale index"),
+    ),
+    "Styles report a Registry gap instead of repairing it.",
   );
-  assert.deepEqual(upgraded.structures, legacy.structures);
-  assert.equal(withStylesVocabulary(upgraded.taxonomy!), upgraded.taxonomy!);
-  assert.deepEqual(upgradeStylesSnapshot(upgraded), upgraded);
-  const renamed = structuredClone(defaults.taxonomy!);
-  const weightTerm = renamed.terms.find(
-    (term) => term.id === "042b4793-1403-4c88-a6e8-e8b993b3c254",
-  )!;
-  weightTerm.value = "custom-font-weight";
   assert.equal(
-    withStylesVocabulary(renamed).terms.find(
-      (term) => term.id === weightTerm.id,
-    )!.value,
-    "custom-font-weight",
-    "Compatibility does not overwrite a renamed term or duplicate its identity.",
+    upgradeStylesSnapshot(legacy),
+    legacy,
+    "Loading never rewrites the authored Registry.",
   );
   localStorage.data.set(
     AUTHORING_STORAGE_KEY,
@@ -176,12 +157,11 @@ try {
       saved: encodeStructureSource(legacy),
     }),
   );
-  const repaired = readAuthoringRecord(assertStoredSnapshot, (value) => value);
-  assert(repaired);
-  assert.deepEqual(artifacts(repaired.working).issues, []);
-  assert.deepEqual(artifacts(repaired.saved).issues, []);
-  assert.deepEqual(repaired.working.styles, legacy.styles);
-  assert.deepEqual(repaired.saved.styles, legacy.styles);
+  const restored = readAuthoringRecord(assertStoredSnapshot, (value) => value);
+  assert(restored);
+  assert.deepEqual(restored.working.taxonomy, legacy.taxonomy);
+  assert.deepEqual(restored.saved.taxonomy, legacy.taxonomy);
+  assert.deepEqual(restored.working.styles, legacy.styles);
 
   const store = createStore();
   const before = structuredClone(store.get(authoringSnapshotAtom));
@@ -211,7 +191,7 @@ try {
     "preserve unrelated storage",
   );
   console.log(
-    "Real 5 MiB quota, lossless reload, legacy Style vocabulary, and atomic Reset all passed.",
+    "Real 5 MiB quota, lossless reload, authored Registry kept on load, and atomic Reset all passed.",
   );
 } finally {
   if (previousWindow)

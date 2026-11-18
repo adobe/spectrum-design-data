@@ -51,20 +51,17 @@ for (const width of [1440, 390]) {
       await page.getByRole("button", { name: "Collapse", exact: true }).click();
     await navigate(page, "Registry");
     await page
-      .getByRole("radio", { name: "Typography metric", exact: true })
-      .press("Space");
+      .getByRole("article", { name: "Typography metric category", exact: true })
+      .scrollIntoViewIfNeeded();
     await expect(
-      page.getByRole("grid", { name: "Typography metric terms", exact: true }),
+      page.getByRole("table", { name: "Typography metric terms", exact: true }),
     ).toContainText("No terms registered yet.");
     await expect(
       page.getByRole("button", { name: "Add term", exact: true }),
     ).toHaveCount(0);
     await page
-      .getByRole("radio", { name: "Element", exact: true })
-      .press("Space");
-    await page
-      .getByRole("searchbox", { name: "Search terms", exact: true })
-      .fill("Text");
+      .getByRole("article", { name: "Element category", exact: true })
+      .scrollIntoViewIfNeeded();
     await expect(
       page.getByRole("rowheader", { name: /^Text(?:\s|$)/ }),
     ).toBeVisible();
@@ -182,10 +179,10 @@ test("Saved vocabulary is preserved until confirmed Reset all adopts the correct
   await page.goto("/");
   await navigate(page, "Registry");
   await page
-    .getByRole("radio", { name: "Typography metric", exact: true })
-    .press("Space");
+    .getByRole("article", { name: "Typography metric category", exact: true })
+    .scrollIntoViewIfNeeded();
   await expect(
-    page.getByRole("grid", { name: "Typography metric terms", exact: true }),
+    page.getByRole("table", { name: "Typography metric terms", exact: true }),
   ).toContainText("font-size");
   expect((await record(page)).saved.taxonomy).toEqual(saved.taxonomy);
   if (
@@ -201,7 +198,7 @@ test("Saved vocabulary is preserved until confirmed Reset all adopts the correct
     .getByRole("button", { name: "Reset all", exact: true })
     .click();
   await expect(
-    page.getByRole("grid", { name: "Typography metric terms", exact: true }),
+    page.getByRole("table", { name: "Typography metric terms", exact: true }),
   ).toContainText("No terms registered yet.");
   const defaults = createDefaultSnapshot();
   await expect

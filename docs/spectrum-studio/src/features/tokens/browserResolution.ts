@@ -101,10 +101,17 @@ export function resolveBrowserTokens(
   modeKey: string,
   { includeManual = false }: { includeManual?: boolean } = {},
 ): BrowserToken[] {
-  const allSources = canonicalBrowserSources(sources, edits);
+  const allSources = canonicalBrowserSources(sources, edits).filter(
+    (source) => !edits[source.id]?.removed,
+  );
   for (const [id, edit] of Object.entries(edits)) {
     const manual = edit.authoring?.manual;
-    if (!manual || allSources.some((source) => source.id === id)) continue;
+    if (
+      !manual ||
+      edit.removed ||
+      allSources.some((source) => source.id === id)
+    )
+      continue;
     const target = manual.targetId
       ? allSources.find((source) => source.id === manual.targetId)
       : undefined;

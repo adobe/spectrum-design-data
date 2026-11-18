@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAtomValue, useSetAtom, useStore } from "jotai";
 import {
   ActionButton,
@@ -7,351 +7,382 @@ import {
   ButtonGroup,
   Content,
   Dialog,
+  DialogContainer,
   DialogTrigger,
   Heading,
-  InlineAlert,
-  Radio,
-  RadioGroup,
   Text,
   TextField,
-  Tooltip,
-  TooltipTrigger,
 } from "@react-spectrum/s2";
-import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
-import ChevronUp from "@react-spectrum/s2/icons/ChevronUp";
-import ChevronDown from "@react-spectrum/s2/icons/ChevronDown";
+import { useNotify } from "../../components/notifications/notificationContext";
 import { editModeAtom } from "../../state/view/editMode";
+import { activePageAtom } from "../../state/view/navigation";
+import { designSectionAtom } from "../../state/view/design";
+import {
+  subPanelTabSelectionAtom,
+  SECTIONS_SUBPANEL_TABS_STATE_KEY,
+} from "../../state/view/subPanelTabs";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import {
   editReferencedTaxonomyAtom,
   referencedTaxonomySourceAtom,
-  taxonomyComponentReferencesAtom,
-  taxonomyEvidenceProjections,
-  taxonomyEvidenceSourcesAtom,
-  taxonomyTemplateReferencesAtom,
 } from "../../features/taxonomy/editing";
 import {
   taxonomyEmissionKey,
   type TaxonomyDocument,
+  type TaxonomyTerm,
 } from "../../features/taxonomy/model";
+import {
+  deprecateTaxonomyCategory,
+  deprecateTaxonomyTerm,
+  renameTaxonomyTerm,
+  termReplacementCandidates,
+} from "../../features/taxonomy/lifecycle";
+import { termLabel } from "../../features/taxonomy/termPresentation";
+import { isShipped } from "../../features/changelog/shipped";
+import { isDeprecated } from "../../features/edit-session/lifecycle";
+import {
+  registryCategoryBatch,
+  type RegistryBatch,
+} from "../../features/taxonomy/registryDraft";
+import {
+  registryReferences,
+  type RegistryReference,
+} from "../../features/taxonomy/registryReferences";
 import { TaxonomyEditor } from "../../panels/registry/TaxonomyEditor";
+import { TaxonomyTermDialog } from "../../panels/registry/TaxonomyTermDialog";
+import { RegistryError } from "../../panels/registry/RegistryFields";
+import {
+  registryField,
+  registryMuted,
+  registryPasteboard,
+  registrySection,
+} from "../../panels/registry/registryStyles";
+import { RegistryBoard } from "./RegistryBoard";
 import "./TaxonomyView.css";
-
-const viewStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 32,
-  minWidth: 0,
-});
-const columnsStyles = style({ display: "grid", gap: 32, alignItems: "start" });
-const sectionStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 16,
-  minWidth: 0,
-});
-const headerStyles = style({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: 12,
-});
-const titleStyles = style({ font: "title", margin: 0 });
-const noteStyles = style({
-  font: "body-sm",
-  color: "neutral-subdued",
-  margin: 0,
-});
-const listStyles = style({ display: "flex", flexDirection: "column", gap: 4 });
-const rowStyles = style({
-  display: "flex",
-  alignItems: "center",
-  gap: 4,
-  minWidth: 0,
-  paddingX: 8,
-  paddingY: 4,
-  borderRadius: "default",
-  backgroundColor: { default: "transparent", isSelected: "gray-100" },
-});
-const categoryLabelStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 0,
-  flexGrow: 1,
-  minWidth: 0,
-});
-const categoryStatusStyles = style({
-  font: "detail-sm",
-  color: "neutral-subdued",
-  marginStart: 24,
-});
-const categoryNameStyles = style({ font: "title-sm" });
-const detailStyles = style({ font: "detail-sm", color: "neutral-subdued" });
-const actionsStyles = style({ display: "flex", gap: 0, flexShrink: 0 });
-const fieldStyles = style({ width: "full" });
 
 export function TaxonomyView() {
   const document = useAtomValue(taxonomyDocumentAtom);
-  const sources = useAtomValue(taxonomyEvidenceSourcesAtom);
-  const templateReferences = useAtomValue(taxonomyTemplateReferencesAtom);
-  const componentReferences = useAtomValue(taxonomyComponentReferencesAtom);
-  const projections = useMemo(
-    () => taxonomyEvidenceProjections(document, sources),
-    [document, sources],
-  );
-  const references = useMemo(
-    () => [
-      ...projections.map((projection) => projection.classification),
-      ...templateReferences.map((source) => source.classification),
-      ...componentReferences.map((source) => source.classification),
-    ],
-    [projections, templateReferences, componentReferences],
-  );
+  const source = useAtomValue(referencedTaxonomySourceAtom);
   const editable = useAtomValue(editModeAtom);
   const edit = useSetAtom(editReferencedTaxonomyAtom);
+  const setPage = useSetAtom(activePageAtom);
+  const setDesignSection = useSetAtom(designSectionAtom);
+  const setFoundation = useSetAtom(subPanelTabSelectionAtom);
   const store = useStore();
-  const commit = useCallback(
-    (next: TaxonomyDocument) => {
-      if (store.get(taxonomyDocumentAtom) !== document)
-        throw new Error(
-          "The Registry changed while this edit was pending. Reopen the editor before applying your change.",
-        );
-      edit(next);
-    },
-    [document, edit, store],
-  );
-  const validationSource = useAtomValue(referencedTaxonomySourceAtom);
-  const [selected, setSelected] = useState(document.order[0]);
+  const notify = useNotify();
+  const [opened, setOpened] = useState<{
+    document: TaxonomyDocument;
+    categoryId: string;
+    termId?: string;
+  }>();
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const category =
-    document.categories.find((item) => item.id === selected) ??
-    document.categories.find((item) => item.id === document.order[0]);
-  const write = useCallback(
-    (next: TaxonomyDocument) => {
-      try {
-        commit(next);
-        setError("");
-        return true;
-      } catch (failure) {
-        setError(failure instanceof Error ? failure.message : String(failure));
-        return false;
-      }
-    },
-    [commit],
-  );
-  function move(index: number, delta: number) {
-    const order = [...document.order];
-    [order[index], order[index + delta]] = [order[index + delta], order[index]];
-    write({ ...document, order });
+  const information = useMemo(() => {
+    try {
+      return { index: registryReferences(document, source), error: "" };
+    } catch (failure) {
+      return {
+        index: null,
+        error: failure instanceof Error ? failure.message : String(failure),
+      };
+    }
+  }, [document, source]);
+  function commit(
+    next: TaxonomyDocument | RegistryBatch,
+    base: TaxonomyDocument,
+  ) {
+    if (store.get(taxonomyDocumentAtom) !== base)
+      throw new Error(
+        "The Registry changed while this edit was pending. Reopen the editor before applying your change.",
+      );
+    edit(next);
   }
-  const editor = useMemo(
-    () =>
-      category && (
-        <TaxonomyEditor
-          key={`${editable}:${JSON.stringify(category)}`}
-          document={document}
-          category={category}
-          editable={editable}
-          onCommit={commit}
-          validationSource={validationSource}
-          usage={(termId) =>
-            references.filter((classification) => {
-              const assignment = classification[category.id];
-              return termId
-                ? Array.isArray(assignment)
-                  ? assignment.includes(termId)
-                  : assignment === termId
-                : assignment !== undefined;
-            }).length
-          }
-        />
-      ),
-    [category, editable, document, commit, validationSource, references],
+  function navigate(reference: RegistryReference) {
+    const foundation = reference.foundation;
+    if (foundation)
+      setFoundation((tabs) => ({
+        ...tabs,
+        [SECTIONS_SUBPANEL_TABS_STATE_KEY]: foundation,
+      }));
+    if (reference.designSection) setDesignSection(reference.designSection);
+    setPage(reference.href.slice(1));
+  }
+  function remove(base: TaxonomyDocument, categoryId: string, termId?: string) {
+    const next = termId
+      ? { ...base, terms: base.terms.filter((term) => term.id !== termId) }
+      : {
+          ...base,
+          categories: base.categories.filter(
+            (category) => category.id !== categoryId,
+          ),
+          terms: base.terms.filter((term) => term.categoryId !== categoryId),
+          order: base.order.filter((id) => id !== categoryId),
+        };
+    const item = termId
+      ? base.terms.find((term) => term.id === termId)
+      : base.categories.find((category) => category.id === categoryId);
+    if (!item) return;
+    const noun = "value" in item ? termLabel(item.value) : item.name;
+    const shipped = isShipped(termId ? "terms" : "categories", item.id);
+    // Shipped items are renamed or deprecated against the latest Registry.
+    const change = (
+      update: (current: TaxonomyDocument) => TaxonomyDocument,
+    ) => {
+      const current = store.get(taxonomyDocumentAtom);
+      commit(update(current), current);
+      return { before: current, after: store.get(taxonomyDocumentAtom) };
+    };
+    if (shipped) setOpened(undefined);
+    notify.remove({
+      kind: termId ? "term" : "taxonomyCategory",
+      noun,
+      local: true,
+      run: () => {
+        try {
+          commit(next, base);
+          setError("");
+          return { before: base, after: store.get(taxonomyDocumentAtom) };
+        } catch (failure) {
+          const message =
+            failure instanceof Error ? failure.message : String(failure);
+          setError(message);
+          return { ok: false as const, error: message };
+        }
+      },
+      undo: (receipt) => {
+        if ("ok" in receipt) return;
+        commit(receipt.before, receipt.after);
+      },
+      onDone: () => setOpened(undefined),
+      lifecycle: {
+        shipped,
+        deprecated: isDeprecated(item),
+        ...(termId
+          ? {
+              rename: {
+                current: String((item as TaxonomyTerm).value),
+                run: (text: string) =>
+                  change((current) =>
+                    renameTaxonomyTerm(current, termId, text),
+                  ),
+              },
+              candidates: termReplacementCandidates(base, termId),
+            }
+          : {}),
+        deprecate: (replacedBy?: string) =>
+          change((current) =>
+            termId
+              ? deprecateTaxonomyTerm(current, termId, replacedBy)
+              : deprecateTaxonomyCategory(current, categoryId),
+          ),
+        undoDeprecate: (receipt) => commit(receipt.before, receipt.after),
+      },
+    });
+  }
+  function saveCategory(batch: RegistryBatch, categoryId: string) {
+    if (!batch.operations.length) return;
+    let failure: unknown;
+    const run = () => {
+      try {
+        commit(batch, batch.base);
+        return { before: batch.base, after: store.get(taxonomyDocumentAtom) };
+      } catch (caught) {
+        failure = caught;
+        return {
+          ok: false as const,
+          error: caught instanceof Error ? caught.message : String(caught),
+        };
+      }
+    };
+    if (batch.operations.some((operation) => operation.kind === "remove-term"))
+      notify.remove({
+        kind: "term",
+        local: true,
+        confirmed: true,
+        run,
+        // Shipped terms leave the editor for the lifecycle dialog first.
+        lifecycle: { shipped: false },
+        undo: (receipt) => {
+          if ("ok" in receipt) return;
+          commit(
+            registryCategoryBatch(receipt.after, receipt.before, categoryId),
+            receipt.after,
+          );
+        },
+      });
+    else notify.edit(run);
+    if (failure) throw failure;
+  }
+  const category = opened?.document.categories.find(
+    (item) => item.id === opened.categoryId,
   );
+  const term = opened?.document.terms.find((item) => item.id === opened.termId);
   return (
-    <div className={`${viewStyles} taxonomyView`}>
+    <div className={`taxonomyView ${registrySection}`}>
       {!editable && (
-        <p className={noteStyles}>
+        <p className={registryMuted}>
           Choose Edit to make changes. Your changes use the system Save and
           Cancel controls.
         </p>
       )}
-      {templateReferences.length > 0 && (
-        <p className={noteStyles}>
-          {templateReferences.length} template element references protect their
-          Registry types and orientations. These are authoring dependencies, not
-          generated token occurrences.
-        </p>
-      )}
-      {componentReferences.length > 0 && (
-        <p className={noteStyles}>
-          {componentReferences.length} component property references protect
-          their Registry terms. These authoring dependencies do not add
-          generated tokens.
-        </p>
-      )}
-      {error && (
-        <InlineAlert variant="negative">
-          <Heading>Could not apply change</Heading>
-          <Content>{error}</Content>
-        </InlineAlert>
-      )}
-      <div className={`${columnsStyles} taxonomyColumns`}>
-        <section aria-label="Global category order" className={sectionStyles}>
-          <div className={headerStyles}>
-            <h3 className={titleStyles}>Categories</h3>
-            <span className={detailStyles}>{document.order.length}</span>
-          </div>
-          <p className={noteStyles}>
-            This order controls token names and hierarchy.
-          </p>
-          <RadioGroup
-            aria-label="Categories"
-            size="S"
-            value={category?.id ?? ""}
-            onChange={setSelected}
+      <RegistryError message={error || information.error} />
+      <div className={`registryBoardSurface ${registryPasteboard}`}>
+        {editable && (
+          <DialogTrigger
+            onOpenChange={(open) => {
+              if (open) {
+                setName("");
+                setError("");
+              }
+            }}
           >
-            <div className={listStyles}>
-              {document.order.map((id, index) => {
-                const item = document.categories.find(
-                  (entry) => entry.id === id,
-                )!;
-                return (
-                  <div
-                    key={id}
-                    className={rowStyles({ isSelected: category?.id === id })}
-                  >
-                    <div className={categoryLabelStyles}>
-                      <Radio value={id} aria-label={item.name}>
-                        <span className={categoryNameStyles}>{item.name}</span>
-                      </Radio>
-                      <span className={categoryStatusStyles}>
-                        {item.includeInProjections
-                          ? "Names and hierarchy"
-                          : "Classification only"}
-                      </span>
+            <ActionButton>
+              <Add />
+              <Text>Add category</Text>
+            </ActionButton>
+            <Dialog size="S">
+              {({ close }) => (
+                <>
+                  <Heading slot="title">Create category</Heading>
+                  <Content>
+                    <div className={registrySection}>
+                      <TextField
+                        label="New category name"
+                        value={name}
+                        onChange={setName}
+                        isRequired
+                        styles={registryField}
+                      />
+                      <RegistryError message={error} />
                     </div>
-                    {editable && (
-                      <div className={actionsStyles}>
-                        <TooltipTrigger>
-                          <ActionButton
-                            isQuiet
-                            size="S"
-                            aria-label={`Move ${item.name} earlier`}
-                            isDisabled={index === 0}
-                            onPress={() => move(index, -1)}
-                          >
-                            <ChevronUp />
-                          </ActionButton>
-                          <Tooltip>Move earlier</Tooltip>
-                        </TooltipTrigger>
-                        <TooltipTrigger>
-                          <ActionButton
-                            isQuiet
-                            size="S"
-                            aria-label={`Move ${item.name} later`}
-                            isDisabled={index === document.order.length - 1}
-                            onPress={() => move(index, 1)}
-                          >
-                            <ChevronDown />
-                          </ActionButton>
-                          <Tooltip>Move later</Tooltip>
-                        </TooltipTrigger>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </RadioGroup>
-          {editable && (
-            <DialogTrigger
-              onOpenChange={(open) => {
-                if (open) {
-                  setName("");
-                  setError("");
-                }
-              }}
-            >
-              <Button variant="accent">
-                <Add />
-                <Text>Create category</Text>
-              </Button>
-              <Dialog size="S">
-                {({ close }) => (
-                  <>
-                    <Heading slot="title">Create category</Heading>
-                    <Content>
-                      <div className={sectionStyles}>
-                        <TextField
-                          label="New category name"
-                          value={name}
-                          onChange={setName}
-                          styles={fieldStyles}
-                          isRequired
-                        />
-                        {error && (
-                          <InlineAlert variant="negative">
-                            <Heading>Could not create category</Heading>
-                            <Content>{error}</Content>
-                          </InlineAlert>
-                        )}
-                      </div>
-                    </Content>
-                    <ButtonGroup>
-                      <Button variant="secondary" onPress={close}>
-                        Cancel
-                      </Button>
-                      <Button
-                        variant="accent"
-                        isDisabled={!name.trim()}
-                        onPress={() => {
+                  </Content>
+                  <ButtonGroup>
+                    <Button variant="secondary" onPress={close}>
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="accent"
+                      isDisabled={!name.trim()}
+                      onPress={() => {
+                        try {
                           const id = crypto.randomUUID();
-                          if (
-                            write({
-                              ...document,
-                              categories: [
-                                ...document.categories,
+                          const created = notify.added(
+                            "taxonomyCategory",
+                            () => {
+                              commit(
                                 {
-                                  id,
-                                  key: taxonomyEmissionKey(id),
-                                  name: name.trim(),
-                                  description: "",
-                                  valueType: "string",
-                                  cardinality: "one",
-                                  scopes: [
-                                    "colors",
-                                    "typography",
-                                    "spacing",
-                                    "size",
-                                    "radius",
-                                    "elevation",
+                                  ...document,
+                                  categories: [
+                                    ...document.categories,
+                                    {
+                                      id,
+                                      key: taxonomyEmissionKey(id),
+                                      name: name.trim(),
+                                      description: "",
+                                      valueType: "string",
+                                      cardinality: "one",
+                                      scopes: [
+                                        "colors",
+                                        "typography",
+                                        "spacing",
+                                        "size",
+                                        "radius",
+                                        "elevation",
+                                      ],
+                                      required: false,
+                                      includeInProjections: true,
+                                    },
                                   ],
-                                  required: false,
-                                  includeInProjections: true,
+                                  order: [...document.order, id],
                                 },
-                              ],
-                              order: [...document.order, id],
-                            })
-                          ) {
-                            setSelected(id);
-                            close();
-                          }
-                        }}
-                      >
-                        Create category
-                      </Button>
-                    </ButtonGroup>
-                  </>
-                )}
-              </Dialog>
-            </DialogTrigger>
-          )}
-        </section>
-        {editor}
+                                document,
+                              );
+                              return true;
+                            },
+                          );
+                          if (!created) return;
+                          setError("");
+                          close();
+                        } catch (failure) {
+                          setError(
+                            failure instanceof Error
+                              ? failure.message
+                              : String(failure),
+                          );
+                        }
+                      }}
+                    >
+                      Create category
+                    </Button>
+                  </ButtonGroup>
+                </>
+              )}
+            </Dialog>
+          </DialogTrigger>
+        )}
+        <RegistryBoard
+          document={document}
+          source={source}
+          editable={editable}
+          onCommit={commit}
+          onOpen={(categoryId, termId) =>
+            setOpened({ document, categoryId, termId })
+          }
+          onDelete={(categoryId, termId) =>
+            remove(document, categoryId, termId)
+          }
+        />
       </div>
+      <DialogContainer onDismiss={() => setOpened(undefined)}>
+        {opened &&
+          category &&
+          (term ? (
+            <TaxonomyTermDialog
+              key={term.id}
+              document={opened.document}
+              category={category}
+              term={term}
+              source={source}
+              references={
+                information.index
+                  ? (information.index.terms.get(term.id) ?? [])
+                  : null
+              }
+              editable={editable}
+              onSave={(next) =>
+                commit(
+                  {
+                    ...opened.document,
+                    terms: opened.document.terms.map((item) =>
+                      item.id === next.id ? next : item,
+                    ),
+                  },
+                  opened.document,
+                )
+              }
+              onDelete={() => remove(opened.document, category.id, term.id)}
+              onClose={() => setOpened(undefined)}
+              onNavigate={navigate}
+            />
+          ) : (
+            <TaxonomyEditor
+              key={category.id}
+              document={opened.document}
+              category={category}
+              editable={editable}
+              validationSource={source}
+              references={information.index}
+              onSave={(batch) => saveCategory(batch, category.id)}
+              onDelete={() => remove(opened.document, category.id)}
+              onDeleteTerm={(termId) =>
+                remove(opened.document, category.id, termId)
+              }
+              onClose={() => setOpened(undefined)}
+              onNavigate={navigate}
+            />
+          ))}
+      </DialogContainer>
     </div>
   );
 }

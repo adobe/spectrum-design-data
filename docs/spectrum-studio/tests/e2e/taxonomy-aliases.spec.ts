@@ -1,6 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { readFile } from "node:fs/promises";
 import { expect, test, type Page } from "@playwright/test";
+import { moveTaxonomyCategory, openTaxonomyCell } from "./taxonomyCell";
 import { AUTHORING_STORAGE_KEY } from "../../src/features/edit-session/storage";
 import type { EditSessionSnapshot } from "../../src/features/edit-session/state";
 import {
@@ -55,27 +56,8 @@ async function record(
 
 async function renameText(page: Page, name: string, previous = "Text") {
   await navigate(page, "Registry");
-  await page
-    .getByRole("radio", { name: "Element", exact: true })
-    .press("Space");
-  await page
-    .getByRole("searchbox", { name: "Search terms", exact: true })
-    .fill(previous);
-  const cell = page.getByRole("rowheader").filter({
-    has: page.getByRole("button", {
-      name: `Edit ${previous} term`,
-      exact: true,
-      includeHidden: true,
-    }),
-  });
-  await cell.hover();
-  await page
-    .getByRole("button", { name: `Edit ${previous} term`, exact: true })
-    .click();
-  await page
-    .getByRole("dialog")
-    .getByRole("textbox", { name: "Term", exact: true })
-    .fill(name);
+  const input = await openTaxonomyCell(page, previous, "term");
+  await input.fill(name);
   await page
     .getByRole("dialog")
     .getByRole("button", { name: "Save", exact: true })
@@ -430,9 +412,7 @@ test("Global category order updates names and hierarchy and survives Save and Ca
     baseline.taxonomy!.order.indexOf(elementId);
   expect(moves).toBeGreaterThan(0);
   for (let index = 0; index < moves; index++) {
-    await page
-      .getByRole("button", { name: "Move Property earlier", exact: true })
-      .click();
+    await moveTaxonomyCategory(page, "Property", "earlier");
   }
   const reordered = [...baseline.taxonomy!.order];
   reordered.splice(reordered.indexOf(propertyId), 1);
@@ -482,16 +462,14 @@ test("Global category order updates names and hierarchy and survives Save and Ca
     saved.aliases!.tokens.some((alias) => alias.name === "text-size-100"),
   ).toBe(true);
   await navigate(page, "Registry");
-  await page
-    .getByRole("button", { name: "Move Property later", exact: true })
-    .click();
+  await moveTaxonomyCategory(page, "Property", "later");
   await discard(page);
   expect((await record(page)).working).toEqual(saved);
   await page.reload();
   await navigate(page, "Registry");
   expect((await record(page)).saved).toEqual(saved);
   await expect(
-    page.getByRole("button", { name: /^Move .+ (earlier|later)$/ }),
+    page.getByRole("button", { name: /^Reorder options for / }),
   ).toHaveCount(0);
   await navigate(page, "Tokens");
   await page

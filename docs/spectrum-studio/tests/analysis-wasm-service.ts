@@ -1,5 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { analysisCodeVersion } from "../scripts/design-data-vite";
 import type { AnalysisInput } from "../src/features/design-data/comparison";
 import {
   createValueResolutionService,
@@ -12,9 +16,15 @@ import {
 } from "../src/features/design-data/colorOpacityAssessment";
 import {
   createAnalysisService,
+  createSharedLoad,
   type AnalysisMessage,
   type AnalysisReply,
 } from "../src/features/design-data/analysisService";
+import {
+  analysisCacheKey,
+  createAnalysisCache,
+  type AnalysisCacheStore,
+} from "../src/features/design-data/analysisCache";
 
 const fixture = (hash: string, value = 8): AnalysisInput => ({
   source: {
@@ -195,6 +205,232 @@ workers[1].ready();
 await latest;
 client.dispose();
 assert(workers[1].terminated);
+
+const keyed = createAnalysisService(() => {
+  const worker = new FakeWorker();
+  workers.push(worker);
+  return worker;
+});
+const keyedWorker = () => workers.at(-1)!;
+const replyCompare = (result: { app: AnalysisInput }) =>
+  keyedWorker().onmessage?.({
+    data: {
+      id: keyedWorker().messages.at(-1)!.id,
+      type: "ready",
+      value: { type: "compare", result },
+    },
+  } as MessageEvent<AnalysisReply>);
+const comparing = keyed.execute(
+  { type: "compare", source: { dataset: "defaults" } },
+  new AbortController().signal,
+  () => {},
+);
+replyCompare({ app: first });
+const compared = await comparing;
+assert(compared.type === "compare");
+const firstCompareId = keyedWorker().messages[0].id;
+const savedSnapshot = {} as never;
+const gapping = keyed.execute(
+  {
+    type: "gaps",
+    comparison: compared.result,
+    saved: savedSnapshot,
+    stale: false,
+  },
+  new AbortController().signal,
+  () => {},
+);
+const gapMessage = keyedWorker().messages.at(-1)!;
+assert.equal(gapMessage.comparisonKey, firstCompareId);
+assert(
+  gapMessage.input.type === "gaps" && !gapMessage.input.comparison,
+  "A kept comparison is sent by key, not copied back to the worker.",
+);
+keyedWorker().onmessage?.({
+  data: {
+    id: gapMessage.id,
+    type: "ready",
+    value: { type: "gaps", result: { selected: [], saved: [] } },
+  },
+} as unknown as MessageEvent<AnalysisReply>);
+await gapping;
+const recompareControl = new AbortController();
+const recompare = keyed.execute(
+  {
+    type: "compare",
+    source: { dataset: "defaults" },
+    cachedApp: compared.result.app,
+  },
+  recompareControl.signal,
+  () => {},
+);
+const recompareMessage = keyedWorker().messages.at(-1)!;
+assert.equal(recompareMessage.appKey, firstCompareId);
+assert(
+  recompareMessage.input.type === "compare" &&
+    !recompareMessage.input.cachedApp,
+  "A kept app input is sent by key.",
+);
+recompareControl.abort();
+await assert.rejects(recompare, { name: "AbortError" });
+assert(keyedWorker().terminated, "Cancelling active work restarts the worker.");
+const afterRestart = keyed.execute(
+  {
+    type: "gaps",
+    comparison: compared.result,
+    saved: savedSnapshot,
+    stale: false,
+  },
+  new AbortController().signal,
+  () => {},
+);
+const freshMessage = keyedWorker().messages.at(-1)!;
+assert.equal(
+  freshMessage.comparisonKey,
+  undefined,
+  "Keys from a terminated worker are never reused.",
+);
+assert(
+  freshMessage.input.type === "gaps" &&
+    freshMessage.input.comparison === compared.result,
+);
+keyed.dispose();
+await assert.rejects(afterRestart, { name: "AbortError" });
+
+const memory = new Map<string, unknown>();
+let failWrites = false;
+const memoryStore: AnalysisCacheStore = {
+  get: async (key) => memory.get(key),
+  put: async (key, value) => {
+    if (failWrites) throw new Error("QuotaExceededError");
+    memory.set(key, value);
+  },
+  delete: async (key) => {
+    memory.delete(key);
+  },
+  keys: async () => [...memory.keys()],
+};
+const resolvedReference = {
+  ...first,
+  valueResolution: { engine: "wasm:fixture" },
+} as AnalysisInput;
+const keyFor = (dataset: "defaults" | "other") =>
+  analysisCacheKey(
+    { type: "compare", source: { dataset } as never, resolveValues: true },
+    resolvedReference,
+  );
+const defaultsKey = (await keyFor("defaults"))!;
+assert.equal(defaultsKey, await keyFor("defaults"), "Keys are stable.");
+assert.notEqual(defaultsKey, await keyFor("other"));
+assert.notEqual(
+  defaultsKey,
+  await analysisCacheKey(
+    { type: "compare", source: { dataset: "defaults" }, resolveValues: true },
+    { ...resolvedReference, source: { ...first.source, hash: "changed" } },
+  ),
+  "A changed reference changes the key.",
+);
+assert.equal(
+  await analysisCacheKey({ type: "compare", source: { dataset: "defaults" } }, {
+    ...resolvedReference,
+    valueResolution: { engine: "wasm:fixture", error: "failed" },
+  } as AnalysisInput),
+  undefined,
+  "A degraded reference is never cached.",
+);
+const stored = { app: first, unsaved: false };
+const cacheV1 = createAnalysisCache(async () => memoryStore, "v1", 2);
+await cacheV1.put("a", stored);
+await cacheV1.put("b", stored);
+await cacheV1.put("c", stored);
+assert.equal(await cacheV1.get("a"), undefined, "The oldest entry is evicted.");
+assert.deepEqual(await cacheV1.get("c"), stored);
+await cacheV1.put("d", {
+  app: { ...first, valueResolution: { engine: "x", error: "failed" } },
+} as never);
+assert.equal(
+  await cacheV1.get("d"),
+  undefined,
+  "Degraded results are skipped.",
+);
+const cacheV2 = createAnalysisCache(async () => memoryStore, "v2", 2);
+assert.equal(
+  await cacheV2.get("c"),
+  undefined,
+  "A new code version silently clears old entries.",
+);
+assert.deepEqual([...memory.keys()], ["__index"]);
+failWrites = true;
+await cacheV2.put("e", stored);
+assert.equal(await cacheV2.get("e"), undefined, "Write failures are ignored.");
+const broken = createAnalysisCache(async () => {
+  throw new Error("IndexedDB unavailable");
+}, "v1");
+assert.equal(await broken.get("a"), undefined);
+await broken.put("a", stored);
+
+const loads: { args: { generation: number }; signal: AbortSignal }[] = [];
+const sharedLoad = createSharedLoad(
+  (args: { generation: number }, signal) =>
+    new Promise<number>((resolve, reject) => {
+      loads.push({ args, signal });
+      signal.addEventListener("abort", () => reject(new Error("stopped")));
+      setTimeout(() => resolve(args.generation), 10);
+    }),
+);
+const firstMount = new AbortController();
+const firstLoad = sharedLoad({ generation: 0 }, firstMount.signal);
+firstMount.abort();
+const remount = sharedLoad({ generation: 0 }, new AbortController().signal);
+await assert.rejects(firstLoad, { name: "AbortError" });
+assert.equal(await remount, 0);
+assert.equal(loads.length, 1, "An immediate remount reuses the running load.");
+assert.equal(loads[0].signal.aborted, false);
+const leaving = new AbortController();
+const left = sharedLoad({ generation: 1 }, leaving.signal);
+leaving.abort();
+await assert.rejects(left, { name: "AbortError" });
+await new Promise((resolve) => setTimeout(resolve, 0));
+assert.equal(loads[1].signal.aborted, true, "Unused loads are stopped.");
+assert.equal(
+  await sharedLoad({ generation: 2 }, new AbortController().signal),
+  2,
+);
+assert.equal(loads.length, 3, "A refresh starts a fresh load.");
+
+const codeRoot = await mkdtemp(join(tmpdir(), "analysis-code-version-"));
+const entry = join(codeRoot, "worker.ts");
+await writeFile(
+  entry,
+  'import type { T } from "./types";\nimport {\n  a,\n} from "./rules";\nimport data from "./data.json";\nexport default [a, data];',
+);
+await writeFile(join(codeRoot, "rules.ts"), "export const a = 1;");
+await writeFile(join(codeRoot, "data.json"), "1");
+await writeFile(join(codeRoot, "types.ts"), "export type T = 1;");
+await writeFile(join(codeRoot, "unrelated.ts"), "export const b = 1;");
+const versionBefore = await analysisCodeVersion([entry]);
+assert.equal(versionBefore, await analysisCodeVersion([entry]));
+await writeFile(join(codeRoot, "unrelated.ts"), "export const b = 2;");
+await writeFile(join(codeRoot, "types.ts"), "export type T = 2;");
+assert.equal(
+  versionBefore,
+  await analysisCodeVersion([entry]),
+  "Files the analysis never runs keep stored results.",
+);
+await writeFile(join(codeRoot, "rules.ts"), "export const a = 2;");
+const versionAfterRules = await analysisCodeVersion([entry]);
+assert.notEqual(
+  versionBefore,
+  versionAfterRules,
+  "Editing analysis source changes the cache version.",
+);
+await writeFile(join(codeRoot, "data.json"), "2");
+assert.notEqual(
+  versionAfterRules,
+  await analysisCodeVersion([entry]),
+  "Editing imported data changes the cache version.",
+);
+await rm(codeRoot, { recursive: true, force: true });
 console.log(
-  "Analysis WASM service: batching, bounded graph reuse, metadata, cancellation, stale replies and latest-only queue passed.",
+  "Analysis WASM service: batching, bounded graph reuse, metadata, cancellation, stale replies, latest-only queue, kept-result keys and result cache passed.",
 );

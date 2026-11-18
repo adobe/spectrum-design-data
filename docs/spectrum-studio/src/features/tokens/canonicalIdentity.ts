@@ -2,17 +2,12 @@
 import type { BrowserTokenEdit, BrowserTokenEdits } from "./browserEditTypes";
 import type { ModeSet } from "../modes/model";
 import type { TokenPanelId } from "./view/tokenPanelRegistry";
+import { crosswalkFieldDefaults } from "../design-data/taxonomyCrosswalk";
 
+/** design-data's required `property` per foundation, from the taxonomy crosswalk. */
 export const canonicalPrimitiveProperties: Partial<
   Record<TokenPanelId, string>
-> = {
-  colors: "color",
-  spacing: "spacing",
-  size: "size",
-  radius: "corner-radius",
-  elevation: "shadow",
-  opacity: "opacity",
-};
+> = crosswalkFieldDefaults("property");
 
 export interface TokenIdentity {
   /** Generator source coordinate, not a second token identity. */

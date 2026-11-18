@@ -270,6 +270,27 @@ const display = (value: unknown): string | undefined =>
     : typeof value === "string"
       ? value
       : JSON.stringify(value);
+/** Reads a lifecycle as plain text, naming the replacement from the same collection. */
+function lifecycleText(
+  value: unknown,
+  snapshot: EditSessionSnapshot,
+  path: SourcePath,
+): string | undefined {
+  if (!record(value)) return display(value);
+  const replacedBy =
+    typeof value.replacedBy === "string" ? value.replacedBy : undefined;
+  if (!replacedBy) return "Deprecated";
+  const siblings = readPath(snapshot, path.slice(0, -2));
+  const replacement = Array.isArray(siblings)
+    ? siblings.find((item: unknown) => record(item) && item.id === replacedBy)
+    : undefined;
+  const name = record(replacement)
+    ? ["name", "value"]
+        .map((key) => replacement[key])
+        .find((text) => typeof text === "string" || typeof text === "number")
+    : undefined;
+  return `Deprecated, replaced by ${name ?? replacedBy}`;
+}
 
 export function compareAuthoring(
   shipped: EditSessionSnapshot,
@@ -419,6 +440,8 @@ export function compareAuthoring(
         ].includes(names.at(-1) ?? "");
       const textStyleReference =
         definition.category === "structures" && names.at(-1) === "textStyle";
+      // Lifecycle is valid only as a whole, so it shows and resets as one field.
+      const lifecycleField = names.at(-1) === "lifecycle";
       if (
         (record(left) || record(right)) &&
         !newFont &&
@@ -426,7 +449,8 @@ export function compareAuthoring(
         !newStructureBinding &&
         !adjustmentMethodChanged &&
         !styleAppearanceField &&
-        !textStyleReference
+        !textStyleReference &&
+        !lifecycleField
       ) {
         const keys = new Set([
           ...Object.keys(record(left) ? left : {}),
@@ -541,8 +565,12 @@ export function compareAuthoring(
           expected: indexField ? readPath(working, fieldPath) : right,
           ...(collectionOrder && { collectionOrder: true }),
         },
-        before: display(left),
-        after: display(right),
+        before: lifecycleField
+          ? lifecycleText(left, shipped, fieldPath)
+          : display(left),
+        after: lifecycleField
+          ? lifecycleText(right, working, fieldPath)
+          : display(right),
         ...(previewKind &&
           (typeof left === "string" || typeof left === "number") && {
             beforePreview: createValuePreview(previewKind, left),

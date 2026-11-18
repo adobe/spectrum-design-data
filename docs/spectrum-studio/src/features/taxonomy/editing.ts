@@ -37,6 +37,7 @@ import {
 } from "./referenceValidation";
 import { componentColorWitnessAtom } from "../components/colorWitness";
 import type { TokenTier } from "../tokens/tier";
+import { registryBatchSteps, type RegistryBatch } from "./registryDraft";
 
 export const taxonomyComponentReferencesAtom = atom((get) =>
   get(componentsDocumentAtom).components.flatMap((component) =>
@@ -49,6 +50,7 @@ export const taxonomyComponentReferencesAtom = atom((get) =>
 );
 
 export interface TaxonomyEvidenceSource {
+  referenceKind?: "token" | "foundation" | "structure" | "rule";
   tier?: TokenTier;
   id: string;
   name: string;
@@ -100,6 +102,7 @@ export const taxonomyTemplateReferencesAtom = atom<
 export const taxonomyEvidenceSourcesAtom = atom<TaxonomyEvidenceSource[]>(
   (get) => [
     ...get(browserTokenSourcesAtom).map((source) => ({
+      referenceKind: "token" as const,
       id: source.id,
       tier: source.tier,
       name: source.name,
@@ -109,6 +112,7 @@ export const taxonomyEvidenceSourcesAtom = atom<TaxonomyEvidenceSource[]>(
       measurement: source.measurement,
     })),
     ...get(taxonomyFoundationSourcesAtom).map((source) => ({
+      referenceKind: "foundation" as const,
       id: source.id,
       name: source.name,
       scope: source.scope,
@@ -124,6 +128,7 @@ export const taxonomyEvidenceSourcesAtom = atom<TaxonomyEvidenceSource[]>(
     })),
     ...get(structuresDocumentAtom).structures.flatMap((structure) =>
       structure.properties.map((binding) => ({
+        referenceKind: "structure" as const,
         id: binding.id,
         name: `${structure.name} - ${structureSlotDefinition(structureSlot(binding)!).label}`,
         scope: "structures" as const,
@@ -137,6 +142,7 @@ export const taxonomyEvidenceSourcesAtom = atom<TaxonomyEvidenceSource[]>(
     ...get(structuresDocumentAtom).structures.flatMap((structure) => {
       const generation = structureGeneration(structure);
       return generation.sizeTermIds.map((termId) => ({
+        referenceKind: "structure" as const,
         id: `structure-generation:${structure.conceptId}:${termId}`,
         name: `${structure.name} size`,
         scope: "structures" as const,
@@ -154,6 +160,7 @@ export const taxonomyEvidenceSourcesAtom = atom<TaxonomyEvidenceSource[]>(
       .filter(isTshirtRule)
       .flatMap((rule) =>
         rule.mappings.map(({ termId }) => ({
+          referenceKind: "rule" as const,
           id: `rule-size:${rule.id}:${termId}`,
           name: `${rule.name} size mapping`,
           scope: "structures" as const,
@@ -172,6 +179,7 @@ export const taxonomyEvidenceSourcesAtom = atom<TaxonomyEvidenceSource[]>(
               output.bundle.semantics.map((row) => [
                 row.conceptId,
                 {
+                  referenceKind: "token" as const,
                   id: row.conceptId,
                   name: row.structureName,
                   scope: "structures" as const,
@@ -208,7 +216,21 @@ export const validateReferencedTaxonomyAtom = atom((get) => {
 
 export const editReferencedTaxonomyAtom = atom(
   null,
-  (get, set, input: TaxonomyDocument) => {
+  (get, set, input: TaxonomyDocument | RegistryBatch) => {
+    if ("operations" in input) {
+      const source = get(referencedTaxonomySourceAtom);
+      let previous = source.previous;
+      for (const next of registryBatchSteps(previous, input)) {
+        validateReferencedTaxonomy(
+          { ...source, previous },
+          next,
+          get(componentColorWitnessAtom),
+        );
+        previous = next;
+      }
+      set(editTaxonomyAtom, input);
+      return;
+    }
     validateReferencedTaxonomy(
       get(referencedTaxonomySourceAtom),
       input,

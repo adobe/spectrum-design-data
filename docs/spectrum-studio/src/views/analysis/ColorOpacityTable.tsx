@@ -1,10 +1,13 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
+  memo,
+  useCallback,
   useMemo,
   useRef,
   useState,
   type CSSProperties,
   type ReactElement,
+  type ReactNode,
 } from "react";
 import {
   ActionBar,
@@ -58,6 +61,11 @@ import {
   modeResultSegments,
   comparisonModeSets,
   inventoryComparisonRows,
+  sortedComparisonTree,
+  visibleComparisonTree,
+  comparisonRowIndex,
+  counterpartSample,
+  comparisonTokenCount,
   type TokenComparisonTreeRow,
 } from "./tokenComparisonPresentation";
 import { comparisonValuePreview } from "./tokenComparisonPreview";
@@ -78,6 +86,8 @@ import { canonicalJson } from "../../features/design-data/canonicalJson";
 import "../tokens/TokenBrowserView.css";
 
 const tableStyles = style({ width: "full", height: "fit" });
+// The table rebuilds every shown row on each change, so large comparisons render in pages.
+const TOKEN_PAGE_SIZE = 200;
 const selectionProps = { selectionBehavior: "toggle" } satisfies Pick<
   TableProps,
   "selectionBehavior"
@@ -238,6 +248,7 @@ export function ColorOpacityTable({
   const [details, setDetails] = useState<string>();
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [limit, setLimit] = useState(TOKEN_PAGE_SIZE);
   const scrollRef = useRef<HTMLDivElement>(null);
   const comparisonTree = useMemo(
     () =>
@@ -274,10 +285,15 @@ export function ColorOpacityTable({
       ),
     [assessment],
   );
-  const tree: TokenComparisonTreeRow[] = [
-    ...comparisonTree,
-    ...inventoryTree,
-  ].sort((a, b) => a.label.localeCompare(b.label));
+  const tree = useMemo(
+    () => sortedComparisonTree(comparisonTree, inventoryTree),
+    [comparisonTree, inventoryTree],
+  );
+  const visibleTree = useMemo(
+    () => visibleComparisonTree(tree, expanded, limit),
+    [tree, expanded, limit],
+  );
+  const rowIndex = useMemo(() => comparisonRowIndex(tree), [tree]);
   const availableModes = useMemo(
     () => comparisonModeSets(assessment, modeSets),
     [assessment, modeSets],
@@ -295,25 +311,103 @@ export function ColorOpacityTable({
     () => comparisonSelectionIndex(comparisonTree, eligible),
     [comparisonTree, eligible],
   );
-  const tableSelection = {
-    rows: index.rows,
-    eligibleIds: index.all,
-    parents: [],
-  };
-  const selectedIds = new Set([...selected].filter((id) => index.all.has(id)));
+  const tableSelection = useMemo(
+    () => ({ rows: index.rows, eligibleIds: index.all, parents: [] }),
+    [index],
+  );
+  const selectedIds = useMemo(
+    () => new Set([...selected].filter((id) => index.all.has(id))),
+    [selected, index],
+  );
   const allSelection = tokenSelectionState(index.all, selectedIds);
-  const rows = tree.flatMap((row): TokenComparisonTreeRow[] => [
-    row,
-    ...row.children,
-  ]);
-  const selection = rows.find((row) => row.id === details);
-  const visibleValues = rows.filter(
-    (row) => !("inventory" in row) && row.value,
-  ).length;
+  const rows = useMemo(() => [...rowIndex.values()], [rowIndex]);
+  const selection = details === undefined ? undefined : rowIndex.get(details);
+  const visibleValues = useMemo(
+    () => rows.filter((row) => !("inventory" in row) && row.value).length,
+    [rows],
+  );
+  const tokenCount = useMemo(() => comparisonTokenCount(rows), [rows]);
+  const tableSelectedKeys = useMemo(
+    () => selectedTokenTableRows(tableSelection, selectedIds),
+    [tableSelection, selectedIds],
+  );
+  const enhancementItems = useMemo(
+    () => [
+      ...assessment.modeCoverage.sets.flatMap((set) =>
+        set.result === "enhancement"
+          ? [
+              {
+                id: `set:${set.id}`,
+                label: fieldLabel(set.app?.key ?? ""),
+                context: "Entire mode set",
+                value: undefined,
+                reason: set.evidence,
+              },
+            ]
+          : set.modes
+              .filter((mode) => mode.result === "enhancement")
+              .map((mode) => ({
+                id: `mode:${mode.id}`,
+                label: fieldLabel(set.app?.key ?? ""),
+                context: termLabel(mode.app ?? ""),
+                value: undefined,
+                reason: mode.reason,
+              })),
+      ),
+      ...assessment.enhancements.map((row) => ({
+        id: `token:${row.id}`,
+        label: row.label,
+        context: Object.entries(row.context)
+          .map(([axis, mode]) => `${fieldLabel(axis)}: ${termLabel(mode)}`)
+          .join(", "),
+        value: row.value,
+        reason: [row.reason, row.issue].filter(Boolean).join(" "),
+      })),
+    ],
+    [assessment],
+  );
+  const disabledKeys = useMemo(
+    () => [
+      ...[...index.rows].filter(([, ids]) => ids.size === 0).map(([id]) => id),
+      ...rows.filter((row) => "inventory" in row).map((row) => row.id),
+    ],
+    [index, rows],
+  );
   const clear = () => {
     setSelected(new Set());
     setDetails(undefined);
+    setLimit(TOKEN_PAGE_SIZE);
   };
+  const viewModeResults = useCallback((axis: string, mode: string | null) => {
+    setModes({ [axis]: mode });
+    setQuery("");
+    setVerdict("all");
+    setValueResult("all");
+    setType("all");
+    setSelected(new Set());
+    setDetails(undefined);
+    setLimit(TOKEN_PAGE_SIZE);
+  }, []);
+  const rowDependencies = useMemo(
+    () => [
+      selectedIds,
+      isEditing,
+      eligibility,
+      assessment,
+      index,
+      inventoryIndex,
+      surfaceForRow,
+    ],
+    [
+      selectedIds,
+      isEditing,
+      eligibility,
+      assessment,
+      index,
+      inventoryIndex,
+      surfaceForRow,
+    ],
+  );
   const renderRow = (item: TokenComparisonTreeRow): ReactElement => {
     if ("inventory" in item) {
       const entry = item.inventory;
@@ -324,15 +418,17 @@ export function ColorOpacityTable({
         ? "Deprecated"
         : !entry.type
           ? "Unclassified"
-          : (
-              {
-                matched: "Matched",
-                "app-only": "App only",
-                "reference-only": "Design data only",
-                unconfirmed: "Not confirmed",
-                ambiguous: "Ambiguous",
-              } as const
-            )[entry.presence];
+          : entry.presence === "matched" && entry.matchedBy === "name"
+            ? "Matched by name"
+            : (
+                {
+                  matched: "Matched",
+                  "app-only": "App only",
+                  "reference-only": "Design data only",
+                  unconfirmed: "Not confirmed",
+                  ambiguous: "Ambiguous",
+                } as const
+              )[entry.presence];
       const counterpart =
         entry.counterparts.length === 1
           ? inventoryIndex.get(
@@ -342,10 +438,9 @@ export function ColorOpacityTable({
               ]),
             )
           : undefined;
-      const otherValue = counterpart?.values.find(
-        (value) =>
-          canonicalJson(value.context) === canonicalJson(item.sample?.context),
-      );
+      const otherValue = counterpart
+        ? counterpartSample(counterpart, item.sample?.context)
+        : undefined;
       const otherText = counterpart
         ? valueText(otherValue?.value, counterpart.record.unit)
         : "Not matched";
@@ -387,10 +482,7 @@ export function ColorOpacityTable({
             {item.sample?.issue ?? (item.sample ? "Not compared" : "")}
           </Cell>
           {item.children.length > 0 && (
-            <Collection
-              items={item.children}
-              dependencies={[assessment, expanded]}
-            >
+            <Collection items={item.children} dependencies={rowDependencies}>
               {renderRow}
             </Collection>
           )}
@@ -475,10 +567,7 @@ export function ColorOpacityTable({
           )}
         </Cell>
         {item.children.length > 0 && (
-          <Collection
-            items={item.children}
-            dependencies={[selectedIds, eligibility, expanded, assessment]}
-          >
+          <Collection items={item.children} dependencies={rowDependencies}>
             {renderRow}
           </Collection>
         )}
@@ -487,106 +576,10 @@ export function ColorOpacityTable({
   };
   return (
     <>
-      <section aria-label="Results by mode">
-        <h3>Results by mode</h3>
-        <p>
-          All required values, before table filters. Counts describe mode
-          values, not whole-token results. Compare modes within the same mode
-          set; do not add counts across mode sets. App enhancements are
-          excluded.
-        </p>
-        <div className="analysisValueTable">
-          <TableView
-            aria-label="Mode value results"
-            selectionMode="none"
-            styles={tableStyles}
-            UNSAFE_className="analysisFitTable"
-          >
-            <TableHeader>
-              <Column id="mode" isRowHeader width={270}>
-                Mode
-              </Column>
-              <Column id="tokens" width={90}>
-                Tokens
-              </Column>
-              <Column id="values" width={120}>
-                Required values
-              </Column>
-              <Column id="pass" width={90}>
-                Pass
-              </Column>
-              <Column id="acceptable" width={110}>
-                Acceptable
-              </Column>
-              <Column id="fail" width={90}>
-                Fail
-              </Column>
-              <Column id="unable" width={160}>
-                Unable to evaluate
-              </Column>
-              <Column id="aligned" width={160}>
-                Pass or acceptable
-              </Column>
-              <Column id="mix" minWidth={220}>
-                Results
-              </Column>
-              <Column id="view" width={130}>
-                Compare
-              </Column>
-            </TableHeader>
-            <TableBody
-              items={assessment.modeBreakdown}
-              dependencies={[assessment]}
-              renderEmptyState={() => <p>No mode-specific required values.</p>}
-            >
-              {(item) => {
-                const label = `${fieldLabel(item.axis)}: ${item.mode === null ? "Not mode-specific" : termLabel(item.mode)}`;
-                return (
-                  <Row id={item.id} textValue={label}>
-                    <Cell>{label}</Cell>
-                    <Cell>{item.tokens}</Cell>
-                    <Cell>{item.values}</Cell>
-                    <Cell>{item.counts.pass}</Cell>
-                    <Cell>{item.counts.acceptable}</Cell>
-                    <Cell>{item.counts.fail}</Cell>
-                    <Cell>{item.counts.unassessable}</Cell>
-                    <Cell>
-                      {item.alignedPercent === null
-                        ? "Unavailable"
-                        : `${item.alignedPercent.toFixed(1)}%`}
-                    </Cell>
-                    <Cell>
-                      {item.values ? (
-                        <StackedBar
-                          segments={modeResultSegments(item)}
-                          aria-label={`${label}: ${item.counts.pass} Pass, ${item.counts.fail} Fail, ${item.counts.acceptable} Acceptable, ${item.counts.unassessable} Unable to evaluate`}
-                        />
-                      ) : (
-                        "Unavailable"
-                      )}
-                    </Cell>
-                    <Cell>
-                      <ActionButton
-                        aria-label={`View ${label} results`}
-                        onPress={() => {
-                          setModes({ [item.axis]: item.mode });
-                          setQuery("");
-                          setVerdict("all");
-                          setValueResult("all");
-                          setType("all");
-                          clear();
-                        }}
-                      >
-                        View results
-                      </ActionButton>
-                    </Cell>
-                  </Row>
-                );
-              }}
-            </TableBody>
-          </TableView>
-        </div>
-      </section>
+      <ModeResultsSection
+        assessment={assessment}
+        onViewResults={viewModeResults}
+      />
       <section aria-label="Tokens">
         <div className="analysisTokenHeading">
           <h3>Tokens</h3>
@@ -675,21 +668,7 @@ export function ColorOpacityTable({
           </ActionButton>
         </div>
         <p>
-          {
-            new Set(
-              rows.map((row) =>
-                "inventory" in row
-                  ? canonicalJson([
-                      row.inventory.side,
-                      row.inventory.record.conceptId ??
-                        row.inventory.record.identity ??
-                        row.inventory.id,
-                    ])
-                  : row.concept.id,
-              ),
-            ).size
-          }{" "}
-          tokens; {visibleValues} required values shown.
+          {tokenCount} tokens; {visibleValues} required values shown.
           {inventoryTree.length
             ? ` ${inventoryTree.length} inventory-only ${Object.keys(modes).length ? "values" : "token groups"} shown.`
             : ""}
@@ -732,7 +711,7 @@ export function ColorOpacityTable({
             overflowMode="wrap"
             selectionMode={isEditing ? "multiple" : "none"}
             selectionStyle="highlight"
-            selectedKeys={selectedTokenTableRows(tableSelection, selectedIds)}
+            selectedKeys={tableSelectedKeys}
             onSelectionChange={(keys) =>
               setSelected(
                 resolveTokenTableSelection(
@@ -742,12 +721,7 @@ export function ColorOpacityTable({
                 ),
               )
             }
-            disabledKeys={[
-              ...[...index.rows]
-                .filter(([, ids]) => ids.size === 0)
-                .map(([id]) => id),
-              ...rows.filter((row) => "inventory" in row).map((row) => row.id),
-            ]}
+            disabledKeys={disabledKeys}
             disabledBehavior="selection"
             expandedKeys={expanded}
             onExpandedChange={(keys) =>
@@ -792,20 +766,27 @@ export function ColorOpacityTable({
               </Column>
             </TableHeader>
             <TableBody
-              items={tree}
-              dependencies={[
-                selectedIds,
-                isEditing,
-                eligibility,
-                expanded,
-                assessment,
-              ]}
+              items={visibleTree}
+              dependencies={rowDependencies}
               renderEmptyState={() => <p>No matching tokens.</p>}
             >
               {renderRow}
             </TableBody>
           </TableView>
         </div>
+        {tree.length > visibleTree.length && (
+          <div className="analysisToolbar">
+            <p>
+              Showing {visibleTree.length} of {tree.length} token rows.
+            </p>
+            <ActionButton
+              onPress={() => setLimit((current) => current + TOKEN_PAGE_SIZE)}
+            >
+              Show {Math.min(TOKEN_PAGE_SIZE, tree.length - visibleTree.length)}{" "}
+              more
+            </ActionButton>
+          </div>
+        )}
         {isEditing && selectedIds.size > 0 && (
           <ActionBar
             selectedItemCount={selectedIds.size}
@@ -918,81 +899,173 @@ export function ColorOpacityTable({
           )}
         </section>
       )}
-      <section aria-label="Enhancements">
-        <h3>Enhancements</h3>
-        <p>
-          Additional app capabilities and token variants do not count against
-          migration results.
-        </p>
-        <div className="analysisValueTable">
-          <TableView
-            aria-label="App enhancements"
-            selectionMode="none"
-            styles={tableStyles}
-            UNSAFE_className="analysisFitTable"
-          >
-            <TableHeader>
-              <Column id="item" isRowHeader>
-                Token / mode set
-              </Column>
-              <Column id="context">App mode</Column>
-              <Column id="value">App value</Column>
-              <Column id="result">Result</Column>
-              <Column id="reason">Reason</Column>
-            </TableHeader>
-            <TableBody
-              items={[
-                ...assessment.modeCoverage.sets.flatMap((set) =>
-                  set.result === "enhancement"
-                    ? [
-                        {
-                          id: `set:${set.id}`,
-                          label: fieldLabel(set.app?.key ?? ""),
-                          context: "Entire mode set",
-                          value: undefined,
-                          reason: set.evidence,
-                        },
-                      ]
-                    : set.modes
-                        .filter((mode) => mode.result === "enhancement")
-                        .map((mode) => ({
-                          id: `mode:${mode.id}`,
-                          label: fieldLabel(set.app?.key ?? ""),
-                          context: termLabel(mode.app ?? ""),
-                          value: undefined,
-                          reason: mode.reason,
-                        })),
-                ),
-                ...assessment.enhancements.map((row) => ({
-                  id: `token:${row.id}`,
-                  label: row.label,
-                  context: Object.entries(row.context)
-                    .map(
-                      ([axis, mode]) =>
-                        `${fieldLabel(axis)}: ${termLabel(mode)}`,
-                    )
-                    .join(", "),
-                  value: row.value,
-                  reason: [row.reason, row.issue].filter(Boolean).join(" "),
-                })),
-              ]}
-              renderEmptyState={() => <p>No confirmed enhancements.</p>}
-            >
-              {(item) => (
-                <Row id={item.id} textValue={item.label}>
-                  <Cell>{item.label}</Cell>
-                  <Cell>{item.context}</Cell>
-                  <Cell>{valueText(item.value)}</Cell>
-                  <Cell>
-                    <Badge variant="neutral">Enhancement</Badge>
-                  </Cell>
-                  <Cell>{item.reason}</Cell>
-                </Row>
-              )}
-            </TableBody>
-          </TableView>
-        </div>
-      </section>
+      <EnhancementsSection items={enhancementItems} />
     </>
   );
 }
+
+// Memoized so expanding, selecting or filtering token rows does not rebuild these unchanged tables.
+const ModeResultsSection = memo(function ModeResultsSection({
+  assessment,
+  onViewResults,
+}: {
+  assessment: ColorOpacityAssessment;
+  onViewResults: (
+    axis: string,
+    mode: ColorOpacityAssessment["modeBreakdown"][number]["mode"],
+  ) => void;
+}) {
+  return (
+    <section aria-label="Results by mode">
+      <h3>Results by mode</h3>
+      <p>
+        All required values, before table filters. Counts describe mode values,
+        not whole-token results. Compare modes within the same mode set; do not
+        add counts across mode sets. App enhancements are excluded.
+      </p>
+      <div className="analysisValueTable">
+        <TableView
+          aria-label="Mode value results"
+          selectionMode="none"
+          styles={tableStyles}
+          UNSAFE_className="analysisFitTable"
+        >
+          <TableHeader>
+            <Column id="mode" isRowHeader width={270}>
+              Mode
+            </Column>
+            <Column id="tokens" width={90}>
+              Tokens
+            </Column>
+            <Column id="values" width={120}>
+              Required values
+            </Column>
+            <Column id="pass" width={90}>
+              Pass
+            </Column>
+            <Column id="acceptable" width={110}>
+              Acceptable
+            </Column>
+            <Column id="fail" width={90}>
+              Fail
+            </Column>
+            <Column id="unable" width={160}>
+              Unable to evaluate
+            </Column>
+            <Column id="aligned" width={160}>
+              Pass or acceptable
+            </Column>
+            <Column id="mix" minWidth={220}>
+              Results
+            </Column>
+            <Column id="view" width={130}>
+              Compare
+            </Column>
+          </TableHeader>
+          <TableBody
+            items={assessment.modeBreakdown}
+            dependencies={[assessment, onViewResults]}
+            renderEmptyState={() => <p>No mode-specific required values.</p>}
+          >
+            {(item) => {
+              const label = `${fieldLabel(item.axis)}: ${item.mode === null ? "Not mode-specific" : termLabel(item.mode)}`;
+              return (
+                <Row id={item.id} textValue={label}>
+                  <Cell>{label}</Cell>
+                  <Cell>{item.tokens}</Cell>
+                  <Cell>{item.values}</Cell>
+                  <Cell>{item.counts.pass}</Cell>
+                  <Cell>{item.counts.acceptable}</Cell>
+                  <Cell>{item.counts.fail}</Cell>
+                  <Cell>{item.counts.unassessable}</Cell>
+                  <Cell>
+                    {item.alignedPercent === null
+                      ? "Unavailable"
+                      : `${item.alignedPercent.toFixed(1)}%`}
+                  </Cell>
+                  <Cell>
+                    {item.values ? (
+                      <StackedBar
+                        segments={modeResultSegments(item)}
+                        aria-label={`${label}: ${item.counts.pass} Pass, ${item.counts.fail} Fail, ${item.counts.acceptable} Acceptable, ${item.counts.unassessable} Unable to evaluate`}
+                      />
+                    ) : (
+                      "Unavailable"
+                    )}
+                  </Cell>
+                  <Cell>
+                    <ActionButton
+                      aria-label={`View ${label} results`}
+                      onPress={() => onViewResults(item.axis, item.mode)}
+                    >
+                      View results
+                    </ActionButton>
+                  </Cell>
+                </Row>
+              );
+            }}
+          </TableBody>
+        </TableView>
+      </div>
+    </section>
+  );
+});
+
+interface EnhancementItem {
+  id: string;
+  label: string;
+  context: string;
+  value: unknown;
+  reason: ReactNode;
+}
+
+const EnhancementsSection = memo(function EnhancementsSection({
+  items,
+}: {
+  items: EnhancementItem[];
+}) {
+  return (
+    <section aria-label="Enhancements">
+      <h3>Enhancements</h3>
+      <p>
+        Additional app capabilities and token variants do not count against
+        migration results.
+      </p>
+      <div className="analysisValueTable">
+        <TableView
+          aria-label="App enhancements"
+          selectionMode="none"
+          styles={tableStyles}
+          UNSAFE_className="analysisFitTable"
+        >
+          <TableHeader>
+            <Column id="item" isRowHeader>
+              Token / mode set
+            </Column>
+            <Column id="context">App mode</Column>
+            <Column id="value">App value</Column>
+            <Column id="result">Result</Column>
+            <Column id="reason">Reason</Column>
+          </TableHeader>
+          <TableBody
+            items={items}
+            dependencies={[items]}
+            renderEmptyState={() => <p>No confirmed enhancements.</p>}
+          >
+            {(item) => (
+              <Row id={item.id} textValue={item.label}>
+                <Cell>{item.label}</Cell>
+                <Cell>{item.context}</Cell>
+                <Cell>{valueText(item.value)}</Cell>
+                <Cell>
+                  <Badge variant="neutral">Enhancement</Badge>
+                </Cell>
+                <Cell>{item.reason}</Cell>
+              </Row>
+            )}
+          </TableBody>
+        </TableView>
+      </div>
+    </section>
+  );
+});

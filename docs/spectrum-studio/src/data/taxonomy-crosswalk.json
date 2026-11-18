@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "designDataRevision": "2e6bc5767d35ad32418b800f98b2162733eda879",
+  "rules": [
+    {
+      "id": "XW-001",
+      "retireBy": "decision",
+      "kind": "add-field",
+      "studio": {},
+      "designData": { "field": "property", "value": "color" },
+      "appliesTo": { "tokenTypes": ["colors"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio color tokens carry a Property: Color term, or design-data no longer requires property on palette colors.",
+      "notes": "Studio classifies primitive colors by Color family and Scale index only. design-data requires property on every name."
+    },
+    {
+      "id": "XW-002",
+      "retireBy": "decision",
+      "kind": "add-field",
+      "studio": {},
+      "designData": { "field": "property", "value": "spacing" },
+      "appliesTo": { "tokenTypes": ["spacing"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio spacing tokens carry an explicit Property term.",
+      "notes": "Fills design-data's required property when a Studio spacing token has none."
+    },
+    {
+      "id": "XW-003",
+      "retireBy": "decision",
+      "kind": "add-field",
+      "studio": {},
+      "designData": { "field": "property", "value": "size" },
+      "appliesTo": { "tokenTypes": ["size"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio size tokens carry an explicit Property term.",
+      "notes": "Fills design-data's required property when a Studio size token has none."
+    },
+    {
+      "id": "XW-004",
+      "retireBy": "decision",
+      "kind": "add-field",
+      "studio": {},
+      "designData": { "field": "property", "value": "corner-radius" },
+      "appliesTo": { "tokenTypes": ["radius"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio radius tokens carry an explicit Property term.",
+      "notes": "Fills design-data's required property when a Studio radius token has none."
+    },
+    {
+      "id": "XW-005",
+      "retireBy": "decision",
+      "kind": "add-field",
+      "studio": {},
+      "designData": { "field": "property", "value": "shadow" },
+      "appliesTo": { "tokenTypes": ["elevation"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio elevation tokens carry an explicit Property term.",
+      "notes": "Fills design-data's required property when a Studio elevation token has none."
+    },
+    {
+      "id": "XW-006",
+      "retireBy": "decision",
+      "kind": "add-field",
+      "studio": {},
+      "designData": { "field": "property", "value": "opacity" },
+      "appliesTo": { "tokenTypes": ["opacity"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio opacity tokens carry an explicit Property term.",
+      "notes": "Fills design-data's required property when a Studio opacity token has none."
+    },
+    {
+      "id": "XW-007",
+      "retireBy": "decision",
+      "kind": "rename-term",
+      "studio": {
+        "key": "property",
+        "terms": {
+          "corner radius": "corner-radius",
+          "drop shadow": "shadow",
+          "line height": "line-height",
+          "unitless line height": "line-height-multiplier"
+        }
+      },
+      "designData": { "field": "property" },
+      "appliesTo": {},
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "design-data property-terms registry uses the Studio spellings, or Studio adopts the design-data ids.",
+      "notes": "Studio Property terms use spaced display values; design-data uses hyphenated ids. Studio uses Drop shadow because Attribute already owns Shadow."
+    },
+    {
+      "id": "XW-008",
+      "retireBy": "studio",
+      "kind": "rename-key",
+      "studio": { "key": "axis" },
+      "designData": { "field": "orientation" },
+      "appliesTo": {},
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio's Orientation category key is orientation.",
+      "notes": "Same meaning, different category key."
+    },
+    {
+      "id": "XW-009",
+      "retireBy": "studio",
+      "kind": "rename-term",
+      "studio": {
+        "key": "fontWeight",
+        "terms": { "regular weight": "regular" }
+      },
+      "designData": { "field": "weight" },
+      "appliesTo": {},
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio's weight term value is regular.",
+      "notes": "Applied before the key rename in XW-010."
+    },
+    {
+      "id": "XW-010",
+      "retireBy": "studio",
+      "kind": "rename-key",
+      "studio": { "key": "fontWeight" },
+      "designData": { "field": "weight" },
+      "appliesTo": {},
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio's font weight category key is weight.",
+      "notes": "Same meaning, different category key."
+    },
+    {
+      "id": "XW-011",
+      "retireBy": "studio",
+      "kind": "rename-term",
+      "studio": {
+        "key": "size",
+        "terms": {
+          "extra small": "xs",
+          "small": "s",
+          "medium": "m",
+          "large": "l",
+          "extra large": "xl"
+        }
+      },
+      "designData": { "field": "size" },
+      "appliesTo": {},
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "Studio and design-data share one size vocabulary.",
+      "notes": "Studio uses full words; the design-data sizes registry uses abbreviated ids."
+    },
+    {
+      "id": "XW-012",
+      "retireBy": "studio",
+      "kind": "rename-key",
+      "studio": { "key": "colorName" },
+      "designData": { "field": "colorFamily" },
+      "appliesTo": { "tokenTypes": ["colors"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "No saved Studio data uses the legacy colorName key.",
+      "notes": "Legacy Studio key kept only for older saved names."
+    },
+    {
+      "id": "XW-013",
+      "retireBy": "studio",
+      "kind": "rename-key",
+      "studio": { "key": "contrastValue" },
+      "designData": { "field": "scaleIndex" },
+      "appliesTo": { "tokenTypes": ["colors"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "No saved Studio data uses the legacy contrastValue key.",
+      "notes": "Legacy Studio key kept only for older saved names."
+    },
+    {
+      "id": "XW-014",
+      "retireBy": "studio",
+      "kind": "value-type",
+      "studio": { "key": "scaleIndex" },
+      "designData": { "field": "scaleIndex", "valueType": "number" },
+      "appliesTo": {},
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "No Studio name stores scaleIndex as text.",
+      "notes": "Whole-number text such as \"100\" becomes the number 100."
+    },
+    {
+      "id": "XW-015",
+      "retireBy": "design-data",
+      "kind": "drop-field",
+      "studio": { "key": "renderingBehavior" },
+      "designData": {},
+      "appliesTo": {},
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "design-data adopts a rendering-behavior field, or Studio stops naming tokens with it.",
+      "notes": "Comparison only. Output names keep the field so emitted names stay unique."
+    },
+    {
+      "id": "XW-016",
+      "retireBy": "design-data",
+      "kind": "drop-field",
+      "studio": { "key": "modeBehavior" },
+      "designData": {},
+      "appliesTo": {},
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "design-data adopts a mode-behavior field, or Studio stops naming tokens with it.",
+      "notes": "Comparison only. Output names keep the field so emitted names stay unique."
+    },
+    {
+      "id": "XW-017",
+      "retireBy": "decision",
+      "kind": "mode-default",
+      "studio": { "key": "contrast", "value": "regular" },
+      "designData": { "field": "contrast" },
+      "appliesTo": { "tokenTypes": ["colors"] },
+      "gapId": "LTAX-023",
+      "rfc": "docs/rfcs/taxonomy-crosswalk.md",
+      "retireWhen": "design-data palette tokens publish high-contrast rows.",
+      "notes": "design-data palette rows omit contrast, which means its declared default (regular). Studio high-contrast rows are extra variants, not failed matches."
+    },
+    {
+      "id": "XW-018",
+      "retireBy": "design-data",
+      "kind": "tier",
+      "studio": { "key": "scaleIndex", "tiers": ["primitive", "semantic"] },
+      "designData": { "field": "scaleIndex" },
+      "appliesTo": { "tiers": ["semantic"] },
+      "gapId": "LTAX-021",
+      "rfc": "docs/rfcs/token-tiers-and-category-scope.md",
+      "retireWhen": "design-data field schema records allowed tiers, including Semantic for scaleIndex.",
+      "notes": "Color-role scales such as accent-color-100 keep the step number that design-data already publishes on semantic palette tokens."
+    }
+  ]
+}

@@ -21,8 +21,8 @@ into unrelated debt, whole-catalog proof or more agents without approval.
 Use `pnpm check:list` and `pnpm check:focused --only <id,...>` from this package.
 The inventory, not grouped `test:*` aliases or a prose map, owns check selection.
 Select the changed element and its immediate relevant checks, not all consumers.
-The runner admits at most two small jobs (256 MiB and 30 seconds each) or one
-explicitly approved heavy job alone (1 GiB and 60 seconds). The deadline covers
+The runner admits at most two small jobs (512 MiB and 30 seconds each) or one
+explicitly approved heavy job alone (4 GiB and 180 seconds). The deadline covers
 the entire selection, including prerequisites. Busy means not run: continue
 independent work rather than waiting, polling or retrying. Do not retry a cutoff,
 increase limits or start a replacement job without approval. Use direct agent
@@ -126,7 +126,7 @@ Do this once per goal, not at the start of every session. If the contributor's r
 - Keep all file discovery and content searches inside `docs/spectrum-studio/`. Search `packages/` only when source-package evidence is needed. Do not broaden to the repository root, sibling projects, parent folders, external checkouts or session archives. Read explicitly named instruction files directly rather than searching their directories.
 - Never search or traverse `node_modules`, `.pnpm`, `.git`, vendor directories, caches, build output, coverage, browser reports or test-result directories. Set explicit paths and file globs; exclude these directories even when ignored files are included.
 - Default to one scoped search at a time. Never run more than **10 concurrent ripgrep processes** across this task and its delegated work, including shell commands and tool calls. Ten is a ceiling, not a target. Combine related patterns instead of launching a search per term. Shell `rg` commands use `--threads 1`.
-- The shared runner permits two small invocations under a combined 512 MiB reservation, or one exclusive approved heavy invocation up to 1 GiB. Never overlap heavy work or manually bypass busy admission. Its accounting covers the runner and owned descendants, not unguarded tools or agent desktops. Browser configs enforce one worker; do not override it.
+- The shared runner permits two small invocations under a combined 1 GiB reservation, or one exclusive approved heavy invocation up to 4 GiB. Never overlap heavy work or manually bypass busy admission. Its accounting covers the runner and owned descendants, not unguarded tools or agent desktops. Browser configs enforce one worker; do not override it.
 - Do not maximize parallelism or consume resources that could degrade the user's other applications. If commands stall or the device becomes sluggish, stop task-owned work, report the issue and ask before retrying. Do not launch more jobs to work around a stall or touch unrelated user processes.
 - Ask before preparing additional repository copies or running expensive baseline checks. When confirmation is too costly or unavailable, report the uncertainty instead of expanding the investigation.
 
@@ -183,6 +183,7 @@ Rules in `.agents/rules/` are not loaded automatically by every tool. Read the o
 | `s2-general.mdc`                     | Any UI work: sentence case, WCAG 2.2 AA, S2 patterns                                           |
 | `spectrum-content-guidelines.mdc`    | Writing UI text the user asked for                                                             |
 | `notifications.mdc`                  | Any toast, delete, add, or confirmation dialog                                                 |
+| `deletion-and-deprecation.mdc`       | Any delete, rename, or deprecation of data that reaches design-data output                     |
 | `side-by-side-comparison.mdc`        | Any UI that shows two versions of a value (from → to, app vs design data, saved vs working)    |
 | `icons.mdc`                          | Using or adding icons                                                                          |
 | `storybook-stories.mdc`              | Creating or reviewing stories (ask for approval first)                                         |
@@ -270,6 +271,7 @@ Step-by-step procedures: `authoring-lifecycle` (persistence, Changes, Impact) an
   counts, baselines, or silent unavailable-to-zero fallbacks.
 
 - Relevant taxonomy/model/token/export changes must link an existing stable gap ID in `src/data/design-data-gaps.json` or add a separately scoped entry. Record direction, owner, pinned profile/revision, acceptance criteria, evidence/check IDs, blockers and remaining limitations. Keep implementation, alignment disposition and RFC state separate.
+- Every Studio-to-design-data vocabulary difference is an `XW-###` rule in `src/data/taxonomy-crosswalk.json`, read only through `taxonomyCrosswalk.ts`. Never add translations elsewhere. See the `design-data-contract` skill and `docs/rfcs/taxonomy-crosswalk.md`.
 - Assess saved/shipped baselines and scoped concept/mode-value denominator effects before changing gap status. Working previews are provisional; unrelated counts, equal values and Cartesian evaluation samples cannot close a gap. Missing or stale reference evidence must remain unassessable. Manual architecture/RFC acceptance requires an explicit review record.
 - Run `pnpm test:design-data-gaps` for register/check changes. JSON, Markdown, CLI and Analysis must consume the canonical register and the existing comparison/coverage owners, not independent handwritten closure statuses.
 

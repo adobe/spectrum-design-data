@@ -2622,6 +2622,10 @@
         },
         "authoring": {
           "$ref": "#/definitions/TokenAuthoring"
+        },
+        "removed": {
+          "description": "Set by \"Remove all deprecations\": the token is left out of working data and outputs.",
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -2694,6 +2698,7 @@
               "type": "string"
             },
             "scope": {
+              "description": "Legacy marker for semantic tokens before explicit tiers; no longer written.",
               "const": "structures",
               "type": "string"
             }
@@ -3129,6 +3134,10 @@
             ],
             "type": "string"
           }
+        },
+        "lifecycle": {
+          "description": "Set when the category is deprecated. Categories have no replacement.",
+          "$ref": "#/definitions/ItemLifecycle"
         }
       },
       "additionalProperties": false,
@@ -3159,6 +3168,30 @@
       ],
       "type": "string"
     },
+    "ItemLifecycle": {
+      "description": "Present only when the item is deprecated. `deprecatedIn` stays empty until\na release assigns it (DEBT-035), so the UI shows \"pending release\".",
+      "type": "object",
+      "properties": {
+        "deprecated": {
+          "type": "boolean",
+          "const": true
+        },
+        "deprecatedIn": {
+          "type": "string"
+        },
+        "deprecatedComment": {
+          "type": "string"
+        },
+        "replacedBy": {
+          "description": "ID of an item of the same kind that consumers should use instead.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "deprecated"
+      ]
+    },
     "TaxonomyTerm": {
       "type": "object",
       "properties": {
@@ -3179,6 +3212,10 @@
         "includeInProjections": {
           "description": "Omit this term without removing its classification. The category still controls inclusion.",
           "type": "boolean"
+        },
+        "lifecycle": {
+          "description": "Set when the term is deprecated; `replacedBy` names a term in the same category.",
+          "$ref": "#/definitions/ItemLifecycle"
         }
       },
       "additionalProperties": false,
@@ -4370,6 +4407,10 @@
       "properties": {
         "id": {
           "type": "string"
+        },
+        "lifecycle": {
+          "description": "Present only when the item is deprecated. `deprecatedIn` stays empty until\na release assigns it (DEBT-035), so the UI shows \"pending release\".",
+          "$ref": "#/definitions/ItemLifecycle"
         },
         "hideFromPublishing": {
           "type": "boolean"

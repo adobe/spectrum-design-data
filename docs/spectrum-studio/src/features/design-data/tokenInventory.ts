@@ -14,6 +14,12 @@ import {
   type FoundationValueType,
 } from "./foundationValues";
 import { canonicalJson } from "./canonicalJson";
+import {
+  idStatus,
+  matchedBy,
+  type IdStatus,
+  type MatchedBy,
+} from "./tokenPairing";
 
 export const isInventoryToken = (record: AnalysisRecord) =>
   record.category === "tokens" || record.category === "compatibility-aliases";
@@ -63,6 +69,10 @@ export interface TokenInventoryEntry {
     | "ambiguous";
   requiredRowIds: string[];
   counterparts: string[];
+  /** How the pair was found, when every counterpart agrees. Names never establish identity. */
+  matchedBy?: MatchedBy;
+  /** Whether the Studio token already uses design-data's row UUID, when every counterpart agrees. */
+  idStatus?: IdStatus;
   reason?: string;
   values: { context: ValueContext; value: unknown; issue: string | null }[];
 }
@@ -86,9 +96,28 @@ export function buildTokenInventory(
 ): TokenInventory {
   const links = new Map<
     string,
-    { rows: Set<string>; counterparts: Set<string> }
+    {
+      rows: Set<string>;
+      counterparts: Set<string>;
+      // Counterparts paired through a mode row, and the concepts of those rows.
+      byMode: Set<string>;
+      concepts: Set<string>;
+    }
   >();
+  const link = (id: string) => {
+    const existing = links.get(id);
+    if (existing) return existing;
+    const created = {
+      rows: new Set<string>(),
+      counterparts: new Set<string>(),
+      byMode: new Set<string>(),
+      concepts: new Set<string>(),
+    };
+    links.set(id, created);
+    return created;
+  };
   const key = (side: string, id: string) => JSON.stringify([side, id]);
+  const reviewed = new Set<string>();
   for (const finding of findings) {
     if (
       !finding.app ||
@@ -97,16 +126,12 @@ export function buildTokenInventory(
       finding.confidence === "unassessable"
     )
       continue;
+    if (finding.confidence === "reviewed-mapping")
+      reviewed.add(key(finding.app.id, finding.reference.id));
     for (const side of ["app", "reference"] as const) {
       const record = finding[side]!;
       const other = side === "app" ? finding.reference : finding.app;
-      const id = key(side, record.id);
-      const link = links.get(id) ?? {
-        rows: new Set<string>(),
-        counterparts: new Set<string>(),
-      };
-      link.counterparts.add(other.id);
-      links.set(id, link);
+      link(key(side, record.id)).counterparts.add(other.id);
     }
   }
   for (const concept of concepts)
@@ -114,15 +139,13 @@ export function buildTokenInventory(
       for (const side of ["app", "reference"] as const) {
         const record = row[side];
         if (!record) continue;
-        const id = key(side, record.id);
-        const link = links.get(id) ?? {
-          rows: new Set<string>(),
-          counterparts: new Set<string>(),
-        };
-        link.rows.add(row.id);
+        const entry = link(key(side, record.id));
+        entry.rows.add(row.id);
         const other = side === "app" ? row.reference : row.app;
-        if (other) link.counterparts.add(other.id);
-        links.set(id, link);
+        if (!other) continue;
+        entry.counterparts.add(other.id);
+        entry.byMode.add(other.id);
+        entry.concepts.add(concept.id);
       }
   const complete = [app, reference].every(
     (input) => input.inventoryStatus === "complete" && !input.errors.length,
@@ -140,6 +163,53 @@ export function buildTokenInventory(
     ),
   );
   const issues: string[] = [];
+  const recordsById = (input: AnalysisInput) => {
+    const byId = new Map<string, AnalysisRecord>();
+    for (const record of input.records)
+      if (isInventoryToken(record) && !byId.has(record.id))
+        byId.set(record.id, record);
+    return byId;
+  };
+  const sides = { app: recordsById(app), reference: recordsById(reference) };
+  const pairing = (
+    side: "app" | "reference",
+    record: AnalysisRecord,
+    counterparts: string[],
+  ) => {
+    const results = counterparts.map((id) => {
+      const other = sides[side === "app" ? "reference" : "app"].get(id);
+      if (!other) return undefined;
+      const [left, right] = side === "app" ? [record, other] : [other, record];
+      return {
+        matchedBy: matchedBy(left, right, reviewed.has(key(left.id, right.id))),
+        idStatus: idStatus(left, right),
+      };
+    });
+    const [first] = results;
+    return first &&
+      results.every(
+        (result) =>
+          result?.matchedBy === first.matchedBy &&
+          result.idStatus === first.idStatus,
+      )
+      ? first
+      : {};
+  };
+  // One record paired with several counterparts is still a single match when
+  // every pairing is a mode row of the same color concept, such as a
+  // mode-independent alias compared with per-mode rows.
+  const modeFanOut = (
+    link:
+      | {
+          counterparts: Set<string>;
+          byMode: Set<string>;
+          concepts: Set<string>;
+        }
+      | undefined,
+  ) =>
+    !!link &&
+    link.concepts.size === 1 &&
+    [...link.counterparts].every((id) => link.byMode.has(id));
   const entries = (["app", "reference"] as const).flatMap((side) => {
     const input = side === "app" ? app : reference;
     const seen = new Map<string, number>();
@@ -158,24 +228,29 @@ export function buildTokenInventory(
         const link = links.get(key(side, record.id));
         const type = foundationValueType(record);
         const counterparts = [...(link?.counterparts ?? [])].sort();
+        const presence: TokenInventoryEntry["presence"] =
+          ambiguous.has(key(side, record.id)) ||
+          (counterparts.length > 1 && !modeFanOut(link))
+            ? "ambiguous"
+            : counterparts.length
+              ? "matched"
+              : !complete
+                ? "unconfirmed"
+                : side === "app"
+                  ? "app-only"
+                  : "reference-only";
         return {
           id: `${key(side, record.id)}:${occurrence}`,
           side,
           record,
           label: inventoryTokenLabel(record),
           type,
-          presence:
-            counterparts.length > 1 || ambiguous.has(key(side, record.id))
-              ? "ambiguous"
-              : counterparts.length
-                ? "matched"
-                : !complete
-                  ? "unconfirmed"
-                  : side === "app"
-                    ? "app-only"
-                    : "reference-only",
+          presence,
           requiredRowIds: [...(link?.rows ?? [])].sort(),
           counterparts,
+          ...(presence === "matched"
+            ? pairing(side, record, counterparts)
+            : {}),
           reason: isDeprecatedInventoryToken(record)
             ? `${record.lifecycle?.deprecatedIn ? `Deprecated in ${record.lifecycle.deprecatedIn}` : "Pending deprecation"}; excluded from migration scoring.`
             : record.category === "compatibility-aliases"
@@ -205,7 +280,12 @@ export function buildTokenInventory(
       ...(app.inventoryExclusions ?? []),
       ...(reference.inventoryExclusions ?? []),
     ],
-    issues: [...app.errors, ...reference.errors, ...issues],
+    issues: [
+      ...app.errors,
+      ...reference.errors,
+      ...(app.outputIssues ?? []).map((issue) => issue.message),
+      ...issues,
+    ],
   };
 }
 

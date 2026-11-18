@@ -8,6 +8,7 @@ import {
   deleteFlow,
   deleteImpactText,
   deletedText,
+  deprecatedText,
   errorText,
   failureOf,
   NOTIFICATION_KINDS,
@@ -19,7 +20,9 @@ import {
 import {
   createNotificationCenter,
   type DeleteDialog,
+  type LifecycleChoice,
 } from "../src/features/notifications/center";
+import { LIFECYCLE_KINDS } from "../src/features/notifications/lifecycleKinds";
 import { enterEditModeAtom } from "../src/features/edit-session/state";
 import {
   addColorScaleAtom,
@@ -107,6 +110,7 @@ function harness() {
   const shown: Notice[] = [];
   const closed: string[] = [];
   const dialogs: DeleteDialog[] = [];
+  const choices: LifecycleChoice[] = [];
   const center = createNotificationCenter({
     store,
     show: (next) => {
@@ -114,9 +118,10 @@ function harness() {
       return () => closed.push(next.message);
     },
     confirm: (dialog) => dialogs.push(dialog),
+    choose: (choice) => choices.push(choice),
   });
   const stop = center.start();
-  return { store, center, shown, closed, dialogs, stop };
+  return { store, center, shown, closed, dialogs, choices, stop };
 }
 
 {
@@ -179,11 +184,11 @@ function harness() {
   // A delete that removes exported names asks first, then offers Undo.
   const { store, center, shown, dialogs } = harness();
   const document = store.get(colorSystemDocumentAtom);
-  const scale = document.scales.find(
-    (entry) =>
-      entry.name === "seafoam" &&
-      !document.surfaces.some((surface) => surface.sourceScaleId === entry.id),
-  )!;
+  const scale = document.scales.find((entry) => {
+    const scratch = createStore();
+    scratch.set(enterEditModeAtom);
+    return scratch.set(removeColorScaleAtom, entry.id).ok;
+  })!;
   const count = document.scales.length;
   center.remove({
     kind: "colorScale",
@@ -201,7 +206,7 @@ function harness() {
     count,
     "dry run only",
   );
-  assert.equal(shown.length, 0);
+  assert.equal(shown.length, 0, shown[0]?.message);
   assert.equal(dialogs.length, 1);
   assert.equal(dialogs[0].title, "Delete color scale");
   assert.match(
@@ -279,6 +284,97 @@ function harness() {
   );
   shown[1].undo!();
   assert.equal(runs, 1);
+}
+
+// Every kind declares how it follows the deletion and deprecation workflow.
+assert.deepEqual(
+  Object.keys(LIFECYCLE_KINDS).sort(),
+  Object.keys(NOTIFICATION_KINDS).sort(),
+);
+assert.equal(deprecatedText("term", "Accent"), "Accent deprecated");
+
+{
+  // Unshipped items delete right away with Undo, even for "api" kinds.
+  const { center, shown, dialogs, choices } = harness();
+  let runs = 0;
+  center.remove({
+    kind: "taxonomyCategory",
+    noun: "Brand",
+    run: () => runs++,
+    undo: () => runs--,
+    lifecycle: { shipped: false },
+  });
+  assert.equal(runs, 1);
+  assert.equal(dialogs.length + choices.length, 0);
+  assert.deepEqual(
+    shown.map((entry) => [entry.variant, entry.message]),
+    [["neutral", "Brand deleted"]],
+  );
+  shown[0].undo!();
+  assert.equal(runs, 0);
+}
+
+{
+  // Shipped items never delete: they open the lifecycle dialog.
+  const { center, shown, dialogs, choices } = harness();
+  let name = "Accent";
+  let deprecated: string | undefined | false = false;
+  let deleted = false;
+  center.remove({
+    kind: "term",
+    noun: "Accent",
+    run: () => (deleted = true),
+    lifecycle: {
+      shipped: true,
+      rename: {
+        current: name,
+        run: (next) =>
+          next === "Taken"
+            ? { ok: false, error: "Name is taken." }
+            : (name = next),
+      },
+      candidates: [{ id: "neutral", label: "Neutral" }],
+      deprecate: (replacementId) => {
+        const previous = deprecated;
+        deprecated = replacementId;
+        return previous;
+      },
+      undoDeprecate: (previous) => (deprecated = previous),
+    },
+  });
+  assert.equal(deleted, false);
+  assert.equal(dialogs.length, 0);
+  assert.equal(choices.length, 1);
+  const [choice] = choices;
+  assert.equal(choice.title, "Delete term");
+  assert.equal(choice.name, "Accent");
+  assert.equal(choice.noun, "term");
+  assert.equal(choice.deprecated, false);
+  assert.throws(() => choice.rename!.apply("Taken"), /Name is taken/);
+  choice.rename!.apply("Brand");
+  assert.equal(name, "Brand");
+  assert.equal(shown.length, 0, "rename is quiet; the dialog closes");
+  choice.deprecate!("neutral");
+  assert.equal(deprecated, "neutral");
+  assert.deepEqual(
+    shown.map((entry) => [entry.variant, entry.message]),
+    [["neutral", "Accent deprecated"]],
+  );
+  shown[0].undo!();
+  assert.equal(deprecated, false);
+  assert.equal(shown.length, 1, "undo is quiet");
+}
+
+{
+  // Already-deprecated items open the dialog with no actions offered.
+  const { center, choices } = harness();
+  center.remove({
+    kind: "colorScale",
+    run: () => undefined,
+    lifecycle: { shipped: true, deprecated: true },
+  });
+  assert.equal(choices[0].deprecated, true);
+  assert.equal(choices[0].rename, undefined);
 }
 
 console.log("notifications: ok");

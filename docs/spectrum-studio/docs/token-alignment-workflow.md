@@ -260,6 +260,28 @@ parameters and acceptance rules; neither key colors nor Delta E transfers
 automatically. A second key or a broader parameter change requires a separate
 proposal and approval.
 
+## Add or retire a crosswalk rule
+
+Every difference between Studio's taxonomy and design-data's goes in
+`src/data/taxonomy-crosswalk.json`, read through `taxonomyCrosswalk.ts`.
+Comparison, pairing, palette review and inventory all use it; do not add a
+translation anywhere else.
+
+1. **Add.** Add a rule with a new `XW-###` id, a gap id from
+   `design-data-gaps.json`, a link to
+   [the crosswalk RFC](rfcs/taxonomy-crosswalk.md) and a `retireWhen` sentence
+   saying which design-data change makes it unnecessary. Add the rule to the
+   RFC.
+2. **Hand off.** Run `pnpm crosswalk:handoff` to regenerate
+   [design-data-handoff.md](rfcs/design-data-handoff.md). Agents apply the
+   rules marked `design-data` on a separate design-data branch.
+3. **Check.** Run `pnpm check:focused --only taxonomy-crosswalk`. It fails on
+   a rule without a gap, RFC or retirement condition, and on a stale handoff.
+4. **Retire.** When design-data adopts the change, update
+   `designDataRevision`, delete the rule, regenerate the handoff and rerun the
+   check. The check fails while a rule that design-data has already covered is
+   still present.
+
 ## Checks and reuse
 
 `pnpm test:palette-assessment` includes the naming lifecycle and whole-palette

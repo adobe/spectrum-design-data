@@ -2,7 +2,6 @@
 import Ajv from "ajv";
 import { EMPTY_STYLES, isStylesDocument } from "../styles/model";
 import { reconcileFontNames } from "../typography/fontVocabulary";
-import { withStylesVocabulary } from "../styles/vocabulary";
 import schema from "../../data/design-system.schema.json" with { type: "json" };
 import { isParameterBinding } from "../scales/interpolation";
 import {
@@ -128,7 +127,7 @@ export function composeDesignSystemDefaults(
   }
   const dataset = structuredClone(input);
   const namedFonts = reconcileFontNames(
-    withStylesVocabulary(dataset.system.taxonomy),
+    dataset.system.taxonomy,
     dataset.system.foundations.typography.fonts,
   );
   const taxonomy = namedFonts.taxonomy;

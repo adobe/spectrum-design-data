@@ -17,6 +17,7 @@ import {
   type FoundationPublishingMetadata,
 } from "../foundations/types";
 import type { TaxonomyNameReference } from "../taxonomy/naming";
+import { isItemLifecycle, type ItemLifecycle } from "../edit-session/lifecycle";
 import { isDataVisScaleList, type DataVisScale } from "./data-vis/model";
 import {
   isColorOutputSettings,
@@ -91,6 +92,7 @@ export interface ColorScale extends FoundationPublishingMetadata {
     namingRuleId: string;
   };
   disabledCustomContrasts?: ColorScale["customContrasts"];
+  lifecycle?: ItemLifecycle;
 }
 
 export interface ContrastToken {
@@ -269,6 +271,7 @@ export function isColorSystemDocument(
       (scale.disabledCustomContrasts === undefined ||
         (scale.customContrasts === undefined &&
           isCustomContrasts(scale.disabledCustomContrasts))) &&
+      (scale.lifecycle === undefined || isItemLifecycle(scale.lifecycle)) &&
       Array.isArray(scale.stops) &&
       scale.stops.length > 0 &&
       scale.stops.every(

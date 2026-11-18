@@ -52,6 +52,8 @@ export interface BrowserTokenEdit {
   nameBaseline?: string;
   values: { [modeKey: string]: { value: TokenValue; baseline: TokenValue } };
   authoring?: TokenAuthoring;
+  /** Set by "Remove all deprecations": the token is left out of working data and outputs. */
+  removed?: boolean;
 }
 
 export interface BrowserTokenEdits {

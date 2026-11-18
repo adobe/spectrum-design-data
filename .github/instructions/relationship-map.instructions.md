@@ -9,22 +9,29 @@ description: "Fresh relationship context and before/after dependency review for 
 # Relationship-aware work
 
 Read `.ai/skills/relationship-map/SKILL.md` when working in these areas.
-Obtain fresh, focused context before relationship-sensitive planning or code
-changes. Use the existing map rather than repeatedly rediscovering imports and
-data references. The skill provides the exact supervised commands.
+Review the changed owner and immediate relevant dependencies/dependents in
+source/tests before relationship-sensitive changes. Use existing graph evidence
+as leads when available; do not rediscover the entire architecture.
 
-Refresh automatically when needed, but only through the explicitly selected
-bounded runner. Stop on busy admission, failed refresh or resource cutoff.
-Never retry automatically, bypass admission, install dependencies during a query
-or silently use an old graph as current.
+Graph queries, freshness checks and refreshes are explicitly approved heavy work,
+not mandatory local startup/completion steps. A focused response can still
+require broad hashing/loading. Queries never rebuild automatically. Request
+`relationship-map-refresh` separately if a full rebuild is necessary.
+When bounded current context is unavailable, state the limitation and use
+focused source/test evidence; never present an old graph as current.
+Busy means not run, not wait: continue independent work without polling/retries.
+Stop graph work on failed refresh or resource cutoff. Never bypass admission
+or install dependencies during a query.
 
 Before creating new logic, check existing owners and relevant SDK/tool APIs.
 Confirm behavior and runtime compatibility in source/tests. Keep Scout and
 Ferrograph's existing semantic/symbol roles; graph links are not architectural
 authority or a complete call/data-flow graph.
 
-Retain the task-start generation ID. After mapped inputs change, obtain fresh
-context and compare relationships with that baseline. Explain intended changes
+If approved graph work returns a current generation, retain its ID. Compare
+against that baseline only within explicitly approved scope and budgets.
+Otherwise review changed direct relationships in source and report the graph
+evidence gap. Explain intended changes
 and investigate unexpected coupling within the approved scope. Concurrent
 checkout changes are not automatically attributable to this task.
 

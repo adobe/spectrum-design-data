@@ -49,6 +49,9 @@ function roleRows(output: ReturnType<typeof build>) {
 const blueSteps = scaleSteps(accent.scaleId);
 assert(blueSteps.length > 1, "The assigned scale exposes its steps.");
 const original = build(snapshot);
+// Any Styles issue marks the whole migration analysis incomplete, so the
+// default Registry must let style tokens use their sources' categories.
+assert.deepEqual(original.issues, []);
 const before = roleRows(original);
 assert.equal(before.length, blueSteps.length);
 const firstMode = before;
@@ -98,6 +101,7 @@ const overridden = canonicalAliasRows(
   completeAliasSource({
     ...swapped,
     browserTokenEdits: {
+      ...swapped.browserTokenEdits,
       [target.conceptId]: {
         name: "brand-highlight",
         description: "Primary emphasis.",

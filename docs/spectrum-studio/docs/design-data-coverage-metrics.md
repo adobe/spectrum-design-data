@@ -331,9 +331,11 @@ Drafted, submitted, stale, and unverified exceptions remain outstanding.
 There is no second acceptance register and no exception for arbitrary unequal
 color values.
 
-The `studio-palette-label-v1` counterpart profile handles the current editor's
-registered `colorFamily` labels, legacy `colorName` labels, and numeric
-`scaleIndex`. It uses exact,
+Palette pairing uses the shared `reviewedColorMappings` counterpart profile
+(`foundation-color-ramp-v2`), the same one the full comparison uses. Studio
+names go through the taxonomy crosswalk, so registered `colorFamily` labels,
+legacy `colorName` labels and string `scaleIndex` values pair the same way. It
+uses exact,
 unambiguous reference registry label/ID entries, never case folding or display
 name parsing. Raw label and field differences still prevent classification
 alignment unless the scoped exception requirements above are satisfied.

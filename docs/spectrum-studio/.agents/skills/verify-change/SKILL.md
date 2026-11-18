@@ -18,7 +18,7 @@ verification into another feature or a whole-domain investigation.
    proof of small work: full catalogs and broad fixtures are integration checks.
    Do not expand grouped aliases or invent a second test map.
 3. Run exact element-level IDs with `pnpm check:focused --only <id,...>`.
-   Small jobs reserve 256 MiB and have a 30-second whole-selection deadline.
+   Small jobs reserve 512 MiB and have a 30-second whole-selection deadline.
    At most two may overlap; never start extra commands outside admission.
 4. For changed types, inspect `types-files --files <file,...>` or `runner-types`;
    for lint, inspect `lint-files --files <file,...>`. These follow actual imports
@@ -27,7 +27,7 @@ verification into another feature or a whole-domain investigation.
 5. Add lifecycle/Changes checks only when persisted behavior changes. Integration
    or project scope needs an explicit user request and `--scope-approved`.
    Named heavy checks need explicit approval and `--heavy-approved`; they run
-   alone, with 1 GiB and a 60-second selection deadline. Profiles and flags record
+   alone, with 4 GiB and a 180-second selection deadline. Profiles and flags record
    approval, not grant it. Existing comprehensive CI coverage is unchanged.
 
 The runner owns deadlines, shared admission, process accounting, output limits

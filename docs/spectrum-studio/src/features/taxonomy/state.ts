@@ -13,6 +13,7 @@ import {
 import { structuresDocumentAtom } from "../structures/documentState";
 import { assertStructureTaxonomy } from "../structures/model";
 import { taxonomyContributionsEnabledAtom } from "./contributions";
+import { registryBatchSteps, type RegistryBatch } from "./registryDraft";
 
 const stored = persistedAtom<TaxonomyDocument>({
   key: "registry/taxonomy",
@@ -28,9 +29,19 @@ export const taxonomyDocumentAtom = atom(
     set,
     update:
       | TaxonomyDocument
+      | RegistryBatch
       | ((previous: TaxonomyDocument) => TaxonomyDocument),
   ) => {
     const previous = get(stored);
+    if (typeof update !== "function" && "operations" in update) {
+      const steps = registryBatchSteps(previous, update);
+      const next = steps.at(-1);
+      if (!next) return;
+      if (get(taxonomyContributionsEnabledAtom))
+        assertStructureTaxonomy(get(structuresDocumentAtom), next);
+      set(stored, next);
+      return;
+    }
     const next = normalizeTaxonomyTerms(
       typeof update === "function" ? update(previous) : update,
     );
@@ -42,7 +53,7 @@ export const taxonomyDocumentAtom = atom(
 );
 export const editTaxonomyAtom = atom(
   null,
-  (get, set, document: TaxonomyDocument) => {
+  (get, set, document: TaxonomyDocument | RegistryBatch) => {
     if (!get(editModeAtom))
       throw new Error("Enter edit mode to change the taxonomy.");
     set(taxonomyDocumentAtom, document);

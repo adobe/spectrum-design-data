@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { atom, useAtomValue, useStore } from "jotai";
 import { DialogContainer } from "@react-spectrum/s2";
 import { editModeAtom } from "../../state/view/editMode";
@@ -144,8 +144,11 @@ function AnalysisTokensContent({
       }),
     );
   }, [assessment, source]);
-  const surfaceForRow = (row: ColorOpacityRow) =>
-    surfaces.get(canonicalJson(row.appContext ?? {}))?.surface;
+  const surfaceForRow = useCallback(
+    (row: ColorOpacityRow) =>
+      surfaces.get(canonicalJson(row.appContext ?? {}))?.surface,
+    [surfaces],
+  );
   return (
     <>
       {catalog?.status === "unavailable" && (

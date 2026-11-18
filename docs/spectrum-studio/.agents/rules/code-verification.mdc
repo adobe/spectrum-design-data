@@ -35,8 +35,8 @@ Fix errors caused by the change, then rerun only the failing check. Report
 pre-existing or unconfirmed failures without expanding into unrelated fixes.
 
 The inventory declares scope and cost; unknown checks are not assumed cheap.
-At most two small invocations may overlap (256 MiB/30 seconds each), or one
-explicitly approved heavy invocation may run alone (1 GiB/60 seconds). Each
+At most two small invocations may overlap (512 MiB/30 seconds each), or one
+explicitly approved heavy invocation may run alone (4 GiB/180 seconds). Each
 deadline covers the whole selection. Add `--heavy-approved` and, for broader
 scope, `--scope-approved` only after the corresponding user permission.
 

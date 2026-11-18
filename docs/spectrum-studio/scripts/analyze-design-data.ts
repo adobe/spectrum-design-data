@@ -13,6 +13,10 @@ import {
 import { defaultsAnalysisInput } from "../src/features/design-data/projection";
 import { parseReviewedMappings } from "../src/features/design-data/mappings";
 import {
+  buildIdentityReport,
+  identityReportSummary,
+} from "../src/features/design-data/identityReport";
+import {
   appRoot,
   loadReferenceInput,
   protectReportOutputs,
@@ -29,6 +33,8 @@ const { values } = parseArgs({
     json: { type: "string" },
     markdown: { type: "string" },
     mapping: { type: "string" },
+    // Print the read-only identity report counts; nothing extra is written.
+    identities: { type: "boolean" },
   },
 });
 
@@ -102,4 +108,13 @@ await writeFile(markdownPath, reportMarkdown(report));
 console.log(
   `Wrote ${jsonPath} and ${markdownPath}; ${report.findings.length} output findings${report.architecture ? `; ${report.architecture.findings.length} reviewed architectural findings / ${report.architecture.requirements.length} open requirements` : ""}; inputs ${report.valid ? "valid" : "invalid / partial"}.`,
 );
+if (values.identities && report.colorOpacity?.inventory)
+  for (const line of identityReportSummary(
+    buildIdentityReport(
+      report.colorOpacity.inventory,
+      resolvedApp,
+      resolvedReference,
+    ),
+  ))
+    console.log(line);
 if (!report.valid) process.exitCode = 1;

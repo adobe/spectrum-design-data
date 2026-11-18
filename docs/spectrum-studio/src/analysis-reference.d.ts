@@ -3,3 +3,7 @@ declare module "virtual:analysis-reference" {
   const url: string;
   export default url;
 }
+declare module "virtual:analysis-code-version" {
+  const version: string;
+  export default version;
+}

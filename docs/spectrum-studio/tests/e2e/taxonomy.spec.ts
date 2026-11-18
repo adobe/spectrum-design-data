@@ -2,6 +2,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { gapRegister } from "../../src/features/design-data/gaps";
+import { moveTaxonomyCategory } from "./taxonomyCell";
 import type { AnalysisReport } from "../../src/features/design-data/comparison";
 
 const errors = new WeakMap<Page, string[]>();
@@ -29,7 +30,11 @@ test("Registry order changes shared names/tree, rejects collisions and resets on
   );
   await page.getByRole("button", { name: "Edit", exact: true }).click();
   await page.getByRole("button", { name: /^Change log/ }).click();
-  await page.getByRole("button", { name: "Add term", exact: true }).click();
+  await page
+    .getByRole("article")
+    .first()
+    .getByRole("button", { name: "Add term", exact: true })
+    .click();
   await page
     .getByRole("textbox", { name: "New term name", exact: true })
     .fill("100");
@@ -47,9 +52,7 @@ test("Registry order changes shared names/tree, rejects collisions and resets on
     animations: "disabled",
   });
   for (let index = 0; index < 6; index++)
-    await page
-      .getByRole("button", { name: "Move Scale index earlier", exact: true })
-      .click();
+    await moveTaxonomyCategory(page, "Scale index", "earlier");
   await page.getByRole("button", { name: "Save", exact: true }).click();
   await navigate(page, "Tokens");
   await page.getByRole("searchbox", { name: "Search tokens" }).fill("100-red");

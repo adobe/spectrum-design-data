@@ -19,7 +19,10 @@ import {
   elevationOwnerIds,
 } from "../elevation/output";
 import { resolveElevationDocument } from "../elevation/resolution";
-import type { TaxonomyDocument } from "../taxonomy/model";
+import {
+  blockingProjectionIssues,
+  type TaxonomyDocument,
+} from "../taxonomy/model";
 import type { ModeSet } from "../modes/model";
 import { capabilityOwners } from "../modes/ownership";
 import {
@@ -60,11 +63,8 @@ import { opacityAxes } from "../opacity/generation";
 import { opacityStopsEnabled } from "../color-system/colorScaleType";
 import type { OpacityDocument } from "../opacity/model";
 import { semanticTokenSource } from "./semanticSource";
-import {
-  canonicalPrimitiveProperties,
-  tokenEditModeKeys,
-  tokenIdentity,
-} from "./canonicalIdentity";
+import { tokenEditModeKeys, tokenIdentity } from "./canonicalIdentity";
+import { toDesignDataName } from "../design-data/taxonomyCrosswalk";
 import { canonicalTokenByUuid } from "./canonicalCatalogue";
 
 export interface AliasAuthoringSource {
@@ -440,13 +440,14 @@ export function canonicalBaseAliasRows(
       return result;
     };
     for (const token of effectiveTokens) {
-      if (
-        projectionPolicy === "strict" &&
-        (token.validationError || token.projection?.issues.length)
-      )
-        throw new Error(
-          `Cannot save alias targets for ${token.name}. ${token.validationError ?? token.projection?.issues.join(" ")}`,
-        );
+      if (projectionPolicy === "strict") {
+        // Tier warnings stay visible diagnostics; they do not block saving.
+        const blocking = blockingProjectionIssues(token.projection);
+        if (token.validationError || blocking.length)
+          throw new Error(
+            `Cannot save alias targets for ${token.name}. ${token.validationError ?? blocking.join(" ")}`,
+          );
+      }
       let id = token.id;
       const owned = new Set<string>();
       const own = (parameter: string) => {
@@ -604,15 +605,14 @@ export function canonicalBaseAliasRows(
         token,
         ...(blocked && { outputError: blocked.error }),
         canonicalName: {
-          ...(!token.fontId &&
-            canonicalPrimitiveProperties[token.type] && {
-              property: canonicalPrimitiveProperties[token.type]!,
-            }),
-          ...(token.fontId
-            ? token.projection?.flat
-            : (identity?.name ??
-              token.semantic?.token.name ??
-              token.projection?.flat)),
+          ...(toDesignDataName(
+            (token.fontId
+              ? token.projection?.flat
+              : (identity?.name ??
+                token.semantic?.token.name ??
+                token.projection?.flat)) ?? {},
+            { tokenType: token.fontId ? undefined : token.type },
+          ) as Record<string, string | number>),
           ...Object.fromEntries(
             (JSON.parse(context) as [string, string][]).flatMap(
               ([axisId, modeId]) => {

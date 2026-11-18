@@ -108,6 +108,41 @@ assert.equal(
   "unassessable",
 );
 assert.equal(assess([], [primitive]).concepts[0].verdict, "unassessable");
+// An output issue blocks only the row it names; untargeted issues block nothing.
+{
+  const blue = token("blue", {
+    structuredName: { property: "color", colorFamily: "blue", scaleIndex: 100 },
+  });
+  const app = input([token("a"), blue]);
+  app.outputIssues = [
+    { message: "Fixture row issue.", recordIds: ["a"] },
+    { message: "Fixture untargeted issue." },
+  ];
+  const report = compareDesignData(
+    app,
+    input([primitive, { ...blue, id: "rb", identity: "rb" }], "reference"),
+  );
+  const verdicts = Object.fromEntries(
+    (report.colorOpacity?.concepts ?? []).map((concept) => [
+      concept.rows[0].app?.id,
+      concept,
+    ]),
+  );
+  assert.equal(verdicts.a?.verdict, "unassessable");
+  assert(verdicts.a?.rows[0].issues.includes("Fixture row issue."));
+  assert.equal(verdicts.blue?.verdict, "pass");
+  assert(
+    report.findings.some(
+      (finding) =>
+        finding.app?.id === "a" && finding.classification === "unassessable",
+    ),
+  );
+  assert(
+    !report.findings.some(
+      (finding) => finding.classification === "invalid-input",
+    ),
+  );
+}
 const resolutionFailure = input([token("a")]);
 resolutionFailure.valueResolution = {
   datasetHash: resolutionFailure.source.hash,

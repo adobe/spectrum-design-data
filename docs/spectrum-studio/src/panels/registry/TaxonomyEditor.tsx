@@ -1,882 +1,442 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { useNotify } from "../../components/notifications/notificationContext";
-import { termLabel } from "../../features/taxonomy/termPresentation";
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-  type FormEvent,
-} from "react";
+import { useMemo, useState } from "react";
 import {
   ActionButton,
   AlertDialog,
   Button,
   Checkbox,
-  CheckboxGroup,
   Content,
+  Dialog,
   DialogContainer,
-  Form,
+  Footer,
   Heading,
   InlineAlert,
+  Link,
   PickerItem,
-  ProgressCircle,
   SearchField,
   Text,
-  TextArea,
-  TextField,
-  Tooltip,
-  TooltipTrigger,
 } from "@react-spectrum/s2";
-import { Picker } from "../../components/fields/Picker";
-import {
-  Cell,
-  Column,
-  EditableCell,
-  Row,
-  TableBody,
-  TableHeader,
-  TableView,
-} from "@react-spectrum/s2/TableView";
-import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
 import Delete from "@react-spectrum/s2/icons/Delete";
-import Edit from "@react-spectrum/s2/icons/Edit";
-import Checkmark from "@react-spectrum/s2/icons/Checkmark";
-import Close from "@react-spectrum/s2/icons/Close";
+import OpenIn from "@react-spectrum/s2/icons/OpenIn";
+import { Picker } from "../../components/fields/Picker";
 import {
   TAXONOMY_TOKEN_TYPES,
   TAXONOMY_TOKEN_TYPE_LABELS,
   updateTaxonomy,
-  withTaxonomyTokenTypes,
   type TaxonomyCategory,
   type TaxonomyDocument,
-  type TaxonomyScope,
   type TaxonomyTerm,
 } from "../../features/taxonomy/model";
-import type { ReferencedTaxonomySource } from "../../features/taxonomy/referenceValidation";
-import { useTaxonomyValidation } from "../../features/taxonomy/useTaxonomyValidation";
-import { TOKEN_TIERS } from "../../features/tokens/tier";
-
-const editorStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 24,
-  padding: { default: 24, "@container taxonomy (width < 440px)": 16 },
-  backgroundColor: "layer-1",
-  borderRadius: "xl",
-  minWidth: 0,
-});
-const sectionStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 16,
-  minWidth: 0,
-});
-const headerStyles = style({
-  display: "flex",
-  alignItems: "start",
-  justifyContent: "space-between",
-  gap: 12,
-});
-const headingStyles = style({ font: "title-lg", margin: 0 });
-const subheadingStyles = style({ font: "title-sm", margin: 0 });
-const detailStyles = style({
-  font: "detail",
-  color: "neutral-subdued",
-  margin: 0,
-});
-const pairStyles = style({ display: "grid", gap: 16, alignItems: "start" });
-const fieldStyles = style({ width: "full", minWidth: 0 });
-const actionsStyles = style({
-  display: "flex",
-  alignItems: "center",
-  flexWrap: "wrap",
-  gap: 8,
-});
-const termActionsStyles = style({ display: "flex", gap: 0 });
-const tableStyles = style({ width: "full", height: 240 });
-const emptyTableStyles = style({ width: "full", height: 160 });
-const cellStyles = style({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: 8,
-  minWidth: 0,
-});
-const termValueStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "start",
-  gap: 4,
-  minWidth: 0,
-});
-const applicableScopes = TAXONOMY_TOKEN_TYPES.map((id) => ({
-  id,
-  label: TAXONOMY_TOKEN_TYPE_LABELS[id],
-}));
-const isTokenTypeScope = (scope: TaxonomyScope) =>
-  applicableScopes.some((item) => item.id === scope);
+import {
+  validateReferencedTaxonomy,
+  type ReferencedTaxonomySource,
+} from "../../features/taxonomy/referenceValidation";
+import {
+  registryCategoryBatch,
+  type RegistryBatch,
+} from "../../features/taxonomy/registryDraft";
+import type {
+  RegistryReference,
+  RegistryReferenceIndex,
+} from "../../features/taxonomy/registryReferences";
+import { termLabel } from "../../features/taxonomy/termPresentation";
+import { isShipped } from "../../features/changelog/shipped";
+import { DeprecatedBadge } from "../../components/DeprecatedBadge";
+import {
+  RegistryCategoryFields,
+  RegistryError,
+  RegistryScopeFields,
+} from "./RegistryFields";
+import {
+  registryActions,
+  registryField,
+  registryMuted,
+  registrySection,
+  registrySurface,
+  registryTableMedium,
+} from "./registryStyles";
+import { RegistryTermComposer } from "./RegistryTermComposer";
+import { TaxonomyTermDialog } from "./TaxonomyTermDialog";
 
 export function TaxonomyEditor({
   document,
   category,
   editable,
-  usage,
-  onCommit,
   validationSource,
+  references,
+  onSave,
+  onDelete,
+  onDeleteTerm,
+  onClose,
+  onNavigate,
 }: {
   document: TaxonomyDocument;
   category: TaxonomyCategory;
   editable: boolean;
-  usage: (termId?: string) => number;
-  onCommit: (document: TaxonomyDocument) => void;
   validationSource: ReferencedTaxonomySource;
+  references: RegistryReferenceIndex | null;
+  onSave: (batch: RegistryBatch) => void;
+  onDelete: () => void;
+  onDeleteTerm: (termId: string) => void;
+  onClose: () => void;
+  onNavigate?: (reference: RegistryReference) => void;
 }) {
-  const notify = useNotify();
-  const [committing, startCommit] = useTransition();
-  const validation = useTaxonomyValidation(validationSource, committing);
-  const cancelDraftValidation = validation.cancel;
-  const [draft, setDraft] = useState(category);
+  const [base] = useState(document);
+  const [draft, setDraft] = useState(document);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
-  const [newTerm, setNewTerm] = useState<TaxonomyTerm>();
-  const [rejected, setRejected] = useState<{
-    termId: string;
-    field: "value" | "description";
-    text: string;
-    error: string;
-    source: ReferencedTaxonomySource;
-  }>();
-  const termsRef = useRef<HTMLElement>(null);
-  const newTermId = editable ? newTerm?.id : undefined;
-  useEffect(() => {
-    if (!newTermId) return;
-    const table = termsRef.current?.querySelector<HTMLElement>('[role="grid"]');
-    if (!table) return;
-    let frame = 0;
-    const reveal = () => {
-      frame = 0;
-      const input = table.querySelector<HTMLInputElement>(
-        'input[aria-label="New term name"]',
-      );
-      if (input) {
-        observer.disconnect();
-        input.scrollIntoView({ block: "nearest", inline: "nearest" });
-        return;
-      }
-      table.scrollTo({ top: table.scrollHeight });
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(reveal);
-    };
-    // Follow measured row-group growth, not an estimated end from a single frame.
-    const observer = new ResizeObserver(schedule);
-    for (const group of table.querySelectorAll('[role="rowgroup"]'))
-      observer.observe(group);
-    schedule();
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(frame);
-    };
-  }, [newTermId]);
-  const [pending, setPending] = useState<{
-    document: TaxonomyDocument;
-    message: string;
-    destructive?: boolean;
-    deleteKind?: "term" | "taxonomyCategory";
-    deleteNoun?: string;
-  }>();
-  const terms = document.terms.filter(
-    (term) => term.categoryId === category.id,
-  );
-  const filteredTerms = terms.filter((term) =>
-    `${term.value} ${termLabel(term.value)}`
+  const [adding, setAdding] = useState(false);
+  const [termId, setTermId] = useState<string>();
+  const [deleting, setDeleting] = useState<TaxonomyTerm>();
+  const value = draft.categories.find((item) => item.id === category.id)!;
+  const term = draft.terms.find((item) => item.id === termId);
+  const terms = draft.terms.filter((item) => item.categoryId === category.id);
+  const matchingTerms = terms.filter((item) =>
+    `${termLabel(item.value)} ${item.value} ${item.description}`
       .toLowerCase()
       .includes(search.toLowerCase()),
   );
-  const rows =
-    editable && newTerm ? [...filteredTerms, newTerm] : filteredTerms;
-  function commit(next: TaxonomyDocument) {
-    try {
-      onCommit(next);
-      validation.cancel();
-      setRejected(undefined);
-      setError("");
-      setPending(undefined);
-      return null;
-    } catch (failure) {
-      const message =
-        failure instanceof Error ? failure.message : String(failure);
-      setError(message);
-      return message;
-    }
-  }
-  function saveCategory() {
-    const next = {
-      ...document,
-      categories: document.categories.map((item) =>
-        item.id === category.id ? draft : item,
-      ),
-    };
-    setPending({
-      document: next,
-      message: `${usage()} token and source references may change names or hierarchy. IDs, values and modes will not change.`,
-    });
-  }
-  function termProjectionControl(term: TaxonomyTerm) {
-    return (
-      <Checkbox
-        isDisabled={!editable || !category.includeInProjections}
-        isSelected={
-          category.includeInProjections && term.includeInProjections !== false
-        }
-        aria-label={`Include ${termLabel(term.value)} in names and hierarchy`}
-        onChange={(includeInProjections) =>
-          setPending({
-            document: {
-              ...document,
-              terms: document.terms.map((entry) => {
-                if (entry.id !== term.id) return entry;
-                return { ...entry, includeInProjections };
-              }),
-            },
-            message: `${usage(term.id)} token and source references may change names or hierarchy. IDs, classifications, values and modes will not change.`,
-          })
-        }
-      >
-        Include in names and hierarchy
-      </Checkbox>
-    );
-  }
-  function termDocument(
-    term: TaxonomyTerm,
-    field: "value" | "description",
-    text: string,
-  ): TaxonomyDocument {
-    const value =
-      category.valueType === "number"
-        ? text.trim() === ""
-          ? NaN
-          : Number(text)
-        : text.trim();
-    const updated =
-      field === "value" ? { ...term, value } : { ...term, description: text };
-    return {
-      ...document,
-      terms:
-        newTerm?.id === term.id
-          ? [...document.terms, updated]
-          : document.terms.map((entry) =>
-              entry.id === term.id ? updated : entry,
-            ),
-    };
-  }
-  function basicTermError(field: "value" | "description", text: string) {
-    if (field === "value" && !text.trim()) return "Enter a term.";
-    if (
-      field === "value" &&
-      category.valueType === "number" &&
-      !Number.isFinite(Number(text))
-    )
-      return "Enter a finite number.";
-    return null;
-  }
-  function checkDraft(
-    term: TaxonomyTerm,
-    field: "value" | "description",
-    text: string,
-  ) {
-    setRejected(undefined);
-    if (basicTermError(field, text)) {
-      validation.cancel();
-      return;
-    }
-    validation.request(term.id, field, text, termDocument(term, field, text));
-  }
-  function draftError(
-    term: TaxonomyTerm,
-    field: "value" | "description",
-    text: string,
-  ) {
-    const basic = basicTermError(field, text);
-    if (basic) return basic;
-    if (field === "value") {
-      try {
-        updateTaxonomy(document, termDocument(term, field, text));
-      } catch (failure) {
-        return failure instanceof Error ? failure.message : String(failure);
-      }
-    }
-    return (
-      rejectedTermError(term, field, text) ??
-      validation.error(term.id, field, text)
-    );
-  }
-  function rejectedTermError(
-    term: TaxonomyTerm,
-    field: "value" | "description",
-    text: string,
-  ) {
-    return rejected?.source === validationSource &&
-      rejected.termId === term.id &&
-      rejected.field === field &&
-      rejected.text === text
-      ? rejected.error
-      : null;
-  }
-  const cancelValidation = useCallback(() => {
-    cancelDraftValidation();
-    setRejected(undefined);
-  }, [cancelDraftValidation]);
-  function applyTerm(
-    term: TaxonomyTerm,
-    field: "value" | "description",
-    text: string,
-  ) {
-    let accepted = false;
-    startCommit(() => {
-      const problem =
-        basicTermError(field, text) ?? commit(termDocument(term, field, text));
-      if (problem)
-        setRejected({
-          source: validationSource,
-          termId: term.id,
-          field,
-          text,
-          error: problem,
-        });
-      else {
-        accepted = true;
-        if (newTerm?.id === term.id) {
-          setNewTerm(undefined);
-          setSearch("");
-        }
-      }
-    });
-    return accepted;
-  }
-  function acceptTerm(event: FormEvent<HTMLElement>) {
-    const form = event.target;
-    if (!(form instanceof HTMLFormElement)) return;
-    const input = form.querySelector<HTMLElement>("[data-taxonomy-term-id]");
-    if (!input) return;
-    const term = rows.find(
-      (entry) => entry.id === input.dataset.taxonomyTermId,
-    );
-    const field = input.dataset.taxonomyField;
-    const text = field ? new FormData(form).get(field) : null;
-    event.preventDefault();
-    if (
-      !term ||
-      (field !== "value" && field !== "description") ||
-      typeof text !== "string"
-    ) {
-      event.stopPropagation();
-      setError(
-        "The term editor is no longer available. Open the term again before saving.",
-      );
-      return;
-    }
-    if (!applyTerm(term, field, text)) {
-      // S2 closes EditableCell after onSubmit, so reject before that handler.
-      event.stopPropagation();
-    }
-  }
-  const failureAlert = validation.failure && (
-    <InlineAlert variant="negative">
-      <Heading>Could not check term</Heading>
-      <Content>{validation.failure}</Content>
-      <Button variant="secondary" type="button" onPress={validation.retry}>
-        Retry
-      </Button>
-    </InlineAlert>
+  const source = useMemo(
+    () => ({
+      ...validationSource,
+      previous: draft,
+      snapshot: { ...validationSource.snapshot, taxonomy: draft },
+    }),
+    [validationSource, draft],
   );
+  const linked = [
+    ...new Map(
+      (references?.categories.get(category.id) ?? [])
+        .filter((row) => row.foundation)
+        .map((row) => [row.foundation, row]),
+    ).values(),
+  ];
+  function changeCategory(next: TaxonomyCategory) {
+    setDraft({
+      ...draft,
+      categories: draft.categories.map((item) =>
+        item.id === category.id ? next : item,
+      ),
+    });
+  }
+  function changeTerm(next: TaxonomyTerm) {
+    const updated = updateTaxonomy(draft, {
+      ...draft,
+      terms: draft.terms.some((item) => item.id === next.id)
+        ? draft.terms.map((item) => (item.id === next.id ? next : item))
+        : [...draft.terms, next],
+    });
+    validateReferencedTaxonomy(source, updated);
+    setDraft(updated);
+    setAdding(false);
+    setError("");
+  }
+  /** Shipped terms leave this editor for the rename/deprecate dialog. */
+  function requestDelete(item: TaxonomyTerm) {
+    if (!isShipped("terms", item.id)) setDeleting(item);
+    else if (draft !== base)
+      setError(
+        `Save or cancel your changes before deleting ${termLabel(item.value)}.`,
+      );
+    else onDeleteTerm(item.id);
+  }
   return (
-    <section
-      aria-label="Category editor"
-      className={editorStyles}
-      onSubmitCapture={acceptTerm}
-    >
-      <header className={headerStyles}>
-        <div className={sectionStyles}>
-          <h3 className={headingStyles}>{category.name}</h3>
-          <p className={detailStyles}>
-            {terms.length.toLocaleString()} terms. {usage().toLocaleString()}{" "}
-            token and source references.
-          </p>
-        </div>
-        {editable && (
-          <TooltipTrigger>
-            <ActionButton
-              isQuiet
-              aria-label="Delete category"
-              onPress={() =>
-                setPending({
-                  document: {
-                    ...document,
-                    categories: document.categories.filter(
-                      (item) => item.id !== category.id,
-                    ),
-                    terms: document.terms.filter(
-                      (term) => term.categoryId !== category.id,
-                    ),
-                    order: document.order.filter((id) => id !== category.id),
-                  },
-                  message:
-                    "Delete this category? Referenced categories cannot be deleted until tokens are explicitly remapped.",
-                  destructive: true,
-                })
-              }
-            >
-              <Delete />
-            </ActionButton>
-            <Tooltip>Delete category</Tooltip>
-          </TooltipTrigger>
-        )}
-      </header>
-      {error && (
-        <InlineAlert variant="negative">
-          <Heading>Could not apply change</Heading>
-          <Content>{error}</Content>
-        </InlineAlert>
-      )}
-      <div className={sectionStyles}>
-        <TextField
-          label="Category name"
-          value={draft.name}
-          onChange={(name) => setDraft({ ...draft, name })}
-          isReadOnly={!editable}
-          styles={fieldStyles}
-        />
-        <TextArea
-          label="Category description"
-          value={draft.description}
-          onChange={(description) => setDraft({ ...draft, description })}
-          isReadOnly={!editable}
-          styles={fieldStyles}
-        />
-      </div>
-      <section className={sectionStyles} aria-label="Classification rules">
-        <h4 className={subheadingStyles}>Classification rules</h4>
-        <div className={`${pairStyles} taxonomyFieldPair`}>
-          <Picker
-            label="Value type"
-            selectedKey={draft.valueType}
-            isDisabled={!editable}
-            styles={fieldStyles}
-            onSelectionChange={(key) =>
-              setDraft({
-                ...draft,
-                valueType: key === "number" ? "number" : "string",
-              })
-            }
-          >
-            <PickerItem id="string">Text</PickerItem>
-            <PickerItem id="number">Number</PickerItem>
-          </Picker>
-          <Picker
-            label="Cardinality"
-            selectedKey="one"
-            isDisabled
-            styles={fieldStyles}
-          >
-            <PickerItem id="one">One term</PickerItem>
-          </Picker>
-        </div>
-        <CheckboxGroup
-          label="Applicable token types"
-          orientation="horizontal"
-          isDisabled={!editable}
-          value={draft.scopes.filter(isTokenTypeScope)}
-          onChange={(checked) =>
-            setDraft({
-              ...draft,
-              scopes: withTaxonomyTokenTypes(draft.scopes, checked),
-            })
-          }
-        >
-          {applicableScopes.map((scope) => (
-            <Checkbox key={scope.id} value={scope.id}>
-              {scope.label}
-            </Checkbox>
-          ))}
-        </CheckboxGroup>
-        <Checkbox
-          isDisabled={!editable}
-          isSelected={draft.includeInProjections}
-          onChange={(includeInProjections) =>
-            setDraft({ ...draft, includeInProjections })
-          }
-        >
-          Include in names and hierarchy
-        </Checkbox>
-        <Checkbox
-          isDisabled={!editable}
-          isSelected={draft.required}
-          onChange={(required) => setDraft({ ...draft, required })}
-        >
-          Required classification
-        </Checkbox>
-        <CheckboxGroup
-          label="Applicable token tiers"
-          value={draft.allowedTokenTiers ?? [...TOKEN_TIERS]}
-          isDisabled={!editable}
-          onChange={(tiers) =>
-            setDraft({
-              ...draft,
-              allowedTokenTiers: TOKEN_TIERS.filter((tier) =>
-                tiers.includes(tier),
-              ),
-            })
-          }
-        >
-          <Checkbox value="primitive">Primitive</Checkbox>
-          <Checkbox value="semantic">Semantic</Checkbox>
-          <Checkbox value="component">Component</Checkbox>
-        </CheckboxGroup>
-      </section>
-      {editable && (
-        <div className={actionsStyles}>
-          <Button
-            variant="primary"
-            isDisabled={JSON.stringify(draft) === JSON.stringify(category)}
-            onPress={saveCategory}
-          >
-            Apply category changes
-          </Button>
-        </div>
-      )}
-      <section
-        ref={termsRef}
-        className={sectionStyles}
-        aria-label="Registered terms"
-        aria-busy={validation.pending || undefined}
-        data-registry-commit-pending={committing || undefined}
-      >
-        <div className={`${headerStyles} ${style({ position: "relative" })}`}>
-          <h4 className={subheadingStyles}>Terms</h4>
-          {validation.showPending && (
-            <div className={style({ position: "absolute", right: 0, top: 0 })}>
-              <ProgressCircle
-                size="M"
-                isIndeterminate
-                aria-label="Checking term"
-              />
-            </div>
-          )}
-        </div>
-        {newTerm && validation.termId === newTerm.id && failureAlert}
-        <SearchField
-          label="Search terms"
-          value={search}
-          onChange={setSearch}
-          styles={fieldStyles}
-        />
-        <TableView
-          key={editable ? "editable" : "readonly"}
-          aria-label={`${category.name} terms`}
-          isQuiet
-          density="compact"
-          overflowMode="wrap"
-          styles={rows.length ? tableStyles : emptyTableStyles}
-        >
-          <TableHeader>
-            <Column id="value" isRowHeader minWidth={220}>
-              Term
-            </Column>
-            <Column id="description" minWidth={160}>
-              Description
-            </Column>
-            <Column
-              id="usage"
-              width={64}
-              aria-label="Token and source references"
-            >
-              Uses
-            </Column>
-            {editable && (
-              <Column id="actions" width={80}>
-                Actions
-              </Column>
-            )}
-          </TableHeader>
-          <TableBody
-            items={rows}
-            dependencies={[editable, document, usage, newTerm, validation]}
-            renderEmptyState={() => (
-              <p className={detailStyles}>
-                {search ? "No matching terms." : "No terms registered yet."}
-              </p>
-            )}
-          >
-            {(term) =>
-              newTermId === term.id ? (
-                <Row id={term.id} aria-label="New term">
-                  <Cell>
-                    <Form
-                      onSubmit={(event) => {
-                        event.preventDefault();
-                        applyTerm(term, "value", String(term.value));
-                      }}
-                    >
-                      <TextField
-                        // eslint-disable-next-line jsx-a11y/no-autofocus -- Focus follows the user's Add term action.
-                        autoFocus
-                        name="value"
-                        aria-label="New term name"
-                        value={String(term.value)}
-                        isRequired
-                        isInvalid={
-                          rejectedTermError(term, "value", String(term.value))
-                            ? true
-                            : undefined
-                        }
-                        errorMessage={
-                          rejectedTermError(
-                            term,
-                            "value",
-                            String(term.value),
-                          ) ?? undefined
-                        }
-                        onChange={(value) => {
-                          setNewTerm({ ...term, value });
-                          checkDraft(term, "value", value);
-                        }}
-                        onKeyDown={(event) => {
-                          if (event.key === "Escape") {
-                            event.preventDefault();
-                            cancelValidation();
-                            setNewTerm(undefined);
-                            setError("");
-                          }
-                        }}
-                        validate={(text) => draftError(term, "value", text)}
-                        styles={fieldStyles}
-                      />
-                      <div className={actionsStyles}>
-                        <ActionButton
-                          isQuiet
-                          size="S"
-                          aria-label="Accept term"
-                          type="submit"
-                        >
-                          <Checkmark />
-                        </ActionButton>
-                        <ActionButton
-                          isQuiet
-                          size="S"
-                          aria-label="Cancel new term"
+    <>
+      <Dialog size="XL" isDismissible>
+        <Heading slot="title">{category.name}</Heading>
+        <Content>
+          <div className={registrySection}>
+            {!!linked.length && (
+              <InlineAlert variant="informative">
+                <Heading>Linked category</Heading>
+                <Content>
+                  Terms in this category are used in{" "}
+                  {linked.map((row, index) => {
+                    const foundation = TAXONOMY_TOKEN_TYPES.find(
+                      (id) => id === row.foundation,
+                    );
+                    return (
+                      <span key={row.foundation}>
+                        {index > 0 && ", "}
+                        <Link
+                          href={row.href}
                           onPress={() => {
-                            cancelValidation();
-                            setNewTerm(undefined);
-                            setError("");
+                            onNavigate?.(row);
+                            onClose();
                           }}
                         >
-                          <Close />
-                        </ActionButton>
-                      </div>
-                    </Form>
-                  </Cell>
-                  <Cell>No description</Cell>
-                  <Cell>0</Cell>
-                  <Cell>{null}</Cell>
-                </Row>
-              ) : (
-                <Row id={term.id} aria-label={termLabel(term.value)}>
-                  {(["value", "description"] as const).map((field) =>
-                    editable ? (
-                      <EditableCell
-                        key={field}
-                        textValue={
-                          field === "value"
-                            ? termLabel(term.value)
-                            : String(term[field])
-                        }
-                        onCancel={cancelValidation}
-                        aria-label={`Edit ${termLabel(term.value)} ${field === "value" ? "term" : "description"}`}
-                        onSubmit={(event) => {
-                          event.preventDefault();
-                        }}
-                        renderEditing={() => (
-                          <>
-                            <TextField
-                              // eslint-disable-next-line jsx-a11y/no-autofocus -- S2's documented popover focuses the input after the user opens it.
-                              autoFocus
-                              name={field}
-                              label={field === "value" ? "Term" : "Description"}
-                              data-taxonomy-term-id={term.id}
-                              data-taxonomy-field={field}
-                              defaultValue={String(term[field])}
-                              isRequired={field === "value"}
-                              isInvalid={
-                                rejectedTermError(
-                                  term,
-                                  field,
-                                  validation.text ?? String(term[field]),
-                                )
-                                  ? true
-                                  : undefined
-                              }
-                              errorMessage={
-                                rejectedTermError(
-                                  term,
-                                  field,
-                                  validation.text ?? String(term[field]),
-                                ) ?? undefined
-                              }
-                              onChange={(text) => checkDraft(term, field, text)}
-                              onKeyDown={(event) => {
-                                if (event.key === "Escape") {
-                                  cancelValidation();
-                                  event.continuePropagation();
-                                }
-                              }}
-                              validate={(text) => draftError(term, field, text)}
-                              styles={fieldStyles}
-                            />
-                            {validation.termId === term.id &&
-                              validation.field === field &&
-                              failureAlert}
-                          </>
-                        )}
-                      >
-                        <div className={cellStyles}>
-                          <div className={termValueStyles}>
-                            <span>
-                              {field === "value"
-                                ? termLabel(term.value)
-                                : String(term[field]) || "No description"}
-                            </span>
-                            {field === "value" && termProjectionControl(term)}
-                          </div>
-                          <ActionButton
-                            slot="edit"
-                            aria-label={`Edit ${termLabel(term.value)} ${field === "value" ? "term" : "description"}`}
-                          >
-                            <Edit />
-                          </ActionButton>
-                        </div>
-                      </EditableCell>
-                    ) : (
-                      <Cell key={field}>
-                        <div className={termValueStyles}>
-                          <span>
-                            {field === "value"
-                              ? termLabel(term.value)
-                              : String(term[field]) || "No description"}
-                          </span>
-                          {field === "value" && termProjectionControl(term)}
-                        </div>
-                      </Cell>
-                    ),
-                  )}
-                  <Cell>{usage(term.id).toLocaleString()}</Cell>
+                          Foundations &gt;{" "}
+                          {foundation
+                            ? TAXONOMY_TOKEN_TYPE_LABELS[foundation]
+                            : row.foundation}
+                        </Link>
+                      </span>
+                    );
+                  })}
+                  .
+                </Content>
+              </InlineAlert>
+            )}
+            <RegistryError
+              message={
+                error ||
+                (!references ? "Reference information is unavailable." : "")
+              }
+            />
+            <div className="registryCategoryDialog">
+              <div className={registrySection}>
+                <section
+                  className={registrySurface}
+                  aria-label="Category metadata"
+                >
+                  <h3>Metadata</h3>
+                  <RegistryCategoryFields
+                    category={value}
+                    editable={editable}
+                    onChange={changeCategory}
+                  />
+                  <div className="registryFieldPair">
+                    <Picker
+                      label="Term value type"
+                      labelPosition="top"
+                      selectedKey={value.valueType}
+                      isDisabled={!editable}
+                      onSelectionChange={(key) =>
+                        changeCategory({
+                          ...value,
+                          valueType: key === "number" ? "number" : "string",
+                        })
+                      }
+                    >
+                      <PickerItem id="string">Text</PickerItem>
+                      <PickerItem id="number">Number</PickerItem>
+                    </Picker>
+                    <Picker
+                      label="Cardinality"
+                      labelPosition="top"
+                      selectedKey={value.cardinality}
+                      isDisabled
+                    >
+                      <PickerItem id="one">One term</PickerItem>
+                      <PickerItem id="ordered">Ordered terms</PickerItem>
+                    </Picker>
+                  </div>
+                  <Checkbox
+                    isSelected={value.required}
+                    isDisabled={!editable}
+                    onChange={(required) =>
+                      changeCategory({ ...value, required })
+                    }
+                  >
+                    Required classification
+                  </Checkbox>
+                  <Checkbox
+                    isSelected={value.includeInProjections}
+                    isDisabled={!editable}
+                    onChange={(includeInProjections) =>
+                      changeCategory({ ...value, includeInProjections })
+                    }
+                  >
+                    Include in names and hierarchy
+                  </Checkbox>
+                </section>
+                <section
+                  className={registrySurface}
+                  aria-label="Category scope"
+                >
+                  <h3>Scope</h3>
+                  <RegistryScopeFields
+                    category={value}
+                    editable={editable}
+                    onChange={changeCategory}
+                  />
+                </section>
+              </div>
+              <section
+                className={registrySurface}
+                aria-label="Registered terms"
+              >
+                <div className="registryCardHeader">
+                  <h3>Terms</h3>
                   {editable && (
-                    <Cell>
-                      <div className={termActionsStyles}>
-                        <TooltipTrigger>
-                          <ActionButton
-                            isQuiet
-                            size="S"
-                            aria-label={`Delete ${termLabel(term.value)}`}
-                            onPress={() =>
-                              setPending({
-                                document: {
-                                  ...document,
-                                  terms: document.terms.filter(
-                                    (item) => item.id !== term.id,
-                                  ),
-                                },
-                                message: `Delete ${termLabel(term.value)}? Referenced terms require explicit remapping first.`,
-                                destructive: true,
-                              })
-                            }
-                          >
-                            <Delete />
-                          </ActionButton>
-                          <Tooltip>Delete term</Tooltip>
-                        </TooltipTrigger>
-                      </div>
-                    </Cell>
+                    <ActionButton
+                      isDisabled={adding}
+                      onPress={() => setAdding(true)}
+                    >
+                      <Add />
+                      <Text>Add term</Text>
+                    </ActionButton>
                   )}
-                </Row>
-              )
-            }
-          </TableBody>
-        </TableView>
-        {editable && (
-          <div className={actionsStyles}>
-            <ActionButton
-              isDisabled={!!newTerm}
-              onPress={() => {
-                cancelValidation();
-                setError("");
-                setNewTerm({
-                  id: crypto.randomUUID(),
-                  categoryId: category.id,
-                  value: "",
-                  description: "",
-                });
-              }}
-            >
-              <Add />
-              <Text>Add term</Text>
-            </ActionButton>
+                </div>
+                <SearchField
+                  label="Search terms"
+                  value={search}
+                  onChange={setSearch}
+                  styles={registryField}
+                />
+                <div className="registryTableScroll">
+                  <table
+                    className={`registryTable ${registryTableMedium}`}
+                    aria-label={`${category.name} term details`}
+                  >
+                    <thead>
+                      <tr>
+                        <th scope="col">Term</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Uses</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {matchingTerms.map((item) => (
+                        <tr key={item.id}>
+                          <th scope="row">
+                            {termLabel(item.value)}{" "}
+                            <DeprecatedBadge lifecycle={item.lifecycle} />
+                          </th>
+                          <td>{item.description || "No description"}</td>
+                          <td>
+                            {references
+                              ? (
+                                  references.terms.get(item.id)?.length ?? 0
+                                ).toLocaleString()
+                              : "Unavailable"}
+                          </td>
+                          <td>
+                            <div className={registryActions}>
+                              <ActionButton
+                                isQuiet
+                                size="S"
+                                aria-label={`Open ${termLabel(item.value)} term`}
+                                onPress={() => setTermId(item.id)}
+                              >
+                                <OpenIn />
+                              </ActionButton>
+                              {editable && (
+                                <ActionButton
+                                  isQuiet
+                                  size="S"
+                                  aria-label={`Delete ${termLabel(item.value)} term`}
+                                  onPress={() => requestDelete(item)}
+                                >
+                                  <Delete />
+                                </ActionButton>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {adding && (
+                  <RegistryTermComposer
+                    document={draft}
+                    category={value}
+                    source={source}
+                    onAdd={changeTerm}
+                    onCancel={() => setAdding(false)}
+                  />
+                )}
+                {!terms.length && (
+                  <p className={registryMuted}>No terms registered yet.</p>
+                )}
+                {!!terms.length && !matchingTerms.length && (
+                  <p className={registryMuted}>No matching terms.</p>
+                )}
+              </section>
+            </div>
           </div>
-        )}
-      </section>
-      <DialogContainer onDismiss={() => setPending(undefined)}>
-        {pending && (
-          <AlertDialog
-            title={
-              pending.destructive
-                ? `Delete ${pending.deleteKind === "term" ? "term" : "category"}`
-                : "Review taxonomy change"
+        </Content>
+        <Footer>
+          <div className={`registryDialogFooter ${registryActions}`}>
+            {editable && (
+              <Button variant="negative" onPress={onDelete}>
+                Delete category
+              </Button>
+            )}
+            <div className={registryActions}>
+              <Button variant="secondary" onPress={onClose}>
+                {editable ? "Cancel" : "Close"}
+              </Button>
+              {editable && (
+                <Button
+                  variant="accent"
+                  isDisabled={adding}
+                  onPress={() => {
+                    try {
+                      onSave(registryCategoryBatch(base, draft, category.id));
+                      onClose();
+                    } catch (failure) {
+                      setError(
+                        failure instanceof Error
+                          ? failure.message
+                          : String(failure),
+                      );
+                    }
+                  }}
+                >
+                  Save
+                </Button>
+              )}
+            </div>
+          </div>
+        </Footer>
+      </Dialog>
+      <DialogContainer onDismiss={() => setTermId(undefined)}>
+        {term && (
+          <TaxonomyTermDialog
+            document={draft}
+            category={value}
+            term={term}
+            source={source}
+            references={
+              references ? (references.terms.get(term.id) ?? []) : null
             }
-            variant={pending.destructive ? "destructive" : "confirmation"}
-            primaryActionLabel={pending.destructive ? "Delete" : "Apply change"}
+            editable={editable}
+            onSave={changeTerm}
+            onDelete={() => {
+              setTermId(undefined);
+              requestDelete(term);
+            }}
+            onClose={() => setTermId(undefined)}
+            onNavigate={(row) => {
+              onNavigate?.(row);
+              onClose();
+            }}
+          />
+        )}
+      </DialogContainer>
+      <DialogContainer onDismiss={() => setDeleting(undefined)}>
+        {deleting && (
+          <AlertDialog
+            title="Delete term"
+            variant="destructive"
+            primaryActionLabel="Delete"
             cancelLabel="Cancel"
             onPrimaryAction={() => {
-              if (pending.destructive) {
-                notify.remove({
-                  kind: pending.deleteKind ?? "term",
-                  noun: pending.deleteNoun,
-                  local: true,
-                  confirmed: true,
-                  run: () => {
-                    const failure = commit(pending.document);
-                    return failure
-                      ? { ok: false as const, error: failure }
-                      : document;
-                  },
-                  undo: (previous) => {
-                    if ("ok" in previous) return;
-                    const failure = commit(previous);
-                    if (failure) throw new Error(failure);
-                  },
+              try {
+                const next = updateTaxonomy(draft, {
+                  ...draft,
+                  terms: draft.terms.filter((item) => item.id !== deleting.id),
                 });
-              } else {
-                const addedTerm = pending.document.terms.some(
-                  (term) =>
-                    !document.terms.some((current) => current.id === term.id),
+                validateReferencedTaxonomy(source, next);
+                setDraft(next);
+                setError("");
+              } catch (failure) {
+                setError(
+                  failure instanceof Error ? failure.message : String(failure),
                 );
-                const run = () => {
-                  const failure = commit(pending.document);
-                  return failure
-                    ? { ok: false as const, error: failure }
-                    : true;
-                };
-                if (addedTerm) notify.added("term", run);
-                else notify.edit(run);
               }
+              setDeleting(undefined);
             }}
           >
-            {pending.message}
+            Delete {termLabel(deleting.value)}? Referenced terms require
+            explicit remapping first.
           </AlertDialog>
         )}
       </DialogContainer>
-    </section>
+    </>
   );
 }

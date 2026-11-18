@@ -7,10 +7,7 @@ import {
 } from "../src/features/edit-session/state";
 import { upgradeStylesSnapshot } from "../src/features/edit-session/stylesUpgrade";
 import { EMPTY_STYLES, type StyleRecipe } from "../src/features/styles/model";
-import {
-  registerStyleName,
-  STYLE_CATEGORY_ID,
-} from "../src/features/styles/vocabulary";
+import { registerStyleName } from "../src/features/styles/vocabulary";
 import {
   buildStylesForSource,
   styleContexts,
@@ -50,26 +47,13 @@ assertStoredSnapshot(saved);
 assert.deepEqual(saved.styles, EMPTY_STYLES);
 const legacy = structuredClone(saved);
 delete legacy.styles;
-legacy.taxonomy!.categories = legacy
-  .taxonomy!.categories.filter(
-    (category) =>
-      category.id !== STYLE_CATEGORY_ID &&
-      category.scopes.some((scope) => scope !== "styles"),
-  )
-  .map((category) => ({
-    ...category,
-    scopes: category.scopes.filter((scope) => scope !== "styles"),
-  }));
-legacy.taxonomy!.order = legacy.taxonomy!.order.filter((id) =>
-  legacy.taxonomy!.categories.some((category) => category.id === id),
-);
-legacy.taxonomy!.terms = legacy.taxonomy!.terms.filter((term) =>
-  legacy.taxonomy!.categories.some(
-    (category) => category.id === term.categoryId,
-  ),
-);
 const upgraded = upgradeStylesSnapshot(legacy);
 assert.deepEqual(upgraded.styles, EMPTY_STYLES);
+assert.deepEqual(
+  upgraded.taxonomy,
+  saved.taxonomy,
+  "Adding Styles leaves the authored Registry unchanged.",
+);
 assertStoredSnapshot(upgraded);
 assert.deepEqual(upgradeStylesSnapshot(upgraded), upgraded);
 const named = registerStyleName(saved.taxonomy!, "integration-accent");

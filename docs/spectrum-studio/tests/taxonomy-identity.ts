@@ -24,6 +24,10 @@ import {
 import { taxonomyChangeFields } from "../src/features/taxonomy/changes";
 import { colorSystemDocumentAtom } from "../src/features/color-system/state";
 import { browserTokensAtom } from "../src/features/tokens/browserState";
+import {
+  registryCategoryBatch,
+  reorderRegistryCategories,
+} from "../src/features/taxonomy/registryDraft";
 
 const baseline = designSystemDefaults.system.taxonomy;
 assertTaxonomy(baseline);
@@ -224,6 +228,126 @@ assert.deepEqual(
   baseline,
   "A fresh page session restores checked-in identities.",
 );
+const batchStore = createStore();
+batchStore.set(enterEditModeAtom);
+const initial = batchStore.get(taxonomyDocumentAtom);
+const first = {
+  id: crypto.randomUUID(),
+  categoryId: custom.id,
+  value: "registry draft first",
+  description: "",
+};
+batchStore.set(editReferencedTaxonomyAtom, {
+  ...initial,
+  categories: [...initial.categories, custom],
+  order: [...initial.order, custom.id],
+  terms: [...initial.terms, first],
+});
+batchStore.set(saveEditAtom);
+batchStore.set(cancelEditAtom);
+const batchBase = batchStore.get(taxonomyDocumentAtom);
+const replacement = {
+  ...first,
+  id: crypto.randomUUID(),
+  value: "registry draft second",
+};
+const batchDraft = {
+  ...batchBase,
+  categories: batchBase.categories.map((row) =>
+    row.id === custom.id ? { ...row, description: "Staged metadata" } : row,
+  ),
+  terms: [...batchBase.terms.filter((row) => row.id !== first.id), replacement],
+};
+const batch = registryCategoryBatch(batchBase, batchDraft, custom.id);
+assert.throws(
+  () => batchStore.set(editReferencedTaxonomyAtom, batch),
+  /edit mode/,
+);
+batchStore.set(enterEditModeAtom);
+let publications = 0;
+const unsubscribe = batchStore.sub(taxonomyDocumentAtom, () => publications++);
+assert.throws(
+  () =>
+    batchStore.set(editReferencedTaxonomyAtom, {
+      ...batch,
+      operations: [...batch.operations, { kind: "remove-term", id: term.id }],
+    }),
+  /remap|Unresolved|registered|unknown/i,
+);
+assert.equal(batchStore.get(taxonomyDocumentAtom), batchBase);
+assert.equal(
+  publications,
+  0,
+  "A rejected late operation cannot publish earlier operations.",
+);
+batchStore.set(editReferencedTaxonomyAtom, batch);
+assert.equal(publications, 1, "The complete batch publishes exactly once.");
+unsubscribe();
+assert.deepEqual(batchStore.get(taxonomyDocumentAtom), batchDraft);
+const batchFields = taxonomyChangeFields(
+  batchBase,
+  batchStore.get(taxonomyDocumentAtom),
+);
+for (const key of [
+  `Category ${custom.id}`,
+  `Term ${first.id}`,
+  `Term ${replacement.id}`,
+])
+  assert(
+    batchFields.some((field) => field.key === key),
+    `${key} remains visible in Changes.`,
+  );
+batchStore.set(cancelEditAtom);
+assert.deepEqual(
+  batchStore.get(taxonomyDocumentAtom),
+  batchBase,
+  "Overall Cancel discards the entire category batch.",
+);
+batchStore.set(enterEditModeAtom);
+const resumedBase = batchStore.get(taxonomyDocumentAtom);
+batchStore.set(
+  editReferencedTaxonomyAtom,
+  registryCategoryBatch(resumedBase, batchDraft, custom.id),
+);
+batchStore.set(saveEditAtom);
+assert.deepEqual(batchStore.get(taxonomyDocumentAtom), batchDraft);
+batchStore.set(enterEditModeAtom);
+const orderBase = batchStore.get(taxonomyDocumentAtom);
+const indexCategory = orderBase.categories.find(
+  (row) => row.key === "scaleIndex",
+)!;
+const beforeOrderTokens = batchStore.get(browserTokensAtom);
+batchStore.set(editReferencedTaxonomyAtom, {
+  ...orderBase,
+  order: reorderRegistryCategories(
+    orderBase.order,
+    category.id,
+    indexCategory.id,
+    "after",
+  ),
+});
+const afterOrderTokens = batchStore.get(browserTokensAtom);
+assert(
+  afterOrderTokens.some(
+    (token, index) => token.name !== beforeOrderTokens[index].name,
+  ),
+);
+for (const original of beforeOrderTokens) {
+  const updated = afterOrderTokens.find((token) => token.id === original.id)!;
+  assert(updated, "Reorder retains every token identity.");
+  assert.deepEqual(updated.value, original.value);
+  assert.deepEqual(
+    updated.projection?.classification,
+    original.projection?.classification,
+  );
+}
+assert(
+  taxonomyChangeFields(orderBase, batchStore.get(taxonomyDocumentAtom)).some(
+    (field) => field.key === "Global category order",
+  ),
+);
+batchStore.set(cancelEditAtom);
+assert.deepEqual(batchStore.get(taxonomyDocumentAtom), batchDraft);
 console.log(
-  "Registry UUID identity, immutable mapping, description tracking, name propagation and page-session lifecycle passed.",
+  "Registry UUID identity, atomic batches, rejected edits, Changes, reorder propagation and Save/Cancel passed.",
 );

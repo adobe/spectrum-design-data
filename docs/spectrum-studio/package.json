@@ -137,6 +137,7 @@
     "test:design-data-gaps": "tsx tests/design-data-gaps.ts",
     "check:design-data-gaps": "tsx scripts/check-design-data-gaps.ts --check",
     "gaps:docs": "tsx scripts/check-design-data-gaps.ts --write",
+    "crosswalk:handoff": "tsx scripts/crosswalk-handoff.ts",
     "test:modes": "tsx tests/modes.ts && tsx tests/modes-enhancements.ts",
     "test:mode-combinations": "tsx tests/mode-combinations.ts && tsx tests/platform-scale-persistence.ts && tsx tests/scale-keys.ts",
     "test:mode-integrity": "tsx tests/mode-integrity.ts && pnpm test:foundation-parameters",

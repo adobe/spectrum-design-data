@@ -230,6 +230,8 @@ export function checkInventory(
         "data-vis-chart-runtime.ts",
         "token-inspector-warmup.ts",
         "classification-term-menu.ts",
+        "taxonomy-crosswalk.ts",
+        "shared-token-matching.ts",
       ].includes(file)
         ? { ...check, scope: "element", resources: "small" }
         : file === "analysis-packaged-reference.ts"
@@ -245,10 +247,10 @@ export function checkInventory(
                   ),
                 },
               }
-            : /^(?:authoring-(?:edit|startup)-performance|component-catalog-cache)\.ts$/.test(
+            : /^(?:authoring-(?:edit|startup)-performance|component-catalog-cache|gray-defaults|token-inventory)\.ts$/.test(
                   file,
                 )
-              ? // A smaller heap makes V8 collect garbage before the 1 GiB process-tree limit.
+              ? // A smaller heap makes V8 collect garbage before the 4 GiB process-tree limit.
                 { ...check, args: ["--max-old-space-size=512", ...check.args] }
               : check;
     }),

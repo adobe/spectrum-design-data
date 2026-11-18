@@ -161,6 +161,7 @@ const project = () =>
       source.evidence,
       source.scope,
       source.context,
+      source.tier,
     ),
   );
 const canonical = project();

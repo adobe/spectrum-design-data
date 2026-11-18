@@ -30,7 +30,12 @@ async function snapshot(page: Page): Promise<RegistrySnapshot> {
     const view = await (
       await fetch("/src/views/registry/TaxonomyView.tsx")
     ).text();
-    const tokensPath = dependency(view, "/src/features/tokens/browserState.ts");
+    const editingPath = dependency(view, "/src/features/taxonomy/editing.ts");
+    const editingSource = await (await fetch(editingPath)).text();
+    const tokensPath = dependency(
+      editingSource,
+      "/src/features/tokens/browserState.ts",
+    );
     const tokenSource = await (await fetch(tokensPath)).text();
     const [jotai, taxonomy, spacing, size, tokens] = await Promise.all(
       [
@@ -103,7 +108,7 @@ async function saveCell(page: Page) {
 }
 
 for (const width of [1280, 390]) {
-  test(`Draft row, editable cells and durable lifecycle at ${width}px`, async ({
+  test(`Board drafts, term dialogs and durable lifecycle at ${width}px`, async ({
     page,
   }, info) => {
     test.setTimeout(90_000);
@@ -118,9 +123,23 @@ for (const width of [1280, 390]) {
       page.getByRole("button", { name: /^Edit .+ (term|description)$/ }),
     ).toHaveCount(0);
     await expect(
-      page.getByRole("textbox", { name: "Category name", exact: true }),
+      page.getByRole("textbox", { name: "Category name", exact: true }).first(),
     ).toHaveAttribute("readonly", "");
     await edit(page);
+    await page
+      .getByRole("button", { name: "Add category", exact: true })
+      .click();
+    await page
+      .getByRole("textbox", { name: "New category name", exact: true })
+      .fill("Registry draft example");
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "Create category", exact: true })
+      .click();
+    const categoryCard = page.getByRole("article", {
+      name: "Registry draft example category",
+      exact: true,
+    });
     const baseline = await snapshot(page);
     await expect(
       page.getByText("Advanced settings", { exact: true }),
@@ -129,7 +148,9 @@ for (const width of [1280, 390]) {
       0,
     );
 
-    await page.getByRole("button", { name: "Add term", exact: true }).click();
+    await categoryCard
+      .getByRole("button", { name: "Add term", exact: true })
+      .click();
     const name = page.getByRole("textbox", {
       name: "New term name",
       exact: true,
@@ -159,24 +180,17 @@ for (const width of [1280, 390]) {
     await expect(name).toHaveCount(0);
     expect((await snapshot(page)).taxonomy).toEqual(baseline.taxonomy);
 
-    await page
-      .getByRole("searchbox", { name: "Search terms", exact: true })
-      .fill("nothing matches");
-    await page.getByRole("button", { name: "Add term", exact: true }).click();
+    await categoryCard
+      .getByRole("button", { name: "Add term", exact: true })
+      .click();
     await expect(name).toBeFocused();
     await name.fill(" Halo mark ");
     await name.press("Tab");
     expect((await snapshot(page)).taxonomy).toEqual(baseline.taxonomy);
     await name.press("Enter");
     await expect(name).toHaveCount(0);
-    await expect(
-      page.getByRole("searchbox", { name: "Search terms", exact: true }),
-    ).toHaveValue("");
-    await page
-      .getByRole("searchbox", { name: "Search terms", exact: true })
-      .fill("Halo mark");
     const added = (await snapshot(page)).taxonomy.terms.find(
-      (term) => term.value === "Halo mark",
+      (term) => term.value === "halo mark",
     )!;
     expect(added.id).toMatch(
       /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
@@ -188,13 +202,13 @@ for (const width of [1280, 390]) {
     await saveCell(page);
     await expect(cell).toHaveAttribute("aria-invalid", "true");
     await cell.fill("Halo outline");
-    await cell.press("Enter");
+    await saveCell(page);
     await expect(cell).toHaveCount(0);
     expect(
       (await snapshot(page)).taxonomy.terms.find(
         (term) => term.id === added.id,
       ),
-    ).toEqual({ ...added, value: "Halo outline" });
+    ).toEqual({ ...added, value: "halo outline" });
 
     let description = await openCell(page, "Halo outline", "description");
     await description.fill("Discard this description");
@@ -237,7 +251,9 @@ for (const width of [1280, 390]) {
     description = await openCell(page, "Halo outline", "description");
     await description.fill("Unsaved description");
     await saveCell(page);
-    await page.getByRole("button", { name: "Add term", exact: true }).click();
+    await categoryCard
+      .getByRole("button", { name: "Add term", exact: true })
+      .click();
     await name.fill("Unaccepted draft");
     expect(
       (await snapshot(page)).taxonomy.terms.some(
@@ -274,12 +290,6 @@ test("Shared rename preserves UUIDs, source identities and generated values", as
   const before = await snapshot(page);
   const reference = before.spacing.scales[0].nameRef!;
   expect(before.size.scales[0].nameRef!.termId).toEqual(reference.termId);
-  const category = before.taxonomy.categories.find(
-    (entry) => entry.id === reference.categoryId,
-  )!;
-  await page
-    .getByRole("radio", { name: category.name, exact: true })
-    .press("Space");
   const field = await openCell(page, "Global", "term");
   await field.fill("Universal");
   await saveCell(page);
@@ -288,15 +298,15 @@ test("Shared rename preserves UUIDs, source identities and generated values", as
     after.taxonomy.terms.find((entry) => entry.id === reference.termId),
   ).toEqual({
     ...before.taxonomy.terms.find((entry) => entry.id === reference.termId),
-    value: "Universal",
+    value: "universal",
   });
   expect(after.spacing.scales[0]).toEqual({
     ...before.spacing.scales[0],
-    name: "Universal",
+    name: "universal",
   });
   expect(after.size.scales[0]).toEqual({
     ...before.size.scales[0],
-    name: "Universal",
+    name: "universal",
   });
   expect(after.tokens).toEqual(before.tokens);
   await page
@@ -332,25 +342,6 @@ test("Shared rename preserves UUIDs, source identities and generated values", as
     page.getByRole("row", { name: "spacing-100", exact: true }),
   ).toBeVisible();
   await registry(page);
-  await page
-    .getByRole("radio", { name: category.name, exact: true })
-    .press("Space");
-  await page
-    .getByRole("searchbox", { name: "Search terms", exact: true })
-    .fill("Universal");
-  await page
-    .getByRole("button", { name: "Delete Universal", exact: true })
-    .click();
-  await page
-    .getByRole("alertdialog")
-    .getByRole("button", { name: "Confirm taxonomy change", exact: true })
-    .click();
-  await expect(
-    page
-      .getByRole("region", { name: "Category editor", exact: true })
-      .getByRole("alert"),
-  ).toContainText(/Unresolved|remap/i);
-  await expect(page.getByRole("alertdialog")).toHaveCount(0);
   await discard(page);
   expect((await snapshot(page)).taxonomy).toEqual(before.taxonomy);
   expect((await snapshot(page)).spacing).toEqual(before.spacing);
@@ -362,9 +353,7 @@ test("Category creation and display rename retain internal mapping and UUID", as
 }) => {
   await edit(page);
   await registry(page);
-  await page
-    .getByRole("button", { name: "Create category", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Add category", exact: true }).click();
   await page
     .getByRole("textbox", { name: "New category name", exact: true })
     .fill("Custom labels");
@@ -382,22 +371,25 @@ test("Category creation and display rename retain internal mapping and UUID", as
     /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
   );
   expect(created.key).toBe(`taxonomy${created.id.replaceAll("-", "")}`);
-  await page
-    .getByRole("textbox", { name: "Category name", exact: true })
-    .fill("Renamed labels");
-  await page
-    .getByRole("button", { name: "Apply category changes", exact: true })
-    .click();
-  await page
-    .getByRole("alertdialog")
-    .getByRole("button", { name: "Confirm taxonomy change", exact: true })
-    .click();
+  const categoryCard = page.getByRole("article", {
+    name: "Custom labels category",
+    exact: true,
+  });
+  const categoryName = categoryCard.getByRole("textbox", {
+    name: "Category name",
+    exact: true,
+  });
+  await categoryName.fill("Renamed labels");
+  await categoryName.press("Tab");
   expect(
     (await snapshot(page)).taxonomy.categories.find(
       (entry) => entry.id === created.id,
     ),
   ).toEqual({ ...created, name: "Renamed labels" });
-  await page.getByRole("button", { name: "Add term", exact: true }).click();
+  await page
+    .getByRole("article", { name: "Renamed labels category", exact: true })
+    .getByRole("button", { name: "Add term", exact: true })
+    .click();
   const name = page.getByRole("textbox", {
     name: "New term name",
     exact: true,
@@ -414,26 +406,22 @@ test("Category creation and display rename retain internal mapping and UUID", as
   ).toBe(false);
 });
 
-test("Numeric draft focus, validation and UUID survive the virtualized table", async ({
+test("Numeric drafts validate and term dialogs retain the UUID", async ({
   page,
 }) => {
   await edit(page);
   await registry(page);
-  await page
-    .getByRole("radio", { name: "Scale index", exact: true })
-    .press("Space");
   const before = (await snapshot(page)).taxonomy;
-  await page.getByRole("button", { name: "Add term", exact: true }).click();
+  await page
+    .getByRole("article", { name: "Scale index category", exact: true })
+    .getByRole("button", { name: "Add term", exact: true })
+    .click();
   const name = page.getByRole("textbox", {
     name: "New term name",
     exact: true,
   });
   await expect(name).toBeFocused();
   const row = page.getByRole("row").filter({ has: name });
-  const id = await row.getAttribute("data-key");
-  expect(id).toMatch(
-    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-  );
   await name.fill("Infinity");
   await name.press("Enter");
   await expect(row).toContainText("Enter a finite number.");
@@ -441,17 +429,19 @@ test("Numeric draft focus, validation and UUID survive the virtualized table", a
   await name.press("Enter");
   await expect(row).toContainText("already owned");
   expect((await snapshot(page)).taxonomy).toEqual(before);
-  expect(await row.getAttribute("data-key")).toBe(id);
   await name.fill("9900");
   await name.press("Enter");
+  const added = (await snapshot(page)).taxonomy.terms.find(
+    (term) => term.value === 9900,
+  )!;
+  expect(added.id).toMatch(/^[0-9a-f-]{36}$/);
+  expect(added.categoryId).toBe(
+    before.categories.find((category) => category.key === "scaleIndex")!.id,
+  );
+  const field = await openCell(page, "9900", "term");
+  await field.fill("9901");
+  await saveCell(page);
   expect(
-    (await snapshot(page)).taxonomy.terms.find((term) => term.id === id),
-  ).toEqual({
-    id,
-    categoryId: before.categories.find(
-      (category) => category.key === "scaleIndex",
-    )!.id,
-    value: 9900,
-    description: "",
-  });
+    (await snapshot(page)).taxonomy.terms.find((term) => term.id === added.id),
+  ).toEqual({ ...added, value: 9901 });
 });

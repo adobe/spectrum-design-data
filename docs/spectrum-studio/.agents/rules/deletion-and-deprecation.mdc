@@ -1,0 +1,125 @@
+---
+description: Deleting, renaming and deprecating design data in spectrum-studio (shipped vs unshipped items, lifecycle data, Remove all deprecations)
+globs: src/**/*.tsx, src/**/*.ts
+alwaysApply: false
+---
+
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+
+# Deletion and deprecation
+
+Deleting something design-data already shipped breaks consumers. Deleting
+something made in this session does not. The full proposal is
+`docs/rfcs/deletion-and-deprecation.md` (LTAX-024).
+
+## The rule
+
+| Item | What Delete does |
+| --- | --- |
+| Not shipped (made in this session) | Deletes. Toast "{Item} deleted" with Undo |
+| Shipped | Opens "Delete {kind}" with Rename instead, Deprecate and replace, or Deprecate. Never deletes |
+| Shipped and already deprecated | Explains that only Remove all deprecations can remove it |
+
+"Shipped" means `isShipped(collection, id)` (`src/features/changelog/shipped.ts`):
+the ID is in the shipped change snapshot. Do not invent another test.
+
+## Every new delete
+
+1. Classify the notification kind in `LIFECYCLE_KINDS`
+   (`src/features/notifications/lifecycleKinds.ts`):
+   - `lifecycle`: reaches design-data output and follows this rule.
+   - `{ planned: reason }`: reaches output but is not migrated yet. Add a
+     DEBT-046 note if you add one.
+   - `{ exempt: reason }`: Studio-only data or a small part of an item.
+   New kinds that reach output must be `lifecycle`.
+2. For `lifecycle` kinds, pass a `lifecycle` descriptor to `notify.remove`.
+   The Registry term delete (`TaxonomyView.remove`) is the reference:
+
+   ```tsx
+   notify.remove({
+     kind: "term",
+     run: (store) => /* delete */,
+     undo: (receipt) => /* restore */,
+     lifecycle: {
+       shipped: isShipped("terms", term.id),
+       deprecated: isDeprecated(term),
+       rename: {
+         current: term.value,
+         run: (text) => change((doc) => renameTaxonomyTerm(doc, term.id, text)),
+       },
+       candidates: termReplacementCandidates(taxonomy, term.id),
+       deprecate: (replacedBy) =>
+         change((doc) => deprecateTaxonomyTerm(doc, term.id, replacedBy)),
+       undoDeprecate: (receipt) => commit(receipt.before, receipt.after),
+     },
+   });
+   ```
+
+   Data Studio always authors (for example aliases) passes
+   `lifecycle: { shipped: false }` with a comment saying why.
+3. Do not add your own delete dialog. `LifecycleDialog` is shown by
+   `NotificationProvider`.
+
+## Paths in the dialog
+
+- **Rename instead**: only for simple items whose value can change in place
+  (a Registry term, or a color scale whose name is a Registry term). It keeps
+  every ID, so mappings survive. Omit `rename` for complex items such as
+  categories, or scales without a registered name.
+- **Deprecate and replace**: `candidates` are active items of the same kind.
+  Tokens must match token type. Scales must match step for step (see
+  `colorScaleReplacementCandidates`). Omit candidates when none can be 1:1.
+- **Deprecate**: always offered when `deprecate` is set.
+
+## Lifecycle data
+
+- Use `ItemLifecycle` and helpers from `src/features/edit-session/lifecycle.ts`
+  (`deprecatedLifecycle`, `withLifecycle`, `isDeprecated`, `lifecycleIssue`).
+  Do not add another lifecycle shape. Tokens keep their authoring lifecycle.
+- `lifecycle` is optional and present only when deprecated. Remove it to
+  reactivate an item.
+- Leave `deprecatedIn` empty; release tooling assigns it (DEBT-035).
+- Validate `replacedBy` in the model's validator: it must exist and be the
+  same kind. Only offer active items when choosing.
+- Show `DeprecatedBadge` (`src/components/DeprecatedBadge.tsx`) wherever the
+  item is listed.
+- Changes parity: lifecycle fields must show and reset in Changes. The
+  comparator (`src/features/changelog/registry.ts`) shows any `lifecycle` key
+  as one field, such as "Deprecated, replaced by Red", and resets it as a
+  whole, because a partial lifecycle is invalid. Add a `reviewField` case in
+  `tests/deprecation-removal.ts`.
+
+## Remove all deprecations
+
+`src/features/changelog/removeDeprecations.ts` lists, previews and removes
+deprecated items. Token decisions come from the pure planner
+`src/features/changelog/deprecationRemoval.ts` (`planTokenRemoval`):
+
+- Uses of a removed item move to its final active replacement
+  (`finalTokenReplacement`, `finalTermReplacement`).
+- A removed token with no replacement is hard-coded per mode where a component
+  or value slot uses it.
+- Anything that cannot be handled safely is kept and reported in `kept` with a
+  reason. Never delete something that is still in use without one of these.
+- Removed shipped tokens are recorded as `removed: true` in token edits; do not
+  edit source data.
+
+The result is `{ removed, kept, repointed, hardCoded, undo }`. Show
+`previewSummary` before confirming and offer `undo` (restored with
+`restoreAuthoringSnapshotAtom`) in the toast. When you make a kind
+`lifecycle`, add it to `deprecatedItems`, the planner and the apply atom, and
+add planner tests.
+
+Studio is not connected to GitHub yet. "Shipped" means the bundled defaults,
+and removals stay in the browser. Do not add code that assumes a published
+release or a repository write. When your change depends on one of these, add
+a row to "Current limits and future GitHub wiring" in
+`docs/rfcs/deletion-and-deprecation.md` and update DEBT-047.
+
+## Enforcement
+
+- `tests/notification-usage.ts` fails when a `notify.remove` call for a
+  `lifecycle` kind has no `lifecycle:` descriptor.
+- `tests/notifications.ts` covers the shipped, unshipped and deprecated flows.
+- `tests/deprecation-removal.ts` covers lifecycle Changes parity, rename,
+  deprecation, the removal planner, Remove all deprecations and Undo.

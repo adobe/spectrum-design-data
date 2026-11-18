@@ -62,6 +62,7 @@ example. V = enforced by a script or type; M = manual convention.
 | 15 | Taxonomy and design-data | `taxonomy/naming.ts`, `taxonomy/foundationNames.ts`, `design-data/*`; gap register entry (see `design-data-contract`) | Gap register is script-checked | `pnpm test:design-data-gaps` |
 | 16 | Tests | Mutation, add/remove, exact counts and percentages, narrow resets, dependency rejection, Save/Cancel/reload, preview exclusion | n/a | `pnpm test:<domain>`, `pnpm test:changelog`, `pnpm test:impact` |
 | 17 | UI | `src/pages/Foundations.tsx` tab, `src/panels/foundations/*`, `src/views/<domain>/*`. Use `component-catalog`. Add and delete buttons use `notify.added` and `notify.remove` with a `NOTIFICATION_KINDS` entry (see `notifications`) | M, plus `pnpm test:notifications` | one Playwright spec, with `pageerror` asserted empty (see `verify-change`) |
+| 17a | Deletion and deprecation | Classify the delete kind in `LIFECYCLE_KINDS`. For data that reaches design-data output: optional `lifecycle` (`edit-session/lifecycle.ts`) validated in the model, a `lifecycle` descriptor on `notify.remove`, `DeprecatedBadge` in lists, and support in `changelog/removeDeprecations.ts` (see `.agents/rules/deletion-and-deprecation.mdc`) | V: `tests/notification-usage.ts` requires the descriptor for `lifecycle` kinds | `pnpm test:notifications`, the domain test |
 | 18 | Gate | `pnpm lint` once at the end | Script | |
 
 Only the snapshot key, `CHANGE_DOMAINS`, the schema hash, and the

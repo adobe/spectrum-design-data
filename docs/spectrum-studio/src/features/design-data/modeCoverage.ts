@@ -115,6 +115,35 @@ export function modeDeclarations(input: AnalysisInput) {
   return declarations;
 }
 
+const modeSetRecordCache = new WeakMap<
+  AnalysisRecord[],
+  Map<string, AnalysisRecord[]>
+>();
+/** Mode-set records whose name or key is `axis`, indexed once per record list. */
+export function modeSetRecords(
+  input: AnalysisInput,
+  axis: string,
+): AnalysisRecord[] {
+  let index = modeSetRecordCache.get(input.records);
+  if (!index) {
+    index = new Map();
+    for (const record of input.records) {
+      if (
+        record.category !== "mode-sets" ||
+        !record.value ||
+        typeof record.value !== "object"
+      )
+        continue;
+      const value = record.value as Record<string, unknown>;
+      for (const name of new Set([value.name, value.key]))
+        if (typeof name === "string")
+          index.set(name, [...(index.get(name) ?? []), record]);
+    }
+    modeSetRecordCache.set(input.records, index);
+  }
+  return index.get(axis) ?? [];
+}
+
 export function assessModeCoverage(
   app: AnalysisInput,
   reference: AnalysisInput,

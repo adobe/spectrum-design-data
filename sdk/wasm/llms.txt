@@ -18,6 +18,7 @@ parallel type surface.
 
 - [README](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md): usage and API overview
 - [Installation](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#installation)
+- [Building from a checkout](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#building-from-a-checkout)
 - [Release verification](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#release-verification)
 - [Usage](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#usage)
 - [API](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#api)

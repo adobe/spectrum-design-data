@@ -131,7 +131,7 @@ test("Palette shows classifications, exact mode values, other modes and report p
   await expect(region.getByRole("button", { name: /^Reset / })).toHaveCount(0);
   await expect(
     region
-      .getByText("Counterpart evidence: studio-palette-label-v1", {
+      .getByText("Counterpart evidence: foundation-color-ramp-v2", {
         exact: false,
       })
       .first(),
@@ -140,7 +140,7 @@ test("Palette shows classifications, exact mode values, other modes and report p
     .getByRole("button", { name: "Technical evidence", exact: true })
     .click();
   await expect(region).toContainText(
-    "Counterpart evidence: studio-palette-label-v1",
+    "Counterpart evidence: foundation-color-ramp-v2",
   );
   await expect(region).toContainText("Visual distance (Delta E 2000)");
   await region

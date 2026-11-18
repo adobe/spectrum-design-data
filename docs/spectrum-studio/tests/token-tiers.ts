@@ -74,7 +74,8 @@ assert.equal(categoryAllowsTier(category("colorFamily"), undefined), false);
 for (const tier of TOKEN_TIERS) {
   assert.equal(
     categoryAllowsTier(category("colorFamily"), tier),
-    tier === "primitive",
+    tier !== "component",
+    "Color family classifies primitive scales and per-family semantic colors.",
   );
   assert.equal(
     categoryAllowsTier(category("interaction"), tier),
@@ -87,45 +88,46 @@ for (const tier of TOKEN_TIERS) {
   const questions = newTokenQuestions(taxonomy, tier, "colors");
   assert.equal(
     questions.some((item) => item.category.key === "colorFamily"),
-    tier === "primitive",
+    tier !== "component",
   );
 }
 
-// A batch cache must not reuse a Primitive projection for Semantic tokens.
+// A batch cache must not reuse a projection across token tiers.
 const family = assignment("colorFamily");
+const context = assignment("interactiveContext");
 withTaxonomyProjection(taxonomy, () => {
   assert.deepEqual(
-    projectClassification(taxonomy, family, "colors", "primitive").issues,
+    projectClassification(taxonomy, context, "colors", "semantic").issues,
     [],
   );
-  const semantic = projectClassification(
+  const primitive = projectClassification(
     taxonomy,
-    family,
+    context,
     "colors",
-    "semantic",
+    "primitive",
   );
-  assert.equal(semantic.tierIssues?.length, 1);
-  assert.deepEqual(blockingProjectionIssues(semantic), []);
+  assert.equal(primitive.tierIssues?.length, 1);
+  assert.deepEqual(blockingProjectionIssues(primitive), []);
   const invalid = projectClassification(
     taxonomy,
-    { ...family, "missing-category": "missing-term" },
+    { ...context, "missing-category": "missing-term" },
     "colors",
-    "semantic",
+    "primitive",
   );
   assert.deepEqual(blockingProjectionIssues(invalid), [
     "Unknown category missing-category.",
   ]);
   assert.deepEqual(
-    semantic.classification,
-    family,
+    primitive.classification,
+    context,
     "Incompatible assignments are preserved.",
   );
   assert.deepEqual(
-    projectClassification(taxonomy, family, "colors", "primitive").issues,
+    projectClassification(taxonomy, context, "colors", "semantic").issues,
     [],
   );
   assert.deepEqual(
-    projectClassification(taxonomy, family, "colors").issues,
+    projectClassification(taxonomy, context, "colors").issues,
     [],
     "Source labels have no token tier.",
   );
@@ -149,7 +151,18 @@ const modes = snapshot.modeSets.flatMap((axis) => {
 });
 const sources = browserSourcesForSnapshot(snapshot, modes);
 assert.ok(sources.length);
-assert.ok(sources.every((source) => source.tier === "primitive"));
+assert.deepEqual(
+  sources
+    .filter((source) => !source.style && source.tier !== "primitive")
+    .map((source) => `${source.tier} ${source.name}`),
+  [],
+  "Saved catalog sources are Primitive; Styles add their Semantic outputs.",
+);
+assert.ok(
+  sources
+    .filter((source) => source.style)
+    .every((source) => source.tier === "semantic"),
+);
 for (const type of [
   "colors",
   "typography",
@@ -232,6 +245,16 @@ const incompatibleRow = incompatibleRows.find(
   (row) => row.token.projection?.tierIssues?.length,
 )!;
 assert.ok(incompatibleRow);
+const strictTierRows = canonicalAliasRows(
+  completeAliasSource(incompatible),
+  undefined,
+  "strict",
+  { excludeColors: true, excludeStyles: true },
+);
+assert.ok(
+  strictTierRows.some((row) => row.token.projection?.tierIssues?.length),
+  "Tier diagnostics alone do not block strict alias targets.",
+);
 const diagnosticDraft = createDialogDraft(
   incompatibleRow.token,
   incompatibleRow.context,

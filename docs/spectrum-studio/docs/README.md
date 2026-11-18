@@ -54,6 +54,7 @@ Plans that were done are in [archive/](archive/README.md). The gap register and
 | [rfcs/foundation-recipes-and-stable-identity.md](rfcs/foundation-recipes-and-stable-identity.md) | Recipe storage and UUID-preserving migration proposal; DEBT-017 remains open |
 | [rfcs/portable-structures.md](rfcs/portable-structures.md)                                       | LTAX-013; local Structure authoring contract and separate upstream proposal  |
 | [rfcs/token-tiers-and-category-scope.md](rfcs/token-tiers-and-category-scope.md)                 | LTAX-021; conceptual token tiers and tier-scoped Registry categories         |
+| [rfcs/deletion-and-deprecation.md](rfcs/deletion-and-deprecation.md)                             | LTAX-024; shipped-item deletes, rename/deprecate paths and lifecycle data    |
 
 ## Other
 

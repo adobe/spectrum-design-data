@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { TshirtArtifactBundle } from "../design-data/tshirtTypes";
+import { toDesignDataName } from "../design-data/taxonomyCrosswalk";
 import { buildStylesForSource, styleBrowserToken } from "../styles/artifacts";
 import type { StyleArtifacts } from "../styles/generation";
 import type { AliasTarget } from "./aliases";
@@ -94,15 +95,18 @@ export function canonicalStyleAliasRows(
         context: row.modeKey,
         name: token.name,
         token,
-        canonicalName: {
-          ...row.token.name,
-          ...Object.fromEntries(
-            Object.entries(token.projection?.flat ?? {}).filter(
-              (entry): entry is [string, string | number] =>
-                typeof entry[1] === "string" || typeof entry[1] === "number",
+        canonicalName: toDesignDataName(
+          {
+            ...row.token.name,
+            ...Object.fromEntries(
+              Object.entries(token.projection?.flat ?? {}).filter(
+                (entry): entry is [string, string | number] =>
+                  typeof entry[1] === "string" || typeof entry[1] === "number",
+              ),
             ),
-          ),
-        },
+          },
+          { tokenType: token.type },
+        ) as Record<string, string | number>,
         compatibleModes,
       });
     }

@@ -2,6 +2,90 @@
   "schemaVersion": 1,
   "gaps": [
     {
+      "id": "LTAX-024",
+      "title": "Deletion and deprecation lifecycle for Registry items and color scales",
+      "links": ["GAP-006", "JTC-003"],
+      "kind": "spec-schema",
+      "direction": "app-to-reference",
+      "owner": "joint",
+      "scope": "Studio-local optional lifecycle objects (deprecated, deprecatedIn, deprecatedComment, replacedBy) on Registry terms and categories and on color scales. Deleting a shipped item offers rename (same ID; color scales only when their name is a Registry term), deprecate with a same-kind replacement, or deprecate; unshipped items delete with Undo. Remove all deprecations previews counts, deletes deprecated items and tokens, moves their uses to the final replacement or hard-codes values per mode, keeps items it cannot remove safely, and offers a one-step Undo. Removed shipped tokens are recorded as removed token edits; canonical data and upstream schemas are unchanged.",
+      "profile": "reference-checkout",
+      "revision": "2e6bc5767d35ad32418b800f98b2162733eda879",
+      "implementation": "implemented",
+      "disposition": "not assessed",
+      "rfc": {
+        "status": "drafted",
+        "link": "docs/rfcs/deletion-and-deprecation.md"
+      },
+      "expected": [],
+      "criteria": [
+        {
+          "id": "LTAX-024-C1",
+          "description": "Review lifecycle validation, replacement rules, the shipped-item delete dialog and Remove all deprecations. Local implementation does not establish upstream acceptance of lifecycle on registry items or color scales.",
+          "check": "manual",
+          "evidence": [
+            "docs/rfcs/deletion-and-deprecation.md",
+            "src/features/edit-session/lifecycle.ts",
+            "src/features/notifications/center.ts",
+            "src/features/changelog/removeDeprecations.ts",
+            "src/features/changelog/deprecationRemoval.ts",
+            "tests/changelog-schema-review.ts",
+            "tests/notifications.ts",
+            "tests/taxonomy.ts"
+          ]
+        }
+      ],
+      "blockers": [
+        "design-data registry and color schemas do not define lifecycle on terms, categories or scales",
+        "RFC has not been submitted or accepted"
+      ],
+      "history": []
+    },
+    {
+      "id": "LTAX-023",
+      "title": "Taxonomy crosswalk between Studio Registry vocabulary and design-data names",
+      "links": ["GAP-006", "JTC-003"],
+      "kind": "spec-schema",
+      "direction": "app-to-reference",
+      "owner": "joint",
+      "scope": "One versioned crosswalk (src/data/taxonomy-crosswalk.json) translates Studio Registry keys, terms and value types into design-data name fields for comparison, canonical names and identity upgrades. Rules record the RFC and the condition for retiring them. Emitted Studio names keep Studio vocabulary until design-data adopts the matching fields and terms; canonical data and upstream schemas are unchanged.",
+      "profile": "reference-checkout",
+      "revision": "2e6bc5767d35ad32418b800f98b2162733eda879",
+      "implementation": "implemented",
+      "disposition": "not assessed",
+      "rfc": {
+        "status": "drafted",
+        "link": "docs/rfcs/taxonomy-crosswalk.md"
+      },
+      "expected": [],
+      "criteria": [
+        {
+          "id": "LTAX-023-C1",
+          "description": "Review that every Studio-to-design-data name translation reads the shared crosswalk, and that each rule names its RFC and retirement condition.",
+          "check": "manual",
+          "evidence": [
+            "src/data/taxonomy-crosswalk.json",
+            "src/features/design-data/taxonomyCrosswalk.ts",
+            "tests/taxonomy-crosswalk.ts"
+          ]
+        },
+        {
+          "id": "LTAX-023-C2",
+          "description": "Review the design-data RFC and agent handoff. Retire each rule once design-data publishes the matching field, term or tier.",
+          "check": "manual",
+          "evidence": [
+            "docs/rfcs/taxonomy-crosswalk.md",
+            "docs/rfcs/design-data-handoff.md"
+          ]
+        }
+      ],
+      "blockers": [
+        "design-data field and term registries do not yet use the Studio Registry vocabulary",
+        "RFC has not been submitted or accepted"
+      ],
+      "history": []
+    },
+    {
       "id": "LTAX-022",
       "title": "Style recipes and selected conditional-rule outputs",
       "links": ["GAP-006", "JTC-003"],

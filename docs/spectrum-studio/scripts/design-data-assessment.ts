@@ -28,6 +28,31 @@ const git = (root: string, args: string[]) =>
     timeout: 10_000,
   });
 
+/** Reads many committed files with one Git process instead of one per file. */
+function gitObjects(root: string, names: readonly string[]): Buffer[] {
+  const output = execFileSync("git", ["-C", root, "cat-file", "--batch"], {
+    input: names.map((name) => `${name}\n`).join(""),
+    stdio: ["pipe", "pipe", "pipe"],
+    maxBuffer: 512 * 1024 * 1024,
+    timeout: 30_000,
+  });
+  const objects: Buffer[] = [];
+  let offset = 0;
+  for (const name of names) {
+    const end = output.indexOf(10, offset);
+    const header = output.subarray(offset, end).toString().split(" ");
+    if (end < 0 || header[1] !== "blob")
+      throw new Error(`Git object unavailable: ${name}`);
+    const size = Number(header[2]);
+    objects.push(output.subarray(end + 1, end + 1 + size));
+    offset = end + 2 + size;
+  }
+  return objects;
+}
+
+// Content at a full commit ID never changes, so its hash is computed once per server.
+const pinnedHashes = new Map<string, string>();
+
 async function ownRepository(root: string): Promise<boolean> {
   try {
     return (
@@ -276,6 +301,14 @@ export async function observeAssessmentEvidence(
     if (profile.kind === "pinned-git") {
       if (!/^[a-f0-9]{40}$/.test(profile.reviewedRevision))
         throw new Error("Immutable full commit ID required.");
+      const pinnedKey = [
+        profile.root,
+        profile.reviewedRevision,
+        definition.format,
+        definition.path,
+      ].join("\0");
+      const known = pinnedHashes.get(pinnedKey);
+      if (known) return { evidenceId: definition.id, sha256: known };
       if (definition.format === "file")
         hash.update(
           git(profile.root, [
@@ -302,18 +335,21 @@ export async function observeAssessmentEvidence(
           .sort((left, right) => left.localeCompare(right, "en"));
         if (!files.length)
           throw new Error("Reviewed JSON tree is empty or unavailable.");
-        for (const file of files)
+        const contents = gitObjects(
+          profile.root,
+          files.map((file) => `${profile.reviewedRevision}:${file}`),
+        );
+        files.forEach((file, index) =>
           hash
             .update(file.slice(definition.path.length + 1))
             .update("\0")
-            .update(
-              git(profile.root, [
-                "show",
-                `${profile.reviewedRevision}:${file}`,
-              ]),
-            )
-            .update("\0");
+            .update(contents[index])
+            .update("\0"),
+        );
       }
+      const sha256 = hash.digest("hex");
+      pinnedHashes.set(pinnedKey, sha256);
+      return { evidenceId: definition.id, sha256 };
     } else {
       const physicalRoot = await realpath(profile.root);
       const path = join(profile.root, definition.path);

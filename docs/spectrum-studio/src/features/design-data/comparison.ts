@@ -24,12 +24,15 @@ import {
   type OutputMetadata,
 } from "./materialization";
 import { canonicalJson } from "./canonicalJson";
+import { recordOutputIssues } from "./outputIssues";
 import {
   assessColorsAndOpacities,
   colorOpacityMarkdown,
   modeAxes,
 } from "./colorOpacityAssessment";
 import { compareFoundationValue } from "./foundationValues";
+import { comparisonName } from "./tokenPairing";
+import { toComparisonName } from "./taxonomyCrosswalk";
 export { canonicalJson } from "./canonicalJson";
 import {
   buildCoverage,
@@ -111,6 +114,8 @@ export interface AnalysisInput {
   categories: string[];
   schemas: string[];
   errors: string[];
+  /** Row-level output problems; they make only the named rows (or rows that could not be generated) unassessable. */
+  outputIssues?: { message: string; recordIds?: string[] }[];
   limitations: string[];
   architecture?: ArchitectureAssessment;
   outputMetadata?: OutputMetadata;
@@ -344,7 +349,26 @@ export function compareDesignData(
     mappings,
   );
   const axes = [...new Set([...modeAxes(app), ...modeAxes(reference)])];
-  const candidatesFor = (left: AnalysisRecord) => {
+  const contextsAgree = (left: AnalysisRecord, right: AnalysisRecord) =>
+    [
+      ...new Set([
+        ...axes,
+        ...Object.keys(left.context ?? {}),
+        ...Object.keys(right.context ?? {}),
+      ]),
+    ].every((axis) => {
+      const a =
+        left.context?.[axis] ??
+        left.structuredName?.[axis] ??
+        declaredDefaultMode(app, axis);
+      const b =
+        right.context?.[axis] ??
+        right.structuredName?.[axis] ??
+        declaredDefaultMode(reference, axis) ??
+        declaredDefaultMode(app, axis);
+      return canonicalJson(a ?? null) === canonicalJson(b ?? null);
+    });
+  const strongCandidatesFor = (left: AnalysisRecord) => {
     const concept =
       left.conceptId &&
       byConcept
@@ -354,27 +378,11 @@ export function compareDesignData(
       const exact = concept.filter(
         (right) => left.identity && left.identity === right.identity,
       );
-      if (exact.length) return exact;
-      return concept.filter((right) =>
-        [
-          ...new Set([
-            ...axes,
-            ...Object.keys(left.context ?? {}),
-            ...Object.keys(right.context ?? {}),
-          ]),
-        ].every((axis) => {
-          const a =
-            left.context?.[axis] ??
-            left.structuredName?.[axis] ??
-            declaredDefaultMode(app, axis);
-          const b =
-            right.context?.[axis] ??
-            right.structuredName?.[axis] ??
-            declaredDefaultMode(reference, axis) ??
-            declaredDefaultMode(app, axis);
-          return canonicalJson(a ?? null) === canonicalJson(b ?? null);
-        }),
-      );
+      if (exact.length) return { rows: exact, known: true };
+      return {
+        rows: concept.filter((right) => contextsAgree(left, right)),
+        known: true,
+      };
     }
     const candidates = new Map<number, AnalysisRecord>();
     for (const item of left.identity !== undefined
@@ -385,9 +393,52 @@ export function compareDesignData(
       for (const item of byId.get(mapping.reference) ?? [])
         if (item.row.category === left.category)
           candidates.set(item.position, item.row);
-    return [...candidates.entries()]
-      .sort(([left], [right]) => left - right)
-      .map(([, row]) => row);
+    return {
+      rows: [...candidates.entries()]
+        .sort(([left], [right]) => left - right)
+        .map(([, row]) => row),
+      known: candidates.size > 0,
+    };
+  };
+  const strongByApp = new Map(
+    app.records.map((left) => [left.id, strongCandidatesFor(left)]),
+  );
+  // Name pairing is the last resort: tokens only, and never for a reference
+  // token that an app token already claims by row UUID or concept ID.
+  const vocabulary = reference.records.filter(
+    (row) =>
+      row.category === "registry" && row.value && typeof row.value === "object",
+  );
+  const nameKey = (row: AnalysisRecord, side: "app" | "reference") =>
+    canonicalJson(comparisonName(row, side, vocabulary, axes));
+  const claimed = new Set<string>();
+  for (const left of app.records) {
+    if (left.identity !== undefined)
+      claimed.add(identityKey(left.category, left.identity));
+    if (left.conceptId) claimed.add(identityKey(left.category, left.conceptId));
+  }
+  for (const { rows } of strongByApp.values())
+    for (const right of rows) claimed.add(right.id);
+  const byName = indexRecords((row) =>
+    row.category !== "tokens" ||
+    !row.structuredName ||
+    claimed.has(row.id) ||
+    (row.identity !== undefined &&
+      claimed.has(identityKey(row.category, row.identity))) ||
+    (row.conceptId && claimed.has(identityKey(row.category, row.conceptId)))
+      ? undefined
+      : nameKey(row, "reference"),
+  );
+  const nameMatched = new Set<string>();
+  const candidatesFor = (left: AnalysisRecord) => {
+    const strong = strongByApp.get(left.id)!;
+    if (strong.known || left.category !== "tokens" || !left.structuredName)
+      return strong.rows;
+    const named = (byName.get(nameKey(left, "app")) ?? [])
+      .map((item) => item.row)
+      .filter((right) => contextsAgree(left, right));
+    if (named.length) nameMatched.add(left.id);
+    return named;
   };
   const candidatesByApp = new Map(
     app.records.map((left) => [left.id, candidatesFor(left)]),
@@ -424,6 +475,8 @@ export function compareDesignData(
     ...reference.errors.map((error) => `Reference: ${error}`),
   ])
     add("invalid-input", error);
+  for (const issue of app.outputIssues ?? [])
+    if (!issue.recordIds?.length) add("unassessable", `App: ${issue.message}`);
   for (const error of metadataErrors) add("invalid-input", error);
   for (const error of mappingErrors) add("invalid-input", error);
   for (const set of modeCoverage.sets) {
@@ -470,6 +523,13 @@ export function compareDesignData(
     const mapping = byMapping.get(left.id) ?? [];
     const candidates = candidatesByApp.get(left.id) ?? [];
     const duplicate = (appCounts.get(left.id) ?? 0) > 1;
+    const rowIssues = recordOutputIssues(app, left.id);
+    if (rowIssues.length) {
+      const right = candidates.length === 1 ? candidates[0] : undefined;
+      if (right) used.add(right.id);
+      add("unassessable", `App: ${rowIssues.join(" ")}`, left, right);
+      continue;
+    }
     if (duplicate || candidates.length > 1 || mapping.length > 1) {
       add(
         "ambiguous",
@@ -515,7 +575,11 @@ export function compareDesignData(
       continue;
     }
     used.add(right.id);
-    const confidence = mapping.length ? "reviewed-mapping" : "exact-identity";
+    const confidence = mapping.length
+      ? "reviewed-mapping"
+      : nameMatched.has(left.id)
+        ? "canonical-key"
+        : "exact-identity";
     const sharedConcept = left.conceptId && left.conceptId === right.conceptId;
     const defaultKeys = [
       ...new Set([
@@ -619,7 +683,10 @@ export function compareDesignData(
         ...Object.keys(right.context ?? {}),
       ]);
       const compared = new Set<string>();
-      for (const [key, value] of Object.entries(left.structuredName)) {
+      const appName = toComparisonName(left.structuredName, {
+        tokenType: left.tokenType,
+      });
+      for (const [key, value] of Object.entries(appName)) {
         if (contextKeys.has(key)) continue;
         const target = fields[key]?.reference ?? key;
         compared.add(target);
@@ -693,10 +760,10 @@ export function compareDesignData(
           : "";
     add(
       classification,
-      `${mapping[0]?.rationale ?? "Exact identity in the same category and mode context."}${diagnostic}`,
+      `${mapping[0]?.rationale ?? (confidence === "canonical-key" ? "Same structured name after the taxonomy crosswalk, in the same category and mode context. Names do not establish identity." : "Exact identity in the same category and mode context.")}${diagnostic}`,
       left,
       right,
-      mapping.length ? "reviewed-mapping" : "exact-identity",
+      confidence,
     );
   }
   for (const right of reference.records) {

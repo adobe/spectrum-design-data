@@ -6,6 +6,7 @@ import macros from "unplugin-parcel-macros";
 import checker from "vite-plugin-checker";
 import { VitePWA } from "vite-plugin-pwa";
 import {
+  analysisCodeVersionPlugin,
   designDataAnalysisPlugin,
   packagedAnalysisPlugin,
 } from "./scripts/design-data-vite";
@@ -37,6 +38,7 @@ export default defineConfig(({ command, isPreview, mode }) => {
       mkcert(),
       designDataAnalysisPlugin(),
       packagedAnalysisPlugin(),
+      analysisCodeVersionPlugin(),
       VitePWA({
         // "prompt" keeps a new version waiting until the next launch or the
         // header update button; registration lives in src/features/app-status.
@@ -90,6 +92,8 @@ export default defineConfig(({ command, isPreview, mode }) => {
         !isPreview &&
         checker({ typescript: true, enableBuild: false }),
     ],
+    // Worker bundles use their own plugin list in production builds.
+    worker: { plugins: () => [analysisCodeVersionPlugin()] },
     build: {
       sourcemap: true,
       outDir: "./dist",

@@ -89,6 +89,17 @@ export function authoringOutputMetadata(
       ),
     );
   });
+  // Color roles share the style recipe namespace in generated observations.
+  system.styles?.colorRoles.forEach((role, index) => {
+    metadata.recipes.push(
+      recipe(
+        `style:${role.id}`,
+        `/system/styles/colorRoles/${index}`,
+        "buildStyleArtifacts",
+        [role.roleTermId, role.scaleId],
+      ),
+    );
+  });
   system.foundations.color.dataVisScales.forEach((scale, index) => {
     const sources = scale.staticColors
       ? []

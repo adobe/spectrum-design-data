@@ -1,27 +1,186 @@
+/* Copyright 2026 Adobe. All rights reserved. */
 .taxonomyView {
   container: taxonomy / inline-size;
+  min-width: 0;
 }
 
-.taxonomyColumns {
-  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+.registryBoardSurface {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
 }
 
-.taxonomyFieldPair {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.registryBoard {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 4px 4px 20px;
+  scroll-padding-inline: 4px;
+  outline: none;
 }
 
-.taxonomyView [role="alert"] {
+.registryCategoryItem {
+  flex: 0 0 320px;
+  min-width: 0;
+  outline: none;
+  border-radius: 16px;
+}
+
+.registryCategoryItem[data-focus-visible] {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+
+.registryBoardDragging .registryCategoryItem[data-dragging] {
+  flex-basis: 0;
+  margin-inline: -16px;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.registryCategoryCard {
+  box-sizing: border-box;
+  width: 320px;
+}
+
+.registryCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.registryCardHeader h3,
+.registryCategoryDialog h3,
+.registryTermDialog h3,
+.registryTermDialog h4 {
+  margin: 0;
+}
+
+.registryDragHandle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+  color: inherit;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+
+.registryDragHandle[data-focus-visible] {
+  outline: 2px solid Highlight;
+}
+
+.registryDragHandle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.registryDragPreview {
+  width: 320px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px color-mix(in srgb, CanvasText 24%, transparent);
+  pointer-events: none;
+}
+
+.registryDropIndicator {
+  position: relative;
+  flex: 0 0 0;
+  align-self: stretch;
+}
+
+.registryDropIndicator > span {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: -17px;
+  visibility: hidden;
+}
+
+.registryDropIndicator[data-drop-target] > span {
+  visibility: visible;
+}
+
+.registryTable {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  text-align: start;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.registryTable th,
+.registryTable td {
+  padding: 8px 12px;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
   overflow-wrap: anywhere;
+  text-align: start;
 }
 
-@container taxonomy (width < 720px) {
-  .taxonomyColumns {
+.registryTable tbody th {
+  font-weight: normal;
+}
+
+.registryTable thead th {
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.registryTable tbody tr:last-child > * {
+  border-bottom: none;
+}
+
+.registryTableScroll {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.registryCategoryDialog {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(0, 2fr);
+  align-items: start;
+  gap: 32px;
+}
+
+.registryTermDialog {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 32px;
+}
+
+.registryFieldPair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (width < 760px) {
+  .registryCategoryDialog,
+  .registryTermDialog {
     grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 }
 
-@container taxonomy (width < 440px) {
-  .taxonomyFieldPair {
-    grid-template-columns: minmax(0, 1fr);
+@media (prefers-reduced-motion: reduce) {
+  .registryBoard {
+    scroll-behavior: auto;
   }
 }
+.registryDialogFooter {
+  width: 100%;
+  justify-content: space-between;
+}
+

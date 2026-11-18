@@ -6,11 +6,14 @@ import type {
   ReviewedMapping,
 } from "./comparison";
 import { canonicalJson } from "./canonicalJson";
+import { blockingProjectionIssues } from "../taxonomy/model";
+import { recordOutputIssues } from "./outputIssues";
 import { declaredDefaultMode } from "./mappings";
 import { COLOR_ALIGNMENT_POLICY, exactPaletteColor } from "./paletteAssessment";
 import {
   assessModeCoverage,
   modeDeclarations,
+  modeSetRecords,
   type ModeCoverage,
 } from "./modeCoverage";
 import {
@@ -34,6 +37,7 @@ import {
   tokenInventoryMarkdown,
   type TokenInventory,
 } from "./tokenInventory";
+import { comparisonName } from "./tokenPairing";
 
 export type ValueVerdict = "pass" | "acceptable" | "fail" | "unassessable";
 export type ValueContext = Record<string, string>;
@@ -410,14 +414,7 @@ export function* resolutionQueries(
 export function resolutionDataset(input: AnalysisInput) {
   return {
     modeSets: modeAxes(input).map((axis) => {
-      const declaration = input.records.find(
-        (row) =>
-          row.category === "mode-sets" &&
-          row.value &&
-          typeof row.value === "object" &&
-          ((row.value as Record<string, unknown>).name === axis ||
-            (row.value as Record<string, unknown>).key === axis),
-      );
+      const declaration = modeSetRecords(input, axis)[0];
       const rawModes = (
         declaration?.value as Record<string, unknown> | undefined
       )?.modes;
@@ -453,28 +450,6 @@ export function resolutionDataset(input: AnalysisInput) {
         },
       })),
   };
-}
-
-function classification(
-  row: AnalysisRecord,
-  vocabulary: AnalysisRecord[],
-  axes: string[],
-) {
-  return Object.fromEntries(
-    Object.entries(row.structuredName ?? {})
-      .filter(([key]) => !axes.includes(key) && key !== "legacyKey")
-      .map(([key, value]) => {
-        if (typeof value === "string") {
-          const candidates = vocabulary.filter((record) => {
-            const entry = record.value as Record<string, unknown>;
-            return entry.id === value || entry.label === value;
-          });
-          if (candidates.length === 1)
-            value = (candidates[0].value as Record<string, unknown>).id;
-        }
-        return [key, Array.isArray(value) ? [...value].sort() : value];
-      }),
-  );
 }
 
 export function normalizedOpacity(value: unknown): number | undefined {
@@ -549,14 +524,7 @@ function effectiveValue(
 
 function contextIssues(row: AnalysisRecord, input: AnalysisInput): string[] {
   return Object.entries(row.context ?? {}).flatMap(([axis, value]) => {
-    const declarations = input.records.filter(
-      (record) =>
-        record.category === "mode-sets" &&
-        record.value &&
-        typeof record.value === "object" &&
-        ((record.value as Record<string, unknown>).name === axis ||
-          (record.value as Record<string, unknown>).key === axis),
-    );
+    const declarations = modeSetRecords(input, axis);
     if (declarations.length !== 1)
       return [`Mode axis ${axis} has no unique declaration.`];
     const modes = (declarations[0].value as Record<string, unknown>).modes;
@@ -596,7 +564,10 @@ export function assessColorsAndOpacities(
       row.category === "registry" && row.value && typeof row.value === "object",
   );
   const appNames = new Map(
-    appRows.map((row) => [row.id, classification(row, vocabulary, axes)]),
+    appRows.map((row) => [
+      row.id,
+      comparisonName(row, "app", vocabulary, axes),
+    ]),
   );
   const nameIndex = new Map<string, AnalysisRecord[]>();
   const identityIndex = new Map<string, AnalysisRecord[]>();
@@ -623,7 +594,7 @@ export function assessColorsAndOpacities(
   const uncertainRequirements = new Set<string>();
   for (const right of eligible) {
     const id = right.conceptId ?? right.identity ?? right.id;
-    const name = classification(right, vocabulary, axes);
+    const name = comparisonName(right, "reference", vocabulary, axes);
     const concept = grouped.get(id) ?? {
       id,
       label:
@@ -792,7 +763,8 @@ export function assessColorsAndOpacities(
         ...[
           a.issue,
           ...contextIssues(left, app),
-          ...(left.taxonomy?.issues ?? []),
+          ...blockingProjectionIssues(left.taxonomy),
+          ...recordOutputIssues(app, left.id),
         ].filter((issue): issue is string => Boolean(issue)),
       );
       if (row.issues.length) continue;

@@ -137,6 +137,7 @@ export default function AnalysisView() {
       referenceUrl,
       !import.meta.env.DEV,
       controller.signal,
+      refresh,
     )
       .then((input) => {
         if (

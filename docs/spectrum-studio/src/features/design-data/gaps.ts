@@ -6,6 +6,7 @@ import type {
   ReviewedMapping,
 } from "./comparison";
 import { architectureRegistry } from "./assessmentRegistry";
+import { blockingProjectionIssues } from "../taxonomy/model";
 import Ajv from "ajv";
 
 export type GapKind =
@@ -361,7 +362,7 @@ export function assessGaps(
       return (
         !!left &&
         !!right &&
-        !left.taxonomy?.issues.length &&
+        !blockingProjectionIssues(left.taxonomy).length &&
         !!sample &&
         ["generated-output", "authored-source-record"].includes(
           sample.origin,

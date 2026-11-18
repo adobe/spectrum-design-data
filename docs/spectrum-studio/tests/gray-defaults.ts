@@ -189,9 +189,11 @@ for (const [id, token] of previousTokens)
     token,
     "All pre-existing token rows remain unchanged.",
   );
-const added = [...currentTokens.values()].filter(
+const addedTokens = [...currentTokens.values()].filter(
   (token) => !previousTokens.has(token.id),
 );
+// Styles that alias gray (such as the Neutral color role) return with it.
+const added = addedTokens.filter((token) => !token.reference);
 assert.equal(
   new Set(added.map((token) => token.conceptId)).size,
   grayIndices.length,
@@ -202,7 +204,7 @@ assert.equal(
   grayIndices.length * scheme.modes.length * contrast.modes.length,
   "Only existing color-owned mode combinations are emitted.",
 );
-assert.ok(added.every((token) => token.classification === "generated"));
+assert.ok(addedTokens.every((token) => token.classification === "generated"));
 assert.equal(
   outputInventory(shipped).counts.explicitAssignments,
   0,

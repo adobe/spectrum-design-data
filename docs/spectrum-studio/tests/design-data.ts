@@ -757,6 +757,7 @@ const namedApp = input([
     structuredName: {
       property: "dimension",
       scaleIndex: "100",
+      step: "2",
       localField: "custom",
     },
   }),
@@ -768,6 +769,7 @@ const namedReference = input(
       structuredName: {
         property: "dimension",
         scaleIndex: 100,
+        step: 2,
         referenceField: "custom",
       },
     }),
@@ -781,10 +783,14 @@ assert.equal(
   ).length,
   2,
 );
-assert.equal(
-  nameReport.findings.filter((finding) => finding.classification === "type-gap")
-    .length,
-  1,
+const typeGaps = nameReport.findings.filter(
+  (finding) => finding.classification === "type-gap",
+);
+assert.equal(typeGaps.length, 1);
+assert.match(
+  typeGaps[0].message,
+  /field step→step/,
+  "Crosswalk XW-014 declares scaleIndex text→number; undeclared fields are not coerced.",
 );
 assert.equal(nameReport.metrics[0].matched, 1);
 assert.equal(nameReport.metrics[0].assessable, 1);
@@ -823,6 +829,7 @@ assert.equal(
           {
             ...namedReference.records[0],
             structuredName: {
+              step: 2,
               referenceField: "custom",
               scaleIndex: 100,
               property: "dimension",

@@ -1,13 +1,16 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { concreteColor } from "../color-system/data-vis/colors";
 import { canonicalJson } from "./canonicalJson";
+import { blockingProjectionIssues } from "../taxonomy/model";
+import { recordOutputIssues } from "./outputIssues";
+import { modeSetRecords } from "./modeCoverage";
 import type {
   AnalysisInput,
   AnalysisRecord,
   ReviewedMapping,
 } from "./comparison";
 import { gapRegister, gapRegisterLoadIssues, type GapEntry } from "./gaps";
-import { declaredDefaultMode } from "./mappings";
+import { declaredDefaultMode, reviewedColorMappings } from "./mappings";
 
 export type PaletteClassification =
   | "aligned"
@@ -256,65 +259,6 @@ function colorFamilyId(
     : undefined;
 }
 
-/** Studio's registered family labels identify candidates, not canonical classification agreement. */
-export function paletteLabelMappings(
-  app: AnalysisInput,
-  reference: AnalysisInput,
-): ReviewedMapping[] {
-  const keys = modeKeys(app, reference);
-  const result: ReviewedMapping[] = [];
-  for (const left of app.records) {
-    const name = left.structuredName;
-    const familyField =
-      typeof name?.colorFamily === "string" ? "colorFamily" : "colorName";
-    if (
-      left.category !== "tokens" ||
-      left.classification !== "generated" ||
-      name?.property !== "color" ||
-      typeof name[familyField] !== "string" ||
-      !Number.isSafeInteger(name.scaleIndex) ||
-      Object.keys(name).some(
-        (key) =>
-          !["property", familyField, "scaleIndex", ...keys].includes(key),
-      )
-    )
-      continue;
-    const family = colorFamilyId(name[familyField], reference);
-    if (!family) continue;
-    const leftContext = contextFor(left, app, keys);
-    if (leftContext.issues.length) continue;
-    for (const right of reference.records) {
-      if (
-        right.category !== "tokens" ||
-        right.source !== paletteSource ||
-        right.lifecycle?.deprecatedIn ||
-        right.structuredName?.property !== "color" ||
-        right.structuredName.colorFamily !== family ||
-        right.structuredName.scaleIndex !== name.scaleIndex ||
-        Object.keys(right.structuredName).some(
-          (key) =>
-            !["property", "colorFamily", "scaleIndex", ...keys].includes(key),
-        )
-      )
-        continue;
-      const rightContext = contextFor(right, reference, keys);
-      if (
-        rightContext.issues.length ||
-        !same(leftContext.context, rightContext.context)
-      )
-        continue;
-      result.push({
-        app: left.id,
-        reference: right.id,
-        nameFields: { [familyField]: { reference: "colorFamily" } },
-        rationale:
-          "studio-palette-label-v1: exact registered color-family label/id, numeric scaleIndex and declared context. Field and term differences remain visible; no name parsing, case folding or value-based matching.",
-      });
-    }
-  }
-  return result;
-}
-
 function contextFor(
   row: AnalysisRecord,
   input: AnalysisInput,
@@ -340,11 +284,8 @@ function contextFor(
       !same(row.context[key], row.structuredName[key])
     )
       issues.push(`Conflicting ${key} context and classification.`);
-    const declarations = input.records.filter(
-      (record) =>
-        record.category === "mode-sets" &&
-        object(record.value) &&
-        (record.value.key === key || record.value.name === key),
+    const declarations = modeSetRecords(input, key).filter((record) =>
+      object(record.value),
     );
     if (declarations.length !== 1) {
       issues.push(`No unique ${key} mode declaration.`);
@@ -370,26 +311,40 @@ function classificationIssues(
   reference: AnalysisInput,
 ): string[] {
   const name = row.structuredName;
-  const issues = [...(row.taxonomy?.issues ?? [])];
+  const issues = blockingProjectionIssues(row.taxonomy);
   if (name?.property !== "color")
     issues.push("The property classification must be color.");
   if (typeof name?.colorFamily !== "string")
     issues.push("colorFamily must be a string.");
   if (!Number.isSafeInteger(name?.scaleIndex))
     issues.push("scaleIndex must be a safe integer.");
-  const families = reference.records.filter(
-    (record) =>
-      record.category === "registry" && record.vocabulary === "color-family",
-  );
-  if (!families.length)
+  const families = colorFamilies(reference);
+  if (!families.size)
     issues.push("Reference color-family vocabulary is unavailable.");
   else if (
-    !families.some(
-      (record) => object(record.value) && record.value.id === name?.colorFamily,
-    )
+    typeof name?.colorFamily !== "string" ||
+    !families.has(name.colorFamily)
   )
     issues.push("colorFamily is not in the reference vocabulary.");
   return issues;
+}
+
+const colorFamilyCache = new WeakMap<AnalysisRecord[], Set<unknown>>();
+function colorFamilies(reference: AnalysisInput): Set<unknown> {
+  let families = colorFamilyCache.get(reference.records);
+  if (!families) {
+    families = new Set(
+      reference.records.flatMap((record) =>
+        record.category === "registry" &&
+        record.vocabulary === "color-family" &&
+        object(record.value)
+          ? [record.value.id]
+          : [],
+      ),
+    );
+    colorFamilyCache.set(reference.records, families);
+  }
+  return families;
 }
 
 function differencesFor(
@@ -432,7 +387,7 @@ function exceptionFor(
     !row.app ||
     !mapping ||
     !row.differences.length ||
-    row.app.taxonomy?.issues.length
+    blockingProjectionIssues(row.app.taxonomy).length
   )
     return [];
   const fields = mapping.nameFields ?? {};
@@ -496,9 +451,10 @@ export function assessPalette(
     ? []
     : gapRegister.gaps,
 ): PaletteAssessment {
+  // Direct callers get the same shared color-ramp pairs as the full comparison.
   mappings = [
     ...mappings,
-    ...paletteLabelMappings(app, reference).filter(
+    ...reviewedColorMappings(app, reference).filter(
       (candidate) =>
         !mappings.some(
           (mapping) =>
@@ -526,20 +482,24 @@ export function assessPalette(
         (key) => row.structuredName?.[key] !== undefined,
       ),
   );
+  const appRowSet = new Set(appRows);
   const contexts = new Map(
     [...appRows, ...eligible].map((row) => [
       row,
-      contextFor(row, appRows.includes(row) ? app : reference, keys),
+      contextFor(row, appRowSet.has(row) ? app : reference, keys),
     ]),
   );
+  const mappedPairs = new Map<string, Set<string>>();
+  for (const mapping of mappings)
+    mappedPairs.set(
+      mapping.app,
+      (mappedPairs.get(mapping.app) ?? new Set()).add(mapping.reference),
+    );
   const candidates = new Map(
     eligible.map((right) => [
       right,
       appRows.filter((left) => {
-        const mapped = mappings.some(
-          (mapping) =>
-            mapping.app === left.id && mapping.reference === right.id,
-        );
+        const mapped = mappedPairs.get(left.id)?.has(right.id) ?? false;
         const identity =
           left.identity !== undefined && left.identity === right.identity;
         const a = left.structuredName;
@@ -559,21 +519,31 @@ export function assessPalette(
     ]),
   );
   const selected = new Set<AnalysisRecord>();
+  const countBy = <T>(rows: T[], key: (row: T) => unknown) => {
+    const counts = new Map<unknown, number>();
+    for (const row of rows) {
+      const value = key(row);
+      if (value !== undefined) counts.set(value, (counts.get(value) ?? 0) + 1);
+    }
+    return counts;
+  };
+  const referenceIds = countBy(reference.records, (row) => row.id);
+  const appIds = countBy(app.records, (row) => row.id);
+  const eligibleIdentities = countBy(eligible, (row) => row.identity);
+  const appIdentities = countBy(appRows, (row) => row.identity);
+  const candidateUses = countBy([...candidates.values()].flat(), (row) => row);
   const assessments = eligible.map((right): PaletteModeAssessment => {
     const options = candidates.get(right)!;
     const left = options.length === 1 ? options[0] : undefined;
     const duplicated =
-      reference.records.filter((row) => row.id === right.id).length !== 1 ||
+      referenceIds.get(right.id) !== 1 ||
       (right.identity !== undefined &&
-        eligible.filter((row) => row.identity === right.identity).length !==
-          1) ||
+        eligibleIdentities.get(right.identity) !== 1) ||
       (left !== undefined &&
-        (app.records.filter((row) => row.id === left.id).length !== 1 ||
+        (appIds.get(left.id) !== 1 ||
           (left.identity !== undefined &&
-            appRows.filter((row) => row.identity === left.identity).length !==
-              1) ||
-          [...candidates.values()].filter((rows) => rows.includes(left))
-            .length !== 1));
+            appIdentities.get(left.identity) !== 1) ||
+          candidateUses.get(left) !== 1));
     const mapping = left
       ? mappings.filter(
           (item) => item.app === left.id && item.reference === right.id,
@@ -616,7 +586,7 @@ export function assessPalette(
     row.differences = differencesFor(left, right, keys, mapping[0]);
     row.exceptions = exceptionFor(row, mapping[0], reference, gaps);
     const leftContext = contexts.get(left)!;
-    row.issues.push(...leftContext.issues);
+    row.issues.push(...leftContext.issues, ...recordOutputIssues(app, left.id));
     if (!same(leftContext.context, row.context))
       row.issues.push("App and reference mode contexts differ.");
     const appIssues = classificationIssues(left, reference);

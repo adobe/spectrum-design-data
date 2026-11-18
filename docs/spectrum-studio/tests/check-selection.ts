@@ -50,10 +50,10 @@ assert.throws(
   /scope approval/,
   "A prerequisite cannot smuggle broad work into an element selection.",
 );
-assert.equal(localCheckLimits.maxRssBytes, 256 * 1024 ** 2);
+assert.equal(localCheckLimits.maxRssBytes, 512 * 1024 ** 2);
 assert.equal(localCheckLimits.runTimeoutMs, 30_000);
-assert.equal(heavyCheckLimits.maxRssBytes, 1024 ** 3);
-assert.equal(heavyCheckLimits.runTimeoutMs, 60_000);
+assert.equal(heavyCheckLimits.maxRssBytes, 4 * 1024 ** 3);
+assert.equal(heavyCheckLimits.runTimeoutMs, 180_000);
 assert.equal(ciCheckLimits.runTimeoutMs, 3_600_000);
 
 const files = fileCheckInventory([

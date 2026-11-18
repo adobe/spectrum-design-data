@@ -56,7 +56,16 @@ import {
   selectedColorStopIdAtom,
 } from "../../state/view/colorSystemView";
 import { SourceNameEditor } from "../registry/SourceNameEditor";
+import { isShipped } from "../../features/changelog/shipped";
+import { isDeprecated } from "../../features/edit-session/lifecycle";
+import { DeprecatedBadge } from "../../components/DeprecatedBadge";
+import {
+  colorScaleReplacementCandidates,
+  deprecateColorScaleAtom,
+  restoreColorScaleLifecycleAtom,
+} from "../../features/color-system/lifecycle";
 import { taxonomyColorSourceId } from "../../features/taxonomy/model";
+import { editFoundationNameAtom } from "../../features/taxonomy/sourceState";
 import { CustomContrastControls } from "./CustomContrastControls";
 import { useNarrowScaleEditorViewport } from "../../components/useNarrowScaleEditorViewport";
 import { ScaleColorPreview } from "../../views/color-system/ScaleColorPreview";
@@ -195,6 +204,7 @@ export function ScaleStopEditor() {
                   <Text UNSAFE_className={String(scaleNameStyles)}>
                     {termLabel(scale.name)}
                   </Text>
+                  <DeprecatedBadge lifecycle={scale.lifecycle} />
                 </Button>
                 <Popover
                   size="M"
@@ -256,6 +266,33 @@ export function ScaleStopEditor() {
                           setSelectedScaleId(fallback.id);
                           setSelectedStopId(fallback.stops[0]?.id ?? null);
                         }
+                      },
+                      lifecycle: {
+                        shipped: isShipped("colorScales", scale.id),
+                        deprecated: isDeprecated(scale),
+                        ...(scale.nameRef
+                          ? {
+                              rename: {
+                                current: termLabel(scale.name),
+                                run: (name: string) =>
+                                  store.set(editFoundationNameAtom, {
+                                    id: taxonomyColorSourceId(scale.id),
+                                    value: name,
+                                  }),
+                              },
+                            }
+                          : {}),
+                        candidates: colorScaleReplacementCandidates(
+                          baseDocument,
+                          scale.id,
+                        ),
+                        deprecate: (replacedBy) =>
+                          store.set(deprecateColorScaleAtom, {
+                            scaleId: scale.id,
+                            replacedBy,
+                          }),
+                        undoDeprecate: (previous) =>
+                          store.set(restoreColorScaleLifecycleAtom, previous),
                       },
                     });
                   }}

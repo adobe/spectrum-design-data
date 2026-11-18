@@ -20,7 +20,7 @@ import {
   mergeStyleArtifacts,
   type StyleContext,
 } from "./generation";
-import { registerStyleName, withStylesVocabulary } from "./vocabulary";
+import { registerStyleName } from "./vocabulary";
 import {
   EMPTY_STYLES,
   isStylesDocument,
@@ -381,12 +381,7 @@ function writeStyleRecipe(
   });
 }
 export const saveStyleAtom = atom(null, (get, set, recipe: StyleRecipe) => {
-  writeStyleRecipe(
-    get,
-    set,
-    recipe,
-    withStylesVocabulary(get(taxonomyDocumentAtom)),
-  );
+  writeStyleRecipe(get, set, recipe, get(taxonomyDocumentAtom));
 });
 export const editStylePropertiesAtom = atom(
   null,
@@ -411,7 +406,7 @@ export const editStylePropertiesAtom = atom(
         options: input.editor.properties,
         differences: input.editor.differences,
       },
-      withStylesVocabulary(input.taxonomy ?? get(taxonomyDocumentAtom)),
+      input.taxonomy ?? get(taxonomyDocumentAtom),
     );
   },
 );
@@ -423,10 +418,7 @@ export const createStyleAtom = atom(
     input: { recipe: Omit<StyleRecipe, "id" | "name">; name: string },
   ) => {
     if (!get(editModeAtom)) throw new Error("Enter Edit mode to add a style.");
-    const named = registerStyleName(
-      withStylesVocabulary(get(taxonomyDocumentAtom)),
-      input.name,
-    );
+    const named = registerStyleName(get(taxonomyDocumentAtom), input.name);
     const recipe = {
       ...input.recipe,
       id: crypto.randomUUID(),
@@ -469,13 +461,7 @@ export const restoreStyleAtom = atom(
     const { recipe, index } = removed;
     if (get(stylesDocumentAtom).recipes.some((item) => item.id === recipe.id))
       throw new Error("This style already exists.");
-    writeStyleRecipe(
-      get,
-      set,
-      recipe,
-      withStylesVocabulary(get(taxonomyDocumentAtom)),
-      index,
-    );
+    writeStyleRecipe(get, set, recipe, get(taxonomyDocumentAtom), index);
   },
 );
 

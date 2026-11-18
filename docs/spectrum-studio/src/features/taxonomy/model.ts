@@ -7,6 +7,7 @@ import {
   isTokenTier,
   type TokenTier,
 } from "../tokens/tier";
+import { lifecycleIssue, type ItemLifecycle } from "../edit-session/lifecycle";
 
 export type DimensionScope = "spacing" | "size" | "radius";
 export const DIMENSION_SCOPES = ["spacing", "size", "radius"] as const;
@@ -69,6 +70,8 @@ export interface TaxonomyCategory {
   includeInProjections: boolean;
   /** Missing means all tiers. Independent of value type and domain scopes. */
   allowedTokenTiers?: TokenTier[];
+  /** Set when the category is deprecated. Categories have no replacement. */
+  lifecycle?: ItemLifecycle;
 }
 export interface TaxonomyTerm {
   /** @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ */
@@ -79,6 +82,8 @@ export interface TaxonomyTerm {
   description: string;
   /** Omit this term without removing its classification. The category still controls inclusion. */
   includeInProjections?: boolean;
+  /** Set when the term is deprecated; `replacedBy` names a term in the same category. */
+  lifecycle?: ItemLifecycle;
 }
 export interface Classification {
   [categoryId: string]: string | string[];
@@ -194,6 +199,7 @@ export function taxonomyIssues(value: unknown): string[] {
         "required",
         "includeInProjections",
         "allowedTokenTiers",
+        "lifecycle",
       ]) ||
       typeof category.id !== "string" ||
       !taxonomyIdPattern.test(category.id) ||
@@ -219,6 +225,14 @@ export function taxonomyIssues(value: unknown): string[] {
     ) {
       issues.push("Malformed category, field key, type, cardinality or scope.");
       continue;
+    }
+    if (category.lifecycle !== undefined) {
+      const issue = lifecycleIssue(category.lifecycle);
+      if (issue) issues.push(`Category ${category.key}: ${issue}.`);
+      else if ((category.lifecycle as ItemLifecycle).replacedBy)
+        issues.push(
+          `Category ${category.key}: categories have no replacement.`,
+        );
     }
     if (ids.has(category.id) || keys.has(category.key))
       issues.push(`Duplicate category ID or field key: ${category.key}.`);
@@ -263,6 +277,7 @@ export function taxonomyIssues(value: unknown): string[] {
         "value",
         "description",
         "includeInProjections",
+        "lifecycle",
       ]) ||
       typeof term.id !== "string" ||
       !taxonomyIdPattern.test(term.id) ||
@@ -299,6 +314,30 @@ export function taxonomyIssues(value: unknown): string[] {
     if (terms.has(term.id) || ids.has(term.id))
       issues.push(`Duplicate taxonomy ID: ${term.id}.`);
     terms.add(term.id);
+    if (term.lifecycle !== undefined) {
+      const issue = lifecycleIssue(term.lifecycle);
+      if (issue) issues.push(`${term.id}: ${issue}.`);
+      else {
+        const replacedBy = (term.lifecycle as ItemLifecycle).replacedBy;
+        const replacement =
+          replacedBy &&
+          value.terms.find(
+            (item) =>
+              object(item) && item.id === replacedBy && item.id !== term.id,
+          );
+        // The replacement may be deprecated later, so chains stay valid.
+        // Choosing a replacement still offers only active terms.
+        if (
+          replacedBy &&
+          (!replacement ||
+            !object(replacement) ||
+            replacement.categoryId !== term.categoryId)
+        )
+          issues.push(
+            `Deprecated term ${String(term.value)} is replaced by a term that is missing or in another category.`,
+          );
+      }
+    }
     const key = taxonomyValueKey(term.value as TaxonomyValue);
     const record = {
       categoryId: term.categoryId,

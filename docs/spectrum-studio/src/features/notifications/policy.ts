@@ -146,6 +146,10 @@ export function deletedText(kind: NotificationKindId, noun?: string) {
   return `${nounFor(kind, noun)} deleted`;
 }
 
+export function deprecatedText(kind: NotificationKindId, noun?: string) {
+  return `${nounFor(kind, noun)} deprecated`;
+}
+
 /** Alert dialog titles state the outcome; never a question (Spectrum). */
 export function deleteDialogTitle(kind: NotificationKindId, noun?: string) {
   return `Delete ${nounFor(kind, noun).toLowerCase()}`;

@@ -5,7 +5,7 @@ import { setFlagsFromString } from "node:v8";
 import { runInNewContext } from "node:vm";
 import { createStore } from "jotai";
 
-// The check runner stops heavy checks above 1 GiB; collect garbage between scenarios
+// The check runner stops heavy checks above 4 GiB; collect garbage between scenarios
 // so each one starts from a clean heap and its timing excludes earlier garbage.
 setFlagsFromString("--expose-gc");
 const collectGarbage = runInNewContext("gc") as () => void;

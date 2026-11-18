@@ -7,11 +7,13 @@ import {
   TabList,
   TabPanel,
   Tabs,
+  Text,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { TaxonomyView } from "../views/registry/TaxonomyView";
 import { useAtomValue } from "jotai";
 import { persistenceIssuesAtom } from "../state/persist";
+import { CategoryIcon } from "../components/CategoryIcon";
 
 const pageStyles = style({
   display: "flex",
@@ -52,9 +54,20 @@ export default function Registry() {
             <Content>{issue}</Content>
           </InlineAlert>
         ))}
-        <Tabs density="compact" aria-label="Registry sections">
+        <Tabs
+          density="compact"
+          aria-label="Registry sections"
+          disabledKeys={["components"]}
+        >
           <TabList>
-            <Tab id="taxonomy">Taxonomy</Tab>
+            <Tab id="taxonomy">
+              <CategoryIcon category="tokens" />
+              <Text>Token terms</Text>
+            </Tab>
+            <Tab id="components">
+              <CategoryIcon category="components" />
+              <Text>Component terms</Text>
+            </Tab>
           </TabList>
           <TabPanel styles={tabPanelStyles} id="taxonomy">
             <TaxonomyView />

@@ -330,7 +330,9 @@ test("Analysis filters evidence and downloads a defaults report without runtime 
   const report = JSON.parse(await readFile((await download.path())!, "utf8"));
   expect(report.inputs.app.kind).toBe("defaults");
   expect(report.inputs.reference.hash).toMatch(/^[a-f0-9]{64}$/);
-  expect(report.mappingVersion).toBe("foundation-color-ramp-v1");
+  expect(report.mappingVersion).toBe(
+    "foundation-color-ramp-v2-typography-size-v1",
+  );
   if (process.env.DESIGN_DATA_PATH) {
     expect(
       report.metrics.find(

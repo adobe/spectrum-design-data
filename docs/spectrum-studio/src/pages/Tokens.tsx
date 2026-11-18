@@ -183,6 +183,8 @@ export default function Tokens() {
                 tokens.splice(Math.min(index, tokens.length), 0, alias);
                 store.set(aliasesAtom, { ...current, tokens });
               },
+              // Aliases are authored in Studio, never part of the shipped data.
+              lifecycle: { shipped: false },
             })
           }
           onSave={(patch) =>

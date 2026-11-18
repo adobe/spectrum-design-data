@@ -19,6 +19,11 @@ action) and `src/components/notifications/` (provider and `useNotify`).
    - `part`: a piece inside an item being edited. Silent.
    - `item`: an authored item. Toast with Undo.
    - `api`: always part of the exported design data. Always confirmed.
+
+   Then classify it in `LIFECYCLE_KINDS` (`lifecycleKinds.ts`). If it is
+   `lifecycle`, follow `.agents/rules/deletion-and-deprecation.mdc` and pass a
+   `lifecycle` descriptor so shipped items are renamed or deprecated, not
+   deleted.
 3. Call `useNotify()` in the component:
 
    ```tsx

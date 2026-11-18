@@ -27,6 +27,9 @@ import type {
 } from "./analysisWork";
 
 const defaultSnapshotAtom = atom(() => createDefaultSnapshot());
+// React's development double-mount unmounts and remounts straight away; the
+// worker (and its reference load) is only released when nobody remounts.
+let analysisUsers = 0;
 
 export function useAnalysisWork(
   dataset: AnalysisDataset,
@@ -114,10 +117,14 @@ export function useAnalysisWork(
     const gapController = new LatestRequest(gaps, publishAssessment);
     current.current = controller;
     currentGaps.current = gapController;
+    analysisUsers++;
     return () => {
       controller.cancel();
       gapController.cancel();
-      analysisService.dispose();
+      analysisUsers--;
+      queueMicrotask(() => {
+        if (!analysisUsers) analysisService.dispose();
+      });
       current.current = undefined;
       currentGaps.current = undefined;
     };

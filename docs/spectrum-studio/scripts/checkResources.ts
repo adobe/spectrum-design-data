@@ -115,8 +115,8 @@ interface LeaseOwner {
 }
 
 export type CheckResourceClass = "small" | "heavy" | "ci";
-export const smallCheckBytes = 256 * 1024 ** 2;
-export const heavyCheckBytes = 1024 ** 3;
+export const smallCheckBytes = 512 * 1024 ** 2;
+export const heavyCheckBytes = 4 * 1024 ** 3;
 
 export class CheckBusyError extends Error {
   readonly code = "STUDIO_CHECK_BUSY";

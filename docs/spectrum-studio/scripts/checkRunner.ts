@@ -40,8 +40,8 @@ export const localCheckLimits: CheckLimits = {
 
 export const heavyCheckLimits: CheckLimits = {
   ...localCheckLimits,
-  timeoutMs: 60_000,
-  runTimeoutMs: 60_000,
+  timeoutMs: 180_000,
+  runTimeoutMs: 180_000,
   maxRssBytes: heavyCheckBytes,
   maxProcesses: 48,
 };

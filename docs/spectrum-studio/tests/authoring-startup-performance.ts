@@ -7,7 +7,7 @@ import { createStore } from "jotai";
 import LZString from "lz-string";
 import type { EditSessionSnapshot } from "../src/features/edit-session/state";
 
-// The check runner stops heavy checks above 1 GiB; collect garbage between steps
+// The check runner stops heavy checks above 4 GiB; collect garbage between steps
 // so each one starts from a clean heap and its timing excludes earlier garbage.
 setFlagsFromString("--expose-gc");
 const collectGarbage = runInNewContext("gc") as () => void;

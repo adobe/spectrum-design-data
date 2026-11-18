@@ -22,6 +22,7 @@ import {
   foundationValueType,
 } from "../src/features/design-data/foundationValues";
 import { reviewedTypographyMappings } from "../src/features/design-data/mappings";
+import { isOutputMetadata } from "../src/features/design-data/materialization";
 import {
   isInventoryToken,
   buildTokenInventory,
@@ -507,7 +508,20 @@ const desktop = compared.concepts
   )!;
 assert.equal(desktop.row.app?.name, "text-size-100");
 assert.equal(desktop.concept.label, "font-size-100");
-assert.equal(desktop.row.verdict, "pass");
+assert.equal(
+  desktop.row.verdict,
+  "pass",
+  JSON.stringify({
+    issues: desktop.row.issues,
+    app: generated.inventoryStatus,
+    reference: liveReference.inventoryStatus,
+    modes: compared.modeCoverage.sets.map((set) => [
+      set.app?.key ?? set.reference?.key,
+      set.result,
+      set.issues,
+    ]),
+  }),
+);
 assert.deepEqual(desktop.concept.differences, []);
 assert.equal(
   comparisonValuePreview(desktop.concept, desktop.row, "reference").kind,
@@ -556,6 +570,39 @@ const fontMapping = {
   reference: desktop.row.reference.id,
 };
 const pairReport = compareDesignData(generated, liveReference);
+// Shipped defaults must stay evaluable: tier warnings are diagnostics, and
+// every generated row (including Styles color roles) has registered provenance.
+assert(isOutputMetadata(generated.outputMetadata, generated.records));
+assert.deepEqual(
+  pairReport.modeCoverage?.sets
+    .filter((set) => set.result === "unassessable")
+    .map((set) => [set.id, set.issues]),
+  [],
+  JSON.stringify({
+    reference: liveReference.errors,
+    invalid: pairReport.findings
+      .filter((finding) => finding.classification === "invalid-input")
+      .map((finding) => finding.message)
+      .slice(0, 10),
+  }),
+);
+// Without the browser's WASM alias resolver, only unresolved reference aliases
+// and genuinely missing app tokens may leave a concept unassessable.
+{
+  const allowed = new Set([
+    "Mode-aware alias resolution is unavailable.",
+    "No confirmed app counterpart.",
+  ]);
+  const unexpected = (pairReport.colorOpacity?.concepts ?? [])
+    .filter((concept) => concept.verdict === "unassessable")
+    .flatMap((concept) =>
+      concept.rows
+        .filter((row) => row.verdict === "unassessable")
+        .flatMap((row) => row.issues.filter((issue) => !allowed.has(issue))),
+    );
+  assert.deepEqual([...new Set(unexpected)].slice(0, 10), []);
+  assert((pairReport.colorOpacity?.counts.pass ?? 0) > 0);
+}
 assert(
   pairReport.findings.some(
     (finding) =>

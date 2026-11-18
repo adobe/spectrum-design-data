@@ -3,14 +3,16 @@
 import {
   computeAnalysisComparison,
   computeAnalysisGaps,
+  type AnalysisComparisonRequest,
   type AnalysisComparisonResult,
 } from "./analysisWork";
 import type { AnalysisInput } from "./comparison";
 import { canonicalJson } from "./canonicalJson";
-import type {
-  AnalysisMessage,
-  AnalysisReply,
-  AnalysisValue,
+import {
+  ANALYSIS_KEPT_RESULTS,
+  type AnalysisMessage,
+  type AnalysisReply,
+  type AnalysisValue,
 } from "./analysisService";
 import {
   loadWasm,
@@ -21,15 +23,45 @@ import {
   reconstructPackagedReference,
   type PackagedReference,
 } from "./packagedReference";
+import {
+  analysisCacheKey,
+  createAnalysisCache,
+  indexedDbAnalysisStore,
+} from "./analysisCache";
+import codeVersion from "virtual:analysis-code-version";
+
+const cache = createAnalysisCache(indexedDbAnalysisStore, codeVersion);
 
 let reference: AnalysisInput | undefined;
 let referenceKey: number | undefined;
 let savedComparison:
   | { key: string; referenceKey?: number; result: AnalysisComparisonResult }
   | undefined;
+// Recent comparisons, so the page can refer to them by message id instead of
+// copying the full app inventory and report back into the worker.
+const kept = new Map<number, AnalysisComparisonResult>();
+const keep = (id: number, result: AnalysisComparisonResult) => {
+  kept.set(id, result);
+  while (kept.size > ANALYSIS_KEPT_RESULTS)
+    kept.delete(kept.keys().next().value!);
+};
+
+async function cachedComparison(
+  request: AnalysisComparisonRequest,
+  save: (write: () => Promise<void>) => void,
+) {
+  const key = await analysisCacheKey(request, request.reference);
+  const stored = key ? await cache.get(key) : undefined;
+  if (stored) return stored;
+  const result = await computeAnalysisComparison(request);
+  if (key) save(() => cache.put(key, { ...result, reference: undefined }));
+  return result;
+}
 
 self.onmessage = async (event: MessageEvent<AnalysisMessage>) => {
-  const { id, input } = event.data;
+  const { id, input, appKey, comparisonKey } = event.data;
+  const saves: (() => Promise<void>)[] = [];
+  const save = (write: () => Promise<void>) => saves.push(write);
   try {
     let value: AnalysisValue;
     if (input.type === "reference") {
@@ -89,13 +121,30 @@ self.onmessage = async (event: MessageEvent<AnalysisMessage>) => {
         );
       referenceKey = event.data.referenceKey;
       if (input.type === "compare") {
-        const result = await computeAnalysisComparison({ ...input, reference });
+        // A missing kept app only costs a fresh projection, so fall back quietly.
+        const cachedApp =
+          input.cachedApp ??
+          (appKey !== undefined ? kept.get(appKey)?.app : undefined);
+        const result = await cachedComparison(
+          { ...input, cachedApp, reference },
+          save,
+        );
         reference = result.reference ?? reference;
-        value = { type: "compare", result };
+        keep(id, result);
+        // The page already holds the reference; sending it back is wasted copying.
+        const reply = { ...result };
+        delete reply.reference;
+        value = { type: "compare", result: reply };
       } else {
+        const comparison =
+          input.comparison ??
+          (comparisonKey !== undefined ? kept.get(comparisonKey) : undefined);
+        if (!comparison)
+          throw new Error(
+            "Analysis comparison cache was replaced. Retry to recompute it.",
+          );
         let saved: AnalysisComparisonResult;
-        if (input.comparison.app.source.kind === "saved")
-          saved = input.comparison;
+        if (comparison.app.source.kind === "saved") saved = comparison;
         else {
           const key = canonicalJson(input.saved);
           if (
@@ -103,16 +152,19 @@ self.onmessage = async (event: MessageEvent<AnalysisMessage>) => {
             savedComparison.key !== key ||
             savedComparison.referenceKey !== referenceKey
           ) {
-            const result = await computeAnalysisComparison({
-              type: "compare",
-              source: {
-                dataset: "saved",
-                saved: input.saved,
-                working: input.saved,
+            const result = await cachedComparison(
+              {
+                type: "compare",
+                source: {
+                  dataset: "saved",
+                  saved: input.saved,
+                  working: input.saved,
+                },
+                reference,
+                resolveValues: true,
               },
-              reference,
-              resolveValues: true,
-            });
+              save,
+            );
             savedComparison = { key, referenceKey, result };
           }
           saved = savedComparison.result;
@@ -121,6 +173,7 @@ self.onmessage = async (event: MessageEvent<AnalysisMessage>) => {
           type: "gaps",
           result: computeAnalysisGaps({
             ...input,
+            comparison,
             reference,
             savedComparison: saved,
           }),
@@ -128,6 +181,8 @@ self.onmessage = async (event: MessageEvent<AnalysisMessage>) => {
       }
     }
     self.postMessage({ id, type: "ready", value } satisfies AnalysisReply);
+    // Storing happens after the reply so the page never waits on IndexedDB.
+    for (const write of saves) await write();
   } catch (failure) {
     self.postMessage({
       id,

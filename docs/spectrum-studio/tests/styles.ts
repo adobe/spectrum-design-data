@@ -16,7 +16,6 @@ import type { TaxonomyDocument } from "../src/features/taxonomy/model";
 import { stylePreview } from "../src/features/styles/preview";
 import { measureOutputContrast } from "../src/features/color-system/outputContrast";
 import { switchStyleColor } from "../src/features/styles/variants";
-import { withStylesVocabulary } from "../src/features/styles/vocabulary";
 import { createLocalVariantProperty } from "../src/features/option-groups/model";
 
 const ids = new Map<string, string>();
@@ -148,11 +147,6 @@ assert.deepEqual(
   synchronizeStylePublications(reorderedProperties, [context], []).publications,
   twoProperties.document.publications,
   "Reordering authored properties does not replace publication identities.",
-);
-assert.equal(
-  withStylesVocabulary(taxonomy),
-  taxonomy,
-  "Ordinary Style edits do not replace an unchanged Registry.",
 );
 assert.deepEqual(basic.result.issues, []);
 assert.equal(basic.result.rows.length, 2);

@@ -504,6 +504,59 @@ try {
     null,
     "Missing immutable objects are not fetched or substituted",
   );
+  const treePath = join(
+    relative(repositoryRoot, appRoot),
+    "src/data/design-data-shadow-profile",
+  )
+    .split("\\")
+    .join("/");
+  const expectedTree = createHash("sha256");
+  for (const file of execFileSync(
+    "git",
+    [
+      "-C",
+      repositoryRoot,
+      "ls-tree",
+      "-r",
+      "-z",
+      "--name-only",
+      revision,
+      "--",
+      treePath,
+    ],
+    { encoding: "utf8" },
+  )
+    .split("\0")
+    .filter((file) => file.endsWith(".json"))
+    .sort((left, right) => left.localeCompare(right, "en")))
+    expectedTree
+      .update(file.slice(treePath.length + 1))
+      .update("\0")
+      .update(
+        execFileSync("git", [
+          "-C",
+          repositoryRoot,
+          "show",
+          `${revision}:${file}`,
+        ]),
+      )
+      .update("\0");
+  const treeDefinition = {
+    ...definition,
+    format: "json-tree" as const,
+    path: treePath,
+  };
+  const pinnedTree = await observeAssessmentEvidence(treeDefinition, pinned);
+  assert.equal(
+    pinnedTree.sha256,
+    expectedTree.digest("hex"),
+    "One batched Git read hashes a committed JSON tree like separate reads",
+  );
+  assert.deepEqual(
+    await observeAssessmentEvidence(treeDefinition, pinned),
+    pinnedTree,
+    "A commit's tree hash is reused on later requests",
+  );
   assert.equal(architectureRegistry.findings.length, 16);
 } finally {
   await rm(directory, { recursive: true, force: true });
