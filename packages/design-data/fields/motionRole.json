@@ -11,5 +11,6 @@
   },
   "scope": "motion",
   "required": false,
-  "valueType": "string"
+  "valueType": "string",
+  "impliesTokenTier": "semantic"
 }

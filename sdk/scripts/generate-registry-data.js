@@ -166,7 +166,17 @@ for (const d of allFieldsSorted) {
   const scope = d.scope ? `Some("${d.scope}")` : "None";
   const valueType = d.valueType || "string";
   const pos = d.serialization?.position ?? 9999;
-  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry != null}, value_type: "${valueType}", exclude_from_legacy_key: ${d.excludeFromLegacyKey === true} },\n`;
+  if (!["component", "semantic", "none"].includes(d.impliesTokenTier)) {
+    throw new Error(
+      `fields/${d.name}.json must declare impliesTokenTier (component, semantic or none)`,
+    );
+  }
+  const implies =
+    d.impliesTokenTier === "none" ? "None" : `Some("${d.impliesTokenTier}")`;
+  const tiers = d.allowedTokenTiers
+    ? `Some(&[${d.allowedTokenTiers.map((t) => `"${t}"`).join(", ")}])`
+    : "None";
+  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry != null}, value_type: "${valueType}", exclude_from_legacy_key: ${d.excludeFromLegacyKey === true}, allowed_token_tiers: ${tiers}, implies_token_tier: ${implies} },\n`;
 }
 generated += `    ]\n}\n`;
 

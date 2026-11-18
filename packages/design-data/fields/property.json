@@ -11,5 +11,6 @@
   },
   "scope": null,
   "required": true,
-  "valueType": "string"
+  "valueType": "string",
+  "impliesTokenTier": "none"
 }

@@ -4,5 +4,5 @@
   "registry": null,
   "validation": "none",
   "serialization": { "position": 9 },
-  "allowedTokenTiers": ["primitive", "foundation"]
+  "allowedTokenTiers": ["primitive", "not-a-tier"]
 }

@@ -56,6 +56,35 @@ Concept categories for name-object fields are declared in the design system's **
 
 **NORMATIVE:** A field with a non-null `scope` declaration **MUST** only appear on tokens of that type. Using a scoped field on a mismatched token type triggers rule SPEC-042 (`field-scope-violation`, warning).
 
+### Token tiers
+
+Every token has a tier. A token **MAY** declare it with `tokenTier` ([`token.schema.json`](../schemas/token.schema.json)): `primitive`, `semantic` or `component`.
+
+* `primitive` — raw values. The name says what the value is (a property with a scale, family or weight), not what it is for.
+* `semantic` — shared purposes or structural roles. The name says what the value is for (a role, object, structure, state, and so on).
+* `component` — tokens defined for a specific component.
+
+**Foundation** is not a tier. It is the canonical dataset layer (see [Cascade](cascade.md)), which holds tokens of all three tiers and is what platforms build on. Use "primitive" only for the primitive tier.
+
+#### Derived tier
+
+**NORMATIVE:** A token without `tokenTier` has the tier derived from the token. The first rule that matches applies:
+
+1. The name has a field whose declaration sets `impliesTokenTier: "component"` → `component`.
+2. The token's value is an alias → `semantic`. A primitive is a terminal value.
+3. The name has a field whose declaration sets `impliesTokenTier: "semantic"` → `semantic`.
+4. Otherwise → `primitive`.
+
+Each field declaration in the foundation catalog sets `impliesTokenTier` to `component`, `semantic` or `none` (the field says nothing about the tier). A token's **effective tier** is its `tokenTier` when declared, otherwise the derived tier.
+
+**NORMATIVE:** A declared `tokenTier` overrides the derived tier. When it differs, rule SPEC-103 (`token-tier-override`, info) reports it so exceptions stay visible.
+
+#### Fields and tiers
+
+A field declaration **MAY** declare `allowedTokenTiers`, a non-empty list of unique tiers. When present, the field applies only to tokens of those tiers; when absent, it applies to every tier. `allowedTokenTiers` is independent of `scope`: a field that declares both applies only where both allow it.
+
+**NORMATIVE:** A token whose effective tier is not in a used field's `allowedTokenTiers` triggers rule SPEC-102 (`field-token-tier-violation`, warning).
+
 ### Semantic / layout token taxonomy
 
 The following concept categories are defined in Spectrum's foundation field catalog for semantic and layout tokens (`scope: null` — universal), ordered by default serialization position. This ordering is the **default serialization order** for legacy format output; it is not a conformance requirement for stored name objects.

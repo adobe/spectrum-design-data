@@ -12,5 +12,6 @@
   "scope": null,
   "required": false,
   "valueType": "string",
-  "excludeFromLegacyKey": true
+  "excludeFromLegacyKey": true,
+  "impliesTokenTier": "semantic"
 }
