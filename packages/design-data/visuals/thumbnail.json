@@ -17,7 +17,7 @@
     "900": 900,
     "1000": 1000
   },
-  "notVisual": ["showImage"],
+  "notVisual": ["hideImage"],
   "parts": {
     "container": {
       "kind": "box",

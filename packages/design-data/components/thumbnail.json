@@ -62,9 +62,9 @@
         { "value": 1000 }
       ]
     },
-    "showImage": {
+    "hideImage": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "isDisabled": {
       "type": "boolean",
