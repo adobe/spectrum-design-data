@@ -1,6 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
-"@adobe/design-data-wasm": patch
+"@adobe/design-data-wasm": minor
 ---
 
 Add the thumbnail visual recipe.
