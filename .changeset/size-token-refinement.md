@@ -16,7 +16,7 @@ Refine size tokens per the Size semantic tokens RFC (SDS-16264, SDS-16083).
   `card-minimum-width-large` is 288px, and both dialog minimum widths stay 288px,
   on desktop and mobile.
 - **Value changes**: `field-width-*` names return at 144/192/240/288px; dividers 200px to 16px.
-- **Tooltip tip**: 4x8px desktop, 5x10px mobile (unconfirmed).
+- **Tooltip tip**: 4x8px desktop, 5x10px mobile.
 - **Relationships**: 561 repointed to shared tokens, 24 duplicates removed.
 - **visuals/accordion.json**: size M preview width uses `field-width-large`.
 - **design-data-wasm**: rebuilt so the embedded dataset has these changes.
