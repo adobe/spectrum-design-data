@@ -366,6 +366,8 @@ test("query result tokens have expected shape", (t) => {
   t.is(typeof first.name, "string");
   t.is(typeof first.layer, "string");
   t.truthy(first.raw);
+  t.true(["primitive", "semantic", "component"].includes(first.tier));
+  t.true(["declared", "derived"].includes(first.tierSource));
 });
 
 // ---------------------------------------------------------------------------

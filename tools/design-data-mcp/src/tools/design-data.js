@@ -209,6 +209,7 @@ function compactToken(ds, token) {
         .join(" "),
     ...tokenValue(ds, token),
     layer: token.layer,
+    tier: token.tier,
     uuid: token.uuid,
   };
   for (const mode of MODE_FIELDS) if (fields[mode]) out[mode] = fields[mode];
@@ -253,7 +254,12 @@ export function createDesignDataTools() {
 
         // Provenance carries source + designDataVersion (the @adobe/spectrum-design-data
         // package version baked into the wasm at build time via EMBEDDED_DATA_VERSION).
-        const { provenance, modeSets } = ds.primer();
+        const {
+          provenance,
+          modeSets,
+          tokenTiers,
+          taxonomyFields: coreFields,
+        } = ds.primer();
         const modesOf = (name) =>
           modeSets.find((m) => m.name === name)?.modes ?? [];
         // Best-effort staleness check (spectrum-design-data-9fe.5) — silent on
@@ -277,6 +283,18 @@ export function createDesignDataTools() {
             indexed: wasm.getIndexedFields(),
             advisory: wasm.getAdvisoryFields() ?? [],
           },
+          tokenTiers,
+          fieldTiers: Object.fromEntries(
+            (coreFields ?? [])
+              .filter((f) => f.allowedTokenTiers || f.impliesTokenTier)
+              .map((f) => [
+                f.name,
+                {
+                  allowedTokenTiers: f.allowedTokenTiers,
+                  impliesTokenTier: f.impliesTokenTier,
+                },
+              ]),
+          ),
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
           guidelines: guidelinesSummary,
@@ -297,7 +315,9 @@ export function createDesignDataTools() {
       },
       description:
         "Filter Spectrum tokens by a query expression. " +
-        "Filterable fields: property, component, variant, state, colorScheme, scale, contrast, uuid. " +
+        "Filterable fields: property, component, variant, state, colorScheme, scale, contrast, uuid, tier. " +
+        "`tier` is primitive, semantic or component, declared by the token or derived from its name and value; " +
+        "e.g. `tier=semantic,property=color`. " +
         "`key=value` pairs join with `,` (AND) or `|` (OR); `!=` negates and `*` is a wildcard. " +
         "`component` matches tokens bound to that component by its relationships. " +
         "Examples: `component=button`, `component=button,state=hover`, " +
@@ -306,7 +326,7 @@ export function createDesignDataTools() {
         "listed in the dataset, so `variant=accent` matches nothing. " +
         "Returns { total, shown, tokens }: each token has its name, final value (aliases " +
         "already followed; `values` by mode instead when it differs by colorScheme, scale or " +
-        "contrast), layer, uuid and modes, active tokens first. At most `limit` " +
+        "contrast), layer, tier, uuid and modes, active tokens first. At most `limit` " +
         "(default 25) are shown; when `total` is larger, narrow the filter " +
         "(state=, property=, colorScheme=) instead of raising the limit. " +
         'Pass detail "full" for the complete token objects.',

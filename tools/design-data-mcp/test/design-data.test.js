@@ -423,6 +423,30 @@ test("design-data-query component=button returns tokens bound to the component",
   t.true(narrowed.total < results.total);
 });
 
+test("design-data-query shows each token's tier and filters by it", async (t) => {
+  const query = byName()["design-data-query"];
+  const semantic = await query.handler({
+    filter: "tier=semantic,property=color",
+  });
+  t.true(semantic.total > 0);
+  for (const token of semantic.tokens) t.is(token.tier, "semantic");
+  const primitive = await query.handler({
+    filter: "tier=primitive,property=color",
+  });
+  t.true(primitive.total > 0);
+  for (const token of primitive.tokens) t.is(token.tier, "primitive");
+});
+
+test("design-data-primer explains tiers and lists a field's allowed tiers", async (t) => {
+  const primer = await byName()["design-data-primer"].handler({});
+  t.regex(primer.tokenTiers, /tier=<tier>/);
+  t.deepEqual(primer.fieldTiers.scaleIndex.allowedTokenTiers, [
+    "primitive",
+    "semantic",
+  ]);
+  t.is(primer.fieldTiers.state.impliesTokenTier, "semantic");
+});
+
 test("design-data-query is capped, compact and says how to narrow", async (t) => {
   const query = byName()["design-data-query"];
   const wide = await query.handler({ filter: "property=*color*" });

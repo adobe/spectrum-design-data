@@ -46,6 +46,7 @@ use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest;
 use design_data_core::text_metrics::TextMetrics;
+use design_data_core::token_tier;
 use design_data_core::validate;
 use design_data_core::visual;
 use design_data_core::write::{write_token, WriteTokenInput};
@@ -1884,6 +1885,7 @@ fn run_resolve(
                     } else if let Some(r) = winner.raw.get("$ref") {
                         println!("Alias:     {r}");
                     }
+                    println!("Tier:      {}", token_tier::effective(winner));
                     println!("File:      {}", winner.file.display());
                     println!("Index:     {}", winner.index);
                     if let Some(uuid) = &winner.uuid {
@@ -3436,6 +3438,7 @@ fn run_query(
                     println!("  {name}");
                     println!("    UUID:    {uuid}");
                     println!("    Schema:  {schema}");
+                    println!("    Tier:    {}", token_tier::effective(t));
                     println!("    File:    {}", t.file.display());
                     println!();
                 }

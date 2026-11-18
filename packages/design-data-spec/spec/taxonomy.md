@@ -50,7 +50,7 @@ The taxonomy is designed with three guiding principles:
 
 ## Token-type taxonomies
 
-Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, default serialization position, and an optional **scope** that restricts the field to a specific token type.
+Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, default serialization position, and an optional **scope** that restricts the field to a specific token type. It can also declare `allowedTokenTiers` (the tiers the field may be used on) and `impliesTokenTier` (the tier a token takes from having the field); see [Token tiers](#token-tiers).
 
 **NORMATIVE:** The field catalog is the authoritative source for what fields exist on the name object. Tools, validators, and serializers **SHOULD** read the catalog rather than hardcoding field knowledge.
 
@@ -75,7 +75,7 @@ Every token has a tier. A token **MAY** declare it with `tokenTier` ([`token.sch
 3. The name has a field whose declaration sets `impliesTokenTier: "semantic"` → `semantic`.
 4. Otherwise → `primitive`.
 
-Each field declaration in the foundation catalog sets `impliesTokenTier` to `component`, `semantic` or `none` (the field says nothing about the tier). A token's **effective tier** is its `tokenTier` when declared, otherwise the derived tier.
+Each field declaration in the foundation catalog sets `impliesTokenTier` to `component`, `semantic` or `none` (the field says nothing about the tier). A token's **effective tier** is its `tokenTier` when declared, otherwise the derived tier. In the foundation dataset, component-specific data lives in [relationship records](relationship-format.md), not in tokens, so the `component` tier is expected to be nearly or entirely empty there; it applies to datasets that do define component-named tokens. The reference implementation reads `impliesTokenTier` and `allowedTokenTiers` from the foundation field catalog, so a dataset's own `fields/` directory does not change derivation or SPEC-102 yet.
 
 **NORMATIVE:** A declared `tokenTier` overrides the derived tier. When it differs, rule SPEC-103 (`token-tier-override`, info) reports it so exceptions stay visible.
 

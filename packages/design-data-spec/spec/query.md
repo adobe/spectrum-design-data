@@ -20,17 +20,18 @@ A **filter expression** is a string that describes a set of conditions a token m
 
 **NORMATIVE:** Implementations **MUST** support the following keys:
 
-| Key           | Source             | Description                         |
-| ------------- | ------------------ | ----------------------------------- |
-| `property`    | `name.property`    | Token property identifier.          |
-| `component`   | `name.component`   | Associated component name.          |
-| `variant`     | `name.variant`     | Component variant.                  |
-| `state`       | `name.state`       | Component or interaction state.     |
-| `colorScheme` | `name.colorScheme` | Color scheme mode set value.        |
-| `scale`       | `name.scale`       | Scale mode set value.               |
-| `contrast`    | `name.contrast`    | Contrast mode set value.            |
-| `uuid`        | `uuid`             | Token UUID (top-level field).       |
-| `$schema`     | `$schema`          | Token schema URL (top-level field). |
+| Key           | Source                    | Description                                                                                                                |
+| ------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `property`    | `name.property`           | Token property identifier.                                                                                                 |
+| `component`   | `name.component`          | Associated component name.                                                                                                 |
+| `variant`     | `name.variant`            | Component variant.                                                                                                         |
+| `state`       | `name.state`              | Component or interaction state.                                                                                            |
+| `colorScheme` | `name.colorScheme`        | Color scheme mode set value.                                                                                               |
+| `scale`       | `name.scale`              | Scale mode set value.                                                                                                      |
+| `contrast`    | `name.contrast`           | Contrast mode set value.                                                                                                   |
+| `uuid`        | `uuid`                    | Token UUID (top-level field).                                                                                              |
+| `$schema`     | `$schema`                 | Token schema URL (top-level field).                                                                                        |
+| `tier`        | `tokenTier`, else derived | The token's effective tier: `primitive`, `semantic` or `component` (see [Taxonomy: Token tiers](taxonomy.md#token-tiers)). |
 
 **NORMATIVE:** Implementations **MUST** reject filter expressions containing keys not listed above with a parse error. Future spec versions MAY add keys.
 

@@ -169,16 +169,17 @@ implements the token lifecycle model described in
 [Evolution](evolution.md). Inspired by Swift's `@available` attribute, Kotlin's `@Deprecated`, and
 OpenAPI 3.3's deprecation model.
 
-| Field                         | Type                                    | Description                                                                                                                    |
-| ----------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `uuid`                        | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                                |
-| `lifecycle.introduced`        | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                                  |
-| `lifecycle.deprecatedIn`      | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                              |
-| `lifecycle.deprecatedComment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                                 |
-| `lifecycle.replacedBy`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
-| `lifecycle.plannedRemoval`    | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecatedIn`.              |
-| `private`                     | boolean                                 | Not part of public API surface.                                                                                                |
-| `rationale`                   | string                                  | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
+| Field                         | Type                                           | Description                                                                                                                    |
+| ----------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `uuid`                        | string (UUID)                                  | Stable unique id for rename tracking and diffs.                                                                                |
+| `lifecycle.introduced`        | string (version)                               | Spec version when the token was first added (e.g. `"1.0.0"`).                                                                  |
+| `lifecycle.deprecatedIn`      | string (version)                               | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                              |
+| `lifecycle.deprecatedComment` | string                                         | Human-readable deprecation explanation and migration guidance.                                                                 |
+| `lifecycle.replacedBy`        | string (UUID) or array of string (UUID)        | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
+| `lifecycle.plannedRemoval`    | string (version)                               | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecatedIn`.              |
+| `private`                     | boolean                                        | Not part of public API surface.                                                                                                |
+| `tokenTier`                   | `"primitive"` \| `"semantic"` \| `"component"` | Overrides the tier derived from the token. Usually omitted; see [Taxonomy: Token tiers](taxonomy.md#token-tiers).              |
+| `rationale`                   | string                                         | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
 
 `private` and `rationale` stay flat (not version-lifecycle concepts).
 

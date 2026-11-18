@@ -31,6 +31,7 @@ pub(crate) const ALLOWED_KEYS: &[&str] = &[
     "contrast",
     "uuid",
     "$schema",
+    "tier",
 ];
 
 /// Return the list of filter keys that are meaningfully supported in the
@@ -317,6 +318,9 @@ pub fn matches_name_field(raw: &serde_json::Value, key: &str, pattern: &str) -> 
 /// ordered array of atomic ids — handled generically here so any array-valued
 /// field resolves to each of its elements.
 pub(crate) fn resolve_key(raw: &serde_json::Value, key: &str) -> Vec<String> {
+    if key == "tier" {
+        return vec![crate::token_tier::effective_raw(raw).to_string()];
+    }
     let field = if NAME_OBJECT_KEYS.contains(&key) {
         raw.get("name").and_then(|n| n.get(key))
     } else if key == "uuid" {
@@ -394,6 +398,11 @@ impl TokenIndex {
         let mut index = TokenIndex::default();
         for (graph_key, token) in &graph.tokens {
             for key in ALLOWED_KEYS {
+                // Derived from the embedded field catalog, not stored in the cache, so it is
+                // never indexed: a `tier` query always scans.
+                if *key == "tier" {
+                    continue;
+                }
                 for value in resolve_key(&token.raw, key) {
                     index.insert(key, &value, graph_key);
                 }
@@ -601,6 +610,36 @@ mod tests {
                 .map(|(name, raw)| (name.to_string(), PathBuf::from("test.json"), raw))
                 .collect(),
         )
+    }
+
+    #[test]
+    fn tier_filter_uses_declared_then_derived_tier() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "p".into(),
+                PathBuf::from("a.json"),
+                serde_json::json!({ "name": { "property": "color", "scaleIndex": 100 }, "value": "#fff" }),
+            ),
+            (
+                "s".into(),
+                PathBuf::from("a.json"),
+                serde_json::json!({ "name": { "property": "gap", "structure": "accessory" }, "value": "1px" }),
+            ),
+            (
+                "o".into(),
+                PathBuf::from("a.json"),
+                serde_json::json!({ "tokenTier": "component", "name": { "property": "gap" }, "value": "1px" }),
+            ),
+        ]);
+        let names = |q: &str| -> Vec<String> {
+            filter(&g, &parse(q).unwrap())
+                .iter()
+                .map(|t| t.name.clone())
+                .collect()
+        };
+        assert_eq!(names("tier=primitive"), vec!["p"]);
+        assert_eq!(names("tier=semantic"), vec!["s"]);
+        assert_eq!(names("tier=component"), vec!["o"]);
     }
 
     // ── indexed_fields ──────────────────────────────────────────────────
