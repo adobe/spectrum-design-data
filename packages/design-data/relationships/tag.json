@@ -2,7 +2,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Components",
     "contextRole": ["layout"],
@@ -12,7 +15,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Components",
     "contextRole": ["layout"],
@@ -22,7 +28,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Components",
     "contextRole": ["layout"],
@@ -32,7 +41,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Components",
     "contextRole": ["layout"],
@@ -42,7 +54,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Components",
     "contextRole": ["layout"],
@@ -52,7 +67,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Components",
     "contextRole": ["layout"],
@@ -322,7 +340,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -332,7 +353,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -342,7 +366,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -352,7 +379,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -362,7 +392,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -372,7 +405,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -941,7 +977,12 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -951,7 +992,12 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -961,7 +1007,12 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -971,7 +1022,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["hover"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -981,7 +1038,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["hover"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -991,7 +1054,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["hover"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1001,7 +1070,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["down"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1011,7 +1086,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["down"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1021,7 +1102,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["down"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1031,7 +1118,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1041,7 +1134,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1051,7 +1150,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false,
+        "state": ["keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1061,16 +1166,26 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": true,
+        "isDisabled": false
+      }
     },
-    "context": "Icon and Clear icon",
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "context": "Label and icon",
+    "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
     "uuid": "a914a65e-52f3-5671-a205-89df7e40cf73"
   },
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false,
+        "isDisabled": false
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1080,7 +1195,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false,
+        "isDisabled": false,
+        "state": ["hover"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1090,7 +1211,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false,
+        "isDisabled": false,
+        "state": ["down"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1100,7 +1227,13 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false,
+        "isDisabled": false,
+        "state": ["keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1110,34 +1243,53 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false,
+        "isDisabled": false
+      }
     },
-    "context": "Icon and Clear icon",
+    "context": "Label and icon",
     "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
     "uuid": "57a45fdb-87df-556c-baa7-e94a415a51f4"
   },
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false,
+        "isDisabled": false
+      }
     },
-    "context": "Icon and Clear icon",
+    "context": "Label and icon",
     "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
     "uuid": "b04f6adc-fd94-592c-a7e0-7147b6191d54"
   },
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": true,
+        "isEmphasized": false,
+        "isDisabled": false
+      }
     },
-    "context": "Icon and Clear icon",
+    "context": "Label and icon",
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
     "uuid": "24e0bdc7-7bd6-54a0-9d45-7fe040b40ee8"
   },
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1147,7 +1299,11 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1157,7 +1313,11 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1167,7 +1327,12 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["hover", "keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1177,7 +1342,12 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["hover", "keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1187,7 +1357,12 @@
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["hover", "keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1197,43 +1372,65 @@
   {
     "scope": {
       "component": "tag",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false
+      }
     },
-    "context": "Icon and Clear icon and Label",
+    "context": "Label and icon",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "05d1f80c-787b-57bc-b893-03113f63969b"
   },
   {
     "scope": {
       "component": "tag",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["hover"]
+      }
     },
-    "context": "Icon and Clear icon and Label",
+    "context": "Label and icon",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "b85e9e7e-ce72-5fef-8b70-c0bac59b4918"
   },
   {
     "scope": {
       "component": "tag",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["down"]
+      }
     },
-    "context": "Icon and Clear icon and Label",
+    "context": "Label and icon",
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "70f4fd27-7a7d-5176-ad07-2072fdabb0d7"
   },
   {
     "scope": {
       "component": "tag",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["keyboard-focus"]
+      }
     },
-    "context": "Icon and Clear icon and Label",
+    "context": "Label and icon",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "ae520a32-3769-5a57-ab70-38dbeba7f57b"
   },
   {
     "scope": {
       "component": "tag",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Fill",
     "contextRole": ["track"],
@@ -1243,9 +1440,12 @@
   {
     "scope": {
       "component": "tag",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Icon and Clear icon",
+    "context": "Label and icon",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "16fb2741-a563-517d-b462-c249f58cc437"
   },
