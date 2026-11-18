@@ -10,6 +10,7 @@
     "documentationUrl": "https://spectrum.adobe.com/page/stack-item/"
   },
   "states": [
+    { "name": "default", "description": "Resting base state." },
     { "name": "down", "trigger": "interaction" },
     { "name": "hover", "trigger": "interaction" },
     { "name": "keyboard-focus", "trigger": "interaction" },
