@@ -183,6 +183,42 @@
           "metadata": {"count":16,"fields":["contextPart","contextQualifier","scope.options.isSelected","scope.options.shape"]}
         }
       ]
+    },
+    {
+      "release": "3.21.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-18",
+      "commit": "c54ad0fcdb3450559eb80c46d5748384fa95485c",
+      "commits": [
+        {
+          "commit": "c54ad0fcdb3450559eb80c46d5748384fa95485c",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1928,"title":"feat(design-data): swatch visual recipe; option color source, strokeOpacity, inside rings","url":"https://github.com/adobe/spectrum-design-data/pull/1928"},
+          "entries": [
+            {"id":"c54ad0fc-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"25fd892f-7c36-5043-b525-082e2e048d7f","name":"color","fields":[{"path":"context","before":"Border and inner border","after":"Border"}]},
+            {"id":"c54ad0fc-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"3333f8f0-f497-50d0-a699-f43d7b3f5add","name":"color","fields":[{"path":"context","before":"Border and inner border","after":"Border"}]},
+            {"id":"c54ad0fc-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"d1b64de1-95d0-5e74-b2d5-d2e6f2f266f6","name":"color","fields":[{"path":"context","before":"Border and inner border","after":"Border"}]},
+            {"id":"c54ad0fc-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Inner border"],"scope":{"property":"color","options":null},"record":"3d4a4bb0-8521-59b8-ad34-34a9c8d60cd3","name":"color","fields":[{"path":"context","before":"Border and inner border","after":"Inner border"}]},
+            {"id":"c54ad0fc-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Inner border"],"scope":{"property":"color","options":null},"record":"ac426ab2-a8bb-5c1d-bf80-df4519479bd9","name":"color","fields":[{"path":"context","before":"Border and inner border","after":"Inner border"}]},
+            {"id":"c54ad0fc-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Inner border"],"scope":{"property":"color","options":null},"record":"5885fb35-3ce3-5fb2-a345-eab49454498a","name":"color","fields":[{"path":"context","before":"Border and inner border","after":"Inner border"}]},
+            {"id":"c54ad0fc-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Disabled icon (outline)"],"scope":{"property":"color","options":null},"record":"f5976899-467d-5a48-a991-1b51df8368e0","name":"color","fields":[{"path":"context","before":"Disabled icon","after":"Disabled icon (outline)"}]},
+            {"id":"c54ad0fc-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Disabled icon (outline)"],"scope":{"property":"opacity","options":null},"record":"88eecd90-9220-5de7-a160-e70be86bfd21","name":"opacity","fields":[{"path":"context","before":"Disabled icon","after":"Disabled icon (outline)"}]},
+            {"id":"c54ad0fc-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Disabled icon"],"scope":{"property":"color","options":null},"record":"d3d98538-ffd8-51a1-b514-472f8753880a","name":"color","fields":[{"path":"$ref","before":"9b799da8-2130-417e-b7ee-5e1154a89837","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"c54ad0fc-9","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch/options/preview","name":"preview","fields":[{"path":"description","before":"This will vary depending on implementation.","after":"The swatch color, as a CSS color: #rgb, #rrggbb (with an optional alpha) or rgb() and rgba(). Unset or fully transparent draws the empty slash. Gradients and images are not drawn."}]},
+            {"id":"c54ad0fc-10","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"swatch/anatomy/border","name":"border","fields":[],"after":{"name":"border","description":"Hairline around the swatch; the heavier selection border when selected."}},
+            {"id":"c54ad0fc-11","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"swatch/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Frame of the swatch: its size, shape and corner rounding.","required":true,"contains":["fill"]}},
+            {"id":"c54ad0fc-12","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"swatch/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"The preview color. The border, band, slash and icon sit on it.","contains":["opacity-checkerboard","border","inner-border","slash","icon"]}},
+            {"id":"c54ad0fc-13","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"swatch/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Ring drawn around the swatch for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"c54ad0fc-14","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"swatch/anatomy/inner-border","name":"inner-border","fields":[],"after":{"name":"inner-border","description":"Light band just inside the selection border; drawn only when selected."}},
+            {"id":"c54ad0fc-15","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"swatch/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[],"after":{"name":"opacity-checkerboard","description":"Pattern behind a preview color with alpha below 1. Not drawn by the recipe yet (qkj5.209)."}},
+            {"id":"c54ad0fc-16","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch/anatomy/icon","name":"icon","fields":[{"path":"description","after":"Cancel glyph drawn over a disabled swatch."}]},
+            {"id":"c54ad0fc-17","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Proposed from Figma S2 Web (Swatch: background, opacity checkerboard, border, inner border when selected, slash for the None value, Cancel icon when disabled) and React Spectrum ColorSwatch and ColorSwatchPicker (fill, checkerboard, slash, selection border and inner band, focusRing). SWC gen2 has no swatch. Figma Value Mixed and Add (dash and add icons) are not declared: only Figma has them. Hover draws a Tooltip in Figma (its own component) and down changes nothing, so both are notVisual. The disabled Cancel look is Figma only; React Spectrum has no disabled swatch. The tree container > fill > {opacity-checkerboard, border, inner-border, slash, icon} is a renderer limit, not a statement about the design: the renderer overlays parts only inside a flowed box, so they nest under fill. Do not flatten it as a modeling fix. opacity-checkerboard is declared because both sources have it, but no recipe part draws it yet (qkj5.209). Reviewed by the owner 2026-11-18."}]},
+            {"id":"c54ad0fc-18","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"swatch/visual","name":"swatch","fields":[]}
+          ],
+          "metadata": {"count":17,"fields":["anatomyReview.reviewedIn","anatomyReview.status","contextPart","scope.options.isSelected","scope.options.shape","scope.options.size"]}
+        }
+      ]
     }
   ]
 }

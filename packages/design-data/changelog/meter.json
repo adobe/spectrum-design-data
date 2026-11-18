@@ -215,6 +215,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.21.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "c54ad0fcdb3450559eb80c46d5748384fa95485c",
+      "commits": [
+        {
+          "commit": "581dcb7dde593787893c6a905164f487cececff1",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1924,"title":"feat(design-data): progress-circle visual recipe; progress sweep and strokeWidth","url":"https://github.com/adobe/spectrum-design-data/pull/1924"},
+          "entries": [
+            {"id":"581dcb7d-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"meter/options/maxValue","name":"maxValue","fields":[{"path":"default","before":1,"after":100}]}
+          ]
+        }
+      ]
     }
   ]
 }
