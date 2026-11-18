@@ -138,6 +138,25 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop"}},"record":"71ffdb80-5555-501f-821e-2efb410ed43c","name":"size[scale=desktop]","fields":[{"path":"context","before":"Size (keyboard focus)","after":"Size"}]},
+            {"id":"0b8924f1-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile"}},"record":"fd872767-bdd5-5132-b522-cf5787d61620","name":"size[scale=mobile]","fields":[{"path":"context","before":"Size (keyboard focus)","after":"Size"}]}
+          ],
+          "metadata": {"count":4,"fields":["contextQualifier","scope.options.scale","scope.options.state"]}
+        }
+      ]
     }
   ]
 }

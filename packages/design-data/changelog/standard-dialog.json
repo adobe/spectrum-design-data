@@ -97,6 +97,31 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"1e312963-150d-53d7-8867-c0f7af0df4bb","name":"maximum-width","fields":[{"path":"$ref","before":"c00d9b06-f198-4cd5-9b69-ed3796314dab","after":"0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"}]},
+            {"id":"0b8924f1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"02cff0f3-b914-51ba-aeba-f677d3d12f30","name":"maximum-width","fields":[{"path":"$ref","before":"1c886eb9-f651-42ce-baff-9b3996077f92","after":"b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"}]},
+            {"id":"0b8924f1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"519772cb-3122-524d-8edf-81a0328330b3","name":"maximum-width","fields":[{"path":"$ref","before":"5ec703d4-19d9-4be5-976f-e4c1966c0d3d","after":"59f1835d-dd9f-4ff1-aad6-ba9c7dcc272a"}]},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"l"}},"record":"5ec703d4-19d9-4be5-976f-e4c1966c0d3d","name":"maximum-width[size=l]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"59f1835d-dd9f-4ff1-aad6-ba9c7dcc272a"}],"rationale":"Deprecated via refine-from-sheets from row 272 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"l"}},"record":"5ec703d4-19d9-4be5-976f-e4c1966c0d3d","name":"maximum-width[size=l]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 272 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 272 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"m"}},"record":"1c886eb9-f651-42ce-baff-9b3996077f92","name":"maximum-width[size=m]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"}],"rationale":"Deprecated via refine-from-sheets from row 273 of the mapping sheet."},
+            {"id":"0b8924f1-6","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"m"}},"record":"1c886eb9-f651-42ce-baff-9b3996077f92","name":"maximum-width[size=m]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 273 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 273 of the mapping sheet."},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"s"}},"record":"c00d9b06-f198-4cd5-9b69-ed3796314dab","name":"maximum-width[size=s]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"}],"rationale":"Deprecated via refine-from-sheets from row 274 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"s"}},"record":"c00d9b06-f198-4cd5-9b69-ed3796314dab","name":"maximum-width[size=s]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 274 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 274 of the mapping sheet."}
+          ]
+        }
+      ]
     }
   ]
 }

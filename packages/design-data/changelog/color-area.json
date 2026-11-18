@@ -98,6 +98,22 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [],
+          "metadata": {"count":8,"fields":["scope.options.scale"]}
+        }
+      ]
     }
   ]
 }

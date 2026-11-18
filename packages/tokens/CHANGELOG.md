@@ -1,5 +1,27 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 15.8.0
+
+### Minor Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`0b8924f`](https://github.com/adobe/spectrum-design-data/commit/0b8924f15646d42b4787537648f079eb86d0c9c3) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Refine size tokens per the Size semantic tokens RFC (SDS-16264, SDS-16083).
+  - **New shared tokens**: 149 added (`banner-*`, `base-*`, `container-*`, `size-*`, `field-width-*`).
+  - **Deprecations**: 231 deprecated, 17 with no replacement; 45 computed or platform tokens stay.
+  - **Calculated sizing**: 6 replacements are calculated (input height x 4, media width / ratio).
+  - **Mobile**: 59 shared tokens get a mobile value (x 1.25, half up); 4 widths keep their S2
+    mobile values. 11 component tokens stay active at their S2 sizes: 3 color controls, 7 color
+    area, wheel and handle sizes (x 1.25 on mobile), and the thumbnail checkerboard (4px).
+  - **Width exceptions**: `illustrated-message-vertical-maximum-width` is 352px,
+    `card-minimum-width-large` is 288px, and both dialog minimum widths stay 288px,
+    on desktop and mobile.
+  - **Divider and tooltip tip**: divider L is 4px desktop, 5px mobile; tooltip tip is 4x8px, 5x10px.
+  - **Value changes**: `field-width-*` return at 144/192/240/288px; divider minimum length is 16px.
+  - **Relationships**: 499 repointed to shared tokens, 24 duplicates removed.
+  - **visuals/accordion.json**: size M preview width uses `field-width-large`.
+  - **design-data-wasm**: rebuilt so the embedded dataset has these changes.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+
 ## 15.7.0
 
 ### Minor Changes

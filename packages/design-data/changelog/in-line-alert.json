@@ -194,6 +194,31 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Minimum title area height"],"record":"81ebf2b1-01fd-45a3-a099-72048e7d7991","name":"component-height-50[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"053e6718-fedb-4944-8e17-ea49f263dd25"}],"rationale":"Deprecated via refine-from-sheets from row 132 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum title area height"],"record":"81ebf2b1-01fd-45a3-a099-72048e7d7991","name":"component-height-50[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 132 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 132 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Minimum title area height"],"record":"fede8012-f00b-412b-8981-16f60a6133ab","name":"component-height-50[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"053e6718-fedb-4944-8e17-ea49f263dd25"}],"rationale":"Deprecated via refine-from-sheets from row 132 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum title area height"],"record":"fede8012-f00b-412b-8981-16f60a6133ab","name":"component-height-50[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 132 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 132 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":null},"record":"f14ba33d-fe21-5b48-a9f9-cb4bc2c04ae2","name":"minimum-width","fields":[{"path":"$ref","before":"8007ebd8-fd67-4dc2-8444-9e6a50c88675","after":"3e2c5e59-3167-453e-b484-ad0d6d6506da"}]},
+            {"id":"0b8924f1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Minimum title area height"],"scope":{"property":"component-height-50","options":null},"record":"9bd2c7de-b925-596e-9310-9a0f20ae7ca9","name":"component-height-50","fields":[{"path":"$ref","before":"81ebf2b1-01fd-45a3-a099-72048e7d7991","after":"053e6718-fedb-4944-8e17-ea49f263dd25"}]},
+            {"id":"0b8924f1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Minimum title area height"],"scope":{"property":"component-height-50","options":null},"record":"5174c5d8-f55a-5603-9960-203717e2f528","name":"component-height-50","fields":[{"path":"$ref","before":"fede8012-f00b-412b-8981-16f60a6133ab","after":"0b8813a4-a6e4-5e25-8dbb-a716595b9e3d"}]},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":null},"record":"8007ebd8-fd67-4dc2-8444-9e6a50c88675","name":"minimum-width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"3e2c5e59-3167-453e-b484-ad0d6d6506da"}],"rationale":"Deprecated via refine-from-sheets from row 204 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":null},"record":"8007ebd8-fd67-4dc2-8444-9e6a50c88675","name":"minimum-width","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared banner-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 204 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 204 of the mapping sheet."}
+          ]
+        }
+      ]
     }
   ]
 }
