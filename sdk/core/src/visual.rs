@@ -4390,7 +4390,13 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             "box" => {
                 let mut layers = vec![(attrs.clone(), n.fill.clone())];
                 if let Some(p) = &n.pattern {
-                    let (id, z) = (format!("pattern-{i}"), p.size * 2.0);
+                    // The id names the whole definition, so SVGs inlined in one page can share an id only
+                    // when the definitions are identical.
+                    let key: String = format!("{}-{}-{}-{}", p.alt, p.size, n.x, n.y)
+                        .chars()
+                        .map(|c| if c.is_ascii_alphanumeric() { c } else { '_' })
+                        .collect();
+                    let (id, z) = (format!("pattern-{key}"), p.size * 2.0);
                     let _ = write!(
                         s,
                         "<defs><pattern id=\"{id}\" x=\"{}\" y=\"{}\" width=\"{z}\" height=\"{z}\" patternUnits=\"userSpaceOnUse\"><rect x=\"{sz}\" width=\"{sz}\" height=\"{sz}\" fill=\"{alt}\"/><rect y=\"{sz}\" width=\"{sz}\" height=\"{sz}\" fill=\"{alt}\"/></pattern></defs>",
@@ -4851,6 +4857,12 @@ mod tests {
         }
         let svg = scene_to_svg(&scene);
         assert_eq!(svg.matches("<pattern ").count(), 2);
+        let ids: std::collections::HashSet<_> = svg
+            .split("<pattern id=\"")
+            .skip(1)
+            .map(|t| &t[..t.find('"').unwrap()])
+            .collect();
+        assert_eq!(ids.len(), 2, "two different boxes need two ids: {svg}");
         assert!(svg.contains("fill=\"url(#pattern-"), "{svg}");
         assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
     }
