@@ -208,36 +208,39 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 .map(|(k, v)| (k.to_string(), v.clone()))
                 .collect()
         };
-        type Case<'a> = (&'static str, &'a [(&'a str, Value)], &'a str);
+        // (label, size, options, color scheme). Size is the request's, not an option.
+        type Case<'a> = (&'static str, &'static str, &'a [(&'a str, Value)], &'a str);
         let cases: [Case; 5] = [
-            ("half", &[("value", 0.5.into())], "light"),
+            ("half", "m", &[("value", 0.5.into())], "light"),
             (
                 "indeterminate",
+                "m",
                 &[("isIndeterminate", true.into())],
                 "light",
             ),
             (
                 "large-three-quarters",
-                &[("size", "l".into()), ("value", 0.75.into())],
+                "l",
+                &[("value", 0.75.into())],
                 "light",
             ),
             (
                 "static-white-small",
-                &[
-                    ("size", "s".into()),
-                    ("value", 0.25.into()),
-                    ("staticColor", "white".into()),
-                ],
+                "s",
+                &[("value", 0.25.into()), ("staticColor", "white".into())],
                 "dark",
             ),
             (
                 "static-black-full",
+                "m",
                 &[("value", 1.into()), ("staticColor", "black".into())],
                 "light",
             ),
         ];
-        for (label, opts, scheme) in cases {
-            out.push((label, req(vec![], with(opts), scheme, "desktop")));
+        for (label, size, opts, scheme) in cases {
+            let mut r = req(vec![], with(opts), scheme, "desktop");
+            r.size = size.into();
+            out.push((label, r));
         }
     }
     // Meter: variants set the fill colour through relationships, and a static colour must win over
