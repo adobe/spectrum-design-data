@@ -353,6 +353,47 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Link: the underline appears on a quiet standalone link only on hover or keyboard focus (the
+    // ring follows the label's corner radius), an inline link is regular weight and always
+    // underlined, and a static colour over the dark scheme.
+    if name == "link" {
+        let with = |pairs: &[(&str, Value)]| -> HashMap<String, Value> {
+            pairs
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        out.push((
+            "quiet-hover",
+            req(
+                vec!["hover".into()],
+                with(&[("isQuiet", true.into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "secondary-keyboard-focus",
+            req(
+                vec!["keyboard-focus".into()],
+                with(&[("variant", "secondary".into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "inline-static-white",
+            req(
+                vec![],
+                with(&[
+                    ("isStandalone", false.into()),
+                    ("staticColor", "white".into()),
+                ]),
+                "dark",
+                "desktop",
+            ),
+        ));
+    }
     // Avatar: the disabled dim on a gradient backdrop, the stroke over the dark scheme, and a
     // large size on mobile with the 1px stroke (the 2px stroke from size 1000 has no token yet).
     if name == "avatar" {

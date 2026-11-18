@@ -259,7 +259,10 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                 });
             }
         }
-        "text" => draw_text(cv, xf, n, fonts, diags),
+        "text" => {
+            draw_text(cv, xf, n, fonts, diags);
+            draw_underline(cv, xf, n, diags);
+        }
         "progress" => {
             let (cx, cy, r, sw) = crate::visual::progress_geometry(n);
             let reach = (r + sw) * 2.0;
@@ -338,6 +341,21 @@ fn pick_font<'a>(
         );
     }
     Some(chosen)
+}
+
+/// The line under a text node that binds `textDecoration: underline`, in the text's color.
+fn draw_underline(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
+    let Some(u) = n.underline else { return };
+    let color = color_of(n.color.as_deref(), "text", &n.part, diags).unwrap_or(Rgba::BLACK);
+    let (x, y, w, h) = u.rect(n);
+    paint(
+        cv,
+        xf,
+        (x, y, x + w, y + h),
+        color,
+        Paint::Fill,
+        |px, py| rrect_sdf(px, py, x, y, w, h, [0.0; 4]),
+    );
 }
 
 /// Text from the font's outlines, left aligned at the node's `x` and vertically centered on
@@ -521,6 +539,7 @@ mod tests {
             color: None,
             icon: None,
             rotation: None,
+            underline: None,
             tokens: vec![],
         }
     }
@@ -740,6 +759,23 @@ mod tests {
             .filter(|&y| (0..img.width).any(|x| at(img, x, y)[3] > 127))
             .collect();
         Some((*rows.first()?, *rows.last()?))
+    }
+
+    #[test]
+    fn underline_is_a_line_under_the_text_in_its_color() {
+        let mut n = node("text", "label", 2.0, 2.0, 20.0, 12.0);
+        n.text = Some("Hi".into());
+        n.font_size = 10.0;
+        n.color = Some("#ff0000".into());
+        n.underline = Some(crate::visual::Underline {
+            thickness: 2.0,
+            offset: 1.0,
+        });
+        // Baseline: 2 + 6 + 3.5 = 11.5, so the line covers y 12.5 to 14.5.
+        assert_eq!(n.underline.unwrap().rect(&n), (2.0, 12.5, 20.0, 2.0));
+        let (img, _) = render(&scene(24.0, 16.0, vec![n]), 1.0);
+        assert_eq!(at(&img, 10, 13), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 10, 15)[3], 0);
     }
 
     #[test]
