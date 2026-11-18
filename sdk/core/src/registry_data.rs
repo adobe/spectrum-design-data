@@ -1230,6 +1230,12 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
+      "id": "clear-button",
+      "label": "Clear Button",
+      "description": "Button that removes or clears a value inside a component (the remove control on a tag, the clear control in a search field). React Spectrum ClearButton; an in-field button.",
+      "usedIn": ["s2-docs"]
+    },
+    {
       "id": "close-button",
       "label": "Close Button",
       "description": "Dismiss or close button element within a component (dialogs, alerts, tags, panels)",
