@@ -49,24 +49,55 @@
   ],
   "options": {
     "label": { "type": "string" },
+    "size": {
+      "type": "string",
+      "pattern": "^(s|m|l)$",
+      "default": "m",
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
+    },
     "hasAvatar": { "type": "boolean", "default": false },
     "isRemovable": { "type": "boolean", "default": false },
+    "isSelected": { "type": "boolean", "default": false },
+    "isEmphasized": { "type": "boolean", "default": false },
     "isError": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false },
-    "isReadOnly": { "type": "boolean", "default": false }
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "anatomy": [
     {
-      "name": "clear-icon",
-      "description": "Icon affordance that removes the tag."
+      "name": "container",
+      "description": "Rounded background that holds the avatar or icon, the label and the clear button.",
+      "required": true,
+      "contains": ["avatar", "icon", "label", "clear-button"]
     },
-    { "name": "cross-icon", "description": "Cross/X icon shown on the tag." }
+    {
+      "name": "avatar",
+      "description": "Optional leading avatar, shown when hasAvatar is set."
+    },
+    { "name": "icon", "description": "Optional leading workflow icon." },
+    { "name": "label", "description": "Tag text.", "required": true },
+    {
+      "name": "clear-button",
+      "description": "Button that removes the tag, shown when isRemovable is set (React Spectrum ClearButton, the shared in-field button)."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn outside the container for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
   ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "clear-icon and cross-icon were one part (the remove control), now clear-button (React Spectrum ClearButton, an in-field button; to be nested once the in-field-button recipe exists). avatar and icon are optional leading parts; an image part is added with the Image option. focus-indicator is state-only."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["dismiss"],
