@@ -166,6 +166,7 @@ export const COMPONENTS_WITHOUT_HUB_PAGE = [
   "bottom-navigation-android",
   "card",
   "card-horizontal",
+  "clear-button",
   "coach-indicator",
   "coach-mark",
   "code",
