@@ -16,37 +16,64 @@
 //! 3. a name field whose catalog entry implies `semantic` → `semantic`;
 //! 4. otherwise → `primitive`.
 
-use crate::graph::TokenRecord;
+use serde_json::Value;
+
+use crate::graph::{extract_alias_target, TokenRecord};
 use crate::registry::FieldCatalog;
 
 /// The tier a token declares with `tokenTier`, if any.
 pub fn explicit(record: &TokenRecord) -> Option<&str> {
-    record.raw.get("tokenTier").and_then(|v| v.as_str())
+    explicit_raw(&record.raw)
 }
 
 /// The tier derived from the token's name fields and value, ignoring any `tokenTier`.
 pub fn derive(record: &TokenRecord) -> &'static str {
+    derive_raw(&record.raw)
+}
+
+/// The explicit tier when declared, otherwise the derived one.
+pub fn effective(record: &TokenRecord) -> &str {
+    effective_raw(&record.raw)
+}
+
+/// [`explicit`] for a token's source JSON.
+pub fn explicit_raw(raw: &Value) -> Option<&str> {
+    raw.get("tokenTier").and_then(|v| v.as_str())
+}
+
+/// [`derive`] for a token's source JSON.
+pub fn derive_raw(raw: &Value) -> &'static str {
     let catalog = FieldCatalog::embedded();
     let implied = |tier: &str| {
-        record
-            .raw
-            .get("name")
+        raw.get("name")
             .and_then(|v| v.as_object())
             .is_some_and(|name| {
                 name.keys()
                     .any(|k| catalog.get(k).and_then(|e| e.implies_token_tier) == Some(tier))
             })
     };
+    let is_alias = raw
+        .as_object()
+        .is_some_and(|obj| extract_alias_target(obj).is_some());
     if implied("component") {
         "component"
-    } else if record.alias_target.is_some() || implied("semantic") {
+    } else if is_alias || implied("semantic") {
         "semantic"
     } else {
         "primitive"
     }
 }
 
-/// The explicit tier when declared, otherwise the derived one.
-pub fn effective(record: &TokenRecord) -> &str {
-    explicit(record).unwrap_or_else(|| derive(record))
+/// [`effective`] for a token's source JSON.
+pub fn effective_raw(raw: &Value) -> &str {
+    explicit_raw(raw).unwrap_or_else(|| derive_raw(raw))
+}
+
+/// Where the effective tier comes from: `"declared"` (a `tokenTier` override) or `"derived"`.
+pub fn source_raw(raw: &Value) -> &'static str {
+    if explicit_raw(raw).is_some() {
+        "declared"
+    } else {
+        "derived"
+    }
 }

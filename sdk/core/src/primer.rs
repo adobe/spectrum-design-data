@@ -45,7 +45,20 @@ pub struct PrimerField {
     pub required: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+    /// Token tiers this field is limited to; absent means every tier.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub allowed_token_tiers: Option<Vec<String>>,
+    /// `"component"` or `"semantic"` when having this field implies that tier.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub implies_token_tier: Option<String>,
 }
+
+/// How a token's tier is found, for the primer's `tokenTiers` entry.
+pub const TOKEN_TIERS_SUMMARY: &str = "Every token has a tier: primitive (raw values), semantic \
+(shared purposes or structural roles) or component (defined for one component). A token's tier is \
+its tokenTier when declared, otherwise derived: a name field implying component gives component; \
+an alias value gives semantic; a name field implying semantic gives semantic; otherwise primitive. \
+Query it with tier=<tier>. A field's allowedTokenTiers limits where it may be used (SPEC-102).";
 
 /// Full primer payload assembled from a [`TokenGraph`].
 ///
@@ -65,6 +78,8 @@ pub struct PrimerData {
     /// `extensions.platformExtensions`. Empty unless a manifest supplied them.
     pub platform_extensions: Vec<String>,
     pub taxonomy_fields: Vec<PrimerField>,
+    #[serde(default)]
+    pub token_tiers: String,
     pub manifest: serde_json::Value,
     pub provenance: serde_json::Value,
 }
@@ -105,10 +120,17 @@ pub fn build(graph: &TokenGraph, provenance: serde_json::Value) -> PrimerData {
     let mut taxonomy_fields: Vec<PrimerField> = graph
         .fields
         .iter()
-        .map(|f| PrimerField {
-            name: f.name.clone(),
-            required: f.required,
-            description: f.description.clone(),
+        .map(|f| {
+            let entry = crate::registry::FieldCatalog::embedded().get(&f.name);
+            PrimerField {
+                name: f.name.clone(),
+                required: f.required,
+                description: f.description.clone(),
+                allowed_token_tiers: entry
+                    .and_then(|e| e.allowed_token_tiers)
+                    .map(|t| t.iter().map(|s| s.to_string()).collect()),
+                implies_token_tier: entry.and_then(|e| e.implies_token_tier).map(str::to_string),
+            }
         })
         .collect();
     taxonomy_fields.sort_by(|a, b| a.name.cmp(&b.name));
@@ -120,6 +142,7 @@ pub fn build(graph: &TokenGraph, provenance: serde_json::Value) -> PrimerData {
         components,
         platform_extensions,
         taxonomy_fields,
+        token_tiers: TOKEN_TIERS_SUMMARY.to_string(),
         manifest: graph.manifest.clone(),
         provenance,
     }
@@ -161,5 +184,24 @@ mod tests {
             payload.platform_extensions,
             vec!["Web Components:button.style".to_string()]
         );
+    }
+
+    #[test]
+    fn build_surfaces_field_tier_metadata_and_summary() {
+        use crate::graph::FieldRecord;
+        let field = |name: &str| FieldRecord {
+            name: name.to_string(),
+            required: false,
+            description: None,
+        };
+        let graph = TokenGraph::default().with_fields(vec![field("scaleIndex"), field("state")]);
+        let p = build(&graph, json!({}));
+        let get = |n: &str| p.taxonomy_fields.iter().find(|f| f.name == n).unwrap();
+        assert_eq!(
+            get("scaleIndex").allowed_token_tiers.as_deref(),
+            Some(&["primitive".to_string(), "semantic".to_string()][..])
+        );
+        assert_eq!(get("state").implies_token_tier.as_deref(), Some("semantic"));
+        assert!(p.token_tiers.contains("tier=<tier>"));
     }
 }

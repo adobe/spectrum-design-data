@@ -59,6 +59,10 @@ pub struct TokenResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub alias_target: Option<String>,
     pub layer: String,
+    /// Effective token tier: `"primitive"`, `"semantic"` or `"component"`.
+    pub tier: String,
+    /// `"declared"` when the token sets `tokenTier`, `"derived"` otherwise.
+    pub tier_source: String,
 }
 
 /// A single resolved token result from `Dataset.resolve()`.
@@ -361,6 +365,8 @@ impl From<&design_data_core::graph::TokenRecord> for TokenResult {
             schema_url: r.schema_url.clone(),
             alias_target: r.alias_target.clone(),
             layer: format!("{:?}", r.layer).to_lowercase(),
+            tier: design_data_core::token_tier::effective(r).to_string(),
+            tier_source: design_data_core::token_tier::source_raw(&r.raw).to_string(),
         }
     }
 }

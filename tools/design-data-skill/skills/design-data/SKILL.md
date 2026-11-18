@@ -62,18 +62,20 @@ lists.
 
 Overview of the embedded dataset: token count, mode-sets, component list, taxonomy
 fields, guidelines, and provenance (`provenance.designDataVersion` is the snapshot
-version). **Call this first in a session.** No required inputs.
+version). `tokenTiers` explains the token tiers; `fieldTiers` lists the fields that are limited to
+certain tiers (`allowedTokenTiers`) or imply one (`impliesTokenTier`). **Call this first in
+a session.** No required inputs.
 
 ### `design-data-query`
 
 Filter tokens by expression. Required: `filter` (string), e.g. `component=button`,
 `component=button,state=hover`, `property=*color*`, `state=hover,colorScheme=dark`.
 Filterable fields: `property`, `component`, `variant`, `state`, `colorScheme`, `scale`,
-`contrast`, `uuid`. `component` matches the tokens a component's relationships bind to.
+`contrast`, `uuid`, `tier`. `component` matches the tokens a component's relationships bind to.
 Optional: `limit` (integer, default 25, max 200) and `detail` (`compact`, the default, or
 `full`). Returns `{ total, shown, tokens }`. Each compact token has `name`, `value` (aliases
 already followed, so there is nothing to look up by uuid), `layer`, `uuid`, and its
-`colorScheme`/`scale`/`contrast` when it has them; active tokens come before deprecated ones.
+`tier`, and its `colorScheme`/`scale`/`contrast` when it has them; active tokens come before deprecated ones.
 When a token's value differs by a mode its name does not pin, it has `values` instead of
 `value`, keyed by mode-set then mode (`values.colorScheme.dark`): use the one for the user's
 mode, never the first.
@@ -172,6 +174,14 @@ Follow the status, not a guess:
   extension's "Adobe Clean Spectrum VF font file" setting where the client has one.
 * Never offer, attach, or paste the font file, and never describe the font as something
   you can download for them.
+
+## Token tiers
+
+Every token is `primitive` (raw values), `semantic` (a shared purpose or structural role) or
+`component` (defined for one component). The tier is usually not written in the data: it is
+derived from the token's name fields and value, and a `tokenTier` on the token overrides it.
+Query results show `tier`, and `tier=semantic` filters by it. A field's `allowedTokenTiers` in the primer's `fieldTiers` says where it may be used (`scaleIndex` is for
+primitive and semantic tokens only).
 
 ## Workflow
 
