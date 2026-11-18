@@ -396,7 +396,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -406,7 +409,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -416,7 +422,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -426,7 +435,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -436,7 +448,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
@@ -446,7 +461,10 @@
   {
     "scope": {
       "component": "tag",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Cross icon",
     "contextRole": ["icon"],
