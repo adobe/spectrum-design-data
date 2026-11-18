@@ -84,7 +84,7 @@
     },
     "maxValue": {
       "type": "number",
-      "default": 1,
+      "default": 100,
       "description": "Not applicable when indeterminate."
     },
     "valueLabel": { "type": "string" },

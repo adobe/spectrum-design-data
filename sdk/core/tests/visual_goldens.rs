@@ -174,7 +174,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         };
         out.push((
             "half",
-            req(vec![], with(&[("value", 0.5.into())]), "light", "desktop"),
+            req(vec![], with(&[("value", 50.into())]), "light", "desktop"),
         ));
         out.push((
             "indeterminate",
@@ -190,7 +190,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             req(
                 vec![],
                 with(&[
-                    ("value", 0.75.into()),
+                    ("value", 75.into()),
                     ("valueLabel", "3 of 4".into()),
                     ("staticColor", "white".into()),
                 ]),
@@ -211,7 +211,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         // (label, size, options, color scheme). Size is the request's, not an option.
         type Case<'a> = (&'static str, &'static str, &'a [(&'a str, Value)], &'a str);
         let cases: [Case; 5] = [
-            ("half", "m", &[("value", 0.5.into())], "light"),
+            ("half", "m", &[("value", 50.into())], "light"),
             (
                 "indeterminate",
                 "m",
@@ -221,19 +221,19 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             (
                 "large-three-quarters",
                 "l",
-                &[("value", 0.75.into())],
+                &[("value", 75.into())],
                 "light",
             ),
             (
                 "static-white-small",
                 "s",
-                &[("value", 0.25.into()), ("staticColor", "white".into())],
+                &[("value", 25.into()), ("staticColor", "white".into())],
                 "dark",
             ),
             (
                 "static-black-full",
                 "m",
-                &[("value", 1.into()), ("staticColor", "black".into())],
+                &[("value", 100.into()), ("staticColor", "black".into())],
                 "light",
             ),
         ];
@@ -252,7 +252,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 .collect()
         };
         for variant in ["positive", "notice", "negative"] {
-            let opts = with(&[("value", 0.5.into()), ("variant", variant.into())]);
+            let opts = with(&[("value", 50.into()), ("variant", variant.into())]);
             let label = format!("{variant}-half");
             out.push((
                 Box::leak(label.into_boxed_str()),
@@ -264,7 +264,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             req(
                 vec![],
                 with(&[
-                    ("value", 0.75.into()),
+                    ("value", 75.into()),
                     ("variant", "negative".into()),
                     ("staticColor", "black".into()),
                     ("helpText", "Help text".into()),
