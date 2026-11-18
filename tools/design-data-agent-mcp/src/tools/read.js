@@ -332,7 +332,7 @@ export function createReadTools() {
           token: {
             type: "string",
             description:
-              "Token name (e.g. neutral-content-color-hover), uuid or conceptId",
+              "Token name (e.g. neutral-content-color-hover), uuid or conceptId. A token without a name shown by query as `property=corner-radius scaleIndex=500` can be passed as that text.",
           },
           limit: {
             type: "number",
@@ -346,7 +346,10 @@ export function createReadTools() {
       async handler({ token, limit = 10 }) {
         const ds = await getDataset();
         const result = ds.refinements(token, limit);
-        if (!result) throw new Error(`No token found for "${token}"`);
+        if (!result)
+          throw new Error(
+            `No token found for "${token}". Use a token name, uuid or conceptId, or the name shown by query_tokens.`,
+          );
         return result;
       },
     },

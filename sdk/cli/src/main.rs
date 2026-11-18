@@ -576,7 +576,8 @@ enum Commands {
     /// Show a token's semantic specificity (tier, purpose fields) and the same-property tokens
     /// with narrower or broader names, with whether swapping changes any resolved value
     Refinements {
-        /// Token to look up: legacy name (e.g. background-color-default), uuid or conceptId
+        /// Token to look up: legacy name (e.g. background-color-default), uuid, conceptId, or
+        /// `field=value` text for a token without a legacy name (e.g. "property=corner-radius scaleIndex=500")
         #[arg(value_name = "TOKEN")]
         token: String,
         /// Directory containing cascade-format .tokens.json files

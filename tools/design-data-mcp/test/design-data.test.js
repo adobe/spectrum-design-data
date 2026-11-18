@@ -945,6 +945,10 @@ test("design-data-refinements returns specificity and neighbors", async (t) => {
   t.true(result.specificity.purposeFields.includes("variant"));
   t.is(result.broader[0].name, "neutral-content-color-hover");
   t.deepEqual(result.broader[0].fields, { variant: "subdued" });
+  const byFields = await byName()["design-data-refinements"].handler({
+    token: "property=corner-radius scaleIndex=500",
+  });
+  t.is(byFields.specificity.tier, "primitive");
   await t.throwsAsync(() =>
     byName()["design-data-refinements"].handler({ token: "no-such-token" }),
   );

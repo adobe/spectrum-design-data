@@ -240,9 +240,50 @@ fn compare(
     (kind, differing)
 }
 
-/// The token a reference names: a uuid, a conceptId, a legacy name or a graph key.
+/// The token a reference names: a uuid, a conceptId, a legacy name or a graph key, or the
+/// `field=value` form query results use for tokens without a legacy name
+/// (`property=corner-radius scaleIndex=500`, fields separated by spaces or commas, array values
+/// joined with `+`). Mode-set fields are ignored in that form.
 pub fn find<'a>(graph: &'a TokenGraph, reference: &str) -> Option<&'a TokenRecord> {
-    graph.resolve_alias_key(reference.trim().trim_matches(|c| c == '{' || c == '}'))
+    let reference = reference.trim().trim_matches(|c| c == '{' || c == '}');
+    graph
+        .resolve_alias_key(reference)
+        .or_else(|| find_by_fields(graph, reference))
+}
+
+fn find_by_fields<'a>(graph: &'a TokenGraph, reference: &str) -> Option<&'a TokenRecord> {
+    let wanted: BTreeMap<&str, &str> = reference
+        .split(|c: char| c.is_whitespace() || c == ',')
+        .filter(|part| !part.is_empty())
+        .map(|part| part.split_once('='))
+        .collect::<Option<Vec<_>>>()?
+        .into_iter()
+        .filter(|(k, _)| !graph.mode_sets.iter().any(|m| m.name == *k))
+        .collect();
+    if wanted.is_empty() {
+        return None;
+    }
+    let text = |v: &Value| match v {
+        Value::Array(items) => items
+            .iter()
+            .map(|i| i.as_str().map_or_else(|| i.to_string(), str::to_string))
+            .collect::<Vec<_>>()
+            .join("+"),
+        other => other
+            .as_str()
+            .map_or_else(|| other.to_string(), str::to_string),
+    };
+    graph
+        .tokens
+        .values()
+        .filter(|r| {
+            identity_fields(graph, &r.raw).is_some_and(|f| {
+                f.len() == wanted.len()
+                    && f.iter()
+                        .all(|(k, v)| wanted.get(k.as_str()).is_some_and(|w| *w == text(v)))
+            })
+        })
+        .min_by_key(|r| (r.file.clone(), r.index))
 }
 
 /// Same-property tokens narrower or broader than `token`, at most `limit` of each, closest first.
@@ -486,6 +527,37 @@ mod tests {
             back.broader[0].fields.keys().collect::<Vec<_>>(),
             ["colorRole"]
         );
+    }
+
+    #[test]
+    fn find_accepts_the_field_form_query_results_use() {
+        let g = graph(vec![
+            json!({ "uuid": "a", "name": { "property": "corner-radius", "scaleIndex": 500 }, "value": "8px" }),
+            json!({ "uuid": "b", "name": { "property": "x", "state": ["selected", "hover"], "colorScheme": "dark" }, "value": "1" }),
+        ]);
+        assert_eq!(
+            find(&g, "property=corner-radius scaleIndex=500")
+                .unwrap()
+                .uuid
+                .as_deref(),
+            Some("a")
+        );
+        assert_eq!(
+            find(&g, "property=corner-radius,scaleIndex=500")
+                .unwrap()
+                .uuid
+                .as_deref(),
+            Some("a")
+        );
+        assert_eq!(
+            find(&g, "property=x state=selected+hover colorScheme=light")
+                .unwrap()
+                .uuid
+                .as_deref(),
+            Some("b")
+        );
+        assert!(find(&g, "property=corner-radius").is_none());
+        assert!(find(&g, "not a token").is_none());
     }
 
     #[test]

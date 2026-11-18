@@ -483,7 +483,9 @@ impl Dataset {
     /// tokens whose names add (narrower) or drop (broader) purpose fields, each marked
     /// `"drop-in"` (same resolved value in every mode) or `"consider"`.
     ///
-    /// `token` is a legacy name, uuid or conceptId. Returns `undefined` when none matches.
+    /// `token` is a legacy name, uuid or conceptId, or the `field=value` text query results show for
+    /// tokens without a legacy name (`property=corner-radius scaleIndex=500`). Returns `undefined`
+    /// when none matches.
     /// Whether an added field fits the use is for the caller to judge. Reads the embedded
     /// field catalog, so it can differ from a dataset's own `fields/`.
     ///
