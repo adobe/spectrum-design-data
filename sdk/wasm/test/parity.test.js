@@ -185,7 +185,7 @@ test("getAdvisoryFields returns a non-empty string array", (t) => {
   t.true(fields.every((f) => typeof f === "string"));
 });
 
-test("getIndexedFields returns all 10 indexed filter keys", (t) => {
+test("getIndexedFields returns all 9 indexed filter keys", (t) => {
   const fields = wasm.getIndexedFields();
   t.true(Array.isArray(fields));
   t.true(fields.every((f) => typeof f === "string"));
@@ -199,7 +199,6 @@ test("getIndexedFields returns all 10 indexed filter keys", (t) => {
     "contrast",
     "uuid",
     "$schema",
-    "tier",
   ];
   t.is(fields.length, expected.length);
   for (const key of expected) {

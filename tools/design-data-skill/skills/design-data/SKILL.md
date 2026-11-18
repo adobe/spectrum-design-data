@@ -180,8 +180,9 @@ Follow the status, not a guess:
 Every token is `primitive` (raw values), `semantic` (a shared purpose or structural role) or
 `component` (defined for one component). The tier is usually not written in the data: it is
 derived from the token's name fields and value, and a `tokenTier` on the token overrides it.
-Query results show `tier`, and `tier=semantic` filters by it. A field's `allowedTokenTiers` in the primer's `fieldTiers` says where it may be used (`scaleIndex` is for
-primitive and semantic tokens only).
+Query results show `tier`, and `tier=semantic` filters by it. A field's `allowedTokenTiers`
+in the primer's `fieldTiers` says where it may be used (`scaleIndex` is for primitive and
+semantic tokens only).
 
 ## Workflow
 

@@ -52,7 +52,6 @@ pub fn indexed_fields() -> &'static [&'static str] {
         "contrast",
         "uuid",
         "$schema",
-        "tier",
     ]
 }
 
@@ -399,6 +398,11 @@ impl TokenIndex {
         let mut index = TokenIndex::default();
         for (graph_key, token) in &graph.tokens {
             for key in ALLOWED_KEYS {
+                // Derived from the embedded field catalog, not stored in the cache, so it is
+                // never indexed: a `tier` query always scans.
+                if *key == "tier" {
+                    continue;
+                }
                 for value in resolve_key(&token.raw, key) {
                     index.insert(key, &value, graph_key);
                 }
@@ -652,7 +656,6 @@ mod tests {
             "contrast",
             "uuid",
             "$schema",
-            "tier",
         ];
         assert_eq!(fields.len(), expected.len() + 1);
         for key in &expected {
