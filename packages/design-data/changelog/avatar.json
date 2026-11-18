@@ -178,6 +178,39 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.21.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-18",
+      "commit": "c54ad0fcdb3450559eb80c46d5748384fa95485c",
+      "commits": [
+        {
+          "commit": "684870cc26bb38b21fd2a54df2c2bede0c870b30",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1925,"title":"feat(design-data): avatar visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/1925"},
+          "entries": [
+            {"id":"684870cc-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"1d552f3d-22dc-5b9c-9d4b-63a4fef32a6f","name":"border-width","fields":[],"before":"2d4cd3ad-cc2c-4ad5-9475-c73882c5201e"},
+            {"id":"684870cc-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background (image)"],"scope":{"property":"color","options":{"image":"user image"}},"record":"9b358b31-ee6e-5c01-8561-ccc18bacbe73","name":"color[image=user image]","fields":[],"after":"dac01571-b26a-4aef-ace7-d0e34e917570"},
+            {"id":"684870cc-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background (image)"],"scope":{"property":"color","options":{"image":["gradient image","initials","guest"]}},"record":"bb126050-4093-5d18-950b-20af87922e26","name":"color[image=?]","fields":[],"after":"5502c9f3-e4ca-4ed8-aa57-fe2e3e739b3d"},
+            {"id":"684870cc-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"color","options":{"image":"initials"}},"record":"5764670f-8a33-52f4-bf35-74cd49338903","name":"color[image=initials]","fields":[],"after":"1416b50c-34a9-5067-80f2-07b9a95bb982"},
+            {"id":"684870cc-4","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Icon"],"scope":{"property":"color","options":{"image":"guest"}},"record":"632782ba-e8c8-5491-9c2c-d47d8809e056","name":"color[image=guest]","fields":[],"after":"1416b50c-34a9-5067-80f2-07b9a95bb982"},
+            {"id":"684870cc-5","kind":"option-value","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"avatar/options/image/values/gradient","name":"gradient","fields":[],"before":{"value":"gradient"}},
+            {"id":"684870cc-6","kind":"option-value","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"avatar/options/image/values/guest image","name":"guest image","fields":[],"before":{"value":"guest image"}},
+            {"id":"684870cc-7","kind":"option-value","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar/options/image/values/guest","name":"guest","fields":[],"after":{"value":"guest"}},
+            {"id":"684870cc-8","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"avatar/anatomy/focus-indicator","name":"focus-indicator","fields":[],"before":{"name":"focus-indicator","description":"Outline drawn around the component for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"684870cc-9","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"avatar/anatomy/user-image","name":"user-image","fields":[],"before":{"name":"user-image","description":"Profile photo shown for the User image style."}},
+            {"id":"684870cc-10","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"avatar/anatomy/container","name":"container","fields":[{"path":"contains","before":["user-image","image","initials","guest-icon","focus-indicator"],"after":["image","initials","guest-icon"]}]},
+            {"id":"684870cc-11","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar/anatomy/image","name":"image","fields":[{"path":"description","before":"Generated gradient artwork shown for the Gradient image style.","after":"Fills the circle behind the content: the profile photo for the User image style, generated gradient artwork for the Gradient image style, and the gradient backdrop of the Initials and Guest styles."}]},
+            {"id":"684870cc-12","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"avatar/states/down","name":"down","fields":[],"before":{"name":"down","trigger":"interaction"}},
+            {"id":"684870cc-13","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"avatar/states/keyboard-focus","name":"keyboard-focus","fields":[],"before":{"name":"keyboard-focus","trigger":"interaction"}},
+            {"id":"684870cc-14","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web avatar page (Photo, .Gradient image subcomponent, initials, guest, Stroke layer). stroke removed as container styling (RSP Avatar.tsx:71-79); gradient-image folded into registry term image.","after":"Matches Figma S2 Web (Avatar): Style User image, Gradient image, Initials, Guest, each on a white Background with a Show stroke layer. user-image and image are one part (registry: a photo or gradient filling the same area is the same part). Stroke is container styling (RSP Avatar.tsx outline on isOverBackground, SWC outline). focus-indicator, down and keyboard-focus removed: Figma draws only Default and Disabled, RSP Avatar is not focusable and SWC is static."}]},
+            {"id":"684870cc-15","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"avatar/visual","name":"avatar","fields":[]}
+          ],
+          "metadata": {"count":36,"fields":["anatomyReview.status","context","contextRole","scope.options.size"]}
+        }
+      ]
     }
   ]
 }

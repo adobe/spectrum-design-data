@@ -1,5 +1,43 @@
 # @adobe/design-data-spec
 
+## 4.25.0
+
+### Minor Changes
+
+- [#1927](https://github.com/adobe/spectrum-design-data/pull/1927) [`e26c2a5`](https://github.com/adobe/spectrum-design-data/commit/e26c2a5c2689502c2bb598635473076666904ec0) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the link visual recipe, and `textDecoration` so a `text` part can draw an underline.
+  - New `text` props: `textDecoration` (`underline` or `none`), `underlineThickness` and
+    `underlineOffset`. A scene text node carries `underline: {thickness, offset}`. SVG and PNG draw
+    the line under the label in the text color, with the baseline 0.35 x the font size below the
+    center of the line box.
+  - Link draws primary and secondary, standalone and inline, quiet, and white and black static
+    colors, with hover, down and keyboard-focus. A quiet standalone link underlines on hover and
+    keyboard focus, as React Spectrum does. Anatomy is reviewed: `text` and `focus-indicator`.
+  - New `isStandalone` option (Figma Placement, React Spectrum `isStandalone`). The `icon` part is
+    removed: only Figma has it, hidden in every variant.
+  - Relationships pin `isStandalone` for font weight, use the `Text` context, and bind the static
+    colors to `transparent-static-white-1000` and `transparent-static-black-1000`.
+
+- [#1924](https://github.com/adobe/spectrum-design-data/pull/1924) [`581dcb7`](https://github.com/adobe/spectrum-design-data/commit/581dcb7dde593787893c6a905164f487cececff1) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a progress-circle visual recipe, and a `sweep` prop so a `progress` part draws an arc.
+  - New `progress` props: `strokeWidth` (ring thickness, a ninth of the diameter when unbound) and
+    `sweep` (share of the ring, 0 to 1, usually a `fraction`). The arc starts at 12 o'clock and runs
+    clockwise. No `sweep` still draws the fixed quarter-arc frame, so button spinners are unchanged.
+  - Progress circle renders size, value, indeterminate (one fixed frame) and white and black static
+    colors, all bound through relationships. Anatomy is reviewed.
+  - Removed the `variant` option ("over background"), which is Spectrum 1 only. Added `staticColor`
+    (white, black); its static records pin it and the indicator ones now use `content-color`.
+
+- [#1928](https://github.com/adobe/spectrum-design-data/pull/1928) [`c54ad0f`](https://github.com/adobe/spectrum-design-data/commit/c54ad0fcdb3450559eb80c46d5748384fa95485c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the swatch visual recipe, with the renderer features it needs.
+  - New value source `{"option": "<name>"}`: a solid CSS color the request carries in a string option
+    (the swatch `preview`). A gradient, an image or an unparseable value draws the unset look with a
+    diagnostic; an unset or fully transparent value draws it quietly.
+  - New `strokeOpacity` prop on boxes and rings (alpha of the stroke), and `inside` on a ring (drawn
+    within the outlined part). SPEC-070 now compares only rings named `focus*`.
+  - The workflow icon set gains `slash` and `cancel`.
+  - Swatch draws size, square and rectangle, none, partial and full rounding, selected (border and
+    inner band), disabled and keyboard focus. Size relationships pin `size`; the selection colors
+    became `Border` and `Inner border`; the disabled icon rebinds to the static white replacement.
+    Anatomy is proposed and still marked draft until reviewed.
+
 ## 4.24.0
 
 ### Minor Changes

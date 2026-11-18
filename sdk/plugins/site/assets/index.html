@@ -991,15 +991,19 @@
 
       // ---- scene -> SVG ------------------------------------------------------
       function nodeSvg(n) {
+        const so =
+          n.stroke_opacity !== undefined
+            ? ` stroke-opacity="${n.stroke_opacity}"`
+            : "";
         if (n.kind === "box" && n.radii) {
           const i = n.stroke_width / 2;
           const r = n.radii.map((v) => Math.max(v - i, 0));
-          return `<path d="${roundedPath(n.x, n.y, n.w, n.h, n.radii)}" fill="${n.fill ?? "none"}"/>${n.stroke && n.stroke_width > 0 ? `<path d="${roundedPath(n.x + i, n.y + i, n.w - n.stroke_width, n.h - n.stroke_width, r)}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"/>` : ""}`;
+          return `<path d="${roundedPath(n.x, n.y, n.w, n.h, n.radii)}" fill="${n.fill ?? "none"}"/>${n.stroke && n.stroke_width > 0 ? `<path d="${roundedPath(n.x + i, n.y + i, n.w - n.stroke_width, n.h - n.stroke_width, r)}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"${so}/>` : ""}`;
         }
         if (n.kind === "box")
-          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="${n.fill ?? "none"}" stroke="${n.stroke ?? "none"}" stroke-width="${n.stroke_width}"/>`;
+          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="${n.fill ?? "none"}" stroke="${n.stroke ?? "none"}" stroke-width="${n.stroke_width}"${so}/>`;
         if (n.kind === "ring")
-          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"/>`;
+          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"${so}/>`;
         if (n.kind === "icon")
           return (
             iconSvg(n) ??
@@ -1011,8 +1015,14 @@
             r = Math.min(n.w, n.h) / 2 - Math.min(n.w, n.h) / 18;
           return `<g fill="none" stroke-width="${Math.max(1, Math.min(n.w, n.h) / 9)}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${n.stroke}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${n.color}" stroke-linecap="round"/></g>`;
         }
-        if (n.kind === "text")
-          return `<text x="${n.x}" y="${n.y + n.h * 0.75}" font-size="${n.font_size}" font-weight="${cssFontWeight(n.font_weight)}" fill="${n.color}">${esc(n.text)}</text>`;
+        if (n.kind === "text") {
+          const u = n.underline;
+          // The renderer's rule: the baseline is 0.35 x the font size below the line box center.
+          const line = u
+            ? `<rect x="${n.x}" y="${n.y + n.h / 2 + 0.35 * n.font_size + u.offset}" width="${n.w}" height="${u.thickness}" fill="${n.color}"/>`
+            : "";
+          return `<text x="${n.x}" y="${n.y + n.h * 0.75}" font-size="${n.font_size}" font-weight="${cssFontWeight(n.font_weight)}" fill="${n.color}">${esc(n.text)}</text>${line}`;
+        }
         return "";
       }
       const dimAttr = (s) =>

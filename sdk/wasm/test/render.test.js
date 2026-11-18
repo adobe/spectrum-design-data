@@ -134,3 +134,77 @@ test("embedded dataset carries recipes and renders a component by name", (t) => 
     ds.free();
   }
 });
+
+const visual = (name) =>
+  JSON.parse(
+    readFileSync(
+      new URL(
+        `../../../packages/design-data/visuals/${name}.json`,
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+
+const requestFor = (component, options = {}, states = []) => ({
+  component,
+  size: "m",
+  states,
+  options,
+  mode: { colorScheme: "light", scale: "desktop" },
+  label: "Link",
+});
+
+test("a link draws its underline, and a quiet one only on hover", (t) => {
+  const ds = Dataset.embedded();
+  try {
+    const recipe = visual("link");
+    const text = (s) => s.nodes.find((n) => n.part === "text");
+    const rest = JSON.parse(ds.renderScene(recipe, requestFor("link")));
+    t.deepEqual(rest.diagnostics, []);
+    t.deepEqual(text(rest).underline, { thickness: 1, offset: 1 });
+    t.true(ds.renderSvg(recipe, requestFor("link")).includes("<rect x="));
+    const quiet = JSON.parse(
+      ds.renderScene(recipe, requestFor("link", { isQuiet: true })),
+    );
+    t.is(text(quiet).underline, undefined);
+    const hover = JSON.parse(
+      ds.renderScene(recipe, requestFor("link", { isQuiet: true }, ["hover"])),
+    );
+    t.truthy(text(hover).underline);
+  } finally {
+    ds.free();
+  }
+});
+
+test("a swatch reads its preview color, draws a translucent border and a selection band", (t) => {
+  const ds = Dataset.embedded();
+  try {
+    const recipe = visual("swatch");
+    const scene = JSON.parse(
+      ds.renderScene(
+        recipe,
+        requestFor("swatch", { preview: "#9197fe", isSelected: true }),
+      ),
+    );
+    t.deepEqual(scene.diagnostics, []);
+    const part = (p) => scene.nodes.find((n) => n.part === p);
+    t.is(part("fill").fill, "#9197fe");
+    t.is(part("border").stroke_width, 2);
+    t.truthy(part("inner-border"));
+    const rest = JSON.parse(
+      ds.renderScene(recipe, requestFor("swatch", { preview: "#9197fe" })),
+    );
+    t.is(rest.nodes.find((n) => n.part === "border").stroke_opacity, 0.42);
+    const bad = JSON.parse(
+      ds.renderScene(
+        recipe,
+        requestFor("swatch", { preview: "linear-gradient(red, blue)" }),
+      ),
+    );
+    t.true(bad.diagnostics.some((d) => d.includes("not a solid color")));
+    t.truthy(bad.nodes.find((n) => n.part === "slash"));
+  } finally {
+    ds.free();
+  }
+});

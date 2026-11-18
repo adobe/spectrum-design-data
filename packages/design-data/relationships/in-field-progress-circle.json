@@ -2,7 +2,8 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "s" }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -12,7 +13,8 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "s" }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -22,7 +24,8 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "m" }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -32,7 +35,8 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "m" }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -42,7 +46,8 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "l" }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -52,7 +57,8 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "l" }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -62,7 +68,8 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "xl" }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -72,7 +79,8 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "property": "size",
+      "options": { "size": "xl" }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -122,100 +130,66 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "color"
+      "property": "color",
+      "options": { "staticColor": "white" }
     },
-    "context": "Track and fill (static white)",
+    "context": "Track and fill",
     "contextRole": ["track", "track"],
-    "contextQualifier": "static white",
-    "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c",
+    "$ref": "c459ce5a-1d40-490f-bde6-c409bd334487",
     "uuid": "5352ddca-7b3a-56ca-995e-83afd589b7dd"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "color"
+      "property": "content-color",
+      "options": { "staticColor": "white" }
     },
-    "context": "Track and fill (static white)",
+    "context": "Track and fill",
     "contextRole": ["track", "track"],
-    "contextQualifier": "static white",
-    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
+    "$ref": "d6186e0c-3507-4699-8b83-e8e3f3aa56f0",
     "uuid": "8819d728-cc9f-5119-b2bf-09047ee6fc4b"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "color"
+      "property": "color",
+      "options": { "staticColor": "black" }
     },
-    "context": "Track and fill (static black)",
+    "context": "Track and fill",
     "contextRole": ["track", "track"],
-    "contextQualifier": "static black",
-    "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e",
+    "$ref": "f1e65a2b-16bb-4981-bd89-29b77c55aad0",
     "uuid": "d3f33ca6-6123-5f8e-8ef2-2a3f56f7a1e9"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "color"
+      "property": "content-color",
+      "options": { "staticColor": "black" }
     },
-    "context": "Track and fill (static black)",
+    "context": "Track and fill",
     "contextRole": ["track", "track"],
-    "contextQualifier": "static black",
-    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
+    "$ref": "0e7dfba0-a81a-427f-9fa5-b0e381e8b295",
     "uuid": "6365fdd6-8f51-5ed8-86c3-c033ecbe1367"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "thickness"
+      "property": "thickness",
+      "options": { "size": ["s", "m", "l", "xl"] }
     },
-    "context": "S1 Thickness",
+    "context": "Thickness",
     "$ref": "becddd13-6ef9-4abc-9468-25885b2b4b84",
     "uuid": "d916b923-107b-5a96-8a05-29263de80ec6"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "thickness"
+      "property": "thickness",
+      "options": { "size": ["s", "m", "l", "xl"] }
     },
-    "context": "S1 Thickness",
+    "context": "Thickness",
     "$ref": "a37ef752-662b-4152-b247-0ce9fcd624e4",
     "uuid": "c85458be-cafb-5496-8ccd-60c593a90550"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "thickness"
-    },
-    "context": "S1 Thickness",
-    "$ref": "a3adff4d-e69e-4aa0-95ec-2019328b7d08",
-    "uuid": "70a23a47-7583-55fa-8640-c5cd23dcdf5b"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "thickness"
-    },
-    "context": "S1 Thickness",
-    "$ref": "aa930d94-7874-44d7-80f1-dc431d40c4a4",
-    "uuid": "9f924850-8002-5eda-b829-0a6d4ceefda1"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "thickness"
-    },
-    "context": "S1 Thickness",
-    "$ref": "6331ae2c-ddf9-4de4-8df4-82b5581cf2ea",
-    "uuid": "30e66cf7-f45f-5a8c-a5e1-1c67a3793e15"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "thickness"
-    },
-    "context": "S1 Thickness",
-    "$ref": "076b031f-5980-4112-bf0b-2cec47f54c6b",
-    "uuid": "ed67c598-c0bd-5913-ac4f-576907c450c3"
   },
   {
     "scope": {

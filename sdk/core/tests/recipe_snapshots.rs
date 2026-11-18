@@ -351,11 +351,16 @@ recipe_tests! {
     divider => "divider",
     field_label => "field-label",
     help_text => "help-text",
+    in_field_progress_circle => "in-field-progress-circle",
+    link => "link",
     meter => "meter",
+    opacity_checkerboard => "opacity-checkerboard",
     progress_bar => "progress-bar",
     progress_circle => "progress-circle",
     radio_button => "radio-button",
+    swatch => "swatch",
     switch => "switch",
+    thumbnail => "thumbnail",
 }
 
 #[test]

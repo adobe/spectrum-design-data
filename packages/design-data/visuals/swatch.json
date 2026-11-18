@@ -1,0 +1,275 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "swatch",
+  "root": "container",
+  "sizeScale": {
+    "xs": 50,
+    "s": 75,
+    "m": 100,
+    "l": 200
+  },
+  "notVisual": ["hover", "down"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["fill"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "minWidth": [
+          {
+            "when": {
+              "options": {
+                "shape": "rectangle"
+              }
+            },
+            "relationship": {
+              "property": "width-multiplier",
+              "context": "Width"
+            },
+            "relativeTo": "height"
+          }
+        ],
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        }
+      }
+    },
+    "fill": {
+      "kind": "box",
+      "children": ["border", "slash", "icon"],
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "partial"
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "context": "Rounding"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "full"
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "fill": {
+          "option": "preview"
+        }
+      }
+    },
+    "border": {
+      "kind": "box",
+      "props": {
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "partial"
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "context": "Rounding"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "full"
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Border"
+          }
+        },
+        "strokeOpacity": [
+          {
+            "relationship": {
+              "property": "opacity",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "value": 1
+          }
+        ],
+        "strokeWidth": [
+          {
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border and inner border"
+            }
+          }
+        ]
+      }
+    },
+    "slash": {
+      "kind": "icon",
+      "visibleWhen": {
+        "options": {
+          "preview": false
+        }
+      },
+      "icon": {
+        "set": "workflow",
+        "name": "slash"
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Slash"
+          }
+        },
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "visibleWhen": {
+        "options": {
+          "isDisabled": true
+        }
+      },
+      "icon": {
+        "set": "workflow",
+        "name": "cancel"
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Disabled icon"
+          }
+        },
+        "width": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Disabled icon asset"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Disabled icon asset"
+          }
+        }
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "visibleWhen": {
+        "states": ["keyboard-focus"]
+      },
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Focus ring"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Focus ring"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "context": "Focus ring"
+          }
+        }
+      }
+    },
+    "inner-border": {
+      "kind": "ring",
+      "around": "fill",
+      "visibleWhen": {
+        "options": {
+          "isSelected": true
+        }
+      },
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Inner border"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "context": "Border and inner border"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "border-width",
+            "context": "Border and inner border"
+          }
+        }
+      },
+      "inside": true
+    }
+  }
+}

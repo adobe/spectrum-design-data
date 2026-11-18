@@ -12,7 +12,9 @@
 //!
 //! Recipes SHOULD give the focus ring part (`kind: "ring"`) the same name. A
 //! shared name lets tools, relationships and docs treat the focus ring alike
-//! across components; this rule reports the disagreement, not which name wins.
+//! across components; this rule reports the disagreement, not which name wins. Only rings
+//! whose name contains `focus` are compared: a ring that draws something else (a swatch's
+//! selection band) is not a focus ring.
 
 use std::collections::BTreeSet;
 
@@ -43,7 +45,8 @@ impl ValidationRule for Rule {
                 continue;
             };
             for (name, def) in parts {
-                if def.get("kind").and_then(Value::as_str) == Some("ring") {
+                if def.get("kind").and_then(Value::as_str) == Some("ring") && name.contains("focus")
+                {
                     rings.push((v, name.clone()));
                 }
             }
@@ -102,6 +105,11 @@ mod tests {
     fn differing_ring_names_warn_in_each_recipe() {
         let x = d(&[("button", "focus-ring"), ("switch", "focus-indicator")]);
         assert_eq!(x.len(), 2, "{x:?}");
+    }
+
+    #[test]
+    fn a_ring_that_is_not_a_focus_ring_is_not_compared() {
+        assert!(d(&[("swatch", "inner-border"), ("switch", "focus-indicator")]).is_empty());
     }
 
     #[test]

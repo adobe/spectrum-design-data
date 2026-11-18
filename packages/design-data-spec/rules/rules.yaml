@@ -894,7 +894,8 @@ rules:
       A shared name lets tools, relationships and docs treat the focus ring alike across
       components. The rule reports the disagreement, not which name wins.
     assert: >
-      Visual recipes SHOULD give the focus ring part (`kind: "ring"`) the same name.
+      Visual recipes SHOULD give the focus ring part (`kind: "ring"`, a name containing `focus`)
+      the same name. Other rings, such as a selection band, are not compared.
     message: "Focus ring part is named '{name}' here but '{other}' in other recipes; recipes should name it alike"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"

@@ -243,6 +243,45 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // In-field progress circle: one fixed arc frame, sizes from the in-field size tokens, and the
+    // static colors. Defaults show the regular ring at medium.
+    if name == "in-field-progress-circle" {
+        let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
+            opts.iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        type Case<'a> = (&'static str, &'static str, &'a [(&'a str, Value)], &'a str);
+        let cases: [Case; 7] = [
+            ("small", "s", &[], "light"),
+            ("extra-large", "xl", &[], "dark"),
+            (
+                "static-white-large",
+                "l",
+                &[("staticColor", "white".into())],
+                "dark",
+            ),
+            (
+                "static-black-medium",
+                "m",
+                &[("staticColor", "black".into())],
+                "light",
+            ),
+            ("mobile-small", "s", &[], "light"),
+            ("mobile-large", "l", &[], "light"),
+            ("mobile-extra-large", "xl", &[], "light"),
+        ];
+        for (label, size, opts, scheme) in cases {
+            let scale = if label.starts_with("mobile") {
+                "mobile"
+            } else {
+                "desktop"
+            };
+            let mut r = req(vec![], with(opts), scheme, scale);
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
     // Meter: variants set the fill colour through relationships, and a static colour must win over
     // the variant. The defaults (no value) show an empty bar.
     if name == "meter" {
@@ -348,6 +387,105 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             req(
                 vec!["hover".into()],
                 HashMap::from([("staticColor".to_string(), Value::String("white".into()))]),
+                "dark",
+                "desktop",
+            ),
+        ));
+    }
+    // Link: the underline appears on a quiet standalone link only on hover or keyboard focus (the
+    // ring follows the label's corner radius), an inline link is regular weight and always
+    // underlined, and a static colour over the dark scheme.
+    if name == "link" {
+        let with = |pairs: &[(&str, Value)]| -> HashMap<String, Value> {
+            pairs
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        out.push((
+            "quiet-hover",
+            req(
+                vec!["hover".into()],
+                with(&[("isQuiet", true.into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "secondary-keyboard-focus",
+            req(
+                vec!["keyboard-focus".into()],
+                with(&[("variant", "secondary".into())]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "inline-static-white",
+            req(
+                vec![],
+                with(&[
+                    ("isStandalone", false.into()),
+                    ("staticColor", "white".into()),
+                ]),
+                "dark",
+                "desktop",
+            ),
+        ));
+    }
+    // Swatch: the preview color (a request option), the selected border with its inner band on
+    // a pill, the empty slash on a rectangle, the disabled cancel icon, and the keyboard-focus
+    // ring. A full-round empty swatch is left out: the slash has no clipping, so its ends would
+    // stick out of the circle (known renderer gap).
+    if name == "swatch" {
+        let with = |pairs: &[(&str, Value)]| -> HashMap<String, Value> {
+            pairs
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        out.push((
+            "preview-selected-full",
+            req(
+                vec![],
+                with(&[
+                    ("preview", "#9197fe".into()),
+                    ("isSelected", true.into()),
+                    ("cornerRounding", "full".into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "empty-rectangle-partial",
+            req(
+                vec![],
+                with(&[
+                    ("shape", "rectangle".into()),
+                    ("cornerRounding", "partial".into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "preview-disabled",
+            req(
+                vec![],
+                with(&[
+                    ("preview", "rgb(145, 151, 254)".into()),
+                    ("isDisabled", true.into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "preview-keyboard-focus-dark",
+            req(
+                vec!["keyboard-focus".into()],
+                with(&[("preview", "#9197fe".into())]),
                 "dark",
                 "desktop",
             ),
