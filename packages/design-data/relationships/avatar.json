@@ -491,6 +491,42 @@
   {
     "scope": {
       "component": "avatar",
+      "property": "color",
+      "options": {
+        "image": ["gradient image", "initials", "guest"]
+      }
+    },
+    "context": "Background (gradient stop 1)",
+    "$ref": "86ef11d6-aacd-470b-9d61-ffd7c5c09b45",
+    "uuid": "8e74404c-a23d-5e1c-9b9d-801c2b263829"
+  },
+  {
+    "scope": {
+      "component": "avatar",
+      "property": "color",
+      "options": {
+        "image": ["gradient image", "initials", "guest"]
+      }
+    },
+    "context": "Background (gradient stop 2)",
+    "$ref": "60816b84-ee3f-4b17-9bcb-fd26f194dd32",
+    "uuid": "f656afb6-8ea8-5c9e-8926-681e0dc970f6"
+  },
+  {
+    "scope": {
+      "component": "avatar",
+      "property": "color",
+      "options": {
+        "image": ["gradient image", "initials", "guest"]
+      }
+    },
+    "context": "Background (gradient stop 3)",
+    "$ref": "94f1f308-c049-4b5e-ae02-2d609c114e83",
+    "uuid": "b65ea750-5292-51d8-98e5-66a394fc7c7c"
+  },
+  {
+    "scope": {
+      "component": "avatar",
       "property": "font-family",
       "options": {
         "image": "initials"

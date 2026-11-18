@@ -52,12 +52,69 @@
           "value": 0.5,
           "relativeTo": "height"
         },
-        "fill": {
-          "relationship": {
-            "property": "color",
-            "context": "Background (image)"
+        "fill": [
+          {
+            "relationship": {
+              "property": "color",
+              "context": "Background (image)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "image": ["gradient image", "initials", "guest"]
+              }
+            },
+            "gradient": {
+              "from": [0.132, 0.161],
+              "to": [0.843, 0.871],
+              "stops": [
+                {
+                  "color": {
+                    "relationship": {
+                      "property": "color",
+                      "context": "Background (gradient stop 1)"
+                    }
+                  },
+                  "offset": {
+                    "relationship": {
+                      "property": "gradient-stop-1",
+                      "context": "0%"
+                    }
+                  }
+                },
+                {
+                  "color": {
+                    "relationship": {
+                      "property": "color",
+                      "context": "Background (gradient stop 2)"
+                    }
+                  },
+                  "offset": {
+                    "relationship": {
+                      "property": "gradient-stop-2",
+                      "context": "66%"
+                    }
+                  }
+                },
+                {
+                  "color": {
+                    "relationship": {
+                      "property": "color",
+                      "context": "Background (gradient stop 3)"
+                    }
+                  },
+                  "offset": {
+                    "relationship": {
+                      "property": "gradient-stop-3",
+                      "context": "100%"
+                    }
+                  }
+                }
+              ]
+            }
           }
-        },
+        ],
         "opacity": {
           "when": {
             "options": {

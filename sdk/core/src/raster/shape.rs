@@ -76,7 +76,22 @@ pub fn paint(
     how: Paint,
     sdf: impl Fn(f64, f64) -> f64,
 ) {
-    if color.a <= 0.0 || xf.s <= 0.0 {
+    if color.a <= 0.0 {
+        return;
+    }
+    paint_with(cv, xf, bounds, how, sdf, |_, _| color);
+}
+
+/// Like [`paint`], with the color taken from `color_at` at each pixel's scene position.
+pub fn paint_with(
+    cv: &mut Canvas,
+    xf: Xf,
+    bounds: (f64, f64, f64, f64),
+    how: Paint,
+    sdf: impl Fn(f64, f64) -> f64,
+    color_at: impl Fn(f64, f64) -> Rgba,
+) {
+    if xf.s <= 0.0 {
         return;
     }
     let (x0, y0, x1, y1) = bounds;
@@ -102,7 +117,7 @@ pub fn paint(
             };
             let cov = (0.5 - d * xf.s).clamp(0.0, 1.0);
             if cov > 0.0 {
-                cv.blend(px, py, color, cov as f32);
+                cv.blend(px, py, color_at(sx, sy), cov as f32);
             }
         }
     }

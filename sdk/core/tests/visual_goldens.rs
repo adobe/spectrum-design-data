@@ -482,6 +482,21 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
         out.push((
+            "preview-gradient-full",
+            req(
+                vec![],
+                with(&[
+                    (
+                        "preview",
+                        "linear-gradient(135deg, #ff0000, #ffff00 40%, #0000ff)".into(),
+                    ),
+                    ("cornerRounding", "full".into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
             "preview-keyboard-focus-dark",
             req(
                 vec!["keyboard-focus".into()],
