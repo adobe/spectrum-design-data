@@ -38,6 +38,14 @@ The `.awesome/state.json` link is git-ignored and must stay in place.
 
 1. Connect the VPN, then run `adt whoami`.
 2. From `docs/hub-prototype`, run `adt deploy dist --publish-mode replace --wait`. Replace mode removes files from earlier deployments, such as the old root build.
+   If the upload fails with `Unknown CLI error` (an HTTP 413: the full `dist/`, about 30 MB in 500 files, is too large for one directory upload), zip it and upload the archive instead. Run `adt --json deploy ...` to see the real error.
+
+   ```bash
+   (cd dist && zip -qr /tmp/hub-dist.zip .)
+   adt deployments upload 75e47275-3a8d-43cb-8db6-26076186fa3f /tmp/hub-dist.zip --publish-mode replace --wait
+   ```
+
+   Do not use `incremental` mode: it leaves files from earlier builds in place.
 3. If `.awesome/` is lost, relink with `adt deploy link --deployment-id 75e47275-3a8d-43cb-8db6-26076186fa3f`.
 
 The site is at <https://design-data-visual-render.entapp.adproto.com/>.
