@@ -42,7 +42,7 @@
   "options": {
     "preview": {
       "type": "string",
-      "description": "This will vary depending on implementation."
+      "description": "The swatch color, as a CSS color: #rgb, #rrggbb (with an optional alpha) or rgb() and rgba(). Unset or fully transparent draws the empty slash. Gradients and images are not drawn."
     },
     "size": {
       "type": "string",
@@ -74,11 +74,54 @@
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "Frame of the swatch: its size, shape and corner rounding.",
+      "required": true,
+      "contains": [
+        "fill",
+        "opacity-checkerboard",
+        "border",
+        "inner-border",
+        "slash",
+        "icon"
+      ]
+    },
+    {
+      "name": "fill",
+      "description": "The preview color."
+    },
+    {
+      "name": "opacity-checkerboard",
+      "description": "Pattern behind a preview color with alpha below 1."
+    },
+    {
+      "name": "border",
+      "description": "Hairline around the swatch; the heavier selection border when selected."
+    },
+    {
+      "name": "inner-border",
+      "description": "Light band just inside the selection border; drawn only when selected."
+    },
+    {
       "name": "slash",
       "description": "Diagonal slash indicating an empty or \"none\" swatch."
     },
-    { "name": "icon" }
+    {
+      "name": "icon",
+      "description": "Cancel glyph drawn over a disabled swatch.",
+      "presentIn": ["disabled"]
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Ring drawn around the swatch for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
   ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Proposed from Figma S2 Web (Swatch: background, opacity checkerboard, border, inner border when selected, slash for the None value, Cancel icon when disabled) and React Spectrum ColorSwatch and ColorSwatchPicker (fill, checkerboard, slash, selection border and inner band, focusRing). SWC gen2 has no swatch. Figma Value Mixed and Add (dash and add icons) are not declared: only Figma has them. Hover draws a Tooltip in Figma (its own component) and down changes nothing, so both are notVisual. The disabled Cancel look is Figma only; React Spectrum has no disabled swatch. Awaiting owner review."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

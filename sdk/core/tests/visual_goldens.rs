@@ -394,6 +394,64 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Swatch: the preview color (a request option), the selected border with its inner band on
+    // a pill, the empty slash on a rectangle, the disabled cancel icon, and the keyboard-focus
+    // ring. A full-round empty swatch is left out: the slash has no clipping, so its ends would
+    // stick out of the circle (known renderer gap).
+    if name == "swatch" {
+        let with = |pairs: &[(&str, Value)]| -> HashMap<String, Value> {
+            pairs
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect()
+        };
+        out.push((
+            "preview-selected-full",
+            req(
+                vec![],
+                with(&[
+                    ("preview", "#9197fe".into()),
+                    ("isSelected", true.into()),
+                    ("cornerRounding", "full".into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "empty-rectangle-partial",
+            req(
+                vec![],
+                with(&[
+                    ("shape", "rectangle".into()),
+                    ("cornerRounding", "partial".into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "preview-disabled",
+            req(
+                vec![],
+                with(&[
+                    ("preview", "rgb(145, 151, 254)".into()),
+                    ("isDisabled", true.into()),
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "preview-keyboard-focus-dark",
+            req(
+                vec!["keyboard-focus".into()],
+                with(&[("preview", "#9197fe".into())]),
+                "dark",
+                "desktop",
+            ),
+        ));
+    }
     // Avatar: the disabled dim on a gradient backdrop, the stroke over the dark scheme, and a
     // large size on mobile with the 1px stroke (the 2px stroke from size 1000 has no token yet).
     if name == "avatar" {
