@@ -1154,6 +1154,36 @@
   {
     "scope": {
       "component": "picker",
+      "property": "color"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
+    "uuid": "5020638b-d491-41fe-b476-a9a49bac3f10"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "property": "color"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
+    "uuid": "7da886f7-9da6-4c7b-8289-8ec5f35b66cb"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "property": "color"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
+    "uuid": "406fb5c1-3111-4041-8294-36e4268daca8"
+  },
+  {
+    "scope": {
+      "component": "picker",
       "property": "color",
       "options": {
         "isError": true
