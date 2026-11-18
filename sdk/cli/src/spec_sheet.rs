@@ -1231,8 +1231,11 @@ fn build_sheet(
     text_metrics: Option<&TextMetrics>,
     svg: bool,
 ) -> miette::Result<Value> {
-    let recipe = graph.visual_recipe(component).map(|r| &r.raw);
     let component = graph.canonical_component(component).to_string();
+    let lowered = graph
+        .visual_recipe(&component)
+        .map(|r| design_data_core::visual::with_context_selectors(&r.raw, graph, &component));
+    let recipe = lowered.as_ref();
     let ctx = Ctx {
         graph,
         recipe,

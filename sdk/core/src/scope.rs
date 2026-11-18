@@ -411,6 +411,30 @@ pub fn option_names(options: &Map<String, Value>) -> Vec<String> {
     out
 }
 
+/// The fields of a relationship record that, with `scope.property`, identify it to a recipe
+/// when it has no `context` to bind on. A selector names them as the record does, except
+/// `part` and `between`, which sit in the record's `scope`.
+const IDENTITY_FIELDS: [&str; 3] = ["contextRole", "contextQualifier", "contextPart"];
+
+/// Whether a recipe relationship selector names `rec` apart from its `property`: the same
+/// `context` when the selector has one, else the same structured identity (`contextRole`,
+/// `contextQualifier`, `part`, `between`), where an absent field must be absent on both.
+pub fn selector_identity_matches(sel: &Value, rec: &Value) -> bool {
+    if let Some(c) = sel.get("context").and_then(Value::as_str) {
+        return rec.get("context").and_then(Value::as_str).map(str::trim) == Some(c.trim());
+    }
+    IDENTITY_FIELDS.iter().all(|k| sel.get(k) == rec.get(k))
+        && sel.get("part") == rec.pointer("/scope/part")
+        && sel.get("between") == rec.pointer("/scope/between")
+}
+
+/// [`selector_identity_matches`] and the same `scope.property`.
+pub fn selector_matches(sel: &Value, rec: &Value) -> bool {
+    sel.get("property").and_then(Value::as_str)
+        == rec.pointer("/scope/property").and_then(Value::as_str)
+        && selector_identity_matches(sel, rec)
+}
+
 /// Every state string `options.state` mentions, including the members of a state any-of.
 pub fn mentioned_states(options: &Map<String, Value>) -> Vec<String> {
     let mut out: Vec<String> = Vec::new();
@@ -449,6 +473,33 @@ mod tests {
 
     fn rec(options: Value) -> Value {
         json!({"scope": {"component": "x", "property": "y", "options": options}, "$ref": "t"})
+    }
+
+    #[test]
+    fn a_selector_names_a_record_by_context_or_by_its_exact_identity() {
+        let rec = json!({
+            "scope": {"component": "x", "property": "space-between", "between": {"from": "a", "to": "b"}},
+            "context": "Spacing (a to b)", "contextRole": ["spacing"], "contextQualifier": "a to b"
+        });
+        let sel = |v: Value| selector_matches(&v, &rec);
+        assert!(sel(
+            json!({"property": "space-between", "context": " Spacing (a to b) "})
+        ));
+        assert!(sel(
+            json!({"property": "space-between", "contextRole": ["spacing"],
+            "contextQualifier": "a to b", "between": {"from": "a", "to": "b"}})
+        ));
+        // A missing field is not a wildcard, and another property never matches.
+        assert!(!sel(
+            json!({"property": "space-between", "contextRole": ["spacing"]})
+        ));
+        assert!(!sel(
+            json!({"property": "gap", "context": "Spacing (a to b)"})
+        ));
+        assert!(!sel(
+            json!({"property": "space-between", "contextRole": ["spacing"],
+            "contextQualifier": "a to b", "between": {"from": "a", "to": "c"}})
+        ));
     }
 
     #[test]

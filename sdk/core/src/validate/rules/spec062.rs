@@ -27,11 +27,10 @@ use crate::validate::rules::visual_util::{
 
 pub struct Rule;
 
-fn relationship_exists(graph: &TokenGraph, component: &str, property: &str, context: &str) -> bool {
+fn relationship_exists(graph: &TokenGraph, component: &str, sel: &Value) -> bool {
     graph.relationships.iter().any(|r| {
         r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component)
-            && r.raw.pointer("/scope/property").and_then(Value::as_str) == Some(property)
-            && r.raw.get("context").and_then(Value::as_str).map(str::trim) == Some(context)
+            && crate::scope::selector_matches(sel, &r.raw)
     })
 }
 
@@ -76,26 +75,25 @@ impl ValidationRule for Rule {
                     }
                     let mut seen = Vec::new();
                     for e in expand_selector(rel, &sizes, &options) {
-                        let property = e.get("property").and_then(Value::as_str).unwrap_or("");
-                        let context = e
-                            .get("context")
-                            .and_then(Value::as_str)
-                            .unwrap_or("")
-                            .trim();
-                        if seen.contains(&(property.to_string(), context.to_string())) {
+                        let key = e.to_string();
+                        if seen.contains(&key) {
                             continue;
                         }
-                        seen.push((property.to_string(), context.to_string()));
-                        if !relationship_exists(graph, &v.component, property, context) {
-                            out.push(error(
-                                self.id(),
-                                v,
-                                &rpath,
-                                format!(
-                                    "No relationship for '{}' with property '{property}' and context '{context}'",
+                        seen.push(key);
+                        if !relationship_exists(graph, &v.component, &e) {
+                            let property = e.get("property").and_then(Value::as_str).unwrap_or("");
+                            let message = match e.get("context").and_then(Value::as_str) {
+                                Some(c) => format!(
+                                    "No relationship for '{}' with property '{property}' and context '{}'",
+                                    v.component,
+                                    c.trim()
+                                ),
+                                None => format!(
+                                    "No relationship for '{}' with property '{property}' and the structured identity in selector {e}",
                                     v.component
                                 ),
-                            ));
+                            };
+                            out.push(error(self.id(), v, &rpath, message));
                         }
                     }
                 }

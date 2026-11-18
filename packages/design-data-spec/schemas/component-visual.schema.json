@@ -487,9 +487,43 @@
         "context": {
           "type": "string",
           "minLength": 1
+        },
+        "contextRole": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "minItems": 1
+        },
+        "contextQualifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "part": {
+          "type": "string",
+          "minLength": 1
+        },
+        "between": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "from": { "type": "string", "minLength": 1 },
+            "to": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "if": { "required": ["context"] },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["contextRole"] },
+            { "required": ["contextQualifier"] },
+            { "required": ["part"] },
+            { "required": ["between"] }
+          ]
+        }
+      },
+      "description": "Names a relationship by `property` and either its `context` label or its structured identity (`contextRole`, `contextQualifier`, `part`, `between`, the fields of the record). The structured form matches only a record whose identity is exactly those fields; an absent field must be absent on the record."
     }
   }
 }

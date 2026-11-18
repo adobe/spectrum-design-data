@@ -90,10 +90,8 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
         if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
             used.options.extend(option_template_names(sel));
             for e in expand_selector(sel, &sizes, &options) {
-                let property = e.get("property").and_then(Value::as_str).unwrap_or("");
-                let context = e.get("context").and_then(Value::as_str).map(str::trim);
                 for r in &rels {
-                    if r.property == property && r.context.as_deref() == context {
+                    if crate::scope::selector_matches(&e, r.record) {
                         used.states.extend(r.states.iter().cloned());
                         used.options.extend(r.options.iter().cloned());
                     }

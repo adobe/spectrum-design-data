@@ -967,7 +967,17 @@ impl<'a> CompileCx<'a> {
     /// relationship pins, plus the templated property and trimmed context.
     fn relationship_cands(&self, rel: &Value) -> Option<(Vec<Candidate<'a>>, String, String)> {
         let property = self.template(rel.get("property")?.as_str()?);
-        let context = rel.get("context")?.as_str()?.trim().to_string();
+        // A selector with no `context` names a record by its structured identity; `context`
+        // then holds that identity for the cache key and the miss message.
+        let by_context = rel.get("context").and_then(Value::as_str);
+        let context = match by_context {
+            Some(c) => c.trim().to_string(),
+            None => {
+                let mut ident = rel.as_object()?.clone();
+                ident.remove("property");
+                Value::Object(ident).to_string()
+            }
+        };
         let key = format!("{}\u{1f}{property}\u{1f}{context}", self.req.component);
         let cached = self.lookup.relationships.borrow().get(&key).cloned();
         let refs = cached.unwrap_or_else(|| {
@@ -1001,7 +1011,21 @@ impl<'a> CompileCx<'a> {
                 property.clone(),
                 context.clone(),
             );
-            for &i in by_scope.get(&scope_key).into_iter().flatten() {
+            let matched: Vec<usize> = if by_context.is_some() {
+                by_scope.get(&scope_key).cloned().unwrap_or_default()
+            } else {
+                let mut sel = rel.clone();
+                sel["property"] = Value::String(property.clone());
+                let comp = self.req.component.as_str();
+                (0..self.graph.relationships.len())
+                    .filter(|&i| {
+                        let r = &self.graph.relationships[i].raw;
+                        r.pointer("/scope/component").and_then(Value::as_str) == Some(comp)
+                            && crate::scope::selector_matches(&sel, r)
+                    })
+                    .collect()
+            };
+            for i in matched {
                 let r = &self.graph.relationships[i];
                 let scope = r.raw.get("scope");
                 if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
@@ -1014,7 +1038,11 @@ impl<'a> CompileCx<'a> {
                             states,
                             RelationshipRef {
                                 uuid: r.uuid.clone(),
-                                context: context.clone(),
+                                context: r
+                                    .raw
+                                    .get("context")
+                                    .and_then(Value::as_str)
+                                    .map_or_else(|| context.clone(), |c| c.trim().to_string()),
                                 property: property.clone(),
                             },
                         ));
@@ -1149,10 +1177,15 @@ impl<'a> CompileCx<'a> {
                     .unwrap_or_default()
             };
             let property = self.template(text("property"));
-            format!(
-                "{prop}: no relationship '{property}' / '{}'",
-                text("context").trim()
-            )
+            let ident = match obj.get("relationship").and_then(Value::as_object) {
+                Some(r) if !r.contains_key("context") => {
+                    let mut r = r.clone();
+                    r.remove("property");
+                    Value::Object(r).to_string()
+                }
+                _ => text("context").trim().to_string(),
+            };
+            format!("{prop}: no relationship '{property}' / '{ident}'")
         }
     }
 
@@ -2165,24 +2198,20 @@ pub fn recipe_options_in(
     component: &str,
 ) -> (Vec<String>, Vec<String>) {
     let (mut used, structural) = recipe_options(recipe);
-    let mut contexts: Vec<String> = Vec::new();
-    fn walk(v: &Value, out: &mut Vec<String>) {
+    let mut selectors: Vec<Value> = Vec::new();
+    fn walk(v: &Value, out: &mut Vec<Value>) {
         match v {
             Value::Array(a) => a.iter().for_each(|x| walk(x, out)),
             Value::Object(o) => {
-                if let Some(c) = o
-                    .get("relationship")
-                    .and_then(|r| r.get("context"))
-                    .and_then(Value::as_str)
-                {
-                    out.push(c.trim().to_string());
+                if let Some(r) = o.get("relationship").filter(|r| r.is_object()) {
+                    out.push(r.clone());
                 }
                 o.values().for_each(|x| walk(x, out));
             }
             _ => {}
         }
     }
-    walk(recipe, &mut contexts);
+    walk(recipe, &mut selectors);
     let declared: Vec<&str> = graph
         .components
         .iter()
@@ -2193,8 +2222,11 @@ pub fn recipe_options_in(
         .unwrap_or_default();
     for r in &graph.relationships {
         let comp = r.raw.pointer("/scope/component").and_then(Value::as_str);
-        let ctx = r.raw.get("context").and_then(Value::as_str).map(str::trim);
-        if comp != Some(component) || !ctx.is_some_and(|c| contexts.iter().any(|x| x == c)) {
+        if comp != Some(component)
+            || !selectors
+                .iter()
+                .any(|s| crate::scope::selector_identity_matches(s, &r.raw))
+        {
             continue;
         }
         let Some(opts) = r.raw.pointer("/scope/options").and_then(Value::as_object) else {
@@ -2208,6 +2240,52 @@ pub fn recipe_options_in(
         }
     }
     (used, structural)
+}
+
+/// Whether a selector `property`, which may hold `{size}` style templates, can name `prop`.
+fn property_fits(template: &str, prop: &str) -> bool {
+    template
+        .find('{')
+        .map_or(template == prop, |i| prop.starts_with(&template[..i]))
+}
+
+/// A copy of `recipe` with each structured relationship selector (no `context`) rewritten to
+/// the `context` of the first record it names, so a tool that groups bindings by context
+/// label reads both forms. A selector that names no record is left as it is.
+pub fn with_context_selectors(recipe: &Value, graph: &TokenGraph, component: &str) -> Value {
+    fn walk(v: &mut Value, graph: &TokenGraph, component: &str) {
+        match v {
+            Value::Array(a) => a.iter_mut().for_each(|x| walk(x, graph, component)),
+            Value::Object(o) => {
+                if let Some(Value::Object(sel)) = o.get_mut("relationship") {
+                    if !sel.contains_key("context") {
+                        let probe = Value::Object(sel.clone());
+                        let template = sel.get("property").and_then(Value::as_str).unwrap_or("");
+                        let ctx = graph.relationships.iter().find_map(|r| {
+                            let prop = r.raw.pointer("/scope/property").and_then(Value::as_str)?;
+                            let ok = r.raw.pointer("/scope/component").and_then(Value::as_str)
+                                == Some(component)
+                                && property_fits(template, prop)
+                                && crate::scope::selector_identity_matches(&probe, &r.raw);
+                            ok.then(|| r.raw.get("context").and_then(Value::as_str))?
+                        });
+                        if let Some(c) = ctx {
+                            let property = sel.get("property").cloned().unwrap_or_default();
+                            *sel = serde_json::Map::from_iter([
+                                ("property".to_string(), property),
+                                ("context".to_string(), Value::String(c.trim().to_string())),
+                            ]);
+                        }
+                    }
+                }
+                o.values_mut().for_each(|x| walk(x, graph, component));
+            }
+            _ => {}
+        }
+    }
+    let mut out = recipe.clone();
+    walk(&mut out, graph, component);
+    out
 }
 
 /// A component's option defaults, from its component schema.
@@ -5601,6 +5679,32 @@ mod tests {
             "small gap {s} must not resolve to the xl token {xl}"
         );
         assert!(s <= m && m <= xl, "gap grows with size: {s} {m} {xl}");
+    }
+
+    #[test]
+    fn structured_and_context_selectors_render_the_same() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/switch.json")).unwrap(),
+        )
+        .unwrap();
+        let lowered = with_context_selectors(&recipe, &g, "switch");
+        let text = lowered.to_string();
+        assert!(text.contains("\"context\":\"Spacing (control to label)\""));
+        assert!(
+            !text.contains("contextRole"),
+            "every selector names a record"
+        );
+        let mut r = req(&[]);
+        r.component = "switch".into();
+        r.options.insert("isSelected".into(), Value::Bool(true));
+        let a = build_scene(&g, &recipe, &r).unwrap();
+        let b = build_scene(&g, &lowered, &r).unwrap();
+        assert!(a.diagnostics.is_empty(), "{:?}", a.diagnostics);
+        assert_eq!(
+            serde_json::to_string(&a).unwrap(),
+            serde_json::to_string(&b).unwrap()
+        );
     }
 
     #[test]

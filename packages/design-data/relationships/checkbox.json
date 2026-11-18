@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "size"
     },
     "context": "Control (size)",
@@ -13,6 +14,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "size"
     },
     "context": "Control (size)",
@@ -24,6 +26,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "size"
     },
     "context": "Control (size)",
@@ -35,6 +38,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "size"
     },
     "context": "Control (size)",
@@ -46,6 +50,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "size"
     },
     "context": "Control (size)",
@@ -57,6 +62,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "size"
     },
     "context": "Control (size)",
@@ -68,6 +74,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "size"
     },
     "context": "Control (size)",
@@ -79,6 +86,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "size"
     },
     "context": "Control (size)",
@@ -90,7 +98,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -101,7 +113,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -112,7 +128,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -123,7 +143,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -327,6 +351,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "border-width"
     },
     "context": "Control (border)",
@@ -338,6 +363,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "corner-radius"
     },
     "context": "Control (rounding)",
@@ -349,6 +375,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "corner-radius"
     },
     "context": "Control (rounding)",
@@ -360,6 +387,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "corner-radius"
     },
     "context": "Control (rounding)",
@@ -371,6 +399,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "box",
       "property": "corner-radius"
     },
     "context": "Control (rounding)",
@@ -382,7 +411,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -393,7 +426,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -404,7 +441,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -415,7 +456,11 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],

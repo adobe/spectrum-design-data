@@ -92,6 +92,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -103,6 +104,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -114,6 +116,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -125,6 +128,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -136,6 +140,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -147,6 +152,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -158,6 +164,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -169,6 +176,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -180,6 +188,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -191,6 +200,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -202,6 +212,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -213,6 +224,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -224,6 +236,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -235,6 +248,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -246,6 +260,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -257,6 +272,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -268,6 +284,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "border-width"
     },
     "context": "Track (border)",
@@ -279,6 +296,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -290,6 +308,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -301,6 +320,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -312,6 +332,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -323,6 +344,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -334,6 +356,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -345,6 +368,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -356,6 +380,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -367,6 +392,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -378,6 +404,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -389,6 +416,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -400,6 +428,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -411,6 +440,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -422,6 +452,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -433,6 +464,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -444,6 +476,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -455,7 +488,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -466,7 +503,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -477,7 +518,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -488,7 +533,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -499,7 +548,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -510,7 +563,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -521,7 +578,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -532,7 +593,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
