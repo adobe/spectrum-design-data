@@ -2257,8 +2257,8 @@ fn parse_css_linear_gradient(s: &str, w: f64, h: f64) -> Option<Gradient> {
         let lo = stops[i - 1].1?;
         let j = (i..stops.len()).find(|&j| stops[j].1.is_some())?;
         let hi = stops[j].1?;
-        for k in i..j {
-            stops[k].1 = Some(lo + (hi - lo) * (k - i + 1) as f64 / (j - i + 1) as f64);
+        for (k, stop) in stops.iter_mut().enumerate().take(j).skip(i) {
+            stop.1 = Some(lo + (hi - lo) * (k - i + 1) as f64 / (j - i + 1) as f64);
         }
         i = j;
     }
