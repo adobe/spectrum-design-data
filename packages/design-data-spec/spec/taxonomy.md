@@ -56,6 +56,10 @@ Concept categories for name-object fields are declared in the design system's **
 
 **NORMATIVE:** A field with a non-null `scope` declaration **MUST** only appear on tokens of that type. Using a scoped field on a mismatched token type triggers rule SPEC-042 (`field-scope-violation`, warning).
 
+A field declaration **MAY** also declare `allowedTokenTiers`, a non-empty list of unique values from `primitive`, `semantic` and `component`. When present, the field applies only to tokens of those tiers; when absent, the field applies to every tier. `allowedTokenTiers` is independent of `scope`: a field that declares both applies only where both allow it.
+
+**Status:** this version of the spec does not define how a token's tier is determined, and no validation rule checks `allowedTokenTiers`. The property is declarative metadata for tools. Tools **SHOULD NOT** report tier violations until a tier derivation rule is specified.
+
 ### Semantic / layout token taxonomy
 
 The following concept categories are defined in Spectrum's foundation field catalog for semantic and layout tokens (`scope: null` — universal), ordered by default serialization position. This ordering is the **default serialization order** for legacy format output; it is not a conformance requirement for stored name objects.
