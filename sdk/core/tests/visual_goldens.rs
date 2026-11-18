@@ -252,7 +252,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 .collect()
         };
         type Case<'a> = (&'static str, &'static str, &'a [(&'a str, Value)], &'a str);
-        let cases: [Case; 4] = [
+        let cases: [Case; 7] = [
             ("small", "s", &[], "light"),
             ("extra-large", "xl", &[], "dark"),
             (
@@ -267,9 +267,17 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 &[("staticColor", "black".into())],
                 "light",
             ),
+            ("mobile-small", "s", &[], "light"),
+            ("mobile-large", "l", &[], "light"),
+            ("mobile-extra-large", "xl", &[], "light"),
         ];
         for (label, size, opts, scheme) in cases {
-            let mut r = req(vec![], with(opts), scheme, "desktop");
+            let scale = if label.starts_with("mobile") {
+                "mobile"
+            } else {
+                "desktop"
+            };
+            let mut r = req(vec![], with(opts), scheme, scale);
             r.size = size.into();
             out.push((label, r));
         }
