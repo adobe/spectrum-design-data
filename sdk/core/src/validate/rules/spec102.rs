@@ -11,8 +11,8 @@
 //! SPEC-102: field-token-tier-violation
 //!
 //! A token's name object MUST NOT contain a field whose catalog declaration lists
-//! `allowedTokenTiers` without the token's own `tokenTier`. Tokens without a
-//! `tokenTier` are skipped while the dataset is being tagged.
+//! `allowedTokenTiers` without the token's effective tier: its explicit `tokenTier`, or the
+//! tier derived from its name and value (see `token_tier`).
 
 use crate::registry::FieldCatalog;
 use crate::report::{Diagnostic, Severity};
@@ -34,9 +34,7 @@ impl ValidationRule for Rule {
         let mut out = Vec::new();
 
         for record in ctx.graph.tokens.values() {
-            let Some(tier) = record.raw.get("tokenTier").and_then(|v| v.as_str()) else {
-                continue;
-            };
+            let tier = crate::token_tier::effective(record);
             let Some(name_obj) = record.raw.get("name").and_then(|v| v.as_object()) else {
                 continue;
             };
@@ -52,7 +50,7 @@ impl ValidationRule for Rule {
                         rule_id: Some(self.id().to_string()),
                         severity: Severity::Warning,
                         message: format!(
-                            "name.{field} applies only to {} tokens but this token's tokenTier is '{tier}'",
+                            "name.{field} applies only to {} tokens but this token's tier is '{tier}'",
                             allowed.join(" and ")
                         ),
                         instance_path: Some(format!("/name/{field}")),
@@ -102,7 +100,16 @@ mod tests {
     }
 
     #[test]
-    fn token_without_tier_is_skipped() {
+    fn derived_component_tier_warns_without_explicit_tier() {
+        let g = graph(json!({
+            "name": { "component": "tabs", "property": "size", "scaleIndex": 100 },
+            "value": "16px"
+        }));
+        assert_eq!(diagnostics_for_rule(&g, "SPEC-102").len(), 1);
+    }
+
+    #[test]
+    fn token_without_tier_derives_primitive_and_is_fine() {
         let g = graph(json!({
             "name": { "property": "size", "scaleIndex": 100 },
             "value": "16px"

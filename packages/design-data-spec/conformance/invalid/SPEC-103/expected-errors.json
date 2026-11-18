@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-103",
+      "severity": "info",
+      "message_pattern": ".*primitive.*overrides.*semantic.*"
+    }
+  ]
+}

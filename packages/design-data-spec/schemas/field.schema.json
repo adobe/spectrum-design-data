@@ -78,6 +78,10 @@
       "uniqueItems": true,
       "description": "Token tiers that may use this field: 'primitive' (raw values), 'semantic' (shared purposes or structural roles) or 'component' (tokens defined for a specific component). Omit to allow every tier. Applies together with 'scope'. Checked against each token's tokenTier (SPEC-102); tokens without a tokenTier are skipped."
     },
+    "impliesTokenTier": {
+      "enum": ["component", "semantic", "none"],
+      "description": "The tier a token takes from having this field in its name: 'component' or 'semantic'. 'none' means the field says nothing about the tier. Used to derive a token's tier when it has no explicit tokenTier (spec/taxonomy.md#token-tiers). Optional for extension fields; every field in the foundation catalog declares it."
+    },
     "required": {
       "type": "boolean",
       "description": "Whether this field must be present on every name object. Default: false.",

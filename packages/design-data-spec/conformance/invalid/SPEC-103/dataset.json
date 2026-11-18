@@ -1,0 +1,14 @@
+{
+  "tokens": [
+    {
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+      "tokenTier": "primitive",
+      "name": {
+        "structure": "accessory",
+        "property": "gap"
+      },
+      "value": "4px"
+    }
+  ],
+  "components": []
+}

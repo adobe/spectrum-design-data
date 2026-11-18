@@ -51,7 +51,8 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-099` | SPEC-099 | A relationship with a `legacyKey` uses an `anyOf` (error).                       |
 | `invalid/SPEC-100` | SPEC-100 | Records that differ only in one declared option's value (warning).               |
 | `invalid/SPEC-101` | SPEC-101 | A `scope.between` or descriptive scope value is not in its vocabulary (warning). |
-| `invalid/SPEC-102` | SPEC-102 | A field is used on a token whose `tokenTier` its `allowedTokenTiers` excludes (warning). |
+| `invalid/SPEC-102` | SPEC-102 | A field is used on a token whose effective tier its `allowedTokenTiers` excludes (warning). |
+| `invalid/SPEC-103` | SPEC-103 | An explicit `tokenTier` differs from the derived tier (info). |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 

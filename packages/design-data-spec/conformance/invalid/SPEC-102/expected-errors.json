@@ -5,6 +5,11 @@
       "rule_id": "SPEC-102",
       "severity": "warning",
       "message_pattern": ".*scaleIndex.*primitive and semantic.*component.*"
+    },
+    {
+      "rule_id": "SPEC-102",
+      "severity": "warning",
+      "message_pattern": ".*scaleIndex.*primitive and semantic.*component.*"
     }
   ]
 }

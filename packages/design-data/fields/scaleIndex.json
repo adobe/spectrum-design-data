@@ -13,5 +13,6 @@
   "allowedTokenTiers": ["primitive", "semantic"],
   "required": false,
   "valueType": "integer",
-  "excludeFromLegacyKey": true
+  "excludeFromLegacyKey": true,
+  "impliesTokenTier": "none"
 }

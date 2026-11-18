@@ -12,5 +12,6 @@
   "scope": "typography",
   "required": false,
   "valueType": "string",
-  "excludeFromLegacyKey": false
+  "excludeFromLegacyKey": false,
+  "impliesTokenTier": "none"
 }

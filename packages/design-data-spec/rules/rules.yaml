@@ -1398,12 +1398,26 @@ rules:
     layer: 2
     category: taxonomy
     note: >
-      A field declaration can list `allowedTokenTiers` (primitive, semantic, component). A token
-      that declares a `tokenTier` outside that list must not use the field in its name object.
-      Tokens without a `tokenTier` are skipped while the dataset is being tagged.
+      A field declaration can list `allowedTokenTiers` (primitive, semantic, component). A token's
+      tier is its explicit `tokenTier` or, without one, the tier derived from its name fields and
+      value (spec/taxonomy.md#token-tiers).
     assert: >
       A token's name object MUST NOT contain a field whose `allowedTokenTiers` excludes the token's
-      `tokenTier`.
-    message: "name.{field} applies only to {tiers} tokens but this token's tokenTier is '{tier}'"
+      effective tier.
+    message: "name.{field} applies only to {tiers} tokens but this token's tier is '{tier}'"
+    spec_ref: spec/taxonomy.md#token-tiers
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-103
+    name: token-tier-override
+    severity: info
+    layer: 2
+    category: taxonomy
+    note: >
+      An explicit `tokenTier` overrides the derived tier. The override is allowed; this rule keeps
+      exceptions visible by reporting each one that differs from the derived tier.
+    assert: >
+      A token's explicit `tokenTier` SHOULD equal the tier derived from its name fields and value.
+    message: "tokenTier '{declared}' overrides the derived tier '{derived}'"
     spec_ref: spec/taxonomy.md#token-tiers
     introduced_in: "1.0.0-draft"
