@@ -273,7 +273,7 @@ export function createReadTools() {
             description:
               'Filter expression, e.g. "property=background-color". Valid keys: ' +
               "property, component, variant, state, colorScheme, scale, contrast, " +
-              'uuid, $schema. Note: "component" is not currently populated on ' +
+              'uuid, $schema, tier (primitive, semantic or component). Note: "component" is not currently populated on ' +
               "tokens — component=<id> always returns []; use describe_component instead.",
           },
         },

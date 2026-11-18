@@ -50,11 +50,40 @@ The taxonomy is designed with three guiding principles:
 
 ## Token-type taxonomies
 
-Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, default serialization position, and an optional **scope** that restricts the field to a specific token type.
+Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, default serialization position, and an optional **scope** that restricts the field to a specific token type. It can also declare `allowedTokenTiers` (the tiers the field may be used on) and `impliesTokenTier` (the tier a token takes from having the field); see [Token tiers](#token-tiers).
 
 **NORMATIVE:** The field catalog is the authoritative source for what fields exist on the name object. Tools, validators, and serializers **SHOULD** read the catalog rather than hardcoding field knowledge.
 
 **NORMATIVE:** A field with a non-null `scope` declaration **MUST** only appear on tokens of that type. Using a scoped field on a mismatched token type triggers rule SPEC-042 (`field-scope-violation`, warning).
+
+### Token tiers
+
+Every token has a tier. A token **MAY** declare it with `tokenTier` ([`token.schema.json`](../schemas/token.schema.json)): `primitive`, `semantic` or `component`.
+
+* `primitive` — raw values. The name says what the value is (a property with a scale, family or weight), not what it is for.
+* `semantic` — shared purposes or structural roles. The name says what the value is for (a role, object, structure, state, and so on).
+* `component` — tokens defined for a specific component.
+
+**Foundation** is not a tier. It is the canonical dataset layer (see [Cascade](cascade.md)), which holds tokens of all three tiers and is what platforms build on. Use "primitive" only for the primitive tier.
+
+#### Derived tier
+
+**NORMATIVE:** A token without `tokenTier` has the tier derived from the token. The first rule that matches applies:
+
+1. The name has a field whose declaration sets `impliesTokenTier: "component"` → `component`.
+2. The token's value is an alias → `semantic`. A primitive is a terminal value.
+3. The name has a field whose declaration sets `impliesTokenTier: "semantic"` → `semantic`.
+4. Otherwise → `primitive`.
+
+Each field declaration in the foundation catalog sets `impliesTokenTier` to `component`, `semantic` or `none` (the field says nothing about the tier). A token's **effective tier** is its `tokenTier` when declared, otherwise the derived tier. In the foundation dataset, component-specific data lives in [relationship records](relationship-format.md), not in tokens, so the `component` tier is expected to be nearly or entirely empty there; it applies to datasets that do define component-named tokens. The reference implementation reads `impliesTokenTier` and `allowedTokenTiers` from the foundation field catalog, so a dataset's own `fields/` directory does not change derivation or SPEC-102 yet.
+
+**NORMATIVE:** A declared `tokenTier` overrides the derived tier. When it differs, rule SPEC-103 (`token-tier-override`, info) reports it so exceptions stay visible.
+
+#### Fields and tiers
+
+A field declaration **MAY** declare `allowedTokenTiers`, a non-empty list of unique tiers. When present, the field applies only to tokens of those tiers; when absent, it applies to every tier. `allowedTokenTiers` is independent of `scope`: a field that declares both applies only where both allow it.
+
+**NORMATIVE:** A token whose effective tier is not in a used field's `allowedTokenTiers` triggers rule SPEC-102 (`field-token-tier-violation`, warning).
 
 ### Semantic / layout token taxonomy
 
