@@ -2333,5 +2333,33 @@
     "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",
     "uuid": "a41aaa58-77af-476e-9050-4f4864c8c3f9",
     "legacyKey": "tab-gap-horizontal-small"
+  },
+  {
+    "scope": {
+      "component": "tabs",
+      "property": "gap",
+      "options": {
+        "orientation": "horizontal",
+        "density": "compact",
+        "size": "m"
+      }
+    },
+    "context": "Spacing (between tab items)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "between tab items",
+    "$ref": "95593667-9f7c-4e5e-a739-8dd479cd082f",
+    "uuid": "81614221-580b-5e2f-b3a3-9c9dfae26407"
+  },
+  {
+    "scope": {
+      "component": "tabs",
+      "part": "indicator",
+      "property": "thickness"
+    },
+    "context": "Thickness (selection indicator)",
+    "contextRole": ["thickness"],
+    "contextPart": "selection indicator",
+    "$ref": "3766d95f-33c6-4b9d-84c8-1a546ee98d32",
+    "uuid": "6aa1db8f-2425-5ee6-8e3e-d353251fc87a"
   }
 ]

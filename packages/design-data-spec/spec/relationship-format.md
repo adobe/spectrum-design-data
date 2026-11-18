@@ -2,14 +2,11 @@
 
 ## Overview
 
-A Component/Token Relationship (CTR) is an anonymous token that unifies the two mechanisms that today independently connect components and tokens:
+A Component/Token Relationship (CTR) is an anonymous token that connects a component to a token. It replaces the former component-level `tokenBindings` list (component-declares-usage direction) and sits alongside the **name-object scope fields** on a token (`component`, `variant`, `anatomy`, `state`, and arbitrary option keys; token-declares-scope direction, validated by SPEC-018, SPEC-019, SPEC-020, SPEC-022, and SPEC-040).
 
-1. **`tokenBindings`** on a component declaration (component-declares-usage direction; see [component-format.md#token-bindings](component-format.md#token-bindings)).
-2. **Name-object scope fields** on a token (`component`, `variant`, `anatomy`, `state`, and arbitrary option keys; token-declares-scope direction, validated today by SPEC-018, SPEC-019, SPEC-020, SPEC-022, and SPEC-040).
+Rather than encoding component/part/option context inside a token's `name` string, a CTR carries its value (or `$ref` alias) alongside an explicit `scope` object naming the component, part, property, and option scope it belongs to, plus an optional `context` string carrying a human-readable label (for example, a Figma Token Group label). CTR entries live under `relationships/*.json`, each file a JSON array of CTR objects (see [`relationship.schema.json`](../schemas/relationship.schema.json)).
 
-Rather than encoding component/part/option context inside a token's `name` string, a CTR carries its value (or `$ref` alias) alongside an explicit `scope` object naming the component, part, property, and option scope it belongs to, plus an optional `context` string carrying a human-readable label (the same role `tokenBindings[].context` plays today — e.g. mapping to a Figma Token Group label). CTR entries live under `relationships/*.json`, each file a JSON array of CTR objects (see [`relationship.schema.json`](../schemas/relationship.schema.json)).
-
-**NORMATIVE:** This document defines the CTR **foundation** — shape, validation rules, and interim legacy-compatibility fields. It does not migrate existing token or component data; `tokenBindings` and `componentBindings` remain in the schemas and are **NOT** removed by this chapter (deferred to a future migration phase).
+**NORMATIVE:** This document defines the CTR **foundation** — shape, validation rules, and interim legacy-compatibility fields.
 
 ## Shape
 
@@ -122,11 +119,9 @@ To keep `packages/tokens/src` (the legacy generated output, produced by `design-
 
 These fields are transitional. Once the legacy generator (or its replacement) reads CTRs directly, `legacyKey`/`setUuid`/`setSchema` are expected to be removed in a later spec version.
 
-## Relationship to `tokenBindings` / `componentBindings`
+## Relationship to `componentBindings`
 
-CTRs are designed to eventually supersede both `tokenBindings` (on components, see [component-format.md#token-bindings](component-format.md#token-bindings)) and the token-side `componentBindings` reverse index (see [token-format.md#component-bindings](token-format.md#component-bindings)), by combining both directions — and the token name-object scope fields — into a single first-class relationship record with an explicit `context`.
-
-**NORMATIVE:** This chapter does **NOT** remove or deprecate `tokenBindings` or `componentBindings`. Both remain valid and required as-is. Migrating existing data onto CTRs, and any eventual removal of the superseded mechanisms, is out of scope for this foundation and deferred to a separate migration phase.
+The component-level `tokenBindings` field was removed; relationships are the only place a component declares which tokens it uses. The token-side `componentBindings` reverse index (see [token-format.md#component-bindings](token-format.md#component-bindings)) is derivable from relationships.
 
 ## SPEC rules
 

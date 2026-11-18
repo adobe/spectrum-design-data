@@ -225,7 +225,7 @@
         "componentBindings": {
           "type": "array",
           "items": { "$ref": "#/$defs/componentBinding" },
-          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+          "description": "Reverse index: components that bind this token through a relationship. Optional and derivable from relationships."
         },
         "documentBlocks": {
           "type": "array",
@@ -290,7 +290,7 @@
         "componentBindings": {
           "type": "array",
           "items": { "$ref": "#/$defs/componentBinding" },
-          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+          "description": "Reverse index: components that bind this token through a relationship. Optional and derivable from relationships."
         },
         "documentBlocks": {
           "type": "array",
@@ -304,7 +304,7 @@
     "componentBinding": {
       "type": "object",
       "required": ["component"],
-      "description": "A single component usage binding on a token — the reverse of tokenBindings on the component.",
+      "description": "A single component usage binding on a token — the reverse of a component relationship.",
       "properties": {
         "component": {
           "type": "string",

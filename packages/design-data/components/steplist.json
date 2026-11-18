@@ -93,7 +93,8 @@
       "name": "track-size",
       "description": "The connecting track between steps."
     },
-    { "name": "track" }
+    { "name": "track" },
+    { "name": "step", "description": "A single step in the list." }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

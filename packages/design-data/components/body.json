@@ -18,9 +18,12 @@
     },
     "size": {
       "type": "string",
-      "pattern": "^(x?s|m|x{0,3}l)$",
+      "pattern": "^(x{0,2}s|m|x{0,3}l)$",
       "default": "m",
       "values": [
+        {
+          "value": "xxs"
+        },
         {
           "value": "xs"
         },

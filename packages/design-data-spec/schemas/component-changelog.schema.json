@@ -215,7 +215,7 @@
         },
         "reachedBy": {
           "enum": ["tokenBinding"],
-          "description": "Set when the component reaches the changed token only through its tokenBindings (by token name), not through a relationship. Absent for relationship-reached and component-owned changes."
+          "description": "Set when the component reaches the changed token only through a legacy `tokenBindings` entry (by token name), not through a relationship. Only present when diffing dataset versions that still carry the removed field. Absent for relationship-reached and component-owned changes."
         },
         "contexts": {
           "type": "array",

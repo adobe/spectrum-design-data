@@ -131,8 +131,7 @@ be named with the component's `name` field value (e.g. `button.json` for `name: 
 **Recommended at creation:** `options` (component API), `anatomy` (anatomy parts array),
 `states` (state declarations array).
 
-**Validation gate:** SPEC-018–022 (anatomy/state/slot structure), SPEC-024–027 (tokenBindings,
-cross-references), SPEC-034 (category registry sync), SPEC-035 (anatomy-term registry sync),
+**Validation gate:** SPEC-018–022 (anatomy/state/slot structure), SPEC-024–026 (cross-references), SPEC-034 (category registry sync), SPEC-035 (anatomy-term registry sync),
 SPEC-038–040 (lifecycle, display name, schema).
 
 **Authoring status:** Not yet shipped — `write_component` was out of scope for Phase B (tokens and

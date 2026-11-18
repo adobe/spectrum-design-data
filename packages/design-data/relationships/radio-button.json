@@ -1015,7 +1015,7 @@
   {
     "scope": {
       "component": "radio-button",
-      "part": "indicator",
+      "part": "selection-indicator",
       "property": "width",
       "options": {
         "isSelected": true

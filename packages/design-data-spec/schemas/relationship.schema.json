@@ -174,7 +174,7 @@
         },
         "context": {
           "type": "string",
-          "description": "Label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). A visual recipe binds on this exact string (trimmed), so it is an identity key. Grammar: a main word (or a compound of main words) with an optional parenthesised part or qualifier. The main word is checked against registry/relationship-contexts.json (SPEC-091)."
+          "description": "Label for how this CTR is used (maps to a Figma Token Group label). A visual recipe binds on this exact string (trimmed), so it is an identity key. Grammar: a main word (or a compound of main words) with an optional parenthesised part or qualifier. The main word is checked against registry/relationship-contexts.json (SPEC-091)."
         },
         "contextRole": {
           "type": "array",
@@ -260,7 +260,7 @@
         },
         "context": {
           "type": "string",
-          "description": "Label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). A visual recipe binds on this exact string (trimmed), so it is an identity key. Grammar: a main word (or a compound of main words) with an optional parenthesised part or qualifier. The main word is checked against registry/relationship-contexts.json (SPEC-091)."
+          "description": "Label for how this CTR is used (maps to a Figma Token Group label). A visual recipe binds on this exact string (trimmed), so it is an identity key. Grammar: a main word (or a compound of main words) with an optional parenthesised part or qualifier. The main word is checked against registry/relationship-contexts.json (SPEC-091)."
         },
         "contextRole": {
           "type": "array",

@@ -30,6 +30,13 @@
       "notes": "Spectrum 2 web component custom element: swc-card."
     }
   ],
-  "states": [{ "name": "default" }],
+  "states": [
+    { "name": "default" },
+    {
+      "name": "loading",
+      "trigger": "prop",
+      "description": "Content is loading; the card shows a placeholder background."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

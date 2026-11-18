@@ -165,6 +165,10 @@
     {
       "name": "link-out-icon",
       "description": "Icon indicating a menu item navigates to a new context."
+    },
+    {
+      "name": "section-divider",
+      "description": "Line separating sections of menu items."
     }
   ],
   "states": [

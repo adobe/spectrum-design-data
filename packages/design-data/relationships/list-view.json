@@ -813,7 +813,7 @@
   {
     "scope": {
       "component": "list-view",
-      "part": "item",
+      "part": "list-item",
       "property": "corner-radius",
       "options": {
         "position": ["bottom"]
@@ -829,7 +829,7 @@
   {
     "scope": {
       "component": "list-view",
-      "part": "item",
+      "part": "list-item",
       "property": "corner-radius",
       "options": {
         "position": ["top"]
