@@ -94,9 +94,9 @@
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Proposed parts replace the draft clear-icon and cross-icon (one part, the remove control). Waiting for owner review."
+    "notes": "clear-icon and cross-icon were one part (the remove control), now clear-button (React Spectrum ClearButton, an in-field button; to be nested once the in-field-button recipe exists). avatar and icon are optional leading parts; an image part is added with the Image option. focus-indicator is state-only."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
