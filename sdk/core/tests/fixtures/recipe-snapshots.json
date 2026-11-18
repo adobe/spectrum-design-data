@@ -615,8 +615,8 @@
     "hideIcon=true,isDisabled=true,variant=\"neutral\"": "2f656d34bebc6036"
   },
   "in-field-progress-circle": {
-    "staticColor=\"black\"": "138cfd015fba7668",
-    "staticColor=\"white\"": "09e6f9f5512474b8"
+    "staticColor=\"black\"": "b4602031c1013439",
+    "staticColor=\"white\"": "6a159272555c82a9"
   },
   "link": {
     "isQuiet=false,isStandalone=false,staticColor=\"black\",variant=\"primary\"": "2a08670ad80557e9",
