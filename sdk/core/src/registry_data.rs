@@ -939,7 +939,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "control",
       "label": "Control",
       "description": "Interactive control elements like checkboxes or radio buttons",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "icon",
@@ -1086,7 +1087,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "field",
       "label": "Field",
       "description": "Input container element in form components (text-field, number-field, combo-box, picker, etc.)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "standaloneScope": true
     },
     {
       "id": "fill",
@@ -1263,7 +1265,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "list-item",
       "label": "List Item",
       "description": "Individual row within a list-view component",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "standaloneScope": true
     },
     {
       "id": "menu-item",
@@ -1720,7 +1723,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "visual",
       "label": "Visual",
       "description": "A leading visual element such as an icon or thumbnail",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "action",
@@ -1799,6 +1803,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Well",
       "description": "Recessed background area within a component (e.g. card)",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "bar",
+      "label": "Bar",
+      "description": "Linear anatomy element used to represent a value or range",
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     }
   ]
 }
@@ -2254,6 +2265,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "component-size-width-ratio",
       "label": "Component Size Width Ratio",
       "description": "Width ratio used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "aspect-ratio",
+      "label": "Aspect Ratio",
+      "description": "Unitless width-to-height ratio (for example 4:3 as 1.333), used to derive a width from a height"
     }
   ]
 }
@@ -3541,6 +3557,7 @@ const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
         "summary row",
         "s1 row",
         "horizontal",
+        "vertical",
         "content",
         "media",
         "header",

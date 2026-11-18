@@ -27,7 +27,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "contextual-help",
     "value": "268px",
-    "uuid": "83be73fe-50bc-4be8-969c-0361a816225b"
+    "uuid": "83be73fe-50bc-4be8-969c-0361a816225b",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale.",
+    "renamed": "container-minimum-width-large"
   },
   "contextual-help-title-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

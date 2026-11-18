@@ -27,6 +27,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-slider",
     "uuid": "eac87a1b-2b93-4501-8d9f-90eae1cce3bd",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared bar-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -38,7 +40,8 @@
         "value": "240px",
         "uuid": "c42de1ce-088a-4918-a7dc-36507c8acedf"
       }
-    }
+    },
+    "renamed": "bar-width-large"
   },
   "color-slider-minimum-length": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

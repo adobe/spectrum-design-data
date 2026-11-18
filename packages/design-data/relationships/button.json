@@ -6,7 +6,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "9822c399-ccc2-53eb-bfbb-a872548c6ca9"
   },
   {
@@ -16,7 +16,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "cf843aca-1b67-5315-803a-7696b4770ab8"
   },
   {
@@ -26,7 +26,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "d3cb5f2a-5360-5526-821c-0e4db7f20699"
   },
   {
@@ -36,7 +36,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "c3d0134e-850a-5024-9563-5af3c02bb4b9"
   },
   {
@@ -46,7 +46,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "152b67f0-e183-56e7-b502-afe88107cfd0"
   },
   {
@@ -56,7 +56,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "b6c20596-9f0e-544d-8a19-3cad7b6d5db5"
   },
   {
@@ -66,7 +66,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "c1198cf6-e1f7-580f-afb2-2b507a9366c5"
   },
   {
@@ -76,7 +76,7 @@
     },
     "context": "Minimum height",
     "contextRole": ["height"],
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "26897795-806e-5998-811c-340506966612"
   },
   {
@@ -108,7 +108,7 @@
     "context": "Minimum width (with label)",
     "contextRole": ["width"],
     "contextQualifier": "with label",
-    "$ref": "68b6ac88-d229-460d-8d59-3f5c141db358",
+    "$ref": "a5cb7045-f2be-4a51-a4dc-72c8bf92748b",
     "uuid": "b79a6140-e56a-5a97-bfe1-47129d1e79fe"
   },
   {
@@ -1257,7 +1257,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 2.25,
     "uuid": "68b6ac88-d229-460d-8d59-3f5c141db358",
-    "legacyKey": "button-minimum-width-multiplier"
+    "legacyKey": "button-minimum-width-multiplier",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Replaced by the shared aspect-ratio scale.",
+      "replacedBy": "a5cb7045-f2be-4a51-a4dc-72c8bf92748b"
+    }
   },
   {
     "scope": {
@@ -2005,42 +2010,6 @@
     "contextRole": ["background"],
     "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
     "uuid": "e55c35c9-e7b6-54e3-921f-bfc5ef90a703"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": false,
-        "isLabelHidden": [false, true],
-        "isPending": [false, true],
-        "style": "fill",
-        "variant": "primary",
-        "state": ["keyboard-focus"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
-    "uuid": "a5cd97f7-cca7-53b9-9246-487cd48879e7"
-  },
-  {
-    "scope": {
-      "component": "button",
-      "property": "color",
-      "options": {
-        "isDisabled": false,
-        "isLabelHidden": [false, true],
-        "isPending": [false, true],
-        "style": "fill",
-        "variant": "primary",
-        "state": ["keyboard-focus"]
-      }
-    },
-    "context": "Background",
-    "contextRole": ["background"],
-    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
-    "uuid": "196ac443-310e-5999-8412-22c6737d6abe"
   },
   {
     "scope": {

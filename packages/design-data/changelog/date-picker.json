@@ -258,6 +258,30 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"3d7afc6a-f66b-4033-9ed4-e60cde661a18","name":"component-height-100[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"61de58a3-53ed-4dd8-8937-08920b00968c"}],"rationale":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"record":"3d7afc6a-f66b-4033-9ed4-e60cde661a18","name":"component-height-100[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"5c31197d-0412-469d-a2dd-684efbd4b7e6","name":"component-height-100[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"61de58a3-53ed-4dd8-8937-08920b00968c"}],"rationale":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"record":"5c31197d-0412-469d-a2dd-684efbd4b7e6","name":"component-height-100[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Strikethrough day"],"reachedBy":"tokenBinding","record":"c4e4695b-3838-4bd4-b045-8219c77f6786","name":"thickness[anatomy=day,component=date-picker,legacyKey=strikethrough-day-thickness,qualifier=strikethrough]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"3766d95f-33c6-4b9d-84c8-1a546ee98d32"}],"rationale":"Deprecated via refine-from-sheets from row 447 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Strikethrough day"],"reachedBy":"tokenBinding","record":"c4e4695b-3838-4bd4-b045-8219c77f6786","name":"thickness[anatomy=day,component=date-picker,legacyKey=strikethrough-day-thickness,qualifier=strikethrough]","fields":[{"path":"rationale","after":"Deprecated via refine-from-sheets from row 447 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 447 of the mapping sheet."},
+            {"id":"0b8924f1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-100","options":null},"record":"a82cfdb0-2209-59d9-b9d7-d84df8f90b14","name":"component-height-100","fields":[{"path":"$ref","before":"3d7afc6a-f66b-4033-9ed4-e60cde661a18","after":"61de58a3-53ed-4dd8-8937-08920b00968c"}]},
+            {"id":"0b8924f1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-100","options":null},"record":"548afa9a-4724-577c-bf3a-16ebe0e50353","name":"component-height-100","fields":[{"path":"$ref","before":"5c31197d-0412-469d-a2dd-684efbd4b7e6","after":"e770bf1c-435f-5480-962d-c4cac4480ee7"}]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -6,7 +6,7 @@
     },
     "context": "Button size",
     "contextRole": ["size"],
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
     "uuid": "b99a7954-bc00-59c9-bbc3-d3e9dd1d01cf"
   },
   {
@@ -16,7 +16,7 @@
     },
     "context": "Button size",
     "contextRole": ["size"],
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
     "uuid": "a86fecbe-84a7-5b98-a61c-4aae2f90dc09"
   },
   {
@@ -26,7 +26,7 @@
     },
     "context": "Button size",
     "contextRole": ["size"],
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
     "uuid": "531597ee-2c0b-528a-9fb1-bdab8f14b290"
   },
   {
@@ -36,7 +36,7 @@
     },
     "context": "Button size",
     "contextRole": ["size"],
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
     "uuid": "9e224be4-5ea7-5bd8-b60d-55818c51d833"
   },
   {
@@ -46,7 +46,7 @@
     },
     "context": "Button size",
     "contextRole": ["size"],
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
     "uuid": "c55280d1-253b-580f-9025-f5fc9b12a437"
   },
   {
@@ -56,7 +56,7 @@
     },
     "context": "Button size",
     "contextRole": ["size"],
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
     "uuid": "8a8bd615-f033-55b9-ac7b-0a631d2b2724"
   },
   {
@@ -66,7 +66,7 @@
     },
     "context": "Button size",
     "contextRole": ["size"],
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "706a5aa5-cc78-59e7-8004-21eb2ac89634"
   },
   {
@@ -76,7 +76,7 @@
     },
     "context": "Button size",
     "contextRole": ["size"],
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "ecb86e17-4978-570d-8137-2d253c955421"
   },
   {

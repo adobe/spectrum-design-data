@@ -1,5 +1,13 @@
 # @adobe/token-naming-audit
 
+## 0.1.99
+
+### Patch Changes
+
+- Updated dependencies [[`3d38baa`](https://github.com/adobe/spectrum-design-data/commit/3d38baa1177069600f2f3aa4810857dde98dc7d0), [`61399b3`](https://github.com/adobe/spectrum-design-data/commit/61399b3fa6f9c57e57db3f9cdc848cf2f01ef3e3), [`0b8924f`](https://github.com/adobe/spectrum-design-data/commit/0b8924f15646d42b4787537648f079eb86d0c9c3), [`67a4cab`](https://github.com/adobe/spectrum-design-data/commit/67a4cabd057de53e36b8ee3c561dbdff9ee2f3b7)]:
+  - @adobe/spectrum-design-data@3.22.0
+  - @adobe/design-data-wasm@0.30.0
+
 ## 0.1.98
 
 ### Patch Changes

@@ -15,6 +15,6 @@ the owner reviews it.
   replacement for the deprecated `color-white`. "Icon and Clear icon" contexts become "Label and
   icon".
 - Cross icon size records pin `size`.
-- Avatar size records pin `size` and `hasAvatar`; image size records pin `size`.
+- Leading visual size records (`visual-size-50`, `-75`, `-100`) pin `size`.
 - Anatomy replaces `clear-icon` and `cross-icon` with container, avatar, icon, label,
   clear-button and focus-indicator. `clear-button` is a new anatomy term.

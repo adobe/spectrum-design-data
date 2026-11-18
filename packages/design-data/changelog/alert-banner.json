@@ -114,6 +114,34 @@
           "metadata": {"count":28,"fields":["contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.0.7",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"minimum-height","options":null},"record":"47092f4a-4140-5bf7-8e9f-c70079792ad5","name":"minimum-height","fields":[{"path":"$ref","before":"450405f8-4f08-4151-85dd-730b669a7ed0","after":"e271c350-f967-4425-8f24-12be5f43f7c7"}]},
+            {"id":"0b8924f1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"minimum-height","options":null},"record":"72e7fc2b-6c39-5526-8994-0f37b80f4b0b","name":"minimum-height","fields":[{"path":"$ref","before":"6d313800-3020-45f8-969d-63e81057ff97","after":"e83b245c-387b-5e45-8bab-c862e624e9e7"}]},
+            {"id":"0b8924f1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":null},"record":"bdfc6c27-5954-5c5a-85a6-5837e1729108","name":"width","fields":[{"path":"$ref","before":"713e9ae2-e226-45ab-bce9-869533253ee7","after":"1236fe9c-ea39-415c-94b6-e35333bbfe39"}]},
+            {"id":"0b8924f1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":null},"record":"0502deac-20d1-5fb7-81b8-b2a3bceef991","name":"width","fields":[{"path":"$ref","before":"b02e6302-d443-4b94-bda9-f4cc90b3d4ca","after":"bf8a005e-30cf-5497-9622-af0e0e5273fc"}]},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"450405f8-4f08-4151-85dd-730b669a7ed0","name":"minimum-height[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"e271c350-f967-4425-8f24-12be5f43f7c7"}],"rationale":"Deprecated via refine-from-sheets from row 10 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"450405f8-4f08-4151-85dd-730b669a7ed0","name":"minimum-height[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use the shared banner-minimum-height token."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 10 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 10 of the mapping sheet."},
+            {"id":"0b8924f1-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"6d313800-3020-45f8-969d-63e81057ff97","name":"minimum-height[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"e271c350-f967-4425-8f24-12be5f43f7c7"}],"rationale":"Deprecated via refine-from-sheets from row 10 of the mapping sheet."},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"6d313800-3020-45f8-969d-63e81057ff97","name":"minimum-height[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use the shared banner-minimum-height token."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 10 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 10 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"713e9ae2-e226-45ab-bce9-869533253ee7","name":"width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"1236fe9c-ea39-415c-94b6-e35333bbfe39"}],"rationale":"Deprecated via refine-from-sheets from row 11 of the mapping sheet."},
+            {"id":"0b8924f1-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"713e9ae2-e226-45ab-bce9-869533253ee7","name":"width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared banner-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 11 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 11 of the mapping sheet."},
+            {"id":"0b8924f1-10","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"b02e6302-d443-4b94-bda9-f4cc90b3d4ca","name":"width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"1236fe9c-ea39-415c-94b6-e35333bbfe39"}],"rationale":"Deprecated via refine-from-sheets from row 11 of the mapping sheet."},
+            {"id":"0b8924f1-11","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"b02e6302-d443-4b94-bda9-f4cc90b3d4ca","name":"width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared banner-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 11 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 11 of the mapping sheet."}
+          ]
+        }
+      ]
     }
   ]
 }
