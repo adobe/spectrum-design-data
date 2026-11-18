@@ -25,6 +25,16 @@ Specificity is a **tuple**, compared left to right:
 2. **Purpose-field count:** the number of name fields whose catalog entry has `impliesTokenTier: "semantic"` (`colorRole`, `object`, `structure`, `state`, ...).
 3. **Alias depth:** the number of aliases between the token and a terminal value. Used only as a tiebreak.
 
+A tuple here just means an ordered list of values, compared one at a time from the left, like sorting names by last name and then first name. First names only matter when the last names are the same. For example:
+
+| Token                             | Tier      | Purpose fields | Alias depth |
+| --------------------------------- | --------- | -------------- | ----------- |
+| `blue-100`                        | primitive | 0              | 0           |
+| `background-color`                | semantic  | 1              | 0           |
+| `accent-background-color-default` | semantic  | 3              | 0           |
+
+`accent-background-color-default` ranks above `background-color` because both are semantic, so the comparison moves to the next value and it has more purpose fields (`colorRole`, `object`, `state`). Alias depth is only looked at if the first two values tie. We use a list instead of one combined score so that a large value in one place can't outweigh a difference in tier.
+
 Component tokens and component relationships rank highest because they name one component. Primitives rank lowest because their names say what a value is, not what it is for.
 
 ## What the data says
