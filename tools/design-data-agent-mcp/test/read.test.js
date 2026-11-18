@@ -335,3 +335,15 @@ test("primer shape contract: SKILL.md fields are all present", async (t) => {
   // token count
   t.is(typeof result.tokenCount, "number");
 });
+
+// ── token_refinements ─────────────────────────────────────────────────────────
+
+test("token_refinements returns specificity and neighbors", async (t) => {
+  const refinements = getHandler("token_refinements");
+  const result = await refinements({
+    token: "neutral-subdued-content-color-hover",
+  });
+  t.is(result.specificity.tier, "semantic");
+  t.is(result.broader[0].name, "neutral-content-color-hover");
+  await t.throwsAsync(() => refinements({ token: "no-such-token" }));
+});

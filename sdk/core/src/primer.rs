@@ -60,6 +60,14 @@ its tokenTier when declared, otherwise derived: a name field implying component 
 an alias value gives semantic; a name field implying semantic gives semantic; otherwise primitive. \
 Only tokens whose name has a component field are in the component tier, not every token a component binds through relationships. In the foundation dataset component-specific data lives in relationship records, so this tier is nearly or entirely empty there. Query it with tier=<tier>. A field's allowedTokenTiers limits where it may be used (SPEC-102).";
 
+/// How semantic specificity works, for the primer's `semanticSpecificity` entry.
+pub const SEMANTIC_SPECIFICITY_SUMMARY: &str = "Specificity is how much a token's name says about \
+its purpose, derived and never stored: tier rank, then the number of purpose fields (name fields \
+implying a semantic role, e.g. colorRole, object, state). It orders tokens; it does not say one \
+fits your use. refinements lists same-property tokens whose names add (narrower) or drop (broader) \
+purpose fields, each drop-in (same value in every mode) or consider (differs); check the added \
+fields against your use before swapping.";
+
 /// Full primer payload assembled from a [`TokenGraph`].
 ///
 /// Shape: `{ specVersion, tokenCount, modeSets, components, platformExtensions,
@@ -80,6 +88,8 @@ pub struct PrimerData {
     pub taxonomy_fields: Vec<PrimerField>,
     #[serde(default)]
     pub token_tiers: String,
+    #[serde(default)]
+    pub semantic_specificity: String,
     pub manifest: serde_json::Value,
     pub provenance: serde_json::Value,
 }
@@ -143,6 +153,7 @@ pub fn build(graph: &TokenGraph, provenance: serde_json::Value) -> PrimerData {
         platform_extensions,
         taxonomy_fields,
         token_tiers: TOKEN_TIERS_SUMMARY.to_string(),
+        semantic_specificity: SEMANTIC_SPECIFICITY_SUMMARY.to_string(),
         manifest: graph.manifest.clone(),
         provenance,
     }
@@ -203,5 +214,6 @@ mod tests {
         );
         assert_eq!(get("state").implies_token_tier.as_deref(), Some("semantic"));
         assert!(p.token_tiers.contains("tier=<tier>"));
+        assert!(p.semantic_specificity.contains("refinements"));
     }
 }

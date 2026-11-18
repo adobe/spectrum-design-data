@@ -40,6 +40,7 @@ pub mod registry;
 pub mod report;
 pub mod schema;
 pub mod scope;
+pub mod specificity;
 pub mod suggest;
 pub mod text_metrics;
 pub mod token_tier;

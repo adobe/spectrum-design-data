@@ -29,6 +29,9 @@ design-data query "property=color*"
 # Get AI-powered token suggestions for a given intent
 design-data suggest "primary background color"
 
+# Show a token's specificity and its narrower/broader same-property tokens
+design-data refinements neutral-subdued-content-color-hover
+
 # Resolve a token's value for a given mode-set context
 design-data resolve color-background-layer-1 --color-scheme light
 
