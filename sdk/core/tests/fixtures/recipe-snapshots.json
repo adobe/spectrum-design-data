@@ -614,6 +614,10 @@
     "hideIcon=true,isDisabled=true,variant=\"negative\"": "4ec73c26b1420544",
     "hideIcon=true,isDisabled=true,variant=\"neutral\"": "2f656d34bebc6036"
   },
+  "in-field-progress-circle": {
+    "staticColor=\"black\"": "138cfd015fba7668",
+    "staticColor=\"white\"": "09e6f9f5512474b8"
+  },
   "link": {
     "isQuiet=false,isStandalone=false,staticColor=\"black\",variant=\"primary\"": "2a08670ad80557e9",
     "isQuiet=false,isStandalone=false,staticColor=\"black\",variant=\"secondary\"": "6bfea28d9fc7930d",

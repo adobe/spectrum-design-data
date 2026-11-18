@@ -30,6 +30,7 @@
     },
     "staticColor": {
       "type": "string",
+      "description": "Static color for use on colored backgrounds. White draws a light ring, black a dark one. Unset is the regular ring.",
       "values": [
         {
           "value": "white"
@@ -53,9 +54,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma page shared with progress-circle (no in-field specific page). Relationship contexts only name height and track. Assumes same two parts as progress-circle."
+    "notes": "Matches Figma S2 Web (.In-field progress circle, Subcomponents page): two ellipses, a full-ring track and a partial-arc fill. Figma names both ellipses 'Track'; the fill is the second one. No container: the track is the outermost drawn element. There is no determinate form: React Spectrum draws it as an indeterminate ProgressCircle in ComboBox and Picker, so the recipe draws one fixed arc frame and the component declares no value options."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
