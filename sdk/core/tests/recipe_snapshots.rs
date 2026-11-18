@@ -353,6 +353,7 @@ recipe_tests! {
     help_text => "help-text",
     link => "link",
     meter => "meter",
+    opacity_checkerboard => "opacity-checkerboard",
     progress_bar => "progress-bar",
     progress_circle => "progress-circle",
     radio_button => "radio-button",

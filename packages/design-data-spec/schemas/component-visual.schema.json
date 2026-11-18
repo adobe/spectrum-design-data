@@ -304,6 +304,8 @@
               "lineHeight",
               "overflow",
               "strokeOpacity",
+              "patternFill",
+              "patternSize",
               "textDecoration",
               "underlineThickness",
               "underlineOffset",
@@ -432,6 +434,11 @@
           "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
           "description": "A color the request carries in this string option (hex, rgb() or rgba()). An unset, transparent or invalid value draws the part's unset look."
         },
+        "dimension": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A size in pixels the request carries in this numeric option, for an extent no token holds. An unset option uses the component's declared default; a value that is not a positive number is dropped with a diagnostic."
+        },
         "token": {
           "$ref": "#/$defs/tokenSelector"
         },
@@ -455,6 +462,9 @@
         },
         {
           "required": ["option"]
+        },
+        {
+          "required": ["dimension"]
         }
       ],
       "description": "A value source with optional `when`, `priority` and `relativeTo`. Used alone or in an ordered list."

@@ -56,6 +56,8 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "stroke",
             "strokeWidth",
             "strokeOpacity",
+            "patternFill",
+            "patternSize",
             "pressDifference",
             "pressWidthRatio",
             "pressMinPerspective",
@@ -75,6 +77,8 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "stroke",
             "strokeWidth",
             "strokeOpacity",
+            "patternFill",
+            "patternSize",
             "justify",
             "direction",
             "align",
@@ -311,7 +315,18 @@ pub struct SceneNode {
     /// A line under a `text` node, set when the recipe binds `textDecoration` to `underline`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub underline: Option<Underline>,
+    /// A checkerboard drawn over `fill`, set when the recipe binds `patternFill` and `patternSize`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pattern: Option<Pattern>,
     pub tokens: Vec<TokenRef>,
+}
+
+/// Alternating squares of `size` in `fill` and `alt`, starting with `fill` at the top-left of
+/// the node, clipped to its rounded box.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Pattern {
+    pub alt: String,
+    pub size: f64,
 }
 
 /// An underline: `thickness` of the line and `offset`, the gap between the baseline and the
@@ -671,9 +686,14 @@ fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::Token
         .relationships
         .iter()
         .filter(|r| {
-            r.raw.get("value").is_some()
-                && r.raw.get("$ref").is_none()
-                && (of_component(r) || r.uuid.as_deref().is_some_and(|u| referenced.contains(u)))
+            // A scoped token is a record with a `value`, or an alias (a `$ref` and no `context`:
+            // a record with a `context` links a part to a token instead).
+            let token = if r.raw.get("$ref").is_some() {
+                r.raw.get("context").is_none() && r.raw.get("value").is_none()
+            } else {
+                r.raw.get("value").is_some()
+            };
+            token && (of_component(r) || r.uuid.as_deref().is_some_and(|u| referenced.contains(u)))
         })
         .map(|r| {
             let scope = r.raw.get("scope");
@@ -704,7 +724,7 @@ fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::Token
                 index: r.index,
                 schema_url: None,
                 uuid: r.uuid.clone(),
-                alias_target: None,
+                alias_target: r.raw.get("$ref").and_then(Value::as_str).map(String::from),
                 raw: serde_json::json!({ "name": name, "value": r.raw.get("value") }),
                 layer: Default::default(),
             }
@@ -1645,6 +1665,26 @@ impl Ctx<'_> {
                 _ => None,
             };
         }
+        if let Some(name) = chosen.get("dimension").and_then(Value::as_str) {
+            let v = self.option(name);
+            return match v.as_f64().filter(|n| *n > 0.0) {
+                Some(n) => Some(Resolved {
+                    value: n.to_string(),
+                    token: String::new(),
+                    relative_to,
+                    chain: Vec::new(),
+                    relationship: None,
+                }),
+                None => {
+                    if !v.is_null() {
+                        self.diags.push(format!(
+                            "option '{name}' value {v} is not a positive number of pixels; drawing the unset size"
+                        ));
+                    }
+                    None
+                }
+            };
+        }
         if let Some(v) = chosen.get("value") {
             let literal = match v {
                 Value::Bool(b) => Some(b.to_string()),
@@ -2065,7 +2105,7 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
                             .and_then(Value::as_str)
                             .into_iter()
                             .collect(),
-                        ("option", Value::String(name)) => vec![name.as_str()],
+                        ("option" | "dimension", Value::String(name)) => vec![name.as_str()],
                         _ => Vec::new(),
                     };
                     for name in named {
@@ -2592,6 +2632,23 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         }
     };
 
+    let pattern_of = |cx: &mut Ctx, part: &Value, tokens: &mut Vec<TokenRef>| {
+        let alt = rp(cx, part, "patternFill");
+        let size = rp(cx, part, "patternSize");
+        track(tokens, "patternFill", &alt);
+        track(tokens, "patternSize", &size);
+        match (alt, size.as_ref().and_then(Resolved::num)) {
+            (Some(a), Some(size)) if size > 0.0 => Some(Pattern { alt: a.value, size }),
+            (None, None) => None,
+            _ => {
+                cx.diags.push(
+                    "patternFill and patternSize must both resolve; drawing the plain fill".into(),
+                );
+                None
+            }
+        }
+    };
+
     let height = rp(&mut cx, root, "height");
     let min_height = rp(&mut cx, root, "minHeight");
     let root_width = rp(&mut cx, root, "width");
@@ -2713,6 +2770,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         font_weight: Option<String>,
         font_family: Option<String>,
         underline: Option<Underline>,
+        pattern: Option<Pattern>,
         color: Option<String>,
         stroke: Option<String>,
         fill: Option<String>,
@@ -2793,6 +2851,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_weight: None,
             font_family: None,
             underline: None,
+            pattern: None,
             color: color.map(|c| c.value),
             stroke: None,
             fill: None,
@@ -2842,6 +2901,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.fill = bfill.map(|f| f.value);
                 c.stroke = bstroke.map(|s| s.value);
                 c.stroke_width = bsw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                c.pattern = pattern_of(&mut cx, part, &mut c.tokens);
                 let mut pads = [0.0; 4];
                 for (i, n) in [
                     "paddingInlineStart",
@@ -2926,6 +2986,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             icon: None,
                             rotation: None,
                             underline: None,
+                            pattern: None,
                             stroke_opacity: None,
                             tokens: Vec::new(),
                         };
@@ -3016,6 +3077,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                 node.stroke = nstroke.map(|s| s.value);
                                 node.stroke_width =
                                     nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                                node.pattern = pattern_of(&mut cx, np, &mut tokens);
                                 node.radius = clamp_radius(
                                     nr.as_ref()
                                         .and_then(|r| {
@@ -3306,6 +3368,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     } else {
         root_radius
     };
+    let root_pattern = pattern_of(&mut cx, root, &mut container_tokens);
     let mut nodes = vec![SceneNode {
         part: root_id.into(),
         kind: "box".into(),
@@ -3328,6 +3391,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         icon: None,
         rotation: None,
         underline: None,
+        pattern: root_pattern,
         tokens: container_tokens,
     }];
 
@@ -3489,6 +3553,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_weight: c.font_weight,
             font_family: c.font_family,
             underline: c.underline,
+            pattern: c.pattern,
             color: c.color,
             icon: None,
             rotation: None,
@@ -3596,6 +3661,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     icon: None,
                     rotation: rot.as_ref().and_then(Resolved::num),
                     underline: None,
+                    pattern: None,
                     stroke_opacity: None,
                     tokens,
                 });
@@ -3660,6 +3726,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 icon: None,
                 rotation: None,
                 underline: None,
+                pattern: None,
                 tokens,
             });
         }
@@ -3695,6 +3762,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             icon: None,
             rotation: None,
             underline: None,
+            pattern: None,
             stroke_opacity: None,
             tokens,
         });
@@ -3832,6 +3900,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             icon: None,
             rotation: None,
             underline: None,
+            pattern: None,
             tokens,
         });
     }
@@ -4035,6 +4104,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         icon: None,
         rotation: None,
         underline: None,
+        pattern: None,
         stroke_opacity: None,
         tokens: Vec::new(),
     }
@@ -4318,24 +4388,48 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             .unwrap_or_default();
         match n.kind.as_str() {
             "box" => {
-                if let Some(r) = n.radii {
+                let mut layers = vec![(attrs.clone(), n.fill.clone())];
+                if let Some(p) = &n.pattern {
+                    // The id names the whole definition, so SVGs inlined in one page can share an id only
+                    // when the definitions are identical.
+                    let key: String = format!("{}|{}|{}|{}", p.alt, p.size, n.x, n.y)
+                        .chars()
+                        .map(|c| match c.is_ascii_alphanumeric() {
+                            true => c.to_string(),
+                            false => format!("_{:x}_", c as u32),
+                        })
+                        .collect();
+                    let (id, z) = (format!("pattern-{key}"), p.size * 2.0);
                     let _ = write!(
                         s,
-                        "<path {attrs} d=\"{}\" fill=\"{}\"/>",
-                        rounded_path(n.x, n.y, n.w, n.h, r),
-                        esc(n.fill.as_deref().unwrap_or("none"))
-                    );
-                } else {
-                    let _ = write!(
-                        s,
-                        "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"{}\"/>",
+                        "<defs><pattern id=\"{id}\" x=\"{}\" y=\"{}\" width=\"{z}\" height=\"{z}\" patternUnits=\"userSpaceOnUse\"><rect x=\"{sz}\" width=\"{sz}\" height=\"{sz}\" fill=\"{alt}\"/><rect y=\"{sz}\" width=\"{sz}\" height=\"{sz}\" fill=\"{alt}\"/></pattern></defs>",
                         n.x,
                         n.y,
-                        n.w,
-                        n.h,
-                        n.radius,
-                        esc(n.fill.as_deref().unwrap_or("none"))
+                        sz = p.size,
+                        alt = esc(&p.alt)
                     );
+                    layers.push((String::new(), Some(format!("url(#{id})"))));
+                }
+                for (attrs, fill) in &layers {
+                    if let Some(r) = n.radii {
+                        let _ = write!(
+                            s,
+                            "<path {attrs} d=\"{}\" fill=\"{}\"/>",
+                            rounded_path(n.x, n.y, n.w, n.h, r),
+                            esc(fill.as_deref().unwrap_or("none"))
+                        );
+                    } else {
+                        let _ = write!(
+                            s,
+                            "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"{}\"/>",
+                            n.x,
+                            n.y,
+                            n.w,
+                            n.h,
+                            n.radius,
+                            esc(fill.as_deref().unwrap_or("none"))
+                        );
+                    }
                 }
                 if let (Some(c), true) = (n.stroke.as_deref(), n.stroke_width > 0.0) {
                     let i = n.stroke_width / 2.0;
@@ -4728,6 +4822,113 @@ mod tests {
         let mut r = req(&[]);
         r.width = width;
         build_scene(&g, recipe, &r).unwrap()
+    }
+
+    /// A root box and a flowed child box that bind `patternFill` and `patternSize`.
+    fn pattern_recipe(alt: Value, size: Value) -> Value {
+        let p = |w: u32| {
+            let mut props = serde_json::json!({
+                "width": lit(w.into()), "height": lit(w.into()), "fill": lit("#ffffff".into())
+            });
+            if !alt.is_null() {
+                props["patternFill"] = lit(alt.clone());
+            }
+            if !size.is_null() {
+                props["patternSize"] = lit(size.clone());
+            }
+            props
+        };
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": ["c"], "props": p(40) },
+                "c": { "kind": "box", "props": p(16) }
+            }
+        })
+    }
+
+    #[test]
+    fn a_box_with_pattern_props_draws_a_checkerboard() {
+        let scene = solve_width(&pattern_recipe("#000000".into(), 4.into()), None);
+        for part in ["r", "c"] {
+            let n = scene.nodes.iter().find(|n| n.part == part).unwrap();
+            let p = n
+                .pattern
+                .as_ref()
+                .unwrap_or_else(|| panic!("{part} has no pattern"));
+            assert_eq!((p.alt.as_str(), p.size), ("#000000", 4.0));
+        }
+        let svg = scene_to_svg(&scene);
+        assert_eq!(svg.matches("<pattern ").count(), 2);
+        let ids: std::collections::HashSet<_> = svg
+            .split("<pattern id=\"")
+            .skip(1)
+            .map(|t| &t[..t.find('"').unwrap()])
+            .collect();
+        assert_eq!(ids.len(), 2, "two different boxes need two ids: {svg}");
+        assert!(svg.contains("fill=\"url(#pattern-"), "{svg}");
+        assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+    }
+
+    #[test]
+    fn a_dimension_source_reads_a_numeric_option() {
+        let (g, _) = load();
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "props": {
+                "width": { "dimension": "extent" }, "height": { "dimension": "extent" }
+            } } }
+        });
+        let at = |v: Value| {
+            let mut r = req(&[]);
+            r.options.insert("extent".into(), v);
+            let s = build_scene(&g, &recipe, &r).unwrap();
+            (s.nodes[0].w, s.nodes[0].h, s.diagnostics)
+        };
+        assert_eq!(at(32.into()), (32.0, 32.0, vec![]));
+        let (w, _, diags) = at("big".into());
+        assert_eq!(w, 0.0);
+        assert!(
+            diags.iter().any(|d| d.contains("positive number")),
+            "{diags:?}"
+        );
+    }
+
+    #[test]
+    fn pattern_ids_differ_for_fractional_sizes_and_origins() {
+        let base = solve_width(&pattern_recipe("#000000".into(), 4.into()), None);
+        let id = |size: f64, x: f64| {
+            let mut scene = base.clone();
+            let n = &mut scene.nodes[0];
+            n.x = x;
+            n.y = 8.0;
+            n.pattern.as_mut().unwrap().size = size;
+            let svg = scene_to_svg(&scene);
+            svg.split("<pattern id=\"")
+                .nth(1)
+                .unwrap()
+                .split('"')
+                .next()
+                .unwrap()
+                .to_string()
+        };
+        assert_ne!(id(8.5, 8.0), id(8.0, 5.8));
+        assert_ne!(id(8.0, 15.0), id(8.01, 5.0));
+        assert_eq!(id(8.5, 8.0), id(8.5, 8.0));
+    }
+
+    #[test]
+    fn a_pattern_needs_both_props() {
+        for (alt, size) in [("#000000".into(), Value::Null), (Value::Null, 4.into())] {
+            let scene = solve_width(&pattern_recipe(alt, size), None);
+            assert!(scene.nodes.iter().all(|n| n.pattern.is_none()));
+            assert!(scene
+                .diagnostics
+                .iter()
+                .any(|d| d.contains("patternFill and patternSize")));
+        }
+        let scene = solve_width(&pattern_recipe(Value::Null, Value::Null), None);
+        assert!(scene.diagnostics.is_empty());
     }
 
     #[test]

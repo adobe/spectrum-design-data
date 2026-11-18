@@ -10,8 +10,21 @@
     "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
   },
   "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        }
+      ]
+    },
     "verticalSize": {
       "type": "number",
+      "default": 16,
       "values": [
         {
           "value": 16
@@ -32,6 +45,7 @@
     },
     "horizontalSize": {
       "type": "number",
+      "default": 24,
       "values": [
         {
           "value": 24

@@ -218,6 +218,22 @@ fn color_of(s: Option<&str>, what: &str, part: &str, diags: &mut Vec<String>) ->
     c
 }
 
+/// Signed distance (negative inside) to the squares of a checkerboard that are not the
+/// top-left one, relative to its origin: the distance to the nearest cell edge, signed by parity.
+fn checker_sdf(u: f64, v: f64, size: f64) -> f64 {
+    let (cu, cv) = ((u / size).floor(), (v / size).floor());
+    let edge = |t: f64| {
+        let m = t.rem_euclid(size);
+        m.min(size - m)
+    };
+    let d = edge(u).min(edge(v));
+    if (cu + cv).rem_euclid(2.0) == 1.0 {
+        -d
+    } else {
+        d
+    }
+}
+
 fn corner_radii(n: &SceneNode) -> [f64; 4] {
     n.radii.unwrap_or([n.radius; 4])
 }
@@ -238,6 +254,18 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                 paint(cv, xf, bounds(0.0), c, Paint::Fill, |x, y| {
                     rrect_sdf(x, y, n.x, n.y, n.w, n.h, r)
                 });
+            }
+            if let Some(p) = &n.pattern {
+                if let Some(c) = color_of(Some(p.alt.as_str()), "patternFill", &n.part, diags) {
+                    let r = corner_radii(n);
+                    paint(cv, xf, bounds(0.0), c, Paint::Fill, |x, y| {
+                        rrect_sdf(x, y, n.x, n.y, n.w, n.h, r).max(checker_sdf(
+                            x - n.x,
+                            y - n.y,
+                            p.size,
+                        ))
+                    });
+                }
             }
             if n.stroke_width > 0.0 {
                 if let Some(c) = stroke_color(n, diags) {
@@ -547,6 +575,7 @@ mod tests {
             icon: None,
             rotation: None,
             underline: None,
+            pattern: None,
             stroke_opacity: None,
             tokens: vec![],
         }
@@ -595,6 +624,24 @@ mod tests {
         assert_eq!(at(&img, 20, 12), [255, 0, 0, 255]);
         assert_eq!(at(&img, 2, 12), [0, 0, 0, 0]);
         assert_eq!(at(&img, 4, 12), [255, 0, 0, 255]);
+        assert!(d.is_empty());
+    }
+
+    #[test]
+    fn a_pattern_alternates_squares_starting_with_the_fill() {
+        let mut n = node("box", "root", 0.0, 0.0, 16.0, 16.0);
+        n.fill = Some("#ffffff".into());
+        n.pattern = Some(crate::visual::Pattern {
+            alt: "#000000".into(),
+            size: 4.0,
+        });
+        let (img, d) = render(&scene(16.0, 16.0, vec![n]), 1.0);
+        // Pixel centres inside the four cells of one tile: fill, alt / alt, fill.
+        assert_eq!(at(&img, 2, 2), [255, 255, 255, 255]);
+        assert_eq!(at(&img, 6, 2), [0, 0, 0, 255]);
+        assert_eq!(at(&img, 2, 6), [0, 0, 0, 255]);
+        assert_eq!(at(&img, 6, 6), [255, 255, 255, 255]);
+        assert_eq!(at(&img, 10, 2), [255, 255, 255, 255]);
         assert!(d.is_empty());
     }
 

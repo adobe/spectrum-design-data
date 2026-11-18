@@ -650,6 +650,18 @@
     "hideLabel=true,staticColor=\"white\",variant=\"notice\"": "4d0e8e5dbac1f1bb",
     "hideLabel=true,staticColor=\"white\",variant=\"positive\"": "614b4af47cb04937"
   },
+  "opacity-checkerboard": {
+    "horizontalSize=24,verticalSize=128": "5af4b24824cb3423",
+    "horizontalSize=24,verticalSize=16": "474ac9dd7bcc7ebf",
+    "horizontalSize=24,verticalSize=256": "2bdbc0b89c5147a7",
+    "horizontalSize=24,verticalSize=32": "dd774610dd6f4d87",
+    "horizontalSize=24,verticalSize=64": "7b8211d982b68b89",
+    "horizontalSize=40,verticalSize=128": "459e0c887e802a63",
+    "horizontalSize=40,verticalSize=16": "992f042ecc6022db",
+    "horizontalSize=40,verticalSize=256": "b7817713056fc64f",
+    "horizontalSize=40,verticalSize=32": "9f7f35754ee9beab",
+    "horizontalSize=40,verticalSize=64": "bb06438d115fef09"
+  },
   "progress-bar": {
     "hideLabel=false,isIndeterminate=false,staticColor=\"black\"": "95fa346f078869fd",
     "hideLabel=false,isIndeterminate=false,staticColor=\"white\"": "224e7638677e745d",
