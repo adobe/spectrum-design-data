@@ -879,7 +879,8 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "gap"
+      "part": "day",
+      "property": "thickness"
     },
     "context": "Thickness (strikethrough day)",
     "contextRole": ["thickness"],
