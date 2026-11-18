@@ -9,6 +9,7 @@ import {
   parseSvg,
   unregistered,
   WORKFLOW_ICONS,
+  DRAWN_WORKFLOW_ICONS,
 } from "./import-icons.mjs";
 
 const svg = (body, viewBox = "0 0 10 10") =>
@@ -90,16 +91,18 @@ test("UI icons group by name and scale, workflow icons by name; unsized files ar
   ]);
   assert.deepEqual(
     Object.keys(sets.workflow.icons),
-    WORKFLOW_ICONS.map(kebab).sort(),
+    [...WORKFLOW_ICONS.map(kebab), ...Object.keys(DRAWN_WORKFLOW_ICONS)].sort(),
   );
   assert.equal(sets.workflow.source.commit, "0".repeat(40));
   assert.deepEqual(unregistered(sets, { values: [{ id: "chevron" }] }), [
     "workflow:add",
     "workflow:alert-triangle",
+    "workflow:cancel",
     "workflow:delete",
     "workflow:edit",
     "workflow:search",
     "workflow:settings",
+    "workflow:slash",
     "workflow:user",
   ]);
 });
@@ -121,6 +124,7 @@ test("committed icon files: file name is the set, keys match their source files"
         ? Object.entries(icon.sizes)
         : [[undefined, icon]];
       for (const [size, g] of drawings) {
+        if (g.source === "drawn") continue;
         const m = g.source.match(
           size === undefined
             ? /^S2_Icon_([A-Za-z]+)_20_N\.svg$/
