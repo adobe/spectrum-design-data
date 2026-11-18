@@ -41,7 +41,6 @@ A component declaration **MUST** contain:
 | `anatomy`         | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
 | `states`          | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
 | `lifecycle`       | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
-| `tokenBindings`   | array  | Tokens this component uses — see [Token bindings](#token-bindings) (Phase 6.7).                                                            |
 | `documentBlocks`  | array  | Typed prose blocks for this component — see [Document blocks](#document-blocks) (Phase 9).                                                 |
 | `accessibility`   | object | Semantic accessibility vocabulary — see [Accessibility](accessibility.md) (Phase 7).                                                       |
 
@@ -334,26 +333,7 @@ The `lifecycle` block tracks a component declaration's version history. It mirro
 
 ## Token bindings
 
-The optional `tokenBindings` array declares which tokens a component uses, including foundation and structure tokens that do not carry the component name in their name-object. This is the *component-declares-usage* direction; the *token-declares-scope* direction is expressed via name-object `component`/`anatomy`/`state` fields and validated by SPEC-018–022.
-
-```json
-"tokenBindings": [
-  { "token": "component-height-100",         "context": "Minimum height" },
-  { "token": "corner-radius-full",           "context": "Rounding" },
-  { "token": "button-background-color-accent", "context": "Fill background" }
-]
-```
-
-Each entry contains:
-
-| Field     | Required | Type   | Description                                                                                                                                             |
-| --------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `token`   | yes      | string | Token name. **MUST** resolve to a declared token in the dataset when the dataset is present (rule SPEC-027). May reference structure/foundation tokens. |
-| `context` | no       | string | Human-readable label for how this token is used (maps to the Figma Token Group label in the S2 Token Specs Figma file).                                 |
-
-**NORMATIVE:** When the dataset includes token declarations, each `tokenBindings[].token` value **MUST** match the name of a declared token (rule SPEC-027). A missing token reference is a validation error.
-
-The `context` field is informative. It is used by `describe_component` (Phase 8 agent surface) to present token usage in grouped, human-readable form.
+A component declaration does not list its tokens. Its token bindings are the Component/Token Relationships in `relationships/{component}.json` (see [Relationship format](relationship-format.md)). Rule SPEC-055 checks that every relationship `$ref` resolves, and SPEC-058 flags a binding to a deprecated token.
 
 ## SPEC rules
 
@@ -366,7 +346,6 @@ The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) b
 | SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                                           |
 | SPEC-021 | `component-slot-vocabulary`      | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings.                                                                                           |
 | SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                                                                                                              |
-| SPEC-027 | `token-binding-token-exists`     | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                                                                                                              |
 | SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                                                 |
 | SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `lifecycle` on the matching `values` entry on the option descriptor.       |
 | SPEC-038 | `option-enum-obsolete`           | warning  | An option descriptor **SHOULD NOT** use the JSON Schema `enum` keyword. `additionalProperties: true` silently accepts `enum` at Layer 1; SPEC-038 flags it at Layer 2 so authors replace it with the `values` array.                                                    |

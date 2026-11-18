@@ -9239,5 +9239,53 @@
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "s",
+      "legacyKey": "corner-radius-button-small"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "6c0a6608-4b6b-4f40-b24d-f1d121165638",
+    "description": "Corner radius of a Button when its label wraps (half the button height)",
+    "conceptId": "8a962e55-6168-4be7-bbe9-87634ac2fdf1",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "l",
+      "legacyKey": "corner-radius-button-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "e9940242-95ec-460f-a701-b734ae55f877",
+    "description": "Corner radius of a Button when its label wraps (half the button height)",
+    "conceptId": "29960f9c-2810-40d3-8ef2-5be434d7d045",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "xl",
+      "legacyKey": "corner-radius-button-extra-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "bcc60e9b-aa1f-4989-b17f-0aed21a30db7",
+    "description": "Corner radius of a Button when its label wraps (half the button height)",
+    "conceptId": "ac9307a9-5d13-4641-b008-477d084a856c",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
   }
 ]

@@ -241,14 +241,8 @@ rules:
     spec_ref: spec/state-model.md#canonical-state-vocabulary
     introduced_in: "1.0.0-draft"
 
-  - id: SPEC-027
-    name: token-binding-token-exists
-    severity: error
-    category: reference-integrity
-    assert: Each tokenBindings[].token value in a component declaration MUST match the name of a declared token in the dataset.
-    message: "Component '{component}' tokenBindings references unknown token '{token}'"
-    spec_ref: spec/component-format.md#token-bindings
-    introduced_in: "1.0.0-draft"
+  # SPEC-027 (token-binding-token-exists) is retired with the component `tokenBindings` field;
+  # relationships carry that data and SPEC-055 checks their `$ref`. The ID is not reused.
 
   - id: SPEC-028
     name: document-block-agents-equals-content
@@ -659,8 +653,8 @@ rules:
     category: reference-integrity
     assert: >
       A CTR's `$ref` value MUST resolve to a declared token or relationship `uuid` in
-      the dataset. Mirrors SPEC-001 (alias-target-exists) and SPEC-027
-      (token-binding-token-exists) for the CTR alias direction.
+      the dataset. Mirrors SPEC-001 (alias-target-exists) for the CTR
+      alias direction.
     message: "Relationship alias target not found for $ref: {target}"
     spec_ref: spec/relationship-format.md#value-owning-vs-relationship-only
     introduced_in: "1.0.0-draft"

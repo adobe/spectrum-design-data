@@ -141,7 +141,6 @@ function main() {
           // manifest fails to apply and the recipe rules silently do nothing.
           "--mode-sets-path",
           "./mode-sets",
-          "--components-report-only",
           "--exceptions-path",
           "./naming-exceptions.json",
           "--format",

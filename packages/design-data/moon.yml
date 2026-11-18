@@ -126,16 +126,8 @@ tasks:
   # These are different subcommands with different flag names.
   #
   # --components-path loads packages/design-data/components/*.json so
-  # component-aware rules (SPEC-018/020/022/026/027/031/035/040) actually run
-  # instead of silently no-op'ing (see bead spectrum-design-data-0jm).
-  # --components-report-only downgrades their findings to warnings: SPEC-018/
-  # 020/022 are clean (downgrade is a no-op for them). SPEC-027's backlog of
-  # 134 dangling tokenBindings was triaged in bead spectrum-design-data-vpk:
-  # 84 were confident typo/word-order renames or garbage removals (now fixed),
-  # and the CTR migration plus further vpk.1 cleanup resolved all but 3 of the
-  # remaining 50 (see GitHub issue #1269) — only the button corner-radius
-  # bindings still need design-owner sign-off. Remove this flag once that's
-  # resolved and the SPEC-027 count reaches 0.
+  # component-aware rules (SPEC-018/020/022/026/031/035/040/051-054/064) actually
+  # run instead of silently no-op'ing (see bead spectrum-design-data-0jm).
   validate:
     command: ../../sdk/target/debug/design-data
     args:
@@ -149,7 +141,6 @@ tasks:
       - ./visuals
       - --icons-path
       - ./icons
-      - --components-report-only
       - --exceptions-path
       - ./naming-exceptions.json
     toolchain: "system"

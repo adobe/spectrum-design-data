@@ -30,7 +30,7 @@ The surface targets three consumer shapes:
 | `resolve_token`      | property + mode set context                            | winning token (literal or resolved alias) with file/UUID/specificity                                                                                                                                            | `cascade::resolve`                                                                                 |
 | `query_tokens`       | filter expression (see [Query](query.md))              | matching token list                                                                                                                                                                                             | `query::filter`                                                                                    |
 | `validate_usage`     | candidate token document or fragment                   | `ValidationReport` (Layer 1 + Layer 2 diagnostics)                                                                                                                                                              | `validate::validate_*`                                                                             |
-| `describe_component` | component identifier                                   | component contract (anatomy, options, states, tokenBindings); see [#832](https://github.com/adobe/spectrum-design-data/discussions/832) and [Phase 6.7](#describe_component-return-shape)                       | (Phase 6 contract)                                                                                 |
+| `describe_component` | component identifier                                   | component contract (anatomy, options, states, relationships); see [#832](https://github.com/adobe/spectrum-design-data/discussions/832) and [Phase 6.7](#describe_component-return-shape)                       | (Phase 6 contract)                                                                                 |
 | `suggest_token`      | natural-language intent + optional property hint       | ranked candidate tokens with rationale (RECOMMENDED, not NORMATIVE in v1)                                                                                                                                       | registry + query                                                                                   |
 | `get_guidance`       | token UUID, component identifier, or anatomy reference | attached document blocks (Phase 9 / RFC-D); falls back to empty list pre-RFC-D                                                                                                                                  | document blocks                                                                                    |
 | `diff_datasets`      | two dataset roots                                      | `DiffReport` per [Diff](diff.md)                                                                                                                                                                                | `diff::semantic_diff`                                                                              |
@@ -93,7 +93,7 @@ A separate Spectrum-oriented skill (embedded snapshot, bundled read-only MCP ser
 
 ## `describe_component` return shape
 
-The `describe_component` tool returns the component declaration object as stored in the dataset, extended with `tokenBindings` when Phase 6.7 data is present. A conforming implementation MUST include `tokenBindings` in the response when the component declaration contains that field.
+The `describe_component` tool returns the component declaration object as stored in the dataset, extended with the component's `relationships` (its token bindings) when a relationships file exists. A conforming implementation MUST include `relationships` in the response when one is present.
 
 ```json
 {
@@ -111,15 +111,11 @@ The `describe_component` tool returns the component declaration object as stored
     { "name": "hover",    "trigger": "interaction", "precedence": 50 },
     { "name": "keyboard-focus", "trigger": "interaction", "precedence": 60 },
     { "name": "disabled", "trigger": "prop" }
-  ],
-  "tokenBindings": [
-    { "token": "component-height-100", "context": "Minimum height" },
-    { "token": "corner-radius-full",   "context": "Rounding" }
   ]
 }
 ```
 
-`tokenBindings` enables agents to retrieve a complete picture of a component's token usage — including shared structure and foundation tokens that do not carry the component name in their name-object — without issuing a second `query_tokens` call.
+`relationships` lets agents retrieve a complete picture of a component's token usage — including shared structure and foundation tokens that do not carry the component name in their name-object — without issuing a second `query_tokens` call.
 
 ## Conformance
 

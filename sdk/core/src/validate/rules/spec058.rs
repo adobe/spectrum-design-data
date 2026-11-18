@@ -14,7 +14,7 @@
 //! `lifecycle.deprecatedIn` is set. Relationship-only CTRs (no
 //! `legacyKey` — see relationship-format.md) describe current
 //! component-to-token bindings; a deprecated target means the binding was
-//! carried over from an older source (a legacy `tokenBindings` migration or a
+//! carried over from an older source (a legacy component-binding migration or a
 //! Figma spec export) without following the token's `lifecycle.replacedBy`
 //! pointer to its live replacement.
 //!

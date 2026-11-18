@@ -222,20 +222,6 @@
     { "name": "disabled", "trigger": "prop" }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    {
-      "token": "corner-radius-button-small",
-      "context": "Rounding (with wrapping)"
-    },
-    {
-      "token": "corner-radius-button-large",
-      "context": "Rounding (with wrapping)"
-    },
-    {
-      "token": "corner-radius-button-extra-large",
-      "context": "Rounding (with wrapping)"
-    }
-  ],
   "accessibility": {
     "role": "button",
     "intents": ["trigger"],

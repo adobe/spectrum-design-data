@@ -343,7 +343,7 @@ Within a composite value, a string sub-value **MAY** be an **inline alias**: a r
 
 ## Component bindings
 
-The optional `componentBindings` array on a token is the **reverse index** of `tokenBindings` on a component declaration (Phase 6.7). It declares which components reference this token in their `tokenBindings` list.
+The optional `componentBindings` array on a token is the **reverse index** of the component relationships in `relationships/`. It declares which components reference this token.
 
 ```json
 "componentBindings": [
@@ -357,7 +357,7 @@ The optional `componentBindings` array on a token is the **reverse index** of `t
 | `component` | yes      | string | Component name (kebab-case). MUST match a declared component `name`. |
 | `context`   | no       | string | Human-readable label for how this token is used in the component.    |
 
-`componentBindings` is **informative and optional**. It is fully derivable from the `tokenBindings` arrays on component declarations and does not need to be hand-maintained. Tooling that generates component files may populate `componentBindings` as a convenience for consumers that query token files directly.
+`componentBindings` is **informative and optional**. It is fully derivable from relationships and does not need to be hand-maintained. Tooling that generates component files may populate `componentBindings` as a convenience for consumers that query token files directly.
 
 ## Relationship to legacy Spectrum tokens
 

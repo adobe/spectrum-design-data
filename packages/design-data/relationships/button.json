@@ -92,13 +92,58 @@
   {
     "scope": {
       "component": "button",
-      "property": "corner-radius"
+      "property": "corner-radius",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Rounding (with wrapping)",
     "contextRole": ["rounding"],
     "contextQualifier": "with wrapping",
     "$ref": "d639a0b5-16b4-4d75-ab37-d87815c7b500",
     "uuid": "fd0ff5ea-037f-5c2c-afe2-005c1d6c40b3"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "corner-radius",
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Rounding (with wrapping)",
+    "contextRole": ["rounding"],
+    "contextQualifier": "with wrapping",
+    "$ref": "6c0a6608-4b6b-4f40-b24d-f1d121165638",
+    "uuid": "cdc133f2-cbee-593d-bc2d-d32f09c31261"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "corner-radius",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Rounding (with wrapping)",
+    "contextRole": ["rounding"],
+    "contextQualifier": "with wrapping",
+    "$ref": "e9940242-95ec-460f-a701-b734ae55f877",
+    "uuid": "b4728022-6b6e-5f04-811c-7ffd69b44d9c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "corner-radius",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Rounding (with wrapping)",
+    "contextRole": ["rounding"],
+    "contextQualifier": "with wrapping",
+    "$ref": "bcc60e9b-aa1f-4989-b17f-0aed21a30db7",
+    "uuid": "cf1889db-a95a-5f00-9b86-2f73f183c7b5"
   },
   {
     "scope": {
