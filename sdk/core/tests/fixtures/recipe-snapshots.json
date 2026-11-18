@@ -735,5 +735,9 @@
     "hideLabel=true,isDisabled=true,isEmphasized=false,isSelected=true": "df52a6f1184be5c5",
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=false": "0cdec2aa15689367",
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=true": "8f08ffafee1a3249"
+  },
+  "thumbnail": {
+    "isDisabled=false": "0b9e0eebdebafaef",
+    "isDisabled=true": "72f453ae2b3a3847"
   }
 }

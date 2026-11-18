@@ -360,6 +360,7 @@ recipe_tests! {
     radio_button => "radio-button",
     swatch => "swatch",
     switch => "switch",
+    thumbnail => "thumbnail",
 }
 
 #[test]
