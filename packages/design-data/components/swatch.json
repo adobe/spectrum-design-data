@@ -92,7 +92,7 @@
     },
     {
       "name": "opacity-checkerboard",
-      "description": "Pattern behind a preview color with alpha below 1."
+      "description": "Pattern behind a preview color with alpha below 1. Not drawn by the recipe yet (qkj5.209)."
     },
     {
       "name": "border",
@@ -119,7 +119,7 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Proposed from Figma S2 Web (Swatch: background, opacity checkerboard, border, inner border when selected, slash for the None value, Cancel icon when disabled) and React Spectrum ColorSwatch and ColorSwatchPicker (fill, checkerboard, slash, selection border and inner band, focusRing). SWC gen2 has no swatch. Figma Value Mixed and Add (dash and add icons) are not declared: only Figma has them. Hover draws a Tooltip in Figma (its own component) and down changes nothing, so both are notVisual. The disabled Cancel look is Figma only; React Spectrum has no disabled swatch. Awaiting owner review."
+    "notes": "Proposed from Figma S2 Web (Swatch: background, opacity checkerboard, border, inner border when selected, slash for the None value, Cancel icon when disabled) and React Spectrum ColorSwatch and ColorSwatchPicker (fill, checkerboard, slash, selection border and inner band, focusRing). SWC gen2 has no swatch. Figma Value Mixed and Add (dash and add icons) are not declared: only Figma has them. Hover draws a Tooltip in Figma (its own component) and down changes nothing, so both are notVisual. The disabled Cancel look is Figma only; React Spectrum has no disabled swatch. The tree container > fill > {opacity-checkerboard, border, inner-border, slash, icon} is a renderer limit, not a statement about the design: the renderer overlays parts only inside a flowed box, so they nest under fill. Do not flatten it as a modeling fix. opacity-checkerboard is declared because both sources have it, but no recipe part draws it yet (qkj5.209). Awaiting owner review."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },
