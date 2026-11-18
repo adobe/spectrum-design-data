@@ -74,7 +74,7 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
         let text_option = node.get("text").and_then(|t| t.get("option"));
-        for name in text_option.into_iter().chain(
+        for name in text_option.into_iter().chain(node.get("option")).chain(
             node.get("fraction")
                 .and_then(Value::as_object)
                 .into_iter()

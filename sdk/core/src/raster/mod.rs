@@ -222,6 +222,13 @@ fn corner_radii(n: &SceneNode) -> [f64; 4] {
     n.radii.unwrap_or([n.radius; 4])
 }
 
+/// The node's stroke color with `strokeOpacity` multiplied into its alpha.
+fn stroke_color(n: &SceneNode, diags: &mut Vec<String>) -> Option<Rgba> {
+    let c = color_of(n.stroke.as_deref(), "stroke", &n.part, diags)?;
+    let o = n.stroke_opacity.unwrap_or(1.0).clamp(0.0, 1.0) as f32;
+    Some(c.with_alpha(o))
+}
+
 fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &mut Vec<String>) {
     let bounds = |pad: f64| (n.x - pad, n.y - pad, n.x + n.w + pad, n.y + n.h + pad);
     match n.kind.as_str() {
@@ -233,7 +240,7 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                 });
             }
             if n.stroke_width > 0.0 {
-                if let Some(c) = color_of(n.stroke.as_deref(), "stroke", &n.part, diags) {
+                if let Some(c) = stroke_color(n, diags) {
                     // The SVG strokes the box inset by half the width, so the band is inside it.
                     let i = n.stroke_width / 2.0;
                     let r = corner_radii(n).map(|v| (v - i).max(0.0));
@@ -252,7 +259,7 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
             }
         }
         "ring" => {
-            if let Some(c) = color_of(n.stroke.as_deref(), "stroke", &n.part, diags) {
+            if let Some(c) = stroke_color(n, diags) {
                 let hw = n.stroke_width / 2.0;
                 paint(cv, xf, bounds(hw), c, Paint::Band(hw), |x, y| {
                     rrect_sdf(x, y, n.x, n.y, n.w, n.h, [n.radius; 4])
@@ -540,6 +547,7 @@ mod tests {
             icon: None,
             rotation: None,
             underline: None,
+            stroke_opacity: None,
             tokens: vec![],
         }
     }
@@ -759,6 +767,18 @@ mod tests {
             .filter(|&y| (0..img.width).any(|x| at(img, x, y)[3] > 127))
             .collect();
         Some((*rows.first()?, *rows.last()?))
+    }
+
+    #[test]
+    fn stroke_opacity_multiplies_the_stroke_alpha() {
+        let mut n = node("box", "frame", 2.0, 2.0, 12.0, 12.0);
+        n.stroke = Some("#000000".into());
+        n.stroke_width = 2.0;
+        n.stroke_opacity = Some(0.5);
+        let (img, _) = render(&scene(16.0, 16.0, vec![n]), 1.0);
+        let a = at(&img, 8, 2)[3];
+        assert!((127..=129).contains(&a), "{a}");
+        assert_eq!(at(&img, 8, 8)[3], 0);
     }
 
     #[test]
