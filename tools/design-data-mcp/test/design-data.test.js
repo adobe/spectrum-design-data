@@ -30,6 +30,8 @@ const EXPECTED_TOOLS = [
   "design-data-primer",
   "design-data-query",
   "design-data-suggest",
+  "design-data-refinements",
+  "design-data-component-tokens",
   "design-data-component",
   "design-data-component-search",
   "design-data-resolve",
@@ -247,9 +249,9 @@ test("design-data-render rejects a component without a recipe", async (t) => {
 
 // ── structural tests ──────────────────────────────────────────────────────────
 
-test("createDesignDataTools exposes eleven tools", (t) => {
+test("createDesignDataTools exposes thirteen tools", (t) => {
   const tools = createDesignDataTools();
-  t.is(tools.length, 11);
+  t.is(tools.length, 13);
   t.deepEqual(
     tools.map(({ name }) => name),
     EXPECTED_TOOLS,
@@ -440,6 +442,7 @@ test("design-data-query shows each token's tier and filters by it", async (t) =>
 test("design-data-primer explains tiers and lists a field's allowed tiers", async (t) => {
   const primer = await byName()["design-data-primer"].handler({});
   t.regex(primer.tokenTiers, /tier=<tier>/);
+  t.regex(primer.semanticSpecificity, /refinements/);
   t.deepEqual(primer.fieldTiers.scaleIndex.allowedTokenTiers, [
     "primitive",
     "semantic",
@@ -934,3 +937,73 @@ test.serial(
     }
   },
 );
+
+test("design-data-refinements returns specificity and neighbors", async (t) => {
+  const result = await byName()["design-data-refinements"].handler({
+    token: "neutral-subdued-content-color-hover",
+  });
+  t.is(result.specificity.tier, "semantic");
+  t.true(result.specificity.purposeFields.includes("variant"));
+  t.is(result.broader[0].name, "neutral-content-color-hover");
+  t.deepEqual(result.broader[0].fields, { variant: "subdued" });
+  const byFields = await byName()["design-data-refinements"].handler({
+    token: "property=corner-radius scaleIndex=500",
+  });
+  t.is(byFields.specificity.tier, "primitive");
+  await t.throwsAsync(() =>
+    byName()["design-data-refinements"].handler({ token: "no-such-token" }),
+  );
+});
+
+test("design-data-query compact tokens list purposeFields", async (t) => {
+  const result = await byName()["design-data-query"].handler({
+    filter: "uuid=f24eb871-6419-4cef-88a2-cca8548ae31e",
+  });
+  t.deepEqual(result.tokens[0].purposeFields.sort(), [
+    "colorRole",
+    "object",
+    "state",
+  ]);
+});
+
+test("design-data-component-tokens lists what a component uses, by context and state", async (t) => {
+  const tool = byName()["design-data-component-tokens"];
+  const background = await tool.handler({
+    component: "action-button",
+    context: "background",
+    state: "hover",
+  });
+  t.true(background.total > 0);
+  for (const b of background.bindings) {
+    t.regex(b.context, /background/i);
+    t.true(!b.when?.state || JSON.stringify(b.when.state).includes("hover"));
+    t.true(b.value !== undefined || b.values !== undefined);
+  }
+  t.true(background.bindings.some((b) => b.when?.state?.includes("hover")));
+  t.true(background.otherStates.length > 0);
+  t.false(background.otherStates.includes("hover"));
+  const capped = await tool.handler({ component: "action-button", limit: 3 });
+  t.is(capped.shown, 3);
+  t.regex(capped.hint, /Narrow/);
+  await t.throwsAsync(() => tool.handler({ component: "no-such-component" }));
+});
+
+test("design-data-query filters by purpose fields and sorts by specificity", async (t) => {
+  const query = byName()["design-data-query"];
+  const accent = await query.handler({
+    filter: "tier=semantic,object=background,colorRole=accent",
+    sort: "specificity",
+  });
+  t.true(accent.total > 0);
+  for (const token of accent.tokens) {
+    t.true(token.purposeFields.includes("colorRole"));
+    t.true(token.purposeFields.includes("object"));
+  }
+  const counts = accent.tokens
+    .filter((tk) => !tk.deprecated)
+    .map((tk) => tk.purposeFields.length);
+  t.deepEqual(
+    counts,
+    [...counts].sort((a, b) => b - a),
+  );
+});

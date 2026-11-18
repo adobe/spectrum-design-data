@@ -63,6 +63,89 @@ pub struct TokenResult {
     pub tier: String,
     /// `"declared"` when the token sets `tokenTier`, `"derived"` otherwise.
     pub tier_source: String,
+    /// Name fields that imply a semantic role (catalog order). Derived, never stored; with
+    /// `tier` this is the token's semantic specificity (`Dataset.refinements` lists neighbors).
+    pub purpose_fields: Vec<String>,
+    /// `purposeFields.length`.
+    pub purpose_count: usize,
+}
+
+/// Semantic specificity: tier, then purpose-field count (derived from the token's name).
+#[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
+#[tsify(into_wasm_abi, from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
+pub struct SpecificityInfo {
+    pub tier: String,
+    pub purpose_fields: Vec<String>,
+}
+
+/// A same-property token whose name adds or drops purpose fields compared with another token.
+#[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
+#[serde(rename_all = "camelCase")]
+pub struct RefinementNeighbor {
+    pub name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub concept_id: Option<String>,
+    /// Narrower: fields this token adds. Broader: fields this token lacks.
+    pub fields: serde_json::Value,
+    pub specificity: SpecificityInfo,
+    /// `"drop-in"` (same resolved value in every mode combination) or `"consider"`.
+    pub value_match: String,
+    /// Mode combinations where the values differ, or `["all"]`.
+    pub differing_modes: Vec<String>,
+}
+
+/// A token's semantic specificity and its narrower and broader same-property neighbors.
+#[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
+#[serde(rename_all = "camelCase")]
+pub struct RefinementsResult {
+    pub token: String,
+    pub specificity: SpecificityInfo,
+    pub narrower: Vec<RefinementNeighbor>,
+    pub narrower_total: usize,
+    pub broader: Vec<RefinementNeighbor>,
+    pub broader_total: usize,
+}
+
+impl From<design_data_core::specificity::Specificity> for SpecificityInfo {
+    fn from(s: design_data_core::specificity::Specificity) -> Self {
+        Self {
+            tier: s.tier,
+            purpose_fields: s.purpose_fields,
+        }
+    }
+}
+
+impl From<design_data_core::specificity::Neighbor> for RefinementNeighbor {
+    fn from(n: design_data_core::specificity::Neighbor) -> Self {
+        Self {
+            name: n.name,
+            concept_id: n.concept_id,
+            fields: serde_json::Value::Object(n.fields),
+            specificity: n.specificity.into(),
+            value_match: match n.value_match {
+                design_data_core::specificity::ValueMatch::DropIn => "drop-in",
+                design_data_core::specificity::ValueMatch::Consider => "consider",
+            }
+            .to_string(),
+            differing_modes: n.differing_modes,
+        }
+    }
+}
+
+impl From<design_data_core::specificity::Refinements> for RefinementsResult {
+    fn from(r: design_data_core::specificity::Refinements) -> Self {
+        Self {
+            token: r.token,
+            specificity: r.specificity.into(),
+            narrower: r.narrower.into_iter().map(Into::into).collect(),
+            narrower_total: r.narrower_total,
+            broader: r.broader.into_iter().map(Into::into).collect(),
+            broader_total: r.broader_total,
+        }
+    }
 }
 
 /// A single resolved token result from `Dataset.resolve()`.
@@ -358,6 +441,7 @@ impl From<design_data_core::suggest::SuggestionResult> for SuggestResult {
 
 impl From<&design_data_core::graph::TokenRecord> for TokenResult {
     fn from(r: &design_data_core::graph::TokenRecord) -> Self {
+        let spec = design_data_core::specificity::specificity(r);
         Self {
             name: r.name.clone(),
             raw: r.raw.clone(),
@@ -367,6 +451,8 @@ impl From<&design_data_core::graph::TokenRecord> for TokenResult {
             layer: format!("{:?}", r.layer).to_lowercase(),
             tier: design_data_core::token_tier::effective(r).to_string(),
             tier_source: design_data_core::token_tier::source_raw(&r.raw).to_string(),
+            purpose_fields: spec.purpose_fields.clone(),
+            purpose_count: spec.purpose_fields.len(),
         }
     }
 }

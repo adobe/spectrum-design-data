@@ -32,7 +32,15 @@ pub(crate) const ALLOWED_KEYS: &[&str] = &[
     "uuid",
     "$schema",
     "tier",
+    "object",
+    "anatomy",
+    "colorRole",
 ];
+
+/// Keys that are never indexed, so a query on them always scans: `tier` is derived from the
+/// embedded field catalog, and the purpose fields are filters on the name only. The cache has
+/// no table for them either, so an older cache needs no rebuild.
+const SCAN_ONLY_KEYS: &[&str] = &["tier", "object", "anatomy", "colorRole"];
 
 /// Return the list of filter keys that are meaningfully supported in the
 /// embedded dataset.
@@ -62,6 +70,8 @@ const NAME_OBJECT_KEYS: &[&str] = &[
     "variant",
     "state",
     "colorRole",
+    "object",
+    "anatomy",
     "colorScheme",
     "scale",
     "contrast",
@@ -398,9 +408,7 @@ impl TokenIndex {
         let mut index = TokenIndex::default();
         for (graph_key, token) in &graph.tokens {
             for key in ALLOWED_KEYS {
-                // Derived from the embedded field catalog, not stored in the cache, so it is
-                // never indexed: a `tier` query always scans.
-                if *key == "tier" {
+                if SCAN_ONLY_KEYS.contains(key) {
                     continue;
                 }
                 for value in resolve_key(&token.raw, key) {
@@ -640,6 +648,40 @@ mod tests {
         assert_eq!(names("tier=primitive"), vec!["p"]);
         assert_eq!(names("tier=semantic"), vec!["s"]);
         assert_eq!(names("tier=component"), vec!["o"]);
+    }
+
+    #[test]
+    fn purpose_field_filters_scan_and_match_the_name() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "a".into(),
+                PathBuf::from("a.json"),
+                serde_json::json!({ "name": { "property": "color", "colorRole": "accent", "object": "background", "state": ["hover"] }, "value": "#1" }),
+            ),
+            (
+                "b".into(),
+                PathBuf::from("a.json"),
+                serde_json::json!({ "name": { "property": "color", "colorRole": "neutral", "object": "border" }, "value": "#2" }),
+            ),
+            (
+                "c".into(),
+                PathBuf::from("a.json"),
+                serde_json::json!({ "name": { "property": "color", "anatomy": "track" }, "value": "#3" }),
+            ),
+        ]);
+        let index = TokenIndex::build(&g);
+        let names = |q: &str| -> Vec<String> {
+            filter_with_index(&g, &index, &parse(q).unwrap())
+                .iter()
+                .map(|t| t.name.clone())
+                .collect()
+        };
+        assert_eq!(names("object=background"), vec!["a"]);
+        assert_eq!(names("colorRole=neutral,object=border"), vec!["b"]);
+        assert_eq!(names("anatomy=track"), vec!["c"]);
+        assert_eq!(names("colorRole=accent|colorRole=neutral").len(), 2);
+        assert!(names("object=nothing").is_empty());
+        assert!(!indexed_fields().contains(&"object"));
     }
 
     // ── indexed_fields ──────────────────────────────────────────────────

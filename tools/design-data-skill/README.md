@@ -124,7 +124,7 @@ The installed version shows next to the plugin's name. The current one is in
   a newer data version and stays silent if offline; set
   `DESIGN_DATA_SKIP_VERSION_CHECK=1` to disable it.
 * **Tools:** `design-data-primer`, `design-data-query`, `design-data-suggest`,
-  `design-data-component`, `design-data-component-search`, `design-data-resolve`,
+  `design-data-refinements`, `design-data-component`, `design-data-component-search`, `design-data-resolve`,
   `design-data-guideline-list`, `design-data-guideline`,
   `design-data-visual-recipe`, `design-data-render` (SVG, or PNG using Adobe Clean Spectrum VF
   when it is installed, else an open fallback), `design-data-font-status`. Inputs are documented in

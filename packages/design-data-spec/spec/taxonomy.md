@@ -85,6 +85,27 @@ A field declaration **MAY** declare `allowedTokenTiers`, a non-empty list of uni
 
 **NORMATIVE:** A token whose effective tier is not in a used field's `allowedTokenTiers` triggers rule SPEC-102 (`field-token-tier-violation`, warning).
 
+### Semantic specificity
+
+Semantic specificity is how much a token's name says about what the token is for. It is derived from the token, never stored, and is a pair compared left to right:
+
+1. **Tier rank:** `primitive` < `semantic` < `component`, using the token's effective tier.
+2. **Purpose-field count:** the number of name fields whose declaration sets `impliesTokenTier: "semantic"`. A field's value counts once however many values it has.
+
+For example, `blue-100` is `(primitive, 0)`, `background-color` is `(semantic, 1)` and `accent-background-color-default` is `(semantic, 3)`. A pair is compared as a whole, so a higher tier always outranks a higher count. Alias depth is not part of it: it separates tokens poorly and is a refactoring detail.
+
+**NORMATIVE:** Implementations that report specificity **MUST** derive it from the token's name and effective tier, and **MUST NOT** store it on the token or in an index or cache, because it depends on the field catalog of the implementation.
+
+**NORMATIVE:** Derivation reads the implementation's embedded foundation field catalog, not a dataset's own `fields/`, in the same way as the derived tier.
+
+Specificity orders tokens; it does not say that one token fits a use. Two tokens can have the same value in every mode and still mean different things. For a token T, a token C is a **narrower neighbor** when all of these hold:
+
+* C has the same `property` as T.
+* C's name has every field of T with the same values, ignoring mode-set fields and `legacyKey`.
+* C's name adds at least one field that implies a semantic or component tier.
+
+A **broader neighbor** is the reverse: its name has only fields of T, and T has at least one such field it lacks. Neighbors can be classified by value: **drop-in** when C resolves to the same value as T in every combination of the declared mode sets, **consider** when it differs in at least one. A consumer **MUST NOT** treat a neighbor as a replacement because it is drop-in; whether the added fields (for example `variant: subtle`) fit the use is a judgment for the caller. Fields that do not imply a tier, such as `size`, do not make a token narrower.
+
 ### Semantic / layout token taxonomy
 
 The following concept categories are defined in Spectrum's foundation field catalog for semantic and layout tokens (`scope: null` — universal), ordered by default serialization position. This ordering is the **default serialization order** for legacy format output; it is not a conformance requirement for stored name objects.

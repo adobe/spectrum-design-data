@@ -30,16 +30,17 @@ use design_data_core::diff::semantic_diff;
 use design_data_core::graph::TokenGraph;
 use design_data_core::primer;
 use design_data_core::query;
+use design_data_core::specificity;
 use design_data_core::suggest;
 use design_data_core::validate::relational::validate_relational;
 use wasm_bindgen::prelude::*;
 
 use crate::error::{js_err, to_js_error};
 use crate::types::{
-    AddedToken, DeletedToken, DeprecatedToken, DiffResult, PropertyChange, RenamedToken,
-    ResolutionContext as WasmContext, ResolveAlternative, ResolveNarrowing, ResolveResult,
-    RevertedToken, SuggestResult, SuggestResultArray, TokenResult, TokenResultArray, UpdatedToken,
-    ValidationResult,
+    AddedToken, DeletedToken, DeprecatedToken, DiffResult, PropertyChange, RefinementsResult,
+    RenamedToken, ResolutionContext as WasmContext, ResolveAlternative, ResolveNarrowing,
+    ResolveResult, RevertedToken, SuggestResult, SuggestResultArray, TokenResult, TokenResultArray,
+    UpdatedToken, ValidationResult,
 };
 
 // ---------------------------------------------------------------------------
@@ -283,6 +284,32 @@ impl Dataset {
         names
     }
 
+    /// A component's relationship records (which token it uses for what, and under which
+    /// options), as the dataset stores them: `scope` (component, part, property, options),
+    /// `context`, `contextRole`, `$ref` and `uuid`. Deprecated records are left out. Empty when
+    /// the component has none.
+    ///
+    /// ```js
+    /// ds.componentRelationships("text-field").filter((r) => r.context === "Border");
+    /// ```
+    #[wasm_bindgen(js_name = "componentRelationships")]
+    pub fn component_relationships(&self, component: &str) -> Result<JsValue, JsValue> {
+        use serde::Serialize;
+        let records: Vec<&serde_json::Value> = self
+            .graph
+            .relationships
+            .iter()
+            .map(|r| &r.raw)
+            .filter(|raw| {
+                raw.pointer("/scope/component").and_then(|v| v.as_str()) == Some(component)
+                    && raw.pointer("/lifecycle/deprecatedIn").is_none()
+            })
+            .collect();
+        records
+            .serialize(&serde_wasm_bindgen::Serializer::json_compatible())
+            .map_err(js_err)
+    }
+
     /// The visual recipe for a component (after platform aliases), or `undefined`.
     #[wasm_bindgen(js_name = "visualRecipe")]
     pub fn visual_recipe(&self, component: &str) -> Result<JsValue, JsValue> {
@@ -472,6 +499,30 @@ impl Dataset {
         let records = query::filter(&self.graph, &filter);
         let results: Vec<TokenResult> = records.iter().map(|r| TokenResult::from(*r)).collect();
         Ok(TokenResultArray::new(results))
+    }
+
+    // -----------------------------------------------------------------------
+    // Refinements
+    // -----------------------------------------------------------------------
+
+    /// A token's semantic specificity (tier, then purpose-field count) and the same-property
+    /// tokens whose names add (narrower) or drop (broader) purpose fields, each marked
+    /// `"drop-in"` (same resolved value in every mode) or `"consider"`.
+    ///
+    /// `token` is a legacy name, uuid or conceptId, or the `field=value` text query results show for
+    /// tokens without a legacy name (`property=corner-radius scaleIndex=500`). Returns `undefined`
+    /// when none matches.
+    /// Whether an added field fits the use is for the caller to judge. Reads the embedded
+    /// field catalog, so it can differ from a dataset's own `fields/`.
+    ///
+    /// ```js
+    /// const r = ds.refinements("neutral-subdued-content-color-hover", 5);
+    /// r.broader[0].valueMatch; // "drop-in" | "consider"
+    /// ```
+    #[wasm_bindgen]
+    pub fn refinements(&self, token: &str, limit: Option<usize>) -> Option<RefinementsResult> {
+        let record = specificity::find(&self.graph, token)?;
+        Some(specificity::refinements(&self.graph, record, limit.unwrap_or(10)).into())
     }
 
     // -----------------------------------------------------------------------
