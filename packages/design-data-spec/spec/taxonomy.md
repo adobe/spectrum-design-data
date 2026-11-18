@@ -64,7 +64,7 @@ Every token has a tier. A token **MAY** declare it with `tokenTier` ([`token.sch
 * `semantic` — shared purposes or structural roles. The name says what the value is for (a role, object, structure, state, and so on).
 * `component` — tokens defined for a specific component.
 
-**Foundation** is not a tier. It is the group of tiers (primitive, semantic and component tokens) that platforms build on. Use "primitive" only for the primitive tier.
+**Foundation** is not a tier. It is the canonical dataset layer (see [Cascade](cascade.md)), which holds tokens of all three tiers and is what platforms build on. Use "primitive" only for the primitive tier.
 
 #### Derived tier
 

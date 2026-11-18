@@ -34,6 +34,11 @@ The specification defines:
 
 This specification intentionally defines the Design Data-owned contract and links to external standards for platform-native implementation semantics instead of restating those contracts as normative local rules. The repository owns taxonomy, validation, lifecycle, and schema rules; the authoritative source for native format behavior remains the external standard it describes.
 
+## Terms
+
+* **Foundation**, **platform** and **product** are the three layers of the [cascade](cascade.md). Foundation is the canonical design system dataset (tokens, components, relationships, fields and mode sets) that platforms and products build on. It is a layer, not a token tier.
+* **Primitive**, **semantic** and **component** are the three token tiers. A token's tier is declared with `tokenTier` or derived from the token. See [Taxonomy: Token tiers](taxonomy.md#token-tiers).
+
 ## Conformance
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **OPTIONAL** in this specification are to be interpreted as described in [BCP 14](https://www.rfc-editor.org/info/bcp14) \[[RFC2119](https://www.rfc-editor.org/rfc/rfc2119.html)] \[[RFC8174](https://www.rfc-editor.org/rfc/rfc8174.html)] when, and only when, they appear in all capitals, as shown here.
