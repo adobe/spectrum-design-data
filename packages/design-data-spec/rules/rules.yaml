@@ -1391,3 +1391,19 @@ rules:
     message: "Relationship record {index} has {field} '{value}', which is not in the vocabulary for that field"
     spec_ref: spec/relationship-format.md#scope-fields
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-102
+    name: field-token-tier-violation
+    severity: warning
+    layer: 2
+    category: taxonomy
+    note: >
+      A field declaration can list `allowedTokenTiers` (primitive, semantic, component). A token
+      that declares a `tokenTier` outside that list must not use the field in its name object.
+      Tokens without a `tokenTier` are skipped while the dataset is being tagged.
+    assert: >
+      A token's name object MUST NOT contain a field whose `allowedTokenTiers` excludes the token's
+      `tokenTier`.
+    message: "name.{field} applies only to {tiers} tokens but this token's tokenTier is '{tier}'"
+    spec_ref: spec/taxonomy.md#token-tiers
+    introduced_in: "1.0.0-draft"

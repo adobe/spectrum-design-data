@@ -72,12 +72,11 @@
     "allowedTokenTiers": {
       "type": "array",
       "items": {
-        "type": "string",
-        "enum": ["primitive", "semantic", "component"]
+        "$ref": "token.schema.json#/$defs/tokenTier"
       },
       "minItems": 1,
       "uniqueItems": true,
-      "description": "Token tiers that may use this field: 'primitive' (foundation-level values), 'semantic' (shared purposes or structural roles) or 'component' (tokens defined for a specific component). Omit to allow every tier. Applies together with 'scope'."
+      "description": "Token tiers that may use this field: 'primitive' (raw values), 'semantic' (shared purposes or structural roles) or 'component' (tokens defined for a specific component). Omit to allow every tier. Applies together with 'scope'. Checked against each token's tokenTier (SPEC-102); tokens without a tokenTier are skipped."
     },
     "required": {
       "type": "boolean",

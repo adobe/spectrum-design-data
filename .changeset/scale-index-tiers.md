@@ -8,5 +8,7 @@ Fields can now declare which token tiers they apply to.
 
 - **field.schema.json**: adds optional `allowedTokenTiers` (primitive, semantic, component).
 - **fields/scaleIndex.json**: limits `scaleIndex` to primitive and semantic tokens.
-- **spec/taxonomy.md**: documents the property and that no rule enforces it yet.
+- **token.schema.json**: adds optional `tokenTier`.
+- **SPEC-102**: warns when a field is used on a tier it excludes.
+- **spec/taxonomy.md**: defines the tiers and says foundation is a group of tiers, not a tier.
 - **conformance/manifest-extensions**: rejects an empty list and an unknown tier.

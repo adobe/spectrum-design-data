@@ -59,6 +59,8 @@ pub struct FieldCatalogEntry {
     /// Set in each field's `packages/design-data/fields/*.json` (`excludeFromLegacyKey: true`).
     /// Replaces the opt-out `SKIP` const in `naming.rs`. Absence in the field JSON means `false`.
     pub exclude_from_legacy_key: bool,
+    /// Token tiers this field may appear on (SPEC-102), or `None` for every tier.
+    pub allowed_token_tiers: Option<&'static [&'static str]>,
 }
 
 /// The full fields/ catalog embedded at compile time.

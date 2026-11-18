@@ -13,6 +13,11 @@
     }
   ],
   "$defs": {
+    "tokenTier": {
+      "type": "string",
+      "enum": ["primitive", "semantic", "component"],
+      "description": "The tier this token belongs to: 'primitive' (raw values), 'semantic' (shared purposes or structural roles) or 'component' (defined for a specific component). Optional while the dataset is being tagged; fields limit the tiers they apply to with allowedTokenTiers (SPEC-102)."
+    },
     "nameObject": {
       "type": "object",
       "description": "Structured token identity. Semantic fields describe identity and structure; mode-set fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional mode-set keys MUST be strings.",
@@ -200,6 +205,9 @@
           "type": "string",
           "format": "uuid"
         },
+        "tokenTier": {
+          "$ref": "#/$defs/tokenTier"
+        },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"
         },
@@ -261,6 +269,9 @@
         "uuid": {
           "type": "string",
           "format": "uuid"
+        },
+        "tokenTier": {
+          "$ref": "#/$defs/tokenTier"
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"

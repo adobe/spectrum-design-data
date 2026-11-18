@@ -56,9 +56,19 @@ Concept categories for name-object fields are declared in the design system's **
 
 **NORMATIVE:** A field with a non-null `scope` declaration **MUST** only appear on tokens of that type. Using a scoped field on a mismatched token type triggers rule SPEC-042 (`field-scope-violation`, warning).
 
-A field declaration **MAY** also declare `allowedTokenTiers`, a non-empty list of unique values from `primitive`, `semantic` and `component`. When present, the field applies only to tokens of those tiers; when absent, the field applies to every tier. `allowedTokenTiers` is independent of `scope`: a field that declares both applies only where both allow it.
+### Token tiers
 
-**Status:** this version of the spec does not define how a token's tier is determined, and no validation rule checks `allowedTokenTiers`. The property is declarative metadata for tools. Tools **SHOULD NOT** report tier violations until a tier derivation rule is specified.
+A token **MAY** declare a `tokenTier` ([`token.schema.json`](../schemas/token.schema.json)), one of:
+
+* `primitive` — raw values.
+* `semantic` — shared purposes or structural roles.
+* `component` — tokens defined for a specific component.
+
+**Foundation** is not a tier. It is the group of tiers (primitive, semantic and component tokens) that platforms build on. Use "primitive" only for the primitive tier.
+
+A field declaration **MAY** declare `allowedTokenTiers`, a non-empty list of unique tiers. When present, the field applies only to tokens of those tiers; when absent, it applies to every tier. `allowedTokenTiers` is independent of `scope`: a field that declares both applies only where both allow it.
+
+**NORMATIVE:** A token whose `tokenTier` is not in a used field's `allowedTokenTiers` triggers rule SPEC-102 (`field-token-tier-violation`, warning). Tokens without a `tokenTier` are skipped, so the property can be added to the dataset gradually.
 
 ### Semantic / layout token taxonomy
 
