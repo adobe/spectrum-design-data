@@ -86,6 +86,12 @@
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "Frame of the link: the box that holds the text and that the focus ring surrounds.",
+      "required": true,
+      "contains": ["text"]
+    },
+    {
       "name": "text",
       "description": "Link text. Underlined, except in a standalone quiet link at rest.",
       "required": true
