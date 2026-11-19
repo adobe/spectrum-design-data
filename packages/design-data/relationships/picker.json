@@ -1154,36 +1154,6 @@
   {
     "scope": {
       "component": "picker",
-      "property": "color"
-    },
-    "context": "Border",
-    "contextRole": ["border"],
-    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
-    "uuid": "5056ba0e-e174-571e-ba89-76b451f154de"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "color"
-    },
-    "context": "Border",
-    "contextRole": ["border"],
-    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
-    "uuid": "854a4351-2be1-500e-be53-cc9d2081ae28"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "property": "color"
-    },
-    "context": "Border",
-    "contextRole": ["border"],
-    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
-    "uuid": "f95fd7b5-6776-5a25-b7bd-d8bb519275cf"
-  },
-  {
-    "scope": {
-      "component": "picker",
       "property": "color",
       "options": {
         "isError": true
