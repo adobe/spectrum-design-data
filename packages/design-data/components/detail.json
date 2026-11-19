@@ -55,9 +55,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "No Figma component; text style only (React Spectrum / relationship label contexts). One minimal text part. 'Margins' spacing contexts are layout, not a part."
+    "notes": "No Figma component; the style exists only as text styles (Figma), a font macro value (React Spectrum) and one Typography stylesheet (SWC). One explicit root part, text; margins are properties of it. Owner decision D1 (2026-11-19): keep five components."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
