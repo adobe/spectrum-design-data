@@ -1,0 +1,24 @@
+---
+description: Principles for the structured design-data system (identity, anatomy, recipes, migration)
+globs: packages/design-data/**/*.json, packages/design-data-spec/**, docs/proposals/**, sdk/core/**
+---
+
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+
+# Data principles
+
+1. **One source per fact.** Copies are derived or checked. A rule that only keeps copies in agreement is a smell.
+2. **Identity is structured.** Prose (`context`, labels) is display only.
+3. **Fix the data, do not add a field.** If structure cannot tell records apart, change the data. Remove unused fields before anyone depends on them (Hyrum's law).
+4. **Vocabularies do not overlap.** A term is a part or a kind, never both.
+5. **Rank sources:** tokens and Figma Web POC, then React Spectrum S2, then SWC. On a conflict or gap, assume, record a `needs-decision` bead, and carry on.
+6. **Breaking changes are fine for the new format.** Legacy names and Figma variable names are generated from the name object. Hand-written names and `legacyKey` pins are counted migration debt. `@adobe/spectrum-tokens` names and structure stay stable; value changes are intentional, versioned, and in the changeset.
+7. **Prove neutrality.** Byte-identical renders and spec sheets, per-component ratchet baselines, warning to error at zero per component. Measure a sample before a corpus-wide rule.
+8. **Small shippable slices.** Old and new forms coexist (expand, migrate, contract). File the contract bead when the expand starts.
+9. **Stop debt growing.** No new context bindings.
+10. **The owner decides meaning for now.** Design confirms later through per-component `needs-decision` beads.
+11. **Recipes force the questions.** A finding is progress.
+12. **Consolidate.** Propose the option with fewer tokens, terms, or options.
+13. **Design sees a change before code does.**
+
+Also: readers are tolerant of unknown input, and a backfill is verified before the old form is removed.
