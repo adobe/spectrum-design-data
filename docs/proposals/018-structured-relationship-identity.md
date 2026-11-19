@@ -70,7 +70,7 @@ A recipe selector names the fields it needs with the record's own field names:
 { "relationship": { "property": "space-between", "between": { "from": "control", "to": "label" } } }
 ```
 
-Matching is by subset: a selector matches every record whose fields equal the ones the selector gives, and a field it leaves out is not compared. A selector **MUST** name exactly one identity, and SPEC-062 reports one that names several, with each identity on a line:
+Matching is by subset: a selector matches every record whose fields equal the ones the selector gives, and a field it leaves out is not compared. A selector **MUST** name exactly one identity, and SPEC-062 reports one that names several, with each identity on a line (an example of the form it takes):
 
 ```
 Selector {"property":"color"} names 2 relationship identities for 'switch':
@@ -104,17 +104,17 @@ Switch and checkbox only. Tests and builds ran one after another.
 
 What changed:
 
-| Item                                                                       | Switch    | Checkbox  |
-| -------------------------------------------------------------------------- | --------- | --------- |
-| Relationship records changed                                               | 85 of 152 | 63 of 111 |
-| `scope.part` added (41 and 21 in a first pass, 20 and 34 more in this one) | 61        | 55        |
-| `scope.between` added                                                      | 8         | 8         |
-| role dropped (a part or between now says it)                               | 77        | 55        |
-| qualifier dropped                                                          | 37        | 17        |
-| Recipe bindings rewritten                                                  | 30        | 22        |
-| of those, `{property}` alone                                               | 17        | 15        |
-| of those, `{property}` plus one field                                      | 13        | 7         |
-| Recipe lines before, after                                                 | 247, 199  | 411, 351  |
+| Item                                         | Switch    | Checkbox  |
+| -------------------------------------------- | --------- | --------- |
+| Relationship records changed                 | 85 of 152 | 63 of 111 |
+| `scope.part` added                           | 61        | 55        |
+| `scope.between` added                        | 8         | 8         |
+| role dropped (a part or between now says it) | 77        | 55        |
+| qualifier dropped                            | 37        | 17        |
+| Recipe bindings rewritten                    | 30        | 22        |
+| of those, `{property}` alone                 | 17        | 15        |
+| of those, `{property}` plus one field        | 13        | 7         |
+| Recipe lines before, after                   | 247, 199  | 411, 351  |
 
 `context` strings were not touched, so no block id moved. No new registry term was added: `control`, `label` and `top` are in the anatomy and position vocabularies, and `handle`, `track`, `box`, `label` and `focus-indicator` are declared parts.
 
@@ -138,7 +138,7 @@ What did not work, or surprised me:
 2. **Most bindings needed only a property.** 32 of 52 recipe selectors are `{property}` with nothing else, because once `part` is set the property is unique within the component. For these two components `context` was documentation, not identity. A bare selector is fragile: adding a second record for that property makes it ambiguous. SPEC-062 now reports that, but it is a reason to ask whether a bare selector should be allowed (question 2).
 3. **Subset matching cannot select a part-less record when its property also has records with a part.** The three switch `color` / "Control" records have no part, while `color` / "Focus indicator" has one. A selector with no `part` matches both. The part-less records have to be told apart by their role (`contextRole: ["control"]`), so an anatomy-word role survives on the shared concepts. Matching "no part" explicitly would be an alternative.
 4. **`scope.part` cannot be the key on its own.** The same three records are one shared concept the handle (twice) and the track (once) all bind. A backfilled part would be arbitrary.
-5. **Role is nearly redundant with property in these two components.** It survives only on `Rounding`, `Minimum height`, `Component size (down)`, the spacing pairs and the shared concept. Across the corpus the picture is different: grouped by `(component, property, part, between)`, 203 of 1,452 groups hold more than one context. That is an upper bound, since only 445 records have a part today, but it says role and qualifier still do work outside these two components.
+5. **Role is nearly redundant with property in these two components.** It survives only on `Rounding`, `Minimum height`, `Component size (down)`, the spacing records and the shared concept (checkbox also keeps its group spacing and top and bottom edge records). Across the corpus the picture is different: grouped by `(component, property, part, between)`, 203 of 1,452 groups hold more than one context. That is an upper bound, since only 445 records have a part today, but it says role and qualifier still do work outside these two components.
 6. **A `between` could not replace one qualifier.** The position list has `top` but not `top-edge`, so "top edge to control" is `{ from: top, to: control }` and SPEC-090 would derive "top to control". The 8 records keep their qualifier. This is the case for rule 2's "only what none of the above can say".
 7. **No single place loads recipes.** The CLI, WASM, TUI and manifest loader each set `graph.visuals` themselves, so rewriting selectors once at load is not available. That is why the matcher has several callers and the spec sheet lowers a copy.
 8. **Rule text is part of the contract.** SPEC-062's message is in `rules.yaml` and in a conformance fixture. The structured selector needed its own messages; the `context` one stays word for word.
