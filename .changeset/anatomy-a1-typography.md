@@ -1,4 +1,5 @@
 ---
+"@adobe/design-data-wasm": patch
 "@adobe/spectrum-design-data": minor
 ---
 
