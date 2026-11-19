@@ -1156,7 +1156,8 @@
       "component": "picker",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "isQuiet": false
       }
     },
     "context": "Border",
@@ -1170,6 +1171,7 @@
       "property": "color",
       "options": {
         "isError": true,
+        "isQuiet": false,
         "state": ["hover"]
       }
     },
@@ -1183,7 +1185,8 @@
       "component": "picker",
       "property": "color",
       "options": {
-        "isError": true
+        "isError": true,
+        "isQuiet": false
       }
     },
     "context": "Border",
@@ -1197,6 +1200,7 @@
       "property": "color",
       "options": {
         "isError": true,
+        "isQuiet": false,
         "state": ["focus-+-hover"]
       }
     },
@@ -1211,6 +1215,7 @@
       "property": "color",
       "options": {
         "isError": true,
+        "isQuiet": false,
         "state": ["focus-+-not-hover"]
       }
     },
@@ -1225,6 +1230,7 @@
       "property": "color",
       "options": {
         "isError": true,
+        "isQuiet": false,
         "state": ["keyboard-focus"]
       }
     },
