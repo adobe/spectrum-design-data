@@ -625,20 +625,8 @@
     "context": "Expanded (content area top/bottom to text)",
     "contextRole": ["state"],
     "contextQualifier": "content area top/bottom to text",
-    "$ref": "709082c2-71b9-423a-9c93-3b53a9e18da3",
+    "$ref": "9fcd2823-9a13-44c0-a613-7dbe272b99a9",
     "uuid": "fe87cb9d-2e0b-5ea6-b4b7-10f968e18f09"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "part": "content",
-      "property": "space-between"
-    },
-    "context": "Expanded (content area top/bottom to text)",
-    "contextRole": ["state"],
-    "contextQualifier": "content area top/bottom to text",
-    "$ref": "9c651dee-7d77-414d-930b-7c6b78cfed1b",
-    "uuid": "a2a342e3-9a56-5c1a-be99-393f52e1dba6"
   },
   {
     "scope": {
