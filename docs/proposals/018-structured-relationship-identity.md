@@ -2,7 +2,7 @@
 
 # Proposal 018: Name a relationship by its part or its gap, not its `context` string
 
-**Status:** Draft. Direction updated 2026-11-19 (see [Direction](#direction-2026-11-19)); open questions remain. A spike on switch and checkbox is built on `spike/structured-ctr` (based on `feat/retire-token-bindings`, PR 1948). Nothing else is migrated. Breaking changes and a large migration are accepted for this proposal. A change to `@adobe/spectrum-tokens` is not (see [Constraint](#constraint-no-change-to-adobespectrum-tokens)).\
+**Status:** Draft. Direction updated 2026-11-19 (see [Direction](#direction-2026-11-19)); open questions remain. A spike on switch and checkbox is built on the unmerged branch `spike/structured-ctr` (based on `feat/retire-token-bindings`, PR 1948). Nothing else is migrated. Breaking changes and a large migration are accepted for this proposal. A change to `@adobe/spectrum-tokens` is not (see [Constraint](#constraint-no-change-to-adobespectrum-tokens)).\
 **Affects:** `packages/design-data-spec/spec/relationship-format.md` (Context), `spec/component-visuals.md` (relationship binding), `schemas/component-visual.schema.json`, `registry/relationship-contexts.json`, rules SPEC-062, 066, 071, 090, 092, 093, `sdk/core/src/visual.rs`, `sdk/core/src/scope.rs`, `sdk/cli/src/spec_sheet.rs`, 4,702 relationship records with a `context`, 389 `context` strings in recipes.\
 **Beads:** `qkj5.245` (this proposal). Epic `qkj5`.
 
@@ -59,7 +59,7 @@ Every record a recipe binds **MUST** have a `part` or a `between`. `scope.option
 
 `contextRole`, `contextQualifier` and `context` are not identity. They are inputs to the display label, below.
 
-**A part is the owner of the concept, not the part that draws it.** The spike found a token concept that the switch handle (twice) and the track (once) all bind: "Control color". The component's anatomy review had already removed `control` as "a grouping with no style of its own", moving its size to `track` (switch) and `box` (checkbox). So the record's part is `track` or `box`, the part that replaced the grouping, and the handle's binding names `{ property: color, part: track }`. A recipe part may bind another part's identity. This is a judgment per component, and the proposal does not re-add a grouping part to the anatomy (see the questions).
+**Provisional: a part is the owner of the concept, not the part that draws it.** Owner part vs per-record part is undecided (open question 1); this is how the spike worked. The spike found a token concept that the switch handle (twice) and the track (once) all bind: "Control color". The component's anatomy review had already removed `control` as "a grouping with no style of its own", moving its size to `track` (switch) and `box` (checkbox). So the record's part is `track` or `box`, the part that replaced the grouping, and the handle's binding names `{ property: color, part: track }`. A recipe part may bind another part's identity. This is a judgment per component, and the proposal does not re-add a grouping part to the anatomy (see the questions).
 
 ### The selector
 
@@ -83,11 +83,15 @@ An identity line is `property / part / between`, with `-` for a field the record
 
 ### The role vocabulary
 
+*Current state during migration. The Direction section overrides this: `contextRole` is derived from the property where implied and `contextQualifier` is retired, with the details open (questions 8 and 10).*
+
 Split `registry/relationship-contexts.json`. A role is a kind of thing: the 14 non-anatomy terms (`spacing`, `background`, `border`, `size`, `rounding`, `height`, ...). The 20 anatomy words (`label`, `icon`, `control`, `track`, ...) are parts and belong in `scope.part`. A record on a component that declares the part takes it there and drops the anatomy-word role. A qualifier stays only when neither `part` nor `between` can say it (`down`, `top edge to control`).
 
 SPEC-090 becomes an error for an anatomy word in `contextRole` once the migration is done. Until then it stays advisory.
 
 ### `context` is a display label
+
+*Current state during migration, not the target. The Direction section treats authored labels as debt, generated from identity where possible.*
 
 `context` stays on the record as the label a person reads: the spec sheet block title, the wording the Figma sheet follows, a changelog line. Nothing binds on it once recipes have moved. Where a record has no `context`, the label is generated:
 
@@ -150,8 +154,8 @@ Results:
 What did not work, or surprised me:
 
 1. **Role and qualifier were not needed for identity here.** Grouping the 207 switch and checkbox records that bind a token by `(property, part, between)` gave 81 groups, and no group holds more than one context, role or qualifier. So the selector can drop both and the records keep them as label inputs. This was measured only on two components. Across the corpus, before parts are backfilled, 203 of 1,452 `(component, property, part, between)` groups still hold more than one context, and only 445 records have a part. The same count is the gate for each component's migration: if a group does not separate, the component needs more structure (a part or a `between`), not a selector field.
-2. **The grouping part was already removed on purpose.** The recommended fix for shared concepts was a declared `control` part. Both components' anatomy reviews say `control` was removed as "a grouping with no style of its own". So the owner rule above replaced it. SPEC-060 only checks that a recipe part is declared, not the reverse, so a grouping part would have been allowed, but it would undo a review decision.
-3. **Generated labels do not reproduce today's strings, and the structure makes that worse.** Deriving from role plus qualifier equals the stored `context` on 2,928 of 4,702 records (62%). On the spike data, a part-first generator matches 39 of 112 switch contexts and 42 of 95 checkbox ones. The rest differ in wording, not meaning: `Handle (size)` gives `Handle`, `Control` gives `Track` or `Box`, `Font size` gives `Label`, `Focus ring` gives `Focus indicator`, `Minimum height` gives `Height`. That is the label cost the owner accepted. It is also why `context` stays an authored field.
+2. **The grouping part was already removed on purpose.** The recommended fix for shared concepts was a declared `control` part. Both components' anatomy reviews say `control` was removed as "a grouping with no style of its own". So the owner rule above replaced it (provisional, see open question 1). SPEC-060 only checks that a recipe part is declared, not the reverse, so a grouping part would have been allowed, but it would undo a review decision.
+3. **Generated labels do not reproduce today's strings, and the structure makes that worse.** Deriving from role plus qualifier equals the stored `context` on 2,928 of 4,702 records (62%). On the spike data, a part-first generator matches 39 of 112 switch contexts and 42 of 95 checkbox ones. The rest differ in wording, not meaning: `Handle (size)` gives `Handle`, `Control` gives `Track` or `Box`, `Font size` gives `Label`, `Focus ring` gives `Focus indicator`, `Minimum height` gives `Height`. That is the label cost the owner accepted. It is why `context` is still an authored field during migration; the target is generated labels (see Direction).
 4. **A bare selector is rejected, and the recipes got longer for it.** The first strict-less version let 32 of 52 bindings be `{ property }` alone, which made switch 199 lines. Requiring a part costs one short field each (211 lines) and says what the binding is about. Both are shorter than the original 247 and 411.
 5. **Subset matching cannot select a part-less record when its property also has records with a part.** With a mandatory part or `between` this no longer comes up, which is a reason to keep the rule mandatory.
 6. **A `between` could not replace one qualifier.** The position list has `top` but not `top-edge`, so "top edge to control" is `{ from: top, to: control }` and SPEC-090 would derive "top to control". The records with "top edge" wording keep their qualifier.
@@ -162,7 +166,7 @@ What did not work, or surprised me:
 
 ## Direction (2026-11-19)
 
-**Where this section conflicts with the sections above, it overrides them.** In particular, `contextRole` and `contextQualifier` are not live selector or identity inputs (the role vocabulary and qualifier steps below describe the migration path, not the end state), and the owner-part rule is under review (open question 8).
+**Where this section conflicts with the sections above, it overrides them.** In particular, `contextRole` and `contextQualifier` are not live selector or identity inputs (the role vocabulary and qualifier steps below describe the migration path, not the end state), and the owner-part rule is under review (open question 1).
 
 These points refine the proposal and follow the shared [data principles](../../.ai/rules/data-principles.md). They are the stated direction, not new measurements.
 
@@ -175,6 +179,8 @@ These points refine the proposal and follow the shared [data principles](../../.
 * **Legacy and Figma names are generated outputs** of the name object (principle 6). Hand-written names and `legacyKey` pins are counted migration debt, and each migration step should report how many remain.
 
 ## Deprecation sequence
+
+*Migration path only. Steps 3, 6 and 8 describe moving from today's fields; where they differ from Direction (role derived, qualifier retired), Direction is the end state.*
 
 Each step carries the tokens gate above.
 
@@ -198,18 +204,17 @@ An identity command is a follow-up, not part of the spike: `design-data` would p
 
 The Figma variables export and the plugin never read `context`; checked in `sdk/plugins/figma`, and the plugin tests pass unchanged. The spec text that calls `context` a "Figma Token Group label" refers to the S2 Token Specs Figma file, which is deprecated.
 
-The spec-sheet generator is the real consumer. It titles each block from `context` and builds the block id from that title, so a changed label renames and re-ids a block in a generated Figma spec file. The spike changed no label, and the sheets were identical. Moving a label to a structured wording is a change a designer will see in the sheet and needs a release note.
+The spec-sheet generator is the real consumer. It titles each block from `context` and builds the block id from that title, so a changed label renames and re-ids a block in a generated Figma spec file. This is current behavior; Direction says block ids are to come from identity, so this is to be changed. The spike changed no label, and the sheets were identical. Moving a label to a structured wording is a change a designer will see in the sheet and needs a release note.
 
 ## Questions for you (open)
 
-1. **The owner rule.** For a shared concept the part is the owner, found from the anatomy review (`track`, `box`). For components with no such note, who decides the owner, and is a wrong choice recoverable? A wrong owner changes no rendering, since any part may bind it, but it changes the identity line.
+1. **The owner rule.** For a shared concept the part is the owner, found from the anatomy review (`track`, `box`). For components with no such note, who decides the owner, and is a wrong choice recoverable? The alternative is a part on each record, with no owner. Not decided. A wrong owner changes no rendering, since any part may bind it, but it changes the identity line.
 2. **Checkbox group spacing.** One record, a gap between checkboxes, has no part or `between` of the checkbox. Give it `between: { from: checkbox, to: checkbox }` (`checkbox` is an anatomy term), move it to a `checkbox-group` component, or leave it as the one exception?
-3. **Role and qualifier out of selectors for good?** The two spike components show it works. The corpus count is not run yet. Is "a group that does not separate is fixed with data" the rule, or do you want a fallback field available?
+3. **Corpus count and fallback.** Direction settles that role and qualifier are not selector fields. Still open: the corpus-wide identity count (not run yet), and whether a fallback field is needed for a group that does not separate.
 4. **Vocabulary for "top edge".** The position list has `top`, `bottom-edge`, `start-edge` and `end-edge` but not `top-edge`. Add `top-edge`, or keep the qualifier?
-5. **How much of the label may change?** Should the migration regenerate every label from the structure where it can (and rename the sheet blocks), or only labels that change anyway?
+5. **Regenerate labels now or later?** Regenerate every label from the structure where possible now (renaming sheet blocks), or only labels that change anyway.
 6. **`contextPart` values that are not declared parts** (`drag handle`, `outline`, `cell`): add them to the component's anatomy, drop the field, or leave them as a label?
 7. **Release.** The data change needs a WASM patch and a CLI minor. Should the engine ship alone first, as step 1 above?
-8. **Owner part or per-record part?** The owner rule above picks one part per shared concept. The alternative is a part on each record, with no owner. Not decided.
-9. **`contextRole` derivation.** Which properties imply a role, and what happens for a property that implies none. Not decided.
-10. **Root part cut-over.** What exactly marks a component as having reached the structured-identity level, and when the explicit root part is dropped. Not decided.
-11. **`contextQualifier` values with no home.** `minimum`, `maximum` and similar values may fit `options` or need a decision. Not decided.
+8. **`contextRole` derivation.** Which properties imply a role, and what happens for a property that implies none. Not decided.
+9. **Root part cut-over.** What exactly marks a component as having reached the structured-identity level, and when the explicit root part is dropped. Not decided.
+10. **`contextQualifier` values with no home.** `minimum`, `maximum` and similar values may fit `options` or need a decision. Not decided.
