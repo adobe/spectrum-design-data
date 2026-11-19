@@ -823,16 +823,6 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "spacing"
-    },
-    "context": "Popover minimum width",
-    "contextRole": ["width"],
-    "$ref": "490b4010-1561-4b12-8cbb-cdb4b650ba74",
-    "uuid": "5e17a7f7-00b3-50ec-b353-c28ec608d1f8"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
       "property": "minimum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
