@@ -188,6 +188,8 @@ fn field_class(layer: Layer, kind: &str, path: &str) -> Class {
     match kind {
         "token" | "relationship" => match head(path) {
             "value" | "$ref" | "sets" => Class::Visual,
+            // An option pin picks which record renders.
+            "scope" if kind == "relationship" && path.starts_with("scope.options") => Class::Visual,
             "name" => Class::Api,
             "lifecycle" if path.contains("deprecatedIn") || path.contains("replacedBy") => {
                 Class::Api
@@ -1052,6 +1054,22 @@ mod tests {
         });
         assert!(log.append("2", "d", "c1", vec![c.clone()]));
         assert_eq!(log.releases[0].version, "1.0.1");
+    }
+
+    #[test]
+    fn option_pin_change_is_visual_not_metadata() {
+        let pin = |v: &str| {
+            let mut r = rel("1", "t");
+            r["scope"]["options"] = json!({"state": v});
+            r
+        };
+        let c = &run(
+            &snap(vec![pin("default")], vec![]),
+            &snap(vec![pin("hover")], vec![]),
+        )["c"];
+        assert!(c.metadata.is_none(), "{c:?}");
+        assert!(c.entries.iter().all(|e| e.class == Class::Visual));
+        assert!(!c.entries.is_empty());
     }
 
     #[test]
