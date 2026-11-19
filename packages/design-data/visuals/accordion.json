@@ -300,18 +300,11 @@
       }
     },
     "divider": {
-      "kind": "box",
-      "visibleWhen": { "options": { "isQuiet": false } },
-      "props": {
-        "height": { "value": 1 },
-        "fill": {
-          "token": {
-            "property": "color",
-            "colorFamily": "gray",
-            "scaleIndex": 200
-          }
-        }
-      }
+      "kind": "component",
+      "component": "divider",
+      "sizeMap": { "s": "s", "m": "s", "l": "s", "xl": "s" },
+      "inherit": ["width"],
+      "visibleWhen": { "options": { "isQuiet": false } }
     }
   }
 }
