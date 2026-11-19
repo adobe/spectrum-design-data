@@ -281,13 +281,10 @@ mod tests {
         assert!(d[0].message.contains("\"structure\":\"other\""));
     }
 
-    fn bound(property: &str, part: Option<&str>, role: Option<&str>) -> RelationshipRecord {
+    fn bound(property: &str, part: Option<&str>) -> RelationshipRecord {
         let mut raw = json!({"scope": {"component": "button", "property": property}, "$ref": "t"});
         if let Some(p) = part {
             raw["scope"]["part"] = json!(p);
-        }
-        if let Some(r) = role {
-            raw["contextRole"] = json!([r]);
         }
         RelationshipRecord {
             file: PathBuf::from("relationships/button.json"),
@@ -305,10 +302,9 @@ mod tests {
     fn a_structured_selector_must_name_exactly_one_identity() {
         let rels = || {
             vec![
-                bound("color", Some("handle"), None),
-                bound("color", Some("handle"), None),
-                bound("color", Some("track"), None),
-                bound("color", None, Some("control")),
+                bound("color", Some("handle")),
+                bound("color", Some("handle")),
+                bound("color", Some("track")),
             ]
         };
         let ok = run_with(
@@ -319,11 +315,11 @@ mod tests {
         let both = run_with(structured(json!({"property": "color"})), rels());
         assert_eq!(both.len(), 1);
         assert!(
-            both[0].message.contains("3 relationship identities"),
+            both[0].message.contains("2 relationship identities"),
             "{}",
             both[0].message
         );
-        assert!(both[0].message.contains("color / - / - / track / -"));
+        assert!(both[0].message.contains("color / track / -"));
         let none = run_with(
             structured(json!({"property": "color", "part": "nope"})),
             rels(),

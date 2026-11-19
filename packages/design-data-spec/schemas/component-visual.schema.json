@@ -488,15 +488,6 @@
           "type": "string",
           "minLength": 1
         },
-        "contextRole": {
-          "type": "array",
-          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-          "minItems": 1
-        },
-        "contextQualifier": {
-          "type": "string",
-          "minLength": 1
-        },
         "part": {
           "type": "string",
           "minLength": 1
@@ -515,15 +506,13 @@
       "if": { "required": ["context"] },
       "then": {
         "not": {
-          "anyOf": [
-            { "required": ["contextRole"] },
-            { "required": ["contextQualifier"] },
-            { "required": ["part"] },
-            { "required": ["between"] }
-          ]
+          "anyOf": [{ "required": ["part"] }, { "required": ["between"] }]
         }
       },
-      "description": "Names a relationship by `property` and either its `context` label or its structured identity (`contextRole`, `contextQualifier`, `part`, `between`, the fields of the record). The structured form matches every record whose fields equal the ones the selector gives; a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity."
+      "else": {
+        "anyOf": [{ "required": ["part"] }, { "required": ["between"] }]
+      },
+      "description": "Names a relationship by `property` and either its `context` label or its structured identity: `part` (the record's `scope.part`) and `between` (its `scope.between`). A structured selector names at least one of them, matches every record whose given fields are equal, and a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity. `context` cannot be combined with them."
     }
   }
 }

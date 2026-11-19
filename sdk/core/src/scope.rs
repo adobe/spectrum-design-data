@@ -412,23 +412,14 @@ pub fn option_names(options: &Map<String, Value>) -> Vec<String> {
 }
 
 /// The identity fields a structured selector may name, as `(selector key, record pointer)`.
-const IDENTITY_FIELDS: [(&str, &str); 4] = [
-    ("contextRole", "/contextRole"),
-    ("contextQualifier", "/contextQualifier"),
-    ("part", "/scope/part"),
-    ("between", "/scope/between"),
-];
+/// `contextRole` and `contextQualifier` are label inputs, not identity.
+const IDENTITY_FIELDS: [(&str, &str); 2] = [("part", "/scope/part"), ("between", "/scope/between")];
 
-/// The record's identity as one line, `property / role / qualifier / part / between`, with
-/// `-` for a field it does not have. Two records with the same line are one identity.
+/// The record's identity as one line, `property / part / between`, with `-` for a field it
+/// does not have. Two records with the same line are one identity.
 pub fn relationship_identity(rec: &Value) -> String {
     let text = |p: &str| match rec.pointer(p) {
         Some(Value::String(s)) => s.clone(),
-        Some(Value::Array(a)) => a
-            .iter()
-            .filter_map(Value::as_str)
-            .collect::<Vec<_>>()
-            .join("+"),
         Some(Value::Object(o)) => format!(
             "{}>{}",
             o.get("from").and_then(Value::as_str).unwrap_or("*"),
@@ -436,22 +427,15 @@ pub fn relationship_identity(rec: &Value) -> String {
         ),
         _ => "-".into(),
     };
-    [
-        "/scope/property",
-        "/contextRole",
-        "/contextQualifier",
-        "/scope/part",
-        "/scope/between",
-    ]
-    .map(text)
-    .join(" / ")
+    ["/scope/property", "/scope/part", "/scope/between"]
+        .map(text)
+        .join(" / ")
 }
 
 /// Whether a recipe relationship selector names `rec` apart from its `property`: the same
-/// `context` when the selector has one, else every structured field the selector gives
-/// (`contextRole`, `contextQualifier`, `part`, `between`) equals the record's. A field the
-/// selector leaves out is not compared; SPEC-062 rejects a selector that then names more
-/// than one identity.
+/// `context` when the selector has one, else the `part` and `between` the selector gives equal
+/// the record's. A field the selector leaves out is not compared; SPEC-062 rejects a selector
+/// that then names more than one identity.
 pub fn selector_identity_matches(sel: &Value, rec: &Value) -> bool {
     if let Some(c) = sel.get("context").and_then(Value::as_str) {
         return rec.get("context").and_then(Value::as_str).map(str::trim) == Some(c.trim());
@@ -513,17 +497,15 @@ mod tests {
         let rec = json!({
             "scope": {"component": "x", "property": "space-between", "part": "p",
                 "between": {"from": "a", "to": "b"}},
-            "context": "Spacing (a to b)", "contextRole": ["spacing"]
+            "context": "Spacing (a to b)"
         });
         let sel = |v: Value| selector_matches(&v, &rec);
         assert!(sel(
             json!({"property": "space-between", "context": " Spacing (a to b) "})
         ));
         assert!(sel(json!({"property": "space-between", "part": "p"})));
-        assert!(sel(
-            json!({"property": "space-between", "contextRole": ["spacing"],
-            "between": {"from": "a", "to": "b"}})
-        ));
+        assert!(sel(json!({"property": "space-between", "part": "p",
+            "between": {"from": "a", "to": "b"}})));
         // A field the selector gives must match, and another property never matches.
         assert!(!sel(json!({"property": "space-between", "part": "q"})));
         assert!(!sel(
@@ -536,14 +518,10 @@ mod tests {
 
     #[test]
     fn the_identity_line_names_each_field_or_a_dash() {
-        let rec =
-            json!({"scope": {"property": "size", "part": "handle"}, "contextRole": ["a", "b"]});
-        assert_eq!(relationship_identity(&rec), "size / a+b / - / handle / -");
+        let rec = json!({"scope": {"property": "size", "part": "handle"}});
+        assert_eq!(relationship_identity(&rec), "size / handle / -");
         let gap = json!({"scope": {"property": "space-between", "between": {"from": "top", "to": "box"}}});
-        assert_eq!(
-            relationship_identity(&gap),
-            "space-between / - / - / - / top>box"
-        );
+        assert_eq!(relationship_identity(&gap), "space-between / - / top>box");
     }
 
     #[test]

@@ -45,7 +45,10 @@
           "value": "start"
         },
         "minHeight": {
-          "relationship": { "property": "component-height-{sizeIndex}" }
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "part": "container"
+          }
         },
         "gap": {
           "relationship": {
@@ -57,19 +60,28 @@
           "when": {
             "states": ["down"]
           },
-          "relationship": { "property": "component-size-difference" }
+          "relationship": {
+            "property": "component-size-difference",
+            "part": "container"
+          }
         },
         "pressWidthRatio": {
           "when": {
             "states": ["down"]
           },
-          "relationship": { "property": "component-size-width-ratio" }
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "part": "container"
+          }
         },
         "pressMinPerspective": {
           "when": {
             "states": ["down"]
           },
-          "relationship": { "property": "component-size-minimum-perspective" }
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "part": "container"
+          }
         }
       },
       "pressTarget": "box"
@@ -79,17 +91,17 @@
       "children": ["checkmark", "dash"],
       "props": {
         "width": {
-          "relationship": { "property": "size" }
+          "relationship": { "property": "size", "part": "box" }
         },
         "height": {
-          "relationship": { "property": "size" }
+          "relationship": { "property": "size", "part": "box" }
         },
         "cornerRadius": {
-          "relationship": { "property": "corner-radius" }
+          "relationship": { "property": "corner-radius", "part": "box" }
         },
         "strokeWidth": [
           {
-            "relationship": { "property": "border-width" }
+            "relationship": { "property": "border-width", "part": "box" }
           },
           {
             "when": {
@@ -112,7 +124,7 @@
         ],
         "fill": [
           {
-            "relationship": { "property": "color", "contextRole": ["control"] }
+            "relationship": { "property": "color", "part": "box" }
           },
           {
             "when": {
@@ -120,7 +132,7 @@
                 "isSelected": true
               }
             },
-            "relationship": { "property": "background-color" }
+            "relationship": { "property": "background-color", "part": "box" }
           },
           {
             "when": {
@@ -128,14 +140,11 @@
                 "isIndeterminate": true
               }
             },
-            "relationship": { "property": "background-color" }
+            "relationship": { "property": "background-color", "part": "box" }
           }
         ],
         "stroke": {
-          "relationship": {
-            "property": "content-color",
-            "contextRole": ["control"]
-          }
+          "relationship": { "property": "content-color", "part": "box" }
         }
       }
     },
@@ -218,7 +227,7 @@
           }
         ],
         "color": {
-          "relationship": { "property": "color", "contextRole": ["control"] }
+          "relationship": { "property": "color", "part": "box" }
         }
       }
     },
@@ -300,7 +309,7 @@
           }
         ],
         "color": {
-          "relationship": { "property": "color", "contextRole": ["control"] }
+          "relationship": { "property": "color", "part": "box" }
         }
       }
     },
@@ -316,13 +325,19 @@
           "value": "wrap"
         },
         "fontSize": {
-          "relationship": { "property": "font-size-{sizeIndex}" }
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "part": "label"
+          }
         },
         "lineHeight": {
-          "relationship": { "property": "line-height-font-size-{sizeIndex}" }
+          "relationship": {
+            "property": "line-height-font-size-{sizeIndex}",
+            "part": "label"
+          }
         },
         "fontWeight": {
-          "relationship": { "property": "font-weight" }
+          "relationship": { "property": "font-weight", "part": "label" }
         },
         "color": {
           "relationship": { "property": "content-color", "part": "label" }
@@ -340,10 +355,10 @@
           "relationship": { "property": "color", "part": "focus-indicator" }
         },
         "strokeWidth": {
-          "relationship": { "property": "thickness" }
+          "relationship": { "property": "thickness", "part": "focus-indicator" }
         },
         "gapToParent": {
-          "relationship": { "property": "gap" }
+          "relationship": { "property": "gap", "part": "focus-indicator" }
         }
       }
     }

@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-75"
     },
     "context": "Minimum height",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-75"
     },
     "context": "Minimum height",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-100"
     },
     "context": "Minimum height",
@@ -32,6 +35,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-100"
     },
     "context": "Minimum height",
@@ -42,6 +46,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-200"
     },
     "context": "Minimum height",
@@ -52,6 +57,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-200"
     },
     "context": "Minimum height",
@@ -62,6 +68,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-300"
     },
     "context": "Minimum height",
@@ -72,6 +79,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-300"
     },
     "context": "Minimum height",
@@ -82,6 +90,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -538,7 +547,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-75"
+      "property": "component-top-to-text-75",
+      "between": {
+        "from": "top",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -549,7 +562,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-100"
+      "property": "component-top-to-text-100",
+      "between": {
+        "from": "top",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -560,7 +577,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-200"
+      "property": "component-top-to-text-200",
+      "between": {
+        "from": "top",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -571,7 +592,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-300"
+      "property": "component-top-to-text-300",
+      "between": {
+        "from": "top",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -582,7 +607,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-75"
+      "property": "component-bottom-to-text-75",
+      "between": {
+        "from": "bottom",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -593,7 +622,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-100"
+      "property": "component-bottom-to-text-100",
+      "between": {
+        "from": "bottom",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -604,7 +637,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-200"
+      "property": "component-bottom-to-text-200",
+      "between": {
+        "from": "bottom",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -615,7 +652,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-300"
+      "property": "component-bottom-to-text-300",
+      "between": {
+        "from": "bottom",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -646,6 +687,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
@@ -657,6 +699,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
@@ -668,6 +711,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
@@ -839,36 +883,37 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "color"
     },
     "context": "Control",
-    "contextRole": ["control"],
     "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
     "uuid": "f9024a00-9ee0-558e-9dd7-4ae0899fdd89"
   },
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "color"
     },
     "context": "Control",
-    "contextRole": ["control"],
     "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
     "uuid": "b9e3e4b5-edab-586c-8d38-2e0563e680bc"
   },
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "color"
     },
     "context": "Control",
-    "contextRole": ["control"],
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
     "uuid": "ebb2db71-644b-5be1-8cb2-05445fc4ec46"
   },
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "content-color",
       "options": {
         "isSelected": true,
@@ -876,13 +921,13 @@
       }
     },
     "context": "Control",
-    "contextRole": ["control"],
     "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
     "uuid": "87bc748f-a434-5b6e-9183-f6d9407401bd"
   },
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "content-color",
       "options": {
         "isSelected": true,
@@ -890,13 +935,13 @@
       }
     },
     "context": "Control",
-    "contextRole": ["control"],
     "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe",
     "uuid": "64def50c-75fa-50b6-8607-b6ceaea11d76"
   },
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "content-color",
       "options": {
         "isSelected": true,
@@ -904,13 +949,13 @@
       }
     },
     "context": "Control",
-    "contextRole": ["control"],
     "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1",
     "uuid": "143e1daa-8a2d-5aed-ab60-dc8d22f81912"
   },
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "content-color",
       "options": {
         "isSelected": true,
@@ -918,7 +963,6 @@
       }
     },
     "context": "Control",
-    "contextRole": ["control"],
     "$ref": "71dcd137-f767-4d2c-b6ac-942b99ac8621",
     "uuid": "2ca8e89f-fc26-53bc-b3a8-be4c3396aa97"
   },
