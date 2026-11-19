@@ -47,7 +47,20 @@ impl ValidationRule for Rule {
                 let Some(name) = part.get("name").and_then(|v| v.as_str()) else {
                     continue;
                 };
-                if !anatomy_vocab.contains(name) {
+                if let Some(canonical) = ctx.registry.anatomy_alias(name) {
+                    diags.push(Diagnostic {
+                        file: comp.file.clone(),
+                        token: None,
+                        rule_id: Some("SPEC-035".into()),
+                        severity: Severity::Warning,
+                        message: format!(
+                            "Component '{}' anatomy part '{}' is an alias of '{}'; use '{}'",
+                            comp.name, name, canonical, canonical
+                        ),
+                        instance_path: Some(format!("/anatomy/{idx}/name")),
+                        schema_path: None,
+                    });
+                } else if !anatomy_vocab.contains(name) {
                     diags.push(Diagnostic {
                         file: comp.file.clone(),
                         token: None,
@@ -123,6 +136,16 @@ mod tests {
             json!([{"name": "close-button"}, {"name": "body-area"}]),
         );
         assert!(diagnostics_for_rule(&g, "SPEC-035").is_empty());
+    }
+
+    #[test]
+    fn an_alias_is_not_a_valid_part_name_and_names_its_canonical_term() {
+        let g = graph_with_anatomy("accordion", json!([{"name": "direct-actions"}]));
+        let diags = diagnostics_for_rule(&g, "SPEC-035");
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0]
+            .message
+            .contains("'direct-actions' is an alias of 'actions'; use 'actions'"));
     }
 
     #[test]
