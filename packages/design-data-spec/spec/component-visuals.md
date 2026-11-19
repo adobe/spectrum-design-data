@@ -43,7 +43,6 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `sizeScale`   | object | OPTIONAL    | Maps each `size` option value to a numeric scale index (e.g. `m` → `100`). Enables `{sizeIndex}` in selectors. A component with no `size` option declares one entry, the size renderers draw. |
 | `derived`     | array  | OPTIONAL    | Relationship contexts the recipe derives from the layout instead of binding. See [Derived contexts](#derived-contexts). SPEC-087.                                                             |
 | `notVisual`   | array  | OPTIONAL    | Component options and states that deliberately have no visual in this recipe (for example `["isReadOnly"]`). SPEC-066.                                                                        |
-| `repeat`      | object | OPTIONAL    | Draw the root once per entry of an array option. See [Repeated roots](#repeated-roots).                                                                                                       |
 | `parts`       | object | REQUIRED    | Map of anatomy part name → part definition.                                                                                                                                                   |
 
 ### Part
@@ -57,6 +56,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `with`        | object           | For a `component` part: options of the nested component, each a literal or `{"option": "<host option>"}`.                                                                                                                                                               |
 | `children`    | array of strings | Ordered child part names. Child order is layout order. Children **MUST** be declared parts.                                                                                                                                                                             |
 | `visibleWhen` | condition        | The part is drawn only when the condition holds. Absent means always drawn.                                                                                                                                                                                             |
+| `repeat`      | object           | For the root (the container): draw one of its children once per entry of an array option. `part` names the child; `option`, `label` and `with` say where the entries come from. See [Repeated parts](#repeated-parts).                                                  |
 | `placement`   | object           | For a child that is positioned rather than flowed: `anchor` (`top-start`, `top-end`, `bottom-start`, `bottom-end`, `center`) and optional `inset` value. `start`/`end` are logical and flip under RTL.                                                                  |
 | `around`      | string           | For a `ring`: the part it outlines. Defaults to the root.                                                                                                                                                                                                               |
 | `inside`      | boolean          | For a `ring`: `true` draws it inside the outlined part's box, with `gapToParent` measured inward (a selection band just inside a border). Default `false`: outside.                                                                                                     |
@@ -113,7 +113,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 **Row boxes.** A flowed `box` that binds `direction: "row"` lays its `children` out in a row instead of insetting them: `icon`, `text` and `box` children in order, `gap` apart, between its `paddingInlineStart` and `paddingInlineEnd`, centered across (`align` moves them). Without a `width` it is as wide as its children plus padding; without a `height` it is as tall as the tallest child plus its block padding. A `text` child may bind its own padding props, which add to its cell. Only `row` is supported.
 
-**Root width.** The root's outer width is `max(minWidth, width)`, where `width` is the request's `width` if it has one, else the recipe's root `width`, else the content width. With neither a `width` nor a `minWidth` the root hugs its content, as before. Padding stays inside the outer width, so the content area is the outer width minus the inline padding. A request `width` overrides the recipe's `width` but never goes below `minWidth`. **NORMATIVE:** When a fixed width (from the recipe or the request) is smaller than the content, the renderer **MUST NOT** clip or shrink the content: it overflows the root, and the scene's `diagnostics` **MUST** say so. Text with `overflow` fits the width instead (see **Text wrapping**); a word that cannot break still overflows.
+**Root width.** A root takes a width only when the design defines one; with no `width` and no `minWidth` it hugs its content (a container with no width record, such as a button group, hugs its copies). The root's outer width is `max(minWidth, width)`, where `width` is the request's `width` if it has one, else the recipe's root `width`, else the content width. With neither a `width` nor a `minWidth` the root hugs its content, as before. Padding stays inside the outer width, so the content area is the outer width minus the inline padding. A request `width` overrides the recipe's `width` but never goes below `minWidth`. **NORMATIVE:** When a fixed width (from the recipe or the request) is smaller than the content, the renderer **MUST NOT** clip or shrink the content: it overflows the root, and the scene's `diagnostics` **MUST** say so. Text with `overflow` fits the width instead (see **Text wrapping**); a word that cannot break still overflows.
 
 **Grow.** In a row (the root, or a row box), parts with `grow` split the space left after the other parts, the `gap`s and the padding, in proportion to their shares. A growing part starts from its content width and gains its share, so with no free space (a hugging root, or content as wide as the row) nothing changes, and a row that is too narrow never shrinks a part. A growing `box` is wider by its share; a growing `text` keeps its own width and starts at the start of its grown space (the text does not move, wrap or truncate). `grow` has no effect in a column or on an `icon`.
 
@@ -147,26 +147,32 @@ A part of kind `component` draws another component's recipe inside this one, for
 * **Compiled shape.** A compiled `component` part carries `nested` (the nested variant as `CompiledVariant::to_value` writes it: `root`, `optionDefaults`, `parts`, `drawings`) and `nestedSize`. Every other part of a compiled recipe is unchanged, so a reader that does not know the kind sees an unknown part and ignores it. A backend with one variant document (the slim WASM `Engine`) needs nothing else.
 * **Platforms.** The nested recipe is looked up through the active platform's component aliases, as the renderer does everywhere: under `--platform`, a nested `button` draws `button-ios` if the platform aliases it. The `sizeMap` must then map into the platform recipe's `sizeScale`, or the compile fails. SPEC-089 checks the graph it is given.
 
-### Repeated roots
+### Repeated parts
 
-A collection component (an accordion's items, a tab list's tabs) is one root drawn several times. A recipe says so with `repeat`:
+A collection component (an accordion's items, a tab list's tabs, a button group's buttons) is a container whose child is drawn several times. The **container** declares it, because it is the part that knows its children repeat; the repeated child does not know it is repeated. A recipe says so with `repeat` on the root:
 
 ```json
-"repeat": {
-  "option": "items",
-  "label": "label",
-  "with": { "isOpen": "isExpanded", "hasSwitch": "hasSwitch" }
+"container": {
+  "kind": "box",
+  "children": ["accordion-item"],
+  "repeat": {
+    "part": "accordion-item",
+    "option": "items",
+    "label": "label",
+    "with": { "isOpen": "isExpanded", "hasSwitch": "hasSwitch" }
+  }
 }
 ```
 
-* **`option`.** A declared array option of the component. Each entry that is an object is one copy of the root.
+* **`part`.** The repeated part: a direct child (in `children`) of the part that declares `repeat`, and never the root. A part declares at most one repeating child, and for now only the root declares `repeat` (SPEC-060).
+* **`option`.** A declared array option of the component. Each entry that is an object is one copy of `part`.
 * **`label`.** The entry field that holds the copy's label (the request `label`).
 * **`with`.** Maps a component option to the entry field that sets it for that copy. A field the entry does not have leaves the option at the request's value, then the component default.
-* **Cascade.** Every copy is solved as its own request: the container's size, mode, states and other options reach each copy, and an entry's fields override them. **NORMATIVE:** The recipe's parts and bindings stay those of one root; `repeat` adds no parts.
-* **Layout.** The copies stack in a column, in array order, with no gap (a copy draws its own separators). Every copy is as wide as the widest (a second solve at that width when the first widths differ), so a hugging root does not give ragged edges.
-* **Nodes.** **NORMATIVE:** The root node of copy *n* (counting from 1 over the entries that are drawn, so a skipped entry does not take a number) is `<root>-<n>` and every other node is `<root>-<n>.<part>`. Measurements, layout and opacity are those of the first copy (so a per-entry disabled dim does not reach the others); the scene has no press. Diagnostics are prefixed with the copy's id.
-* **No entries.** When the request does not set the option, or it is empty, the root is drawn once, exactly as without `repeat`, with its ids unchanged. Entries that are not objects are skipped; when none is an object the root is drawn once and the scene's `diagnostics` say so.
-* **Validation.** SPEC-066 counts the `option` as used and warns when it is not a declared array option, when a `with` key is not a declared option, or when `label` or a `with` field is not a property of the option's item schema.
+* **Cascade.** Every copy is solved as its own request: the container's size, mode, states and other options reach each copy, and an entry's fields override them. **NORMATIVE:** `part` and the parts inside it are those of one copy; `repeat` adds no parts. Each copy is laid out as a root (it may be a column box, with its own padding and fill), then placed as a flowed child of the container.
+* **Layout.** The copies flow in array order along the container's `direction`, `gap` apart, with the container's `padding`, `align`, `justify`, `fill` and `stroke` as for any flowed child. A container takes a width only when the design defines one (a `width` or `minWidth` record on the container); otherwise it hugs its contents. **NORMATIVE:** In a **column**, a container with a fixed width (its `width`, or a request `width`) makes every copy fill its inner width. A hugging column container makes every copy as wide as the widest copy, or as the container's `minWidth` less padding when that is larger (a second solve at that width when the first widths differ). In a **row**, copies keep their own widths and the container is their sum plus the gaps. A request `width` stands for the parent the component sits in, so "fill the parent" is a request width.
+* **Nodes.** **NORMATIVE:** The root node of copy *n* (counting from 1 over the entries that are drawn, so a skipped entry does not take a number) is `<part>-<n>` and every other node of it is `<part>-<n>.<inner>`. **A single copy** (one entry, or no entries, which draws one copy with the request's own label and options) keeps plain ids: the part's id and its inner parts' ids. The first copy keeps its measurements; the container takes its own opacity, else the first copy's; the scene has no press. Diagnostics of a copy are prefixed with its id.
+* **No entries.** When the request does not set the option, or it is empty, one copy is drawn. Entries that are not objects are skipped; when none is an object one copy is drawn and the scene's `diagnostics` say so.
+* **Validation.** SPEC-060 checks that `part` is a child of the declaring part and that the declaring part is the root. SPEC-066 counts the `option` as used and warns when it is not a declared array option, when a `with` key is not a declared option, or when `label` or a `with` field is not a property of the option's item schema. SPEC-083 reads the repeated part with the root's props, because it is solved as a root.
 
 ### Icons
 
@@ -264,7 +270,7 @@ The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot re
 
 | Rule     | Checks                                                                                                                                                                                                                        |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-060 | `component` is declared; `parts` keys are anatomy parts; `root` is a top-level anatomy part; `children` appear in the anatomy part's `contains`; `around` and `pressTarget` resolve                                           |
+| SPEC-060 | `component` is declared; `parts` keys are anatomy parts; `root` is a top-level anatomy part; `children` appear in the anatomy part's `contains`; `repeat.part` is a child of the root; `around` and `pressTarget` resolve     |
 | SPEC-061 | `when` and `visibleWhen` options exist with allowed values and types; states exist on the component; a `{<option>}` placeholder in a selector names a declared option that lists its values                                   |
 | SPEC-062 | `relationship` selectors resolve to a record scoped to the component; `token` selectors match a token (`{size}` and `{sizeIndex}` expand over `sizeScale`, and `{<option>}` over the option's values, first)                  |
 | SPEC-063 | `sizeScale` keys equal the component's `size` option values (one entry when it has none)                                                                                                                                      |

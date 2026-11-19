@@ -16,7 +16,7 @@
 //! binds carries the state, or when it is implied: `size` by `sizeScale`,
 //! `label` by a text part, and `isDisabled` / `isSelected` by the `disabled` /
 //! `selected` states (and the reverse). `notVisual` names MUST be declared and
-//! SHOULD NOT also be used. A `repeat` block MUST name a declared array option, its
+//! SHOULD NOT also be used. A part's `repeat` block MUST name a declared array option, its
 //! `with` keys MUST be declared options, and its `label` and `with` fields MUST be
 //! properties of that option's item schema (when it lists any).
 
@@ -52,6 +52,16 @@ fn conditions(node: &Value) -> Vec<&Value> {
         }
     }
     out
+}
+
+/// The `repeat` declarations of a recipe's parts, with the part that holds each.
+fn repeats(v: &VisualRecord) -> Vec<(&str, &serde_json::Map<String, Value>)> {
+    let parts = v.raw.get("parts").and_then(Value::as_object);
+    parts
+        .into_iter()
+        .flatten()
+        .filter_map(|(k, p)| Some((k.as_str(), p.get("repeat")?.as_object()?)))
+        .collect()
 }
 
 fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
@@ -111,8 +121,10 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
     });
-    if let Some(o) = v.raw.pointer("/repeat/option").and_then(Value::as_str) {
-        used.options.insert(o.into());
+    for (_, rep) in repeats(v) {
+        if let Some(o) = rep.get("option").and_then(Value::as_str) {
+            used.options.insert(o.into());
+        }
     }
     if !sizes.is_empty() {
         used.options.insert("size".into());
@@ -203,7 +215,8 @@ impl ValidationRule for Rule {
                     ));
                 }
             }
-            if let Some(rep) = v.raw.get("repeat").and_then(Value::as_object) {
+            for (key, rep) in repeats(v) {
+                let base = format!("/parts/{key}/repeat");
                 let opt = rep.get("option").and_then(Value::as_str).unwrap_or("");
                 let def = comp.raw.pointer(&format!("/options/{opt}"));
                 let mut bad = |path: &str, msg: String| {
@@ -211,11 +224,11 @@ impl ValidationRule for Rule {
                 };
                 match def {
                     None => bad(
-                        "/repeat/option",
+                        &format!("{base}/option"),
                         format!("repeat names option '{opt}', which '{name}' does not declare"),
                     ),
                     Some(d) if d.get("type").and_then(Value::as_str) != Some("array") => bad(
-                        "/repeat/option",
+                        &format!("{base}/option"),
                         format!("repeat names option '{opt}' of '{name}', which is not an array"),
                     ),
                     Some(d) => {
@@ -224,7 +237,7 @@ impl ValidationRule for Rule {
                         let mapped = with.into_iter().flatten().filter_map(|(k, f)| {
                             if !options.contains(k) {
                                 bad(
-                                    "/repeat/with",
+                                    &format!("{base}/with"),
                                     format!("repeat sets '{k}', which '{name}' does not declare as an option"),
                                 );
                             }
@@ -234,7 +247,7 @@ impl ValidationRule for Rule {
                         for f in mapped.chain(label).collect::<Vec<_>>() {
                             if fields.is_some_and(|p| !p.contains_key(f)) {
                                 bad(
-                                    "/repeat",
+                                    &base,
                                     format!("repeat reads entry field '{f}', which the items of '{opt}' do not declare"),
                                 );
                             }
@@ -348,10 +361,9 @@ mod tests {
             "states": [{"name": "hover"}, {"name": "selected"}]
         });
         let r = |rep: serde_json::Value| {
-            let d = run(
-                recipe(json!({"notVisual": ["isReadOnly"], "repeat": rep})),
-                comp.clone(),
-            );
+            let mut recipe = recipe(json!({"notVisual": ["isReadOnly"]}));
+            recipe["parts"]["track"]["repeat"] = rep;
+            let d = run(recipe, comp.clone());
             d.into_iter().map(|d| d.message).collect::<Vec<_>>()
         };
         let ok = json!({"option": "items", "label": "label", "with": {"isSelected": "on"}});

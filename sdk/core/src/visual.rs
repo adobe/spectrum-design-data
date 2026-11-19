@@ -587,8 +587,6 @@ pub struct CompiledVariant {
     parts: serde_json::Map<String, Value>,
     /// Icon geometry the parts' `drawing` keys name (see `CompileCx::attach_drawings`).
     drawings: serde_json::Map<String, Value>,
-    /// The recipe's `repeat` declaration: draw the root once per entry of an array option.
-    repeat: Option<Value>,
 }
 
 impl CompiledVariant {
@@ -628,18 +626,16 @@ impl CompiledVariant {
                 .unwrap_or_default(),
             parts,
             drawings,
-            repeat: compiled.get("repeat").filter(|r| r.is_object()).cloned(),
         })
     }
 
-    /// The variant as one JSON document, `{root, optionDefaults, parts, drawings, repeat}`.
+    /// The variant as one JSON document, `{root, optionDefaults, parts, drawings}`.
     pub fn to_value(&self) -> Value {
         serde_json::json!({
             "root": self.root,
             "optionDefaults": self.option_defaults,
             "parts": self.parts,
             "drawings": self.drawings,
-            "repeat": self.repeat,
         })
     }
 
@@ -650,7 +646,6 @@ impl CompiledVariant {
             "optionDefaults": v["optionDefaults"],
             "variants": { "": v["parts"] },
             "drawings": v["drawings"],
-            "repeat": v["repeat"],
         });
         Self::from_compiled(&wrap, "")
     }
@@ -1769,7 +1764,7 @@ impl Ctx<'_> {
             });
         }
         if let Some(name) = chosen.get("option").and_then(Value::as_str) {
-            // `solve_one` already dropped a value that is not a drawable color.
+            // `solve_root` already dropped a value that is not a drawable color.
             return match self.option(name) {
                 Value::String(s) if !s.trim().is_empty() => Some(Resolved {
                     value: s,
@@ -2367,7 +2362,7 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
                         }
                     }
                     if k == "repeat" {
-                        // The array option a recipe repeats its root over counts as read.
+                        // The array option a container repeats a child over counts as read.
                         if let Some(name) = x.get("option").and_then(Value::as_str) {
                             if !used.iter().any(|u| u == name) {
                                 used.push(name.to_string());
@@ -2528,7 +2523,6 @@ pub fn compile_recipe(
         "optionDefaults": option_defaults,
         "variants": variants,
         "drawings": drawings,
-        "repeat": recipe.get("repeat"),
     }))
 }
 
@@ -2581,7 +2575,6 @@ fn compile_variant(
         option_defaults,
         parts: compiled,
         drawings,
-        repeat: recipe.get("repeat").cloned(),
     })
 }
 
@@ -2663,114 +2656,22 @@ pub fn build_scene_cached(
     solve(&*cache.variant(graph, recipe, &req)?, &req)
 }
 
-/// Lay out a compiled variant for one request. A recipe with `repeat` draws its root once
-/// per entry of the array option and stacks the copies in a column; without entries (or
-/// without `repeat`) it is [`solve_one`]. Each copy is solved as its own request, so the
-/// container's options reach every item and an item's fields override them.
-pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
-    let Some(rep) = variant.repeat.as_ref() else {
-        return solve_one(variant, req);
-    };
-    let entries = rep
-        .get("option")
-        .and_then(Value::as_str)
-        .and_then(|o| req.options.get(o))
-        .and_then(Value::as_array);
-    let items: Vec<&Value> = entries
-        .map(|a| a.iter().filter(|i| i.is_object()).collect())
-        .unwrap_or_default();
-    let skipped = entries.map_or(0, |a| a.len() - items.len());
-    if items.is_empty() {
-        let mut scene = solve_one(variant, req)?;
-        if skipped > 0 {
-            scene.diagnostics.push(format!(
-                "repeat: the entries of '{}' must be objects; drawing one plain root",
-                rep["option"].as_str().unwrap_or_default()
-            ));
-        }
-        return Ok(scene);
-    }
-    let item_req = |item: &Value, width: Option<f64>| {
-        let mut r = req.clone();
-        r.width = width.or(req.width);
-        if let Some(l) = rep
-            .get("label")
-            .and_then(Value::as_str)
-            .and_then(|f| item.get(f))
-            .and_then(Value::as_str)
-        {
-            r.label = l.to_string();
-        }
-        for (opt, field) in rep
-            .get("with")
-            .and_then(Value::as_object)
-            .into_iter()
-            .flatten()
-        {
-            if let Some(v) = field.as_str().and_then(|f| item.get(f)) {
-                r.options.insert(opt.clone(), v.clone());
-            }
-        }
-        r
-    };
-    let mut scenes = items
-        .iter()
-        .map(|i| solve_one(variant, &item_req(i, None)))
-        .collect::<Result<Vec<_>, _>>()?;
-    let root_w = |s: &Scene| s.nodes.first().map_or(0.0, |n| n.w);
-    let widest = scenes.iter().map(root_w).fold(0.0, f64::max);
-    if scenes.iter().any(|s| root_w(s) != widest) {
-        scenes = items
-            .iter()
-            .map(|i| solve_one(variant, &item_req(i, Some(widest))))
-            .collect::<Result<Vec<_>, _>>()?;
-    }
-    let id = variant.root.as_str();
-    let (mut y, mut nodes, mut diagnostics) = (0.0, Vec::new(), Vec::new());
-    if skipped > 0 {
-        diagnostics.push(format!(
-            "repeat: {skipped} entries that are not objects were skipped"
-        ));
-    }
-    let mut first = None;
-    for (i, mut s) in scenes.into_iter().enumerate() {
-        let Some(root) = s.nodes.first() else {
-            continue;
-        };
-        let (ox, oy, h) = (root.x, root.y, root.h);
-        for (j, mut n) in std::mem::take(&mut s.nodes).into_iter().enumerate() {
-            n.part = if j == 0 {
-                format!("{id}-{}", i + 1)
-            } else {
-                format!("{id}-{}.{}", i + 1, n.part)
-            };
-            n.x -= ox - RING_MARGIN;
-            n.y += y - oy + RING_MARGIN;
-            nodes.push(n);
-        }
-        diagnostics.extend(
-            s.diagnostics
-                .drain(..)
-                .map(|d| format!("{id}-{}: {d}", i + 1)),
-        );
-        y += h;
-        first.get_or_insert(s);
-    }
-    let mut out = first.ok_or("repeat: no copy drew a root")?;
-    out.height = y + 2.0 * RING_MARGIN;
-    out.width = widest + 2.0 * RING_MARGIN;
-    out.press = None;
-    out.nodes = nodes;
-    out.diagnostics = diagnostics;
-    Ok(out)
-}
-
 /// Lay out a compiled variant for one request: choose candidates by state, option and
 /// `when`, then place the parts. A pure function of its arguments; it needs no token graph.
-/// `req` must have the size and mode the variant was compiled for.
-fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
+/// `req` must have the size and mode the variant was compiled for. A container whose
+/// `repeat` names a child draws that child once per entry (see [`solve_copies`]).
+pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
+    solve_root(variant, &variant.root, req)
+}
+
+/// [`solve`] with `root_id` as the root: a repeated part is solved as the root of its own
+/// copy (see [`solve_copies`]).
+fn solve_root(
+    variant: &CompiledVariant,
+    root_id: &str,
+    req: &RenderRequest,
+) -> Result<Scene, String> {
     let parts = &variant.parts;
-    let root_id = variant.root.as_str();
     let root = parts.get(root_id).ok_or("root part not found")?;
     // An option an `option` value source reads must be a solid color. A value that is not one
     // is dropped with a diagnostic, and a fully transparent one is dropped quietly, so the part
@@ -3012,6 +2913,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     }
 
     // Flow children (placement-free) first to compute the intrinsic width.
+    #[derive(Default)]
     struct Child {
         id: String,
         kind: String,
@@ -3070,6 +2972,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         pad_bs: f64,
         pad_be: f64,
     }
+    let mut copy_opacity: Option<f64> = None;
     let mut flow: Vec<Child> = Vec::new();
     let mut nested_out: Vec<SceneNode> = Vec::new();
     let mut placed: Vec<(String, &Value)> = Vec::new();
@@ -3085,6 +2988,34 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     for id in &child_ids {
         let Some(part) = parts.get(id) else { continue };
         if !cx.visible(part) {
+            continue;
+        }
+        if let Some(rep) = root
+            .get("repeat")
+            .filter(|r| r.get("part").and_then(Value::as_str) == Some(id))
+        {
+            // Copies fill the inner width of a fixed-width column; a hugging column makes
+            // them as wide as the widest (or the minWidth); a row keeps their own widths.
+            let inner = fixed_w.map(|w| w.max(min_w) - pad_s - pad_e);
+            let copies = solve_copies(
+                &mut cx,
+                variant,
+                id,
+                rep,
+                column,
+                inner,
+                min_w - pad_s - pad_e,
+            )?;
+            for n in copies {
+                flow.push(Child {
+                    id: n.nodes[0].part.clone(),
+                    kind: "component".into(),
+                    w: n.w,
+                    h: n.h,
+                    nested: Some(n),
+                    ..Default::default()
+                });
+            }
             continue;
         }
         if part.get("placement").is_some() {
@@ -3801,7 +3732,17 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             }
         }
         gap_from = Some(if column { cy0 + ch } else { cx0 + adv });
-        if let Some(n) = c.nested.take() {
+        if let Some(mut n) = c.nested.take() {
+            copy_opacity = copy_opacity.or(n.opacity);
+            measurements.extend(
+                std::mem::take(&mut n.measurements)
+                    .into_iter()
+                    .map(|mut m| {
+                        m.x += cx0;
+                        m.y += cy0;
+                        m
+                    }),
+            );
             place_nested(&mut nested_out, n, cx0, cy0);
             if column {
                 y += ch + gap;
@@ -4338,7 +4279,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         height: h + 2.0 * RING_MARGIN,
         press,
         measurements,
-        opacity: opacity.as_ref().and_then(Resolved::num),
+        opacity: opacity.as_ref().and_then(Resolved::num).or(copy_opacity),
         nodes,
         layout,
         diagnostics: cx.diags,
@@ -4359,10 +4300,14 @@ struct Host {
 
 /// A `component` part solved on its own: its root size and its nodes, relative to the root's
 /// top-left corner. The root node keeps the part's id; inner ones are `<id>.<part>`.
+#[derive(Default)]
 struct Nested {
     w: f64,
     h: f64,
     nodes: Vec<SceneNode>,
+    /// A repeated part's first copy keeps its measurements (see [`solve_copies`]).
+    measurements: Vec<Measurement>,
+    opacity: Option<f64>,
 }
 
 /// Solve a `component` part's embedded recipe (see `CompileCx::compile_nested`). The nested
@@ -4457,7 +4402,140 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
             n
         })
         .collect();
-    Some(Nested { w, h, nodes })
+    Some(Nested {
+        w,
+        h,
+        nodes,
+        ..Default::default()
+    })
+}
+
+/// Solve the part a container's `repeat` names, once per entry of the array option, each copy
+/// as the root of its own request: the container's size, mode, states and options reach every
+/// copy, and an entry's fields override them. Copies come back relative to their top-left
+/// corner. One copy (a single entry, or none) keeps its plain ids; with several, the root is
+/// `<id>-<n>` and an inner part `<id>-<n>.<part>`. Only the first copy keeps its measurements,
+/// and the container takes its opacity. `inner` is the width a fixed-width column leaves a
+/// copy; `min_inner` is the floor for a hugging column.
+fn solve_copies(
+    cx: &mut Ctx,
+    variant: &CompiledVariant,
+    id: &str,
+    rep: &Value,
+    column: bool,
+    inner: Option<f64>,
+    min_inner: f64,
+) -> Result<Vec<Nested>, String> {
+    let req = cx.req;
+    let entries = rep
+        .get("option")
+        .and_then(Value::as_str)
+        .and_then(|o| req.options.get(o))
+        .and_then(Value::as_array);
+    let mut items: Vec<&Value> = entries
+        .map(|a| a.iter().filter(|i| i.is_object()).collect())
+        .unwrap_or_default();
+    if let Some(a) = entries.filter(|a| a.len() > items.len()) {
+        cx.diags.push(format!(
+            "repeat: {} entries that are not objects were skipped",
+            a.len() - items.len()
+        ));
+    }
+    let none = Value::Null;
+    if items.is_empty() {
+        items.push(&none);
+    }
+    // shortcut: copy_req clones the options (the whole items array) per copy, quadratic for a
+    // very long list; borrow the array if a collection ever has hundreds of entries.
+    let copy_req = |item: &Value, width: Option<f64>| {
+        let mut r = req.clone();
+        r.width = width;
+        if let Some(l) = rep
+            .get("label")
+            .and_then(Value::as_str)
+            .and_then(|f| item.get(f))
+            .and_then(Value::as_str)
+        {
+            r.label = l.to_string();
+        }
+        for (opt, field) in rep
+            .get("with")
+            .and_then(Value::as_object)
+            .into_iter()
+            .flatten()
+        {
+            if let Some(v) = field.as_str().and_then(|f| item.get(f)) {
+                r.options.insert(opt.clone(), v.clone());
+            }
+        }
+        r
+    };
+    let solve_all = |width: Option<f64>| {
+        items
+            .iter()
+            .map(|i| solve_root(variant, id, &copy_req(i, width)))
+            .collect::<Result<Vec<_>, _>>()
+    };
+    let mut scenes = solve_all(if column { inner } else { None })?;
+    if column && inner.is_none() {
+        let root_w = |s: &Scene| s.nodes.first().map_or(0.0, |n| n.w);
+        let target = scenes.iter().map(root_w).fold(min_inner, f64::max);
+        if scenes.iter().any(|s| root_w(s) != target) {
+            scenes = solve_all(Some(target))?;
+        }
+    }
+    let single = scenes.len() == 1;
+    let mut out = Vec::new();
+    for (i, mut s) in scenes.into_iter().enumerate() {
+        let Some(root) = s.nodes.first() else {
+            continue;
+        };
+        let (ox, oy, w, h) = (root.x, root.y, root.w, root.h);
+        // The copy's `strokeOver` border is the root's own ring (`<id>.border`).
+        let name = |p: &str| match (single, p == id, p == format!("{id}.border")) {
+            (true, _, _) => p.to_string(),
+            (false, true, _) => format!("{id}-{}", i + 1),
+            (false, _, true) => format!("{id}-{}.border", i + 1),
+            _ => format!("{id}-{}.{p}", i + 1),
+        };
+        let nodes = std::mem::take(&mut s.nodes)
+            .into_iter()
+            .map(|mut n| {
+                n.part = name(&n.part);
+                n.x -= ox;
+                n.y -= oy;
+                n
+            })
+            .collect();
+        let measurements = if i == 0 {
+            std::mem::take(&mut s.measurements)
+                .into_iter()
+                .map(|mut m| {
+                    m.part = name(&m.part);
+                    m.x -= ox;
+                    m.y -= oy;
+                    m
+                })
+                .collect()
+        } else {
+            Vec::new()
+        };
+        cx.diags.extend(s.diagnostics.drain(..).map(|d| {
+            if single {
+                d
+            } else {
+                format!("{id}-{}: {d}", i + 1)
+            }
+        }));
+        out.push(Nested {
+            w,
+            h,
+            nodes,
+            measurements,
+            opacity: s.opacity,
+        });
+    }
+    Ok(out)
 }
 
 /// Append a nested part's nodes with its top-left corner at `(x, y)`.
@@ -4974,7 +5052,7 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 /// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
 /// same change whenever a solver change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`).
-pub const LAYOUT_REVISION: u32 = 3;
+pub const LAYOUT_REVISION: u32 = 4;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
@@ -6454,56 +6532,100 @@ mod tests {
         s.nodes.iter().find(|n| n.part == id)
     }
 
-    fn accordion_items(items: Value) -> Scene {
+    /// A container with `props` whose repeated `item` is a padded box around a label.
+    fn collection(props: Value, items: Value) -> Scene {
         let (g, _) = load();
-        let g = g.with_visuals(TokenGraph::load_spec_visuals(&root().join("visuals")).unwrap());
-        let recipe: Value = serde_json::from_str(
-            &std::fs::read_to_string(root().join("visuals/accordion.json")).unwrap(),
-        )
-        .unwrap();
+        let recipe = serde_json::json!({
+            "specVersion": "1.0.0-draft",
+            "component": "action-button",
+            "root": "container",
+            "sizeScale": { "m": 100 },
+            "parts": {
+                "container": { "kind": "box", "children": ["item"], "props": props,
+                    "repeat": { "part": "item", "option": "items", "label": "label" } },
+                "item": { "kind": "box", "children": ["label"], "props": {
+                    "paddingInlineStart": { "value": 5 }, "paddingInlineEnd": { "value": 5 }
+                } },
+                "label": { "kind": "text", "props": { "fontSize": { "value": 10 } } }
+            }
+        });
         let mut r = req(&[]);
-        r.component = "accordion".into();
-        r.label = "Title".into();
         r.options.insert("items".into(), items);
         build_scene(&g, &recipe, &r).unwrap()
     }
 
     #[test]
-    fn repeat_skips_entries_that_are_not_objects_with_a_diagnostic() {
-        let s = accordion_items(serde_json::json!(["A", "B"]));
-        assert!(part(&s, "accordion-item").is_some());
-        assert!(s.diagnostics.iter().any(|d| d.contains("must be objects")));
-        let s = accordion_items(serde_json::json!(["A", { "label": "B" }]));
-        assert!(part(&s, "accordion-item-1").is_some() && part(&s, "accordion-item-2").is_none());
+    fn repeat_skips_entries_that_are_not_objects_and_labels_each_copy() {
+        let s = collection(
+            serde_json::json!({}),
+            serde_json::json!(["A", { "label": "B" }]),
+        );
+        assert!(part(&s, "item").is_some() && part(&s, "item-1").is_none());
+        assert_eq!(part(&s, "label").unwrap().text.as_deref(), Some("B"));
         assert!(s.diagnostics.iter().any(|d| d.contains("skipped")));
+        let s = collection(serde_json::json!({}), serde_json::json!(["A", "B"]));
+        assert!(part(&s, "item").is_some());
+        let s = collection(serde_json::json!({}), three());
+        assert_eq!(
+            part(&s, "item-2.label").unwrap().text.as_deref(),
+            Some("A much longer label")
+        );
+    }
+
+    fn three() -> Value {
+        serde_json::json!([{ "label": "A" }, { "label": "A much longer label" }, { "label": "B" }])
     }
 
     #[test]
-    fn repeat_stacks_one_root_per_entry_with_its_own_label_and_open_state() {
-        let one = accordion_items(serde_json::json!([]));
-        assert!(
-            part(&one, "accordion-item").is_some(),
-            "no entries draws the plain root"
+    fn a_fixed_width_column_container_makes_its_copies_fill_its_inner_width() {
+        let s = collection(
+            serde_json::json!({
+                "direction": { "value": "column" }, "width": { "value": 200 },
+                "paddingInlineStart": { "value": 10 }, "paddingInlineEnd": { "value": 10 },
+                "gap": { "value": 4 }
+            }),
+            three(),
         );
-        let s = accordion_items(serde_json::json!([
-            { "label": "First", "isExpanded": true },
-            { "label": "A much longer second title" },
-            { "label": "Third" }
-        ]));
-        let item = |n: usize| part(&s, &format!("accordion-item-{n}")).unwrap();
-        assert!(part(&s, "accordion-item").is_none());
+        let item = |n: usize| part(&s, &format!("item-{n}")).unwrap();
+        assert_eq!(part(&s, "container").unwrap().w, 200.0);
+        assert!((1..=3).all(|n| item(n).w == 180.0 && item(n).x == RING_MARGIN + 10.0));
+        assert_eq!(item(2).y, item(1).y + item(1).h + 4.0);
+        assert!(part(&s, "item-2.label").is_some());
+    }
+
+    #[test]
+    fn a_hugging_column_container_makes_its_copies_as_wide_as_the_widest() {
+        let s = collection(
+            serde_json::json!({ "direction": { "value": "column" } }),
+            three(),
+        );
+        let item = |n: usize| part(&s, &format!("item-{n}")).unwrap();
+        let label = part(&s, "item-2.label").unwrap();
+        assert_eq!(item(2).w, label.w + 10.0);
+        assert!(item(1).w == item(2).w && item(3).w == item(2).w);
+        assert_eq!(part(&s, "container").unwrap().w, item(2).w);
+    }
+
+    #[test]
+    fn a_row_container_sums_its_copies_and_a_single_copy_keeps_plain_ids() {
+        let s = collection(
+            serde_json::json!({ "direction": { "value": "row" }, "gap": { "value": 3 } }),
+            three(),
+        );
+        let item = |n: usize| part(&s, &format!("item-{n}")).unwrap();
+        assert_eq!(item(2).x, item(1).x + item(1).w + 3.0);
         assert_eq!(
-            part(&s, "accordion-item-2.title").unwrap().text.as_deref(),
-            Some("A much longer second title")
+            part(&s, "container").unwrap().w,
+            item(1).w + item(2).w + item(3).w + 6.0
         );
-        // Only the first entry is open, so it is the tallest.
-        assert!(item(1).h > item(2).h);
-        assert_eq!(item(2).h, item(3).h);
-        // Stacked in order, flush, and all as wide as the widest.
-        assert_eq!(item(2).y, item(1).y + item(1).h);
-        assert_eq!(item(3).y, item(2).y + item(2).h);
-        assert!(item(1).w == item(2).w && item(2).w == item(3).w);
-        assert_eq!(s.height, item(3).y + item(3).h + RING_MARGIN);
+        for items in [
+            serde_json::json!([]),
+            serde_json::json!([{ "label": "Only" }]),
+        ] {
+            let s = collection(serde_json::json!({}), items);
+            assert!(part(&s, "item").is_some() && part(&s, "label").is_some());
+            assert!(part(&s, "item-1").is_none());
+        }
     }
 
     #[test]
