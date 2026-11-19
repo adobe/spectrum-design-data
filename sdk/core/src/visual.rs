@@ -3131,7 +3131,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 c.refill = host.width.is_none() && inherits(part, "width");
                 let defer = Host {
                     defer_width: c.refill,
-                    ..Host::default()
+                    ..host
                 };
                 let Some(n) =
                     solve_component(&mut cx, id, part, if c.refill { &defer } else { &host })
@@ -3598,7 +3598,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         };
         let again = Host {
             width: Some(w - pad_s - pad_e),
-            ..Host::default()
+            ..host
         };
         if let Some(n) = solve_component(&mut cx, &c.id, part, &again) {
             (c.w, c.h) = (n.w, n.h);
@@ -4280,6 +4280,10 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     nodes.extend(nested_out);
     // `strokeOver`: the root's border is drawn after everything else, as a ring node, so it
     // lies over the children. Same band as the box stroke: inside the box.
+    if stroke_over && radii.is_some() {
+        cx.diags
+            .push("strokeOver draws one corner radius; the root's corners differ".into());
+    }
     if let (true, Some(c)) = (stroke_over, stroke.as_ref()) {
         let (sw, i) = (nodes[0].stroke_width, nodes[0].stroke_width / 2.0);
         if sw > 0.0 {
@@ -4345,7 +4349,8 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
 /// less padding) and corner radius, where the root fixes them.
 #[derive(Default)]
 struct Host {
-    /// The width is not known yet: leave the nested root's own and do not report it.
+    /// The width is not known yet: this is the first pass, which leaves the nested root's own
+    /// width and reports nothing; the second pass reports.
     defer_width: bool,
     width: Option<f64>,
     height: Option<f64>,
@@ -4386,9 +4391,11 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
             _ => host.corner_radius,
         };
         let Some(value) = value else {
-            cx.diags.push(format!(
-                "component part '{id}': cannot inherit {name}, the host root has none here"
-            ));
+            if !host.defer_width {
+                cx.diags.push(format!(
+                    "component part '{id}': cannot inherit {name}, the host root has none here"
+                ));
+            }
             continue;
         };
         let root = nested["root"].as_str().unwrap_or_default().to_string();
@@ -7697,19 +7704,39 @@ mod tests {
         let g = nest_graph(&[]);
         let mut r = host(serde_json::json!({
             "r": { "kind": "box", "children": ["a", "b"], "props": lit_props(&[
-                ("paddingInlineStart", 6.0), ("paddingInlineEnd", 6.0)]) },
+                ("paddingInlineStart", 6.0), ("paddingInlineEnd", 6.0),
+                ("height", 50.0), ("cornerRadius", 5.0)]) },
             "a": comp("switch", serde_json::json!({ "hideLabel": true })),
             "b": comp("action-button", serde_json::json!({ "hideLabel": true }))
         }));
         r["parts"]["r"]["props"]["direction"] = serde_json::json!({ "value": "column" });
         let own = nest_scene(&g, &r, "m", &[], &[]).unwrap();
         assert_eq!(part(&own, "a").unwrap().w, 26.0);
-        r["parts"]["a"]["inherit"] = serde_json::json!(["width"]);
+        r["parts"]["a"]["inherit"] = serde_json::json!(["width", "height", "cornerRadius"]);
         let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
         // The root hugs the button (32) plus padding; the switch, which no longer counts
-        // toward that width, fills it.
+        // toward that width, fills it. The fixed height and radius still reach it, and
+        // nothing is reported.
         assert_eq!(s.nodes[0].w, 6.0 + 32.0 + 6.0);
-        assert_eq!(part(&s, "a").unwrap().w, 32.0);
+        let a = part(&s, "a").unwrap();
+        assert_eq!((a.w, a.h, a.radius), (32.0, 50.0, 5.0));
+        assert!(
+            !s.diagnostics.iter().any(|d| d.contains("cannot inherit")),
+            "{:?}",
+            s.diagnostics
+        );
+        // A value the host really lacks is reported once.
+        r["parts"]["r"]["props"]
+            .as_object_mut()
+            .unwrap()
+            .remove("cornerRadius");
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        let n = s
+            .diagnostics
+            .iter()
+            .filter(|d| d.contains("cannot inherit"))
+            .count();
+        assert_eq!(n, 1, "{:?}", s.diagnostics);
     }
 
     #[test]
