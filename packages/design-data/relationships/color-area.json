@@ -7,8 +7,8 @@
         "scale": "desktop"
       }
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Width",
+    "contextRole": ["width"],
     "$ref": "8fcf30ee-73e1-4f54-8975-5467dedade29",
     "uuid": "ba920b3d-eb8e-572b-8316-d781acdecbfb"
   },
@@ -20,8 +20,8 @@
         "scale": "mobile"
       }
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Width",
+    "contextRole": ["width"],
     "$ref": "e5daae6b-7040-4e80-a251-db4c8c79e113",
     "uuid": "4aacb145-8172-5dd4-b779-2554034278f5"
   },
@@ -33,8 +33,8 @@
         "scale": "desktop"
       }
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Minimum width",
+    "contextRole": ["width"],
     "$ref": "19ff1ba5-a351-4427-bf2e-4e212dde3d3c",
     "uuid": "48e8e946-d978-5fc1-84bd-e183bed32a97"
   },
@@ -46,8 +46,8 @@
         "scale": "mobile"
       }
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Minimum width",
+    "contextRole": ["width"],
     "$ref": "126cd0b8-55cc-489c-9582-fddde76b431c",
     "uuid": "80c0c35e-810d-5e0c-aee2-3875711d9ae8"
   },
@@ -59,8 +59,8 @@
         "scale": "desktop"
       }
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Height",
+    "contextRole": ["height"],
     "$ref": "993f90f6-22a6-49ec-a8e6-7a8b904d42a7",
     "uuid": "6d8bd6c7-a136-5387-bf0d-dba532f5dd9f"
   },
@@ -72,8 +72,8 @@
         "scale": "mobile"
       }
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Height",
+    "contextRole": ["height"],
     "$ref": "552a014a-c590-48f8-98dc-26849b62c3ab",
     "uuid": "3f690677-821d-5501-b255-a0ba9493fe54"
   },
@@ -85,8 +85,8 @@
         "scale": "desktop"
       }
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "73c558f3-2a1c-4c1d-9b17-cfb49f510070",
     "uuid": "37b2f3ad-88bc-52db-bd32-5ebdf1719e89"
   },
@@ -98,8 +98,8 @@
         "scale": "mobile"
       }
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Minimum height",
+    "contextRole": ["height"],
     "$ref": "9b84d54e-2b10-4502-b072-ded2a8bf9cb3",
     "uuid": "bcb52afd-d909-5cb7-b855-117fbffca359"
   },

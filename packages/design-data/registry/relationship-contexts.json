@@ -119,6 +119,7 @@
       "description": "Height, including minimum height",
       "aliases": [
         "minimum height",
+        "popover minimum height",
         "component height",
         "row height",
         "minimum title area height",

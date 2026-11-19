@@ -815,8 +815,8 @@
       "component": "date-picker",
       "property": "minimum-height"
     },
-    "context": "Popover minimum width",
-    "contextRole": ["width"],
+    "context": "Popover minimum height",
+    "contextRole": ["height"],
     "$ref": "19c4d5a5-6ccb-407e-afa7-79f19286837b",
     "uuid": "e6423304-5971-553f-8156-7f476d8fb0dc"
   },

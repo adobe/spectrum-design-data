@@ -4,8 +4,8 @@
       "component": "color-loupe",
       "property": "height"
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Height",
+    "contextRole": ["height"],
     "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
     "uuid": "a372ba95-bf02-5ba6-ab23-51230cf10bf7"
   },
@@ -14,8 +14,8 @@
       "component": "color-loupe",
       "property": "width"
     },
-    "context": "Size",
-    "contextRole": ["size"],
+    "context": "Width",
+    "contextRole": ["width"],
     "$ref": "03042116-4c2d-4a29-b17f-47da76f5e103",
     "uuid": "bcf49c03-5000-5f19-8574-c69bfbd1cbe5"
   },

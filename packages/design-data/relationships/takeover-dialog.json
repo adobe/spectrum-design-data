@@ -4,8 +4,8 @@
       "component": "takeover-dialog",
       "property": "width"
     },
-    "context": "Height & width",
-    "contextRole": ["size"],
+    "context": "Width",
+    "contextRole": ["width"],
     "$ref": "bb70e39d-c686-4cd2-a991-6b51fa16d9df",
     "uuid": "1d3fb710-b459-5db8-8b43-bbb9ed6f188e"
   },
@@ -14,8 +14,8 @@
       "component": "takeover-dialog",
       "property": "height"
     },
-    "context": "Height & width",
-    "contextRole": ["size"],
+    "context": "Height",
+    "contextRole": ["height"],
     "$ref": "be327284-79fe-40b7-b996-8ad176d40d8e",
     "uuid": "87044282-6810-5b30-8083-55738ad4cc9e"
   },

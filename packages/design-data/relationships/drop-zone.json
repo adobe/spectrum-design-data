@@ -35,8 +35,8 @@
       "component": "drop-zone",
       "property": "border-width"
     },
-    "context": "Border width and corner radius",
-    "contextRole": ["border", "rounding"],
+    "context": "Border width",
+    "contextRole": ["border"],
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "e4387e1d-6a95-5075-bba4-2961a34edb0a"
   },
@@ -45,8 +45,8 @@
       "component": "drop-zone",
       "property": "corner-radius"
     },
-    "context": "Border width and corner radius",
-    "contextRole": ["border", "rounding"],
+    "context": "Corner radius",
+    "contextRole": ["rounding"],
     "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
     "uuid": "a24f4808-f6ed-5c5c-b7a1-da7a4ab40ac0"
   },
