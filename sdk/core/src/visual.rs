@@ -56,6 +56,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "stroke",
             "strokeWidth",
             "strokeOpacity",
+            "strokeOver",
             "patternFill",
             "patternSize",
             "pressDifference",
@@ -2907,6 +2908,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let stroke = rp(&mut cx, root, "stroke");
     let stroke_w = rp(&mut cx, root, "strokeWidth");
     let stroke_o = rp(&mut cx, root, "strokeOpacity");
+    let stroke_over = rp(&mut cx, root, "strokeOver").is_some_and(|r| r.value.trim() == "true");
     let corner_names = [
         "cornerRadiusStartStart",
         "cornerRadiusStartEnd",
@@ -3662,7 +3664,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         w,
         h,
         fill: fill.map(|f| f.value),
-        stroke: stroke.map(|s| s.value),
+        stroke: stroke.clone().filter(|_| !stroke_over).map(|s| s.value),
         stroke_width: stroke_w.as_ref().and_then(Resolved::num).unwrap_or(0.0),
         stroke_opacity: stroke_o.as_ref().and_then(Resolved::num),
         sweep: None,
@@ -4276,6 +4278,23 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     }
 
     nodes.extend(nested_out);
+    // `strokeOver`: the root's border is drawn after everything else, as a ring node, so it
+    // lies over the children. Same band as the box stroke: inside the box.
+    if let (true, Some(c)) = (stroke_over, stroke.as_ref()) {
+        let (sw, i) = (nodes[0].stroke_width, nodes[0].stroke_width / 2.0);
+        if sw > 0.0 {
+            let mut border = blank_node(&format!("{root_id}.border"), "ring");
+            border.x = ox + i;
+            border.y = oy + i;
+            border.w = w - sw;
+            border.h = h - sw;
+            border.radius = (nodes[0].radius - i).max(0.0);
+            border.stroke = Some(c.value.clone());
+            border.stroke_width = sw;
+            border.stroke_opacity = nodes[0].stroke_opacity;
+            nodes.push(border);
+        }
+    }
 
     // A box whose fill came from an option holding a CSS `linear-gradient()`: it is laid out
     // now, so the gradient line fits the box's own width and height.
@@ -7691,6 +7710,35 @@ mod tests {
         // toward that width, fills it.
         assert_eq!(s.nodes[0].w, 6.0 + 32.0 + 6.0);
         assert_eq!(part(&s, "a").unwrap().w, 32.0);
+    }
+
+    #[test]
+    fn stroke_over_draws_the_root_border_last_as_a_ring() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a"], "props": lit_props(&[
+                ("width", 100.0), ("height", 40.0), ("cornerRadius", 5.0),
+                ("strokeWidth", 2.0)]) },
+            "a": comp("action-button", serde_json::json!({ "hideLabel": true }))
+        }));
+        r["parts"]["r"]["props"]["stroke"] = serde_json::json!({ "value": "#ff0000" });
+        let plain = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(plain.nodes[0].stroke.as_deref(), Some("#ff0000"));
+        assert!(plain.nodes.iter().all(|n| n.kind != "ring"));
+        r["parts"]["r"]["props"]["strokeOver"] = serde_json::json!({ "value": true });
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(s.nodes[0].stroke, None);
+        assert_eq!(s.nodes[0].stroke_width, 2.0);
+        let border = s.nodes.last().unwrap();
+        assert_eq!(
+            (border.kind.as_str(), border.part.as_str()),
+            ("ring", "r.border")
+        );
+        assert_eq!(
+            (border.x, border.y, border.w, border.h, border.radius),
+            (9.0, 9.0, 98.0, 38.0, 4.0)
+        );
+        assert_eq!(border.stroke.as_deref(), Some("#ff0000"));
     }
 
     #[test]
