@@ -16,8 +16,9 @@
 //! 2. **L2 structured identity**: every live relationship record has `scope.part` or
 //!    `scope.between` (`scope.options.from` and `.to` count as a between), no identity
 //!    (component, property, part, between) is shared by records with different authored
-//!    `context`, and no `scope.property` carries structure (`-to-`, an anatomy term, or a
-//!    trailing numeric scale).
+//!    `context`, and no `scope.property` carries structure (`-to-`, a name of one of the
+//!    component's own anatomy parts, or a trailing numeric scale). Deprecated records
+//!    (`lifecycle.deprecatedIn`) are ignored.
 //! 3. **L3 structured recipe**: the component has a visual recipe with no
 //!    `relationship.context` selectors.
 //! 4. **L4 clean labels**: no `contextPart`, `contextQualifier` or anatomy-word
@@ -67,14 +68,20 @@ fn has_between(scope: &Value) -> bool {
             .is_some_and(|o| o.get("from").is_some() || o.get("to").is_some())
 }
 
-fn property_has_structure(property: &str, anatomy: &HashSet<String>) -> bool {
+fn property_has_structure(property: &str, parts: &[&str]) -> bool {
     let padded = format!("-{property}-");
-    property.contains("-to-")
+    padded.contains("-to-")
         || property
             .rsplit('-')
             .next()
             .is_some_and(|t| !t.is_empty() && t.bytes().all(|b| b.is_ascii_digit()))
-        || anatomy.iter().any(|a| padded.contains(&format!("-{a}-")))
+        || parts.iter().any(|p| padded.contains(&format!("-{p}-")))
+}
+
+fn is_live(raw: &Value) -> bool {
+    raw.get("lifecycle")
+        .and_then(|l| l.get("deprecatedIn"))
+        .is_none_or(Value::is_null)
 }
 
 fn count_context_selectors(v: &Value) -> usize {
@@ -119,18 +126,23 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
     let anatomy = reg.for_field("anatomy-terms").cloned().unwrap_or_default();
 
     let mut names: BTreeSet<String> = graph.components.iter().map(|c| c.name.clone()).collect();
-    for r in &graph.relationships {
+    let mut live: HashMap<&str, Vec<&Value>> = HashMap::new();
+    for r in graph.relationships.iter().filter(|r| is_live(&r.raw)) {
         if let Some(c) = r.raw.get("scope").and_then(|s| str_of(s, "component")) {
             names.insert(c.to_string());
+            live.entry(c).or_default().push(&r.raw);
         }
     }
 
     let mut out = Vec::new();
     for name in names {
-        let anatomy_status = graph
-            .components
-            .iter()
-            .find(|c| c.name == name)
+        let decl = graph.components.iter().find(|c| c.name == name);
+        let parts: Vec<&str> = decl
+            .and_then(|c| c.raw.get("anatomy"))
+            .and_then(Value::as_array)
+            .map(|a| a.iter().filter_map(|p| str_of(p, "name")).collect())
+            .unwrap_or_default();
+        let anatomy_status = decl
             .and_then(|c| c.raw.get("anatomyReview"))
             .and_then(|a| str_of(a, "status"))
             .unwrap_or("none")
@@ -151,13 +163,10 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
         };
         // identity key -> distinct authored contexts
         let mut identities: HashMap<String, BTreeSet<Option<String>>> = HashMap::new();
-        for r in &graph.relationships {
-            let Some(scope) = r.raw.get("scope") else {
+        for raw in live.get(name.as_str()).into_iter().flatten() {
+            let Some(scope) = raw.get("scope") else {
                 continue;
             };
-            if str_of(scope, "component") != Some(&name) {
-                continue;
-            }
             s.records += 1;
             let part = scope.get("part").and_then(Value::as_str);
             let options = scope.get("options");
@@ -172,17 +181,17 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
                 s.unstructured_records += 1;
             }
             let property = str_of(scope, "property").unwrap_or("");
-            if property_has_structure(property, &anatomy) {
+            if property_has_structure(property, &parts) {
                 s.structured_property_records += 1;
             }
-            if !label_clean(&r.raw, reg, &anatomy) {
+            if !label_clean(raw, reg, &anatomy) {
                 s.label_debt_records += 1;
             }
             let key = format!("{property}\u{0}{part:?}\u{0}{between:?}");
             identities
                 .entry(key)
                 .or_default()
-                .insert(str_of(&r.raw, "context").map(str::to_string));
+                .insert(str_of(raw, "context").map(str::to_string));
         }
         s.colliding_identities = identities.values().filter(|c| c.len() > 1).count();
         for v in graph.visuals.iter().filter(|v| v.component == name) {
@@ -226,7 +235,7 @@ mod tests {
         g.components = vec![ComponentRecord {
             name: "tag".into(),
             file: PathBuf::from("tag.json"),
-            raw: json!({"anatomyReview": {"status": anatomy}}),
+            raw: json!({"anatomyReview": {"status": anatomy}, "anatomy": [{"name": "label"}]}),
             layer: Layer::default(),
         }];
         g.relationships = rels
@@ -332,5 +341,50 @@ mod tests {
         }
         let mismatch = rel("gap", Some("label"), "Width", json!(["spacing"]));
         assert_eq!(level(&graph("reviewed", vec![mismatch], Some(recipe))), 3);
+    }
+
+    #[test]
+    fn edge_cases() {
+        let clean = rel("gap", Some("root"), "Spacing", json!(["spacing"]));
+        let recipe = json!({"component": "tag"});
+        assert_eq!(
+            level(&graph("reviewed", vec![clean], Some(recipe.clone()))),
+            4,
+            "explicit root part counts"
+        );
+        let between =
+            json!({"scope": {"component": "tag", "property": "gap", "between": ["a", "b"]}});
+        assert_eq!(level(&graph("reviewed", vec![between], None)), 2);
+        assert_eq!(level(&graph("reviewed", vec![], Some(recipe.clone()))), 4);
+        let anatomy_role = rel("gap", Some("label"), "Label", json!(["label"]));
+        assert_eq!(
+            level(&graph("reviewed", vec![anatomy_role], Some(recipe.clone()))),
+            3
+        );
+        let no_role = json!({"scope": {"component": "tag", "property": "gap", "part": "label"}, "context": "Spacing"});
+        assert_eq!(level(&graph("reviewed", vec![no_role], Some(recipe))), 3);
+    }
+
+    #[test]
+    fn deprecated_records_are_ignored() {
+        let mut bad = vec![
+            rel("gap", None, "Old", json!(["spacing"])),
+            rel(
+                "icon-to-label",
+                Some("label"),
+                "Spacing",
+                json!(["spacing"]),
+            ),
+            rel("gap", Some("label"), "Stale", json!(["width"])),
+        ];
+        bad.push(rel("gap", Some("label"), "Spacing", json!(["spacing"])));
+        for b in &mut bad {
+            b["lifecycle"] = json!({"deprecatedIn": "1.0.0"});
+        }
+        let ok = rel("gap", Some("label"), "Spacing", json!(["spacing"]));
+        bad.push(ok);
+        let g = graph("reviewed", bad, Some(json!({"component": "tag"})));
+        let s = &status_report(&g)[0];
+        assert_eq!((s.records, s.level), (1, 4));
     }
 }
