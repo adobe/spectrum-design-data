@@ -1,5 +1,99 @@
 # @adobe/design-data-spec
 
+## 5.0.0
+
+### Major Changes
+
+- [#1948](https://github.com/adobe/spectrum-design-data/pull/1948) [`53e922b`](https://github.com/adobe/spectrum-design-data/commit/53e922b0293f2b5c2be0e66c99e89b62afa6d605) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove the component `tokenBindings` field. Relationships carry that data.
+  - **Spec (breaking):** `tokenBindings` is gone from `component.schema.json` and rule SPEC-027
+    is retired. A component that still has the field now fails schema validation. Use
+    `relationships/<component>.json`; SPEC-055 checks each `$ref`. To migrate, turn each
+    `{ token, context }` entry into a relationship with the token's uuid as `$ref`.
+  - **Button:** adds `corner-radius-button-small` (12px), `corner-radius-button-large` (20px)
+    and `corner-radius-button-extra-large` (24px) for wrapping labels. The 16px wrapping
+    relationship is now scoped to size `m`; `s`, `l` and `xl` have their own. The three names
+    were referenced but never defined.
+  - **Tabs, date picker:** four bindings with no relationship now have one.
+  - **Component data:** declares anatomy parts, sizes and states that relationships already
+    used (steplist, menu, table, tag-field, card, stack-item, body, heading, detail). List-view
+    and radio-button relationships now name their existing parts. Illustrated message uses a
+    `script: cjk` option instead of `-cjk` sizes.
+  - **Validation:** `design-data:validate` no longer downgrades component-rule errors to warnings.
+    Table declares the `xl` size its relationships use.
+  - **Agent MCP:** `describe_component` returns `relationships`; docs drop `tokenBindings`.
+
+### Minor Changes
+
+- [#1953](https://github.com/adobe/spectrum-design-data/pull/1953) [`9f95e99`](https://github.com/adobe/spectrum-design-data/commit/9f95e992a2723198f52a06eb9bae4ac0d1133dac) Thanks [@GarthDB](https://github.com/GarthDB)! - Declare a collection on its container part, and add position conditions. Layout revision is 4.
+  - `repeat` moves from the recipe to the root part (the container). It gains `part`, the direct
+    child that repeats; the item does not know it is repeated. The recipe-level `repeat` is removed
+    (draft spec; only the accordion used it).
+  - Each copy is solved as its own root and placed as a flowed child of the container, so the
+    container's `direction`, `gap` and padding apply. A container with a fixed width makes copies
+    fill it; a container with no width hugs them (widest copy in a column, sum in a row).
+  - A single copy (one entry or none) keeps plain node ids; several are `<part>-<n>`.
+  - `when.position` and `visibleWhen.position` take `first`, `middle`, `last` or `only`, evaluated
+    per copy. SPEC-061 checks the values and that `position` sits inside a repeated part; SPEC-060
+    checks `repeat.part` is a child of the root.
+  - Accordion gains a `container` root that owns the width records; its goldens gain the container
+    node, and the width token moves to it.
+
+- [#1947](https://github.com/adobe/spectrum-design-data/pull/1947) [`b62f6a5`](https://github.com/adobe/spectrum-design-data/commit/b62f6a51d96e8748bf1417e7d7eb945f4f3e4243) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw linear gradients in visual recipes. The avatar and the swatch use it.
+  - A new `gradient` value source on a box `fill`: `from` and `to` ends in the box's unit space and
+    stops whose colors and offsets bind through relationships, so the `gradient-stop` tokens drive
+    it. A scene node carries `gradient`; its `fill` keeps the first stop for solid-only consumers.
+  - An option read by an `option` source may hold a CSS `linear-gradient()` (a `deg` angle or a
+    `to` side or corner, and `<color> [<percentage>]` stops). The swatch `preview` takes one.
+  - SVG and PNG output draw gradients. Images are still not drawn.
+  - Avatar: the Gradient image, Initials and Guest styles draw Figma's turquoise gradient (400, 600
+    and 800 at the 0, 66 and 100 percent stops, from the top-left to the bottom-right). New
+    `Background (gradient stop N)` relationships bind the stop colors.
+  - Dataset `requires.cli` is 0.56.0, which reads the new source.
+
+- [#1952](https://github.com/adobe/spectrum-design-data/pull/1952) [`7afe677`](https://github.com/adobe/spectrum-design-data/commit/7afe677da514a49326fdd4e6b124cf61bd29afae) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a nested recipe fill its host, and draw a root border over its children. Layout revision is 3.
+  - A `component` part can list `inherit`: `width`, `height` and `cornerRadius` of the host root. A
+    width the host does not fix yet (a hugging root) is filled once the other parts are laid out.
+  - A root can bind `strokeOver: true`. Its border is then a `ring` node `<root>.border` drawn last,
+    and the root node's own `stroke` is unset.
+  - Anatomy aliases are no longer valid part names. They document other implementations' names, and
+    SPEC-035 warns when a part uses one. `small-divider`, `required-asterisk`, `required-text` and
+    `direct-actions` are aliases of `divider`, `necessity-indicator` and `actions`.
+  - The accordion draws its divider with the divider recipe. Thumbnail draws its checkerboard with
+    the opacity-checkerboard recipe, so its mobile tile is 5px, not 4px, and its border is drawn on
+    the container over the checkerboard. Thumbnail gains an empty `image` part.
+
+- [#1932](https://github.com/adobe/spectrum-design-data/pull/1932) [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Fields can now declare which token tiers they apply to.
+  - **field.schema.json**: adds optional `allowedTokenTiers` (primitive, semantic, component).
+  - **fields/scaleIndex.json**: limits `scaleIndex` to primitive and semantic tokens.
+  - **token.schema.json**: adds optional `tokenTier`, an override of the derived tier.
+  - **field.schema.json**: adds `impliesTokenTier`, which drives the derived tier.
+  - **SPEC-102** warns when a field is used on a tier it excludes; **SPEC-103** reports overrides.
+  - **spec/taxonomy.md**: defines the tiers and the derivation; foundation is a group, not a tier.
+  - **conformance/manifest-extensions**: rejects an empty list and an unknown tier.
+
+- [#1946](https://github.com/adobe/spectrum-design-data/pull/1946) [`90fa890`](https://github.com/adobe/spectrum-design-data/commit/90fa8906b5f45d81d4a36c8099575f6257a544a7) Thanks [@GarthDB](https://github.com/GarthDB)! - Tokens now report semantic specificity, so people and agents can pick among tokens.
+  - **Specificity:** derived from the name, never stored: tier rank, then the count of purpose fields.
+    It orders tokens; it does not say one fits a use.
+  - **Neighbors:** same-property tokens that add or drop purpose fields, each `drop-in` (same value
+    in every mode) or `consider`. CLI `design-data refinements`, WASM `Dataset.refinements`, MCP
+    `design-data-refinements` and agent MCP `token_refinements`.
+  - **Results:** WASM `TokenResult` has `purposeFields` and `purposeCount`; MCP query shows
+    `purposeFields`; CLI `query` and `resolve` print `Purpose`; MCP query takes `sort: "specificity"`.
+  - **Query:** `object`, `anatomy` and `colorRole` are filter keys.
+  - **Component tokens:** MCP `design-data-component-tokens` (WASM `componentRelationships`) returns
+    what a component uses for each part and state, with values, in one call.
+  - **Primer and docs:** `semanticSpecificity` in the primer; taxonomy, query and agent-surface
+    chapters and the skill (with a custom-component recipe).
+
+- [#1932](https://github.com/adobe/spectrum-design-data/pull/1932) [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - The token tier is now visible to people and tools.
+  - **Query:** `tier=<primitive|semantic|component>` is a filter key; spec `query.md` lists it.
+  - **Results:** WASM `TokenResult` has `tier` and `tierSource`; the MCP query tool shows `tier`; CLI
+    `query` and `resolve` print it.
+  - **Primer:** fields list `allowedTokenTiers` and `impliesTokenTier`; `tokenTiers` explains the
+    derivation. The MCP primer returns `tokenTiers` and `fieldTiers`.
+  - **Docs:** token-format, taxonomy, authoring-workflow and agent-surface chapters and the
+    design-data skill describe tiers.
+
 ## 4.26.0
 
 ### Minor Changes

@@ -121,6 +121,25 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":null},"record":"1d3fb710-b459-5db8-8b43-bbb9ed6f188e","name":"width","fields":[{"path":"context","before":"Height & width","after":"Width"}]},
+            {"id":"3530b31f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":null},"record":"87044282-6810-5b30-8083-55738ad4cc9e","name":"height","fields":[{"path":"context","before":"Height & width","after":"Height"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextRole"]}
+        }
+      ]
     }
   ]
 }

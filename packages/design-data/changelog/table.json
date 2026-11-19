@@ -304,6 +304,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"table/options/size","name":"size","fields":[{"path":"description","before":"Controls the density of table rows.","after":"Size scale for row metrics. Density is a separate option."}]},
+            {"id":"53e922b0-1","kind":"option-value","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/options/size/values/xl","name":"xl","fields":[],"after":{"value":"xl"}},
+            {"id":"53e922b0-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/anatomy/divider","name":"divider","fields":[],"after":{"name":"divider"}}
+          ],
+          "metadata": {"count":8,"fields":["scope.options.size"]}
+        }
+      ]
     }
   ]
 }

@@ -224,6 +224,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "7afe677da514a49326fdd4e6b124cf61bd29afae",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1952,"title":"feat(design-data): anatomy review A0 for accordion, field-label, thumbnail and opacity-checkerboard","url":"https://github.com/adobe/spectrum-design-data/pull/1952"},
+          "entries": [
+            {"id":"7afe677d-0","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"field-label/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web field label page, React Spectrum S2 FieldLabel; SWC gen2 has no field label yet. necessity-indicator kept: it covers React Spectrum's icon and '(required)'/'(optional)' text forms, so required-asterisk and required-text are removed from the registry. contextual-help omitted (React Spectrum S2 only); revisit with the fields family, bead spectrum-design-data-5m92.5.3.1."}]}
+          ],
+          "metadata": {"count":68,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

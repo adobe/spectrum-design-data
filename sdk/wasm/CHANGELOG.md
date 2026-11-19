@@ -1,5 +1,160 @@
 # @adobe/design-data-wasm
 
+## 0.31.0
+
+### Minor Changes
+
+- [#1957](https://github.com/adobe/spectrum-design-data/pull/1957) [`527173e`](https://github.com/adobe/spectrum-design-data/commit/527173e35e91574fa263aa92b7e5ce3b0cba3af5) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the accordion `container-divider` part, following Figma.
+  - The divider that opens the list is drawn once on the accordion container, above the first item.
+    Each item keeps its own end divider.
+  - Every non-quiet accordion render gains one 1px line at the top; the container is 1px taller.
+    Quiet accordions are unchanged.
+  - New registry term `container-divider`. Layout revision is unchanged.
+
+- [#1952](https://github.com/adobe/spectrum-design-data/pull/1952) [`7afe677`](https://github.com/adobe/spectrum-design-data/commit/7afe677da514a49326fdd4e6b124cf61bd29afae) Thanks [@GarthDB](https://github.com/GarthDB)! - Review the anatomy of accordion, field-label, thumbnail and opacity-checkerboard. Their relationship
+  records now say which part they belong to (`scope.part`).
+  - Accordion: `item` is renamed `accordion-item` (the recipe root, so its render node ids change),
+    `direct-actions` is renamed `actions`, and a state-only `focus-indicator` is added. The header's
+    horizontal padding has its own "Header (horizontal)" records, not the content ones.
+  - Field label and thumbnail: no anatomy change. Thumbnail border records move to `container`, its
+    checkerboard records to `opacity-checkerboard`.
+  - Opacity checkerboard: `container` is the root and `square` the tile.
+  - The anatomy registry drops `small-divider`, `required-asterisk` and `required-text` (unused).
+  - The four components are marked `reviewed`.
+
+  Drawings are unchanged. Only the root part names of accordion and opacity-checkerboard differ.
+
+- [#1945](https://github.com/adobe/spectrum-design-data/pull/1945) [`defcfe7`](https://github.com/adobe/spectrum-design-data/commit/defcfe7ba4864bc42f70ec4ebd2ccba1f56b01da) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a clear-button component and its visual recipe. The clear button is the icon-only control that
+  clears or removes a value, such as the remove control on a tag. It is not the in-field button.
+  - Declares `size` (s, m, l, xl), `staticColor` (white) and `isDisabled`. Anatomy (container, icon,
+    focus-indicator) is reviewed.
+  - The recipe draws a round, transparent button, as React Spectrum does: 24, 32, 40 and 48 px
+    squares with an 8, 8, 10 and 12 px cross. Hover, down, keyboard focus, disabled and static white
+    change the cross color or add the focus ring.
+  - Relationships reuse the close-button size, content color and focus ring tokens. The cross size
+    tokens are deprecated with no replacement, so the recipe has 8 SPEC-069 warnings (baselined).
+
+- [#1953](https://github.com/adobe/spectrum-design-data/pull/1953) [`9f95e99`](https://github.com/adobe/spectrum-design-data/commit/9f95e992a2723198f52a06eb9bae4ac0d1133dac) Thanks [@GarthDB](https://github.com/GarthDB)! - Declare a collection on its container part, and add position conditions. Layout revision is 4.
+  - `repeat` moves from the recipe to the root part (the container). It gains `part`, the direct
+    child that repeats; the item does not know it is repeated. The recipe-level `repeat` is removed
+    (draft spec; only the accordion used it).
+  - Each copy is solved as its own root and placed as a flowed child of the container, so the
+    container's `direction`, `gap` and padding apply. A container with a fixed width makes copies
+    fill it; a container with no width hugs them (widest copy in a column, sum in a row).
+  - A single copy (one entry or none) keeps plain node ids; several are `<part>-<n>`.
+  - `when.position` and `visibleWhen.position` take `first`, `middle`, `last` or `only`, evaluated
+    per copy. SPEC-061 checks the values and that `position` sits inside a repeated part; SPEC-060
+    checks `repeat.part` is a child of the root.
+  - Accordion gains a `container` root that owns the width records; its goldens gain the container
+    node, and the width token moves to it.
+
+- [#1947](https://github.com/adobe/spectrum-design-data/pull/1947) [`b62f6a5`](https://github.com/adobe/spectrum-design-data/commit/b62f6a51d96e8748bf1417e7d7eb945f4f3e4243) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw linear gradients in visual recipes. The avatar and the swatch use it.
+  - A new `gradient` value source on a box `fill`: `from` and `to` ends in the box's unit space and
+    stops whose colors and offsets bind through relationships, so the `gradient-stop` tokens drive
+    it. A scene node carries `gradient`; its `fill` keeps the first stop for solid-only consumers.
+  - An option read by an `option` source may hold a CSS `linear-gradient()` (a `deg` angle or a
+    `to` side or corner, and `<color> [<percentage>]` stops). The swatch `preview` takes one.
+  - SVG and PNG output draw gradients. Images are still not drawn.
+  - Avatar: the Gradient image, Initials and Guest styles draw Figma's turquoise gradient (400, 600
+    and 800 at the 0, 66 and 100 percent stops, from the top-left to the bottom-right). New
+    `Background (gradient stop N)` relationships bind the stop colors.
+  - Dataset `requires.cli` is 0.56.0, which reads the new source.
+
+- [#1952](https://github.com/adobe/spectrum-design-data/pull/1952) [`7afe677`](https://github.com/adobe/spectrum-design-data/commit/7afe677da514a49326fdd4e6b124cf61bd29afae) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a nested recipe fill its host, and draw a root border over its children. Layout revision is 3.
+  - A `component` part can list `inherit`: `width`, `height` and `cornerRadius` of the host root. A
+    width the host does not fix yet (a hugging root) is filled once the other parts are laid out.
+  - A root can bind `strokeOver: true`. Its border is then a `ring` node `<root>.border` drawn last,
+    and the root node's own `stroke` is unset.
+  - Anatomy aliases are no longer valid part names. They document other implementations' names, and
+    SPEC-035 warns when a part uses one. `small-divider`, `required-asterisk`, `required-text` and
+    `direct-actions` are aliases of `divider`, `necessity-indicator` and `actions`.
+  - The accordion draws its divider with the divider recipe. Thumbnail draws its checkerboard with
+    the opacity-checkerboard recipe, so its mobile tile is 5px, not 4px, and its border is drawn on
+    the container over the checkerboard. Thumbnail gains an empty `image` part.
+
+- [#1946](https://github.com/adobe/spectrum-design-data/pull/1946) [`90fa890`](https://github.com/adobe/spectrum-design-data/commit/90fa8906b5f45d81d4a36c8099575f6257a544a7) Thanks [@GarthDB](https://github.com/GarthDB)! - Tokens now report semantic specificity, so people and agents can pick among tokens.
+  - **Specificity:** derived from the name, never stored: tier rank, then the count of purpose fields.
+    It orders tokens; it does not say one fits a use.
+  - **Neighbors:** same-property tokens that add or drop purpose fields, each `drop-in` (same value
+    in every mode) or `consider`. CLI `design-data refinements`, WASM `Dataset.refinements`, MCP
+    `design-data-refinements` and agent MCP `token_refinements`.
+  - **Results:** WASM `TokenResult` has `purposeFields` and `purposeCount`; MCP query shows
+    `purposeFields`; CLI `query` and `resolve` print `Purpose`; MCP query takes `sort: "specificity"`.
+  - **Query:** `object`, `anatomy` and `colorRole` are filter keys.
+  - **Component tokens:** MCP `design-data-component-tokens` (WASM `componentRelationships`) returns
+    what a component uses for each part and state, with values, in one call.
+  - **Primer and docs:** `semanticSpecificity` in the primer; taxonomy, query and agent-surface
+    chapters and the skill (with a custom-component recipe).
+
+- [#1932](https://github.com/adobe/spectrum-design-data/pull/1932) [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - The token tier is now visible to people and tools.
+  - **Query:** `tier=<primitive|semantic|component>` is a filter key; spec `query.md` lists it.
+  - **Results:** WASM `TokenResult` has `tier` and `tierSource`; the MCP query tool shows `tier`; CLI
+    `query` and `resolve` print it.
+  - **Primer:** fields list `allowedTokenTiers` and `impliesTokenTier`; `tokenTiers` explains the
+    derivation. The MCP primer returns `tokenTiers` and `fieldTiers`.
+  - **Docs:** token-format, taxonomy, authoring-workflow and agent-surface chapters and the
+    design-data skill describe tiers.
+
+- [#1942](https://github.com/adobe/spectrum-design-data/pull/1942) [`1aee41c`](https://github.com/adobe/spectrum-design-data/commit/1aee41c0238ec008dda5babf746abd1d32db0e68) Thanks [@GarthDB](https://github.com/GarthDB)! - Clean up tag data so a visual recipe can choose between its records. Anatomy is a draft until
+  the owner reviews it.
+  - Tag declares `size` (s, m, l), `icon`, `isSelected` and `isEmphasized`. `isReadOnly` is removed,
+    since Figma and React Spectrum have no read-only tag. Consumers that read it must stop.
+  - Background and label/icon color records pin `isSelected`, `isEmphasized` and `isDisabled`, plus
+    `state` for hover, down and keyboard focus. Emphasis recolors selected tags only, as in React
+    Spectrum.
+  - The selected, emphasized label color record binds `transparent-static-white-1000`, the
+    replacement for the deprecated `color-white`. "Icon and Clear icon" contexts become "Label and
+    icon".
+  - Cross icon size records pin `size`.
+  - Leading visual size records (`visual-size-50`, `-75`, `-100`) pin `size`.
+  - Anatomy replaces `clear-icon` and `cross-icon` with container, avatar, icon, label,
+    clear-button and focus-indicator. `clear-button` is a new anatomy term.
+
+### Patch Changes
+
+- [#1948](https://github.com/adobe/spectrum-design-data/pull/1948) [`53e922b`](https://github.com/adobe/spectrum-design-data/commit/53e922b0293f2b5c2be0e66c99e89b62afa6d605) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove the component `tokenBindings` field. Relationships carry that data.
+  - **Spec (breaking):** `tokenBindings` is gone from `component.schema.json` and rule SPEC-027
+    is retired. A component that still has the field now fails schema validation. Use
+    `relationships/<component>.json`; SPEC-055 checks each `$ref`. To migrate, turn each
+    `{ token, context }` entry into a relationship with the token's uuid as `$ref`.
+  - **Button:** adds `corner-radius-button-small` (12px), `corner-radius-button-large` (20px)
+    and `corner-radius-button-extra-large` (24px) for wrapping labels. The 16px wrapping
+    relationship is now scoped to size `m`; `s`, `l` and `xl` have their own. The three names
+    were referenced but never defined.
+  - **Tabs, date picker:** four bindings with no relationship now have one.
+  - **Component data:** declares anatomy parts, sizes and states that relationships already
+    used (steplist, menu, table, tag-field, card, stack-item, body, heading, detail). List-view
+    and radio-button relationships now name their existing parts. Illustrated message uses a
+    `script: cjk` option instead of `-cjk` sizes.
+  - **Validation:** `design-data:validate` no longer downgrades component-rule errors to warnings.
+    Table declares the `xl` size its relationships use.
+  - **Agent MCP:** `describe_component` returns `relationships`; docs drop `tokenBindings`.
+
+- [#1932](https://github.com/adobe/spectrum-design-data/pull/1932) [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Fields can now declare which token tiers they apply to.
+  - **field.schema.json**: adds optional `allowedTokenTiers` (primitive, semantic, component).
+  - **fields/scaleIndex.json**: limits `scaleIndex` to primitive and semantic tokens.
+  - **token.schema.json**: adds optional `tokenTier`, an override of the derived tier.
+  - **field.schema.json**: adds `impliesTokenTier`, which drives the derived tier.
+  - **SPEC-102** warns when a field is used on a tier it excludes; **SPEC-103** reports overrides.
+  - **spec/taxonomy.md**: defines the tiers and the derivation; foundation is a group, not a tier.
+  - **conformance/manifest-extensions**: rejects an empty list and an unknown tier.
+
+- [#1949](https://github.com/adobe/spectrum-design-data/pull/1949) [`9c4acb1`](https://github.com/adobe/spectrum-design-data/commit/9c4acb1572a5d75ee85f713976b4c55dedd9a758) Thanks [@GarthDB](https://github.com/GarthDB)! - Give the color relationships of text field, number field, text area, search field, combo box
+  and picker a state, matching the Figma Web POC (Medium, Field stroke).
+  - **Border:** default `gray-300`, hover `gray-400`, focus + hover `gray-900`, focus (not hover)
+    `gray-800`. These were five grays with no state.
+  - **Contexts:** `gray-25` is now `Background` (role `background`) and the grays are `Border`
+    (role `border`), not `Background and border` with both roles.
+  - **Error:** the `negative-border-color-*` records get hover, focus + hover, focus and
+    keyboard-focus.
+  - **Disabled:** new `disabled-border-color` record where missing, pinned to `isDisabled` and not
+    `isError` (search field has no `isError`, so its record stays pinned to `isDisabled`).
+  - **Differences:** combo box uses its own state names; picker only gets states on its error
+    records (its Field has no border in Figma except on error); number field's keyboard-focus
+    error record stays without a state.
+
+  No existing `uuid` or `$ref` changes, and none of these components has a visual recipe.
+
 ## 0.30.0
 
 ### Minor Changes

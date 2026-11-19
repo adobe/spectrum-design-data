@@ -263,6 +263,23 @@
           "metadata": {"count":8,"fields":["scope.options.scale"]}
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "b62f6a51d96e8748bf1417e7d7eb945f4f3e4243",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1947,"title":"feat(visual): gradient fill; avatar and swatch gradients","url":"https://github.com/adobe/spectrum-design-data/pull/1947"},
+          "entries": [
+            {"id":"b62f6a51-0","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch/options/preview","name":"preview","fields":[{"path":"description","before":"The swatch color, as a CSS color: #rgb, #rrggbb (with an optional alpha) or rgb() and rgba(). Unset or fully transparent draws the empty slash. Gradients and images are not drawn.","after":"The swatch color, as a CSS color: #rgb, #rrggbb (with an optional alpha) or rgb() and rgba(), or a linear-gradient() of those colors. Unset or fully transparent draws the empty slash. Images are not drawn."}]}
+          ]
+        }
+      ]
     }
   ]
 }

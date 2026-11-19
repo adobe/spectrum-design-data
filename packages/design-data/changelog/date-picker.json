@@ -282,6 +282,34 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Thickness (strikethrough day)"],"scope":{"property":"thickness","options":null},"record":"48db65be-3fe3-5cd5-8016-2285c16de6f5","name":"thickness","fields":[],"after":"3766d95f-33c6-4b9d-84c8-1a546ee98d32"},
+            {"id":"53e922b0-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (value to in-field button)"],"scope":{"property":"space-between","options":null},"record":"c3f349b5-9928-5c9c-9a2c-50f971267a89","name":"space-between","fields":[],"after":"19864654-c28c-4ad9-b35d-c669b33c5b9c"},
+            {"id":"53e922b0-2","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"strikethrough-day-thickness","context":"Strikethrough day"},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}]}]}
+          ]
+        },
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Popover minimum height"],"scope":{"property":"minimum-height","options":null},"record":"e6423304-5971-553f-8156-7f476d8fb0dc","name":"minimum-height","fields":[{"path":"context","before":"Popover minimum width","after":"Popover minimum height"}]}
+          ],
+          "metadata": {"count":1,"fields":["contextRole"]}
+        }
+      ]
     }
   ]
 }

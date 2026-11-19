@@ -383,6 +383,34 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.0.17",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "7afe677da514a49326fdd4e6b124cf61bd29afae",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1952,"title":"feat(design-data): anatomy review A0 for accordion, field-label, thumbnail and opacity-checkerboard","url":"https://github.com/adobe/spectrum-design-data/pull/1952"},
+          "entries": [],
+          "metadata": {"count":8,"fields":["scope.part"]}
+        },
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height (disclosure indicator)"],"scope":{"property":"height","options":null},"record":"ca8c8166-6135-59ca-9479-ada960247e85","name":"height","fields":[{"path":"context","before":"Spacing (disclosure indicator)","after":"Height (disclosure indicator)"}]},
+            {"id":"3530b31f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height (disclosure indicator)"],"scope":{"property":"height","options":null},"record":"07b7c2b3-84ba-548b-8708-f17d29cbee23","name":"height","fields":[{"path":"context","before":"Spacing (disclosure indicator)","after":"Height (disclosure indicator)"}]},
+            {"id":"3530b31f-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (disclosure indicator)"],"scope":{"property":"width","options":null},"record":"e51204d4-11af-5e7e-9ae5-18bb2c7294d1","name":"width","fields":[{"path":"context","before":"Spacing (disclosure indicator)","after":"Width (disclosure indicator)"}]},
+            {"id":"3530b31f-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (disclosure indicator)"],"scope":{"property":"width","options":null},"record":"8c8b2b5e-99a1-5665-a12e-8b30b7c1d79a","name":"width","fields":[{"path":"context","before":"Spacing (disclosure indicator)","after":"Width (disclosure indicator)"}]}
+          ],
+          "metadata": {"count":4,"fields":["contextRole"]}
+        }
+      ]
     }
   ]
 }
