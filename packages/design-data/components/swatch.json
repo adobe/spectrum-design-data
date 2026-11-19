@@ -42,7 +42,7 @@
   "options": {
     "preview": {
       "type": "string",
-      "description": "The swatch color, as a CSS color: #rgb, #rrggbb (with an optional alpha) or rgb() and rgba(). Unset or fully transparent draws the empty slash. Gradients and images are not drawn."
+      "description": "The swatch color, as a CSS color: #rgb, #rrggbb (with an optional alpha) or rgb() and rgba(), or a linear-gradient() of those colors. Unset or fully transparent draws the empty slash. Images are not drawn."
     },
     "size": {
       "type": "string",

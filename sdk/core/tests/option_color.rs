@@ -10,7 +10,7 @@
 
 //! A color the request carries in an option read by an `option` value source (the swatch
 //! `preview`): a solid color is drawn, an unset or transparent one draws the unset look, and
-//! anything else (a gradient, an image, a number) draws the unset look with a diagnostic.
+//! anything else (a radial gradient, an image, a number) draws the unset look with a diagnostic.
 
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -92,7 +92,7 @@ fn unset_and_transparent_draw_the_slash_without_a_diagnostic() {
 #[test]
 fn a_value_that_is_not_a_solid_color_draws_the_slash_with_a_diagnostic() {
     for v in [
-        json!("linear-gradient(red, blue)"),
+        json!("radial-gradient(#f00, #00f)"),
         json!("url(photo.png)"),
         json!("rebeccapurple"),
         json!("#12"),

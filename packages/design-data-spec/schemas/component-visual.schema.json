@@ -432,7 +432,10 @@
         "option": {
           "type": "string",
           "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
-          "description": "A color the request carries in this string option (hex, rgb() or rgba()). An unset, transparent or invalid value draws the part's unset look."
+          "description": "A color the request carries in this string option (hex, rgb() or rgba()), or a CSS linear-gradient() of such colors. An unset, transparent or invalid value draws the part's unset look."
+        },
+        "gradient": {
+          "$ref": "#/$defs/gradient"
         },
         "dimension": {
           "type": "string",
@@ -465,9 +468,48 @@
         },
         {
           "required": ["dimension"]
+        },
+        {
+          "required": ["gradient"]
         }
       ],
       "description": "A value source with optional `when`, `priority` and `relativeTo`. Used alone or in an ordered list."
+    },
+    "gradient": {
+      "type": "object",
+      "required": ["stops"],
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" },
+          "description": "Start of the gradient line in the box's unit space: [0, 0] is its top-left corner and [1, 1] the bottom-right. Defaults to [0, 0]."
+        },
+        "to": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" },
+          "description": "End of the gradient line, in the same space. Defaults to [1, 1]."
+        },
+        "stops": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["color", "offset"],
+            "additionalProperties": false,
+            "properties": {
+              "color": { "$ref": "#/$defs/valueSource" },
+              "offset": { "$ref": "#/$defs/valueSource" }
+            }
+          },
+          "description": "Color stops in ascending offset order. Each `color` resolves to a color and each `offset` to a number from 0 to 1."
+        }
+      },
+      "description": "A linear gradient across a box."
     },
     "tokenSelector": {
       "type": "object",

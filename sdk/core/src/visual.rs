@@ -318,7 +318,32 @@ pub struct SceneNode {
     /// A checkerboard drawn over `fill`, set when the recipe binds `patternFill` and `patternSize`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pattern: Option<Pattern>,
+    /// A linear gradient drawn instead of `fill`, which then holds its first stop's color for a
+    /// consumer that draws solid fills only.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gradient: Option<Gradient>,
     pub tokens: Vec<TokenRef>,
+}
+
+/// A linear gradient across a box. `from` and `to` are the ends of the gradient line in the
+/// box's own unit space (`[0, 0]` is its top-left corner, `[1, 1]` the bottom-right), as Figma
+/// handles give them; the gradient is drawn in pixels between those points. Stops are in
+/// ascending `offset` order.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Gradient {
+    pub from: [f64; 2],
+    pub to: [f64; 2],
+    pub stops: Vec<GradientStop>,
+}
+
+/// One color stop: a CSS color at an `offset` (0 to 1) along the gradient line. `token` names
+/// the token the color was bound to; it is empty for a literal or an option value.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct GradientStop {
+    pub color: String,
+    pub offset: f64,
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub token: String,
 }
 
 /// Alternating squares of `size` in `fill` and `alt`, starting with `fill` at the top-left of
@@ -485,6 +510,8 @@ struct Resolved {
     /// Alias hops after the bound token, ending at the token that holds the value.
     chain: Vec<String>,
     relationship: Option<RelationshipRef>,
+    /// Set when the source is a `gradient`; `value` then holds its first stop's color.
+    gradient: Option<Gradient>,
 }
 
 /// A candidate token with the options and states its relationship pins.
@@ -1252,6 +1279,25 @@ impl<'a> CompileCx<'a> {
         (list, miss)
     }
 
+    /// Compile the sources of a `gradient` value source's stops, which bind colors and offsets
+    /// like any other prop.
+    fn compile_gradient(&self, entry: &mut Value) {
+        let Some(stops) = entry
+            .get_mut("gradient")
+            .and_then(|g| g.get_mut("stops"))
+            .and_then(Value::as_array_mut)
+        else {
+            return;
+        };
+        for stop in stops {
+            for key in ["color", "offset"] {
+                if let Some(source) = stop.get_mut(key) {
+                    self.compile_source("gradient", source);
+                }
+            }
+        }
+    }
+
     /// Compile every binding of every part (`props` and a placement `inset`), and embed the
     /// compiled recipe of every `component` part (see `compile_nested`).
     fn compile_parts(
@@ -1276,10 +1322,14 @@ impl<'a> CompileCx<'a> {
             if let Some(props) = part.get_mut("props").and_then(Value::as_object_mut) {
                 for (name, source) in props.iter_mut() {
                     match source {
-                        Value::Array(entries) => entries
-                            .iter_mut()
-                            .for_each(|e| self.compile_source(name, e)),
-                        other => self.compile_source(name, other),
+                        Value::Array(entries) => entries.iter_mut().for_each(|e| {
+                            self.compile_source(name, e);
+                            self.compile_gradient(e);
+                        }),
+                        other => {
+                            self.compile_source(name, other);
+                            self.compile_gradient(other);
+                        }
                     }
                 }
             }
@@ -1598,6 +1648,59 @@ impl Ctx<'_> {
         }
     }
 
+    /// The gradient a `gradient` value source describes. Every stop must resolve to a color
+    /// and an offset; otherwise the whole gradient is dropped with a diagnostic, so a part
+    /// never draws a gradient with a missing stop.
+    fn gradient(&mut self, spec: &Value) -> Option<Gradient> {
+        let end = |key: &str, default: [f64; 2]| -> [f64; 2] {
+            match spec.get(key).and_then(Value::as_array).map(Vec::as_slice) {
+                Some([x, y]) => [
+                    x.as_f64().unwrap_or(default[0]),
+                    y.as_f64().unwrap_or(default[1]),
+                ],
+                _ => default,
+            }
+        };
+        let mut stops = Vec::new();
+        for (i, stop) in spec.get("stops")?.as_array()?.iter().enumerate() {
+            let color = self.eval(stop.get("color"));
+            let offset = self
+                .eval(stop.get("offset"))
+                .and_then(|r| r.num())
+                .filter(|o| (0.0..=1.0).contains(o));
+            match (color, offset) {
+                (Some(c), Some(offset)) => stops.push(GradientStop {
+                    color: c.value,
+                    offset,
+                    token: c.token,
+                }),
+                _ => {
+                    self.diags.push(format!(
+                        "gradient stop {} needs a color and an offset from 0 to 1 that both resolve; drawing the plain fill",
+                        i + 1
+                    ));
+                    return None;
+                }
+            }
+        }
+        if stops.len() < 2 {
+            self.diags
+                .push("a gradient needs at least two stops; drawing the plain fill".into());
+            return None;
+        }
+        // Offsets must not decrease along the line.
+        if stops.windows(2).any(|w| w[1].offset < w[0].offset) {
+            self.diags
+                .push("gradient stop offsets must not decrease; drawing the plain fill".into());
+            return None;
+        }
+        Some(Gradient {
+            from: end("from", [0.0, 0.0]),
+            to: end("to", [1.0, 1.0]),
+            stops,
+        })
+    }
+
     /// A text part's copy: its `text.option` when that string option is set, else its
     /// `text.fraction` as a percentage, else the request label.
     fn text_of(&self, part: &Value, label: &str) -> String {
@@ -1650,6 +1753,18 @@ impl Ctx<'_> {
                 relative_to: Some("parent".into()),
                 chain: Vec::new(),
                 relationship: None,
+                gradient: None,
+            });
+        }
+        if let Some(spec) = chosen.get("gradient") {
+            let g = self.gradient(spec)?;
+            return Some(Resolved {
+                value: g.stops[0].color.clone(),
+                token: String::new(),
+                relative_to,
+                chain: Vec::new(),
+                relationship: None,
+                gradient: Some(g),
             });
         }
         if let Some(name) = chosen.get("option").and_then(Value::as_str) {
@@ -1661,6 +1776,7 @@ impl Ctx<'_> {
                     relative_to,
                     chain: Vec::new(),
                     relationship: None,
+                    gradient: None,
                 }),
                 _ => None,
             };
@@ -1674,6 +1790,7 @@ impl Ctx<'_> {
                     relative_to,
                     chain: Vec::new(),
                     relationship: None,
+                    gradient: None,
                 }),
                 None => {
                     if !v.is_null() {
@@ -1696,6 +1813,7 @@ impl Ctx<'_> {
                 relative_to,
                 chain: Vec::new(),
                 relationship: None,
+                gradient: None,
             });
         }
         let mut out = self.resolve_candidates(chosen);
@@ -1851,6 +1969,7 @@ impl Ctx<'_> {
                     .unwrap_or_default()
                     .to_string(),
             }),
+            gradient: None,
         })
     }
 }
@@ -2047,6 +2166,130 @@ fn css_color_alpha(s: &str) -> Option<f64> {
             Some((if p.ends_with('%') { a / 100.0 } else { a }).clamp(0.0, 1.0))
         }
     }
+}
+
+/// Split `s` at the commas outside parentheses.
+fn split_top_level(s: &str) -> Vec<&str> {
+    let (mut out, mut depth, mut start) = (Vec::new(), 0i32, 0);
+    for (i, c) in s.char_indices() {
+        match c {
+            '(' => depth += 1,
+            ')' => depth -= 1,
+            ',' if depth == 0 => {
+                out.push(s[start..i].trim());
+                start = i + 1;
+            }
+            _ => {}
+        }
+    }
+    out.push(s[start..].trim());
+    out
+}
+
+/// A CSS `linear-gradient(...)` a request can carry in an option read by an `option` value
+/// source, drawn over a `w` by `h` box. Reads an angle in `deg` or a `to` side or corner
+/// (default `180deg`), then two or more `<color> [<percentage>]` stops. A stop with no
+/// position is spread evenly between its neighbours. `None`: not that form, a stop color that
+/// is not a solid color, a position outside 0 through 100%, or positions that decrease.
+fn parse_css_linear_gradient(s: &str, w: f64, h: f64) -> Option<Gradient> {
+    let s = s.trim();
+    let body = s
+        .get(..16)
+        .filter(|p| p.eq_ignore_ascii_case("linear-gradient("))
+        .and_then(|_| s[16..].strip_suffix(')'))?;
+    let mut parts = split_top_level(body);
+    let first = parts.first()?.to_ascii_lowercase();
+    // The direction as a unit vector `(dx, dy)` with y down, 0deg pointing up.
+    let dir = if let Some(side) = first.strip_prefix("to ") {
+        let mut sides: Vec<&str> = side.split_whitespace().collect();
+        sides.sort_unstable();
+        let (dx, dy) = match sides.as_slice() {
+            ["top"] => (0.0, -1.0),
+            ["right"] => (1.0, 0.0),
+            ["bottom"] => (0.0, 1.0),
+            ["left"] => (-1.0, 0.0),
+            // A corner: the line is square to the diagonal through the other two corners.
+            ["right", "top"] => (h, -w),
+            ["bottom", "right"] => (h, w),
+            ["bottom", "left"] => (-h, w),
+            ["left", "top"] => (-h, -w),
+            _ => return None,
+        };
+        let n = dx.hypot(dy);
+        parts.remove(0);
+        (dx / n, dy / n)
+    } else if let Some(deg) = first.strip_suffix("deg") {
+        let a = deg.trim().parse::<f64>().ok()?.to_radians();
+        parts.remove(0);
+        (a.sin(), -a.cos())
+    } else {
+        (0.0, 1.0)
+    };
+    if parts.len() < 2 {
+        return None;
+    }
+    let mut stops: Vec<(String, Option<f64>)> = Vec::new();
+    for p in &parts {
+        // The position is the last word when it ends in `%`; the rest is the color.
+        let (color, pos) = match p.rsplit_once(char::is_whitespace) {
+            Some((c, last)) if last.ends_with('%') => (
+                c.trim(),
+                Some(last.trim_end_matches('%').parse::<f64>().ok()? / 100.0),
+            ),
+            _ => (*p, None),
+        };
+        css_color_alpha(color)?;
+        if pos.is_some_and(|v| !(0.0..=1.0).contains(&v)) {
+            return None;
+        }
+        stops.push((color.to_string(), pos));
+    }
+    // The first and last stops default to the ends; the rest spread between their neighbours.
+    let last = stops.len() - 1;
+    stops[0].1.get_or_insert(0.0);
+    stops[last].1.get_or_insert(1.0);
+    let mut i = 0;
+    while i < stops.len() {
+        if stops[i].1.is_some() {
+            i += 1;
+            continue;
+        }
+        let lo = stops[i - 1].1?;
+        let j = (i..stops.len()).find(|&j| stops[j].1.is_some())?;
+        let hi = stops[j].1?;
+        for (k, stop) in stops.iter_mut().enumerate().take(j).skip(i) {
+            stop.1 = Some(lo + (hi - lo) * (k - i + 1) as f64 / (j - i + 1) as f64);
+        }
+        i = j;
+    }
+    if stops
+        .windows(2)
+        .any(|p| p[1].1.unwrap_or(0.0) < p[0].1.unwrap_or(0.0))
+    {
+        return None;
+    }
+    // The gradient line runs through the center, as long as the box's extent along `dir`.
+    let half = (w * dir.0.abs() + h * dir.1.abs()) / 2.0;
+    // Rounded to a millionth, so a 90deg line is [0, 0.5] and not 0.49999999999999994.
+    let round = |v: f64| (v * 1e6).round() / 1e6;
+    let unit = |sign: f64| {
+        [
+            round(0.5 + sign * dir.0 * half / w.max(f64::EPSILON)),
+            round(0.5 + sign * dir.1 * half / h.max(f64::EPSILON)),
+        ]
+    };
+    Some(Gradient {
+        from: unit(-1.0),
+        to: unit(1.0),
+        stops: stops
+            .into_iter()
+            .map(|(color, pos)| GradientStop {
+                color,
+                offset: pos.unwrap_or(0.0),
+                token: String::new(),
+            })
+            .collect(),
+    })
 }
 
 /// Names of the options the parts' props read through an `option` value source.
@@ -2541,9 +2784,10 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             Some((_, Some(a))) if a <= 0.0 => dropped.push(name),
             Some((_, Some(_))) => {}
             Some((s, None)) if s.trim().is_empty() => dropped.push(name),
+            Some((s, None)) if parse_css_linear_gradient(s, 1.0, 1.0).is_some() => {}
             _ => {
                 diags.push(format!(
-                    "option '{name}' value {v} is not a solid color (hex, rgb(), rgba() or transparent); gradients and images are not drawn. Drawing the unset look"
+                    "option '{name}' value {v} is not a solid color (hex, rgb(), rgba() or transparent) or a linear-gradient() of them; images are not drawn. Drawing the unset look"
                 ));
                 dropped.push(name);
             }
@@ -2771,6 +3015,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         font_family: Option<String>,
         underline: Option<Underline>,
         pattern: Option<Pattern>,
+        gradient: Option<Gradient>,
         color: Option<String>,
         stroke: Option<String>,
         fill: Option<String>,
@@ -2852,6 +3097,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_family: None,
             underline: None,
             pattern: None,
+            gradient: None,
             color: color.map(|c| c.value),
             stroke: None,
             fill: None,
@@ -2898,6 +3144,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 track(&mut c.tokens, "fill", &bfill);
                 track(&mut c.tokens, "stroke", &bstroke);
                 track(&mut c.tokens, "strokeWidth", &bsw);
+                c.gradient = bfill.as_ref().and_then(|f| f.gradient.clone());
                 c.fill = bfill.map(|f| f.value);
                 c.stroke = bstroke.map(|s| s.value);
                 c.stroke_width = bsw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
@@ -2987,6 +3234,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                             rotation: None,
                             underline: None,
                             pattern: None,
+                            gradient: None,
                             stroke_opacity: None,
                             tokens: Vec::new(),
                         };
@@ -3073,6 +3321,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                 }
                                 node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
                                 node.h = nh.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                                node.gradient = nfill.as_ref().and_then(|f| f.gradient.clone());
                                 node.fill = nfill.map(|f| f.value);
                                 node.stroke = nstroke.map(|s| s.value);
                                 node.stroke_width =
@@ -3369,6 +3618,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         root_radius
     };
     let root_pattern = pattern_of(&mut cx, root, &mut container_tokens);
+    let root_gradient = fill.as_ref().and_then(|f| f.gradient.clone());
     let mut nodes = vec![SceneNode {
         part: root_id.into(),
         kind: "box".into(),
@@ -3392,6 +3642,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         rotation: None,
         underline: None,
         pattern: root_pattern,
+        gradient: root_gradient,
         tokens: container_tokens,
     }];
 
@@ -3554,6 +3805,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             font_family: c.font_family,
             underline: c.underline,
             pattern: c.pattern,
+            gradient: c.gradient,
             color: c.color,
             icon: None,
             rotation: None,
@@ -3662,6 +3914,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                     rotation: rot.as_ref().and_then(Resolved::num),
                     underline: None,
                     pattern: None,
+                    gradient: None,
                     stroke_opacity: None,
                     tokens,
                 });
@@ -3711,7 +3964,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 y: cy0 + inset,
                 w: w2,
                 h: h2,
-                fill: nfill.map(|f| f.value),
+                fill: nfill.as_ref().map(|f| f.value.clone()),
                 stroke: nstroke.map(|s| s.value),
                 stroke_width: nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0),
                 stroke_opacity: nso.as_ref().and_then(Resolved::num),
@@ -3727,6 +3980,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                 rotation: None,
                 underline: None,
                 pattern: None,
+                gradient: nfill.as_ref().and_then(|f| f.gradient.clone()),
                 tokens,
             });
         }
@@ -3763,6 +4017,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             rotation: None,
             underline: None,
             pattern: None,
+            gradient: None,
             stroke_opacity: None,
             tokens,
         });
@@ -3901,6 +4156,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             rotation: None,
             underline: None,
             pattern: None,
+            gradient: None,
             tokens,
         });
     }
@@ -3985,6 +4241,38 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     }
 
     nodes.extend(nested_out);
+
+    // A box whose fill came from an option holding a CSS `linear-gradient()`: it is laid out
+    // now, so the gradient line fits the box's own width and height.
+    for n in nodes
+        .iter_mut()
+        .filter(|n| n.kind == "box" && n.gradient.is_none())
+    {
+        if let Some(g) = n
+            .fill
+            .as_deref()
+            .and_then(|f| parse_css_linear_gradient(f, n.w, n.h))
+        {
+            n.fill = Some(g.stops[0].color.clone());
+            n.gradient = Some(g);
+        }
+    }
+    // The tokens a gradient's stop colors were bound to, for overlays and the SVG's data-tokens.
+    for n in nodes.iter_mut() {
+        let Some(g) = &n.gradient else { continue };
+        for (i, stop) in g.stops.iter().enumerate() {
+            let prop = format!("fill.stop{}", i + 1);
+            if !stop.token.is_empty() && !n.tokens.iter().any(|t| t.prop == prop) {
+                n.tokens.push(TokenRef {
+                    prop,
+                    token: stop.token.clone(),
+                    value: stop.color.clone(),
+                    chain: Vec::new(),
+                    relationship: None,
+                });
+            }
+        }
+    }
 
     Ok(Scene {
         component: req.component.clone(),
@@ -4105,6 +4393,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         rotation: None,
         underline: None,
         pattern: None,
+        gradient: None,
         stroke_opacity: None,
         tokens: Vec::new(),
     }
@@ -4389,6 +4678,34 @@ pub fn scene_to_svg(scene: &Scene) -> String {
         match n.kind.as_str() {
             "box" => {
                 let mut layers = vec![(attrs.clone(), n.fill.clone())];
+                if let Some(g) = &n.gradient {
+                    // The ends are in the box's unit space; the gradient is drawn in user space,
+                    // so its bands stay square to the line on a box that is not square.
+                    let (x1, y1) = (n.x + g.from[0] * n.w, n.y + g.from[1] * n.h);
+                    let (x2, y2) = (n.x + g.to[0] * n.w, n.y + g.to[1] * n.h);
+                    // The id names the whole definition (an FNV-1a hash of it and its box), so
+                    // SVGs inlined in one page share an id only when the definitions are identical.
+                    let key = format!("{g:?}|{x1}|{y1}|{x2}|{y2}")
+                        .bytes()
+                        .fold(0xcbf2_9ce4_8422_2325u64, |h, b| {
+                            (h ^ u64::from(b)).wrapping_mul(0x0100_0000_01b3)
+                        });
+                    let id = format!("gradient-{key:016x}");
+                    let _ = write!(
+                        s,
+                        "<defs><linearGradient id=\"{id}\" gradientUnits=\"userSpaceOnUse\" x1=\"{x1}\" y1=\"{y1}\" x2=\"{x2}\" y2=\"{y2}\">"
+                    );
+                    for stop in &g.stops {
+                        let _ = write!(
+                            s,
+                            "<stop offset=\"{}\" stop-color=\"{}\"/>",
+                            stop.offset,
+                            esc(&stop.color)
+                        );
+                    }
+                    s.push_str("</linearGradient></defs>");
+                    layers[0].1 = Some(format!("url(#{id})"));
+                }
                 if let Some(p) = &n.pattern {
                     // The id names the whole definition, so SVGs inlined in one page can share an id only
                     // when the definitions are identical.
@@ -4868,6 +5185,164 @@ mod tests {
         assert_eq!(ids.len(), 2, "two different boxes need two ids: {svg}");
         assert!(svg.contains("fill=\"url(#pattern-"), "{svg}");
         assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+    }
+
+    fn gradient_recipe(fill: Value) -> Value {
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "children": ["c"], "props": {
+                "width": { "value": 40 }, "height": { "value": 40 }, "fill": fill
+            } }, "c": { "kind": "box", "props": {
+                "width": { "value": 16 }, "height": { "value": 16 }, "fill": fill
+            } } }
+        })
+    }
+
+    fn literal_stops() -> Value {
+        serde_json::json!({ "gradient": { "from": [0.0, 0.0], "to": [1.0, 1.0], "stops": [
+            { "color": { "value": "#ff0000" }, "offset": { "value": 0 } },
+            { "color": { "value": "#0000ff" }, "offset": { "value": 0.5 } },
+            { "color": { "value": "#00ff00" }, "offset": { "value": 1 } }
+        ] } })
+    }
+
+    #[test]
+    fn a_gradient_source_draws_a_linear_gradient_with_a_solid_fallback() {
+        let scene = solve_width(&gradient_recipe(literal_stops()), None);
+        for part in ["r", "c"] {
+            let n = scene.nodes.iter().find(|n| n.part == part).unwrap();
+            let g = n
+                .gradient
+                .as_ref()
+                .unwrap_or_else(|| panic!("{part}: no gradient"));
+            assert_eq!((g.from, g.to), ([0.0, 0.0], [1.0, 1.0]));
+            assert_eq!(
+                g.stops
+                    .iter()
+                    .map(|s| (s.color.as_str(), s.offset))
+                    .collect::<Vec<_>>(),
+                [("#ff0000", 0.0), ("#0000ff", 0.5), ("#00ff00", 1.0)]
+            );
+            assert_eq!(n.fill.as_deref(), Some("#ff0000"));
+        }
+        let svg = scene_to_svg(&scene);
+        assert_eq!(svg.matches("<linearGradient ").count(), 2, "{svg}");
+        assert!(svg.contains("fill=\"url(#gradient-"), "{svg}");
+        assert!(
+            svg.contains("<stop offset=\"0.5\" stop-color=\"#0000ff\"/>"),
+            "{svg}"
+        );
+        assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+    }
+
+    #[test]
+    fn a_gradient_with_a_stop_that_does_not_resolve_is_dropped() {
+        let bad = serde_json::json!({ "gradient": { "stops": [
+            { "color": { "value": "#ff0000" }, "offset": { "value": 0 } },
+            { "color": { "option": "unset" }, "offset": { "value": 1 } }
+        ] } });
+        let scene = solve_width(&gradient_recipe(bad), None);
+        assert!(scene.nodes.iter().all(|n| n.gradient.is_none()));
+        assert!(
+            scene
+                .diagnostics
+                .iter()
+                .any(|d| d.contains("gradient stop 2")),
+            "{:?}",
+            scene.diagnostics
+        );
+        let down = serde_json::json!({ "gradient": { "stops": [
+            { "color": { "value": "#ff0000" }, "offset": { "value": 0.8 } },
+            { "color": { "value": "#0000ff" }, "offset": { "value": 0.2 } }
+        ] } });
+        let scene = solve_width(&gradient_recipe(down), None);
+        assert!(scene.nodes.iter().all(|n| n.gradient.is_none()));
+        assert!(scene
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("must not decrease")));
+    }
+
+    #[test]
+    fn a_css_gradient_in_an_option_fits_the_box() {
+        let (g, _) = load();
+        let recipe = gradient_recipe(serde_json::json!({ "option": "preview" }));
+        let mut r = req(&[]);
+        r.options.insert(
+            "preview".into(),
+            "linear-gradient(90deg, rgb(255, 0, 0), #00f 50%, #0f0)".into(),
+        );
+        let scene = build_scene(&g, &recipe, &r).unwrap();
+        assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+        let n = &scene.nodes[0];
+        let gr = n.gradient.as_ref().expect("gradient");
+        let close = |a: [f64; 2], b: [f64; 2]| a.iter().zip(b).all(|(x, y)| (x - y).abs() < 1e-9);
+        assert!(
+            close(gr.from, [0.0, 0.5]) && close(gr.to, [1.0, 0.5]),
+            "{gr:?}"
+        );
+        assert_eq!(
+            gr.stops.iter().map(|s| s.offset).collect::<Vec<_>>(),
+            [0.0, 0.5, 1.0]
+        );
+        assert_eq!(n.fill.as_deref(), Some("rgb(255, 0, 0)"));
+        r.options
+            .insert("preview".into(), "linear-gradient(red, nope)".into());
+        let scene = build_scene(&g, &recipe, &r).unwrap();
+        assert!(scene.nodes.iter().all(|n| n.gradient.is_none()));
+        assert!(scene
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("not a solid color")));
+    }
+
+    #[test]
+    fn css_linear_gradients_parse_angles_corners_and_missing_positions() {
+        let close = |a: [f64; 2], b: [f64; 2]| a.iter().zip(b).all(|(x, y)| (x - y).abs() < 1e-9);
+        let p = |s: &str, w: f64, h: f64| parse_css_linear_gradient(s, w, h);
+        // Default direction is to the bottom; positions spread evenly.
+        let g = p("linear-gradient(#000, #111, #222, #333)", 10.0, 10.0).unwrap();
+        assert!(close(g.from, [0.5, 0.0]) && close(g.to, [0.5, 1.0]));
+        let offs: Vec<f64> = g.stops.iter().map(|s| s.offset).collect();
+        assert!(offs
+            .iter()
+            .zip([0.0, 1.0 / 3.0, 2.0 / 3.0, 1.0])
+            .all(|(a, b)| (a - b).abs() < 1e-9));
+        // A 90deg line across a wide box runs the full width.
+        let g = p("linear-gradient(90deg, #000, #fff)", 20.0, 10.0).unwrap();
+        assert!(close(g.from, [0.0, 0.5]) && close(g.to, [1.0, 0.5]));
+        // Corner keywords run corner to corner on a square.
+        let g = p("linear-gradient(to bottom right, #000, #fff)", 10.0, 10.0).unwrap();
+        assert!((g.from[0]).abs() < 1e-9 && (g.from[1]).abs() < 1e-9);
+        assert!((g.to[0] - 1.0).abs() < 1e-9 && (g.to[1] - 1.0).abs() < 1e-9);
+        // Not drawable: one stop, a bad color, positions that go back, no function.
+        for bad in [
+            "linear-gradient(#000)",
+            "linear-gradient(#000, nope)",
+            "linear-gradient(#000 80%, #fff 20%)",
+            "radial-gradient(#000, #fff)",
+            "#000",
+        ] {
+            assert!(p(bad, 10.0, 10.0).is_none(), "{bad}");
+        }
+    }
+
+    #[test]
+    fn an_angled_css_gradient_on_a_wide_box_runs_at_that_angle_in_pixels() {
+        let g =
+            parse_css_linear_gradient("linear-gradient(45deg, #000, #fff)", 20.0, 10.0).unwrap();
+        // In pixels the line is 45deg, whatever the box's shape: equal and opposite components.
+        let (dx, dy) = ((g.to[0] - g.from[0]) * 20.0, (g.to[1] - g.from[1]) * 10.0);
+        assert!((dx + dy).abs() < 1e-3 && (dx - 15.0).abs() < 1e-3, "{g:?}");
+        // The line is as long as the box is along that direction: (20 + 10) * sin(45deg).
+        assert!((dx.hypot(dy) - 30.0 * 45f64.to_radians().sin()).abs() < 1e-3);
+        // The SVG draws it in user space, so the bands are not skewed with the box.
+        let mut scene = solve_width(&gradient_recipe(literal_stops()), None);
+        scene.nodes[0].gradient = Some(g);
+        scene.nodes[0].w = 20.0;
+        scene.nodes[0].h = 10.0;
+        let svg = scene_to_svg(&scene);
+        assert!(svg.contains("gradientUnits=\"userSpaceOnUse\""), "{svg}");
     }
 
     #[test]

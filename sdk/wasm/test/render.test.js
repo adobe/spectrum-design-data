@@ -199,7 +199,7 @@ test("a swatch reads its preview color, draws a translucent border and a selecti
     const bad = JSON.parse(
       ds.renderScene(
         recipe,
-        requestFor("swatch", { preview: "linear-gradient(red, blue)" }),
+        requestFor("swatch", { preview: "radial-gradient(#f00, #00f)" }),
       ),
     );
     t.true(bad.diagnostics.some((d) => d.includes("not a solid color")));

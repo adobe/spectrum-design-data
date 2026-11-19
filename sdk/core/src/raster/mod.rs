@@ -25,7 +25,7 @@ use crate::visual::{icon_fit, Scene, SceneNode};
 use canvas::{parse_color, Canvas, Rgba};
 use font::{contour_polygon, Font};
 use serde_json::Value;
-use shape::{paint, rrect_sdf, Paint, Xf};
+use shape::{paint, paint_with, rrect_sdf, Paint, Xf};
 
 /// Pixels allowed in one image, so a bad `scale` cannot allocate without bound.
 const MAX_PIXELS: f64 = 64.0e6;
@@ -234,6 +234,50 @@ fn checker_sdf(u: f64, v: f64, size: f64) -> f64 {
     }
 }
 
+/// The color of `g` at the scene point `(x, y)` of the box `(bx, by, bw, bh)`: the point's
+/// projection on the gradient line, in pixels, picks the segment, and the two stops' colors mix
+/// (not premultiplied, as SVG does). Working in pixels keeps the bands square to the line.
+fn gradient_color(
+    g: &crate::visual::Gradient,
+    stops: &[(f64, Rgba)],
+    (bx, by, bw, bh): (f64, f64, f64, f64),
+    (x, y): (f64, f64),
+) -> Rgba {
+    let (fx, fy) = (bx + g.from[0] * bw, by + g.from[1] * bh);
+    let (dx, dy) = (bx + g.to[0] * bw - fx, by + g.to[1] * bh - fy);
+    let len2 = dx * dx + dy * dy;
+    let t = if len2 > 0.0 {
+        (((x - fx) * dx + (y - fy) * dy) / len2).clamp(0.0, 1.0)
+    } else {
+        0.0
+    };
+    let (first, last) = (stops[0], stops[stops.len() - 1]);
+    if t <= first.0 {
+        return first.1;
+    }
+    if t >= last.0 {
+        return last.1;
+    }
+    let i = stops
+        .iter()
+        .rposition(|s| s.0 <= t)
+        .unwrap_or(0)
+        .min(stops.len() - 2);
+    let ((o0, c0), (o1, c1)) = (stops[i], stops[i + 1]);
+    let k = if o1 > o0 {
+        ((t - o0) / (o1 - o0)) as f32
+    } else {
+        1.0
+    };
+    let mix = |a: f32, b: f32| a + (b - a) * k;
+    Rgba {
+        r: mix(c0.r, c1.r),
+        g: mix(c0.g, c1.g),
+        b: mix(c0.b, c1.b),
+        a: mix(c0.a, c1.a),
+    }
+}
+
 fn corner_radii(n: &SceneNode) -> [f64; 4] {
     n.radii.unwrap_or([n.radius; 4])
 }
@@ -249,7 +293,30 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
     let bounds = |pad: f64| (n.x - pad, n.y - pad, n.x + n.w + pad, n.y + n.h + pad);
     match n.kind.as_str() {
         "box" => {
-            if let Some(c) = color_of(n.fill.as_deref(), "fill", &n.part, diags) {
+            let gradient = n.gradient.as_ref().and_then(|g| {
+                let stops: Option<Vec<(f64, Rgba)>> = g
+                    .stops
+                    .iter()
+                    .map(|s| {
+                        Some((
+                            s.offset,
+                            color_of(Some(s.color.as_str()), "gradient", &n.part, diags)?,
+                        ))
+                    })
+                    .collect();
+                Some((g, stops?))
+            });
+            if let Some((g, stops)) = gradient {
+                let r = corner_radii(n);
+                paint_with(
+                    cv,
+                    xf,
+                    bounds(0.0),
+                    Paint::Fill,
+                    |x, y| rrect_sdf(x, y, n.x, n.y, n.w, n.h, r),
+                    |x, y| gradient_color(g, &stops, (n.x, n.y, n.w, n.h), (x, y)),
+                );
+            } else if let Some(c) = color_of(n.fill.as_deref(), "fill", &n.part, diags) {
                 let r = corner_radii(n);
                 paint(cv, xf, bounds(0.0), c, Paint::Fill, |x, y| {
                     rrect_sdf(x, y, n.x, n.y, n.w, n.h, r)
@@ -576,6 +643,7 @@ mod tests {
             rotation: None,
             underline: None,
             pattern: None,
+            gradient: None,
             stroke_opacity: None,
             tokens: vec![],
         }
@@ -625,6 +693,34 @@ mod tests {
         assert_eq!(at(&img, 2, 12), [0, 0, 0, 0]);
         assert_eq!(at(&img, 4, 12), [255, 0, 0, 255]);
         assert!(d.is_empty());
+    }
+
+    #[test]
+    fn a_gradient_mixes_its_stops_along_the_line() {
+        let color = |s: &str| parse_color(s).unwrap();
+        let stops = [
+            (0.0, color("#ff0000")),
+            (0.5, color("#0000ff")),
+            (1.0, color("#00ff00")),
+        ];
+        let g = crate::visual::Gradient {
+            from: [0.0, 0.5],
+            to: [1.0, 0.5],
+            stops: Vec::new(),
+        };
+        let at = |u: f64, v: f64| gradient_color(&g, &stops, (0.0, 0.0, 1.0, 1.0), (u, v));
+        // The ends and the middle stop are the stops; a quarter is half way to the next one.
+        assert_eq!((at(0.0, 0.5).r, at(0.0, 0.5).b), (1.0, 0.0));
+        assert_eq!((at(0.5, 0.0).b, at(0.5, 1.0).b), (1.0, 1.0));
+        assert_eq!((at(1.0, 0.5).g, at(1.0, 0.5).r), (1.0, 0.0));
+        let q = at(0.25, 0.5);
+        assert!(
+            (q.r - 0.5).abs() < 1e-6 && (q.b - 0.5).abs() < 1e-6,
+            "{q:?}"
+        );
+        // Outside the line the end colors hold.
+        assert_eq!(at(-3.0, 0.5).r, 1.0);
+        assert_eq!(at(9.0, 0.5).g, 1.0);
     }
 
     #[test]
