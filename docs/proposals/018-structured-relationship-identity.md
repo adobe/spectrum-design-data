@@ -2,7 +2,7 @@
 
 # Proposal 018: Name a relationship by its part or its gap, not its `context` string
 
-**Status:** Draft. A spike on switch and checkbox is built on `spike/structured-ctr` (based on `feat/retire-token-bindings`, PR 1948). Nothing else is migrated. Breaking changes and a large migration are accepted for this proposal. A change to `@adobe/spectrum-tokens` is not (see [Constraint](#constraint-no-change-to-adobespectrum-tokens)).\
+**Status:** Draft. Direction updated 2026-11-19 (see [Direction](#direction-2026-11-19)); open questions remain. A spike on switch and checkbox is built on `spike/structured-ctr` (based on `feat/retire-token-bindings`, PR 1948). Nothing else is migrated. Breaking changes and a large migration are accepted for this proposal. A change to `@adobe/spectrum-tokens` is not (see [Constraint](#constraint-no-change-to-adobespectrum-tokens)).\
 **Affects:** `packages/design-data-spec/spec/relationship-format.md` (Context), `spec/component-visuals.md` (relationship binding), `schemas/component-visual.schema.json`, `registry/relationship-contexts.json`, rules SPEC-062, 066, 071, 090, 092, 093, `sdk/core/src/visual.rs`, `sdk/core/src/scope.rs`, `sdk/cli/src/spec_sheet.rs`, 4,702 relationship records with a `context`, 389 `context` strings in recipes.\
 **Beads:** `qkj5.245` (this proposal). Epic `qkj5`.
 
@@ -162,6 +162,8 @@ What did not work, or surprised me:
 
 ## Direction (2026-11-19)
 
+**Where this section conflicts with the sections above, it overrides them.** In particular, `contextRole` and `contextQualifier` are not live selector or identity inputs (the role vocabulary and qualifier steps below describe the migration path, not the end state), and the owner-part rule is under review (open question 8).
+
 These points refine the proposal and follow the shared [data principles](../../.ai/rules/data-principles.md). They are the stated direction, not new measurements.
 
 * **Root part.** While a component migrates, a record that describes the component as a whole names an explicit root part. Once the component reaches the structured-identity level, the root part is implicit and omitted.
@@ -170,7 +172,7 @@ These points refine the proposal and follow the shared [data principles](../../.
 * **`contextQualifier` is retired.** Its content moves to `options`, `between`, or a recorded decision.
 * **Authored labels are debt.** Labels are generated from identity where possible, and spec-sheet block ids come from identity, not from the label string.
 * **Decision references stay out of published data.** Beads list the affected record UUIDs; records do not point at beads.
-* **Legacy and Figma names are generated outputs** of the name object (principle 6). Hand-written pins are counted migration debt.
+* **Legacy and Figma names are generated outputs** of the name object (principle 6). Hand-written names and `legacyKey` pins are counted migration debt, and each migration step should report how many remain.
 
 ## Deprecation sequence
 
