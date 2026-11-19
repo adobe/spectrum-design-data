@@ -593,6 +593,19 @@ enum Commands {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Report how far each component has moved to the structured data system: levels L1 to L4,
+    /// computed from the data (anatomy reviewed, structured identity, structured recipe, clean labels)
+    Status {
+        /// Show only this component
+        #[arg(value_name = "COMPONENT")]
+        component: Option<String>,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(long, value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Suggest existing tokens that match a natural-language intent string
     Suggest {
         /// Natural-language intent (e.g. "accent background hover")
@@ -4805,6 +4818,62 @@ fn purpose_summary(s: &specificity::Specificity) -> String {
     }
 }
 
+fn run_status(
+    component: Option<&str>,
+    path: Option<PathBuf>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let (graph, _, _) = load_visual_env(path, None, true)?;
+    let mut report = design_data_core::status::status_report(&graph);
+    if let Some(c) = component {
+        report.retain(|s| s.component == c);
+        if report.is_empty() {
+            eprintln!("No component found for {c:?}");
+            return Ok(ExitCode::from(1));
+        }
+    }
+    if matches!(format, OutputFormat::Json) {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&report).into_diagnostic()?
+        );
+        return Ok(ExitCode::SUCCESS);
+    }
+    let mut by_level = [0usize; 5];
+    for s in &report {
+        by_level[s.level as usize] += 1;
+    }
+    println!(
+        "{:<28} {:>5}  {:<8} {:>9} {:>9} {:>9} {:>9} {:>9}",
+        "component", "level", "anatomy", "no part", "collide", "prop", "selector", "labels"
+    );
+    for s in &report {
+        println!(
+            "{:<28} {:>5}  {:<8} {:>9} {:>9} {:>9} {:>9} {:>9}",
+            s.component,
+            format!("L{}", s.level),
+            s.anatomy,
+            s.unstructured_records,
+            s.colliding_identities,
+            s.structured_property_records,
+            if s.has_recipe {
+                s.context_selectors.to_string()
+            } else {
+                "-".into()
+            },
+            s.label_debt_records
+        );
+    }
+    println!(
+        "\nComponents by level: {}",
+        (0..=4)
+            .map(|l| format!("L{l}: {}", by_level[l]))
+            .collect::<Vec<_>>()
+            .join(", ")
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_refinements(
     reference: &str,
     explicit_path: Option<&Path>,
@@ -5556,6 +5625,11 @@ fn main() -> ExitCode {
         Commands::Catalog { sub } => match sub {
             CatalogSub::Export { out } => run_catalog_export(&out),
         },
+        Commands::Status {
+            component,
+            path,
+            format,
+        } => run_status(component.as_deref(), path, format),
         Commands::Refinements {
             token,
             path,
