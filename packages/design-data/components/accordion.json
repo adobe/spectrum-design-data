@@ -127,8 +127,14 @@
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "The accordion itself: a column of accordion items. It is the root and sets the width and minimum width; the items fill it.",
+      "required": true,
+      "contains": ["accordion-item"]
+    },
+    {
       "name": "accordion-item",
-      "description": "One accordion item: a header, the content area while open, and the divider below. It is the root and sets the width; the accordion is a stack of these.",
+      "description": "One accordion item: a header, the content area while open, and the divider below. It repeats once per entry of the items option and fills the container's width.",
       "required": true,
       "contains": ["header", "content", "divider", "focus-indicator"]
     },
@@ -178,7 +184,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web accordion page, React Spectrum S2 Accordion and SWC gen2 swc-accordion. item renamed accordion-item (all three sources and the registry). It stays the root: the recipe root must be a top-level anatomy part and a repeated recipe draws one item per copy, so a container part above it cannot be drawn yet (width and minimum width stay on accordion-item, as React Spectrum puts minWidth). direct-actions renamed actions (registry term; SWC slot actions); it stays a part because the recipe lays it out as a row. No trigger-button part: the button React Spectrum and SWC wrap around chevron and title is not a layer in Figma, so rounding and background sit on accordion-item. disclosure-icon kept (picker uses it). focus-indicator is state-only. Divider kept as a part (Figma Divider instance); small-divider removed from the registry. actions group kept as a layout/slot part (row with its own gap); relies on the anatomy-format amendment tracked in spectrum-design-data-5m92.8."
+    "notes": "Figma S2 Web accordion page, React Spectrum S2 Accordion and SWC gen2 swc-accordion. item renamed accordion-item (all three sources and the registry). The container part is the recipe root and repeats accordion-item once per entry; it owns the Width (default) and minimum-width records and the items fill it (React Spectrum puts minWidth on the item and has no styled container, so that is a Figma-frame reading). direct-actions renamed actions (registry term; SWC slot actions); it stays a part because the recipe lays it out as a row. No trigger-button part: the button React Spectrum and SWC wrap around chevron and title is not a layer in Figma, so rounding and background sit on accordion-item. disclosure-icon kept (picker uses it). focus-indicator is state-only. Divider kept as a part (Figma Divider instance); small-divider removed from the registry. actions group kept as a layout/slot part (row with its own gap); relies on the anatomy-format amendment tracked in spectrum-design-data-5m92.8."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

@@ -40,8 +40,13 @@ impl ValidationRule for Rule {
             let Some(parts) = v.raw.get("parts").and_then(Value::as_object) else {
                 continue;
             };
+            // The part a container repeats is solved as the root of its own copy.
+            let repeated = root
+                .and_then(|r| parts.get(r))
+                .and_then(|r| r.pointer("/repeat/part"))
+                .and_then(Value::as_str);
             for (id, part) in parts {
-                let is_root = Some(id.as_str()) == root;
+                let is_root = Some(id.as_str()) == root || Some(id.as_str()) == repeated;
                 let role = part_role(part, is_root);
                 let Some(props) = part.get("props").and_then(Value::as_object) else {
                     continue;

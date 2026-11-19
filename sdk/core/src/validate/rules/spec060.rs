@@ -153,6 +153,31 @@ impl ValidationRule for Rule {
                         ));
                     }
                 }
+                if let Some(named) = part.pointer("/repeat/part").and_then(Value::as_str) {
+                    let path = format!("/parts/{key}/repeat/part");
+                    let is_child = part
+                        .get("children")
+                        .and_then(Value::as_array)
+                        .is_some_and(|c| c.iter().any(|c| c.as_str() == Some(named)));
+                    if !is_child {
+                        out.push(error(
+                            self.id(),
+                            v,
+                            &path,
+                            format!(
+                                "Part '{key}' repeats '{named}', which is not one of its children"
+                            ),
+                        ));
+                    }
+                    if v.raw.get("root").and_then(Value::as_str) != Some(key.as_str()) {
+                        out.push(error(
+                            self.id(),
+                            v,
+                            &path,
+                            format!("Part '{key}' declares repeat but is not the root; repeat is declared on the root part"),
+                        ));
+                    }
+                }
                 for field in ["around", "pressTarget"] {
                     let Some(target) = part.get(field).and_then(Value::as_str) else {
                         continue;
@@ -233,6 +258,23 @@ mod tests {
             "icon": {},
             "label": {"around": "focus-ring"}
         }})
+    }
+
+    #[test]
+    fn repeat_names_a_child_of_the_root() {
+        let mut r = valid();
+        r["parts"]["container"]["repeat"] = json!({"part": "icon", "option": "items"});
+        assert!(run(r.clone()).is_empty());
+        r["parts"]["container"]["repeat"] = json!({"part": "label2", "option": "items"});
+        assert_eq!(run(r.clone()).len(), 1);
+        r["parts"]["container"]["repeat"] = json!({"part": "container", "option": "items"});
+        assert_eq!(run(r.clone()).len(), 1);
+        r["parts"]["container"]
+            .as_object_mut()
+            .unwrap()
+            .remove("repeat");
+        r["parts"]["icon"]["repeat"] = json!({"part": "label", "option": "items"});
+        assert_eq!(run(r).len(), 2);
     }
 
     #[test]

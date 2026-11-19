@@ -2,25 +2,25 @@
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
   "specVersion": "1.0.0-draft",
   "component": "accordion",
-  "root": "accordion-item",
+  "root": "container",
   "sizeScale": { "s": 100, "m": 200, "l": 300, "xl": 400 },
   "notVisual": ["isMultiple", "down"],
-  "repeat": {
-    "option": "items",
-    "label": "label",
-    "with": {
-      "isOpen": "isExpanded",
-      "hasSwitch": "hasSwitch",
-      "hasActionButton": "hasActionButton"
-    }
-  },
   "parts": {
-    "accordion-item": {
+    "container": {
       "kind": "box",
-      "children": ["header", "content", "divider"],
+      "children": ["accordion-item"],
+      "repeat": {
+        "part": "accordion-item",
+        "option": "items",
+        "label": "label",
+        "with": {
+          "isOpen": "isExpanded",
+          "hasSwitch": "hasSwitch",
+          "hasActionButton": "hasActionButton"
+        }
+      },
       "props": {
         "direction": { "value": "column" },
-        "align": { "value": "start" },
         "width": [
           {
             "when": {
@@ -53,7 +53,15 @@
               "context": "Width (default)"
             }
           }
-        ],
+        ]
+      }
+    },
+    "accordion-item": {
+      "kind": "box",
+      "children": ["header", "content", "divider"],
+      "props": {
+        "direction": { "value": "column" },
+        "align": { "value": "start" },
         "fill": [
           {
             "when": { "states": ["hover"] },

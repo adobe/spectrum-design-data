@@ -32,33 +32,6 @@
       "uniqueItems": true,
       "description": "Options and states the component declares that deliberately have no visual in this recipe (SPEC-066). Each name MUST be a declared option or state of the component."
     },
-    "repeat": {
-      "type": "object",
-      "description": "Draw the root once per entry of an array option, stacked in a column (spec/component-visuals.md, Repeated roots).",
-      "required": ["option"],
-      "properties": {
-        "option": {
-          "type": "string",
-          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
-          "description": "A declared array option of the component, such as `items`."
-        },
-        "label": {
-          "type": "string",
-          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
-          "description": "Field of each entry that holds the copy's label."
-        },
-        "with": {
-          "type": "object",
-          "propertyNames": { "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" },
-          "additionalProperties": {
-            "type": "string",
-            "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
-          },
-          "description": "Maps a component option to the entry field that sets it for that copy."
-        }
-      },
-      "additionalProperties": false
-    },
     "sizeScale": {
       "type": "object",
       "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors. Selectors may also use {size} and {<option>} for any declared option.",
@@ -228,6 +201,38 @@
         "visibleWhen": {
           "$ref": "#/$defs/condition"
         },
+        "repeat": {
+          "type": "object",
+          "description": "For the root (the container): draw the child `part` once per entry of an array option (spec/component-visuals.md, Repeated parts).",
+          "required": ["part", "option"],
+          "properties": {
+            "part": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]*$",
+              "description": "The direct child of this part that repeats. Never the root."
+            },
+            "option": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+              "description": "A declared array option of the component, such as `items`."
+            },
+            "label": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+              "description": "Field of each entry that holds the copy's label."
+            },
+            "with": {
+              "type": "object",
+              "propertyNames": { "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" },
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+              },
+              "description": "Maps a component option to the entry field that sets it for that copy."
+            }
+          },
+          "additionalProperties": false
+        },
         "around": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
@@ -377,9 +382,24 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "position": {
+          "description": "Allowed positions of a repeated copy: first, middle, last, only (spec/component-visuals.md, Position conditions). Only valid on the repeated part and the parts inside it (SPEC-061).",
+          "oneOf": [
+            { "$ref": "#/$defs/position" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/position" }
+            }
+          ]
         }
       },
       "additionalProperties": false
+    },
+    "position": {
+      "enum": ["first", "middle", "last", "only"]
     },
     "valueSource": {
       "type": "object",

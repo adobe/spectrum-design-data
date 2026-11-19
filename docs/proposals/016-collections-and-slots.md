@@ -3,7 +3,7 @@
 # Proposal 016: Collections in visual recipes, and slots later
 
 **Status:** Part A (collections) built with the accordion in this change. Part B (slots) is a direction only; it needs the Spectrum team.\
-**Affects:** `sdk/core/src/visual.rs` (`solve`), `packages/design-data-spec/schemas/component-visual.schema.json`, `spec/component-visuals.md` (Repeated roots), `packages/design-data/visuals/accordion.json`\
+**Affects:** `sdk/core/src/visual.rs` (`solve`), `packages/design-data-spec/schemas/component-visual.schema.json`, `spec/component-visuals.md` (Repeated parts), `packages/design-data/visuals/accordion.json`\
 **Beads:** `p6ga.11.3` (accordion container, this change), `p6ga.11.4` (slots), `p6ga.20` (other collection components). Rules on `qkj5.71` (per-item open state).
 
 ## Problem
@@ -23,19 +23,24 @@ Our component data already treats an item as anatomy of the collection (`tab-ite
 
 ## Part A: collections (built)
 
-A recipe declares `repeat`:
+The container part declares `repeat`, naming the child that repeats (the item does not know it is repeated):
 
 ```json
-"repeat": {
-  "option": "items",
-  "label": "label",
-  "with": { "isOpen": "isExpanded", "hasSwitch": "hasSwitch", "hasActionButton": "hasActionButton" }
+"container": {
+  "kind": "box",
+  "children": ["accordion-item"],
+  "repeat": {
+    "part": "accordion-item",
+    "option": "items",
+    "label": "label",
+    "with": { "isOpen": "isExpanded", "hasSwitch": "hasSwitch", "hasActionButton": "hasActionButton" }
+  }
 }
 ```
 
 * The renderer solves one request per entry. Container options reach every copy; an entry's fields (named by `with`, and `label`) override them. This is the S2 context model.
-* The copies stack in a column, flush, at the widest copy's width. Node ids are `<root>-<n>` and `<root>-<n>.<part>`, the scheme nested recipes already use.
-* No entries means one plain root with ids unchanged, so existing renders and goldens do not change.
+* Each copy is solved as its own root and placed as a flowed child of the container, so the container's `direction`, `gap` and padding apply. A container with a fixed width makes its copies fill it; a container with no width hugs them. Node ids are `<part>-<n>` and `<part>-<n>.<inner>`, the scheme nested recipes already use; a single copy keeps plain ids.
+* No entries means one plain copy.
 * **Why in the recipe, not on the component option.** The solver sees only the compiled variant, never the component data, and the browser engine is the same code. The option already carries the item fields; the recipe says how to draw them.
 * **No `accordion-item` component.** It would contradict the anatomy precedent and rename token owners, while the platforms' container/item split is already expressed by `items[]` plus anatomy.
 
@@ -43,7 +48,7 @@ Accordion keeps `isOpen`, `hasActionButton` and `hasSwitch` as options for a sin
 
 ### Known gaps
 
-* Figma draws a divider above the first item. The recipe has no container part, so it is not drawn.
+* Figma draws a divider above the first item. Position conditions (`when.position`) now let a recipe say "first" or "last".
 * Entry fields are not checked against the option's item schema.
 * Request states (hover, down) apply to every copy.
 * The spec-sheet markers and the explorer's Anatomy view look up plain part names; with `items` set they see `item-1.title` and so on.

@@ -735,7 +735,8 @@ rules:
       be a declared anatomy part. `root` MUST be a recipe part and a top-level anatomy part
       (listed in no other part's `contains`). Each part's `children` MUST be recipe parts and
       appear in that anatomy part's `contains`. `around` MUST name a declared anatomy part;
-      `pressTarget` MUST name a declared anatomy part that is also a recipe part.
+      `pressTarget` MUST name a declared anatomy part that is also a recipe part. A part's
+      `repeat.part` MUST be one of that part's `children`, and only the root declares `repeat`.
     message: "Recipe part '{part}' is not a declared anatomy part of '{component}'"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"
@@ -751,7 +752,8 @@ rules:
       requires a boolean). Every `when.states` / `visibleWhen.states` entry MUST be the `name`
       of a state declared by the component. Every `{name}` placeholder in a `token` or
       `relationship` selector MUST be `size`, `sizeIndex` or an option of the component that
-      declares `values`.
+      declares `values`. A `position` condition MUST list only `first`, `middle`, `last` or `only`,
+      and MUST appear only on a part a root's `repeat` names or a part inside it.
     message: "Option '{option}' of '{component}' has no value {value}"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"
