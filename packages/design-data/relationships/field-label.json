@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-height-75"
     },
     "context": "Minimum height",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-height-75"
     },
     "context": "Minimum height",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-height-100"
     },
     "context": "Minimum height",
@@ -32,6 +35,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-height-100"
     },
     "context": "Minimum height",
@@ -42,6 +46,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-height-200"
     },
     "context": "Minimum height",
@@ -52,6 +57,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-height-200"
     },
     "context": "Minimum height",
@@ -62,6 +68,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-height-300"
     },
     "context": "Minimum height",
@@ -72,6 +79,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-height-300"
     },
     "context": "Minimum height",
@@ -82,6 +90,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-small"
     },
     "context": "Spacing (label to asterisk icon)",
@@ -93,6 +102,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-medium"
     },
     "context": "Spacing (label to asterisk icon)",
@@ -104,6 +114,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-large"
     },
     "context": "Spacing (label to asterisk icon)",
@@ -115,6 +126,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-extra-large"
     },
     "context": "Spacing (label to asterisk icon)",
@@ -126,6 +138,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-small"
     },
     "context": "Spacing (top edge to asterisk icon)",
@@ -137,6 +150,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-medium"
     },
     "context": "Spacing (top edge to asterisk icon)",
@@ -148,6 +162,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-large"
     },
     "context": "Spacing (top edge to asterisk icon)",
@@ -159,6 +174,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-extra-large"
     },
     "context": "Spacing (top edge to asterisk icon)",
@@ -170,6 +186,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -181,6 +198,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -192,6 +210,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -203,6 +222,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -214,6 +234,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -225,6 +246,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -236,6 +258,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -247,6 +270,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -258,8 +282,11 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "size",
-      "options": { "size": ["s", "m"] }
+      "options": {
+        "size": ["s", "m"]
+      }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "d04b37cc-2c35-49af-9e92-9993264e405a",
@@ -268,8 +295,11 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "size",
-      "options": { "size": ["s", "m"] }
+      "options": {
+        "size": ["s", "m"]
+      }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "f6f11ca3-b78b-4207-868f-f834c19e8d3d",
@@ -278,8 +308,11 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "size",
-      "options": { "size": "l" }
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "49892fb4-a9df-4882-a656-7f9ffb9558bc",
@@ -288,8 +321,11 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "size",
-      "options": { "size": "l" }
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "3f1b200b-d341-41e4-ae7b-c981ccb492f7",
@@ -298,8 +334,11 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "size",
-      "options": { "size": "xl" }
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "93506e7b-f388-4cf8-bd73-e7d96da935d5",
@@ -308,8 +347,11 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "size",
-      "options": { "size": "xl" }
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Asterisk UI icon asset",
     "$ref": "a1cdad1f-6537-4c35-a87b-45d8e161ee46",
@@ -318,6 +360,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "content-color"
     },
     "context": "Label and asterisk icon",
@@ -327,6 +370,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "content-color",
       "options": {
         "isDisabled": true
@@ -339,6 +383,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "color"
     },
     "context": "Label and asterisk icon (white)",
@@ -348,6 +393,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "color"
     },
     "context": "Label and asterisk icon (black)",
@@ -357,6 +403,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Label",
@@ -367,6 +414,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Label",
@@ -377,6 +425,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Label",
@@ -387,6 +436,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-size-75"
     },
     "context": "Label",
@@ -397,6 +447,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-size-75"
     },
     "context": "Label",
@@ -407,6 +458,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-size-100"
     },
     "context": "Label",
@@ -417,6 +469,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-size-100"
     },
     "context": "Label",
@@ -427,6 +480,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-size-200"
     },
     "context": "Label",
@@ -437,6 +491,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-size-200"
     },
     "context": "Label",
@@ -447,6 +502,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-size-300"
     },
     "context": "Label",
@@ -457,6 +513,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "font-size-300"
     },
     "context": "Label",
@@ -467,6 +524,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "line-height-100"
     },
     "context": "Label",
@@ -477,6 +535,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "label",
       "property": "line-height-100"
     },
     "context": "Label",
@@ -487,6 +546,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-extra-large",
       "options": {
         "scale": "desktop"
@@ -507,6 +567,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-extra-large",
       "options": {
         "scale": "mobile"
@@ -527,6 +588,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-large",
       "options": {
         "scale": "desktop"
@@ -547,6 +609,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-large",
       "options": {
         "scale": "mobile"
@@ -567,6 +630,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-medium",
       "options": {
         "scale": "desktop"
@@ -587,6 +651,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-medium",
       "options": {
         "scale": "mobile"
@@ -607,6 +672,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-small",
       "options": {
         "scale": "desktop"
@@ -627,6 +693,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-small",
       "options": {
         "scale": "mobile"
@@ -805,6 +872,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "top-margin-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -819,6 +887,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "top-margin-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -833,6 +902,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "top-margin-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -847,6 +917,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "top-margin-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -861,6 +932,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-extra-large",
       "options": {
         "scale": "desktop"
@@ -881,6 +953,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-extra-large",
       "options": {
         "scale": "mobile"
@@ -901,6 +974,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-large",
       "options": {
         "scale": "desktop"
@@ -921,6 +995,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-large",
       "options": {
         "scale": "mobile"
@@ -941,6 +1016,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-medium",
       "options": {
         "scale": "desktop"
@@ -961,6 +1037,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-medium",
       "options": {
         "scale": "mobile"
@@ -981,6 +1058,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-small",
       "options": {
         "scale": "desktop"
@@ -1001,6 +1079,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-small",
       "options": {
         "scale": "mobile"

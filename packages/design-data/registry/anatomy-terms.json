@@ -428,18 +428,6 @@
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "required-asterisk",
-      "label": "Required Asterisk",
-      "description": "Asterisk symbol denoting a required form field (text-field, picker, number-field)",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "required-text",
-      "label": "Required Text",
-      "description": "Text label (e.g. 'Required') denoting a required form field",
-      "usedIn": ["s2-docs"]
-    },
-    {
       "id": "validation-marker",
       "label": "Validation Marker",
       "description": "Icon or mark indicating valid input state on a form field",
@@ -708,12 +696,6 @@
       "id": "accordion-item",
       "label": "Accordion Item",
       "description": "Individual collapsible section within an accordion component",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "small-divider",
-      "label": "Small Divider",
-      "description": "Thin divider line between accordion items",
       "usedIn": ["s2-docs"]
     },
     {

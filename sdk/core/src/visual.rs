@@ -6371,10 +6371,10 @@ mod tests {
     #[test]
     fn repeat_skips_entries_that_are_not_objects_with_a_diagnostic() {
         let s = accordion_items(serde_json::json!(["A", "B"]));
-        assert!(part(&s, "item").is_some());
+        assert!(part(&s, "accordion-item").is_some());
         assert!(s.diagnostics.iter().any(|d| d.contains("must be objects")));
         let s = accordion_items(serde_json::json!(["A", { "label": "B" }]));
-        assert!(part(&s, "item-1").is_some() && part(&s, "item-2").is_none());
+        assert!(part(&s, "accordion-item-1").is_some() && part(&s, "accordion-item-2").is_none());
         assert!(s.diagnostics.iter().any(|d| d.contains("skipped")));
     }
 
@@ -6382,7 +6382,7 @@ mod tests {
     fn repeat_stacks_one_root_per_entry_with_its_own_label_and_open_state() {
         let one = accordion_items(serde_json::json!([]));
         assert!(
-            part(&one, "item").is_some(),
+            part(&one, "accordion-item").is_some(),
             "no entries draws the plain root"
         );
         let s = accordion_items(serde_json::json!([
@@ -6390,10 +6390,10 @@ mod tests {
             { "label": "A much longer second title" },
             { "label": "Third" }
         ]));
-        let item = |n: usize| part(&s, &format!("item-{n}")).unwrap();
-        assert!(part(&s, "item").is_none());
+        let item = |n: usize| part(&s, &format!("accordion-item-{n}")).unwrap();
+        assert!(part(&s, "accordion-item").is_none());
         assert_eq!(
-            part(&s, "item-2.title").unwrap().text.as_deref(),
+            part(&s, "accordion-item-2.title").unwrap().text.as_deref(),
             Some("A much longer second title")
         );
         // Only the first entry is open, so it is the tallest.

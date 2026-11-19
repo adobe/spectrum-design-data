@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "minimum-width"
     },
     "context": "Width (default)",
@@ -13,6 +14,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "minimum-width"
     },
     "context": "Width (default)",
@@ -24,6 +26,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "width"
     },
     "context": "Width (default)",
@@ -35,6 +38,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "width"
     },
     "context": "Width (default)",
@@ -46,6 +50,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "width"
     },
     "context": "Width (default)",
@@ -57,6 +62,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "width"
     },
     "context": "Width (default)",
@@ -68,6 +74,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "width"
     },
     "context": "Width (default)",
@@ -79,6 +86,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "width"
     },
     "context": "Width (default)",
@@ -90,6 +98,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Paddings",
@@ -100,6 +109,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Paddings",
@@ -110,6 +120,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Paddings",
@@ -120,6 +131,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "divider",
       "property": "space-between"
     },
     "context": "Spacing (between accordion item and divider)",
@@ -131,6 +143,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "component-height-75"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -142,6 +155,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "component-height-75"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -153,6 +167,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "component-height-100"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -164,6 +179,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "component-height-100"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -175,6 +191,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "component-height-200"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -186,6 +203,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "component-height-200"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -197,6 +215,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "component-height-300"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -208,6 +227,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "component-height-300"
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -219,6 +239,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "content",
       "property": "space-between"
     },
     "context": "Spacing (end edges to content)",
@@ -230,6 +251,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (top edge to text)",
@@ -241,6 +263,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (top edge to text)",
@@ -252,6 +275,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (top edge to text)",
@@ -263,6 +287,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (top edge to text)",
@@ -274,6 +299,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (bottom edge to text)",
@@ -285,6 +311,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (bottom edge to text)",
@@ -296,6 +323,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (bottom edge to text)",
@@ -307,6 +335,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (bottom edge to text)",
@@ -318,6 +347,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "focus-indicator",
       "property": "accordion-focus-indicator-gap"
     },
     "context": "Focus indicator",
@@ -328,6 +358,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -338,6 +369,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -348,6 +380,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -358,6 +391,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -368,6 +402,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -378,6 +413,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (top/bottom to disclosure icon)",
@@ -389,6 +425,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (top/bottom to disclosure icon)",
@@ -400,6 +437,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (top/bottom to disclosure icon)",
@@ -411,6 +449,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (top/bottom to disclosure icon)",
@@ -422,6 +461,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -433,6 +473,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -444,6 +485,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -455,6 +497,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -466,6 +509,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -477,6 +521,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -488,6 +533,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -499,6 +545,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -510,6 +557,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (disclosure icon to text)",
@@ -521,6 +569,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (disclosure icon to text)",
@@ -532,6 +581,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (disclosure icon to text)",
@@ -543,6 +593,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "space-between"
     },
     "context": "Spacing (disclosure icon to text)",
@@ -554,6 +605,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "header",
       "property": "spacing"
     },
     "context": "Spacing (section title to action area)",
@@ -565,6 +617,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "content",
       "property": "space-between"
     },
     "context": "Expanded (content area top/bottom to text)",
@@ -576,6 +629,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "content",
       "property": "space-between"
     },
     "context": "Expanded (content area top/bottom to text)",
@@ -587,6 +641,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "content",
       "property": "space-between"
     },
     "context": "Expanded (content area top/bottom to text)",
@@ -598,6 +653,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "content",
       "property": "space-between"
     },
     "context": "Expanded (content area start/end edges)",
@@ -609,6 +665,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "content",
       "property": "space-between"
     },
     "context": "Expanded (content area start/end edges)",
@@ -620,6 +677,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "content",
       "property": "space-between"
     },
     "context": "Expanded (content area start/end edges)",
@@ -631,6 +689,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "opacity"
     },
     "context": "Background",
@@ -641,6 +700,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "opacity"
     },
     "context": "Background",
@@ -651,6 +711,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "opacity"
     },
     "context": "Background",
@@ -661,6 +722,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "accordion-item",
       "property": "opacity"
     },
     "context": "Background",
@@ -671,6 +733,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "content-color"
     },
     "context": "Section title and chevron",
@@ -681,6 +744,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "content-color"
     },
     "context": "Section title and chevron",
@@ -691,6 +755,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "content-color"
     },
     "context": "Section title and chevron",
@@ -701,6 +766,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "content-color"
     },
     "context": "Disabled",
@@ -711,6 +777,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -721,6 +788,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-family"
     },
     "context": "Value",
@@ -731,6 +799,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-weight"
     },
     "context": "Value",
@@ -741,6 +810,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-style"
     },
     "context": "Value",
@@ -751,6 +821,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-size-100"
     },
     "context": "Value",
@@ -761,6 +832,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-size-100"
     },
     "context": "Value",
@@ -771,6 +843,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-size-200"
     },
     "context": "Value",
@@ -781,6 +854,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-size-200"
     },
     "context": "Value",
@@ -791,6 +865,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-size-300"
     },
     "context": "Value",
@@ -801,6 +876,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-size-300"
     },
     "context": "Value",
@@ -811,6 +887,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-size-400"
     },
     "context": "Value",
@@ -821,6 +898,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "font-size-400"
     },
     "context": "Value",
@@ -831,6 +909,7 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "line-height-100"
     },
     "context": "Value",
@@ -841,12 +920,141 @@
   {
     "scope": {
       "component": "accordion",
+      "part": "title",
       "property": "line-height-100"
     },
     "context": "Value",
     "contextRole": ["value"],
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "d203de0c-4659-592f-bf4f-a368edc1f182"
+  },
+  {
+    "scope": {
+      "component": "accordion",
+      "part": "header",
+      "property": "padding-horizontal",
+      "options": {
+        "size": "s",
+        "scale": "desktop"
+      }
+    },
+    "context": "Header (horizontal)",
+    "contextRole": ["layout"],
+    "contextQualifier": "horizontal",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "7484095a-43a2-5b46-a95c-8674c806a196"
+  },
+  {
+    "scope": {
+      "component": "accordion",
+      "part": "header",
+      "property": "padding-horizontal",
+      "options": {
+        "size": "s",
+        "scale": "mobile"
+      }
+    },
+    "context": "Header (horizontal)",
+    "contextRole": ["layout"],
+    "contextQualifier": "horizontal",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "854fdb64-8f6e-5940-8d45-d45419863730"
+  },
+  {
+    "scope": {
+      "component": "accordion",
+      "part": "header",
+      "property": "padding-horizontal",
+      "options": {
+        "size": "m",
+        "scale": "desktop"
+      }
+    },
+    "context": "Header (horizontal)",
+    "contextRole": ["layout"],
+    "contextQualifier": "horizontal",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "469d8cc2-7128-5e0e-b559-0533eb436e65"
+  },
+  {
+    "scope": {
+      "component": "accordion",
+      "part": "header",
+      "property": "padding-horizontal",
+      "options": {
+        "size": "m",
+        "scale": "mobile"
+      }
+    },
+    "context": "Header (horizontal)",
+    "contextRole": ["layout"],
+    "contextQualifier": "horizontal",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "0165d1e9-05dc-58b7-b673-691c2dd35221"
+  },
+  {
+    "scope": {
+      "component": "accordion",
+      "part": "header",
+      "property": "padding-horizontal",
+      "options": {
+        "size": "l",
+        "scale": "desktop"
+      }
+    },
+    "context": "Header (horizontal)",
+    "contextRole": ["layout"],
+    "contextQualifier": "horizontal",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "409d14a8-03f2-5fcb-9f56-fc5800c8323e"
+  },
+  {
+    "scope": {
+      "component": "accordion",
+      "part": "header",
+      "property": "padding-horizontal",
+      "options": {
+        "size": "l",
+        "scale": "mobile"
+      }
+    },
+    "context": "Header (horizontal)",
+    "contextRole": ["layout"],
+    "contextQualifier": "horizontal",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "dd79ec57-bfcd-5b91-a62a-0d35a3ab6d9d"
+  },
+  {
+    "scope": {
+      "component": "accordion",
+      "part": "header",
+      "property": "padding-horizontal",
+      "options": {
+        "size": "xl",
+        "scale": "desktop"
+      }
+    },
+    "context": "Header (horizontal)",
+    "contextRole": ["layout"],
+    "contextQualifier": "horizontal",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "95bc058e-e1d7-5593-8b92-2eb51f0caf20"
+  },
+  {
+    "scope": {
+      "component": "accordion",
+      "part": "header",
+      "property": "padding-horizontal",
+      "options": {
+        "size": "xl",
+        "scale": "mobile"
+      }
+    },
+    "context": "Header (horizontal)",
+    "contextRole": ["layout"],
+    "contextQualifier": "horizontal",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "c013ef91-9020-5772-a888-3d5006130c13"
   },
   {
     "scope": {

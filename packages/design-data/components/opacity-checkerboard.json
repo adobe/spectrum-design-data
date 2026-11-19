@@ -58,15 +58,21 @@
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "The patterned surface. It holds the squares and sets no values of its own.",
+      "required": true,
+      "contains": ["square"]
+    },
+    {
       "name": "square",
-      "description": "Single alternating square of the checkerboard pattern.",
+      "description": "Single square of the checkerboard pattern; the pattern alternates two colors, both set on the square.",
       "required": true
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "No Figma page; parts from relationship contexts. Helper component; one minimal part."
+    "notes": "No Figma page; it appears only as the Checkerboard layer inside other components. React Spectrum S2 draws an inline repeating-conic-gradient and SWC gen2 a CSS fragment with tokens opacity-checkerboard-square-{size,dark,light}. container is the explicit root; square is the tile and carries the size and both colors. How dark and light are told apart is left to the data migration (5m92.6); the square-light value conflict stays with bead 5m92.5.10."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"

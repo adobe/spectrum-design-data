@@ -88,9 +88,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web thumbnail page; SWC gen2 Thumbnail.ts:16 and thumbnail.css:24 draw the checkerboard behind transparent images. border removed as container styling (thumbnail.css:37-42); square renamed to opacity-checkerboard and relationship scope.part repointed."
+    "notes": "Figma S2 Web thumbnail page; SWC gen2 Thumbnail.ts:16 and thumbnail.css:24 draw the checkerboard behind transparent images. No anatomy change. border is container styling (thumbnail.css:37-42), not a part. The recipe still draws the checkerboard itself with thumbnail-local records: the engine cannot yet nest opacity-checkerboard at the thumbnail size or draw the border over it."
   },
   "states": [{ "name": "disabled", "trigger": "prop" }],
   "lifecycle": { "introduced": "1.0.0-draft" },
