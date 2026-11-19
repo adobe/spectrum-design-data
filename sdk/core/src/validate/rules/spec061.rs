@@ -15,6 +15,8 @@
 //! placeholder in a `token` or `relationship` selector MUST name `size`, `sizeIndex`
 //! or a declared option that lists its values.
 
+use std::collections::HashSet;
+
 use serde_json::Value;
 
 use crate::report::Diagnostic;
@@ -23,6 +25,28 @@ use crate::validate::rules::visual_util::{component_of, error, option_values, wa
 use crate::visual::{declared_option_values, option_template_names};
 
 pub struct Rule;
+
+const POSITIONS: [&str; 4] = ["first", "middle", "last", "only"];
+
+/// The parts a `position` condition may appear on: the part a root's `repeat` names and the
+/// parts inside it, at any depth.
+fn repeated_parts(recipe: &Value) -> HashSet<&str> {
+    let parts = recipe.get("parts");
+    let mut out = HashSet::new();
+    let mut todo: Vec<&str> = recipe
+        .get("root")
+        .and_then(Value::as_str)
+        .and_then(|r| parts?.get(r)?.pointer("/repeat/part")?.as_str())
+        .into_iter()
+        .collect();
+    while let Some(p) = todo.pop() {
+        if out.insert(p) {
+            let kids = parts.and_then(|ps| ps.get(p)?.get("children")?.as_array());
+            todo.extend(kids.into_iter().flatten().filter_map(Value::as_str));
+        }
+    }
+    out
+}
 
 impl ValidationRule for Rule {
     fn id(&self) -> &'static str {
@@ -57,6 +81,7 @@ impl ValidationRule for Rule {
             let Some(parts) = v.raw.get("parts") else {
                 continue;
             };
+            let repeated = repeated_parts(&v.raw);
             walk_objects(parts, "/parts", &mut |path, node| {
                 for key in ["token", "relationship"] {
                     let Some(sel) = node.get(key).filter(|s| s.is_object()) else {
@@ -86,6 +111,34 @@ impl ValidationRule for Rule {
                         continue;
                     };
                     let cpath = format!("{path}/{key}");
+                    if let Some(want) = cond.get("position") {
+                        let ppath = format!("{cpath}/position");
+                        let part = path
+                            .strip_prefix("/parts/")
+                            .and_then(|p| p.split('/').next());
+                        if !part.is_some_and(|p| repeated.contains(p)) {
+                            out.push(error(
+                                self.id(),
+                                v,
+                                &ppath,
+                                "Condition position is only valid on a repeated part or a part inside it".into(),
+                            ));
+                        }
+                        let listed = match want {
+                            Value::Array(a) => a.iter().collect::<Vec<_>>(),
+                            one => vec![one],
+                        };
+                        for p in listed {
+                            if !p.as_str().is_some_and(|p| POSITIONS.contains(&p)) {
+                                out.push(error(
+                                    self.id(),
+                                    v,
+                                    &ppath,
+                                    format!("Condition position {p} is not one of first, middle, last, only"),
+                                ));
+                            }
+                        }
+                    }
                     for (name, want) in cond
                         .get("options")
                         .and_then(Value::as_object)
@@ -261,6 +314,25 @@ mod tests {
         let d = run(recipe(json!({"options": {"isDisabled": "yes"}}), json!({})));
         assert_eq!(d.len(), 1);
         assert!(d[0].message.contains("boolean"));
+    }
+
+    #[test]
+    fn position_is_valid_only_inside_a_repeated_part() {
+        let r = |pos: Value, on: &str| {
+            let mut parts = json!({
+                "container": {"children": ["item", "other"], "repeat": {"part": "item", "option": "items"}},
+                "item": {"children": ["label"]},
+                "label": {},
+                "other": {}
+            });
+            parts[on]["props"] = json!({"fill": [{"when": {"position": pos}, "value": "red"}]});
+            run(json!({"component": "button", "root": "container", "parts": parts}))
+        };
+        assert!(r(json!(["first", "middle"]), "item").is_empty());
+        assert!(r(json!("only"), "label").is_empty());
+        assert_eq!(r(json!(["first"]), "other").len(), 1);
+        assert_eq!(r(json!(["first"]), "container").len(), 1);
+        assert_eq!(r(json!(["second"]), "item").len(), 1);
     }
 
     #[test]

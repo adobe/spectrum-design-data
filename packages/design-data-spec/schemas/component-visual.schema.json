@@ -382,9 +382,24 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "position": {
+          "description": "Allowed positions of a repeated copy: first, middle, last, only (spec/component-visuals.md, Position conditions). Only valid on the repeated part and the parts inside it (SPEC-061).",
+          "oneOf": [
+            { "$ref": "#/$defs/position" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/position" }
+            }
+          ]
         }
       },
       "additionalProperties": false
+    },
+    "position": {
+      "enum": ["first", "middle", "last", "only"]
     },
     "valueSource": {
       "type": "object",
