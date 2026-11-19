@@ -523,7 +523,7 @@
           ]
         }
       },
-      "description": "Names a relationship by `property` and either its `context` label or its structured identity (`contextRole`, `contextQualifier`, `part`, `between`, the fields of the record). The structured form matches only a record whose identity is exactly those fields; an absent field must be absent on the record."
+      "description": "Names a relationship by `property` and either its `context` label or its structured identity (`contextRole`, `contextQualifier`, `part`, `between`, the fields of the record). The structured form matches every record whose fields equal the ones the selector gives; a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity."
     }
   }
 }

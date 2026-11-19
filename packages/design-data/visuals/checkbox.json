@@ -45,16 +45,11 @@
           "value": "start"
         },
         "minHeight": {
-          "relationship": {
-            "property": "component-height-{sizeIndex}",
-            "contextRole": ["height"]
-          }
+          "relationship": { "property": "component-height-{sizeIndex}" }
         },
         "gap": {
           "relationship": {
             "property": "space-between",
-            "contextRole": ["spacing"],
-            "contextQualifier": "control to label",
             "between": { "from": "control", "to": "label" }
           }
         },
@@ -62,31 +57,19 @@
           "when": {
             "states": ["down"]
           },
-          "relationship": {
-            "property": "component-size-difference",
-            "contextRole": ["size"],
-            "contextQualifier": "down"
-          }
+          "relationship": { "property": "component-size-difference" }
         },
         "pressWidthRatio": {
           "when": {
             "states": ["down"]
           },
-          "relationship": {
-            "property": "component-size-width-ratio",
-            "contextRole": ["size"],
-            "contextQualifier": "down"
-          }
+          "relationship": { "property": "component-size-width-ratio" }
         },
         "pressMinPerspective": {
           "when": {
             "states": ["down"]
           },
-          "relationship": {
-            "property": "component-size-minimum-perspective",
-            "contextRole": ["size"],
-            "contextQualifier": "down"
-          }
+          "relationship": { "property": "component-size-minimum-perspective" }
         }
       },
       "pressTarget": "box"
@@ -96,37 +79,17 @@
       "children": ["checkmark", "dash"],
       "props": {
         "width": {
-          "relationship": {
-            "property": "size",
-            "contextRole": ["control"],
-            "contextQualifier": "size",
-            "part": "box"
-          }
+          "relationship": { "property": "size" }
         },
         "height": {
-          "relationship": {
-            "property": "size",
-            "contextRole": ["control"],
-            "contextQualifier": "size",
-            "part": "box"
-          }
+          "relationship": { "property": "size" }
         },
         "cornerRadius": {
-          "relationship": {
-            "property": "corner-radius",
-            "contextRole": ["control"],
-            "contextQualifier": "rounding",
-            "part": "box"
-          }
+          "relationship": { "property": "corner-radius" }
         },
         "strokeWidth": [
           {
-            "relationship": {
-              "property": "border-width",
-              "contextRole": ["control"],
-              "contextQualifier": "border",
-              "part": "box"
-            }
+            "relationship": { "property": "border-width" }
           },
           {
             "when": {
@@ -157,10 +120,7 @@
                 "isSelected": true
               }
             },
-            "relationship": {
-              "property": "background-color",
-              "contextRole": ["control"]
-            }
+            "relationship": { "property": "background-color" }
           },
           {
             "when": {
@@ -168,10 +128,7 @@
                 "isIndeterminate": true
               }
             },
-            "relationship": {
-              "property": "background-color",
-              "contextRole": ["control"]
-            }
+            "relationship": { "property": "background-color" }
           }
         ],
         "stroke": {
@@ -359,28 +316,16 @@
           "value": "wrap"
         },
         "fontSize": {
-          "relationship": {
-            "property": "font-size-{sizeIndex}",
-            "contextRole": ["label"]
-          }
+          "relationship": { "property": "font-size-{sizeIndex}" }
         },
         "lineHeight": {
-          "relationship": {
-            "property": "line-height-font-size-{sizeIndex}",
-            "contextRole": ["label"]
-          }
+          "relationship": { "property": "line-height-font-size-{sizeIndex}" }
         },
         "fontWeight": {
-          "relationship": {
-            "property": "font-weight",
-            "contextRole": ["label"]
-          }
+          "relationship": { "property": "font-weight" }
         },
         "color": {
-          "relationship": {
-            "property": "content-color",
-            "contextRole": ["label"]
-          }
+          "relationship": { "property": "content-color", "part": "label" }
         }
       }
     },
@@ -392,13 +337,13 @@
       },
       "props": {
         "stroke": {
-          "relationship": { "property": "color", "contextRole": ["focus"] }
+          "relationship": { "property": "color", "part": "focus-indicator" }
         },
         "strokeWidth": {
-          "relationship": { "property": "thickness", "contextRole": ["focus"] }
+          "relationship": { "property": "thickness" }
         },
         "gapToParent": {
-          "relationship": { "property": "gap", "contextRole": ["focus"] }
+          "relationship": { "property": "gap" }
         }
       }
     }

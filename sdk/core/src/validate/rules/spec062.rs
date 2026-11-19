@@ -34,6 +34,23 @@ fn relationship_exists(graph: &TokenGraph, component: &str, sel: &Value) -> bool
     })
 }
 
+/// The distinct identities of the records a structured selector names that bind a token.
+fn identities(graph: &TokenGraph, component: &str, sel: &Value) -> Vec<String> {
+    let mut out: Vec<String> = graph
+        .relationships
+        .iter()
+        .filter(|r| {
+            r.raw.get("$ref").is_some()
+                && r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component)
+                && crate::scope::selector_matches(sel, &r.raw)
+        })
+        .map(|r| crate::scope::relationship_identity(&r.raw))
+        .collect();
+    out.sort();
+    out.dedup();
+    out
+}
+
 fn token_exists(graph: &TokenGraph, sel: &Map<String, Value>) -> bool {
     !tokens_matching(graph, sel).is_empty()
 }
@@ -94,6 +111,21 @@ impl ValidationRule for Rule {
                                 ),
                             };
                             out.push(error(self.id(), v, &rpath, message));
+                        } else if e.get("context").is_none() {
+                            let found = identities(graph, &v.component, &e);
+                            if found.len() > 1 {
+                                out.push(error(
+                                    self.id(),
+                                    v,
+                                    &rpath,
+                                    format!(
+                                        "Selector {e} names {} relationship identities for '{}': {}",
+                                        found.len(),
+                                        v.component,
+                                        found.join("; ")
+                                    ),
+                                ));
+                            }
                         }
                     }
                 }
@@ -151,6 +183,17 @@ mod tests {
     }
 
     fn run(parts: Value) -> Vec<crate::report::Diagnostic> {
+        run_with(
+            parts,
+            vec![
+                rel("button", "component-height-75", "Minimum height"),
+                rel("button", "component-height-100", " Minimum height "),
+                rel("other", "component-height-100", "Minimum height"),
+            ],
+        )
+    }
+
+    fn run_with(parts: Value, rels: Vec<RelationshipRecord>) -> Vec<crate::report::Diagnostic> {
         let mut g = TokenGraph::default();
         g.components.push(ComponentRecord {
             name: "button".into(),
@@ -158,11 +201,7 @@ mod tests {
             raw: json!({"name": "button", "options": {"tone": {"values": [{"value": "base"}, {"value": "other"}]}}}),
             layer: Layer::Foundation,
         });
-        g.relationships = vec![
-            rel("button", "component-height-75", "Minimum height"),
-            rel("button", "component-height-100", " Minimum height "),
-            rel("other", "component-height-100", "Minimum height"),
-        ];
+        g.relationships = rels;
         let raw =
             json!({"name": {"property": "gap", "structure": "base", "size": "s"}, "value": "4px"});
         g.tokens.insert(
@@ -240,5 +279,56 @@ mod tests {
             "structure": "{tone}", "property": "gap", "size": "s"}}}}}));
         assert_eq!(d.len(), 1);
         assert!(d[0].message.contains("\"structure\":\"other\""));
+    }
+
+    fn bound(property: &str, part: Option<&str>, role: Option<&str>) -> RelationshipRecord {
+        let mut raw = json!({"scope": {"component": "button", "property": property}, "$ref": "t"});
+        if let Some(p) = part {
+            raw["scope"]["part"] = json!(p);
+        }
+        if let Some(r) = role {
+            raw["contextRole"] = json!([r]);
+        }
+        RelationshipRecord {
+            file: PathBuf::from("relationships/button.json"),
+            index: 0,
+            uuid: None,
+            raw,
+        }
+    }
+
+    fn structured(sel: Value) -> Value {
+        json!({"c": {"props": {"x": {"relationship": sel}}}})
+    }
+
+    #[test]
+    fn a_structured_selector_must_name_exactly_one_identity() {
+        let rels = || {
+            vec![
+                bound("color", Some("handle"), None),
+                bound("color", Some("handle"), None),
+                bound("color", Some("track"), None),
+                bound("color", None, Some("control")),
+            ]
+        };
+        let ok = run_with(
+            structured(json!({"property": "color", "part": "handle"})),
+            rels(),
+        );
+        assert!(ok.is_empty(), "{ok:?}");
+        let both = run_with(structured(json!({"property": "color"})), rels());
+        assert_eq!(both.len(), 1);
+        assert!(
+            both[0].message.contains("3 relationship identities"),
+            "{}",
+            both[0].message
+        );
+        assert!(both[0].message.contains("color / - / - / track / -"));
+        let none = run_with(
+            structured(json!({"property": "color", "part": "nope"})),
+            rels(),
+        );
+        assert_eq!(none.len(), 1);
+        assert!(none[0].message.contains("structured identity"));
     }
 }
