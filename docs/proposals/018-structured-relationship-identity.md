@@ -59,7 +59,7 @@ Every record a recipe binds **MUST** have a `part` or a `between`. `scope.option
 
 `contextRole`, `contextQualifier` and `context` are not identity. They are inputs to the display label, below.
 
-**Superseded by Direction (per-record part): a part is the owner of the concept, not the part that draws it.** This is how the spike worked. The spike found a token concept that the switch handle (twice) and the track (once) all bind: "Control color". The component's anatomy review had already removed `control` as "a grouping with no style of its own", moving its size to `track` (switch) and `box` (checkbox). So the record's part is `track` or `box`, the part that replaced the grouping, and the handle's binding names `{ property: color, part: track }`. A recipe part may bind another part's identity. This is a judgment per component, and the proposal does not re-add a grouping part to the anatomy (see the questions).
+**Current rule (Direction, B3): each part that draws a shared value gets its own record pointing at the shared token; there is no owner part.** Below is the spike's superseded owner-part approach, kept as history: a part is the owner of the concept, not the part that draws it. The spike found a token concept that the switch handle (twice) and the track (once) all bind: "Control color". The component's anatomy review had already removed `control` as "a grouping with no style of its own", moving its size to `track` (switch) and `box` (checkbox). So the record's part is `track` or `box`, the part that replaced the grouping, and the handle's binding names `{ property: color, part: track }`. A recipe part may bind another part's identity. This is a judgment per component, and the proposal does not re-add a grouping part to the anatomy (see the questions).
 
 ### The selector
 
@@ -83,7 +83,7 @@ An identity line is `property / part / between`, with `-` for a field the record
 
 ### The role vocabulary
 
-*Current state during migration. The Direction section overrides this: `contextRole` is derived from the property where implied and `contextQualifier` is retired, with the details open (questions 8 and 10).*
+*Current state during migration. The Direction section overrides this: `contextRole` is derived from the property where implied and `contextQualifier` is retired, with the property list still open (question 8).*
 
 Split `registry/relationship-contexts.json`. A role is a kind of thing: the 14 non-anatomy terms (`spacing`, `background`, `border`, `size`, `rounding`, `height`, ...). The 20 anatomy words (`label`, `icon`, `control`, `track`, ...) are parts and belong in `scope.part`. A record on a component that declares the part takes it there and drops the anatomy-word role. A qualifier stays only when neither `part` nor `between` can say it (`down`, `top edge to control`).
 
@@ -151,7 +151,7 @@ Results:
 * Schema negatives, run against the real recipe with one selector broken at a time: `context` with `part` fails, a bare `{ property }` fails, a `contextRole` key fails, and `context` alone still passes. A selector that names two identities is reported by SPEC-062, and one that names none is reported with the selector.
 * `@adobe/spectrum-tokens` unchanged, as above.
 
-What did not work, or surprised me:
+What did not work, or surprised me. These are historical measurements taken before `attribute` joined the key, so `(property, part, between)` below is the three-field key:
 
 1. **Role and qualifier were not needed for identity here.** Grouping the 207 switch and checkbox records that bind a token by `(property, part, between)` gave 81 groups, and no group holds more than one context, role or qualifier. So the selector can drop both and the records keep them as label inputs. This was measured only on two components. Across the corpus, before parts are backfilled, 203 of 1,452 `(component, property, part, between)` groups still hold more than one context, and only 445 records have a part. The same count is the gate for each component's migration: if a group does not separate, the component needs more structure (a part or a `between`), not a selector field.
 2. **The grouping part was already removed on purpose.** The recommended fix for shared concepts was a declared `control` part. Both components' anatomy reviews say `control` was removed as "a grouping with no style of its own". So the owner rule above replaced it (replaced by a per-record part, see Direction). SPEC-060 only checks that a recipe part is declared, not the reverse, so a grouping part would have been allowed, but it would undo a review decision.
@@ -188,7 +188,7 @@ Each step carries the tokens gate above.
 
 1. **Engine and schema first.** Land the matcher, the selector schema and the rule changes with no data change. Old and new selectors both work. The CLI release (Cargo version bump) and the WASM patch go out before data that needs them.
 2. **SPEC-090 stays advisory while both forms exist.** It checks that an authored `context` agrees with the role, and now with a `between`. It stops being the way two fields are kept in step, because recipes no longer read the string.
-3. **Split the role vocabulary and backfill parts, component by component.** For each component: declare or confirm the parts, move each record's anatomy-word role to `scope.part` by the owner rule, move "X to Y" qualifiers to `scope.between`, then run the identity count. A group that holds more than one context is a finding to resolve with data, not a reason to put role back in the selector. The 1,680 records with an anatomy-word role are the bulk of it. Components that do not declare the part wait for an anatomy review.
+3. **Split the role vocabulary and backfill parts, component by component.** For each component: declare or confirm the parts, move each record's anatomy-word role to `scope.part` by the per-record part rule (B3), move "X to Y" qualifiers to `scope.between`, then run the identity count. A group that holds more than one context is a finding to resolve with data, not a reason to put role back in the selector. The 1,680 records with an anatomy-word role are the bulk of it. Components that do not declare the part wait for an anatomy review.
 4. **`contextPart` deprecation.** Backfill `scope.part` from it, per the table above, then mark the field deprecated in the schema and make SPEC-090 flag a record that still carries it. Remove it in the next major.
 5. **Recipe migration, smallest first.** switch and checkbox (this spike), then the recipes with a few bindings, then badge (145 token selectors, the qkj5.11 case), button (86), action-button (35). Each migration is one recipe with a before and after render comparison like the one above.
 6. **Qualifiers.** 770 `contextQualifier` values are "X to Y" and go to `between`. A new advisory flags a record that has both a `between` and a qualifier saying the same thing. The other 890 (`non-semantic` 114, `default` 89, `minimum` 72, `semantic` 66, `size` 65, ...) are reviewed by kind: a `size` qualifier on a `size` record goes, `minimum` and `maximum` may need a place.

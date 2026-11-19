@@ -39,7 +39,7 @@ alwaysApply: false
 
 15. **Deprecated records are a frozen archive.** Do not rely on them or change them. If a live record needs one, repoint the live record or un-deprecate it on purpose. The identity check ignores them.
 
-16. **Parts cover slots and named layout groups.** A part is warranted when a design source names it and it owns a value, when it is a slot, or when it is an option-togglable region. RFC [#1801](https://github.com/adobe/spectrum-design-data/issues/1801) owns slot typing, with an explicit `slots[].part` link; the slot rules are in progress, so follow the RFC rather than inventing rules here.
+16. **Parts cover slots and named layout groups.** A part is warranted when a design source names it and it owns a value, when it is a slot, or when it is an option-togglable region. RFC [#1801](https://github.com/adobe/spectrum-design-data/issues/1801) owns slot typing, with an explicit `slots[].part` link; the slot rules are in progress, so follow the RFC rather than inventing rules here. Pending 5m92.8: `anatomy-format.md` still forbids layout groups as parts.
 
 17. **Identity is `(property, attribute, part, between)`.** `contextRole` is derived from the property where the property implies it. `contextQualifier` is retired. Proposal 018 has the detail.
 
@@ -60,4 +60,4 @@ Slice agents end their report with "Decisions I made", each labelled `meaning`, 
 
 ## CLI version
 
-Bump `sdk/cli/Cargo.toml` only if its current version already has a `design-data-cli@<version>` tag. Never change `requires.cli` in a feature PR unless the shipped data needs the new CLI. Rule and gate: `tools/cli-minimum-gate/gate.sh`.
+Bump `sdk/cli/Cargo.toml` only if its current version already has a `design-data-cli@<version>` tag. Never change `requires.cli` in a feature PR; raising it is a release-time step (bead p6ga.27). Rule and gate: `tools/cli-minimum-gate/gate.sh`.
