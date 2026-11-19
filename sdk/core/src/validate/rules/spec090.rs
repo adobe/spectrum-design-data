@@ -61,7 +61,12 @@ impl ValidationRule for Rule {
                     "contextRole '{bad}' is not in the relationship-contexts registry"
                 ))
             } else {
-                let detail = part.or(qualifier);
+                // With no part or qualifier, a `between` gives the bracket: `a to b`.
+                let between = raw.pointer("/scope/between").and_then(|b| {
+                    let end = |k: &str| b.get(k).and_then(Value::as_str);
+                    Some(format!("{} to {}", end("from")?, end("to")?))
+                });
+                let detail = part.or(qualifier).or(between.as_deref());
                 match (s("context"), ctx.registry.derive_context(&roles, detail)) {
                     (Some(c), Some(d)) if !ctx.registry.context_agrees(c, &roles, detail) => {
                         Some(format!(
@@ -122,6 +127,16 @@ mod tests {
             manifest: None,
         };
         Rule.validate(&ctx).len()
+    }
+
+    #[test]
+    fn a_between_gives_the_bracket_when_there_is_no_part_or_qualifier() {
+        let scope = json!({"component": "tag", "property": "space-between",
+            "between": {"from": "control", "to": "label"}});
+        let rec =
+            |context: &str| json!({"scope": scope, "context": context, "contextRole": ["spacing"]});
+        assert_eq!(run(rec("Spacing (control to label)")), 0);
+        assert_eq!(run(rec("Spacing (label to control)")), 1);
     }
 
     #[test]

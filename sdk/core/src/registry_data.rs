@@ -3676,6 +3676,49 @@ const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
   ]
 }
 "##;
+const ATTRIBUTES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "attribute",
+  "description": "Sub-qualities of a property, used in combination with the `property` field to express compound style concepts (e.g. property=color + attribute=background).",
+  "values": [
+    {
+      "id": "border",
+      "label": "Border",
+      "description": "Border or outline of an element"
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background surface or fill"
+    },
+    {
+      "id": "dash",
+      "label": "Dash",
+      "description": "Dashed-line styling attribute"
+    },
+    {
+      "id": "shadow",
+      "label": "Shadow",
+      "description": "Drop or box shadow attribute"
+    },
+    {
+      "id": "corner",
+      "label": "Corner",
+      "description": "Corner rounding attribute"
+    },
+    {
+      "id": "overlay",
+      "label": "Overlay",
+      "description": "Overlay or scrim tint attribute"
+    },
+    {
+      "id": "gradient",
+      "label": "Gradient",
+      "description": "Gradient styling attribute"
+    }
+  ]
+}
+"##;
 
 pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "role", "icon"];
 
@@ -3736,6 +3779,7 @@ pub(crate) fn build_registry_map(
     map.insert("icon-terms".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));
+    map.insert("attribute".to_string(), parse_registry(ATTRIBUTES_JSON));
     map
 }
 

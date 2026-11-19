@@ -94,6 +94,18 @@ const relationshipContextsPath = join(
 );
 generated += `const RELATIONSHIP_CONTEXTS_JSON: &str = r##"${readFileSync(relationshipContextsPath, "utf-8")}"##;\n`;
 
+// Embed attributes.json for the relationship `scope.attribute` check (SPEC-101). Until a field
+// declaration in fields/ names this registry (RFC 1453 adds one), it is embedded here; once one
+// does, the field loop above already embeds it and this block is skipped.
+const attributesEmbedded = uniqueRegistries.has("ATTRIBUTES_JSON");
+if (!attributesEmbedded) {
+  const attributesPath = join(
+    repoRoot,
+    "packages/design-data/registry/attributes.json",
+  );
+  generated += `const ATTRIBUTES_JSON: &str = r##"${readFileSync(attributesPath, "utf-8")}"##;\n`;
+}
+
 // Generate FIELD_ADVISORY_FIELDS — the list of semantic fields that SPEC-009 checks
 const advisoryFieldNames = advisoryFields.map((d) => `"${d.name}"`).join(", ");
 generated += `\npub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &[${advisoryFieldNames}];\n`;
@@ -121,6 +133,9 @@ for (const decl of registryFields) {
 }
 generated += `    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));\n`;
 generated += `    map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));\n`;
+if (!attributesEmbedded) {
+  generated += `    map.insert("attribute".to_string(), parse_registry(ATTRIBUTES_JSON));\n`;
+}
 generated += `    map\n}\n`;
 
 // Generate build_token_name_map() — id → tokenName per field, for legacy key expansion.

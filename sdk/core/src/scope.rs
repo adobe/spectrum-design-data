@@ -39,6 +39,7 @@ const SCOPE_KEYS: &[&str] = &[
     "property",
     "options",
     "between",
+    "attribute",
     "object",
     "position",
     "structure",
@@ -48,7 +49,14 @@ const SCOPE_KEYS: &[&str] = &[
 
 /// The descriptive scope fields that hold one registry term. `scope.between` is the pair
 /// `{from, to}` and is checked on its own.
-pub const DESCRIPTIVE_FIELDS: &[&str] = &["object", "position", "structure", "qualifier", "icon"];
+pub const DESCRIPTIVE_FIELDS: &[&str] = &[
+    "attribute",
+    "object",
+    "position",
+    "structure",
+    "qualifier",
+    "icon",
+];
 
 const NEWER: &str =
     "The data is newer than this engine: upgrade the CLI or the @adobe/design-data-* packages";
@@ -411,6 +419,56 @@ pub fn option_names(options: &Map<String, Value>) -> Vec<String> {
     out
 }
 
+/// The identity fields a structured selector may name, as `(selector key, record pointer)`.
+/// `contextRole` and `contextQualifier` are label inputs, not identity.
+const IDENTITY_FIELDS: [(&str, &str); 3] = [
+    ("attribute", "/scope/attribute"),
+    ("part", "/scope/part"),
+    ("between", "/scope/between"),
+];
+
+/// The record's identity as one line, `property / attribute / part / between`, with `-` for a field it
+/// does not have. Two records with the same line are one identity.
+pub fn relationship_identity(rec: &Value) -> String {
+    let text = |p: &str| match rec.pointer(p) {
+        Some(Value::String(s)) => s.clone(),
+        Some(Value::Object(o)) => format!(
+            "{}>{}",
+            o.get("from").and_then(Value::as_str).unwrap_or("*"),
+            o.get("to").and_then(Value::as_str).unwrap_or("*")
+        ),
+        _ => "-".into(),
+    };
+    [
+        "/scope/property",
+        "/scope/attribute",
+        "/scope/part",
+        "/scope/between",
+    ]
+    .map(text)
+    .join(" / ")
+}
+
+/// Whether a recipe relationship selector names `rec` apart from its `property`: the same
+/// `context` when the selector has one, else the `part` and `between` the selector gives equal
+/// the record's. A field the selector leaves out is not compared; SPEC-062 rejects a selector
+/// that then names more than one identity.
+pub fn selector_identity_matches(sel: &Value, rec: &Value) -> bool {
+    if let Some(c) = sel.get("context").and_then(Value::as_str) {
+        return rec.get("context").and_then(Value::as_str).map(str::trim) == Some(c.trim());
+    }
+    IDENTITY_FIELDS
+        .iter()
+        .all(|(k, p)| sel.get(k).is_none_or(|v| Some(v) == rec.pointer(p)))
+}
+
+/// [`selector_identity_matches`] and the same `scope.property`.
+pub fn selector_matches(sel: &Value, rec: &Value) -> bool {
+    sel.get("property").and_then(Value::as_str)
+        == rec.pointer("/scope/property").and_then(Value::as_str)
+        && selector_identity_matches(sel, rec)
+}
+
 /// Every state string `options.state` mentions, including the members of a state any-of.
 pub fn mentioned_states(options: &Map<String, Value>) -> Vec<String> {
     let mut out: Vec<String> = Vec::new();
@@ -449,6 +507,61 @@ mod tests {
 
     fn rec(options: Value) -> Value {
         json!({"scope": {"component": "x", "property": "y", "options": options}, "$ref": "t"})
+    }
+
+    #[test]
+    fn a_selector_names_a_record_by_context_or_by_the_identity_fields_it_gives() {
+        let rec = json!({
+            "scope": {"component": "x", "property": "space-between", "part": "p",
+                "between": {"from": "a", "to": "b"}},
+            "context": "Spacing (a to b)"
+        });
+        let sel = |v: Value| selector_matches(&v, &rec);
+        assert!(sel(
+            json!({"property": "space-between", "context": " Spacing (a to b) "})
+        ));
+        assert!(sel(json!({"property": "space-between", "part": "p"})));
+        assert!(sel(json!({"property": "space-between", "part": "p",
+            "between": {"from": "a", "to": "b"}})));
+        // A field the selector gives must match, and another property never matches.
+        assert!(!sel(json!({"property": "space-between", "part": "q"})));
+        assert!(!sel(
+            json!({"property": "gap", "context": "Spacing (a to b)"})
+        ));
+        assert!(!sel(
+            json!({"property": "space-between", "between": {"from": "a", "to": "c"}})
+        ));
+    }
+
+    #[test]
+    fn an_attribute_is_part_of_the_identity_and_the_match() {
+        let rec = json!({"scope": {"component": "x", "property": "color", "attribute": "border",
+            "part": "p"}, "$ref": "t"});
+        assert_eq!(unsupported_shape(&rec), None);
+        assert_eq!(relationship_identity(&rec), "color / border / p / -");
+        assert!(selector_matches(
+            &json!({"property": "color", "attribute": "border", "part": "p"}),
+            &rec
+        ));
+        assert!(!selector_matches(
+            &json!({"property": "color", "attribute": "background", "part": "p"}),
+            &rec
+        ));
+        assert!(selector_matches(
+            &json!({"property": "color", "part": "p"}),
+            &rec
+        ));
+    }
+
+    #[test]
+    fn the_identity_line_names_each_field_or_a_dash() {
+        let rec = json!({"scope": {"property": "size", "part": "handle"}});
+        assert_eq!(relationship_identity(&rec), "size / - / handle / -");
+        let gap = json!({"scope": {"property": "space-between", "between": {"from": "top", "to": "box"}}});
+        assert_eq!(
+            relationship_identity(&gap),
+            "space-between / - / - / top>box"
+        );
     }
 
     #[test]

@@ -72,6 +72,11 @@
           },
           "additionalProperties": false
         },
+        "attribute": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A sub-quality of the property (for example border, background, dash, shadow, corner, overlay, gradient; registry/attributes.json, SPEC-101). Part of the relationship's identity with property, part and between."
+        },
         "object": {
           "type": "string",
           "minLength": 1,

@@ -17,8 +17,6 @@
 
 use std::collections::BTreeSet;
 
-use serde_json::Value;
-
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
@@ -49,11 +47,15 @@ impl ValidationRule for Rule {
             let sizes = size_entries(&v.raw);
             let options = option_entries(ctx.graph, v);
             let mut used: BTreeSet<String> = BTreeSet::new();
+            let rels = component_relationships(ctx.graph, &v.component);
             walk_objects(parts, "/parts", &mut |_, node| {
                 if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
                     for e in expand_selector(sel, &sizes, &options) {
-                        if let Some(c) = e.get("context").and_then(Value::as_str) {
-                            used.insert(c.trim().to_string());
+                        for r in rels
+                            .iter()
+                            .filter(|r| crate::scope::selector_matches(&e, r.record))
+                        {
+                            used.extend(r.context.clone());
                         }
                     }
                 }
@@ -63,10 +65,7 @@ impl ValidationRule for Rule {
                     .into_iter()
                     .map(|d| d.context),
             );
-            let all: BTreeSet<String> = component_relationships(ctx.graph, &v.component)
-                .into_iter()
-                .filter_map(|r| r.context)
-                .collect();
+            let all: BTreeSet<String> = rels.iter().filter_map(|r| r.context.clone()).collect();
             let unused: Vec<&String> = all.iter().filter(|c| !used.contains(*c)).collect();
             if all.is_empty() || unused.is_empty() {
                 continue;
