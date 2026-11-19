@@ -16,9 +16,9 @@ Let a visual recipe name a relationship by its structured identity, and add `sco
   with them is invalid.
 - **Rules:** SPEC-062's one-identity check is an error where a component has no identity
   collisions, a baselined warning elsewhere. `context` selectors per recipe cannot rise.
-- **Data:** the switch and checkbox recipes bind by identity, and 206 relationship records gain
-  `scope.part` or `scope.between`. Renders and spec sheets are byte-identical.
-  `@adobe/spectrum-tokens` is not affected.
+- **Data:** the switch and checkbox recipes bind by identity, and 190 relationship records gain
+  `scope.part` (158) or `scope.between` (32); no other field changes.
+  Renders and spec sheets are byte-identical. `@adobe/spectrum-tokens` is not affected.
 - **Engine:** the renderer, SPEC-062/066/071/090, the status report and the spec-sheet generator
   read both forms. A CLI or WASM build older than this one cannot resolve the new recipes.
 - **Release:** the dataset requires CLI 0.57.0; 0.56.0 cannot resolve selectors without `context`.

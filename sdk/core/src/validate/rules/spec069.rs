@@ -58,15 +58,8 @@ impl ValidationRule for Rule {
                     at = format!("{path}/token");
                 } else if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
                     for e in expand_selector(sel, &sizes, &options) {
-                        let property = e.get("property").and_then(serde_json::Value::as_str);
-                        let context = e
-                            .get("context")
-                            .and_then(serde_json::Value::as_str)
-                            .map(str::trim);
                         for r in &rels {
-                            if Some(r.property.as_str()) == property
-                                && r.context.as_deref() == context
-                            {
+                            if crate::scope::selector_matches(&e, r.record) {
                                 tokens.extend(r.token);
                             }
                         }
@@ -145,6 +138,27 @@ mod tests {
             .len(),
             1
         );
+    }
+
+    #[test]
+    fn deprecated_target_of_a_structured_selector_warns() {
+        let g = graph(
+            json!({"name": "switch"}),
+            vec![
+                json!({"scope": {"component": "switch", "property": "size", "part": "handle"}, "$ref": "t1"}),
+            ],
+            vec![token(
+                "t1",
+                json!({"property": "size", "anatomy": "handle"}),
+                Some(json!({"deprecatedIn": "14.5.0"})),
+            )],
+            vec![(
+                "switch",
+                json!({"component": "switch", "root": "r", "parts": {"r": {"kind": "box", "props": {"width":
+                    {"relationship": {"property": "size", "part": "handle"}}}}}}),
+            )],
+        );
+        assert_eq!(run(&Rule, &g).len(), 1);
     }
 
     #[test]
