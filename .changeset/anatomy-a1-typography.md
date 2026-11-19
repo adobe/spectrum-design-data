@@ -12,7 +12,8 @@ root part, `text`, and its 239 live relationship records now say so (`scope.part
 - Body, heading and detail: `margin-multiplier` becomes `margin` with `position`, and the
   margin `structure` option is dropped. The registry drops the `heading` and `detail`
   structures (unused).
-- Title, detail and code: records of one property share one context. Body and heading keep theirs.
+- Title: contexts are harmonised so each property has one (15 records gain `Text`, 2 margins gain
+  `Margins`, letter-spacing goes from `Title-XXXL` to `Text`). Other components keep theirs.
 - Heading no longer lists React Spectrum `Heading` as its implementation (it is unstyled).
 - The five components are marked `reviewed`. Code, detail and title are at status level 2
   (body and heading at 1).
