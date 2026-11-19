@@ -845,3 +845,195 @@ mod tests {
         assert_eq!(tied_groups(&comp(), &expanded).0.len(), 1);
     }
 }
+
+// ── Field borders: a disabled field keeps its disabled border ──────────────────────────────
+
+/// `option_matches` in `visual.rs`: an unset option is null, which matches a pinned `false`.
+fn option_matches(have: &Value, want: &Value) -> bool {
+    have == want
+        || (have.is_null() && *want == Value::Bool(false))
+        || (*want == Value::Bool(true) && have.as_str().is_some_and(|v| !v.is_empty()))
+}
+
+/// The records that win the option stage of `resolve_candidates`: drop a record with a pin that
+/// does not match, then keep the ones with the most matching pins. `state` is not a pin here; it
+/// only ranks what is left, so a record that survives this stage cannot be outranked by one that
+/// does not.
+fn option_stage<'a>(
+    records: &'a [Value],
+    declared: &BTreeMap<String, Value>,
+    request: &BTreeMap<&str, Value>,
+) -> Vec<&'a Value> {
+    let mut scored: Vec<(usize, &Value)> = Vec::new();
+    'record: for r in records {
+        let mut score = 0;
+        if let Some(pins) = r.pointer("/scope/options").and_then(Value::as_object) {
+            for (name, want) in pins {
+                if RESERVED.contains(&name.as_str()) || !declared.contains_key(name) {
+                    continue;
+                }
+                let have = request
+                    .get(name.as_str())
+                    .or_else(|| declared.get(name))
+                    .cloned()
+                    .unwrap_or(Value::Null);
+                let ok = match want {
+                    Value::Array(any) => any.iter().any(|w| option_matches(&have, w)),
+                    w => option_matches(&have, w),
+                };
+                if !ok {
+                    continue 'record;
+                }
+                score += 1;
+            }
+        }
+        scored.push((score, r));
+    }
+    let best = scored.iter().map(|(s, _)| *s).max().unwrap_or(0);
+    scored
+        .into_iter()
+        .filter(|(s, _)| *s == best)
+        .map(|(_, r)| r)
+        .collect()
+}
+
+/// Token `uuid` or `conceptId` -> `legacyKey`.
+fn legacy_keys() -> HashMap<String, String> {
+    let mut out = HashMap::new();
+    for entry in std::fs::read_dir(data_dir().join("tokens"))
+        .expect("read tokens")
+        .filter_map(Result::ok)
+    {
+        let path = entry.path();
+        if path.extension().is_none_or(|e| e != "json") {
+            continue;
+        }
+        for token in read_json(&path).as_array().cloned().unwrap_or_default() {
+            let Some(legacy) = token.pointer("/name/legacyKey").and_then(Value::as_str) else {
+                continue;
+            };
+            for id in ["uuid", "conceptId"] {
+                if let Some(v) = token.get(id).and_then(Value::as_str) {
+                    out.insert(v.to_string(), legacy.to_string());
+                }
+            }
+        }
+    }
+    out
+}
+
+/// A disabled field's border is `disabled-border-color` whatever state the pointer or focus is
+/// in. The solver keeps only the records with the most matching option pins, and `state` is not
+/// an option pin, so a hover or focus record (no option pins) cannot beat the disabled record.
+/// Also covers an `isError` that is not in the request: unset matches a pinned `false`.
+#[test]
+fn a_disabled_field_border_is_not_overridden_by_state_records() {
+    let legacy = legacy_keys();
+    for name in [
+        "text-field",
+        "number-field",
+        "text-area",
+        "search-field",
+        "combo-box",
+    ] {
+        let component = read_json(&data_dir().join(format!("components/{name}.json")));
+        let declared: BTreeMap<String, Value> = component
+            .get("options")
+            .and_then(Value::as_object)
+            .map(|o| {
+                o.iter()
+                    .map(|(k, v)| (k.clone(), v.get("default").cloned().unwrap_or(Value::Null)))
+                    .collect()
+            })
+            .unwrap_or_default();
+        let records: Vec<Value> = read_json(&data_dir().join(format!("relationships/{name}.json")))
+            .as_array()
+            .cloned()
+            .unwrap_or_default()
+            .into_iter()
+            .filter(|r| {
+                r.pointer("/lifecycle/deprecatedIn").is_none()
+                    && r.pointer("/scope/property").and_then(Value::as_str) == Some("color")
+                    && r.get("context").and_then(Value::as_str) == Some("Border")
+            })
+            .collect();
+        let request = BTreeMap::from([("isDisabled", Value::Bool(true))]);
+        let winners = option_stage(&records, &declared, &request);
+        let refs: BTreeSet<&str> = winners
+            .iter()
+            .filter_map(|r| r.get("$ref").and_then(Value::as_str))
+            .collect();
+        let keys: BTreeSet<&str> = refs
+            .iter()
+            .filter_map(|r| legacy.get(*r).map(String::as_str))
+            .collect();
+        assert_eq!(
+            keys,
+            BTreeSet::from(["disabled-border-color"]),
+            "{name}: a disabled field's border resolves to {keys:?}, not only disabled-border-color"
+        );
+    }
+}
+
+/// Token `uuid` or `conceptId` -> its `name` object.
+fn token_names() -> HashMap<String, Value> {
+    let mut out = HashMap::new();
+    for entry in std::fs::read_dir(data_dir().join("tokens"))
+        .expect("read tokens")
+        .filter_map(Result::ok)
+    {
+        let path = entry.path();
+        if path.extension().is_none_or(|e| e != "json") {
+            continue;
+        }
+        for token in read_json(&path).as_array().cloned().unwrap_or_default() {
+            let Some(name) = token.get("name") else {
+                continue;
+            };
+            for id in ["uuid", "conceptId"] {
+                if let Some(v) = token.get(id).and_then(Value::as_str) {
+                    out.insert(v.to_string(), name.clone());
+                }
+            }
+        }
+    }
+    out
+}
+
+/// Number field does not declare `keyboard-focus`, so its keyboard-focus error border cannot pin
+/// that state in `scope.options.state` (SPEC-054). A record with no pinned state takes the state
+/// of its token (`Candidate` in `visual.rs`), so it still differs from the default error border:
+/// the two have the same option pins and are told apart by state.
+#[test]
+fn number_field_keyboard_focus_error_border_is_told_apart_by_its_token_state() {
+    let names = token_names();
+    let records = read_json(&data_dir().join("relationships/number-field.json"));
+    let states: Vec<Value> = records
+        .as_array()
+        .cloned()
+        .unwrap_or_default()
+        .iter()
+        .filter(|r| {
+            r.pointer("/lifecycle/deprecatedIn").is_none()
+                && r.pointer("/scope/property").and_then(Value::as_str) == Some("color")
+                && r.get("context").and_then(Value::as_str) == Some("Border")
+                && r.pointer("/scope/options/isError") == Some(&Value::Bool(true))
+                && r.pointer("/scope/options/state").is_none()
+        })
+        .filter_map(|r| {
+            let name = names.get(r.get("$ref")?.as_str()?)?;
+            let light = name.get("colorScheme").is_none_or(|c| c == "light");
+            light.then(|| name.get("state").cloned().unwrap_or(Value::Null))
+        })
+        .collect();
+    let unique: BTreeSet<String> = states.iter().map(key).collect();
+    assert_eq!(
+        unique.len(),
+        states.len(),
+        "stateless error borders share a state: {states:?}"
+    );
+    assert!(
+        unique.contains(&key(&serde_json::json!(["keyboard-focus"]))),
+        "the keyboard-focus error border should carry its state on the token: {states:?}"
+    );
+}
