@@ -17,13 +17,13 @@
         "width": {
           "relationship": {
             "property": "size",
-            "context": "Height"
+            "context": "Size"
           }
         },
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Height"
+            "context": "Size"
           }
         },
         "cornerRadius": {
@@ -50,13 +50,13 @@
         "width": {
           "relationship": {
             "property": "size",
-            "context": "Height"
+            "context": "Size"
           }
         },
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Height"
+            "context": "Size"
           }
         },
         "strokeWidth": {

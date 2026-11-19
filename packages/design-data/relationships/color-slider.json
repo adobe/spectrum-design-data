@@ -86,8 +86,8 @@
       "component": "color-slider",
       "property": "corner-radius"
     },
-    "context": "Border",
-    "contextRole": ["border"],
+    "context": "Corner radius",
+    "contextRole": ["rounding"],
     "$ref": "991541a2-df44-4f32-90a5-de698adf5db3",
     "uuid": "83194afa-d453-51d5-9d7a-92973d22f444"
   },

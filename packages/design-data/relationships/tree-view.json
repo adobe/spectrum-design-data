@@ -78,8 +78,8 @@
       "component": "tree-view",
       "property": "height"
     },
-    "context": "Spacing (disclosure indicator)",
-    "contextRole": ["spacing"],
+    "context": "Height (disclosure indicator)",
+    "contextRole": ["height"],
     "contextPart": "disclosure indicator",
     "$ref": "f9fcb5e0-d8aa-4077-bb8d-dd487ba9d7de",
     "uuid": "ca8c8166-6135-59ca-9479-ada960247e85"
@@ -89,8 +89,8 @@
       "component": "tree-view",
       "property": "height"
     },
-    "context": "Spacing (disclosure indicator)",
-    "contextRole": ["spacing"],
+    "context": "Height (disclosure indicator)",
+    "contextRole": ["height"],
     "contextPart": "disclosure indicator",
     "$ref": "82ac143f-6009-4eaa-a797-c4b17277d416",
     "uuid": "07b7c2b3-84ba-548b-8708-f17d29cbee23"
@@ -100,8 +100,8 @@
       "component": "tree-view",
       "property": "width"
     },
-    "context": "Spacing (disclosure indicator)",
-    "contextRole": ["spacing"],
+    "context": "Width (disclosure indicator)",
+    "contextRole": ["width"],
     "contextPart": "disclosure indicator",
     "$ref": "824d592b-c305-4c56-81db-c6566e6ebb2f",
     "uuid": "e51204d4-11af-5e7e-9ae5-18bb2c7294d1"
@@ -111,8 +111,8 @@
       "component": "tree-view",
       "property": "width"
     },
-    "context": "Spacing (disclosure indicator)",
-    "contextRole": ["spacing"],
+    "context": "Width (disclosure indicator)",
+    "contextRole": ["width"],
     "contextPart": "disclosure indicator",
     "$ref": "e24897f6-7bfb-45c0-ab07-30bc1efc0b59",
     "uuid": "8c8b2b5e-99a1-5665-a12e-8b30b7c1d79a"

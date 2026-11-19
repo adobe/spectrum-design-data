@@ -3435,6 +3435,7 @@ const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
       "description": "Height, including minimum height",
       "aliases": [
         "minimum height",
+        "popover minimum height",
         "component height",
         "row height",
         "minimum title area height",
