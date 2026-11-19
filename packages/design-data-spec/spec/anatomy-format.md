@@ -188,6 +188,8 @@ Custom part names are permitted. When a custom name is used, the anatomy part ob
 
 The table above is informative; the authoritative vocabulary is `@adobe/spectrum-design-data/registry/anatomy-terms.json` (140 entries). SPEC-035 fires advisory warnings when a declared anatomy part `name` is not in that registry, pointing authors at the canonical list. Custom names remain valid — SPEC-035 is advisory, not an error.
 
+**Aliases.** An entry's `aliases` record the names other implementations use (Figma, React Spectrum, Spectrum Web Components) so a reader can recognise the part. They are documentation plus a lint: an alias is **never** a valid part name in a component anatomy, a recipe or a relationship `scope.part`. SPEC-035 warns when a part is named by an alias and says which term to use (`'direct-actions' is an alias of 'actions'; use 'actions'`).
+
 ## Cross-reference with token name objects
 
 Token name objects use an `anatomy` field to scope a token to a specific visible part of a component. The `anatomy` field value must correspond to a part declared in the component's `anatomy` array.
@@ -220,7 +222,7 @@ The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to an
 | SPEC-023 | `anatomy-custom-part-documented`    | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose.                                                                  |
 | SPEC-024 | `anatomy-part-name-unique`          | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                                                                                 |
 | SPEC-025 | `anatomy-requires-component`        | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                                                                                    |
-| SPEC-035 | `anatomy-part-name-registry-sync`   | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`).                                                                                                        |
+| SPEC-035 | `anatomy-part-name-registry-sync`   | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`); a registry alias is reported with its canonical term.                                                  |
 | SPEC-037 | `sub-entity-deprecation-cascade`    | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part via `name.anatomy`. Advisory warning prompts migration.                                                                                          |
 | SPEC-048 | `anatomy-contains-resolves`         | warning  | An anatomy part's `contains` entries **SHOULD** match the `name` of another part declared on the same component. Advisory warning for unresolved entries.                                                                  |
 | SPEC-073 | `component-anatomy-reviewed`        | info     | A component with relationships **SHOULD** declare anatomy, and its anatomy **SHOULD** be `reviewed` (see [`anatomyReview`](#anatomyreview)). One report for the whole dataset.                                             |

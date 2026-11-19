@@ -93,6 +93,11 @@
       "description": "Required-field indicator."
     }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web field label page, React Spectrum S2 FieldLabel; SWC gen2 has no field label yet. necessity-indicator kept: it covers React Spectrum's icon and '(required)'/'(optional)' text forms, so required-asterisk and required-text are removed from the registry. contextual-help omitted (React Spectrum S2 only); revisit with the fields family, bead spectrum-design-data-5m92.5.3.1."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }

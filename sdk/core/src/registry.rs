@@ -115,6 +115,9 @@ pub struct RegistryData {
     /// no accompanying `component` or `structure` field. Cross-cutting parts like
     /// `focus-ring`/`focus-indicator` have no single owning component.
     anatomy_standalone_scope: HashSet<String>,
+    /// Anatomy-term alias → canonical id (`anatomy-terms.json`). Aliases document other
+    /// implementations' names; they are not valid part names (SPEC-035 warns on them).
+    anatomy_aliases: HashMap<String, String>,
     /// Default interaction precedence per state id and alias (`states.json`).
     state_precedence: HashMap<String, u32>,
     /// Relationship-context term id → display label (`relationship-contexts.json`).
@@ -220,6 +223,35 @@ fn parse_registry(json_str: &str) -> HashSet<String> {
     set
 }
 
+/// Parse `anatomy-terms.json` into its ids and an alias → id map. Unlike other registries,
+/// an anatomy alias is not a valid value: it only documents another implementation's name.
+fn parse_anatomy_terms(json_str: &str) -> (HashSet<String>, HashMap<String, String>) {
+    let v: Value = serde_json::from_str(json_str).expect("embedded registry JSON must be valid");
+    let (mut ids, mut aliases) = (HashSet::new(), HashMap::new());
+    for entry in v
+        .get("values")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+    {
+        let Some(id) = entry.get("id").and_then(Value::as_str) else {
+            continue;
+        };
+        ids.insert(id.to_string());
+        for a in entry
+            .get("aliases")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+        {
+            if let Some(a) = a.as_str() {
+                aliases.insert(a.to_string(), id.to_string());
+            }
+        }
+    }
+    (ids, aliases)
+}
+
 /// Parse a registry JSON file into an id → tokenName map.
 ///
 /// `tokenName` is the long-form alias used in legacy keys (e.g. size id `"xl"` →
@@ -281,15 +313,26 @@ impl RegistryData {
         INSTANCE.get_or_init(|| {
             let (context_labels, context_words) =
                 parse_relationship_contexts(RELATIONSHIP_CONTEXTS_JSON);
+            let (anatomy_ids, anatomy_aliases) = parse_anatomy_terms(ANATOMY_TERMS_JSON);
+            let mut registries = build_registry_map();
+            for key in ["anatomy", "anatomy-terms"] {
+                registries.insert(key.to_string(), anatomy_ids.clone());
+            }
             Self {
+                anatomy_aliases,
                 context_labels,
                 context_words,
-                registries: build_registry_map(),
+                registries,
                 token_names: build_token_name_map(),
                 anatomy_standalone_scope: parse_standalone_scope_ids(ANATOMY_TERMS_JSON),
                 state_precedence: parse_state_precedence(STATES_JSON),
             }
         })
+    }
+
+    /// The canonical anatomy term an alias stands for (`tab` → `tab-item`), if it is one.
+    pub fn anatomy_alias(&self, name: &str) -> Option<&str> {
+        self.anatomy_aliases.get(name).map(String::as_str)
     }
 
     /// Display label of a relationship-context term id.
@@ -462,6 +505,9 @@ mod tests {
         assert!(r.for_field("variant").unwrap().contains("accent"));
         assert!(r.for_field("size").unwrap().contains("m"));
         assert!(r.for_field("anatomy").unwrap().contains("icon"));
+        // An anatomy alias documents another implementation's name; it is not a part name.
+        assert!(!r.for_field("anatomy").unwrap().contains("tab"));
+        assert_eq!(r.anatomy_alias("tab"), Some("tab-item"));
         assert!(r.for_field("object").unwrap().contains("background"));
         assert!(r.for_field("structure").unwrap().contains("base"));
         assert!(r.for_field("orientation").unwrap().contains("vertical"));

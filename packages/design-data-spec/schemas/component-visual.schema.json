@@ -169,7 +169,8 @@
               "anyOf": [
                 { "required": ["component"] },
                 { "required": ["sizeMap"] },
-                { "required": ["with"] }
+                { "required": ["with"] },
+                { "required": ["inherit"] }
               ]
             }
           }
@@ -188,6 +189,13 @@
           "type": "object",
           "description": "For a component part: maps each size of the host's sizeScale to a size of the nested recipe's sizeScale.",
           "additionalProperties": { "type": "string" }
+        },
+        "inherit": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["width", "height", "cornerRadius"] },
+          "description": "For a component part that is a flowed child of the root: which of the host root's own values the nested root takes: its inner width or height (outer size less padding) or its corner radius. A value the root does not fix is reported and the nested recipe keeps its own."
         },
         "with": {
           "type": "object",
@@ -304,6 +312,7 @@
               "lineHeight",
               "overflow",
               "strokeOpacity",
+              "strokeOver",
               "patternFill",
               "patternSize",
               "textDecoration",

@@ -21,7 +21,7 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["opacity-checkerboard"],
+      "children": ["opacity-checkerboard", "image"],
       "props": {
         "width": {
           "relationship": {
@@ -45,46 +45,11 @@
             "property": "opacity",
             "context": "Disabled"
           }
-        }
-      }
-    },
-    "opacity-checkerboard": {
-      "kind": "box",
-      "props": {
-        "width": {
-          "relationship": {
-            "property": "size",
-            "context": "Size"
-          }
-        },
-        "height": {
-          "relationship": {
-            "property": "size",
-            "context": "Size"
-          }
         },
         "cornerRadius": {
           "relationship": {
             "property": "corner-radius",
             "context": "Rounding"
-          }
-        },
-        "fill": {
-          "relationship": {
-            "property": "square-light",
-            "context": "Checkerboard colors"
-          }
-        },
-        "patternFill": {
-          "relationship": {
-            "property": "square-dark",
-            "context": "Checkerboard colors"
-          }
-        },
-        "patternSize": {
-          "relationship": {
-            "property": "opacity-checkerboard-size",
-            "context": "Opacity Checkerboard"
           }
         },
         "stroke": {
@@ -104,8 +69,33 @@
             "property": "border-width",
             "context": "Border"
           }
+        },
+        "strokeOver": {
+          "value": true
         }
       }
+    },
+    "opacity-checkerboard": {
+      "kind": "component",
+      "component": "opacity-checkerboard",
+      "sizeMap": {
+        "50": "s",
+        "75": "s",
+        "100": "s",
+        "200": "s",
+        "300": "s",
+        "400": "s",
+        "500": "s",
+        "600": "s",
+        "700": "s",
+        "800": "s",
+        "900": "s",
+        "1000": "s"
+      },
+      "inherit": ["width", "height", "cornerRadius"]
+    },
+    "image": {
+      "kind": "box"
     }
   }
 }

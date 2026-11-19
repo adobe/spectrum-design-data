@@ -56,6 +56,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "stroke",
             "strokeWidth",
             "strokeOpacity",
+            "strokeOver",
             "patternFill",
             "patternSize",
             "pressDifference",
@@ -2907,6 +2908,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let stroke = rp(&mut cx, root, "stroke");
     let stroke_w = rp(&mut cx, root, "strokeWidth");
     let stroke_o = rp(&mut cx, root, "strokeOpacity");
+    let stroke_over = rp(&mut cx, root, "strokeOver").is_some_and(|r| r.value.trim() == "true");
     let corner_names = [
         "cornerRadiusStartStart",
         "cornerRadiusStartEnd",
@@ -2981,6 +2983,12 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let pad_be = pad_be.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_s = pad_s.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_e = pad_e.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+    let host = Host {
+        defer_width: false,
+        width: fixed_w.map(|w| w.max(min_w) - pad_s - pad_e),
+        height: explicit_h.map(|h| h - pad_bs - pad_be),
+        corner_radius: radius.as_ref().and_then(Resolved::num),
+    };
     let gap = gap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let direction = rp(&mut cx, root, "direction");
     let align = rp(&mut cx, root, "align");
@@ -3034,6 +3042,9 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         lines: Vec<String>,
         // A `component` part's solved recipe.
         nested: Option<Nested>,
+        // A `component` part that inherits a width the root does not fix: solved again once
+        // the root's width is known.
+        refill: bool,
     }
     // A flowed box with a bound `direction` lays its children out in a row. Items keep their
     // outer size (a text part includes its padding) and the offset of the node inside it.
@@ -3113,13 +3124,21 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             line_h: 0.0,
             lines: Vec::new(),
             nested: None,
+            refill: false,
         };
         match kind {
             "component" => {
-                let Some(n) = solve_component(&mut cx, id, part) else {
+                c.refill = host.width.is_none() && inherits(part, "width");
+                let defer = Host {
+                    defer_width: c.refill,
+                    ..host
+                };
+                let Some(n) =
+                    solve_component(&mut cx, id, part, if c.refill { &defer } else { &host })
+                else {
                     continue;
                 };
-                (c.w, c.h) = (n.w, n.h);
+                (c.w, c.h) = (if c.refill { 0.0 } else { n.w }, n.h);
                 c.nested = Some(n);
             }
             "box" => {
@@ -3193,7 +3212,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                         }
                         let nkind = np.get("kind").and_then(Value::as_str).unwrap_or("box");
                         if nkind == "component" {
-                            if let Some(n) = solve_component(&mut cx, &nid, np) {
+                            if let Some(n) = solve_component(&mut cx, &nid, np, &Host::default()) {
                                 let mut node = blank_node(&nid, nkind);
                                 (node.w, node.h) = (n.w, n.h);
                                 items.push(RowItem {
@@ -3363,7 +3382,12 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                         if !cx.visible(cp) {
                                             continue;
                                         }
-                                        group.extend(solve_component(&mut cx, cid, cp));
+                                        group.extend(solve_component(
+                                            &mut cx,
+                                            cid,
+                                            cp,
+                                            &Host::default(),
+                                        ));
                                     }
                                     if group.is_empty() {
                                         continue;
@@ -3568,6 +3592,19 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             "width {w} is narrower than the content ({content_w}); the content overflows"
         ));
     }
+    for c in flow.iter_mut().filter(|c| c.refill) {
+        let Some(part) = parts.get(&c.id) else {
+            continue;
+        };
+        let again = Host {
+            width: Some(w - pad_s - pad_e),
+            ..host
+        };
+        if let Some(n) = solve_component(&mut cx, &c.id, part, &again) {
+            (c.w, c.h) = (n.w, n.h);
+            c.nested = Some(n);
+        }
+    }
     // A row with a `minHeight` and no block padding of its own pads each side by
     // `(minHeight - one line) / 2`, the single-line padding, so a label that wraps grows the
     // container and keeps that padding.
@@ -3627,7 +3664,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         w,
         h,
         fill: fill.map(|f| f.value),
-        stroke: stroke.map(|s| s.value),
+        stroke: stroke.clone().filter(|_| !stroke_over).map(|s| s.value),
         stroke_width: stroke_w.as_ref().and_then(Resolved::num).unwrap_or(0.0),
         stroke_opacity: stroke_o.as_ref().and_then(Resolved::num),
         sweep: None,
@@ -4241,6 +4278,27 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     }
 
     nodes.extend(nested_out);
+    // `strokeOver`: the root's border is drawn after everything else, as a ring node, so it
+    // lies over the children. Same band as the box stroke: inside the box.
+    if stroke_over && radii.is_some() {
+        cx.diags
+            .push("strokeOver draws one corner radius; the root's corners differ".into());
+    }
+    if let (true, Some(c)) = (stroke_over, stroke.as_ref()) {
+        let (sw, i) = (nodes[0].stroke_width, nodes[0].stroke_width / 2.0);
+        if sw > 0.0 {
+            let mut border = blank_node(&format!("{root_id}.border"), "ring");
+            border.x = ox + i;
+            border.y = oy + i;
+            border.w = w - sw;
+            border.h = h - sw;
+            border.radius = (nodes[0].radius - i).max(0.0);
+            border.stroke = Some(c.value.clone());
+            border.stroke_width = sw;
+            border.stroke_opacity = nodes[0].stroke_opacity;
+            nodes.push(border);
+        }
+    }
 
     // A box whose fill came from an option holding a CSS `linear-gradient()`: it is laid out
     // now, so the gradient line fits the box's own width and height.
@@ -4287,6 +4345,18 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     })
 }
 
+/// The host root's box a `component` part can `inherit` from: its inner size (outer size
+/// less padding) and corner radius, where the root fixes them.
+#[derive(Default)]
+struct Host {
+    /// The width is not known yet: this is the first pass, which leaves the nested root's own
+    /// width and reports nothing; the second pass reports.
+    defer_width: bool,
+    width: Option<f64>,
+    height: Option<f64>,
+    corner_radius: Option<f64>,
+}
+
 /// A `component` part solved on its own: its root size and its nodes, relative to the root's
 /// top-left corner. The root node keeps the part's id; inner ones are `<id>.<part>`.
 struct Nested {
@@ -4299,9 +4369,39 @@ struct Nested {
 /// request has its own component and size, the host's mode and text metrics, no states (the
 /// host's hover, down and focus do not reach it) and no label or icon override; `with`
 /// options are literals or `{ "option": name }`, read from the host request.
-fn solve_component(cx: &mut Ctx, id: &str, part: &Value) -> Option<Nested> {
-    let nested = part.get("nested")?;
-    let variant = match CompiledVariant::from_value(nested) {
+fn inherits(part: &Value, name: &str) -> bool {
+    part.get("inherit")
+        .and_then(Value::as_array)
+        .is_some_and(|a| a.iter().any(|v| v.as_str() == Some(name)))
+}
+
+fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<Nested> {
+    let mut nested = part.get("nested")?.clone();
+    for name in part
+        .get("inherit")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(Value::as_str)
+    {
+        let value = match name {
+            "width" if host.defer_width => continue,
+            "width" => host.width,
+            "height" => host.height,
+            _ => host.corner_radius,
+        };
+        let Some(value) = value else {
+            if !host.defer_width {
+                cx.diags.push(format!(
+                    "component part '{id}': cannot inherit {name}, the host root has none here"
+                ));
+            }
+            continue;
+        };
+        let root = nested["root"].as_str().unwrap_or_default().to_string();
+        nested["parts"][&root]["props"][name] = serde_json::json!({ "value": value });
+    }
+    let variant = match CompiledVariant::from_value(&nested) {
         Ok(v) => v,
         Err(e) => {
             cx.diags.push(format!("component part '{id}': {e}"));
@@ -4874,7 +4974,7 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 /// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
 /// same change whenever a solver change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`).
-pub const LAYOUT_REVISION: u32 = 2;
+pub const LAYOUT_REVISION: u32 = 3;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
@@ -6371,10 +6471,10 @@ mod tests {
     #[test]
     fn repeat_skips_entries_that_are_not_objects_with_a_diagnostic() {
         let s = accordion_items(serde_json::json!(["A", "B"]));
-        assert!(part(&s, "item").is_some());
+        assert!(part(&s, "accordion-item").is_some());
         assert!(s.diagnostics.iter().any(|d| d.contains("must be objects")));
         let s = accordion_items(serde_json::json!(["A", { "label": "B" }]));
-        assert!(part(&s, "item-1").is_some() && part(&s, "item-2").is_none());
+        assert!(part(&s, "accordion-item-1").is_some() && part(&s, "accordion-item-2").is_none());
         assert!(s.diagnostics.iter().any(|d| d.contains("skipped")));
     }
 
@@ -6382,7 +6482,7 @@ mod tests {
     fn repeat_stacks_one_root_per_entry_with_its_own_label_and_open_state() {
         let one = accordion_items(serde_json::json!([]));
         assert!(
-            part(&one, "item").is_some(),
+            part(&one, "accordion-item").is_some(),
             "no entries draws the plain root"
         );
         let s = accordion_items(serde_json::json!([
@@ -6390,10 +6490,10 @@ mod tests {
             { "label": "A much longer second title" },
             { "label": "Third" }
         ]));
-        let item = |n: usize| part(&s, &format!("item-{n}")).unwrap();
-        assert!(part(&s, "item").is_none());
+        let item = |n: usize| part(&s, &format!("accordion-item-{n}")).unwrap();
+        assert!(part(&s, "accordion-item").is_none());
         assert_eq!(
-            part(&s, "item-2.title").unwrap().text.as_deref(),
+            part(&s, "accordion-item-2.title").unwrap().text.as_deref(),
             Some("A much longer second title")
         );
         // Only the first entry is open, so it is the tallest.
@@ -7566,6 +7666,106 @@ mod tests {
             .iter()
             .all(|n| n.part != "icon" && n.part != "track"));
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    #[test]
+    fn a_nested_root_can_inherit_the_host_roots_inner_size_and_radius() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a"], "props": lit_props(&[
+                ("width", 100.0), ("height", 40.0), ("cornerRadius", 5.0),
+                ("paddingInlineStart", 6.0), ("paddingInlineEnd", 6.0)]) },
+            "a": comp("action-button", serde_json::json!({ "hideLabel": true }))
+        }));
+        let own = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(part(&own, "a").unwrap().w, 32.0);
+        r["parts"]["a"]["inherit"] = serde_json::json!(["width", "height", "cornerRadius"]);
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        let a = part(&s, "a").unwrap();
+        assert_eq!((a.w, a.h), (88.0, 40.0));
+        assert_eq!(a.radius, 5.0);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        // A host that does not fix a value reports it and the nested recipe keeps its own.
+        let mut hug = r.clone();
+        hug["parts"]["r"]["props"]
+            .as_object_mut()
+            .unwrap()
+            .remove("height");
+        let s = nest_scene(&g, &hug, "m", &[], &[]).unwrap();
+        assert_eq!(part(&s, "a").unwrap().h, 32.0);
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("cannot inherit height")));
+    }
+
+    #[test]
+    fn an_inherited_width_fills_a_hugging_host_after_its_other_parts() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a", "b"], "props": lit_props(&[
+                ("paddingInlineStart", 6.0), ("paddingInlineEnd", 6.0),
+                ("height", 50.0), ("cornerRadius", 5.0)]) },
+            "a": comp("switch", serde_json::json!({ "hideLabel": true })),
+            "b": comp("action-button", serde_json::json!({ "hideLabel": true }))
+        }));
+        r["parts"]["r"]["props"]["direction"] = serde_json::json!({ "value": "column" });
+        let own = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(part(&own, "a").unwrap().w, 26.0);
+        r["parts"]["a"]["inherit"] = serde_json::json!(["width", "height", "cornerRadius"]);
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        // The root hugs the button (32) plus padding; the switch, which no longer counts
+        // toward that width, fills it. The fixed height and radius still reach it, and
+        // nothing is reported.
+        assert_eq!(s.nodes[0].w, 6.0 + 32.0 + 6.0);
+        let a = part(&s, "a").unwrap();
+        assert_eq!((a.w, a.h, a.radius), (32.0, 50.0, 5.0));
+        assert!(
+            !s.diagnostics.iter().any(|d| d.contains("cannot inherit")),
+            "{:?}",
+            s.diagnostics
+        );
+        // A value the host really lacks is reported once.
+        r["parts"]["r"]["props"]
+            .as_object_mut()
+            .unwrap()
+            .remove("cornerRadius");
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        let n = s
+            .diagnostics
+            .iter()
+            .filter(|d| d.contains("cannot inherit"))
+            .count();
+        assert_eq!(n, 1, "{:?}", s.diagnostics);
+    }
+
+    #[test]
+    fn stroke_over_draws_the_root_border_last_as_a_ring() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a"], "props": lit_props(&[
+                ("width", 100.0), ("height", 40.0), ("cornerRadius", 5.0),
+                ("strokeWidth", 2.0)]) },
+            "a": comp("action-button", serde_json::json!({ "hideLabel": true }))
+        }));
+        r["parts"]["r"]["props"]["stroke"] = serde_json::json!({ "value": "#ff0000" });
+        let plain = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(plain.nodes[0].stroke.as_deref(), Some("#ff0000"));
+        assert!(plain.nodes.iter().all(|n| n.kind != "ring"));
+        r["parts"]["r"]["props"]["strokeOver"] = serde_json::json!({ "value": true });
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(s.nodes[0].stroke, None);
+        assert_eq!(s.nodes[0].stroke_width, 2.0);
+        let border = s.nodes.last().unwrap();
+        assert_eq!(
+            (border.kind.as_str(), border.part.as_str()),
+            ("ring", "r.border")
+        );
+        assert_eq!(
+            (border.x, border.y, border.w, border.h, border.radius),
+            (9.0, 9.0, 98.0, 38.0, 4.0)
+        );
+        assert_eq!(border.stroke.as_deref(), Some("#ff0000"));
     }
 
     #[test]

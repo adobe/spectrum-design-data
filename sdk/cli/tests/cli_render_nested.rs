@@ -58,7 +58,7 @@ fn parts(scene: &Value) -> Vec<&str> {
 }
 
 #[test]
-fn direct_actions_draw_a_nested_button_and_switch() {
+fn actions_draw_a_nested_button_and_switch() {
     let on = scene(&[
         "--option",
         "hasActionButton=true",
@@ -67,7 +67,7 @@ fn direct_actions_draw_a_nested_button_and_switch() {
     ]);
     let p = parts(&on);
     for want in [
-        "direct-actions",
+        "actions",
         "action-button",
         "action-button.icon",
         "switch",
@@ -90,7 +90,7 @@ fn direct_actions_draw_a_nested_button_and_switch() {
     let off = scene(&[]);
     assert!(parts(&off)
         .iter()
-        .all(|p| !p.contains('.') && *p != "direct-actions"));
+        .all(|p| !p.contains('.') && *p != "actions"));
 }
 
 #[test]

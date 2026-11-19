@@ -977,6 +977,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "divider",
       "label": "Divider",
       "description": "Dividing line or separator",
+      "aliases": ["small-divider"],
       "usedIn": ["tokens"]
     },
     {
@@ -1259,6 +1260,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "actions",
       "label": "Actions",
       "description": "Group of action controls within a list item or tree node (action buttons, icon buttons)",
+      "aliases": ["direct-actions"],
       "usedIn": ["s2-docs"]
     },
     {
@@ -1350,18 +1352,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "necessity-indicator",
       "label": "Necessity Indicator",
       "description": "Label or asterisk indicating whether a field is required or optional (field-label, combo-box)",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "required-asterisk",
-      "label": "Required Asterisk",
-      "description": "Asterisk symbol denoting a required form field (text-field, picker, number-field)",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "required-text",
-      "label": "Required Text",
-      "description": "Text label (e.g. 'Required') denoting a required form field",
+      "aliases": ["required-asterisk", "required-text"],
       "usedIn": ["s2-docs"]
     },
     {
@@ -1633,12 +1624,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "accordion-item",
       "label": "Accordion Item",
       "description": "Individual collapsible section within an accordion component",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "small-divider",
-      "label": "Small Divider",
-      "description": "Thin divider line between accordion items",
       "usedIn": ["s2-docs"]
     },
     {
