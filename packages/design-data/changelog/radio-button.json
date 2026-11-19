@@ -378,6 +378,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "2.1.7",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"radio-button/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"neutral-content-color-selected-default","context":"Control (selected, non emphasized)"},{"token":"neutral-content-color-selected-hover","context":"Control (selected, non emphasized)"},{"token":"neutral-content-color-selected-key-focus","context":"Control (selected, non emphasized)"}]}]}
+          ],
+          "metadata": {"count":1,"fields":["scope.part"]}
+        }
+      ]
     }
   ]
 }

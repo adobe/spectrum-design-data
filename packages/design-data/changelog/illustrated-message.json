@@ -151,6 +151,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/options/script","name":"script","fields":[],"after":{"$ref":"https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"}}
+          ],
+          "metadata": {"count":12,"fields":["scope.options.script","scope.options.size"]}
+        }
+      ]
     }
   ]
 }

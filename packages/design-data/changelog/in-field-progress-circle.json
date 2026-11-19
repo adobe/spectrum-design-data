@@ -159,6 +159,33 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"s"}},"record":"06b5b87b-bd20-5d4a-827c-71373877a7ba","name":"size[size=s]","fields":[{"path":"context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"s"}},"record":"083dcc84-8df9-54ee-a75a-277b09b4a478","name":"size[size=s]","fields":[{"path":"context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"m"}},"record":"f4f6ec30-fccd-5964-9f87-e0cdb58a3e82","name":"size[size=m]","fields":[{"path":"context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"m"}},"record":"975db74a-4a19-5ce4-b446-ea482e04a482","name":"size[size=m]","fields":[{"path":"context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"l"}},"record":"f3bac3b4-0b91-59c5-8c5d-46e48e8952db","name":"size[size=l]","fields":[{"path":"context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"l"}},"record":"c393386d-fabd-5ba6-a93e-f089d315bc96","name":"size[size=l]","fields":[{"path":"context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"xl"}},"record":"74055ce9-02a9-522a-8457-ca0fd356f84e","name":"size[size=xl]","fields":[{"path":"context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"xl"}},"record":"de23841d-722d-5474-9bf2-22e1527b5fea","name":"size[size=xl]","fields":[{"path":"context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-8","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"in-field-progress-circle/visual/parts/fill","name":"fill","fields":[{"path":"props.height.relationship.context","before":"Height","after":"Size"},{"path":"props.width.relationship.context","before":"Height","after":"Size"}]},
+            {"id":"3530b31f-9","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"in-field-progress-circle/visual/parts/track","name":"track","fields":[{"path":"props.height.relationship.context","before":"Height","after":"Size"},{"path":"props.width.relationship.context","before":"Height","after":"Size"}]}
+          ],
+          "metadata": {"count":8,"fields":["contextRole"]}
+        }
+      ]
     }
   ]
 }

@@ -319,6 +319,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "b62f6a51d96e8748bf1417e7d7eb945f4f3e4243",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1947,"title":"feat(visual): gradient fill; avatar and swatch gradients","url":"https://github.com/adobe/spectrum-design-data/pull/1947"},
+          "entries": [
+            {"id":"b62f6a51-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background (gradient stop 1)"],"scope":{"property":"color","options":{"image":["gradient image","initials","guest"]}},"record":"8e74404c-a23d-5e1c-9b9d-801c2b263829","name":"color[image=?]","fields":[],"after":"86ef11d6-aacd-470b-9d61-ffd7c5c09b45"},
+            {"id":"b62f6a51-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background (gradient stop 2)"],"scope":{"property":"color","options":{"image":["gradient image","initials","guest"]}},"record":"f656afb6-8ea8-5c9e-8926-681e0dc970f6","name":"color[image=?]","fields":[],"after":"60816b84-ee3f-4b17-9bcb-fd26f194dd32"},
+            {"id":"b62f6a51-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background (gradient stop 3)"],"scope":{"property":"color","options":{"image":["gradient image","initials","guest"]}},"record":"b65ea750-5292-51d8-98e5-66a394fc7c7c","name":"color[image=?]","fields":[],"after":"94f1f308-c049-4b5e-ae02-2d609c114e83"},
+            {"id":"b62f6a51-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"avatar/visual/parts/container","name":"container","fields":[{"path":"props.fill","before":{"relationship":{"property":"color","context":"Background (image)"}},"after":[{"relationship":{"property":"color","context":"Background (image)"}},{"when":{"options":{"image":["gradient image","initials","guest"]}},"gradient":{"from":[0.132,0.161],"to":[0.843,0.871],"stops":[{"color":{"relationship":{"property":"color","context":"Background (gradient stop 1)"}},"offset":{"relationship":{"property":"gradient-stop-1","context":"0%"}}},{"color":{"relationship":{"property":"color","context":"Background (gradient stop 2)"}},"offset":{"relationship":{"property":"gradient-stop-2","context":"66%"}}},{"color":{"relationship":{"property":"color","context":"Background (gradient stop 3)"}},"offset":{"relationship":{"property":"gradient-stop-3","context":"100%"}}}]}}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

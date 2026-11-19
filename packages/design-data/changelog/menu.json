@@ -383,6 +383,30 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/anatomy/section-divider","name":"section-divider","fields":[],"after":{"name":"section-divider","description":"Line separating sections of menu items."}}
+          ]
+        },
+        {
+          "commit": "7afe677da514a49326fdd4e6b124cf61bd29afae",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1952,"title":"feat(design-data): anatomy review A0 for accordion, field-label, thumbnail and opacity-checkerboard","url":"https://github.com/adobe/spectrum-design-data/pull/1952"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["scope.part"]}
+        }
+      ]
     }
   ]
 }

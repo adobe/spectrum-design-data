@@ -231,6 +231,25 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.2.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border width"],"scope":{"property":"border-width","options":null},"record":"e4387e1d-6a95-5075-bba4-2961a34edb0a","name":"border-width","fields":[{"path":"context","before":"Border width and corner radius","after":"Border width"}]},
+            {"id":"3530b31f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Corner radius"],"scope":{"property":"corner-radius","options":null},"record":"a24f4808-f6ed-5c5c-b7a1-da7a4ab40ac0","name":"corner-radius","fields":[{"path":"context","before":"Border width and corner radius","after":"Corner radius"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextRole"]}
+        }
+      ]
     }
   ]
 }

@@ -114,6 +114,31 @@
           "metadata": {"count":8,"fields":["scope.options.scale"]}
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"ba920b3d-eb8e-572b-8316-d781acdecbfb","name":"width[scale=desktop]","fields":[{"path":"context","before":"Size","after":"Width"}]},
+            {"id":"3530b31f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"4aacb145-8172-5dd4-b779-2554034278f5","name":"width[scale=mobile]","fields":[{"path":"context","before":"Size","after":"Width"}]},
+            {"id":"3530b31f-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":{"scale":"desktop"}},"record":"48e8e946-d978-5fc1-84bd-e183bed32a97","name":"minimum-width[scale=desktop]","fields":[{"path":"context","before":"Size","after":"Minimum width"}]},
+            {"id":"3530b31f-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":{"scale":"mobile"}},"record":"80c0c35e-810d-5e0c-aee2-3875711d9ae8","name":"minimum-width[scale=mobile]","fields":[{"path":"context","before":"Size","after":"Minimum width"}]},
+            {"id":"3530b31f-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"6d8bd6c7-a136-5387-bf0d-dba532f5dd9f","name":"height[scale=desktop]","fields":[{"path":"context","before":"Size","after":"Height"}]},
+            {"id":"3530b31f-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"3f690677-821d-5501-b255-a0ba9493fe54","name":"height[scale=mobile]","fields":[{"path":"context","before":"Size","after":"Height"}]},
+            {"id":"3530b31f-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"37b2f3ad-88bc-52db-bd32-5ebdf1719e89","name":"minimum-height[scale=desktop]","fields":[{"path":"context","before":"Size","after":"Minimum height"}]},
+            {"id":"3530b31f-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"bcb52afd-d909-5cb7-b855-117fbffca359","name":"minimum-height[scale=mobile]","fields":[{"path":"context","before":"Size","after":"Minimum height"}]}
+          ],
+          "metadata": {"count":8,"fields":["contextRole"]}
+        }
+      ]
     }
   ]
 }

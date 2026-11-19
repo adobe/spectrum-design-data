@@ -166,6 +166,24 @@
           "metadata": {"count":4,"fields":["scope.options.scale","uuid"]}
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Corner radius"],"scope":{"property":"corner-radius","options":null},"record":"83194afa-d453-51d5-9d7a-92973d22f444","name":"corner-radius","fields":[{"path":"context","before":"Border","after":"Corner radius"}]}
+          ],
+          "metadata": {"count":1,"fields":["contextRole"]}
+        }
+      ]
     }
   ]
 }

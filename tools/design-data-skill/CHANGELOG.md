@@ -1,5 +1,35 @@
 # @adobe/design-data-skill
 
+## 2.2.15
+
+### Patch Changes
+
+- [#1946](https://github.com/adobe/spectrum-design-data/pull/1946) [`90fa890`](https://github.com/adobe/spectrum-design-data/commit/90fa8906b5f45d81d4a36c8099575f6257a544a7) Thanks [@GarthDB](https://github.com/GarthDB)! - Tokens now report semantic specificity, so people and agents can pick among tokens.
+  - **Specificity:** derived from the name, never stored: tier rank, then the count of purpose fields.
+    It orders tokens; it does not say one fits a use.
+  - **Neighbors:** same-property tokens that add or drop purpose fields, each `drop-in` (same value
+    in every mode) or `consider`. CLI `design-data refinements`, WASM `Dataset.refinements`, MCP
+    `design-data-refinements` and agent MCP `token_refinements`.
+  - **Results:** WASM `TokenResult` has `purposeFields` and `purposeCount`; MCP query shows
+    `purposeFields`; CLI `query` and `resolve` print `Purpose`; MCP query takes `sort: "specificity"`.
+  - **Query:** `object`, `anatomy` and `colorRole` are filter keys.
+  - **Component tokens:** MCP `design-data-component-tokens` (WASM `componentRelationships`) returns
+    what a component uses for each part and state, with values, in one call.
+  - **Primer and docs:** `semanticSpecificity` in the primer; taxonomy, query and agent-surface
+    chapters and the skill (with a custom-component recipe).
+
+- [#1932](https://github.com/adobe/spectrum-design-data/pull/1932) [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - The token tier is now visible to people and tools.
+  - **Query:** `tier=<primitive|semantic|component>` is a filter key; spec `query.md` lists it.
+  - **Results:** WASM `TokenResult` has `tier` and `tierSource`; the MCP query tool shows `tier`; CLI
+    `query` and `resolve` print it.
+  - **Primer:** fields list `allowedTokenTiers` and `impliesTokenTier`; `tokenTiers` explains the
+    derivation. The MCP primer returns `tokenTiers` and `fieldTiers`.
+  - **Docs:** token-format, taxonomy, authoring-workflow and agent-surface chapters and the
+    design-data skill describe tiers.
+
+- Updated dependencies [[`90fa890`](https://github.com/adobe/spectrum-design-data/commit/90fa8906b5f45d81d4a36c8099575f6257a544a7), [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd)]:
+  - @adobe/design-data-mcp@1.15.0
+
 ## 2.2.14
 
 ### Patch Changes

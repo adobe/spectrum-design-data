@@ -630,6 +630,27 @@
           "metadata": {"count":2,"fields":["relationship removed"]}
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "4.1.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Rounding (with wrapping)"],"scope":{"property":"corner-radius","options":{"size":"s"}},"record":"cdc133f2-cbee-593d-bc2d-d32f09c31261","name":"corner-radius[size=s]","fields":[],"after":"6c0a6608-4b6b-4f40-b24d-f1d121165638"},
+            {"id":"53e922b0-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Rounding (with wrapping)"],"scope":{"property":"corner-radius","options":{"size":"l"}},"record":"b4728022-6b6e-5f04-811c-7ffd69b44d9c","name":"corner-radius[size=l]","fields":[],"after":"e9940242-95ec-460f-a701-b734ae55f877"},
+            {"id":"53e922b0-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Rounding (with wrapping)"],"scope":{"property":"corner-radius","options":{"size":"xl"}},"record":"cf1889db-a95a-5f00-9b86-2f73f183c7b5","name":"corner-radius[size=xl]","fields":[],"after":"bcc60e9b-aa1f-4989-b17f-0aed21a30db7"},
+            {"id":"53e922b0-3","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"button/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"corner-radius-button-small","context":"Rounding (with wrapping)"},{"token":"corner-radius-button-large","context":"Rounding (with wrapping)"},{"token":"corner-radius-button-extra-large","context":"Rounding (with wrapping)"}]}]}
+          ],
+          "metadata": {"count":1,"fields":["scope.options.size"]}
+        }
+      ]
     }
   ]
 }

@@ -434,6 +434,22 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "9c4acb1572a5d75ee85f713976b4c55dedd9a758",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1949,"title":"fix(design-data): give state to the color relationships of the field components (Figma Web POC)","url":"https://github.com/adobe/spectrum-design-data/pull/1949"},
+          "entries": [],
+          "metadata": {"count":4,"fields":["scope.options.state"]}
+        }
+      ]
     }
   ]
 }

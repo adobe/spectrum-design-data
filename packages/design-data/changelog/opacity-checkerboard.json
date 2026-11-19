@@ -58,6 +58,29 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "7afe677da514a49326fdd4e6b124cf61bd29afae",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1952,"title":"feat(design-data): anatomy review A0 for accordion, field-label, thumbnail and opacity-checkerboard","url":"https://github.com/adobe/spectrum-design-data/pull/1952"},
+          "entries": [
+            {"id":"7afe677d-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The patterned surface. It holds the squares and sets no values of its own.","required":true,"contains":["square"]}},
+            {"id":"7afe677d-1","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/square","name":"square","fields":[{"path":"description","before":"Single alternating square of the checkerboard pattern.","after":"Single square of the checkerboard pattern; the pattern alternates two colors, both set on the square."}]},
+            {"id":"7afe677d-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"No Figma page; parts from relationship contexts. Helper component; one minimal part.","after":"No Figma page; it appears only as the Checkerboard layer inside other components. React Spectrum S2 draws an inline repeating-conic-gradient and SWC gen2 a CSS fragment with tokens opacity-checkerboard-square-{size,dark,light}. container is the explicit root; square is the tile and carries the size and both colors. How dark and light are told apart is left to the data migration (5m92.6); the square-light value conflict stays with bead 5m92.5.10."}]},
+            {"id":"7afe677d-3","kind":"visual-part","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual/parts/container","name":"container","fields":[]},
+            {"id":"7afe677d-4","kind":"visual-part","change":"removed","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual/parts/square","name":"square","fields":[]},
+            {"id":"7afe677d-5","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual/root","name":"root","fields":[{"path":"root","before":"square","after":"container"}]}
+          ],
+          "metadata": {"count":15,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

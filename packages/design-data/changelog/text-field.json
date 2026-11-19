@@ -407,6 +407,39 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "9c4acb1572a5d75ee85f713976b4c55dedd9a758",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1949,"title":"fix(design-data): give state to the color relationships of the field components (Figma Web POC)","url":"https://github.com/adobe/spectrum-design-data/pull/1949"},
+          "entries": [
+            {"id":"9c4acb15-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":null},"record":"772e61ed-bab3-5785-82e7-ee65a03f92a1","name":"color","fields":[{"path":"context","before":"Background and border","after":"Background"}]},
+            {"id":"9c4acb15-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":null},"record":"65b1aaf1-14fa-53d1-91f6-04a602a02dd5","name":"color","fields":[{"path":"context","before":"Background and border","after":"Background"}]},
+            {"id":"9c4acb15-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":null},"record":"04ddd830-67c3-591a-8db5-d9319458ad33","name":"color","fields":[{"path":"context","before":"Background and border","after":"Background"}]},
+            {"id":"9c4acb15-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"fba6d6fd-b711-5870-9b1b-dafa10a50725","name":"color","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"0894bd4b-bc38-5c01-a7e9-9993899585c7","name":"color","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"cdbdafb8-b12b-5305-bfdb-63a2f70180e6","name":"color","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["hover"]}},"record":"9cc0260b-8547-5dd0-8fce-b4e192457f5b","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["hover"]}},"record":"44cc0dba-9812-5d97-b2ff-686ec99ab1c5","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["hover"]}},"record":"a7990e5d-c2f9-5193-b8b3-e4fb6e77f387","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus-+-hover"]}},"record":"ae063689-b36d-5512-ae2e-7e7a9dc21440","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-10","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus-+-hover"]}},"record":"6edbca33-3431-55bf-89d7-437248ca0cb1","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-11","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus-+-hover"]}},"record":"18049d57-1cf7-528e-b1b6-761c7511039d","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-12","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus-+-not-hover"]}},"record":"e3427871-b75f-5d73-bf29-dca40be80b1d","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-13","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus-+-not-hover"]}},"record":"31d983d1-887d-5681-bd8a-6090b94a9d4c","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-14","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus-+-not-hover"]}},"record":"f00e18ef-59e4-5e5d-9856-bf9291c2fb50","name":"color[state=?]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"9c4acb15-15","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":false,"isDisabled":true}},"record":"ebaf28c2-fe36-5b77-a727-4e213d13ad8a","name":"color[isDisabled=?,isError=?]","fields":[],"after":"474ae56c-709a-4f5a-a56b-62d01093f412"}
+          ],
+          "metadata": {"count":19,"fields":["contextRole","scope.options.state"]}
+        }
+      ]
     }
   ]
 }
