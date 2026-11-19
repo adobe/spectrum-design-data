@@ -2981,6 +2981,12 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     let pad_be = pad_be.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_s = pad_s.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let pad_e = pad_e.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+    let host = Host {
+        defer_width: false,
+        width: fixed_w.map(|w| w.max(min_w) - pad_s - pad_e),
+        height: explicit_h.map(|h| h - pad_bs - pad_be),
+        corner_radius: radius.as_ref().and_then(Resolved::num),
+    };
     let gap = gap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let direction = rp(&mut cx, root, "direction");
     let align = rp(&mut cx, root, "align");
@@ -3034,6 +3040,9 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         lines: Vec<String>,
         // A `component` part's solved recipe.
         nested: Option<Nested>,
+        // A `component` part that inherits a width the root does not fix: solved again once
+        // the root's width is known.
+        refill: bool,
     }
     // A flowed box with a bound `direction` lays its children out in a row. Items keep their
     // outer size (a text part includes its padding) and the offset of the node inside it.
@@ -3113,13 +3122,21 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
             line_h: 0.0,
             lines: Vec::new(),
             nested: None,
+            refill: false,
         };
         match kind {
             "component" => {
-                let Some(n) = solve_component(&mut cx, id, part) else {
+                c.refill = host.width.is_none() && inherits(part, "width");
+                let defer = Host {
+                    defer_width: c.refill,
+                    ..Host::default()
+                };
+                let Some(n) =
+                    solve_component(&mut cx, id, part, if c.refill { &defer } else { &host })
+                else {
                     continue;
                 };
-                (c.w, c.h) = (n.w, n.h);
+                (c.w, c.h) = (if c.refill { 0.0 } else { n.w }, n.h);
                 c.nested = Some(n);
             }
             "box" => {
@@ -3193,7 +3210,7 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                         }
                         let nkind = np.get("kind").and_then(Value::as_str).unwrap_or("box");
                         if nkind == "component" {
-                            if let Some(n) = solve_component(&mut cx, &nid, np) {
+                            if let Some(n) = solve_component(&mut cx, &nid, np, &Host::default()) {
                                 let mut node = blank_node(&nid, nkind);
                                 (node.w, node.h) = (n.w, n.h);
                                 items.push(RowItem {
@@ -3363,7 +3380,12 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
                                         if !cx.visible(cp) {
                                             continue;
                                         }
-                                        group.extend(solve_component(&mut cx, cid, cp));
+                                        group.extend(solve_component(
+                                            &mut cx,
+                                            cid,
+                                            cp,
+                                            &Host::default(),
+                                        ));
                                     }
                                     if group.is_empty() {
                                         continue;
@@ -3567,6 +3589,19 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
         cx.diags.push(format!(
             "width {w} is narrower than the content ({content_w}); the content overflows"
         ));
+    }
+    for c in flow.iter_mut().filter(|c| c.refill) {
+        let Some(part) = parts.get(&c.id) else {
+            continue;
+        };
+        let again = Host {
+            width: Some(w - pad_s - pad_e),
+            ..Host::default()
+        };
+        if let Some(n) = solve_component(&mut cx, &c.id, part, &again) {
+            (c.w, c.h) = (n.w, n.h);
+            c.nested = Some(n);
+        }
     }
     // A row with a `minHeight` and no block padding of its own pads each side by
     // `(minHeight - one line) / 2`, the single-line padding, so a label that wraps grows the
@@ -4287,6 +4322,17 @@ fn solve_one(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, St
     })
 }
 
+/// The host root's box a `component` part can `inherit` from: its inner size (outer size
+/// less padding) and corner radius, where the root fixes them.
+#[derive(Default)]
+struct Host {
+    /// The width is not known yet: leave the nested root's own and do not report it.
+    defer_width: bool,
+    width: Option<f64>,
+    height: Option<f64>,
+    corner_radius: Option<f64>,
+}
+
 /// A `component` part solved on its own: its root size and its nodes, relative to the root's
 /// top-left corner. The root node keeps the part's id; inner ones are `<id>.<part>`.
 struct Nested {
@@ -4299,9 +4345,37 @@ struct Nested {
 /// request has its own component and size, the host's mode and text metrics, no states (the
 /// host's hover, down and focus do not reach it) and no label or icon override; `with`
 /// options are literals or `{ "option": name }`, read from the host request.
-fn solve_component(cx: &mut Ctx, id: &str, part: &Value) -> Option<Nested> {
-    let nested = part.get("nested")?;
-    let variant = match CompiledVariant::from_value(nested) {
+fn inherits(part: &Value, name: &str) -> bool {
+    part.get("inherit")
+        .and_then(Value::as_array)
+        .is_some_and(|a| a.iter().any(|v| v.as_str() == Some(name)))
+}
+
+fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<Nested> {
+    let mut nested = part.get("nested")?.clone();
+    for name in part
+        .get("inherit")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(Value::as_str)
+    {
+        let value = match name {
+            "width" if host.defer_width => continue,
+            "width" => host.width,
+            "height" => host.height,
+            _ => host.corner_radius,
+        };
+        let Some(value) = value else {
+            cx.diags.push(format!(
+                "component part '{id}': cannot inherit {name}, the host root has none here"
+            ));
+            continue;
+        };
+        let root = nested["root"].as_str().unwrap_or_default().to_string();
+        nested["parts"][&root]["props"][name] = serde_json::json!({ "value": value });
+    }
+    let variant = match CompiledVariant::from_value(&nested) {
         Ok(v) => v,
         Err(e) => {
             cx.diags.push(format!("component part '{id}': {e}"));
@@ -7566,6 +7640,57 @@ mod tests {
             .iter()
             .all(|n| n.part != "icon" && n.part != "track"));
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    #[test]
+    fn a_nested_root_can_inherit_the_host_roots_inner_size_and_radius() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a"], "props": lit_props(&[
+                ("width", 100.0), ("height", 40.0), ("cornerRadius", 5.0),
+                ("paddingInlineStart", 6.0), ("paddingInlineEnd", 6.0)]) },
+            "a": comp("action-button", serde_json::json!({ "hideLabel": true }))
+        }));
+        let own = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(part(&own, "a").unwrap().w, 32.0);
+        r["parts"]["a"]["inherit"] = serde_json::json!(["width", "height", "cornerRadius"]);
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        let a = part(&s, "a").unwrap();
+        assert_eq!((a.w, a.h), (88.0, 40.0));
+        assert_eq!(a.radius, 5.0);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        // A host that does not fix a value reports it and the nested recipe keeps its own.
+        let mut hug = r.clone();
+        hug["parts"]["r"]["props"]
+            .as_object_mut()
+            .unwrap()
+            .remove("height");
+        let s = nest_scene(&g, &hug, "m", &[], &[]).unwrap();
+        assert_eq!(part(&s, "a").unwrap().h, 32.0);
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("cannot inherit height")));
+    }
+
+    #[test]
+    fn an_inherited_width_fills_a_hugging_host_after_its_other_parts() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a", "b"], "props": lit_props(&[
+                ("paddingInlineStart", 6.0), ("paddingInlineEnd", 6.0)]) },
+            "a": comp("switch", serde_json::json!({ "hideLabel": true })),
+            "b": comp("action-button", serde_json::json!({ "hideLabel": true }))
+        }));
+        r["parts"]["r"]["props"]["direction"] = serde_json::json!({ "value": "column" });
+        let own = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(part(&own, "a").unwrap().w, 26.0);
+        r["parts"]["a"]["inherit"] = serde_json::json!(["width"]);
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        // The root hugs the button (32) plus padding; the switch, which no longer counts
+        // toward that width, fills it.
+        assert_eq!(s.nodes[0].w, 6.0 + 32.0 + 6.0);
+        assert_eq!(part(&s, "a").unwrap().w, 32.0);
     }
 
     #[test]
