@@ -4967,7 +4967,7 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 /// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
 /// same change whenever a solver change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`).
-pub const LAYOUT_REVISION: u32 = 2;
+pub const LAYOUT_REVISION: u32 = 3;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.

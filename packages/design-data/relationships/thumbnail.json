@@ -349,16 +349,6 @@
   {
     "scope": {
       "component": "thumbnail",
-      "part": "opacity-checkerboard",
-      "property": "opacity-checkerboard-size"
-    },
-    "context": "Opacity Checkerboard",
-    "$ref": "0322f848-009a-45c4-ad4a-17d8f7e41995",
-    "uuid": "49476ecc-c700-552d-9b50-da13b43ee13b"
-  },
-  {
-    "scope": {
-      "component": "thumbnail",
       "part": "container",
       "property": "border-width"
     },
@@ -388,50 +378,6 @@
     "contextRole": ["border"],
     "$ref": "58bd04e9-5b85-44d8-8474-96e157701070",
     "uuid": "081a049c-4dac-5fb0-81a7-9a88b5ef2e5d"
-  },
-  {
-    "scope": {
-      "component": "thumbnail",
-      "part": "opacity-checkerboard",
-      "property": "square-light"
-    },
-    "context": "Checkerboard colors",
-    "contextRole": ["illustration"],
-    "$ref": "c7e50676-3f61-49c3-a35f-2532fdb02360",
-    "uuid": "b2beb086-9d50-5a9a-934b-63b0fe312fc1"
-  },
-  {
-    "scope": {
-      "component": "thumbnail",
-      "part": "opacity-checkerboard",
-      "property": "square-dark"
-    },
-    "context": "Checkerboard colors",
-    "contextRole": ["illustration"],
-    "$ref": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761",
-    "uuid": "0ffa3d6b-70bf-5b63-9500-e5de1c617891"
-  },
-  {
-    "scope": {
-      "component": "thumbnail",
-      "part": "opacity-checkerboard",
-      "property": "square-dark"
-    },
-    "context": "Checkerboard colors",
-    "contextRole": ["illustration"],
-    "$ref": "f783b8cb-d31f-46c2-b550-990639752510",
-    "uuid": "cb88cce2-9155-5dd7-84f9-8c4dd7a7163d"
-  },
-  {
-    "scope": {
-      "component": "thumbnail",
-      "part": "opacity-checkerboard",
-      "property": "square-dark"
-    },
-    "context": "Checkerboard colors",
-    "contextRole": ["illustration"],
-    "$ref": "35fcf7b1-7140-4522-8410-48547aaf6fd6",
-    "uuid": "09475aee-0de6-5d1f-8e58-98e694bd6cf8"
   },
   {
     "scope": {
