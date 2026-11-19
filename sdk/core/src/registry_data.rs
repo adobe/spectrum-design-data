@@ -1621,6 +1621,12 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
+      "id": "container-divider",
+      "label": "Container Divider",
+      "description": "Divider that opens a list of items, drawn once on the container above the first item (distinct from the divider each item draws at its own end)",
+      "usedIn": ["s2-docs"]
+    },
+    {
       "id": "accordion-item",
       "label": "Accordion Item",
       "description": "Individual collapsible section within an accordion component",
