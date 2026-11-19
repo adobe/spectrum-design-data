@@ -137,7 +137,8 @@
     "context": "Spacing (between accordion item and divider)",
     "contextRole": ["spacing"],
     "contextQualifier": "between accordion item and divider",
-    "$ref": "9a2c9dee-7acf-4083-9c66-685454444f8c",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
     "uuid": "aadc6c13-cf59-50e5-acb3-dad14d526ab5"
   },
   {
@@ -245,7 +246,8 @@
     "context": "Spacing (end edges to content)",
     "contextRole": ["spacing"],
     "contextQualifier": "end edges to content",
-    "$ref": "a9641e89-2c2e-49c3-9662-f530ad23a688",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
     "uuid": "5b2b86fd-c78d-5a14-ac4f-4377635ec030"
   },
   {
@@ -623,20 +625,8 @@
     "context": "Expanded (content area top/bottom to text)",
     "contextRole": ["state"],
     "contextQualifier": "content area top/bottom to text",
-    "$ref": "709082c2-71b9-423a-9c93-3b53a9e18da3",
+    "$ref": "9fcd2823-9a13-44c0-a613-7dbe272b99a9",
     "uuid": "fe87cb9d-2e0b-5ea6-b4b7-10f968e18f09"
-  },
-  {
-    "scope": {
-      "component": "accordion",
-      "part": "content",
-      "property": "space-between"
-    },
-    "context": "Expanded (content area top/bottom to text)",
-    "contextRole": ["state"],
-    "contextQualifier": "content area top/bottom to text",
-    "$ref": "9c651dee-7d77-414d-930b-7c6b78cfed1b",
-    "uuid": "a2a342e3-9a56-5c1a-be99-393f52e1dba6"
   },
   {
     "scope": {
