@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "script": "cjk",
@@ -18,6 +19,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "script": "cjk",
@@ -34,6 +36,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-family",
       "options": {
         "script": "cjk"
@@ -49,6 +52,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "script": "cjk"
@@ -64,6 +68,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "script": "cjk"
@@ -79,6 +84,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "line-height",
       "options": {
         "script": "cjk"
@@ -94,6 +100,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -110,6 +117,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -126,6 +134,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -142,6 +151,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -158,6 +168,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -174,6 +185,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -190,6 +202,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -206,6 +219,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -222,6 +236,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "script": "cjk",
@@ -238,6 +253,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "script": "cjk",
@@ -254,6 +270,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "script": "cjk",
@@ -270,6 +287,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "script": "cjk",
@@ -286,6 +304,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -296,6 +315,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "line-height"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -306,9 +326,10 @@
   {
     "scope": {
       "component": "body",
-      "property": "margin-multiplier",
+      "part": "text",
+      "property": "margin",
       "options": {
-        "structure": "body"
+        "position": ["top", "bottom"]
       }
     },
     "context": "Margins",
@@ -321,6 +342,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "emphasized",
@@ -337,6 +359,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "emphasized",
@@ -353,6 +376,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-family",
       "options": {
         "family": "sans-serif"
@@ -366,6 +390,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "family": "sans-serif"
@@ -379,6 +404,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "family": "sans-serif"
@@ -392,6 +418,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "strong-emphasized",
@@ -408,6 +435,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "strong-emphasized",
@@ -424,6 +452,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "strong",
@@ -440,6 +469,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "strong",
@@ -456,6 +486,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "emphasized",
@@ -472,6 +503,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "emphasized",
@@ -488,6 +520,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-family",
       "options": {
         "family": "serif"
@@ -503,6 +536,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "family": "serif"
@@ -516,6 +550,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "family": "serif"
@@ -531,6 +566,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "strong-emphasized",
@@ -547,6 +583,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "strong-emphasized",
@@ -563,6 +600,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "strong",
@@ -579,6 +617,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "strong",
@@ -595,6 +634,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "l"
@@ -610,6 +650,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "m"
@@ -623,6 +664,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "s"
@@ -636,6 +678,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "xl"
@@ -651,6 +694,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "xs"
@@ -664,6 +708,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "xxl"
@@ -679,6 +724,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "xxs"
@@ -694,6 +740,7 @@
   {
     "scope": {
       "component": "body",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "xxxl"

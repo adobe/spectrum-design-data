@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "script": "cjk",
@@ -18,6 +19,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "script": "cjk",
@@ -34,6 +36,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-family",
       "options": {
         "script": "cjk"
@@ -49,6 +52,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "script": "cjk"
@@ -64,6 +68,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "script": "cjk"
@@ -215,6 +220,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "line-height",
       "options": {
         "script": "cjk"
@@ -230,6 +236,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -246,6 +253,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -262,6 +270,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -278,6 +287,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -294,6 +304,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "script": "cjk",
@@ -310,6 +321,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "script": "cjk",
@@ -326,6 +338,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "script": "cjk",
@@ -342,6 +355,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "script": "cjk",
@@ -358,6 +372,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "script": "cjk",
@@ -374,6 +389,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "color"
     },
     "context": "Text",
@@ -399,6 +415,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "line-height"
     },
     "context": "Text",
@@ -411,9 +428,9 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "margin",
       "options": {
-        "structure": "detail",
         "position": ["bottom"]
       }
     },
@@ -427,9 +444,9 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "margin",
       "options": {
-        "structure": "detail",
         "position": ["top"]
       }
     },
@@ -443,6 +460,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "emphasized",
@@ -459,6 +477,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "emphasized",
@@ -475,6 +494,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-family",
       "options": {
         "family": "sans-serif"
@@ -490,6 +510,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "family": "sans-serif"
@@ -505,6 +526,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "family": "sans-serif"
@@ -656,6 +678,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "strong-emphasized",
@@ -672,6 +695,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "strong-emphasized",
@@ -688,6 +712,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "strong",
@@ -704,6 +729,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "strong",
@@ -736,6 +762,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "emphasized",
@@ -752,6 +779,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "emphasized",
@@ -768,6 +796,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-family",
       "options": {
         "family": "serif"
@@ -783,6 +812,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "family": "serif"
@@ -798,6 +828,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "family": "serif"
@@ -949,6 +980,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "strong-emphasized",
@@ -965,6 +997,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "strong-emphasized",
@@ -981,6 +1014,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-style",
       "options": {
         "emphasis": "strong",
@@ -997,6 +1031,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "emphasis": "strong",
@@ -1029,6 +1064,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "l"
@@ -1044,6 +1080,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "m"
@@ -1059,6 +1096,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "s"
@@ -1074,6 +1112,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "xl"
@@ -1089,6 +1128,7 @@
   {
     "scope": {
       "component": "detail",
+      "part": "text",
       "property": "font-size",
       "options": {
         "size": "xs"
