@@ -22,17 +22,33 @@ use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{
     component_of, error, expand_selector, has_template, option_entries, size_entries,
-    tokens_matching, walk_objects,
+    tokens_matching, walk_objects, warning,
 };
 
 pub struct Rule;
 
-fn relationship_exists(graph: &TokenGraph, component: &str, property: &str, context: &str) -> bool {
+fn relationship_exists(graph: &TokenGraph, component: &str, sel: &Value) -> bool {
     graph.relationships.iter().any(|r| {
         r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component)
-            && r.raw.pointer("/scope/property").and_then(Value::as_str) == Some(property)
-            && r.raw.get("context").and_then(Value::as_str).map(str::trim) == Some(context)
+            && crate::scope::selector_matches(sel, &r.raw)
     })
+}
+
+/// The distinct identities of the records a structured selector names that bind a token.
+fn identities(graph: &TokenGraph, component: &str, sel: &Value) -> Vec<String> {
+    let mut out: Vec<String> = graph
+        .relationships
+        .iter()
+        .filter(|r| {
+            r.raw.get("$ref").is_some()
+                && r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component)
+                && crate::scope::selector_matches(sel, &r.raw)
+        })
+        .map(|r| crate::scope::relationship_identity(&r.raw))
+        .collect();
+    out.sort();
+    out.dedup();
+    out
 }
 
 fn token_exists(graph: &TokenGraph, sel: &Map<String, Value>) -> bool {
@@ -53,6 +69,7 @@ impl ValidationRule for Rule {
             return vec![];
         }
         let graph = ctx.graph;
+        let clean = crate::status::identity_clean_components(graph);
         let mut out = Vec::new();
         for v in &graph.visuals {
             if component_of(graph, v).is_none() {
@@ -76,26 +93,47 @@ impl ValidationRule for Rule {
                     }
                     let mut seen = Vec::new();
                     for e in expand_selector(rel, &sizes, &options) {
-                        let property = e.get("property").and_then(Value::as_str).unwrap_or("");
-                        let context = e
-                            .get("context")
-                            .and_then(Value::as_str)
-                            .unwrap_or("")
-                            .trim();
-                        if seen.contains(&(property.to_string(), context.to_string())) {
+                        let key = e.to_string();
+                        if seen.contains(&key) {
                             continue;
                         }
-                        seen.push((property.to_string(), context.to_string()));
-                        if !relationship_exists(graph, &v.component, property, context) {
-                            out.push(error(
-                                self.id(),
-                                v,
-                                &rpath,
-                                format!(
-                                    "No relationship for '{}' with property '{property}' and context '{context}'",
+                        seen.push(key);
+                        if !relationship_exists(graph, &v.component, &e) {
+                            let property = e.get("property").and_then(Value::as_str).unwrap_or("");
+                            let message = match e.get("context").and_then(Value::as_str) {
+                                Some(c) => format!(
+                                    "No relationship for '{}' with property '{property}' and context '{}'",
+                                    v.component,
+                                    c.trim()
+                                ),
+                                None => format!(
+                                    "No relationship for '{}' with property '{property}' and the structured identity in selector {e}",
                                     v.component
                                 ),
-                            ));
+                            };
+                            out.push(error(self.id(), v, &rpath, message));
+                        } else if e.get("context").is_none() {
+                            let found = identities(graph, &v.component, &e);
+                            if found.len() > 1 {
+                                // An error where the component's identities are clean; a
+                                // warning, held by recipe_lint_baseline, where they are not.
+                                let report = if clean.contains(&v.component) {
+                                    error
+                                } else {
+                                    warning
+                                };
+                                out.push(report(
+                                    self.id(),
+                                    v,
+                                    &rpath,
+                                    format!(
+                                        "Selector {e} names {} relationship identities for '{}': {}",
+                                        found.len(),
+                                        v.component,
+                                        found.join("; ")
+                                    ),
+                                ));
+                            }
                         }
                     }
                 }
@@ -153,6 +191,17 @@ mod tests {
     }
 
     fn run(parts: Value) -> Vec<crate::report::Diagnostic> {
+        run_with(
+            parts,
+            vec![
+                rel("button", "component-height-75", "Minimum height"),
+                rel("button", "component-height-100", " Minimum height "),
+                rel("other", "component-height-100", "Minimum height"),
+            ],
+        )
+    }
+
+    fn run_with(parts: Value, rels: Vec<RelationshipRecord>) -> Vec<crate::report::Diagnostic> {
         let mut g = TokenGraph::default();
         g.components.push(ComponentRecord {
             name: "button".into(),
@@ -160,11 +209,7 @@ mod tests {
             raw: json!({"name": "button", "options": {"tone": {"values": [{"value": "base"}, {"value": "other"}]}}}),
             layer: Layer::Foundation,
         });
-        g.relationships = vec![
-            rel("button", "component-height-75", "Minimum height"),
-            rel("button", "component-height-100", " Minimum height "),
-            rel("other", "component-height-100", "Minimum height"),
-        ];
+        g.relationships = rels;
         let raw =
             json!({"name": {"property": "gap", "structure": "base", "size": "s"}, "value": "4px"});
         g.tokens.insert(
@@ -242,5 +287,93 @@ mod tests {
             "structure": "{tone}", "property": "gap", "size": "s"}}}}}));
         assert_eq!(d.len(), 1);
         assert!(d[0].message.contains("\"structure\":\"other\""));
+    }
+
+    fn bound(property: &str, part: Option<&str>) -> RelationshipRecord {
+        let mut raw = json!({"scope": {"component": "button", "property": property}, "$ref": "t"});
+        if let Some(p) = part {
+            raw["scope"]["part"] = json!(p);
+        }
+        RelationshipRecord {
+            file: PathBuf::from("relationships/button.json"),
+            index: 0,
+            uuid: None,
+            raw,
+        }
+    }
+
+    fn structured(sel: Value) -> Value {
+        json!({"c": {"props": {"x": {"relationship": sel}}}})
+    }
+
+    #[test]
+    fn a_structured_selector_must_name_exactly_one_identity() {
+        let rels = || {
+            vec![
+                bound("color", Some("handle")),
+                bound("color", Some("handle")),
+                bound("color", Some("track")),
+            ]
+        };
+        let ok = run_with(
+            structured(json!({"property": "color", "part": "handle"})),
+            rels(),
+        );
+        assert!(ok.is_empty(), "{ok:?}");
+        let both = run_with(structured(json!({"property": "color"})), rels());
+        assert_eq!(both.len(), 1);
+        assert!(
+            both[0].message.contains("2 relationship identities"),
+            "{}",
+            both[0].message
+        );
+        assert!(both[0].message.contains("color / - / track / -"));
+        let none = run_with(
+            structured(json!({"property": "color", "part": "nope"})),
+            rels(),
+        );
+        assert_eq!(none.len(), 1);
+        assert!(none[0].message.contains("structured identity"));
+    }
+
+    #[test]
+    fn the_one_identity_check_is_a_warning_where_identities_collide_and_counts_attribute() {
+        use crate::report::Severity;
+        let with = |attr: Option<&str>, context: Option<&str>| {
+            let mut r = bound("color", Some("handle"));
+            if let Some(a) = attr {
+                r.raw["scope"]["attribute"] = json!(a);
+            }
+            if let Some(c) = context {
+                r.raw["context"] = json!(c);
+            }
+            r
+        };
+        let sel = || structured(json!({"property": "color", "part": "handle"}));
+        // Two attributes under one part are two identities: an error while identities are clean.
+        let d = run_with(
+            sel(),
+            vec![with(Some("border"), None), with(Some("background"), None)],
+        );
+        assert_eq!(d.len(), 1, "{d:?}");
+        assert_eq!(d[0].severity, Severity::Error);
+        assert!(d[0].message.contains("color / background / handle / -"));
+        // Naming the attribute picks one.
+        let one = run_with(
+            structured(json!({"property": "color", "attribute": "border", "part": "handle"})),
+            vec![with(Some("border"), None), with(Some("background"), None)],
+        );
+        assert!(one.is_empty(), "{one:?}");
+        // The same identity under two contexts is a collision: the check falls to a warning.
+        let d = run_with(
+            sel(),
+            vec![
+                with(Some("border"), Some("A")),
+                with(Some("border"), Some("B")),
+                with(Some("background"), None),
+            ],
+        );
+        assert_eq!(d.len(), 1, "{d:?}");
+        assert_eq!(d[0].severity, Severity::Warning);
     }
 }

@@ -11,8 +11,8 @@
 //! SPEC-101: relationship-scope-vocabulary
 //!
 //! The descriptive fields of a relationship `scope` take their values from the registries that
-//! back the same-named name-object fields: `object`, `position`, `structure`, `qualifier` and
-//! `icon` each name a registry term, and `between.from` / `between.to` resolve like a
+//! back the same-named name-object fields (`attribute` has its own registry): `attribute`,
+//! `object`, `position`, `structure`, `qualifier` and `icon` each name a registry term, and `between.from` / `between.to` resolve like a
 //! space-between endpoint (SPEC-047): a position, a generic anatomy term, or an anatomy part
 //! the component declares. When no component catalog is loaded, an endpoint that fails the
 //! registry-only check is deferred, as in SPEC-047.
@@ -171,6 +171,14 @@ mod tests {
             .clone();
         assert!(run(json!({"qualifier": q, "icon": i})).is_empty());
         assert_eq!(run(json!({"qualifier": "nope", "icon": "nope"})).len(), 2);
+    }
+
+    #[test]
+    fn an_attribute_warns_when_it_is_not_in_the_attributes_registry() {
+        assert!(run(json!({"attribute": "background"})).is_empty());
+        let n = run(json!({"attribute": "nope"}));
+        assert_eq!(n.len(), 1, "{n:?}");
+        assert!(n[0].contains("scope.attribute 'nope'"));
     }
 
     #[test]

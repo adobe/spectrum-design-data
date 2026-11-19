@@ -98,6 +98,7 @@ fn scope_identity(r: &Value) -> String {
     };
     [
         "between",
+        "attribute",
         "object",
         "position",
         "structure",

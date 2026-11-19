@@ -154,6 +154,8 @@ pub(crate) fn tokens_matching<'a>(
 
 /// One relationship on a component, with the token it binds (when it has a `$ref`).
 pub(crate) struct RelTarget<'a> {
+    /// The record, so a recipe selector can match it by its structured identity.
+    pub record: &'a Value,
     pub property: String,
     pub context: Option<String>,
     pub token: Option<&'a TokenRecord>,
@@ -223,6 +225,7 @@ pub(crate) fn component_relationships<'a>(
                     // Every key but `state`.
                     let options = v.options.keys().cloned().collect();
                     RelTarget {
+                        record: &r.raw,
                         property: property.clone(),
                         context: context.clone(),
                         token,

@@ -15,7 +15,7 @@
 //! 1. **L1 anatomy reviewed**: `anatomyReview.status == "reviewed"`.
 //! 2. **L2 structured identity**: every live relationship record has `scope.part` or
 //!    `scope.between` (`scope.options.from` and `.to` count as a between), no identity
-//!    (component, property, part, between) is shared by records with different authored
+//!    (component, property, attribute, part, between) is shared by records with different authored
 //!    `context`, and no `scope.property` carries structure (`-to-`, a name of one of the
 //!    component's own anatomy parts, or a trailing numeric scale). Deprecated records
 //!    (`lifecycle.deprecatedIn`) are ignored.
@@ -169,6 +169,7 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
             };
             s.records += 1;
             let part = scope.get("part").and_then(Value::as_str);
+            let attribute = scope.get("attribute").and_then(Value::as_str);
             let options = scope.get("options");
             let between = scope.get("between").map(Value::to_string).or_else(|| {
                 let (f, t) = (
@@ -187,7 +188,7 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
             if !label_clean(raw, reg, &anatomy) {
                 s.label_debt_records += 1;
             }
-            let key = format!("{property}\u{0}{part:?}\u{0}{between:?}");
+            let key = format!("{property}\u{0}{attribute:?}\u{0}{part:?}\u{0}{between:?}");
             identities
                 .entry(key)
                 .or_default()
@@ -211,6 +212,17 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
         out.push(s);
     }
     out
+}
+
+/// Components whose relationship identities are clean: no identity is shared by records with
+/// different authored contexts. SPEC-062 holds a recipe of such a component to one identity per
+/// selector as an error.
+pub fn identity_clean_components(graph: &TokenGraph) -> HashSet<String> {
+    status_report(graph)
+        .into_iter()
+        .filter(|s| s.colliding_identities == 0)
+        .map(|s| s.component)
+        .collect()
 }
 
 /// Level per component, the shape of the committed ratchet baseline.

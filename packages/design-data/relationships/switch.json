@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-75"
     },
     "context": "Minimum height",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-75"
     },
     "context": "Minimum height",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-100"
     },
     "context": "Minimum height",
@@ -32,6 +35,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-100"
     },
     "context": "Minimum height",
@@ -42,6 +46,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-200"
     },
     "context": "Minimum height",
@@ -52,6 +57,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-200"
     },
     "context": "Minimum height",
@@ -62,6 +68,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-300"
     },
     "context": "Minimum height",
@@ -72,6 +79,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-height-300"
     },
     "context": "Minimum height",
@@ -82,6 +90,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -92,6 +101,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -103,6 +113,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -114,6 +125,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -125,6 +137,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -136,6 +149,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -147,6 +161,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -158,6 +173,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -169,6 +185,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "width"
     },
     "context": "Track (size)",
@@ -180,6 +197,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -191,6 +209,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -202,6 +221,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -213,6 +233,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -224,6 +245,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -235,6 +257,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -246,6 +269,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -257,6 +281,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "height"
     },
     "context": "Track (size)",
@@ -268,6 +293,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "border-width"
     },
     "context": "Track (border)",
@@ -279,6 +305,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -290,6 +317,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -301,6 +329,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -312,6 +341,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -323,6 +353,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -334,6 +365,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -345,6 +377,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -356,6 +389,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -367,6 +401,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -378,6 +413,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -389,6 +425,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -400,6 +437,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -411,6 +449,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -422,6 +461,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -433,6 +473,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -444,6 +485,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "handle",
       "property": "size"
     },
     "context": "Handle (size)",
@@ -455,7 +497,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -466,7 +512,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -477,7 +527,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -488,7 +542,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -499,7 +557,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -510,7 +572,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -521,7 +587,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -532,7 +602,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -543,7 +617,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-75"
+      "property": "component-top-to-text-75",
+      "between": {
+        "from": "top",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -554,7 +632,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-100"
+      "property": "component-top-to-text-100",
+      "between": {
+        "from": "top",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -565,7 +647,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-200"
+      "property": "component-top-to-text-200",
+      "between": {
+        "from": "top",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -576,7 +662,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-300"
+      "property": "component-top-to-text-300",
+      "between": {
+        "from": "top",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -587,7 +677,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-75"
+      "property": "component-bottom-to-text-75",
+      "between": {
+        "from": "bottom",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -598,7 +692,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-100"
+      "property": "component-bottom-to-text-100",
+      "between": {
+        "from": "bottom",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -609,7 +707,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-200"
+      "property": "component-bottom-to-text-200",
+      "between": {
+        "from": "bottom",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -620,7 +722,11 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-300"
+      "property": "component-bottom-to-text-300",
+      "between": {
+        "from": "bottom",
+        "to": "label"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -631,6 +737,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -641,6 +748,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus indicator",
@@ -651,6 +759,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
@@ -662,6 +771,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
@@ -673,6 +783,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "container",
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
@@ -684,6 +795,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-size-75"
     },
     "context": "Font size",
@@ -694,6 +806,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-size-75"
     },
     "context": "Font size",
@@ -704,6 +817,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-size-100"
     },
     "context": "Font size",
@@ -714,6 +828,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-size-100"
     },
     "context": "Font size",
@@ -724,6 +839,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-size-200"
     },
     "context": "Font size",
@@ -734,6 +850,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-size-200"
     },
     "context": "Font size",
@@ -744,6 +861,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-size-300"
     },
     "context": "Font size",
@@ -754,6 +872,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-size-300"
     },
     "context": "Font size",
@@ -764,6 +883,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Font size",
@@ -774,6 +894,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Font size",
@@ -784,6 +905,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-100"
     },
     "context": "Font size",
@@ -794,6 +916,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-100"
     },
     "context": "Font size",
@@ -804,6 +927,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label",
@@ -814,6 +938,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label",
@@ -824,6 +949,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label",
@@ -834,6 +960,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label",
@@ -844,6 +971,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "color"
     },
     "context": "Control",
@@ -854,6 +982,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "color"
     },
     "context": "Control",
@@ -864,6 +993,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "color"
     },
     "context": "Control",
@@ -874,6 +1004,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "content-color",
       "options": {
         "isSelected": true,
@@ -888,6 +1019,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "content-color",
       "options": {
         "isSelected": true,
@@ -902,6 +1034,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "content-color",
       "options": {
         "isSelected": true,
@@ -916,6 +1049,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "track",
       "property": "content-color",
       "options": {
         "isSelected": true,
@@ -930,6 +1064,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "content-color",
       "options": {
         "isDisabled": true
@@ -943,6 +1078,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus indicator",
@@ -1944,6 +2080,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-font-size-75"
     },
     "context": "Label",
@@ -1954,6 +2091,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-font-size-75"
     },
     "context": "Label",
@@ -1964,6 +2102,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-font-size-100"
     },
     "context": "Label",
@@ -1974,6 +2113,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-font-size-100"
     },
     "context": "Label",
@@ -1984,6 +2124,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-font-size-200"
     },
     "context": "Label",
@@ -1994,6 +2135,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-font-size-200"
     },
     "context": "Label",
@@ -2004,6 +2146,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-font-size-300"
     },
     "context": "Label",
@@ -2014,6 +2157,7 @@
   {
     "scope": {
       "component": "switch",
+      "part": "label",
       "property": "line-height-font-size-300"
     },
     "context": "Label",

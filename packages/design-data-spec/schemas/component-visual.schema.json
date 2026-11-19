@@ -558,9 +558,40 @@
         "context": {
           "type": "string",
           "minLength": 1
+        },
+        "attribute": {
+          "type": "string",
+          "minLength": 1
+        },
+        "part": {
+          "type": "string",
+          "minLength": 1
+        },
+        "between": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "from": { "type": "string", "minLength": 1 },
+            "to": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "if": { "required": ["context"] },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["attribute"] },
+            { "required": ["part"] },
+            { "required": ["between"] }
+          ]
+        }
+      },
+      "else": {
+        "anyOf": [{ "required": ["part"] }, { "required": ["between"] }]
+      },
+      "description": "Names a relationship by `property` and either its `context` label or its structured identity: `attribute` (the record's `scope.attribute`), `part` (its `scope.part`) and `between` (its `scope.between`). A structured selector names at least one of `part` and `between`, matches every record whose given fields are equal, and a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity. `context` cannot be combined with them."
     }
   }
 }
