@@ -779,3 +779,58 @@ fn measurement_pages_are_unaffected_by_sections() {
         .unwrap()
         .contains_key("kind"));
 }
+
+#[test]
+fn accordion_anatomy_has_api_and_capped_tokens_tables() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "anatomy")["blocks"].as_array().unwrap();
+    assert_eq!(blocks[0]["id"], "anatomy--api");
+    assert_eq!(
+        blocks[0]["columns"],
+        serde_json::json!(["Name", "Type", "Default", "Options"])
+    );
+    let rows = blocks[0]["rows"].as_array().unwrap();
+    assert_eq!(
+        rows[0],
+        serde_json::json!(["size", "string", "m", "s, m, l, xl"])
+    );
+    assert!(rows.iter().all(|r| r[0] != "xs"));
+    assert!(rows.iter().any(|r| r[0] == "isMultiple"));
+    let tokens = &blocks[1];
+    assert_eq!(
+        tokens["columns"],
+        serde_json::json!(["Name", "Type", "Alias?", "Alias of"])
+    );
+    let trows = tokens["rows"].as_array().unwrap();
+    assert_eq!(trows.len(), 40);
+    assert!(tokens["title"].as_str().unwrap().contains("first 40 of"));
+    let alias = trows
+        .iter()
+        .find(|r| r[0] == "container-padding-small")
+        .unwrap();
+    assert_eq!(
+        alias,
+        &serde_json::json!(["container-padding-small", "dimension", "Yes", "spacing-200"])
+    );
+    assert_eq!(blocks[2]["kind"], "placeholder");
+}
+
+#[test]
+fn anatomy_tables_are_whole_when_under_the_cap() {
+    let sheet = sheet_of("action-button");
+    let blocks = section(&sheet, "anatomy")["blocks"].as_array().unwrap();
+    let tokens = blocks
+        .iter()
+        .find(|b| b["id"] == "anatomy--tokens")
+        .unwrap();
+    let n = tokens["rows"].as_array().unwrap().len();
+    assert!(n <= 40);
+    let names: std::collections::BTreeSet<_> = tokens["rows"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|r| r[0].as_str().unwrap())
+        .collect();
+    assert_eq!(names.len(), n, "one row per distinct token");
+}

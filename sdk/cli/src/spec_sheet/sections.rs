@@ -13,12 +13,6 @@ fn component_raw<'a>(graph: &'a TokenGraph, component: &str) -> Option<&'a Value
         .map(|c| &c.raw)
 }
 
-fn strings(v: Option<&Value>) -> Vec<&str> {
-    v.and_then(Value::as_array)
-        .map(|a| a.iter().filter_map(Value::as_str).collect())
-        .unwrap_or_default()
-}
-
 fn prose(section: &str, id: String, title: &str) -> Map<String, Value> {
     let mut b = Map::new();
     b.insert("kind".into(), json!("prose"));
@@ -104,11 +98,143 @@ fn usage(component: &Value) -> Option<Vec<Value>> {
     (!out.is_empty()).then_some(out)
 }
 
+fn scalar(v: &Value) -> String {
+    match v {
+        Value::String(x) => x.clone(),
+        Value::Null => String::new(),
+        other => other.to_string(),
+    }
+}
+
+/// API table: one row per declared option, as the data states it. `Options` lists the declared
+/// values; an option with no `values` leaves it blank.
+fn api_table(component: &Value) -> Option<Value> {
+    let options = component.get("options").and_then(Value::as_object)?;
+    let rows: Vec<Vec<String>> = options
+        .iter()
+        .map(|(name, o)| {
+            let values: Vec<String> = o
+                .get("values")
+                .and_then(Value::as_array)
+                .map(|vs| {
+                    vs.iter()
+                        .map(|v| scalar(v.get("value").unwrap_or(v)))
+                        .collect()
+                })
+                .unwrap_or_default();
+            vec![
+                name.clone(),
+                s(o, "type").unwrap_or("").to_string(),
+                o.get("default").map(scalar).unwrap_or_default(),
+                values.join(", "),
+            ]
+        })
+        .collect();
+    (!rows.is_empty()).then(|| {
+        table(
+            "anatomy",
+            "anatomy--api",
+            "API",
+            &["Name", "Type", "Default", "Options"],
+            rows,
+        )
+    })
+}
+
+/// The name chain of a token: itself, then each alias hop to the terminal token.
+fn alias_chain(graph: &TokenGraph, tok: &Value, property: &str) -> Vec<String> {
+    let mut chain = Vec::new();
+    let mut cur = tok;
+    for _ in 0..8 {
+        match s(cur, "$ref").and_then(|next| lookup(graph, next)) {
+            Some(n) => {
+                chain.push(token_name(n, property));
+                cur = n;
+            }
+            None => break,
+        }
+    }
+    chain
+}
+
+/// Tokens table: one row per distinct token the component's relationship records name, in
+/// record order, capped at `TOKEN_ROWS`. `Alias of` is the whole alias chain to the terminal
+/// token. A record with an inline value has no token: its row is named by the relationship
+/// property and typed `inline`.
+const TOKEN_ROWS: usize = 40;
+
+fn tokens_table(graph: &TokenGraph, component: &str) -> Option<Value> {
+    let mut seen = BTreeSet::new();
+    let mut rows: Vec<Vec<String>> = Vec::new();
+    for r in &graph.relationships {
+        let scope = r.raw.get("scope");
+        if scope.and_then(|c| s(c, "component")) != Some(component) {
+            continue;
+        }
+        let property = scope.and_then(|c| s(c, "property")).unwrap_or("");
+        for tok in record_tokens(graph, &r.raw) {
+            let name = token_name(tok, property);
+            if !seen.insert(name.clone()) {
+                continue;
+            }
+            let inline = s(&r.raw, "$ref").is_none();
+            let chain = alias_chain(graph, tok, property);
+            let ty = if inline {
+                "inline".to_string()
+            } else {
+                terminal_schema(graph, tok)
+                    .rsplit('/')
+                    .next()
+                    .unwrap_or("")
+                    .trim_end_matches(".json")
+                    .to_string()
+            };
+            rows.push(vec![
+                name,
+                ty,
+                if chain.is_empty() { "No" } else { "Yes" }.to_string(),
+                chain.join(" \u{2192} "),
+            ]);
+        }
+    }
+    if rows.is_empty() {
+        return None;
+    }
+    let total = rows.len();
+    rows.truncate(TOKEN_ROWS);
+    let title = if total > TOKEN_ROWS {
+        format!("Tokens (first {TOKEN_ROWS} of {total}, in relationship order)")
+    } else {
+        "Tokens".to_string()
+    };
+    Some(table(
+        "anatomy",
+        "anatomy--tokens",
+        &title,
+        &["Name", "Type", "Alias?", "Alias of"],
+        rows,
+    ))
+}
+
 /// Replaces the placeholders the component data backs.
 pub fn fill(sections: &mut [Value], graph: &TokenGraph, component: &str) {
     let Some(raw) = component_raw(graph, component) else {
         return;
     };
+    let mut anatomy: Vec<Value> = [api_table(raw), tokens_table(graph, component)]
+        .into_iter()
+        .flatten()
+        .collect();
+    if !anatomy.is_empty() {
+        // Variants and the multi-item board come later; their placeholder stays.
+        anatomy.push(placeholder(
+            "anatomy",
+            "anatomy--placeholder",
+            "Anatomy",
+            "Variants and multi-item board. Manual until generated from component data.",
+        ));
+        set_blocks(sections, "anatomy", anatomy);
+    }
     if let Some(blocks) = usage(raw) {
         set_blocks(sections, "usage", blocks);
     }
