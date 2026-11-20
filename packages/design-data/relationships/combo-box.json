@@ -3,20 +3,6 @@
     "scope": {
       "component": "combo-box",
       "part": "field",
-      "property": "visual-to-field-button-quiet",
-      "between": {
-        "from": "error-icon",
-        "to": "in-field-button"
-      }
-    },
-    "context": "S1 Spacing (alert icon/progress circle to field button)",
-    "$ref": "6c3c7201-2f5b-455a-bcbf-5e3d783887bf",
-    "uuid": "93762f2f-359f-538b-a887-4743a2dde574"
-  },
-  {
-    "scope": {
-      "component": "combo-box",
-      "part": "field",
       "property": "space-between",
       "between": {
         "from": "top-edge",
