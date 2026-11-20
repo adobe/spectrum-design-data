@@ -71,16 +71,20 @@ tasks:
       - "scripts/validate-visuals.js"
       - "/packages/design-data-spec/schemas/component-visual.schema.json"
 
-  # Self-test of the icon importer, plus invariants of the committed icons/ files. Regenerate with: node scripts/import-icons.mjs <react-spectrum checkout> <sha>
+  # Self-tests of the icon importer and the fused-property codemod, plus invariants of the committed icons/ files. Regenerate with: node scripts/import-icons.mjs <react-spectrum checkout> <sha>
   test:
     command: node
     args:
       - --test
       - scripts/import-icons.test.mjs
+      - scripts/decompose-fused-properties.test.mjs
     inputs:
       - "@globs(icons)"
       - "scripts/import-icons.mjs"
       - "scripts/import-icons.test.mjs"
+      - "scripts/decompose-fused-properties.mjs"
+      - "scripts/decompose-fused-properties.test.mjs"
+      - "scripts/backfill-relationship-uuid.mjs"
 
   # Validate guideline JSON files against guideline.schema.json (AJV + document-block $ref).
   validate-guidelines:

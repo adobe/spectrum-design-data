@@ -87,3 +87,36 @@ fn component_levels_match_the_baseline() {
         stale.join("\n")
     );
 }
+
+/// Live records with `background-color` or `border-color` are held for PR 1454, which replaces
+/// them with `color` plus `attribute`. The count may only fall; lower it when it does.
+const HELD_COLOR_PROPERTY_RECORDS: usize = 36;
+
+#[test]
+fn background_and_border_color_records_do_not_grow() {
+    let d = data_dir();
+    let graph = TokenGraph::from_json_dir_with_catalogs(&d.join("tokens"), None, None)
+        .expect("tokens")
+        .with_relationships(
+            TokenGraph::load_spec_relationships(&d.join("relationships")).expect("relationships"),
+        );
+    let count = graph
+        .relationships
+        .iter()
+        .filter(|r| {
+            r.raw
+                .pointer("/lifecycle/deprecatedIn")
+                .is_none_or(|v| v.is_null())
+        })
+        .filter(|r| {
+            matches!(
+                r.raw.pointer("/scope/property").and_then(|p| p.as_str()),
+                Some("background-color" | "border-color")
+            )
+        })
+        .count();
+    assert_eq!(
+        count, HELD_COLOR_PROPERTY_RECORDS,
+        "live background-color/border-color records: {count}, held at {HELD_COLOR_PROPERTY_RECORDS}. Use `color` with an attribute (PR 1454); lower the constant when the count falls."
+    );
+}

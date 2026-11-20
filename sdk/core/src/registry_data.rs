@@ -2315,6 +2315,11 @@ const POSITIONS_JSON: &str = r##"{
       "description": "Outer boundary at the end (right in LTR, left in RTL)"
     },
     {
+      "id": "top-edge",
+      "label": "Top edge",
+      "description": "Outer boundary at the top"
+    },
+    {
       "id": "bottom-edge",
       "label": "Bottom edge",
       "description": "Outer boundary at the bottom"

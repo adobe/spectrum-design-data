@@ -111,7 +111,10 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-height-75"
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -122,7 +125,10 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-height-75"
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -133,7 +139,10 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-height-100"
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -144,7 +153,10 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-height-100"
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -155,7 +167,10 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-height-200"
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -166,7 +181,10 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-height-200"
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -177,7 +195,10 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-height-300"
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -188,7 +209,10 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-height-300"
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -243,10 +267,13 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-edge-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -259,10 +286,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-edge-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "d437ff35-98e7-5e64-9724-1e0203ed4e7a"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -275,10 +324,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-edge-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "17d55d34-28cf-5afe-a0a1-d973f2614ec5"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -291,10 +362,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-edge-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "97b52abe-02b6-59f1-a560-cf5d4045ce02"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -307,10 +400,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-edge-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "c96cd2e9-42f4-5788-a629-4b487e939e59"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -323,10 +438,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-edge-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "d38f85dd-eaac-5e1f-b906-a75f11636ab0"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -339,10 +476,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-edge-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "e328de38-d0b6-533d-9b18-7a0dbfcc20a4"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -355,10 +514,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-edge-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "5cf59abd-6141-56aa-b9a1-d7579cf2c8f5"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -370,8 +551,30 @@
   {
     "scope": {
       "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "d14b2c26-8dca-5cb9-a565-51476cd96a56"
+  },
+  {
+    "scope": {
+      "component": "text-field",
       "part": "prefix",
-      "property": "workflow-icon-size-75"
+      "property": "minimum-width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -382,7 +585,10 @@
     "scope": {
       "component": "text-field",
       "part": "prefix",
-      "property": "workflow-icon-size-75"
+      "property": "minimum-width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -393,7 +599,10 @@
     "scope": {
       "component": "text-field",
       "part": "prefix",
-      "property": "workflow-icon-size-100"
+      "property": "minimum-width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -404,7 +613,10 @@
     "scope": {
       "component": "text-field",
       "part": "prefix",
-      "property": "workflow-icon-size-100"
+      "property": "minimum-width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -415,7 +627,10 @@
     "scope": {
       "component": "text-field",
       "part": "prefix",
-      "property": "workflow-icon-size-200"
+      "property": "minimum-width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -426,7 +641,10 @@
     "scope": {
       "component": "text-field",
       "part": "prefix",
-      "property": "workflow-icon-size-200"
+      "property": "minimum-width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -437,7 +655,10 @@
     "scope": {
       "component": "text-field",
       "part": "prefix",
-      "property": "workflow-icon-size-300"
+      "property": "minimum-width",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -448,7 +669,10 @@
     "scope": {
       "component": "text-field",
       "part": "prefix",
-      "property": "workflow-icon-size-300"
+      "property": "minimum-width",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -545,10 +769,13 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-top-to-workflow-icon-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "error-icon"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
@@ -561,10 +788,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-top-to-workflow-icon-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "error-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (top/bottom edge to alert icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to alert icon",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "2066aa74-8029-5e9d-9a70-f7654d1be50e"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "error-icon"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
@@ -577,10 +826,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-top-to-workflow-icon-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "error-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom edge to alert icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to alert icon",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "bc5daabb-1f85-5001-b06e-202949c9ac31"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "error-icon"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
@@ -593,10 +864,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-top-to-workflow-icon-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "error-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (top/bottom edge to alert icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to alert icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "e5267774-9045-5f4b-b1f2-23a2e68ac099"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "error-icon"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
@@ -604,6 +897,25 @@
     "contextQualifier": "top/bottom edge to alert icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "f01ac6f8-0c5d-5f06-9c77-c19a65b3bb06"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom edge to alert icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to alert icon",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "31cc4482-98d9-525f-bbb9-586f8f663457"
   },
   {
     "scope": {
@@ -819,7 +1131,7 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "validation-marker"
       }
     },
@@ -835,7 +1147,23 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "validation-marker",
+        "to": "bottom-edge"
+      }
+    },
+    "context": "Spacing (top/bottom edge to validation icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to validation icon",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "e1a7dfb5-5898-538b-a3d5-721bae8460c1"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "validation-marker"
       }
     },
@@ -851,7 +1179,23 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "validation-marker",
+        "to": "bottom-edge"
+      }
+    },
+    "context": "Spacing (top/bottom edge to validation icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to validation icon",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "14d2d948-fcbf-51c9-8fda-8ddd0ebe87d5"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "validation-marker"
       }
     },
@@ -867,7 +1211,23 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "validation-marker",
+        "to": "bottom-edge"
+      }
+    },
+    "context": "Spacing (top/bottom edge to validation icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to validation icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "3c8bb53f-610e-50f8-81fd-0c094dfcbaa7"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "validation-marker"
       }
     },
@@ -876,6 +1236,22 @@
     "contextQualifier": "top/bottom edge to validation icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "4912a34e-b73a-5a2e-9a3d-52d0f6e2913f"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "validation-marker",
+        "to": "bottom-edge"
+      }
+    },
+    "context": "Spacing (top/bottom edge to validation icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to validation icon",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "602125c0-7744-5e2f-9d14-6df3c26d16e7"
   },
   {
     "scope": {
@@ -1009,7 +1385,7 @@
     "scope": {
       "component": "text-field",
       "part": "container",
-      "property": "to-component",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
@@ -1041,10 +1417,13 @@
     "scope": {
       "component": "text-field",
       "part": "container",
-      "property": "component-bottom-to-text-75",
+      "property": "space-between",
       "between": {
         "from": "character-count",
         "to": "field"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (character count to field)",
@@ -1057,10 +1436,13 @@
     "scope": {
       "component": "text-field",
       "part": "container",
-      "property": "component-bottom-to-text-100",
+      "property": "space-between",
       "between": {
         "from": "character-count",
         "to": "field"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (character count to field)",
@@ -1073,10 +1455,13 @@
     "scope": {
       "component": "text-field",
       "part": "container",
-      "property": "component-bottom-to-text-200",
+      "property": "space-between",
       "between": {
         "from": "character-count",
         "to": "field"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (character count to field)",
@@ -1089,10 +1474,13 @@
     "scope": {
       "component": "text-field",
       "part": "container",
-      "property": "component-bottom-to-text-300",
+      "property": "space-between",
       "between": {
         "from": "character-count",
         "to": "field"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (character count to field)",
@@ -1105,10 +1493,13 @@
     "scope": {
       "component": "text-field",
       "part": "container",
-      "property": "side-label-character-count-to-field",
+      "property": "space-between",
       "between": {
         "from": "field",
         "to": "character-count"
+      },
+      "options": {
+        "labelPosition": "side"
       }
     },
     "context": "Spacing (side label, field to character count)",
@@ -1121,10 +1512,13 @@
     "scope": {
       "component": "text-field",
       "part": "container",
-      "property": "side-label-character-count-to-field",
+      "property": "space-between",
       "between": {
         "from": "field",
         "to": "character-count"
+      },
+      "options": {
+        "labelPosition": "side"
       }
     },
     "context": "Spacing (side label, field to character count)",
@@ -1137,7 +1531,7 @@
     "scope": {
       "component": "text-field",
       "part": "container",
-      "property": "to-component",
+      "property": "space-between",
       "between": {
         "from": "field",
         "to": "help-text"
@@ -1598,10 +1992,13 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Disabled",
-    "contextRole": ["state"],
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "4daa2663-9650-5da1-b12c-c3ddb16324cf"
   },
@@ -1818,7 +2215,7 @@
     "scope": {
       "component": "text-field",
       "part": "value",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1884,10 +2281,13 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-padding-vertical-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to text)",
@@ -1900,10 +2300,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-padding-vertical-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "3ed67afd-a8ce-5103-bfbb-398cd60b1de7"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to text)",
@@ -1916,9 +2338,28 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-top-to-text-50",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "82721384-4230-5a56-a44e-4d5f15e006c4"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "value"
       }
     },
@@ -1932,10 +2373,29 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-top-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "bottom-edge"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
+    "uuid": "603935a5-3a1e-5fec-a1dd-0244c47bf7bb"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to text)",
@@ -1948,10 +2408,32 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-top-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "02a23dfa-1235-5d3e-a977-99fa1be501bc"
+  },
+  {
+    "scope": {
+      "component": "text-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "leading-icon"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Leading icon (top/bottom edge to leading icon)",
@@ -1964,17 +2446,20 @@
     "scope": {
       "component": "text-field",
       "part": "field",
-      "property": "component-top-to-workflow-icon-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
-        "to": "leading-icon"
+        "from": "leading-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Leading icon (top/bottom edge to leading icon)",
     "contextRole": ["icon"],
     "contextQualifier": "top/bottom edge to leading icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "c200de86-633b-58da-b8d4-8c9d61be389b"
+    "uuid": "b5277f19-b6e2-54f1-bfab-fb558d8a2236"
   },
   {
     "scope": {
