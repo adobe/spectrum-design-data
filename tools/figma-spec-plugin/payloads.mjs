@@ -96,6 +96,27 @@ export function slimBlock(b) {
   };
 }
 
+/** A section reduced to what its frame draws. */
+export function slimSection(s) {
+  return {
+    ...pick(s, ["key", "title"]),
+    blocks: s.blocks.map((b) =>
+      pick(b, [
+        "kind",
+        "id",
+        "title",
+        "paragraphs",
+        "bullets",
+        "do",
+        "dont",
+        "columns",
+        "rows",
+        "hint",
+      ]),
+    ),
+  };
+}
+
 /** A changelog reduced to what the changelog frame lists; commits without entries drop out. */
 export function slimChangelog(c) {
   return {
@@ -127,6 +148,8 @@ function callSource(c) {
       return `results.push(await beginSheet(META, ${json(c.pages)}));`;
     case "changelog":
       return `results.push(await appendChangelog(META, ${json(c.data)}));`;
+    case "section":
+      return `results.push(await appendSection(META, ${json(c.section)}));`;
     case "blocks":
       return `results.push(await appendBlocks(META, ${json(c.page)}, ${json(c.blocks)}));`;
     default:
@@ -135,7 +158,11 @@ function callSource(c) {
 }
 
 const describe = (c) =>
-  c.fn === "blocks" ? `blocks ${c.page} x${c.blocks.length}` : c.fn;
+  c.fn === "section"
+    ? `section ${c.section.key}`
+    : c.fn === "blocks"
+      ? `blocks ${c.page} x${c.blocks.length}`
+      : c.fn;
 
 /**
  * Payloads for one sheet. `pages` limits the pages drawn (default all). Each payload is
@@ -160,6 +187,10 @@ export function buildPayloads({ sheet, changelog, pages, limit = LIMIT }) {
   for (const p of drawn)
     for (const b of p.blocks)
       units.push({ fn: "blocks", page: p.title, blocks: [slimBlock(b)] });
+  // Sections follow the pages, in sheet order; a page subset draws none (as in code.js).
+  if (!pages)
+    for (const s of sheet.sections ?? [])
+      units.push({ fn: "section", section: slimSection(s) });
   units.push({ fn: "finish" });
 
   const payloads = [];
