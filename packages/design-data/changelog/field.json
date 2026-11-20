@@ -63,6 +63,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.25.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "ddf5445ba61dbf79cc25f19ed7e16f3d415e7ed0",
+      "commits": [
+        {
+          "commit": "ddf5445ba61dbf79cc25f19ed7e16f3d415e7ed0",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1968,"title":"feat(design-data): review anatomy of the input fields, number-field and tag-field (A2-1)","url":"https://github.com/adobe/spectrum-design-data/pull/1968"},
+          "entries": [
+            {"id":"ddf5445b-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"field/anatomy/field","name":"field","fields":[],"after":{"name":"field","description":"Bordered box that frames the field content.","required":true,"contains":["value"]}},
+            {"id":"ddf5445b-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"field/anatomy/container","name":"container","fields":[{"path":"contains","before":["value"],"after":["field-label","field","help-text"]}]},
+            {"id":"ddf5445b-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"field/anatomy/container","name":"container","fields":[{"path":"description","before":"Bordered box that frames the field content.","after":"Root of the component: sets the width and the spacing between the label, the field and the help text."}]},
+            {"id":"ddf5445b-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Shared primitive; Figma has no separate page (SAME PAGE AS text-field). Parts copied from the text-field layout. Relationships (border, width, space-between) name no parts.","after":"Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). Shared primitive; Figma has no separate page and no source styles it. It has no relationship records yet; the input fields keep their own copies (decision D1a, a shared chrome component is bead 5m92.5.3.2)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }
