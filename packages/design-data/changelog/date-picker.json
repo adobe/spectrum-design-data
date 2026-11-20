@@ -310,6 +310,23 @@
           "metadata": {"count":1,"fields":["contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "226f89bc6154fe99e20d90eac19f6d9a851de882",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1958,"title":"fix(design-data): drop date-picker width spacing record, repoint select-box border","url":"https://github.com/adobe/spectrum-design-data/pull/1958"},
+          "entries": [
+            {"id":"226f89bc-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Popover minimum width"],"scope":{"property":"spacing","options":null},"record":"5e17a7f7-00b3-50ec-b353-c28ec608d1f8","name":"spacing","fields":[],"before":"490b4010-1561-4b12-8cbb-cdb4b650ba74"}
+          ]
+        }
+      ]
     }
   ]
 }

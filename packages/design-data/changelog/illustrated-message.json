@@ -169,6 +169,22 @@
           "metadata": {"count":12,"fields":["scope.options.script","scope.options.size"]}
         }
       ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "1.3.1",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "676b08d9d3ed808075c931240c3a1ba438efdda4",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1964,"title":"feat(design-data): review anatomy of body, heading, detail, title, code (A1)","url":"https://github.com/adobe/spectrum-design-data/pull/1964"},
+          "entries": [],
+          "metadata": {"count":9,"fields":["context","contextRole","scope.part"]}
+        }
+      ]
     }
   ]
 }

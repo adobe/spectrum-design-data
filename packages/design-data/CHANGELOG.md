@@ -1,5 +1,56 @@
 # @adobe/spectrum-design-data
 
+## 3.24.0
+
+### Minor Changes
+
+- [#1964](https://github.com/adobe/spectrum-design-data/pull/1964) [`676b08d`](https://github.com/adobe/spectrum-design-data/commit/676b08d9d3ed808075c931240c3a1ba438efdda4) Thanks [@GarthDB](https://github.com/GarthDB)! - Review the anatomy of body, heading, detail, title and code. Each stays a component with one
+  root part, `text`, and its 239 live relationship records now say so (`scope.part`).
+  - Title: `size` is renamed `font-size` (14 records), `family: cjk` becomes `script: cjk` (10),
+    and its two duplicate margin records are removed.
+  - Code: `size` becomes `font-size` (5), and its description is fixed.
+  - Body, heading and detail: `margin-multiplier` becomes `margin` with `position`, and the
+    margin `structure` option is dropped. The registry drops the `heading` and `detail`
+    structures (unused).
+  - Title: contexts are harmonised so each property has one (15 records gain `Text`, 2 margins gain
+    `Margins`, letter-spacing goes from `Title-XXXL` to `Text`). Other components keep theirs.
+  - Heading no longer lists React Spectrum `Heading` as its implementation (it is unstyled).
+  - The five components are marked `reviewed`. Code, detail and title are at status level 2
+    (body and heading at 1).
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical. Deprecated records are untouched.
+
+- [#1960](https://github.com/adobe/spectrum-design-data/pull/1960) [`e1b3e4a`](https://github.com/adobe/spectrum-design-data/commit/e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a visual recipe name a relationship by its structured identity, and add `scope.attribute`
+  (proposal 018).
+  - **Spec:** a relationship's identity is `(scope.property, scope.attribute, scope.part,
+scope.between)`. `scope.attribute` is new and optional: a sub-quality of the property
+    (`border`, `background`, `dash`, `shadow`, `corner`, `overlay`, `gradient`). It is checked
+    against `registry/attributes.json` as a warning (SPEC-101).
+  - **Spec:** a recipe `relationship` selector may use `attribute`, `part` and `between` instead
+    of `context`. It must name `part` or `between`, matches every record whose given fields are
+    equal, and SPEC-062 rejects a selector that names more than one identity. Mixing `context`
+    with them is invalid.
+  - **Rules:** SPEC-062's one-identity check is an error where a component has no identity
+    collisions, a baselined warning elsewhere. `context` selectors per recipe cannot rise.
+  - **Data:** the switch and checkbox recipes bind by identity, and 190 relationship records gain
+    `scope.part` (158) or `scope.between` (32); no other field changes.
+    Renders and spec sheets are byte-identical. `@adobe/spectrum-tokens` is not affected.
+  - **Engine:** the renderer, SPEC-062/066/071/090, the status report and the spec-sheet generator
+    read both forms. A CLI or WASM build older than this one cannot resolve the new recipes.
+  - **Release:** the dataset requires CLI 0.57.0; 0.56.0 cannot resolve selectors without `context`.
+
+### Patch Changes
+
+- [#1958](https://github.com/adobe/spectrum-design-data/pull/1958) [`226f89b`](https://github.com/adobe/spectrum-design-data/commit/226f89bc6154fe99e20d90eac19f6d9a851de882) Thanks [@GarthDB](https://github.com/GarthDB)! - Data fixes for two relationship records. Renders and legacy tokens are unchanged.
+  - date-picker: removed the "Popover minimum width" record
+    (`5e17a7f7-00b3-50ec-b353-c28ec608d1f8`, `spacing` scope, `$ref` spacing-500 / 32px).
+    A spacing token used as a width was a data error; Figma and React Spectrum show no
+    32px popover width.
+  - select-box: the selected-border thickness record
+    (`c0dcf46a-f713-5fda-89df-5e82cda2dbe0`) now points at `border-width-200` (2px)
+    instead of `focus-indicator-thickness` (2px). It is a border width, not the focus
+    ring. Same value, uuid, scope and context.
+
 ## 3.23.0
 
 ### Minor Changes

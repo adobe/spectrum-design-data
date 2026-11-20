@@ -420,6 +420,29 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "3.0.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1960,"title":"feat(design-data-spec): structured recipe selectors and scope.attribute identity","url":"https://github.com/adobe/spectrum-design-data/pull/1960"},
+          "entries": [
+            {"id":"e1b3e4ac-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/box","name":"box","fields":[{"path":"props.cornerRadius.relationship.context","before":"Control (rounding)"},{"path":"props.cornerRadius.relationship.part","after":"box"},{"path":"props.fill","before":[{"relationship":{"property":"color","context":"Control"}},{"when":{"options":{"isSelected":true}},"relationship":{"property":"background-color","context":"Control"}},{"when":{"options":{"isIndeterminate":true}},"relationship":{"property":"background-color","context":"Control"}}],"after":[{"relationship":{"property":"color","part":"box"}},{"when":{"options":{"isSelected":true}},"relationship":{"property":"background-color","part":"box"}},{"when":{"options":{"isIndeterminate":true}},"relationship":{"property":"background-color","part":"box"}}]},{"path":"props.height.relationship.context","before":"Control (size)"},{"path":"props.height.relationship.part","after":"box"},{"path":"props.stroke.relationship.context","before":"Control"},{"path":"props.stroke.relationship.part","after":"box"},{"path":"props.strokeWidth","before":[{"relationship":{"property":"border-width","context":"Control (border)"}},{"when":{"options":{"isSelected":true}},"value":0,"priority":1},{"when":{"options":{"isIndeterminate":true}},"value":0,"priority":1}],"after":[{"relationship":{"property":"border-width","part":"box"}},{"when":{"options":{"isSelected":true}},"value":0,"priority":1},{"when":{"options":{"isIndeterminate":true}},"value":0,"priority":1}]},{"path":"props.width.relationship.context","before":"Control (size)"},{"path":"props.width.relationship.part","after":"box"}]},
+            {"id":"e1b3e4ac-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/checkmark","name":"checkmark","fields":[{"path":"props.color.relationship.context","before":"Control"},{"path":"props.color.relationship.part","after":"box"}]},
+            {"id":"e1b3e4ac-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/container","name":"container","fields":[{"path":"props.gap.relationship.between.from","after":"control"},{"path":"props.gap.relationship.between.to","after":"label"},{"path":"props.gap.relationship.context","before":"Spacing (control to label)"},{"path":"props.minHeight.relationship.context","before":"Minimum height"},{"path":"props.minHeight.relationship.part","after":"container"},{"path":"props.pressDifference.relationship.context","before":"Component size (down)"},{"path":"props.pressDifference.relationship.part","after":"container"},{"path":"props.pressMinPerspective.relationship.context","before":"Component size (down)"},{"path":"props.pressMinPerspective.relationship.part","after":"container"},{"path":"props.pressWidthRatio.relationship.context","before":"Component size (down)"},{"path":"props.pressWidthRatio.relationship.part","after":"container"}]},
+            {"id":"e1b3e4ac-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/dash","name":"dash","fields":[{"path":"props.color.relationship.context","before":"Control"},{"path":"props.color.relationship.part","after":"box"}]},
+            {"id":"e1b3e4ac-4","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/focus-indicator","name":"focus-indicator","fields":[{"path":"props.gapToParent.relationship.context","before":"Focus ring"},{"path":"props.gapToParent.relationship.part","after":"focus-indicator"},{"path":"props.stroke.relationship.context","before":"Focus ring"},{"path":"props.stroke.relationship.part","after":"focus-indicator"},{"path":"props.strokeWidth.relationship.context","before":"Focus ring"},{"path":"props.strokeWidth.relationship.part","after":"focus-indicator"}]},
+            {"id":"e1b3e4ac-5","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/label","name":"label","fields":[{"path":"props.color.relationship.context","before":"Label"},{"path":"props.color.relationship.part","after":"label"},{"path":"props.fontSize.relationship.context","before":"Label"},{"path":"props.fontSize.relationship.part","after":"label"},{"path":"props.fontWeight.relationship.context","before":"Label"},{"path":"props.fontWeight.relationship.part","after":"label"},{"path":"props.lineHeight.relationship.context","before":"Label"},{"path":"props.lineHeight.relationship.part","after":"label"}]}
+          ],
+          "metadata": {"count":94,"fields":["scope.between.from","scope.between.to","scope.part"]}
+        }
+      ]
     }
   ]
 }
