@@ -172,7 +172,97 @@ fn head(path: &str) -> &str {
     path.split('.').next().unwrap_or(path)
 }
 
-fn field_class(layer: Layer, kind: &str, path: &str) -> Class {
+/// A relationship's identity as recipes select it: (property, attribute, part, between).
+/// `options.from`/`to` read as `between`, and `contextPart` as `part`, so a migration to
+/// the structured fields leaves the key unchanged.
+fn identity_of(r: &Value) -> (Value, Value, Value, Value) {
+    let s = &r["scope"];
+    let o = &s["options"];
+    let between = if s.get("between").is_some() {
+        s["between"].clone()
+    } else {
+        let mut m = serde_json::Map::new();
+        for k in ["from", "to"] {
+            if let Some(v) = o.get(k) {
+                m.insert(k.into(), v.clone());
+            }
+        }
+        if m.is_empty() {
+            Value::Null
+        } else {
+            Value::Object(m)
+        }
+    };
+    let part = s.get("part").or_else(|| r.get("contextPart"));
+    (
+        s["property"].clone(),
+        s["attribute"].clone(),
+        part.cloned().unwrap_or(Value::Null),
+        between,
+    )
+}
+
+/// Whether `part` is the component's root: declared, contained by no other part, and either
+/// a container (has `contains`), the only such part, or named `container`. Read from the
+/// anatomy in the new snapshot.
+fn is_root(new: &DatasetSnapshot, comp: Option<&str>, part: &str) -> bool {
+    let Some(parts) = comp
+        .and_then(|n| new.components.get(n))
+        .and_then(|v| v.get("anatomy"))
+        .and_then(Value::as_array)
+    else {
+        return false;
+    };
+    let name = |p: &Value| {
+        p.get("name")
+            .and_then(Value::as_str)
+            .unwrap_or("")
+            .to_string()
+    };
+    let contained: HashSet<&str> = parts
+        .iter()
+        .filter_map(|p| p.get("contains").and_then(Value::as_array))
+        .flatten()
+        .filter_map(Value::as_str)
+        .collect();
+    let top: Vec<&Value> = parts
+        .iter()
+        .filter(|p| !contained.contains(name(p).as_str()))
+        .collect();
+    top.iter().any(|p| {
+        name(p) == part
+            && (top.len() == 1
+                || part == "container"
+                || p.get("contains")
+                    .and_then(Value::as_array)
+                    .is_some_and(|a| !a.is_empty()))
+    })
+}
+
+/// True when an updated relationship kept its identity. A root part appearing where there
+/// was none makes the implicit root explicit, so it counts as kept; any other part added,
+/// and a part removed or changed, does not.
+fn identity_kept(old: &DatasetSnapshot, new: &DatasetSnapshot, c: &RecordChange) -> bool {
+    let comp = c.component.as_deref();
+    // Paired by uuid; a record without one is never assumed to keep its identity.
+    let find = |s: &'_ DatasetSnapshot| {
+        s.relationships
+            .iter()
+            .find(|r| r.get("uuid").and_then(Value::as_str) == Some(c.id.as_str()))
+            .map(identity_of)
+    };
+    let (Some((bp, ba, bpart, bb)), Some((ap, aa, apart, ab))) = (find(old), find(new)) else {
+        return false;
+    };
+    bp == ap
+        && ba == aa
+        && bb == ab
+        && (bpart == apart
+            || (bpart.is_null() && apart.as_str().is_some_and(|p| is_root(new, comp, p))))
+}
+
+fn field_class(layer: Layer, kind: &str, f: &PropertyChange, kept: bool) -> Class {
+    let path = f.path.as_str();
     if layer == Layer::Visual {
         return Class::Visual;
     }
@@ -189,7 +279,7 @@ fn field_class(layer: Layer, kind: &str, path: &str) -> Class {
         "token" | "relationship" => match head(path) {
             "value" | "$ref" | "sets" => Class::Visual,
             // An option pin picks which record renders.
-            "scope" if kind == "relationship" && path.starts_with("scope.options") => Class::Visual,
+            "scope" if kind == "relationship" => scope_class(f, kept),
             "name" => Class::Api,
             "lifecycle" if path.contains("deprecatedIn") || path.contains("replacedBy") => {
                 Class::Api
@@ -212,6 +302,47 @@ fn field_class(layer: Layer, kind: &str, path: &str) -> Class {
             _ => Class::Api,
         },
         _ => Class::Api,
+    }
+}
+
+/// Scope fields of a relationship. Identity changes are `api` (listed); a migration that
+/// keeps the identity is `metadata`; an option pin picks which record renders (`visual`).
+fn scope_class(f: &PropertyChange, kept: bool) -> Class {
+    let path = f.path.as_str();
+    // The whole `scope.options` object added or removed: a pin unless it holds only from/to.
+    let only_pair = |v: &Option<Value>| {
+        v.as_ref().is_none_or(|v| {
+            v.as_object()
+                .is_some_and(|m| m.keys().all(|k| k == "from" || k == "to"))
+        })
+    };
+    if path == "scope.options" {
+        return if !only_pair(&f.original_value) || !only_pair(&f.new_value) {
+            Class::Visual
+        } else if kept {
+            Class::Metadata
+        } else {
+            Class::Api
+        };
+    }
+    let mut it = path.split('.').skip(1);
+    match (it.next(), it.next()) {
+        (Some("part" | "between" | "property" | "attribute"), _) => {
+            if kept && matches!(path.split('.').nth(1), Some("part" | "between")) {
+                Class::Metadata
+            } else {
+                Class::Api
+            }
+        }
+        (Some("options"), Some("from" | "to")) => {
+            if kept {
+                Class::Metadata
+            } else {
+                Class::Api
+            }
+        }
+        (Some("options"), _) => Class::Visual,
+        _ => Class::Metadata,
     }
 }
 
@@ -455,9 +586,11 @@ pub fn entries_for_step(
             continue;
         }
         // One entry per class: fields of one record can be both a value change and metadata.
+        let kept =
+            c.kind == "relationship" && c.change == Change::Updated && identity_kept(old, new, c);
         let mut by_class: BTreeMap<u8, (Class, Vec<&PropertyChange>)> = BTreeMap::new();
         for f in &c.fields {
-            let class = field_class(c.layer, c.kind, &f.path);
+            let class = field_class(c.layer, c.kind, f, kept);
             by_class
                 .entry(class as u8)
                 .or_insert((class, vec![]))
@@ -1070,6 +1203,113 @@ mod tests {
         assert!(c.metadata.is_none(), "{c:?}");
         assert!(c.entries.iter().all(|e| e.class == Class::Visual));
         assert!(!c.entries.is_empty());
+    }
+
+    fn classes(old: Value, new: Value) -> (Vec<Class>, usize) {
+        let c = &run(&snap(vec![old], vec![]), &snap(vec![new], vec![]))["c"];
+        (
+            c.entries.iter().map(|e| e.class).collect(),
+            c.metadata.as_ref().map_or(0, |m| m.count),
+        )
+    }
+
+    fn with(f: impl Fn(&mut Value)) -> Value {
+        let mut r = rel("1", "t");
+        f(&mut r);
+        r
+    }
+
+    #[test]
+    fn identity_change_is_listed_as_api() {
+        let (c, _) = classes(
+            with(|r| r["scope"]["part"] = json!("a")),
+            with(|r| r["scope"]["part"] = json!("b")),
+        );
+        assert!(!c.is_empty() && c.iter().all(|c| *c == Class::Api), "{c:?}");
+        let (c, _) = classes(
+            with(|r| r["scope"]["options"] = json!({"from": "a", "to": "b"})),
+            with(|r| r["scope"]["options"] = json!({"from": "a", "to": "c"})),
+        );
+        assert!(c.contains(&Class::Api), "{c:?}");
+    }
+
+    #[test]
+    fn identity_preserving_migrations_are_metadata() {
+        // options.from/to -> between
+        let (c, n) = classes(
+            with(|r| r["scope"]["options"] = json!({"from": "a", "to": "b"})),
+            with(|r| r["scope"]["between"] = json!({"from": "a", "to": "b"})),
+        );
+        assert!(c.is_empty() && n > 0, "{c:?}");
+        // contextPart -> scope.part
+        let (c, n) = classes(
+            with(|r| r["contextPart"] = json!("Dot")),
+            with(|r| r["scope"]["part"] = json!("Dot")),
+        );
+        assert!(c.is_empty() && n > 0, "{c:?}");
+    }
+
+    fn with_anatomy(old: Value, new: Value) -> (Vec<Class>, usize) {
+        let comp = json!({"anatomy": [
+            {"name": "container", "contains": ["label"]},
+            {"name": "label"},
+            {"name": "focus-indicator"}
+        ]});
+        let c = &run(
+            &snap(vec![old], vec![("c", comp.clone())]),
+            &snap(vec![new], vec![("c", comp)]),
+        )["c"];
+        (
+            c.entries.iter().map(|e| e.class).collect(),
+            c.metadata.as_ref().map_or(0, |m| m.count),
+        )
+    }
+
+    #[test]
+    fn adding_the_root_part_is_metadata_another_part_is_api() {
+        let (c, n) = with_anatomy(
+            rel("1", "t"),
+            with(|r| r["scope"]["part"] = json!("container")),
+        );
+        assert!(c.is_empty() && n > 0, "{c:?}");
+        for other in ["label", "focus-indicator"] {
+            let (c, _) = with_anatomy(rel("1", "t"), with(|r| r["scope"]["part"] = json!(other)));
+            assert!(c.contains(&Class::Api), "{other}: {c:?}");
+        }
+    }
+
+    #[test]
+    fn record_without_a_matching_uuid_lists_the_identity_change() {
+        let (c, _) = classes(
+            with(|r| r["scope"]["options"] = json!({"from": "a", "to": "b"})),
+            with(|r| {
+                r["uuid"] = json!("other");
+                r["scope"]["between"] = json!({"from": "a", "to": "b"});
+            }),
+        );
+        assert!(!c.is_empty(), "{c:?}");
+    }
+
+    #[test]
+    fn a_move_plus_a_pin_change_is_one_visual_entry_and_metadata() {
+        let (c, n) = classes(
+            with(|r| r["scope"]["options"] = json!({"from": "a", "to": "b", "state": "x"})),
+            with(|r| {
+                r["scope"]["options"] = json!({"state": "y"});
+                r["scope"]["between"] = json!({"from": "a", "to": "b"});
+            }),
+        );
+        assert_eq!(c, vec![Class::Visual]);
+        assert!(n > 0);
+    }
+
+    #[test]
+    fn a_pin_beside_from_to_stays_visual() {
+        let (c, _) = classes(
+            with(|r| r["scope"]["options"] = json!({"state": "a"})),
+            with(|r| r["scope"]["options"] = json!({"state": "b"})),
+        );
+        assert!(c.iter().all(|c| *c == Class::Visual) && !c.is_empty());
     }
 
     #[test]
