@@ -22,7 +22,8 @@
       "label": "Icon",
       "description": "Icon elements",
       "usedIn": ["tokens", "component-schemas"],
-      "standaloneScope": true
+      "standaloneScope": true,
+      "aliases": ["alert-icon"]
     },
     {
       "id": "label",
@@ -200,7 +201,8 @@
       "id": "dot",
       "label": "Dot",
       "description": "Small circular indicator element (status-light)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "aliases": ["light"]
     },
     {
       "id": "separator",
