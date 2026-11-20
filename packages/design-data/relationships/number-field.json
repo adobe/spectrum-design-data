@@ -2,7 +2,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "to-component"
+      "part": "container",
+      "property": "to-component",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to number field)",
     "contextRole": ["spacing"],
@@ -13,7 +18,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "to-end-small"
+      "part": "field",
+      "property": "to-end-small",
+      "between": {
+        "from": "in-field-stepper",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (in-field-stepper to edge)",
     "contextRole": ["spacing"],
@@ -24,7 +34,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "to-end-medium"
+      "part": "field",
+      "property": "to-end-medium",
+      "between": {
+        "from": "in-field-stepper",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (in-field-stepper to edge)",
     "contextRole": ["spacing"],
@@ -35,7 +50,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "to-end-large"
+      "part": "field",
+      "property": "to-end-large",
+      "between": {
+        "from": "in-field-stepper",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (in-field-stepper to edge)",
     "contextRole": ["spacing"],
@@ -46,7 +66,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "to-end-extra-large"
+      "part": "field",
+      "property": "to-end-extra-large",
+      "between": {
+        "from": "in-field-stepper",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (in-field-stepper to edge)",
     "contextRole": ["spacing"],
@@ -57,7 +82,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "to-component"
+      "part": "container",
+      "property": "to-component",
+      "between": {
+        "from": "field",
+        "to": "help-text"
+      }
     },
     "context": "Spacing (number field to help text)",
     "contextRole": ["spacing"],
@@ -68,6 +98,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -79,6 +110,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -90,6 +122,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -101,6 +134,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -112,6 +146,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -123,6 +158,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -134,6 +170,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -145,6 +182,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -156,6 +194,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width-multiplier"
     },
     "context": "Width (minimum)",
@@ -167,6 +206,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -178,6 +218,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -189,6 +230,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -200,6 +242,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -211,6 +254,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -222,6 +266,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -233,6 +278,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -244,6 +290,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -255,6 +302,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "component-height-75"
     },
     "context": "Height",
@@ -265,6 +313,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "component-height-75"
     },
     "context": "Height",
@@ -275,6 +324,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "component-height-100"
     },
     "context": "Height",
@@ -285,6 +335,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "component-height-100"
     },
     "context": "Height",
@@ -295,6 +346,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "component-height-200"
     },
     "context": "Height",
@@ -305,6 +357,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "component-height-200"
     },
     "context": "Height",
@@ -315,6 +368,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "component-height-300"
     },
     "context": "Height",
@@ -325,6 +379,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "component-height-300"
     },
     "context": "Height",
@@ -335,6 +390,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -345,6 +401,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -355,6 +412,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -365,6 +423,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -375,7 +434,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-edge-to-text-75"
+      "part": "field",
+      "property": "component-edge-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -386,7 +450,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-edge-to-text-75"
+      "part": "field",
+      "property": "component-edge-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -397,7 +466,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-edge-to-text-100"
+      "part": "field",
+      "property": "component-edge-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -408,7 +482,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-edge-to-text-100"
+      "part": "field",
+      "property": "component-edge-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -419,7 +498,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-edge-to-text-200"
+      "part": "field",
+      "property": "component-edge-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -430,7 +514,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-edge-to-text-200"
+      "part": "field",
+      "property": "component-edge-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -441,7 +530,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-edge-to-text-300"
+      "part": "field",
+      "property": "component-edge-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -452,7 +546,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-edge-to-text-300"
+      "part": "field",
+      "property": "component-edge-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -463,7 +562,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-text-75"
+      "part": "field",
+      "property": "component-top-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -474,7 +578,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-text-100"
+      "part": "field",
+      "property": "component-top-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -485,7 +594,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-text-200"
+      "part": "field",
+      "property": "component-top-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -496,7 +610,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-text-300"
+      "part": "field",
+      "property": "component-top-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -507,7 +626,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "value",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, text to stepper)",
     "contextRole": ["spacing"],
@@ -518,7 +642,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "value",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, text to stepper)",
     "contextRole": ["spacing"],
@@ -529,7 +658,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "value",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, text to stepper)",
     "contextRole": ["spacing"],
@@ -540,7 +674,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "value",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, text to stepper)",
     "contextRole": ["spacing"],
@@ -551,6 +690,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "border-width"
     },
     "context": "Border",
@@ -561,6 +701,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -571,6 +712,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus indicator",
@@ -581,7 +723,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "spacing"
+      "part": "container",
+      "property": "spacing",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (minimum, field label to field)",
     "contextRole": ["spacing"],
@@ -592,6 +739,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "workflow-icon-size-75"
     },
     "context": "Prefix min-width",
@@ -602,6 +750,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "workflow-icon-size-75"
     },
     "context": "Prefix min-width",
@@ -612,6 +761,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "workflow-icon-size-100"
     },
     "context": "Prefix min-width",
@@ -622,6 +772,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "workflow-icon-size-100"
     },
     "context": "Prefix min-width",
@@ -632,6 +783,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "workflow-icon-size-200"
     },
     "context": "Prefix min-width",
@@ -642,6 +794,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "workflow-icon-size-200"
     },
     "context": "Prefix min-width",
@@ -652,6 +805,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "workflow-icon-size-300"
     },
     "context": "Prefix min-width",
@@ -662,6 +816,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "workflow-icon-size-300"
     },
     "context": "Prefix min-width",
@@ -672,7 +827,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-workflow-icon-75"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-75",
+      "between": {
+        "from": "edge",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -683,7 +843,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-100",
+      "between": {
+        "from": "edge",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -694,7 +859,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-workflow-icon-200"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-200",
+      "between": {
+        "from": "edge",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -705,7 +875,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-workflow-icon-300"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-300",
+      "between": {
+        "from": "edge",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -716,7 +891,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, alert icon to in-field button)",
     "contextRole": ["spacing"],
@@ -727,7 +907,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, alert icon to in-field button)",
     "contextRole": ["spacing"],
@@ -738,7 +923,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, alert icon to in-field button)",
     "contextRole": ["spacing"],
@@ -749,7 +939,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, alert icon to in-field button)",
     "contextRole": ["spacing"],
@@ -760,7 +955,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, alert icon to in-field button)",
     "contextRole": ["spacing"],
@@ -771,7 +971,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, alert icon to in-field button)",
     "contextRole": ["spacing"],
@@ -782,7 +987,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, alert icon to in-field button)",
     "contextRole": ["spacing"],
@@ -793,7 +1003,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-stepper"
+      }
     },
     "context": "Spacing (minimum, alert icon to in-field button)",
     "contextRole": ["spacing"],
@@ -804,7 +1019,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (alert icon to end edge)",
     "contextRole": ["spacing"],
@@ -815,7 +1035,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (alert icon to end edge)",
     "contextRole": ["spacing"],
@@ -826,7 +1051,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (alert icon to end edge)",
     "contextRole": ["spacing"],
@@ -837,7 +1067,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (alert icon to end edge)",
     "contextRole": ["spacing"],
@@ -848,7 +1083,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (alert icon to end edge)",
     "contextRole": ["spacing"],
@@ -859,7 +1099,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (alert icon to end edge)",
     "contextRole": ["spacing"],
@@ -870,7 +1115,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (alert icon to end edge)",
     "contextRole": ["spacing"],
@@ -881,7 +1131,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (alert icon to end edge)",
     "contextRole": ["spacing"],
@@ -892,7 +1147,9 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -902,7 +1159,9 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -912,7 +1171,9 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -922,7 +1183,9 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -932,7 +1195,9 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -942,7 +1207,9 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -952,7 +1219,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover"]
       }
@@ -965,7 +1234,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover"]
       }
@@ -978,7 +1249,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover"]
       }
@@ -991,7 +1264,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-hover"]
       }
@@ -1004,7 +1279,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-hover"]
       }
@@ -1017,7 +1294,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-hover"]
       }
@@ -1030,7 +1309,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-not-hover"]
       }
@@ -1043,7 +1324,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-not-hover"]
       }
@@ -1056,7 +1339,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-not-hover"]
       }
@@ -1069,7 +1354,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true
       }
@@ -1082,7 +1369,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["hover"]
@@ -1096,7 +1385,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["focus-+-hover"]
@@ -1110,7 +1401,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["focus-+-not-hover"]
@@ -1124,7 +1417,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true
       }
@@ -1137,7 +1432,9 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": false,
         "isDisabled": true
@@ -1151,6 +1448,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1161,6 +1459,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1171,6 +1470,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1181,6 +1481,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1191,6 +1492,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1201,6 +1503,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1211,6 +1514,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1221,6 +1525,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1231,6 +1536,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "content-color"
     },
     "context": "Disabled",
@@ -1241,6 +1547,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color"
     },
     "context": "Disabled",
@@ -1251,6 +1558,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "field",
       "property": "color"
     },
     "context": "Disabled",
@@ -1261,6 +1569,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -1271,6 +1580,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "leading-icon",
       "property": "color"
     },
     "context": "Leading icon",
@@ -1281,6 +1591,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "leading-icon",
       "property": "color"
     },
     "context": "Leading icon",
@@ -1291,6 +1602,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "leading-icon",
       "property": "color"
     },
     "context": "Leading icon",
@@ -1301,6 +1613,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "font-family"
     },
     "context": "Value",
@@ -1311,6 +1624,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "font-weight"
     },
     "context": "Value",
@@ -1321,6 +1635,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "font-style"
     },
     "context": "Value",
@@ -1331,6 +1646,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1341,6 +1657,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1351,6 +1668,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1361,6 +1679,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1371,6 +1690,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1381,6 +1701,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1391,6 +1712,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1401,6 +1723,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1411,6 +1734,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1421,6 +1745,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1431,6 +1756,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1441,6 +1767,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1451,6 +1778,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "value",
       "property": "line-height-100"
     },
     "context": "Value",
@@ -1461,6 +1789,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "font-weight"
     },
     "context": "Prefix",
@@ -1471,6 +1800,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1481,6 +1811,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1491,6 +1822,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1501,6 +1833,7 @@
   {
     "scope": {
       "component": "number-field",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1511,7 +1844,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-padding-vertical-200"
+      "part": "field",
+      "property": "component-padding-vertical-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to text)",
     "contextRole": ["spacing"],
@@ -1522,7 +1860,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-padding-vertical-300"
+      "part": "field",
+      "property": "component-padding-vertical-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to text)",
     "contextRole": ["spacing"],
@@ -1533,7 +1876,12 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-text-50"
+      "part": "field",
+      "property": "component-top-to-text-50",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to text)",
     "contextRole": ["spacing"],
@@ -1544,43 +1892,18 @@
   {
     "scope": {
       "component": "number-field",
-      "property": "component-top-to-workflow-icon-300"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-300",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Leading icon (top/bottom edge to leading icon)",
     "contextRole": ["icon"],
     "contextQualifier": "top/bottom edge to leading icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "08fe9255-17a3-5191-8cff-e6f867790684"
-  },
-  {
-    "scope": {
-      "component": "number-field",
-      "property": "color"
-    },
-    "context": "Positive icon",
-    "contextRole": ["icon"],
-    "$ref": "455acfc0-1997-4fee-b1dc-3c91bbd9fca2",
-    "uuid": "1d0d4175-f979-5f5e-acf4-ba1f334e3d70"
-  },
-  {
-    "scope": {
-      "component": "number-field",
-      "property": "color"
-    },
-    "context": "Positive icon",
-    "contextRole": ["icon"],
-    "$ref": "25e8289f-6c82-4485-8920-a187f790cd47",
-    "uuid": "fd3f2ce2-7705-5b79-a3ca-2372d8f06b38"
-  },
-  {
-    "scope": {
-      "component": "number-field",
-      "property": "color"
-    },
-    "context": "Positive icon",
-    "contextRole": ["icon"],
-    "$ref": "96075e1a-6739-41c8-985b-af30b09be6c3",
-    "uuid": "aa50d3c4-d022-51f2-83d0-d11323e7c09b"
   },
   {
     "scope": {

@@ -1077,7 +1077,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "field",
       "label": "Field",
-      "description": "Input container element in form components (text-field, number-field, combo-box, picker, etc.)",
+      "description": "The box of an input component: the bordered or filled area that holds the value and its in-field icons and buttons (text-field, number-field, combo-box, picker, etc.). The labelled whole is the container.",
       "usedIn": ["tokens", "s2-docs"],
       "standaloneScope": true
     },
@@ -1147,12 +1147,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Dash",
       "description": "Short horizontal bar icon element, e.g. the indeterminate mark of a checkbox",
       "usedIn": ["component-schemas"]
-    },
-    {
-      "id": "stepper",
-      "label": "Stepper",
-      "description": "Increment/decrement control in number-field",
-      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "area",
@@ -1349,7 +1343,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "validation-marker",
       "label": "Validation Marker",
       "description": "Icon or mark indicating valid input state on a form field",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["validation-icon"]
     },
     {
       "id": "error-icon",
@@ -1744,22 +1739,23 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "segment",
+      "label": "Segment",
+      "description": "One editable unit of a segmented field (the day, month or year of a date; the hour or minute of a time)",
+      "usedIn": ["s2-docs"]
+    },
+    {
       "id": "drag-handle",
       "label": "Drag handle",
       "description": "A grip affordance for reordering an item via drag",
       "usedIn": ["tokens"]
     },
     {
-      "id": "field-button",
-      "label": "Field button",
-      "description": "A trigger button embedded within a text field or picker",
-      "usedIn": ["tokens"]
-    },
-    {
       "id": "in-field-stepper",
       "label": "In-field stepper",
       "description": "A stepper control embedded within a field element (e.g. number-field)",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "aliases": ["stepper"]
     },
     {
       "id": "pagination",

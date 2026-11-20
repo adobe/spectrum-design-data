@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -13,6 +14,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -24,6 +26,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -35,6 +38,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -46,6 +50,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -57,6 +62,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -68,6 +74,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -79,6 +86,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -90,6 +98,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "minimum-width-multiplier"
     },
     "context": "Width (minimum)",
@@ -101,6 +110,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-height-75"
     },
     "context": "Height",
@@ -111,6 +121,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-height-75"
     },
     "context": "Height",
@@ -121,6 +132,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-height-100"
     },
     "context": "Height",
@@ -131,6 +143,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-height-100"
     },
     "context": "Height",
@@ -141,6 +154,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-height-200"
     },
     "context": "Height",
@@ -151,6 +165,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-height-200"
     },
     "context": "Height",
@@ -161,6 +176,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-height-300"
     },
     "context": "Height",
@@ -171,6 +187,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-height-300"
     },
     "context": "Height",
@@ -181,6 +198,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -191,6 +209,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -201,6 +220,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -211,6 +231,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -221,7 +242,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-edge-to-text-75"
+      "part": "field",
+      "property": "component-edge-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -232,7 +258,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-edge-to-text-75"
+      "part": "field",
+      "property": "component-edge-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -243,7 +274,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-edge-to-text-100"
+      "part": "field",
+      "property": "component-edge-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -254,7 +290,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-edge-to-text-100"
+      "part": "field",
+      "property": "component-edge-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -265,7 +306,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-edge-to-text-200"
+      "part": "field",
+      "property": "component-edge-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -276,7 +322,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-edge-to-text-200"
+      "part": "field",
+      "property": "component-edge-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -287,7 +338,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-edge-to-text-300"
+      "part": "field",
+      "property": "component-edge-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -298,7 +354,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-edge-to-text-300"
+      "part": "field",
+      "property": "component-edge-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -309,7 +370,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -320,6 +386,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -330,6 +397,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus indicator",
@@ -340,6 +408,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
@@ -351,6 +420,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
@@ -362,6 +432,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
@@ -373,6 +444,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "workflow-icon-size-75"
     },
     "context": "Prefix min-width",
@@ -383,6 +455,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "workflow-icon-size-75"
     },
     "context": "Prefix min-width",
@@ -393,6 +466,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "workflow-icon-size-100"
     },
     "context": "Prefix min-width",
@@ -403,6 +477,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "workflow-icon-size-100"
     },
     "context": "Prefix min-width",
@@ -413,6 +488,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "workflow-icon-size-200"
     },
     "context": "Prefix min-width",
@@ -423,6 +499,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "workflow-icon-size-200"
     },
     "context": "Prefix min-width",
@@ -433,6 +510,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "workflow-icon-size-300"
     },
     "context": "Prefix min-width",
@@ -443,6 +521,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "workflow-icon-size-300"
     },
     "context": "Prefix min-width",
@@ -453,18 +532,28 @@
   {
     "scope": {
       "component": "picker",
-      "property": "end-edge-to-disclosure-icon-quiet"
+      "part": "field",
+      "property": "end-edge-to-disclosure-icon-quiet",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
-    "context": "Spacing (start/end edge to prefix)",
+    "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edge to prefix",
+    "contextQualifier": "end edge to disclosure icon",
     "$ref": "03da68d8-cd87-4e29-9aaf-ab467594ec2b",
     "uuid": "0e889eb4-3572-568c-937c-79905933d5c0"
   },
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "prefix",
+        "to": "value"
+      }
     },
     "context": "Spacing (prefix to value/placeholder)",
     "contextRole": ["spacing"],
@@ -475,7 +564,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "prefix",
+        "to": "value"
+      }
     },
     "context": "Spacing (prefix to value/placeholder)",
     "contextRole": ["spacing"],
@@ -486,7 +580,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "prefix",
+        "to": "value"
+      }
     },
     "context": "Spacing (prefix to value/placeholder)",
     "contextRole": ["spacing"],
@@ -497,7 +596,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "prefix",
+        "to": "value"
+      }
     },
     "context": "Spacing (prefix to value/placeholder)",
     "contextRole": ["spacing"],
@@ -508,6 +612,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "disclosure-icon",
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
@@ -518,6 +623,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "disclosure-icon",
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
@@ -528,6 +634,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "disclosure-icon",
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
@@ -538,6 +645,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "disclosure-icon",
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
@@ -548,6 +656,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "disclosure-icon",
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
@@ -558,6 +667,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "disclosure-icon",
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
@@ -568,6 +678,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "disclosure-icon",
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
@@ -578,6 +689,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "disclosure-icon",
       "property": "size"
     },
     "context": "Chevron/disclosure icon",
@@ -588,7 +700,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
     "contextRole": ["spacing"],
@@ -599,7 +716,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
     "contextRole": ["spacing"],
@@ -610,7 +732,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
     "contextRole": ["spacing"],
@@ -621,7 +748,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
     "contextRole": ["spacing"],
@@ -632,7 +764,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -643,7 +780,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -654,7 +796,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -665,7 +812,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -676,7 +828,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -687,7 +844,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -698,7 +860,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -709,7 +876,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -720,7 +892,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -731,7 +908,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -742,7 +924,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -753,7 +940,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -764,7 +956,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -775,7 +972,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -786,7 +988,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -797,7 +1004,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -808,7 +1020,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-top-to-workflow-icon-75"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-75",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to icon)",
     "contextRole": ["spacing"],
@@ -819,7 +1036,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-100",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to icon)",
     "contextRole": ["spacing"],
@@ -830,7 +1052,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-top-to-workflow-icon-200"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-200",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to icon)",
     "contextRole": ["spacing"],
@@ -841,7 +1068,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "component-top-to-workflow-icon-300"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-300",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to icon)",
     "contextRole": ["spacing"],
@@ -852,7 +1084,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (alert icon to disclosure icon)",
     "contextRole": ["spacing"],
@@ -863,7 +1100,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (alert icon to disclosure icon)",
     "contextRole": ["spacing"],
@@ -874,7 +1116,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (alert icon to disclosure icon)",
     "contextRole": ["spacing"],
@@ -885,7 +1132,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (alert icon to disclosure icon)",
     "contextRole": ["spacing"],
@@ -896,7 +1148,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component"
+      "part": "container",
+      "property": "to-component",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -907,7 +1164,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component-quiet-small"
+      "part": "container",
+      "property": "to-component-quiet-small",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -918,7 +1180,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component-quiet-small"
+      "part": "container",
+      "property": "to-component-quiet-small",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -929,7 +1196,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component-quiet-medium"
+      "part": "container",
+      "property": "to-component-quiet-medium",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -940,7 +1212,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component-quiet-medium"
+      "part": "container",
+      "property": "to-component-quiet-medium",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -951,7 +1228,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component-quiet-large"
+      "part": "container",
+      "property": "to-component-quiet-large",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -962,7 +1244,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component-quiet-large"
+      "part": "container",
+      "property": "to-component-quiet-large",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -973,7 +1260,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component-quiet-extra-large"
+      "part": "container",
+      "property": "to-component-quiet-extra-large",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -984,7 +1276,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component-quiet-extra-large"
+      "part": "container",
+      "property": "to-component-quiet-extra-large",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to picker)",
     "contextRole": ["spacing"],
@@ -995,6 +1292,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "component-to-menu-small"
     },
     "context": "Spacing (component to menu)",
@@ -1006,6 +1304,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "component-to-menu-medium"
     },
     "context": "Spacing (component to menu)",
@@ -1017,6 +1316,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "component-to-menu-large"
     },
     "context": "Spacing (component to menu)",
@@ -1028,6 +1328,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "container",
       "property": "component-to-menu-extra-large"
     },
     "context": "Spacing (component to menu)",
@@ -1039,18 +1340,28 @@
   {
     "scope": {
       "component": "picker",
-      "property": "to-component"
+      "part": "container",
+      "property": "to-component",
+      "between": {
+        "from": "field",
+        "to": "help-text"
+      }
     },
-    "context": "Spacing (text area to help text)",
+    "context": "Spacing (picker to help text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "text area to help text",
+    "contextQualifier": "picker to help text",
     "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
     "uuid": "4326b825-215e-5e46-9030-828626de8182"
   },
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "in-field-progress-circle"
+      }
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
     "contextRole": ["spacing"],
@@ -1061,7 +1372,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "in-field-progress-circle"
+      }
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
     "contextRole": ["spacing"],
@@ -1072,7 +1388,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "in-field-progress-circle"
+      }
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
     "contextRole": ["spacing"],
@@ -1083,7 +1404,12 @@
   {
     "scope": {
       "component": "picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "in-field-progress-circle"
+      }
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
     "contextRole": ["spacing"],
@@ -1094,7 +1420,9 @@
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1104,7 +1432,9 @@
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1114,7 +1444,9 @@
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1124,7 +1456,9 @@
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1134,7 +1468,9 @@
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1144,7 +1480,9 @@
   {
     "scope": {
       "component": "picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1154,7 +1492,9 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true
       }
@@ -1167,7 +1507,9 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["hover"]
@@ -1181,7 +1523,9 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true
       }
@@ -1194,7 +1538,9 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["focus-+-hover"]
@@ -1208,7 +1554,9 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["focus-+-not-hover"]
@@ -1222,7 +1570,9 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["keyboard-focus"]
@@ -1236,6 +1586,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1246,6 +1597,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1256,6 +1608,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1266,6 +1619,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1276,6 +1630,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1286,6 +1641,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1296,6 +1652,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "placeholder",
       "property": "content-color"
     },
     "context": "Label",
@@ -1306,6 +1663,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1316,6 +1674,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1326,6 +1685,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1336,6 +1696,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "color"
     },
     "context": "Disabled",
@@ -1346,6 +1707,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "content-color"
     },
     "context": "Disabled",
@@ -1356,6 +1718,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -1366,6 +1729,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "color"
     },
     "context": "Prefix",
@@ -1376,6 +1740,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "color"
     },
     "context": "Prefix",
@@ -1386,6 +1751,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "color"
     },
     "context": "Prefix",
@@ -1396,6 +1762,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "font-family"
     },
     "context": "Value",
@@ -1406,6 +1773,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "font-weight"
     },
     "context": "Value",
@@ -1416,6 +1784,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "font-style"
     },
     "context": "Value",
@@ -1426,6 +1795,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1436,6 +1806,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1446,6 +1817,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1456,6 +1828,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1466,6 +1839,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1476,6 +1850,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1486,6 +1861,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1496,6 +1872,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1506,6 +1883,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1516,6 +1894,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1526,6 +1905,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1536,6 +1916,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1546,6 +1927,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "value",
       "property": "line-height-100"
     },
     "context": "Value",
@@ -1556,6 +1938,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "font-weight"
     },
     "context": "Prefix",
@@ -1566,6 +1949,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1576,6 +1960,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1586,6 +1971,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1596,6 +1982,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1606,6 +1993,7 @@
   {
     "scope": {
       "component": "picker",
+      "part": "field",
       "property": "border-width"
     },
     "context": "Border",

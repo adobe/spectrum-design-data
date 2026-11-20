@@ -111,14 +111,26 @@
   ],
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
       "name": "field-label",
       "description": "Text label that names the field; hidden with hideLabel."
     },
     {
-      "name": "container",
+      "name": "field",
       "description": "Rounded box that frames the search icon, value and clear button.",
       "required": true,
-      "contains": ["leading-icon", "value", "placeholder", "in-field-button"]
+      "contains": [
+        "leading-icon",
+        "value",
+        "placeholder",
+        "in-field-button",
+        "focus-indicator"
+      ]
     },
     {
       "name": "leading-icon",
@@ -147,9 +159,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "RSP SearchField.tsx:178 (shared ClearButton = in-field-button); registry leading-icon is the search icon in search-field; label is the embedded field-label; border is styling on container (Field.tsx:201-241)."
+    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). RSP SearchField.tsx:178 (shared ClearButton = in-field-button); registry leading-icon is the search icon in search-field; label is the embedded field-label; border is styling on container (Field.tsx:201-241)."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

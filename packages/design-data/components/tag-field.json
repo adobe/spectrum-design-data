@@ -84,6 +84,12 @@
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
       "name": "field-label",
       "description": "Label above the field."
     },
@@ -91,15 +97,15 @@
       "name": "field",
       "description": "Bordered input area that holds the tags and the text area.",
       "required": true,
-      "contains": ["tag", "text-area", "error-icon"]
+      "contains": ["tag", "value", "error-icon", "focus-indicator"]
     },
     {
       "name": "tag",
       "description": "One removable tag; repeated."
     },
     {
-      "name": "text-area",
-      "description": "Text input after the tags."
+      "name": "value",
+      "description": "Text the user types after the tags."
     },
     {
       "name": "error-icon",
@@ -116,9 +122,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web tag field page (Field label, Field with tags, help text). text-area and error-icon taken from relationships and React Spectrum, not the default Figma tree; relationship 'Alert icon' mapped to error-icon."
+    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). text-area is renamed value (it clashed with the text-area component name); error-icon from relationships and React Spectrum; the tag stays a part (slot typing waits for RFC 1801)."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

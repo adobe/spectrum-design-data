@@ -2,7 +2,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "visual-to-field-button-quiet"
+      "part": "field",
+      "property": "visual-to-field-button-quiet",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-button"
+      }
     },
     "context": "S1 Spacing (alert icon/progress circle to field button)",
     "$ref": "6c3c7201-2f5b-455a-bcbf-5e3d783887bf",
@@ -11,7 +16,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-top-to-text-300"
+      "part": "field",
+      "property": "component-top-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
@@ -20,7 +30,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-top-to-workflow-icon-300"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-300",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Leading icon (top/bottom edge to leading icon) position: inline",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
@@ -29,7 +44,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-padding-vertical-200"
+      "part": "field",
+      "property": "component-padding-vertical-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to text: inline)",
     "contextRole": ["spacing"],
@@ -40,7 +60,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-padding-vertical-300"
+      "part": "field",
+      "property": "component-padding-vertical-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to text: inline)",
     "contextRole": ["spacing"],
@@ -51,7 +76,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-top-to-text-50"
+      "part": "field",
+      "property": "component-top-to-text-50",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to text: inline)",
     "contextRole": ["spacing"],
@@ -62,7 +92,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-top-to-text-100"
+      "part": "field",
+      "property": "component-top-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (top/bottom edge to text: inline)",
     "contextRole": ["spacing"],
@@ -73,6 +108,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -84,6 +120,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -95,6 +132,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -106,6 +144,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -117,6 +156,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -128,6 +168,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -139,6 +180,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -150,6 +192,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -161,6 +204,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "minimum-width-multiplier"
     },
     "context": "Width (minimum)",
@@ -172,6 +216,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "component-height-75"
     },
     "context": "Height",
@@ -182,6 +227,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "component-height-75"
     },
     "context": "Height",
@@ -192,6 +238,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "component-height-100"
     },
     "context": "Height",
@@ -202,6 +249,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "component-height-100"
     },
     "context": "Height",
@@ -212,6 +260,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "component-height-200"
     },
     "context": "Height",
@@ -222,6 +271,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "component-height-200"
     },
     "context": "Height",
@@ -232,6 +282,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "component-height-300"
     },
     "context": "Height",
@@ -242,6 +293,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "component-height-300"
     },
     "context": "Height",
@@ -252,6 +304,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -262,6 +315,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -272,6 +326,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -282,6 +337,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -292,7 +348,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-edge-to-text-75"
+      "part": "field",
+      "property": "component-edge-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -303,7 +364,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-edge-to-text-75"
+      "part": "field",
+      "property": "component-edge-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -314,7 +380,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-edge-to-text-100"
+      "part": "field",
+      "property": "component-edge-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -325,7 +396,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-edge-to-text-100"
+      "part": "field",
+      "property": "component-edge-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -336,7 +412,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-edge-to-text-200"
+      "part": "field",
+      "property": "component-edge-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -347,7 +428,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-edge-to-text-200"
+      "part": "field",
+      "property": "component-edge-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -358,7 +444,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-edge-to-text-300"
+      "part": "field",
+      "property": "component-edge-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -369,7 +460,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-edge-to-text-300"
+      "part": "field",
+      "property": "component-edge-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to value)",
     "contextRole": ["spacing"],
@@ -380,6 +476,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "workflow-icon-size-75"
     },
     "context": "Prefix min-width",
@@ -390,6 +487,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "workflow-icon-size-75"
     },
     "context": "Prefix min-width",
@@ -400,6 +498,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "workflow-icon-size-100"
     },
     "context": "Prefix min-width",
@@ -410,6 +509,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "workflow-icon-size-100"
     },
     "context": "Prefix min-width",
@@ -420,6 +520,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "workflow-icon-size-200"
     },
     "context": "Prefix min-width",
@@ -430,6 +531,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "workflow-icon-size-200"
     },
     "context": "Prefix min-width",
@@ -440,6 +542,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "workflow-icon-size-300"
     },
     "context": "Prefix min-width",
@@ -450,6 +553,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "workflow-icon-size-300"
     },
     "context": "Prefix min-width",
@@ -460,7 +564,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "prefix",
+        "to": "value"
+      }
     },
     "context": "Spacing (prefix to value/placeholder)",
     "contextRole": ["spacing"],
@@ -471,7 +580,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "prefix",
+        "to": "value"
+      }
     },
     "context": "Spacing (prefix to value/placeholder)",
     "contextRole": ["spacing"],
@@ -482,7 +596,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "prefix",
+        "to": "value"
+      }
     },
     "context": "Spacing (prefix to value/placeholder)",
     "contextRole": ["spacing"],
@@ -493,7 +612,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "prefix",
+        "to": "value"
+      }
     },
     "context": "Spacing (prefix to value/placeholder)",
     "contextRole": ["spacing"],
@@ -504,6 +628,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "border-width"
     },
     "context": "Border",
@@ -514,6 +639,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -524,6 +650,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus indicator",
@@ -534,7 +661,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-button"
+      }
     },
     "context": "Spacing (alert icon/in-field progress circle to field button)",
     "contextRole": ["spacing"],
@@ -545,7 +677,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-top-to-workflow-icon-75"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-75",
+      "between": {
+        "from": "edge",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -556,7 +693,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-100",
+      "between": {
+        "from": "edge",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -567,7 +709,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-top-to-workflow-icon-200"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-200",
+      "between": {
+        "from": "edge",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -578,7 +725,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "component-top-to-workflow-icon-300"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-300",
+      "between": {
+        "from": "edge",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -589,7 +741,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -600,7 +757,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -611,7 +773,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -622,7 +789,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -633,7 +805,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -644,7 +821,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -655,7 +837,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -666,7 +853,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "end-edge"
+      }
     },
     "context": "Leading icon (leading icon to end edge)",
     "contextRole": ["icon"],
@@ -677,7 +869,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "to-component"
+      "part": "container",
+      "property": "to-component",
+      "between": {
+        "from": "field-label",
+        "to": "field"
+      }
     },
     "context": "Spacing (field label to combo box)",
     "contextRole": ["spacing"],
@@ -688,6 +885,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "component-to-menu-small"
     },
     "context": "Spacing (component to menu)",
@@ -699,6 +897,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "component-to-menu-medium"
     },
     "context": "Spacing (component to menu)",
@@ -710,6 +909,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "component-to-menu-large"
     },
     "context": "Spacing (component to menu)",
@@ -721,6 +921,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "container",
       "property": "component-to-menu-extra-large"
     },
     "context": "Spacing (component to menu)",
@@ -732,7 +933,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "to-component"
+      "part": "container",
+      "property": "to-component",
+      "between": {
+        "from": "field",
+        "to": "help-text"
+      }
     },
     "context": "Spacing (combo box to help text)",
     "contextRole": ["spacing"],
@@ -743,7 +949,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "in-field-progress-circle"
+      }
     },
     "context": "Spacing (top/bottom edge to in-field progress circle icon)",
     "contextRole": ["spacing"],
@@ -754,7 +965,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "in-field-progress-circle"
+      }
     },
     "context": "Spacing (top/bottom edge to in-field progress circle icon)",
     "contextRole": ["spacing"],
@@ -765,7 +981,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "in-field-progress-circle"
+      }
     },
     "context": "Spacing (top/bottom edge to in-field progress circle icon)",
     "contextRole": ["spacing"],
@@ -776,7 +997,12 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "edge",
+        "to": "in-field-progress-circle"
+      }
     },
     "context": "Spacing (top/bottom edge to in-field progress circle icon)",
     "contextRole": ["spacing"],
@@ -787,7 +1013,9 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -797,7 +1025,9 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -807,7 +1037,9 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -817,7 +1049,9 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -827,7 +1061,9 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -837,7 +1073,9 @@
   {
     "scope": {
       "component": "combo-box",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -847,7 +1085,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover-text-area"]
       }
@@ -860,7 +1100,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover-text-area"]
       }
@@ -873,7 +1115,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover-text-area"]
       }
@@ -886,7 +1130,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-hover"]
       }
@@ -899,7 +1145,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-hover"]
       }
@@ -912,7 +1160,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-hover"]
       }
@@ -925,7 +1175,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-not-hover"]
       }
@@ -938,7 +1190,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-not-hover"]
       }
@@ -951,7 +1205,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-not-hover"]
       }
@@ -964,6 +1220,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "content-color"
     },
     "context": "Background and border",
@@ -974,7 +1231,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true
       }
@@ -987,7 +1246,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["hover-text-area"]
@@ -1001,7 +1262,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["focus-hover"]
@@ -1015,7 +1278,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["focus-not-hover"]
@@ -1029,7 +1294,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": true,
         "state": ["keyboard-focus"]
@@ -1043,7 +1310,9 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isError": false,
         "isDisabled": true
@@ -1057,6 +1326,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1067,6 +1337,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1077,6 +1348,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1087,6 +1359,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1097,6 +1370,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value",
@@ -1107,6 +1381,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1117,6 +1392,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1127,6 +1403,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "error-icon",
       "property": "color"
     },
     "context": "Alert icon",
@@ -1137,6 +1414,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "content-color"
     },
     "context": "Disabled",
@@ -1147,6 +1425,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color"
     },
     "context": "Disabled",
@@ -1157,6 +1436,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field",
       "property": "color"
     },
     "context": "Disabled",
@@ -1167,6 +1447,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -1177,6 +1458,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "font-family"
     },
     "context": "Value",
@@ -1187,6 +1469,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "font-weight"
     },
     "context": "Value",
@@ -1197,6 +1480,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "font-style"
     },
     "context": "Value",
@@ -1207,6 +1491,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1217,6 +1502,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1227,6 +1513,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1237,6 +1524,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "typography"
     },
     "context": "Value",
@@ -1247,6 +1535,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1257,6 +1546,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1267,6 +1557,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1277,6 +1568,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1287,6 +1579,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1297,6 +1590,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1307,6 +1601,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1317,6 +1612,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Value",
@@ -1327,6 +1623,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "line-height-100"
     },
     "context": "Value",
@@ -1337,6 +1634,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "font-weight"
     },
     "context": "Prefix",
@@ -1347,6 +1645,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1357,6 +1656,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1367,6 +1667,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1377,6 +1678,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "prefix",
       "property": "typography"
     },
     "context": "Prefix",
@@ -1387,6 +1689,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field-label",
       "property": "top-to-asterisk-large"
     },
     "context": "Spacing (top/bottom edge to required)",
@@ -1398,6 +1701,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "field-label",
       "property": "top-to-asterisk-extra-large"
     },
     "context": "Spacing (top/bottom edge to required)",
@@ -1409,6 +1713,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "color"
     },
     "context": "Label (populated true/false)",
@@ -1420,6 +1725,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "color"
     },
     "context": "Label (populated true/false)",
@@ -1431,6 +1737,7 @@
   {
     "scope": {
       "component": "combo-box",
+      "part": "value",
       "property": "color"
     },
     "context": "Label (populated true/false)",
