@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "length"
+      "part": "container",
+      "property": "length",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Length",
     "contextRole": ["size"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "length"
+      "part": "container",
+      "property": "length",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Length",
     "contextRole": ["size"],
@@ -22,6 +30,7 @@
   {
     "scope": {
       "component": "color-slider",
+      "part": "container",
       "property": "minimum-length",
       "options": {
         "scale": "desktop"
@@ -35,6 +44,7 @@
   {
     "scope": {
       "component": "color-slider",
+      "part": "container",
       "property": "minimum-length",
       "options": {
         "scale": "mobile"
@@ -48,7 +58,8 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "width",
+      "part": "track",
+      "property": "thickness",
       "options": {
         "scale": "desktop"
       }
@@ -61,7 +72,8 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "width",
+      "part": "track",
+      "property": "thickness",
       "options": {
         "scale": "mobile"
       }
@@ -74,6 +86,7 @@
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "border-width"
     },
     "context": "Border",
@@ -84,6 +97,7 @@
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "corner-radius"
     },
     "context": "Corner radius",
@@ -94,7 +108,11 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "component-top-to-text-75"
+      "between": {
+        "from": "label",
+        "to": "track"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (field label value to track)",
     "contextRole": ["spacing"],
@@ -105,7 +123,9 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "color"
+      "part": "track",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -115,6 +135,7 @@
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "opacity"
     },
     "context": "Border",
@@ -125,7 +146,11 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "content-color"
+      "part": "value",
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Disabled",
     "contextRole": ["state"],
@@ -135,7 +160,12 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "color"
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Disabled",
     "contextRole": ["state"],
@@ -145,7 +175,9 @@
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "color",
+      "attribute": "border",
       "options": {
         "object": "border"
       }
@@ -153,11 +185,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
     "uuid": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e",
-    "legacyKey": "color-slider-border-color"
+    "legacyKey": "color-slider-border-color",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "opacity",
       "options": {
         "object": "border"
@@ -166,27 +201,35 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "8271b69e-6542-4b17-b0f0-72567e16c41b",
-    "legacyKey": "color-slider-border-opacity"
+    "legacyKey": "color-slider-border-opacity",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "corner-radius"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
     "uuid": "991541a2-df44-4f32-90a5-de698adf5db3",
-    "legacyKey": "color-slider-border-rounding"
+    "legacyKey": "color-slider-border-rounding",
+    "context": "Corner radius",
+    "contextRole": ["rounding"]
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "border-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "2b907cad-7534-411b-b3bf-ab89a3712ad8",
-    "legacyKey": "color-slider-border-width"
+    "legacyKey": "color-slider-border-width",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -233,6 +276,7 @@
   {
     "scope": {
       "component": "color-slider",
+      "part": "container",
       "property": "minimum-length",
       "options": {
         "scale": "desktop"
@@ -244,11 +288,14 @@
     "legacyKey": "color-slider-minimum-length",
     "setUuid": "8b687fbe-e7dd-449a-8356-6bbaf0537d18",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."
+    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread).",
+    "context": "Length",
+    "contextRole": ["size"]
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "container",
       "property": "minimum-length",
       "options": {
         "scale": "mobile"
@@ -260,6 +307,8 @@
     "legacyKey": "color-slider-minimum-length",
     "setUuid": "8b687fbe-e7dd-449a-8356-6bbaf0537d18",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."
+    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread).",
+    "context": "Length",
+    "contextRole": ["size"]
   }
 ]
