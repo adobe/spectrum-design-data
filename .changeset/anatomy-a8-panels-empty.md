@@ -16,3 +16,4 @@ Anatomy review of panels and empty states (A8, part 2 of 3).
   `banner`; `gripper` is an alias of `drag-handle`.
 - Status: standard-panel and bar-panel reach level 2; drop-zone and illustrated-message level 1.
   Legacy `@adobe/spectrum-tokens` output is byte-identical.
+- **Published options:** standard-panel `hideGripper` is renamed `hideDragHandle`.
