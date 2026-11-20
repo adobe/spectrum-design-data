@@ -8,7 +8,7 @@ description: >
   snapshot; it does not generate component code.
 metadata:
   author: adobe
-  version: "2.2.20"
+  version: "2.2.21"
   designDataVersion: "3.27.1"
 when_to_use: >
   Trigger on: token names (color, spacing, typography, dimension), "which token",
@@ -43,7 +43,7 @@ skill was written for:
   "mcpServers": {
     "design-data": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-mcp@1.16.0"]
+      "args": ["-y", "@adobe/design-data-mcp@1.16.1"]
     }
   }
 }
