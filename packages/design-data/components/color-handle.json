@@ -57,6 +57,11 @@
       "default": true,
       "description": "Whether the handle shows its fill (Figma Show handle fill)."
     },
+    "isOpen": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the color loupe is shown above the handle (Figma Show color loupe, SWC open)."
+    },
     "isDisabled": {
       "type": "boolean",
       "default": false
@@ -79,13 +84,13 @@
     },
     {
       "name": "color-loupe",
-      "description": "Floating loupe above the handle, outside its circle, showing the sampled color. A second top-level part: it is not enclosed by the container. The offset from the container is a space-between record."
+      "description": "Floating loupe above the handle, outside its circle, showing the sampled color. A second top-level part: it is not enclosed by the container. The offset from the container is a space-between record. Drawn when isOpen is true."
     }
   ],
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "A7 (2026-11-20). RSP ColorHandle.tsx:52-81 and gen2 color-handle.css:35-82 (rings and shadow are styling on one element); the sources draw the color over a checkerboard (opacity-checkerboard is a nested component, size m in RSP and SWC 1st-gen; gen2 uses S, gap bead). Owner decisions C7 (the loupe is a second top-level part, like picker menu-container) and C9 (option `color`). The loupe lives inside the handle component in all three sources but outside the circle. `channel` dropped: no source has it. The nested-component kind of opacity-checkerboard and color-loupe is described here because the anatomy `component` field and `presentWhen` are not built."
+    "notes": "A7 (2026-11-20). RSP ColorHandle.tsx:52-81 and gen2 color-handle.css:35-82 (rings and shadow are styling on one element); the sources draw the color over a checkerboard (opacity-checkerboard is a nested component, size m in RSP and SWC 1st-gen; gen2 uses S, gap bead). Owner decisions C7 (the loupe is a second top-level part, like picker menu-container) and C9 (option `color`). The loupe lives inside the handle component in all three sources but outside the circle. `channel` dropped: no source has it. The nested-component kind of opacity-checkerboard and color-loupe is described here because the anatomy `component` field and `presentWhen` are not built. Owner decision C8: the loupe is present through the option isOpen (Figma Show color loupe, SWC open), not the state down."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
