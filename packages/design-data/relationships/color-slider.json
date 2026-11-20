@@ -109,7 +109,7 @@
     "scope": {
       "component": "color-slider",
       "between": {
-        "from": "label",
+        "from": "field-label",
         "to": "track"
       },
       "property": "space-between"

@@ -122,11 +122,11 @@
       "name": "container",
       "description": "Root: owns the slider's length and minimum length.",
       "required": true,
-      "contains": ["label", "value", "track"]
+      "contains": ["field-label", "value", "track"]
     },
     {
-      "name": "label",
-      "description": "Field label above the track."
+      "name": "field-label",
+      "description": "The field label component above the track (Figma Field label instance, RSP FieldLabel)."
     },
     {
       "name": "value",
@@ -155,7 +155,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it)."
+    "notes": "A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component)."
   },
   "states": [
     {
