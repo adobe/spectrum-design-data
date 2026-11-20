@@ -19,6 +19,27 @@
           "metadata": {"count":5,"fields":["context","contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.26.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "f53a93e1a0a57c6f4b666d572fd03b5530662796",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1971,"title":"feat(design-data): review in-field-button and date-field, remove in-field-progress-button (A2-2)","url":"https://github.com/adobe/spectrum-design-data/pull/1971"},
+          "entries": [
+            {"id":"f53a93e1-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"in-field-button/anatomy/fill","name":"fill","fields":[],"before":{"name":"fill"}},
+            {"id":"f53a93e1-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"in-field-button/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Filled, rounded square that holds the icon and receives the pointer and focus.","required":true,"contains":["icon"]}},
+            {"id":"f53a93e1-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"in-field-button/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Glyph that says what the button does (clear, add, dash, chevron, calendar).","required":true}},
+            {"id":"f53a93e1-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-field-button/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Owner decision D3 (2026-11-19): a component that hosts nest as the part in-field-button. Figma Subcomponents page (.In-field button: Type, Quiet, size, state), RSP inputButton style, SWC swc-infield-button. The five stacked S1 records stay active with no part (decision D4b, bead 5m92.5.3.3). Options and states are not modelled yet."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

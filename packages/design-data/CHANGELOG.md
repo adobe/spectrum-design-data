@@ -1,5 +1,39 @@
 # @adobe/spectrum-design-data
 
+## 3.26.0
+
+### Minor Changes
+
+- [#1971](https://github.com/adobe/spectrum-design-data/pull/1971) [`f53a93e`](https://github.com/adobe/spectrum-design-data/commit/f53a93e1a0a57c6f4b666d572fd03b5530662796) Thanks [@GarthDB](https://github.com/GarthDB)! - Finish the fields anatomy review (A2-2).
+  - in-field-button is reviewed as a component with its own anatomy, `container` and `icon`
+    (`fill` is renamed `container`, and its stacked rounding record follows). Hosts already nest
+    it as the part `in-field-button`. The stacked S1 width records stay active, with no part.
+  - Removed the `in-field-progress-button` component: it had no relationship records, no anatomy
+    and no design source (Figma only has the in-field progress circle). Its docs, schema mirror
+    and changelog go with it.
+  - date-field gets the root `container` / `field` anatomy and is reviewed (level 2).
+  - text-field, text-area and combo-box no longer restate field-label's `top-to-asterisk`
+    records (6 records, same tokens as field-label's own).
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical. Deprecated records are untouched.
+
+- [#1967](https://github.com/adobe/spectrum-design-data/pull/1967) [`8390384`](https://github.com/adobe/spectrum-design-data/commit/83903848b0136b8b710154411d0719071903890b) Thanks [@GarthDB](https://github.com/GarthDB)! - A component's `slots` now own every fact about a slot (RFC #1801). Breaking for readers of the
+  component and recipe formats.
+  - `slotDeclaration` gains `part` (the anatomy part), `accepts` (component names), `acceptsOnly`,
+    `min`, `max` and `collection` (the array option whose entries repeat `part`). `required` is
+    removed: `min` of 1 or more replaces it.
+  - New rule SPEC-104 checks the part, the `accepts` components, the collection option, its
+    anatomy parent, `min` and `max`, unique names, and warns when a slot is not named `default` or
+    after its part. It replaces SPEC-021 (the canonical slot vocabulary), which is retired.
+  - A recipe's `repeat` loses `part` and `option`; it keeps `slot`, `label` and `with`. The
+    collection slot gives the repeated part and the option. SPEC-060 checks the slot and that the
+    declaring part is the repeated part's anatomy parent; SPEC-066 reads the option through it.
+    Compiled recipe data (`data.json`) is unchanged, so the solver, WASM and the browser engine
+    read the same shape and renders are byte-identical.
+  - Button declares its two slots with a `part`; accordion declares `default` (the `items`
+    collection), `actions` (accepts `action-button` and `switch`) and `content`. Migrate a recipe's
+    `repeat: {part, option}` to a collection slot plus `repeat: {slot}`.
+
 ## 3.25.0
 
 ### Minor Changes

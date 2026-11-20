@@ -604,6 +604,24 @@
           "metadata": {"count":10,"fields":["anatomyReview.status","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.26.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "f53a93e1a0a57c6f4b666d572fd03b5530662796",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1971,"title":"feat(design-data): review in-field-button and date-field, remove in-field-progress-button (A2-2)","url":"https://github.com/adobe/spectrum-design-data/pull/1971"},
+          "entries": [
+            {"id":"f53a93e1-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to required)"],"scope":{"property":"top-to-asterisk-large","options":null},"record":"9206626e-98f2-5dfe-8810-b3fb2b219b63","name":"top-to-asterisk-large","fields":[],"before":"cc707192-e70f-4965-8582-55fa97d02184"},
+            {"id":"f53a93e1-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to required)"],"scope":{"property":"top-to-asterisk-extra-large","options":null},"record":"614ca02d-ab07-5f4c-a9c7-73e5e3c0f658","name":"top-to-asterisk-extra-large","fields":[],"before":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}
+          ]
+        }
+      ]
     }
   ]
 }
