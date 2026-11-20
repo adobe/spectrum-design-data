@@ -9,7 +9,7 @@
     "m": 100,
     "l": 200
   },
-  "notVisual": ["hover", "down"],
+  "notVisual": ["hover", "down", "value"],
   "parts": {
     "container": {
       "kind": "box",
@@ -43,49 +43,7 @@
             "property": "size",
             "context": "Size"
           }
-        }
-      }
-    },
-    "fill": {
-      "kind": "box",
-      "children": ["border", "slash", "icon"],
-      "props": {
-        "height": {
-          "relationship": {
-            "property": "size",
-            "context": "Size"
-          }
         },
-        "cornerRadius": [
-          {
-            "when": {
-              "options": {
-                "cornerRounding": "partial"
-              }
-            },
-            "relationship": {
-              "property": "corner-radius",
-              "context": "Rounding"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "cornerRounding": "full"
-              }
-            },
-            "value": 0.5,
-            "relativeTo": "height"
-          }
-        ],
-        "fill": {
-          "option": "preview"
-        }
-      }
-    },
-    "border": {
-      "kind": "box",
-      "props": {
         "cornerRadius": [
           {
             "when": {
@@ -145,10 +103,50 @@
             },
             "relationship": {
               "property": "border-width",
-              "context": "Border and inner border"
+              "context": "Border"
             }
           }
-        ]
+        ],
+        "strokeOver": {
+          "value": true
+        }
+      }
+    },
+    "fill": {
+      "kind": "box",
+      "children": ["slash", "icon"],
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "partial"
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "context": "Rounding"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "full"
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "fill": {
+          "option": "preview"
+        }
       }
     },
     "slash": {
@@ -203,13 +201,13 @@
         },
         "width": {
           "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
+            "property": "size",
             "context": "Disabled icon asset"
           }
         },
         "height": {
           "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
+            "property": "size",
             "context": "Disabled icon asset"
           }
         }
@@ -240,36 +238,6 @@
           }
         }
       }
-    },
-    "inner-border": {
-      "kind": "ring",
-      "around": "fill",
-      "visibleWhen": {
-        "options": {
-          "isSelected": true
-        }
-      },
-      "props": {
-        "stroke": {
-          "relationship": {
-            "property": "color",
-            "context": "Inner border"
-          }
-        },
-        "strokeWidth": {
-          "relationship": {
-            "property": "border-width",
-            "context": "Border and inner border"
-          }
-        },
-        "gapToParent": {
-          "relationship": {
-            "property": "border-width",
-            "context": "Border and inner border"
-          }
-        }
-      },
-      "inside": true
     }
   }
 }

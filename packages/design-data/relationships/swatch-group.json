@@ -87,5 +87,23 @@
       "deprecatedComment": "Use semantic token container-gap-2x-small instead. NOTE: All other swatch gaps need to use these semantics too",
       "replacedBy": "b83df7f2-8811-4bad-b012-213e430e2aaf"
     }
+  },
+  {
+    "scope": {
+      "component": "swatch-group",
+      "between": {
+        "from": "swatch",
+        "to": "swatch"
+      },
+      "property": "space-between",
+      "options": {
+        "density": "compact"
+      }
+    },
+    "context": "Spacing (swatch to swatch)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "swatch to swatch",
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
+    "uuid": "75df89ad-eb01-5654-ad0a-4466ec375d7c"
   }
 ]

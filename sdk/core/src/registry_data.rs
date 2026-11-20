@@ -1085,7 +1085,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "fill",
       "label": "Fill",
-      "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle)",
+      "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle), or the color a color control or preview shows (color handle, color loupe, color slider gradient, swatch)",
       "usedIn": ["tokens", "s2-docs"]
     },
     {
@@ -1107,10 +1107,16 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "loupe",
-      "label": "Loupe",
-      "description": "Magnified color preview element in color components (color-area, color-slider, color-wheel)",
+      "id": "color-loupe",
+      "label": "Color Loupe",
+      "description": "The color-loupe component when used as an anatomy part of the color handle: a floating magnified preview of the sampled color",
       "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "tooltip",
+      "label": "Tooltip",
+      "description": "The tooltip component when used as an anatomy part of another component (swatch): a floating label shown on hover",
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "dot",

@@ -361,7 +361,8 @@
     "scope": {
       "component": "thumbnail",
       "part": "container",
-      "property": "color"
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -372,7 +373,8 @@
     "scope": {
       "component": "thumbnail",
       "part": "container",
-      "property": "opacity"
+      "property": "opacity",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -395,6 +397,7 @@
       "component": "thumbnail",
       "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "object": "border"
       }
@@ -402,13 +405,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
     "uuid": "5bd226f1-0a6b-42bc-80af-4a9dde99e9e9",
-    "legacyKey": "thumbnail-border-color"
+    "legacyKey": "thumbnail-border-color",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "thumbnail",
       "part": "container",
       "property": "opacity",
+      "attribute": "border",
       "options": {
         "object": "border"
       }
@@ -416,7 +422,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "58bd04e9-5b85-44d8-8474-96e157701070",
-    "legacyKey": "thumbnail-border-opacity"
+    "legacyKey": "thumbnail-border-opacity",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -430,7 +438,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fdf6fd5d-55a0-4428-a258-4e8fafc74b74",
     "uuid": "92418bcd-5f0f-4f26-9a96-51f8c9e871bf",
-    "legacyKey": "thumbnail-opacity-disabled"
+    "legacyKey": "thumbnail-opacity-disabled",
+    "context": "Disabled",
+    "contextRole": ["state"]
   },
   {
     "scope": {
@@ -441,13 +451,15 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20",
     "uuid": "13681294-e3c6-4898-a17e-943932a53c08",
-    "legacyKey": "thumbnail-corner-radius"
+    "legacyKey": "thumbnail-corner-radius",
+    "context": "Rounding",
+    "contextRole": ["rounding"]
   },
   {
     "scope": {
       "component": "thumbnail",
       "part": "opacity-checkerboard",
-      "property": "opacity-checkerboard-size"
+      "property": "size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
