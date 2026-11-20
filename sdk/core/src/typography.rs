@@ -20,7 +20,7 @@ use std::collections::HashMap;
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::cascade::resolve_reference;
+use crate::cascade::{resolve_reference_in, LegacyKeys};
 use crate::graph::{TokenGraph, TokenRecord};
 
 /// Schema URL suffix that marks a token as a typography composite.
@@ -75,6 +75,17 @@ pub fn resolve_sub_value(
     raw: &Value,
     ctx: &HashMap<String, String>,
 ) -> StyleValue {
+    resolve_sub_value_in(graph, raw, ctx, None)
+}
+
+/// [`resolve_sub_value`] with the alias lookup served by a prebuilt `index`
+/// ([`crate::cascade::legacy_keys`]); a caller that unpacks many composites builds it once.
+pub fn resolve_sub_value_in(
+    graph: &TokenGraph,
+    raw: &Value,
+    ctx: &HashMap<String, String>,
+    index: Option<&LegacyKeys>,
+) -> StyleValue {
     let alias = raw
         .as_str()
         .and_then(|s| s.strip_prefix('{'))
@@ -82,7 +93,7 @@ pub fn resolve_sub_value(
         .filter(|s| !s.is_empty());
     match alias {
         Some(name) => StyleValue {
-            value: resolve_reference(graph, name, ctx).and_then(|r| r.value),
+            value: resolve_reference_in(graph, name, ctx, index).and_then(|r| r.value),
             token: Some(name.to_string()),
         },
         None => StyleValue {
@@ -99,13 +110,26 @@ pub fn unpack(
     token: &TokenRecord,
     ctx: &HashMap<String, String>,
 ) -> Option<Unpacked> {
+    unpack_in(graph, token, ctx, None)
+}
+
+/// [`unpack`] with the alias lookups served by a prebuilt `index`.
+pub fn unpack_in(
+    graph: &TokenGraph,
+    token: &TokenRecord,
+    ctx: &HashMap<String, String>,
+    index: Option<&LegacyKeys>,
+) -> Option<Unpacked> {
     let ctx = complete_context(graph, ctx);
     let leaf = token.resolve_leaf_in_context(graph, &ctx);
     if !is_composite(leaf) {
         return None;
     }
     let obj = leaf.raw.get("value")?.as_object()?;
-    let sub = |k: &str| obj.get(k).map(|v| resolve_sub_value(graph, v, &ctx));
+    let sub = |k: &str| {
+        obj.get(k)
+            .map(|v| resolve_sub_value_in(graph, v, &ctx, index))
+    };
     Some(Unpacked {
         font_family: sub("fontFamily"),
         font_size: sub("fontSize"),
