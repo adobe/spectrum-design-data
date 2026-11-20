@@ -407,6 +407,41 @@
           "metadata": {"count":2,"fields":["scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"menu/options/label","name":"label","fields":[],"before":{"type":"string"}},
+            {"id":"5168ad1a-1","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"menu/options/icon","name":"icon","fields":[],"before":{"$ref":"https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json","description":"Icon must be present if the label is not defined."}},
+            {"id":"5168ad1a-2","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"menu/options/description","name":"description","fields":[],"before":{"type":"string"}},
+            {"id":"5168ad1a-3","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"menu/options/value","name":"value","fields":[],"before":{"type":"string"}},
+            {"id":"5168ad1a-4","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"menu/options/isUnavailable","name":"isUnavailable","fields":[],"before":{"type":"boolean","default":false}},
+            {"id":"5168ad1a-5","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"menu/options/isDisabled","name":"isDisabled","fields":[],"before":{"type":"boolean","default":false}},
+            {"id":"5168ad1a-6","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/options/items","name":"items","fields":[],"after":{"type":"array","description":"The menu items, as a flat list.","items":{"type":"object","properties":{"label":{"type":"string"},"icon":{"$ref":"https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json","description":"Icon must be present if the label is not defined."},"description":{"type":"string"},"value":{"type":"string"},"isDisabled":{"type":"boolean","default":false},"isUnavailable":{"type":"boolean","default":false}}}}},
+            {"id":"5168ad1a-7","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"menu/anatomy/item-label","name":"item-label","fields":[],"before":{"name":"item-label","description":"Label text of a menu item."}},
+            {"id":"5168ad1a-8","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/anatomy/checkmark","name":"checkmark","fields":[],"after":{"name":"checkmark","description":"Check mark that shows an item is selected."}},
+            {"id":"5168ad1a-9","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The menu surface: padding and the gap between items. It is the root.","required":true,"contains":["section-header","menu-item","section-divider"]}},
+            {"id":"5168ad1a-10","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the focused item.","presentIn":["keyboard-focus"]}},
+            {"id":"5168ad1a-11","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/anatomy/section-header","name":"section-header","fields":[],"after":{"name":"section-header","description":"Heading above a section of items."}},
+            {"id":"5168ad1a-12","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/drill-in-chevron","name":"drill-in-chevron","fields":[{"path":"description","before":"Chevron indicating a menu item opens a sub-menu.","after":"Non-interactive chevron indicating a menu item opens a sub-menu. The whole item is the target."}]},
+            {"id":"5168ad1a-13","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/link-out-icon","name":"link-out-icon","fields":[{"path":"description","before":"Icon indicating a menu item navigates to a new context.","after":"Non-interactive icon indicating a menu item navigates to a new context."}]},
+            {"id":"5168ad1a-14","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/menu-item","name":"menu-item","fields":[{"path":"contains","before":["icon","label","description","value","switch","checkbox","thumbnail","drill-in-chevron","link-out-icon"],"after":["checkmark","checkbox","switch","icon","thumbnail","label","description","value","drill-in-chevron","link-out-icon","focus-indicator"]},{"path":"required","after":true}]},
+            {"id":"5168ad1a-15","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/menu-item","name":"menu-item","fields":[{"path":"description","before":"A single row within the menu.","after":"A single row within the menu; repeated once per entry of items."}]},
+            {"id":"5168ad1a-16","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/slots/default","name":"default","fields":[],"after":{"name":"default","part":"menu-item","collection":"items","description":"The menu items. Each entry of the items option is drawn as one copy of the menu-item part. A flat list for now; sections come later."}},
+            {"id":"5168ad1a-17","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web menu page (Menu, Menu item, Checkmark, Disclosure icon, Action, Menu section header) and React Spectrum S2 Menu.tsx. container added as the root (padding, item gap). item-label deleted (it duplicated label); checkmark, section-header and focus-indicator added. Decision A71 D8 a2: drill-in-chevron and link-out-icon stay non-interactive indicator icons: in Menu.tsx:925-947 both are plain icons in the descriptor area of the item, not buttons. Not verified in Figma: whether the Action group hides a button (no Figma access for this agent). Decision A69 D6a: menu gets a flat items option; label, icon, description, value, isDisabled and isUnavailable moved into the entry schema. The container option (popover or tray) describes the menu, not an item, so it stays on the component."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

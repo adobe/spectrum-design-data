@@ -8,8 +8,8 @@ description: >
   snapshot; it does not generate component code.
 metadata:
   author: adobe
-  version: "2.2.22"
-  designDataVersion: "3.28.0"
+  version: "2.2.23"
+  designDataVersion: "3.29.0"
 when_to_use: >
   Trigger on: token names (color, spacing, typography, dimension), "which token",
   "Spectrum component options", design-data primer, query tokens, suggest token,
@@ -43,7 +43,7 @@ skill was written for:
   "mcpServers": {
     "design-data": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-mcp@1.16.2"]
+      "args": ["-y", "@adobe/design-data-mcp@1.16.3"]
     }
   }
 }

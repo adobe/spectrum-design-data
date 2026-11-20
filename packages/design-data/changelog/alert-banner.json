@@ -201,6 +201,30 @@
           "metadata": {"count":5,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "fc69dda6c1054f2a7d3be88f921690eb3a927aef",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1993,"title":"feat(design-data): migrate status-light, in-line-alert, alert-banner and toast to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/1993"},
+          "entries": [
+            {"id":"fc69dda6-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon asset"],"scope":{"property":"size","options":null},"record":"a918123e-8a6f-50c3-9594-3a8dd08129bd","name":"size","fields":[{"path":"scope.property","before":"workflow-icon-size-100","after":"size"}]},
+            {"id":"fc69dda6-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon asset"],"scope":{"property":"size","options":null},"record":"3d2c1ac2-3bc6-5680-8430-7cf4dde2183d","name":"size","fields":[{"path":"scope.property","before":"workflow-icon-size-100","after":"size"}]},
+            {"id":"fc69dda6-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (close button to end edge)"],"scope":{"property":"space-between","options":{"scale":"desktop"}},"record":"035cff86-ee11-520b-911a-1fc4b30eaa07","name":"space-between[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"fc69dda6-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (close button to end edge)"],"scope":{"property":"space-between","options":{"scale":"mobile"}},"record":"2724bb7a-4423-5633-8ceb-d784f7770693","name":"space-between[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"fc69dda6-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size","options":null},"record":"eb1358f7-4f82-504d-a360-8da387b4fcca","name":"font-size","fields":[{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"fc69dda6-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size","options":null},"record":"d300b05a-45bf-51f1-b33c-8d7bb0280375","name":"font-size","fields":[{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"fc69dda6-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height","options":null},"record":"3913938f-e79d-57f3-952a-46323a69fe84","name":"line-height","fields":[{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"fc69dda6-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height","options":null},"record":"9a980ebc-1a31-5197-b637-281c0381ebca","name":"line-height","fields":[{"path":"scope.property","before":"line-height-100","after":"line-height"}]}
+          ]
+        }
+      ]
     }
   ]
 }

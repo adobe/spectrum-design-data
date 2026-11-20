@@ -250,6 +250,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/options/items","name":"items","fields":[{"path":"items.properties.state.enum","before":["default","hover","keyboard focus"],"after":["default","hover","keyboard-focus"]}]},
+            {"id":"5168ad1a-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"segmented-control/anatomy/selection","name":"selection","fields":[],"before":{"name":"selection","description":"Sliding indicator that marks the selected segment; a sibling of the items inside the track."}},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/anatomy/selection-indicator","name":"selection-indicator","fields":[],"after":{"name":"selection-indicator","description":"Fill and border that mark the selected segment. It is drawn inside the item and is present on the selected segment only."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/anatomy/container","name":"container","fields":[{"path":"contains","before":["item","selection"],"after":["item"]}]},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/anatomy/container","name":"container","fields":[{"path":"description","before":"Track background behind the items.","after":"Track background behind the items. It is the root."}]},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/anatomy/item","name":"item","fields":[{"path":"contains","before":["icon","label","focus-indicator"],"after":["icon","label","selection-indicator","focus-indicator"]}]},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/anatomy/item","name":"item","fields":[{"path":"description","before":"One segment with an icon, a label or both; repeated.","after":"One segment with an icon, a label or both; repeated once per entry of items."}]},
+            {"id":"5168ad1a-7","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"segmented-control/slots/default","name":"default","fields":[],"after":{"name":"default","part":"item","collection":"items","description":"The segments. Each entry of the items option is drawn as one copy of the item part."}},
+            {"id":"5168ad1a-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-control/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP SegmentedControl.tsx:116-121,255 draws the track and a sliding selection indicator over the items; Figma S2 Web segmented control page. 'item' kept (not segmented-control-item) by owner decision to avoid new *-item terms. keyboard-focus and disabled states added.","after":"Figma S2 Web segmented control page (the selected segment's own fill and stroke) and React Spectrum SegmentedControl.tsx:116-121,255 (<SelectionIndicator> in SegmentedControlItem). Decision A64 D1c: the marker is the new term selection-indicator, drawn inside the item (it was selection, a sibling inside the track). Decision A72 D9a: no item suffix is added; item keeps its name (the planned rename to segmented-control-item is dropped); the name is a question for Garth. keyboard-focus and disabled states."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

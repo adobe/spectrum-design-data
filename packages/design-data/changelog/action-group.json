@@ -122,6 +122,33 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "a07d7812b11f8a319a3b240b09b05af3998ea86d",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1988,"title":"feat(design-data): anatomy review of the groups family (A6)","url":"https://github.com/adobe/spectrum-design-data/pull/1988"},
+          "entries": [
+            {"id":"a07d7812-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (action-button to action-button)"],"scope":{"property":"space-between","options":{"orientation":"horizontal"}},"record":"bb396a5c-8c22-5ee3-9d24-b27b07054a5a","name":"space-between[orientation=horizontal]","fields":[{"path":"scope.between.from","after":"action-button"},{"path":"scope.between.to","after":"action-button"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (action-button to action-button)"],"scope":{"property":"space-between","options":{"orientation":"horizontal"}},"record":"bb396a5c-8c22-5ee3-9d24-b27b07054a5a","name":"space-between[orientation=horizontal]","fields":[{"path":"context","before":"Spacing","after":"Spacing (action-button to action-button)"}]},
+            {"id":"a07d7812-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (action-button to action-button)"],"scope":{"property":"space-between","options":{"orientation":"horizontal"}},"record":"7fe5c978-a252-502a-a4db-8ad34faf70c0","name":"space-between[orientation=horizontal]","fields":[{"path":"scope.between.from","after":"action-button"},{"path":"scope.between.to","after":"action-button"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (action-button to action-button)"],"scope":{"property":"space-between","options":{"orientation":"horizontal"}},"record":"7fe5c978-a252-502a-a4db-8ad34faf70c0","name":"space-between[orientation=horizontal]","fields":[{"path":"context","before":"Spacing","after":"Spacing (action-button to action-button)"}]},
+            {"id":"a07d7812-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (action-button to action-button)"],"scope":{"property":"space-between","options":{"orientation":"horizontal","density":"compact"}},"record":"ebaccad6-94d5-5dd0-bf4c-e127e74149f5","name":"space-between[density=compact,orientation=horizontal]","fields":[{"path":"scope.between.from","after":"action-button"},{"path":"scope.between.to","after":"action-button"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (action-button to action-button)"],"scope":{"property":"space-between","options":{"orientation":"horizontal","density":"compact"}},"record":"ebaccad6-94d5-5dd0-bf4c-e127e74149f5","name":"space-between[density=compact,orientation=horizontal]","fields":[{"path":"context","before":"Spacing","after":"Spacing (action-button to action-button)"}]},
+            {"id":"a07d7812-6","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"action-group/anatomy/action-button","name":"action-button","fields":[],"before":{"name":"action-button","description":"One action button in the group; repeated.","required":true}},
+            {"id":"a07d7812-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"action-group/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Row or column that holds the action buttons. It draws nothing itself: it sets the gap between buttons and the direction. It is the root and the host of the default slot.","required":true}},
+            {"id":"a07d7812-8","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"action-group/slots/default","name":"default","fields":[],"after":{"name":"default","part":"container","accepts":["action-button"],"min":1,"description":"The action button in the group. Any number of action buttons, at least one."}},
+            {"id":"a07d7812-9","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"action-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web action group page (only Action button instances). Group draws nothing itself; no container.","after":"Figma S2 Web action group page (Action button instances only), React Spectrum S2 ActionButtonGroup. The group stays a component with an explicit container and one slot (A139). action-button is no longer a part: it is what the default slot accepts. Selection options (enableSelection, selectionMode, allowsEmptySelection) stay options (A144)."}]}
+          ],
+          "metadata": {"count":4,"fields":["anatomyReview.status","contextQualifier"]}
+        }
+      ]
     }
   ]
 }

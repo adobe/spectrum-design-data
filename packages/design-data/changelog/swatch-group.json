@@ -110,6 +110,49 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "a07d7812b11f8a319a3b240b09b05af3998ea86d",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1988,"title":"feat(design-data): anatomy review of the groups family (A6)","url":"https://github.com/adobe/spectrum-design-data/pull/1988"},
+          "entries": [
+            {"id":"a07d7812-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (swatch to swatch)"],"scope":{"property":"space-between","options":{"density":"spacious"}},"record":"2fbf78a0-5964-5fad-90f5-3a24427ccd67","name":"space-between[density=spacious]","fields":[{"path":"scope.between.from","after":"swatch"},{"path":"scope.between.to","after":"swatch"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (swatch to swatch)"],"scope":{"property":"space-between","options":{"density":"spacious"}},"record":"2fbf78a0-5964-5fad-90f5-3a24427ccd67","name":"space-between[density=spacious]","fields":[{"path":"context","before":"Spacing","after":"Spacing (swatch to swatch)"}]},
+            {"id":"a07d7812-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"swatch-group/anatomy/swatch","name":"swatch","fields":[],"before":{"name":"swatch","description":"One color swatch in the grid; repeated.","required":true}},
+            {"id":"a07d7812-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"swatch-group/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Grid of swatches. It draws nothing itself: it sets the gap between swatches and wraps rows. It is the root and the host of the default slot.","required":true}},
+            {"id":"a07d7812-4","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"swatch-group/slots/default","name":"default","fields":[],"after":{"name":"default","part":"container","accepts":["swatch"],"min":1,"description":"The swatch in the group. Any number of swatches, at least one."}},
+            {"id":"a07d7812-5","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"swatch-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web swatch group page (Swatch instances in rows). Group draws nothing itself; no container.","after":"Figma S2 Web swatch group page (Swatch instances in rows). The group stays a component with an explicit container and one slot (A139). swatch is no longer a part: it is what the default slot accepts. Selection options stay options (A144)."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.status","contextQualifier"]}
+        },
+        {
+          "commit": "beeb84b48b539a25c67383b9a66ada585488a91c",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1991,"title":"feat(design-data): identity migration of avatar-group, swatch-group and action-bar","url":"https://github.com/adobe/spectrum-design-data/pull/1991"},
+          "entries": [
+            {"id":"beeb84b4-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"4d891c99-e560-51d9-8369-5fc10426777a","name":"color","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]}
+          ],
+          "metadata": {"count":3,"fields":["context","contextRole","scope.part"]}
+        },
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (swatch to swatch)"],"scope":{"property":"space-between","options":{"density":"compact"}},"record":"75df89ad-eb01-5654-ad0a-4466ec375d7c","name":"space-between[density=compact]","fields":[{"path":"scope.options.density","after":"compact"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (swatch to swatch)"],"scope":{"property":"space-between","options":{"density":"compact"}},"record":"75df89ad-eb01-5654-ad0a-4466ec375d7c","name":"space-between[density=compact]","fields":[{"path":"scope.between.from","after":"swatch"},{"path":"scope.between.to","after":"swatch"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"23810aed-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (swatch to swatch)"],"scope":{"property":"space-between","options":{"density":"compact"}},"record":"75df89ad-eb01-5654-ad0a-4466ec375d7c","name":"space-between[density=compact]","fields":[{"path":"context","before":"Spacing (compact)","after":"Spacing (swatch to swatch)"}]}
+          ],
+          "metadata": {"count":1,"fields":["contextQualifier","scope.component"]}
+        }
+      ]
     }
   ]
 }

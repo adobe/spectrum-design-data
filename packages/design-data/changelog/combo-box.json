@@ -793,6 +793,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "4.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "1eaeba52595db95f7efd1c333697bfdd2772052b",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1992,"title":"feat(design-data): migrate tag and combo-box to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/1992"},
+          "entries": [
+            {"id":"1eaeba52-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["S1 Spacing (alert icon/progress circle to field button)"],"scope":{"property":"visual-to-field-button-quiet","options":null},"record":"93762f2f-359f-538b-a887-4743a2dde574","name":"visual-to-field-button-quiet","fields":[],"before":"6c3c7201-2f5b-455a-bcbf-5e3d783887bf"}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -153,6 +153,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"steplist/anatomy/track-size","name":"track-size","fields":[],"before":{"name":"track-size","description":"The connecting track between steps."}},
+            {"id":"5168ad1a-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"steplist/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The step list: a row (or column, when vertical) of steps. It is the root.","required":true,"contains":["step"]}},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"steplist/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Text label of a step; optional."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"steplist/anatomy/visual","name":"visual","fields":[],"after":{"name":"visual","description":"Circle that shows the step number, or a checkmark once the step is completed."}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"steplist/anatomy/step","name":"step","fields":[{"path":"contains","after":["visual","label","track"]},{"path":"required","after":true}]},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"steplist/anatomy/step","name":"step","fields":[{"path":"description","before":"A single step in the list.","after":"A single step in the list; repeated once per entry of items."}]},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"steplist/anatomy/track","name":"track","fields":[{"path":"description","after":"Connecting line from this step to the next. Absent on the last step. It takes its step's completed or incomplete state."}]},
+            {"id":"5168ad1a-7","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"steplist/slots/default","name":"default","fields":[],"after":{"name":"default","part":"step","collection":"items","description":"The steps. Each entry of the items option is drawn as one copy of the step part."}},
+            {"id":"5168ad1a-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"steplist/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web steplist page (.Step, Track 1-2, Track 2-3). There is no React Spectrum or SWC steplist. container added as the root. Decision A67 D4a: track is a child of step, absent on the last step, taking its step's completed or incomplete state; this goes against Figma's layer structure (n-1 Track instances on the container), so Design confirms through the steplist needs-decision bead. track-size deleted (a property name used as a part); step kept (the registry's step-item is removed)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

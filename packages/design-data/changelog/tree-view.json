@@ -411,6 +411,46 @@
           "metadata": {"count":4,"fields":["contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [],
+          "metadata": {"count":4,"fields":["context","contextRole","scope.attribute"]}
+        },
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tree-view/anatomy/action-area","name":"action-area","fields":[],"before":{"name":"action-area","description":"Trailing area containing item actions."}},
+            {"id":"5168ad1a-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tree-view/anatomy/disclosure-indicator","name":"disclosure-indicator","fields":[],"before":{"name":"disclosure-indicator","description":"Visual affordance showing a tree view item's expand/collapse state."}},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/actions","name":"actions","fields":[],"after":{"name":"actions","description":"Row of action buttons at the end of an item; hosts the actions slot."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/checkbox","name":"checkbox","fields":[],"after":{"name":"checkbox","description":"Selection checkbox, shown in the checkbox selection style."}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The tree view. It is the root.","required":true,"contains":["section-header","row"]}},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/disclosure-button","name":"disclosure-button","fields":[],"after":{"name":"disclosure-button","description":"Button that expands or collapses the item's children. It is interactive and has its own states; present on items that have children."}},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/drag-handle","name":"drag-handle","fields":[],"after":{"name":"drag-handle","description":"Grip for reordering the item; shown by showDragIcon."}},
+            {"id":"5168ad1a-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the focused item.","presentIn":["keyboard-focus"]}},
+            {"id":"5168ad1a-8","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Leading icon of an item."}},
+            {"id":"5168ad1a-9","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Text label of an item."}},
+            {"id":"5168ad1a-10","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/section-header","name":"section-header","fields":[],"after":{"name":"section-header","description":"Heading above a group of items."}},
+            {"id":"5168ad1a-11","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/anatomy/thumbnail","name":"thumbnail","fields":[],"after":{"name":"thumbnail","description":"Thumbnail of an item, used instead of the icon (the thumbnail component)."}},
+            {"id":"5168ad1a-12","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tree-view/anatomy/row","name":"row","fields":[{"path":"contains","after":["drag-handle","checkbox","disclosure-button","icon","thumbnail","label","actions","focus-indicator"]},{"path":"required","after":true}]},
+            {"id":"5168ad1a-13","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tree-view/anatomy/row","name":"row","fields":[{"path":"description","after":"One tree view item (Figma Tree view item)."}]},
+            {"id":"5168ad1a-14","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tree-view/slots/actions","name":"actions","fields":[],"after":{"name":"actions","part":"actions","accepts":["action-button"],"max":2,"description":"Actions at the end of an item."}},
+            {"id":"5168ad1a-15","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tree-view/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web tree view page (Tree view item, .Tree view (collapse and expand button), Level 0-6) and React Spectrum S2 TreeView (expandButton). container added as the root. Decision A71 D8 a2: disclosure-indicator becomes disclosure-button, the interactive expand and collapse control; action-area renamed actions (registry term). Decision A69 D6a: anatomy only for now, no items option and no recursion; indentation by a per-entry level is a later step. Decision A72 D9a: row keeps its name (the planned rename to tree-view-item is dropped); the name is a question for Garth. Decision A68 D5a: tree-view keeps its own records; stack-item holds the shared row chrome. Restated opacity-checkerboard records are identity work, not done here."}]}
+          ],
+          "metadata": {"count":5,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

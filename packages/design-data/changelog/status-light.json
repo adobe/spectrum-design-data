@@ -467,6 +467,40 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "3.0.1",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "fc69dda6c1054f2a7d3be88f921690eb3a927aef",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1993,"title":"feat(design-data): migrate status-light, in-line-alert, alert-banner and toast to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/1993"},
+          "entries": [
+            {"id":"fc69dda6-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"s"}},"record":"4a5875e8-07d1-5125-a1e5-c4f4b9471742","name":"font-size[size=s]","fields":[{"path":"scope.options.size","after":"s"}]},
+            {"id":"fc69dda6-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"s"}},"record":"4a5875e8-07d1-5125-a1e5-c4f4b9471742","name":"font-size[size=s]","fields":[{"path":"scope.property","before":"font-size-75","after":"font-size"}]},
+            {"id":"fc69dda6-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"s"}},"record":"09f6c836-317e-561b-a6f3-bf347a266221","name":"font-size[size=s]","fields":[{"path":"scope.options.size","after":"s"}]},
+            {"id":"fc69dda6-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"s"}},"record":"09f6c836-317e-561b-a6f3-bf347a266221","name":"font-size[size=s]","fields":[{"path":"scope.property","before":"font-size-75","after":"font-size"}]},
+            {"id":"fc69dda6-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"m"}},"record":"4153c286-8d61-5ee4-b96e-96ca5466d655","name":"font-size[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"fc69dda6-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"m"}},"record":"4153c286-8d61-5ee4-b96e-96ca5466d655","name":"font-size[size=m]","fields":[{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"fc69dda6-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"m"}},"record":"18625de4-164b-59b3-9b41-076518ddb29d","name":"font-size[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"fc69dda6-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"m"}},"record":"18625de4-164b-59b3-9b41-076518ddb29d","name":"font-size[size=m]","fields":[{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"fc69dda6-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"l"}},"record":"25dbf66c-6860-5eca-83e5-bdbd49706f33","name":"font-size[size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"fc69dda6-9","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"l"}},"record":"25dbf66c-6860-5eca-83e5-bdbd49706f33","name":"font-size[size=l]","fields":[{"path":"scope.property","before":"font-size-200","after":"font-size"}]},
+            {"id":"fc69dda6-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"l"}},"record":"a8bfd31e-fc59-549e-aebc-f63df1c8ce51","name":"font-size[size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"fc69dda6-11","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"l"}},"record":"a8bfd31e-fc59-549e-aebc-f63df1c8ce51","name":"font-size[size=l]","fields":[{"path":"scope.property","before":"font-size-200","after":"font-size"}]},
+            {"id":"fc69dda6-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"xl"}},"record":"78dbf526-0b5f-55b3-b221-5a24cf2a6559","name":"font-size[size=xl]","fields":[{"path":"scope.options.size","after":"xl"}]},
+            {"id":"fc69dda6-13","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"xl"}},"record":"78dbf526-0b5f-55b3-b221-5a24cf2a6559","name":"font-size[size=xl]","fields":[{"path":"scope.property","before":"font-size-300","after":"font-size"}]},
+            {"id":"fc69dda6-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"xl"}},"record":"e9037fab-226a-5e0c-8d70-5e7702868aa7","name":"font-size[size=xl]","fields":[{"path":"scope.options.size","after":"xl"}]},
+            {"id":"fc69dda6-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"xl"}},"record":"e9037fab-226a-5e0c-8d70-5e7702868aa7","name":"font-size[size=xl]","fields":[{"path":"scope.property","before":"font-size-300","after":"font-size"}]},
+            {"id":"fc69dda6-16","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"line-height","options":null},"record":"6288e3c0-de76-531f-b5ca-6e653ff82473","name":"line-height","fields":[{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"fc69dda6-17","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"line-height","options":null},"record":"fa00d6d7-0fcb-57bd-bd94-32d6fa9220e6","name":"line-height","fields":[{"path":"scope.property","before":"line-height-100","after":"line-height"}]}
+          ]
+        }
+      ]
     }
   ]
 }
