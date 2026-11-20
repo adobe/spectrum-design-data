@@ -70,6 +70,28 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "676b08d9d3ed808075c931240c3a1ba438efdda4",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1964,"title":"feat(design-data): review anatomy of body, heading, detail, title, code (A1)","url":"https://github.com/adobe/spectrum-design-data/pull/1964"},
+          "entries": [
+            {"id":"676b08d9-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"letter-spacing","options":{"size":"xxxl"}},"record":"60a051d9-a45a-58b6-83d8-fda707e8262e","name":"letter-spacing[size=xxxl]","fields":[{"path":"scope.options.size","after":"xxxl"}]},
+            {"id":"676b08d9-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"letter-spacing","options":{"size":"xxxl"}},"record":"60a051d9-a45a-58b6-83d8-fda707e8262e","name":"letter-spacing[size=xxxl]","fields":[{"path":"context","before":"Title-XXXL","after":"Text"}]},
+            {"id":"676b08d9-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Margins"],"scope":{"property":"margin","options":null},"record":"33e468da-87a2-562e-aaa3-f187c5d5757e","name":"margin","fields":[],"before":"14d9dc6c-28fc-41cf-a1ae-600a150f520a"},
+            {"id":"676b08d9-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Margins"],"scope":{"property":"margin","options":null},"record":"f84be9a6-4aa5-54d8-95e0-194e2b82ab71","name":"margin","fields":[],"before":"73a0bd28-7691-47b0-9e9b-62ec22940e63"},
+            {"id":"676b08d9-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"title/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"No Figma component; text style only (React Spectrum / relationship label contexts). One minimal text part. 'Margins' spacing contexts are layout, not a part.","after":"No Figma component; the style exists only as text styles (Figma), a font macro value (React Spectrum) and one Typography stylesheet (SWC). One explicit root part, text; margins are properties of it. Owner decision D1 (2026-11-19): keep five components."}]}
+          ],
+          "metadata": {"count":48,"fields":["anatomyReview.status","context","contextRole","scope.options.family","scope.options.script","scope.part","scope.property"]}
+        }
+      ]
     }
   ]
 }

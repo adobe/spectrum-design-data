@@ -1,5 +1,48 @@
 # @adobe/design-data-wasm
 
+## 0.31.1
+
+### Patch Changes
+
+- [#1964](https://github.com/adobe/spectrum-design-data/pull/1964) [`676b08d`](https://github.com/adobe/spectrum-design-data/commit/676b08d9d3ed808075c931240c3a1ba438efdda4) Thanks [@GarthDB](https://github.com/GarthDB)! - Review the anatomy of body, heading, detail, title and code. Each stays a component with one
+  root part, `text`, and its 239 live relationship records now say so (`scope.part`).
+  - Title: `size` is renamed `font-size` (14 records), `family: cjk` becomes `script: cjk` (10),
+    and its two duplicate margin records are removed.
+  - Code: `size` becomes `font-size` (5), and its description is fixed.
+  - Body, heading and detail: `margin-multiplier` becomes `margin` with `position`, and the
+    margin `structure` option is dropped. The registry drops the `heading` and `detail`
+    structures (unused).
+  - Title: contexts are harmonised so each property has one (15 records gain `Text`, 2 margins gain
+    `Margins`, letter-spacing goes from `Title-XXXL` to `Text`). Other components keep theirs.
+  - Heading no longer lists React Spectrum `Heading` as its implementation (it is unstyled).
+  - The five components are marked `reviewed`. Code, detail and title are at status level 2
+    (body and heading at 1).
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical. Deprecated records are untouched.
+
+- [#1963](https://github.com/adobe/spectrum-design-data/pull/1963) [`22993f8`](https://github.com/adobe/spectrum-design-data/commit/22993f870acbb4d74b2f2febd6f369e95f0cc223) Thanks [@GarthDB](https://github.com/GarthDB)! - Component changelogs now classify a change to a relationship's `scope.options` pin
+  as a visual change instead of metadata. A pin selects which record renders, so it
+  was previously counted but not listed.
+
+- [#1960](https://github.com/adobe/spectrum-design-data/pull/1960) [`e1b3e4a`](https://github.com/adobe/spectrum-design-data/commit/e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a visual recipe name a relationship by its structured identity, and add `scope.attribute`
+  (proposal 018).
+  - **Spec:** a relationship's identity is `(scope.property, scope.attribute, scope.part,
+scope.between)`. `scope.attribute` is new and optional: a sub-quality of the property
+    (`border`, `background`, `dash`, `shadow`, `corner`, `overlay`, `gradient`). It is checked
+    against `registry/attributes.json` as a warning (SPEC-101).
+  - **Spec:** a recipe `relationship` selector may use `attribute`, `part` and `between` instead
+    of `context`. It must name `part` or `between`, matches every record whose given fields are
+    equal, and SPEC-062 rejects a selector that names more than one identity. Mixing `context`
+    with them is invalid.
+  - **Rules:** SPEC-062's one-identity check is an error where a component has no identity
+    collisions, a baselined warning elsewhere. `context` selectors per recipe cannot rise.
+  - **Data:** the switch and checkbox recipes bind by identity, and 190 relationship records gain
+    `scope.part` (158) or `scope.between` (32); no other field changes.
+    Renders and spec sheets are byte-identical. `@adobe/spectrum-tokens` is not affected.
+  - **Engine:** the renderer, SPEC-062/066/071/090, the status report and the spec-sheet generator
+    read both forms. A CLI or WASM build older than this one cannot resolve the new recipes.
+  - **Release:** the dataset requires CLI 0.57.0; 0.56.0 cannot resolve selectors without `context`.
+
 ## 0.31.0
 
 ### Minor Changes
