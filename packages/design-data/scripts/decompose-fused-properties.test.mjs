@@ -285,3 +285,66 @@ test("records that tie on identity get a size pin from the token, one per size",
     "ok",
   );
 });
+
+test("an edge without axis words takes its axis from the token's padding property", () => {
+  const padding = new Map([
+    ["h", { name: { property: "padding-horizontal" } }],
+    ["x", { name: { property: "height" } }],
+  ]);
+  const edge = (context, $ref) =>
+    plan(
+      rec(
+        { property: "space-between", between: { from: "edge", to: "value" } },
+        { context, $ref },
+      ),
+      { ...ctx, tokens: padding },
+    );
+  assert.deepEqual(
+    edge("Spacing (edge to tag group)", "h").next.map((n) => n.scope.between),
+    [
+      { from: "start-edge", to: "value" },
+      { from: "value", to: "end-edge" },
+    ],
+  );
+  assert.equal(
+    edge("Spacing (top edge to icon)", "x").next[0].scope.between.from,
+    "top-edge",
+  );
+  assert.equal(edge("Spacing (edge to tag group)", "x").status, "judgement");
+});
+
+test("an icon role agrees with the size property", () => {
+  const sizeToken = new Map([["i", { name: { property: "size", size: "m" } }]]);
+  const r = plan(
+    rec(
+      { property: "workflow-icon-size-100", part: "value" },
+      { context: "Icon", contextRole: ["icon"], $ref: "i" },
+    ),
+    { ...ctx, tokens: sizeToken },
+  );
+  assert.equal(r.next[0].scope.property, "size");
+});
+
+test("a size word suffix is a size, extra-large included", () => {
+  const sized = {
+    ...component,
+    options: {
+      size: {
+        type: "string",
+        values: ["s", "m", "l", "xl"].map((value) => ({ value })),
+      },
+    },
+  };
+  const between = { from: "field-label", to: "field" };
+  const r = (property) =>
+    plan(rec({ property, between }, { contextRole: ["spacing"], $ref: "x" }), {
+      ...ctx,
+      component: sized,
+    });
+  assert.deepEqual(r("to-component-small").next[0].scope.options, {
+    size: "s",
+  });
+  assert.deepEqual(r("to-component-extra-large").next[0].scope.options, {
+    size: "xl",
+  });
+});

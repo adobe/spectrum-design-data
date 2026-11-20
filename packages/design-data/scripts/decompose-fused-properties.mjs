@@ -16,7 +16,7 @@
 //           start-edge, end-edge; `top/bottom` -> top-edge, bottom-edge. The record is split in
 //           two (the first keeps its uuid, the second gets a deterministic v5 uuid).
 //   spacing a fused name on a record with `between` becomes `space-between` (D1b).
-//   size    a 50/75/100/200/300 suffix becomes `options.size` xs/s/m/l/xl when the component
+//   size    a 50/75/100/200/300 (or small/medium/large/extra-large) suffix becomes `options.size` xs/s/m/l/xl when the component
 //           declares that size, else it is dropped (50 is always judgement). The referenced
 //           token's size must agree.
 //   modifier a name modifier (-pill-, -quiet, -visual-only, -compact, -spacious, -editable,
@@ -37,7 +37,7 @@
 // Anything the rules cannot settle is reported as judgement and never written.
 //
 // Usage: node scripts/decompose-fused-properties.mjs [--report|--write|--check]
-//          [--family a,b] [--totals] [--legacy-key] [<design-data dir>]
+//          [--family a,b] [--totals] [--legacy-key] [--hold-color-split] [<design-data dir>]
 // --report (default) prints the old -> new table and totals; --write applies the mechanical
 // changes; --check exits 1 if any mechanical change is pending. Run prettier on written files.
 
@@ -48,7 +48,17 @@ import { uuidV5 } from "./backfill-relationship-uuid.mjs";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 
-const SIZE = { 50: "xs", 75: "s", 100: "m", 200: "l", 300: "xl" };
+const SIZE = {
+  50: "xs",
+  75: "s",
+  100: "m",
+  200: "l",
+  300: "xl",
+  small: "s",
+  medium: "m",
+  large: "l",
+  "extra-large": "xl",
+};
 const HELD = new Set(["background-color", "border-color"]);
 const MODIFIERS = [
   { re: /(^|-)pill(-|$)/, option: "shape", value: "pill" },
@@ -65,6 +75,15 @@ const AXES = {
   "start/end": ["start-edge", "end-edge"],
   "top/bottom": ["top-edge", "bottom-edge"],
 };
+/** The axis of a generic `edge`: the context words, else the token's padding property. */
+function edgeAxis(label, token) {
+  if (/\b(start|end)\b/.test(label)) return AXES["start/end"];
+  if (/\b(top|bottom)\b/.test(label)) return AXES["top/bottom"];
+  const p = token?.name?.property;
+  if (p === "padding-horizontal") return AXES["start/end"];
+  if (p === "padding-vertical") return AXES["top/bottom"];
+  return null;
+}
 const SPACING = /(^|-)(to|padding|spacing|gap|space|between)(-|$)/;
 
 /** Script-specific (CJK) tokens are never pinned by size: they would outrank their unpinned latin siblings. */
@@ -147,6 +166,11 @@ export function plan(record, ctx) {
     if (/background (and|&|\/) border/.test(label)) {
       if (!ctx.attributes.has("background") || !ctx.attributes.has("border"))
         return judgement("color split", "background/border are not attributes");
+      if (ctx.holdColorSplit)
+        return judgement(
+          "color split",
+          "held (--hold-color-split): splitting an ambiguous group raises the same-pin-set baseline",
+        );
       const border = {
         ...structuredClone(record),
         scope: { ...scope, attribute: "border" },
@@ -184,7 +208,9 @@ export function plan(record, ctx) {
   let base = property;
   let twinBetween = null;
 
-  const sizeMatch = base.match(/^(.*)-(50|75|100|200|300)$/);
+  const sizeMatch = base.match(
+    /^(.*?)-(50|75|100|200|300|small|medium|large|extra-large)$/,
+  );
   let size = null;
   if (sizeMatch) {
     base = sizeMatch[1];
@@ -244,12 +270,13 @@ export function plan(record, ctx) {
   }
 
   if (genericEdge) {
-    const axis = Object.entries(AXES).find(
-      ([k]) => label.includes(k) || label.includes(k.split("/")[1] + " edge"),
-    );
+    const axis = edgeAxis(label, ctx.tokens.get(record.$ref));
     if (!axis)
-      return judgement("edge", "no start/end or top/bottom in the context");
-    const [first, second] = axis[1];
+      return judgement(
+        "edge",
+        "no start/end or top/bottom in the context, and the token is not padding-horizontal/vertical",
+      );
+    const [first, second] = axis;
     const other =
       scope.between.from === "edge" ? scope.between.to : scope.between.from;
     if (!other || other === "edge")
@@ -302,7 +329,8 @@ export function plan(record, ctx) {
       r === newProperty ||
       (newProperty === "space-between" &&
         ["spacing", "padding", "gap", "icon"].includes(r)) ||
-      newProperty.endsWith(r);
+      newProperty.endsWith(r) ||
+      (newProperty === "size" && r === "icon");
     if (roles.length && !roles.some(agree)) {
       return judgement(
         "role",
@@ -408,10 +436,23 @@ function pinTies(records, results, ctx) {
 }
 
 /** Plans a whole file; marks records that become exact duplicates of another live record. */
-export function planFile(records, name, base, legacyKey = false) {
+export function planFile(
+  records,
+  name,
+  base,
+  legacyKey = false,
+  holdColorSplit = false,
+) {
   const component = base.components.get(name) ?? { name };
   const used = new Set(records.map((r) => r.uuid));
-  const ctx = { ...base, component, file: `${name}.json`, legacyKey, used };
+  const ctx = {
+    ...base,
+    component,
+    file: `${name}.json`,
+    legacyKey,
+    holdColorSplit,
+    used,
+  };
   const results = records.map((r) =>
     isLive(r)
       ? plan(r, ctx)
@@ -487,7 +528,13 @@ function main() {
     if (family && !family.includes(name)) continue;
     const path = join(dir, "relationships", f);
     const records = JSON.parse(readFileSync(path, "utf8"));
-    const results = planFile(records, name, base, flag("--legacy-key"));
+    const results = planFile(
+      records,
+      name,
+      base,
+      flag("--legacy-key"),
+      flag("--hold-color-split"),
+    );
     const rows = results.map((res, i) => ({
       name,
       record: records[i],
