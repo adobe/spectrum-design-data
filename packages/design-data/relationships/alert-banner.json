@@ -3,7 +3,7 @@
     "scope": {
       "component": "alert-banner",
       "part": "icon",
-      "property": "workflow-icon-size-100"
+      "property": "size"
     },
     "context": "Icon asset",
     "contextRole": ["icon"],
@@ -14,7 +14,7 @@
     "scope": {
       "component": "alert-banner",
       "part": "icon",
-      "property": "workflow-icon-size-100"
+      "property": "size"
     },
     "context": "Icon asset",
     "contextRole": ["icon"],
@@ -105,6 +105,9 @@
       "between": {
         "from": "end-edge",
         "to": "close-button"
+      },
+      "options": {
+        "scale": "desktop"
       }
     },
     "context": "Spacing (close button to end edge)",
@@ -121,6 +124,9 @@
       "between": {
         "from": "end-edge",
         "to": "close-button"
+      },
+      "options": {
+        "scale": "mobile"
       }
     },
     "context": "Spacing (close button to end edge)",
@@ -365,7 +371,7 @@
     "scope": {
       "component": "alert-banner",
       "part": "text",
-      "property": "font-size-100"
+      "property": "font-size"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -376,7 +382,7 @@
     "scope": {
       "component": "alert-banner",
       "part": "text",
-      "property": "font-size-100"
+      "property": "font-size"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -387,7 +393,7 @@
     "scope": {
       "component": "alert-banner",
       "part": "text",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -398,7 +404,7 @@
     "scope": {
       "component": "alert-banner",
       "part": "text",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],

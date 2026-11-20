@@ -60,7 +60,7 @@
     "scope": {
       "component": "toast",
       "part": "icon",
-      "property": "workflow-icon-size-100"
+      "property": "size"
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -71,7 +71,7 @@
     "scope": {
       "component": "toast",
       "part": "icon",
-      "property": "workflow-icon-size-100"
+      "property": "size"
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -425,7 +425,7 @@
     "scope": {
       "component": "toast",
       "part": "text",
-      "property": "font-size-100"
+      "property": "font-size"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -436,7 +436,7 @@
     "scope": {
       "component": "toast",
       "part": "text",
-      "property": "font-size-100"
+      "property": "font-size"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -447,7 +447,7 @@
     "scope": {
       "component": "toast",
       "part": "text",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -458,7 +458,7 @@
     "scope": {
       "component": "toast",
       "part": "text",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -468,11 +468,17 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
-    "context": "Toast token changes (Jan 2025)",
+    "context": "Background",
     "$ref": "95cf1481-f476-47ce-a45a-54da64b44255",
-    "uuid": "7f343eb3-37f6-5e3d-9e1a-2a320d9182b9"
+    "uuid": "7f343eb3-37f6-5e3d-9e1a-2a320d9182b9",
+    "contextRole": ["background"]
   },
   {
     "scope": {
