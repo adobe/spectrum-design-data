@@ -143,12 +143,17 @@
       "name": "focus-indicator",
       "description": "Ring drawn around the swatch for keyboard focus.",
       "presentIn": ["keyboard-focus"]
+    },
+    {
+      "name": "tooltip",
+      "description": "Floating label shown when the swatch is hovered; a nested component placed outside the swatch, like picker menu-container. The gap from the container to it is a space-between record.",
+      "presentIn": ["hover"]
     }
   ],
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Proposed from Figma S2 Web (Swatch: background, opacity checkerboard instance, border, inner border when selected, slash for the None value, Cancel icon when disabled) and React Spectrum ColorSwatch and ColorSwatchPicker (fill, checkerboard, slash, selection border and inner band, focusRing). SWC gen2 has no swatch. Hover draws a Tooltip in Figma (its own component) and down changes nothing, so both are notVisual. The disabled Cancel look is Figma only. Reviewed by the owner 2026-11-18. A7 (2026-11-20), owner decisions C1 and C2: border and inner-border are not parts. The hairline is a container stroke; the selected 2px border and the inner band are border records pinned isSelected, and the band is told apart from the border by the pin position inner. opacity-checkerboard is a nested component (size m) before fill; the recipe nests it. Owner decision C12: Figma Value Mixed and Add are the option `value` (default, mixed, add): the dash and add glyphs are on icon, the Add background on container. Figma only; React Spectrum and SWC have no such swatch."
+    "notes": "Proposed from Figma S2 Web (Swatch: background, opacity checkerboard instance, border, inner border when selected, slash for the None value, Cancel icon when disabled) and React Spectrum ColorSwatch and ColorSwatchPicker (fill, checkerboard, slash, selection border and inner band, focusRing). SWC gen2 has no swatch. Hover draws a Tooltip in Figma (its own component) and down changes nothing, so both are notVisual. The disabled Cancel look is Figma only. Reviewed by the owner 2026-11-18. A7 (2026-11-20), owner decisions C1 and C2: border and inner-border are not parts. The hairline is a container stroke; the selected 2px border and the inner band are border records pinned isSelected, and the band is told apart from the border by the pin position inner. opacity-checkerboard is a nested component (size m) before fill; the recipe nests it. Owner decision C12: Figma Value Mixed and Add are the option `value` (default, mixed, add): the dash and add glyphs are on icon, the Add background on container. Figma only; React Spectrum and SWC have no such swatch. Owner decision C13: tooltip is a top-level part (Figma draws a Tooltip on hover; React Spectrum has none). It is a nested component, but the anatomy `component` field is not built, so it is declared as a plain part like picker menu-container."
   },
   "states": [
     {

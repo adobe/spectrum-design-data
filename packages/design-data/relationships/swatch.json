@@ -374,11 +374,16 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "spacing"
+      "part": "container",
+      "between": {
+        "from": "container",
+        "to": "tooltip"
+      },
+      "property": "space-between"
     },
-    "context": "Spacing (Tooltip to Swatch)",
+    "context": "Spacing (container to tooltip)",
     "contextRole": ["spacing"],
-    "contextQualifier": "Tooltip to Swatch",
+    "contextQualifier": "container to tooltip",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "2ddd955b-56e3-58ec-b70d-b975834cb2e8"
   },
