@@ -119,7 +119,7 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Holds the field label, the checkboxs and the help text. It is the root.",
+      "description": "Holds the field label, the checkboxes and the help text. It is the root.",
       "required": true,
       "contains": ["field-label", "options", "help-text"]
     },
@@ -129,7 +129,7 @@
     },
     {
       "name": "options",
-      "description": "Row or column of checkboxs. It hosts the default slot; each checkbox is one fill.",
+      "description": "Row or column of checkboxes. It hosts the default slot; each checkbox is one fill.",
       "required": true
     },
     {
@@ -143,7 +143,7 @@
       "part": "options",
       "accepts": ["checkbox"],
       "min": 1,
-      "description": "The checkboxs of the group (at least 1)."
+      "description": "The checkboxes of the group (at least 1)."
     }
   ],
   "anatomyReview": {

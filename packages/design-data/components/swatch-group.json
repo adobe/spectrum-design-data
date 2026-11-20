@@ -121,7 +121,7 @@
       "part": "container",
       "accepts": ["swatch"],
       "min": 1,
-      "description": "The swatch in the group. Any number of swatchs, at least one."
+      "description": "The swatch in the group. Any number of swatches, at least one."
     }
   ],
   "anatomyReview": {
