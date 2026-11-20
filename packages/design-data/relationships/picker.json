@@ -1768,49 +1768,20 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "component-to-menu-small"
+      "property": "space-between",
+      "between": {
+        "from": "container",
+        "to": "menu-container"
+      },
+      "options": {
+        "size": ["s", "m", "l", "xl"]
+      }
     },
     "context": "Spacing (component to menu)",
     "contextRole": ["spacing"],
     "contextQualifier": "component to menu",
     "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
     "uuid": "cd3f3e5a-5f97-5107-af7d-f2e1ef57bec3"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "part": "container",
-      "property": "component-to-menu-medium"
-    },
-    "context": "Spacing (component to menu)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "component to menu",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
-    "uuid": "30d80c24-428b-59e4-8a60-38cd0fd3437c"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "part": "container",
-      "property": "component-to-menu-large"
-    },
-    "context": "Spacing (component to menu)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "component to menu",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
-    "uuid": "4080312a-eda7-5c48-84bf-4053cb776369"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "part": "container",
-      "property": "component-to-menu-extra-large"
-    },
-    "context": "Spacing (component to menu)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "component to menu",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
-    "uuid": "1bcbc4e3-09aa-5161-8671-14cd60f3906e"
   },
   {
     "scope": {
