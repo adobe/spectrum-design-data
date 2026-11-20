@@ -190,12 +190,12 @@ test("a swatch reads its preview color, draws a translucent border and a selecti
     t.deepEqual(scene.diagnostics, []);
     const part = (p) => scene.nodes.find((n) => n.part === p);
     t.is(part("fill").fill, "#9197fe");
-    t.is(part("border").stroke_width, 2);
-    t.truthy(part("inner-border"));
+    t.is(part("container").stroke_width, 2);
+    t.truthy(part("container.border"));
     const rest = JSON.parse(
       ds.renderScene(recipe, requestFor("swatch", { preview: "#9197fe" })),
     );
-    t.is(rest.nodes.find((n) => n.part === "border").stroke_opacity, 0.42);
+    t.is(rest.nodes.find((n) => n.part === "container").stroke_opacity, 0.42);
     const bad = JSON.parse(
       ds.renderScene(
         recipe,

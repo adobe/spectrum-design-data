@@ -21,7 +21,7 @@
  */
 
 import {getAllSchemas} from '@adobe/spectrum-component-api-schemas';
-import {writeFile} from 'fs/promises';
+import {writeFile, rename} from 'fs/promises';
 import {resolve, dirname} from 'path';
 import {fileURLToPath} from 'url';
 
@@ -50,7 +50,10 @@ async function bundleSchemas() {
 
         // Write to src/ui/ (UI bundle, not plugin bundle)
         const outputPath = resolve(__dirname, '../src/ui/bundledSchemas.json');
-        await writeFile(outputPath, JSON.stringify(validSchemas, null, 2));
+        // Atomic: build and type-check run this concurrently; a plain write exposes a truncated file
+        const tmpPath = `${outputPath}.${process.pid}.tmp`;
+        await writeFile(tmpPath, JSON.stringify(validSchemas, null, 2));
+        await rename(tmpPath, outputPath);
 
         console.log(`✅ Schemas bundled to: ${outputPath}`);
         console.log(`📊 Total size: ${(JSON.stringify(validSchemas).length / 1024).toFixed(2)} KB`);
