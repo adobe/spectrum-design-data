@@ -658,6 +658,9 @@ impl Ctx<'_> {
         options: &Map<String, Value>,
         states: Vec<String>,
     ) -> miette::Result<Value> {
+        let mut options = options.clone();
+        self.default_repeat_items(recipe, &mut options);
+        let options = &options;
         self.render_in(
             recipe,
             options,
@@ -666,6 +669,65 @@ impl Ctx<'_> {
             (BLOCK_W, BLOCK_H),
             (BLOCK_W - MARGIN_X, BLOCK_H - MARGIN_Y),
         )
+    }
+
+    /// A recipe that repeats a part over an array option the block leaves unset draws one copy,
+    /// so no spacing between copies shows. Gives it two collapsed entries (the first keeps the
+    /// measurements). An entry field the block pins through `with` is left out: it would override the pin.
+    fn default_repeat_items(&self, recipe: &Value, options: &mut Map<String, Value>) {
+        let Some(comp) = self
+            .graph
+            .components
+            .iter()
+            .find(|c| c.name == self.component)
+        else {
+            return;
+        };
+        let Some(parts) = recipe.get("parts").and_then(Value::as_object) else {
+            return;
+        };
+        for rep in parts.values().filter_map(|p| p.get("repeat")) {
+            let Some((_, option)) = rep
+                .get("slot")
+                .and_then(Value::as_str)
+                .and_then(|slot| design_data_core::visual::collection_slot(&comp.raw, slot))
+            else {
+                continue;
+            };
+            if options.contains_key(option) {
+                continue;
+            }
+            let is_bool = |o: &str| {
+                comp.raw
+                    .pointer(&format!("/options/{o}/type"))
+                    .and_then(Value::as_str)
+                    == Some("boolean")
+            };
+            let items: Vec<Value> = ["one", "two"]
+                .iter()
+                .map(|n| {
+                    let mut item = Map::new();
+                    if let Some(l) = rep.get("label").and_then(Value::as_str) {
+                        item.insert(l.into(), json!(format!("Item {n}")));
+                    }
+                    for (opt, field) in rep
+                        .get("with")
+                        .and_then(Value::as_object)
+                        .into_iter()
+                        .flatten()
+                    {
+                        if let Some(f) = field
+                            .as_str()
+                            .filter(|_| !options.contains_key(opt) && is_bool(opt))
+                        {
+                            item.insert(f.into(), json!(false));
+                        }
+                    }
+                    Value::Object(item)
+                })
+                .collect();
+            options.insert(option.into(), json!(items));
+        }
     }
 
     /// Renders into a `bx` box, fitting the scene into `fit` (the box less the room for marks).

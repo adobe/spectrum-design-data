@@ -997,3 +997,46 @@ fn states_and_decision_log_edges_keep_placeholders() {
         "placeholder"
     );
 }
+
+#[test]
+fn measurement_blocks_of_a_repeating_recipe_draw_two_collapsed_items() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let mut seen = 0;
+    for b in blocks_of(&sheet) {
+        let Some(render) = b.get("render").filter(|r| r.is_object()) else {
+            continue;
+        };
+        let items = render["request"]["options"]["items"].as_array().unwrap();
+        assert_eq!(items.len(), 2, "{}", b["title"]);
+        assert_eq!(items[0]["label"], "Item one");
+        assert_eq!(items[0]["isExpanded"], false);
+        let parts: Vec<&str> = render["scene"]["nodes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|n| n["part"].as_str().unwrap())
+            .collect();
+        assert!(parts.contains(&"accordion-item-2"), "{}", b["title"]);
+        for h in render["highlight"].as_array().into_iter().flatten() {
+            let part = h["part"].as_str().unwrap();
+            assert!(
+                parts.iter().any(|p| p.contains(part)),
+                "{}: highlight {part} has no node",
+                b["title"]
+            );
+        }
+        seen += 1;
+    }
+    assert!(seen > 0);
+}
+
+#[test]
+fn a_recipe_without_repeat_gets_no_default_items() {
+    let sheet = sheet_of("button");
+    for b in blocks_of(&sheet) {
+        if let Some(o) = b["render"]["request"]["options"].as_object() {
+            assert!(!o.contains_key("items"));
+        }
+    }
+}
