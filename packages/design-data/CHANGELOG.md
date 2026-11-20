@@ -1,5 +1,25 @@
 # @adobe/spectrum-design-data
 
+## 3.25.0
+
+### Minor Changes
+
+- [#1968](https://github.com/adobe/spectrum-design-data/pull/1968) [`ddf5445`](https://github.com/adobe/spectrum-design-data/commit/ddf5445ba61dbf79cc25f19ed7e16f3d415e7ed0) Thanks [@GarthDB](https://github.com/GarthDB)! - Review the anatomy of the input fields: text-field, text-area, search-field, number-field,
+  combo-box, picker, tag-field and the shared `field`. Every live relationship record (880) now
+  names its part (`scope.part`), and inner spacings name their two ends (`scope.between`).
+  - Each component has a root part `container` (width, and the spacing between label, field and
+    help text) that holds `field-label`, `field` and `help-text`. The bordered box is the part
+    `field` (it was `container`). tag-field renames `text-area` to `value`.
+  - Colors on the box carry `attribute: border` or `background`.
+  - number-field gets its first anatomy (field, stepper, two in-field buttons); its three
+    "Positive icon" records (no source has one) are removed.
+  - Picker: two copy-pasted contexts are corrected, and its subdued color is the `placeholder`.
+  - Registry: `segment` is added, `field-button` and `stepper` are removed (`stepper` stays as an
+    alias of `in-field-stepper`), and `field` is described as the box.
+  - The eight components are marked `reviewed` (level 1, `field` level 2).
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical. Deprecated records are untouched.
+
 ## 3.24.0
 
 ### Minor Changes
