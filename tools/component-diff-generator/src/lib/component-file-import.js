@@ -245,7 +245,6 @@ export class ComponentLoader extends FileLoader {
       "components/heading.json",
       "components/help-text.json",
       "components/illustrated-message.json",
-      "components/in-field-progress-button.json",
       "components/in-field-progress-circle.json",
       "components/in-line-alert.json",
       "components/link.json",

@@ -180,7 +180,6 @@ export const COMPONENTS_WITHOUT_HUB_PAGE = [
   "form-item",
   "heading",
   "in-field-button",
-  "in-field-progress-button",
   "in-field-progress-circle",
   "opacity-checkerboard",
   "rating",

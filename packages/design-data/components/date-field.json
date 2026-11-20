@@ -18,18 +18,24 @@
   ],
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
       "name": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
     {
-      "name": "container",
+      "name": "field",
       "description": "Bordered box that frames the segments.",
       "required": true,
       "contains": ["segment"]
     },
     {
       "name": "segment",
-      "description": "One editable piece of the date (month, day, year), showing a placeholder when empty.",
+      "description": "One editable unit of the date (month, day, year), drawn as its own rounded cell and showing a placeholder when empty.",
       "required": true
     },
     {
@@ -38,9 +44,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Date and time field page (shared with time-field): label, field with value cells. No states declared so no focus-indicator. Unsure whether the literal separators need their own part."
+    "notes": "Figma S2 Web Date and time field page (label, field with value cells). The root part container holds field-label, field and help-text (D2a). The merge with time-field and segmented-text-field (D5a) waits on a decision about the legacy token files (see the A2-2 pull request). Literal separators are not a part."
   },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }
