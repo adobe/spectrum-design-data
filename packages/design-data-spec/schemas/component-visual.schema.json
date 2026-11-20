@@ -306,6 +306,7 @@
               "color",
               "trackColor",
               "sweep",
+              "typeStyle",
               "fontFamily",
               "fontSize",
               "fontWeight",

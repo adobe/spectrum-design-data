@@ -106,6 +106,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
         "text",
         &[
             "color",
+            "typeStyle",
             "fontFamily",
             "fontSize",
             "fontWeight",
@@ -557,6 +558,9 @@ struct Lookup {
     scoped: std::cell::RefCell<HashMap<String, std::rc::Rc<Vec<crate::graph::TokenRecord>>>>,
     /// Token label → its `name` object, built on first use (see `CompileCx::name_of`).
     names: std::cell::OnceCell<HashMap<String, Value>>,
+    /// Legacy name → token keys, built on first use so unpacking a composite's inner aliases
+    /// does not scan every token per alias (see `CompileCx::type_style_axes`).
+    legacy_keys: std::cell::OnceCell<crate::cascade::LegacyKeys>,
     /// Component, property, trimmed context → indices into `TokenGraph::relationships`, in
     /// graph order, built on first use so `relationship_cands` does not scan them all.
     by_scope: std::cell::OnceCell<HashMap<(String, String, String), Vec<usize>>>,
@@ -829,6 +833,68 @@ pub(crate) fn declared_option_values(component: &Value, option: &str) -> Vec<Str
                 .collect()
         })
         .unwrap_or_default()
+}
+
+/// Replace a compiled `typeStyle` prop with the font props it supplies. Each of `fontFamily`,
+/// `fontSize`, `fontWeight` and `lineHeight` the part does not bind itself gets a copy of the
+/// `typeStyle` entries whose candidates carry that axis's unpacked value (token: the composite,
+/// chain: the inner token). A prop the part binds always wins for its axis; this is recipe-level
+/// precedence, not a token cascade. A candidate whose composite does not resolve is dropped, and
+/// the first expanded axis reports why (the rest stay silent, so it shows once).
+fn expand_type_style(props: &mut serde_json::Map<String, Value>) {
+    let Some(source) = props.remove("typeStyle") else {
+        return;
+    };
+    let mut first = true;
+    for axis in ["fontFamily", "fontSize", "fontWeight", "lineHeight"] {
+        if props.contains_key(axis) {
+            continue;
+        }
+        let mut one = |entry: &Value| -> Value {
+            let mut entry = entry.clone();
+            let mut miss: Option<String> = None;
+            let list: Vec<Value> = entry["candidates"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .filter_map(|c| {
+                    let a = &c["style"][axis];
+                    let whole = c["style"]["miss"].as_str();
+                    let reason = whole.or_else(|| a["miss"].as_str());
+                    if let (Some(v), None) = (a.get("value"), reason) {
+                        let mut c = c.clone();
+                        c["value"] = v.clone();
+                        c["chain"] = a["token"]
+                            .as_str()
+                            .map_or(serde_json::json!([]), |t| serde_json::json!([t]));
+                        c.as_object_mut().map(|o| o.remove("style"));
+                        return Some(c);
+                    }
+                    // A composite-wide miss shows once, on the first axis expanded.
+                    let silent = whole.is_some() && !first;
+                    miss.get_or_insert(if silent {
+                        String::new()
+                    } else {
+                        reason
+                            .unwrap_or("typeStyle: composite has no such axis")
+                            .to_string()
+                    });
+                    None
+                })
+                .collect();
+            entry["candidates"] = Value::Array(list);
+            if let Some(m) = miss {
+                entry["miss"] = Value::String(m);
+            }
+            entry
+        };
+        let expanded = match &source {
+            Value::Array(entries) => Value::Array(entries.iter().map(&mut one).collect()),
+            other => one(other),
+        };
+        first = false;
+        props.insert(axis.into(), expanded);
+    }
 }
 
 fn value_to_string(v: &Value) -> Option<String> {
@@ -1305,10 +1371,48 @@ impl<'a> CompileCx<'a> {
                 if let Some(r) = rel {
                     c["boundBy"] = serde_json::json!(r);
                 }
+                if prop == "typeStyle" {
+                    c["style"] = self.type_style_axes(t);
+                }
                 c
             })
             .collect();
         (list, miss)
+    }
+
+    /// A `typeStyle` candidate's composite unpacked for the request's mode: per axis the
+    /// terminal `value` and the inner token's legacy name, or `{"miss": ...}` when the token is
+    /// not a composite or the axis alias does not resolve. Consumed by [`expand_type_style`].
+    fn type_style_axes(&self, t: &crate::graph::TokenRecord) -> Value {
+        let label = token_label(t);
+        let keys = self
+            .lookup
+            .legacy_keys
+            .get_or_init(|| crate::cascade::legacy_keys(self.graph));
+        let Some(u) = crate::typography::unpack_in(self.graph, t, &self.mode_ctx(), Some(keys))
+        else {
+            return serde_json::json!({
+                "miss": format!("typeStyle: '{label}' is not a typography composite")
+            });
+        };
+        let mut out = serde_json::Map::new();
+        for (axis, sub) in [
+            ("fontFamily", u.font_family),
+            ("fontSize", u.font_size),
+            ("fontWeight", u.font_weight),
+            ("lineHeight", u.line_height),
+        ] {
+            let Some(sub) = sub else { continue };
+            let entry = match sub.value {
+                Some(v) => serde_json::json!({ "value": v, "token": sub.token }),
+                None => serde_json::json!({ "miss": format!(
+                    "typeStyle: {label}.{axis} '{{{}}}' not found",
+                    sub.token.unwrap_or_default()
+                )}),
+            };
+            out.insert(axis.into(), entry);
+        }
+        Value::Object(out)
     }
 
     /// Compile the sources of a `gradient` value source's stops, which bind colors and offsets
@@ -1386,6 +1490,7 @@ impl<'a> CompileCx<'a> {
                         }
                     }
                 }
+                expand_type_style(props);
             }
         }
         Ok(out_parts)

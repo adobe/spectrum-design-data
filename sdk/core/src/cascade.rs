@@ -492,6 +492,37 @@ pub fn resolve_reference(
     slug: &str,
     ctx: &std::collections::HashMap<String, String>,
 ) -> Option<ReferenceChainResult> {
+    resolve_reference_in(graph, slug, ctx, None)
+}
+
+/// Legacy name (or direct graph key) → keys into `TokenGraph::tokens`, for
+/// [`resolve_reference_in`].
+pub type LegacyKeys = std::collections::HashMap<String, Vec<String>>;
+
+/// Build the [`LegacyKeys`] index of `graph`: one pass instead of one per reference.
+pub fn legacy_keys(graph: &TokenGraph) -> LegacyKeys {
+    use crate::naming::extract_legacy_key;
+    let mut index = LegacyKeys::new();
+    for (key, t) in &graph.tokens {
+        let legacy = t.raw.get("name").and_then(extract_legacy_key);
+        if let Some(k) = &legacy {
+            index.entry(k.clone()).or_default().push(key.clone());
+        }
+        if legacy.as_deref() != Some(t.name.as_str()) {
+            index.entry(t.name.clone()).or_default().push(key.clone());
+        }
+    }
+    index
+}
+
+/// [`resolve_reference`] that finds the candidates in a prebuilt `index` ([`legacy_keys`]) when
+/// one is given, instead of scanning every token.
+pub fn resolve_reference_in(
+    graph: &TokenGraph,
+    slug: &str,
+    ctx: &std::collections::HashMap<String, String>,
+    index: Option<&LegacyKeys>,
+) -> Option<ReferenceChainResult> {
     use crate::naming::extract_legacy_key;
 
     // Strip optional `{…}` wrapper.
@@ -499,19 +530,27 @@ pub fn resolve_reference(
 
     // Collect all cascade tokens whose computed legacy key equals `name`,
     // or whose direct graph key equals `name` (object-format legacy tokens).
-    let candidates: Vec<&crate::graph::TokenRecord> = graph
-        .tokens
-        .values()
-        .filter(|t| {
-            let legacy_match = t
-                .raw
-                .get("name")
-                .and_then(extract_legacy_key)
-                .is_some_and(|k| k == name);
-            let direct_match = t.name == name;
-            legacy_match || direct_match
-        })
-        .collect();
+    let candidates: Vec<&crate::graph::TokenRecord> = match index {
+        Some(i) => i
+            .get(name)
+            .into_iter()
+            .flatten()
+            .filter_map(|k| graph.tokens.get(k))
+            .collect(),
+        None => graph
+            .tokens
+            .values()
+            .filter(|t| {
+                let legacy_match = t
+                    .raw
+                    .get("name")
+                    .and_then(extract_legacy_key)
+                    .is_some_and(|k| k == name);
+                let direct_match = t.name == name;
+                legacy_match || direct_match
+            })
+            .collect(),
+    };
 
     if candidates.is_empty() {
         return None;
