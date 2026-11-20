@@ -540,6 +540,137 @@ function changelogFrame(changelog, rev8) {
   return f;
 }
 
+// Template sections (sheet.sections): a frame per section after the measurement pages. Prose is
+// wrapped text, a table is a grid of text cells, a placeholder is a dashed "Manual" box.
+const SECTION_W = 960;
+const LINE = { r: 0.88, g: 0.88, b: 0.88 };
+
+function para(str, size, style, color, width) {
+  const t = text(str, size, style, color);
+  t.textAutoResize = "HEIGHT";
+  t.resize(width, t.height);
+  return t;
+}
+
+function textList(label, items, width, tint) {
+  const f = auto("VERTICAL", {
+    itemSpacing: 6,
+    paddingLeft: 12,
+    paddingRight: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
+    cornerRadius: 8,
+  });
+  f.name = label;
+  f.fills = [solid(tint)];
+  f.primaryAxisSizingMode = "AUTO";
+  f.counterAxisSizingMode = "FIXED";
+  f.resize(width, 10);
+  f.appendChild(text(label, 13, "Bold"));
+  for (const i of items)
+    f.appendChild(para("\u2022 " + i, 13, "Regular", INK, width - 24));
+  return f;
+}
+
+function proseBlock(b) {
+  const f = auto("VERTICAL", { itemSpacing: 8 });
+  for (const p of b.paragraphs || [])
+    f.appendChild(para(p, 14, "Regular", INK, SECTION_W));
+  if ((b.bullets || []).length)
+    f.appendChild(textList("List", b.bullets, SECTION_W, WHITE));
+  if ((b.do || []).length || (b.dont || []).length) {
+    const pair = auto("HORIZONTAL", { itemSpacing: 16 });
+    pair.name = "Do and don't";
+    const half = (SECTION_W - 16) / 2;
+    if ((b.do || []).length)
+      pair.appendChild(textList("Do", b.do, half, { r: 0.9, g: 0.97, b: 0.9 }));
+    if ((b.dont || []).length)
+      pair.appendChild(
+        textList("Don't", b.dont, half, { r: 0.99, g: 0.92, b: 0.92 }),
+      );
+    f.appendChild(pair);
+  }
+  return f;
+}
+
+function tableBlock(b) {
+  const f = auto("VERTICAL", { itemSpacing: 0 });
+  const w = Math.floor(SECTION_W / Math.max(b.columns.length, 1));
+  const row = (cells, head) => {
+    const r = auto("HORIZONTAL", { itemSpacing: 0 });
+    r.name = head ? "Header row" : "Row";
+    cells.forEach((c) => {
+      const cell = auto("VERTICAL", {
+        paddingLeft: 8,
+        paddingRight: 8,
+        paddingTop: 6,
+        paddingBottom: 6,
+      });
+      cell.name = "Cell";
+      cell.counterAxisSizingMode = "FIXED";
+      cell.resize(w, 10);
+      cell.layoutAlign = "STRETCH";
+      cell.fills = [solid(head ? { r: 0.96, g: 0.96, b: 0.96 } : WHITE)];
+      cell.strokes = [solid(LINE)];
+      cell.strokeWeight = 1;
+      cell.appendChild(para(c, 13, head ? "Bold" : "Regular", INK, w - 16));
+      r.appendChild(cell);
+    });
+    return r;
+  };
+  f.appendChild(row(b.columns, true));
+  for (const r of b.rows) f.appendChild(row(r, false));
+  return f;
+}
+
+function placeholderBlock(b) {
+  const f = auto("VERTICAL", {
+    itemSpacing: 8,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+    cornerRadius: 8,
+  });
+  f.counterAxisSizingMode = "FIXED";
+  f.resize(SECTION_W, 10);
+  f.strokes = [solid(GREY)];
+  f.strokeWeight = 1;
+  f.dashPattern = [6, 4];
+  f.appendChild(pill("Manual", GREY));
+  f.appendChild(para(b.hint || "", 13, "Regular", GREY, SECTION_W - 32));
+  return f;
+}
+
+function sectionFrame(section) {
+  const f = auto("VERTICAL", {
+    itemSpacing: 24,
+    paddingLeft: 64,
+    paddingRight: 64,
+    paddingTop: 32,
+    paddingBottom: 32,
+  });
+  f.name = "Section \u2013 " + section.title;
+  f.appendChild(text(section.title, 32, "Bold"));
+  for (const b of section.blocks) {
+    const body =
+      b.kind === "table"
+        ? tableBlock(b)
+        : b.kind === "placeholder"
+          ? placeholderBlock(b)
+          : proseBlock(b);
+    body.name = "Section block \u2013 " + b.id;
+    if (b.title && b.title !== section.title && b.kind !== "placeholder") {
+      const col = auto("VERTICAL", { itemSpacing: 8 });
+      col.name = "Section block box";
+      col.appendChild(text(b.title, 20, "Bold"));
+      col.appendChild(body);
+      f.appendChild(col);
+    } else f.appendChild(body);
+  }
+  return f;
+}
+
 const BUILDING = " (building)";
 const rootNameOf = (sheet) => sheet.displayName + " \u2013 spec (generated)";
 const revOf = (sheet) =>
@@ -655,6 +786,12 @@ async function appendBlocks(sheet, pageTitle, blocks) {
   return { step: "blocks", page: pageTitle, blocksRendered: blocks.length };
 }
 
+async function appendSection(sheet, section) {
+  await loadFonts();
+  findBuilding(sheet).appendChild(sectionFrame(section));
+  return { step: "section", key: section.key, blocks: section.blocks.length };
+}
+
 async function finishSheet(sheet) {
   const root = findBuilding(sheet);
   const name = rootNameOf(sheet);
@@ -673,6 +810,9 @@ async function finishSheet(sheet) {
     id: root.id,
     pagesRendered: columns.length,
     blocksRendered: blocks.length,
+    sectionsRendered: root.children.filter((n) =>
+      n.name.startsWith("Section \u2013 "),
+    ).length,
   };
 }
 
@@ -684,11 +824,15 @@ async function renderSheet(sheet, changelog, pageTitles) {
       if (begun.pages.indexOf(p.title) === -1) continue;
       await appendBlocks(sheet, p.title, p.blocks);
     }
+    // Sections are not drawn when a subset of pages is asked for.
+    if (!pageTitles)
+      for (const sec of sheet.sections || []) await appendSection(sheet, sec);
     const done = await finishSheet(sheet);
     return {
       root: done.root,
       pagesRendered: done.pagesRendered,
       blocksRendered: done.blocksRendered,
+      sectionsRendered: done.sectionsRendered,
       warning: begun.warning,
     };
   } catch (err) {

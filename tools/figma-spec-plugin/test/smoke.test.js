@@ -16,7 +16,7 @@
 import test from "ava";
 import vm from "node:vm";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -913,4 +913,143 @@ test("rings, stroke opacity and text underlines in a scene are drawn", async (t)
     t.is(ring.strokeAlign, "CENTER");
     t.deepEqual(ring.fills, []);
   }
+});
+
+const fixtureSections = [
+  {
+    key: "usage",
+    title: "Usage guidelines",
+    blocks: [
+      {
+        kind: "prose",
+        id: "usage--prose",
+        section: "usage",
+        title: "When to use",
+        paragraphs: ["Use it for actions."],
+        bullets: ["Keep labels short"],
+        do: ["Use a verb"],
+        dont: ["Use a noun"],
+      },
+    ],
+  },
+  {
+    key: "anatomy",
+    title: "Anatomy",
+    blocks: [
+      {
+        kind: "table",
+        id: "anatomy--api",
+        section: "anatomy",
+        title: "API",
+        columns: ["Prop", "Type"],
+        rows: [
+          ["size", "s | m"],
+          ["isDisabled", "boolean"],
+        ],
+      },
+      {
+        kind: "placeholder",
+        id: "anatomy--placeholder",
+        section: "anatomy",
+        title: "Anatomy",
+        hint: "Variants table.",
+      },
+    ],
+  },
+];
+const withSections = { ...sheet, sections: fixtureSections };
+const { sections: _omit, ...withoutSections } = sheet;
+
+async function renderRoot(s) {
+  const m = mock();
+  await m.figma.ui.onmessage({ type: "render-sheet", sheet: s });
+  return m.page.children[0];
+}
+const names = (n, prefix) =>
+  n.children.filter((c) => c.name?.startsWith(prefix));
+
+test("sections are drawn after the pages: prose, table grid and a dashed Manual placeholder", async (t) => {
+  const root = await renderRoot(withSections);
+  const secs = names(root, "Section \u2013 ");
+  t.deepEqual(
+    secs.map((s) => s.name),
+    ["Section \u2013 Usage guidelines", "Section \u2013 Anatomy"],
+  );
+  t.true(
+    root.children.indexOf(secs[0]) >
+      root.children.indexOf(root.children.find((c) => c.name === "Specs")),
+  );
+  const all = (n, pred) => n.findAll(pred);
+  const texts = all(root, (n) => n.type === "TEXT").map((n) => n.characters);
+  for (const s of [
+    "Use a verb",
+    "Use a noun",
+    "Prop",
+    "isDisabled",
+    "Manual",
+    "Variants table.",
+  ])
+    t.true(
+      texts.some((c) => c.includes(s)),
+      s,
+    );
+  t.is(all(secs[1], (n) => n.name === "Header row").length, 1);
+  t.is(all(secs[1], (n) => n.name === "Row").length, 2);
+  const box = all(secs[1], (n) => n.dashPattern)[0];
+  t.deepEqual(box.dashPattern, [6, 4]);
+});
+
+test("a sheet without sections renders as before", async (t) => {
+  const bare = await renderRoot(withoutSections);
+  t.is(names(bare, "Section \u2013 ").length, 0);
+  const full = await renderRoot(withSections);
+  const strip = (n) => ({
+    ...dump(n),
+    children: n.children
+      .filter((c) => !c.name?.startsWith("Section \u2013 "))
+      .map(dump),
+  });
+  t.deepEqual(strip(full), dump(bare));
+});
+
+test("section payloads render the same tree as the plugin and stay under the limit", async (t) => {
+  const payloads = buildPayloads({ sheet: withSections });
+  for (const p of payloads) t.true(p.chars <= 45000);
+  t.true(payloads.flatMap((p) => p.steps).includes("section usage"));
+  const via = fakeFigma();
+  let results = [];
+  for (const p of payloads) results = await runPayload(via.figma, p);
+  t.is(results.at(-1).sectionsRendered, 2);
+  t.deepEqual(dump(via.page.children[0]), dump(await renderRoot(withSections)));
+});
+
+test("the plan hash changes when a section changes", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "figma-plan-sections-"));
+  const sheets = join(dir, "sheets");
+  const hashFor = (s) => {
+    mkdirSync(sheets, { recursive: true });
+    writeFileSync(
+      join(sheets, "index.json"),
+      JSON.stringify({ components: [{ component: "switch" }] }),
+    );
+    writeFileSync(join(sheets, "switch.json"), JSON.stringify(s));
+    const registryPath = join(dir, "r.json");
+    writeFileSync(
+      registryPath,
+      JSON.stringify({ plan: "p", project: "1", files: {} }),
+    );
+    return plan({
+      components: ["switch"],
+      out: join(dir, "out"),
+      registryPath,
+      sheetsDir: sheets,
+    }).items[0].hash;
+  };
+  const base = generate("switch");
+  const edited = structuredClone(base);
+  edited.sections = [
+    { ...base.sections[0], title: "Changed" },
+    ...base.sections.slice(1),
+  ];
+  t.not(hashFor(base), hashFor(edited));
 });

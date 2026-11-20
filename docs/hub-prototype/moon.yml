@@ -29,3 +29,10 @@ tasks:
       - "dist"
     options:
       runInCI: false
+  test:
+    command: node --test test
+    inputs:
+      - "specs/**/*"
+      - "test/**/*"
+    options:
+      runInCI: false
