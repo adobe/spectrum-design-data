@@ -1,5 +1,32 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 6.2.0
+
+### Minor Changes
+
+- [#1994](https://github.com/adobe/spectrum-design-data/pull/1994) [`5168ad1`](https://github.com/adobe/spectrum-design-data/commit/5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of the collections family (A3, level 1).
+  - menu, list-view, side-navigation, tabs, segmented-control, breadcrumbs, steplist, tree-view, table
+    and stack-item get a `container` root and a reviewed anatomy. Collections declare a `default` slot
+    (the part repeats per entry of `items`); table has three, `columns` feeding two.
+  - New registry term `selection-indicator` (the marker inside a tab, side-navigation item or
+    segment, replacing `indicator` and `selection`), plus `column-header-row`, `row-checkbox`,
+    `header-row-checkbox` and `trailing-accessory-area`. `trailing-icon`, `drag-icon` and
+    `step-item` are removed.
+  - Expand and collapse is `disclosure-button` (tree-view, side-navigation); `drill-in-chevron` and
+    `link-out-icon` are non-interactive indicators. `track` is a child of `step`; `breadcrumb-title`
+    is a part; `separator-icon` is `separator`; `item` is `cell` in table; `action-area` is
+    `actions`.
+  - **Published options:** menu gets a flat `items` option; its `label`, `icon`, `description`,
+    `value`, `isDisabled` and `isUnavailable` options move into the entry schema;
+    side-navigation entries get a `level`; list-view drops the authored `itemRounding` entry
+    option (the position is derived from the entry order); `"keyboard focus"` becomes
+    `keyboard-focus` in state enums. Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+### Patch Changes
+
+- Updated dependencies [[`5168ad1`](https://github.com/adobe/spectrum-design-data/commit/5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf), [`a07d781`](https://github.com/adobe/spectrum-design-data/commit/a07d7812b11f8a319a3b240b09b05af3998ea86d), [`23810ae`](https://github.com/adobe/spectrum-design-data/commit/23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a), [`beeb84b`](https://github.com/adobe/spectrum-design-data/commit/beeb84b48b539a25c67383b9a66ada585488a91c), [`fc69dda`](https://github.com/adobe/spectrum-design-data/commit/fc69dda6c1054f2a7d3be88f921690eb3a927aef), [`1eaeba5`](https://github.com/adobe/spectrum-design-data/commit/1eaeba52595db95f7efd1c333697bfdd2772052b)]:
+  - @adobe/spectrum-design-data@3.29.0
+
 ## 6.1.100
 
 ### Patch Changes

@@ -285,6 +285,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (selection indicator)"],"scope":{"property":"thickness","options":null},"record":"6aa1db8f-2425-5ee6-8e3e-d353251fc87a","name":"thickness","fields":[{"path":"scope.part","before":"indicator","after":"selection-indicator"}]},
+            {"id":"5168ad1a-1","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tabs/options/items","name":"items","fields":[{"path":"items.properties.state.enum","before":["default","hover","keyboard focus"],"after":["default","hover","keyboard-focus"]}]},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tabs/anatomy/indicator","name":"indicator","fields":[],"before":{"name":"indicator","description":"Selection indicator (underline) marking the selected tab; a sibling of tab-item, not inside it."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The row (or column, when vertical) of tabs. It is the root and holds the gap between tab items.","required":true,"contains":["tab-item"]}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/anatomy/selection-indicator","name":"selection-indicator","fields":[],"after":{"name":"selection-indicator","description":"Underline (a bar beside the tabs when vertical) that marks the selected tab. It is drawn inside the tab item and is present on the selected tab only."}},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tabs/anatomy/tab-item","name":"tab-item","fields":[{"path":"contains","before":["icon","label"],"after":["icon","label","selection-indicator","focus-indicator"]}]},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/anatomy/tab-item","name":"tab-item","fields":[{"path":"description","before":"One tab; repeated.","after":"One tab; repeated once per entry of items."}]},
+            {"id":"5168ad1a-7","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/slots/default","name":"default","fields":[],"after":{"name":"default","part":"tab-item","collection":"items","description":"The tabs. Each entry of the items option is drawn as one copy of the tab-item part."}},
+            {"id":"5168ad1a-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP Tabs.tsx:350,550 and gen2 tabs/tabs.css:65-107 draw the selection indicator as a sibling of the tab item, so tab-item contains only icon and label. Figma S2 Web tabs page (Tab: Content stack and Underline). keyboard-focus state added for focus-indicator. No baseline divider found in RSP/SWC: unverified, not declared.","after":"Figma S2 Web tabs page (Tab: Content stack and Underline) and React Spectrum S2 Tabs.tsx:350,550 draw the selection indicator inside the tab item (<SelectionIndicator> in TabInner); SWC gen2 tabs/tabs.css:65-107 draws it as a sibling, which the earlier draft followed. Decision A64 D1c: the marker is the new term selection-indicator, drawn inside the item. container added as the root; it owns the gap between tab items. tab-item kept (the sources say Tab item; 85 deprecated records point at it). The items entry schema still holds container options (density, isFluid, alignment, selectedItem, keyboardActivation); moving them is identity work (SPEC-093 then needs density pins on four records). No baseline divider found in RSP/SWC: unverified, not declared."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

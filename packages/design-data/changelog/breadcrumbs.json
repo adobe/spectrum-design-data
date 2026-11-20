@@ -280,6 +280,32 @@
           "metadata": {"count":1,"fields":["scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"breadcrumbs/anatomy/separator-icon","name":"separator-icon","fields":[],"before":{"name":"separator-icon","description":"Icon separating breadcrumb items."}},
+            {"id":"5168ad1a-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/anatomy/breadcrumb-item","name":"breadcrumb-item","fields":[],"after":{"name":"breadcrumb-item","description":"One link in the trail; repeated once per entry of items.","required":true,"contains":["separator","breadcrumb-title","focus-indicator"]}},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/anatomy/breadcrumb-title","name":"breadcrumb-title","fields":[],"after":{"name":"breadcrumb-title","description":"The current page's title, shown in place of a link on the current item (the last region). It owns the multiline font and the top-text-to-bottom-text spacing."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The breadcrumb trail. It is the root.","required":true,"contains":["truncated-menu","breadcrumb-item"]}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the focused item.","presentIn":["keyboard-focus"]}},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/anatomy/separator","name":"separator","fields":[],"after":{"name":"separator","description":"Chevron after an item. Absent on the last item."}},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/anatomy/truncated-menu","name":"truncated-menu","fields":[],"after":{"name":"truncated-menu","description":"Overflow menu that replaces the first items when space is short; shown by isTruncated, at the start of the trail."}},
+            {"id":"5168ad1a-7","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/slots/default","name":"default","fields":[],"after":{"name":"default","part":"breadcrumb-item","collection":"items","description":"The trail. Each entry of the items option is drawn as one copy of the breadcrumb-item part."}},
+            {"id":"5168ad1a-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"breadcrumbs/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web breadcrumbs page (item with Show separator, State=Truncated menu, .Heading multiline) and React Spectrum S2 Breadcrumbs (a ChevronIcon after each non-current link, a heading for the current item). container added as the root. separator-icon renamed separator (registry term). Decision A66 D3b: the current title is a breadcrumb-title part owning the multiline font and the spacing between top text and bottom text. Placed inside breadcrumb-item because it replaces that item's link on the current entry (the packet said last region; reversible)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

@@ -263,6 +263,37 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"side-navigation/options/items","name":"items","fields":[{"path":"items.properties.level.default","after":1},{"path":"items.properties.level.maximum","after":3},{"path":"items.properties.level.minimum","after":1},{"path":"items.properties.level.type","after":"integer"},{"path":"items.properties.state.enum","before":["default","hover","down","keyboard focus"],"after":["default","hover","down","keyboard-focus"]}]},
+            {"id":"5168ad1a-1","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"side-navigation/options/items","name":"items","fields":[{"path":"items.properties.level.description","after":"Nesting level of the item (Figma Level 1 to 3). Hierarchy is a flat level for now; the format has no recursion."}]},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The side navigation panel. It is the root and sets the width, minimum width and maximum width.","required":true,"contains":["section-header","item"]}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/disclosure-button","name":"disclosure-button","fields":[],"after":{"name":"disclosure-button","description":"Button that expands or collapses the children of an item. It is interactive and has its own states; present on items that have children."}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the focused item.","presentIn":["keyboard-focus"]}},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Leading icon of an item; optional."}},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/item","name":"item","fields":[],"after":{"name":"item","description":"One navigation item; repeated once per entry of items.","required":true,"contains":["selection-indicator","icon","label","disclosure-button","trailing-accessory-area","focus-indicator"]}},
+            {"id":"5168ad1a-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Text label of an item."}},
+            {"id":"5168ad1a-8","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/section-header","name":"section-header","fields":[],"after":{"name":"section-header","description":"Heading above a group of items."}},
+            {"id":"5168ad1a-9","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/selection-indicator","name":"selection-indicator","fields":[],"after":{"name":"selection-indicator","description":"Selection bar at the edge of the item that marks the selected item. It is drawn inside the item and is present on the selected item only."}},
+            {"id":"5168ad1a-10","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"side-navigation/anatomy/indicator","name":"indicator","fields":[{"path":"lifecycle.deprecatedIn","after":"1.0.0-draft"},{"path":"lifecycle.replacedBy","after":"selection-indicator"}]},
+            {"id":"5168ad1a-11","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"side-navigation/anatomy/indicator","name":"indicator","fields":[{"path":"description","after":"Replaced by selection-indicator. Kept declared only because deprecated records still name it."}]},
+            {"id":"5168ad1a-12","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/slots/default","name":"default","fields":[],"after":{"name":"default","part":"item","collection":"items","description":"The navigation items. Each entry of the items option is drawn as one copy of the item part. Nesting is a flat per-entry level for now."}},
+            {"id":"5168ad1a-13","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"side-navigation/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web side navigation page (Side navigation item, Selection bar, Level 1-3) and React Spectrum S2 SideNav.tsx: SideNavItem renders ExpandableRowChevron as a react-aria Button (expandButton style, SideNav.tsx:521-617), so the expand and collapse control is a button, the same as the tree view's (decision A71 D8 a2: disclosure-button). Not verified in Figma (no Figma access for this agent). Decision A64 D1c: the marker is selection-indicator (it was indicator; Figma Selection bar). Decision A69 D6a: anatomy only for hierarchy; each entry carries a flat level (Figma Level 1-3); no recursion. item is the generic registry term, no item suffix added (decision A72 D9a); the name is a question for Garth."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

@@ -299,6 +299,38 @@
           "metadata": {"count":2,"fields":["scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"list-view/options/items","name":"items","fields":[{"path":"items.properties.itemRounding.default","before":"none"},{"path":"items.properties.itemRounding.enum","before":["none","top","bottom"]},{"path":"items.properties.itemRounding.type","before":"string"}]},
+            {"id":"5168ad1a-1","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"list-view/options/items","name":"items","fields":[{"path":"items.properties.itemRounding.description","before":"Defines the border radius of the list view item."}]},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"list-view/anatomy/trailing-icon","name":"trailing-icon","fields":[],"before":{"name":"trailing-icon","description":"Icon indicating a list view item navigates to a new context."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The list view: border, background, corner radius and minimum width. It is the root.","required":true,"contains":["section-header","list-item"]}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/anatomy/drag-handle","name":"drag-handle","fields":[],"after":{"name":"drag-handle","description":"Grip for reordering the item."}},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/anatomy/drill-in-chevron","name":"drill-in-chevron","fields":[],"after":{"name":"drill-in-chevron","description":"Non-interactive chevron that shows an item navigates to another level (Figma Navigation indicator). The whole item is the target."}},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the focused item.","presentIn":["keyboard-focus"]}},
+            {"id":"5168ad1a-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/anatomy/section-header","name":"section-header","fields":[],"after":{"name":"section-header","description":"Heading above a group of rows."}},
+            {"id":"5168ad1a-8","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"list-view/anatomy/actions","name":"actions","fields":[{"path":"description","before":"Action buttons or action menu available for a list view item.","after":"Row of action buttons at the end of an item; hosts the actions slot."}]},
+            {"id":"5168ad1a-9","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"list-view/anatomy/list-item","name":"list-item","fields":[{"path":"contains","before":["checkbox","icon","thumbnail","label","description","actions","trailing-icon"],"after":["drag-handle","checkbox","icon","thumbnail","label","description","actions","drill-in-chevron","focus-indicator"]},{"path":"required","after":true}]},
+            {"id":"5168ad1a-10","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"list-view/anatomy/list-item","name":"list-item","fields":[{"path":"description","before":"A single row within the list view.","after":"A single row within the list view; repeated once per entry of items. Its position in the list (first, middle, last, only) is derived from the entry order."}]},
+            {"id":"5168ad1a-11","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/states/keyboard-focus","name":"keyboard-focus","fields":[],"after":{"name":"keyboard-focus","trigger":"interaction"}},
+            {"id":"5168ad1a-12","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/slots/actions","name":"actions","fields":[],"after":{"name":"actions","part":"actions","accepts":["action-button"],"max":3,"description":"Actions at the end of an item."}},
+            {"id":"5168ad1a-13","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/slots/default","name":"default","fields":[],"after":{"name":"default","part":"list-item","collection":"items","description":"The rows. Each entry of the items option is drawn as one copy of the list-item part."}},
+            {"id":"5168ad1a-14","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"list-view/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web list view page and React Spectrum S2 ListView. container added as the root (border, background, radius, minimum width). Decision A65 D2a: an item's position in the list is derived from entry order, so the authored itemRounding entry option is deleted; the component data has no field for a derived position (see the report). Decision A71 D8 a2: trailing-icon renamed drill-in-chevron, non-interactive. drag-handle, section-header and focus-indicator (keyboard-focus state added) added. Decision A68 D5a: list-view keeps its own records; stack-item holds the shared row chrome. actions is a slot host (accepts action-button, up to 3)."}]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

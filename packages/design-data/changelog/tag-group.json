@@ -116,6 +116,35 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "a07d7812b11f8a319a3b240b09b05af3998ea86d",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1988,"title":"feat(design-data): anatomy review of the groups family (A6)","url":"https://github.com/adobe/spectrum-design-data/pull/1988"},
+          "entries": [
+            {"id":"a07d7812-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (vertical)"],"scope":{"property":"space-between","options":null},"record":"af20f2bb-df1c-5320-9218-f8aa39ab1d9a","name":"space-between","fields":[{"path":"scope.between.from","after":"tag"},{"path":"scope.between.to","after":"tag"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (vertical)"],"scope":{"property":"space-between","options":null},"record":"e6a160ad-5af5-5b83-8017-d3f4f134982d","name":"space-between","fields":[{"path":"scope.between.from","after":"tag"},{"path":"scope.between.to","after":"tag"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (Field label to Tags)"],"scope":{"property":"space-between","options":null},"record":"f610b299-2bad-5f32-9113-91b1a4f76014","name":"space-between","fields":[{"path":"scope.between.from","after":"field-label"},{"path":"scope.between.to","after":"tags"},{"path":"scope.property","before":"to-component","after":"space-between"}]},
+            {"id":"a07d7812-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field to help text)"],"scope":{"property":"space-between","options":null},"record":"a5e1ed44-3aa9-5723-8934-47d01107e606","name":"space-between","fields":[{"path":"scope.between.from","after":"tags"},{"path":"scope.between.to","after":"help-text"},{"path":"scope.property","before":"to-component","after":"space-between"}]},
+            {"id":"a07d7812-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (field to help text)"],"scope":{"property":"space-between","options":null},"record":"a5e1ed44-3aa9-5723-8934-47d01107e606","name":"space-between","fields":[{"path":"context","before":"Spacing (text area to help text)","after":"Spacing (field to help text)"}]},
+            {"id":"a07d7812-5","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tag-group/anatomy/tag","name":"tag","fields":[],"before":{"name":"tag","description":"One removable tag; repeated."}},
+            {"id":"a07d7812-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Column holding the field label, the tags, the action button and the help text. It is the root.","required":true,"contains":["field-label","tags","action-button","help-text"]}},
+            {"id":"a07d7812-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/tags","name":"tags","fields":[],"after":{"name":"tags","description":"Wrapping row of tags. It hosts the default slot; each tag is one fill.","required":true}},
+            {"id":"a07d7812-8","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/action-button","name":"action-button","fields":[{"path":"description","before":"Show all / collapse button after the tags.","after":"Group-level button after the tags, such as show all or collapse. Drawn only when the actionLabel option is set. A sibling of the tags host, not one of the tags (A138)."}]},
+            {"id":"a07d7812-9","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/field-label","name":"field-label","fields":[{"path":"description","before":"Label above or beside the tags.","after":"Label above or beside the tags. Hidden with hideLabel."}]},
+            {"id":"a07d7812-10","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/slots/default","name":"default","fields":[],"after":{"name":"default","part":"tags","accepts":["tag"],"min":1,"description":"The tags in the group."}},
+            {"id":"a07d7812-11","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web tag group page (Field label, Tag wrapper of Tags, Action button, Help text). Wrapper omitted as layout; no container drawn.","after":"Figma S2 Web tag group page and React Spectrum S2 TagGroup. The tags sit in one host part, tags (A142). tag is what the default slot accepts, so it is no longer a part. action-button is a separate part, a sibling of the tags host, shown through the actionLabel option (A138; Design to confirm in 5m92.5.7.1: the Figma Top-label variants put it inside the Tag wrapper next to the tags, React Spectrum renders it in its own actions container). container is explicit and the root."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.status","contextQualifier"]}
+        }
+      ]
     }
   ]
 }

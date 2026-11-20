@@ -1,5 +1,12 @@
 # @adobe/component-options-editor
 
+## 1.1.102
+
+### Patch Changes
+
+- Updated dependencies [[`5168ad1`](https://github.com/adobe/spectrum-design-data/commit/5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf)]:
+  - @adobe/spectrum-component-api-schemas@6.2.0
+
 ## 1.1.101
 
 ### Patch Changes

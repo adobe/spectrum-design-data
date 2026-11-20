@@ -56,6 +56,29 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "a07d7812b11f8a319a3b240b09b05af3998ea86d",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1988,"title":"feat(design-data): anatomy review of the groups family (A6)","url":"https://github.com/adobe/spectrum-design-data/pull/1988"},
+          "entries": [
+            {"id":"a07d7812-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"radio-group/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Holds the field label, the radio buttons and the help text. It is the root.","required":true,"contains":["field-label","options","help-text"]}},
+            {"id":"a07d7812-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"radio-group/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Label above or beside the options. Names the group."}},
+            {"id":"a07d7812-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"radio-group/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message under the options."}},
+            {"id":"a07d7812-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"radio-group/anatomy/options","name":"options","fields":[],"after":{"name":"options","description":"Row or column of radio buttons. It hosts the default slot; each radio button is one fill.","required":true}},
+            {"id":"a07d7812-4","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"radio-group/slots/default","name":"default","fields":[],"after":{"name":"default","part":"options","accepts":["radio-button"],"min":2,"description":"The radio buttons of the group (at least 2)."}},
+            {"id":"a07d7812-5","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"radio-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"No records yet. Anatomy added by decision A143 (2026-11-20): container, field-label, an options host, help-text. The options host is a per-component plural (A142); radio-button is what the default slot accepts (at least 2: one radio button is not a choice). React Spectrum S2 RadioGroup renders the label, the radios and the description or error message. Figma S2 Web radio group page checked across all 24 variants: Field label, a frame named \"Radio group\" holding the radio buttons (the options host), and Help text; the Side variants add a layout-only wrapper (Component wrapper or Container)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

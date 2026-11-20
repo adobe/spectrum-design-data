@@ -1,5 +1,106 @@
 # @adobe/spectrum-design-data
 
+## 3.29.0
+
+### Minor Changes
+
+- [#1994](https://github.com/adobe/spectrum-design-data/pull/1994) [`5168ad1`](https://github.com/adobe/spectrum-design-data/commit/5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of the collections family (A3, level 1).
+  - menu, list-view, side-navigation, tabs, segmented-control, breadcrumbs, steplist, tree-view, table
+    and stack-item get a `container` root and a reviewed anatomy. Collections declare a `default` slot
+    (the part repeats per entry of `items`); table has three, `columns` feeding two.
+  - New registry term `selection-indicator` (the marker inside a tab, side-navigation item or
+    segment, replacing `indicator` and `selection`), plus `column-header-row`, `row-checkbox`,
+    `header-row-checkbox` and `trailing-accessory-area`. `trailing-icon`, `drag-icon` and
+    `step-item` are removed.
+  - Expand and collapse is `disclosure-button` (tree-view, side-navigation); `drill-in-chevron` and
+    `link-out-icon` are non-interactive indicators. `track` is a child of `step`; `breadcrumb-title`
+    is a part; `separator-icon` is `separator`; `item` is `cell` in table; `action-area` is
+    `actions`.
+  - **Published options:** menu gets a flat `items` option; its `label`, `icon`, `description`,
+    `value`, `isDisabled` and `isUnavailable` options move into the entry schema;
+    side-navigation entries get a `level`; list-view drops the authored `itemRounding` entry
+    option (the position is derived from the entry order); `"keyboard focus"` becomes
+    `keyboard-focus` in state enums. Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#1988](https://github.com/adobe/spectrum-design-data/pull/1988) [`a07d781`](https://github.com/adobe/spectrum-design-data/commit/a07d7812b11f8a319a3b240b09b05af3998ea86d) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of the groups family (A6).
+  - button-group, action-group and swatch-group stay components: an explicit root `container` and
+    one `default` slot (part `container`, accepts the child component, min 1). `button`,
+    `action-button` and `swatch` are no longer parts.
+  - avatar-group (`avatars` host plus `label`), tag-group (`tags` host; `action-button` is a
+    sibling part shown by `actionLabel`), checkbox-group and radio-group (`options` host; radio
+    needs 2 or more) declare a slot whose part is the host. checkbox-group and radio-group get
+    anatomy with no records yet.
+  - action-bar: `counter` merged into `item-counter`, `action-group-area` renamed `action-group`,
+    `close-button` added; the 3 Border colour records are pinned to `colorScheme` light, dark and
+    wireframe.
+  - Group spacing records become `space-between` with `between` on the repeated child. avatar-group
+    `to-avatar-{size}` and `font-size-{N}` records are decomposed (size pin, part `label`);
+    tag-group "text area to help text" is now "field to help text". New anatomy terms in the registry.
+  - Status: action-bar, avatar-group and swatch-group reach level 1; action-group, button-group,
+    checkbox-group, radio-group and tag-group reach level 2. form-item is untouched.
+    Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#1991](https://github.com/adobe/spectrum-design-data/pull/1991) [`beeb84b`](https://github.com/adobe/spectrum-design-data/commit/beeb84b48b539a25c67383b9a66ada585488a91c) Thanks [@GarthDB](https://github.com/GarthDB)! - Identity migration of the remaining groups: avatar-group and swatch-group reach level 2; action-bar
+  gains parts but stays at level 1.
+  - avatar-group: the 7 size records get part `avatars` and a size pin, the font-family, weight,
+    style and size records get part `label`, and `font-size-600` / `line-height-100` become
+    `font-size` / `line-height` on `label` (the CJK line height is pinned `script: cjk`).
+  - swatch-group: the border colour and opacity records get part `container`; the colour record gets
+    `attribute: border`. The legacy opacity record takes the context "Border" to end a collision.
+  - action-bar: every record outside the 17 misfiled Step records gets a part (`container`,
+    `item-counter` or `close-button`) or a `between`; padding becomes `padding-vertical` /
+    `padding-horizontal`; background, border and shadow colours get an attribute; the 3 "Background
+    (default)" records join "Background".
+  - The `same-pin-set` and component-status baselines are regenerated. Legacy `@adobe/spectrum-tokens`
+    output is byte-identical.
+
+### Patch Changes
+
+- [#1996](https://github.com/adobe/spectrum-design-data/pull/1996) [`23810ae`](https://github.com/adobe/spectrum-design-data/commit/23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a) Thanks [@GarthDB](https://github.com/GarthDB)! - Apply the colour anatomy (A7) and migrate identity (5m92.5.8).
+  - color-handle, color-loupe, color-area, color-slider, color-wheel: anatomy reviewed, explicit
+    `container`, nested-component parts and a `fill` part. Options `color`, `hasFill`, `isOpen`,
+    `label` added; `background` and `channel` dropped. The loupe is a second top-level part of
+    the handle; its 12px offset moves to the handle as `space-between`.
+  - color-wheel drops its `color-area` part; color-control is a reviewed shared base.
+  - swatch: `border` and `inner-border` become container styling (selected border and band are
+    records pinned `isSelected`, the band colour is `outline-color`); `value` option; `tooltip`
+    part. The inner band is no longer drawn (the renderer has no second stroke).
+  - thumbnail: the 4px checkerboard record is rescoped to `size` on `opacity-checkerboard`.
+  - Legacy records take the part, attribute and context of the S2 record that aliases them.
+    Three loupe "S1 Shadows" records with no legacy key are removed.
+  - Levels: the six colour components 0 to 2; swatch and thumbnail 1 to 2.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#1993](https://github.com/adobe/spectrum-design-data/pull/1993) [`fc69dda`](https://github.com/adobe/spectrum-design-data/commit/fc69dda6c1054f2a7d3be88f921690eb3a927aef) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate status-light, in-line-alert, alert-banner and toast to level 2 identity (5m92.6).
+  coach-indicator is already level 2.
+  - Fused names become real terms: `font-size-N` to `font-size` (status-light keeps its
+    four sizes as `size` pins), `line-height-100` to `line-height`, `workflow-icon-size-100`
+    to `size` on the icon, `component-height-50` to `minimum-height`. Every uuid is kept.
+  - alert-banner's two close-button to end-edge gaps are told apart by a `scale` pin:
+    8px on desktop, 12px on mobile.
+  - toast's note-like "Toast token changes (Jan 2025)" colour record becomes the neutral
+    container background, so every toast record has a part.
+  - Colour attributes were already set by the anatomy review; no `background-color` or
+    `border-color` record is added.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#1992](https://github.com/adobe/spectrum-design-data/pull/1992) [`1eaeba5`](https://github.com/adobe/spectrum-design-data/commit/1eaeba52595db95f7efd1c333697bfdd2772052b) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate tag and combo-box to level 2 identity (5m92.6).
+  - tag: every live record gets a `part` (container, icon, label, clear-button, focus-indicator).
+    Fused names become terms plus structure: `component-height-N` to `minimum-height`,
+    `workflow-icon-size-N` to `size` on the icon, edge, top and gap spacing to `space-between`
+    with `between` endpoints and a size pin, `font-size-N` to `font-size` + size pin,
+    `line-height-100` to `line-height` on the label. The five identity collisions are gone.
+  - tag colour records get `attribute: background`; the disabled fill context is harmonised to
+    Background. The seven `legacyKey` records take the identity and context of the record that
+    aliases them. Every uuid is kept.
+  - combo-box: the stale `visual-to-field-button-quiet` record, a duplicate of the live
+    alert-icon to field-button spacing record, is removed.
+  - Status baseline: tag and combo-box 1 to 2. `background-color`/`border-color` stay frozen at 36.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
 ## 3.28.0
 
 ### Minor Changes

@@ -1,5 +1,18 @@
 # @adobe/design-data-spec
 
+## 6.3.0
+
+### Minor Changes
+
+- [#1997](https://github.com/adobe/spectrum-design-data/pull/1997) [`212a1cd`](https://github.com/adobe/spectrum-design-data/commit/212a1cd467dbc4a72be91c7307730f9465523a24) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `gallery` section block to the component spec sheet schema.
+  - A grid of small scene renders, each titled, with a caption, a column count and a cell size.
+  - The generator fills Accordion's anatomy with a multi-item specimen (several items
+    expanded) and a variants board (size x density x quiet).
+
+- [#1997](https://github.com/adobe/spectrum-design-data/pull/1997) [`212a1cd`](https://github.com/adobe/spectrum-design-data/commit/212a1cd467dbc4a72be91c7307730f9465523a24) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an optional `sections` array to the component spec sheet schema.
+  - Prose, table and placeholder blocks for the non-measurement template sections.
+  - Sections: anatomy, usage, states, accessibility, decision log, how to use, feedback.
+
 ## 6.2.0
 
 ### Minor Changes
