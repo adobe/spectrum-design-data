@@ -1136,7 +1136,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-compact-extra-small",
       "options": {
         "size": "xs",
         "density": "compact"
@@ -1152,7 +1152,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "card-edge-to-content-default-extra-small",
       "options": {
         "size": "xs",
         "density": "regular"
@@ -1168,7 +1168,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-spacious-extra-small",
       "options": {
         "size": "xs",
         "density": "spacious"
@@ -1184,7 +1184,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-compact-small",
       "options": {
         "size": "s",
         "density": "compact"
@@ -1200,7 +1200,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "card-edge-to-content-default-small",
       "options": {
         "size": "s",
         "density": "regular"
@@ -1216,7 +1216,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-spacious-small",
       "options": {
         "size": "s",
         "density": "spacious"
@@ -1232,7 +1232,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-compact-medium",
       "options": {
         "size": "m",
         "density": "compact"
@@ -1248,7 +1248,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "card-edge-to-content-default-medium",
       "options": {
         "size": "m",
         "density": "regular"
@@ -1264,7 +1264,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-spacious-medium",
       "options": {
         "size": "m",
         "density": "spacious"
@@ -1280,7 +1280,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-compact-large",
       "options": {
         "size": "l",
         "density": "compact"
@@ -1296,7 +1296,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "card-edge-to-content-default-large",
       "options": {
         "size": "l",
         "density": "regular"
@@ -1312,7 +1312,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-spacious-large",
       "options": {
         "size": "l",
         "density": "spacious"
@@ -1328,7 +1328,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-compact-extra-large",
       "options": {
         "size": "xl",
         "density": "compact"
@@ -1344,7 +1344,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "card-edge-to-content-default-extra-large",
       "options": {
         "size": "xl",
         "density": "regular"
@@ -1360,7 +1360,7 @@
     "scope": {
       "component": "card",
       "part": "container",
-      "property": "padding",
+      "property": "edge-to-content-spacious-extra-large",
       "options": {
         "size": "xl",
         "density": "spacious"
@@ -1663,12 +1663,7 @@
   {
     "scope": {
       "component": "card",
-      "part": "container",
-      "property": "space-between",
-      "between": {
-        "from": "title",
-        "to": "action-button"
-      }
+      "property": "space-between"
     },
     "context": "Spacing (title to action button)",
     "contextRole": ["spacing"],
@@ -2082,12 +2077,7 @@
   {
     "scope": {
       "component": "card",
-      "part": "container",
-      "property": "spacing",
-      "between": {
-        "from": "title",
-        "to": "footer"
-      }
+      "property": "spacing"
     },
     "context": "Spacing (header to footer)",
     "contextRole": ["spacing"],
@@ -2124,12 +2114,7 @@
   {
     "scope": {
       "component": "card",
-      "part": "container",
-      "property": "spacing",
-      "between": {
-        "from": "thumbnail",
-        "to": "title"
-      }
+      "property": "spacing"
     },
     "context": "Spacing (thumbnail to title)",
     "contextRole": ["spacing"],
@@ -2140,12 +2125,7 @@
   {
     "scope": {
       "component": "card",
-      "part": "container",
-      "property": "space-between",
-      "between": {
-        "from": "description",
-        "to": "footer"
-      }
+      "property": "space-between"
     },
     "context": "Spacing (description to footer)",
     "contextRole": ["spacing"],
@@ -2288,15 +2268,7 @@
   {
     "scope": {
       "component": "card",
-      "part": "container",
-      "property": "space-between",
-      "between": {
-        "from": "edge",
-        "to": "content"
-      },
-      "options": {
-        "density": "compact"
-      }
+      "property": "space-between"
     },
     "context": "Spacing (top/side/bottom edge to content)",
     "contextRole": ["spacing"],
@@ -2307,15 +2279,7 @@
   {
     "scope": {
       "component": "card",
-      "part": "container",
-      "property": "space-between",
-      "between": {
-        "from": "edge",
-        "to": "content"
-      },
-      "options": {
-        "density": "regular"
-      }
+      "property": "space-between"
     },
     "context": "Spacing (top/side/bottom edge to content)",
     "contextRole": ["spacing"],
@@ -2326,15 +2290,7 @@
   {
     "scope": {
       "component": "card",
-      "part": "container",
-      "property": "space-between",
-      "between": {
-        "from": "edge",
-        "to": "content"
-      },
-      "options": {
-        "density": "spacious"
-      }
+      "property": "space-between"
     },
     "context": "Spacing (top/side/bottom edge to content)",
     "contextRole": ["spacing"],
@@ -2349,7 +2305,8 @@
       "property": "border-width",
       "attribute": "border",
       "options": {
-        "variant": "secondary"
+        "variant": "secondary",
+        "colorScheme": "dark"
       }
     },
     "context": "Border",
@@ -2365,7 +2322,8 @@
       "property": "color",
       "attribute": "border",
       "options": {
-        "variant": "secondary"
+        "variant": "secondary",
+        "colorScheme": "light"
       }
     },
     "context": "Border",
@@ -2381,7 +2339,8 @@
       "property": "color",
       "attribute": "border",
       "options": {
-        "variant": "secondary"
+        "variant": "secondary",
+        "colorScheme": "dark"
       }
     },
     "context": "Border",
@@ -2397,7 +2356,8 @@
       "property": "color",
       "attribute": "border",
       "options": {
-        "variant": "secondary"
+        "variant": "secondary",
+        "colorScheme": "wireframe"
       }
     },
     "context": "Border",
