@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "tag-group",
-      "property": "spacing"
+      "between": {
+        "from": "tag",
+        "to": "tag"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (vertical)",
     "contextRole": ["spacing"],
@@ -13,7 +17,11 @@
   {
     "scope": {
       "component": "tag-group",
-      "property": "spacing"
+      "between": {
+        "from": "tag",
+        "to": "tag"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (vertical)",
     "contextRole": ["spacing"],
@@ -24,7 +32,11 @@
   {
     "scope": {
       "component": "tag-group",
-      "property": "to-component"
+      "between": {
+        "from": "field-label",
+        "to": "tags"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (Field label to Tags)",
     "contextRole": ["spacing"],
@@ -35,11 +47,15 @@
   {
     "scope": {
       "component": "tag-group",
-      "property": "to-component"
+      "between": {
+        "from": "tags",
+        "to": "help-text"
+      },
+      "property": "space-between"
     },
-    "context": "Spacing (text area to help text)",
+    "context": "Spacing (field to help text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "text area to help text",
+    "contextQualifier": "field to help text",
     "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
     "uuid": "a5e1ed44-3aa9-5723-8934-47d01107e606"
   }

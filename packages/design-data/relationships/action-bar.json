@@ -68,9 +68,9 @@
       "component": "action-bar",
       "property": "space-between"
     },
-    "context": "Spacing (counter)",
+    "context": "Spacing (item-counter)",
     "contextRole": ["spacing"],
-    "contextPart": "counter",
+    "contextPart": "item-counter",
     "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
     "uuid": "aa2aedc6-3f71-5bf4-805a-fe9de22fca73"
   },
@@ -79,9 +79,9 @@
       "component": "action-bar",
       "property": "space-between"
     },
-    "context": "Spacing (counter)",
+    "context": "Spacing (item-counter)",
     "contextRole": ["spacing"],
-    "contextPart": "counter",
+    "contextPart": "item-counter",
     "$ref": "c3ada312-da94-4779-bbf0-0fde3beb8121",
     "uuid": "772b37b6-c971-5bc1-bd1f-cd01ea3546ea"
   },
@@ -134,7 +134,10 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -144,7 +147,10 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -154,7 +160,10 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -775,7 +784,7 @@
   {
     "scope": {
       "component": "action-bar",
-      "part": "counter",
+      "part": "item-counter",
       "property": "font-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
