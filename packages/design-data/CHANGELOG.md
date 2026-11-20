@@ -1,5 +1,44 @@
 # @adobe/spectrum-design-data
 
+## 3.28.0
+
+### Minor Changes
+
+- [#1987](https://github.com/adobe/spectrum-design-data/pull/1987) [`8cbc6c0`](https://github.com/adobe/spectrum-design-data/commit/8cbc6c0d92dbffc8bfa8b064e3cd4348e1bfd9de) Thanks [@GarthDB](https://github.com/GarthDB)! - Review the anatomy of the messages and status components (A5).
+  - status-light, in-line-alert, alert-banner, toast and coach-indicator are reviewed (level 1;
+    coach-indicator reaches level 2). Each gets the explicit root part `container`.
+  - status-light: the `visual-75`..`visual-300` pseudo parts go (the `size` option carries the dot
+    size); the dot is the part `dot` (registry alias `light`).
+  - in-line-alert: text parts are `title` and `description`; `link` and `button` are separate
+    parts. The `style` option names the container fill (Figma "Border fill" is `outline`). The 27
+    combined "X and Icon" colour records are split into a container record and an icon record that
+    share one `$ref`.
+  - alert-banner and toast: parts `icon` (registry alias `alert-icon`), `text`, `button` and
+    `close-button`; the 21 Background colour records are pinned to a `variant`.
+  - Gaps and edge paddings become `between` records (axis endpoints like `start-edge`).
+  - coach-indicator: `collapsed` and `expanded` are states of the pulse (new registry states), not a
+    qualifier.
+  - floating-action-button is archive-only (Spectrum 1 only); its legacy-keyed records stay live.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical. Deprecated records are untouched.
+
+### Patch Changes
+
+- [#1986](https://github.com/adobe/spectrum-design-data/pull/1986) [`505afb5`](https://github.com/adobe/spectrum-design-data/commit/505afb59188619568db1c7bfaa046bbd0556aef8) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate field-label and help-text to level 2 identity and `typeStyle` recipes (5m92.6.1).
+  - Both components reach level 2. Fused names become real terms: `component-height-N` to
+    `minimum-height`, `workflow-icon-size-N` to `size` on the icon, the asterisk, edge and alert
+    icon gaps to `space-between` with `between` endpoints and a size pin. Every uuid is kept.
+  - The 13 font records per component become four `type-style` records (composite
+    `component-{size}-regular`) plus the two line-height records, renamed to `line-height` with a
+    part (the x1.3 overrides stay). The font-style record is dropped.
+  - help-text's three `content-color` records get distinct parts (text, icon, container) so they no
+    longer collide. field-label's white and black colour records are told apart by a new
+    `staticColor` option pin.
+  - The recipes bind `typeStyle`; rendered geometry and values are unchanged.
+  - `requires.cli` is raised to 0.60.0.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
 ## 3.27.1
 
 ### Patch Changes
