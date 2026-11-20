@@ -20,7 +20,9 @@
   {
     "scope": {
       "component": "swatch-group",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -30,7 +32,8 @@
   {
     "scope": {
       "component": "swatch-group",
-      "property": "opacity"
+      "property": "opacity",
+      "part": "container"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -43,7 +46,8 @@
       "property": "color",
       "options": {
         "object": "border"
-      }
+      },
+      "part": "container"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
@@ -56,12 +60,15 @@
       "property": "opacity",
       "options": {
         "object": "border"
-      }
+      },
+      "part": "container"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.2",
     "uuid": "19968846-dad0-42eb-b6a8-af65f3a910ff",
-    "legacyKey": "swatch-group-border-opacity"
+    "legacyKey": "swatch-group-border-opacity",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
