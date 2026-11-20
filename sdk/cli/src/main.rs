@@ -594,7 +594,8 @@ enum Commands {
         format: OutputFormat,
     },
     /// Report how far each component has moved to the structured data system: levels L1 to L4,
-    /// computed from the data (anatomy reviewed, structured identity, structured recipe, clean labels)
+    /// computed from the data (anatomy reviewed, structured identity, structured recipe, clean labels).
+    /// L3 shows n/a for a component with exactly one anatomy part, named text, and no recipe
     Status {
         /// Show only this component
         #[arg(value_name = "COMPONENT")]
@@ -4856,7 +4857,9 @@ fn run_status(
             s.unstructured_records,
             s.colliding_identities,
             s.structured_property_records,
-            if s.has_recipe {
+            if s.l3_not_applicable {
+                "n/a".into()
+            } else if s.has_recipe {
                 s.context_selectors.to_string()
             } else {
                 "-".into()
