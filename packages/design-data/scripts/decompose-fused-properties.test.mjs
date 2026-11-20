@@ -348,3 +348,31 @@ test("a size word suffix is a size, extra-large included", () => {
     size: "xl",
   });
 });
+
+test("a $ref to a typography composite makes the property type-style", () => {
+  const composite = {
+    $schema:
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    name: { property: "typography", size: "m" },
+  };
+  const c = { ...ctx, tokens: new Map([...tokens, ["c-m", composite]]) };
+  const r = plan(
+    rec({ property: "typography" }, { $ref: "c-m", contextRole: undefined }),
+    c,
+  );
+  assert.equal(r.status, "mechanical");
+  assert.equal(r.next[0].scope.property, "type-style");
+  assert.equal(r.next[0].uuid, "u1");
+  assert.equal(r.next[0].$ref, "c-m");
+  assert.equal(
+    plan(rec({ property: "type-style" }, { $ref: "c-m" }), c).status,
+    "ok",
+  );
+  assert.equal(
+    plan(rec({ property: "typography" }, { $ref: "c-m", legacyKey: "k" }), c)
+      .status,
+    "ok",
+  );
+  // A token that is not a composite keeps the old rules.
+  assert.equal(plan(rec({ property: "height" }), c).status, "ok");
+});

@@ -306,7 +306,7 @@ SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are m
 
 ## Layout revision
 
-The solver is shared by the CLI, WASM, MCP and TUI, and a solver change can move existing recipes without a recipe change. The renderer carries an integer **layout revision** (`LAYOUT_REVISION` in `sdk/core/src/visual.rs`) and the dataset declares the one it was authored against as `layoutRevision` in `dataset.json` ([Dataset layout](dataset-layout.md)). **SHOULD:** a renderer warns, outside the scene `diagnostics`, when the two differ; a dataset without the field is revision 0. **NORMATIVE for this repository:** a change that alters the committed recipe snapshots bumps both numbers in the same change.
+The solver is shared by the CLI, WASM, MCP and TUI, and a solver change can move existing recipes without a recipe change. The renderer carries an integer **layout revision** (`LAYOUT_REVISION` in `sdk/core/src/visual.rs`) and the dataset declares the one it was authored against as `layoutRevision` in `dataset.json` ([Dataset layout](dataset-layout.md)). **SHOULD:** a renderer warns, outside the scene `diagnostics`, when the two differ; a dataset without the field is revision 0. **NORMATIVE for this repository:** a change to the solver or to layout semantics that alters the committed recipe snapshots bumps both numbers in the same change. A data-only change to the snapshots (the same geometry and resolved values, for example the `font-family` attribute or the `data-tokens` labels after a recipe moves to a type style) does not bump `layoutRevision` and does not by itself raise `requires.cli`.
 
 ## Platform-owned recipes
 

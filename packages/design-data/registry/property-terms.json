@@ -209,6 +209,11 @@
       "description": "Composite type style bundling font family, size, weight, letter-spacing, and line-height in one value"
     },
     {
+      "id": "type-style",
+      "label": "Type Style",
+      "description": "A component's type style: the property of a relationship record whose $ref is a typography composite token"
+    },
+    {
       "id": "text-align",
       "label": "Text Align",
       "description": "Horizontal alignment of text content"

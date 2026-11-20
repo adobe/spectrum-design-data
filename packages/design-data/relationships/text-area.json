@@ -1965,7 +1965,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1976,7 +1976,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1987,7 +1987,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1998,7 +1998,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -2119,7 +2119,7 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2130,7 +2130,7 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2141,7 +2141,7 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2152,7 +2152,7 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],

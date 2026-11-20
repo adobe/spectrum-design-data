@@ -966,6 +966,29 @@ test("design-data-query compact tokens list purposeFields", async (t) => {
   ]);
 });
 
+test("design-data-component-tokens unpacks a type style into resolved sub-values", async (t) => {
+  const { bindings } = await byName()["design-data-component-tokens"].handler({
+    component: "text-field",
+    limit: 200,
+  });
+  const styles = bindings.filter((b) => b.property === "type-style");
+  t.true(styles.length > 0);
+  for (const b of styles) {
+    t.is(b.value, undefined);
+    t.is(b.values, undefined);
+    t.regex(b.token, /component-\w+-\w+/);
+    for (const key of ["fontFamily", "fontSize", "fontWeight", "lineHeight"]) {
+      const sub = b.style[key];
+      t.true(sub.value !== undefined || sub.values !== undefined, key);
+      t.notRegex(JSON.stringify(sub), /[{][a-z-]+[}]/);
+    }
+  }
+  const medium = styles.find((b) => b.token === "component-m-regular");
+  t.deepEqual(medium.style.fontSize.values.scale.desktop, "14px");
+  t.deepEqual(medium.style.fontSize.values.scale.mobile, "17px");
+  t.is(medium.style.fontWeight.value, "regular");
+});
+
 test("design-data-component-tokens lists what a component uses, by context and state", async (t) => {
   const tool = byName()["design-data-component-tokens"];
   const background = await tool.handler({

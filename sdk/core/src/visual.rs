@@ -5216,8 +5216,9 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 }
 
 /// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
-/// same change whenever a solver change alters how existing recipes render
-/// (a changed `recipe-snapshots.json`).
+/// same change whenever a solver or layout-semantics change alters how existing recipes render
+/// (a changed `recipe-snapshots.json`). A data-only snapshot change (same geometry and resolved
+/// values) does not bump it.
 pub const LAYOUT_REVISION: u32 = 4;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from

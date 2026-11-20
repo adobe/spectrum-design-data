@@ -644,3 +644,36 @@ fn a_context_with_boolean_variants_is_one_block_per_variant_rendered_with_its_pi
     let disabled = block("Control (indeterminate or selected, disabled)");
     assert_eq!(disabled["render"]["request"]["options"]["isDisabled"], true);
 }
+
+#[test]
+fn type_style_rows_show_the_composite_resolved_by_scale() {
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", "text-field"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let sheet: Value = serde_json::from_slice(&out).unwrap();
+    let mut seen = 0;
+    for page in sheet["pages"].as_array().unwrap() {
+        for block in page["blocks"].as_array().unwrap() {
+            for row in block["rows"].as_array().unwrap() {
+                for item in row["items"].as_array().unwrap() {
+                    if item["token"]["property"] != "type-style" {
+                        continue;
+                    }
+                    seen += 1;
+                    assert_eq!(page["title"], "Typography");
+                    let desktop = &item["values"]["desktop"];
+                    let mobile = &item["values"]["mobile"];
+                    assert!(!desktop["fontSize"].as_str().unwrap().starts_with('{'));
+                    assert_ne!(desktop["fontSize"], mobile["fontSize"]);
+                }
+            }
+        }
+    }
+    assert!(seen > 0, "text-field has type-style rows");
+}

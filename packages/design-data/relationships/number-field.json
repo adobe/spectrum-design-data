@@ -2071,7 +2071,7 @@
     "scope": {
       "component": "number-field",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2082,7 +2082,7 @@
     "scope": {
       "component": "number-field",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2093,7 +2093,7 @@
     "scope": {
       "component": "number-field",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2104,7 +2104,7 @@
     "scope": {
       "component": "number-field",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2225,7 +2225,7 @@
     "scope": {
       "component": "number-field",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2236,7 +2236,7 @@
     "scope": {
       "component": "number-field",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2247,7 +2247,7 @@
     "scope": {
       "component": "number-field",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2258,7 +2258,7 @@
     "scope": {
       "component": "number-field",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],

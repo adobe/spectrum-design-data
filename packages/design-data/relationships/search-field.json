@@ -1192,7 +1192,7 @@
     "scope": {
       "component": "search-field",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1203,7 +1203,7 @@
     "scope": {
       "component": "search-field",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1214,7 +1214,7 @@
     "scope": {
       "component": "search-field",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1225,7 +1225,7 @@
     "scope": {
       "component": "search-field",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],

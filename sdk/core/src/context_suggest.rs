@@ -371,7 +371,7 @@ impl<'a> Index<'a> {
         let text = p.starts_with("font-")
             || p.starts_with("line-height")
             || p.starts_with("letter-spacing")
-            || p == "typography";
+            || p == "type-style";
         let minmax = if p.contains("minimum") {
             Some("minimum")
         } else if p.contains("maximum") {

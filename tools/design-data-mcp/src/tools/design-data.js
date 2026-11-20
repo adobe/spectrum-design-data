@@ -258,6 +258,46 @@ function rowsValue(ds, rows) {
   return Object.keys(byMode).length ? { values: byMode } : { value: plain };
 }
 
+const TYPOGRAPHY_SCHEMA = "token-types/typography.json";
+const STYLE_KEYS = [
+  "fontFamily",
+  "fontSize",
+  "fontWeight",
+  "lineHeight",
+  "letterSpacing",
+];
+
+/**
+ * A typography composite as `style`: each sub-value is `{ value }`, or `{ values }` by mode-set
+ * then mode when its `{alias}` has rows that differ by mode (font-size-100 is 14px on desktop and
+ * 17px on mobile). The raw composite holds unresolved `{font-size-100}` strings.
+ */
+function typeStyle(ds, composite) {
+  const style = {};
+  for (const key of STYLE_KEYS) {
+    const raw = composite[key];
+    if (raw === undefined) continue;
+    const alias = /^\{(.+)\}$/.exec(raw)?.[1];
+    if (!alias) {
+      style[key] = { value: raw };
+      continue;
+    }
+    const ref = `{${alias}}`;
+    const values = {};
+    for (const { name: set, modes } of modeSets(ds)) {
+      const byMode = {};
+      for (const mode of modes) {
+        byMode[mode] = ds.resolveReference(ref, { [set]: mode })?.value;
+      }
+      if (new Set(Object.values(byMode)).size > 1) values[set] = byMode;
+    }
+    style[key] = Object.keys(values).length
+      ? { values }
+      : { value: ds.resolveReference(ref, {})?.value };
+  }
+  return style;
+}
+
 /** Whether a relationship's `state` pin (ids, or `{ anyOf: [...] }`) includes `state`. */
 function appliesInState(pin, state) {
   return [pin].flat().some((s) => s === state || s?.anyOf?.includes(state));
@@ -287,10 +327,17 @@ function componentBindings(ds, component) {
     if (options && Object.keys(options).length) binding.when = options;
     if (token) binding.token = token;
     if (rows[0]) binding.tier = rows[0].tier;
-    Object.assign(
-      binding,
-      rows.length ? rowsValue(ds, rows) : { value: record.value },
-    );
+    const composite = rows[0]?.raw.$schema?.endsWith(TYPOGRAPHY_SCHEMA)
+      ? tokenValue(ds, rows[0]).value
+      : undefined;
+    if (composite && typeof composite === "object") {
+      binding.style = typeStyle(ds, composite);
+    } else {
+      Object.assign(
+        binding,
+        rows.length ? rowsValue(ds, rows) : { value: record.value },
+      );
+    }
     bindings.set(key, binding);
   }
   return [...bindings.values()];

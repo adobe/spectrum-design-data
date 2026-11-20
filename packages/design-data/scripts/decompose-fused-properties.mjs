@@ -86,6 +86,11 @@ function edgeAxis(label, token) {
 }
 const SPACING = /(^|-)(to|padding|spacing|gap|space|between)(-|$)/;
 
+/** The property of a record whose `$ref` is a typography composite (SPEC-105). */
+const TYPE_STYLE = "type-style";
+const isTypographyComposite = (t) =>
+  Boolean(t?.["$schema"]?.endsWith("token-types/typography.json"));
+
 /** Script-specific (CJK) tokens are never pinned by size: they would outrank their unpinned latin siblings. */
 const isScriptToken = (t) =>
   Boolean(t?.name?.script || t?.name?.legacyKey?.startsWith("cjk-"));
@@ -147,6 +152,22 @@ export function plan(record, ctx) {
   const judgement = (rule, ...notes) => out("judgement", rule, notes);
 
   if (HELD.has(property)) return out("held", "held for 1454");
+
+  if (
+    isTypographyComposite(ctx.tokens.get(record.$ref)) &&
+    property !== TYPE_STYLE &&
+    record.value === undefined &&
+    !(record.legacyKey && !ctx.legacyKey)
+  ) {
+    return out(
+      "mechanical",
+      "type-style",
+      [
+        `${property || "(none)"} -> ${TYPE_STYLE}: the $ref is a typography composite`,
+      ],
+      [{ ...record, scope: { ...scope, property: TYPE_STYLE } }],
+    );
+  }
 
   const color = property === "color" && !scope.attribute;
   const genericEdge =
@@ -399,7 +420,7 @@ function pinTies(records, results, ctx) {
       if (
         r.value !== undefined ||
         sc.options?.size !== undefined ||
-        sc.property === "typography"
+        sc.property === TYPE_STYLE
       )
         continue;
       const k = canon({ ...sc, component: undefined });
