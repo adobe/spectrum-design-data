@@ -716,22 +716,18 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "spacing"
+      "between": {
+        "from": "swatch",
+        "to": "swatch"
+      },
+      "property": "space-between",
+      "options": {
+        "density": "spacious"
+      }
     },
-    "context": "Spacing (compact)",
+    "context": "Spacing (swatch to swatch)",
     "contextRole": ["spacing"],
-    "contextQualifier": "compact",
-    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
-    "uuid": "75df89ad-eb01-5654-ad0a-4466ec375d7c"
-  },
-  {
-    "scope": {
-      "component": "swatch",
-      "property": "spacing"
-    },
-    "context": "Spacing (spacious)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "spacious",
+    "contextQualifier": "swatch to swatch",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "7bfc05fe-bb4e-5dac-80da-5883aeb4c50e"
   },
