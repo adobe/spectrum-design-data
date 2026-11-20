@@ -1041,6 +1041,58 @@ test("sections are drawn after the pages: prose, table grid and a dashed Manual 
   t.deepEqual(box.dashPattern, [6, 4]);
 });
 
+test("a wide table keeps unbreakable words whole and its cells fill the row height", async (t) => {
+  const log = {
+    kind: "table",
+    id: "log",
+    section: "anatomy",
+    title: "Decision log",
+    columns: [
+      "Date",
+      "Version",
+      "Class",
+      "Details/PR",
+      "Jira link",
+      "R&R contacts",
+      "Decision and rationale",
+    ],
+    rows: Array.from({ length: 34 }, (_, i) => [
+      "2026-11-19",
+      "4.1.0",
+      "added, changed",
+      "Add accordion spec (#" +
+        i +
+        ") https://github.com/adobe/spectrum-design-data/pull/" +
+        i,
+      "",
+      "",
+      "",
+    ]),
+  };
+  const sheetLog = {
+    ...sheet,
+    sections: [
+      {
+        key: "anatomy",
+        title: "Anatomy",
+        blocks: [{ ...log, rows: log.rows.slice(0, 5) }],
+      },
+    ],
+  };
+  const root = await renderRoot(sheetLog);
+  const rows = root.findAll((n) => n.name === "Row" || n.name === "Header row");
+  const w = rows[0].children.map((c) => c.width);
+  t.is(
+    w.reduce((a, b) => a + b, 0),
+    960,
+  );
+  t.true(w[0] >= 10 * 7.2 + 16, "date column fits 2026-11-19");
+  t.true(w[1] >= 7 * 7.2 + 16, "version column fits its header");
+  t.true(Math.max(...w) <= 960 * 0.45);
+  for (const r of rows)
+    for (const c of r.children) t.is(c.layoutSizingVertical, "FILL");
+});
+
 test("a sheet without sections renders as before", async (t) => {
   const bare = await renderRoot(withoutSections);
   t.is(names(bare, "Section \u2013 ").length, 0);

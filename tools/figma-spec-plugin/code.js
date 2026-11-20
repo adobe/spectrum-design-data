@@ -598,35 +598,53 @@ function proseBlock(b) {
   return f;
 }
 
-// Column widths weighted by the larger of the header length and the 90th percentile of the
-// cell lengths, clamped to [MIN_COL, 45% of the width] and summing to SECTION_W.
+// Column widths: weighted by the larger of the header length and the 90th percentile of the
+// cell lengths, but never narrower than the longest unbreakable word (7.2px a character plus the
+// 16px cell padding) and never wider than 45% of the width; they sum to SECTION_W.
 function columnWidths(b) {
-  const MIN_COL = 80;
-  const n = Math.max(b.columns.length, 1);
-  const weights = b.columns.map((h, i) => {
-    const lens = b.rows
-      .map((r) => String(r[i] ?? "").length)
-      .sort((x, y) => x - y);
-    const p90 = lens.length ? lens[Math.ceil(lens.length * 0.9) - 1] : 0;
-    return Math.max(String(h).length, p90, 1);
+  const MAX = SECTION_W * 0.45;
+  const pct = (a) => {
+    const s = a.slice().sort((x, y) => x - y);
+    return s.length ? s[Math.ceil(s.length * 0.9) - 1] : 0;
+  };
+  const word = (v) =>
+    String(v ?? "")
+      .split(/\s+/)
+      .reduce((m, x) => Math.max(m, x.length), 0);
+  const cols = b.columns.map((h, i) => {
+    const cells = b.rows.map((r) => String(r[i] ?? ""));
+    return {
+      weight: Math.max(String(h).length, pct(cells.map((x) => x.length)), 1),
+      min: Math.min(
+        Math.ceil(Math.max(word(h), pct(cells.map(word))) * 7.2) + 16,
+        MAX,
+      ),
+    };
   });
-  const total = weights.reduce((x, y) => x + y, 0);
-  let w = weights.map((x) => (x / total) * SECTION_W);
-  const max = SECTION_W * 0.45;
-  for (let pass = 0; pass < 6; pass++) {
-    const fixed = w.map((x) => (x < MIN_COL ? MIN_COL : x > max ? max : null));
-    const free = w.reduce(
-      (s, x, i) => (fixed[i] === null ? s + weights[i] : s),
-      0,
-    );
-    const left = SECTION_W - fixed.reduce((s, x) => s + (x ?? 0), 0);
-    if (!free) break;
-    w = w.map((x, i) =>
-      fixed[i] !== null ? fixed[i] : (weights[i] / free) * left,
-    );
+  const minSum = cols.reduce((s, c) => s + c.min, 0);
+  if (minSum > SECTION_W)
+    cols.forEach((c) => (c.min = (c.min / minSum) * SECTION_W));
+  const w = cols.map(() => null);
+  for (let pass = 0; pass <= cols.length * 2; pass++) {
+    const free = cols.filter((_, i) => w[i] === null);
+    const left = SECTION_W - w.reduce((s, x) => s + (x === null ? 0 : x), 0);
+    const total = free.reduce((s, c) => s + c.weight, 0);
+    let pinned = false;
+    cols.forEach((c, i) => {
+      if (w[i] !== null) return;
+      const x = (c.weight / total) * left;
+      if (x < c.min) ((w[i] = c.min), (pinned = true));
+      else if (x > MAX) ((w[i] = MAX), (pinned = true));
+    });
+    if (!pinned) {
+      cols.forEach((c, i) => {
+        if (w[i] === null) w[i] = (c.weight / total) * left;
+      });
+      break;
+    }
   }
-  const out = w.map(Math.floor);
-  out[n - 1] += SECTION_W - out.reduce((x, y) => x + y, 0);
+  const out = w.map((x) => Math.floor(x ?? 0));
+  out[out.length - 1] += SECTION_W - out.reduce((x, y) => x + y, 0);
   return out;
 }
 
@@ -652,6 +670,7 @@ function tableBlock(b) {
       cell.strokeWeight = 1;
       cell.appendChild(para(c, 13, head ? "Bold" : "Regular", INK, w - 16));
       r.appendChild(cell);
+      cell.layoutSizingVertical = "FILL";
     });
     return r;
   };

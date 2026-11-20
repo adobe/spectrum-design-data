@@ -22,7 +22,7 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 /** `use_figma` accepts 50,000 characters of code; keep a margin for the call wrapper. */
-export const LIMIT = 45000;
+export const LIMIT = 44000;
 
 /** code.js minus the desktop plugin shell and full-line comments. */
 export function coreSource(
