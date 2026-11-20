@@ -24,7 +24,7 @@
     },
     {
       "type": "guideline",
-      "content": "Determines whether the gripper is visible at the top center of the panel. Set to true to hide the gripper when panel dragging is not required."
+      "content": "Determines whether the drag handle is visible at the top center of the panel. Set to true to hide the drag handle when panel dragging is not required."
     },
     {
       "type": "guideline",
@@ -56,7 +56,7 @@
     },
     {
       "type": "guideline",
-      "content": "A standard panel can sometimes be dragged and rearranged, or undocked to become a floating panel. In this case, display the gripper at the top of the panel, then click and drag to detach it."
+      "content": "A standard panel can sometimes be dragged and rearranged, or undocked to become a floating panel. In this case, display the drag handle at the top of the panel, then click and drag to detach it."
     },
     {
       "type": "guideline",
@@ -96,11 +96,11 @@
     },
     {
       "type": "guideline",
-      "content": "Dragging refers to manually moving a panel by clicking and dragging the gripper. This interaction allows users to reposition a panel within the workspace. A dragged panel can be docked into a new location (anchored) or left to float independently. This behavior supports workspace customization, helping users tailor panel placement to fit their workflow. For example, dragging the Tools panel from the left side of Photoshop to float next to the canvas."
+      "content": "Dragging refers to manually moving a panel by clicking and dragging the drag handle. This interaction allows users to reposition a panel within the workspace. A dragged panel can be docked into a new location (anchored) or left to float independently. This behavior supports workspace customization, helping users tailor panel placement to fit their workflow. For example, dragging the Tools panel from the left side of Photoshop to float next to the canvas."
     }
   ],
   "options": {
-    "container": {
+    "type": {
       "type": "string",
       "default": "anchored",
       "values": [
@@ -126,7 +126,7 @@
       "default": "primary",
       "values": [{ "value": "primary" }, { "value": "secondary" }]
     },
-    "hideGripper": { "type": "boolean", "default": false },
+    "hideDragHandle": { "type": "boolean", "default": false },
     "hideCloseButton": { "type": "boolean", "default": false },
     "hideDivider": { "type": "boolean", "default": false }
   },
@@ -135,34 +135,44 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Panel surface.",
+      "description": "Panel surface. Root of the component and host of the default slot.",
       "required": true,
-      "contains": ["gripper", "title", "close-button", "back-button", "divider"]
+      "contains": [
+        "drag-handle",
+        "back-button",
+        "title",
+        "close-button",
+        "divider"
+      ]
     },
     {
-      "name": "gripper",
-      "description": "Drag handle at the top center."
-    },
-    {
-      "name": "title",
-      "description": "Panel title."
-    },
-    {
-      "name": "close-button",
-      "description": "Button in the top corner that dismisses the panel."
+      "name": "drag-handle",
+      "description": "Grip at the top center that moves or undocks the panel (Figma S2_Gripper icon). Shown unless hideDragHandle."
     },
     {
       "name": "back-button",
-      "description": "Optional button that goes back a level."
+      "description": "Optional icon that goes back a level, left of the title."
+    },
+    { "name": "title", "description": "Panel title." },
+    {
+      "name": "close-button",
+      "description": "Button in the top corner that dismisses the panel. Shown unless hideCloseButton."
     },
     {
       "name": "divider",
-      "description": "Line under the title area."
+      "description": "Line under the title area. Shown unless hideDivider."
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web standard panel; relationships name gripper and title. Unsure: section dividers in the With sections variant."
-  }
+    "notes": "Owner decisions (A8, 2026-11-20): explicit root part container; the grip part is drag-handle (the Figma bar-panel layer name; the S2_Gripper icon; the 4 legacy records said gripper and moved to the new part name, legacy output unchanged). The option container (anchored, floating, dragged) is renamed type, the Figma property name, so it no longer shares a name with the part. Figma S2 Web standard panel (10151:8140), .Title + Close button. No React Spectrum or SWC component. The options label, description and value have no S2 source (options pass). Unsure: section dividers in the With sections variant."
+  },
+  "slots": [
+    {
+      "name": "default",
+      "part": "container",
+      "description": "The panel content. With sections, an accordion fills it."
+    }
+  ]
 }

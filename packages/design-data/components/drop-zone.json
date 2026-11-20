@@ -82,38 +82,46 @@
     "onDragLeave": {
       "type": "string",
       "description": "Callback function called when a file is dragged out of the drop zone."
+    },
+    "isFilled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the zone already holds content. With state drag-and-drop it shows the banner that offers to replace it."
     }
   },
   "anatomy": [
     {
       "name": "container",
-      "description": "Dashed bordered area that receives dropped files.",
+      "description": "Dashed bordered area that receives dropped files. Root of the component.",
       "required": true,
-      "contains": ["illustration", "title", "body", "action"]
+      "contains": ["illustration", "title", "description", "button", "banner"]
     },
     {
       "name": "illustration",
       "description": "Drop-to-upload illustration.",
       "required": true
     },
+    { "name": "title", "description": "Title text.", "required": true },
+    { "name": "description", "description": "Description text." },
     {
-      "name": "title",
-      "description": "Title text.",
-      "required": true
+      "name": "button",
+      "description": "Button for choosing a file; shown with actionLabel."
+    },
+    {
+      "name": "banner",
+      "description": "Pill that offers to replace the content (text such as Drop file to replace). Drawn only when isFilled and a file is dragged over (state drag-and-drop).",
+      "presentIn": ["drag-and-drop"]
     },
     {
       "name": "body",
-      "description": "Description text."
-    },
-    {
-      "name": "action",
-      "description": "Button for choosing a file."
+      "description": "Renamed description. Kept only so one archived Spectrum 1 size record still resolves.",
+      "lifecycle": { "deprecatedIn": "1.0.0-draft" }
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (illustration asset, Content, Text, Button). Container border not visible in dump; inferred from the component role."
+    "notes": "Owner decisions (A8, 2026-11-20): the drop zone has its own parts rather than a nested illustrated-message (Figma draws its own); the secondary text part is description (legacy records said body and moved to the new part name, legacy output unchanged); action is renamed button (the toast precedent); the replace pill is a banner part (aliases Drop info, replace message), present when isFilled and state drag-and-drop. presentIn holds the state only: the isFilled half cannot be expressed until presentWhen is built. Figma S2 Web (illustration asset, Content, Text, Button, Drop info); RSP DropZone nests IllustratedMessage and a banner."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
@@ -124,5 +132,6 @@
       { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
       { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
-  }
+  },
+  "states": [{ "name": "drag-and-drop", "trigger": "interaction" }]
 }

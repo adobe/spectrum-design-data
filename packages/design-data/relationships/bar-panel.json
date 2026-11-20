@@ -2,7 +2,7 @@
   {
     "scope": {
       "component": "bar-panel",
-      "part": "gripper",
+      "part": "drag-handle",
       "property": "color"
     },
     "context": "Gripper",
@@ -15,15 +15,14 @@
   {
     "scope": {
       "component": "bar-panel",
-      "part": "gripper",
+      "part": "drag-handle",
       "property": "color",
       "options": {
         "qualifier": "drag"
       }
     },
-    "context": "Gripper (drag)",
+    "context": "Gripper",
     "contextRole": ["gripper"],
-    "contextQualifier": "drag",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
     "uuid": "16431c28-23e4-4077-bcfa-138f90583282",
@@ -32,6 +31,7 @@
   {
     "scope": {
       "component": "bar-panel",
+      "part": "container",
       "property": "maximum-width"
     },
     "context": "Width (maximum)",
@@ -45,6 +45,7 @@
   {
     "scope": {
       "component": "bar-panel",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Width (minimum)",
@@ -73,6 +74,7 @@
   {
     "scope": {
       "component": "bar-panel",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",

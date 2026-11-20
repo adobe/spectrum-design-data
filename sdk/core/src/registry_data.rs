@@ -422,7 +422,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "bar-panel",
       "label": "Bar Panel",
-      "description": "A cross-cutting anatomy sub-part shared by multiple components (e.g. color area, color wheel) rather than a standalone top-level component."
+      "description": "A panel anchored to an edge that holds a bar of actions and a drag handle; also called a toolbar.",
+      "aliases": ["toolbar"]
     },
     {
       "id": "body",
@@ -1172,12 +1173,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "gripper",
-      "label": "Gripper",
-      "description": "Draggable resize handle element (standard-panel)",
-      "usedIn": ["tokens", "s2-docs"]
-    },
-    {
       "id": "illustration",
       "label": "Illustration",
       "description": "Decorative or explanatory illustration within a component",
@@ -1754,8 +1749,9 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "drag-handle",
       "label": "Drag handle",
-      "description": "A grip affordance for reordering an item via drag",
-      "usedIn": ["tokens"]
+      "description": "A grip affordance for dragging: moves a panel or bar (standard-panel, bar-panel) or reorders an item in a list",
+      "aliases": ["gripper"],
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "in-field-stepper",
@@ -1763,6 +1759,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "description": "A stepper control embedded within a field element (e.g. number-field)",
       "usedIn": ["tokens"],
       "aliases": ["stepper"]
+    },
+    {
+      "id": "banner",
+      "label": "Banner",
+      "description": "A pill or strip of text drawn over a component to announce a state (drop-zone replace message); not the alert-banner component",
+      "aliases": ["Drop info", "replace message"],
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "pagination",

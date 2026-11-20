@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "width"
     },
     "context": "Component width",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "spacing"
     },
     "context": "Padding",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "content-maximum-width"
     },
     "context": "Content width (maximum)",
@@ -33,6 +36,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "border-width"
     },
     "context": "Border width",
@@ -43,6 +47,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Corner radius",
@@ -53,6 +58,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "border-dash-length"
     },
     "context": "Border width and corner radius",
@@ -63,6 +69,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "border-dash-gap"
     },
     "context": "Border width and corner radius",
@@ -73,7 +80,11 @@
   {
     "scope": {
       "component": "drop-zone",
-      "property": "spacing"
+      "between": {
+        "from": "illustration",
+        "to": "title"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (illustration to title area)",
     "contextRole": ["spacing"],
@@ -84,7 +95,11 @@
   {
     "scope": {
       "component": "drop-zone",
-      "property": "spacing"
+      "between": {
+        "from": "title",
+        "to": "description"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (title area to body area)",
     "contextRole": ["spacing"],
@@ -95,7 +110,11 @@
   {
     "scope": {
       "component": "drop-zone",
-      "property": "spacing"
+      "between": {
+        "from": "description",
+        "to": "button"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (body area to action)",
     "contextRole": ["spacing"],
@@ -106,61 +125,82 @@
   {
     "scope": {
       "component": "drop-zone",
-      "property": "component-height-300"
+      "part": "banner",
+      "property": "component-height-300",
+      "options": {
+        "isFilled": true
+      }
     },
-    "context": "Text area (filled, hover)",
+    "context": "Text area (hover)",
     "contextRole": ["label"],
-    "contextQualifier": "filled, hover",
+    "contextQualifier": "hover",
     "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
     "uuid": "ac4db542-eee9-55ed-aa57-2e577a2d33f6"
   },
   {
     "scope": {
       "component": "drop-zone",
-      "property": "component-height-300"
+      "part": "banner",
+      "property": "component-height-300",
+      "options": {
+        "isFilled": true
+      }
     },
-    "context": "Text area (filled, hover)",
+    "context": "Text area (hover)",
     "contextRole": ["label"],
-    "contextQualifier": "filled, hover",
+    "contextQualifier": "hover",
     "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
     "uuid": "29245d80-66fa-5d26-9706-70677b3a12b2"
   },
   {
     "scope": {
       "component": "drop-zone",
-      "property": "component-edge-to-text-300"
+      "part": "banner",
+      "property": "component-edge-to-text-300",
+      "options": {
+        "isFilled": true
+      }
     },
-    "context": "Text area (filled, hover)",
+    "context": "Text area (hover)",
     "contextRole": ["label"],
-    "contextQualifier": "filled, hover",
+    "contextQualifier": "hover",
     "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
     "uuid": "e28a5fe3-01c2-50d8-b2ae-8c2da6d8bf70"
   },
   {
     "scope": {
       "component": "drop-zone",
-      "property": "component-edge-to-text-300"
+      "part": "banner",
+      "property": "component-edge-to-text-300",
+      "options": {
+        "isFilled": true
+      }
     },
-    "context": "Text area (filled, hover)",
+    "context": "Text area (hover)",
     "contextRole": ["label"],
-    "contextQualifier": "filled, hover",
+    "contextQualifier": "hover",
     "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
     "uuid": "b9d66f99-b6fe-5cf0-98c7-621ab17c4fe8"
   },
   {
     "scope": {
       "component": "drop-zone",
-      "property": "component-bottom-to-text-300"
+      "part": "banner",
+      "property": "component-bottom-to-text-300",
+      "options": {
+        "isFilled": true
+      }
     },
-    "context": "Text area (filled, hover)",
+    "context": "Text area (hover)",
     "contextRole": ["label"],
-    "contextQualifier": "filled, hover",
+    "contextQualifier": "hover",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "2d1740d5-08c4-59b0-9653-13c55446c875"
   },
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "font-family"
     },
     "context": "Title area and body area",
@@ -171,6 +211,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "font-weight"
     },
     "context": "Title area and body area",
@@ -181,6 +222,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "font-style"
     },
     "context": "Title area and body area",
@@ -191,6 +233,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "font-size"
     },
     "context": "Title area and body area",
@@ -201,7 +244,11 @@
   {
     "scope": {
       "component": "drop-zone",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "script": "cjk"
+      }
     },
     "context": "Title area and body area",
     "contextRole": ["label", "label"],
@@ -211,6 +258,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "line-height"
     },
     "context": "Title area and body area",
@@ -221,6 +269,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "description",
       "property": "font-family"
     },
     "context": "Title area and body area",
@@ -231,6 +280,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "description",
       "property": "font-weight"
     },
     "context": "Title area and body area",
@@ -241,6 +291,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "description",
       "property": "font-style"
     },
     "context": "Title area and body area",
@@ -251,6 +302,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "description",
       "property": "font-size"
     },
     "context": "Title area and body area",
@@ -261,6 +313,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "description",
       "property": "line-height"
     },
     "context": "Title area and body area",
@@ -281,6 +334,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "font-weight"
     },
     "context": "Title area and body area",
@@ -291,6 +345,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "font-size-300"
     },
     "context": "Title area and body area",
@@ -301,6 +356,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "font-size-300"
     },
     "context": "Title area and body area",
@@ -311,6 +367,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "line-height-100"
     },
     "context": "Title area and body area",
@@ -321,6 +378,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "color"
     },
     "context": "Border color",
@@ -331,6 +389,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "color"
     },
     "context": "Border color",
@@ -341,6 +400,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "color"
     },
     "context": "Border color",
@@ -351,6 +411,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "illustration",
       "property": "content-color"
     },
     "context": "Illustration color",
@@ -361,6 +422,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "color"
     },
     "context": "Title and body color",
@@ -370,6 +432,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "description",
       "property": "color"
     },
     "context": "Title and body color",
@@ -379,6 +442,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "color"
     },
     "context": "Border and background color (empty, hover)",
@@ -388,6 +452,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "color"
     },
     "context": "Border and background color (empty, hover)",
@@ -397,6 +462,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "color"
     },
     "context": "Border and background color (empty, hover)",
@@ -406,6 +472,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "color"
     },
     "context": "Border and background color (empty, hover)",
@@ -415,6 +482,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "opacity"
     },
     "context": "Border and background color (empty, hover)",
@@ -424,24 +492,33 @@
   {
     "scope": {
       "component": "drop-zone",
-      "property": "opacity"
+      "part": "banner",
+      "property": "opacity",
+      "options": {
+        "isFilled": true
+      }
     },
-    "context": "Border, background, and text area color (filled, hover)",
+    "context": "Border, background, and text area color (hover)",
     "$ref": "ca70550a-b11a-438f-9c70-ff1eeba532cc",
     "uuid": "ed32e791-16aa-530a-8b32-0a86b2b98104"
   },
   {
     "scope": {
       "component": "drop-zone",
-      "property": "color"
+      "part": "banner",
+      "property": "color",
+      "options": {
+        "isFilled": true
+      }
     },
-    "context": "Border, background, and text area color (filled, hover)",
+    "context": "Border, background, and text area color (hover)",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
     "uuid": "1b7274e4-1a4b-5b75-9aae-3b5b409d9c0f"
   },
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "color",
       "options": {
         "object": "background"
@@ -455,6 +532,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "container",
       "property": "opacity",
       "options": {
         "object": "background"
@@ -468,10 +546,11 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "banner",
       "property": "opacity",
       "options": {
-        "state": ["filled"],
-        "object": "background"
+        "object": "background",
+        "isFilled": true
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -482,13 +561,15 @@
   {
     "scope": {
       "component": "drop-zone",
-      "part": "body",
+      "part": "description",
       "property": "font-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "22f5b08c-2b86-447d-be0b-ed03841dbcfb",
     "uuid": "644593be-82da-4ae4-ae57-fabebd4513ca",
-    "legacyKey": "drop-zone-body-font-size"
+    "legacyKey": "drop-zone-body-font-size",
+    "context": "Title area and body area",
+    "contextRole": ["label", "label"]
   },
   {
     "scope": {
@@ -548,7 +629,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d873db87-9e50-4aef-a9ee-b3b7da6bb44f",
     "uuid": "56fc89be-658e-4c5c-9b8e-7ac6f7d7db75",
-    "legacyKey": "drop-zone-cjk-title-font-size"
+    "legacyKey": "drop-zone-cjk-title-font-size",
+    "context": "Title area and body area",
+    "contextRole": ["label", "label"]
   },
   {
     "scope": {
@@ -587,7 +670,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5a575423-6129-4fcf-93f0-d3eb44096dd5",
     "uuid": "07564dd0-3628-42e1-8a29-253448a8c75f",
-    "legacyKey": "drop-zone-title-font-size"
+    "legacyKey": "drop-zone-title-font-size",
+    "context": "Title area and body area",
+    "contextRole": ["label", "label"]
   },
   {
     "scope": {
