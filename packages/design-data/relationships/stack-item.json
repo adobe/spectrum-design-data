@@ -294,7 +294,7 @@
   {
     "scope": {
       "component": "stack-item",
-      "part": "header",
+      "part": "label",
       "property": "minimum-width",
       "options": {
         "scale": "desktop"
@@ -310,7 +310,7 @@
   {
     "scope": {
       "component": "stack-item",
-      "part": "header",
+      "part": "label",
       "property": "minimum-width",
       "options": {
         "scale": "mobile"

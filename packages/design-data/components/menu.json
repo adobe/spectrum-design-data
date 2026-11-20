@@ -89,104 +89,229 @@
   "options": {
     "container": {
       "type": "string",
-      "values": [{ "value": "popover" }, { "value": "tray" }]
+      "values": [
+        {
+          "value": "popover"
+        },
+        {
+          "value": "tray"
+        }
+      ]
     },
-    "label": { "type": "string" },
-    "icon": {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
-      "description": "Icon must be present if the label is not defined."
-    },
-    "description": { "type": "string" },
-    "value": { "type": "string" },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
     "selectionMode": {
       "type": "string",
       "values": [
-        { "value": "single" },
-        { "value": "multiple" },
-        { "value": "no selection" }
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        },
+        {
+          "value": "no selection"
+        }
       ]
     },
     "selectionStyle": {
       "type": "string",
-      "values": [{ "value": "checkbox" }, { "value": "switch" }]
+      "values": [
+        {
+          "value": "checkbox"
+        },
+        {
+          "value": "switch"
+        }
+      ]
     },
-    "sectionHeader": { "type": "string" },
-    "isCollapsible": { "type": "boolean", "default": false },
-    "isUnavailable": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false }
+    "sectionHeader": {
+      "type": "string"
+    },
+    "isCollapsible": {
+      "type": "boolean",
+      "default": false
+    },
+    "items": {
+      "type": "array",
+      "description": "The menu items, as a flat list.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "icon": {
+            "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+            "description": "Icon must be present if the label is not defined."
+          },
+          "description": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "isUnavailable": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    }
   },
+  "slots": [
+    {
+      "name": "default",
+      "part": "menu-item",
+      "collection": "items",
+      "description": "The menu items. Each entry of the items option is drawn as one copy of the menu-item part. A flat list for now; sections come later."
+    }
+  ],
   "anatomy": [
-    { "name": "item-label", "description": "Label text of a menu item." },
+    {
+      "name": "container",
+      "description": "The menu surface: padding and the gap between items. It is the root.",
+      "required": true,
+      "contains": ["section-header", "menu-item", "section-divider"]
+    },
+    {
+      "name": "section-header",
+      "description": "Heading above a section of items."
+    },
     {
       "name": "menu-item",
-      "description": "A single row within the menu.",
+      "description": "A single row within the menu; repeated once per entry of items.",
+      "required": true,
       "contains": [
+        "checkmark",
+        "checkbox",
+        "switch",
         "icon",
+        "thumbnail",
         "label",
         "description",
         "value",
-        "switch",
-        "checkbox",
-        "thumbnail",
         "drill-in-chevron",
-        "link-out-icon"
+        "link-out-icon",
+        "focus-indicator"
       ]
     },
-    { "name": "icon", "description": "Leading icon of a menu item." },
-    { "name": "label", "description": "Primary label text of a menu item." },
     {
-      "name": "description",
-      "description": "Secondary descriptive text of a menu item."
-    },
-    { "name": "value", "description": "Current value display of a menu item." },
-    {
-      "name": "switch",
-      "description": "Switch control for a menu item with switch selection style."
+      "name": "checkmark",
+      "description": "Check mark that shows an item is selected."
     },
     {
       "name": "checkbox",
       "description": "Checkbox control for a menu item with checkbox selection style."
     },
-    { "name": "thumbnail", "description": "Thumbnail image of a menu item." },
+    {
+      "name": "switch",
+      "description": "Switch control for a menu item with switch selection style."
+    },
+    {
+      "name": "icon",
+      "description": "Leading icon of a menu item."
+    },
+    {
+      "name": "thumbnail",
+      "description": "Thumbnail image of a menu item."
+    },
+    {
+      "name": "label",
+      "description": "Primary label text of a menu item."
+    },
+    {
+      "name": "description",
+      "description": "Secondary descriptive text of a menu item."
+    },
+    {
+      "name": "value",
+      "description": "Current value display of a menu item."
+    },
     {
       "name": "drill-in-chevron",
-      "description": "Chevron indicating a menu item opens a sub-menu."
+      "description": "Non-interactive chevron indicating a menu item opens a sub-menu. The whole item is the target."
     },
     {
       "name": "link-out-icon",
-      "description": "Icon indicating a menu item navigates to a new context."
+      "description": "Non-interactive icon indicating a menu item navigates to a new context."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused item.",
+      "presentIn": ["keyboard-focus"]
     },
     {
       "name": "section-divider",
       "description": "Line separating sections of menu items."
     }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web menu page (Menu, Menu item, Checkmark, Disclosure icon, Action, Menu section header) and React Spectrum S2 Menu.tsx. container added as the root (padding, item gap). item-label deleted (it duplicated label); checkmark, section-header and focus-indicator added. Decision A71 D8 a2: drill-in-chevron and link-out-icon stay non-interactive indicator icons: in Menu.tsx:925-947 both are plain icons in the descriptor area of the item, not buttons. Not verified in Figma: whether the Action group hides a button (no Figma access for this agent). Decision A69 D6a: menu gets a flat items option; label, icon, description, value, isDisabled and isUnavailable moved into the entry schema. The container option (popover or tray) describes the menu, not an item, so it stays on the component."
+  },
   "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "default", "trigger": "prop" },
-    { "name": "disabled", "trigger": "prop" }
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "default",
+      "trigger": "prop"
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "menu",
     "intents": ["select"],
     "focusable": false,
     "keyboardIntents": ["navigate-options", "activate", "dismiss"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

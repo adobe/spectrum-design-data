@@ -518,7 +518,7 @@
   {
     "scope": {
       "component": "segmented-control",
-      "part": "selection",
+      "part": "selection-indicator",
       "property": "border-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
