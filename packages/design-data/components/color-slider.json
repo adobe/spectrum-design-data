@@ -47,43 +47,86 @@
     }
   ],
   "options": {
-    "background": {
-      "type": "string",
-      "description": "This will vary depending on implementation."
-    },
     "channel": {
       "type": "string",
       "default": "hue",
       "description": "Which channel of the color this slider controls. Use 'alpha' for opacity.",
       "values": [
-        { "value": "hue" },
-        { "value": "saturation" },
-        { "value": "lightness" },
-        { "value": "red" },
-        { "value": "green" },
-        { "value": "blue" },
-        { "value": "alpha" }
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        },
+        {
+          "value": "alpha"
+        }
       ]
     },
     "value": {
       "type": "number",
       "description": "Number (from minValue to maxValue)."
     },
-    "minValue": { "type": "number", "default": 0 },
-    "maxValue": { "type": "number", "default": 100 },
-    "step": { "type": "number", "default": 1 },
+    "minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 100
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
-    "length": { "type": "number", "default": 192, "description": "units: px" },
-    "isDisabled": { "type": "boolean", "default": false }
+    "length": {
+      "type": "number",
+      "default": 192,
+      "description": "units: px"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "label": {
+      "type": "string",
+      "description": "The field label text (Figma Show label, RSP label)."
+    }
   },
   "anatomy": [
     {
-      "name": "label",
-      "description": "Field label above the track."
+      "name": "container",
+      "description": "Root: owns the slider's length and minimum length.",
+      "required": true,
+      "contains": ["field-label", "value", "track"]
+    },
+    {
+      "name": "field-label",
+      "description": "The field label component above the track (Figma Field label instance, RSP FieldLabel)."
     },
     {
       "name": "value",
@@ -91,40 +134,67 @@
     },
     {
       "name": "track",
-      "description": "Gradient track holding the handle and checkerboard.",
+      "description": "Track holding the checkerboard, the gradient and the handle; owns thickness, border, radius and the disabled background.",
       "required": true,
-      "contains": ["color-handle", "opacity-checkerboard"]
+      "contains": ["opacity-checkerboard", "fill", "color-handle"]
+    },
+    {
+      "name": "opacity-checkerboard",
+      "description": "Checkerboard behind the gradient so an opacity channel reads. Absent when disabled (Figma); sized m."
+    },
+    {
+      "name": "fill",
+      "description": "The channel gradient drawn over the checkerboard (Figma Color slider fill). Owner decision C5."
     },
     {
       "name": "color-handle",
       "description": "Handle marking the selected channel value.",
       "required": true
-    },
-    {
-      "name": "opacity-checkerboard",
-      "description": "Checkerboard behind the track for opacity channels."
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring); container and focus-indicator dropped, no relationship scope.part names them."
+    "notes": "A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component)."
   },
   "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "slider",
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

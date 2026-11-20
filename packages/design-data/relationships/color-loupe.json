@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "color-loupe",
+      "part": "container",
       "property": "height"
     },
     "context": "Height",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "color-loupe",
+      "part": "container",
       "property": "width"
     },
     "context": "Width",
@@ -22,7 +24,11 @@
   {
     "scope": {
       "component": "color-loupe",
-      "property": "border-width"
+      "part": "container",
+      "property": "border-width",
+      "options": {
+        "position": "outer"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -32,7 +38,11 @@
   {
     "scope": {
       "component": "color-loupe",
-      "property": "border-width"
+      "part": "fill",
+      "property": "border-width",
+      "options": {
+        "position": "inner"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -42,16 +52,7 @@
   {
     "scope": {
       "component": "color-loupe",
-      "property": "space-between"
-    },
-    "context": "Spacing",
-    "contextRole": ["spacing"],
-    "$ref": "92beba60-f61d-426a-a864-203dca7244a0",
-    "uuid": "836ba9d4-48c8-5769-b8df-fbad86c055f2"
-  },
-  {
-    "scope": {
-      "component": "color-loupe",
+      "part": "container",
       "property": "x"
     },
     "context": "Shadows",
@@ -62,6 +63,7 @@
   {
     "scope": {
       "component": "color-loupe",
+      "part": "container",
       "property": "y"
     },
     "context": "Shadows",
@@ -72,6 +74,7 @@
   {
     "scope": {
       "component": "color-loupe",
+      "part": "container",
       "property": "blur"
     },
     "context": "Shadows",
@@ -82,7 +85,12 @@
   {
     "scope": {
       "component": "color-loupe",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "position": "outer"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -92,38 +100,14 @@
   {
     "scope": {
       "component": "color-loupe",
-      "property": "x"
+      "part": "container",
+      "property": "color",
+      "attribute": "shadow"
     },
-    "context": "S1 Shadows",
-    "$ref": "81415747-aa3f-4ef3-b0bc-7c33f07a4316",
-    "uuid": "9abcbd82-7cac-504e-89ad-cb629b5c3d11"
-  },
-  {
-    "scope": {
-      "component": "color-loupe",
-      "property": "y"
-    },
-    "context": "S1 Shadows",
-    "$ref": "c9af5d60-11b1-4fc3-972e-6a607120657b",
-    "uuid": "ce6629c2-2e2c-59ce-b732-9780555cb98d"
-  },
-  {
-    "scope": {
-      "component": "color-loupe",
-      "property": "blur"
-    },
-    "context": "S1 Shadows",
-    "$ref": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d",
-    "uuid": "9d2357d2-8dda-57d1-9f03-33ad51ab49a3"
-  },
-  {
-    "scope": {
-      "component": "color-loupe",
-      "property": "color"
-    },
-    "context": "S1 Shadows",
+    "context": "Shadows",
     "$ref": "e475981f-97af-479c-859b-7619dd87c448",
-    "uuid": "53eff591-e021-5919-905d-a3ce0c3f1326"
+    "uuid": "53eff591-e021-5919-905d-a3ce0c3f1326",
+    "contextRole": ["shadow"]
   },
   {
     "scope": {
@@ -178,7 +162,9 @@
   {
     "scope": {
       "component": "color-loupe",
+      "part": "fill",
       "property": "color",
+      "attribute": "border",
       "options": {
         "position": "inner",
         "object": "border"
@@ -194,7 +180,9 @@
   {
     "scope": {
       "component": "color-loupe",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "position": "outer",
         "object": "border"
@@ -203,7 +191,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
     "uuid": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca",
-    "legacyKey": "color-loupe-outer-border"
+    "legacyKey": "color-loupe-outer-border",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -238,6 +228,7 @@
   {
     "scope": {
       "component": "color-loupe",
+      "part": "fill",
       "property": "border-width",
       "options": {
         "position": "inner"
@@ -246,11 +237,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "b3900f89-0a7a-4c47-a6d9-ca8aa19b9bfb",
-    "legacyKey": "color-loupe-inner-border-width"
+    "legacyKey": "color-loupe-inner-border-width",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-loupe",
+      "part": "container",
       "property": "border-width",
       "options": {
         "position": "outer"
@@ -259,7 +253,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "51cd5039-1319-451a-b13f-bb3a218238a5",
-    "legacyKey": "color-loupe-outer-border-width"
+    "legacyKey": "color-loupe-outer-border-width",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {

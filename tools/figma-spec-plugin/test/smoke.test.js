@@ -875,7 +875,7 @@ test("rings, stroke opacity and text underlines in a scene are drawn", async (t)
       .find((b) => b.render?.scene?.nodes.some(pred));
     return { s, block };
   };
-  // Swatch: the 1px border is drawn at 0.42 alpha.
+  // Swatch: the 1px border (a container stroke) is drawn at 0.42 alpha.
   const sw = found("swatch", (n) => n.stroke_opacity !== undefined);
   t.truthy(sw.block, "a swatch block with a translucent border");
   let m = mock();
@@ -885,7 +885,7 @@ test("rings, stroke opacity and text underlines in a scene are drawn", async (t)
     pages: ["Layout"],
   });
   const border = m.page.findAll(
-    (n) => n.name === "border" && n.strokes?.length,
+    (n) => n.name === "container.border" && n.strokes?.length,
   );
   t.true(border.length > 0);
   t.true(border.some((n) => Math.abs(n.strokes[0].opacity - 0.42) < 1e-6));
