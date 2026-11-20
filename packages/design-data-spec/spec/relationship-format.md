@@ -126,6 +126,24 @@ To keep `packages/tokens/src` (the legacy generated output, produced by `design-
 
 These fields are transitional. Once the legacy generator (or its replacement) reads CTRs directly, `legacyKey`/`setUuid`/`setSchema` are expected to be removed in a later spec version.
 
+## Type-style records
+
+A **type-style record** gives a component part its type style. Its `scope.property` is `type-style` and its `$ref` is a typography composite (`token-types/typography.json`, for example `component-m-regular`). The composite keeps its own `name.property` of `typography`: the record's property names the use, the token's names the kind, so the two **MAY** differ and a reader **MUST NOT** assume they are equal.
+
+```json
+{
+  "scope": { "component": "text-field", "part": "label", "property": "type-style" },
+  "context": "Label",
+  "$ref": "<uuid of component-m-regular>"
+}
+```
+
+* **Size.** The record is chosen by the composite's `name.size`, so there is one record per style size and `options` stays empty when the host size equals the style size. `options.size` is pinned only when the host size differs from the style size; a pin bypasses the size filter of resolution.
+* **Weight.** Weight is never a record option. It comes from the composite. A weight that changes with a component option (a standalone link) is a record that pins that option.
+* **Values.** A reader resolves the composite's inner `{alias}` sub-values in the requested mode (see [Token format: Inline alias references](token-format.md#inline-alias-references)): the same record gives different `fontSize` and `lineHeight` under `scale: desktop` and `scale: mobile`.
+* **Precedence (recipes).** A recipe that binds a font axis itself (`fontSize`, `fontWeight`, `fontFamily`, `lineHeight`) overrides that axis of the type style. This is a rule of the recipe, not of the token cascade, so it does not breach the rule that a composite's sub-values never override independently ([Token format](token-format.md#inline-alias-references)).
+* **Validation.** SPEC-105 (warning) checks that `type-style` and a typography `$ref` go together, that the size is declared, and that every inner alias resolves in every `scale` mode.
+
 ## Relationship to `componentBindings`
 
 The component-level `tokenBindings` field was removed; relationships are the only place a component declares which tokens it uses. The token-side `componentBindings` reverse index (see [token-format.md#component-bindings](token-format.md#component-bindings)) is derivable from relationships.
@@ -156,3 +174,4 @@ The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) b
 | SPEC-099 | `relationship-any-of-legacy-key`            | error    | A relationship that uses an any-of **MUST NOT** carry a `legacyKey`.                                                                                                                                                                               |
 | SPEC-100 | `relationship-options-mergeable`            | warning  | Records that differ only in one declared option's value **SHOULD** be merged into one record that pins an array.                                                                                                                                   |
 | SPEC-101 | `relationship-scope-vocabulary`             | warning  | `scope.attribute`, `scope.between`, `scope.object`, `scope.position`, `scope.structure`, `scope.qualifier` and `scope.icon` values **SHOULD** exist in their registry vocabulary.                                                                  |
+| SPEC-105 | `type-style-ref-composite`                  | warning  | A `type-style` record **MUST** `$ref` a typography composite, a typography `$ref` **MUST** have that property, the size **MUST** be declared, and every inner alias **MUST** resolve in every `scale` mode.                                        |

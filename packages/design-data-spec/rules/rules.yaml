@@ -1435,3 +1435,22 @@ rules:
     message: "Slot '{slot}' of '{component}' names part '{part}', which is not a declared anatomy part"
     spec_ref: spec/component-format.md#slots
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-105
+    name: type-style-ref-composite
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      A type-style record is a relationship with `property: type-style` whose `$ref` is a typography
+      composite. Deprecated records are skipped. The inner-alias check runs once per composite a
+      type-style record references.
+    assert: >
+      A relationship with `scope.property` `type-style` MUST `$ref`, through its alias chain, a token
+      whose `$schema` is `token-types/typography.json`, and a relationship whose `$ref` is such a
+      composite MUST have that property. A pinned `scope.options.size` MUST be a size the component
+      declares; without a pin the composite's `name.size` MUST be a declared size, or the record can
+      never be chosen. Every inner `{alias}` of the composite MUST resolve in every `scale` mode.
+    message: "A 'type-style' relationship must $ref a typography composite, but '{token}' is not one"
+    spec_ref: spec/relationship-format.md#type-style-records
+    introduced_in: "1.0.0-draft"

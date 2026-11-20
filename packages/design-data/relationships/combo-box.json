@@ -1966,7 +1966,7 @@
     "scope": {
       "component": "combo-box",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1977,7 +1977,7 @@
     "scope": {
       "component": "combo-box",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1988,7 +1988,7 @@
     "scope": {
       "component": "combo-box",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1999,7 +1999,7 @@
     "scope": {
       "component": "combo-box",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2120,7 +2120,7 @@
     "scope": {
       "component": "combo-box",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2131,7 +2131,7 @@
     "scope": {
       "component": "combo-box",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2142,7 +2142,7 @@
     "scope": {
       "component": "combo-box",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2153,7 +2153,7 @@
     "scope": {
       "component": "combo-box",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],

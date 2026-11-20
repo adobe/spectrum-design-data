@@ -2330,7 +2330,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2341,7 +2341,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2352,7 +2352,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2363,7 +2363,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -2484,7 +2484,7 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2495,7 +2495,7 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2506,7 +2506,7 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -2517,7 +2517,7 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],

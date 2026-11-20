@@ -1,0 +1,104 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "property": "typography",
+        "size": "m",
+        "legacyKey": "component-m-regular"
+      },
+      "value": {
+        "fontSize": "{font-size-100}",
+        "fontWeight": "{regular-font-weight}"
+      },
+      "uuid": "aaaaaaaa-0105-4000-8000-000000000001",
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json"
+    },
+    {
+      "name": {
+        "property": "typography",
+        "size": "xs",
+        "legacyKey": "component-xs-regular"
+      },
+      "value": {
+        "fontSize": "{font-size-100}"
+      },
+      "uuid": "aaaaaaaa-0105-4000-8000-000000000002",
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json"
+    },
+    {
+      "name": {
+        "property": "font-size",
+        "scale": "desktop",
+        "legacyKey": "font-size-100"
+      },
+      "value": "14px",
+      "uuid": "aaaaaaaa-0105-4000-8000-000000000003"
+    },
+    {
+      "name": {
+        "property": "font-weight",
+        "legacyKey": "regular-font-weight"
+      },
+      "value": "400",
+      "uuid": "aaaaaaaa-0105-4000-8000-000000000004"
+    },
+    {
+      "name": {
+        "property": "background-color",
+        "legacyKey": "bg"
+      },
+      "value": "#fff",
+      "uuid": "aaaaaaaa-0105-4000-8000-000000000005"
+    }
+  ],
+  "relationships": [
+    {
+      "scope": {
+        "component": "text-field",
+        "property": "type-style"
+      },
+      "context": "Label",
+      "$ref": "aaaaaaaa-0105-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0105-4000-8000-000000000101"
+    },
+    {
+      "scope": {
+        "component": "text-field",
+        "property": "type-style",
+        "options": {
+          "size": "l"
+        }
+      },
+      "context": "Label",
+      "$ref": "aaaaaaaa-0105-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0105-4000-8000-000000000102"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/text-field.json",
+      "name": "text-field",
+      "displayName": "Text field",
+      "meta": {
+        "category": "inputs"
+      },
+      "options": {
+        "size": {
+          "type": "string",
+          "default": "m",
+          "values": [
+            {
+              "value": "s"
+            },
+            {
+              "value": "m"
+            },
+            {
+              "value": "l"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

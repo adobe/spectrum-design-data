@@ -15,6 +15,7 @@ use design_data_core::derived;
 use design_data_core::graph::TokenGraph;
 use design_data_core::naming;
 use design_data_core::text_metrics::TextMetrics;
+use design_data_core::typography;
 use design_data_core::visual::{self, RenderRequest};
 use miette::{IntoDiagnostic, WrapErr};
 use serde_json::{json, Map, Value};
@@ -99,6 +100,46 @@ fn record_token<'a>(graph: &'a TokenGraph, raw: &'a Value) -> Option<&'a Value> 
     }
 }
 
+/// A typography composite's resolved sub-values as row values: one `value` entry, or a
+/// `desktop`/`mobile` entry per `scale` mode when they differ. `None` for any other token.
+fn composite_entries(graph: &TokenGraph, tok: &Value) -> Option<Vec<(String, Value)>> {
+    let record = graph.resolve_alias_key(s(tok, "uuid")?)?;
+    let modes: Vec<String> = graph
+        .mode_sets
+        .iter()
+        .find(|m| m.name == "scale")
+        .map(|m| m.modes.clone())
+        .unwrap_or_default();
+    let by_mode = |mode: Option<&String>| {
+        let ctx = mode
+            .map(|m| ("scale".to_string(), m.clone()))
+            .into_iter()
+            .collect();
+        let u = typography::unpack(graph, record, &ctx)?;
+        let mut out = Map::new();
+        for (key, sub) in [
+            ("fontFamily", u.font_family),
+            ("fontSize", u.font_size),
+            ("fontWeight", u.font_weight),
+            ("lineHeight", u.line_height),
+            ("letterSpacing", u.letter_spacing),
+        ] {
+            if let Some(sub) = sub {
+                out.insert(key.to_string(), sub.value.unwrap_or(Value::Null));
+            }
+        }
+        Some(Value::Object(out))
+    };
+    let styles: Vec<(String, Value)> = modes
+        .iter()
+        .map(|m| Some((m.clone(), by_mode(Some(m))?)))
+        .collect::<Option<_>>()?;
+    if styles.windows(2).all(|w| w[0].1 == w[1].1) {
+        return Some(vec![("value".to_string(), by_mode(None)?)]);
+    }
+    Some(styles)
+}
+
 /// Block title for a record without a context: its relationship property, as words.
 fn property_title(property: &str) -> String {
     let words = property.replace('-', " ");
@@ -122,12 +163,12 @@ fn terminal_schema(graph: &TokenGraph, raw: &Value) -> String {
 }
 
 /// Relationship properties that document type: font tokens and line-height multipliers
-/// (a multiplier token has no font schema, so the property decides).
+/// (a multiplier token has no font schema, so the property decides) and type styles.
 fn is_typography_property(property: &str) -> bool {
     ["font-", "line-height", "cjk-line-height"]
         .iter()
         .any(|p| property.starts_with(p))
-        || property == "typography"
+        || property == "type-style"
 }
 
 fn page_for(schema: &str, static_color: Option<&str>, property: &str) -> &'static str {
@@ -137,7 +178,10 @@ fn page_for(schema: &str, static_color: Option<&str>, property: &str) -> &'stati
             Some("black") => "Color (static black)",
             _ => "Color",
         }
-    } else if schema.contains("font") || is_typography_property(property) {
+    } else if schema.contains("font")
+        || schema.ends_with(typography::COMPOSITE_SCHEMA_SUFFIX)
+        || is_typography_property(property)
+    {
         "Typography"
     } else {
         "Layout"
@@ -694,6 +738,8 @@ impl Ctx<'_> {
                     let target = s(tok, "$ref").and_then(|t| lookup(self.graph, t));
                     json!({"alias": target.map(|t| token_name(t, prop))})
                 });
+                let entries =
+                    composite_entries(self.graph, tok).unwrap_or_else(|| vec![(scale, value)]);
                 if let Some(it) = items.iter_mut().find(|i| {
                     i.size == size
                         && i.states == states
@@ -701,7 +747,7 @@ impl Ctx<'_> {
                         && i.concept == concept
                         && i.property == prop
                 }) {
-                    it.values.insert(scale, value);
+                    it.values.extend(entries);
                     it.records += counted;
                     continue;
                 }
@@ -727,7 +773,7 @@ impl Ctx<'_> {
                     name,
                     uuid: s(r, "$ref").map(String::from),
                     property: prop.to_string(),
-                    values: Map::from_iter([(scale, value)]),
+                    values: Map::from_iter(entries),
                 });
             }
         }

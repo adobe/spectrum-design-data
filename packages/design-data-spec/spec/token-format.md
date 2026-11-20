@@ -339,6 +339,8 @@ Within a composite value, a string sub-value **MAY** be an **inline alias**: a r
 
 **NORMATIVE:** In legacy format, inline aliases use the syntax `{token-name}` (curly-brace-wrapped token property name). In cascade format, top-level `$ref` aliases use a UUID (canonical, rename-proof); inline composite aliases within `value` objects remain `{token-name}` for backward compatibility. UUID-based inline composite aliases are reserved for a future spec version.
 
+**NORMATIVE:** An inline alias is a legacy name, and a legacy name can name several tokens that differ by mode (`font-size-100` has a `desktop` and a `mobile` row). A reader **MUST** resolve an inner alias in the requested mode context, picking the row that matches each declared mode set and the default row for a mode set the request leaves out. Resolving it once, to the default row, and reusing that for every mode is wrong. A typography composite used by a [type-style record](relationship-format.md#type-style-records) is read this way.
+
 **NORMATIVE:** Inline aliases within composite values are subject to alias resolution rules. Validators **MUST** resolve inline aliases and report errors for missing targets (SPEC-014), type mismatches (SPEC-015), and circular references (SPEC-003, extended).
 
 ## Component bindings

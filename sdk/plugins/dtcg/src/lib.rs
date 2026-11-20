@@ -71,6 +71,7 @@ use serde_json::{Map, Value};
 
 use design_data_core::graph::{TokenGraph, TokenRecord};
 use design_data_core::naming::extract_legacy_key;
+use design_data_core::typography;
 
 /// Build a flat, single-token DTCG document from a resolved token.
 ///
@@ -270,6 +271,18 @@ fn resolve_inline(
     let Some(inner) = s.strip_prefix('{').and_then(|s| s.strip_suffix('}')) else {
         return value.clone();
     };
+    // An inner alias is a legacy name; `resolve_alias_in_context` only switches mode rows by
+    // concept, so it would give the default row under every scale. `resolve_reference` scores
+    // the mode rows against the context.
+    if let Some(c) = ctx {
+        if let Some(v) = typography::resolve_sub_value(graph, value, c).value {
+            let leaf_type = graph
+                .resolve_alias_key(inner)
+                .map(|t| t.resolve_leaf(graph))
+                .and_then(|t| schema_to_dtcg_type(t.schema_url.as_deref()));
+            return convert_value(&v, leaf_type, graph, ctx);
+        }
+    }
     let target = match ctx {
         Some(c) => graph.resolve_alias_in_context(inner, c),
         None => graph.resolve_alias_key(inner),
@@ -624,6 +637,51 @@ mod tests {
             desktop_doc["component-l-bold"]["$value"]["fontSize"]["value"],
             16.0
         );
+    }
+
+    #[test]
+    fn in_context_composite_resolves_legacy_name_alias_by_scale() {
+        // The real composites alias a legacy name (`{font-size-100}`), not a concept id, and the
+        // scale rows share no concept: the default row used to win under every scale.
+        let row = |id: &str, scale: &str, value: &str| {
+            record(
+                id,
+                "font-size.json",
+                serde_json::json!({
+                    "name": {"property": "font-size", "legacyKey": "font-size-100", "scale": scale},
+                    "value": value,
+                }),
+            )
+        };
+        let desktop = row("fs-desktop", "desktop", "14px");
+        let mobile = row("fs-mobile", "mobile", "17px");
+        let typography = record(
+            "component-m-regular",
+            "typography.json",
+            serde_json::json!({
+                "name": {"property": "typography", "legacyKey": "component-m-regular"},
+                "value": {"fontSize": "{font-size-100}", "fontWeight": "regular"},
+            }),
+        );
+        let graph = TokenGraph::from_pairs(
+            [&desktop, &mobile, &typography]
+                .iter()
+                .map(|r| (r.name.clone(), r.file.clone(), r.raw.clone()))
+                .collect(),
+        );
+        let size = |scale: &str| {
+            let ctx = HashMap::from([("scale".to_string(), scale.to_string())]);
+            token_to_dtcg_document_in_context(&graph, &typography, &ctx)["component-m-regular"]
+                ["$value"]["fontSize"]["value"]
+                .clone()
+        };
+        let ctx = HashMap::from([("scale".to_string(), "mobile".to_string())]);
+        eprintln!(
+            "{}",
+            token_to_dtcg_document_in_context(&graph, &typography, &ctx)
+        );
+        assert_eq!(size("mobile"), 17.0);
+        assert_eq!(size("desktop"), 14.0);
     }
 
     #[test]

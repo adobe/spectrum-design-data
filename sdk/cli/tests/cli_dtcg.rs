@@ -124,3 +124,30 @@ fn resolve_format_dtcg_output_is_valid_json_pretty_printed() {
     assert_eq!(token["$type"], "number");
     assert!(token["$value"].is_number());
 }
+
+#[test]
+fn export_dtcg_resolves_composite_inner_aliases_by_scale() {
+    // The composite's `{font-size-300}`-style aliases name rows that differ by `scale`; the
+    // mobile export used to repeat the desktop row (18px, not 22px, for component-xl-medium).
+    let size_in = |scale: &str| {
+        let out = Command::cargo_bin("design-data")
+            .expect("binary design-data")
+            .args([
+                "export",
+                tokens_dir().to_str().expect("utf8 path"),
+                "--scale",
+                scale,
+                "--format",
+                "dtcg",
+            ])
+            .assert()
+            .success()
+            .get_output()
+            .stdout
+            .clone();
+        let doc: serde_json::Value = serde_json::from_slice(&out).expect("valid JSON");
+        doc["component-xl-medium"]["$value"]["fontSize"]["value"].clone()
+    };
+    assert_eq!(size_in("desktop"), 18.0);
+    assert_eq!(size_in("mobile"), 22.0);
+}
