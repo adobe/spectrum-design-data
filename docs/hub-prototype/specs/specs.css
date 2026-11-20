@@ -208,3 +208,80 @@ table.index td {
 .links small {
   color: #666;
 }
+.section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.section-nav a {
+  color: inherit;
+  font-size: 13px;
+}
+.spec-section {
+  margin-top: 48px;
+  scroll-margin-top: 80px;
+}
+.spec-section h2 {
+  font-size: 32px;
+  margin: 0 0 16px;
+}
+.section-block {
+  margin-bottom: 24px;
+}
+table.grid {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+table.grid th,
+table.grid td {
+  border: 1px solid #e1e1e1;
+  padding: 6px 8px;
+  text-align: left;
+}
+table.grid th {
+  background: #f5f5f5;
+}
+.do-dont {
+  display: flex;
+  gap: 16px;
+}
+.do-dont > div {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+}
+.do-dont .do {
+  background: #e6f7e6;
+}
+.do-dont .dont {
+  background: #fdebeb;
+}
+.gallery {
+  display: grid;
+  gap: 16px;
+}
+.gallery figure {
+  margin: 0;
+}
+.gallery svg {
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+.gallery figcaption {
+  font-size: 11px;
+  color: #666;
+}
+.placeholder {
+  border: 1px dashed #666;
+  border-radius: 8px;
+  padding: 16px;
+}
+.placeholder p {
+  margin: 8px 0 0;
+  color: #666;
+}
+.badge.manual {
+  background: #666;
+  color: #fff;
+}

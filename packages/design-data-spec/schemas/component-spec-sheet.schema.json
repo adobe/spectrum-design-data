@@ -35,10 +35,145 @@
     "pages": {
       "type": "array",
       "items": { "$ref": "#/$defs/page" }
+    },
+    "sections": {
+      "description": "Non-measurement template sections (Anatomy, Usage guidelines, ...) in template order, one entry per section. The generator emits every section; those the data cannot back yet hold a placeholder block. Optional so sheets written before sections existed still validate.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/section" }
     }
   },
   "additionalProperties": false,
   "$defs": {
+    "sectionKey": {
+      "enum": [
+        "anatomy",
+        "usage",
+        "states",
+        "accessibility",
+        "decision-log",
+        "how-to-use",
+        "feedback"
+      ]
+    },
+    "section": {
+      "type": "object",
+      "required": ["key", "title", "blocks"],
+      "properties": {
+        "key": { "$ref": "#/$defs/sectionKey" },
+        "title": { "type": "string" },
+        "blocks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sectionBlock" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "sectionBlock": {
+      "description": "A non-measurement block, discriminated by kind. Beside, not inside, the measurement `block` def.",
+      "oneOf": [
+        { "$ref": "#/$defs/proseBlock" },
+        { "$ref": "#/$defs/tableBlock" },
+        { "$ref": "#/$defs/galleryBlock" },
+        { "$ref": "#/$defs/placeholderBlock" }
+      ]
+    },
+    "proseBlock": {
+      "type": "object",
+      "required": ["kind", "id", "section", "title"],
+      "properties": {
+        "kind": { "const": "prose" },
+        "id": { "type": "string" },
+        "section": { "$ref": "#/$defs/sectionKey" },
+        "title": { "type": "string" },
+        "paragraphs": { "type": "array", "items": { "type": "string" } },
+        "bullets": { "type": "array", "items": { "type": "string" } },
+        "do": { "type": "array", "items": { "type": "string" } },
+        "dont": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "tableBlock": {
+      "type": "object",
+      "required": ["kind", "id", "section", "title", "columns", "rows"],
+      "properties": {
+        "kind": { "const": "table" },
+        "id": { "type": "string" },
+        "section": { "$ref": "#/$defs/sectionKey" },
+        "title": { "type": "string" },
+        "columns": { "type": "array", "items": { "type": "string" } },
+        "rows": {
+          "description": "Rows of text cells, one cell per column.",
+          "type": "array",
+          "items": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "additionalProperties": false
+    },
+    "galleryBlock": {
+      "type": "object",
+      "required": [
+        "kind",
+        "id",
+        "section",
+        "title",
+        "columns",
+        "cell",
+        "items"
+      ],
+      "properties": {
+        "kind": { "const": "gallery" },
+        "id": { "type": "string" },
+        "section": { "$ref": "#/$defs/sectionKey" },
+        "title": { "type": "string" },
+        "caption": { "type": "string" },
+        "columns": {
+          "description": "Cells per row.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "cell": {
+          "description": "Size of one cell in px; each item's render.view fits its scene into it.",
+          "type": "object",
+          "required": ["width", "height"],
+          "properties": {
+            "width": { "type": "number" },
+            "height": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["title", "render"],
+            "properties": {
+              "title": { "type": "string" },
+              "render": {
+                "description": "A render request and its scene, as on a measurement block, without measurements or markers.",
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "placeholderBlock": {
+      "type": "object",
+      "required": ["kind", "id", "section", "title", "hint"],
+      "properties": {
+        "kind": { "const": "placeholder" },
+        "id": { "type": "string" },
+        "section": { "$ref": "#/$defs/sectionKey" },
+        "title": { "type": "string" },
+        "hint": {
+          "description": "What goes here and that it is filled in by hand.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
     "page": {
       "type": "object",
       "required": ["title", "blocks"],

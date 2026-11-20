@@ -4,6 +4,8 @@
 // svg (`spec-sheet --svg`) with marks drawn from its scene; this file converts scene coordinates
 // to screen space, and computes no layout of its own.
 
+import { renderSections, sectionNav } from "./sections.js";
+
 const esc = (s) =>
   String(s ?? "").replace(
     /[&<>"]/g,
@@ -238,6 +240,15 @@ document
     (e) => e.target.matches("button") && renderPage(e.target.textContent),
   );
 renderChangelog();
+// A sheet without `sections` (older build) shows nothing extra.
+if (sheet.sections?.length) {
+  document.getElementById("sections").innerHTML = renderSections(
+    sheet.sections,
+  );
+  const nav = document.getElementById("section-nav");
+  nav.innerHTML = sectionNav(sheet.sections);
+  nav.hidden = false;
+}
 if (sheet.pages.length === 0)
   document.getElementById("blocks").innerHTML =
     "<p>No relationship records with a context and a token yet, so this sheet has no blocks.</p>";

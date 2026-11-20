@@ -20,6 +20,8 @@ use design_data_core::visual::{self, RenderRequest};
 use miette::{IntoDiagnostic, WrapErr};
 use serde_json::{json, Map, Value};
 
+mod sections;
+
 const PAGE_ORDER: [&str; 5] = [
     "Layout",
     "Typography",
@@ -34,6 +36,11 @@ const BLOCK_H: f64 = 360.0;
 const MARGIN_X: f64 = 200.0;
 const MARGIN_Y: f64 = 160.0;
 const MAX_SCALE: f64 = 5.0;
+/// Gallery cells: a variants-board cell, and the multi-item specimen.
+const CELL_W: f64 = 224.0;
+const CELL_H: f64 = 120.0;
+const SPECIMEN_W: f64 = 480.0;
+const SPECIMEN_H: f64 = 320.0;
 
 /// The `prop` of a highlight that comes from a recipe's `derived` entry.
 const DERIVED: &str = "derived";
@@ -651,9 +658,29 @@ impl Ctx<'_> {
         options: &Map<String, Value>,
         states: Vec<String>,
     ) -> miette::Result<Value> {
+        self.render_in(
+            recipe,
+            options,
+            states,
+            self.size,
+            (BLOCK_W, BLOCK_H),
+            (BLOCK_W - MARGIN_X, BLOCK_H - MARGIN_Y),
+        )
+    }
+
+    /// Renders into a `bx` box, fitting the scene into `fit` (the box less the room for marks).
+    fn render_in(
+        &self,
+        recipe: &Value,
+        options: &Map<String, Value>,
+        states: Vec<String>,
+        size: &str,
+        bx: (f64, f64),
+        fit: (f64, f64),
+    ) -> miette::Result<Value> {
         let req = RenderRequest {
             component: self.component.to_string(),
-            size: self.size.to_string(),
+            size: size.to_string(),
             states,
             options: options
                 .iter()
@@ -672,14 +699,14 @@ impl Ctx<'_> {
         let scene = visual::build_scene_cached(self.graph, recipe, &req, &self.scenes)
             .map_err(|e| miette::miette!(e))?;
         // Fit the scene into the block once, so renderers only apply this view.
-        let scale = ((BLOCK_W - MARGIN_X) / scene.width)
-            .min((BLOCK_H - MARGIN_Y) / scene.height)
+        let scale = (fit.0 / scene.width)
+            .min(fit.1 / scene.height)
             .min(MAX_SCALE);
         let mut render = json!({
             "view": {
                 "scale": scale,
-                "x": (BLOCK_W - scene.width * scale) / 2.0,
-                "y": (BLOCK_H - scene.height * scale) / 2.0,
+                "x": (bx.0 - scene.width * scale) / 2.0,
+                "y": (bx.1 - scene.height * scale) / 2.0,
             },
             "request": {
                 "component": req.component,
@@ -695,6 +722,119 @@ impl Ctx<'_> {
             render["svg"] = json!(visual::scene_to_svg(&scene));
         }
         Ok(render)
+    }
+
+    /// Anatomy galleries for a recipe: a stack of items with several expanded when the component
+    /// declares an `items` array and an `isMultiple` option, and the size x density x quiet
+    /// board when it declares all three of those options.
+    fn galleries(&self, recipe: &Value) -> miette::Result<Vec<Value>> {
+        let Some(declared) = self
+            .graph
+            .components
+            .iter()
+            .find(|c| c.name == self.component)
+            .and_then(|c| c.raw.get("options"))
+            .and_then(Value::as_object)
+        else {
+            return Ok(Vec::new());
+        };
+        let values = |name: &str| -> Vec<Value> {
+            declared
+                .get(name)
+                .and_then(|o| o.get("values"))
+                .and_then(Value::as_array)
+                .map(|vs| {
+                    vs.iter()
+                        .map(|v| v.get("value").unwrap_or(v).clone())
+                        .collect()
+                })
+                .unwrap_or_default()
+        };
+        let is_type =
+            |name: &str, ty: &str| declared.get(name).and_then(|o| s(o, "type")) == Some(ty);
+        let mut out = Vec::new();
+        if is_type("items", "array") && is_type("isMultiple", "boolean") {
+            let items: Vec<Value> = ["One", "Two", "Three", "Four", "Five"]
+                .iter()
+                .enumerate()
+                .map(|(i, n)| {
+                    json!({
+                        "label": format!("Item {}", n.to_lowercase()),
+                        "content": "Content",
+                        "isExpanded": matches!(i, 0 | 1 | 3),
+                    })
+                })
+                .collect();
+            let mut options = Map::new();
+            options.insert("isMultiple".into(), json!(true));
+            options.insert("items".into(), json!(items));
+            let render = self.render_in(
+                recipe,
+                &options,
+                Vec::new(),
+                self.size,
+                (SPECIMEN_W, SPECIMEN_H),
+                (SPECIMEN_W - 32.0, SPECIMEN_H - 32.0),
+            )?;
+            out.push(json!({
+                "kind": "gallery", "id": "anatomy--specimen", "section": "anatomy",
+                "title": "Multi-item specimen", "columns": 1,
+                "caption": "Five items, three expanded by default (items[].isExpanded). isMultiple lets several items stay open at once: allow-multiple on swc-accordion, allowsMultipleExpanded in React Spectrum.",
+                "cell": {"width": SPECIMEN_W, "height": SPECIMEN_H},
+                "items": [gallery_item("Items one, two and four expanded", render)],
+            }));
+        }
+        if is_type("size", "string")
+            && is_type("density", "string")
+            && is_type("isQuiet", "boolean")
+        {
+            let mut items = Vec::new();
+            for size in values("size") {
+                for density in values("density") {
+                    for quiet in [false, true] {
+                        let mut options = Map::new();
+                        options.insert("size".into(), size.clone());
+                        options.insert("density".into(), density.clone());
+                        options.insert("isQuiet".into(), json!(quiet));
+                        let render = self.render_in(
+                            recipe,
+                            &options,
+                            Vec::new(),
+                            size.as_str().unwrap_or(self.size),
+                            (CELL_W, CELL_H),
+                            (CELL_W - 16.0, CELL_H - 16.0),
+                        )?;
+                        let title = format!(
+                            "{}, {}, {}",
+                            self.labels.label("size", size.as_str().unwrap_or("")),
+                            density.as_str().unwrap_or(""),
+                            if quiet { "quiet" } else { "default" },
+                        );
+                        items.push(gallery_item(&title, render));
+                    }
+                }
+            }
+            // One scale for every cell, the smallest fit, so the variants are comparable.
+            let scale_of = |i: &Value| i["render"]["view"]["scale"].as_f64().unwrap_or(1.0);
+            let common = items.iter().map(scale_of).fold(f64::INFINITY, f64::min);
+            for item in &mut items {
+                let w = item["render"]["scene"]["width"].as_f64().unwrap_or(0.0);
+                let h = item["render"]["scene"]["height"].as_f64().unwrap_or(0.0);
+                item["render"]["view"] = json!({
+                    "scale": common,
+                    "x": (CELL_W - w * common) / 2.0,
+                    "y": (CELL_H - h * common) / 2.0,
+                });
+            }
+            out.push(json!({
+                "kind": "gallery", "id": "anatomy--variants", "section": "anatomy",
+                "title": format!("All {} variants", items.len()), "columns": 4,
+                "caption": "Size x density x quiet, as the component declares them.",
+                "cell": {"width": CELL_W, "height": CELL_H},
+                "items": items,
+            }));
+        }
+        Ok(out)
     }
 
     fn row_items(&self, recs: &[&Value], sizes: &BTreeMap<String, String>) -> Vec<Item> {
@@ -1170,6 +1310,14 @@ impl Ctx<'_> {
     }
 }
 
+/// A gallery entry: the render without measurements and marks, which a small cell cannot carry.
+fn gallery_item(title: &str, mut render: Value) -> Value {
+    if let Some(scene) = render.get_mut("scene").and_then(Value::as_object_mut) {
+        scene.remove("measurements");
+    }
+    json!({"title": title, "render": render})
+}
+
 /// Adds a measurement for each derived context the block highlights: the band from the
 /// container edge that the formula gives over the solved scene, labelled as derived from
 /// height. It joins `scene.measurements`, so views draw it like any other span, and a note
@@ -1307,6 +1455,12 @@ fn build_sheet(
         .find(|c| c.name == component)
         .and_then(|c| s(&c.raw, "displayName").map(String::from))
         .unwrap_or_else(|| component.clone());
+    let mut template = template_sections();
+    let gallery = match recipe {
+        Some(r) => ctx.galleries(r)?,
+        None => Vec::new(),
+    };
+    sections::fill(&mut template, graph, &component, changelog, gallery);
     Ok(json!({
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-spec-sheet.schema.json",
         "specVersion": "1.0.0-draft",
@@ -1322,7 +1476,39 @@ fn build_sheet(
             .cloned(),
         "block": {"width": BLOCK_W, "height": BLOCK_H},
         "pages": pages,
+        "sections": template,
     }))
+}
+
+/// Lauryn Lesley's v1 spec template, in order: (key, title, hint). Every
+/// section starts as a placeholder; later slices fill the ones data backs.
+const TEMPLATE_SECTIONS: [(&str, &str, &str); 7] = [
+    ("anatomy", "Anatomy", "Variants, API table and Tokens table. Manual until generated from component data."),
+    ("usage", "Usage guidelines", "Do and don't, content rules, edge cases. Manual until generated from component data."),
+    ("states", "States, interactions and responsive behavior", "State board, interaction flow and responsive behavior. Manual."),
+    ("accessibility", "Accessibility", "Role, keyboard, focus order, screen readers, contrast. Manual until generated from component data."),
+    ("decision-log", "Decision log", "Decisions with rationale and contacts. Manual until generated from the changelog."),
+    ("how-to-use", "How to use", "Static instructions for reading this spec. Manual."),
+    ("feedback", "Feedback", "Developer and design feedback. Manual."),
+];
+
+fn template_sections() -> Vec<Value> {
+    TEMPLATE_SECTIONS
+        .iter()
+        .map(|(key, title, hint)| {
+            json!({
+                "key": key,
+                "title": title,
+                "blocks": [{
+                    "kind": "placeholder",
+                    "id": format!("{key}--placeholder"),
+                    "section": key,
+                    "title": title,
+                    "hint": hint,
+                }],
+            })
+        })
+        .collect()
 }
 
 fn write_text(p: &Path, text: String) -> miette::Result<()> {

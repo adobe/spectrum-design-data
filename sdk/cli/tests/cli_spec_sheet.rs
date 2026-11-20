@@ -677,3 +677,323 @@ fn type_style_rows_show_the_composite_resolved_by_scale() {
     }
     assert!(seen > 0, "text-field has type-style rows");
 }
+
+#[test]
+fn every_sheet_emits_the_template_sections_as_placeholders_in_order() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let sections = sheet["sections"].as_array().unwrap();
+    let keys: Vec<&str> = sections
+        .iter()
+        .map(|s| s["key"].as_str().unwrap())
+        .collect();
+    assert_eq!(
+        keys,
+        [
+            "anatomy",
+            "usage",
+            "states",
+            "accessibility",
+            "decision-log",
+            "how-to-use",
+            "feedback"
+        ]
+    );
+    for s in sections {
+        // A section the data backs holds real blocks; the rest keep their placeholder.
+        for b in s["blocks"].as_array().unwrap() {
+            assert_eq!(b["section"], s["key"]);
+            if b["kind"] == "placeholder" {
+                assert!(!b["hint"].as_str().unwrap().is_empty());
+            }
+        }
+    }
+    for key in ["how-to-use", "feedback"] {
+        let s = sections.iter().find(|s| s["key"] == key).unwrap();
+        assert_eq!(s["blocks"][0]["kind"], "placeholder");
+    }
+}
+
+fn section<'a>(sheet: &'a Value, key: &str) -> &'a Value {
+    sheet["sections"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|s| s["key"] == key)
+        .unwrap()
+}
+
+#[test]
+fn accordion_usage_is_prose_from_document_blocks() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "usage")["blocks"].as_array().unwrap();
+    assert_eq!(blocks.len(), 6);
+    assert!(blocks.iter().all(|b| b["kind"] == "prose"));
+    assert_eq!(blocks[0]["title"], "Purpose");
+    assert!(blocks[0]["paragraphs"][0]
+        .as_str()
+        .unwrap()
+        .starts_with("An accordion is"));
+    assert_eq!(blocks[1]["title"], "Single vs. multiple expansion.");
+    assert!(blocks[1]["paragraphs"][0]
+        .as_str()
+        .unwrap()
+        .starts_with("By default, only one"));
+    let dd = &blocks[5];
+    assert_eq!(dd["title"], "Avoid accordion overuse");
+    assert!(dd.get("do").is_none());
+    assert_eq!(dd["dont"].as_array().unwrap().len(), 1);
+}
+
+#[test]
+fn a_component_without_document_blocks_keeps_the_usage_placeholder() {
+    let sheet = sheet_of("bar-panel");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "usage")["blocks"].as_array().unwrap();
+    assert_eq!(blocks.len(), 1);
+    assert_eq!(blocks[0]["kind"], "placeholder");
+}
+
+#[test]
+fn section_blocks_validate_and_malformed_ones_are_rejected() {
+    let mut sheet = sheet_of("accordion");
+    sheet["sections"][0]["blocks"] = serde_json::json!([
+        {"kind": "prose", "id": "p", "section": "usage", "title": "T", "paragraphs": ["a"], "do": ["x"], "dont": ["y"]},
+        {"kind": "table", "id": "t", "section": "anatomy", "title": "API", "columns": ["Name"], "rows": [["size"]]}
+    ]);
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    sheet["sections"][0]["blocks"] =
+        serde_json::json!([{"kind": "table", "id": "t", "section": "bogus", "title": "x"}]);
+    assert!(!schema_errors(&sheet).is_empty());
+}
+
+#[test]
+fn measurement_pages_are_unaffected_by_sections() {
+    let sheet = sheet_of("action-button");
+    let mut keys: Vec<&String> = sheet.as_object().unwrap().keys().collect();
+    keys.sort();
+    assert!(keys.contains(&&"sections".to_string()));
+    assert!(!sheet["pages"][0]["blocks"][0]
+        .as_object()
+        .unwrap()
+        .contains_key("kind"));
+}
+
+#[test]
+fn accordion_anatomy_has_api_and_capped_tokens_tables() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "anatomy")["blocks"].as_array().unwrap();
+    assert_eq!(blocks[0]["id"], "anatomy--api");
+    assert_eq!(
+        blocks[0]["columns"],
+        serde_json::json!(["Name", "Type", "Default", "Options"])
+    );
+    let rows = blocks[0]["rows"].as_array().unwrap();
+    assert_eq!(
+        rows[0],
+        serde_json::json!(["size", "string", "m", "s, m, l, xl"])
+    );
+    assert!(rows.iter().all(|r| r[0] != "xs"));
+    assert!(rows.iter().any(|r| r[0] == "isMultiple"));
+    let tokens = &blocks[1];
+    assert_eq!(
+        tokens["columns"],
+        serde_json::json!(["Name", "Type", "Alias?", "Alias of"])
+    );
+    let trows = tokens["rows"].as_array().unwrap();
+    assert_eq!(trows.len(), 97);
+    assert_eq!(tokens["title"], "Tokens (97)");
+    let alias = trows
+        .iter()
+        .find(|r| r[0] == "container-padding-small")
+        .unwrap();
+    assert_eq!(
+        alias,
+        &serde_json::json!(["container-padding-small", "dimension", "Yes", "spacing-200"])
+    );
+    assert_eq!(blocks[2]["id"], "anatomy--specimen");
+    assert_eq!(blocks[3]["id"], "anatomy--variants");
+    assert_eq!(blocks[4]["kind"], "placeholder");
+}
+
+#[test]
+fn accordion_anatomy_has_a_multi_item_specimen_and_a_24_variant_board() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "anatomy")["blocks"].as_array().unwrap();
+    let specimen = blocks
+        .iter()
+        .find(|b| b["id"] == "anatomy--specimen")
+        .unwrap();
+    assert!(specimen["caption"]
+        .as_str()
+        .unwrap()
+        .contains("allowsMultipleExpanded"));
+    let render = &specimen["items"][0]["render"];
+    let items = render["request"]["options"]["items"].as_array().unwrap();
+    assert!(items.len() >= 3);
+    assert!(items.iter().filter(|i| i["isExpanded"] == true).count() >= 2);
+    assert!(render["scene"].get("measurements").is_none());
+
+    let board = blocks
+        .iter()
+        .find(|b| b["id"] == "anatomy--variants")
+        .unwrap();
+    let cells = board["items"].as_array().unwrap();
+    assert_eq!(cells.len(), 24);
+    let titles: std::collections::BTreeSet<_> =
+        cells.iter().map(|c| c["title"].as_str().unwrap()).collect();
+    assert_eq!(titles.len(), 24, "each combination is titled once");
+    let scale = cells[0]["render"]["view"]["scale"].as_f64().unwrap();
+    assert!(cells
+        .iter()
+        .all(|c| c["render"]["view"]["scale"].as_f64() == Some(scale)));
+    assert_eq!(cells[0]["title"], "Small, compact, default");
+    assert_eq!(cells[23]["title"], "Extra Large, spacious, quiet");
+}
+
+#[test]
+fn components_without_the_variant_options_keep_their_anatomy_blocks() {
+    let sheet = sheet_of("action-button");
+    let blocks = section(&sheet, "anatomy")["blocks"].as_array().unwrap();
+    assert!(blocks.iter().all(|b| b["kind"] != "gallery"));
+    assert_eq!(blocks.last().unwrap()["kind"], "placeholder");
+}
+
+#[test]
+fn anatomy_tables_are_whole_when_under_the_cap() {
+    let sheet = sheet_of("action-button");
+    let blocks = section(&sheet, "anatomy")["blocks"].as_array().unwrap();
+    let tokens = blocks
+        .iter()
+        .find(|b| b["id"] == "anatomy--tokens")
+        .unwrap();
+    let n = tokens["rows"].as_array().unwrap().len();
+    let names: std::collections::BTreeSet<_> = tokens["rows"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|r| r[0].as_str().unwrap())
+        .collect();
+    assert_eq!(names.len(), n, "one row per distinct token");
+}
+
+#[test]
+fn accordion_accessibility_labels_the_annotation_and_informative_keys() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "accessibility")["blocks"]
+        .as_array()
+        .unwrap();
+    let ids: Vec<&str> = blocks.iter().map(|b| b["id"].as_str().unwrap()).collect();
+    assert_eq!(
+        ids,
+        [
+            "accessibility--summary",
+            "accessibility--keyboard",
+            "accessibility--wcag",
+            "accessibility--screen-readers"
+        ]
+    );
+    let rows = blocks[0]["rows"].as_array().unwrap();
+    assert_eq!(rows[0][1], "Not declared");
+    assert_eq!(rows[1][1], "button");
+    assert!(rows[1][2].as_str().unwrap().starts_with("Annotation"));
+    assert_eq!(blocks[1]["rows"][1][1], "Space, Enter, ArrowDown");
+    assert_eq!(blocks[1]["rows"][1][2], "Informative default keys");
+    assert_eq!(
+        blocks[2]["rows"][0],
+        serde_json::json!(["2.1.1", "A", "Keyboard"])
+    );
+    assert_eq!(blocks[3]["kind"], "placeholder");
+}
+
+#[test]
+fn accessibility_edges_keep_placeholder_or_skip_the_annotation() {
+    let none = sheet_of("bar-panel");
+    let blocks = section(&none, "accessibility")["blocks"]
+        .as_array()
+        .unwrap();
+    assert_eq!(blocks.len(), 1);
+    assert_eq!(blocks[0]["id"], "accessibility--placeholder");
+    let button = sheet_of("action-button");
+    let rows = section(&button, "accessibility")["blocks"][0]["rows"]
+        .as_array()
+        .unwrap();
+    assert_eq!(rows[0][1], "button");
+    assert!(rows
+        .iter()
+        .all(|r| !r[0].as_str().unwrap().contains("part")));
+}
+
+fn sheet_with_changelog(component: &str) -> Value {
+    let log = repo_root().join(format!("packages/design-data/changelog/{component}.json"));
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", component, "--changelog"])
+        .arg(log)
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    serde_json::from_slice(&out).unwrap()
+}
+
+#[test]
+fn accordion_states_and_decision_log_come_from_data() {
+    let sheet = sheet_with_changelog("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let states = section(&sheet, "states")["blocks"].as_array().unwrap();
+    assert_eq!(
+        states[0]["columns"],
+        serde_json::json!(["State", "Trigger", "Relationship records"])
+    );
+    let names: Vec<&str> = states[0]["rows"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|r| r[0].as_str().unwrap())
+        .collect();
+    assert_eq!(names, ["hover", "down", "keyboard-focus"]);
+    assert_eq!(states[1]["kind"], "placeholder");
+    let log = &section(&sheet, "decision-log")["blocks"][0];
+    assert_eq!(log["kind"], "table");
+    assert_eq!(log["columns"].as_array().unwrap().len(), 7);
+    let rows = log["rows"].as_array().unwrap();
+    assert!(rows.len() > 1);
+    assert!(rows
+        .windows(2)
+        .all(|w| w[0][0].as_str() >= w[1][0].as_str()));
+    for r in rows {
+        assert_eq!(&r.as_array().unwrap()[4..], ["", "", ""]);
+        assert!(!r[3].as_str().unwrap().is_empty());
+    }
+    for key in ["how-to-use", "feedback"] {
+        assert_eq!(section(&sheet, key)["blocks"][0]["kind"], "placeholder");
+    }
+}
+
+#[test]
+fn states_and_decision_log_edges_keep_placeholders() {
+    // No changelog flag: the log stays a placeholder. bar-panel declares no states.
+    let sheet = sheet_of("bar-panel");
+    assert_eq!(
+        section(&sheet, "decision-log")["blocks"][0]["kind"],
+        "placeholder"
+    );
+    assert_eq!(
+        section(&sheet, "states")["blocks"][0]["kind"],
+        "placeholder"
+    );
+    // With a changelog but no states data.
+    let sheet = sheet_with_changelog("bar-panel");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    assert_eq!(
+        section(&sheet, "states")["blocks"][0]["kind"],
+        "placeholder"
+    );
+}

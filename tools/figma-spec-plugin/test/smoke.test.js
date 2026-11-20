@@ -16,7 +16,7 @@
 import test from "ava";
 import vm from "node:vm";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -81,6 +81,8 @@ function node(type) {
   n.resize = (w, h) => {
     n.width = w;
     n.height = h;
+    if (n.layoutMode)
+      n.primaryAxisSizingMode = n.counterAxisSizingMode = "FIXED";
   };
   n.remove = () => {
     if (n.parent) n.parent.children.splice(n.parent.children.indexOf(n), 1);
@@ -732,8 +734,14 @@ test("icon parts draw their catalog paths via createNodeFromSvg", async (t) => {
       .flatMap((b) => b.render?.scene.nodes ?? [])
       .filter((n) => n.kind === "icon");
     t.true(icons.length > 0, component);
+    const galleryIcons = (s.sections ?? [])
+      .flatMap((x) => x.blocks)
+      .filter((b) => b.kind === "gallery")
+      .flatMap((b) => b.items)
+      .flatMap((i) => i.render.scene.nodes)
+      .filter((n) => n.kind === "icon").length;
     const frames = page.children[0].findAll((f) => f.svg);
-    t.is(frames.length, icons.length, component);
+    t.is(frames.length, icons.length + galleryIcons, component);
     t.is(
       page.children[0].findAll((f) => f.type === "RECTANGLE" && !f.svg).length >
         0,
@@ -829,7 +837,8 @@ test("a wrapped label arrives as one text node per line and draws as one text la
   );
   const { figma, page } = mock();
   await figma.ui.onmessage({ type: "render-sheet", sheet: s });
-  const drawn = page.children[0].findAll(
+  const specs = page.children[0].children.find((n) => n.name === "Specs");
+  const drawn = specs.findAll(
     (n) => n.type === "TEXT" && lines.includes(n.characters),
   );
   t.deepEqual(
@@ -913,4 +922,265 @@ test("rings, stroke opacity and text underlines in a scene are drawn", async (t)
     t.is(ring.strokeAlign, "CENTER");
     t.deepEqual(ring.fills, []);
   }
+});
+
+const fixtureSections = [
+  {
+    key: "usage",
+    title: "Usage guidelines",
+    blocks: [
+      {
+        kind: "prose",
+        id: "usage--prose",
+        section: "usage",
+        title: "When to use",
+        paragraphs: ["Use it for actions."],
+        bullets: ["Keep labels short"],
+        do: ["Use a verb"],
+        dont: ["Use a noun"],
+      },
+    ],
+  },
+  {
+    key: "anatomy",
+    title: "Anatomy",
+    blocks: [
+      {
+        kind: "table",
+        id: "anatomy--api",
+        section: "anatomy",
+        title: "API",
+        columns: ["Prop", "Type"],
+        rows: [
+          ["size", "s | m"],
+          ["isDisabled", "boolean"],
+        ],
+      },
+      {
+        kind: "gallery",
+        id: "anatomy--variants",
+        section: "anatomy",
+        title: "All 2 variants",
+        caption: "Size x quiet.",
+        columns: 2,
+        cell: { width: 100, height: 60 },
+        items: ["Small, default", "Small, quiet"].map((title) => ({
+          title,
+          render: {
+            view: { scale: 1, x: 5, y: 5 },
+            scene: {
+              width: 90,
+              height: 50,
+              nodes: [
+                {
+                  part: "box",
+                  kind: "box",
+                  x: 0,
+                  y: 0,
+                  w: 90,
+                  h: 50,
+                  fill: "#ffffff",
+                },
+              ],
+            },
+            svg: '<svg width="90" height="50"><rect width="90" height="50"/></svg>',
+          },
+        })),
+      },
+      {
+        kind: "placeholder",
+        id: "anatomy--placeholder",
+        section: "anatomy",
+        title: "Anatomy",
+        hint: "Variants table.",
+      },
+    ],
+  },
+];
+const withSections = { ...sheet, sections: fixtureSections };
+const { sections: _omit, ...withoutSections } = sheet;
+
+async function renderRoot(s) {
+  const m = mock();
+  await m.figma.ui.onmessage({ type: "render-sheet", sheet: s });
+  return m.page.children[0];
+}
+const names = (n, prefix) =>
+  n.children.filter((c) => c.name?.startsWith(prefix));
+
+test("sections are drawn after the pages: prose, table grid and a dashed Manual placeholder", async (t) => {
+  const root = await renderRoot(withSections);
+  const secs = names(root, "Section \u2013 ");
+  t.deepEqual(
+    secs.map((s) => s.name),
+    ["Section \u2013 Usage guidelines", "Section \u2013 Anatomy"],
+  );
+  t.true(
+    root.children.indexOf(secs[0]) >
+      root.children.indexOf(root.children.find((c) => c.name === "Specs")),
+  );
+  const all = (n, pred) => n.findAll(pred);
+  const texts = all(root, (n) => n.type === "TEXT").map((n) => n.characters);
+  for (const s of [
+    "Use a verb",
+    "Use a noun",
+    "Prop",
+    "isDisabled",
+    "Manual",
+    "Variants table.",
+  ])
+    t.true(
+      texts.some((c) => c.includes(s)),
+      s,
+    );
+  t.is(all(secs[1], (n) => n.name === "Header row").length, 1);
+  t.is(all(secs[1], (n) => n.name === "Row").length, 2);
+  t.is(all(secs[1], (n) => n.name?.startsWith("Gallery cell")).length, 2);
+  t.true(texts.includes("Small, quiet"));
+  const box = all(secs[1], (n) => n.dashPattern)[0];
+  t.deepEqual(box.dashPattern, [6, 4]);
+});
+
+test("a wide table keeps unbreakable words whole and its cells fill the row height", async (t) => {
+  const log = {
+    kind: "table",
+    id: "log",
+    section: "anatomy",
+    title: "Decision log",
+    columns: [
+      "Date",
+      "Version",
+      "Class",
+      "Details/PR",
+      "Jira link",
+      "R&R contacts",
+      "Decision and rationale",
+    ],
+    rows: Array.from({ length: 34 }, (_, i) => [
+      "2026-11-19",
+      "4.1.0",
+      "added, changed",
+      "Add accordion spec (#" +
+        i +
+        ") https://github.com/adobe/spectrum-design-data/pull/" +
+        i,
+      "",
+      "",
+      "",
+    ]),
+  };
+  const sheetLog = {
+    ...sheet,
+    sections: [
+      {
+        key: "anatomy",
+        title: "Anatomy",
+        blocks: [{ ...log, rows: log.rows.slice(0, 5) }],
+      },
+    ],
+  };
+  const root = await renderRoot(sheetLog);
+  const rows = root.findAll((n) => n.name === "Row" || n.name === "Header row");
+  const w = rows[0].children.map((c) => c.width);
+  t.is(
+    w.reduce((a, b) => a + b, 0),
+    960,
+  );
+  t.true(w[0] >= 10 * 7.2 + 16, "date column fits 2026-11-19");
+  t.true(w[1] >= 7 * 7.2 + 16, "version column fits its header");
+  t.true(Math.max(...w) <= 960 * 0.45);
+  for (const r of rows)
+    for (const c of r.children) t.is(c.layoutSizingVertical, "FILL");
+});
+
+test("a sheet without sections renders as before", async (t) => {
+  const bare = await renderRoot(withoutSections);
+  t.is(names(bare, "Section \u2013 ").length, 0);
+  const full = await renderRoot(withSections);
+  const strip = (n) => ({
+    ...dump(n),
+    children: n.children
+      .filter((c) => !c.name?.startsWith("Section \u2013 "))
+      .map(dump),
+  });
+  t.deepEqual(strip(full), dump(bare));
+});
+
+test("section payloads render the same tree as the plugin and stay under the limit", async (t) => {
+  const payloads = buildPayloads({ sheet: withSections });
+  for (const p of payloads) t.true(p.chars <= 45000);
+  t.true(payloads.flatMap((p) => p.steps).includes("section usage"));
+  const via = fakeFigma();
+  let results = [];
+  for (const p of payloads) results = await runPayload(via.figma, p);
+  t.is(results.at(-1).sectionsRendered, 2);
+  t.deepEqual(dump(via.page.children[0]), dump(await renderRoot(withSections)));
+});
+
+test("the plan hash changes when a section changes", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "figma-plan-sections-"));
+  const sheets = join(dir, "sheets");
+  const hashFor = (s) => {
+    mkdirSync(sheets, { recursive: true });
+    writeFileSync(
+      join(sheets, "index.json"),
+      JSON.stringify({ components: [{ component: "switch" }] }),
+    );
+    writeFileSync(join(sheets, "switch.json"), JSON.stringify(s));
+    const registryPath = join(dir, "r.json");
+    writeFileSync(
+      registryPath,
+      JSON.stringify({ plan: "p", project: "1", files: {} }),
+    );
+    return plan({
+      components: ["switch"],
+      out: join(dir, "out"),
+      registryPath,
+      sheetsDir: sheets,
+    }).items[0].hash;
+  };
+  const base = generate("switch");
+  const edited = structuredClone(base);
+  edited.sections = [
+    { ...base.sections[0], title: "Changed" },
+    ...base.sections.slice(1),
+  ];
+  t.not(hashFor(base), hashFor(edited));
+});
+
+test("a long table is drawn whole, in continuation tables with the header repeated", async (t) => {
+  const rows = Array.from({ length: 60 }, (_, i) => [
+    `token-${i}`,
+    "dimension",
+  ]);
+  const long = {
+    ...withSections,
+    sections: [
+      {
+        key: "anatomy",
+        title: "Anatomy",
+        blocks: [
+          {
+            kind: "table",
+            id: "anatomy--tokens",
+            section: "anatomy",
+            title: "Tokens (60)",
+            columns: ["Name", "Type"],
+            rows,
+          },
+        ],
+      },
+    ],
+  };
+  const root = await renderRoot(long);
+  const sec = names(root, "Section \u2013 ")[0];
+  t.is(sec.findAll((n) => n.name === "Header row").length, 3);
+  t.is(sec.findAll((n) => n.name === "Row").length, 60);
+  const texts = sec.findAll((n) => n.type === "TEXT").map((n) => n.characters);
+  t.true(texts.includes("Tokens (60) (continued)"));
+  const payloads = buildPayloads({ sheet: long });
+  for (const p of payloads) t.true(p.chars <= 45000);
+  const via = fakeFigma();
+  for (const p of payloads) await runPayload(via.figma, p);
+  t.deepEqual(dump(via.page.children[0]), dump(root));
 });
