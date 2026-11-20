@@ -25,14 +25,16 @@ A record's own `rationale` is copied into the entry when present. History comes 
 
 ## Classes
 
-| Class           | Meaning                                                                                                |
-| --------------- | ------------------------------------------------------------------------------------------------------ |
-| `visual`        | How the component looks or behaves: token values, relationship bindings, visual recipes                |
-| `api`           | Options, option values, states, anatomy, slots, constraints, relationships added or removed, lifecycle |
-| `documentation` | Descriptions, document blocks, rationale, relationship context text                                    |
-| `metadata`      | Legacy keys, ids, ordering, implementations, spec bookkeeping (summarized, not listed)                 |
+| Class           | Meaning                                                                                                                               |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `visual`        | How the component looks or behaves: token values, relationship bindings, visual recipes                                               |
+| `api`           | Options, option values, states, anatomy, slots, constraints, relationships added or removed, relationship identity changes, lifecycle |
+| `documentation` | Descriptions, document blocks, rationale, relationship context text                                                                   |
+| `metadata`      | Legacy keys, ids, ordering, implementations, spec bookkeeping (summarized, not listed)                                                |
 
 **Metadata-class changes are not entries.** Each commit records them as `metadata: {count, fields}`: how many changes, and which field paths changed (a record added or removed is named `<kind> <change>`, e.g. `implementation added`). They count as a patch. Removing a relationship whose exact twin survives (same scope, context and `$ref` or value) is metadata: nothing changes for consumers. Re-scoping a record (`scope.options` added or changed, same component, property, context and target) is an update, not a removal and an addition.
+
+**Relationship identity.** A relationship is selected by `(property, attribute, part, between)`. Changing `scope.part`, `scope.between`, `scope.property` or `scope.attribute` of a record makes a recipe selector that named the old identity stop resolving, so it is an `api` entry, listed. A `scope.options` pin (`state`, `variant`, `staticColor`, `isQuiet`) is `visual`. The old position pair `scope.options.from` and `scope.options.to` is read as `between`; changing it is an identity change. A migration that keeps the identity is `metadata`: `options.from` and `options.to` moving to `scope.between`, `contextPart` moving to `scope.part`, a `scope.part` added to a record that named none (the implicit root becomes explicit), and `contextRole` or `contextQualifier` added or removed. The comparison is per record, paired by `uuid`; a record without a `uuid` is never assumed to keep its identity. A part removed or changed is an identity change. Existing changelog files are not rewritten.
 
 In the committed file every entry, source and metadata summary is written on one line.
 
