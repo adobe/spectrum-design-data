@@ -3,56 +3,31 @@
   "specVersion": "1.0.0-draft",
   "component": "help-text",
   "root": "container",
-  "sizeScale": {
-    "s": 75,
-    "m": 100,
-    "l": 200,
-    "xl": 300
-  },
+  "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
   "parts": {
     "container": {
       "kind": "box",
       "children": ["icon", "text"],
       "props": {
-        "direction": {
-          "value": "row"
-        },
-        "align": {
-          "value": "start"
-        },
+        "direction": { "value": "row" },
+        "align": { "value": "start" },
         "gap": {
           "relationship": {
             "property": "space-between",
-            "context": "Spacing (alert icon to text)"
+            "between": { "from": "icon", "to": "text" }
           }
         }
       }
     },
     "icon": {
       "kind": "icon",
-      "icon": {
-        "set": "workflow",
-        "name": "alert-triangle"
-      },
+      "icon": { "set": "workflow", "name": "alert-triangle" },
       "visibleWhen": {
-        "options": {
-          "variant": "negative",
-          "hideIcon": false
-        }
+        "options": { "variant": "negative", "hideIcon": false }
       },
       "props": {
-        "width": {
-          "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
-            "context": "Icon size"
-          }
-        },
-        "height": {
-          "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
-            "context": "Icon size"
-          }
-        },
+        "width": { "relationship": { "property": "size", "part": "icon" } },
+        "height": { "relationship": { "property": "size", "part": "icon" } },
         "color": [
           {
             "relationship": {
@@ -61,11 +36,7 @@
             }
           },
           {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
+            "when": { "options": { "isDisabled": true } },
             "relationship": {
               "property": "content-color",
               "context": "Text and alert icon"
@@ -77,48 +48,25 @@
     "text": {
       "kind": "text",
       "props": {
-        "fontSize": {
-          "relationship": {
-            "property": "font-size-{sizeIndex}",
-            "context": "Text"
-          }
+        "typeStyle": {
+          "relationship": { "property": "type-style", "part": "text" }
         },
         "lineHeight": {
-          "relationship": {
-            "property": "line-height-100",
-            "context": "Text"
-          }
-        },
-        "fontWeight": {
-          "relationship": {
-            "property": "font-weight",
-            "context": "Text"
-          }
+          "relationship": { "property": "line-height", "part": "text" }
         },
         "color": [
           {
-            "relationship": {
-              "property": "content-color",
-              "context": "Text"
-            }
+            "relationship": { "property": "content-color", "context": "Text" }
           },
           {
-            "when": {
-              "options": {
-                "variant": "negative"
-              }
-            },
+            "when": { "options": { "variant": "negative" } },
             "relationship": {
               "property": "content-color",
               "context": "Text and alert icon (warning)"
             }
           },
           {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
+            "when": { "options": { "isDisabled": true } },
             "relationship": {
               "property": "content-color",
               "context": "Text and alert icon"
@@ -126,9 +74,7 @@
           }
         ]
       },
-      "text": {
-        "option": "text"
-      }
+      "text": { "option": "text" }
     }
   }
 }
