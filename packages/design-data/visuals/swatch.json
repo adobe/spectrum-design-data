@@ -9,7 +9,7 @@
     "m": 100,
     "l": 200
   },
-  "notVisual": ["hover", "down"],
+  "notVisual": ["hover", "down", "value"],
   "parts": {
     "container": {
       "kind": "box",

@@ -117,9 +117,10 @@
       "part": "container",
       "property": "border-width"
     },
-    "context": "Color area border",
+    "context": "Border",
     "$ref": "78fff16d-d6fe-4a74-98bc-97c56e352250",
-    "uuid": "e6851ae4-79da-57d1-8d80-4af81667294f"
+    "uuid": "e6851ae4-79da-57d1-8d80-4af81667294f",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -127,9 +128,10 @@
       "part": "container",
       "property": "corner-radius"
     },
-    "context": "Color area border",
+    "context": "Border",
     "$ref": "ab656bf4-8814-42fa-9036-b1e67159e4e1",
-    "uuid": "eaced5b4-0560-5596-9571-9113d87c9c7e"
+    "uuid": "eaced5b4-0560-5596-9571-9113d87c9c7e",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -138,9 +140,10 @@
       "property": "color",
       "attribute": "border"
     },
-    "context": "Color area border",
+    "context": "Border",
     "$ref": "70fc4674-0f09-48f5-8850-48b4b38c2f01",
-    "uuid": "edcd5ae0-c7dd-55c0-8075-a666f3cf0944"
+    "uuid": "edcd5ae0-c7dd-55c0-8075-a666f3cf0944",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -148,9 +151,10 @@
       "part": "container",
       "property": "opacity"
     },
-    "context": "Color area border",
+    "context": "Border",
     "$ref": "fba1851e-0056-4cdf-938d-6d61550bbe3c",
-    "uuid": "5b4f11a1-0cf9-5ab0-b696-34d67268b066"
+    "uuid": "5b4f11a1-0cf9-5ab0-b696-34d67268b066",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -181,7 +185,8 @@
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
     "uuid": "70fc4674-0f09-48f5-8850-48b4b38c2f01",
     "legacyKey": "color-area-border-color",
-    "context": "Color area border"
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -196,7 +201,8 @@
     "value": "0.1",
     "uuid": "fba1851e-0056-4cdf-938d-6d61550bbe3c",
     "legacyKey": "color-area-border-opacity",
-    "context": "Color area border"
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -208,7 +214,8 @@
     "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
     "uuid": "ab656bf4-8814-42fa-9036-b1e67159e4e1",
     "legacyKey": "color-area-border-rounding",
-    "context": "Color area border"
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -220,7 +227,8 @@
     "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
     "uuid": "78fff16d-d6fe-4a74-98bc-97c56e352250",
     "legacyKey": "color-area-border-width",
-    "context": "Color area border"
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {

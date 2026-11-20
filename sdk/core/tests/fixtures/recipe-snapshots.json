@@ -705,30 +705,30 @@
     "isDisabled=true,isEmphasized=true,isSelected=true": "8164d9cc8dbe0530"
   },
   "swatch": {
-    "cornerRounding=\"full\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "502affeb056c5dcf",
-    "cornerRounding=\"full\",isDisabled=false,isSelected=false,shape=\"square\"": "e64a025e6c8fbedb",
-    "cornerRounding=\"full\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "560cc93838310269",
-    "cornerRounding=\"full\",isDisabled=false,isSelected=true,shape=\"square\"": "f4f1353f1bea8443",
-    "cornerRounding=\"full\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "765ab09e9fa67a89",
-    "cornerRounding=\"full\",isDisabled=true,isSelected=false,shape=\"square\"": "6909b25990c57bff",
-    "cornerRounding=\"full\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "071270ad165413bf",
-    "cornerRounding=\"full\",isDisabled=true,isSelected=true,shape=\"square\"": "c3d7a45e4392b0d3",
-    "cornerRounding=\"none\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "7e40d79cf079abb1",
-    "cornerRounding=\"none\",isDisabled=false,isSelected=false,shape=\"square\"": "7e20efb1b2b45945",
-    "cornerRounding=\"none\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "45a49ccd5d7f5e27",
-    "cornerRounding=\"none\",isDisabled=false,isSelected=true,shape=\"square\"": "a12eb6f7b137487d",
-    "cornerRounding=\"none\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "cb8795b04073a95f",
-    "cornerRounding=\"none\",isDisabled=true,isSelected=false,shape=\"square\"": "8049290d6ab046c5",
-    "cornerRounding=\"none\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "5004caad8aa558f9",
-    "cornerRounding=\"none\",isDisabled=true,isSelected=true,shape=\"square\"": "782dc84b4bd0b711",
-    "cornerRounding=\"partial\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "b1403deb3b2d9bdb",
-    "cornerRounding=\"partial\",isDisabled=false,isSelected=false,shape=\"square\"": "ec2dc942facff441",
-    "cornerRounding=\"partial\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "3073d82000852829",
-    "cornerRounding=\"partial\",isDisabled=false,isSelected=true,shape=\"square\"": "c2caaadf2432f86d",
-    "cornerRounding=\"partial\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "23dc1a3bbd951b45",
-    "cornerRounding=\"partial\",isDisabled=true,isSelected=false,shape=\"square\"": "0411c1568b400c3d",
-    "cornerRounding=\"partial\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "192c70ee329b5dc7",
-    "cornerRounding=\"partial\",isDisabled=true,isSelected=true,shape=\"square\"": "1664339dab5a63b5"
+    "cornerRounding=\"full\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "0630e25072ef60f2",
+    "cornerRounding=\"full\",isDisabled=false,isSelected=false,shape=\"square\"": "41f628e38bf52180",
+    "cornerRounding=\"full\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "54e7731df8d44e76",
+    "cornerRounding=\"full\",isDisabled=false,isSelected=true,shape=\"square\"": "247013bf5a36fd22",
+    "cornerRounding=\"full\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "7e3916ee535b8560",
+    "cornerRounding=\"full\",isDisabled=true,isSelected=false,shape=\"square\"": "4754438602cae41c",
+    "cornerRounding=\"full\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "8fb7152617fadca4",
+    "cornerRounding=\"full\",isDisabled=true,isSelected=true,shape=\"square\"": "5724ab0b79c1323a",
+    "cornerRounding=\"none\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "a9000e05f92d806b",
+    "cornerRounding=\"none\",isDisabled=false,isSelected=false,shape=\"square\"": "fdbc7d45491eae69",
+    "cornerRounding=\"none\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "58d7dcb5e0ee8a6f",
+    "cornerRounding=\"none\",isDisabled=false,isSelected=true,shape=\"square\"": "97f6ae73e68f9051",
+    "cornerRounding=\"none\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "61335053a734870d",
+    "cornerRounding=\"none\",isDisabled=true,isSelected=false,shape=\"square\"": "2c93dc76fdea9d5d",
+    "cornerRounding=\"none\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "9609c3e06a08a7e5",
+    "cornerRounding=\"none\",isDisabled=true,isSelected=true,shape=\"square\"": "766a5514cacb16c1",
+    "cornerRounding=\"partial\",isDisabled=false,isSelected=false,shape=\"rectangle\"": "799190c6c2adc0fd",
+    "cornerRounding=\"partial\",isDisabled=false,isSelected=false,shape=\"square\"": "305737e7c67b0f79",
+    "cornerRounding=\"partial\",isDisabled=false,isSelected=true,shape=\"rectangle\"": "03b88802abff5d63",
+    "cornerRounding=\"partial\",isDisabled=false,isSelected=true,shape=\"square\"": "6d4be1a1fb9eef51",
+    "cornerRounding=\"partial\",isDisabled=true,isSelected=false,shape=\"rectangle\"": "850c82054434ac1b",
+    "cornerRounding=\"partial\",isDisabled=true,isSelected=false,shape=\"square\"": "7c39be0c6905c615",
+    "cornerRounding=\"partial\",isDisabled=true,isSelected=true,shape=\"rectangle\"": "3d3ae16c296d0185",
+    "cornerRounding=\"partial\",isDisabled=true,isSelected=true,shape=\"square\"": "7b2e23ab03b5c915"
   },
   "switch": {
     "hideLabel=false,isDisabled=false,isEmphasized=false,isSelected=false": "73eb6022134087cb",
@@ -749,7 +749,7 @@
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=true": "1faf25a2ae0ce491"
   },
   "thumbnail": {
-    "isDisabled=false": "6f3967e5d71fee5c",
-    "isDisabled=true": "6f18481d94fb2c7a"
+    "isDisabled=false": "046ade9fdfb91f10",
+    "isDisabled=true": "81059f7e7b110fba"
   }
 }

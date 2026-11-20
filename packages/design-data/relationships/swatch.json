@@ -462,8 +462,7 @@
     "scope": {
       "component": "swatch",
       "part": "container",
-      "property": "color",
-      "attribute": "border",
+      "property": "outline-color",
       "options": {
         "isSelected": true,
         "colorScheme": "light",
@@ -479,8 +478,7 @@
     "scope": {
       "component": "swatch",
       "part": "container",
-      "property": "color",
-      "attribute": "border",
+      "property": "outline-color",
       "options": {
         "isSelected": true,
         "colorScheme": "dark",
@@ -496,8 +494,7 @@
     "scope": {
       "component": "swatch",
       "part": "container",
-      "property": "color",
-      "attribute": "border",
+      "property": "outline-color",
       "options": {
         "isSelected": true,
         "colorScheme": "wireframe",
