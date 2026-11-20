@@ -98,55 +98,121 @@
     "icon": {
       "type": "string",
       "default": "info",
-      "values": [{ "value": "info" }, { "value": "help" }]
+      "values": [
+        {
+          "value": "info"
+        },
+        {
+          "value": "help"
+        }
+      ]
     },
     "popoverPlacement": {
       "type": "string",
       "default": "bottom start",
       "values": [
-        { "value": "top" },
-        { "value": "top left" },
-        { "value": "top right" },
-        { "value": "top start" },
-        { "value": "top end" },
-        { "value": "bottom" },
-        { "value": "bottom left" },
-        { "value": "bottom right" },
-        { "value": "bottom start" },
-        { "value": "bottom end" },
-        { "value": "left" },
-        { "value": "left top" },
-        { "value": "left bottom" },
-        { "value": "start" },
-        { "value": "start top" },
-        { "value": "start bottom" },
-        { "value": "right" },
-        { "value": "right top" },
-        { "value": "right bottom" },
-        { "value": "end" },
-        { "value": "end top" },
-        { "value": "end bottom" }
+        {
+          "value": "top"
+        },
+        {
+          "value": "top left"
+        },
+        {
+          "value": "top right"
+        },
+        {
+          "value": "top start"
+        },
+        {
+          "value": "top end"
+        },
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "bottom left"
+        },
+        {
+          "value": "bottom right"
+        },
+        {
+          "value": "bottom start"
+        },
+        {
+          "value": "bottom end"
+        },
+        {
+          "value": "left"
+        },
+        {
+          "value": "left top"
+        },
+        {
+          "value": "left bottom"
+        },
+        {
+          "value": "start"
+        },
+        {
+          "value": "start top"
+        },
+        {
+          "value": "start bottom"
+        },
+        {
+          "value": "right"
+        },
+        {
+          "value": "right top"
+        },
+        {
+          "value": "right bottom"
+        },
+        {
+          "value": "end"
+        },
+        {
+          "value": "end top"
+        },
+        {
+          "value": "end bottom"
+        }
       ]
     },
-    "popoverOffset": { "type": "number", "default": 8 },
+    "popoverOffset": {
+      "type": "number",
+      "default": 8
+    },
     "href": {
       "type": "string",
       "description": "Optional URL within contextual help content like a 'Learn more' link."
     },
-    "popoverCrossOffset": { "type": "number", "default": 0 },
-    "containerPadding": { "type": "number", "default": 8 }
+    "popoverCrossOffset": {
+      "type": "number",
+      "default": 0
+    },
+    "containerPadding": {
+      "type": "number",
+      "default": 8
+    }
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component. It draws nothing itself: it holds the action button, and the popover opens from it.",
+      "required": true,
+      "contains": ["action-button"]
+    },
+    {
       "name": "action-button",
-      "description": "Help or info button that opens the popover.",
+      "description": "The action-button component: a quiet icon-only help or info button that opens the popover.",
       "required": true
     },
     {
       "name": "popover",
-      "description": "Popover shown when open.",
+      "description": "The popover component, a top-level part present only while open. Its content is the title, description and link. contextual-help overrides its minimum width and padding and draws no tip.",
       "presentIn": ["open"],
-      "contains": ["title", "body", "link"]
+      "contains": ["title", "description", "link"]
     },
     {
       "name": "title",
@@ -154,34 +220,46 @@
       "presentIn": ["open"]
     },
     {
-      "name": "body",
+      "name": "description",
       "description": "Description text in the popover.",
       "presentIn": ["open"]
     },
     {
       "name": "link",
-      "description": "Optional link at the end of the popover.",
+      "description": "Optional link component at the end of the popover.",
       "presentIn": ["open"]
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (.Contextual help action button, Popover, Text, Link). Popover internals assumed present only while open."
+    "notes": "Figma S2 Web contextual help (.Contextual help action button plus a local Popover frame with no tip and no border) and React Spectrum S2 ContextualHelp (ActionButton plus Popover hideArrow, padding none). Decisions (Garth default, 2026-11-20): C7 popover is a top-level component part present when open, with host overrides (min-width, padding) and no radius record of its own; C5 description (renamed from body). Only the open state is kept: down and keyboard-focus belong to the nested action-button. The nested-component relation (popover and its content as slot fills) is prose only: the anatomy component field and slot fills are not built."
   },
   "states": [
-    { "name": "down", "trigger": "interaction" },
-    { "name": "open", "trigger": "prop" },
-    { "name": "keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "open",
+      "trigger": "prop",
+      "description": "The popover is open."
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["trigger"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

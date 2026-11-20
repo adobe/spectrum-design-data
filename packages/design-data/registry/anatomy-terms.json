@@ -140,7 +140,8 @@
       "id": "tip",
       "label": "Tip",
       "description": "Tooltip tip or arrow element",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "aliases": ["arrow", "popover-tip"]
     },
     {
       "id": "selection",
@@ -190,7 +191,8 @@
       "id": "container",
       "label": "Container",
       "description": "Outer wrapper element of a component (cards, swatch, thumbnail, avatar)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "aliases": ["popover-content"]
     },
     {
       "id": "chevron",
@@ -314,7 +316,8 @@
       "id": "button-group",
       "label": "Button Group",
       "description": "A grouped set of action buttons, typically in dialog footers or coach-mark controls",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["actions"]
     },
     {
       "id": "clear-button",
@@ -568,9 +571,10 @@
     {
       "id": "overlay",
       "label": "Overlay",
-      "description": "Semi-transparent backdrop element behind modal dialogs (alert-dialog, standard-dialog, takeover-dialog)",
+      "description": "Semi-transparent backdrop behind a modal dialog (alert-dialog, standard-dialog, takeover-dialog); a top-level part that owns the overlay colour and opacity",
       "usedIn": ["s2-docs"],
-      "standaloneScope": true
+      "standaloneScope": true,
+      "aliases": ["underlay", "modal-overlay"]
     },
     {
       "id": "header-area",
@@ -605,7 +609,13 @@
     {
       "id": "cover-image",
       "label": "Cover Image",
-      "description": "Large decorative image at the top of a standard dialog",
+      "description": "Large decorative image at the top of a standard dialog or coach mark",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "keyboard-shortcut",
+      "label": "Keyboard Shortcut",
+      "description": "Hint that shows the keyboard shortcut of an action (coach-mark)",
       "usedIn": ["s2-docs"]
     },
     {
@@ -842,7 +852,7 @@
     {
       "id": "pagination",
       "label": "Pagination",
-      "description": "Paged-navigation indicator element (e.g. coach-mark step dots)",
+      "description": "Paged-navigation indicator element (e.g. step dots, step count text or a page indicator)",
       "usedIn": ["tokens"]
     },
     {
