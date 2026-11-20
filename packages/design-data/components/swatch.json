@@ -48,59 +48,72 @@
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "xs" },
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" }
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
       ]
     },
     "shape": {
       "type": "string",
       "default": "square",
-      "values": [{ "value": "square" }, { "value": "rectangle" }]
+      "values": [
+        {
+          "value": "square"
+        },
+        {
+          "value": "rectangle"
+        }
+      ]
     },
     "cornerRounding": {
       "type": "string",
       "default": "none",
       "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75.",
       "values": [
-        { "value": "none" },
-        { "value": "partial" },
-        { "value": "full" }
+        {
+          "value": "none"
+        },
+        {
+          "value": "partial"
+        },
+        {
+          "value": "full"
+        }
       ]
     },
-    "isSelected": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false }
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "anatomy": [
     {
       "name": "container",
-      "description": "Frame of the swatch: its size, shape and corner rounding.",
+      "description": "Frame of the swatch: its size, shape and corner rounding. The hairline border, the selected 2px border and the inner band are container styling (owner decision C1).",
       "required": true,
-      "contains": ["fill"]
-    },
-    {
-      "name": "fill",
-      "description": "The preview color. The border, band, slash and icon sit on it.",
-      "contains": [
-        "opacity-checkerboard",
-        "border",
-        "inner-border",
-        "slash",
-        "icon"
-      ]
+      "contains": ["opacity-checkerboard", "fill"]
     },
     {
       "name": "opacity-checkerboard",
-      "description": "Pattern behind a preview color with alpha below 1. Not drawn by the recipe yet (qkj5.209)."
+      "description": "Pattern behind a preview color with alpha below 1; sized m. It sits before fill, so the color draws over it."
     },
     {
-      "name": "border",
-      "description": "Hairline around the swatch; the heavier selection border when selected."
-    },
-    {
-      "name": "inner-border",
-      "description": "Light band just inside the selection border; drawn only when selected."
+      "name": "fill",
+      "description": "The preview color. The slash and icon sit on it.",
+      "contains": ["slash", "icon"]
     },
     {
       "name": "slash",
@@ -119,22 +132,44 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Proposed from Figma S2 Web (Swatch: background, opacity checkerboard, border, inner border when selected, slash for the None value, Cancel icon when disabled) and React Spectrum ColorSwatch and ColorSwatchPicker (fill, checkerboard, slash, selection border and inner band, focusRing). SWC gen2 has no swatch. Figma Value Mixed and Add (dash and add icons) are not declared: only Figma has them. Hover draws a Tooltip in Figma (its own component) and down changes nothing, so both are notVisual. The disabled Cancel look is Figma only; React Spectrum has no disabled swatch. The tree container > fill > {opacity-checkerboard, border, inner-border, slash, icon} is a renderer limit, not a statement about the design: the renderer overlays parts only inside a flowed box, so they nest under fill. Do not flatten it as a modeling fix. opacity-checkerboard is declared because both sources have it, but no recipe part draws it yet (qkj5.209). Reviewed by the owner 2026-11-18."
+    "notes": "Proposed from Figma S2 Web (Swatch: background, opacity checkerboard instance, border, inner border when selected, slash for the None value, Cancel icon when disabled) and React Spectrum ColorSwatch and ColorSwatchPicker (fill, checkerboard, slash, selection border and inner band, focusRing). SWC gen2 has no swatch. Hover draws a Tooltip in Figma (its own component) and down changes nothing, so both are notVisual. The disabled Cancel look is Figma only. Reviewed by the owner 2026-11-18. A7 (2026-11-20), owner decisions C1 and C2: border and inner-border are not parts. The hairline is a container stroke; the selected 2px border and the inner band are border records pinned isSelected, and the band is told apart from the border by the pin position inner. opacity-checkerboard is a nested component (size m) before fill; the recipe nests it."
   },
   "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "disabled", "trigger": "prop" }
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }
