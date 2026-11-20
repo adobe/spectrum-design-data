@@ -81,6 +81,8 @@ function node(type) {
   n.resize = (w, h) => {
     n.width = w;
     n.height = h;
+    if (n.layoutMode)
+      n.primaryAxisSizingMode = n.counterAxisSizingMode = "FIXED";
   };
   n.remove = () => {
     if (n.parent) n.parent.children.splice(n.parent.children.indexOf(n), 1);

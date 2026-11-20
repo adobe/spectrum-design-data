@@ -229,6 +229,8 @@ table.index td {
   margin-bottom: 24px;
 }
 table.grid {
+  table-layout: fixed;
+  width: 100%;
   border-collapse: collapse;
 }
 table.grid th,

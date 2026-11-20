@@ -552,6 +552,13 @@ function para(str, size, style, color, width) {
   return t;
 }
 
+// resize() makes both axes FIXED in Figma, so hug the height after it.
+function fixedWidth(f, w) {
+  f.resize(w, 10);
+  f.primaryAxisSizingMode = "AUTO";
+  f.counterAxisSizingMode = "FIXED";
+}
+
 function textList(label, items, width, tint) {
   const f = auto("VERTICAL", {
     itemSpacing: 6,
@@ -563,9 +570,7 @@ function textList(label, items, width, tint) {
   });
   f.name = label;
   f.fills = [solid(tint)];
-  f.primaryAxisSizingMode = "AUTO";
-  f.counterAxisSizingMode = "FIXED";
-  f.resize(width, 10);
+  fixedWidth(f, width);
   f.appendChild(text(label, 13, "Bold"));
   for (const i of items)
     f.appendChild(para("\u2022 " + i, 13, "Regular", INK, width - 24));
@@ -593,13 +598,46 @@ function proseBlock(b) {
   return f;
 }
 
+// Column widths weighted by the larger of the header length and the 90th percentile of the
+// cell lengths, clamped to [MIN_COL, 45% of the width] and summing to SECTION_W.
+function columnWidths(b) {
+  const MIN_COL = 80;
+  const n = Math.max(b.columns.length, 1);
+  const weights = b.columns.map((h, i) => {
+    const lens = b.rows
+      .map((r) => String(r[i] ?? "").length)
+      .sort((x, y) => x - y);
+    const p90 = lens.length ? lens[Math.ceil(lens.length * 0.9) - 1] : 0;
+    return Math.max(String(h).length, p90, 1);
+  });
+  const total = weights.reduce((x, y) => x + y, 0);
+  let w = weights.map((x) => (x / total) * SECTION_W);
+  const max = SECTION_W * 0.45;
+  for (let pass = 0; pass < 6; pass++) {
+    const fixed = w.map((x) => (x < MIN_COL ? MIN_COL : x > max ? max : null));
+    const free = w.reduce(
+      (s, x, i) => (fixed[i] === null ? s + weights[i] : s),
+      0,
+    );
+    const left = SECTION_W - fixed.reduce((s, x) => s + (x ?? 0), 0);
+    if (!free) break;
+    w = w.map((x, i) =>
+      fixed[i] !== null ? fixed[i] : (weights[i] / free) * left,
+    );
+  }
+  const out = w.map(Math.floor);
+  out[n - 1] += SECTION_W - out.reduce((x, y) => x + y, 0);
+  return out;
+}
+
 function tableBlock(b) {
   const f = auto("VERTICAL", { itemSpacing: 0 });
-  const w = Math.floor(SECTION_W / Math.max(b.columns.length, 1));
+  const widths = columnWidths(b);
   const row = (cells, head) => {
     const r = auto("HORIZONTAL", { itemSpacing: 0 });
     r.name = head ? "Header row" : "Row";
-    cells.forEach((c) => {
+    cells.forEach((c, ci) => {
+      const w = widths[ci];
       const cell = auto("VERTICAL", {
         paddingLeft: 8,
         paddingRight: 8,
@@ -607,8 +645,7 @@ function tableBlock(b) {
         paddingBottom: 6,
       });
       cell.name = "Cell";
-      cell.counterAxisSizingMode = "FIXED";
-      cell.resize(w, 10);
+      fixedWidth(cell, w);
       cell.layoutAlign = "STRETCH";
       cell.fills = [solid(head ? { r: 0.96, g: 0.96, b: 0.96 } : WHITE)];
       cell.strokes = [solid(LINE)];
@@ -668,8 +705,7 @@ function placeholderBlock(b) {
     paddingBottom: 16,
     cornerRadius: 8,
   });
-  f.counterAxisSizingMode = "FIXED";
-  f.resize(SECTION_W, 10);
+  fixedWidth(f, SECTION_W);
   f.strokes = [solid(GREY)];
   f.strokeWeight = 1;
   f.dashPattern = [6, 4];
