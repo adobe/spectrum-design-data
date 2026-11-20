@@ -41,6 +41,28 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.26.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "f53a93e1a0a57c6f4b666d572fd03b5530662796",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1971,"title":"feat(design-data): review in-field-button and date-field, remove in-field-progress-button (A2-2)","url":"https://github.com/adobe/spectrum-design-data/pull/1971"},
+          "entries": [
+            {"id":"f53a93e1-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/anatomy/field","name":"field","fields":[],"after":{"name":"field","description":"Bordered box that frames the segments.","required":true,"contains":["segment"]}},
+            {"id":"f53a93e1-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/container","name":"container","fields":[{"path":"contains","before":["segment"],"after":["field-label","field","help-text"]}]},
+            {"id":"f53a93e1-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/container","name":"container","fields":[{"path":"description","before":"Bordered box that frames the segments.","after":"Root of the component: sets the width and the spacing between the label, the field and the help text."}]},
+            {"id":"f53a93e1-3","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/segment","name":"segment","fields":[{"path":"description","before":"One editable piece of the date (month, day, year), showing a placeholder when empty.","after":"One editable unit of the date (month, day, year), drawn as its own rounded cell and showing a placeholder when empty."}]},
+            {"id":"f53a93e1-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web Date and time field page (shared with time-field): label, field with value cells. No states declared so no focus-indicator. Unsure whether the literal separators need their own part.","after":"Figma S2 Web Date and time field page (label, field with value cells). The root part container holds field-label, field and help-text (D2a). The merge with time-field and segmented-text-field (D5a) waits on a decision about the legacy token files (see the A2-2 pull request). Literal separators are not a part."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

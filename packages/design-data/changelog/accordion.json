@@ -586,6 +586,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.26.0",
+      "version": "4.1.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "83903848b0136b8b710154411d0719071903890b",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1967,"title":"feat(design-data-spec)!: slots own part, accepts, collection; derive recipe repeat","url":"https://github.com/adobe/spectrum-design-data/pull/1967"},
+          "entries": [
+            {"id":"83903848-0","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/slots/actions","name":"actions","fields":[],"after":{"name":"actions","part":"actions","accepts":["action-button","switch"],"acceptsOnly":true,"max":2,"description":"Direct actions on the trailing edge of the item header."}},
+            {"id":"83903848-1","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/slots/content","name":"content","fields":[],"after":{"name":"content","part":"content","description":"Content shown below the header while the item is open."}},
+            {"id":"83903848-2","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/slots/default","name":"default","fields":[],"after":{"name":"default","part":"accordion-item","collection":"items","description":"The accordion items. Each entry of the items option is drawn as one copy of the accordion-item part."}},
+            {"id":"83903848-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/container","name":"container","fields":[{"path":"repeat.option","before":"items"},{"path":"repeat.part","before":"accordion-item"},{"path":"repeat.slot","after":"default"}]}
+          ]
+        }
+      ]
     }
   ]
 }

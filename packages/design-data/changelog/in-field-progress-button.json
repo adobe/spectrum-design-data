@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "in-field-progress-button",
+  "baseline": {"release":"3.25.0","version":"1.0.0","commit":"9e16453badb74fb085612956546a7efd404091e2"},
+  "releases": [
+    {
+      "release": "3.26.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "f53a93e1a0a57c6f4b666d572fd03b5530662796",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1971,"title":"feat(design-data): review in-field-button and date-field, remove in-field-progress-button (A2-2)","url":"https://github.com/adobe/spectrum-design-data/pull/1971"},
+          "entries": [
+            {"id":"f53a93e1-0","kind":"component","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"in-field-progress-button/","name":"in-field-progress-button","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

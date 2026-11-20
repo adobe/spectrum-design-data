@@ -651,6 +651,24 @@
           "metadata": {"count":1,"fields":["scope.options.size"]}
         }
       ]
+    },
+    {
+      "release": "3.26.0",
+      "version": "4.1.1",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "83903848b0136b8b710154411d0719071903890b",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1967,"title":"feat(design-data-spec)!: slots own part, accepts, collection; derive recipe repeat","url":"https://github.com/adobe/spectrum-design-data/pull/1967"},
+          "entries": [
+            {"id":"83903848-0","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"button/slots/default","name":"default","fields":[{"path":"part","after":"label"},{"path":"required","before":false}]},
+            {"id":"83903848-1","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"button/slots/icon","name":"icon","fields":[{"path":"part","after":"icon"}]}
+          ]
+        }
+      ]
     }
   ]
 }
