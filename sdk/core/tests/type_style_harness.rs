@@ -431,3 +431,83 @@ fn a_prebuilt_alias_index_unpacks_like_a_scan() {
     }
     assert!(n >= 30, "{n}");
 }
+
+/// A host recipe that nests `button` as part `a`, in a graph whose `button` recipe is the
+/// original or the `typeStyle` conversion.
+fn nested_scene(converted: bool, scale: &str) -> Scene {
+    let mut graph = load_graph();
+    let sizes: Vec<String> = ["s", "m", "l", "xl"].map(String::from).to_vec();
+    add_type_styles(&mut graph, "button", "label", "bold", &sizes);
+    let host = json!({
+        "component": "accordion", "root": "r",
+        "sizeScale": {"s": 100, "m": 200, "l": 300, "xl": 400},
+        "parts": {
+            "r": {"kind": "box", "children": ["a"]},
+            "a": {"kind": "component", "component": "button",
+                  "sizeMap": {"s": "s", "m": "m", "l": "l", "xl": "xl"}}
+        }
+    });
+    let button = read_json(data_dir().join("visuals/button.json"));
+    for v in graph.visuals.iter_mut() {
+        if v.component == "button" && converted {
+            v.raw = convert(&button, "label", false);
+        } else if v.component == "accordion" {
+            v.raw = host.clone();
+        }
+    }
+    let req = RenderRequest {
+        component: "accordion".into(),
+        size: "m".into(),
+        mode: [("colorScheme", "light"), ("scale", scale)]
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect(),
+        label: "Label".into(),
+        ..Default::default()
+    };
+    build_scene_cached(&graph, &host, &req, &SceneCache::default()).expect("nested scene")
+}
+
+#[test]
+fn a_type_style_works_in_a_nested_recipes_text_part() {
+    for scale in ["desktop", "mobile"] {
+        let (orig, conv) = (nested_scene(false, scale), nested_scene(true, scale));
+        let text = |s: &Scene| {
+            s.nodes
+                .iter()
+                .any(|n| n.part == "a.label" && n.kind == "text")
+        };
+        assert!(text(&orig) && text(&conv), "the nested label is drawn");
+        assert_eq!(orig.diagnostics, conv.diagnostics);
+        assert!(conv.diagnostics.is_empty(), "{:?}", conv.diagnostics);
+        assert_eq!(normalize(&orig).0, normalize(&conv).0, "nested {scale}");
+        let n = conv.nodes.iter().find(|n| n.part == "a.label").unwrap();
+        assert_eq!(n.font_family.as_deref(), Some(FAMILY));
+        let fs = n
+            .tokens
+            .iter()
+            .find(|t| t.prop == "fontSize")
+            .expect("fontSize token");
+        assert_eq!(fs.token, "component-m-bold");
+    }
+}
+
+#[test]
+fn a_type_style_works_in_a_flow_text_part() {
+    let (graph, recipe) = button_with(&[]);
+    let scene = text_scene(&graph, &recipe, "desktop");
+    let n = scene
+        .nodes
+        .iter()
+        .find(|n| n.part == "label")
+        .expect("flow label");
+    assert_eq!(n.font_family.as_deref(), Some(FAMILY));
+    assert_eq!(n.font_weight.as_deref(), Some("bold"));
+    let fs = n
+        .tokens
+        .iter()
+        .find(|t| t.prop == "fontSize")
+        .expect("fontSize token");
+    assert_eq!(fs.token, "component-m-bold");
+    assert_eq!(fs.chain, vec!["font-size-100".to_string()]);
+}
