@@ -1322,7 +1322,39 @@ fn build_sheet(
             .cloned(),
         "block": {"width": BLOCK_W, "height": BLOCK_H},
         "pages": pages,
+        "sections": template_sections(),
     }))
+}
+
+/// Lauryn Lesley's v1 spec template, in order: (key, title, hint). Every
+/// section starts as a placeholder; later slices fill the ones data backs.
+const TEMPLATE_SECTIONS: [(&str, &str, &str); 7] = [
+    ("anatomy", "Anatomy", "Variants, API table and Tokens table. Manual until generated from component data."),
+    ("usage", "Usage guidelines", "Do and don't, content rules, edge cases. Manual until generated from component data."),
+    ("states", "States, interactions and responsive behavior", "State board, interaction flow and responsive behavior. Manual."),
+    ("accessibility", "Accessibility", "Role, keyboard, focus order, screen readers, contrast. Manual until generated from component data."),
+    ("decision-log", "Decision log", "Decisions with rationale and contacts. Manual until generated from the changelog."),
+    ("how-to-use", "How to use", "Static instructions for reading this spec. Manual."),
+    ("feedback", "Feedback", "Developer and design feedback. Manual."),
+];
+
+fn template_sections() -> Vec<Value> {
+    TEMPLATE_SECTIONS
+        .iter()
+        .map(|(key, title, hint)| {
+            json!({
+                "key": key,
+                "title": title,
+                "blocks": [{
+                    "kind": "placeholder",
+                    "id": format!("{key}--placeholder"),
+                    "section": key,
+                    "title": title,
+                    "hint": hint,
+                }],
+            })
+        })
+        .collect()
 }
 
 fn write_text(p: &Path, text: String) -> miette::Result<()> {

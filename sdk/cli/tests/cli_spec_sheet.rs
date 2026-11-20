@@ -677,3 +677,57 @@ fn type_style_rows_show_the_composite_resolved_by_scale() {
     }
     assert!(seen > 0, "text-field has type-style rows");
 }
+
+#[test]
+fn every_sheet_emits_the_template_sections_as_placeholders_in_order() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let sections = sheet["sections"].as_array().unwrap();
+    let keys: Vec<&str> = sections
+        .iter()
+        .map(|s| s["key"].as_str().unwrap())
+        .collect();
+    assert_eq!(
+        keys,
+        [
+            "anatomy",
+            "usage",
+            "states",
+            "accessibility",
+            "decision-log",
+            "how-to-use",
+            "feedback"
+        ]
+    );
+    for s in sections {
+        let b = &s["blocks"][0];
+        assert_eq!(b["kind"], "placeholder");
+        assert_eq!(b["section"], s["key"]);
+        assert!(!b["hint"].as_str().unwrap().is_empty());
+    }
+}
+
+#[test]
+fn section_blocks_validate_and_malformed_ones_are_rejected() {
+    let mut sheet = sheet_of("accordion");
+    sheet["sections"][0]["blocks"] = serde_json::json!([
+        {"kind": "prose", "id": "p", "section": "usage", "title": "T", "paragraphs": ["a"], "do": ["x"], "dont": ["y"]},
+        {"kind": "table", "id": "t", "section": "anatomy", "title": "API", "columns": ["Name"], "rows": [["size"]]}
+    ]);
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    sheet["sections"][0]["blocks"] =
+        serde_json::json!([{"kind": "table", "id": "t", "section": "bogus", "title": "x"}]);
+    assert!(!schema_errors(&sheet).is_empty());
+}
+
+#[test]
+fn measurement_pages_are_unaffected_by_sections() {
+    let sheet = sheet_of("action-button");
+    let mut keys: Vec<&String> = sheet.as_object().unwrap().keys().collect();
+    keys.sort();
+    assert!(keys.contains(&&"sections".to_string()));
+    assert!(!sheet["pages"][0]["blocks"][0]
+        .as_object()
+        .unwrap()
+        .contains_key("kind"));
+}
