@@ -74,17 +74,13 @@
       "name": "container",
       "description": "Root: owns the wheel's width and minimum width.",
       "required": true,
-      "contains": ["track", "color-area"]
+      "contains": ["track"]
     },
     {
       "name": "track",
       "description": "Circular hue ring; owns thickness, border styling on both edges, the gradient and the disabled background.",
       "required": true,
       "contains": ["color-handle"]
-    },
-    {
-      "name": "color-area",
-      "description": "Optional nested color area inside the ring."
     },
     {
       "name": "color-handle",
@@ -95,7 +91,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "A7 (2026-11-20). RSP ColorWheel.tsx:75-115 (ColorWheelTrack, thickness 24); Figma Color wheel (fill image, inner and outer border vectors, a Color handle). Explicit container added. Option background dropped (no source has it)."
+    "notes": "A7 (2026-11-20). RSP ColorWheel.tsx:75-115 (ColorWheelTrack, thickness 24); Figma Color wheel (fill image, inner and outer border vectors, a Color handle). Explicit container added. Option background dropped (no source has it). Owner decision C10: the color-area part is dropped (neither Figma nor RSP nests an area in the wheel); the 12px margin to it is track padding, the space inside the ring. A wheel plus an area is a future Pattern."
   },
   "states": [
     {

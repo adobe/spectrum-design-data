@@ -99,8 +99,8 @@
   {
     "scope": {
       "component": "color-wheel",
-      "part": "color-area",
-      "property": "margin"
+      "part": "track",
+      "property": "padding"
     },
     "context": "Margin to color area",
     "contextRole": ["spacing"],
@@ -181,8 +181,8 @@
   {
     "scope": {
       "component": "color-wheel",
-      "part": "color-area",
-      "property": "margin"
+      "part": "track",
+      "property": "padding"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
