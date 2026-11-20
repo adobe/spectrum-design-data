@@ -202,10 +202,48 @@ fn identity_of(r: &Value) -> (Value, Value, Value, Value) {
     )
 }
 
-/// True when an updated relationship kept its identity. A part appearing where there was
-/// none makes the implicit root explicit, so it counts as kept; a part removed or changed
-/// does not.
+/// Whether `part` is the component's root: declared, contained by no other part, and either
+/// a container (has `contains`), the only such part, or named `container`. Read from the
+/// anatomy in the new snapshot.
+fn is_root(new: &DatasetSnapshot, comp: Option<&str>, part: &str) -> bool {
+    let Some(parts) = comp
+        .and_then(|n| new.components.get(n))
+        .and_then(|v| v.get("anatomy"))
+        .and_then(Value::as_array)
+    else {
+        return false;
+    };
+    let name = |p: &Value| {
+        p.get("name")
+            .and_then(Value::as_str)
+            .unwrap_or("")
+            .to_string()
+    };
+    let contained: HashSet<&str> = parts
+        .iter()
+        .filter_map(|p| p.get("contains").and_then(Value::as_array))
+        .flatten()
+        .filter_map(Value::as_str)
+        .collect();
+    let top: Vec<&Value> = parts
+        .iter()
+        .filter(|p| !contained.contains(name(p).as_str()))
+        .collect();
+    top.iter().any(|p| {
+        name(p) == part
+            && (top.len() == 1
+                || part == "container"
+                || p.get("contains")
+                    .and_then(Value::as_array)
+                    .is_some_and(|a| !a.is_empty()))
+    })
+}
+
+/// True when an updated relationship kept its identity. A root part appearing where there
+/// was none makes the implicit root explicit, so it counts as kept; any other part added,
+/// and a part removed or changed, does not.
 fn identity_kept(old: &DatasetSnapshot, new: &DatasetSnapshot, c: &RecordChange) -> bool {
+    let comp = c.component.as_deref();
     // Paired by uuid; a record without one is never assumed to keep its identity.
     let find = |s: &'_ DatasetSnapshot| {
         s.relationships
@@ -216,7 +254,11 @@ fn identity_kept(old: &DatasetSnapshot, new: &DatasetSnapshot, c: &RecordChange)
     let (Some((bp, ba, bpart, bb)), Some((ap, aa, apart, ab))) = (find(old), find(new)) else {
         return false;
     };
-    bp == ap && ba == aa && bb == ab && (bpart == apart || bpart.is_null())
+    bp == ap
+        && ba == aa
+        && bb == ab
+        && (bpart == apart
+            || (bpart.is_null() && apart.as_str().is_some_and(|p| is_root(new, comp, p))))
 }
 
 fn field_class(layer: Layer, kind: &str, f: &PropertyChange, kept: bool) -> Class {
@@ -1193,7 +1235,6 @@ mod tests {
 
     #[test]
     fn identity_preserving_migrations_are_metadata() {
-        let kinds = |c: &[Class]| c.iter().all(|c| *c == Class::Metadata);
         // options.from/to -> between
         let (c, n) = classes(
             with(|r| r["scope"]["options"] = json!({"from": "a", "to": "b"})),
@@ -1206,9 +1247,60 @@ mod tests {
             with(|r| r["scope"]["part"] = json!("Dot")),
         );
         assert!(c.is_empty() && n > 0, "{c:?}");
-        // implicit root made explicit
-        let (c, n) = classes(rel("1", "t"), with(|r| r["scope"]["part"] = json!("root")));
-        assert!(c.is_empty() && n > 0 && kinds(&c));
+    }
+
+    fn with_anatomy(old: Value, new: Value) -> (Vec<Class>, usize) {
+        let comp = json!({"anatomy": [
+            {"name": "container", "contains": ["label"]},
+            {"name": "label"},
+            {"name": "focus-indicator"}
+        ]});
+        let c = &run(
+            &snap(vec![old], vec![("c", comp.clone())]),
+            &snap(vec![new], vec![("c", comp)]),
+        )["c"];
+        (
+            c.entries.iter().map(|e| e.class).collect(),
+            c.metadata.as_ref().map_or(0, |m| m.count),
+        )
+    }
+
+    #[test]
+    fn adding_the_root_part_is_metadata_another_part_is_api() {
+        let (c, n) = with_anatomy(
+            rel("1", "t"),
+            with(|r| r["scope"]["part"] = json!("container")),
+        );
+        assert!(c.is_empty() && n > 0, "{c:?}");
+        for other in ["label", "focus-indicator"] {
+            let (c, _) = with_anatomy(rel("1", "t"), with(|r| r["scope"]["part"] = json!(other)));
+            assert!(c.contains(&Class::Api), "{other}: {c:?}");
+        }
+    }
+
+    #[test]
+    fn record_without_a_matching_uuid_lists_the_identity_change() {
+        let (c, _) = classes(
+            with(|r| r["scope"]["options"] = json!({"from": "a", "to": "b"})),
+            with(|r| {
+                r["uuid"] = json!("other");
+                r["scope"]["between"] = json!({"from": "a", "to": "b"});
+            }),
+        );
+        assert!(!c.is_empty(), "{c:?}");
+    }
+
+    #[test]
+    fn a_move_plus_a_pin_change_is_one_visual_entry_and_metadata() {
+        let (c, n) = classes(
+            with(|r| r["scope"]["options"] = json!({"from": "a", "to": "b", "state": "x"})),
+            with(|r| {
+                r["scope"]["options"] = json!({"state": "y"});
+                r["scope"]["between"] = json!({"from": "a", "to": "b"});
+            }),
+        );
+        assert_eq!(c, vec![Class::Visual]);
+        assert!(n > 0);
     }
 
     #[test]
