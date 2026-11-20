@@ -16,7 +16,7 @@
 //           start-edge, end-edge; `top/bottom` -> top-edge, bottom-edge. The record is split in
 //           two (the first keeps its uuid, the second gets a deterministic v5 uuid).
 //   spacing a fused name on a record with `between` becomes `space-between` (D1b).
-//   size    a 50/75/100/200/300 suffix becomes `options.size` xs/s/m/l/xl when the component
+//   size    a 50/75/100/200/300 (or small/medium/large/extra-large) suffix becomes `options.size` xs/s/m/l/xl when the component
 //           declares that size, else it is dropped (50 is always judgement). The referenced
 //           token's size must agree.
 //   modifier a name modifier (-pill-, -quiet, -visual-only, -compact, -spacious, -editable,
@@ -25,13 +25,19 @@
 //   constraint the context keyword picks minimum-/maximum-width/height; else the name base,
 //           else the referenced token's property, when it is a registered term.
 //   color   `color` without `attribute` gets background / border / shadow from its role.
-//           "Background and border" is reported (split by hand). `background-color` and
-//           `border-color` records are held for PR 1454 and never touched.
+//           "Background and border" becomes two records (background, border) sharing the
+//           $ref; the first keeps its uuid, the second gets a v5 uuid (decision A114).
+//           `background-color` and `border-color` records are held for PR 1454 and never touched.
+//   tie     records that would share one identity and differ only by $ref get `options.size`
+//           from the referenced token's size word, when the component declares that size and
+//           every record of the group has a different token size (never for script tokens, type
+//           styles, or desktop/mobile pairs). Only groups with a record decomposed in this run or with a
+//           `between` are pinned, so a run does not rewrite unrelated records.
 // Skipped: deprecated records, `legacyKey` records (unless --legacy-key), recipes.
 // Anything the rules cannot settle is reported as judgement and never written.
 //
 // Usage: node scripts/decompose-fused-properties.mjs [--report|--write|--check]
-//          [--family a,b] [--totals] [--legacy-key] [<design-data dir>]
+//          [--family a,b] [--totals] [--legacy-key] [--hold-color-split] [<design-data dir>]
 // --report (default) prints the old -> new table and totals; --write applies the mechanical
 // changes; --check exits 1 if any mechanical change is pending. Run prettier on written files.
 
@@ -42,7 +48,17 @@ import { uuidV5 } from "./backfill-relationship-uuid.mjs";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 
-const SIZE = { 50: "xs", 75: "s", 100: "m", 200: "l", 300: "xl" };
+const SIZE = {
+  50: "xs",
+  75: "s",
+  100: "m",
+  200: "l",
+  300: "xl",
+  small: "s",
+  medium: "m",
+  large: "l",
+  "extra-large": "xl",
+};
 const HELD = new Set(["background-color", "border-color"]);
 const MODIFIERS = [
   { re: /(^|-)pill(-|$)/, option: "shape", value: "pill" },
@@ -59,7 +75,20 @@ const AXES = {
   "start/end": ["start-edge", "end-edge"],
   "top/bottom": ["top-edge", "bottom-edge"],
 };
+/** The axis of a generic `edge`: the context words, else the token's padding property. */
+function edgeAxis(label, token) {
+  if (/\b(start|end)\b/.test(label)) return AXES["start/end"];
+  if (/\b(top|bottom)\b/.test(label)) return AXES["top/bottom"];
+  const p = token?.name?.property;
+  if (p === "padding-horizontal") return AXES["start/end"];
+  if (p === "padding-vertical") return AXES["top/bottom"];
+  return null;
+}
 const SPACING = /(^|-)(to|padding|spacing|gap|space|between)(-|$)/;
+
+/** Script-specific (CJK) tokens are never pinned by size: they would outrank their unpinned latin siblings. */
+const isScriptToken = (t) =>
+  Boolean(t?.name?.script || t?.name?.legacyKey?.startsWith("cjk-"));
 
 const canon = (v) =>
   v && typeof v === "object"
@@ -79,6 +108,16 @@ export function hasStructure(property, parts = []) {
     /^\d+$/.test(property.split("-").pop()) ||
     parts.some((p) => padded.includes(`-${p}-`))
   );
+}
+
+/** Same convention as backfill-relationship-uuid.mjs: the n-th occurrence of an identity. */
+function newUuid(record, ctx) {
+  const identity = `${ctx.file}|${canon(record.scope)}|${record.$ref ?? canon(record.value)}|${record.context ?? ""}`;
+  let n = 0;
+  let id;
+  while (ctx.used.has((id = uuidV5(`${identity}|${n}`)))) n++;
+  ctx.used.add(id);
+  return id;
 }
 
 export const isLive = (r) => !r.lifecycle?.deprecatedIn;
@@ -125,9 +164,23 @@ export function plan(record, ctx) {
 
   if (color) {
     if (/background (and|&|\/) border/.test(label)) {
-      return judgement(
+      if (!ctx.attributes.has("background") || !ctx.attributes.has("border"))
+        return judgement("color split", "background/border are not attributes");
+      if (ctx.holdColorSplit)
+        return judgement(
+          "color split",
+          "held (--hold-color-split): splitting an ambiguous group raises the same-pin-set baseline",
+        );
+      const border = {
+        ...structuredClone(record),
+        scope: { ...scope, attribute: "border" },
+      };
+      border.uuid = newUuid(border, ctx);
+      return out(
+        "mechanical",
         "color split",
-        "background and border: split into two records by hand",
+        [],
+        [{ ...record, scope: { ...scope, attribute: "background" } }, border],
       );
     }
     const attribute = /\bbackground\b/.test(label)
@@ -155,16 +208,18 @@ export function plan(record, ctx) {
   let base = property;
   let twinBetween = null;
 
-  const sizeMatch = base.match(/^(.*)-(50|75|100|200|300)$/);
+  const sizeMatch = base.match(
+    /^(.*?)-(50|75|100|200|300|small|medium|large|extra-large)$/,
+  );
   let size = null;
   if (sizeMatch) {
     base = sizeMatch[1];
     size = SIZE[sizeMatch[2]];
     const token = ctx.tokens.get(record.$ref);
-    if (token?.name?.script || token?.legacyKey?.startsWith("cjk-")) {
+    if (isScriptToken(token)) {
       return judgement(
         "script token",
-        `${token.legacyKey ?? token.name.script}: a script-specific token is never pinned by size (it would outrank its unpinned latin siblings)`,
+        `${token.name.legacyKey ?? token.name.property}: a script-specific token is never pinned by size (it would outrank its unpinned latin siblings)`,
       );
     }
     const tokenSize = token?.name?.size;
@@ -215,12 +270,13 @@ export function plan(record, ctx) {
   }
 
   if (genericEdge) {
-    const axis = Object.entries(AXES).find(
-      ([k]) => label.includes(k) || label.includes(k.split("/")[1] + " edge"),
-    );
+    const axis = edgeAxis(label, ctx.tokens.get(record.$ref));
     if (!axis)
-      return judgement("edge", "no start/end or top/bottom in the context");
-    const [first, second] = axis[1];
+      return judgement(
+        "edge",
+        "no start/end or top/bottom in the context, and the token is not padding-horizontal/vertical",
+      );
+    const [first, second] = axis;
     const other =
       scope.between.from === "edge" ? scope.between.to : scope.between.from;
     if (!other || other === "edge")
@@ -273,7 +329,8 @@ export function plan(record, ctx) {
       r === newProperty ||
       (newProperty === "space-between" &&
         ["spacing", "padding", "gap", "icon"].includes(r)) ||
-      newProperty.endsWith(r);
+      newProperty.endsWith(r) ||
+      (newProperty === "size" && r === "icon");
     if (roles.length && !roles.some(agree)) {
       return judgement(
         "role",
@@ -292,11 +349,7 @@ export function plan(record, ctx) {
   if (twinBetween) {
     const twin = structuredClone(next);
     twin.scope.between = twinBetween;
-    // Same convention as backfill-relationship-uuid.mjs: the n-th occurrence of an identity.
-    const identity = `${ctx.file}|${canon(twin.scope)}|${twin.$ref ?? canon(twin.value)}|${twin.context ?? ""}`;
-    let n = 0;
-    while (ctx.used.has((twin.uuid = uuidV5(`${identity}|${n}`)))) n++;
-    ctx.used.add(twin.uuid);
+    twin.uuid = newUuid(twin, ctx);
     result.push(twin);
   }
   return out("mechanical", rule.join(" + "), notes, result);
@@ -328,16 +381,84 @@ function loadContext(dir) {
   };
 }
 
+const sizeOf = (r, ctx) => {
+  const token = ctx.tokens.get(r.$ref);
+  const size = token?.name?.size;
+  return !isScriptToken(token) && optionHas(ctx.component, "size", size)
+    ? size
+    : null;
+};
+
+/** Pins options.size from the token on records that would otherwise share one identity. */
+function pinTies(records, results, ctx) {
+  const groups = new Map();
+  results.forEach((res, i) => {
+    if (res.status !== "ok" && res.status !== "mechanical") return;
+    for (const r of res.next ?? [records[i]]) {
+      const sc = r.scope;
+      if (
+        r.value !== undefined ||
+        sc.options?.size !== undefined ||
+        sc.property === "typography"
+      )
+        continue;
+      const k = canon({ ...sc, component: undefined });
+      groups.set(k, [
+        ...(groups.get(k) ?? []),
+        { i, r, changed: res.status === "mechanical" },
+      ]);
+    }
+  });
+  for (const members of groups.values()) {
+    const sizes = members.map(({ r }) => sizeOf(r, ctx));
+    // One record per size: desktop/mobile pairs are told apart by the token's scale already.
+    if (
+      members.length < 2 ||
+      sizes.some((z) => !z) ||
+      new Set(sizes).size < members.length ||
+      !members.some(({ r, changed }) => changed || r.scope.between)
+    )
+      continue;
+    members.forEach(({ i, r }, j) => {
+      const res = results[i];
+      if (res.status === "ok") {
+        res.next = [structuredClone(records[i])];
+        res.status = "mechanical";
+        res.rule = "size from token";
+        res.notes = [];
+        r = res.next[0];
+      } else if (!res.rule.includes("size from token")) {
+        res.rule += " + size from token";
+      }
+      r.scope.options = { ...r.scope.options, size: sizes[j] };
+    });
+  }
+}
+
 /** Plans a whole file; marks records that become exact duplicates of another live record. */
-export function planFile(records, name, base, legacyKey = false) {
+export function planFile(
+  records,
+  name,
+  base,
+  legacyKey = false,
+  holdColorSplit = false,
+) {
   const component = base.components.get(name) ?? { name };
   const used = new Set(records.map((r) => r.uuid));
-  const ctx = { ...base, component, file: `${name}.json`, legacyKey, used };
+  const ctx = {
+    ...base,
+    component,
+    file: `${name}.json`,
+    legacyKey,
+    holdColorSplit,
+    used,
+  };
   const results = records.map((r) =>
     isLive(r)
       ? plan(r, ctx)
       : { status: "deprecated", rule: "", notes: [], next: null },
   );
+  pinTies(records, results, ctx);
   const after = new Map();
   results.forEach((res, i) => {
     for (const r of res.next ?? (isLive(records[i]) ? [records[i]] : [])) {
@@ -407,7 +528,13 @@ function main() {
     if (family && !family.includes(name)) continue;
     const path = join(dir, "relationships", f);
     const records = JSON.parse(readFileSync(path, "utf8"));
-    const results = planFile(records, name, base, flag("--legacy-key"));
+    const results = planFile(
+      records,
+      name,
+      base,
+      flag("--legacy-key"),
+      flag("--hold-color-split"),
+    );
     const rows = results.map((res, i) => ({
       name,
       record: records[i],
