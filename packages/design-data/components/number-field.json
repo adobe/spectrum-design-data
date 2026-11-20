@@ -113,14 +113,78 @@
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
+      "name": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "field",
+      "description": "Bordered box that frames the value and its in-field icons and stepper.",
+      "required": true,
+      "contains": [
+        "leading-icon",
+        "prefix",
+        "value",
+        "placeholder",
+        "error-icon",
+        "in-field-stepper",
+        "focus-indicator"
+      ]
+    },
+    {
+      "name": "leading-icon",
+      "description": "Icon at the start of the field."
+    },
+    {
+      "name": "prefix",
+      "description": "Short fixed text shown before the value or placeholder."
+    },
+    {
+      "name": "value",
+      "description": "Number the user entered."
+    },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown while the field is empty."
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon shown at the end of the field when it is invalid."
+    },
+    {
       "name": "in-field-stepper",
-      "description": "Increment/decrement stepper embedded in the field."
+      "description": "Increment and decrement buttons embedded at the end of the field. Hidden by the hideStepper option.",
+      "contains": ["in-field-button"]
+    },
+    {
+      "name": "in-field-button",
+      "description": "One of the two stepper buttons (decrement and increment). Styled by the in-field-button component."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
     }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "First anatomy. Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). Figma Number field page (Field, Stepper made of two .In-field button), RSP NumberField (stepperContainer, two StepButton). Number field has no validation icon in any source, so its three Positive icon records were removed."
+  },
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "focus-+-hover", "trigger": "prop" },
-    { "name": "focus-+-not-hover", "trigger": "prop" }
+    { "name": "focus-+-not-hover", "trigger": "prop" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

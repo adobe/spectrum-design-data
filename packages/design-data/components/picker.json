@@ -142,12 +142,18 @@
   ],
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
       "name": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
     {
-      "name": "container",
-      "description": "Bordered box that frames the value and the disclosure icon.",
+      "name": "field",
+      "description": "Box that frames the value and the disclosure icon. Filled, with a border only when invalid.",
       "required": true,
       "contains": [
         "leading-icon",
@@ -156,7 +162,8 @@
         "placeholder",
         "error-icon",
         "in-field-progress-circle",
-        "disclosure-icon"
+        "disclosure-icon",
+        "focus-indicator"
       ]
     },
     {
@@ -199,9 +206,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "RSP Picker.tsx:287,736-739 (loading progress circle before the chevron; chevron is a plain disclosure icon); asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Popup menu left out as its own component."
+    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). RSP Picker.tsx:287,736-739 (loading progress circle before the chevron; chevron is a plain disclosure icon); asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Popup menu left out as its own component."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

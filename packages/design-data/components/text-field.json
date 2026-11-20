@@ -132,11 +132,17 @@
   ],
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text", "character-count"]
+    },
+    {
       "name": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
     {
-      "name": "container",
+      "name": "field",
       "description": "Bordered box that frames the value and its in-field icons.",
       "required": true,
       "contains": [
@@ -145,7 +151,8 @@
         "value",
         "placeholder",
         "error-icon",
-        "validation-marker"
+        "validation-marker",
+        "focus-indicator"
       ]
     },
     {
@@ -187,9 +194,9 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Text field page, relationship contexts; RSP Field.tsx:118-166 (asterisk inside field-label), Field.tsx:201-241 (FieldGroup border is styling on container). validation-marker and character-count are tracked by a separate bead (Spectrum-1-only check)."
+    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). Figma S2 Web Text field page, relationship contexts; RSP Field.tsx:118-166 (asterisk inside field-label), Field.tsx:201-241 (FieldGroup border is styling on container). validation-marker and character-count are tracked by a separate bead (Spectrum-1-only check)."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

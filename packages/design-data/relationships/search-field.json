@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "container",
       "property": "minimum-width-multiplier"
     },
     "context": "Width (minimum)",
@@ -13,6 +14,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -24,6 +26,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "container",
       "property": "width"
     },
     "context": "Width (default)",
@@ -35,6 +38,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "component-height-75"
     },
     "context": "Height",
@@ -45,6 +49,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "component-height-75"
     },
     "context": "Height",
@@ -55,6 +60,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "component-height-100"
     },
     "context": "Height",
@@ -65,6 +71,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "component-height-100"
     },
     "context": "Height",
@@ -75,6 +82,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "component-height-200"
     },
     "context": "Height",
@@ -85,6 +93,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "component-height-200"
     },
     "context": "Height",
@@ -95,6 +104,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "component-height-300"
     },
     "context": "Height",
@@ -105,6 +115,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "component-height-300"
     },
     "context": "Height",
@@ -115,7 +126,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "to-component"
+      "part": "container",
+      "property": "to-component",
+      "between": {
+        "from": "field",
+        "to": "help-text"
+      }
     },
     "context": "Spacing (search field to help text)",
     "contextRole": ["spacing"],
@@ -126,6 +142,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -136,6 +153,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "border-width"
     },
     "context": "Border",
@@ -146,6 +164,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "leading-icon",
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
@@ -156,6 +175,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "leading-icon",
       "property": "workflow-icon-size-75"
     },
     "context": "Icon",
@@ -166,6 +186,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "leading-icon",
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
@@ -176,6 +197,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "leading-icon",
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
@@ -186,6 +208,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "leading-icon",
       "property": "workflow-icon-size-200"
     },
     "context": "Icon",
@@ -196,6 +219,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "leading-icon",
       "property": "workflow-icon-size-200"
     },
     "context": "Icon",
@@ -206,6 +230,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "leading-icon",
       "property": "workflow-icon-size-300"
     },
     "context": "Icon",
@@ -216,6 +241,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "leading-icon",
       "property": "workflow-icon-size-300"
     },
     "context": "Icon",
@@ -226,7 +252,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-text-75"
+      "part": "field",
+      "property": "component-pill-edge-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -237,7 +268,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-text-75"
+      "part": "field",
+      "property": "component-pill-edge-to-text-75",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -248,7 +284,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-text-100"
+      "part": "field",
+      "property": "component-pill-edge-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -259,7 +300,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-text-100"
+      "part": "field",
+      "property": "component-pill-edge-to-text-100",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -270,7 +316,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-text-200"
+      "part": "field",
+      "property": "component-pill-edge-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -281,7 +332,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-text-200"
+      "part": "field",
+      "property": "component-pill-edge-to-text-200",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -292,7 +348,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-text-300"
+      "part": "field",
+      "property": "component-pill-edge-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -303,7 +364,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-text-300"
+      "part": "field",
+      "property": "component-pill-edge-to-text-300",
+      "between": {
+        "from": "edge",
+        "to": "value"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -314,7 +380,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-visual-75"
+      "part": "field",
+      "property": "component-pill-edge-to-visual-75",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -325,7 +396,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-visual-75"
+      "part": "field",
+      "property": "component-pill-edge-to-visual-75",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -336,7 +412,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-visual-100"
+      "part": "field",
+      "property": "component-pill-edge-to-visual-100",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -347,7 +428,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-visual-100"
+      "part": "field",
+      "property": "component-pill-edge-to-visual-100",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -358,7 +444,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-visual-200"
+      "part": "field",
+      "property": "component-pill-edge-to-visual-200",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -369,7 +460,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-visual-200"
+      "part": "field",
+      "property": "component-pill-edge-to-visual-200",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -380,7 +476,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-visual-300"
+      "part": "field",
+      "property": "component-pill-edge-to-visual-300",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -391,7 +492,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-pill-edge-to-visual-300"
+      "part": "field",
+      "property": "component-pill-edge-to-visual-300",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (start/end edge to text)",
     "contextRole": ["spacing"],
@@ -402,7 +508,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "value"
+      }
     },
     "context": "Spacing (icon to text)",
     "contextRole": ["spacing"],
@@ -413,7 +524,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "value"
+      }
     },
     "context": "Spacing (icon to text)",
     "contextRole": ["spacing"],
@@ -424,7 +540,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "value"
+      }
     },
     "context": "Spacing (icon to text)",
     "contextRole": ["spacing"],
@@ -435,7 +556,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "leading-icon",
+        "to": "value"
+      }
     },
     "context": "Spacing (icon to text)",
     "contextRole": ["spacing"],
@@ -446,7 +572,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-top-to-workflow-icon-75"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-75",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -457,7 +588,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-100",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -468,7 +604,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-top-to-workflow-icon-200"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-200",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -479,7 +620,12 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "component-top-to-workflow-icon-300"
+      "part": "field",
+      "property": "component-top-to-workflow-icon-300",
+      "between": {
+        "from": "edge",
+        "to": "leading-icon"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -490,6 +636,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -500,6 +647,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus indicator",
@@ -510,6 +658,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "font-family"
     },
     "context": "Label",
@@ -520,6 +669,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "font-weight"
     },
     "context": "Label",
@@ -530,6 +680,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "font-style"
     },
     "context": "Label",
@@ -540,6 +691,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "typography"
     },
     "context": "Label",
@@ -550,6 +702,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "typography"
     },
     "context": "Label",
@@ -560,6 +713,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "typography"
     },
     "context": "Label",
@@ -570,6 +724,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "typography"
     },
     "context": "Label",
@@ -580,6 +735,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Label",
@@ -590,6 +746,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Label",
@@ -600,6 +757,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Label",
@@ -610,6 +768,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Label",
@@ -620,6 +779,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Label",
@@ -630,6 +790,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Label",
@@ -640,6 +801,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Label",
@@ -650,6 +812,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height"
     },
     "context": "Label",
@@ -660,6 +823,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "line-height-100"
     },
     "context": "Label",
@@ -670,7 +834,9 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -680,7 +846,9 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -690,7 +858,9 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -700,7 +870,9 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -710,7 +882,9 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -720,7 +894,9 @@
   {
     "scope": {
       "component": "search-field",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -730,7 +906,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover"]
       }
@@ -743,7 +921,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover"]
       }
@@ -756,7 +936,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["hover"]
       }
@@ -769,7 +951,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-hover"]
       }
@@ -782,7 +966,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-hover"]
       }
@@ -795,7 +981,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-hover"]
       }
@@ -808,7 +996,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-not-hover"]
       }
@@ -821,7 +1011,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-not-hover"]
       }
@@ -834,7 +1026,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["focus-+-not-hover"]
       }
@@ -847,6 +1041,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value, label and icon",
@@ -857,6 +1052,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value, label and icon",
@@ -867,6 +1063,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value, label and icon",
@@ -877,6 +1074,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value, label and icon",
@@ -887,6 +1085,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "content-color"
     },
     "context": "Value, label and icon",
@@ -897,6 +1096,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "color"
     },
     "context": "Value, label and icon",
@@ -907,6 +1107,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "color"
     },
     "context": "Value, label and icon",
@@ -917,6 +1118,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "value",
       "property": "color"
     },
     "context": "Value, label and icon",
@@ -927,6 +1129,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "content-color",
       "options": {
         "isDisabled": true
@@ -940,7 +1143,9 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "field",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": true
       }
@@ -953,6 +1158,7 @@
   {
     "scope": {
       "component": "search-field",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
