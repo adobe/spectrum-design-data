@@ -813,7 +813,49 @@ fn accordion_anatomy_has_api_and_capped_tokens_tables() {
         alias,
         &serde_json::json!(["container-padding-small", "dimension", "Yes", "spacing-200"])
     );
-    assert_eq!(blocks[2]["kind"], "placeholder");
+    assert_eq!(blocks[2]["id"], "anatomy--specimen");
+    assert_eq!(blocks[3]["id"], "anatomy--variants");
+    assert_eq!(blocks[4]["kind"], "placeholder");
+}
+
+#[test]
+fn accordion_anatomy_has_a_multi_item_specimen_and_a_24_variant_board() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "anatomy")["blocks"].as_array().unwrap();
+    let specimen = blocks
+        .iter()
+        .find(|b| b["id"] == "anatomy--specimen")
+        .unwrap();
+    assert!(specimen["caption"]
+        .as_str()
+        .unwrap()
+        .contains("allowsMultipleExpanded"));
+    let render = &specimen["items"][0]["render"];
+    let items = render["request"]["options"]["items"].as_array().unwrap();
+    assert!(items.len() >= 3);
+    assert!(items.iter().filter(|i| i["isExpanded"] == true).count() >= 2);
+    assert!(render["scene"].get("measurements").is_none());
+
+    let board = blocks
+        .iter()
+        .find(|b| b["id"] == "anatomy--variants")
+        .unwrap();
+    let cells = board["items"].as_array().unwrap();
+    assert_eq!(cells.len(), 24);
+    let titles: std::collections::BTreeSet<_> =
+        cells.iter().map(|c| c["title"].as_str().unwrap()).collect();
+    assert_eq!(titles.len(), 24, "each combination is titled once");
+    assert_eq!(cells[0]["title"], "Small, compact, default");
+    assert_eq!(cells[23]["title"], "Extra Large, spacious, quiet");
+}
+
+#[test]
+fn components_without_the_variant_options_keep_their_anatomy_blocks() {
+    let sheet = sheet_of("action-button");
+    let blocks = section(&sheet, "anatomy")["blocks"].as_array().unwrap();
+    assert!(blocks.iter().all(|b| b["kind"] != "gallery"));
+    assert_eq!(blocks.last().unwrap()["kind"], "placeholder");
 }
 
 #[test]

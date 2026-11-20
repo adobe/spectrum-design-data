@@ -458,6 +458,7 @@ pub fn fill(
     graph: &TokenGraph,
     component: &str,
     changelog: Option<&Value>,
+    gallery: Vec<Value>,
 ) {
     let Some(raw) = component_raw(graph, component) else {
         return;
@@ -466,13 +467,19 @@ pub fn fill(
         .into_iter()
         .flatten()
         .collect();
+    let generated = !gallery.is_empty();
+    anatomy.extend(gallery);
     if !anatomy.is_empty() {
-        // Variants and the multi-item board come later; their placeholder stays.
+        let hint = if generated {
+            "Structural indicators (nested instances, slots, required vs optional parts). Manual."
+        } else {
+            "Variants and multi-item board. Manual until generated from component data."
+        };
         anatomy.push(placeholder(
             "anatomy",
             "anatomy--placeholder",
             "Anatomy",
-            "Variants and multi-item board. Manual until generated from component data.",
+            hint,
         ));
         set_blocks(sections, "anatomy", anatomy);
     }

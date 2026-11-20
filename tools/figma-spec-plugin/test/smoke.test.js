@@ -732,8 +732,14 @@ test("icon parts draw their catalog paths via createNodeFromSvg", async (t) => {
       .flatMap((b) => b.render?.scene.nodes ?? [])
       .filter((n) => n.kind === "icon");
     t.true(icons.length > 0, component);
+    const galleryIcons = (s.sections ?? [])
+      .flatMap((x) => x.blocks)
+      .filter((b) => b.kind === "gallery")
+      .flatMap((b) => b.items)
+      .flatMap((i) => i.render.scene.nodes)
+      .filter((n) => n.kind === "icon").length;
     const frames = page.children[0].findAll((f) => f.svg);
-    t.is(frames.length, icons.length, component);
+    t.is(frames.length, icons.length + galleryIcons, component);
     t.is(
       page.children[0].findAll((f) => f.type === "RECTANGLE" && !f.svg).length >
         0,
@@ -829,7 +835,8 @@ test("a wrapped label arrives as one text node per line and draws as one text la
   );
   const { figma, page } = mock();
   await figma.ui.onmessage({ type: "render-sheet", sheet: s });
-  const drawn = page.children[0].findAll(
+  const specs = page.children[0].children.find((n) => n.name === "Specs");
+  const drawn = specs.findAll(
     (n) => n.type === "TEXT" && lines.includes(n.characters),
   );
   t.deepEqual(
@@ -948,6 +955,37 @@ const fixtureSections = [
         ],
       },
       {
+        kind: "gallery",
+        id: "anatomy--variants",
+        section: "anatomy",
+        title: "All 2 variants",
+        caption: "Size x quiet.",
+        columns: 2,
+        cell: { width: 100, height: 60 },
+        items: ["Small, default", "Small, quiet"].map((title) => ({
+          title,
+          render: {
+            view: { scale: 1, x: 5, y: 5 },
+            scene: {
+              width: 90,
+              height: 50,
+              nodes: [
+                {
+                  part: "box",
+                  kind: "box",
+                  x: 0,
+                  y: 0,
+                  w: 90,
+                  h: 50,
+                  fill: "#ffffff",
+                },
+              ],
+            },
+            svg: '<svg width="90" height="50"><rect width="90" height="50"/></svg>',
+          },
+        })),
+      },
+      {
         kind: "placeholder",
         id: "anatomy--placeholder",
         section: "anatomy",
@@ -995,6 +1033,8 @@ test("sections are drawn after the pages: prose, table grid and a dashed Manual 
     );
   t.is(all(secs[1], (n) => n.name === "Header row").length, 1);
   t.is(all(secs[1], (n) => n.name === "Row").length, 2);
+  t.is(all(secs[1], (n) => n.name?.startsWith("Gallery cell")).length, 2);
+  t.true(texts.includes("Small, quiet"));
   const box = all(secs[1], (n) => n.dashPattern)[0];
   t.deepEqual(box.dashPattern, [6, 4]);
 });

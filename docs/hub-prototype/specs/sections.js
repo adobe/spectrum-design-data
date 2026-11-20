@@ -14,12 +14,25 @@ const list = (cls, label, items) =>
     ? `<div class="${cls}"><strong>${label}</strong><ul>${items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul></div>`
     : "";
 
+// The cell draws the render's svg (`spec-sheet --svg`) under the view the generator fitted.
+function galleryCell(item, cell) {
+  const { view, svg } = item.render;
+  const inner = (svg ?? "")
+    .replace(/^<svg[^>]*>/, "")
+    .replace(/<\/svg>\s*$/, "");
+  return `<figure><svg width="${cell.width}" height="${cell.height}" viewBox="0 0 ${cell.width} ${cell.height}" role="img" aria-label="${esc(item.title)}"><g transform="translate(${view.x} ${view.y}) scale(${view.scale})">${inner}</g></svg><figcaption>${esc(item.title)}</figcaption></figure>`;
+}
+
 function sectionBlock(b) {
   const title =
     b.title && b.kind !== "placeholder" ? `<h3>${esc(b.title)}</h3>` : "";
   let body = "";
   if (b.kind === "table") {
     body = `<table class="grid"><thead><tr>${b.columns.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  } else if (b.kind === "gallery") {
+    body =
+      (b.caption ? `<p>${esc(b.caption)}</p>` : "") +
+      `<div class="gallery" style="grid-template-columns:repeat(${Number(b.columns) || 1},${Number(b.cell.width)}px)">${b.items.map((i) => galleryCell(i, b.cell)).join("")}</div>`;
   } else if (b.kind === "placeholder") {
     body = `<div class="placeholder"><span class="badge manual">Manual</span><p>${esc(b.hint)}</p></div>`;
   } else {

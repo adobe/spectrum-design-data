@@ -623,6 +623,42 @@ function tableBlock(b) {
   return f;
 }
 
+// A grid of small scene renders, each under its title.
+function galleryBlock(b) {
+  const f = auto("VERTICAL", { itemSpacing: 12 });
+  if (b.caption) f.appendChild(para(b.caption, 13, "Regular", GREY, SECTION_W));
+  const cols = b.columns || 1;
+  const { width, height } = b.cell;
+  for (let i = 0; i < b.items.length; i += cols) {
+    const row = auto("HORIZONTAL", { itemSpacing: 16 });
+    row.name = "Gallery row";
+    for (const item of b.items.slice(i, i + cols)) {
+      const col = auto("VERTICAL", { itemSpacing: 4 });
+      col.name = "Gallery cell \u2013 " + item.title;
+      const v = figma.createFrame();
+      v.name = "Visual";
+      v.resize(width, height);
+      v.cornerRadius = 8;
+      v.clipsContent = true;
+      v.fills = [solid({ r: 0.96, g: 0.96, b: 0.96 })];
+      const g = figma.createFrame();
+      g.name = "Scene";
+      g.fills = [];
+      g.clipsContent = false;
+      g.resize(width, height);
+      v.appendChild(g);
+      g.x = 0;
+      g.y = 0;
+      sceneNodes(g, item.render.scene, item.render.view);
+      col.appendChild(v);
+      col.appendChild(text(item.title, 11, "Regular", GREY));
+      row.appendChild(col);
+    }
+    f.appendChild(row);
+  }
+  return f;
+}
+
 function placeholderBlock(b) {
   const f = auto("VERTICAL", {
     itemSpacing: 8,
@@ -642,6 +678,38 @@ function placeholderBlock(b) {
   return f;
 }
 
+// A gallery is drawn one row per piece, so a payload can carry part of a big one.
+function galleryRows(blocks) {
+  return blocks.flatMap((b) => {
+    if (b.kind !== "gallery" || b.items.length <= b.columns) return [b];
+    const rows = [];
+    for (let i = 0; i < b.items.length; i += b.columns)
+      rows.push(b.items.slice(i, i + b.columns));
+    return rows.map((items, i) =>
+      i ? { ...b, title: "", caption: undefined, items } : { ...b, items },
+    );
+  });
+}
+
+function sectionBlockNode(section, b) {
+  const body =
+    b.kind === "table"
+      ? tableBlock(b)
+      : b.kind === "gallery"
+        ? galleryBlock(b)
+        : b.kind === "placeholder"
+          ? placeholderBlock(b)
+          : proseBlock(b);
+  body.name = "Section block \u2013 " + b.id;
+  if (!b.title || b.title === section.title || b.kind === "placeholder")
+    return body;
+  const col = auto("VERTICAL", { itemSpacing: 8 });
+  col.name = "Section block box";
+  col.appendChild(text(b.title, 20, "Bold"));
+  col.appendChild(body);
+  return col;
+}
+
 function sectionFrame(section) {
   const f = auto("VERTICAL", {
     itemSpacing: 24,
@@ -652,22 +720,8 @@ function sectionFrame(section) {
   });
   f.name = "Section \u2013 " + section.title;
   f.appendChild(text(section.title, 32, "Bold"));
-  for (const b of section.blocks) {
-    const body =
-      b.kind === "table"
-        ? tableBlock(b)
-        : b.kind === "placeholder"
-          ? placeholderBlock(b)
-          : proseBlock(b);
-    body.name = "Section block \u2013 " + b.id;
-    if (b.title && b.title !== section.title && b.kind !== "placeholder") {
-      const col = auto("VERTICAL", { itemSpacing: 8 });
-      col.name = "Section block box";
-      col.appendChild(text(b.title, 20, "Bold"));
-      col.appendChild(body);
-      f.appendChild(col);
-    } else f.appendChild(body);
-  }
+  for (const b of galleryRows(section.blocks))
+    f.appendChild(sectionBlockNode(section, b));
   return f;
 }
 
@@ -786,9 +840,19 @@ async function appendBlocks(sheet, pageTitle, blocks) {
   return { step: "blocks", page: pageTitle, blocksRendered: blocks.length };
 }
 
-async function appendSection(sheet, section) {
+// `more` adds the blocks to the section frame an earlier call made (a section too big for one
+// payload is drawn in several).
+async function appendSection(sheet, section, more) {
   await loadFonts();
-  findBuilding(sheet).appendChild(sectionFrame(section));
+  const root = findBuilding(sheet);
+  if (more) {
+    const frame = root.children.find(
+      (n) => n.name === "Section \u2013 " + section.title,
+    );
+    if (!frame) throw new Error("No section frame for " + section.title);
+    for (const b of section.blocks)
+      frame.appendChild(sectionBlockNode(section, b));
+  } else root.appendChild(sectionFrame(section));
   return { step: "section", key: section.key, blocks: section.blocks.length };
 }
 

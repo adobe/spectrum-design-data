@@ -73,6 +73,7 @@
       "oneOf": [
         { "$ref": "#/$defs/proseBlock" },
         { "$ref": "#/$defs/tableBlock" },
+        { "$ref": "#/$defs/galleryBlock" },
         { "$ref": "#/$defs/placeholderBlock" }
       ]
     },
@@ -104,6 +105,56 @@
           "description": "Rows of text cells, one cell per column.",
           "type": "array",
           "items": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "additionalProperties": false
+    },
+    "galleryBlock": {
+      "type": "object",
+      "required": [
+        "kind",
+        "id",
+        "section",
+        "title",
+        "columns",
+        "cell",
+        "items"
+      ],
+      "properties": {
+        "kind": { "const": "gallery" },
+        "id": { "type": "string" },
+        "section": { "$ref": "#/$defs/sectionKey" },
+        "title": { "type": "string" },
+        "caption": { "type": "string" },
+        "columns": {
+          "description": "Cells per row.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "cell": {
+          "description": "Size of one cell in px; each item's render.view fits its scene into it.",
+          "type": "object",
+          "required": ["width", "height"],
+          "properties": {
+            "width": { "type": "number" },
+            "height": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["title", "render"],
+            "properties": {
+              "title": { "type": "string" },
+              "render": {
+                "description": "A render request and its scene, as on a measurement block, without measurements or markers.",
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
         }
       },
       "additionalProperties": false

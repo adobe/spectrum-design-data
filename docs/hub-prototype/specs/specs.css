@@ -255,6 +255,21 @@ table.grid th {
 .do-dont .dont {
   background: #fdebeb;
 }
+.gallery {
+  display: grid;
+  gap: 16px;
+}
+.gallery figure {
+  margin: 0;
+}
+.gallery svg {
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+.gallery figcaption {
+  font-size: 11px;
+  color: #666;
+}
 .placeholder {
   border: 1px dashed #666;
   border-radius: 8px;
