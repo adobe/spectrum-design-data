@@ -20,6 +20,8 @@ use design_data_core::visual::{self, RenderRequest};
 use miette::{IntoDiagnostic, WrapErr};
 use serde_json::{json, Map, Value};
 
+mod sections;
+
 const PAGE_ORDER: [&str; 5] = [
     "Layout",
     "Typography",
@@ -1307,6 +1309,8 @@ fn build_sheet(
         .find(|c| c.name == component)
         .and_then(|c| s(&c.raw, "displayName").map(String::from))
         .unwrap_or_else(|| component.clone());
+    let mut template = template_sections();
+    sections::fill(&mut template, graph, &component);
     Ok(json!({
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-spec-sheet.schema.json",
         "specVersion": "1.0.0-draft",
@@ -1322,7 +1326,7 @@ fn build_sheet(
             .cloned(),
         "block": {"width": BLOCK_W, "height": BLOCK_H},
         "pages": pages,
-        "sections": template_sections(),
+        "sections": template,
     }))
 }
 

@@ -700,11 +700,59 @@ fn every_sheet_emits_the_template_sections_as_placeholders_in_order() {
         ]
     );
     for s in sections {
-        let b = &s["blocks"][0];
-        assert_eq!(b["kind"], "placeholder");
-        assert_eq!(b["section"], s["key"]);
-        assert!(!b["hint"].as_str().unwrap().is_empty());
+        // A section the data backs holds real blocks; the rest keep their placeholder.
+        for b in s["blocks"].as_array().unwrap() {
+            assert_eq!(b["section"], s["key"]);
+            if b["kind"] == "placeholder" {
+                assert!(!b["hint"].as_str().unwrap().is_empty());
+            }
+        }
     }
+    for key in ["how-to-use", "feedback"] {
+        let s = sections.iter().find(|s| s["key"] == key).unwrap();
+        assert_eq!(s["blocks"][0]["kind"], "placeholder");
+    }
+}
+
+fn section<'a>(sheet: &'a Value, key: &str) -> &'a Value {
+    sheet["sections"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|s| s["key"] == key)
+        .unwrap()
+}
+
+#[test]
+fn accordion_usage_is_prose_from_document_blocks() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "usage")["blocks"].as_array().unwrap();
+    assert_eq!(blocks.len(), 6);
+    assert!(blocks.iter().all(|b| b["kind"] == "prose"));
+    assert_eq!(blocks[0]["title"], "Purpose");
+    assert!(blocks[0]["paragraphs"][0]
+        .as_str()
+        .unwrap()
+        .starts_with("An accordion is"));
+    assert_eq!(blocks[1]["title"], "Single vs. multiple expansion.");
+    assert!(blocks[1]["paragraphs"][0]
+        .as_str()
+        .unwrap()
+        .starts_with("By default, only one"));
+    let dd = &blocks[5];
+    assert_eq!(dd["title"], "Avoid accordion overuse");
+    assert!(dd.get("do").is_none());
+    assert_eq!(dd["dont"].as_array().unwrap().len(), 1);
+}
+
+#[test]
+fn a_component_without_document_blocks_keeps_the_usage_placeholder() {
+    let sheet = sheet_of("bar-panel");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "usage")["blocks"].as_array().unwrap();
+    assert_eq!(blocks.len(), 1);
+    assert_eq!(blocks[0]["kind"], "placeholder");
 }
 
 #[test]
