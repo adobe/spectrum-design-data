@@ -947,7 +947,7 @@
   {
     "scope": {
       "component": "table",
-      "part": "divider",
+      "part": "container",
       "property": "width",
       "options": {
         "object": "border"
@@ -5093,7 +5093,7 @@
   {
     "scope": {
       "component": "table",
-      "part": "item",
+      "part": "cell",
       "property": "padding",
       "options": {
         "density": "compact"
@@ -5107,7 +5107,7 @@
   {
     "scope": {
       "component": "table",
-      "part": "item",
+      "part": "cell",
       "property": "padding",
       "options": {
         "density": "regular"
@@ -5121,7 +5121,7 @@
   {
     "scope": {
       "component": "table",
-      "part": "item",
+      "part": "cell",
       "property": "padding",
       "options": {
         "density": "spacious"

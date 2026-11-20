@@ -81,7 +81,14 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -100,7 +107,7 @@
           },
           "state": {
             "type": "string",
-            "enum": ["default", "hover", "keyboard focus"],
+            "enum": ["default", "hover", "keyboard-focus"],
             "default": "default",
             "description": "The interaction state of the tab item."
           },
@@ -120,13 +127,18 @@
             "default": false,
             "description": "This overrides density and is only applicable to horizontal tabs."
           },
-          "isEmphasized": { "type": "boolean", "default": false },
+          "isEmphasized": {
+            "type": "boolean",
+            "default": false
+          },
           "alignment": {
             "type": "string",
             "enum": ["start", "center"],
             "default": "start"
           },
-          "selectedItem": { "description": "(list of available items)" },
+          "selectedItem": {
+            "description": "(list of available items)"
+          },
           "keyboardActivation": {
             "type": "string",
             "enum": ["manual", "automatic"],
@@ -136,12 +148,26 @@
       }
     }
   },
+  "slots": [
+    {
+      "name": "default",
+      "part": "tab-item",
+      "collection": "items",
+      "description": "The tabs. Each entry of the items option is drawn as one copy of the tab-item part."
+    }
+  ],
   "anatomy": [
     {
-      "name": "tab-item",
-      "description": "One tab; repeated.",
+      "name": "container",
+      "description": "The row (or column, when vertical) of tabs. It is the root and holds the gap between tab items.",
       "required": true,
-      "contains": ["icon", "label"]
+      "contains": ["tab-item"]
+    },
+    {
+      "name": "tab-item",
+      "description": "One tab; repeated once per entry of items.",
+      "required": true,
+      "contains": ["icon", "label", "selection-indicator", "focus-indicator"]
     },
     {
       "name": "icon",
@@ -152,8 +178,8 @@
       "description": "Text in a tab; optional."
     },
     {
-      "name": "indicator",
-      "description": "Selection indicator (underline) marking the selected tab; a sibling of tab-item, not inside it."
+      "name": "selection-indicator",
+      "description": "Underline (a bar beside the tabs when vertical) that marks the selected tab. It is drawn inside the tab item and is present on the selected tab only."
     },
     {
       "name": "focus-indicator",
@@ -162,18 +188,28 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "RSP Tabs.tsx:350,550 and gen2 tabs/tabs.css:65-107 draw the selection indicator as a sibling of the tab item, so tab-item contains only icon and label. Figma S2 Web tabs page (Tab: Content stack and Underline). keyboard-focus state added for focus-indicator. No baseline divider found in RSP/SWC: unverified, not declared."
+    "notes": "Figma S2 Web tabs page (Tab: Content stack and Underline) and React Spectrum S2 Tabs.tsx:350,550 draw the selection indicator inside the tab item (<SelectionIndicator> in TabInner); SWC gen2 tabs/tabs.css:65-107 draws it as a sibling, which the earlier draft followed. Decision A64 D1c: the marker is the new term selection-indicator, drawn inside the item. container added as the root; it owns the gap between tab items. tab-item kept (the sources say Tab item; 85 deprecated records point at it). The items entry schema still holds container options (density, isFluid, alignment, selectedItem, keyboardActivation); moving them is identity work (SPEC-093 then needs density pins on four records). No baseline divider found in RSP/SWC: unverified, not declared."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   },
   "states": [

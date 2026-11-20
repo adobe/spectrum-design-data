@@ -1004,7 +1004,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "disclosure-indicator",
+      "part": "disclosure-button",
       "property": "height",
       "options": {
         "scale": "desktop"
@@ -1020,7 +1020,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "disclosure-indicator",
+      "part": "disclosure-button",
       "property": "height",
       "options": {
         "scale": "mobile"
@@ -1036,7 +1036,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "disclosure-indicator",
+      "part": "disclosure-button",
       "property": "width",
       "options": {
         "scale": "desktop"
@@ -1052,7 +1052,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "disclosure-indicator",
+      "part": "disclosure-button",
       "property": "width",
       "options": {
         "scale": "mobile"

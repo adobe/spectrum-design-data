@@ -2353,7 +2353,7 @@
   {
     "scope": {
       "component": "tabs",
-      "part": "indicator",
+      "part": "selection-indicator",
       "property": "thickness"
     },
     "context": "Thickness (selection indicator)",

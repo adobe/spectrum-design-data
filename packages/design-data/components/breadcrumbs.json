@@ -73,7 +73,14 @@
       "type": "string",
       "default": "m",
       "description": "Controls the overall size of the breadcrumb component.",
-      "values": [{ "value": "m" }, { "value": "l" }]
+      "values": [
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -94,7 +101,10 @@
             "description": "Indicates if the breadcrumb item represents the current page.",
             "default": false
           },
-          "isDisabled": { "type": "boolean", "default": false }
+          "isDisabled": {
+            "type": "boolean",
+            "default": false
+          }
         },
         "required": ["label"]
       }
@@ -103,7 +113,14 @@
       "type": "string",
       "default": "chevron",
       "description": "The separator icon used between breadcrumb items.",
-      "values": [{ "value": "chevron" }, { "value": "none" }]
+      "values": [
+        {
+          "value": "chevron"
+        },
+        {
+          "value": "none"
+        }
+      ]
     },
     "isTruncated": {
       "type": "boolean",
@@ -114,33 +131,101 @@
       "type": "string",
       "description": "Overrides the size of the breadcrumb items when isMultiline is true.",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     }
   },
-  "anatomy": [
+  "slots": [
     {
-      "name": "separator-icon",
-      "description": "Icon separating breadcrumb items."
+      "name": "default",
+      "part": "breadcrumb-item",
+      "collection": "items",
+      "description": "The trail. Each entry of the items option is drawn as one copy of the breadcrumb-item part."
     }
   ],
-  "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "drag-and-drop", "trigger": "prop" }
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "The breadcrumb trail. It is the root.",
+      "required": true,
+      "contains": ["truncated-menu", "breadcrumb-item"]
+    },
+    {
+      "name": "truncated-menu",
+      "description": "Overflow menu that replaces the first items when space is short; shown by isTruncated, at the start of the trail."
+    },
+    {
+      "name": "breadcrumb-item",
+      "description": "One link in the trail; repeated once per entry of items.",
+      "required": true,
+      "contains": ["separator", "breadcrumb-title", "focus-indicator"]
+    },
+    {
+      "name": "separator",
+      "description": "Chevron after an item. Absent on the last item."
+    },
+    {
+      "name": "breadcrumb-title",
+      "description": "The current page's title, shown in place of a link on the current item (the last region). It owns the multiline font and the top-text-to-bottom-text spacing."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused item.",
+      "presentIn": ["keyboard-focus"]
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web breadcrumbs page (item with Show separator, State=Truncated menu, .Heading multiline) and React Spectrum S2 Breadcrumbs (a ChevronIcon after each non-current link, a heading for the current item). container added as the root. separator-icon renamed separator (registry term). Decision A66 D3b: the current title is a breadcrumb-title part owning the multiline font and the spacing between top text and bottom text. Placed inside breadcrumb-item because it replaces that item's link on the current entry (the packet said last region; reversible)."
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "drag-and-drop",
+      "trigger": "prop"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

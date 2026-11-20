@@ -82,10 +82,18 @@
       "default": "m",
       "description": "Size scale for row metrics. Density is a separate option.",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
     "hideHeader": {
@@ -105,7 +113,7 @@
         },
         "state": {
           "type": "string",
-          "enum": ["default", "hover", "down", "keyboard focus"],
+          "enum": ["default", "hover", "down", "keyboard-focus"],
           "default": "default",
           "description": "Interaction state of the header row."
         }
@@ -115,9 +123,15 @@
       "type": "string",
       "default": "regular",
       "values": [
-        { "value": "compact" },
-        { "value": "regular" },
-        { "value": "spacious" }
+        {
+          "value": "compact"
+        },
+        {
+          "value": "regular"
+        },
+        {
+          "value": "spacious"
+        }
       ]
     },
     "isQuiet": {
@@ -192,41 +206,99 @@
       }
     }
   },
+  "slots": [
+    {
+      "name": "row",
+      "part": "row",
+      "collection": "rows",
+      "description": "The data rows. Each entry of the rows option is drawn as one copy of the row part."
+    },
+    {
+      "name": "column-header",
+      "part": "column-header",
+      "collection": "columns",
+      "description": "The column headers. Each entry of the columns option is drawn as one column-header in the header row."
+    },
+    {
+      "name": "cell",
+      "part": "cell",
+      "collection": "columns",
+      "description": "The cells of a row. Each entry of the columns option is drawn as one cell in every row."
+    }
+  ],
   "anatomy": [
     {
+      "name": "container",
+      "description": "The table: border, corner radius and column divider. It is the root.",
+      "required": true,
+      "contains": ["column-header-row", "section-header", "row"]
+    },
+    {
       "name": "column-header-row",
-      "description": "The header row containing column titles."
+      "description": "The header row containing the column headers.",
+      "contains": ["header-row-checkbox", "column-header"]
+    },
+    {
+      "name": "header-row-checkbox",
+      "description": "Select-all checkbox within the column header row."
+    },
+    {
+      "name": "column-header",
+      "description": "Header of one column; repeated once per entry of columns.",
+      "contains": ["sort-icon"]
+    },
+    {
+      "name": "sort-icon",
+      "description": "Icon that shows the sort direction of a column."
+    },
+    {
+      "name": "section-header",
+      "description": "Row that heads a group of rows."
     },
     {
       "name": "row",
-      "description": "A single data row.",
-      "contains": ["row-checkbox", "item"]
-    },
-    {
-      "name": "item",
-      "description": "Generic item element within a table row; used for item-level padding tokens (e.g. table-item-padding-*)."
+      "description": "A single data row; repeated once per entry of rows.",
+      "required": true,
+      "contains": ["row-checkbox", "cell"]
     },
     {
       "name": "row-checkbox",
       "description": "Selection checkbox within a row."
     },
     {
-      "name": "header-row-checkbox",
-      "description": "Select-all checkbox within the column header row."
-    },
-    { "name": "section-header" },
-    { "name": "divider" }
+      "name": "cell",
+      "description": "One cell of a row; repeated once per entry of columns. Holds the item-level padding (table-item-padding-*)."
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web table page (column-major: Table columns holding the header, summary and cells) and React Spectrum S2 TableView (row-major: TableHeader > Column; Row > Cell). container added as the root. Decision A70 D7a: three collection slots, two driven by columns (column-header in column-header-row, cell in row) and one by rows (row in container); one option feeds two slots, which SPEC-104 allows on different parents. item renamed cell (decision A72 D9a: the sources' name). divider removed: borders are styling on the part that draws them (the container's column divider, the row's border). column-header gets sort-icon. No focus-indicator yet: the table declares no states, and adding keyboard-focus alone makes SPEC-054 reject the state pins on its row records. summary-row is not declared yet (no source decision)."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "grid",
     "intents": ["select", "navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate", "select-all"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

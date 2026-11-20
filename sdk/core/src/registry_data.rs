@@ -1060,8 +1060,15 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "selection",
       "label": "Selection",
-      "description": "Selection indicator or highlight element",
+      "description": "Region of a component that holds selection controls (the plate that holds a card's selection checkbox). The marker on a selected item is selection-indicator",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "selection-indicator",
+      "label": "Selection indicator",
+      "description": "Marker drawn inside an item to show it is selected: the underline of a tab, the selection bar of a side navigation item, the fill and border of a selected segment",
+      "aliases": ["underline", "selection-bar", "indicator", "selection"],
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "media",
@@ -1296,12 +1303,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "link-out-icon",
       "label": "Link-out Icon",
       "description": "Icon indicating a menu item opens an external link in a new context",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "trailing-icon",
-      "label": "Trailing Icon",
-      "description": "Icon placed at the trailing (end) edge of a list item or row",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1640,25 +1641,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "disclosure-button",
       "label": "Disclosure Button",
-      "description": "Collapse/expand toggle button on a tree-view item or accordion item",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "drag-icon",
-      "label": "Drag Icon",
-      "description": "Drag handle icon on a reorderable tree-view item",
+      "description": "Interactive collapse/expand button on a tree-view or side-navigation item, with its own states",
       "usedIn": ["s2-docs"]
     },
     {
       "id": "context-area",
       "label": "Context Area",
       "description": "Optional icon or thumbnail context slot on the leading edge of a tree-view item",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "step-item",
-      "label": "Step Item",
-      "description": "Individual step node within a steplist component",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1824,6 +1813,30 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "tags",
       "label": "Tags",
       "description": "Host of the wrapping row of tags in a tag-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "column-header-row",
+      "label": "Column Header Row",
+      "description": "Header row of a table that holds the column headers",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "row-checkbox",
+      "label": "Row Checkbox",
+      "description": "Selection checkbox within a table row",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "header-row-checkbox",
+      "label": "Header Row Checkbox",
+      "description": "Select-all checkbox within the header row of a table",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "trailing-accessory-area",
+      "label": "Trailing Accessory Area",
+      "description": "Trailing area of an item for accessory content such as counts or actions",
       "usedIn": ["s2-docs"]
     }
   ]
