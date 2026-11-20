@@ -125,3 +125,27 @@ fn a_recipe_that_nests_itself_is_refused_and_reported() {
         .failure()
         .stderr(contains("SPEC-089"));
 }
+
+#[test]
+fn an_expanded_item_draws_its_content_and_a_collapsed_one_does_not() {
+    let items = r#"[
+        {"label": "A", "content": "Body text", "isExpanded": true},
+        {"label": "B", "content": "Hidden"},
+        {"label": "C", "isExpanded": true}
+    ]"#;
+    let s = scene(&["--option", &format!("items={items}")]);
+    let text = |part: &str| {
+        s["nodes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|n| n["part"] == part)
+            .map(|n| n["text"].as_str().unwrap().to_string())
+    };
+    assert_eq!(
+        text("accordion-item-1.content").as_deref(),
+        Some("Body text")
+    );
+    assert_eq!(text("accordion-item-2.content"), None);
+    assert_eq!(text("accordion-item-3.content"), None);
+}

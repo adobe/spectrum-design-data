@@ -13,6 +13,7 @@
         "slot": "default",
         "label": "label",
         "with": {
+          "content": "content",
           "isOpen": "isExpanded",
           "hasSwitch": "hasSwitch",
           "hasActionButton": "hasActionButton"
@@ -296,21 +297,49 @@
       }
     },
     "content": {
-      "kind": "box",
-      "visibleWhen": { "options": { "isOpen": true } },
+      "kind": "text",
+      "visibleWhen": { "options": { "isOpen": true, "content": true } },
+      "text": { "option": "content" },
       "props": {
-        "paddingBlockStart": {
+        "paddingInlineStart": {
           "relationship": {
-            "property": "padding-top",
-            "context": "Content (top)"
+            "property": "padding-horizontal",
+            "part": "content"
           }
         },
-        "paddingBlockEnd": {
+        "paddingInlineEnd": {
           "relationship": {
-            "property": "padding-bottom",
-            "context": "Content (bottom)"
+            "property": "padding-horizontal",
+            "part": "content"
           }
-        }
+        },
+        "paddingBlockStart": {
+          "relationship": { "property": "padding-top", "part": "content" }
+        },
+        "paddingBlockEnd": {
+          "relationship": { "property": "padding-bottom", "part": "content" }
+        },
+        "fontFamily": {
+          "relationship": { "property": "font-family", "part": "title" }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "part": "title"
+          }
+        },
+        "fontWeight": {
+          "relationship": { "property": "font-weight", "part": "title" }
+        },
+        "lineHeight": {
+          "token": {
+            "property": "line-height",
+            "referenceScaleIndex": "{sizeIndex}"
+          }
+        },
+        "color": [
+          { "relationship": { "property": "content-color", "part": "title" } }
+        ]
       }
     },
     "divider": {

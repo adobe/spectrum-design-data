@@ -67,6 +67,10 @@
       "default": false,
       "description": "Whether the rendered accordion item is expanded. Drives the chevron direction and the content area. Per-item expansion in a data-driven accordion is items[].isExpanded."
     },
+    "content": {
+      "type": "string",
+      "description": "The text shown in the content area of the rendered accordion item while it is expanded. Per-item in a data-driven accordion is items[].content."
+    },
     "hasActionButton": {
       "type": "boolean",
       "default": false,
