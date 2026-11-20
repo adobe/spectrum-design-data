@@ -9,50 +9,14 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/card-horizontal/"
   },
-  "states": [{ "name": "default" }],
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "anatomy": [
+  "states": [
     {
-      "name": "container",
-      "description": "Card surface.",
-      "required": true,
-      "contains": [
-        "preview",
-        "checkbox",
-        "thumbnail",
-        "title",
-        "description",
-        "action-button"
-      ]
-    },
-    {
-      "name": "preview",
-      "description": "Image area at the start."
-    },
-    {
-      "name": "checkbox",
-      "description": "Selection checkbox."
-    },
-    {
-      "name": "thumbnail",
-      "description": "Small image, in the basic variant."
-    },
-    {
-      "name": "title",
-      "description": "Card title."
-    },
-    {
-      "name": "description",
-      "description": "Card description."
-    },
-    {
-      "name": "action-button",
-      "description": "Action button, in the basic variant."
+      "name": "default"
     }
   ],
-  "anatomyReview": {
-    "status": "draft",
-    "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Card (Horizontal) and Horizontal basic, merged. Unsure: which parts belong to which variant."
+  "lifecycle": {
+    "introduced": "1.0.0-draft",
+    "deprecatedIn": "1.0.0-draft",
+    "deprecatedComment": "Archive-only: this card kind is not modelled in card yet (Patterns candidate, 5m92.30). Its archived records stay frozen and keep their legacy keys."
   }
 }
