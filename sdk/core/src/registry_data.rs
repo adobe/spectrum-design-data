@@ -1767,7 +1767,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "pagination",
       "label": "Pagination",
-      "description": "Paged-navigation indicator element (e.g. coach-mark step dots or step count text)",
+      "description": "Paged-navigation indicator element (e.g. step dots, step count text or a page indicator)",
       "usedIn": ["tokens"]
     },
     {
