@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "popover",
       "property": "minimum-width"
     },
     "context": "Minimum width",
@@ -12,17 +13,8 @@
   {
     "scope": {
       "component": "contextual-help",
-      "property": "corner-radius"
-    },
-    "context": "Rounding",
-    "contextRole": ["rounding"],
-    "$ref": "29981aef-aea6-4cde-849f-4bc67e320ea7",
-    "uuid": "d74311cc-bf29-5d0a-8fd2-84eb0c02e013"
-  },
-  {
-    "scope": {
-      "component": "contextual-help",
-      "property": "spacing"
+      "part": "popover",
+      "property": "padding"
     },
     "context": "Spacing (top/bottom/start/end edge to text)",
     "contextRole": ["spacing"],
@@ -66,16 +58,7 @@
   {
     "scope": {
       "component": "contextual-help",
-      "property": "size"
-    },
-    "context": "Title",
-    "contextRole": ["label"],
-    "$ref": "5358fd6c-d9a0-4caa-a85e-af82ed82efaf",
-    "uuid": "72619749-2865-5a23-a573-011b5f7c8e3e"
-  },
-  {
-    "scope": {
-      "component": "contextual-help",
+      "part": "title",
       "property": "font-family"
     },
     "context": "Title",
@@ -86,6 +69,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "title",
       "property": "font-weight"
     },
     "context": "Title",
@@ -96,6 +80,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "title",
       "property": "font-style"
     },
     "context": "Title",
@@ -106,6 +91,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "title",
       "property": "line-height"
     },
     "context": "Title",
@@ -116,16 +102,7 @@
   {
     "scope": {
       "component": "contextual-help",
-      "property": "size"
-    },
-    "context": "Body",
-    "contextRole": ["label"],
-    "$ref": "e458fa68-ab9c-4441-a7d5-a02f42df1cae",
-    "uuid": "eeb1ebd5-b72d-5abf-ad65-055d6de78bc7"
-  },
-  {
-    "scope": {
-      "component": "contextual-help",
+      "part": "description",
       "property": "font-family"
     },
     "context": "Body",
@@ -136,6 +113,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "description",
       "property": "font-weight"
     },
     "context": "Body",
@@ -146,6 +124,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "description",
       "property": "font-style"
     },
     "context": "Body",
@@ -156,7 +135,8 @@
   {
     "scope": {
       "component": "contextual-help",
-      "property": "line-height-200"
+      "part": "description",
+      "property": "line-height"
     },
     "context": "Body",
     "contextRole": ["label"],
@@ -166,6 +146,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "title",
       "property": "color"
     },
     "context": "Color",
@@ -176,6 +157,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "description",
       "property": "color"
     },
     "context": "Color",
@@ -186,7 +168,7 @@
   {
     "scope": {
       "component": "contextual-help",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "scale": "desktop"
@@ -204,7 +186,7 @@
   {
     "scope": {
       "component": "contextual-help",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "scale": "mobile"
@@ -222,7 +204,7 @@
   {
     "scope": {
       "component": "contextual-help",
-      "part": "body",
+      "part": "description",
       "property": "size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

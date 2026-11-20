@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "maximum-width"
+      "part": "container",
+      "property": "maximum-width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Maximum width",
     "contextRole": ["width"],
@@ -32,7 +44,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "maximum-width"
+      "part": "container",
+      "property": "maximum-width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Maximum width",
     "contextRole": ["width"],
@@ -42,6 +58,7 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -52,7 +69,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "width"
+      "part": "tip",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Tip",
     "contextRole": ["layout"],
@@ -62,7 +83,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "width"
+      "part": "tip",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Tip",
     "contextRole": ["layout"],
@@ -72,7 +97,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "height"
+      "part": "tip",
+      "property": "height",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Tip",
     "contextRole": ["layout"],
@@ -82,7 +111,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "height"
+      "part": "tip",
+      "property": "height",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Tip",
     "contextRole": ["layout"],
@@ -92,6 +125,7 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "tip",
       "property": "corner-radius"
     },
     "context": "Rounding (tip)",
@@ -103,7 +137,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "component-edge-to-text-75"
+      "part": "container",
+      "property": "padding-horizontal",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -114,7 +152,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "component-edge-to-text-75"
+      "part": "container",
+      "property": "padding-horizontal",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -125,7 +167,8 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "component-top-to-text-75"
+      "part": "container",
+      "property": "padding-vertical"
     },
     "context": "Spacing (top/bottom edge to text)",
     "contextRole": ["spacing"],
@@ -136,18 +179,8 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to text)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to text",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "uuid": "1aec6506-bda5-5233-a416-a2b12fb533b3"
-  },
-  {
-    "scope": {
-      "component": "tooltip",
-      "property": "spacing"
+      "part": "tip",
+      "property": "margin"
     },
     "context": "Spacing (tip to source)",
     "contextRole": ["spacing"],
@@ -158,7 +191,8 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "spacing"
+      "part": "container",
+      "property": "margin"
     },
     "context": "Container padding",
     "contextRole": ["spacing"],
@@ -168,6 +202,7 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Label",
@@ -178,6 +213,7 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Label",
@@ -188,6 +224,7 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Label",
@@ -198,7 +235,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -208,7 +249,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -218,7 +263,8 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -228,7 +274,8 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -238,7 +285,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "color"
+      "part": "label",
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -248,7 +299,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "color"
+      "part": "label",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -258,7 +313,11 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "color"
+      "part": "label",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -268,7 +327,12 @@
   {
     "scope": {
       "component": "tooltip",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -278,9 +342,12 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
-        "variant": "informative"
+        "variant": "informative",
+        "colorScheme": "light"
       }
     },
     "context": "Background",
@@ -291,9 +358,12 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
-        "variant": "informative"
+        "variant": "informative",
+        "colorScheme": "dark"
       }
     },
     "context": "Background",
@@ -304,9 +374,12 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
-        "variant": "informative"
+        "variant": "informative",
+        "colorScheme": "wireframe"
       }
     },
     "context": "Background",
@@ -317,9 +390,12 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
-        "variant": "negative"
+        "variant": "negative",
+        "colorScheme": "light"
       }
     },
     "context": "Background",
@@ -330,9 +406,12 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
-        "variant": "negative"
+        "variant": "negative",
+        "colorScheme": "dark"
       }
     },
     "context": "Background",
@@ -343,9 +422,12 @@
   {
     "scope": {
       "component": "tooltip",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
-        "variant": "negative"
+        "variant": "negative",
+        "colorScheme": "wireframe"
       }
     },
     "context": "Background",
@@ -404,7 +486,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "53fef925-59e3-4df5-9ac2-e2b4d34d9bca",
-    "legacyKey": "tooltip-tip-corner-radius"
+    "legacyKey": "tooltip-tip-corner-radius",
+    "context": "Rounding (tip)",
+    "contextRole": ["rounding"],
+    "contextPart": "tip"
   },
   {
     "scope": {
@@ -421,7 +506,9 @@
     "legacyKey": "tooltip-tip-height",
     "setUuid": "85cce135-1150-4d93-9347-ecf23f8a48e5",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "rationale": "Deprecated via refine-from-sheets from row 399 of the mapping sheet."
+    "rationale": "Deprecated via refine-from-sheets from row 399 of the mapping sheet.",
+    "context": "Tip",
+    "contextRole": ["layout"]
   },
   {
     "scope": {
@@ -438,7 +525,9 @@
     "legacyKey": "tooltip-tip-height",
     "setUuid": "85cce135-1150-4d93-9347-ecf23f8a48e5",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "rationale": "Deprecated via refine-from-sheets from row 399 of the mapping sheet."
+    "rationale": "Deprecated via refine-from-sheets from row 399 of the mapping sheet.",
+    "context": "Tip",
+    "contextRole": ["layout"]
   },
   {
     "scope": {
@@ -455,7 +544,9 @@
     "legacyKey": "tooltip-tip-width",
     "setUuid": "0b509ce5-5f52-4cb0-8811-52a1264ff473",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "rationale": "Deprecated via refine-from-sheets from row 400 of the mapping sheet."
+    "rationale": "Deprecated via refine-from-sheets from row 400 of the mapping sheet.",
+    "context": "Tip",
+    "contextRole": ["layout"]
   },
   {
     "scope": {
@@ -472,6 +563,8 @@
     "legacyKey": "tooltip-tip-width",
     "setUuid": "0b509ce5-5f52-4cb0-8811-52a1264ff473",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "rationale": "Deprecated via refine-from-sheets from row 400 of the mapping sheet."
+    "rationale": "Deprecated via refine-from-sheets from row 400 of the mapping sheet.",
+    "context": "Tip",
+    "contextRole": ["layout"]
   }
 ]

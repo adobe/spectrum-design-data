@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "title",
       "property": "font-family"
     },
     "context": "Title",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "title",
       "property": "font-weight"
     },
     "context": "Title",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "title",
       "property": "font-style"
     },
     "context": "Title",
@@ -32,7 +35,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -42,7 +49,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -52,6 +63,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "title",
       "property": "line-height"
     },
     "context": "Title",
@@ -62,6 +74,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "title",
       "property": "color"
     },
     "context": "Title",
@@ -72,6 +85,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "description",
       "property": "font-family"
     },
     "context": "Description",
@@ -82,6 +96,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "description",
       "property": "font-weight"
     },
     "context": "Description",
@@ -92,6 +107,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "description",
       "property": "font-style"
     },
     "context": "Description",
@@ -102,7 +118,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -112,7 +132,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -122,7 +146,8 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "line-height-200"
+      "part": "description",
+      "property": "line-height"
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -132,6 +157,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "description",
       "property": "color"
     },
     "context": "Description",
@@ -142,6 +168,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "container",
       "property": "maximum-width"
     },
     "context": "Maximum width",
@@ -152,6 +179,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Minimum width",
@@ -162,6 +190,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -172,7 +201,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "spacing"
+      "part": "container",
+      "property": "padding",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Spacing (edge to content)",
     "contextRole": ["spacing"],
@@ -183,7 +216,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "spacing"
+      "part": "container",
+      "property": "padding",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Spacing (edge to content)",
     "contextRole": ["spacing"],
@@ -194,7 +231,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "spacing"
+      "property": "space-between",
+      "between": {
+        "from": "title",
+        "to": "description"
+      }
     },
     "context": "Spacing (title to description)",
     "contextRole": ["spacing"],
@@ -205,9 +246,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "workflow-icon-size-100",
+      "part": "icon",
+      "property": "size",
       "options": {
-        "variant": ["error", "warning"]
+        "variant": ["error", "warning"],
+        "scale": "desktop"
       }
     },
     "context": "Icon",
@@ -218,9 +261,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "workflow-icon-size-100",
+      "part": "icon",
+      "property": "size",
       "options": {
-        "variant": ["error", "warning"]
+        "variant": ["error", "warning"],
+        "scale": "mobile"
       }
     },
     "context": "Icon",
@@ -231,7 +276,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "spacing"
+      "property": "space-between",
+      "between": {
+        "from": "title",
+        "to": "icon"
+      }
     },
     "context": "Minimum spacing (title to icon)",
     "contextRole": ["spacing"],
@@ -242,7 +291,12 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -252,7 +306,12 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -262,7 +321,12 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -272,6 +336,7 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "overlay",
       "property": "color"
     },
     "context": "Overlay",
@@ -282,7 +347,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "opacity"
+      "part": "overlay",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Overlay",
     "contextRole": ["layout"],
@@ -292,7 +361,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "opacity"
+      "part": "overlay",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Overlay",
     "contextRole": ["layout"],
@@ -302,7 +375,11 @@
   {
     "scope": {
       "component": "alert-dialog",
-      "property": "opacity"
+      "part": "overlay",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Overlay",
     "contextRole": ["layout"],
@@ -312,9 +389,11 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "icon",
       "property": "color",
       "options": {
-        "variant": "warning"
+        "variant": "warning",
+        "colorScheme": "light"
       }
     },
     "context": "Icon",
@@ -325,9 +404,11 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "icon",
       "property": "color",
       "options": {
-        "variant": "warning"
+        "variant": "warning",
+        "colorScheme": "dark"
       }
     },
     "context": "Icon",
@@ -338,9 +419,11 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "icon",
       "property": "color",
       "options": {
-        "variant": "warning"
+        "variant": "warning",
+        "colorScheme": "wireframe"
       }
     },
     "context": "Icon",
@@ -351,9 +434,11 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "icon",
       "property": "color",
       "options": {
-        "variant": "error"
+        "variant": "error",
+        "colorScheme": "light"
       }
     },
     "context": "Icon",
@@ -364,9 +449,11 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "icon",
       "property": "color",
       "options": {
-        "variant": "error"
+        "variant": "error",
+        "colorScheme": "dark"
       }
     },
     "context": "Icon",
@@ -377,9 +464,11 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "icon",
       "property": "color",
       "options": {
-        "variant": "error"
+        "variant": "error",
+        "colorScheme": "wireframe"
       }
     },
     "context": "Icon",
@@ -401,7 +490,9 @@
     "uuid": "eda300de-5f0a-42e9-9880-9244a45d4e7d",
     "legacyKey": "alert-dialog-description-font-size",
     "setUuid": "6c94683e-1c66-4e07-84e4-7a8b6d7b069d",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -417,7 +508,9 @@
     "uuid": "e969f730-9eea-4a35-8981-2804d660c23e",
     "legacyKey": "alert-dialog-description-font-size",
     "setUuid": "6c94683e-1c66-4e07-84e4-7a8b6d7b069d",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -457,12 +550,15 @@
   {
     "scope": {
       "component": "alert-dialog",
+      "part": "container",
       "property": "minimum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "288px",
     "uuid": "7d066c2d-ea59-483d-b8a3-6a9b9e35eedd",
-    "legacyKey": "alert-dialog-minimum-width"
+    "legacyKey": "alert-dialog-minimum-width",
+    "context": "Minimum width",
+    "contextRole": ["width"]
   },
   {
     "scope": {
@@ -478,7 +574,9 @@
     "uuid": "749fa425-de12-464d-a1e2-80eb135d3ea6",
     "legacyKey": "alert-dialog-title-font-size",
     "setUuid": "5b046013-d264-4f71-b609-7dd2057571ff",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -494,7 +592,9 @@
     "uuid": "c84328d2-578b-4a36-9065-6c6a9e1d311f",
     "legacyKey": "alert-dialog-title-font-size",
     "setUuid": "5b046013-d264-4f71-b609-7dd2057571ff",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
