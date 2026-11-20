@@ -223,7 +223,6 @@ export class ComponentLoader extends FileLoader {
       "components/button-group.json",
       "components/button.json",
       "components/calendar.json",
-      "components/cards.json",
       "components/checkbox-group.json",
       "components/checkbox.json",
       "components/close-button.json",

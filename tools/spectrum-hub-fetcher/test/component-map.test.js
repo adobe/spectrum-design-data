@@ -65,7 +65,6 @@ test("COMPONENTS_WITHOUT_HUB_PAGE has no duplicates", (t) => {
 
 test("resolveComponentTargets returns the single matching slug for a 1:1 mapping", (t) => {
   t.deepEqual(resolveComponentTargets("button"), ["button"]);
-  t.deepEqual(resolveComponentTargets("cards"), ["cards"]);
   t.deepEqual(resolveComponentTargets("calendar"), ["calendar"]);
 });
 
@@ -74,6 +73,10 @@ test("resolveComponentTargets fans out the curated color-handle-and-loupe overri
     "color-handle",
     "color-loupe",
   ]);
+});
+
+test("resolveComponentTargets routes the Hub cards page to the card component", (t) => {
+  t.deepEqual(resolveComponentTargets("cards"), ["card"]);
 });
 
 test("resolveComponentTargets returns an empty array for an unrecognized slug", (t) => {
