@@ -2,7 +2,7 @@
   "name": "s2-tokens-viewer",
   "private": true,
   "access": "restricted",
-  "version": "0.3.35",
+  "version": "0.3.36",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adobe/spectrum-design-data.git"

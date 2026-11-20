@@ -1,5 +1,66 @@
 # @adobe/spectrum-design-data
 
+## 3.27.1
+
+### Patch Changes
+
+- [#1979](https://github.com/adobe/spectrum-design-data/pull/1979) [`65094d9`](https://github.com/adobe/spectrum-design-data/commit/65094d9bad1b3b029869f634ce66e35721f0ab7f) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate the field hosts to structured identity (5m92.6, 5m92.22); extend the codemod.
+  - text-area, search-field, number-field, in-field-button and tag-field reach status level 2.
+    tag-field's 15 "Background and border" colour records stay unsplit (see the PR).
+    combo-box and picker stay at level 1 on records that need a design call.
+  - Fused `scope.property` names (`component-height-75`, `component-edge-to-text-100`,
+    `to-component`, `workflow-icon-size-100`) become real terms plus a size pin, a `between`
+    or a modifier pin. Every uuid is kept except four identical duplicates; new split
+    uuids follow `backfill-relationship-uuid.mjs`.
+  - Edge gaps use `space-between` with axis endpoints; a token that serves both edges is
+    two records with the same `$ref`. Disabled colour records move to an `isDisabled` pin.
+  - in-field-button: the four stacked width records get `part: container`.
+  - Codemod: colour split rule (background and border into two records), `options.size`
+    from the token's size word when records would otherwise tie, size words (`-small`,
+    `-extra-large`), the edge axis from the token's padding property, and the CJK
+    `name.legacyKey` check.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#1977](https://github.com/adobe/spectrum-design-data/pull/1977) [`2638998`](https://github.com/adobe/spectrum-design-data/commit/26389985bf106283474d8d375dabdd05ae069ae6) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate text-field to structured identity (level 2) and add the fused-property codemod
+  (5m92.6, 5m92.22).
+  - text-field: 46 live records lose their fused `scope.property` (`component-height-75`,
+    `component-edge-to-text-100`, `to-component`) for a real term plus a size pin, a `between`
+    or a modifier pin. Every uuid is kept except two duplicate records (see the PR).
+  - Edge gaps use `space-between` with axis endpoints (`start-edge`, `end-edge`, `top-edge`,
+    `bottom-edge`). A token that serves both edges is two records with the same `$ref`.
+  - Registry: `top-edge` added to positions; `registry_data.rs` regenerated.
+  - `scripts/decompose-fused-properties.mjs` (`--report`, `--write`, `--check`, `--family`) with
+    tests. It refuses name modifiers the component lacks, skips legacyKey records, reports
+    judgement cases and never touches `background-color` or `border-color` records.
+  - Ratchet: live `background-color` and `border-color` records are held at 36.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#1980](https://github.com/adobe/spectrum-design-data/pull/1980) [`d030738`](https://github.com/adobe/spectrum-design-data/commit/d0307386520360093719a6910edf14ea59e6ec73) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `menu-container` part to combo-box and picker (5m92.22).
+  - Each component's four `component-to-menu-{small,medium,large,extra-large}` records become
+    one `space-between` record from `container` to `menu-container` that pins `size` to all
+    four sizes (SPEC-100). It keeps the first uuid, the `$ref` (popover-gap) and the context;
+    the other three uuids are dropped.
+  - picker reaches status level 2. combo-box keeps its S1 quiet record until the tokens release.
+
+- [#1981](https://github.com/adobe/spectrum-design-data/pull/1981) [`3f4978c`](https://github.com/adobe/spectrum-design-data/commit/3f4978c0bb6300e7b81cbbed898fad973b4c71e6) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `type-style` property and rule SPEC-105 (type styles, data half; 5m92.25.1).
+  - New property term `type-style`. The 44 records that used `typography` to `$ref` a
+    typography composite (text-field, text-area, search-field, number-field, combo-box,
+    picker) now use it; uuids, `$ref`s and values are unchanged, and the composite tokens
+    keep `name.property: typography`.
+  - SPEC-105 (warning): a `type-style` record must `$ref` a typography composite and a
+    typography `$ref` must have that property; the size must be a declared size; every
+    inner alias must resolve in every `scale` mode. No existing record warns.
+  - Spec text: type-style records, inner aliases resolve by mode, and `layoutRevision` bumps
+    only for solver or layout changes, not for a data-only snapshot change.
+  - Core: `typography::unpack` resolves a composite's sub-values per mode.
+  - `design-data-component-tokens` returns a composite as `style` (resolved `fontFamily`,
+    `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`, by `scale` where they differ)
+    instead of the raw `{font-size-100}` strings.
+  - Spec sheets show a type style's resolved values on the Typography page.
+  - The fused-property codemod treats a `$ref` to a typography composite as `type-style`.
+
 ## 3.27.0
 
 ### Minor Changes
