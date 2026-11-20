@@ -83,20 +83,36 @@
     }
   ],
   "options": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "confirmation",
       "values": [
-        { "value": "confirmation" },
-        { "value": "information" },
-        { "value": "warning" },
-        { "value": "destructive" },
-        { "value": "error" }
+        {
+          "value": "confirmation"
+        },
+        {
+          "value": "information"
+        },
+        {
+          "value": "warning"
+        },
+        {
+          "value": "destructive"
+        },
+        {
+          "value": "error"
+        }
       ]
     },
-    "primaryActionLabel": { "type": "string" },
+    "primaryActionLabel": {
+      "type": "string"
+    },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -107,30 +123,37 @@
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   },
   "anatomy": [
     {
       "name": "container",
-      "description": "Dialog surface.",
+      "description": "Dialog surface. It is the root and carries the width, rounding, padding and background.",
       "required": true,
-      "contains": [
-        "icon",
-        "title",
-        "description",
-        "primary-action",
-        "secondary-action",
-        "cancel-action"
-      ]
+      "contains": ["icon", "title", "description", "button-group"]
+    },
+    {
+      "name": "icon",
+      "description": "Status icon beside the title, shown for the warning and error variants only."
     },
     {
       "name": "title",
@@ -138,29 +161,21 @@
       "required": true
     },
     {
-      "name": "icon",
-      "description": "Status icon shown for the error and warning variants only."
-    },
-    {
       "name": "description",
       "description": "Explanatory text under the title."
     },
     {
-      "name": "primary-action",
-      "description": "Main confirmation button."
+      "name": "button-group",
+      "description": "The button-group component that holds the dialog actions. Its buttons are slot fills; the action label options map to them."
     },
     {
-      "name": "secondary-action",
-      "description": "Alternative action button."
-    },
-    {
-      "name": "cancel-action",
-      "description": "Button that dismisses without acting."
+      "name": "overlay",
+      "description": "Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its colour and opacity."
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "RSP AlertDialog.tsx:126-131 and 1st-gen alert-dialog/src/AlertDialog.ts:106-111 draw an icon for error and warning only (optional icon part); not in the Figma tree."
+    "notes": "Figma S2 Web alert dialog (header, body, Button group instance; the warning and error icon IS in the Figma tree, correcting the earlier note), React Spectrum S2 AlertDialog (icon for error and warning only; ButtonGroup of cancel, secondary, primary) and 1st-gen alert-dialog. Decisions (Garth, 2026-11-20): C3 top-level overlay part; C4 one button-group component part replaces primary-action, secondary-action and cancel-action; C5 description."
   }
 }

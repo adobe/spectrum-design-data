@@ -1055,7 +1055,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "tip",
       "label": "Tip",
       "description": "Tooltip tip or arrow element",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "aliases": ["arrow", "popover-tip"]
     },
     {
       "id": "selection",
@@ -1105,7 +1106,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "container",
       "label": "Container",
       "description": "Outer wrapper element of a component (cards, swatch, thumbnail, avatar)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "aliases": ["popover-content"]
     },
     {
       "id": "chevron",
@@ -1229,7 +1231,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "button-group",
       "label": "Button Group",
       "description": "A grouped set of action buttons, typically in dialog footers or coach-mark controls",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["actions"]
     },
     {
       "id": "clear-button",
@@ -1483,9 +1486,10 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "overlay",
       "label": "Overlay",
-      "description": "Semi-transparent backdrop element behind modal dialogs (alert-dialog, standard-dialog, takeover-dialog)",
+      "description": "Semi-transparent backdrop behind a modal dialog (alert-dialog, standard-dialog, takeover-dialog); a top-level part that owns the overlay colour and opacity",
       "usedIn": ["s2-docs"],
-      "standaloneScope": true
+      "standaloneScope": true,
+      "aliases": ["underlay", "modal-overlay"]
     },
     {
       "id": "header-area",
@@ -1520,7 +1524,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "cover-image",
       "label": "Cover Image",
-      "description": "Large decorative image at the top of a standard dialog",
+      "description": "Large decorative image at the top of a standard dialog or coach mark",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "keyboard-shortcut",
+      "label": "Keyboard Shortcut",
+      "description": "Hint that shows the keyboard shortcut of an action (coach-mark)",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1757,7 +1767,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "pagination",
       "label": "Pagination",
-      "description": "Paged-navigation indicator element (e.g. coach-mark step dots)",
+      "description": "Paged-navigation indicator element (e.g. coach-mark step dots or step count text)",
       "usedIn": ["tokens"]
     },
     {
@@ -1947,7 +1957,7 @@ const TYPOGRAPHY_EMPHASIS_JSON: &str = r##"{
 const PROPERTY_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
   "values": [
     {
       "id": "color",
@@ -1990,11 +2000,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Drop shadow color component"
     },
     {
-      "id": "overlay-color",
-      "label": "Overlay Color",
-      "description": "Overlay or scrim tint color"
-    },
-    {
       "id": "outline-color",
       "label": "Outline Color",
       "description": "CSS outline color"
@@ -2018,11 +2023,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "border-opacity",
       "label": "Border Opacity",
       "description": "Border transparency level"
-    },
-    {
-      "id": "overlay-opacity",
-      "label": "Overlay Opacity",
-      "description": "Overlay or scrim transparency level"
     },
     {
       "id": "width",

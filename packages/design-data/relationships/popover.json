@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "popover",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "popover",
+      "part": "tip",
       "property": "width"
     },
     "context": "Tip",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "popover",
+      "part": "tip",
       "property": "height"
     },
     "context": "Tip",
@@ -32,7 +35,8 @@
   {
     "scope": {
       "component": "popover",
-      "property": "space-between"
+      "part": "container",
+      "property": "padding"
     },
     "context": "Spacing (left/right edge to content area)",
     "contextRole": ["spacing"],
@@ -43,7 +47,8 @@
   {
     "scope": {
       "component": "popover",
-      "property": "spacing"
+      "part": "tip",
+      "property": "margin"
     },
     "context": "Spacing (tip to source)",
     "contextRole": ["spacing"],
@@ -54,7 +59,9 @@
   {
     "scope": {
       "component": "popover",
-      "property": "border-width"
+      "part": "container",
+      "property": "border-width",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -64,67 +71,99 @@
   {
     "scope": {
       "component": "popover",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085",
     "uuid": "ea498e14-e368-5fd5-8488-7c950e4bcc3b"
   },
   {
     "scope": {
       "component": "popover",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9",
     "uuid": "b8715743-2b23-5e1c-a4a7-db0163742a54"
   },
   {
     "scope": {
       "component": "popover",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179",
     "uuid": "476e144e-30f8-5426-b561-f030d5d21d89"
   },
   {
     "scope": {
       "component": "popover",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "colorScheme": "light"
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "66da6f53-5446-43c1-bbe0-73b46763fde1",
     "uuid": "f73191eb-7222-58b2-98ab-4cb3e1912bd8"
   },
   {
     "scope": {
       "component": "popover",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "825dc035-7b1c-4ddd-b1a9-be1546dae7e3",
     "uuid": "605f047c-ee8a-56f9-bae3-4990ffba0d78"
   },
   {
     "scope": {
       "component": "popover",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
-    "context": "Background and border",
-    "contextRole": ["background", "border"],
+    "context": "Border",
+    "contextRole": ["border"],
     "$ref": "92133ef4-9b81-4fbd-9736-8b83078ef053",
     "uuid": "f005b469-723f-56eb-91a1-ea3b314244db"
   },
   {
     "scope": {
       "component": "popover",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "shadow"
     },
     "context": "Drop shadow",
     "contextRole": ["shadow"],
@@ -134,7 +173,9 @@
   {
     "scope": {
       "component": "popover",
-      "property": "x"
+      "part": "container",
+      "property": "x",
+      "attribute": "shadow"
     },
     "context": "Drop shadow",
     "contextRole": ["shadow"],
@@ -144,7 +185,9 @@
   {
     "scope": {
       "component": "popover",
-      "property": "y"
+      "part": "container",
+      "property": "y",
+      "attribute": "shadow"
     },
     "context": "Drop shadow",
     "contextRole": ["shadow"],
@@ -154,7 +197,9 @@
   {
     "scope": {
       "component": "popover",
-      "property": "blur"
+      "part": "container",
+      "property": "blur",
+      "attribute": "shadow"
     },
     "context": "Drop shadow",
     "contextRole": ["shadow"],
@@ -164,7 +209,9 @@
   {
     "scope": {
       "component": "popover",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "colorScheme": "light",
         "object": "border"
@@ -175,12 +222,16 @@
     "uuid": "66da6f53-5446-43c1-bbe0-73b46763fde1",
     "legacyKey": "popover-border-color",
     "setUuid": "a06ca705-47c8-414b-8768-f49a0b5997c2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "popover",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "colorScheme": "dark",
         "object": "border"
@@ -191,12 +242,16 @@
     "uuid": "825dc035-7b1c-4ddd-b1a9-be1546dae7e3",
     "legacyKey": "popover-border-color",
     "setUuid": "a06ca705-47c8-414b-8768-f49a0b5997c2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "popover",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "colorScheme": "wireframe",
         "object": "border"
@@ -207,12 +262,16 @@
     "uuid": "92133ef4-9b81-4fbd-9736-8b83078ef053",
     "legacyKey": "popover-border-color",
     "setUuid": "a06ca705-47c8-414b-8768-f49a0b5997c2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "popover",
+      "part": "container",
       "property": "opacity",
+      "attribute": "border",
       "options": {
         "colorScheme": "light",
         "object": "border"
@@ -230,7 +289,9 @@
   {
     "scope": {
       "component": "popover",
+      "part": "container",
       "property": "opacity",
+      "attribute": "border",
       "options": {
         "colorScheme": "dark",
         "object": "border"
@@ -248,7 +309,9 @@
   {
     "scope": {
       "component": "popover",
+      "part": "container",
       "property": "opacity",
+      "attribute": "border",
       "options": {
         "colorScheme": "wireframe",
         "object": "border"
@@ -291,7 +354,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "5960406b-973d-4e1f-9bb4-2c7a22422c5b",
-    "legacyKey": "popover-tip-height"
+    "legacyKey": "popover-tip-height",
+    "context": "Tip",
+    "contextRole": ["layout"]
   },
   {
     "scope": {
@@ -302,7 +367,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "c4bc3596-1fbc-4b08-85af-6bd8142e499a",
-    "legacyKey": "popover-tip-width"
+    "legacyKey": "popover-tip-width",
+    "context": "Tip",
+    "contextRole": ["layout"]
   },
   {
     "scope": {
@@ -326,7 +393,8 @@
   {
     "scope": {
       "component": "popover",
-      "property": "gap"
+      "part": "container",
+      "property": "margin"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -336,11 +404,15 @@
   {
     "scope": {
       "component": "popover",
+      "part": "container",
       "property": "padding"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "c872da51-317e-44cf-aef8-2f5f9fb77ae8",
-    "legacyKey": "popover-padding"
+    "legacyKey": "popover-padding",
+    "context": "Spacing (left/right edge to content area)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "left/right edge to content area"
   }
 ]
