@@ -2,7 +2,9 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "workflow-icon-size-75"
+      "property": "size",
+      "part": "icon",
+      "options": { "size": "s" }
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -12,7 +14,9 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "workflow-icon-size-75"
+      "property": "size",
+      "part": "icon",
+      "options": { "size": "s" }
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -22,7 +26,9 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "workflow-icon-size-100"
+      "property": "size",
+      "part": "icon",
+      "options": { "size": "m" }
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -32,7 +38,9 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "workflow-icon-size-100"
+      "property": "size",
+      "part": "icon",
+      "options": { "size": "m" }
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -42,7 +50,9 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "workflow-icon-size-200"
+      "property": "size",
+      "part": "icon",
+      "options": { "size": "l" }
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -52,7 +62,9 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "workflow-icon-size-200"
+      "property": "size",
+      "part": "icon",
+      "options": { "size": "l" }
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -62,7 +74,9 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "workflow-icon-size-300"
+      "property": "size",
+      "part": "icon",
+      "options": { "size": "xl" }
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -72,7 +86,9 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "workflow-icon-size-300"
+      "property": "size",
+      "part": "icon",
+      "options": { "size": "xl" }
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -82,7 +98,10 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "space-between"
+      "property": "space-between",
+      "part": "container",
+      "between": { "from": "icon", "to": "text" },
+      "options": { "size": "s" }
     },
     "context": "Spacing (alert icon to text)",
     "contextRole": ["spacing"],
@@ -93,7 +112,10 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "space-between"
+      "property": "space-between",
+      "part": "container",
+      "between": { "from": "icon", "to": "text" },
+      "options": { "size": "m" }
     },
     "context": "Spacing (alert icon to text)",
     "contextRole": ["spacing"],
@@ -104,7 +126,10 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "space-between"
+      "property": "space-between",
+      "part": "container",
+      "between": { "from": "icon", "to": "text" },
+      "options": { "size": "l" }
     },
     "context": "Spacing (alert icon to text)",
     "contextRole": ["spacing"],
@@ -115,7 +140,10 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "space-between"
+      "property": "space-between",
+      "part": "container",
+      "between": { "from": "icon", "to": "text" },
+      "options": { "size": "xl" }
     },
     "context": "Spacing (alert icon to text)",
     "contextRole": ["spacing"],
@@ -127,9 +155,8 @@
     "scope": {
       "component": "help-text",
       "property": "content-color",
-      "options": {
-        "variant": "neutral"
-      }
+      "options": { "variant": "neutral" },
+      "part": "text"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -140,9 +167,8 @@
     "scope": {
       "component": "help-text",
       "property": "content-color",
-      "options": {
-        "isDisabled": true
-      }
+      "options": { "isDisabled": true },
+      "part": "container"
     },
     "context": "Text and alert icon",
     "contextRole": ["label", "icon"],
@@ -153,9 +179,8 @@
     "scope": {
       "component": "help-text",
       "property": "content-color",
-      "options": {
-        "variant": "negative"
-      }
+      "options": { "variant": "negative" },
+      "part": "icon"
     },
     "context": "Text and alert icon (warning)",
     "contextRole": ["label", "icon"],
@@ -166,117 +191,8 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "font-family"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
-    "uuid": "428b2094-9852-5a49-95ed-e2595559519e"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-weight"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
-    "uuid": "1ce23a28-d73b-5a90-9b3e-32e3a7d7f6d6"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-style"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
-    "uuid": "30ce58a4-5ca8-5aab-87ad-dcb7ec1d5ebc"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-size-75"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a",
-    "uuid": "c6f3be98-dcb4-5fcc-b73d-d265be5356b6"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-size-75"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c",
-    "uuid": "4bf42ac8-fcbf-5d51-b8fc-2d6291b6357e"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-size-100"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
-    "uuid": "411a3e10-5578-58c0-8f31-c6b2b3c0246b"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-size-100"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
-    "uuid": "fd6a566e-e718-5e40-bc61-baa1f86a1567"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-size-200"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91",
-    "uuid": "f17f5d96-d19f-56bb-a7e2-10d5f235f6b4"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-size-200"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991",
-    "uuid": "807dfa3f-329a-5468-b32b-5fed4933119d"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-size-300"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175",
-    "uuid": "1749ae75-0607-5c3d-8124-5758e8cc3563"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "font-size-300"
-    },
-    "context": "Text",
-    "contextRole": ["label"],
-    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7",
-    "uuid": "9e1f279b-bb2b-5a66-be6c-eee0de2af5ef"
-  },
-  {
-    "scope": {
-      "component": "help-text",
-      "property": "line-height-100"
+      "property": "line-height",
+      "part": "text"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -286,7 +202,8 @@
   {
     "scope": {
       "component": "help-text",
-      "property": "line-height-100"
+      "property": "line-height",
+      "part": "text"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -294,10 +211,7 @@
     "uuid": "b1d58700-ca42-5cee-a59c-07ee9d34e9fd"
   },
   {
-    "scope": {
-      "component": "help-text",
-      "property": "to-component"
-    },
+    "scope": { "component": "help-text", "property": "to-component" },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
     "uuid": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
@@ -311,11 +225,7 @@
     "scope": {
       "component": "help-text",
       "property": "space-between",
-      "options": {
-        "from": "top",
-        "to": "workflow-icon",
-        "size": "xl"
-      }
+      "options": { "from": "top", "to": "workflow-icon", "size": "xl" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd",
@@ -334,11 +244,7 @@
     "scope": {
       "component": "help-text",
       "property": "space-between",
-      "options": {
-        "from": "top",
-        "to": "workflow-icon",
-        "size": "l"
-      }
+      "options": { "from": "top", "to": "workflow-icon", "size": "l" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ef82b92a-2cbd-4b70-920c-4b999b018e07",
@@ -357,11 +263,7 @@
     "scope": {
       "component": "help-text",
       "property": "space-between",
-      "options": {
-        "from": "top",
-        "to": "workflow-icon",
-        "size": "m"
-      }
+      "options": { "from": "top", "to": "workflow-icon", "size": "m" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86",
@@ -380,11 +282,7 @@
     "scope": {
       "component": "help-text",
       "property": "space-between",
-      "options": {
-        "from": "top",
-        "to": "workflow-icon",
-        "size": "s"
-      }
+      "options": { "from": "top", "to": "workflow-icon", "size": "s" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2bc8b2ca-9792-4034-a604-43ce28ce8ede",
@@ -398,5 +296,49 @@
         "9d1b0ef4-5433-43fe-aa33-0274ff29f6f3"
       ]
     }
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "cde5212c-520d-4657-8184-f07739ffed07",
+    "uuid": "bd736ba7-2426-5717-ac38-8f8a6622e308"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "30d5148a-12c6-5ea1-bc57-8146322e08e9"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "5a58a097-2235-4302-a6ed-6c1fa854c523",
+    "uuid": "5229d742-28bb-525f-9742-36402c6579f6"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "5096f188-f728-4db4-8cd9-cc23b08956e1",
+    "uuid": "dc5a5553-a507-59fb-929f-8660432bb6bd"
   }
 ]

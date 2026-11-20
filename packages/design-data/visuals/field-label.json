@@ -3,73 +3,23 @@
   "specVersion": "1.0.0-draft",
   "component": "field-label",
   "root": "container",
-  "sizeScale": {
-    "s": 75,
-    "m": 100,
-    "l": 200,
-    "xl": 300
-  },
-  "notVisual": ["labelPosition"],
+  "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
+  "notVisual": ["labelPosition", "staticColor"],
   "parts": {
     "container": {
       "kind": "box",
       "children": ["label", "necessity-indicator"],
       "props": {
-        "direction": {
-          "value": "row"
-        },
-        "align": {
-          "value": "start"
-        },
+        "direction": { "value": "row" },
+        "align": { "value": "start" },
         "minHeight": {
-          "relationship": {
-            "property": "component-height-{sizeIndex}",
-            "context": "Minimum height"
-          }
+          "relationship": { "property": "minimum-height", "part": "container" }
         },
         "gap": [
           {
-            "when": {
-              "options": {
-                "size": "s"
-              }
-            },
             "relationship": {
-              "property": "text-to-asterisk-small",
-              "context": "Spacing (label to asterisk icon)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "size": "m"
-              }
-            },
-            "relationship": {
-              "property": "text-to-asterisk-medium",
-              "context": "Spacing (label to asterisk icon)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "size": "l"
-              }
-            },
-            "relationship": {
-              "property": "text-to-asterisk-large",
-              "context": "Spacing (label to asterisk icon)"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "size": "xl"
-              }
-            },
-            "relationship": {
-              "property": "text-to-asterisk-extra-large",
-              "context": "Spacing (label to asterisk icon)"
+              "property": "space-between",
+              "between": { "from": "label", "to": "necessity-indicator" }
             }
           }
         ]
@@ -78,26 +28,12 @@
     "label": {
       "kind": "text",
       "props": {
-        "overflow": {
-          "value": "wrap"
-        },
-        "fontSize": {
-          "relationship": {
-            "property": "font-size-{sizeIndex}",
-            "context": "Label"
-          }
+        "overflow": { "value": "wrap" },
+        "typeStyle": {
+          "relationship": { "property": "type-style", "part": "label" }
         },
         "lineHeight": {
-          "relationship": {
-            "property": "line-height-100",
-            "context": "Label"
-          }
-        },
-        "fontWeight": {
-          "relationship": {
-            "property": "font-weight",
-            "context": "Label"
-          }
+          "relationship": { "property": "line-height", "part": "label" }
         },
         "color": {
           "relationship": {
@@ -109,15 +45,9 @@
     },
     "necessity-indicator": {
       "kind": "icon",
-      "icon": {
-        "set": "ui",
-        "name": "asterisk"
-      },
+      "icon": { "set": "ui", "name": "asterisk" },
       "visibleWhen": {
-        "options": {
-          "isRequired": true,
-          "necessityIndicator": "icon"
-        }
+        "options": { "isRequired": true, "necessityIndicator": "icon" }
       },
       "props": {
         "width": [

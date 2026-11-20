@@ -78,7 +78,12 @@
       "values": [{ "value": "text" }, { "value": "icon" }]
     },
     "isRequired": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false }
+    "isDisabled": { "type": "boolean", "default": false },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color for use on colored backgrounds.",
+      "values": [{ "value": "white" }, { "value": "black" }]
+    }
   },
   "anatomy": [
     {
