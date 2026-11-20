@@ -834,3 +834,51 @@ fn anatomy_tables_are_whole_when_under_the_cap() {
         .collect();
     assert_eq!(names.len(), n, "one row per distinct token");
 }
+
+#[test]
+fn accordion_accessibility_labels_the_annotation_and_informative_keys() {
+    let sheet = sheet_of("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let blocks = section(&sheet, "accessibility")["blocks"]
+        .as_array()
+        .unwrap();
+    let ids: Vec<&str> = blocks.iter().map(|b| b["id"].as_str().unwrap()).collect();
+    assert_eq!(
+        ids,
+        [
+            "accessibility--summary",
+            "accessibility--keyboard",
+            "accessibility--wcag",
+            "accessibility--screen-readers"
+        ]
+    );
+    let rows = blocks[0]["rows"].as_array().unwrap();
+    assert_eq!(rows[0][1], "Not declared");
+    assert_eq!(rows[1][1], "button");
+    assert!(rows[1][2].as_str().unwrap().starts_with("Annotation"));
+    assert_eq!(blocks[1]["rows"][1][1], "Space, Enter, ArrowDown");
+    assert_eq!(blocks[1]["rows"][1][2], "Informative default keys");
+    assert_eq!(
+        blocks[2]["rows"][0],
+        serde_json::json!(["2.1.1", "A", "Keyboard"])
+    );
+    assert_eq!(blocks[3]["kind"], "placeholder");
+}
+
+#[test]
+fn accessibility_edges_keep_placeholder_or_skip_the_annotation() {
+    let none = sheet_of("bar-panel");
+    let blocks = section(&none, "accessibility")["blocks"]
+        .as_array()
+        .unwrap();
+    assert_eq!(blocks.len(), 1);
+    assert_eq!(blocks[0]["id"], "accessibility--placeholder");
+    let button = sheet_of("action-button");
+    let rows = section(&button, "accessibility")["blocks"][0]["rows"]
+        .as_array()
+        .unwrap();
+    assert_eq!(rows[0][1], "button");
+    assert!(rows
+        .iter()
+        .all(|r| !r[0].as_str().unwrap().contains("part")));
+}

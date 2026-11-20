@@ -216,6 +216,113 @@ fn tokens_table(graph: &TokenGraph, component: &str) -> Option<Value> {
     ))
 }
 
+/// Informative default keys per keyboard intent (spec/accessibility.md); the data declares
+/// intent only.
+const DEFAULT_KEYS: [(&str, &str); 9] = [
+    ("activate", "Enter, Space"),
+    ("expand", "Space, Enter, ArrowDown"),
+    ("collapse", "Escape, ArrowUp"),
+    ("navigate-options", "ArrowUp, ArrowDown"),
+    ("navigate-items", "ArrowLeft, ArrowRight"),
+    ("increment", "ArrowUp, ArrowRight"),
+    ("decrement", "ArrowDown, ArrowLeft"),
+    ("dismiss", "Escape"),
+    ("select-all", "Ctrl+A"),
+];
+
+/// Per-part roles the data cannot carry yet (RFC discussions/1995): (component, part, role).
+// shortcut: hard-coded annotation, replace when anatomy parts carry `accessibility`.
+const PART_ROLES: [(&str, &str, &str); 1] = [("accordion", "header", "button")];
+
+fn accessibility(component: &Value, name: &str) -> Option<Vec<Value>> {
+    let a = component.get("accessibility").and_then(Value::as_object)?;
+    let a = Value::Object(a.clone());
+    let list = |k: &str| {
+        a.get(k)
+            .and_then(Value::as_array)
+            .map(|v| v.iter().filter_map(Value::as_str).collect::<Vec<_>>())
+            .unwrap_or_default()
+    };
+    let mut rows: Vec<Vec<String>> = vec![vec![
+        "Role".into(),
+        s(&a, "role").unwrap_or("Not declared").into(),
+        "Component data".into(),
+    ]];
+    for (c, part, role) in PART_ROLES {
+        if c == name && s(&a, "role").is_none() {
+            rows.push(vec![
+                format!("Role ({part} part)"),
+                role.into(),
+                "Annotation, not in component data (no per-part field yet)".into(),
+            ]);
+        }
+    }
+    rows.push(vec![
+        "Intents".into(),
+        list("intents").join(", "),
+        "Component data".into(),
+    ]);
+    if let Some(f) = a.get("focusable").and_then(Value::as_bool) {
+        rows.push(vec![
+            "Focusable".into(),
+            f.to_string(),
+            "Component data".into(),
+        ]);
+    }
+    let mut out = vec![table(
+        "accessibility",
+        "accessibility--summary",
+        "Role, intents and focus",
+        &["Property", "Value", "Source"],
+        rows,
+    )];
+    let keys: Vec<Vec<String>> = list("keyboardIntents")
+        .into_iter()
+        .map(|i| {
+            let k = DEFAULT_KEYS.iter().find(|d| d.0 == i).map_or("", |d| d.1);
+            vec![i.into(), k.into(), "Informative default keys".into()]
+        })
+        .collect();
+    if !keys.is_empty() {
+        out.push(table(
+            "accessibility",
+            "accessibility--keyboard",
+            "Keyboard",
+            &["Intent", "Keys", "Note"],
+            keys,
+        ));
+    }
+    let wcag: Vec<Vec<String>> = a
+        .get("wcag")
+        .and_then(Value::as_array)
+        .map(|w| {
+            w.iter()
+                .map(|c| {
+                    ["criterion", "level", "title"]
+                        .map(|k| s(c, k).unwrap_or("").to_string())
+                        .to_vec()
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+    if !wcag.is_empty() {
+        out.push(table(
+            "accessibility",
+            "accessibility--wcag",
+            "WCAG criteria",
+            &["Criterion", "Level", "Title"],
+            wcag,
+        ));
+    }
+    out.push(placeholder(
+        "accessibility",
+        "accessibility--screen-readers",
+        "Screen reader notes",
+        "Manual: VoiceOver, TalkBack, Narrator, React Native and TV notes.",
+    ));
+    Some(out)
+}
+
 /// Replaces the placeholders the component data backs.
 pub fn fill(sections: &mut [Value], graph: &TokenGraph, component: &str) {
     let Some(raw) = component_raw(graph, component) else {
@@ -234,6 +341,9 @@ pub fn fill(sections: &mut [Value], graph: &TokenGraph, component: &str) {
             "Variants and multi-item board. Manual until generated from component data.",
         ));
         set_blocks(sections, "anatomy", anatomy);
+    }
+    if let Some(blocks) = accessibility(raw, component) {
+        set_blocks(sections, "accessibility", blocks);
     }
     if let Some(blocks) = usage(raw) {
         set_blocks(sections, "usage", blocks);
