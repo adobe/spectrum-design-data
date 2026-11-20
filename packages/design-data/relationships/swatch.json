@@ -591,7 +591,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "content-color"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "value": "mixed"
+      }
     },
     "context": "Dash UI icon",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
@@ -600,7 +604,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "light"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -610,7 +620,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "dark"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -620,7 +636,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -630,7 +652,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "light"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -640,7 +668,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "dark"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -650,7 +684,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
