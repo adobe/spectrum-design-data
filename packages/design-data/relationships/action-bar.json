@@ -2,7 +2,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "height"
+      "property": "height",
+      "part": "container"
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -12,7 +13,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "minimum-width"
+      "property": "minimum-width",
+      "part": "container"
     },
     "context": "Width (minimum)",
     "contextRole": ["width"],
@@ -23,7 +25,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "corner-radius"
+      "property": "corner-radius",
+      "part": "container"
     },
     "context": "Rounding",
     "contextRole": ["rounding"],
@@ -33,7 +36,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "space-between"
+      "property": "padding-vertical",
+      "part": "container"
     },
     "context": "Spacing (padding)",
     "contextRole": ["spacing"],
@@ -44,7 +48,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "space-between"
+      "property": "padding-horizontal",
+      "part": "container"
     },
     "context": "Spacing (padding)",
     "contextRole": ["spacing"],
@@ -55,7 +60,11 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "item-counter",
+        "to": "action-group"
+      }
     },
     "context": "Spacing (label to action button group)",
     "contextRole": ["spacing"],
@@ -66,7 +75,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "space-between"
+      "property": "padding-vertical",
+      "part": "item-counter"
     },
     "context": "Spacing (item-counter)",
     "contextRole": ["spacing"],
@@ -77,7 +87,11 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "close-button",
+        "to": "item-counter"
+      }
     },
     "context": "Spacing (item-counter)",
     "contextRole": ["spacing"],
@@ -88,33 +102,36 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
-    "context": "Background (default)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "default",
     "$ref": "2275e0fa-69a3-4542-9ec6-919e44035118",
     "uuid": "2da484e2-3b29-5f82-b90b-3d8233c6816c"
   },
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
-    "context": "Background (default)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "default",
     "$ref": "4c19885d-0411-43dc-8f4a-db81905728e6",
     "uuid": "ee323503-f5b2-5629-be04-9438fcd2e57c"
   },
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
-    "context": "Background (default)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "default",
     "$ref": "644ca621-9138-44e3-bdd7-123a9fccd9a6",
     "uuid": "d373dd6f-ad92-5553-a39e-a0f043013c58"
   },
@@ -124,7 +141,8 @@
       "property": "content-color",
       "options": {
         "isEmphasized": true
-      }
+      },
+      "part": "container"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -137,7 +155,9 @@
       "property": "color",
       "options": {
         "colorScheme": "light"
-      }
+      },
+      "part": "container",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -150,7 +170,9 @@
       "property": "color",
       "options": {
         "colorScheme": "dark"
-      }
+      },
+      "part": "container",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -163,7 +185,9 @@
       "property": "color",
       "options": {
         "colorScheme": "wireframe"
-      }
+      },
+      "part": "container",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -173,7 +197,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "shadow"
     },
     "context": "Drop shadow",
     "contextRole": ["shadow"],
@@ -183,7 +209,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "x"
+      "property": "x",
+      "part": "container"
     },
     "context": "Drop shadow",
     "contextRole": ["shadow"],
@@ -193,7 +220,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "y"
+      "property": "y",
+      "part": "container"
     },
     "context": "Drop shadow",
     "contextRole": ["shadow"],
@@ -203,7 +231,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "blur"
+      "property": "blur",
+      "part": "container"
     },
     "context": "Drop shadow",
     "contextRole": ["shadow"],
@@ -213,7 +242,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "font-size"
+      "property": "font-size",
+      "part": "item-counter"
     },
     "context": "Counter",
     "contextRole": ["value"],
@@ -223,7 +253,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "line-height-100"
+      "property": "line-height",
+      "part": "item-counter"
     },
     "context": "Counter",
     "contextRole": ["value"],
@@ -233,7 +264,11 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "line-height-100"
+      "property": "line-height",
+      "part": "item-counter",
+      "options": {
+        "script": "cjk"
+      }
     },
     "context": "Counter",
     "contextRole": ["value"],
@@ -243,7 +278,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -253,7 +290,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -263,7 +302,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -273,7 +314,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -283,7 +326,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -293,7 +338,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -303,7 +350,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -313,7 +362,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -323,7 +374,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -333,7 +386,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -343,7 +398,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -353,7 +410,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -363,7 +422,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "close-button"
     },
     "context": "Icon and Clear icon",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
@@ -372,7 +432,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -382,7 +444,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -392,7 +456,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -402,7 +468,9 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -412,7 +480,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "close-button"
     },
     "context": "Icon and Clear icon",
     "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
@@ -421,7 +490,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "close-button"
     },
     "context": "Icon and Clear icon",
     "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
@@ -430,7 +500,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "color"
+      "property": "color",
+      "part": "close-button"
     },
     "context": "Icon and Clear icon",
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
@@ -439,7 +510,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "close-button"
     },
     "context": "Control (selected)",
     "contextRole": ["control"],
@@ -450,7 +522,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "close-button"
     },
     "context": "Control (selected)",
     "contextRole": ["control"],
@@ -461,7 +534,8 @@
   {
     "scope": {
       "component": "action-bar",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "close-button"
     },
     "context": "Control (selected)",
     "contextRole": ["control"],
@@ -475,7 +549,8 @@
       "property": "content-color",
       "options": {
         "isEmphasized": true
-      }
+      },
+      "part": "close-button"
     },
     "context": "Control (selected)",
     "contextRole": ["control"],
@@ -489,7 +564,8 @@
       "property": "content-color",
       "options": {
         "isEmphasized": true
-      }
+      },
+      "part": "close-button"
     },
     "context": "Control (selected)",
     "contextRole": ["control"],
@@ -503,7 +579,8 @@
       "property": "content-color",
       "options": {
         "isEmphasized": true
-      }
+      },
+      "part": "close-button"
     },
     "context": "Control (selected)",
     "contextRole": ["control"],
@@ -517,7 +594,8 @@
       "property": "content-color",
       "options": {
         "isEmphasized": true
-      }
+      },
+      "part": "close-button"
     },
     "context": "Control (selected)",
     "contextRole": ["control"],
@@ -702,7 +780,8 @@
       "options": {
         "colorScheme": "light",
         "object": "border"
-      }
+      },
+      "part": "container"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
@@ -718,7 +797,8 @@
       "options": {
         "colorScheme": "dark",
         "object": "border"
-      }
+      },
+      "part": "container"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
@@ -734,7 +814,8 @@
       "options": {
         "colorScheme": "wireframe",
         "object": "border"
-      }
+      },
+      "part": "container"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
@@ -790,7 +871,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ee894aad-f166-42eb-b08b-859f73db742a",
     "uuid": "66540ddb-ec74-487f-8e09-a37b436694b5",
-    "legacyKey": "action-bar-counter-font-size"
+    "legacyKey": "action-bar-counter-font-size",
+    "context": "Counter",
+    "contextRole": ["value"]
   },
   {
     "scope": {

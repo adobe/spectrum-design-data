@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "size"
+      "property": "size",
+      "part": "avatars",
+      "options": {
+        "size": "50"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "size"
+      "property": "size",
+      "part": "avatars",
+      "options": {
+        "size": "75"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "size"
+      "property": "size",
+      "part": "avatars",
+      "options": {
+        "size": "100"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -32,7 +44,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "size"
+      "property": "size",
+      "part": "avatars",
+      "options": {
+        "size": "200"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -42,7 +58,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "size"
+      "property": "size",
+      "part": "avatars",
+      "options": {
+        "size": "300"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -52,7 +72,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "size"
+      "property": "size",
+      "part": "avatars",
+      "options": {
+        "size": "400"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -62,7 +86,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "size"
+      "property": "size",
+      "part": "avatars",
+      "options": {
+        "size": "500"
+      }
     },
     "context": "Size",
     "contextRole": ["size"],
@@ -213,7 +241,8 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "font-family"
+      "property": "font-family",
+      "part": "label"
     },
     "context": "Layout",
     "contextRole": ["layout"],
@@ -223,7 +252,8 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "font-weight"
+      "property": "font-weight",
+      "part": "label"
     },
     "context": "Layout",
     "contextRole": ["layout"],
@@ -233,7 +263,8 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "font-style"
+      "property": "font-style",
+      "part": "label"
     },
     "context": "Layout",
     "contextRole": ["layout"],
@@ -439,7 +470,8 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "font-size-600"
+      "property": "font-size",
+      "part": "label"
     },
     "context": "Layout",
     "contextRole": ["layout"],
@@ -449,7 +481,8 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "font-size-600"
+      "property": "font-size",
+      "part": "label"
     },
     "context": "Layout",
     "contextRole": ["layout"],
@@ -459,7 +492,8 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "line-height-100"
+      "property": "line-height",
+      "part": "label"
     },
     "context": "Layout",
     "contextRole": ["layout"],
@@ -469,7 +503,11 @@
   {
     "scope": {
       "component": "avatar-group",
-      "property": "line-height-100"
+      "property": "line-height",
+      "part": "label",
+      "options": {
+        "script": "cjk"
+      }
     },
     "context": "Layout",
     "contextRole": ["layout"],
