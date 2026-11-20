@@ -21,7 +21,7 @@
 //!    (`lifecycle.deprecatedIn`) are ignored.
 //! 3. **L3 structured recipe**: the component has a visual recipe with no
 //!    `relationship.context` selectors. Not applicable (and so passed, shown as `n/a`) when
-//!    the component declares exactly one anatomy part and has no visual recipe: a recipe
+//!    the component declares exactly one anatomy part, named `text`, and has no visual recipe: a recipe
 //!    there would have no context selectors to structure.
 //! 4. **L4 clean labels**: no `contextPart`, `contextQualifier` or anatomy-word
 //!    `contextRole`, and every authored `context` equals the label derived from the
@@ -53,7 +53,7 @@ pub struct ComponentStatus {
     /// Records whose `scope.property` carries structure.
     pub structured_property_records: usize,
     pub has_recipe: bool,
-    /// L3 does not apply: exactly one declared anatomy part and no visual recipe.
+    /// L3 does not apply: exactly one declared anatomy part, named `text`, and no visual recipe.
     pub l3_not_applicable: bool,
     /// `relationship.context` selectors in the component's recipe.
     pub context_selectors: usize,
@@ -205,7 +205,7 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
             s.context_selectors += count_context_selectors(&v.raw);
         }
 
-        s.l3_not_applicable = parts.len() == 1 && !s.has_recipe;
+        s.l3_not_applicable = parts == ["text"] && !s.has_recipe;
         s.checks = [
             s.anatomy == "reviewed",
             s.unstructured_records == 0
@@ -324,7 +324,7 @@ mod tests {
     #[test]
     fn l3_is_skipped_only_for_one_part_without_a_recipe() {
         let clean = rel("gap", Some("label"), "Spacing", json!(["spacing"]));
-        let one = graph("reviewed", vec![clean.clone()], None);
+        let one = graph_with_parts("reviewed", &["text"], vec![clean.clone()], None);
         let s = &status_report(&one)[0];
         assert!(s.l3_not_applicable);
         assert_eq!((s.checks[2], s.level), (true, 4));
@@ -332,6 +332,13 @@ mod tests {
         let with_recipe = status_report(&graph("reviewed", vec![clean.clone()], Some(recipe)));
         assert!(!with_recipe[0].l3_not_applicable);
         assert_eq!(with_recipe[0].level, 2, "a recipe is judged as usual");
+        let other = graph("reviewed", vec![clean.clone()], None);
+        let s = &status_report(&other)[0];
+        assert!(
+            !s.l3_not_applicable,
+            "one part not named text still needs L3"
+        );
+        assert_eq!(s.level, 2);
         let two = graph_with_parts("reviewed", &["a", "b"], vec![], None);
         let s = &status_report(&two)[0];
         assert!(!s.l3_not_applicable);

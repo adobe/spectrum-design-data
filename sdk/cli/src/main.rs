@@ -595,7 +595,7 @@ enum Commands {
     },
     /// Report how far each component has moved to the structured data system: levels L1 to L4,
     /// computed from the data (anatomy reviewed, structured identity, structured recipe, clean labels).
-    /// L3 shows n/a for a component with exactly one anatomy part and no recipe
+    /// L3 shows n/a for a component with exactly one anatomy part, named text, and no recipe
     Status {
         /// Show only this component
         #[arg(value_name = "COMPONENT")]
