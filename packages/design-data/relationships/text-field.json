@@ -687,6 +687,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -703,6 +706,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -719,6 +725,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -735,6 +744,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -1133,6 +1145,9 @@
       "between": {
         "from": "top-edge",
         "to": "validation-marker"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -1149,6 +1164,9 @@
       "between": {
         "from": "validation-marker",
         "to": "bottom-edge"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -1165,6 +1183,9 @@
       "between": {
         "from": "top-edge",
         "to": "validation-marker"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -1181,6 +1202,9 @@
       "between": {
         "from": "validation-marker",
         "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -1197,6 +1221,9 @@
       "between": {
         "from": "top-edge",
         "to": "validation-marker"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -1213,6 +1240,9 @@
       "between": {
         "from": "validation-marker",
         "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -1229,6 +1259,9 @@
       "between": {
         "from": "top-edge",
         "to": "validation-marker"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -1245,6 +1278,9 @@
       "between": {
         "from": "validation-marker",
         "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
