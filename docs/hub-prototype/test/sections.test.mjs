@@ -96,3 +96,28 @@ test("nav links to every section; no sections renders nothing", () => {
   assert.equal(renderSections([]), "");
   assert.equal(sectionNav(undefined), "");
 });
+
+test("a long table shows 20 rows and puts the rest in a details with its own header", () => {
+  const rows = Array.from({ length: 25 }, (_, i) => [`r${i}`]);
+  const html = renderSections([
+    {
+      key: "anatomy",
+      title: "Anatomy",
+      blocks: [
+        {
+          kind: "table",
+          id: "t",
+          section: "anatomy",
+          title: "Tokens (25)",
+          columns: ["Name"],
+          rows,
+        },
+      ],
+    },
+  ]);
+  const [open, rest] = html.split("<details>");
+  assert.equal((open.match(/<tr>/g) ?? []).length, 21);
+  assert.match(rest, /Show all 25 rows<\/summary>[^]*<th>Name<\/th>[^]*r24/);
+  assert.equal((rest.match(/<td>/g) ?? []).length, 5);
+  assert.doesNotMatch(renderSections(sections), /<details>/);
+});

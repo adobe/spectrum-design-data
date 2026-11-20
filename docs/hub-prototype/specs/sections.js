@@ -23,12 +23,22 @@ function galleryCell(item, cell) {
   return `<figure><svg width="${cell.width}" height="${cell.height}" viewBox="0 0 ${cell.width} ${cell.height}" role="img" aria-label="${esc(item.title)}"><g transform="translate(${view.x} ${view.y}) scale(${view.scale})">${inner}</g></svg><figcaption>${esc(item.title)}</figcaption></figure>`;
 }
 
+// Longer tables show this many rows; the rest sit in a <details>.
+const VISIBLE_ROWS = 20;
+
 function sectionBlock(b) {
   const title =
     b.title && b.kind !== "placeholder" ? `<h3>${esc(b.title)}</h3>` : "";
   let body = "";
   if (b.kind === "table") {
-    body = `<table class="grid"><thead><tr>${b.columns.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+    const head = `<thead><tr>${b.columns.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>`;
+    const rows = (rs) =>
+      `<tbody>${rs.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>`;
+    const open = b.rows.slice(0, VISIBLE_ROWS);
+    const rest = b.rows.slice(VISIBLE_ROWS);
+    body = `<table class="grid">${head}${rows(open)}</table>`;
+    if (rest.length)
+      body += `<details><summary>Show all ${b.rows.length} rows</summary><table class="grid">${head}${rows(rest)}</table></details>`;
   } else if (b.kind === "gallery") {
     body =
       (b.caption ? `<p>${esc(b.caption)}</p>` : "") +

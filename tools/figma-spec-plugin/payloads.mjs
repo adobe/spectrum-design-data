@@ -137,9 +137,20 @@ export function slimSection(s) {
   };
 }
 
-/** A section's blocks, a gallery in one piece per row (as code.js draws it). */
+/** A section's blocks in the pieces code.js draws (`splitBlocks`): the payload unit. */
 function sectionPieces(section) {
+  const chunk = 25;
   return section.blocks.flatMap((b) => {
+    if (b.kind === "table" && b.rows.length > chunk) {
+      const out = [];
+      for (let i = 0; i < b.rows.length; i += chunk)
+        out.push({
+          ...b,
+          title: i ? b.title + " (continued)" : b.title,
+          rows: b.rows.slice(i, i + chunk),
+        });
+      return out;
+    }
     if (b.kind !== "gallery" || b.items.length <= b.columns) return [b];
     const rows = [];
     for (let i = 0; i < b.items.length; i += b.columns)

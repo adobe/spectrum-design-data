@@ -1093,3 +1093,40 @@ test("the plan hash changes when a section changes", (t) => {
   ];
   t.not(hashFor(base), hashFor(edited));
 });
+
+test("a long table is drawn whole, in continuation tables with the header repeated", async (t) => {
+  const rows = Array.from({ length: 60 }, (_, i) => [
+    `token-${i}`,
+    "dimension",
+  ]);
+  const long = {
+    ...withSections,
+    sections: [
+      {
+        key: "anatomy",
+        title: "Anatomy",
+        blocks: [
+          {
+            kind: "table",
+            id: "anatomy--tokens",
+            section: "anatomy",
+            title: "Tokens (60)",
+            columns: ["Name", "Type"],
+            rows,
+          },
+        ],
+      },
+    ],
+  };
+  const root = await renderRoot(long);
+  const sec = names(root, "Section \u2013 ")[0];
+  t.is(sec.findAll((n) => n.name === "Header row").length, 3);
+  t.is(sec.findAll((n) => n.name === "Row").length, 60);
+  const texts = sec.findAll((n) => n.type === "TEXT").map((n) => n.characters);
+  t.true(texts.includes("Tokens (60) (continued)"));
+  const payloads = buildPayloads({ sheet: long });
+  for (const p of payloads) t.true(p.chars <= 45000);
+  const via = fakeFigma();
+  for (const p of payloads) await runPayload(via.figma, p);
+  t.deepEqual(dump(via.page.children[0]), dump(root));
+});

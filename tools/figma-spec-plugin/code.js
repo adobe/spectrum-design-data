@@ -678,9 +678,21 @@ function placeholderBlock(b) {
   return f;
 }
 
-// A gallery is drawn one row per piece, so a payload can carry part of a big one.
-function galleryRows(blocks) {
+// A gallery is drawn one row per piece and a long table TABLE_CHUNK rows per piece (a
+// continuation repeats the header), so a payload can carry part of a big block.
+const TABLE_CHUNK = 25;
+function splitBlocks(blocks) {
   return blocks.flatMap((b) => {
+    if (b.kind === "table" && b.rows.length > TABLE_CHUNK) {
+      const out = [];
+      for (let i = 0; i < b.rows.length; i += TABLE_CHUNK)
+        out.push({
+          ...b,
+          title: i ? b.title + " (continued)" : b.title,
+          rows: b.rows.slice(i, i + TABLE_CHUNK),
+        });
+      return out;
+    }
     if (b.kind !== "gallery" || b.items.length <= b.columns) return [b];
     const rows = [];
     for (let i = 0; i < b.items.length; i += b.columns)
@@ -720,7 +732,7 @@ function sectionFrame(section) {
   });
   f.name = "Section \u2013 " + section.title;
   f.appendChild(text(section.title, 32, "Bold"));
-  for (const b of galleryRows(section.blocks))
+  for (const b of splitBlocks(section.blocks))
     f.appendChild(sectionBlockNode(section, b));
   return f;
 }

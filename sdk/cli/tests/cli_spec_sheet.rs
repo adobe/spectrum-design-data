@@ -803,8 +803,8 @@ fn accordion_anatomy_has_api_and_capped_tokens_tables() {
         serde_json::json!(["Name", "Type", "Alias?", "Alias of"])
     );
     let trows = tokens["rows"].as_array().unwrap();
-    assert_eq!(trows.len(), 40);
-    assert!(tokens["title"].as_str().unwrap().contains("first 40 of"));
+    assert_eq!(trows.len(), 97);
+    assert_eq!(tokens["title"], "Tokens (97)");
     let alias = trows
         .iter()
         .find(|r| r[0] == "container-padding-small")
@@ -867,7 +867,6 @@ fn anatomy_tables_are_whole_when_under_the_cap() {
         .find(|b| b["id"] == "anatomy--tokens")
         .unwrap();
     let n = tokens["rows"].as_array().unwrap().len();
-    assert!(n <= 40);
     let names: std::collections::BTreeSet<_> = tokens["rows"]
         .as_array()
         .unwrap()

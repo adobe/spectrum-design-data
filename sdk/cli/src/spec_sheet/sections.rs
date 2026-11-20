@@ -158,11 +158,9 @@ fn alias_chain(graph: &TokenGraph, tok: &Value, property: &str) -> Vec<String> {
 }
 
 /// Tokens table: one row per distinct token the component's relationship records name, in
-/// record order, capped at `TOKEN_ROWS`. `Alias of` is the whole alias chain to the terminal
+/// record order. `Alias of` is the whole alias chain to the terminal
 /// token. A record with an inline value has no token: its row is named by the relationship
 /// property and typed `inline`.
-const TOKEN_ROWS: usize = 40;
-
 fn tokens_table(graph: &TokenGraph, component: &str) -> Option<Value> {
     let mut seen = BTreeSet::new();
     let mut rows: Vec<Vec<String>> = Vec::new();
@@ -200,13 +198,7 @@ fn tokens_table(graph: &TokenGraph, component: &str) -> Option<Value> {
     if rows.is_empty() {
         return None;
     }
-    let total = rows.len();
-    rows.truncate(TOKEN_ROWS);
-    let title = if total > TOKEN_ROWS {
-        format!("Tokens (first {TOKEN_ROWS} of {total}, in relationship order)")
-    } else {
-        "Tokens".to_string()
-    };
+    let title = format!("Tokens ({})", rows.len());
     Some(table(
         "anatomy",
         "anatomy--tokens",
