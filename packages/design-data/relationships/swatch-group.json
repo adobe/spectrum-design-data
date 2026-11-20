@@ -2,13 +2,18 @@
   {
     "scope": {
       "component": "swatch-group",
-      "property": "spacing",
+      "between": {
+        "from": "swatch",
+        "to": "swatch"
+      },
+      "property": "space-between",
       "options": {
         "density": "spacious"
       }
     },
-    "context": "Spacing",
+    "context": "Spacing (swatch to swatch)",
     "contextRole": ["spacing"],
+    "contextQualifier": "swatch to swatch",
     "$ref": "b83df7f2-8811-4bad-b012-213e430e2aaf",
     "uuid": "2fbf78a0-5964-5fad-90f5-3a24427ccd67"
   },

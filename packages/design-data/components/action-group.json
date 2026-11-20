@@ -39,32 +39,73 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
     "density": {
       "type": "string",
       "default": "regular",
-      "values": [{ "value": "regular" }, { "value": "compact" }]
+      "values": [
+        {
+          "value": "regular"
+        },
+        {
+          "value": "compact"
+        }
+      ]
     },
-    "isJustified": { "type": "boolean", "default": false },
-    "isQuiet": { "type": "boolean", "default": false },
-    "isEmphasized": { "type": "boolean", "default": false },
-    "enableSelection": { "type": "boolean", "default": false },
+    "isJustified": {
+      "type": "boolean",
+      "default": false
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableSelection": {
+      "type": "boolean",
+      "default": false
+    },
     "selectionMode": {
       "type": "string",
       "default": "single",
       "description": "Only applicable if selection is enabled",
-      "values": [{ "value": "single" }, { "value": "multiple" }]
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     },
     "allowsEmptySelection": {
       "type": "boolean",
@@ -74,26 +115,53 @@
     "overflowMode": {
       "type": "string",
       "default": "wrap",
-      "values": [{ "value": "wrap" }, { "value": "collapse" }]
+      "values": [
+        {
+          "value": "wrap"
+        },
+        {
+          "value": "collapse"
+        }
+      ]
     },
-    "isDisabled": { "type": "boolean", "default": false }
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "anatomy": [
     {
-      "name": "action-button",
-      "description": "One action button in the group; repeated.",
+      "name": "container",
+      "description": "Row or column that holds the action buttons. It draws nothing itself: it sets the gap between buttons and the direction. It is the root and the host of the default slot.",
       "required": true
     }
   ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "container",
+      "accepts": ["action-button"],
+      "min": 1,
+      "description": "The action button in the group. Any number of action buttons, at least one."
+    }
+  ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web action group page (only Action button instances). Group draws nothing itself; no container."
+    "notes": "Figma S2 Web action group page (Action button instances only), React Spectrum S2 ActionButtonGroup. The group stays a component with an explicit container and one slot (A139). action-button is no longer a part: it is what the default slot accepts. Selection options (enableSelection, selectionMode, allowsEmptySelection) stay options (A144)."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["trigger"],
     "focusable": false,
-    "wcag": [{ "criterion": "2.1.1", "level": "A", "title": "Keyboard" }]
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      }
+    ]
   }
 }

@@ -1789,6 +1789,36 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "description": "Linear anatomy element used to represent a value or range",
       "usedIn": ["tokens"],
       "standaloneScope": true
+    },
+    {
+      "id": "action-group",
+      "label": "Action Group",
+      "description": "Group of action buttons as a named part of a larger component (action-bar)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "avatars",
+      "label": "Avatars",
+      "description": "Host of the overlapping avatars in an avatar-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "item-counter",
+      "label": "Item Counter",
+      "description": "Text showing how many items are selected (action-bar)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "options",
+      "label": "Options",
+      "description": "Host of the repeated checkbox or radio button options in checkbox-group and radio-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "tags",
+      "label": "Tags",
+      "description": "Host of the wrapping row of tags in a tag-group",
+      "usedIn": ["s2-docs"]
     }
   ]
 }

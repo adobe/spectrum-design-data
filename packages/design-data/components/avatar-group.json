@@ -44,32 +44,66 @@
       "type": "number",
       "default": 100,
       "values": [
-        { "value": 50 },
-        { "value": 75 },
-        { "value": 100 },
-        { "value": 200 },
-        { "value": 300 },
-        { "value": 400 },
-        { "value": 500 }
+        {
+          "value": 50
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 100
+        },
+        {
+          "value": 200
+        },
+        {
+          "value": 300
+        },
+        {
+          "value": 400
+        },
+        {
+          "value": 500
+        }
       ]
     }
   },
   "anatomy": [
     {
-      "name": "avatar",
-      "description": "One avatar in the overlapping stack.",
+      "name": "container",
+      "description": "Row holding the overlapping avatars and the optional label. It is the root.",
+      "required": true,
+      "contains": ["avatars", "label"]
+    },
+    {
+      "name": "avatars",
+      "description": "Overlapping stack of avatars. It hosts the default slot; each avatar is one fill, drawn overlapping the previous one.",
       "required": true
     },
     {
       "name": "label",
-      "description": "Text label such as the member count; optional via Show label."
+      "description": "Text label next to the stack, such as the member count; optional via the label option."
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "avatars",
+      "accepts": ["avatar"],
+      "min": 1,
+      "description": "The avatars in the stack."
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web avatar group page (Stack of Avatar instances plus Label text). Relationship contexts mention a layout and a group-to-label spacing that were not made parts."
+    "notes": "Figma S2 Web avatar group page (all 7 size variants: a frame named Stack holding the Avatar instances, plus a Label, which matches the avatars host) and React Spectrum S2 AvatarGroup. The repeated avatars sit in one host part, avatars (A142); the avatar is what the default slot accepts, so avatar is no longer a part. An explicit container is the root. The avatar to avatar and avatar group to label spacings are now spacings between these parts."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "accessibility": { "role": "group", "focusable": false }
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "role": "group",
+    "focusable": false
+  }
 }

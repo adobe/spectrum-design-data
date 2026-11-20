@@ -39,35 +39,116 @@
     }
   ],
   "options": {
-    "label": { "type": "string" },
+    "label": {
+      "type": "string"
+    },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [{ "value": "top" }, { "value": "side" }]
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
     "necessityIndicator": {
       "type": "string",
       "default": "icon",
-      "values": [{ "value": "text" }, { "value": "icon" }]
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
     },
-    "isRequired": { "type": "boolean", "default": false },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
     "orientation": {
       "type": "string",
       "default": "vertical",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
-    "isError": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false },
-    "description": { "type": "string" },
-    "errorMessage": { "type": "string" }
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string"
+    },
+    "errorMessage": {
+      "type": "string"
+    }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["choose"],
     "focusable": false,
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Holds the field label, the checkboxes and the help text. It is the root.",
+      "required": true,
+      "contains": ["field-label", "options", "help-text"]
+    },
+    {
+      "name": "field-label",
+      "description": "Label above or beside the options. Names the group."
+    },
+    {
+      "name": "options",
+      "description": "Row or column of checkboxes. It hosts the default slot; each checkbox is one fill.",
+      "required": true
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message under the options."
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "options",
+      "accepts": ["checkbox"],
+      "min": 1,
+      "description": "The checkboxes of the group (at least 1)."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No records yet. Anatomy added by decision A143 (2026-11-20): container, field-label, an options host, help-text. The options host is a per-component plural (A142); checkbox is what the default slot accepts. React Spectrum S2 CheckboxGroup renders the label, the checkboxes and the description or error message. Figma S2 Web checkbox group page checked across all 24 variants: Field label, a frame named \"Checkbox group\" holding the checkboxes (the options host), and Help text or Error message; the Side variants add a layout-only Component wrapper."
   }
 }
