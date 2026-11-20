@@ -20,7 +20,9 @@
 //!    component's own anatomy parts, or a trailing numeric scale). Deprecated records
 //!    (`lifecycle.deprecatedIn`) are ignored.
 //! 3. **L3 structured recipe**: the component has a visual recipe with no
-//!    `relationship.context` selectors.
+//!    `relationship.context` selectors. Not applicable (and so passed, shown as `n/a`) when
+//!    the component declares exactly one anatomy part and has no visual recipe: a recipe
+//!    there would have no context selectors to structure.
 //! 4. **L4 clean labels**: no `contextPart`, `contextQualifier` or anatomy-word
 //!    `contextRole`, and every authored `context` equals the label derived from the
 //!    record's `contextRole` (SPEC-090's derivation).
@@ -51,6 +53,8 @@ pub struct ComponentStatus {
     /// Records whose `scope.property` carries structure.
     pub structured_property_records: usize,
     pub has_recipe: bool,
+    /// L3 does not apply: exactly one declared anatomy part and no visual recipe.
+    pub l3_not_applicable: bool,
     /// `relationship.context` selectors in the component's recipe.
     pub context_selectors: usize,
     /// Records that fail the L4 label check.
@@ -158,6 +162,7 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
             colliding_identities: 0,
             structured_property_records: 0,
             has_recipe: false,
+            l3_not_applicable: false,
             context_selectors: 0,
             label_debt_records: 0,
         };
@@ -200,12 +205,13 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
             s.context_selectors += count_context_selectors(&v.raw);
         }
 
+        s.l3_not_applicable = parts.len() == 1 && !s.has_recipe;
         s.checks = [
             s.anatomy == "reviewed",
             s.unstructured_records == 0
                 && s.colliding_identities == 0
                 && s.structured_property_records == 0,
-            s.has_recipe && s.context_selectors == 0,
+            s.l3_not_applicable || (s.has_recipe && s.context_selectors == 0),
             s.label_debt_records == 0,
         ];
         s.level = s.checks.iter().take_while(|c| **c).count() as u8;
@@ -243,11 +249,20 @@ mod tests {
     use crate::graph::{ComponentRecord, Layer, RelationshipRecord, VisualRecord};
 
     fn graph(anatomy: &str, rels: Vec<Value>, recipe: Option<Value>) -> TokenGraph {
+        graph_with_parts(anatomy, &["label"], rels, recipe)
+    }
+
+    fn graph_with_parts(
+        anatomy: &str,
+        parts: &[&str],
+        rels: Vec<Value>,
+        recipe: Option<Value>,
+    ) -> TokenGraph {
         let mut g = TokenGraph::from_records(vec![]);
         g.components = vec![ComponentRecord {
             name: "tag".into(),
             file: PathBuf::from("tag.json"),
-            raw: json!({"anatomyReview": {"status": anatomy}, "anatomy": [{"name": "label"}]}),
+            raw: json!({"anatomyReview": {"status": anatomy}, "anatomy": parts.iter().map(|p| json!({"name": p})).collect::<Vec<_>>()}),
             layer: Layer::default(),
         }];
         g.relationships = rels
@@ -293,9 +308,8 @@ mod tests {
             level(&graph("draft", vec![clean.clone()], Some(recipe.clone()))),
             0
         );
-        assert_eq!(level(&graph("reviewed", vec![], None)), 2);
         assert_eq!(
-            level(&graph("reviewed", vec![clean.clone()], None)),
+            level(&graph_with_parts("reviewed", &["a", "b"], vec![], None)),
             2,
             "no recipe stops at L2"
         );
@@ -305,6 +319,25 @@ mod tests {
         );
         let selector = json!({"component": "tag", "x": [{"relationship": {"context": "Spacing"}}]});
         assert_eq!(level(&graph("reviewed", vec![clean], Some(selector))), 2);
+    }
+
+    #[test]
+    fn l3_is_skipped_only_for_one_part_without_a_recipe() {
+        let clean = rel("gap", Some("label"), "Spacing", json!(["spacing"]));
+        let one = graph("reviewed", vec![clean.clone()], None);
+        let s = &status_report(&one)[0];
+        assert!(s.l3_not_applicable);
+        assert_eq!((s.checks[2], s.level), (true, 4));
+        let recipe = json!({"component": "tag", "x": [{"relationship": {"context": "Spacing"}}]});
+        let with_recipe = status_report(&graph("reviewed", vec![clean.clone()], Some(recipe)));
+        assert!(!with_recipe[0].l3_not_applicable);
+        assert_eq!(with_recipe[0].level, 2, "a recipe is judged as usual");
+        let two = graph_with_parts("reviewed", &["a", "b"], vec![], None);
+        let s = &status_report(&two)[0];
+        assert!(!s.l3_not_applicable);
+        assert_eq!(s.level, 2);
+        let none = graph_with_parts("reviewed", &[], vec![], None);
+        assert!(!status_report(&none)[0].l3_not_applicable);
     }
 
     #[test]
@@ -366,7 +399,15 @@ mod tests {
         );
         let between =
             json!({"scope": {"component": "tag", "property": "gap", "between": ["a", "b"]}});
-        assert_eq!(level(&graph("reviewed", vec![between], None)), 2);
+        assert_eq!(
+            level(&graph_with_parts(
+                "reviewed",
+                &["a", "b"],
+                vec![between],
+                None
+            )),
+            2
+        );
         assert_eq!(level(&graph("reviewed", vec![], Some(recipe.clone()))), 4);
         let anatomy_role = rel("gap", Some("label"), "Label", json!(["label"]));
         assert_eq!(
