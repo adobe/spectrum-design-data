@@ -64,6 +64,33 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.27.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "ff813ddb3add6a16fdee77edd527dae8ae280d05",
+      "commits": [
+        {
+          "commit": "ff813ddb3add6a16fdee77edd527dae8ae280d05",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1974,"title":"feat(design-data): review card anatomy and merge cards into card (A4)","url":"https://github.com/adobe/spectrum-design-data/pull/1974"},
+          "entries": [
+            {"id":"ff813ddb-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"collection-card/anatomy/action-button","name":"action-button","fields":[],"before":{"name":"action-button","description":"Action button beside the title."}},
+            {"id":"ff813ddb-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"collection-card/anatomy/checkbox","name":"checkbox","fields":[],"before":{"name":"checkbox","description":"Selection checkbox in the top corner."}},
+            {"id":"ff813ddb-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"collection-card/anatomy/container","name":"container","fields":[],"before":{"name":"container","description":"Card surface.","required":true,"contains":["preview","checkbox","title","description","icon","action-button"]}},
+            {"id":"ff813ddb-3","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"collection-card/anatomy/description","name":"description","fields":[],"before":{"name":"description","description":"Card description text."}},
+            {"id":"ff813ddb-4","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"collection-card/anatomy/icon","name":"icon","fields":[],"before":{"name":"icon","description":"Icon beside the description."}},
+            {"id":"ff813ddb-5","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"collection-card/anatomy/preview","name":"preview","fields":[],"before":{"name":"preview","description":"Image or media area."}},
+            {"id":"ff813ddb-6","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"collection-card/anatomy/title","name":"title","fields":[],"before":{"name":"title","description":"Card title."}},
+            {"id":"ff813ddb-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"collection-card/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Same page as cards in Figma S2 Web (Card Collection). Unsure: multi-image preview."}]},
+            {"id":"ff813ddb-8","kind":"lifecycle","change":"updated","class":"api","bump":"major","indirect":false,"contexts":[],"record":"collection-card/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedIn","after":"1.0.0-draft"}]},
+            {"id":"ff813ddb-9","kind":"lifecycle","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"collection-card/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedComment","after":"Archive-only: this card kind is not modelled in card yet (Patterns candidate, 5m92.30). Its archived records stay frozen and keep their legacy keys."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

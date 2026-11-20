@@ -1,5 +1,12 @@
 # @adobe/token-corpus-migrate
 
+## 0.1.86
+
+### Patch Changes
+
+- Updated dependencies [[`ff813dd`](https://github.com/adobe/spectrum-design-data/commit/ff813ddb3add6a16fdee77edd527dae8ae280d05)]:
+  - @adobe/spectrum-design-data@3.27.0
+
 ## 0.1.85
 
 ### Patch Changes
