@@ -937,7 +937,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Icon",
       "description": "Icon elements",
       "usedIn": ["tokens", "component-schemas"],
-      "standaloneScope": true
+      "standaloneScope": true,
+      "aliases": ["alert-icon"]
     },
     {
       "id": "label",
@@ -1115,7 +1116,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "dot",
       "label": "Dot",
       "description": "Small circular indicator element (status-light)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "aliases": ["light"]
     },
     {
       "id": "separator",
@@ -2663,6 +2665,18 @@ const STATES_JSON: &str = r##"{
       "label": "Drag and Drop",
       "aliases": ["drag and drop"],
       "description": "Being dragged or drag target state",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "collapsed",
+      "label": "Collapsed",
+      "description": "Resting, smaller size of an animated indicator (coach-indicator pulse)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded",
+      "description": "Peak, larger size of an animated indicator (coach-indicator pulse)",
       "usedIn": ["component-schemas"]
     }
   ]

@@ -1,7 +1,7 @@
 {
   "action-button": 2,
   "action-group": 1,
-  "alert-banner": 2,
+  "alert-banner": 1,
   "alert-dialog": 1,
   "avatar-group": 1,
   "body": 2,
@@ -9,7 +9,6 @@
   "button": 4,
   "button-group": 1,
   "card": 2,
-  "coach-indicator": 2,
   "coach-mark": 2,
   "code": 2,
   "color-handle": 3,
@@ -21,7 +20,7 @@
   "drop-zone": 6,
   "heading": 2,
   "illustrated-message": 1,
-  "in-line-alert": 5,
+  "in-line-alert": 4,
   "list-view": 1,
   "menu": 5,
   "number-field": 2,
@@ -43,6 +42,5 @@
   "text-area": 2,
   "text-field": 2,
   "title": 3,
-  "toast": 1,
   "tree-view": 4
 }

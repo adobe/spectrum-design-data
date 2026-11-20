@@ -76,16 +76,36 @@
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: the highlighted target's placement area, which the ring surrounds.",
+      "required": true,
+      "contains": ["ring"]
+    },
+    {
       "name": "ring",
-      "description": "Rounded outline that pulses to draw attention.",
+      "description": "Rounded outline that pulses to draw attention. It grows between the collapsed and expanded states.",
       "required": true
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (single RECT Ring). Corner rounding and static color are options, not parts."
+    "notes": "Owner decisions (A137, 2026-11-20): explicit root part container holding the single ring; collapsed and expanded are states of the pulse, not a qualifier (needs-decision: Design confirms). Figma S2 Web (single RECT Ring). Corner rounding and static color are options, not parts."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "states": [
+    {
+      "name": "collapsed",
+      "trigger": "prop",
+      "description": "Resting size of the pulse: the ring sits close to the target."
+    },
+    {
+      "name": "expanded",
+      "trigger": "prop",
+      "description": "Peak size of the pulse: the ring is thicker, rounder and farther from the target."
+    }
+  ],
   "accessibility": { "focusable": false }
 }

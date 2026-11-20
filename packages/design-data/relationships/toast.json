@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "height"
     },
     "context": "Height",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "height"
     },
     "context": "Height",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "maximum-width"
     },
     "context": "Width (maximum)",
@@ -33,6 +36,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "maximum-width"
     },
     "context": "Width (maximum)",
@@ -44,6 +48,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -54,6 +59,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "icon",
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
@@ -64,6 +70,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "icon",
       "property": "workflow-icon-size-100"
     },
     "context": "Icon",
@@ -74,7 +81,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "text"
+      }
     },
     "context": "Spacing (icon to text)",
     "contextRole": ["spacing"],
@@ -85,7 +97,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "text",
+        "to": "button"
+      }
     },
     "context": "Spacing (text to button, horizontal)",
     "contextRole": ["spacing"],
@@ -96,7 +113,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      }
     },
     "context": "Spacing (start edge to text and icon)",
     "contextRole": ["spacing"],
@@ -107,7 +129,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "button",
+        "to": "close-button"
+      }
     },
     "context": "Spacing (button to close button, horizontal)",
     "contextRole": ["spacing"],
@@ -118,7 +145,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "close-button"
+      }
     },
     "context": "Spacing (close button to end edge)",
     "contextRole": ["spacing"],
@@ -129,7 +161,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "18px (desktop), 20px (mobile)",
     "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
@@ -138,7 +175,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      }
     },
     "context": "20px (desktop), 22px (mobile)",
     "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
@@ -147,7 +189,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -157,7 +204,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -167,7 +219,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -177,7 +234,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -187,7 +249,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -197,7 +264,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -207,7 +279,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -217,7 +294,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -227,7 +309,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -237,7 +324,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -247,7 +339,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -257,7 +354,12 @@
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -267,6 +369,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "text",
       "property": "color"
     },
     "context": "Text and icon",
@@ -277,6 +380,18 @@
   {
     "scope": {
       "component": "toast",
+      "part": "icon",
+      "property": "color"
+    },
+    "context": "Text and icon",
+    "contextRole": ["label", "icon"],
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "uuid": "1544f5d1-c9f6-5a72-82fa-6b2263ab10bc"
+  },
+  {
+    "scope": {
+      "component": "toast",
+      "part": "text",
       "property": "font-family"
     },
     "context": "Value",
@@ -287,6 +402,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "text",
       "property": "font-weight"
     },
     "context": "Value",
@@ -297,6 +413,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "text",
       "property": "font-style"
     },
     "context": "Value",
@@ -307,6 +424,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "text",
       "property": "font-size-100"
     },
     "context": "Value",
@@ -317,6 +435,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "text",
       "property": "font-size-100"
     },
     "context": "Value",
@@ -327,6 +446,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "text",
       "property": "line-height-100"
     },
     "context": "Value",
@@ -337,6 +457,7 @@
   {
     "scope": {
       "component": "toast",
+      "part": "text",
       "property": "line-height-100"
     },
     "context": "Value",
