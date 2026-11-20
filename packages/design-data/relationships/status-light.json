@@ -224,7 +224,10 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "font-size-75"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -235,7 +238,10 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "font-size-75"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -246,7 +252,10 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -257,7 +266,10 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -268,7 +280,10 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -279,7 +294,10 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -290,7 +308,10 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -301,7 +322,10 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -312,7 +336,7 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -323,7 +347,7 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],

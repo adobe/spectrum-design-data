@@ -25,7 +25,7 @@
     "scope": {
       "component": "in-line-alert",
       "part": "icon",
-      "property": "workflow-icon-size-100"
+      "property": "size"
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -36,7 +36,7 @@
     "scope": {
       "component": "in-line-alert",
       "part": "icon",
-      "property": "workflow-icon-size-100"
+      "property": "size"
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -186,7 +186,7 @@
     "scope": {
       "component": "in-line-alert",
       "part": "title",
-      "property": "component-height-50"
+      "property": "minimum-height"
     },
     "context": "Minimum title area height",
     "contextRole": ["height"],
@@ -197,7 +197,7 @@
     "scope": {
       "component": "in-line-alert",
       "part": "title",
-      "property": "component-height-50"
+      "property": "minimum-height"
     },
     "context": "Minimum title area height",
     "contextRole": ["height"],
