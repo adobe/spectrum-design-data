@@ -75,6 +75,24 @@ test("a token size that disagrees is judgement", () => {
   assert.equal(r.status, "judgement");
 });
 
+test("a script-specific token is judgement, never pinned by size", () => {
+  const withScript = new Map([
+    [
+      "cjk",
+      {
+        name: { script: "cjk", property: "line-height-100" },
+        legacyKey: "cjk-line-height-100",
+      },
+    ],
+  ]);
+  const r = plan(rec({ property: "line-height-100" }, { $ref: "cjk" }), {
+    ...ctx,
+    tokens: withScript,
+  });
+  assert.equal(r.status, "judgement");
+  assert.equal(r.rule, "script token");
+});
+
 test("an undeclared size is dropped, except -50 which is judgement", () => {
   const r200 = plan(
     rec({ property: "component-height-200" }, { $ref: "x" }),

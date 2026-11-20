@@ -2215,10 +2215,7 @@
     "scope": {
       "component": "text-field",
       "part": "value",
-      "property": "line-height",
-      "options": {
-        "size": "m"
-      }
+      "property": "line-height"
     },
     "context": "Value",
     "contextRole": ["value"],

@@ -160,7 +160,14 @@ export function plan(record, ctx) {
   if (sizeMatch) {
     base = sizeMatch[1];
     size = SIZE[sizeMatch[2]];
-    const tokenSize = ctx.tokens.get(record.$ref)?.name?.size;
+    const token = ctx.tokens.get(record.$ref);
+    if (token?.name?.script || token?.legacyKey?.startsWith("cjk-")) {
+      return judgement(
+        "script token",
+        `${token.legacyKey ?? token.name.script}: a script-specific token is never pinned by size (it would outrank its unpinned latin siblings)`,
+      );
+    }
+    const tokenSize = token?.name?.size;
     if (tokenSize && tokenSize !== size) {
       return judgement(
         "size",
