@@ -1979,30 +1979,6 @@
   {
     "scope": {
       "component": "text-field",
-      "part": "field-label",
-      "property": "top-to-asterisk-large"
-    },
-    "context": "Spacing (top/bottom edge to required)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to required",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "9206626e-98f2-5dfe-8810-b3fb2b219b63"
-  },
-  {
-    "scope": {
-      "component": "text-field",
-      "part": "field-label",
-      "property": "top-to-asterisk-extra-large"
-    },
-    "context": "Spacing (top/bottom edge to required)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to required",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "614ca02d-ab07-5f4c-a9c7-73e5e3c0f658"
-  },
-  {
-    "scope": {
-      "component": "text-field",
       "property": "minimum-width-multiplier"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",

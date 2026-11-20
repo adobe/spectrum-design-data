@@ -49,7 +49,6 @@ const aliasCandidates = {
   "form-item": ["Form"],
   "help-text": ["Text"],
   "in-field-button": ["InfieldButton"],
-  "in-field-progress-button": ["Button"],
   "in-field-progress-circle": ["ProgressCircle"],
   "in-line-alert": ["InlineAlert"],
   "radio-button": ["Radio"],

@@ -1689,30 +1689,6 @@
   {
     "scope": {
       "component": "combo-box",
-      "part": "field-label",
-      "property": "top-to-asterisk-large"
-    },
-    "context": "Spacing (top/bottom edge to required)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to required",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
-    "uuid": "43f520bb-2545-54d0-94da-b7ef68cab740"
-  },
-  {
-    "scope": {
-      "component": "combo-box",
-      "part": "field-label",
-      "property": "top-to-asterisk-extra-large"
-    },
-    "context": "Spacing (top/bottom edge to required)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to required",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "2ed425f9-42a0-57c0-ab0d-61ef83a53454"
-  },
-  {
-    "scope": {
-      "component": "combo-box",
       "part": "value",
       "property": "color"
     },

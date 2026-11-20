@@ -211,7 +211,7 @@
   {
     "scope": {
       "component": "in-field-button",
-      "part": "fill",
+      "part": "container",
       "property": "corner-radius",
       "options": {
         "qualifier": "stacked",
