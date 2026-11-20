@@ -1,49 +1,25 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { useAtomValue } from "jotai";
-import { useMemo } from "react";
-import {
-  dataVisContextFingerprintAtom,
-  dataVisInputDocumentAtom,
-  resolvedCategoricalTokensAtom,
-} from "../../../features/color-system/data-vis/state";
-import { categoricalPreviewMembers } from "../../../features/color-system/data-vis/categoricalPreview";
-import { dataVisBackground } from "../../../features/color-system/data-vis/resolution";
+import { useDataVisPreview } from "../../../features/color-system/data-vis/useDataVisPreview";
 import { usePaletteInspections } from "../../../features/color-system/data-vis/usePaletteInspections";
-import type {
-  PaletteInspection,
-  PaletteInspectionRequest,
-} from "../../../features/color-system/data-vis/workerRuntime";
+import type { PaletteInspectionRequest } from "../../../features/color-system/data-vis/workerRuntime";
+import { useNumericRuntime } from "../../../features/edit-session/numericContext";
 
+const empty: PaletteInspectionRequest[] = [];
 export function useCategoricalChecks() {
-  const document = useAtomValue(dataVisInputDocumentAtom),
-    tokens = useAtomValue(resolvedCategoricalTokensAtom);
-  const fingerprint = useAtomValue(dataVisContextFingerprintAtom);
-  const inputs = useMemo(() => {
-    const palettes: PaletteInspectionRequest[] = [],
-      unavailable: Record<string, PaletteInspection> = {};
-    for (const scale of document.dataVisScales)
-      if (scale.kind === "categorical") {
-        try {
-          const members = categoricalPreviewMembers(scale, tokens);
-          palettes.push({
-            id: scale.id,
-            members,
-            preferences: scale.preferences,
-            background: dataVisBackground(document),
-            gamut: renderGamutForOutput(document.settings.colorOutput),
-          });
-        } catch (failure) {
-          unavailable[scale.id] = {
-            status: "error",
-            error: failure instanceof Error ? failure.message : String(failure),
-          };
-        }
-      }
-    return { palettes, unavailable };
-  }, [document, tokens]);
-  const state = usePaletteInspections(inputs.palettes, fingerprint);
+  const preview = useDataVisPreview();
+  const numeric = useNumericRuntime();
+  const state = usePaletteInspections(
+    preview.ready?.palettes ?? empty,
+    preview.ready?.fingerprint ?? "",
+    !!numeric,
+  );
+  if (preview.status === "unavailable")
+    return {
+      status: "error" as const,
+      error: preview.error ?? "Data vis preview is unavailable.",
+    };
+  if (!preview.ready) return { status: "loading" as const };
   return state.status === "ready"
-    ? { ...state, reports: { ...inputs.unavailable, ...state.reports } }
+    ? { ...state, reports: { ...preview.ready.unavailable, ...state.reports } }
     : state;
 }
-import { renderGamutForOutput } from "../../../features/color-system/colorMath";

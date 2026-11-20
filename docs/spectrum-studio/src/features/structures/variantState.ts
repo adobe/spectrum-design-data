@@ -17,6 +17,7 @@ import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
 import { restoreEditorRemoval } from "./variantOperations";
 import { synchronizeVariantIdentities } from "./semanticIdentity";
 import { modeSetsAtom } from "../modes/state";
+import { deferNumericBatch } from "../edit-session/numericProposal";
 import {
   structureEditor,
   structureVariantIssues,
@@ -95,19 +96,22 @@ export const updateStructureEditorAtom = atom(
       ),
     ];
     if (issues.length) throw new Error(issues.join(" "));
-    const updated = synchronizeVariantIdentities(
-      {
-        ...document,
-        structures: document.structures.map((item) =>
-          item.conceptId === input.structureId
-            ? next
-            : related.has(item.conceptId)
-              ? { ...item, editor: related.get(item.conceptId) }
-              : item,
-        ),
-      },
-      get(modeSetsAtom),
-    );
+    const candidate = {
+      ...document,
+      structures: document.structures.map((item) =>
+        item.conceptId === input.structureId
+          ? next
+          : related.has(item.conceptId)
+            ? { ...item, editor: related.get(item.conceptId) }
+            : item,
+      ),
+    };
+    const captured = new Map<string, unknown>([
+      ["design/structures", candidate],
+    ]);
+    if (input.taxonomy) captured.set("registry/taxonomy", taxonomy);
+    if (deferNumericBatch(captured)) return;
+    const updated = synchronizeVariantIdentities(candidate, get(modeSetsAtom));
     assertStructureTaxonomy(updated, taxonomy);
     const styleIssues = structureTextStyleIssues(
       updated.structures,

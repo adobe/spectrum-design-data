@@ -1,0 +1,35 @@
+[
+  {
+    "name": {
+      "component": "tabs",
+      "property": "gap",
+      "orientation": "horizontal",
+      "density": "compact",
+      "size": "m",
+      "legacyKey": "tab-item-to-tab-item-compact-horizontal-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "uuid": "95593667-9f7c-4e5e-a739-8dd479cd082f",
+    "description": "Spacing between tab items, horizontal, compact density",
+    "conceptId": "d442126f-ea75-4553-ab39-f8ba69617bdb"
+  },
+  {
+    "name": {
+      "component": "tabs",
+      "anatomy": "indicator",
+      "property": "thickness",
+      "legacyKey": "tab-selection-indicator-thickness"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "181806e5-0216-4b11-a775-9ed4bb8832fc",
+    "description": "Thickness of the tab selection indicator (underline)",
+    "conceptId": "1452994c-d0ac-49de-a235-1727f36fa87d",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 448 of the mapping sheet."
+  }
+]

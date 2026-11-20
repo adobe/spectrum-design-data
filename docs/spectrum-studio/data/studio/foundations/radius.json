@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "scales": [
+    {
+      "id": "radius-scale-5eb175b0-4f95-4e9f-9937-4f7f84ae7572",
+      "scaleTypeId": "scale-type-radius",
+      "below": 2,
+      "above": 8,
+      "parameters": {},
+      "roundingRuleId": "rule-whole-numbers",
+      "name": {
+        "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "termId": "e809f072-65ad-4189-927c-5348330fc56c",
+        "classification": {
+          "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "e809f072-65ad-4189-927c-5348330fc56c"
+        }
+      }
+    }
+  ]
+}

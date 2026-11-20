@@ -1,0 +1,201 @@
+[
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "thickness"
+    },
+    "context": "Ring",
+    "contextRole": ["focus"],
+    "$ref": "fff486aa-26a4-4b41-91a7-762f8b29d47a",
+    "uuid": "29c72454-0b65-5d9b-bb0a-d082d2028848"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "thickness"
+    },
+    "context": "Ring",
+    "contextRole": ["focus"],
+    "$ref": "09c84cdf-0c82-4201-8203-9eb05d8b9486",
+    "uuid": "c8204ae3-3116-581a-b4a3-ec39d257b22e"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "collapsed-gap"
+    },
+    "context": "Ring",
+    "contextRole": ["focus"],
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
+    "uuid": "a3d7750b-39f0-5395-a272-8f4121b47987"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "expanded-gap"
+    },
+    "context": "Ring",
+    "contextRole": ["focus"],
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "91ee5ecf-9556-577a-93e5-b4ca056357c3"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "rounding-increment"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "252dc667-b847-4295-8669-3e2f4d408f51",
+    "uuid": "baf53b7c-92bd-5237-a54f-02c3d8a3aeac"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "rounding-increment"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "770aa608-80a3-4715-894b-c1d85a1b0c5e",
+    "uuid": "ba337c4d-56d3-5e3d-b841-63ee553a993b"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "color"
+    },
+    "context": "Indicator (Default)",
+    "contextRole": ["control"],
+    "contextQualifier": "Default",
+    "$ref": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c",
+    "uuid": "20fb4641-e66c-55c1-a523-0342cd8fae41"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "opacity"
+    },
+    "context": "Indicator (Default)",
+    "contextRole": ["control"],
+    "contextQualifier": "Default",
+    "$ref": "6fa9bbc8-4c96-45a4-b133-bb2556a003de",
+    "uuid": "d9bc2ebd-3678-534d-b66d-75d7713730c4"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "color"
+    },
+    "context": "Indicator (Static white)",
+    "contextRole": ["control"],
+    "contextQualifier": "Static white",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "uuid": "ae233497-e855-54c2-b927-bf3854950655"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "color"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "85be576c-6810-4971-9748-e558384b903d",
+    "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c",
+    "legacyKey": "coach-indicator-color"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "collapsed-gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "adb8eace-decc-4bef-93e9-ff2cb27e9ce6",
+    "legacyKey": "coach-indicator-collapsed-gap",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token focus-ring-gap instead.",
+      "replacedBy": "fb035d45-e63b-4cd4-b220-675a52e99399"
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "part": "ring",
+      "property": "rounding-increment",
+      "options": {
+        "qualifier": "collapsed"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "252dc667-b847-4295-8669-3e2f4d408f51",
+    "legacyKey": "coach-indicator-collapsed-ring-rounding-increment"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "part": "ring",
+      "property": "thickness",
+      "options": {
+        "qualifier": "collapsed"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "fff486aa-26a4-4b41-91a7-762f8b29d47a",
+    "legacyKey": "coach-indicator-collapsed-ring-thickness"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "expanded-gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "b25c696f-c6c3-45af-bdc9-fe3a046067f3",
+    "legacyKey": "coach-indicator-expanded-gap",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-gap-medium instead.",
+      "replacedBy": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "part": "ring",
+      "property": "rounding-increment",
+      "options": {
+        "qualifier": "expanded"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "770aa608-80a3-4715-894b-c1d85a1b0c5e",
+    "legacyKey": "coach-indicator-expanded-ring-rounding-increment"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "part": "ring",
+      "property": "thickness",
+      "options": {
+        "qualifier": "expanded"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "09c84cdf-0c82-4201-8203-9eb05d8b9486",
+    "legacyKey": "coach-indicator-expanded-ring-thickness"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "opacity"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.2",
+    "uuid": "6fa9bbc8-4c96-45a4-b133-bb2556a003de",
+    "legacyKey": "coach-indicator-opacity"
+  }
+]

@@ -109,6 +109,7 @@ const catalogSourceFields = Object.keys({
   colorSystem: true,
   componentSizing: true,
   elevation: true,
+  icons: true,
   interpolations: true,
   linkedReferenceIds: true,
   modeSets: true,

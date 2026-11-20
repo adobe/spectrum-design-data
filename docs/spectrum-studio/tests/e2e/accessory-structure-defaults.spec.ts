@@ -29,7 +29,7 @@ async function navigate(page: Page, name: string) {
     .click();
 }
 async function selectStructure(page: Page, name: string) {
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   await page.getByRole("tab", { name: "Structures", exact: true }).click();
   const card = page
     .locator('[data-component="StructureCard"]')
@@ -65,7 +65,7 @@ test("Fresh Accessory variants, second item, Save/Cancel and confirmed Reset all
   test.setTimeout(120_000);
   await page.setViewportSize({ width: 1800, height: 1100 });
   await page.goto("/");
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   await page.getByRole("tab", { name: "Structures", exact: true }).click();
   for (const name of ["Accessory item", "Accessory workflow item"])
     await expect(

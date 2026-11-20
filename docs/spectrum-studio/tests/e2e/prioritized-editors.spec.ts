@@ -1007,8 +1007,8 @@ for (const { filtered, width } of [
 test("Logic drafts, formula previews and committed Typography consumers remain coherent", async ({
   page,
 }) => {
-  await observe(page, "Logic navigation", () => navigate(page, "logic"));
-  await page.getByRole("tab", { name: "Formulas", exact: true }).click();
+  await observe(page, "Formulas navigation", () => navigate(page, "formulas"));
+  await page.getByRole("tab", { name: "Progressions", exact: true }).click();
   await observe(page, "Logic focused formula", async () => {
     await page
       .getByRole("button", { name: "Edit formula Type scale", exact: true })

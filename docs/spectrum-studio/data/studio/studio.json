@@ -1,0 +1,114 @@
+{
+  "$schema": "./design-system.schema.json",
+  "schemaVersion": 1,
+  "dataset": {
+    "id": "leonardo-defaults",
+    "name": "Spectrum studio design system defaults",
+    "description": "Local authoring data; not a design-data export.",
+    "revision": 1
+  },
+  "system": {
+    "styles": {
+      "schemaVersion": 1,
+      "recipes": {
+        "$file": "styles/recipes.json"
+      },
+      "publications": {
+        "$file": "styles/publications.json"
+      },
+      "examples": {
+        "$file": "styles/examples.json"
+      },
+      "colorRoles": {
+        "$file": "styles/color-roles.json"
+      }
+    },
+    "componentSizing": {
+      "$file": "foundations/component-sizing.json"
+    },
+    "foundationParameterSettings": {
+      "$file": "foundations/parameter-settings.json"
+    },
+    "taxonomy": {
+      "schemaVersion": 1,
+      "categories": {
+        "$file": "taxonomy/categories.json"
+      },
+      "terms": {
+        "$file": "taxonomy/terms.json"
+      },
+      "order": {
+        "$file": "taxonomy/order.json"
+      },
+      "classifications": {}
+    },
+    "structures": {
+      "schemaVersion": 1,
+      "structures": {
+        "$file": "structures/structures.json"
+      },
+      "publications": {
+        "$file": "structures/publications.json"
+      },
+      "examples": {
+        "$file": "structures/examples.json"
+      }
+    },
+    "foundations": {
+      "opacity": {
+        "$file": "foundations/opacity.json"
+      },
+      "color": {
+        "$file": "foundations/color.json"
+      },
+      "spacing": {
+        "$file": "foundations/spacing.json"
+      },
+      "size": {
+        "$file": "foundations/size.json"
+      },
+      "radius": {
+        "$file": "foundations/radius.json"
+      },
+      "elevation": {
+        "$file": "foundations/elevation.json"
+      },
+      "typography": {
+        "$file": "foundations/typography.json"
+      },
+      "icons": {
+        "$file": "foundations/icons.json"
+      }
+    },
+    "modeSets": {
+      "$file": "modes/mode-sets.json"
+    },
+    "platforms": {
+      "$file": "modes/platforms.json"
+    },
+    "adaptiveClaims": {},
+    "tokenOverrides": {},
+    "interpolations": {
+      "$file": "formulas/interpolations.json"
+    },
+    "rules": {
+      "$file": "rules/rules.json"
+    },
+    "components": {
+      "schemaVersion": 2,
+      "components": {
+        "$file": "components/components.json"
+      }
+    },
+    "scaleTypes": {
+      "$file": "formulas/scale-types.json"
+    },
+    "browserTokenEdits": {
+      "$file": "tokens/browser-token-edits.json"
+    },
+    "aliases": {
+      "$file": "tokens/aliases.json"
+    }
+  },
+  "authoringDefaults": {}
+}

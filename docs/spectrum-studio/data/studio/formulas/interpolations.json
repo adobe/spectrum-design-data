@@ -1,0 +1,23 @@
+[
+  {
+    "id": "interpolation-cosine",
+    "name": "Cosine",
+    "description": "A smooth blend between local endpoints.",
+    "kind": "method",
+    "method": "cosine"
+  },
+  {
+    "id": "interpolation-linear",
+    "name": "Linear",
+    "description": "A straight blend between local endpoints.",
+    "kind": "method",
+    "method": "linear"
+  },
+  {
+    "id": "interpolation-exponential",
+    "name": "Exponential",
+    "description": "A proportional blend between positive local endpoints.",
+    "kind": "method",
+    "method": "exponential"
+  }
+]

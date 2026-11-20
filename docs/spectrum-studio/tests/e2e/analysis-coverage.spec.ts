@@ -103,7 +103,7 @@ test("Coverage is the human-readable default with percentages, counts, side-by-s
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   const overview = page.getByRole("region", { name: "Data coverage overview" });
   await expect(overview).toContainText("25% confirmed");
@@ -203,7 +203,7 @@ test("Partial and stale coverage stay labeled and missing input never invents pe
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await expect(
     page.getByRole("region", { name: "Data coverage overview" }),
@@ -262,7 +262,7 @@ test("A missing reference checkout shows a connection problem instead of zero-pe
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await expect(
     page.getByRole("region", { name: "Reference connection unavailable" }),

@@ -33,6 +33,9 @@ import {
   ChartCard,
   analyzeNoteStyles as noteStyle,
 } from "./AnalyzeLayout";
+import { useNumericRuntime } from "../../features/edit-session/numericContext";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 
 /** Icon scale picker key that shows every scale's overview chart. */
 export const ALL_ICON_SCALES = "all";
@@ -205,6 +208,24 @@ export function IconsAnalyzeContent({
 }
 
 export function IconsAnalyze() {
+  return useNumericRuntime() ? <LiveIconsAnalyze /> : <AcceptedIconsAnalyze />;
+}
+function LiveIconsAnalyze() {
+  const result = useEditorPreview("icon-analysis", null);
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label="Updating icon analysis"
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready?.value.kind === "icon-analysis" && (
+        <IconsAnalyzeContent comparisons={result.ready.value.comparisons} />
+      )}
+    </DerivedContentBoundary>
+  );
+}
+function AcceptedIconsAnalyze() {
   return (
     <IconsAnalyzeContent comparisons={useAtomValue(iconComparisonsAtom)} />
   );

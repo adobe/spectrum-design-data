@@ -12,6 +12,22 @@
   min-width: 0;
 }
 
+.registryBoardToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-self: stretch;
+  gap: 16px;
+}
+
+.registryFilters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-inline-start: auto;
+}
+
 .registryBoard {
   display: flex;
   align-items: flex-start;

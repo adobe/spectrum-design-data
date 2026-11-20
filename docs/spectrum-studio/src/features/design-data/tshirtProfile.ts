@@ -5,7 +5,8 @@ import tokenSchema from "../../../../../packages/design-data-spec/schemas/token.
 import colorSchema from "../../data/design-data-shadow-profile/value-types/color.schema.json" with { type: "json" };
 import documentSchema from "../../data/design-data-shadow-profile/document-block.schema.json" with { type: "json" };
 import shadowSchema from "../../data/design-data-shadow-profile/value-types/drop-shadow.schema.json" with { type: "json" };
-import fieldSchema from "../../data/design-data-tshirt-profile/field.schema.json" with { type: "json" };
+// Fields read from the current repository need the current field schema (it adds tier properties).
+import fieldSchema from "../../../../../packages/design-data-spec/schemas/field.schema.json" with { type: "json" };
 import structureField from "../../data/design-data-tshirt-profile/fields/structure.json" with { type: "json" };
 import propertyField from "../../data/design-data-tshirt-profile/fields/property.json" with { type: "json" };
 import orientationField from "../../data/design-data-tshirt-profile/fields/orientation.json" with { type: "json" };

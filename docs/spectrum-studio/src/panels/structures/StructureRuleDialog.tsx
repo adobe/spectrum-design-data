@@ -163,7 +163,7 @@ export function StructureRuleDialog({
     if (!draft.ruleId)
       return {
         bundle: null,
-        error: "Create a Generator rule in Logic first.",
+        error: "Create a Generator rule in Rules first.",
       };
     try {
       const generation = structureGeneration(structure);

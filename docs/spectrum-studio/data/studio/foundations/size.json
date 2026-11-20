@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "scales": [
+    {
+      "id": "size-scale-1",
+      "scaleTypeId": "scale-type-spacing",
+      "below": 2,
+      "above": 12,
+      "parameters": {},
+      "roundingRuleId": "rule-spacing-rounding",
+      "startStep": 4,
+      "name": {
+        "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "termId": "273990a0-e71e-4249-9628-7e8fa689747b",
+        "classification": {
+          "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "273990a0-e71e-4249-9628-7e8fa689747b"
+        }
+      }
+    },
+    {
+      "id": "ca20c7d6-6b97-4281-a905-b2a83202e5df",
+      "scaleTypeId": "scale-type-size",
+      "base": 10,
+      "below": 1,
+      "above": 2,
+      "parameters": {
+        "step": 2
+      },
+      "roundingRuleId": "rule-whole-numbers",
+      "hideFromPublishing": false,
+      "name": {
+        "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "termId": "273990a0-e71e-4249-9628-7e8fa689747b",
+        "classification": {
+          "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "c8bb5451-b245-4de7-806a-ea006a15a1ae",
+          "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "273990a0-e71e-4249-9628-7e8fa689747b"
+        }
+      }
+    }
+  ]
+}

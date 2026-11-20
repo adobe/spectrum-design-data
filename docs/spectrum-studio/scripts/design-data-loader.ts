@@ -42,7 +42,7 @@ export async function protectReportOutputs(
 ): Promise<void> {
   const reference = await physicalPath(root);
   const protectedRoots = await Promise.all(
-    ["src", "scripts", "docs", ".git"].map((directory) =>
+    ["src", "data", "scripts", "docs", ".git"].map((directory) =>
       physicalPath(join(appRoot, directory)),
     ),
   );

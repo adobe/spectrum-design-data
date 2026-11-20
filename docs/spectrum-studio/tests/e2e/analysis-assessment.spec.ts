@@ -159,7 +159,7 @@ test("Analysis separates architectural reviews, target proposals, and equal outp
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(page.getByTestId("analysis-provenance")).toContainText(
@@ -256,7 +256,7 @@ test("Analysis retains architectural evidence through partial input, actual refr
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(page.getByTestId("analysis-provenance")).toContainText(

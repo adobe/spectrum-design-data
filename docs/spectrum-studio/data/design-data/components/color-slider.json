@@ -1,0 +1,130 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/color-slider.json",
+  "specVersion": "1.0.0-draft",
+  "name": "color-slider",
+  "displayName": "Color slider",
+  "description": "A color slider lets users visually change an individual channel of a color.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A color slider lets users visually change an individual channel of a color."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus.\n\nThe keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."
+    },
+    {
+      "type": "guideline",
+      "content": "Handle behavior.\n\nUnlike the slider itself, the color slider's handle can slide all the way to the edge of the track. It always displays the selected color inside the handle and never gets cut off by the track or any container."
+    },
+    {
+      "type": "guideline",
+      "content": "Minimum length.\n\nA color slider's minimum length is 80 px on desktop, 100 px on mobile."
+    },
+    {
+      "type": "guideline",
+      "content": "Include labels.\n\nColor sliders should be labeled and, when applicable, paired with text fields. If labeling each individual slider is redundant, label the group of sliders instead (for example, \"RGB\" or \"HSB\")."
+    },
+    {
+      "type": "guideline",
+      "content": "Display color selection.\n\nWhen using color sliders, it's important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."
+    },
+    {
+      "type": "guideline",
+      "content": "Color loupe on down/touch state.\n\nThe color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorSlider",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "background": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "channel": {
+      "type": "string",
+      "default": "hue",
+      "description": "Which channel of the color this slider controls. Use 'alpha' for opacity.",
+      "values": [
+        { "value": "hue" },
+        { "value": "saturation" },
+        { "value": "lightness" },
+        { "value": "red" },
+        { "value": "green" },
+        { "value": "blue" },
+        { "value": "alpha" }
+      ]
+    },
+    "value": {
+      "type": "number",
+      "description": "Number (from minValue to maxValue)."
+    },
+    "minValue": { "type": "number", "default": 0 },
+    "maxValue": { "type": "number", "default": 100 },
+    "step": { "type": "number", "default": 1 },
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+    },
+    "length": { "type": "number", "default": 192, "description": "units: px" },
+    "isDisabled": { "type": "boolean", "default": false }
+  },
+  "anatomy": [
+    {
+      "name": "label",
+      "description": "Field label above the track."
+    },
+    {
+      "name": "value",
+      "description": "Current channel value shown beside the label."
+    },
+    {
+      "name": "track",
+      "description": "Gradient track holding the handle and checkerboard.",
+      "required": true,
+      "contains": ["color-handle", "opacity-checkerboard"]
+    },
+    {
+      "name": "color-handle",
+      "description": "Handle marking the selected channel value.",
+      "required": true
+    },
+    {
+      "name": "opacity-checkerboard",
+      "description": "Checkerboard behind the track for opacity channels."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring); container and focus-indicator dropped, no relationship scope.part names them."
+  },
+  "states": [
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "role": "slider",
+    "intents": ["choose"],
+    "focusable": true,
+    "keyboardIntents": ["increment", "decrement"],
+    "wcag": [
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

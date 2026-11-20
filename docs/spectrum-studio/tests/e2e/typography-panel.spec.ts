@@ -227,9 +227,9 @@ test("settings accordions and typography tabs keep shared Type scale edits consi
     .toBe(1.234);
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Logic", exact: true })
+    .getByRole("link", { name: /^Formulas\b/ })
     .click();
-  await page.getByRole("tab", { name: "Formulas", exact: true }).click();
+  await page.getByRole("tab", { name: "Progressions", exact: true }).click();
   await page
     .getByRole("button", { name: "Edit formula Type scale", exact: true })
     .click();

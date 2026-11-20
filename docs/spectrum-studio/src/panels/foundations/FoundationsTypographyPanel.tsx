@@ -60,7 +60,6 @@ import { TEXT_ZOOM_MAX, TEXT_ZOOM_MIN } from "../../features/typography/model";
 import {
   EditableNumberField,
   EditableTextField,
-  EditablePicker,
   useIsReadOnly,
 } from "../../components/editable";
 import { RoundingRulePicker } from "../../components/logic/RoundingRulePicker";
@@ -71,10 +70,9 @@ import { lineHeightName } from "../../features/typography/lineHeightNames";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import {
   fromTypographyUnit,
-  isTypographyUnit,
   toTypographyUnit,
-  TYPOGRAPHY_UNITS,
 } from "../../features/typography/units";
+import { TypographyOutputFormatPicker } from "../typography/TypographyOutputFormatPicker";
 import { iconsDocumentAtom } from "../../features/icons/documentState";
 import { FoundationModeSettings } from "./FoundationModeSettings";
 import { firstAccordionItemStyle } from "../accordionStyles";
@@ -267,21 +265,7 @@ export function FoundationsTypographyPanel() {
           >
             Hide from publishing
           </Checkbox>
-          <EditablePicker
-            labelPosition="side"
-            label="Output format"
-            selectedKey={unit}
-            displayValue={unit}
-            onSelectionChange={(key) => {
-              if (isTypographyUnit(key)) patch({ outputUnit: key });
-            }}
-          >
-            {TYPOGRAPHY_UNITS.map((value) => (
-              <PickerItem id={value} key={value}>
-                {value}
-              </PickerItem>
-            ))}
-          </EditablePicker>
+          <TypographyOutputFormatPicker />
           <EditableNumberField
             labelPosition="side"
             key={`min-${unit}`}

@@ -153,11 +153,12 @@ for (const width of [1280, 390]) {
     await expect(
       page.getByRole("radio", { name: "Grid view", exact: true }),
     ).toBeChecked();
-    await navigate(page, "Design");
+    await navigate(page, "Objects");
     for (const category of [
       "styles",
       "structures",
-      "design",
+      "objects",
+      "view.design",
       "view.permutations",
       "view.apps",
     ])
@@ -250,7 +251,7 @@ test("Structure property and alignment categories preserve editing controls", as
   );
   await page.setViewportSize({ width: 1800, height: 1000 });
   await page.goto("/");
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   await page
     .getByRole("tab", { name: "Structures", exact: true })
     .press("Space");

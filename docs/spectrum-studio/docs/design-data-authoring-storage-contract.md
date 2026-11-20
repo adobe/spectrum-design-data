@@ -670,24 +670,121 @@ temporary view state, defaults to Fonts and does not change authored data,
 generated tokens or Changes.
 
 Typography keeps its sample text, display choices, icon selection and line-height
-controls outside the derived-preview boundary. The preview defers a coherent
-bundle of raw/resolved source, formulas, rules, Registry, local display choices,
-icon and surface appearance before running the existing canonical generation and
-complete CSS builder. Deferring an already evaluated generation selector would
-not provide this separation.
+controls outside the derived-preview boundary. A worker receives a coherent
+bundle of raw/resolved source, formulas, rules, Registry and Iconography data
+before running the existing canonical generation.
+Its CSS uses those same active generated tokens through
+`buildTypographyPreviewCss`, sharing declaration formatting and naming with the
+complete CSS builder. It does not generate the other text-zoom contexts.
+The main thread no longer evaluates the Typography generator before scheduling
+that work.
 
 The existing ramp retains its identity and layout. An unchanged preview can skip
 an urgent header render; its values, units, line-height selection, text zoom and
-icon settle together. Pending state is immediate, with the existing delayed S2
-overlay and no additional visible loading caption. Existing icon loading and
-failure recovery remain independent. This is React scheduling, not off-thread
-generation or a new persisted preview.
+icon use a matching source/result pair. Pending state is immediate, with the
+existing delayed S2 overlay and no additional visible loading caption. The last
+completed preview remains visible during an update. Existing icon loading and
+failure recovery remain independent.
 
-All thirteen text-zoom CSS blocks, complete exports, publishing rules, saved
-baselines and Changes counts retain their existing owners. Component size remains
-in Typography pending EPIC-2.5. The prioritized browser checks cover local-only
+The shared preview client keeps one worker warm, with one active calculation
+and only the newest queued input. Superseded results cannot replace the current
+result. Worker failures use the existing unavailable/retry boundary; unmounting
+terminates the worker and removes its handlers. This is off-thread preview
+generation, not a new persisted source or a change to authored acceptance.
+
+Color ramps use the same client. Their worker receives the resolved Color source
+and selected surface before building scale data and selected/comparison colors
+with the existing generators. Display toggles do not restart generation.
+Resetting a token from a retained preview is blocked until its source is current.
+Override-status indicators and edited-token counts retain their existing main-
+thread owners; this does not remove all Color generation from the main thread.
+
+Typography Analyze also builds its comparison datasets in a worker, using
+`buildTypographyComparisons` with the authored source, mode sets and libraries.
+Its last completed chart stays mounted during updates, preserving local chart
+selections. Adaptive text size and text zoom add a required preview setting or
+mark an existing matching setting. They do not rename the authored Default or
+replace named-mode comparisons.
+
+All thirteen text-zoom CSS blocks remain in complete exports. Publishing rules,
+saved baselines and Changes counts retain their existing owners. Component size
+remains in Typography pending EPIC-2.5. The prioritized browser checks cover local-only
 sample edits, pending/ready transitions, latest accepted values, units, selected
 line height and byte-exact complete CSS.
+
+Adaptive slider drags update the existing temporary mode-preview state at most
+once per animation frame. A newer movement replaces a queued value. Release
+and disposal cancel queued work; resetting a parameter also invalidates a
+queued first movement, before an override exists. Other parameter previews
+remain intact. Settling an already displayed value does not regenerate its
+consumers. Authored controls use the numeric proposal boundary described below.
+
+## Numeric editing and background acceptance
+
+Numeric editing separates input text, temporary preview proposals and accepted
+working data. The shared NumberField retains Spectrum's parsing and formatting;
+an observer in its existing visible label reads the public number-field state.
+Data Vis point controls use this shared field, including contrast and position.
+While a field is focused, background acceptance does not replace incomplete
+text or move the caret. Uncontrolled and unlabelled fields retain their existing
+behavior.
+
+Valid numbers update preview proposals while typing. Authored sliders coalesce
+proposals to one per animation frame and keep the released thumb position until
+acceptance catches up. The shared TokenComboBox opts numeric Structure controls,
+Style font-weight/border-width and shadow-opacity fields into the same boundary.
+Token search, exact token/value matching, custom-value validation and clearing
+still belong to that component. Escape discards its pending field without
+discarding sibling edits.
+
+Visible preview workers use proposed inputs with the existing generators.
+This includes Color and Typography Elements/Analyze, dimension scales,
+Elevation, Icons, Opacity, Styles and Structures. Completed results retain their
+input identity while newer calculations run. A result for another selected
+Style or Structure cannot supply the new object's editor. Color output profiles
+retain their own reference identity during reference changes.
+Visible Structure option samples receive the worker's proposed Structure and
+catalog; their editing controls still read the accepted source.
+
+Color Data Vis shares one preview worker per store across its panel and visible
+views. Its packet contains resolved points, samples and categorical inputs, not
+functions. Quantitative browser examples use records prepared with the canonical
+evaluator in that worker. Other callers can reconstruct continuous evaluators
+with `compileContinuousScale`; interpolation has no separate preview implementation.
+Measurements and palette inspections run in workers. Changing a measurement
+keeps the previous chart's labels, units and rows together until the next result.
+The last consumer releases the shared worker; later mounts start a new one.
+Validation-status changes alone retain the preview source identity and do not
+request unchanged preview calculations. Adaptive text scaling does not invalidate
+unrelated Color resolution.
+
+After approximately 200 ms without another edit, a separate worker validates
+the proposed working data. Enter, blur, slider release, Save and Create RFC flush
+without that quiet-period wait. Prepared writes apply only to the same store,
+source and guard configuration that was validated. A newer edit cancels the
+obsolete job. Canonical generators, validation, publication identities, Changes
+and the saved baseline remain under their existing owners.
+
+Structure layout-scale decisions use the existing dialog after acceptance
+starts, not on each keystroke. Temporary literal values can reach the preview
+before the choice. No proposed source is accepted before the required answers.
+Cancelling discards the associated Structure edits while preserving unrelated
+proposals. Replaced dialogs cannot accept an older value. Formula creation in
+that dialog keeps its own local numeric fields outside the authoring draft.
+
+Incomplete or rejected fields block Save. Save and Create RFC await necessary
+acceptance rather than using the previous valid value. Cancel/reset invalidate
+pending work. Pagehide validates and flushes ordinary pending values
+synchronously, then flushes the accepted record through persistence in the same
+store. Unresolved layout choices leave accepted data unchanged and report a
+persistence issue.
+
+Worker and acceptance tests cover calculations and coordination, not browser
+input latency. Mounted checks in `tests/e2e/number-field.spec.ts` and
+`tests/e2e/live-editor-drafts.spec.ts` measure actual control and preview updates
+and check accepted output separately. Moving work off-thread does not by itself
+establish the next-frame control or 100 ms visible-preview targets across all
+editors; remaining main-thread consumers still need measurement.
 
 ## Registry collection layout
 
@@ -1433,7 +1530,8 @@ These display choices do not alter generated values or saved authoring records.
 ### Current Registry identity and editing contract
 
 Registry categories and terms use random version-four UUIDs. Shipped UUIDs and
-their foundation name references are checked into `design-system.defaults.json`;
+their foundation name references are checked into the taxonomy files under
+`data/studio/taxonomy/`;
 loading the application does not regenerate them. New entries receive a UUID
 once, and changing a name, description, order or inclusion does not change it.
 Term ownership and the category's internal field mapping are immutable.
@@ -1908,6 +2006,16 @@ If the proposed foundational schemas are later adopted as the authoritative nati
 state representation, that is a separately approved migration with hydration,
 compatibility and rollback checks. Both the additive projection and future adoption
 must demonstrably meet the proposed schema; attaching `$schema` is insufficient.
+
+### Repository data files (current)
+
+Shipped defaults live in `data/studio/`, one subject per file, assembled by
+`src/data/studioData.ts`; they remain authoring inputs, not artifacts. The
+read-only practice copy of `packages/design-data` lives in `data/design-data/`
+(tokens by tier and subject, written only by `pnpm data:snapshot`; see
+[the layout RFC](rfcs/design-data-token-file-layout.md)). It is the target for
+rehearsing file-level writes, not another editable copy of foundation intent.
+See `data/README.md`.
 
 ### Token contract and materialization
 

@@ -73,6 +73,7 @@ function assertZoom(value: number) {
 export function textSizeComparisonSettings(
   document: TypographyDocument,
   modeSets: readonly ModeSet[],
+  preview?: Pick<TypographyDocument, "textZoom" | "textSize">,
 ) {
   assertZoom(document.textZoom);
   const owners = parameterOwners([...modeSets]);
@@ -95,6 +96,31 @@ export function textSizeComparisonSettings(
       };
     },
   );
+  if (
+    preview &&
+    (preview.textZoom !== document.textZoom ||
+      preview.textSize !== document.textSize)
+  ) {
+    assertZoom(preview.textZoom);
+    const existing = zoom.find(
+      (setting) =>
+        setting.textZoom === preview.textZoom &&
+        setting.textSize === preview.textSize,
+    );
+    if (existing) {
+      existing.isRequired = true;
+      existing.label += " (preview)";
+    } else {
+      zoom.push({
+        id: "preview",
+        textZoom: preview.textZoom,
+        textSize: preview.textSize,
+        position: preview.textZoom,
+        isRequired: true,
+        label: `Preview (${Number((preview.textSize * textZoomPercent(preview.textZoom)).toFixed(2))}%)`,
+      });
+    }
+  }
   if (!axes.length) return { zoom };
   if (
     axes.some(
@@ -222,6 +248,7 @@ export function buildTypographyComparisons(
     interpolations: readonly Interpolation[];
     icons?: IconsDocument;
   },
+  preview?: Pick<TypographyDocument, "textZoom" | "textSize">,
 ): ComparisonDatasets {
   const naming = { names: document.metricNames, registry };
   const groups = typographyTokenGroups(document, naming).filter(
@@ -229,7 +256,7 @@ export function buildTypographyComparisons(
   );
   let metadata: Pick<ComparisonSample, "steps" | "metrics"> | undefined;
   return comparisonDatasets(
-    textSizeComparisonSettings(document, modeSets),
+    textSizeComparisonSettings(document, modeSets, preview),
     (textZoom, textSize) => {
       const tokens = generateTypography(
         { ...document, textSize },

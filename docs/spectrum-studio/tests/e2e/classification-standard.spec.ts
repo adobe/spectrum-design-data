@@ -42,7 +42,7 @@ async function navigate(page: Page, name: string) {
     .click();
 }
 async function migrationReview(page: Page) {
-  await navigate(page, "Migration analysis");
+  await navigate(page, "Migration");
   await page.getByRole("button", { name: /Analysis view/ }).click();
   await page
     .getByRole("option", { name: "Classification review", exact: true })

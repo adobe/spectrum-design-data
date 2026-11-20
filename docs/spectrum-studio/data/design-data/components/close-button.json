@@ -1,0 +1,109 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/close-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "close-button",
+  "displayName": "Close button",
+  "description": "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus.\n\nA close button can be navigated using a keyboard. The keyboard focus state takes the close button's visual hover state and adds a ring to the button in focus."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use close buttons for delete actions",
+      "dont": "A close button is only for dismissing or closing its parent component, not for taking a destructive action (like deleting a file). Use an action button instead."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the close button. Space or Enter Executes the button (closes or dismisses the parent component). Focus moves to the target or back to the caller."
+    },
+    {
+      "type": "guideline",
+      "content": "Cursor guidelines.\n\nCursor Description Pointer Use the pointer cursor for all interactive components in every state."
+    },
+    {
+      "type": "guideline",
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—including the close icon—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Close buttons should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role of buttons should be utilized. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "CloseButton",
+      "package": "@react-spectrum/s2"
+    },
+    {
+      "platform": "web",
+      "componentName": "CloseButton",
+      "importPath": "@adobe/spectrum-wc/components/close-button",
+      "notes": "Spectrum 2 web component custom element: swc-close-button."
+    }
+  ],
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
+      ]
+    },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color must not be set for the default version of this component.",
+      "values": [{ "value": "white" }, { "value": "black" }]
+    },
+    "isDisabled": { "type": "boolean", "default": false }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular hit-surface background; transparent at rest, fills on hover and down.",
+      "required": true,
+      "contains": ["icon"]
+    },
+    {
+      "name": "icon",
+      "description": "Cross mark, with static white and black variants.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the component for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Matches Figma S2 Web (Close button): a circular container with the cross icon, static white and black drawn. RSP CloseButton.tsx:43,67-71: container always present, its transparent-at-rest fill is styling; hover, keyboard focus and press share one fill. Figma draws no focus or down state. iconSize removed: neither Figma nor RSP has it (RSP derives the icon size from size)."
+  },
+  "states": [
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "role": "button",
+    "intents": ["dismiss"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

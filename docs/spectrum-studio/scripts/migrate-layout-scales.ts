@@ -1,11 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { readFileSync, writeFileSync } from "node:fs";
 import { createStore } from "jotai";
 import { designSystemDefaults } from "../src/data/defaults";
 import { captureSnapshot } from "../src/features/edit-session/state";
 import { upgradeLayoutScalesSnapshot } from "../src/features/edit-session/layoutScalesUpgrade";
 import { canonicalDesignSystemDataset } from "../src/features/design-data/validation";
 import { upgradeCanonicalTokenIdentities } from "../src/features/edit-session/canonicalIdentityUpgrade";
+import { staleStudioData, writeStudioData } from "./studioDataFiles";
 
 const source = upgradeCanonicalTokenIdentities(
   upgradeLayoutScalesSnapshot(captureSnapshot(createStore().get)),
@@ -36,13 +36,8 @@ const dataset = canonicalDesignSystemDataset({
     },
   },
 });
-const path = new URL(
-  "../src/data/design-system.defaults.json",
-  import.meta.url,
-);
-const output = `${JSON.stringify(dataset, null, 2)}\n`;
 if (process.argv.includes("--check")) {
-  if (readFileSync(path, "utf8") !== output)
+  if (staleStudioData(dataset).length)
     throw new Error(
       "Legacy layout scales remain in the defaults. Run scripts/migrate-layout-scales.ts.",
     );
@@ -50,6 +45,6 @@ if (process.argv.includes("--check")) {
     "Default layout scales are explicit and migration is idempotent.",
   );
 } else {
-  writeFileSync(path, output);
+  writeStudioData(dataset);
   console.log("Converted default layout progressions to Foundation scales.");
 }

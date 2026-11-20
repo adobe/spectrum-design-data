@@ -24,12 +24,29 @@ import {
 import { TokenNameTag } from "../tokens/TokenNameTag";
 import "./TokenComboBox.css";
 import { fittedMenuWidth } from "./menuSizing";
-import { exactTokenEntryMatch, type ValueNormalizer } from "./tokenEntry";
+import {
+  exactTokenEntryMatch,
+  numericEntryValue,
+  type ValueNormalizer,
+} from "./tokenEntry";
 import {
   menuMeasurementChoices,
   tokenMenuChoices,
   tokenOptionDescription,
 } from "./tokenMenuChoices";
+import { atom, useAtomValue } from "jotai";
+import { selectAtom } from "jotai/utils";
+import { useNumericRuntime } from "../../features/edit-session/numericContext";
+import {
+  numericDraftResetAtom,
+  numericDraftStateAtom,
+  numericDraftStatusAtom,
+} from "../../features/edit-session/numericState";
+
+const noScopeAtom = atom("");
+const noResetAtom = atom(0);
+const noStatusAtom = atom("idle");
+const noErrorAtom = atom<string | undefined>(undefined);
 
 export interface TokenComboBoxOption {
   id: string;
@@ -66,6 +83,8 @@ export interface TokenComboBoxProps {
     onAccept: (text: string) => void;
     inputType?: "number";
     isAllowed?: (text: string) => boolean;
+    /** Interactive owners must defer their decisions during numeric capture. */
+    liveNumeric?: boolean;
   };
 }
 const fieldStyles = style({ width: "full", minWidth: 0, flexGrow: 1 });
@@ -112,7 +131,7 @@ export function TokenComboBox({
   ariaLabel,
   prefix,
   options,
-  selectedKey,
+  selectedKey: acceptedKey,
   onChange,
   displayMode = "tokens",
   isDisabled = false,
@@ -127,6 +146,32 @@ export function TokenComboBox({
   customValue,
 }: TokenComboBoxProps) {
   const notify = useNotify();
+  const runtime = useNumericRuntime();
+  const live = !!runtime && !!customValue?.liveNumeric && !isDisabled;
+  const scope = useAtomValue(live ? runtime.scopeAtom : noScopeAtom);
+  const reset = useAtomValue(live ? numericDraftResetAtom : noResetAtom);
+  const instance = useId();
+  const numericId = `${instance}:${scope}`;
+  const errorAtom = useMemo(
+    () =>
+      live
+        ? selectAtom(numericDraftStateAtom, (state) =>
+            state.errors.get(numericId),
+          )
+        : noErrorAtom,
+    [live, numericId],
+  );
+  const numericError = useAtomValue(errorAtom);
+  const [optimistic, setOptimistic] = useState<{
+    id: string | null;
+    text: string;
+  }>();
+  const status = useAtomValue(
+    live && optimistic ? numericDraftStatusAtom : noStatusAtom,
+  );
+  const selectedKey = optimistic ? optimistic.id : acceptedKey;
+  const customText =
+    optimistic?.id === null ? optimistic.text : customValue?.displayValue;
   if (
     menuWidth !== undefined &&
     (!Number.isFinite(menuWidth) || menuWidth <= 0)
@@ -158,6 +203,26 @@ export function TokenComboBox({
   const literalKey = useId();
   const selected = options.find((option) => option.id === selectedKey);
   const numeric = customValue?.inputType === "number";
+  useLayoutEffect(() => {
+    if (optimistic && status === "idle" && !runtime?.pending(numericId))
+      setOptimistic(undefined);
+  }, [
+    optimistic,
+    status,
+    runtime,
+    numericId,
+    acceptedKey,
+    customValue?.displayValue,
+  ]);
+  useLayoutEffect(() => {
+    if (!live) return;
+    draft.current = null;
+    setEditing(false);
+    setQuery("");
+    setCustomError(undefined);
+    setOptimistic(undefined);
+    return () => runtime.release(numericId);
+  }, [live, runtime, numericId, reset]);
   useLayoutEffect(() => {
     if (inlineEditing) {
       input.current?.focus();
@@ -192,6 +257,7 @@ export function TokenComboBox({
     [presets, tokens],
   );
   const fieldError =
+    numericError ??
     customError ??
     error ??
     selected?.error ??
@@ -231,14 +297,13 @@ export function TokenComboBox({
     : selected?.kind === "preset"
       ? selected.name
       : selectedKey === null && customValue
-        ? customValue.displayValue
+        ? (customText ?? "")
         : displayMode === "values"
           ? (selected?.displayValue ?? "")
           : "";
-  const acceptedLiteral = selectedKey === null && !!customValue?.displayValue;
+  const acceptedLiteral = selectedKey === null && !!customText;
   const hasClearAction =
-    !isRequired &&
-    (selectedKey !== null || isMixed || !!customValue?.displayValue);
+    !isRequired && (selectedKey !== null || isMixed || !!customText);
   function finishEditing(focusTrigger = false) {
     draft.current = null;
     keyboardSelection.current = false;
@@ -257,23 +322,42 @@ export function TokenComboBox({
       const text = draft.current?.text ?? query;
       if (customValue.isAllowed && !customValue.isAllowed(text))
         throw new Error("This value is not available. Enter another value.");
-      customValue.onAccept(text);
+      if (live) {
+        if (!runtime.capture(numericId, () => customValue.onAccept(text)))
+          return;
+        setOptimistic({ id: null, text });
+        runtime.settle();
+      } else customValue.onAccept(text);
       finishEditing(true);
     } catch (failure) {
       setCustomError(
         failure instanceof Error ? failure.message : String(failure),
       );
+      if (live)
+        runtime.setError(
+          numericId,
+          failure instanceof Error ? failure.message : String(failure),
+        );
     }
   }
   function acceptOption(id: string | null) {
     try {
-      onChange(id);
+      if (live) {
+        if (!runtime.capture(numericId, () => onChange(id))) return;
+        setOptimistic({ id, text: "" });
+        runtime.settle();
+      } else onChange(id);
       committed.current = id;
       finishEditing(true);
     } catch (failure) {
       setCustomError(
         failure instanceof Error ? failure.message : String(failure),
       );
+      if (live)
+        runtime.setError(
+          numericId,
+          failure instanceof Error ? failure.message : String(failure),
+        );
     }
   }
   function clearValue() {
@@ -283,6 +367,8 @@ export function TokenComboBox({
       setEditing(true);
       setQuery("");
       setCustomError("Enter a value or choose an option.");
+      if (live)
+        runtime.setError(numericId, "Enter a value or choose an option.");
       return;
     }
     acceptOption(null);
@@ -322,7 +408,7 @@ export function TokenComboBox({
         isDisabled={isDisabled}
         onPress={() => setInlineEditing(true)}
       >
-        <Text>{selected?.displayValue ?? customValue?.displayValue}</Text>
+        <Text>{selected?.displayValue ?? customText}</Text>
       </ActionButton>
     );
   }
@@ -413,6 +499,10 @@ export function TokenComboBox({
           onKeyDown={(event) => {
             if (event.key === "Escape") {
               if (inline) event.stopPropagation();
+              if (live) {
+                runtime.discard(numericId);
+                setOptimistic(undefined);
+              }
               finishEditing(true);
             }
           }}
@@ -432,6 +522,36 @@ export function TokenComboBox({
             draft.current = { text, dirty: true };
             setQuery(text);
             setCustomError(undefined);
+            if (live) {
+              const value = numericEntryValue(
+                normalizeValue ? (normalizeValue(text) ?? "") : text,
+              );
+              if (value !== undefined) {
+                const match = exactTokenEntryMatch(
+                  options,
+                  text,
+                  isOptionAllowed,
+                  normalizeValue,
+                );
+                if (match) runtime.capture(numericId, () => onChange(match.id));
+                else if (!customValue.isAllowed || customValue.isAllowed(text))
+                  runtime.capture(numericId, () => customValue.onAccept(text));
+                else
+                  runtime.setError(
+                    numericId,
+                    "This value is not available. Enter another value.",
+                  );
+              } else if (
+                runtime.pending(numericId) ||
+                numericError ||
+                /^[+-]?(?:\d|\.)/.test(text) ||
+                /^[+-]$/.test(text)
+              )
+                runtime.setError(
+                  numericId,
+                  "Finish entering a value or choose a token.",
+                );
+            }
           }}
           onSelectionChange={(key) => {
             if (key === null) return;
@@ -468,9 +588,9 @@ export function TokenComboBox({
               </ComboBoxItem>
             )}
           {acceptedLiteral && customValue && (
-            <ComboBoxItem id={literalKey} textValue={customValue.displayValue}>
+            <ComboBoxItem id={literalKey} textValue={customText}>
               <Text slot="label">Current value</Text>
-              <Text slot="description">{customValue.displayValue}</Text>
+              <Text slot="description">{customText}</Text>
             </ComboBoxItem>
           )}
           {items}

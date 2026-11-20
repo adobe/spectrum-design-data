@@ -528,7 +528,7 @@ test("Gray warns about missing shared names, Cancel preserves custom steps, and 
   await closeGray(page);
 });
 
-test("editable Logic naming rules reach custom colors and reject invalid consumer ranges", async ({
+test("editable naming rules reach custom colors and reject invalid consumer ranges", async ({
   page,
 }) => {
   test.setTimeout(90_000);
@@ -536,8 +536,9 @@ test("editable Logic naming rules reach custom colors and reject invalid consume
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Logic" })
+    .getByRole("link", { name: /^Rules\b/ })
     .click();
+  await page.getByRole("tab", { name: "Naming", exact: true }).click();
   await page.getByRole("button", { name: "Add rule" }).click();
   const dialog = page
     .getByRole("dialog")
@@ -545,8 +546,6 @@ test("editable Logic naming rules reach custom colors and reject invalid consume
   await dialog
     .getByRole("textbox", { name: "Name", exact: true })
     .fill("Gray naming");
-  await dialog.getByRole("button", { name: /Type$/ }).click();
-  await page.getByRole("option", { name: "Scale naming", exact: true }).click();
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
   await foundations(page);
   const controls = await openGray(page);
@@ -555,7 +554,7 @@ test("editable Logic naming rules reach custom colors and reject invalid consume
   await closeGray(page);
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Logic" })
+    .getByRole("link", { name: /^Rules\b/ })
     .click();
   await page.getByRole("button", { name: "Edit rule Gray naming" }).click();
   await expect(dialog).toContainText("Gray");

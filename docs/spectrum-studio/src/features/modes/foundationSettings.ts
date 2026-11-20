@@ -28,7 +28,7 @@ export const ADAPTIVE_SETTING_IDS: readonly FoundationSettingId[] = [
   "color.scaleAdjustment",
   "typography.textZoom",
 ];
-/** Must match `foundationParameterSettings` in design-system.defaults.json. */
+/** Must match `foundationParameterSettings` in data/studio/foundations/parameter-settings.json. */
 export const DEFAULT_ADAPTIVE_SETTING_IDS: readonly FoundationSettingId[] = [
   "color.backgroundLightness",
   "color.contrastMultiplier",

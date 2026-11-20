@@ -69,7 +69,7 @@ const LITERAL_COUNTS =
 const SECTION_TITLES: Record<OverviewId, string> = {
   system: "System impact",
   foundations: "Foundational impact",
-  design: "Design impact",
+  design: "Objects impact",
   components: "Component impact",
 };
 

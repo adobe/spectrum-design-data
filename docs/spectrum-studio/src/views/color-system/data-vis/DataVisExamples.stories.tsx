@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { Button } from "@react-spectrum/s2";
 import { compileContinuousScale } from "../../../features/color-system/data-vis/continuous";
+import { quantitativeExample } from "../../../features/color-system/data-vis/examples";
 import { DataVisExamples, type DataVisExamplesProps } from "./DataVisExamples";
 import { DataVisScaleHeader } from "./DataVisScaleHeader";
 
@@ -38,6 +39,7 @@ const cssColors = [
 ];
 
 function ExampleScale(props: DataVisExamplesProps) {
+  if ("records" in props) return <DataVisExamples {...props} />;
   const colors =
     props.kind === "categorical"
       ? props.colors
@@ -121,6 +123,18 @@ export const Sequential: Story = {
     await expect(canvas.queryByRole("grid")).not.toBeInTheDocument();
     canvasElement.dataset.playComplete = "true";
   },
+};
+export const PreparedSequential: Story = {
+  name: "Prepared sequence",
+  args: {
+    records: quantitativeExample("sequential", sequential.evaluate),
+    evaluate: () => {
+      throw new Error(
+        "Prepared examples must not evaluate colors on the UI thread.",
+      );
+    },
+  },
+  play: Sequential.play,
 };
 export const Diverging: Story = {
   args: {

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/opacity-checkerboard.json",
+  "specVersion": "1.0.0-draft",
+  "name": "opacity-checkerboard",
+  "displayName": "Opacity Checkerboard",
+  "description": "Opacity checkerboards provide a visual pattern background used in color swatches and UI elements to indicate transparency or when no color is selected.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        }
+      ]
+    },
+    "verticalSize": {
+      "type": "number",
+      "default": 16,
+      "values": [
+        {
+          "value": 16
+        },
+        {
+          "value": 32
+        },
+        {
+          "value": 64
+        },
+        {
+          "value": 128
+        },
+        {
+          "value": 256
+        }
+      ]
+    },
+    "horizontalSize": {
+      "type": "number",
+      "default": 24,
+      "values": [
+        {
+          "value": 24
+        },
+        {
+          "value": 40
+        }
+      ]
+    }
+  },
+  "anatomy": [
+    {
+      "name": "square",
+      "description": "Single alternating square of the checkerboard pattern.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma page; parts from relationship contexts. Helper component; one minimal part."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "focusable": false
+  }
+}

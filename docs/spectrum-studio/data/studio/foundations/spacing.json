@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 4,
+  "scales": [
+    {
+      "id": "spacing-scale-1",
+      "scaleTypeId": "scale-type-spacing",
+      "below": 4,
+      "above": 13,
+      "parameters": {},
+      "roundingRuleId": "rule-spacing-rounding",
+      "name": {
+        "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "termId": "014d018b-da56-4a93-9190-753ad548a4c2",
+        "classification": {
+          "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "014d018b-da56-4a93-9190-753ad548a4c2"
+        }
+      }
+    },
+    {
+      "id": "spacing-scale-95a2557d-d4bb-4102-a129-2b1f33ddf5cc",
+      "scaleTypeId": "scale-type-size",
+      "base": 6,
+      "below": 1,
+      "above": 2,
+      "parameters": {
+        "step": 2
+      },
+      "roundingRuleId": "rule-whole-numbers",
+      "hideFromPublishing": true,
+      "name": {
+        "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1102",
+        "classification": {
+          "b07988e3-0510-4bf5-a531-86ea718b1003": "b5cf8569-078f-40b1-8207-dddddd3aa2a5",
+          "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "b07988e3-0510-4bf5-a531-86ea718b1102"
+        }
+      }
+    },
+    {
+      "id": "82fb3a3c-4a5e-4d88-b1ec-b4b9105204d4",
+      "scaleTypeId": "scale-type-size",
+      "base": 6,
+      "below": 5,
+      "above": 3,
+      "parameters": {
+        "step": 1
+      },
+      "roundingRuleId": "rule-whole-numbers",
+      "hideFromPublishing": true,
+      "name": {
+        "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "termId": "014d018b-da56-4a93-9190-753ad548a4c2",
+        "classification": {
+          "b07988e3-0510-4bf5-a531-86ea718b1003": "4402f568-5db9-4cee-93a3-e3e9421dd170",
+          "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "014d018b-da56-4a93-9190-753ad548a4c2"
+        }
+      }
+    },
+    {
+      "id": "4fc8de62-537c-44da-8772-ec2bdbcc9b7c",
+      "scaleTypeId": "30c70283-2795-46f7-b943-885886333aab",
+      "base": 4,
+      "below": 3,
+      "above": 3,
+      "parameters": {},
+      "roundingRuleId": "rule-whole-numbers",
+      "hideFromPublishing": true,
+      "name": {
+        "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "termId": "014d018b-da56-4a93-9190-753ad548a4c2",
+        "classification": {
+          "b07988e3-0510-4bf5-a531-86ea718b1003": "4402f568-5db9-4cee-93a3-e3e9421dd170",
+          "b07988e3-0510-4bf5-a531-86ea718b1000": "58d98056-7c04-4915-91b7-3c11a14b7f09",
+          "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "014d018b-da56-4a93-9190-753ad548a4c2"
+        }
+      }
+    },
+    {
+      "id": "5d3d6a7a-36c9-4a53-9f15-447f2a1e68f6",
+      "scaleTypeId": "scale-type-typography",
+      "base": 12,
+      "below": 2,
+      "above": 2,
+      "parameters": {},
+      "roundingRuleId": "rule-whole-numbers",
+      "componentSizeScaling": true,
+      "name": {
+        "categoryId": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+        "termId": "014d018b-da56-4a93-9190-753ad548a4c2",
+        "classification": {
+          "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "ac662c53-df93-4c8a-aecd-2981b2446d67",
+          "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a": "014d018b-da56-4a93-9190-753ad548a4c2"
+        }
+      }
+    }
+  ]
+}

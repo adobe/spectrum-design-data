@@ -98,6 +98,7 @@ export function StructureAppearanceControls({
     return config
       ? {
           displayValue: config.displayValue,
+          liveNumeric: true,
           onAccept: (text) =>
             onChange({ [slot]: numberLiteral(text, config.unit) }),
         }

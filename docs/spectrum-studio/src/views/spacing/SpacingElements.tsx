@@ -14,6 +14,9 @@ import { elementsSurfaceStyleAtom } from "../../state/view/elementsSurface";
 import { elementsSurfaceStyles } from "../elementsSurfaceStyles";
 import "./SpacingElements.css";
 import "../chartLayout.css";
+import { useNumericRuntime } from "../../features/edit-session/numericContext";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 
 const containerStyle = style({
   display: "flex",
@@ -48,12 +51,48 @@ export interface DimensionElementsProps {
 }
 
 /** Every scale of a dimension foundation as a horizontal row of samples with their values. */
-export function DimensionElements({
+export function DimensionElements({ ...props }: DimensionElementsProps) {
+  const runtime = useNumericRuntime();
+  return runtime && (props.noun === "spacing" || props.noun === "size") ? (
+    <LiveDimensionElements {...props} foundation={props.noun} />
+  ) : (
+    <AcceptedDimensionElements {...props} />
+  );
+}
+
+function LiveDimensionElements(
+  props: DimensionElementsProps & { foundation: "spacing" | "size" },
+) {
+  const result = useEditorPreview(props.foundation, null);
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label={`Updating ${props.noun} preview`}
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready?.value.kind === "dimension" && (
+        <DimensionElementsContent
+          {...props}
+          scales={result.ready.value.scales}
+        />
+      )}
+    </DerivedContentBoundary>
+  );
+}
+
+function AcceptedDimensionElements(props: DimensionElementsProps) {
+  const scales = useAtomValue(props.generatedAtom);
+  return <DimensionElementsContent {...props} scales={scales} />;
+}
+
+function DimensionElementsContent({
   title,
   noun,
-  generatedAtom,
-}: DimensionElementsProps) {
-  const scales = useAtomValue(generatedAtom);
+  scales,
+}: DimensionElementsProps & {
+  scales: { scale: DimensionScale; values: GeneratedDimensionValue[] }[];
+}) {
   const surfaceStyle = useAtomValue(elementsSurfaceStyleAtom);
   return (
     <div

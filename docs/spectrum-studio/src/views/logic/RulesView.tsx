@@ -1,14 +1,19 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { Button, Text } from "@react-spectrum/s2";
+import { Button, Tab, TabList, TabPanel, Tabs, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useNotify } from "../../components/notifications/notificationContext";
 import { EditOnly } from "../../components/editable";
 import { RuleCard } from "../../components/logic/RuleCard";
 import { RuleEditorDialog } from "../../components/logic/RuleEditorDialog";
 import { createRule } from "../../features/logic/model";
-import { groupRulesByType } from "../../features/logic/rulePresentation";
+import {
+  groupRulesByType,
+  rulePresentation,
+  RULE_SECTIONS,
+} from "../../features/logic/rulePresentation";
+import { rulesTabAtom } from "../../state/view/logicView";
 import {
   addRuleAtom,
   rulesAtom,
@@ -20,19 +25,7 @@ const sectionStyles = style({
   flexDirection: "column",
   gap: 12,
 });
-const viewStyles = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: 32,
-});
-const typeHeadingStyles = style({ font: "title-lg", margin: 0 });
-const sectionHeaderStyles = style({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: 16,
-});
-const sectionHeadingStyles = style({ font: "heading", margin: 0 });
+const tabPanelStyles = style({ marginTop: 16 });
 const gridStyles = style({
   display: "grid",
   gridTemplateColumns: "[repeat(auto-fill, minmax(280px, 1fr))]",
@@ -41,64 +34,74 @@ const gridStyles = style({
 const emptyStyles = style({ font: "body", color: "neutral-subdued" });
 
 export function RulesView() {
+  const [tab, setTab] = useAtom(rulesTabAtom);
   const notify = useNotify();
   const rules = useAtomValue(rulesAtom);
   const addRule = useSetAtom(addRuleAtom);
   const saveGenerator = useSetAtom(saveGeneratorDraftAtom);
 
   return (
-    <section className={viewStyles} aria-labelledby="logic-rules-heading">
-      <div className={sectionHeaderStyles}>
-        <h3 id="logic-rules-heading" className={sectionHeadingStyles}>
-          Rules
-        </h3>
-        <EditOnly>
-          <RuleEditorDialog
-            trigger={
-              <Button variant="accent">
-                <Add />
-                <Text>Add rule</Text>
-              </Button>
-            }
-            title="New rule"
-            createDraft={() => createRule("rounding")}
-            onSave={(rule, edit) =>
-              notify.added("rule", () => {
-                if (edit) saveGenerator({ rule, edit });
-                else addRule(rule);
-                return true;
-              })
-            }
-          />
-        </EditOnly>
-      </div>
-      {groupRulesByType(rules).map((section) => (
-        <section
-          key={section.type}
-          className={sectionStyles}
-          aria-labelledby={`logic-${section.type}-heading`}
-        >
-          <h4
-            id={`logic-${section.type}-heading`}
-            className={typeHeadingStyles}
+    <section aria-label="Rule library">
+      <Tabs
+        density="compact"
+        aria-label="Rule types"
+        selectedKey={tab}
+        onSelectionChange={(key) => {
+          const section = RULE_SECTIONS.find((section) => section.type === key);
+          if (section) setTab(section.type);
+        }}
+      >
+        <TabList>
+          {RULE_SECTIONS.map((section) => (
+            <Tab key={section.type} id={section.type}>
+              {section.tabLabel}
+            </Tab>
+          ))}
+        </TabList>
+        {groupRulesByType(rules).map((section) => (
+          <TabPanel
+            key={section.type}
+            id={section.type}
+            styles={tabPanelStyles}
           >
-            {section.label}
-          </h4>
-          {section.rules.length === 0 ? (
-            <p className={emptyStyles}>No rules yet.</p>
-          ) : (
-            <div className={gridStyles}>
-              {section.rules.map((rule) => (
-                <RuleCard
-                  key={rule.id}
-                  rule={rule}
-                  index={rules.indexOf(rule)}
+            <section className={sectionStyles} aria-label={section.label}>
+              <EditOnly>
+                <RuleEditorDialog
+                  trigger={
+                    <Button variant="accent">
+                      <Add />
+                      <Text>Add rule</Text>
+                    </Button>
+                  }
+                  title="New rule"
+                  createDraft={() => createRule(section.type)}
+                  onSave={(rule, edit) =>
+                    notify.added("rule", () => {
+                      if (edit) saveGenerator({ rule, edit });
+                      else addRule(rule);
+                      setTab(rulePresentation(rule.type).type);
+                      return true;
+                    })
+                  }
                 />
-              ))}
-            </div>
-          )}
-        </section>
-      ))}
+              </EditOnly>
+              {section.rules.length === 0 ? (
+                <p className={emptyStyles}>No rules yet.</p>
+              ) : (
+                <div className={gridStyles}>
+                  {section.rules.map((rule) => (
+                    <RuleCard
+                      key={rule.id}
+                      rule={rule}
+                      index={rules.indexOf(rule)}
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
+          </TabPanel>
+        ))}
+      </Tabs>
     </section>
   );
 }

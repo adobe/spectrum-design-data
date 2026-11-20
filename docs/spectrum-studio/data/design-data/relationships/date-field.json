@@ -1,0 +1,31 @@
+[
+  {
+    "scope": {
+      "component": "date-field",
+      "property": "minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "152px",
+    "uuid": "ebc4d09b-03c8-475a-af01-9bfcd590d92b",
+    "legacyKey": "date-field-minimum-width"
+  },
+  {
+    "scope": {
+      "component": "date-field",
+      "property": "space-between",
+      "options": {
+        "from": "text",
+        "to": "visual"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "4725710f-67b2-4000-b4e8-e67a68cd75f5",
+    "legacyKey": "date-field-text-to-visual",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Date and time fields use 20px whereas text field appears to use padding value",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    }
+  }
+]

@@ -1,0 +1,137 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/number-field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "number-field",
+  "displayName": "Number field",
+  "description": "Number fields allow users to enter a numeric value, with optional increment and decrement buttons.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Number fields allow users to enter a numeric value, with optional increment and decrement buttons."
+    },
+    {
+      "type": "guideline",
+      "content": "Minimum width.\n\nThe minimum width for a number field is number-field-minimum-width-multiplier (without stepper) and number-field-with-stepper-minimum-width-[small/medium/large/extra-large] (with stepper). This minimum width guarantees that small number fields are readable and easy to interact with on touch devices."
+    },
+    {
+      "type": "guideline",
+      "content": "Text overflow.\n\nWhen the field label is too long for the available horizontal space, it wraps to form another line. The text inside the field truncates."
+    },
+    {
+      "type": "guideline",
+      "content": "Mixed value.\n\nWhen a number field presents multiple values that are not identical, the field should show an en dash (–)."
+    },
+    {
+      "type": "guideline",
+      "content": "Help text and error message overflow.\n\nWhen the help text is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Calculations.\n\nNumber fields should always allow users to add, subtract, multiply, and divide, with the field automatically calculating the result."
+    },
+    {
+      "type": "guideline",
+      "content": "Units.\n\nNumber fields can include units of measurement in the value. When focused or entering text, the units disappear. When scrolling, the units stay. If a user enters a unit that does not match the unit that the field requires, the field should automatically calculate a conversion and display the input value in the correct unit."
+    },
+    {
+      "type": "guideline",
+      "content": "Choose default values for number fields.\n\nChoose a default value for a field to revert back to if an invalid entry is input. If a user enters a valid number and then enters an invalid number, revert to the most recent valid entry."
+    },
+    {
+      "type": "guideline",
+      "content": "Review label-less designs.\n\nMost number fields should have a label. A field without a label is ambiguous and not accessible. In rare cases where context is sufficient and a label could be absent, make sure to have the design reviewed and approved by an accessibility expert. These should still include an aria-label in HTML (depending on the context, \"aria-label\" or \"aria-labelledby\")."
+    },
+    {
+      "type": "guideline",
+      "content": "Follow capitalization rules.\n\nLabels for number fields should be in sentence case."
+    },
+    {
+      "type": "guideline",
+      "content": "Marking Required vs. Optional number fields in Forms.\n\nWhen labeling number fields in a form, only mark the minority type—either required or optional—to reduce visual clutter: If most number fields are optional, mark only the required ones (e.g., add an asterisk or \"(required)\"). If most number fields are required, mark only the optional ones (e.g., append \"(optional)\" to their labels). Important: Never use an asterisk to indicate an optional number field."
+    },
+    {
+      "type": "do-dont",
+      "content": "Do not use placeholder text in number fields",
+      "dont": "Putting instructions for how to complete an input, requirements, or any other essential information into placeholder text is not accessible, and should be avoided. Once a value is entered, placeholder text is no longer viewable; if someone is using an automatic form filler, they will never get the information in the placeholder text. Instead of placeholder text, choose a default value to include in the field in default state. Use the help text description to convey requirements or to show any formatting examples that would help user comprehension."
+    },
+    {
+      "type": "guideline",
+      "content": "Use help text to show hints, formatting, and requirements.\n\nThe description in the help text is flexible and encompasses a range of guidance. Sometimes this guidance is about what to input, and sometimes it's about how to input. This includes information such as: An overall description of the number field Hints for what kind of information needs to be input Specific formatting examples or requirements The help text's message should not simply restate the same information in the label in order to prompt someone to interact with it. Don't add help text if it isn't actually relevant or meaningful to a user in order to try to maintain layout continuity with other inputs that require help text."
+    },
+    {
+      "type": "guideline",
+      "content": "Switch help text with error text.\n\nThe help text area also displays an error message. When a number field already includes help text and an error is triggered, the help text is replaced with error text. Once the error is resolved, the help text description reappears below the field. Since one gets replaced by the other, the language of the help text and error text need to work together to convey the same messaging. Help text explains the requirement or adds supplementary context for how to successfully complete the input. Error text tells a user how to fix the error by re-stating the input requirements or describing the necessary interaction. Make sure that the help text and the error text include the same essential information so that it isn't lost if one replaces the other like formatting requirements."
+    },
+    {
+      "type": "guideline",
+      "content": "Write error text that shows a solution.\n\nWrite error messaging in a human-centered way by guiding a user and showing them a solution — don't simply state what's wrong and then leave them guessing as to how to resolve it. Ambiguous error messages can be frustrating and even shame-inducing for users. Also, keep in mind that something that a system may deem an error may not actually be perceived as an error to a user. Error text should be written in 1-2 short, complete sentences and in a clear and straightforward way. Never end with an exclamation point. For number fields, the nature of the error is often related to something that needs to be fixed for in-line validation, so a helpful tone is most appropriate."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "NumberField",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
+      ]
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "values": [{ "value": "top" }, { "value": "side" }]
+    },
+    "hideLabel": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isError": { "type": "boolean", "default": false },
+    "isRequired": { "type": "boolean", "default": false },
+    "necessityIndicator": {
+      "type": "string",
+      "default": "icon",
+      "values": [{ "value": "text" }, { "value": "icon" }]
+    },
+    "hideStepper": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, hides in-field increment and decrement buttons (stepper)."
+    }
+  },
+  "anatomy": [
+    {
+      "name": "in-field-stepper",
+      "description": "Increment/decrement stepper embedded in the field."
+    }
+  ],
+  "states": [
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "focus-+-hover", "trigger": "prop" },
+    { "name": "focus-+-not-hover", "trigger": "prop" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "role": "spinbutton",
+    "intents": ["choose", "input"],
+    "focusable": true,
+    "keyboardIntents": ["increment", "decrement"],
+    "wcag": [
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

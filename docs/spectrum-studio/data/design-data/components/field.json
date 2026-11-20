@@ -1,0 +1,38 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "field",
+  "displayName": "Field",
+  "description": "Shared layout primitive underlying labeled form fields (text field, picker, etc.).",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/field/"
+  },
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "container",
+      "description": "Bordered box that frames the field content.",
+      "required": true,
+      "contains": ["value"]
+    },
+    {
+      "name": "value",
+      "description": "Content shown inside the field."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Shared primitive; Figma has no separate page (SAME PAGE AS text-field). Parts copied from the text-field layout. Relationships (border, width, space-between) name no parts."
+  },
+  "lifecycle": { "introduced": "1.0.0-draft" }
+}

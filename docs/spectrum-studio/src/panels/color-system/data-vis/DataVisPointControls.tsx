@@ -6,9 +6,9 @@ import {
   AccordionItemTitle,
   ActionButton,
   Checkbox,
-  NumberField,
   Text,
 } from "@react-spectrum/s2";
+import { NumberField } from "../../../components/fields/NumberField";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { ColorPickerContents } from "../../../components/color-picker/ColorPickerContents";
 import { ColorScalePicker } from "../../../components/color-picker/ColorScalePicker";

@@ -13,6 +13,24 @@ import {
 import { createProvider } from "./provider.js";
 import { runScenario } from "./runner.js";
 import { scenarios } from "./scenarios.js";
+import { loadSkill, skillScenarios } from "./skillScenarios.js";
+
+async function skillRuns(selected) {
+  const runs = [];
+  for (const scenario of selected) {
+    runs.push({ scenario, variant: "without-skill", skills: [] });
+    const skills = await Promise.all(scenario.skills.map(loadSkill));
+    for (const fact of scenario.skillFacts) {
+      if (!skills.some((skill) => skill.includes(fact))) {
+        throw new Error(
+          `${scenario.id}: the sample skill no longer says "${fact}".`,
+        );
+      }
+    }
+    runs.push({ scenario, variant: "with-skill", skills });
+  }
+  return runs;
+}
 
 async function main() {
   const { values } = parseArgs({
@@ -21,6 +39,7 @@ async function main() {
       scenario: { type: "string" },
       output: { type: "string", default: "reports" },
       artifact: { type: "string", default: bundleDir },
+      skills: { type: "boolean", default: false },
     },
   });
   const limit = Number(values.limit);
@@ -32,11 +51,14 @@ async function main() {
   if (!Number.isInteger(limit) || limit < 1 || limit > 15) {
     throw new Error("--limit must be an integer from 1 to 15.");
   }
-  const selected = scenarios
+  const selected = (values.skills ? skillScenarios : scenarios)
     .filter((item) => !values.scenario || item.id === values.scenario)
     .slice(0, limit);
   if (!selected.length)
     throw new Error("Unknown scenario; no evaluation was run.");
+  const runs = values.skills
+    ? await skillRuns(selected)
+    : selected.map((scenario) => ({ scenario, skills: [] }));
   const complete = createProvider({
     endpoint: process.env.EVAL_ENDPOINT,
     model: process.env.EVAL_MODEL,
@@ -61,10 +83,18 @@ async function main() {
       ),
     );
     const primer = await callJson(client, "design-data-primer");
-    for (const scenario of selected) {
-      const result = await runScenario({ client, scenario, complete, budget });
+    for (const { scenario, variant, skills } of runs) {
+      const result = await runScenario({
+        client,
+        scenario,
+        complete,
+        budget,
+        skills,
+      });
+      if (variant) result.variant = variant;
       results.push(result);
-      console.log(`${scenario.id}: ${result.status}`);
+      const label = variant ? `${scenario.id} (${variant})` : scenario.id;
+      console.log(`${label}: ${result.status}`);
       if (result.status === "execution_error") break;
     }
     const report = {
@@ -92,7 +122,12 @@ async function main() {
       `Model: ${report.model}\n\n` +
       "These are automated screens, not a semantic quality verdict. Review tool traces and each scenario rubric.\n\n" +
       "| Scenario | Result |\n| --- | --- |\n" +
-      results.map((item) => `| ${item.id} | ${item.status} |`).join("\n") +
+      results
+        .map(
+          (item) =>
+            `| ${item.variant ? `${item.id} (${item.variant})` : item.id} | ${item.status} |`,
+        )
+        .join("\n") +
       "\n";
     await writeFile(join(values.output, "summary.md"), summary);
     if (process.env.GITHUB_STEP_SUMMARY) {

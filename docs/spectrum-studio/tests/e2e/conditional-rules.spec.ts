@@ -12,9 +12,9 @@ test("conditional rule row transactions, dialog Save/Cancel and reload", async (
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: /^Logic\b/ })
+    .getByRole("link", { name: /^Rules\b/ })
     .click();
-  await page.getByRole("tab", { name: "Rules", exact: true }).click();
+  await page.getByRole("tab", { name: "Conditions", exact: true }).click();
   const card = page.getByRole("article", {
     name: "Interaction state colors",
     exact: true,
@@ -88,9 +88,9 @@ test("conditional rule row transactions, dialog Save/Cancel and reload", async (
   await page.reload();
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: /^Logic\b/ })
+    .getByRole("link", { name: /^Rules\b/ })
     .click();
-  await page.getByRole("tab", { name: "Rules", exact: true }).click();
+  await page.getByRole("tab", { name: "Conditions", exact: true }).click();
   await page
     .getByRole("button", { name: "Edit rule Interaction state colors" })
     .click();

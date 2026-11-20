@@ -1,0 +1,93 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/heading.json",
+  "specVersion": "1.0.0-draft",
+  "name": "heading",
+  "displayName": "Heading",
+  "description": "Heading is a typography component used to create various levels of hierarchies between text.",
+  "meta": {
+    "category": "typography",
+    "documentationUrl": "https://spectrum.adobe.com/page/heading/"
+  },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Heading",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "script": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+    },
+    "classification": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-classification.json"
+    },
+    "weight": {
+      "type": "string",
+      "default": "default",
+      "values": [
+        {
+          "value": "light"
+        },
+        {
+          "value": "default"
+        },
+        {
+          "value": "heavy"
+        }
+      ]
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "xxs"
+        },
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        },
+        {
+          "value": "xxl"
+        },
+        {
+          "value": "xxxl"
+        },
+        {
+          "value": "xxxxl"
+        }
+      ]
+    }
+  },
+  "anatomy": [
+    {
+      "name": "text",
+      "description": "Text run styled by the typography token set.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma component; text style only (React Spectrum / relationship label contexts). One minimal text part. 'Margins' spacing contexts are layout, not a part."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "focusable": false
+  }
+}

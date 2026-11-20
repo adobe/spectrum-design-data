@@ -21,6 +21,10 @@ import {
 } from "./AnalyzeLayout";
 import { DimensionScaleComparison } from "./DimensionScaleComparison";
 import type { DimensionValuePolicy } from "../../features/scales/issues";
+import { useNumericRuntime } from "../../features/edit-session/numericContext";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import type { EditorPreviewOutput } from "../../features/edit-session/editorPreviewWork";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 
 /** Scale picker key that shows every scale's overview chart. */
 export const ALL_DIMENSION_SCALES = "all";
@@ -38,24 +42,76 @@ export interface DimensionAnalyzeProps {
   initialScaleId?: string;
 }
 
-export function DimensionAnalyze({
-  title,
-  noun,
-  generatedAtom,
-  documentAtom,
-  valuePolicy,
-  initialScaleId = ALL_DIMENSION_SCALES,
-}: DimensionAnalyzeProps) {
-  const scales = useAtomValue(generatedAtom);
-  const document = useAtomValue(documentAtom);
-  const libraryRules = useAtomValue(rulesAtom);
-  const rules = document.pendingRules
-    ? [...libraryRules, ...document.pendingRules]
-    : libraryRules;
+type DimensionData = Extract<EditorPreviewOutput, { kind: "dimension" }>;
+
+export function DimensionAnalyze(props: DimensionAnalyzeProps) {
+  return useNumericRuntime() ? (
+    <LiveDimensionAnalyze {...props} />
+  ) : (
+    <AcceptedDimensionAnalyze {...props} />
+  );
+}
+
+function LiveDimensionAnalyze(props: DimensionAnalyzeProps) {
+  const result = useEditorPreview(props.noun, null);
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label={`Updating ${props.noun} analysis`}
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready?.value.kind === "dimension" && (
+        <DimensionAnalyzeContent {...props} data={result.ready.value} />
+      )}
+    </DerivedContentBoundary>
+  );
+}
+
+function AcceptedDimensionAnalyze(props: DimensionAnalyzeProps) {
+  const scales = useAtomValue(props.generatedAtom);
+  const document = useAtomValue(props.documentAtom);
+  const rules = useAtomValue(rulesAtom);
   const scaleTypes = useAtomValue(scaleTypesAtom);
   const documents = useAtomValue(foundationDocumentsAtom);
   const current = useAtomValue(modeParameterValuesAtom);
   const modeSets = useAtomValue(modeSetsAtom);
+  return (
+    <DimensionAnalyzeContent
+      {...props}
+      data={{
+        kind: "dimension",
+        scales,
+        document,
+        rules,
+        scaleTypes,
+        documents,
+        current,
+        modeSets,
+      }}
+    />
+  );
+}
+
+function DimensionAnalyzeContent({
+  title,
+  noun,
+  data,
+  valuePolicy,
+  initialScaleId = ALL_DIMENSION_SCALES,
+}: DimensionAnalyzeProps & { data: DimensionData }) {
+  const {
+    scales,
+    document,
+    rules: libraryRules,
+    scaleTypes,
+    documents,
+    current,
+    modeSets,
+  } = data;
+  const rules = document.pendingRules
+    ? [...libraryRules, ...document.pendingRules]
+    : libraryRules;
   const [chosenScaleId, setChosenScaleId] = useState(initialScaleId);
   const drivers = useMemo(
     () =>

@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import dataset from "./design-system.defaults.json" with { type: "json" };
+import { studioDataset as dataset } from "./studioData.generated";
 import type {
   ColorSystemDocument,
   ColorSystemDefaults,

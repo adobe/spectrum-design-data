@@ -194,7 +194,7 @@ test("Structure terms and saved lowercase names survive reload and Cancel with v
   await name.press("Enter");
   await expect(name).toHaveValue("My custom color");
   await closeScale(page);
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   await page
     .locator('[data-component="StructureCard"]')
     .first()

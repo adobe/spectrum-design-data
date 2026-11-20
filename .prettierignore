@@ -13,6 +13,8 @@ docs/spectrum-studio/dist/
 docs/spectrum-studio/storybook-static/
 docs/spectrum-studio/public/
 docs/spectrum-studio/src/data/**/*.json
+docs/spectrum-studio/data/**/*.json
+docs/spectrum-studio/src/data/*.generated.ts
 docs/spectrum-studio/tests/fixtures/**/*.json
 docs/spectrum-studio/src/features/icons/*.generated.ts
 

@@ -20,6 +20,31 @@ const accepted = (page: Page) =>
 const card = (page: Page, name: string) =>
   page.getByRole("article", { name: `${name} category`, exact: true });
 
+for (const story of ["no-results", "empty"]) {
+  test(`No categories (${story}) shows an illustrated message without actions`, async ({
+    page,
+  }) => {
+    await page.goto(`/iframe.html?id=views-registry--${story}&viewMode=story`);
+    const root = page.locator("#storybook-root");
+    await expect(
+      root.getByRole("heading", { name: "No results", exact: true }),
+    ).toBeVisible();
+    await expect(
+      root.getByText("Remove filters to see categories and terms", {
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(root.locator("svg")).toBeVisible();
+    await expect(root.getByRole("button")).toHaveCount(0);
+    await expect(root.getByRole("link")).toHaveCount(0);
+    await expect(root.getByRole("article")).toHaveCount(0);
+    if (story === "no-results")
+      expect(
+        JSON.parse((await accepted(page))!).categories.length,
+      ).toBeGreaterThan(0);
+  });
+}
+
 test("Card edits, explicit term creation, and keyboard-accessible reordering", async ({
   page,
 }, info) => {

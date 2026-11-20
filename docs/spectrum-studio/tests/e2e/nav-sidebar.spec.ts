@@ -3,17 +3,18 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import { PREFERENCES_STORAGE_KEY } from "../../src/features/edit-session/storage";
 
 const pages = [
-  "Home",
-  "Analysis",
   "Foundations",
-  "Design",
-  "Tokens",
+  "Objects",
   "Components",
-  "Logic",
+  "Formulas",
+  "Rules",
   "Modes",
+  "Tokens",
   "Registry",
-  "Themes",
-  "Platforms",
+  "System health",
+  "Accessibility",
+  "Migration",
+  "Settings",
 ];
 const errors = new WeakMap<Page, string[]>();
 test.beforeEach(({ page }) => {
@@ -61,7 +62,7 @@ for (const width of [1600, 800])
       const nav = navigation(page);
       await expect(nav.getByRole("link")).toHaveCount(pages.length);
       await expectWidth(nav, 200);
-      await expectCurrent(nav, "Home");
+      await expect(nav.locator('a[aria-current="page"]')).toHaveCount(0);
       const url = page.url();
       await nav.getByRole("link", { name: "Foundations", exact: true }).click();
       await expect(
@@ -176,23 +177,23 @@ test("S2 navigation supports Tab, arrow keys and Enter with accessible collapsed
 }) => {
   await page.goto("/");
   const nav = navigation(page);
-  const home = nav.getByRole("link", { name: "Home", exact: true });
-  const analysis = nav.getByRole("link", { name: "Analysis", exact: true });
-  const foundations = nav.getByRole("link", {
+  const firstDesignItem = nav.getByRole("link", {
     name: "Foundations",
     exact: true,
   });
-  await home.focus();
-  await home.press("ArrowDown");
-  await expect(analysis).toBeFocused();
-  await expectCurrent(nav, "Home");
-  await analysis.press("ArrowDown");
-  await expect(foundations).toBeFocused();
-  await expectCurrent(nav, "Home");
-  await foundations.press("Enter");
-  await expectCurrent(nav, "Foundations");
-  await expect(page.locator('[data-component="Foundations"]')).toBeVisible();
-  await foundations.press("Tab");
+  const objects = nav.getByRole("link", {
+    name: /^Objects\b/,
+  });
+  await firstDesignItem.focus();
+  await expect(firstDesignItem).toBeFocused();
+  await expect(nav.locator('a[aria-current="page"]')).toHaveCount(0);
+  await firstDesignItem.press("ArrowDown");
+  await expect(objects).toBeFocused();
+  await expect(nav.locator('a[aria-current="page"]')).toHaveCount(0);
+  await objects.press("Enter");
+  await expectCurrent(nav, "Objects");
+  await expect(page.locator('[data-component="DesignLayout"]')).toBeVisible();
+  await objects.press("Tab");
   const collapse = nav.getByRole("button", { name: "Collapse", exact: true });
   await expect(collapse).toBeFocused();
   await collapse.press("Enter");
@@ -225,10 +226,10 @@ test("S2 navigation scrolls in a short container while the collapse toggle remai
   ).toBe(true);
   await expect(collapse).toBeInViewport();
   await expect(collapse).toHaveCSS("height", "32px");
-  const platforms = nav.getByRole("link", { name: "Platforms", exact: true });
+  const platforms = navLink(nav, "Settings");
   await platforms.scrollIntoViewIfNeeded();
   await platforms.click();
-  await expectCurrent(nav, "Platforms");
+  await expectCurrent(nav, "Settings");
   await expect(collapse).toBeInViewport();
   await expect(nav).toHaveCSS("height", "320px");
   expect(

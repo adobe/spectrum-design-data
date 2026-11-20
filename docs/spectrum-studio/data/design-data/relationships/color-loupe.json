@@ -1,0 +1,280 @@
+[
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "height"
+    },
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
+    "uuid": "a372ba95-bf02-5ba6-ab23-51230cf10bf7"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "width"
+    },
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "03042116-4c2d-4a29-b17f-47da76f5e103",
+    "uuid": "bcf49c03-5000-5f19-8574-c69bfbd1cbe5"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "51cd5039-1319-451a-b13f-bb3a218238a5",
+    "uuid": "ee5a2569-aa3c-5a32-8408-a20135c41170"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "b3900f89-0a7a-4c47-a6d9-ca8aa19b9bfb",
+    "uuid": "dfc2b4db-8554-53ca-8463-d6f818381692"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "space-between"
+    },
+    "context": "Spacing",
+    "contextRole": ["spacing"],
+    "$ref": "92beba60-f61d-426a-a864-203dca7244a0",
+    "uuid": "836ba9d4-48c8-5769-b8df-fbad86c055f2"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "x"
+    },
+    "context": "Shadows",
+    "contextRole": ["shadow"],
+    "$ref": "59324423-4428-40d7-a227-5f75aeb38312",
+    "uuid": "353bdb10-3f8f-5aba-b42e-ec0c30739d05"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "y"
+    },
+    "context": "Shadows",
+    "contextRole": ["shadow"],
+    "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84",
+    "uuid": "81b1c710-1a6a-550b-a1e6-6f0d4b5db1cc"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "blur"
+    },
+    "context": "Shadows",
+    "contextRole": ["shadow"],
+    "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c",
+    "uuid": "9b0ca872-e6ea-57dc-b2a3-ebf59683c311"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "color"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca",
+    "uuid": "6eec5a64-6ad2-56d7-81d3-2ee26cd26599"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "x"
+    },
+    "context": "S1 Shadows",
+    "$ref": "81415747-aa3f-4ef3-b0bc-7c33f07a4316",
+    "uuid": "9abcbd82-7cac-504e-89ad-cb629b5c3d11"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "y"
+    },
+    "context": "S1 Shadows",
+    "$ref": "c9af5d60-11b1-4fc3-972e-6a607120657b",
+    "uuid": "ce6629c2-2e2c-59ce-b732-9780555cb98d"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "blur"
+    },
+    "context": "S1 Shadows",
+    "$ref": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d",
+    "uuid": "9d2357d2-8dda-57d1-9f03-33ad51ab49a3"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "color"
+    },
+    "context": "S1 Shadows",
+    "$ref": "e475981f-97af-479c-859b-7619dd87c448",
+    "uuid": "53eff591-e021-5919-905d-a3ce0c3f1326"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "blur",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c",
+    "uuid": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d",
+    "legacyKey": "color-loupe-drop-shadow-blur",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "color",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "e475981f-97af-479c-859b-7619dd87c448",
+    "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9",
+    "legacyKey": "color-loupe-drop-shadow-color",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.29",
+      "deprecatedComment": "Use `drop-shadow-elevated-color` instead",
+      "replacedBy": "e475981f-97af-479c-859b-7619dd87c448"
+    }
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "y",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84",
+    "uuid": "c9af5d60-11b1-4fc3-972e-6a607120657b",
+    "legacyKey": "color-loupe-drop-shadow-y",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "color",
+      "options": {
+        "position": "inner",
+        "object": "border"
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
+    "uuid": "d2c4cb48-8a90-461d-95bc-d882ba01472b",
+    "legacyKey": "color-loupe-inner-border"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "color",
+      "options": {
+        "position": "outer",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "uuid": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca",
+    "legacyKey": "color-loupe-outer-border"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "space-between",
+      "options": {
+        "from": "bottom",
+        "to": "color-handle"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "92beba60-f61d-426a-a864-203dca7244a0",
+    "legacyKey": "color-loupe-bottom-to-color-handle"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "height"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51",
+    "legacyKey": "color-loupe-height",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Referenced primitive size-800 (64px); component-specific to Color loupe, not a shared category.",
+      "replacedBy": "67cafee2-a871-4689-a2d7-985eabe8c0b3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 437 of the mapping sheet."
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "border-width",
+      "options": {
+        "position": "inner"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "b3900f89-0a7a-4c47-a6d9-ca8aa19b9bfb",
+    "legacyKey": "color-loupe-inner-border-width"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "border-width",
+      "options": {
+        "position": "outer"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
+    "uuid": "51cd5039-1319-451a-b13f-bb3a218238a5",
+    "legacyKey": "color-loupe-outer-border-width"
+  },
+  {
+    "scope": {
+      "component": "color-loupe",
+      "property": "width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "48px",
+    "uuid": "889e2495-b882-4aa3-8a5b-1a71d44edde4",
+    "legacyKey": "color-loupe-width",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Referenced primitive size-700 (48px); component-specific to Color loupe, not a shared category.",
+      "replacedBy": "03042116-4c2d-4a29-b17f-47da76f5e103"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 438 of the mapping sheet."
+  }
+]

@@ -15,6 +15,7 @@ import {
   ListViewItem,
   Popover,
   Text,
+  TextArea,
 } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import Add from "@react-spectrum/s2/icons/Add";
@@ -33,6 +34,7 @@ import {
 } from "../../features/styles/state";
 import type { StyleColorRole } from "../../features/styles/model";
 import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
+import { setTermDescriptionAtom } from "../../features/taxonomy/editing";
 import { ORDERED_CATEGORY_IDS } from "../../features/taxonomy/orderedVocabulary";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import { resolvedColorSystemDocumentAtom } from "../../features/color-system/state";
@@ -164,6 +166,21 @@ export function ColorRolesAccordionItem() {
                                 )
                               }
                             />
+                            {terms.has(role.roleTermId) && (
+                              <RoleDescriptionField
+                                description={
+                                  terms.get(role.roleTermId)!.description
+                                }
+                                onCommit={(description) =>
+                                  notify.edit(() =>
+                                    store.set(setTermDescriptionAtom, {
+                                      termId: role.roleTermId,
+                                      description,
+                                    }),
+                                  )
+                                }
+                              />
+                            )}
                           </Dialog>
                         </Popover>
                       </DialogTrigger>
@@ -195,6 +212,28 @@ export function ColorRolesAccordionItem() {
         )}
       </AccordionItemPanel>
     </AccordionItem>
+  );
+}
+
+function RoleDescriptionField({
+  description,
+  onCommit,
+}: {
+  description: string;
+  onCommit: (description: string) => void;
+}) {
+  const [draft, setDraft] = useState(description);
+  return (
+    <TextArea
+      label="Description"
+      description="Shared with this role's Registry term."
+      value={draft}
+      styles={style({ width: "full", minWidth: 0 })}
+      onChange={setDraft}
+      onBlur={() => {
+        if (draft.trim() !== description) onCommit(draft.trim());
+      }}
+    />
   );
 }
 

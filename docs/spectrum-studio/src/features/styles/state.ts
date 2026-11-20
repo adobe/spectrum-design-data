@@ -34,6 +34,8 @@ import { browserModeContextAtom } from "../tokens/browserState";
 import { canonicalTokenModeKey } from "../tokens/browserModel";
 import { structureTextStyleIssues } from "./textAppearance";
 import type { SpectrumIconName } from "../icons/spectrumIconNames.generated";
+import { deferNumericBatch } from "../edit-session/numericProposal";
+import { previewOverridesAtom } from "../modes/previewState";
 
 export const stylesDocumentAtom = persistedAtom<StylesDocument>({
   key: "design/styles",
@@ -112,6 +114,7 @@ const styleDisplayContextsAtom = atom((get) => {
     canonicalTokenModeKey(defaults) === modeKey
       ? [current]
       : [current, defaults],
+    get(previewOverridesAtom),
   );
 });
 const styleCurrentContextsAtom = atom((get) => {
@@ -355,10 +358,25 @@ function writeStyleRecipe(
     existing >= 0 ? 1 : 0,
     recipe,
   );
+  writeStylesDocument(get, set, { ...previous, recipes }, taxonomy);
+}
+function writeStylesDocument(
+  get: Getter,
+  set: Setter,
+  candidate: StylesDocument,
+  taxonomy: TaxonomyDocument,
+) {
+  if (!get(editModeAtom)) throw new Error("Enter Edit mode to change styles.");
+  if (!isStylesDocument(candidate))
+    throw new Error("Enter valid Style settings before applying this edit.");
+  const updates = new Map<string, unknown>([["design/styles", candidate]]);
+  const taxonomyChanged = taxonomy !== get(taxonomyDocumentAtom);
+  if (taxonomyChanged) updates.set("registry/taxonomy", taxonomy);
+  if (deferNumericBatch(updates)) return;
   const source = {
     ...get(authoringSourceSnapshotAtom),
     taxonomy,
-    styles: { ...previous, recipes },
+    styles: candidate,
   };
   const document = synchronizeStylePublications(
     source.styles,
@@ -372,14 +390,17 @@ function writeStyleRecipe(
     document,
   );
   if (issues.length) throw new Error(issues.join(" "));
-  const updates = new Map<string, unknown>([["design/styles", document]]);
-  const taxonomyChanged = taxonomy !== get(taxonomyDocumentAtom);
-  if (taxonomyChanged) updates.set("registry/taxonomy", taxonomy);
+  updates.set("design/styles", document);
   withValidatedAuthoringUpdates(get, updates, () => {
     if (taxonomyChanged) set(taxonomyDocumentAtom, taxonomy);
     set(stylesDocumentAtom, document);
   });
 }
+export const updateStylesDocumentAtom = atom(
+  null,
+  (get, set, document: StylesDocument) =>
+    writeStylesDocument(get, set, document, get(taxonomyDocumentAtom)),
+);
 export const saveStyleAtom = atom(null, (get, set, recipe: StyleRecipe) => {
   writeStyleRecipe(get, set, recipe, get(taxonomyDocumentAtom));
 });

@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import dataset from "../../data/design-system.defaults.json" with { type: "json" };
+import { studioDataset as dataset } from "../../data/studioData.generated";
 import { isOpacityDocument, type OpacityDocument } from "./model";
 
 const defaults = dataset.system.foundations.opacity;

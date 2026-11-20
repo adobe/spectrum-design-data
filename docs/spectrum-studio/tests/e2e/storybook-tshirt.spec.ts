@@ -72,7 +72,7 @@ test("Rule boundaries, empty sources and read-only inspection remain explicit", 
 for (const { story, message } of [
   {
     story: "no-rules",
-    message: "Create a Generator rule in Logic first.",
+    message: "Create a Generator rule in Rules first.",
   },
   { story: "no-eligible-properties", message: "Assign foundation tokens" },
   { story: "overlapping-applications", message: "overlap" },

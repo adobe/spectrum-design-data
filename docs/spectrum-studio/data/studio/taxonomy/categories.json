@@ -1,0 +1,509 @@
+[
+  {
+    "id": "0bb57816-c2eb-4d6c-bfb1-ac5d7520e88a",
+    "key": "property",
+    "name": "Property",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "opacity",
+      "typography",
+      "spacing",
+      "size",
+      "radius",
+      "elevation",
+      "motion",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "primitive",
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+    "key": "colorFamily",
+    "name": "Color family",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "primitive",
+      "semantic"
+    ]
+  },
+  {
+    "id": "521c31da-b22d-4529-a543-aec2f4a4bb04",
+    "key": "renderingBehavior",
+    "name": "Rendering behavior",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "primitive",
+      "semantic"
+    ]
+  },
+  {
+    "id": "5d3a4c7f-38d4-4566-88f4-8a0cfad2aad8",
+    "key": "modeBehavior",
+    "name": "Mode behavior",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "primitive",
+      "semantic"
+    ]
+  },
+  {
+    "id": "3342daf2-e935-43f6-93ad-7de760503e56",
+    "key": "layer",
+    "name": "Layer",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+    "key": "surfaceName",
+    "name": "Surface name",
+    "description": "This category needs addressed",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "primitive"
+    ]
+  },
+  {
+    "id": "fe55c281-7565-40c8-b9d1-3b5f1cfff917",
+    "key": "scaleIndex",
+    "name": "Scale index",
+    "description": "",
+    "valueType": "number",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "opacity",
+      "typography",
+      "spacing",
+      "size",
+      "radius",
+      "elevation",
+      "motion",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "primitive",
+      "semantic"
+    ]
+  },
+  {
+    "id": "b07988e3-0510-4bf5-a531-86ea718b1000",
+    "key": "position",
+    "name": "Position",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "spacing",
+      "size",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "b07988e3-0510-4bf5-a531-86ea718b1001",
+    "key": "constraint",
+    "name": "Property constraint",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "spacing",
+      "size",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "b07988e3-0510-4bf5-a531-86ea718b1002",
+    "key": "axis",
+    "name": "Orientation",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "spacing",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "b07988e3-0510-4bf5-a531-86ea718b1003",
+    "key": "structure",
+    "name": "Structure",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "spacing",
+      "size",
+      "radius",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "b07988e3-0510-4bf5-a531-86ea718b1004",
+    "key": "size",
+    "name": "Size",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "typography",
+      "spacing",
+      "size",
+      "radius",
+      "elevation",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "11c250f8-e57b-436e-95b8-6296c2b89165",
+    "key": "colorRole",
+    "name": "Color role",
+    "description": "Colors that communicate specific meaning or intent",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "4357df60-b3b1-4206-bd27-5dea6e7a4474",
+    "key": "affordance",
+    "name": "Affordance",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+    "key": "element",
+    "name": "Element",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "typography",
+      "spacing",
+      "size",
+      "elevation",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "9e71a9cf-5039-4c1e-b61c-0dcf20b452a6",
+    "key": "anatomy",
+    "name": "Anatomy",
+    "description": "This category needs addressed",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+    "key": "visibility",
+    "name": "Visibility",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "ca732a26-decb-4746-9afc-3567ec0d445e",
+    "key": "attribute",
+    "name": "Attribute",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "spacing",
+      "size",
+      "radius",
+      "elevation",
+      "motion",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "f65fecd0-3e68-4531-927d-cd52c203c0de",
+    "key": "density",
+    "name": "Density",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "spacing",
+      "size",
+      "radius",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "25fb04b2-3b64-410c-aa3d-782ced59b6c3",
+    "key": "shape",
+    "name": "Shape",
+    "description": "This category needs addressed",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "typography",
+      "spacing",
+      "size",
+      "radius",
+      "elevation",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true
+  },
+  {
+    "id": "8915faa1-1a27-48ce-b4fe-1ba29bf7505b",
+    "key": "interactiveContext",
+    "name": "Interactive context",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "motion",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+    "key": "interaction",
+    "name": "Interaction",
+    "description": "",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "motion",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic",
+      "component"
+    ]
+  },
+  {
+    "id": "f0ba0ee1-786b-4cf5-ab99-85d8e167407e",
+    "key": "number",
+    "name": "Number",
+    "description": "",
+    "valueType": "number",
+    "cardinality": "one",
+    "scopes": [
+      "colors",
+      "opacity",
+      "typography",
+      "spacing",
+      "size",
+      "radius",
+      "elevation",
+      "motion",
+      "structures",
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "primitive",
+      "semantic"
+    ]
+  },
+  {
+    "id": "6248662b-d1a7-45e1-b89d-521c08eea9b5",
+    "key": "style",
+    "name": "Style",
+    "description": "This category needs addressed",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true
+  },
+  {
+    "id": "01e1ee2e-6501-4e20-a20a-e204873f6afc",
+    "key": "fontWeight",
+    "name": "Font weight",
+    "description": "This category needs addressed",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "styles"
+    ],
+    "required": false,
+    "includeInProjections": true,
+    "allowedTokenTiers": [
+      "semantic"
+    ]
+  },
+  {
+    "id": "8c5383a1-6f48-49c5-bb9b-fffe7c9aec41",
+    "key": "family",
+    "name": "Family",
+    "description": "This category needs addressed",
+    "valueType": "string",
+    "cardinality": "one",
+    "scopes": [
+      "typography"
+    ],
+    "required": false,
+    "includeInProjections": true
+  }
+]

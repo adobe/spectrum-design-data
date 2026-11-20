@@ -1,0 +1,169 @@
+[
+  {
+    "id": "scale-type-typography",
+    "name": "Type scale",
+    "description": "Each size is the previous one times the ratio.",
+    "kind": "type-scale",
+    "parameters": [
+      {
+        "id": "ratio",
+        "label": "Ratio",
+        "default": 1.125,
+        "min": 0.5,
+        "max": 3,
+        "step": 0.001,
+        "adaptable": true,
+        "overridable": true
+      }
+    ],
+    "base": {
+      "default": 14,
+      "step": 1,
+      "adaptable": true,
+      "overridable": true
+    },
+    "textSizeAdaptation": {
+      "interpolationId": "interpolation-linear",
+      "ratioAtSmallest": 1.066,
+      "ratioAtLargest": 1.066
+    }
+  },
+  {
+    "id": "scale-type-spacing",
+    "name": "Spacing",
+    "description": "Geometric spacing; the offset is the floor values approach below the base.",
+    "kind": "geometric",
+    "parameters": [
+      {
+        "id": "ratio",
+        "label": "Ratio",
+        "default": 1.2025,
+        "min": 0.5,
+        "max": 3,
+        "step": 0.001,
+        "adaptable": true,
+        "overridable": true
+      },
+      {
+        "id": "offset",
+        "label": "Offset",
+        "default": -6,
+        "step": 1,
+        "adaptable": true,
+        "overridable": true
+      }
+    ],
+    "base": {
+      "default": 8,
+      "step": 1,
+      "adaptable": true,
+      "overridable": true
+    }
+  },
+  {
+    "id": "scale-type-size",
+    "name": "Size",
+    "description": "Each size adds a fixed step to the previous one.",
+    "kind": "linear",
+    "parameters": [
+      {
+        "id": "step",
+        "label": "Step",
+        "default": 8,
+        "step": 1,
+        "adaptable": true,
+        "overridable": true
+      }
+    ],
+    "base": {
+      "default": 24,
+      "step": 1,
+      "adaptable": true,
+      "overridable": true
+    }
+  },
+  {
+    "id": "scale-type-radius",
+    "name": "Radius",
+    "description": "Each corner radius adds a fixed increment to the previous one.",
+    "kind": "linear",
+    "parameters": [
+      {
+        "id": "step",
+        "label": "Step",
+        "default": 2,
+        "step": 1,
+        "adaptable": true,
+        "overridable": true
+      }
+    ],
+    "base": {
+      "default": 8,
+      "step": 1,
+      "adaptable": true,
+      "overridable": true
+    }
+  },
+  {
+    "id": "scale-type-elevation-power",
+    "name": "Elevation power",
+    "description": "Multiply blur by the ratio at each level.",
+    "kind": "geometric",
+    "locked": true,
+    "base": {
+      "default": 4,
+      "step": 1,
+      "overridable": true,
+      "adaptable": false
+    },
+    "parameters": [
+      {
+        "id": "ratio",
+        "label": "Scale",
+        "default": 2,
+        "step": 0.1,
+        "min": 1,
+        "overridable": true,
+        "adaptable": false
+      }
+    ]
+  },
+  {
+    "id": "scale-type-elevation-linear",
+    "name": "Elevation linear",
+    "description": "Add a fixed blur increment at each level.",
+    "kind": "linear",
+    "locked": true,
+    "base": {
+      "default": 4,
+      "step": 1,
+      "overridable": true,
+      "adaptable": false
+    },
+    "parameters": [
+      {
+        "id": "step",
+        "label": "Scale",
+        "default": 2,
+        "step": 1,
+        "min": 0,
+        "overridable": true,
+        "adaptable": false
+      }
+    ]
+  },
+  {
+    "id": "30c70283-2795-46f7-b943-885886333aab",
+    "name": "Affixed spacing",
+    "description": "Whole-pixel spacing with a 3px minimum for affixed accessories.",
+    "kind": "expression",
+    "parameters": [],
+    "base": {
+      "default": 4,
+      "step": 1,
+      "adaptable": false,
+      "overridable": true
+    },
+    "expression": "max(3, base + i)"
+  }
+]

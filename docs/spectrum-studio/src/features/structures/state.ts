@@ -48,6 +48,7 @@ import {
 } from "./children";
 import { requestLayoutScaleAtom } from "./layoutScaleState";
 import { textStyleSourceAtom } from "../styles/state";
+import { numericProposalCaptureActive } from "../edit-session/numericProposal";
 
 export { selectedStructureIdAtom, structuresDocumentAtom };
 export const resolvedStructuresAtom = atom((get) =>
@@ -69,6 +70,7 @@ const requireEditing = (editing: boolean) => {
 export const validateStructuresAtom = atom(
   null,
   (get, _set, document: StructuresDocument) => {
+    if (numericProposalCaptureActive()) return;
     assertStructureTaxonomy(document, get(taxonomyDocumentAtom));
     assertStructureReferences(
       document,
@@ -201,7 +203,13 @@ export const assignStructureAtom = atom(
       (item) => item.conceptId === input.id,
     );
     if (!current) throw new Error("This structure is no longer available.");
-    const references = get(primitiveReferencesAtom);
+    const references = Object.entries(input.changes).some(
+      ([slot, selection]) =>
+        selection &&
+        ("$ref" in selection || isConstraintSlot(slot as StructureSlot)),
+    )
+      ? get(primitiveReferencesAtom)
+      : [];
     for (const [slot, selection] of Object.entries(input.changes) as [
       StructureSlot,
       StructureSelection | null,

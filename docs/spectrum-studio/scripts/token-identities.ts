@@ -2,15 +2,11 @@
 /// <reference lib="dom" />
 /// <reference types="vite/client" />
 import assert from "node:assert/strict";
-import { readFileSync, writeFileSync } from "node:fs";
 import { designSystemDefaults } from "../src/data/defaults";
 import { upgradeCanonicalTokenIdentities } from "../src/features/edit-session/canonicalIdentityUpgrade";
 import type { CanonicalAuthoringDataset } from "../src/features/design-data/model";
+import { readStudioDataset, writeStudioData } from "./studioDataFiles";
 
-const path = new URL(
-  "../src/data/design-system.defaults.json",
-  import.meta.url,
-);
 const { foundations, ...system } = structuredClone(designSystemDefaults.system);
 const { color, ...dimensions } = foundations;
 const before = { ...system, ...dimensions, colorSystem: color };
@@ -23,14 +19,12 @@ if (process.argv.includes("--check")) {
   );
   console.log("Default token identities are complete and stable.");
 } else {
-  const dataset: CanonicalAuthoringDataset = JSON.parse(
-    readFileSync(path, "utf8"),
-  );
+  const dataset = readStudioDataset() as CanonicalAuthoringDataset;
   dataset.system.browserTokenEdits = after.browserTokenEdits;
   dataset.system.components = after.components;
   dataset.system.aliases = after.aliases;
   dataset.system.taxonomy = after.taxonomy;
-  writeFileSync(path, `${JSON.stringify(dataset, null, 2)}\n`);
+  writeStudioData(dataset);
   console.log(
     `Persisted ${Object.keys(after.browserTokenEdits ?? {}).length} default token identities.`,
   );

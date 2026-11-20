@@ -7,6 +7,13 @@ proposed model internally; the published design-data schema and canonical
 token corpus are unchanged. Alignment tracking: LTAX-021 in
 `src/data/design-data-gaps.json`. LTAX-020 tracks the earlier Add token flow.
 
+**Update:** design-data now derives an official tier for each token (#1932),
+reported by the SDK (`design-data query --filter tier=…`). Studio's practice
+copy uses that derived tier, not this RFC's model, to place token files (see
+[design-data-token-file-layout.md](design-data-token-file-layout.md)). This
+RFC's conceptual tiers and tier-scoped categories remain a separate proposal;
+reconcile the two before submitting it.
+
 ## Problem
 
 Tools need to distinguish a token's conceptual responsibility without guessing
@@ -33,11 +40,11 @@ Add one optional field, `tier`, to both literal and reference token records:
 This is a property-schema fragment, not a complete token schema. `tier` sits
 beside `name` and `value` or `$ref`, not inside the name object.
 
-| Tier | Responsibility | Current Studio source |
-| --- | --- | --- |
-| Primitive | A foundation-level value | All Foundations, including opacity and data-vis |
-| Semantic | A shared purpose or reusable structural role | All current Structure-generated tokens |
-| Component | A token defined for a specific component | Explicit choice in manual creation; no new component generator |
+| Tier      | Responsibility                               | Current Studio source                                          |
+| --------- | -------------------------------------------- | -------------------------------------------------------------- |
+| Primitive | A foundation-level value                     | All Foundations, including opacity and data-vis                |
+| Semantic  | A shared purpose or reusable structural role | All current Structure-generated tokens                         |
+| Component | A token defined for a specific component     | Explicit choice in manual creation; no new component generator |
 
 Using a Primitive or Semantic token in a component does not reclassify it.
 Foundation outputs remain Primitive even when their names include roles or
@@ -84,12 +91,12 @@ the corresponding upstream field declarations:
 }
 ```
 
-| Category | Allowed tiers |
-| --- | --- |
-| Color family | Primitive, Semantic |
-| Scale index | Primitive, Semantic |
+| Category            | Allowed tiers       |
+| ------------------- | ------------------- |
+| Color family        | Primitive, Semantic |
+| Scale index         | Primitive, Semantic |
 | Interactive context | Semantic, Component |
-| Interaction | Semantic, Component |
+| Interaction         | Semantic, Component |
 
 Scale index allows Semantic so that color-role scales, such as
 `accent-color-100`, can keep the step number that design-data already
@@ -140,17 +147,17 @@ editing, and exporting while classification repair is pending.
 
 ## Evidence and enabled behavior
 
-| Consumer | Use of tiers | Evidence |
-| --- | --- | --- |
-| Foundation and Structure adapters | Identify generated tiers without inspecting reference shape | `tests/token-tiers.ts`; `browserSources.ts`, `semanticSource.ts`, opacity, elevation and data-vis adapters |
-| Add token | Offer three explicit tiers and ask only eligible category questions | `tests/token-creation-flow.ts`, `tests/token-tiers.ts` |
-| Registry and token inspector | Edit category restrictions; retain existing terms; reject new incompatible selections | `TaxonomyEditor.tsx`, `ClassificationTerms.tsx`, `dialogModel.ts`, `referenceValidation.ts` |
-| Shared projection | Apply tier scope consistently without renaming tokens or bypassing name collisions; include tier in batch-cache keys | `tests/token-tiers.ts`, `taxonomy/model.ts`, `tokens/browserModel.ts` |
-| Authoring lifecycle | Persist and compare manual tiers and category restrictions without changing token values or identity | `tokenTierUpgrade.ts`, `tests/token-tiers.ts` |
-| Structure references | Keep existing primitive values usable while reporting incompatible category tiers; continue blocking unrelated errors | `tests/token-tiers.ts`, `primitiveReferences.ts`, `dimensionArtifacts.ts`, `structureVariantLeaves.ts` |
-| Local taxonomy packets | Carry tier metadata independently from literal/reference output | `tests/token-tiers.ts`, `taxonomy/export.ts` |
-| Component token catalog | Preserve a referenced token's tier without reclassifying it as Component | `components/references.ts` |
-| Changes and Impact | Count a manual tier edit as authored metadata without changing generated values, token identities, or component-impact totals | `tests/token-tiers.ts`, `changelog/computeComparison.ts` |
+| Consumer                          | Use of tiers                                                                                                                  | Evidence                                                                                                   |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Foundation and Structure adapters | Identify generated tiers without inspecting reference shape                                                                   | `tests/token-tiers.ts`; `browserSources.ts`, `semanticSource.ts`, opacity, elevation and data-vis adapters |
+| Add token                         | Offer three explicit tiers and ask only eligible category questions                                                           | `tests/token-creation-flow.ts`, `tests/token-tiers.ts`                                                     |
+| Registry and token inspector      | Edit category restrictions; retain existing terms; reject new incompatible selections                                         | `TaxonomyEditor.tsx`, `ClassificationTerms.tsx`, `dialogModel.ts`, `referenceValidation.ts`                |
+| Shared projection                 | Apply tier scope consistently without renaming tokens or bypassing name collisions; include tier in batch-cache keys          | `tests/token-tiers.ts`, `taxonomy/model.ts`, `tokens/browserModel.ts`                                      |
+| Authoring lifecycle               | Persist and compare manual tiers and category restrictions without changing token values or identity                          | `tokenTierUpgrade.ts`, `tests/token-tiers.ts`                                                              |
+| Structure references              | Keep existing primitive values usable while reporting incompatible category tiers; continue blocking unrelated errors         | `tests/token-tiers.ts`, `primitiveReferences.ts`, `dimensionArtifacts.ts`, `structureVariantLeaves.ts`     |
+| Local taxonomy packets            | Carry tier metadata independently from literal/reference output                                                               | `tests/token-tiers.ts`, `taxonomy/export.ts`                                                               |
+| Component token catalog           | Preserve a referenced token's tier without reclassifying it as Component                                                      | `components/references.ts`                                                                                 |
+| Changes and Impact                | Count a manual tier edit as authored metadata without changing generated values, token identities, or component-impact totals | `tests/token-tiers.ts`, `changelog/computeComparison.ts`                                                   |
 
 Without explicit tiers, these consumers need separate producer-specific
 guesses. They cannot reliably distinguish a literal-valued Semantic token

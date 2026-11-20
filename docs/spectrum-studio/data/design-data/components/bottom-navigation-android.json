@@ -1,0 +1,72 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/bottom-navigation-android.json",
+  "specVersion": "1.0.0-draft",
+  "name": "bottom-navigation-android",
+  "displayName": "Bottom navigation (Android)",
+  "description": "Bottom navigation is a top-level navigation control for Android apps.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/bottom-navigation-android/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "bottom",
+      "values": [
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "side"
+        }
+      ]
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
+    },
+    "background": {
+      "type": "string",
+      "default": "primary",
+      "values": [
+        {
+          "value": "primary"
+        },
+        {
+          "value": "secondary"
+        }
+      ]
+    },
+    "hasBadge": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "intents": ["navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

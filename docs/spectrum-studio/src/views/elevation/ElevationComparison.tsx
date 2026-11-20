@@ -1,19 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
-import {
-  Checkbox,
-  Content,
-  Heading,
-  InlineAlert,
-  Picker,
-  PickerItem,
-  Text,
-} from "@react-spectrum/s2";
+import { Checkbox, Picker, PickerItem, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ScaleTypeGraph } from "../../components/logic/ScaleTypeGraph";
 import {
   elevationComparisonOwner,
-  elevationComparisonSeries,
   type ElevationMetric,
 } from "../../features/elevation/comparisons";
 import type { ElevationDocument } from "../../features/elevation/model";
@@ -28,6 +19,18 @@ import {
   analyzeNoteStyles,
 } from "../analyze/AnalyzeLayout";
 import "../chartLayout.css";
+import {
+  type ElevationComparisonInput,
+  computeElevationComparison,
+} from "../../features/elevation/comparisonWork";
+import { usePreviewWorker } from "../../features/derived-work/usePreviewWorker";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
+
+const createComparisonWorker = () =>
+  new Worker(
+    new URL("../../features/elevation/comparison.worker.ts", import.meta.url),
+    { type: "module" },
+  );
 
 const column = style({
   display: "flex",
@@ -59,26 +62,37 @@ export function ElevationComparison({
   const [compare, setCompare] = useState(false);
   const [modeIds, setModeIds] = useState<string[]>([]);
   const owner = elevationComparisonOwner(metric, modeSets, opacitySource);
-  const layerIds = document.layers.map((layer) => layer.id);
-  let error = "";
-  let series: ReturnType<typeof elevationComparisonSeries> = [];
-  try {
-    series = elevationComparisonSeries(
+  const input = useMemo(
+    (): ElevationComparisonInput => [
       document,
       modeSets,
       activeModes,
       metric,
-      layerIds,
+      document.layers.map((layer) => layer.id),
       compare,
       modeIds,
       preview,
       opacitySource,
-    );
-  } catch (failure) {
-    error = failure instanceof Error ? failure.message : String(failure);
-  }
+    ],
+    [
+      document,
+      modeSets,
+      activeModes,
+      metric,
+      compare,
+      modeIds,
+      preview,
+      opacitySource,
+    ],
+  );
+  const result = usePreviewWorker<
+    ElevationComparisonInput,
+    ReturnType<typeof computeElevationComparison>
+  >(input, createComparisonWorker);
+  const series = result.ready?.value ?? [];
+  const chartMetric = result.ready?.input[3] ?? metric;
   const points = series.flatMap((series) => series.points);
-  const unit = metric === "opacity" ? "%" : "px";
+  const unit = chartMetric === "opacity" ? "%" : "px";
   return (
     <div className={column} data-component="ElevationComparison">
       <AnalyzeSettings>
@@ -122,50 +136,52 @@ export function ElevationComparison({
           </Picker>
         )}
       </AnalyzeSettings>
-      <AnalyzeCardGrid count={1}>
-        <ChartCard
-          title={`Elevation ${METRIC_LABELS[metric]} (${unit})`}
-          label="Elevation chart"
-          values={
-            <AnalyzeValuesTable
-              label="Elevation comparison values"
-              headings={["Shadow and mode", "Token step", "Value"]}
-              rows={series.flatMap((line) =>
-                line.points.map((point) => ({
-                  id: `${line.id}:${point.index}`,
-                  values: [line.label, point.step, `${point.value}${unit}`],
-                })),
-              )}
-            />
-          }
-        >
-          {error ? (
-            <InlineAlert variant="negative">
-              <Heading>Could not compare Elevation</Heading>
-              <Content>{error}</Content>
-            </InlineAlert>
-          ) : points.length ? (
-            <ScaleTypeGraph
-              label="Elevation comparison"
-              series={series}
-              domain={points}
-              ticks={series[0].points.map((point) => ({
-                index: point.index,
-                label: String(point.step),
-              }))}
-              reference={{ index: 0, label: "Base level" }}
-              xLabel="Token step"
-              yLabel={unit}
-            />
-          ) : (
-            <Text>No shadows to compare.</Text>
-          )}
-          <p className={analyzeNoteStyles}>
-            All shadows are shown. Lengths are calculated without intermediate
-            rounding. Mode comparisons hold other settings fixed.
-          </p>
-        </ChartCard>
-      </AnalyzeCardGrid>
+      <DerivedContentBoundary
+        state={result.status}
+        label="Updating Elevation comparison"
+        error={result.error}
+        onRetry={result.retry}
+      >
+        <AnalyzeCardGrid count={1}>
+          <ChartCard
+            title={`Elevation ${METRIC_LABELS[chartMetric]} (${unit})`}
+            label="Elevation chart"
+            values={
+              <AnalyzeValuesTable
+                label="Elevation comparison values"
+                headings={["Shadow and mode", "Token step", "Value"]}
+                rows={series.flatMap((line) =>
+                  line.points.map((point) => ({
+                    id: `${line.id}:${point.index}`,
+                    values: [line.label, point.step, `${point.value}${unit}`],
+                  })),
+                )}
+              />
+            }
+          >
+            {points.length ? (
+              <ScaleTypeGraph
+                label="Elevation comparison"
+                series={series}
+                domain={points}
+                ticks={series[0].points.map((point) => ({
+                  index: point.index,
+                  label: String(point.step),
+                }))}
+                reference={{ index: 0, label: "Base level" }}
+                xLabel="Token step"
+                yLabel={unit}
+              />
+            ) : (
+              <Text>No shadows to compare.</Text>
+            )}
+            <p className={analyzeNoteStyles}>
+              All shadows are shown. Lengths are calculated without intermediate
+              rounding. Mode comparisons hold other settings fixed.
+            </p>
+          </ChartCard>
+        </AnalyzeCardGrid>
+      </DerivedContentBoundary>
     </div>
   );
 }

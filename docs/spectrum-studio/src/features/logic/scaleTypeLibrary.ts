@@ -19,6 +19,7 @@ import { iconsDocumentAtom } from "../icons/documentState";
 import { interpolationConsumers } from "./interpolationConsumers";
 import { validateTypographyGeneration } from "../typography/typographyGeneration";
 import { rulesAtom } from "./library";
+import { numericProposalCaptureActive } from "../edit-session/numericProposal";
 
 export const SCALE_TYPE_DEFAULTS: readonly ScaleType[] =
   designSystemDefaults.system.scaleTypes;
@@ -148,8 +149,11 @@ export function scaleTypeLibraryWithReplacement(get: Getter, item: ScaleType) {
   )
     throw new Error("Choose an available adaptive interpolation.");
   if (
-    item.id === TYPOGRAPHY_SCALE_TYPE_ID ||
-    get(iconsDocumentAtom).scales.some((scale) => scale.scaleTypeId === item.id)
+    !numericProposalCaptureActive() &&
+    (item.id === TYPOGRAPHY_SCALE_TYPE_ID ||
+      get(iconsDocumentAtom).scales.some(
+        (scale) => scale.scaleTypeId === item.id,
+      ))
   ) {
     validateTypographyGeneration(
       get(typographyDocumentAtom),
@@ -194,15 +198,16 @@ export const replaceInterpolationAtom = atom(
     assertInterpolation(item);
     if (!get(interpolationsAtom).some((candidate) => candidate.id === item.id))
       throw new Error("This interpolation is no longer available.");
-    validateTypographyGeneration(
-      get(typographyDocumentAtom),
-      get(rulesAtom),
-      get(scaleTypesAtom),
-      get(interpolationsAtom).map((shape) =>
-        shape.id === item.id ? item : shape,
-      ),
-      get(iconsDocumentAtom),
-    );
+    if (!numericProposalCaptureActive())
+      validateTypographyGeneration(
+        get(typographyDocumentAtom),
+        get(rulesAtom),
+        get(scaleTypesAtom),
+        get(interpolationsAtom).map((shape) =>
+          shape.id === item.id ? item : shape,
+        ),
+        get(iconsDocumentAtom),
+      );
     set(interpolationActions.replace, item);
   },
 );

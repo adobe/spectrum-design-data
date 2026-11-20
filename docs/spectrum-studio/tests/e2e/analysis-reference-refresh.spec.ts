@@ -165,7 +165,7 @@ test("Analysis and CLI retain mode/platform diagnostics across declaration/mappi
     await page.goto(baseURL);
     await page
       .getByRole("navigation", { name: "Navigation", exact: true })
-      .getByRole("link", { name: "Analysis", exact: true })
+      .getByRole("link", { name: /^Migration\b/ })
       .click();
     await showAnalysisDetails(page);
     await expect(page.getByTestId("analysis-provenance")).toContainText(

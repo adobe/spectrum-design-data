@@ -24,18 +24,16 @@ import {
   type ExtractAtomValue,
 } from "jotai";
 import type { CSSProperties } from "react";
-import { Fragment, memo, useDeferredValue, useMemo } from "react";
+import { Fragment, memo, useMemo } from "react";
 import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
-import { renderGamutForOutput } from "../../features/color-system/colorMath";
-import { generateColors } from "../../features/color-system/dynamicGeneration";
-import {
-  generateSelectedColor,
-  isOpacityColorStop,
-} from "../../features/color-system/colorScaleType";
-import {
-  resolvedColorSystemDocumentAtom,
-  colorSystemScaleDataAtom,
-} from "../../features/color-system/state";
+import { isOpacityColorStop } from "../../features/color-system/colorScaleType";
+import { liveColorDocumentAtom } from "../../features/edit-session/previewSources";
+import { numericDraftPendingAtom } from "../../features/edit-session/numericState";
+import type {
+  ColorPreviewInput,
+  ColorPreviewOutput,
+} from "../../features/color-system/previewWork";
+import { usePreviewWorker } from "../../features/derived-work/usePreviewWorker";
 import {
   overriddenTokenCountAtom,
   overrideStatusBySourceAtom,
@@ -48,15 +46,11 @@ import { tokenDisplayName, tokenStableKey } from "../../features/tokens/model";
 import {
   rampSurfaceIdAtom,
   showColorValuesAtom,
+  showContrastAdjustmentAtom,
   showContrastValuesAtom,
   showCssOpacityComparisonAtom,
   showOpaqueComparisonAtom,
 } from "../../state/view/colorSystemView";
-import {
-  resolvedBackgroundLinear,
-  surfaceCss,
-  surfaceLinear,
-} from "../../features/color-system/surfaceGeneration";
 import { useAtom } from "jotai";
 import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import {
@@ -73,6 +67,12 @@ import {
   scaleContrasts,
 } from "../../features/color-system/contrastSteps";
 import { rulesAtom } from "../../features/logic/library";
+
+const createPreviewWorker = () =>
+  new Worker(
+    new URL("../../features/color-system/preview.worker.ts", import.meta.url),
+    { type: "module" },
+  );
 
 const layoutStyles = style({
   display: "flex",
@@ -171,6 +171,7 @@ type EvaluationDisplayOption =
   | "opaque"
   | "transparent"
   | "contrast"
+  | "contrastAdjustment"
   | "colorValue";
 
 const evaluationDisplayOptionSections: {
@@ -188,6 +189,7 @@ const evaluationDisplayOptionSections: {
     title: "Values",
     options: [
       { id: "contrast", label: "Show contrast" },
+      { id: "contrastAdjustment", label: "Contrast adjustment" },
       { id: "colorValue", label: "Show values" },
     ],
   },
@@ -201,6 +203,7 @@ function ColorChip({
   targetContrast,
   showColorValue,
   showContrast,
+  showContrastAdjustment,
   override,
   overrideLabel,
   onResetOverride,
@@ -212,6 +215,7 @@ function ColorChip({
   targetContrast: number;
   showColorValue: boolean;
   showContrast: boolean;
+  showContrastAdjustment: boolean;
   override?: TokenOverrideStatus;
   overrideLabel?: string;
   onResetOverride?: () => void;
@@ -255,7 +259,7 @@ function ColorChip({
           {value}
         </Text>
       )}
-      {showContrast && deviation && (
+      {showContrastAdjustment && deviation && (
         <Text
           UNSAFE_className={`colorEvaluationDeviation colorEvaluationSwatchText ${previewLabelStyles}`}
         >
@@ -292,27 +296,39 @@ function PaletteRow({
   );
 }
 
+const evaluationGenerationInputAtom = atom(
+  (get): ColorPreviewInput => ({
+    document: get(liveColorDocumentAtom),
+    surfaceId: get(rampSurfaceIdAtom),
+  }),
+);
 const evaluationInputAtom = atom((get) => ({
-  document: get(resolvedColorSystemDocumentAtom),
-  scaleData: get(colorSystemScaleDataAtom),
+  ...get(evaluationGenerationInputAtom),
   rules: get(rulesAtom),
   showOpaque: get(showOpaqueComparisonAtom),
   showTransparent: get(showCssOpacityComparisonAtom),
   showContrast: get(showContrastValuesAtom),
+  showContrastAdjustment: get(showContrastAdjustmentAtom),
   showColorValue: get(showColorValuesAtom),
-  surfaceId: get(rampSurfaceIdAtom),
   overrideStatuses: get(overrideStatusBySourceAtom),
 }));
 
 export function ColorEvaluation() {
   const input = useAtomValue(evaluationInputAtom);
-  const deferred = useDeferredValue(input);
+  const request = useAtomValue(evaluationGenerationInputAtom);
+  const generation = usePreviewWorker<ColorPreviewInput, ColorPreviewOutput>(
+    request,
+    createPreviewWorker,
+  );
   const { document } = input;
   const [showOpaque, setShowOpaque] = useAtom(showOpaqueComparisonAtom);
   const [showTransparent, setShowTransparent] = useAtom(
     showCssOpacityComparisonAtom,
   );
   const [showContrast, setShowContrast] = useAtom(showContrastValuesAtom);
+  const [showContrastAdjustment, setShowContrastAdjustment] = useAtom(
+    showContrastAdjustmentAtom,
+  );
   const [showColorValue, setShowColorValue] = useAtom(showColorValuesAtom);
   const [surfaceId, setSurfaceId] = useAtom(rampSurfaceIdAtom);
   const overriddenCount = useAtomValue(overriddenTokenCountAtom);
@@ -327,15 +343,23 @@ export function ColorEvaluation() {
     if (showOpaque) selected.push("opaque");
     if (showTransparent) selected.push("transparent");
     if (showContrast) selected.push("contrast");
+    if (showContrastAdjustment) selected.push("contrastAdjustment");
     if (showColorValue) selected.push("colorValue");
     return selected;
-  }, [showColorValue, showContrast, showOpaque, showTransparent]);
+  }, [
+    showColorValue,
+    showContrast,
+    showContrastAdjustment,
+    showOpaque,
+    showTransparent,
+  ]);
 
   const handleDisplayOptionsChange = (value: (string | number)[]) => {
     const selected = new Set(value);
     setShowOpaque(selected.has("opaque"));
     setShowTransparent(selected.has("transparent"));
     setShowContrast(selected.has("contrast"));
+    setShowContrastAdjustment(selected.has("contrastAdjustment"));
     setShowColorValue(selected.has("colorValue"));
   };
 
@@ -399,10 +423,18 @@ export function ColorEvaluation() {
         />
       </div>
       <DerivedContentBoundary
-        state={input === deferred ? "ready" : "pending"}
+        state={generation.status}
         label="Updating color ramps"
+        error={generation.error}
+        onRetry={generation.retry}
       >
-        <EvaluationPalette input={deferred} resetToken={resetToken} />
+        {generation.ready && (
+          <EvaluationPalette
+            input={input}
+            preview={generation.ready}
+            resetToken={resetToken}
+          />
+        )}
       </DerivedContentBoundary>
     </div>
   );
@@ -410,61 +442,37 @@ export function ColorEvaluation() {
 
 const EvaluationPalette = memo(function EvaluationPalette({
   input,
+  preview,
   resetToken,
 }: {
   input: ExtractAtomValue<typeof evaluationInputAtom>;
+  preview: { input: ColorPreviewInput; value: ColorPreviewOutput };
   resetToken: (uuid: string) => void;
 }) {
   const notify = useNotify();
   const {
-    document,
-    scaleData,
     rules,
-    surfaceId,
     showOpaque,
     showTransparent,
     showContrast,
+    showContrastAdjustment,
     showColorValue,
     overrideStatuses,
   } = input;
+  const { document } = preview.input;
   const store = useStore();
-  const surface =
-    document.surfaces.find((item) => item.id === surfaceId) ??
-    document.surfaces[0];
-  const background = surface.base
-    ? resolvedBackgroundLinear(document)
-    : surfaceLinear(surface, document);
-  const backgroundCss = surfaceCss(surface, document);
+  const { background, backgroundCss, gamut, generatedByScale } = preview.value;
   const surfaceStyle = elementsSurfaceStyle({
     css: backgroundCss,
     linear: background,
-    gamut: renderGamutForOutput(document.settings.colorOutput),
+    gamut,
   });
-  const generatedByScale = useMemo(
-    () =>
-      new Map(
-        document.scales.map((scale) => [
-          scale.id,
-          scaleContrasts(document, scale).map((contrast) => ({
-            selected: generateSelectedColor(
-              scaleData.get(scale.id)!,
-              background,
-              contrast,
-              document.settings,
-            ),
-            comparison: generateColors(
-              scaleData.get(scale.id)!,
-              background,
-              contrast.value,
-              document.settings,
-            ),
-          })),
-        ]),
-      ),
-    [background, document, scaleData],
-  );
   const resetCurrent = (uuid: string) => {
-    if (store.get(evaluationInputAtom) !== input) {
+    if (
+      store.get(evaluationInputAtom) !== input ||
+      store.get(evaluationGenerationInputAtom) !== preview.input ||
+      store.get(numericDraftPendingAtom)
+    ) {
       notify.error(
         "The preview is not current. Reset the token after its current value is available.",
       );
@@ -537,6 +545,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
                         }
                         showColorValue={showColorValue}
                         showContrast={showContrast}
+                        showContrastAdjustment={showContrastAdjustment}
                         override={override}
                         overrideLabel={`${termLabel(scale.name)} ${contrastStepIndex(index, scale, rules, document.contrasts)}`}
                         onResetOverride={
@@ -562,6 +571,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
                           targetContrast={contrasts[index].value}
                           showColorValue={showColorValue}
                           showContrast={showContrast}
+                          showContrastAdjustment={showContrastAdjustment}
                         />
                       );
                     }}
@@ -582,6 +592,7 @@ const EvaluationPalette = memo(function EvaluationPalette({
                           targetContrast={contrasts[index].value}
                           showColorValue={showColorValue}
                           showContrast={showContrast}
+                          showContrastAdjustment={showContrastAdjustment}
                         />
                       );
                     }}

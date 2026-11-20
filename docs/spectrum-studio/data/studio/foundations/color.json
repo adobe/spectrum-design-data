@@ -1,0 +1,1278 @@
+{
+  "schemaVersion": 5,
+  "dataVisScales": [
+    {
+      "id": "data-vis-fire",
+      "kind": "sequential",
+      "points": [
+        {
+          "id": "fire-stop-1",
+          "position": 0,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "60e3a892-94ef-8759-9406-676895efa3a4"
+          }
+        },
+        {
+          "id": "fire-stop-2",
+          "position": 0.25,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "0a8f4100-3df9-845c-8c3a-0e1d6f53dce7"
+          }
+        },
+        {
+          "id": "fire-stop-3",
+          "position": 0.5,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "0c76d0b0-31ba-8224-8ac2-65f3d357c3f0"
+          }
+        },
+        {
+          "id": "fire-stop-4",
+          "position": 0.75,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "5ee3895b-0635-8c10-9c17-d61d3b0b1a7d"
+          }
+        },
+        {
+          "id": "fire-stop-5",
+          "position": 1,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "96db91b9-9388-836b-88ad-58a390814862"
+          }
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "a323d4fe-336f-4034-b7a0-78d6db9f0e63"
+      }
+    },
+    {
+      "id": "data-vis-meadow",
+      "kind": "sequential",
+      "points": [
+        {
+          "id": "meadow-stop-1",
+          "position": 0,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "60e3a892-94ef-8759-9406-676895efa3a4"
+          }
+        },
+        {
+          "id": "meadow-stop-2",
+          "position": 0.25,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "46b87cc2-77a1-8a50-a9c8-15d341627674"
+          }
+        },
+        {
+          "id": "meadow-stop-3",
+          "position": 0.5,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "cc0b3811-27dd-8673-a690-2324a8d26f92"
+          }
+        },
+        {
+          "id": "meadow-stop-4",
+          "position": 0.75,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "6e882cfe-428a-824d-a323-91f4eff76235"
+          }
+        },
+        {
+          "id": "meadow-stop-5",
+          "position": 1,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "9e26a1b7-2d42-81a5-9eb3-513519fe8993"
+          }
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "6587ba30-470c-4bb6-929b-e4a2d01ad010"
+      }
+    },
+    {
+      "id": "data-vis-seahawks",
+      "kind": "sequential",
+      "points": [
+        {
+          "id": "seahawks-stop-1",
+          "position": 0,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "ac202315-8eed-81b6-9090-83f81773e03d"
+          }
+        },
+        {
+          "id": "seahawks-stop-2",
+          "position": 0.25,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "40a6ff3b-fc4b-823a-a98b-40a4e1f9801b"
+          }
+        },
+        {
+          "id": "seahawks-stop-3",
+          "position": 0.5,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "d5dd4455-19d5-845a-a3f8-4c33989d2cdb"
+          }
+        },
+        {
+          "id": "seahawks-stop-4",
+          "position": 0.75,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "2c220bfa-05ea-86a7-ab7d-c43139804971"
+          }
+        },
+        {
+          "id": "seahawks-stop-5",
+          "position": 1,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "1e719b33-f508-82a0-9312-be4a5068eb2d"
+          }
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "41f8cde0-c3a6-42e1-8d31-825a46fea568"
+      }
+    },
+    {
+      "id": "data-vis-rose",
+      "kind": "sequential",
+      "points": [
+        {
+          "id": "rose-stop-1",
+          "position": 0,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "77227d9e-e212-84a7-950d-a2aba0432276"
+          }
+        },
+        {
+          "id": "rose-stop-2",
+          "position": 0.25,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "a1c11e55-9bf5-85be-a645-98bfb4690508"
+          }
+        },
+        {
+          "id": "rose-stop-3",
+          "position": 0.5,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "b31d9b8c-c1d6-87da-98e6-4c83093779de"
+          }
+        },
+        {
+          "id": "rose-stop-4",
+          "position": 0.75,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "072c5cf0-8c8a-8952-bbcc-fbe5c07537ba"
+          }
+        },
+        {
+          "id": "rose-stop-5",
+          "position": 1,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "a57588ca-7233-87eb-889e-8e5cd7a99c22"
+          }
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "4a855a54-2678-48e5-a42f-a1f7a4aaae54"
+      }
+    },
+    {
+      "id": "data-vis-sunset",
+      "kind": "sequential",
+      "points": [
+        {
+          "id": "sunset-stop-1",
+          "position": 0,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "a2f1d620-1535-8f5d-916e-86f7dd339446"
+          }
+        },
+        {
+          "id": "sunset-stop-2",
+          "position": 0.25,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "aebecd08-e802-82a4-b884-2f7a041c3549"
+          }
+        },
+        {
+          "id": "sunset-stop-3",
+          "position": 0.5,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "08dac398-2ca1-8759-9cbe-3ae94da95719"
+          }
+        },
+        {
+          "id": "sunset-stop-4",
+          "position": 0.75,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "cd3182a6-de92-8b18-894d-80e80ca8318b"
+          }
+        },
+        {
+          "id": "sunset-stop-5",
+          "position": 1,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "af5edbcf-d559-8158-b438-ee736c55fe12"
+          }
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "5a325c5a-c590-4c8e-8aa0-a54bdb283f53"
+      }
+    },
+    {
+      "id": "data-vis-ice",
+      "kind": "sequential",
+      "points": [
+        {
+          "id": "ice-stop-1",
+          "position": 0,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "08bb5c6f-824b-89b8-ace3-051b481e8e27"
+          }
+        },
+        {
+          "id": "ice-stop-2",
+          "position": 0.25,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "051a3a81-4f01-8954-9f48-976266eef231"
+          }
+        },
+        {
+          "id": "ice-stop-3",
+          "position": 0.5,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "e27cf58b-cb38-8de7-bde6-9a78d6c7c61f"
+          }
+        },
+        {
+          "id": "ice-stop-4",
+          "position": 0.75,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "55c2450c-2397-8c80-bd23-541370a1b7fe"
+          }
+        },
+        {
+          "id": "ice-stop-5",
+          "position": 1,
+          "source": {
+            "kind": "primitive-token",
+            "tokenId": "af5edbcf-d559-8158-b438-ee736c55fe12"
+          }
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "e79cb365-125a-4803-b4b4-10b45a89c299"
+      }
+    },
+    {
+      "id": "data-vis-categorical",
+      "kind": "categorical",
+      "members": [
+        {
+          "id": "categorical-color-1",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-53",
+            "contrastId": "contrast-80"
+          }
+        },
+        {
+          "id": "categorical-color-2",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-3",
+            "contrastId": "contrast-78"
+          }
+        },
+        {
+          "id": "categorical-color-3",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-14",
+            "contrastId": "contrast-76"
+          }
+        },
+        {
+          "id": "categorical-color-4",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-48",
+            "contrastId": "contrast-76"
+          }
+        },
+        {
+          "id": "categorical-color-5",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-57",
+            "contrastId": "contrast-78"
+          }
+        },
+        {
+          "id": "categorical-color-6",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-64",
+            "contrastId": "contrast-76"
+          }
+        },
+        {
+          "id": "categorical-color-7",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-36",
+            "contrastId": "contrast-76"
+          }
+        },
+        {
+          "id": "categorical-color-8",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-60",
+            "contrastId": "contrast-79"
+          }
+        },
+        {
+          "id": "categorical-color-9",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-32",
+            "contrastId": "contrast-79"
+          }
+        },
+        {
+          "id": "categorical-color-10",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-29",
+            "contrastId": "contrast-76"
+          }
+        },
+        {
+          "id": "categorical-color-11",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-6",
+            "contrastId": "contrast-76"
+          }
+        },
+        {
+          "id": "categorical-color-12",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-44",
+            "contrastId": "contrast-79"
+          }
+        },
+        {
+          "id": "categorical-color-13",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-1",
+            "contrastId": "contrast-81"
+          }
+        },
+        {
+          "id": "categorical-color-14",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-40",
+            "contrastId": "contrast-79"
+          }
+        },
+        {
+          "id": "categorical-color-15",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-10",
+            "contrastId": "contrast-76"
+          }
+        },
+        {
+          "id": "categorical-color-16",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-22",
+            "contrastId": "contrast-79"
+          }
+        },
+        {
+          "id": "categorical-color-17",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-48",
+            "contrastId": "contrast-79"
+          }
+        },
+        {
+          "id": "categorical-color-18",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-36",
+            "contrastId": "contrast-79"
+          }
+        },
+        {
+          "id": "categorical-color-19",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-64",
+            "contrastId": "contrast-74"
+          }
+        },
+        {
+          "id": "categorical-color-20",
+          "source": {
+            "kind": "ui-swatch",
+            "scaleId": "scale-6",
+            "contrastId": "contrast-81"
+          }
+        }
+      ],
+      "preferences": {
+        "size": {
+          "kind": "auto"
+        },
+        "minimumBackgroundContrast": 3,
+        "minimumDeltaE": 11,
+        "cvdProfiles": [
+          "protanopia",
+          "deuteranopia",
+          "tritanopia"
+        ],
+        "style": "balanced"
+      },
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "3c1f6b52-8e4d-4a7b-9f2e-6d0a5c8b1e47"
+      }
+    }
+  ],
+  "background": "#ffffff",
+  "backgroundScaleId": "scale-gray",
+  "backgroundLightness": 1,
+  "palette": [
+    {
+      "id": "illustrator-color",
+      "lightness": 0.7736,
+      "hue": 65.1,
+      "chroma": 43.4,
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "dbadbe74-958a-4279-a3ca-fa701fd68866"
+      }
+    },
+    {
+      "id": "photoshop-color",
+      "lightness": 0.7081,
+      "hue": 245.8,
+      "chroma": 40.7,
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "0df7cdd8-9c4e-4810-a782-2a55e0437735"
+      }
+    },
+    {
+      "id": "xd-color",
+      "lightness": 0.747,
+      "hue": 330.1,
+      "chroma": 62.7,
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "d9d3f003-9195-4ff1-b5c0-f2a9fe5aa2ba"
+      }
+    },
+    {
+      "id": "dimension-color",
+      "lightness": 0.849,
+      "hue": 131.7,
+      "chroma": 52.4,
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "a08500b8-abcd-47b2-8b46-b7660645dee0"
+      }
+    },
+    {
+      "id": "after-effects-color",
+      "lightness": 0.7258,
+      "hue": 282.1,
+      "chroma": 36.6,
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "707d1415-cf90-4cbc-a469-ad2882aa492d"
+      }
+    },
+    {
+      "id": "indesign-color",
+      "lightness": 0.6565,
+      "hue": 13.3,
+      "chroma": 58.7,
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "9a9ad842-2e75-4783-bf9d-f12d7e160e10"
+      }
+    }
+  ],
+  "scales": [
+    {
+      "id": "scale-gray",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-gray",
+          "lightness": 0.5692623996686854,
+          "hue": 0,
+          "chroma": 0
+        }
+      ],
+      "customContrasts": {
+        "steps": [
+          {
+            "id": "contrast-gray-1",
+            "value": 1,
+            "oppositeValue": 1
+          },
+          {
+            "id": "contrast-gray-2",
+            "value": 1.07,
+            "oppositeValue": 1.108
+          },
+          {
+            "id": "contrast-gray-3",
+            "value": 1.13,
+            "oppositeValue": 1.198
+          },
+          {
+            "id": "contrast-gray-4",
+            "value": 1.2,
+            "oppositeValue": 1.272
+          },
+          {
+            "id": "contrast-gray-5",
+            "value": 1.31,
+            "oppositeValue": 1.389
+          },
+          {
+            "id": "contrast-gray-6",
+            "value": 1.4,
+            "oppositeValue": 1.484
+          },
+          {
+            "id": "contrast-gray-7",
+            "value": 1.7,
+            "oppositeValue": 1.802
+          },
+          {
+            "id": "contrast-gray-8",
+            "value": 3.23,
+            "oppositeValue": 3.23
+          },
+          {
+            "id": "contrast-gray-9",
+            "value": 4.88,
+            "oppositeValue": 5.469
+          },
+          {
+            "id": "contrast-gray-10",
+            "value": 8.06,
+            "oppositeValue": 8.47
+          },
+          {
+            "id": "contrast-gray-11",
+            "value": 13.2,
+            "oppositeValue": 13.638
+          },
+          {
+            "id": "contrast-gray-12",
+            "value": 18,
+            "oppositeValue": 16.867
+          },
+          {
+            "id": "contrast-gray-13",
+            "value": 21,
+            "oppositeValue": 18.883
+          }
+        ],
+        "baseContrastId": "contrast-gray-4",
+        "namingRuleId": "rule-standard-scale-naming"
+      },
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "7a6d2983-1b83-42a7-a208-6f2011658e69"
+      }
+    },
+    {
+      "id": "scale-1",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-2",
+          "lightness": 0,
+          "hue": 0,
+          "chroma": 0
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "eee5c181-d6b6-49e6-89f6-be092ecfa957"
+      }
+    },
+    {
+      "id": "scale-3",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-4",
+          "lightness": 0.6565,
+          "hue": 13.3,
+          "chroma": 58.7,
+          "paletteColorId": "indesign-color"
+        },
+        {
+          "id": "stop-5",
+          "lightness": 0.3981,
+          "hue": 10.6,
+          "chroma": 39.8
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "9bd61eba-b96a-4f99-8dc4-cc5e9c996127"
+      }
+    },
+    {
+      "id": "scale-6",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-7",
+          "lightness": 0.675,
+          "hue": 30.1,
+          "chroma": 53.3
+        },
+        {
+          "id": "stop-8",
+          "lightness": 0.5779,
+          "hue": 30.4,
+          "chroma": 51.1
+        },
+        {
+          "id": "stop-9",
+          "lightness": 0.3001,
+          "hue": 31.5,
+          "chroma": 25.5
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "17c6cccf-8bca-4a44-9b31-7be2cfdf8251"
+      }
+    },
+    {
+      "id": "scale-10",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-11",
+          "lightness": 0.5781,
+          "hue": 46.1,
+          "chroma": 28.6
+        },
+        {
+          "id": "stop-12",
+          "lightness": 0.7733,
+          "hue": 50.7,
+          "chroma": 22.4
+        },
+        {
+          "id": "stop-13",
+          "lightness": 0.3155,
+          "hue": 40.7,
+          "chroma": 22
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "ede41f6c-1d66-4dd5-ad5a-da4ce4cc1b02"
+      }
+    },
+    {
+      "id": "scale-14",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-15",
+          "lightness": 0.7736,
+          "hue": 65.1,
+          "chroma": 43.4,
+          "paletteColorId": "illustrator-color"
+        },
+        {
+          "id": "stop-16",
+          "lightness": 0.7319,
+          "hue": 53,
+          "chroma": 46.5
+        },
+        {
+          "id": "stop-17",
+          "lightness": 0.49,
+          "hue": 42.3,
+          "chroma": 36.7
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "fc06767f-92c3-43cd-94f6-cffdc9bc3276"
+      }
+    },
+    {
+      "id": "scale-18",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-19",
+          "lightness": 0.8034,
+          "hue": 76.3,
+          "chroma": 21
+        },
+        {
+          "id": "stop-20",
+          "lightness": 0.4893,
+          "hue": 76.5,
+          "chroma": 16.9
+        },
+        {
+          "id": "stop-21",
+          "lightness": 0.3895,
+          "hue": 74.5,
+          "chroma": 16.8
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "5462ba36-e280-4204-966a-c5b149cddfc4"
+      }
+    },
+    {
+      "id": "scale-22",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-23",
+          "lightness": 0.8681,
+          "hue": 94.1,
+          "chroma": 44.5
+        },
+        {
+          "id": "stop-24",
+          "lightness": 0.6102,
+          "hue": 73.5,
+          "chroma": 32.4
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "07c48167-3989-4ca7-9336-fba4bc33f9e8"
+      }
+    },
+    {
+      "id": "scale-25",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-26",
+          "lightness": 0.9265,
+          "hue": 116.7,
+          "chroma": 32
+        },
+        {
+          "id": "stop-27",
+          "lightness": 0.8658,
+          "hue": 121.2,
+          "chroma": 52.1
+        },
+        {
+          "id": "stop-28",
+          "lightness": 0.3564,
+          "hue": 119.8,
+          "chroma": 21.1
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "63b31432-d201-4246-9b26-6ef44e2842e4"
+      }
+    },
+    {
+      "id": "scale-29",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-30",
+          "lightness": 0.849,
+          "hue": 131.7,
+          "chroma": 52.4,
+          "paletteColorId": "dimension-color"
+        },
+        {
+          "id": "stop-31",
+          "lightness": 0.2761,
+          "hue": 135.2,
+          "chroma": 20.2
+        },
+        {
+          "id": "stop-32",
+          "lightness": 0.91,
+          "hue": 134.73,
+          "chroma": 20.2
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "12095729-736b-407f-88be-dd6925ca6658"
+      }
+    },
+    {
+      "id": "scale-32",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-33",
+          "lightness": 0.7335,
+          "hue": 154.2,
+          "chroma": 44.5
+        },
+        {
+          "id": "stop-34",
+          "lightness": 0.3528,
+          "hue": 165.7,
+          "chroma": 18.4
+        },
+        {
+          "id": "stop-35",
+          "lightness": 0.9011,
+          "hue": 156.6,
+          "chroma": 20
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "f121a899-8eab-4c08-b570-cdcbf9e8b8fe"
+      }
+    },
+    {
+      "id": "scale-36",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-37",
+          "lightness": 0.9058,
+          "hue": 172.2,
+          "chroma": 16.7
+        },
+        {
+          "id": "stop-38",
+          "lightness": 0.7764,
+          "hue": 172.9,
+          "chroma": 36.8
+        },
+        {
+          "id": "stop-39",
+          "lightness": 0.3571,
+          "hue": 182.3,
+          "chroma": 16
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "93aa2820-60e6-444a-af66-c0eef8d85936"
+      }
+    },
+    {
+      "id": "scale-40",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-41",
+          "lightness": 0.9116,
+          "hue": 196.1,
+          "chroma": 15.1
+        },
+        {
+          "id": "stop-42",
+          "lightness": 0.7495,
+          "hue": 205.4,
+          "chroma": 31.6
+        },
+        {
+          "id": "stop-43",
+          "lightness": 0.3425,
+          "hue": 205.2,
+          "chroma": 14.6
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "d45809d5-28f3-4c57-95ab-f19dbc6cc131"
+      }
+    },
+    {
+      "id": "scale-44",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-45",
+          "lightness": 0.9013,
+          "hue": 226.4,
+          "chroma": 14.3
+        },
+        {
+          "id": "stop-46",
+          "lightness": 0.7081,
+          "hue": 245.8,
+          "chroma": 40.7,
+          "paletteColorId": "photoshop-color"
+        },
+        {
+          "id": "stop-47",
+          "lightness": 0.4404,
+          "hue": 233.6,
+          "chroma": 22.9
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "9aae9f95-789f-47f4-95db-8db0827f8ec1"
+      }
+    },
+    {
+      "id": "scale-48",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-49",
+          "lightness": 0.7893,
+          "hue": 258.6,
+          "chroma": 25.6
+        },
+        {
+          "id": "stop-50",
+          "lightness": 0.5335,
+          "hue": 266.7,
+          "chroma": 59.7
+        },
+        {
+          "id": "stop-51",
+          "lightness": 0.3224,
+          "hue": 265.9,
+          "chroma": 38.9
+        },
+        {
+          "id": "stop-52",
+          "lightness": 0.2409,
+          "hue": 268.7,
+          "chroma": 21.8
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "6bbab90f-8ed6-4b4f-a6fa-e6b5937c7615"
+      }
+    },
+    {
+      "id": "scale-53",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-54",
+          "lightness": 0.7258,
+          "hue": 282.1,
+          "chroma": 36.6,
+          "paletteColorId": "after-effects-color"
+        },
+        {
+          "id": "stop-55",
+          "lightness": 0.5186,
+          "hue": 284,
+          "chroma": 62.7
+        },
+        {
+          "id": "stop-56",
+          "lightness": 0.3135,
+          "hue": 282.2,
+          "chroma": 46.7
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "da4e4b17-f061-47f9-bf6f-b07157630b63"
+      }
+    },
+    {
+      "id": "scale-57",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-58",
+          "lightness": 0.4844,
+          "hue": 300,
+          "chroma": 61.7
+        },
+        {
+          "id": "stop-59",
+          "lightness": 0.2799,
+          "hue": 299,
+          "chroma": 37.6
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "e10d5c03-e1d3-454c-a16b-366411451a5f"
+      }
+    },
+    {
+      "id": "scale-60",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-61",
+          "lightness": 0.747,
+          "hue": 330.1,
+          "chroma": 62.7,
+          "paletteColorId": "xd-color"
+        },
+        {
+          "id": "stop-62",
+          "lightness": 0.6114,
+          "hue": 321.9,
+          "chroma": 58.3
+        },
+        {
+          "id": "stop-63",
+          "lightness": 0.3176,
+          "hue": 319.5,
+          "chroma": 38.2
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "7a8e8191-2462-4faa-8985-0872067e8468"
+      }
+    },
+    {
+      "id": "scale-64",
+      "interpolation": "rgb",
+      "stops": [
+        {
+          "id": "stop-65",
+          "lightness": 0.7274,
+          "hue": 343.2,
+          "chroma": 55
+        },
+        {
+          "id": "stop-66",
+          "lightness": 0.6254,
+          "hue": 347.5,
+          "chroma": 57.8
+        },
+        {
+          "id": "stop-67",
+          "lightness": 0.3245,
+          "hue": 350.4,
+          "chroma": 33.8
+        }
+      ],
+      "name": {
+        "categoryId": "b8fbee94-999d-4776-bf18-1b807b3f60b0",
+        "termId": "8f12fa64-ca0c-43de-b013-0993f17c38a2"
+      }
+    }
+  ],
+  "contrasts": [
+    {
+      "id": "contrast-70",
+      "value": 1.06
+    },
+    {
+      "id": "contrast-71",
+      "value": 1.15
+    },
+    {
+      "id": "contrast-72",
+      "value": 1.32
+    },
+    {
+      "id": "contrast-73",
+      "value": 1.6
+    },
+    {
+      "id": "contrast-74",
+      "value": 2
+    },
+    {
+      "id": "contrast-75",
+      "value": 2.6
+    },
+    {
+      "id": "contrast-76",
+      "value": 3.22
+    },
+    {
+      "id": "contrast-77",
+      "value": 3.95
+    },
+    {
+      "id": "contrast-78",
+      "value": 4.79
+    },
+    {
+      "id": "contrast-79",
+      "value": 6.29
+    },
+    {
+      "id": "contrast-80",
+      "value": 7.9
+    },
+    {
+      "id": "contrast-81",
+      "value": 10
+    },
+    {
+      "id": "contrast-82",
+      "value": 12.3
+    },
+    {
+      "id": "contrast-83",
+      "value": 14.8
+    },
+    {
+      "id": "contrast-84",
+      "value": 17
+    },
+    {
+      "id": "contrast-85",
+      "value": 19.5
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "surface-86",
+      "base": true,
+      "previewRole": "auto",
+      "showInPreview": true,
+      "name": {
+        "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+        "termId": "21c7c377-e2e7-46e3-88f9-fc2071a3bb11"
+      }
+    },
+    {
+      "id": "surface-87",
+      "reference": "parent",
+      "contrast": 1.1,
+      "forceDark": false,
+      "expanded": false,
+      "previewRole": "auto",
+      "showInPreview": true,
+      "name": {
+        "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+        "termId": "9f6e525f-c9cd-4df5-b27f-5b7aa5373f05"
+      },
+      "source": "base"
+    },
+    {
+      "id": "surface-88",
+      "reference": "base",
+      "contrast": 1.6,
+      "forceDark": false,
+      "expanded": false,
+      "previewRole": "auto",
+      "showInPreview": true,
+      "name": {
+        "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+        "termId": "ccfdbc1d-60a4-4c7f-ac64-51961c2fa5e9"
+      },
+      "source": "base"
+    },
+    {
+      "id": "surface-89",
+      "reference": "parent",
+      "contrast": 1.15,
+      "forceDark": false,
+      "expanded": false,
+      "previewRole": "auto",
+      "showInPreview": true,
+      "sourceScaleId": "scale-48",
+      "name": {
+        "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+        "termId": "bb15ef9f-b7c0-468f-8e42-6f5055dad49b"
+      }
+    },
+    {
+      "id": "surface-90",
+      "reference": "parent",
+      "contrast": 1.15,
+      "forceDark": false,
+      "expanded": false,
+      "previewRole": "auto",
+      "showInPreview": true,
+      "sourceScaleId": "scale-6",
+      "name": {
+        "categoryId": "d8be9a69-fac3-495d-8be4-6a12311817a3",
+        "termId": "913a377d-6046-4c7b-bfef-3544c4e338da"
+      }
+    }
+  ],
+  "settings": {
+    "side": "auto",
+    "backgroundBlend": 0,
+    "colorScaleType": "opaque",
+    "syncDefaultStopsWithOpacity": false,
+    "colorSourceCurveOffset": -1,
+    "guardThreshold": 0.1,
+    "colorOutput": {
+      "authoringGamut": "srgb",
+      "outputFormat": "rgb",
+      "mapOutputsToSrgb": false
+    },
+    "contrastReference": "light",
+    "polarityCompensation": 0,
+    "contrastMultiplier": 1
+  }
+}

@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@react-spectrum/s2";
 import Delete from "@react-spectrum/s2/icons/Delete";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useAtom, useAtomValue, useStore } from "jotai";
 import { DesignMetadataPanel } from "../../panels/design/DesignMetadataPanel";
 import {
@@ -33,8 +33,6 @@ import {
   stylePreviewAtom,
   styleSampleTextAtom,
   styleSampleIconsAtom,
-  stylePreviewArtifactsAtom,
-  stylePreviewContextsStateAtom,
   saveStyleAtom,
   renameStyleAtom,
   editStylePropertiesAtom,
@@ -69,6 +67,9 @@ import {
   stylePreviewOptions,
 } from "../../features/styles/variants";
 import "./Styles.css";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
+import type { EditorPreviewOutput } from "../../features/edit-session/editorPreviewWork";
 
 export function StyleDesignView({
   permutations = false,
@@ -78,29 +79,53 @@ export function StyleDesignView({
   const selected = useAtomValue(selectedStyleIdAtom),
     document = useAtomValue(stylesDocumentAtom);
   const recipe = document.recipes.find((recipe) => recipe.id === selected);
+  const result = useEditorPreview("styles", selected);
+  const ready =
+    result.ready?.value.kind === "styles" &&
+    result.ready.input.selectedId === selected
+      ? result.ready
+      : undefined;
   return recipe ? (
-    <StyleDesignContent
-      key={recipe.id}
-      recipe={recipe}
-      permutations={permutations}
-    />
+    <DerivedContentBoundary
+      state={result.status}
+      label="Updating Style preview"
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {ready && ready.value.kind === "styles" && (
+        <StyleDesignContent
+          key={recipe.id}
+          recipe={recipe}
+          permutations={permutations}
+          computed={ready.value}
+          sampleRecipe={
+            ready.input.source.styles?.recipes.find(
+              (item) => item.id === recipe.id,
+            ) ?? recipe
+          }
+        />
+      )}
+    </DerivedContentBoundary>
   ) : (
     <div className="stylesEmpty">
       <Text>Select a style</Text>
     </div>
   );
 }
-function StyleDesignContent({
+const StyleDesignContent = memo(function StyleDesignContent({
   recipe,
   permutations,
+  computed,
+  sampleRecipe,
 }: {
   recipe: StyleRecipe;
   permutations: boolean;
+  computed: Extract<EditorPreviewOutput, { kind: "styles" }>;
+  sampleRecipe: StyleRecipe;
 }) {
   const taxonomy = useAtomValue(taxonomyDocumentAtom),
     source = useAtomValue(authoringSourceSnapshotAtom);
-  const artifacts = useAtomValue(stylePreviewArtifactsAtom),
-    contexts = useAtomValue(stylePreviewContextsStateAtom);
+  const { artifacts, contexts } = computed;
   const mode = useAtomValue(browserModeContextAtom),
     selection = Object.fromEntries(tokenModePairs(mode.key));
   const [preview, setPreview] = useAtom(stylePreviewAtom);
@@ -174,18 +199,23 @@ function StyleDesignContent({
   const rows = artifacts.rows.filter(
     (row) => row.recipeId === recipe.id && row.modeKey === mode.key,
   );
-  const colors = stylePreviewColors(rows, appearance.color, {
-    optionIds: selectedOptions,
-    outputId: previewOutputId,
-    familyId: previewFamilyId,
-    permutations,
-  });
+  const colors = stylePreviewColors(
+    rows,
+    appearance.color,
+    {
+      optionIds: selectedOptions,
+      outputId: previewOutputId,
+      familyId: previewFamilyId,
+      permutations,
+    },
+    recipe.kind === "shadow" ? "shadow" : "color",
+  );
   const sampleRows = (color: StyleRow) => {
     const applicable = rows.filter(
       (row) =>
         JSON.stringify(row.optionIds) === JSON.stringify(color.optionIds) &&
         (!row.familyId || row.familyId === color.familyId) &&
-        (row.property !== "color" || row.outputId === color.outputId),
+        (row.property !== color.property || row.outputId === color.outputId),
     );
     const indices = applicable.filter((row) => row.property === "lineHeight");
     const index = indices.some((row) => row.scaleIndex === preview.scaleIndex)
@@ -264,7 +294,12 @@ function StyleDesignContent({
                 }}
               >
                 {rules
-                  .filter((rule) => ruleAppliesTo(rule, "color"))
+                  .filter((rule) =>
+                    ruleAppliesTo(
+                      rule,
+                      recipe.kind === "shadow" ? "elevation" : "color",
+                    ),
+                  )
                   .filter(
                     (rule) =>
                       !recipe.applications.some(
@@ -346,7 +381,7 @@ function StyleDesignContent({
               </figcaption>
             )}
             <StyleSample
-              recipe={recipe}
+              recipe={sampleRecipe}
               rows={sampleRows(color)}
               surface={String(surface.backgroundColor)}
               gamut={source.colorSystem.settings.colorOutput.authoringGamut}
@@ -363,7 +398,7 @@ function StyleDesignContent({
           <DesignProperties
             namingScope="styles"
             previewControls={
-              appearance.color.kind === "families" && (
+              appearance.color?.kind === "families" && (
                 <Picker
                   size="S"
                   label="Color"
@@ -563,6 +598,7 @@ function StyleDesignContent({
                       </ActionButton>
                     )}
                   <StyleAppearanceFields
+                    key={differenceId ?? "base"}
                     taxonomy={taxonomy}
                     kind={recipe.kind}
                     value={appearance}
@@ -585,4 +621,4 @@ function StyleDesignContent({
       )}
     </div>
   );
-}
+});

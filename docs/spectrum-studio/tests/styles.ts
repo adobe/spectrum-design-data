@@ -553,6 +553,120 @@ assert.deepEqual(
   { kind: "single", binding: { value: "" } },
   "Missing indices never silently choose another color.",
 );
+const elevation = (index: number, value: string) => ({
+  id: `elevation-${index}`,
+  uuid: crypto.randomUUID(),
+  familyId: "elevation",
+  index,
+  property: "shadow" as const,
+  name: `elevation-${index}`,
+  value,
+});
+const elevation100 = elevation(100, "0 1px 2px #0002");
+const elevation200 = elevation(200, "0 2px 4px #0003");
+const shadowContext: StyleContext = {
+  ...context,
+  references: [...context.references, elevation100, elevation200],
+};
+const shadowRecipe: StyleRecipe = {
+  ...recipe,
+  kind: "shadow",
+  appearance: { shadow: { elevationId: "elevation", scaleIndex: 100 } },
+};
+const shadowRule: ConditionalRule = {
+  ...rule,
+  applicability: { kind: "specific", types: ["elevation"] },
+};
+const shadow = generate(
+  {
+    ...shadowRecipe,
+    applications: [
+      {
+        id: crypto.randomUUID(),
+        ruleId: shadowRule.id,
+        outputIds: [shadowRule.outputs![0].id],
+      },
+    ],
+  },
+  [shadowContext],
+  [shadowRule],
+);
+assert.deepEqual(shadow.result.issues, []);
+assert.deepEqual(
+  shadow.result.rows.map((row) => [row.name, row.token.$ref]),
+  [
+    ["accent", elevation100.uuid],
+    ["accent-hover", elevation200.uuid],
+  ],
+  "Shadow Styles reference Elevation levels; hover moves one level up.",
+);
+assert.deepEqual(
+  generate(shadowRecipe, [shadowContext]).result.rows.map((row) => row.name),
+  ["accent"],
+  "Shadow Styles without the rule generate no hover output.",
+);
+assert.deepEqual(
+  generate(interactive, [shadowContext], [shadowRule]).result.rows.length,
+  basic.result.rows.length,
+  "An Elevation-only rule does not add outputs to color Styles.",
+);
+const raisedContext: StyleContext = {
+  ...shadowContext,
+  references: shadowContext.references.map((reference) =>
+    reference.id === "elevation-100"
+      ? { ...reference, value: "0 8px 16px #0004" }
+      : reference,
+  ),
+};
+assert.equal(
+  stylePreview(
+    shadowRecipe,
+    generate(shadowRecipe, [raisedContext]).result.rows,
+    "#ffffff",
+    "srgb",
+  ).appearance.boxShadow,
+  "0 8px 16px #0004",
+  "Editing an Elevation level updates the Shadow preview.",
+);
+assert.match(
+  generate(
+    {
+      ...shadowRecipe,
+      appearance: { shadow: { elevationId: "elevation", scaleIndex: 900 } },
+    },
+    [shadowContext],
+  ).result.issues[0].message,
+  /Elevation level/,
+);
+const shadowDocument = (appearance: unknown) => ({
+  ...structuredClone(EMPTY_STYLES),
+  recipes: [{ ...shadowRecipe, appearance }],
+});
+assert(isStylesDocument(shadowDocument(shadowRecipe.appearance)));
+assert.equal(isStylesDocument(shadowDocument({})), false);
+assert.equal(
+  isStylesDocument(
+    shadowDocument({
+      ...shadowRecipe.appearance,
+      color: recipe.appearance.color,
+    }),
+  ),
+  false,
+);
+assert.equal(
+  isStylesDocument(
+    shadowDocument({ shadow: { elevationId: "elevation", scaleIndex: 1.5 } }),
+  ),
+  false,
+);
+assert.equal(
+  isStylesDocument({
+    ...structuredClone(EMPTY_STYLES),
+    recipes: [{ ...recipe, appearance: shadowRecipe.appearance }],
+  }),
+  false,
+  "Color Styles still require a color and reject a shadow.",
+);
 console.log(
-  "Styles recipes, Registry naming, shared rule outputs, strict steps, stable publications, property counts and upstream propagation passed.",
+  "Styles recipes, Registry naming, shared rule outputs, strict steps, stable publications, property counts, shadow Elevation references and upstream propagation passed.",
 );

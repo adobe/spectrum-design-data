@@ -1,0 +1,415 @@
+[
+  {
+    "id": "54661001-c9f6-4793-980a-5f4a9fbeaebc",
+    "kind": "text",
+    "name": {
+      "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+      "termId": "1853e628-2844-45e9-8a8c-fe305d941f09"
+    },
+    "classification": {
+      "6248662b-d1a7-45e1-b89d-521c08eea9b5": "6cf4a527-1290-4860-91eb-6599eda973ed"
+    },
+    "appearance": {
+      "color": {
+        "kind": "single",
+        "binding": {
+          "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22"
+        }
+      },
+      "fontWeight": {
+        "value": 400
+      },
+      "lineHeight": {
+        "metricId": "body-unitlessLineHeight"
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": []
+  },
+  {
+    "id": "81c93f5f-1f9e-4459-9e04-6207307b6c64",
+    "kind": "text",
+    "name": {
+      "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+      "termId": "ac662c53-df93-4c8a-aecd-2981b2446d67"
+    },
+    "classification": {
+      "6248662b-d1a7-45e1-b89d-521c08eea9b5": "6cf4a527-1290-4860-91eb-6599eda973ed"
+    },
+    "appearance": {
+      "color": {
+        "kind": "single",
+        "binding": {
+          "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22"
+        }
+      },
+      "fontWeight": {
+        "value": 400
+      },
+      "lineHeight": {
+        "metricId": "component-unitlessLineHeight"
+      }
+    },
+    "options": [
+      {
+        "id": "f815fb36-31ad-4bdb-8490-8ac7a6fee158",
+        "kind": "variant",
+        "name": "Font weight",
+        "categoryId": "01e1ee2e-6501-4e20-a20a-e204873f6afc",
+        "classification": {},
+        "defaultOptionId": "9a9cc918-3d03-41b3-84a3-8cf09cf9cf57",
+        "options": [
+          {
+            "id": "9a9cc918-3d03-41b3-84a3-8cf09cf9cf57",
+            "name": "Regular",
+            "classification": {
+              "01e1ee2e-6501-4e20-a20a-e204873f6afc": "d518a4fb-eeeb-414d-a41d-05acfa0540ed"
+            }
+          },
+          {
+            "id": "3c4070d0-f895-4f5f-8571-98a1a83dcd34",
+            "name": "Medium",
+            "classification": {
+              "01e1ee2e-6501-4e20-a20a-e204873f6afc": "d602e7cc-f400-46f9-825c-4d3a9acab11f"
+            }
+          },
+          {
+            "id": "b688e82d-f18e-498c-a98f-70d027363787",
+            "name": "Bold",
+            "classification": {
+              "01e1ee2e-6501-4e20-a20a-e204873f6afc": "fcd151ba-a8b6-41b7-a0e6-de877ca25e65"
+            }
+          }
+        ]
+      }
+    ],
+    "differences": {
+      "3c4070d0-f895-4f5f-8571-98a1a83dcd34": {
+        "fontWeight": {
+          "value": 500
+        }
+      },
+      "b688e82d-f18e-498c-a98f-70d027363787": {
+        "fontWeight": {
+          "value": 700
+        }
+      }
+    },
+    "applications": []
+  },
+  {
+    "id": "68c2e76c-1c15-4d8b-ace6-774a5599d424",
+    "kind": "text",
+    "name": {
+      "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+      "termId": "956fb6b3-09ac-4436-a28f-1d69e4e85098"
+    },
+    "classification": {
+      "6248662b-d1a7-45e1-b89d-521c08eea9b5": "6cf4a527-1290-4860-91eb-6599eda973ed"
+    },
+    "appearance": {
+      "color": {
+        "kind": "single",
+        "binding": {
+          "$ref": "b49953b7-ef80-4e57-b1e7-546279b36bb4"
+        }
+      },
+      "fontWeight": {
+        "value": 500
+      },
+      "lineHeight": {
+        "metricId": "heading-unitlessLineHeight"
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": []
+  },
+  {
+    "id": "0416643e-29b6-441e-8f42-8b084698a4dc",
+    "kind": "text",
+    "name": {
+      "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+      "termId": "a0cc92ac-d65f-40ba-b3e9-9c4249fcbecc"
+    },
+    "classification": {
+      "6248662b-d1a7-45e1-b89d-521c08eea9b5": "6cf4a527-1290-4860-91eb-6599eda973ed"
+    },
+    "appearance": {
+      "color": {
+        "kind": "single",
+        "binding": {
+          "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a"
+        }
+      },
+      "fontWeight": {
+        "value": 700
+      },
+      "lineHeight": {
+        "metricId": "heading-unitlessLineHeight"
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": []
+  },
+  {
+    "id": "5a7c3f54-4e32-4994-bf44-ad57f6fd5560",
+    "kind": "text",
+    "name": {
+      "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+      "termId": "89fa5d09-9e0c-48cd-9666-4935afbe86e8"
+    },
+    "classification": {
+      "6248662b-d1a7-45e1-b89d-521c08eea9b5": "6cf4a527-1290-4860-91eb-6599eda973ed"
+    },
+    "appearance": {
+      "color": {
+        "kind": "single",
+        "binding": {
+          "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a"
+        }
+      },
+      "fontWeight": {
+        "value": 700
+      },
+      "lineHeight": {
+        "metricId": "heading-unitlessLineHeight"
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": []
+  },
+  {
+    "id": "bde39ab9-899d-4b7f-a237-028988964e50",
+    "kind": "text",
+    "name": {
+      "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+      "termId": "4dbb252a-843c-47fe-b6fa-edb8a9f98958"
+    },
+    "classification": {
+      "6248662b-d1a7-45e1-b89d-521c08eea9b5": "6cf4a527-1290-4860-91eb-6599eda973ed"
+    },
+    "appearance": {
+      "color": {
+        "kind": "single",
+        "binding": {
+          "$ref": "5bed317b-eaa5-4f93-bc0d-d8f51e0b4680"
+        }
+      },
+      "fontWeight": {
+        "value": 400
+      },
+      "lineHeight": {
+        "metricId": "component-unitlessLineHeight"
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": []
+  },
+  {
+    "id": "3c316c9d-6510-447d-b32f-fd8cb34c4ab3",
+    "kind": "icon",
+    "name": {
+      "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+      "termId": "b8b5a40d-a9c1-49bd-8df7-ed52571b4206"
+    },
+    "classification": {
+      "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "b8b5a40d-a9c1-49bd-8df7-ed52571b4206"
+    },
+    "appearance": {
+      "color": {
+        "kind": "families",
+        "familyIds": [
+          "scale-gray",
+          "scale-1",
+          "scale-3",
+          "scale-6",
+          "scale-10",
+          "scale-14",
+          "scale-18",
+          "scale-22",
+          "scale-25",
+          "scale-29",
+          "scale-32",
+          "scale-36",
+          "scale-40",
+          "scale-44",
+          "scale-48",
+          "scale-53",
+          "scale-57",
+          "scale-60",
+          "scale-64"
+        ],
+        "scaleIndex": 800,
+        "indexModes": {
+          "modeSetId": "mode-set-color-scheme",
+          "values": {
+            "mode-dark": 900
+          }
+        }
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": [
+      {
+        "id": "809bf196-7a9f-4af5-b698-24f415076ddf",
+        "ruleId": "332b2879-6712-4583-9a18-88d395df52cc",
+        "outputIds": [
+          "49aa1c30-e8f7-45ff-bdc5-11797f1523c9",
+          "6f6c1757-a6ea-4e80-9460-1222d4350543"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a3013546-dc30-408a-bcf9-594659df8317",
+    "kind": "icon",
+    "name": {
+      "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+      "termId": "c8bb5451-b245-4de7-806a-ea006a15a1ae"
+    },
+    "classification": {
+      "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "c8bb5451-b245-4de7-806a-ea006a15a1ae"
+    },
+    "appearance": {
+      "color": {
+        "kind": "single",
+        "binding": {
+          "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22"
+        }
+      }
+    },
+    "options": [
+      {
+        "id": "8a5c15b0-3ebe-4999-b709-cca96969b788",
+        "kind": "variant",
+        "name": "Emphasis",
+        "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+        "classification": {},
+        "defaultOptionId": "e0989dc1-2c15-473c-a826-dd0ca1bfee1e",
+        "options": [
+          {
+            "id": "e0989dc1-2c15-473c-a826-dd0ca1bfee1e",
+            "name": "Default",
+            "classification": {}
+          },
+          {
+            "id": "6cc41f57-75a7-4371-9bd1-dd813c96cbab",
+            "name": "Subdued",
+            "classification": {
+              "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53": "c87612a6-a139-4ebd-a444-6a0937d3ba69"
+            }
+          },
+          {
+            "id": "ebb4cc11-82db-4a21-9ae4-22ca0057d769",
+            "name": "Subtle",
+            "classification": {
+              "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53": "66bee4d1-0ec4-49c7-bb9d-652a18c28554"
+            }
+          }
+        ]
+      }
+    ],
+    "differences": {
+      "6cc41f57-75a7-4371-9bd1-dd813c96cbab": {
+        "color": {
+          "kind": "single",
+          "binding": {
+            "$ref": "60077744-c665-4c80-8f88-dff31a10219e"
+          }
+        }
+      },
+      "ebb4cc11-82db-4a21-9ae4-22ca0057d769": {
+        "color": {
+          "kind": "single",
+          "binding": {
+            "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f"
+          }
+        }
+      }
+    },
+    "applications": [
+      {
+        "id": "8eb6e0c6-a3b9-449e-96f7-02902325930c",
+        "ruleId": "332b2879-6712-4583-9a18-88d395df52cc",
+        "outputIds": [
+          "49aa1c30-e8f7-45ff-bdc5-11797f1523c9",
+          "6f6c1757-a6ea-4e80-9460-1222d4350543"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "31b61ad9-eb44-4d9e-aa0c-0e0655987a9c",
+    "kind": "shadow",
+    "name": {
+      "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+      "termId": "cfea4437-94b0-4354-a0d9-0e1d5cb1039a"
+    },
+    "classification": {
+      "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53": "cfea4437-94b0-4354-a0d9-0e1d5cb1039a"
+    },
+    "appearance": {
+      "shadow": {
+        "elevationId": "cc5cbee1-3992-4605-98bb-d5221ff5ca5c",
+        "scaleIndex": 100
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": [
+      {
+        "id": "1c81117e-26e7-4814-acf7-b12f3de7c1bc",
+        "ruleId": "593a46f7-9759-433f-8cb9-cbecb7d11799",
+        "outputIds": [
+          "0c30c6da-4bf8-4b39-9f16-0a8abeabd251"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "5aafae20-beba-4bea-9f0e-3a76ac346dab",
+    "kind": "shadow",
+    "name": {
+      "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+      "termId": "3982a0ca-369c-4dd3-b1cf-938b56811978"
+    },
+    "classification": {
+      "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53": "3982a0ca-369c-4dd3-b1cf-938b56811978"
+    },
+    "appearance": {
+      "shadow": {
+        "elevationId": "cc5cbee1-3992-4605-98bb-d5221ff5ca5c",
+        "scaleIndex": 200
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": []
+  },
+  {
+    "id": "7c429329-285f-4330-878e-da51f0fd7a0d",
+    "kind": "shadow",
+    "name": {
+      "categoryId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+      "termId": "9c973241-749f-473e-a82b-31085c718bf5"
+    },
+    "classification": {
+      "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53": "9c973241-749f-473e-a82b-31085c718bf5"
+    },
+    "appearance": {
+      "shadow": {
+        "elevationId": "cc5cbee1-3992-4605-98bb-d5221ff5ca5c",
+        "scaleIndex": 300
+      }
+    },
+    "options": [],
+    "differences": {},
+    "applications": []
+  }
+]

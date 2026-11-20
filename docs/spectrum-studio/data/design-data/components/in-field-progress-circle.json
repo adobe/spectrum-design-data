@@ -1,0 +1,80 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/in-field-progress-circle.json",
+  "specVersion": "1.0.0-draft",
+  "name": "in-field-progress-circle",
+  "displayName": "In field progress circle",
+  "description": "In field progress circles indicate progress for loading states within form fields and input areas.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-circle/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color for use on colored backgrounds. White draws a light ring, black a dark one. Unset is the regular ring.",
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
+    }
+  },
+  "anatomy": [
+    {
+      "name": "track",
+      "description": "Circular ring behind the progress arc.",
+      "required": true,
+      "contains": ["fill"]
+    },
+    {
+      "name": "fill",
+      "description": "Arc showing progress; spins when indeterminate. Not drawn at 0%."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Matches Figma S2 Web (.In-field progress circle, Subcomponents page): two ellipses, a full-ring track and a partial-arc fill. Figma names both ellipses 'Track'; the fill is the second one. No container: the track is the outermost drawn element. There is no determinate form: React Spectrum draws it as an indeterminate ProgressCircle in ComboBox and Picker, so the recipe draws one fixed arc frame and the component declares no value options."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "role": "progressbar",
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      },
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ]
+  }
+}

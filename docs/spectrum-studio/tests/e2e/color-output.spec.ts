@@ -363,7 +363,7 @@ test("wide defaults reach palette, scale, data vis and elevation pickers and all
   await expect(
     page.getByRole("searchbox", { name: "Search tokens" }),
   ).toBeVisible();
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   await expect(page.locator("main")).toBeVisible();
 });
 

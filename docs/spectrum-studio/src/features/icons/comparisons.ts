@@ -17,10 +17,11 @@ export function buildIconScaleComparisons(
   typography: TypographyDocument,
   modeSets: readonly ModeSet[],
   library: IconGenerationLibrary = {},
+  preview?: Pick<TypographyDocument, "textZoom" | "textSize">,
 ): ComparisonDatasets {
   let steps: ComparisonSample["steps"] | undefined;
   return comparisonDatasets(
-    textSizeComparisonSettings(typography, modeSets),
+    textSizeComparisonSettings(typography, modeSets, preview),
     (textZoom, textSize) => {
       const values = generateIconScale(
         icons,

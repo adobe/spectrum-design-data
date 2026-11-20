@@ -1,0 +1,472 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "component",
+  "description": "Spectrum component names",
+  "values": [
+    {
+      "id": "accordion",
+      "label": "Accordion",
+      "documentationUrl": "https://spectrum.adobe.com/page/accordion/"
+    },
+    {
+      "id": "action-bar",
+      "label": "Action Bar",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
+    },
+    {
+      "id": "action-button",
+      "label": "Action Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+    },
+    {
+      "id": "action-group",
+      "label": "Action Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-group/"
+    },
+    {
+      "id": "alert-banner",
+      "label": "Alert Banner",
+      "documentationUrl": "https://spectrum.adobe.com/page/alert-banner/"
+    },
+    {
+      "id": "alert-dialog",
+      "label": "Alert Dialog",
+      "documentationUrl": "https://spectrum.adobe.com/page/alert-dialog/"
+    },
+    {
+      "id": "avatar",
+      "label": "Avatar",
+      "documentationUrl": "https://spectrum.adobe.com/page/avatar/"
+    },
+    {
+      "id": "avatar-group",
+      "label": "Avatar Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "documentationUrl": "https://spectrum.adobe.com/page/badge/"
+    },
+    {
+      "id": "bar-panel",
+      "label": "Bar Panel",
+      "description": "A cross-cutting anatomy sub-part shared by multiple components (e.g. color area, color wheel) rather than a standalone top-level component."
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "documentationUrl": "https://spectrum.adobe.com/page/body/"
+    },
+    {
+      "id": "breadcrumbs",
+      "label": "Breadcrumbs",
+      "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/button/"
+    },
+    {
+      "id": "button-group",
+      "label": "Button Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/button-group/"
+    },
+    {
+      "id": "calendar",
+      "label": "Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
+    },
+    {
+      "id": "card",
+      "label": "Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/card/"
+    },
+    {
+      "id": "card-horizontal",
+      "label": "Card Horizontal",
+      "documentationUrl": "https://spectrum.adobe.com/page/card-horizontal/"
+    },
+    {
+      "id": "checkbox",
+      "label": "Checkbox",
+      "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
+    },
+    {
+      "id": "checkbox-group",
+      "label": "Checkbox Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/checkbox-group/"
+    },
+    {
+      "id": "close-button",
+      "label": "Close Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+    },
+    {
+      "id": "coach-indicator",
+      "label": "Coach Indicator",
+      "documentationUrl": "https://spectrum.adobe.com/page/coach-indicator/"
+    },
+    {
+      "id": "coach-mark",
+      "label": "Coach Mark",
+      "documentationUrl": "https://spectrum.adobe.com/page/coach-mark/"
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "documentationUrl": "https://spectrum.adobe.com/page/code/"
+    },
+    {
+      "id": "collection-card",
+      "label": "Collection Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/collection-card/"
+    },
+    {
+      "id": "color-area",
+      "label": "Color Area",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-area/"
+    },
+    {
+      "id": "color-control",
+      "label": "Color Control",
+      "description": "A cross-cutting anatomy sub-part shared by color-selection components (e.g. color slider, color wheel) rather than a standalone top-level component."
+    },
+    {
+      "id": "color-handle",
+      "label": "Color Handle",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
+    },
+    {
+      "id": "color-loupe",
+      "label": "Color Loupe",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-loupe/"
+    },
+    {
+      "id": "color-slider",
+      "label": "Color Slider",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
+    },
+    {
+      "id": "color-wheel",
+      "label": "Color Wheel",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-wheel/"
+    },
+    {
+      "id": "combo-box",
+      "label": "Combo Box",
+      "documentationUrl": "https://spectrum.adobe.com/page/combo-box/"
+    },
+    {
+      "id": "contextual-help",
+      "label": "Contextual Help",
+      "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
+    },
+    {
+      "id": "date-field",
+      "label": "Date Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/date-field/"
+    },
+    {
+      "id": "date-picker",
+      "label": "Date Picker",
+      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
+    },
+    {
+      "id": "detail",
+      "label": "Detail",
+      "documentationUrl": "https://spectrum.adobe.com/page/detail/"
+    },
+    {
+      "id": "divider",
+      "label": "Divider",
+      "documentationUrl": "https://spectrum.adobe.com/page/divider/"
+    },
+    {
+      "id": "double-calendar",
+      "label": "Double Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/double-calendar/"
+    },
+    {
+      "id": "drop-zone",
+      "label": "Drop Zone",
+      "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
+    },
+    {
+      "id": "field",
+      "label": "Field",
+      "description": "A cross-cutting anatomy sub-part shared by multiple form-adjacent components rather than a standalone top-level component."
+    },
+    {
+      "id": "field-label",
+      "label": "Field Label",
+      "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
+    },
+    {
+      "id": "floating-action-button",
+      "label": "Floating Action Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/floating-action-button/"
+    },
+    {
+      "id": "form-item",
+      "label": "Form Item",
+      "documentationUrl": "https://spectrum.adobe.com/page/form-item/"
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "documentationUrl": "https://spectrum.adobe.com/page/heading/"
+    },
+    {
+      "id": "help-text",
+      "label": "Help Text",
+      "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
+    },
+    {
+      "id": "illustrated-message",
+      "label": "Illustrated Message",
+      "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
+    },
+    {
+      "id": "in-field-button",
+      "label": "In-Field Button",
+      "description": "A cross-cutting anatomy sub-part shared by multiple field-adjacent components rather than a standalone top-level component."
+    },
+    {
+      "id": "in-field-progress-circle",
+      "label": "In-Field Progress Circle",
+      "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-circle/"
+    },
+    {
+      "id": "in-line-alert",
+      "label": "In-Line Alert",
+      "documentationUrl": "https://spectrum.adobe.com/page/in-line-alert/"
+    },
+    {
+      "id": "link",
+      "label": "Link",
+      "documentationUrl": "https://spectrum.adobe.com/page/link/"
+    },
+    {
+      "id": "list-view",
+      "label": "List View",
+      "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
+    },
+    {
+      "id": "menu",
+      "label": "Menu",
+      "documentationUrl": "https://spectrum.adobe.com/page/menu/"
+    },
+    {
+      "id": "meter",
+      "label": "Meter",
+      "documentationUrl": "https://spectrum.adobe.com/page/meter/"
+    },
+    {
+      "id": "number-field",
+      "label": "Number Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
+    },
+    {
+      "id": "opacity-checkerboard",
+      "label": "Opacity Checkerboard",
+      "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
+    },
+    {
+      "id": "picker",
+      "label": "Picker",
+      "documentationUrl": "https://spectrum.adobe.com/page/picker/"
+    },
+    {
+      "id": "popover",
+      "label": "Popover",
+      "documentationUrl": "https://spectrum.adobe.com/page/popover/"
+    },
+    {
+      "id": "progress-bar",
+      "label": "Progress Bar",
+      "documentationUrl": "https://spectrum.adobe.com/page/progress-bar/"
+    },
+    {
+      "id": "progress-circle",
+      "label": "Progress Circle",
+      "documentationUrl": "https://spectrum.adobe.com/page/progress-circle/"
+    },
+    {
+      "id": "radio-button",
+      "label": "Radio Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/radio-button/"
+    },
+    {
+      "id": "radio-group",
+      "label": "Radio Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/radio-group/"
+    },
+    {
+      "id": "rating",
+      "label": "Rating",
+      "documentationUrl": "https://spectrum.adobe.com/page/rating/"
+    },
+    {
+      "id": "search-field",
+      "label": "Search Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
+    },
+    {
+      "id": "segmented-control",
+      "label": "Segmented Control",
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-control/"
+    },
+    {
+      "id": "segmented-text-field",
+      "label": "Segmented Text Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
+    },
+    {
+      "id": "select-box",
+      "label": "Select Box",
+      "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+    },
+    {
+      "id": "side-navigation",
+      "label": "Side Navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/side-navigation/"
+    },
+    {
+      "id": "single-calendar",
+      "label": "Single Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/single-calendar/"
+    },
+    {
+      "id": "slider",
+      "label": "Slider",
+      "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+    },
+    {
+      "id": "stack-item",
+      "label": "Stack Item",
+      "description": "A cross-cutting anatomy sub-part shared by multiple stacking-layout components rather than a standalone top-level component."
+    },
+    {
+      "id": "standard-dialog",
+      "label": "Standard Dialog",
+      "documentationUrl": "https://spectrum.adobe.com/page/standard-dialog/"
+    },
+    {
+      "id": "standard-panel",
+      "label": "Standard Panel",
+      "documentationUrl": "https://spectrum.adobe.com/page/standard-panel/"
+    },
+    {
+      "id": "status-light",
+      "label": "Status Light",
+      "documentationUrl": "https://spectrum.adobe.com/page/status-light/"
+    },
+    {
+      "id": "steplist",
+      "label": "Steplist",
+      "documentationUrl": "https://spectrum.adobe.com/page/steplist/"
+    },
+    {
+      "id": "swatch",
+      "label": "Swatch",
+      "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
+    },
+    {
+      "id": "swatch-group",
+      "label": "Swatch Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/swatch-group/"
+    },
+    {
+      "id": "switch",
+      "label": "Switch",
+      "documentationUrl": "https://spectrum.adobe.com/page/switch/"
+    },
+    {
+      "id": "table",
+      "label": "Table",
+      "documentationUrl": "https://spectrum.adobe.com/page/table/"
+    },
+    {
+      "id": "tabs",
+      "label": "Tabs",
+      "documentationUrl": "https://spectrum.adobe.com/page/tabs/"
+    },
+    {
+      "id": "tag",
+      "label": "Tag",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag/"
+    },
+    {
+      "id": "tag-field",
+      "label": "Tag Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag-field/"
+    },
+    {
+      "id": "tag-group",
+      "label": "Tag Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
+    },
+    {
+      "id": "takeover-dialog",
+      "label": "Takeover Dialog",
+      "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
+    },
+    {
+      "id": "text-area",
+      "label": "Text Area",
+      "documentationUrl": "https://spectrum.adobe.com/page/text-area/"
+    },
+    {
+      "id": "text-field",
+      "label": "Text Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/text-field/"
+    },
+    {
+      "id": "thumbnail",
+      "label": "Thumbnail",
+      "documentationUrl": "https://spectrum.adobe.com/page/thumbnail/"
+    },
+    {
+      "id": "time-field",
+      "label": "Time Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/time-field/"
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "documentationUrl": "https://spectrum.adobe.com/page/title/"
+    },
+    {
+      "id": "toast",
+      "label": "Toast",
+      "documentationUrl": "https://spectrum.adobe.com/page/toast/"
+    },
+    {
+      "id": "tooltip",
+      "label": "Tooltip",
+      "documentationUrl": "https://spectrum.adobe.com/page/tooltip/"
+    },
+    {
+      "id": "tray",
+      "label": "Tray",
+      "documentationUrl": "https://spectrum.adobe.com/page/tray/"
+    },
+    {
+      "id": "tree-view",
+      "label": "Tree View",
+      "documentationUrl": "https://spectrum.adobe.com/page/tree-view/"
+    },
+    {
+      "id": "triple-calendar",
+      "label": "Triple Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/triple-calendar/"
+    },
+    {
+      "id": "user-card",
+      "label": "User Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/user-card/"
+    }
+  ]
+}

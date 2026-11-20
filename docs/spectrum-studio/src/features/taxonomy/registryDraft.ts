@@ -107,3 +107,27 @@ export function reorderRegistryCategories(
   next.splice(next.indexOf(target) + (position === "after" ? 1 : 0), 0, moving);
   return next;
 }
+
+/**
+ * Reorders while some categories are hidden. The move is applied to the visible
+ * list, then anchored to the visible category it passed: after it when moving
+ * later, before it when moving earlier. Hidden categories keep their places.
+ */
+export function reorderVisibleRegistryCategories(
+  order: readonly string[],
+  visible: readonly string[],
+  moving: string,
+  target: string,
+  position: "before" | "after",
+): string[] {
+  const shown = order.filter((id) => visible.includes(id));
+  if (!shown.includes(moving) || !shown.includes(target))
+    return reorderRegistryCategories(order, moving, target, position);
+  const from = shown.indexOf(moving);
+  const next = reorderRegistryCategories(shown, moving, target, position);
+  const to = next.indexOf(moving);
+  if (to === from) return [...order];
+  return to > from
+    ? reorderRegistryCategories(order, moving, next[to - 1], "after")
+    : reorderRegistryCategories(order, moving, next[to + 1], "before");
+}

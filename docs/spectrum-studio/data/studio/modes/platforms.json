@@ -1,0 +1,26 @@
+[
+  {
+    "id": "react",
+    "name": "React"
+  },
+  {
+    "id": "web-components",
+    "name": "Web components"
+  },
+  {
+    "id": "ios",
+    "name": "iOS"
+  },
+  {
+    "id": "android",
+    "name": "Android"
+  },
+  {
+    "id": "drover",
+    "name": "Drover"
+  },
+  {
+    "id": "qt",
+    "name": "QT"
+  }
+]

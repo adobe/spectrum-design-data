@@ -202,7 +202,16 @@ export function checkInventory(
       "defaults-schema",
       "spectrum-icon-catalog",
       "check-design-data-gaps",
+      "studio-data",
+      "design-data-snapshot",
     ].map((script) => tsx(script, [`scripts/${script}.ts`, "--check"])),
+    // Generators that write Studio-owned files, so agents can run them through admission.
+    ...["studio-data", "defaults-schema", "design-data-snapshot"].map(
+      (script): CheckCommand => ({
+        ...tsx(`${script}-write`, [`scripts/${script}.ts`, "--write"]),
+        scope: "element",
+      }),
+    ),
     ...[
       "check-category-icons",
       "check-changelog-coverage",
@@ -232,6 +241,9 @@ export function checkInventory(
         "classification-term-menu.ts",
         "taxonomy-crosswalk.ts",
         "shared-token-matching.ts",
+        "slider-live-preview.ts",
+        "preview-worker.ts",
+        "numeric-edit-core.ts",
       ].includes(file)
         ? { ...check, scope: "element", resources: "small" }
         : file === "analysis-packaged-reference.ts"

@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useAtomValue } from "jotai";
+import { useAtomValue, type ExtractAtomValue } from "jotai";
 import {
   alignedSwatchCellStyles as swatchStyles,
   alignedSwatchLabelStyles as scaleIndexStyles,
@@ -17,6 +17,9 @@ import {
   opacityEditDescription,
   opacitySwatchStyle,
 } from "./opacityPresentation";
+import { useNumericRuntime } from "../../features/edit-session/numericContext";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 
 const layoutStyles = style({
   display: "flex",
@@ -42,7 +45,36 @@ const paletteStyles = style({
   flexGrow: 1,
 });
 export function OpacityElements() {
+  return useNumericRuntime() ? (
+    <LiveOpacityElements />
+  ) : (
+    <AcceptedOpacityElements />
+  );
+}
+function LiveOpacityElements() {
+  const result = useEditorPreview("opacity", null);
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label="Updating opacity preview"
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready?.value.kind === "opacity" && (
+        <OpacityElementsContent result={result.ready.value.result} />
+      )}
+    </DerivedContentBoundary>
+  );
+}
+function AcceptedOpacityElements() {
   const result = useAtomValue(opacityResultAtom);
+  return <OpacityElementsContent result={result} />;
+}
+function OpacityElementsContent({
+  result,
+}: {
+  result: ExtractAtomValue<typeof opacityResultAtom>;
+}) {
   const surfaceStyle = useAtomValue(elementsSurfaceStyleAtom);
   return (
     <div className={layoutStyles} data-component="OpacityElements">

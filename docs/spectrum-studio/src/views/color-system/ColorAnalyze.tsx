@@ -1,9 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useAtom, useAtomValue } from "jotai";
 import {
-  colorSystemDocumentAtom,
-  resolvedColorSystemDocumentAtom,
-} from "../../features/color-system/state";
+  colorPreviewSourceAtom,
+  liveColorDocumentAtom,
+  previewRulesAtom,
+} from "../../features/edit-session/previewSources";
 import { overriddenTokenCountAtom } from "../../features/tokens/state";
 import { usePreviewData } from "../analyze/AnalyzeLayout";
 import {
@@ -12,14 +13,25 @@ import {
   selectedColorScaleIdAtom,
 } from "../../state/view/colorSystemView";
 import { ColorAnalysisView } from "./ColorAnalysisView";
-import { rulesAtom } from "../../features/logic/library";
+import { useMemo } from "react";
 
 const COLOR_DRIVERS = ["color.*"];
 
 export function ColorAnalyze() {
-  const document = useAtomValue(resolvedColorSystemDocumentAtom);
-  const authored = useAtomValue(colorSystemDocumentAtom);
-  const rules = useAtomValue(rulesAtom);
+  const document = useAtomValue(liveColorDocumentAtom);
+  const authored = useAtomValue(colorPreviewSourceAtom);
+  const rules = useAtomValue(previewRulesAtom);
+  const authoredScaleContrasts = useMemo(
+    () =>
+      Object.fromEntries(
+        authored.scales.flatMap((scale) =>
+          scale.customContrasts
+            ? [[scale.id, scale.customContrasts.steps]]
+            : [],
+        ),
+      ),
+    [authored.scales],
+  );
   const overrides = useAtomValue(overriddenTokenCountAtom);
   const isPreview = usePreviewData(COLOR_DRIVERS);
   const selectedScaleId = useAtomValue(selectedColorScaleIdAtom);
@@ -30,13 +42,7 @@ export function ColorAnalyze() {
       document={document}
       authoredContrasts={authored.contrasts}
       rules={rules}
-      authoredScaleContrasts={Object.fromEntries(
-        authored.scales.flatMap((scale) =>
-          scale.customContrasts
-            ? [[scale.id, scale.customContrasts.steps]]
-            : [],
-        ),
-      )}
+      authoredScaleContrasts={authoredScaleContrasts}
       overrideCount={overrides}
       isPreview={isPreview}
       selectedScaleId={selectedScaleId}

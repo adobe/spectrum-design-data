@@ -44,16 +44,11 @@ import {
 } from "../../../features/modes/preview";
 import { taxonomyDocumentAtom } from "../../../features/taxonomy/state";
 import { dataVisSourceId } from "../../../features/color-system/data-vis/identity";
-import { continuousSamples } from "../../../features/color-system/data-vis/continuous";
 import { continuousStopBounds } from "../../../features/color-system/data-vis/editor";
 import { dataVisBackground } from "../../../features/color-system/data-vis/resolution";
 import {
   addContinuousDataVisAtom,
   applyCategoricalDataVisAtom,
-  dataVisContextFingerprintAtom,
-  dataVisContinuousOutputsAtom,
-  dataVisInputDocumentAtom,
-  dataVisUiSwatchesAtom,
   editDataVisPointAtom,
   editDataVisStructureAtom,
   pendingDataVisPointEditAtom,
@@ -61,8 +56,6 @@ import {
   removeDataVisScaleAtom,
   restoreDataVisScaleAtom,
   restoreDataVisPointAtom,
-  dataVisPrimitiveColorsAtom,
-  resolvedCategoricalTokensAtom,
 } from "../../../features/color-system/data-vis/state";
 import {
   editDataVisStaticColorAtom,
@@ -89,6 +82,7 @@ import {
 import { CategoricalChooser } from "./CategoricalChooser";
 import { useCategoricalChecks } from "../../../views/color-system/data-vis/useCategoricalChecks";
 import { popoverDialogStyles } from "../../../components/popoverLayout";
+import { useDataVisPreview } from "../../../features/color-system/data-vis/useDataVisPreview";
 
 const stack = style({ display: "flex", flexDirection: "column", gap: 12 });
 const row = style({
@@ -141,15 +135,15 @@ const kindLabel = (scale: Pick<DataVisScale, "kind">) =>
       : "Categorical";
 export function DataVisPanel() {
   const notify = useNotify();
+  const preview = useDataVisPreview();
   const document = useAtomValue(colorSystemDocumentAtom),
-    effective = useAtomValue(dataVisInputDocumentAtom);
+    effective = preview.ready?.document ?? document;
   const background = dataVisBackground(effective);
-  const swatches = useAtomValue(dataVisUiSwatchesAtom),
-    outputs = useAtomValue(dataVisContinuousOutputsAtom);
-  const categorical = useAtomValue(resolvedCategoricalTokensAtom);
+  const swatches = preview.ready?.swatches ?? [];
+  const categorical = preview.ready?.categorical ?? [];
   const checks = useCategoricalChecks();
   const taxonomy = useAtomValue(taxonomyDocumentAtom),
-    fingerprint = useAtomValue(dataVisContextFingerprintAtom);
+    fingerprint = preview.ready?.fingerprint ?? "";
   const readOnly = useIsReadOnly(),
     narrow = useNarrowScaleEditorViewport();
   const [selectedId, select] = useAtom(selectedDataVisScaleIdAtom);
@@ -187,6 +181,11 @@ export function DataVisPanel() {
     );
   return (
     <div className={stack} data-component="DataVisPanel">
+      {preview.status === "unavailable" && (
+        <p role="alert" className={negative}>
+          {preview.error}
+        </p>
+      )}
       {!readOnly && (
         <MenuTrigger>
           <ActionButton>
@@ -298,14 +297,12 @@ export function DataVisPanel() {
                   checks.status === "ready"
                     ? checks.reports[scale.id]
                     : undefined;
-                const output = outputs.find((output) =>
-                  output.status === "ready"
-                    ? output.scale.id === scale.id
-                    : output.id === scale.id,
+                const output = preview.ready?.displays.find(
+                  (output) => output.definition.id === scale.id,
                 );
                 const samples =
                   output?.status === "ready"
-                    ? continuousSamples(output.scale)
+                    ? (output.continuous?.samples ?? [])
                     : [];
                 const colors =
                   scale.kind === "categorical"
@@ -665,11 +662,12 @@ function PublishingControl({ scale }: { scale: DataVisScale }) {
 function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
   const notify = useNotify();
   const store = useStore();
+  const preview = useDataVisPreview();
   const base = useAtomValue(colorSystemDocumentAtom),
-    effective = useAtomValue(dataVisInputDocumentAtom);
-  const swatches = useAtomValue(dataVisUiSwatchesAtom),
-    outputs = useAtomValue(dataVisContinuousOutputsAtom);
-  const primitives = useAtomValue(dataVisPrimitiveColorsAtom);
+    effective = preview.ready?.document ?? base;
+  const swatches = preview.ready?.swatches ?? [],
+    outputs = preview.ready?.outputs ?? [];
+  const primitives = preview.ready?.primitives ?? [];
   const readOnly = useIsReadOnly(),
     sets = useAtomValue(modeSetsAtom),
     selection = useAtomValue(modeSelectionAtom);
@@ -757,8 +755,11 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
         editStatic({ scaleId: scale.id, colorId: id, position });
       else edit({ scaleId: scale.id, pointId: id, position, scope: "base" });
     });
+  const display = preview.ready?.displays.find(
+    (item) => item.definition.id === scale.id,
+  );
   const samples =
-    output?.status === "ready" ? continuousSamples(output.scale) : [];
+    display?.status === "ready" ? (display.continuous?.samples ?? []) : [];
   return (
     <div className={stack}>
       {output?.status === "ready" && (
@@ -853,6 +854,7 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
       )}
       {frozen ? (
         <StaticColorControls
+          key={frozen.id}
           color={frozen}
           document={base}
           primitiveColors={primitives}
@@ -875,6 +877,7 @@ function ContinuousEditor({ scale }: { scale: ContinuousDataVisScale }) {
       ) : (
         point && (
           <DataVisPointControls
+            key={point.id}
             point={point}
             document={base}
             swatches={swatches}
@@ -954,9 +957,10 @@ function StaticCategoricalEditor({
   scale: CategoricalDataVisScale;
 }) {
   const notify = useNotify();
+  const preview = useDataVisPreview();
   const document = useAtomValue(colorSystemDocumentAtom),
-    primitives = useAtomValue(dataVisPrimitiveColorsAtom);
-  const effective = useAtomValue(dataVisInputDocumentAtom),
+    primitives = preview.ready?.primitives ?? [];
+  const effective = preview.ready?.document ?? document,
     readOnly = useIsReadOnly();
   const [memberId, setMemberId] = useState(scale.members[0].id);
   const edit = useSetAtom(editDataVisStaticColorAtom);
@@ -999,6 +1003,7 @@ function StaticCategoricalEditor({
         ))}
       </Picker>
       <StaticColorControls
+        key={color.id}
         color={color}
         document={document}
         primitiveColors={primitives}

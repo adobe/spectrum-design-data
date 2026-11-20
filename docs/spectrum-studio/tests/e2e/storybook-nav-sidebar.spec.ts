@@ -11,6 +11,22 @@ test.afterEach(({ page }) => {
   expect(errors.get(page)).toEqual([]);
 });
 
+test("Sections preserve ordered destinations and collapsed selection in a short sidebar", async ({
+  page,
+}) => {
+  await page.goto(
+    "/iframe.html?id=components-navigation-sidebar--sections&viewMode=story",
+  );
+  await expect(page.locator("#storybook-root")).toHaveAttribute(
+    "data-play-complete",
+    "true",
+  );
+  await expect(page.getByRole("link", { name: /^Settings\b/ })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+});
+
 for (const appearance of ["light", "dark"])
   for (const width of [1280, 480]) {
     test(`Small status badges stay at the end of S2 navigation items in ${appearance} at ${width}px`, async ({
@@ -110,7 +126,7 @@ for (const appearance of ["light", "dark"])
       ).toHaveCount(1);
       await expect(
         nav
-          .getByRole("link", { name: "Design", exact: true })
+          .getByRole("link", { name: "Objects", exact: true })
           .locator(".sidebarLabel")
           .locator("..")
           .locator(":scope > span"),

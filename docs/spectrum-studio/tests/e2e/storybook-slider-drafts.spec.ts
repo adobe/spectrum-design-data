@@ -17,7 +17,7 @@ async function open(page: Page) {
 }
 
 async function shownValue(slider: Locator) {
-  return Number(await slider.getAttribute("aria-valuenow"));
+  return slider.evaluate((input: HTMLInputElement) => input.valueAsNumber);
 }
 
 async function savedValue(state: Locator) {
@@ -26,11 +26,10 @@ async function savedValue(state: Locator) {
 
 function thumbCenter(slider: Locator) {
   return slider.evaluate((input) => {
-    // The range input is visually hidden inside the thumb.
-    let thumb = input.parentElement;
-    while (thumb && thumb.getBoundingClientRect().width < 8)
-      thumb = thumb.parentElement;
-    const box = thumb!.getBoundingClientRect();
+    // The thumb is a zero-size anchor around the visually hidden input.
+    const thumb = input.parentElement?.parentElement;
+    if (!thumb) throw new Error("Missing slider thumb.");
+    const box = thumb.getBoundingClientRect();
     return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
   });
 }
@@ -43,6 +42,7 @@ for (const { name, state: stateId, scale } of sliders) {
     const state = page.getByTestId(stateId);
     const slider = page.getByRole("slider", { name, exact: true });
     await expect(state).toHaveAttribute("data-saves", "0");
+    await expect.poll(() => shownValue(slider)).toBe(0.5 * scale);
     const start = await shownValue(slider);
     const center = await thumbCenter(slider);
     await page.mouse.move(center.x, center.y);
@@ -96,6 +96,6 @@ test("an assistive-technology change to the range input saves immediately", asyn
   });
   await expect(state).toHaveAttribute("data-saves", "1");
   await expect(state).toHaveAttribute("data-value", "0.25");
-  await expect(slider).toHaveAttribute("aria-valuenow", "0.25");
+  await expect.poll(() => shownValue(slider)).toBe(0.25);
   expect(errors).toEqual([]);
 });

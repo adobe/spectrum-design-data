@@ -4,11 +4,11 @@ import { enableEditMode } from "./editMode";
 import { AUTHORING_STORAGE_KEY } from "../../src/features/edit-session/storage";
 import { expectFixedChartSizing } from "./chartSizing";
 
-async function openLogic(page: Page) {
+async function openLibrary(page: Page, name: "Rules" | "Formulas" = "Rules") {
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Logic" })
+    .getByRole("link", { name: new RegExp(`^${name}\\b`) })
     .dispatchEvent("click");
 }
 
@@ -18,7 +18,7 @@ test("create a conditional rounding rule and show its consumers", async ({
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await enableEditMode(page);
-  await openLogic(page);
+  await openLibrary(page);
 
   await expect(
     page.getByRole("article", { name: "Spacing rounding", exact: true }),
@@ -101,15 +101,13 @@ test("Typography and Spacing can reference rounding rules", async ({
   expect(errors).toEqual([]);
 });
 
-test("author a custom formula and an interpolation on the Logic page", async ({
+test("author a custom formula and an interpolation on the Formulas page", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await enableEditMode(page);
-  await openLogic(page);
-
-  await page.getByRole("tab", { name: "Formulas", exact: true }).click();
+  await openLibrary(page, "Formulas");
   await expect(page.getByRole("article", { name: "Type scale" })).toContainText(
     "Foundations can override: Base, Ratio",
   );
@@ -130,9 +128,9 @@ test("author a custom formula and an interpolation on the Logic page", async ({
     page.locator('[data-component="ScaleTypePreviewView"]'),
   );
   await page.getByRole("button", { name: "Add formula", exact: true }).click();
-  // Closing the focused editor returns to the Formulas tab.
+  // Closing the focused editor returns to the Progressions tab.
   await expect(
-    page.getByRole("tab", { name: "Formulas", exact: true }),
+    page.getByRole("tab", { name: "Progressions", exact: true }),
   ).toHaveAttribute("aria-selected", "true");
   const customCard = page.getByRole("article", { name: "Custom grid" });
   await expect(customCard.getByText("Custom", { exact: true })).toBeVisible();
@@ -143,6 +141,7 @@ test("author a custom formula and an interpolation on the Logic page", async ({
     }),
   ).toBeVisible();
 
+  await page.getByRole("tab", { name: "Interpolations", exact: true }).click();
   await page.getByRole("button", { name: "Add interpolation" }).click();
   await page
     .getByRole("dialog")
@@ -156,17 +155,22 @@ test("author a custom formula and an interpolation on the Logic page", async ({
   expect(errors).toEqual([]);
 });
 
-test("Rules and Formulas tabs hold their own cards", async ({ page }) => {
+test("Rules and Formulas pages hold their own libraries", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await openLogic(page);
+  await openLibrary(page);
 
   const tabs = page
-    .getByRole("tablist", { name: "Logic sections" })
+    .getByRole("tablist", { name: "Rule types" })
     .getByRole("tab");
-  await expect(tabs).toHaveText(["Rules", "Formulas"]);
+  await expect(tabs).toHaveText([
+    "Rounding",
+    "Naming",
+    "Generators",
+    "Conditions",
+  ]);
   await expect(
-    page.getByRole("tab", { name: "Rules", exact: true }),
+    page.getByRole("tab", { name: "Rounding", exact: true }),
   ).toHaveAttribute("aria-selected", "true");
   await expect(
     page.getByRole("article", { name: "Spacing rounding", exact: true }),
@@ -175,12 +179,15 @@ test("Rules and Formulas tabs hold their own cards", async ({ page }) => {
     0,
   );
 
-  await page.getByRole("tab", { name: "Formulas", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: /^Formulas\b/ })
+    .click();
   await expect(
     page.getByRole("heading", { name: "Formulas", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Interpolations", exact: true }),
+    page.getByRole("tab", { name: "Interpolations", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("article", { name: "Spacing rounding", exact: true }),
@@ -193,7 +200,7 @@ test("Logic cards show badges, previews and where each item is used", async ({
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await openLogic(page);
+  await openLibrary(page);
 
   const rule = page.getByRole("article", {
     name: "Spacing rounding",
@@ -204,7 +211,10 @@ test("Logic cards show badges, previews and where each item is used", async ({
     "Spacing › Global",
   );
 
-  await page.getByRole("tab", { name: "Formulas", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: /^Formulas\b/ })
+    .click();
   const typeScale = page.getByRole("article", { name: "Type scale" });
   await expect(
     typeScale.getByText("Type scale", { exact: true }).last(),
@@ -222,6 +232,7 @@ test("Logic cards show badges, previews and where each item is used", async ({
     "Typography › Font sizes",
   );
 
+  await page.getByRole("tab", { name: "Interpolations", exact: true }).click();
   const interpolation = page.getByRole("article", { name: "Cosine" });
   await expect(
     interpolation.getByTestId("interpolation-preview"),
@@ -242,9 +253,7 @@ test("author a geometric formula with its own base and an overridable ratio", as
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await enableEditMode(page);
-  await openLogic(page);
-
-  await page.getByRole("tab", { name: "Formulas", exact: true }).click();
+  await openLibrary(page, "Formulas");
   await page.getByRole("button", { name: "Add formula", exact: true }).click();
   await page.getByRole("menuitem", { name: "Geometric progression" }).click();
   await page

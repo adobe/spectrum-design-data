@@ -13,7 +13,7 @@ const SYSTEM_CATEGORIES: Record<string, { label: string; tone: BarTone }> = {
   rules: { label: "Rules", tone: "blue" },
   modes: { label: "Modes", tone: "seafoam" },
   platforms: { label: "Platforms", tone: "indigo" },
-  structures: { label: "Design", tone: "yellow" },
+  structures: { label: "Objects", tone: "yellow" },
   components: { label: "Components", tone: "magenta" },
   "token-authoring": { label: "Token authoring", tone: "red" },
 };

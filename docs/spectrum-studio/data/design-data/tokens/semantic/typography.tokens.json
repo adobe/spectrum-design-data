@@ -1,0 +1,297 @@
+[
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "l",
+      "weight": "bold",
+      "legacyKey": "component-l-bold"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-200}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-200}"
+    },
+    "uuid": "861ac736-b95b-4350-b40b-0dde0036c796",
+    "conceptId": "747b55cf-d1d5-4b3a-92ac-5151a8c1451f"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "l",
+      "weight": "medium",
+      "legacyKey": "component-l-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-200}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-200}"
+    },
+    "uuid": "aa7cd308-279c-4c0f-ab5e-5053341c963b",
+    "conceptId": "db2829d4-35bb-465f-a64b-1b44837eeb60"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "l",
+      "weight": "regular",
+      "legacyKey": "component-l-regular"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-200}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-200}"
+    },
+    "uuid": "5a58a097-2235-4302-a6ed-6c1fa854c523",
+    "conceptId": "84580abf-5403-4d05-b5ff-8e5ad084591b"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "m",
+      "weight": "bold",
+      "legacyKey": "component-m-bold"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-100}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-100}"
+    },
+    "uuid": "48422ecb-3993-4a96-b785-7661b9f662d2",
+    "conceptId": "a0accfca-5414-4201-a71a-638ffeef5bc3"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "m",
+      "weight": "medium",
+      "legacyKey": "component-m-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-100}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-100}"
+    },
+    "uuid": "633b828a-8623-4905-9dda-5a7b989768d7",
+    "conceptId": "05eb53be-6030-437f-a91c-e2b269bba28b"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "m",
+      "weight": "regular",
+      "legacyKey": "component-m-regular"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-100}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-100}"
+    },
+    "uuid": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "conceptId": "baa815fc-3e5c-4ecc-8893-95a15d98e818"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "s",
+      "weight": "bold",
+      "legacyKey": "component-s-bold"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-75}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-75}"
+    },
+    "uuid": "6510c875-e551-43f2-9e84-111cfccafce8",
+    "conceptId": "bb15814e-52a5-49a6-8fc9-6fb34633e6ab"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "s",
+      "weight": "medium",
+      "legacyKey": "component-s-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-75}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-75}"
+    },
+    "uuid": "afa00f39-1fe1-4026-8693-189e6d051eb3",
+    "conceptId": "0b9aae3a-9226-40fe-abe1-591a425b7092"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "s",
+      "weight": "regular",
+      "legacyKey": "component-s-regular"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-75}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-75}"
+    },
+    "uuid": "cde5212c-520d-4657-8184-f07739ffed07",
+    "conceptId": "9576e28f-6bbc-4cc5-8382-8b4e528a76e0"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "xl",
+      "weight": "bold",
+      "legacyKey": "component-xl-bold"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-300}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-300}"
+    },
+    "uuid": "1e7e87a6-cf8f-4827-ba46-ca6a9152a6d7",
+    "conceptId": "873efa9a-12ce-4572-a0e7-77e1379c1706"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "xl",
+      "weight": "medium",
+      "legacyKey": "component-xl-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-300}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-300}"
+    },
+    "uuid": "657ca53c-178e-4526-9c37-e023499f3659",
+    "conceptId": "c30a4490-06de-4e1b-95a5-f3086ed48e42"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "xl",
+      "weight": "regular",
+      "legacyKey": "component-xl-regular"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-300}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-300}"
+    },
+    "uuid": "5096f188-f728-4db4-8cd9-cc23b08956e1",
+    "conceptId": "f5865811-fa6e-4218-ae1c-87093a654631"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "xs",
+      "weight": "bold",
+      "legacyKey": "component-xs-bold"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-50}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-50}"
+    },
+    "uuid": "dc560f13-3f9d-47ed-9adf-646c24fd5a0a",
+    "conceptId": "b1465dd1-26c3-4492-af09-0739e6b16ece"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "xs",
+      "weight": "medium",
+      "legacyKey": "component-xs-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-50}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-50}"
+    },
+    "uuid": "8bf6d008-d3d8-446d-afe8-62613b1c53a2",
+    "conceptId": "a601e28b-0a7d-451b-9dea-a6d91286e22e"
+  },
+  {
+    "name": {
+      "variant": "component",
+      "property": "typography",
+      "size": "xs",
+      "weight": "regular",
+      "legacyKey": "component-xs-regular"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-50}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-50}"
+    },
+    "uuid": "5dca28f2-77f5-4b29-85f3-0075bf2cbe7f",
+    "conceptId": "0b31c7b5-9391-434c-b740-cb61da76af7b"
+  },
+  {
+    "name": {
+      "property": "font-family",
+      "legacyKey": "default-font-family"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "a552c422-c51c-458a-87b0-c6fe5178bf4b",
+    "uuid": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
+    "conceptId": "1021fd93-b3e0-4b15-bdd3-ac9d990756da"
+  }
+]

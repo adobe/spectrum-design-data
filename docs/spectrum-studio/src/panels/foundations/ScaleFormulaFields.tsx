@@ -18,7 +18,10 @@ import {
   type ScaleType,
 } from "../../features/scales/scaleType";
 import { termLabel } from "../../features/taxonomy/termPresentation";
-import { editingScaleTypeIdAtom } from "../../state/view/logicView";
+import {
+  editingScaleTypeIdAtom,
+  formulasTabAtom,
+} from "../../state/view/logicView";
 import { activePageAtom } from "../../state/view/navigation";
 
 const pickerRowStyles = style({ display: "flex", alignItems: "end", gap: 8 });
@@ -135,7 +138,7 @@ export function ScaleBaseValueField({
   );
 }
 
-/** Formula picker with a shortcut to edit the chosen formula in Logic. */
+/** Formula picker with a shortcut to edit the chosen formula in Formulas. */
 export function ScaleFormulaPicker({
   scaleType,
   onChange,
@@ -147,6 +150,7 @@ export function ScaleFormulaPicker({
   const scaleTypes = useAtomValue(scaleTypesAtom);
   const setActivePage = useSetAtom(activePageAtom);
   const setEditingScaleType = useSetAtom(editingScaleTypeIdAtom);
+  const setFormulasTab = useSetAtom(formulasTabAtom);
   return (
     <div className={pickerRowStyles}>
       <Picker
@@ -169,10 +173,11 @@ export function ScaleFormulaPicker({
         ))}
       </Picker>
       <ActionButton
-        aria-label={`Edit formula ${scaleType.name} in Logic`}
+        aria-label={`Edit formula ${scaleType.name} in Formulas`}
         onPress={() => {
+          setFormulasTab("progressions");
           setEditingScaleType(scaleType.id);
-          setActivePage("logic");
+          setActivePage("formulas");
         }}
       >
         <Edit />

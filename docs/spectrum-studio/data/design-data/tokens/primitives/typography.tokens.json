@@ -1,0 +1,589 @@
+[
+  {
+    "name": {
+      "property": "font-weight",
+      "weight": "black",
+      "legacyKey": "black-font-weight"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+    "value": "black",
+    "uuid": "e2f23ca1-802b-40a2-a211-33090f9a043e",
+    "conceptId": "3cc7b870-87c4-4b59-8897-06a59959e4f7"
+  },
+  {
+    "name": {
+      "property": "font-weight",
+      "weight": "bold",
+      "legacyKey": "bold-font-weight"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+    "value": "bold",
+    "uuid": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
+    "conceptId": "1ba831c9-1e87-4575-82c1-82022d9fcab9"
+  },
+  {
+    "name": {
+      "script": "cjk",
+      "property": "font-family"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
+    "value": "Adobe Clean Han",
+    "uuid": "034892ba-eff6-4193-b4c5-61d20c8f22eb",
+    "conceptId": "dc519fd0-ef09-4b41-90b2-efde39477d39"
+  },
+  {
+    "name": {
+      "property": "font-style",
+      "style": "normal",
+      "legacyKey": "default-font-style"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-style.json",
+    "value": "normal",
+    "uuid": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "conceptId": "e4db7d2a-ccff-474e-b5e3-78850a89ae85"
+  },
+  {
+    "name": {
+      "property": "font-weight",
+      "weight": "extra-bold",
+      "legacyKey": "extra-bold-font-weight"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+    "value": "extra-bold",
+    "uuid": "ccadf44e-5424-4920-979f-ea1ef39687c4",
+    "conceptId": "c717f133-d8da-4058-a713-05de0edc5306"
+  },
+  {
+    "name": {
+      "property": "font-size-100",
+      "scale": "desktop",
+      "scaleIndex": 100,
+      "legacyKey": "font-size-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "14px",
+    "uuid": "938e2d24-1e90-48f0-a596-595a69103707",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "ee894aad-f166-42eb-b08b-859f73db742a"
+  },
+  {
+    "name": {
+      "property": "font-size-100",
+      "scale": "mobile",
+      "scaleIndex": 100,
+      "legacyKey": "font-size-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "17px",
+    "uuid": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "ee894aad-f166-42eb-b08b-859f73db742a"
+  },
+  {
+    "name": {
+      "property": "font-size-1000",
+      "scale": "desktop",
+      "scaleIndex": 1000,
+      "legacyKey": "font-size-1000"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "40px",
+    "uuid": "27f694f9-6770-49e0-b7fc-833618b3fc2f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "200d964e-b6f4-4011-a40d-33b1bfb7aa68"
+  },
+  {
+    "name": {
+      "property": "font-size-1000",
+      "scale": "mobile",
+      "scaleIndex": 1000,
+      "legacyKey": "font-size-1000"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "49px",
+    "uuid": "8b158ab0-7e82-4dab-a4d9-84cf7a71fa0a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "200d964e-b6f4-4011-a40d-33b1bfb7aa68"
+  },
+  {
+    "name": {
+      "property": "font-size-1100",
+      "scale": "desktop",
+      "scaleIndex": 1100,
+      "legacyKey": "font-size-1100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "45px",
+    "uuid": "00dc3fcd-383f-4bc6-8940-e0884f0ffb7e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "202a2c3e-5bfc-4871-9481-13c771bdc8dc"
+  },
+  {
+    "name": {
+      "property": "font-size-1100",
+      "scale": "mobile",
+      "scaleIndex": 1100,
+      "legacyKey": "font-size-1100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "55px",
+    "uuid": "5eb96c78-c8f6-4e31-9bc8-fa62794ac4db",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "202a2c3e-5bfc-4871-9481-13c771bdc8dc"
+  },
+  {
+    "name": {
+      "property": "font-size-1200",
+      "scale": "desktop",
+      "scaleIndex": 1200,
+      "legacyKey": "font-size-1200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "51px",
+    "uuid": "b73bfb12-80ef-453f-b7dc-52bf2258ef47",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "dbd67b04-f114-4549-8e36-223b7d7007c7"
+  },
+  {
+    "name": {
+      "property": "font-size-1200",
+      "scale": "mobile",
+      "scaleIndex": 1200,
+      "legacyKey": "font-size-1200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "62px",
+    "uuid": "0ab38fb2-0de9-4be0-8967-8241379706be",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "dbd67b04-f114-4549-8e36-223b7d7007c7"
+  },
+  {
+    "name": {
+      "property": "font-size-1300",
+      "scale": "desktop",
+      "scaleIndex": 1300,
+      "legacyKey": "font-size-1300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "58px",
+    "uuid": "e8853e10-cc03-47c1-9b66-11755ff513a5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "760d6969-7e0e-4744-b1c6-d89d3a02af8d"
+  },
+  {
+    "name": {
+      "property": "font-size-1300",
+      "scale": "mobile",
+      "scaleIndex": 1300,
+      "legacyKey": "font-size-1300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "70px",
+    "uuid": "bd880141-81f6-47fe-a421-01124fe66b67",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "760d6969-7e0e-4744-b1c6-d89d3a02af8d"
+  },
+  {
+    "name": {
+      "property": "font-size-1400",
+      "scale": "desktop",
+      "scaleIndex": 1400,
+      "legacyKey": "font-size-1400"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "65px",
+    "uuid": "5af5e5bd-fc76-4688-aae9-6e7528d41341",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "21c1f04f-3a63-4bf8-9f60-e9afa0e672a2"
+  },
+  {
+    "name": {
+      "property": "font-size-1400",
+      "scale": "mobile",
+      "scaleIndex": 1400,
+      "legacyKey": "font-size-1400"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "79px",
+    "uuid": "999b22ec-e19e-4fee-a1db-3cb89c58a51c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "21c1f04f-3a63-4bf8-9f60-e9afa0e672a2"
+  },
+  {
+    "name": {
+      "property": "font-size-1500",
+      "scale": "desktop",
+      "scaleIndex": 1500,
+      "legacyKey": "font-size-1500"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "73px",
+    "uuid": "509b3100-9034-4b23-adb0-8c56dbd72a48",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d59c0cd1-efb8-4f5b-9d5a-7ecbcd79f758"
+  },
+  {
+    "name": {
+      "property": "font-size-1500",
+      "scale": "mobile",
+      "scaleIndex": 1500,
+      "legacyKey": "font-size-1500"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "88px",
+    "uuid": "94741f6e-8c95-4329-8e06-d6f261e5b0eb",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d59c0cd1-efb8-4f5b-9d5a-7ecbcd79f758"
+  },
+  {
+    "name": {
+      "property": "font-size-200",
+      "scale": "desktop",
+      "scaleIndex": 200,
+      "legacyKey": "font-size-200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "16px",
+    "uuid": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "fe457dd7-582a-4f0a-badc-7850adfd8cb7"
+  },
+  {
+    "name": {
+      "property": "font-size-200",
+      "scale": "mobile",
+      "scaleIndex": 200,
+      "legacyKey": "font-size-200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "19px",
+    "uuid": "7e51ff4e-2749-49d1-b9ed-75de92a73991",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "fe457dd7-582a-4f0a-badc-7850adfd8cb7"
+  },
+  {
+    "name": {
+      "property": "font-size-25",
+      "scale": "desktop",
+      "scaleIndex": 25,
+      "legacyKey": "font-size-25"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "10px",
+    "uuid": "26ab49ea-7e86-4f0d-812e-ef1ba794c8a8",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "73ef03ac-5b7b-4182-8991-0bb62006d276"
+  },
+  {
+    "name": {
+      "property": "font-size-25",
+      "scale": "mobile",
+      "scaleIndex": 25,
+      "legacyKey": "font-size-25"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "12px",
+    "uuid": "5946a4e5-8bed-4dd7-aa73-9ebe232f9790",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "73ef03ac-5b7b-4182-8991-0bb62006d276"
+  },
+  {
+    "name": {
+      "property": "font-size-300",
+      "scale": "desktop",
+      "scaleIndex": 300,
+      "legacyKey": "font-size-300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "18px",
+    "uuid": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "278998ed-3a83-4c4d-aed3-ab5f6e1b218a"
+  },
+  {
+    "name": {
+      "property": "font-size-300",
+      "scale": "mobile",
+      "scaleIndex": 300,
+      "legacyKey": "font-size-300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "22px",
+    "uuid": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "278998ed-3a83-4c4d-aed3-ab5f6e1b218a"
+  },
+  {
+    "name": {
+      "property": "font-size-400",
+      "scale": "desktop",
+      "scaleIndex": 400,
+      "legacyKey": "font-size-400"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "20px",
+    "uuid": "292a28d6-2e15-46e2-80cd-5171d977e9b5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7560656c-41c2-4b51-ba29-b04aa3cd386b"
+  },
+  {
+    "name": {
+      "property": "font-size-400",
+      "scale": "mobile",
+      "scaleIndex": 400,
+      "legacyKey": "font-size-400"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "24px",
+    "uuid": "d5ed0e8d-01ac-495f-bd15-fecc30af17c4",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7560656c-41c2-4b51-ba29-b04aa3cd386b"
+  },
+  {
+    "name": {
+      "property": "font-size-50",
+      "scale": "desktop",
+      "scaleIndex": 50,
+      "legacyKey": "font-size-50"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "11px",
+    "uuid": "8593a326-de37-414d-b3f6-5254b41dce07",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c6074b73-d460-439d-9401-498f52c88340"
+  },
+  {
+    "name": {
+      "property": "font-size-50",
+      "scale": "mobile",
+      "scaleIndex": 50,
+      "legacyKey": "font-size-50"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "13px",
+    "uuid": "b7561ce1-e12e-4aed-9766-181f7eca309e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c6074b73-d460-439d-9401-498f52c88340"
+  },
+  {
+    "name": {
+      "property": "font-size-500",
+      "scale": "desktop",
+      "scaleIndex": 500,
+      "legacyKey": "font-size-500"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "22px",
+    "uuid": "9be56e29-2e79-41e0-b5a9-6a2dabc70aa1",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "935af8c5-6f70-49ee-b5ba-5e9650682753"
+  },
+  {
+    "name": {
+      "property": "font-size-500",
+      "scale": "mobile",
+      "scaleIndex": 500,
+      "legacyKey": "font-size-500"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "27px",
+    "uuid": "a69a5079-1b5b-4ccf-946f-8b6e3fae4d7e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "935af8c5-6f70-49ee-b5ba-5e9650682753"
+  },
+  {
+    "name": {
+      "property": "font-size-600",
+      "scale": "desktop",
+      "scaleIndex": 600,
+      "legacyKey": "font-size-600"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "25px",
+    "uuid": "db1d7d01-8dd4-4c27-b58c-686f030e5e46",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8a6fc0d3-e584-4ce6-82d8-be8c275c865e"
+  },
+  {
+    "name": {
+      "property": "font-size-600",
+      "scale": "mobile",
+      "scaleIndex": 600,
+      "legacyKey": "font-size-600"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "31px",
+    "uuid": "ac892307-2559-48f5-9e2c-98dabbb0abc2",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8a6fc0d3-e584-4ce6-82d8-be8c275c865e"
+  },
+  {
+    "name": {
+      "property": "font-size-700",
+      "scale": "desktop",
+      "scaleIndex": 700,
+      "legacyKey": "font-size-700"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "28px",
+    "uuid": "77da1638-cb39-4c80-8c13-db77b9aa528e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c9a3ec61-f116-4298-be2d-6149d6eae889"
+  },
+  {
+    "name": {
+      "property": "font-size-700",
+      "scale": "mobile",
+      "scaleIndex": 700,
+      "legacyKey": "font-size-700"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "34px",
+    "uuid": "6bd6456c-b73b-4926-8e67-7b942e32bbc2",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c9a3ec61-f116-4298-be2d-6149d6eae889"
+  },
+  {
+    "name": {
+      "property": "font-size-75",
+      "scale": "desktop",
+      "scaleIndex": 75,
+      "legacyKey": "font-size-75"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "12px",
+    "uuid": "55d90327-8cc9-4d4f-891f-9d42751d989a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8ce57c4e-6bbb-415f-b823-81c3af0acd6e"
+  },
+  {
+    "name": {
+      "property": "font-size-75",
+      "scale": "mobile",
+      "scaleIndex": 75,
+      "legacyKey": "font-size-75"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "15px",
+    "uuid": "07e1c2a8-3925-4d71-8fae-3486483ff44c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8ce57c4e-6bbb-415f-b823-81c3af0acd6e"
+  },
+  {
+    "name": {
+      "property": "font-size-800",
+      "scale": "desktop",
+      "scaleIndex": 800,
+      "legacyKey": "font-size-800"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "32px",
+    "uuid": "8425654d-7f46-4b6d-8997-5ae6b6980e06",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d46d987e-44dd-4113-81b3-1b28c0f5cfe6"
+  },
+  {
+    "name": {
+      "property": "font-size-800",
+      "scale": "mobile",
+      "scaleIndex": 800,
+      "legacyKey": "font-size-800"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "39px",
+    "uuid": "bdfae93d-ae49-456b-af54-8620ea976ca8",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d46d987e-44dd-4113-81b3-1b28c0f5cfe6"
+  },
+  {
+    "name": {
+      "property": "font-size-900",
+      "scale": "desktop",
+      "scaleIndex": 900,
+      "legacyKey": "font-size-900"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "36px",
+    "uuid": "df2d6c8d-dc03-4581-96c6-d6a92a270b77",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "cf1791b4-dcc2-4620-a508-d95bbd44504b"
+  },
+  {
+    "name": {
+      "property": "font-size-900",
+      "scale": "mobile",
+      "scaleIndex": 900,
+      "legacyKey": "font-size-900"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "value": "44px",
+    "uuid": "5296e771-6d04-4e9a-b1fe-ab22d4dfd92b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "cf1791b4-dcc2-4620-a508-d95bbd44504b"
+  },
+  {
+    "name": {
+      "property": "font-style",
+      "style": "italic",
+      "legacyKey": "italic-font-style"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-style.json",
+    "value": "italic",
+    "uuid": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
+    "conceptId": "50288488-8069-4795-9866-810e6da75076"
+  },
+  {
+    "name": {
+      "property": "font-weight",
+      "weight": "light",
+      "emphasis": "light",
+      "legacyKey": "light-font-weight"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+    "value": "light",
+    "uuid": "fd477873-3767-4883-ab3f-5ee2758b923b",
+    "conceptId": "4e683ba0-07f7-4d85-9088-365c4995009b"
+  },
+  {
+    "name": {
+      "property": "font-weight",
+      "weight": "medium",
+      "legacyKey": "medium-font-weight"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+    "value": "medium",
+    "uuid": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4",
+    "conceptId": "f9fd89ac-ca8a-44bb-8e6e-a3a2d28a8d06"
+  },
+  {
+    "name": {
+      "property": "font-weight",
+      "weight": "regular",
+      "legacyKey": "regular-font-weight"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+    "value": "regular",
+    "uuid": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "conceptId": "456e1e50-960d-4b17-aaa4-bca1768d807e"
+  },
+  {
+    "name": {
+      "property": "font-family",
+      "family": "sans-serif"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
+    "value": "Adobe Clean Spectrum VF",
+    "uuid": "a552c422-c51c-458a-87b0-c6fe5178bf4b",
+    "conceptId": "00d2c9da-ee0f-47e8-b423-4358ba4f7bc6"
+  },
+  {
+    "name": {
+      "property": "font-family",
+      "family": "serif"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
+    "value": "Adobe Clean Serif",
+    "uuid": "7f83198f-26ec-4156-9573-826dd7feb718",
+    "conceptId": "77f64043-c458-4a61-909f-725311b3abd3"
+  }
+]

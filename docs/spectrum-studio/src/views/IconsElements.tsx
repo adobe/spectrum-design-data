@@ -30,6 +30,9 @@ import { formatAnalyzeNumber } from "./analyze/format";
 import { elementsSurfaceStyles } from "./elementsSurfaceStyles";
 import { FoundationsElementsHeader } from "./FoundationsElementsHeader";
 import { previewLabelStyles } from "./previewLabelStyles";
+import { useNumericRuntime } from "../features/edit-session/numericContext";
+import { useEditorPreview } from "../features/edit-session/useEditorPreview";
+import { DerivedContentBoundary } from "../components/DerivedContentBoundary";
 
 const containerStyle = style({
   display: "flex",
@@ -140,7 +143,7 @@ const cellLabelStyle = style({
 });
 
 /** Picks the base step when the chosen step is no longer part of the scale. */
-export function iconGridStep(
+function iconGridStep(
   values: GeneratedIconScale["values"],
   chosenStep: number | undefined,
 ) {
@@ -306,6 +309,30 @@ export function IconsElementsContent({
 }
 
 export function IconsElements() {
+  return useNumericRuntime() ? (
+    <LiveIconsElements />
+  ) : (
+    <AcceptedIconsElements />
+  );
+}
+function LiveIconsElements() {
+  const result = useEditorPreview("icons", null);
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label="Updating icon preview"
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready?.value.kind === "icons" && (
+        <div data-component="IconsElements" className={containerStyle}>
+          <IconsElementsContent scales={result.ready.value.scales} />
+        </div>
+      )}
+    </DerivedContentBoundary>
+  );
+}
+function AcceptedIconsElements() {
   const scales = useAtomValue(generatedIconsAtom);
   return (
     <div data-component="IconsElements" className={containerStyle}>

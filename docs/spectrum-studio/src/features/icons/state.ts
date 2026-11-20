@@ -21,6 +21,7 @@ import {
   type IconsDocument,
 } from "./model";
 import type { SpectrumIconName } from "./spectrumIconCatalog.generated";
+import { deferPersistedNumeric } from "../edit-session/numericProposal";
 
 export { iconsDocumentAtom } from "./documentState";
 
@@ -113,6 +114,8 @@ function commitIcons(get: Getter, set: Setter, next: IconsDocument) {
     )
   )
     throw new Error("Choose an available rounding rule.");
+  if (deferPersistedNumeric("foundations/icons", get(iconsDocumentAtom), next))
+    return;
   validateIconsGeneration(next, get(typographyDocumentAtom), {
     rules: get(rulesAtom),
     scaleTypes: get(scaleTypesAtom),

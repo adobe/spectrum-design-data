@@ -113,7 +113,7 @@ export default function Design() {
               {
                 id: "design",
                 label: "Design",
-                icon: <CategoryIcon category="design" />,
+                icon: <CategoryIcon category="view.design" />,
                 content:
                   section === "structures" ? (
                     <Suspense

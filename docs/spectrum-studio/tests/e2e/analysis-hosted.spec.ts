@@ -68,7 +68,7 @@ test("Hosted Analysis exposes unavailable state without filesystem requests or r
     await page.goto(`https://localhost:${port}`);
     await page
       .getByRole("navigation", { name: "Navigation", exact: true })
-      .getByRole("link", { name: "Analysis", exact: true })
+      .getByRole("link", { name: /^Migration\b/ })
       .click();
     await showAnalysisDetails(page);
     await expect(page.getByRole("status")).toContainText(

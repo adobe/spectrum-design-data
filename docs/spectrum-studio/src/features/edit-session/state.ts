@@ -11,12 +11,20 @@ import {
   isStylesDocument,
   type StylesDocument,
 } from "../styles/model";
-import { stylesDocumentAtom, selectedStyleIdAtom } from "../styles/state";
+import {
+  stylesDocumentAtom,
+  selectedStyleIdAtom,
+  updateStylesDocumentAtom,
+} from "../styles/state";
 import { upgradeCanonicalTokenIdentities } from "./canonicalIdentityUpgrade";
 import { createScopedStyleCatalog } from "../components/scopedStyleCatalog";
 import { reconcileStyleSource } from "../styles/artifacts";
 import { tokenIdentity } from "../tokens/canonicalIdentity";
-import { clearPersistenceIssuesAtom, persistedAtom } from "../../state/persist";
+import {
+  createIsolatedPersistedStore,
+  clearPersistenceIssuesAtom,
+  persistedAtom,
+} from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
 import { colorSystemDocumentAtom } from "../color-system/state";
 import {
@@ -131,7 +139,10 @@ import {
 } from "../taxonomy/naming";
 import { normalizeModeState } from "../modes/integrity";
 import { modeSelectionAtom } from "../modes/selection";
-import { elevationDocumentAtom } from "../elevation/state";
+import {
+  elevationDocumentAtom,
+  updateElevationDocumentAtom,
+} from "../elevation/state";
 import { ELEVATION_DEFAULTS } from "../elevation/defaults";
 import {
   isElevationDocument,
@@ -215,6 +226,7 @@ import {
   clearRememberedModeSettingsAtom,
   foundationParameterSettingsAtom,
 } from "../modes/foundationSettingsState";
+import type { NumericSource } from "./numericProposal";
 
 export interface EditSessionSnapshot {
   styles?: StylesDocument;
@@ -984,6 +996,103 @@ const componentSourceFields: Record<string, keyof EditSessionSnapshot> = {
   "tokens/browser/edits": "browserTokenEdits",
   "tokens/color/overrides": "tokenOverrides",
 };
+
+const numericValidationSourceFields = {
+  ...componentSourceFields,
+  "tokens/aliases": "aliases",
+  platforms: "platforms",
+  "modes/adaptive-claims": "adaptiveClaims",
+} satisfies Record<string, keyof EditSessionSnapshot>;
+
+const hydrateNumericValidationAtom = atom(
+  null,
+  (_get, set, source: EditSessionSnapshot) => {
+    if (source.componentSizing)
+      set(componentSizingDocumentAtom, source.componentSizing);
+    set(editModeAtom, true);
+  },
+);
+
+/** Hydrates a new isolated store without requiring the old source to generate. */
+export function createNumericValidationStore(source: EditSessionSnapshot) {
+  if (!isSnapshot(source) || source === null)
+    throw new Error("The numeric edit has invalid source data.");
+  const store = createIsolatedPersistedStore(
+    new Map(
+      Object.entries(numericValidationSourceFields).flatMap(
+        ([key, field]): [string, unknown][] =>
+          source[field] === undefined ? [] : [[key, source[field]]],
+      ),
+    ),
+  );
+  store.set(hydrateNumericValidationAtom, source);
+  return store;
+}
+
+function requiredNumericSource<Value>(value: Value | undefined): Value {
+  if (value === undefined)
+    throw new Error("The numeric edit is missing its source document.");
+  return value;
+}
+
+export const applyNumericSourceAtom = atom(
+  null,
+  (
+    _get,
+    set,
+    input: { source: EditSessionSnapshot; fields: NumericSource[] },
+  ) => {
+    const source = input.source;
+    const write: Partial<Record<NumericSource, () => void>> = {
+      colorSystem: () => set(colorSystemDocumentAtom, source.colorSystem),
+      componentSizing: () =>
+        set(
+          componentSizingDocumentAtom,
+          requiredNumericSource(source.componentSizing),
+        ),
+      typography: () => set(typographyDocumentAtom, source.typography),
+      icons: () => set(iconsDocumentAtom, requiredNumericSource(source.icons)),
+      spacing: () =>
+        set(spacingDocumentAtom, requiredNumericSource(source.spacing)),
+      size: () => set(sizeDocumentAtom, requiredNumericSource(source.size)),
+      radius: () =>
+        set(radiusDocumentAtom, requiredNumericSource(source.radius)),
+      elevation: () =>
+        set(
+          updateElevationDocumentAtom,
+          requiredNumericSource(source.elevation),
+        ),
+      opacity: () =>
+        set(opacityDocumentAtom, requiredNumericSource(source.opacity)),
+      styles: () =>
+        set(updateStylesDocumentAtom, requiredNumericSource(source.styles)),
+      structures: () =>
+        set(structuresDocumentAtom, requiredNumericSource(source.structures)),
+      rules: () => set(rulesAtom, requiredNumericSource(source.rules)),
+      scaleTypes: () =>
+        set(scaleTypesAtom, requiredNumericSource(source.scaleTypes)),
+      interpolations: () =>
+        set(interpolationsAtom, requiredNumericSource(source.interpolations)),
+      modeSets: () => set(modeSetsAtom, source.modeSets),
+      taxonomy: () =>
+        set(taxonomyDocumentAtom, requiredNumericSource(source.taxonomy)),
+      foundationParameterSettings: () =>
+        set(
+          foundationParameterSettingsAtom,
+          requiredNumericSource(source.foundationParameterSettings),
+        ),
+    };
+    const priority = (field: NumericSource) =>
+      field === "taxonomy" ? -1 : field === "styles" ? 1 : 0;
+    const fields = [...input.fields].sort((a, b) => priority(a) - priority(b));
+    for (const field of fields) {
+      const apply = write[field];
+      if (!apply)
+        throw new Error(`The numeric edit cannot apply the ${field} source.`);
+      apply();
+    }
+  },
+);
 interface ContrastProofCache {
   witness?: ComponentContrastWitness;
   signature?: string;

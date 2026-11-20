@@ -15,32 +15,17 @@
           "additionalProperties": false,
           "type": "object",
           "properties": {
-            "styles": {
-              "$ref": "#/definitions/StylesDocument"
+            "foundationParameterSettings": {
+              "$ref": "#/definitions/FoundationParameterSettings"
             },
             "componentSizing": {
               "$ref": "#/definitions/ComponentSizingDocument"
             },
-            "foundationParameterSettings": {
-              "$ref": "#/definitions/FoundationParameterSettings"
-            },
-            "modeSets": {
+            "interpolations": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ModeSet"
+                "$ref": "#/definitions/Interpolation"
               }
-            },
-            "components": {
-              "$ref": "#/definitions/ComponentsDocument"
-            },
-            "platforms": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Platform"
-              }
-            },
-            "aliases": {
-              "$ref": "#/definitions/AliasDocument"
             },
             "rules": {
               "type": "array",
@@ -48,19 +33,34 @@
                 "$ref": "#/definitions/Rule"
               }
             },
+            "styles": {
+              "$ref": "#/definitions/StylesDocument"
+            },
+            "components": {
+              "$ref": "#/definitions/ComponentsDocument"
+            },
+            "modeSets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ModeSet"
+              }
+            },
+            "platforms": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Platform"
+              }
+            },
             "browserTokenEdits": {
               "$ref": "#/definitions/BrowserTokenEdits"
+            },
+            "aliases": {
+              "$ref": "#/definitions/AliasDocument"
             },
             "adaptiveClaims": {
               "type": "object",
               "additionalProperties": {
                 "type": "string"
-              }
-            },
-            "interpolations": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Interpolation"
               }
             },
             "tokenOverrides": {
@@ -127,15 +127,12 @@
             "tokenOverrides"
           ]
         },
-        "schemaVersion": {
-          "type": "number",
-          "const": 1
-        },
         "$schema": {
           "type": "string"
         },
-        "authoringDefaults": {
-          "$ref": "#/definitions/Record%3Cstring%2Cnever%3E"
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
         },
         "dataset": {
           "type": "object",
@@ -160,6 +157,9 @@
             "name",
             "revision"
           ]
+        },
+        "authoringDefaults": {
+          "$ref": "#/definitions/Record%3Cstring%2Cnever%3E"
         }
       },
       "additionalProperties": false,
@@ -169,723 +169,6 @@
         "dataset",
         "schemaVersion",
         "system"
-      ]
-    },
-    "StylesDocument": {
-      "type": "object",
-      "properties": {
-        "schemaVersion": {
-          "type": "number",
-          "const": 1
-        },
-        "recipes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StyleRecipe"
-          }
-        },
-        "publications": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StylePublication"
-          }
-        },
-        "examples": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "icon": {
-                "type": [
-                  "null",
-                  "string"
-                ]
-              }
-            },
-            "additionalProperties": false,
-            "required": [
-              "icon"
-            ]
-          }
-        },
-        "colorRoles": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StyleColorRole"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "colorRoles",
-        "examples",
-        "publications",
-        "recipes",
-        "schemaVersion"
-      ]
-    },
-    "StyleRecipe": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "$ref": "#/definitions/StyleKind"
-        },
-        "name": {
-          "$ref": "#/definitions/TaxonomyNameReference"
-        },
-        "classification": {
-          "$ref": "#/definitions/Classification"
-        },
-        "appearance": {
-          "$ref": "#/definitions/StyleAppearance"
-        },
-        "options": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/OptionProperty"
-          }
-        },
-        "differences": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/Partial%3CStyleAppearance%3E"
-          }
-        },
-        "applications": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StyleRuleApplication"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "appearance",
-        "applications",
-        "classification",
-        "differences",
-        "id",
-        "kind",
-        "name",
-        "options"
-      ]
-    },
-    "StyleKind": {
-      "enum": [
-        "background",
-        "border",
-        "icon",
-        "text"
-      ],
-      "type": "string"
-    },
-    "TaxonomyNameReference": {
-      "type": "object",
-      "properties": {
-        "categoryId": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "termId": {
-          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-          "type": "string"
-        },
-        "classification": {
-          "description": "Explicit foundation-owned name segments; source labels are not parsed.",
-          "$ref": "#/definitions/Classification"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "categoryId",
-        "termId"
-      ]
-    },
-    "Classification": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "type": "string"
-          }
-        ]
-      }
-    },
-    "StyleAppearance": {
-      "type": "object",
-      "properties": {
-        "color": {
-          "$ref": "#/definitions/StyleColor"
-        },
-        "fontFamily": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "$ref": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "$ref"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "value"
-              ]
-            }
-          ]
-        },
-        "fontWeight": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "$ref": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "$ref"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "value"
-              ]
-            }
-          ]
-        },
-        "lineHeight": {
-          "type": "object",
-          "properties": {
-            "metricId": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "metricId"
-          ]
-        },
-        "borderWidth": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "$ref": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "$ref"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "value"
-              ]
-            }
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "color"
-      ]
-    },
-    "StyleColor": {
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "single"
-            },
-            "binding": {
-              "$ref": "#/definitions/StyleBinding"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "binding",
-            "kind"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "families"
-            },
-            "familyIds": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "scaleIndex": {
-              "type": "number"
-            },
-            "indexModes": {
-              "type": "object",
-              "properties": {
-                "modeSetId": {
-                  "type": "string"
-                },
-                "values": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "number"
-                  }
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "modeSetId",
-                "values"
-              ]
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "familyIds",
-            "kind",
-            "scaleIndex"
-          ]
-        }
-      ]
-    },
-    "StyleBinding": {
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "$ref": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "$ref"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "value": {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "value"
-          ]
-        }
-      ]
-    },
-    "OptionProperty": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/BooleanProperty"
-        },
-        {
-          "$ref": "#/definitions/VariantProperty"
-        }
-      ]
-    },
-    "BooleanProperty": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string",
-          "const": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "defaultValue": {
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "defaultValue",
-        "id",
-        "kind",
-        "name"
-      ]
-    },
-    "VariantProperty": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string",
-          "const": "variant"
-        },
-        "name": {
-          "type": "string"
-        },
-        "categoryId": {
-          "type": "string"
-        },
-        "classification": {
-          "$ref": "#/definitions/Classification"
-        },
-        "defaultOptionId": {
-          "type": "string"
-        },
-        "options": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/VariantOption"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "classification",
-        "defaultOptionId",
-        "id",
-        "kind",
-        "name",
-        "options"
-      ]
-    },
-    "VariantOption": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "classification": {
-          "$ref": "#/definitions/Classification"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "classification",
-        "id",
-        "name"
-      ]
-    },
-    "Partial<StyleAppearance>": {
-      "type": "object",
-      "properties": {
-        "color": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "single"
-                },
-                "binding": {
-                  "$ref": "#/definitions/StyleBinding"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "binding",
-                "kind"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "families"
-                },
-                "familyIds": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "scaleIndex": {
-                  "type": "number"
-                },
-                "indexModes": {
-                  "type": "object",
-                  "properties": {
-                    "modeSetId": {
-                      "type": "string"
-                    },
-                    "values": {
-                      "type": "object",
-                      "additionalProperties": {
-                        "type": "number"
-                      }
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "modeSetId",
-                    "values"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "familyIds",
-                "kind",
-                "scaleIndex"
-              ]
-            }
-          ]
-        },
-        "fontFamily": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "$ref": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "$ref"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "value"
-              ]
-            }
-          ]
-        },
-        "fontWeight": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "$ref": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "$ref"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "value"
-              ]
-            }
-          ]
-        },
-        "lineHeight": {
-          "type": "object",
-          "properties": {
-            "metricId": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "metricId"
-          ]
-        },
-        "borderWidth": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "$ref": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "$ref"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "value"
-              ]
-            }
-          ]
-        }
-      },
-      "additionalProperties": false
-    },
-    "StyleRuleApplication": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "ruleId": {
-          "type": "string"
-        },
-        "outputIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "outputIds",
-        "ruleId"
-      ]
-    },
-    "StylePublication": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "recipeId": {
-          "type": "string"
-        },
-        "key": {
-          "type": "string"
-        },
-        "rows": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "key",
-        "recipeId",
-        "rows"
-      ]
-    },
-    "StyleColorRole": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "roleTermId": {
-          "type": "string"
-        },
-        "scaleId": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "roleTermId",
-        "scaleId"
-      ]
-    },
-    "ComponentSizingDocument": {
-      "type": "object",
-      "properties": {
-        "schemaVersion": {
-          "type": "number",
-          "const": 1
-        },
-        "componentSize": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "componentSize",
-        "schemaVersion"
       ]
     },
     "FoundationParameterSettings": {
@@ -948,959 +231,150 @@
         "modal"
       ]
     },
-    "ModeSet": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "key": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "iconId": {
-          "description": "When set to anything but \"none\", it replaces the per-mode icons.",
-          "enum": [
-            "brightness",
-            "color",
-            "contrast",
-            "dark",
-            "devices",
-            "light",
-            "none",
-            "phone",
-            "star",
-            "tablet",
-            "textSize"
-          ],
-          "type": "string"
-        },
-        "defaultModeId": {
-          "type": "string"
-        },
-        "authoringCapabilities": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AuthoringCapability"
-          }
-        },
-        "modes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Mode"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "defaultModeId",
-        "description",
-        "id",
-        "key",
-        "modes",
-        "name"
-      ]
-    },
-    "AuthoringCapability": {
-      "description": "Legacy capability type is retained only for decoders and cleanup of old snapshots.",
-      "enum": [
-        "color.backgroundLightness",
-        "color.backgroundScaleId",
-        "color.contrastMultiplier",
-        "color.scaleAdjustment",
-        "color.scales",
-        "elevation.color",
-        "elevation.depth",
-        "elevation.layerOpacities",
-        "size.componentSize",
-        "typography.textSize",
-        "typography.textZoom"
-      ],
-      "type": "string"
-    },
-    "Mode": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "key": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "iconId": {
-          "$ref": "#/definitions/ModeIconId"
-        },
-        "platformIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "foundations": {
-          "$ref": "#/definitions/ModeFoundations"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "description",
-        "foundations",
-        "iconId",
-        "id",
-        "key",
-        "name",
-        "platformIds"
-      ]
-    },
-    "ModeIconId": {
-      "enum": [
-        "brightness",
-        "color",
-        "contrast",
-        "dark",
-        "devices",
-        "light",
-        "none",
-        "phone",
-        "star",
-        "tablet",
-        "textSize"
-      ],
-      "type": "string"
-    },
-    "ModeFoundations": {
-      "type": "object",
-      "properties": {
-        "color": {
-          "$ref": "#/definitions/ColorFoundationOverride"
-        },
-        "typography": {
-          "$ref": "#/definitions/TypographyFoundationOverride"
-        },
-        "size": {
-          "type": "object",
-          "properties": {
-            "componentSize": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false
-        },
-        "elevation": {
-          "$ref": "#/definitions/ElevationOverride"
-        }
-      },
-      "additionalProperties": false
-    },
-    "ColorFoundationOverride": {
-      "type": "object",
-      "properties": {
-        "backgroundScaleId": {
-          "type": "string"
-        },
-        "backgroundLightness": {
-          "type": "number"
-        },
-        "contrastMultiplier": {
-          "type": "number"
-        },
-        "scaleAdjustment": {
-          "description": "Relative transforms existing keys; absolute derives all ramps from one shared color.",
-          "anyOf": [
-            {
-              "$ref": "#/definitions/RelativeScaleAdjustment"
-            },
-            {
-              "$ref": "#/definitions/AbsoluteScaleAdjustment"
-            }
-          ]
-        },
-        "scaleStops": {
-          "description": "Removed in schema v10; retained for decoding historical authoring snapshots only.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/ColorStopOverride"
-            }
-          }
-        },
-        "scaleContrasts": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "number"
-            }
-          }
-        },
-        "dataVisSources": {
-          "description": "Removed in schema v10; retained for decoding historical authoring snapshots only.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/DataVisSourcePatch"
-            }
-          }
-        },
-        "dataVisContrasts": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "number"
-            }
-          }
-        }
-      },
-      "additionalProperties": false
-    },
-    "RelativeScaleAdjustment": {
-      "type": "object",
-      "properties": {
-        "method": {
-          "type": "string",
-          "const": "relative"
-        },
-        "enabled": {
-          "type": "boolean"
-        },
-        "hue": {
-          "type": "number"
-        },
-        "chroma": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "method"
-      ]
-    },
-    "AbsoluteScaleAdjustment": {
-      "type": "object",
-      "properties": {
-        "method": {
-          "type": "string",
-          "const": "absolute"
-        },
-        "enabled": {
-          "type": "boolean"
-        },
-        "color": {
-          "$ref": "#/definitions/ColorStopInput"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "color",
-        "method"
-      ]
-    },
-    "ColorStopInput": {
-      "type": "object",
-      "properties": {
-        "lightness": {
-          "type": "number"
-        },
-        "hue": {
-          "type": "number"
-        },
-        "chroma": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "chroma",
-        "hue",
-        "lightness"
-      ]
-    },
-    "ColorStopOverride": {
-      "additionalProperties": false,
-      "type": "object",
-      "properties": {
-        "hue": {
-          "type": "number"
-        },
-        "lightness": {
-          "type": "number"
-        },
-        "chroma": {
-          "type": "number"
-        },
-        "paletteColorId": {
-          "type": "string"
-        }
-      }
-    },
-    "DataVisSourcePatch": {
-      "type": "object",
-      "properties": {
-        "color": {
-          "$ref": "#/definitions/Partial%3CColorStopInput%3E"
-        },
-        "scaleId": {
-          "type": "string"
-        },
-        "contrastId": {
-          "type": "string"
-        },
-        "tokenId": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false
-    },
-    "Partial<ColorStopInput>": {
-      "type": "object",
-      "properties": {
-        "lightness": {
-          "type": "number"
-        },
-        "hue": {
-          "type": "number"
-        },
-        "chroma": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false
-    },
-    "TypographyFoundationOverride": {
-      "type": "object",
-      "properties": {
-        "textZoom": {
-          "type": "number"
-        },
-        "textSize": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false
-    },
-    "ElevationOverride": {
-      "type": "object",
-      "properties": {
-        "depth": {
-          "type": "number"
-        },
-        "color": {
-          "type": "string"
-        },
-        "layerOpacities": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "number"
-          }
-        }
-      },
-      "additionalProperties": false
-    },
-    "ComponentsDocument": {
-      "type": "object",
-      "properties": {
-        "schemaVersion": {
-          "type": "number",
-          "const": 2
-        },
-        "components": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ComponentRecord"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "components",
-        "schemaVersion"
-      ]
-    },
-    "ComponentRecord": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "catalogId": {
-          "type": "string"
-        },
-        "declaration": {
-          "$ref": "#/definitions/ComponentDeclaration"
-        },
-        "identities": {
-          "type": "object",
-          "properties": {
-            "parts": {
-              "$ref": "#/definitions/DeclarationIdentities"
-            },
-            "options": {
-              "$ref": "#/definitions/DeclarationIdentities"
-            },
-            "states": {
-              "$ref": "#/definitions/DeclarationIdentities"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "options",
-            "parts",
-            "states"
-          ]
-        },
-        "optionOrder": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "assignments": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ComponentAssignment"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "assignments",
-        "declaration",
-        "id",
-        "identities",
-        "optionOrder"
-      ]
-    },
-    "ComponentDeclaration": {
-      "type": "object",
-      "properties": {
-        "$id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "meta": {
-          "type": "object",
-          "properties": {
-            "category": {
-              "type": "string"
-            },
-            "documentationUrl": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "category",
-            "documentationUrl"
-          ]
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "specVersion": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "implementations": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "options": {
-          "$ref": "#/definitions/ComponentOptions"
-        },
-        "slots": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "anatomy": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ComponentPart"
-          }
-        },
-        "states": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ComponentState"
-          }
-        },
-        "lifecycle": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        "tokenBindings": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "documentBlocks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "accessibility": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "$id",
-        "displayName",
-        "meta",
-        "name"
-      ]
-    },
-    "JsonValue": {
-      "anyOf": [
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        {
-          "type": [
-            "null",
-            "string",
-            "number",
-            "boolean"
-          ]
-        }
-      ]
-    },
-    "ComponentOptions": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/ComponentOption"
-      }
-    },
-    "ComponentOption": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          },
-          {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          },
-          {
-            "type": [
-              "null",
-              "string",
-              "number",
-              "boolean"
-            ]
-          }
-        ]
-      },
-      "properties": {
-        "type": {
-          "anyOf": [
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/OptionType"
-              }
-            },
-            {
-              "enum": [
-                "array",
-                "boolean",
-                "integer",
-                "null",
-                "number",
-                "object",
-                "string"
-              ],
-              "type": "string"
-            }
-          ]
-        },
-        "values": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "value": {
-                "$ref": "#/definitions/JsonValue"
-              },
-              "description": {
-                "type": "string"
-              },
-              "lifecycle": {
-                "type": "object",
-                "additionalProperties": {
-                  "$ref": "#/definitions/JsonValue"
-                }
-              }
-            },
-            "additionalProperties": false,
-            "required": [
-              "value"
-            ]
-          }
-        },
-        "default": {
-          "anyOf": [
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/JsonValue"
-              }
-            },
-            {
-              "type": "object",
-              "additionalProperties": {
-                "$ref": "#/definitions/JsonValue"
-              }
-            },
-            {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean"
-              ]
-            }
-          ]
-        },
-        "description": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        }
-      }
-    },
-    "OptionType": {
-      "enum": [
-        "array",
-        "boolean",
-        "integer",
-        "null",
-        "number",
-        "object",
-        "string"
-      ],
-      "type": "string"
-    },
-    "ComponentPart": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "required": {
-          "type": "boolean"
-        },
-        "contains": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "documentBlocks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/definitions/JsonValue"
-            }
-          }
-        },
-        "lifecycle": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "name"
-      ]
-    },
-    "ComponentState": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "trigger": {
-          "enum": [
-            "interaction",
-            "prop"
-          ],
-          "type": "string"
-        },
-        "precedence": {
-          "type": "number"
-        },
-        "layered": {
-          "type": "boolean"
-        },
-        "lifecycle": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        "announce": {
-          "type": "string"
-        },
-        "communicates": {
-          "type": "string"
-        },
-        "blocksInteraction": {
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "name"
-      ]
-    },
-    "DeclarationIdentities": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string"
-      }
-    },
-    "ComponentAssignment": {
-      "anyOf": [
-        {
-          "additionalProperties": false,
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "partId": {
-              "type": "string"
-            },
-            "property": {
-              "$ref": "#/definitions/TaxonomyNameReference"
-            },
-            "options": {
-              "$ref": "#/definitions/AssignmentScope"
-            },
-            "description": {
-              "type": "string"
-            },
-            "context": {
-              "type": "string"
-            },
-            "$valueType": {
-              "type": "string"
-            },
-            "value": {
-              "$ref": "#/definitions/LiteralValue"
-            }
-          },
-          "required": [
-            "id",
-            "property",
-            "value"
-          ]
-        },
-        {
-          "additionalProperties": false,
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "partId": {
-              "type": "string"
-            },
-            "property": {
-              "$ref": "#/definitions/TaxonomyNameReference"
-            },
-            "options": {
-              "$ref": "#/definitions/AssignmentScope"
-            },
-            "description": {
-              "type": "string"
-            },
-            "context": {
-              "type": "string"
-            },
-            "$valueType": {
-              "type": "string"
-            },
-            "$ref": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "$ref",
-            "id",
-            "property"
-          ]
-        }
-      ]
-    },
-    "AssignmentScope": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "type": "string"
-          }
-        ]
-      }
-    },
-    "LiteralValue": {
-      "anyOf": [
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/JsonValue"
-          }
-        },
-        {
-          "type": [
-            "string",
-            "number",
-            "boolean"
-          ]
-        }
-      ]
-    },
-    "Platform": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "name"
-      ]
-    },
-    "AliasDocument": {
+    "ComponentSizingDocument": {
       "type": "object",
       "properties": {
         "schemaVersion": {
           "type": "number",
           "const": 1
         },
-        "tokens": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AliasToken"
-          }
+        "componentSize": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
       "required": [
-        "schemaVersion",
-        "tokens"
+        "componentSize",
+        "schemaVersion"
       ]
     },
-    "AliasToken": {
+    "Interpolation": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/MethodInterpolation"
+        },
+        {
+          "$ref": "#/definitions/ExpressionInterpolation"
+        }
+      ]
+    },
+    "MethodInterpolation": {
+      "description": "A reusable blending method. Input and output endpoints belong to each consumer.",
       "type": "object",
       "properties": {
+        "kind": {
+          "type": "string",
+          "const": "method"
+        },
+        "method": {
+          "$ref": "#/definitions/InterpolationMethod"
+        },
         "id": {
           "type": "string"
         },
         "name": {
           "type": "string"
         },
-        "$ref": {
+        "description": {
           "type": "string"
         },
-        "contexts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "locked": {
+          "description": "Built-in interpolations other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
       "required": [
-        "$ref",
-        "contexts",
+        "description",
         "id",
+        "kind",
+        "method",
         "name"
+      ]
+    },
+    "InterpolationMethod": {
+      "enum": [
+        "cosine",
+        "exponential",
+        "linear"
+      ],
+      "type": "string"
+    },
+    "ExpressionInterpolation": {
+      "description": "value → value formula. Variables: `x` and the parameter ids.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "expression"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FormulaParameter"
+          }
+        },
+        "expression": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "locked": {
+          "description": "Built-in interpolations other data falls back to; they cannot be edited or deleted.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "expression",
+        "id",
+        "kind",
+        "name",
+        "parameters"
+      ]
+    },
+    "FormulaParameter": {
+      "description": "A named numeric input shared by formulas and interpolations.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "default": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "step": {
+          "type": "number"
+        },
+        "adaptable": {
+          "description": "Whether a foundation may bind this part to a mode parameter.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "adaptable",
+        "default",
+        "id",
+        "label",
+        "step"
       ]
     },
     "Rule": {
@@ -2465,6 +939,22 @@
         "when"
       ]
     },
+    "Classification": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
     "RuleConditionGroup": {
       "type": "object",
       "properties": {
@@ -2578,6 +1068,1616 @@
       "additionalProperties": false,
       "required": [
         "offset"
+      ]
+    },
+    "StylesDocument": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "recipes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StyleRecipe"
+          }
+        },
+        "publications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StylePublication"
+          }
+        },
+        "examples": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "icon": {
+                "type": [
+                  "null",
+                  "string"
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "icon"
+            ]
+          }
+        },
+        "colorRoles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StyleColorRole"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "colorRoles",
+        "examples",
+        "publications",
+        "recipes",
+        "schemaVersion"
+      ]
+    },
+    "StyleRecipe": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/StyleKind"
+        },
+        "name": {
+          "$ref": "#/definitions/TaxonomyNameReference"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        },
+        "appearance": {
+          "$ref": "#/definitions/StyleAppearance"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionProperty"
+          }
+        },
+        "differences": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Partial%3CStyleAppearance%3E"
+          }
+        },
+        "applications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StyleRuleApplication"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "appearance",
+        "applications",
+        "classification",
+        "differences",
+        "id",
+        "kind",
+        "name",
+        "options"
+      ]
+    },
+    "StyleKind": {
+      "enum": [
+        "background",
+        "border",
+        "icon",
+        "shadow",
+        "text"
+      ],
+      "type": "string"
+    },
+    "TaxonomyNameReference": {
+      "type": "object",
+      "properties": {
+        "categoryId": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "termId": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "type": "string"
+        },
+        "classification": {
+          "description": "Explicit foundation-owned name segments; source labels are not parsed.",
+          "$ref": "#/definitions/Classification"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "categoryId",
+        "termId"
+      ]
+    },
+    "StyleAppearance": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "description": "Required for every kind except shadow.",
+          "$ref": "#/definitions/StyleColor"
+        },
+        "fontFamily": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "fontWeight": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "lineHeight": {
+          "type": "object",
+          "properties": {
+            "metricId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "metricId"
+          ]
+        },
+        "borderWidth": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "shadow": {
+          "$ref": "#/definitions/StyleShadow"
+        }
+      },
+      "additionalProperties": false
+    },
+    "StyleColor": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "single"
+            },
+            "binding": {
+              "$ref": "#/definitions/StyleBinding"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "binding",
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "families"
+            },
+            "familyIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "scaleIndex": {
+              "type": "number"
+            },
+            "indexModes": {
+              "type": "object",
+              "properties": {
+                "modeSetId": {
+                  "type": "string"
+                },
+                "values": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "number"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "modeSetId",
+                "values"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "familyIds",
+            "kind",
+            "scaleIndex"
+          ]
+        }
+      ]
+    },
+    "StyleBinding": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "$ref"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "value"
+          ]
+        }
+      ]
+    },
+    "StyleShadow": {
+      "type": "object",
+      "properties": {
+        "elevationId": {
+          "type": "string"
+        },
+        "scaleIndex": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "elevationId",
+        "scaleIndex"
+      ]
+    },
+    "OptionProperty": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BooleanProperty"
+        },
+        {
+          "$ref": "#/definitions/VariantProperty"
+        }
+      ]
+    },
+    "BooleanProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "defaultValue": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "defaultValue",
+        "id",
+        "kind",
+        "name"
+      ]
+    },
+    "VariantProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "variant"
+        },
+        "name": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        },
+        "defaultOptionId": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VariantOption"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "defaultOptionId",
+        "id",
+        "kind",
+        "name",
+        "options"
+      ]
+    },
+    "VariantOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "classification": {
+          "$ref": "#/definitions/Classification"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "id",
+        "name"
+      ]
+    },
+    "Partial<StyleAppearance>": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "single"
+                },
+                "binding": {
+                  "$ref": "#/definitions/StyleBinding"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "binding",
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "families"
+                },
+                "familyIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "scaleIndex": {
+                  "type": "number"
+                },
+                "indexModes": {
+                  "type": "object",
+                  "properties": {
+                    "modeSetId": {
+                      "type": "string"
+                    },
+                    "values": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "modeSetId",
+                    "values"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "familyIds",
+                "kind",
+                "scaleIndex"
+              ]
+            }
+          ]
+        },
+        "fontFamily": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "fontWeight": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "lineHeight": {
+          "type": "object",
+          "properties": {
+            "metricId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "metricId"
+          ]
+        },
+        "borderWidth": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "$ref"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "StyleRuleApplication": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "ruleId": {
+          "type": "string"
+        },
+        "outputIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "outputIds",
+        "ruleId"
+      ]
+    },
+    "StylePublication": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "recipeId": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "rows": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "key",
+        "recipeId",
+        "rows"
+      ]
+    },
+    "StyleColorRole": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "roleTermId": {
+          "type": "string"
+        },
+        "scaleId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "roleTermId",
+        "scaleId"
+      ]
+    },
+    "ComponentsDocument": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 2
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponentRecord"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "components",
+        "schemaVersion"
+      ]
+    },
+    "ComponentRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "catalogId": {
+          "type": "string"
+        },
+        "declaration": {
+          "$ref": "#/definitions/ComponentDeclaration"
+        },
+        "identities": {
+          "type": "object",
+          "properties": {
+            "parts": {
+              "$ref": "#/definitions/DeclarationIdentities"
+            },
+            "options": {
+              "$ref": "#/definitions/DeclarationIdentities"
+            },
+            "states": {
+              "$ref": "#/definitions/DeclarationIdentities"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "options",
+            "parts",
+            "states"
+          ]
+        },
+        "optionOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponentAssignment"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "assignments",
+        "declaration",
+        "id",
+        "identities",
+        "optionOrder"
+      ]
+    },
+    "ComponentDeclaration": {
+      "type": "object",
+      "properties": {
+        "$id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "documentationUrl": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "documentationUrl"
+          ]
+        },
+        "$schema": {
+          "type": "string"
+        },
+        "specVersion": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "implementations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "options": {
+          "$ref": "#/definitions/ComponentOptions"
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "anatomy": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponentPart"
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComponentState"
+          }
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        "tokenBindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "accessibility": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "$id",
+        "displayName",
+        "meta",
+        "name"
+      ]
+    },
+    "JsonValue": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        {
+          "type": [
+            "null",
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      ]
+    },
+    "ComponentOptions": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/ComponentOption"
+      }
+    },
+    "ComponentOption": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          },
+          {
+            "type": [
+              "null",
+              "string",
+              "number",
+              "boolean"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OptionType"
+              }
+            },
+            {
+              "enum": [
+                "array",
+                "boolean",
+                "integer",
+                "null",
+                "number",
+                "object",
+                "string"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "$ref": "#/definitions/JsonValue"
+              },
+              "description": {
+                "type": "string"
+              },
+              "lifecycle": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/definitions/JsonValue"
+                }
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "default": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/JsonValue"
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/JsonValue"
+              }
+            },
+            {
+              "type": [
+                "null",
+                "string",
+                "number",
+                "boolean"
+              ]
+            }
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "$ref": {
+          "type": "string"
+        }
+      }
+    },
+    "OptionType": {
+      "enum": [
+        "array",
+        "boolean",
+        "integer",
+        "null",
+        "number",
+        "object",
+        "string"
+      ],
+      "type": "string"
+    },
+    "ComponentPart": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "contains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/JsonValue"
+            }
+          }
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "ComponentState": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "trigger": {
+          "enum": [
+            "interaction",
+            "prop"
+          ],
+          "type": "string"
+        },
+        "precedence": {
+          "type": "number"
+        },
+        "layered": {
+          "type": "boolean"
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        "announce": {
+          "type": "string"
+        },
+        "communicates": {
+          "type": "string"
+        },
+        "blocksInteraction": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "DeclarationIdentities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ComponentAssignment": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "partId": {
+              "type": "string"
+            },
+            "property": {
+              "$ref": "#/definitions/TaxonomyNameReference"
+            },
+            "options": {
+              "$ref": "#/definitions/AssignmentScope"
+            },
+            "description": {
+              "type": "string"
+            },
+            "context": {
+              "type": "string"
+            },
+            "$valueType": {
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/definitions/LiteralValue"
+            }
+          },
+          "required": [
+            "id",
+            "property",
+            "value"
+          ]
+        },
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "partId": {
+              "type": "string"
+            },
+            "property": {
+              "$ref": "#/definitions/TaxonomyNameReference"
+            },
+            "options": {
+              "$ref": "#/definitions/AssignmentScope"
+            },
+            "description": {
+              "type": "string"
+            },
+            "context": {
+              "type": "string"
+            },
+            "$valueType": {
+              "type": "string"
+            },
+            "$ref": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "$ref",
+            "id",
+            "property"
+          ]
+        }
+      ]
+    },
+    "AssignmentScope": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "LiteralValue": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/JsonValue"
+          }
+        },
+        {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      ]
+    },
+    "ModeSet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "iconId": {
+          "description": "When set to anything but \"none\", it replaces the per-mode icons.",
+          "enum": [
+            "brightness",
+            "color",
+            "contrast",
+            "dark",
+            "devices",
+            "light",
+            "none",
+            "phone",
+            "star",
+            "tablet",
+            "textSize"
+          ],
+          "type": "string"
+        },
+        "defaultModeId": {
+          "type": "string"
+        },
+        "authoringCapabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuthoringCapability"
+          }
+        },
+        "modes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Mode"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "defaultModeId",
+        "description",
+        "id",
+        "key",
+        "modes",
+        "name"
+      ]
+    },
+    "AuthoringCapability": {
+      "description": "Legacy capability type is retained only for decoders and cleanup of old snapshots.",
+      "enum": [
+        "color.backgroundLightness",
+        "color.backgroundScaleId",
+        "color.contrastMultiplier",
+        "color.scaleAdjustment",
+        "color.scales",
+        "elevation.color",
+        "elevation.depth",
+        "elevation.layerOpacities",
+        "size.componentSize",
+        "typography.textSize",
+        "typography.textZoom"
+      ],
+      "type": "string"
+    },
+    "Mode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "iconId": {
+          "$ref": "#/definitions/ModeIconId"
+        },
+        "platformIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "foundations": {
+          "$ref": "#/definitions/ModeFoundations"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "foundations",
+        "iconId",
+        "id",
+        "key",
+        "name",
+        "platformIds"
+      ]
+    },
+    "ModeIconId": {
+      "enum": [
+        "brightness",
+        "color",
+        "contrast",
+        "dark",
+        "devices",
+        "light",
+        "none",
+        "phone",
+        "star",
+        "tablet",
+        "textSize"
+      ],
+      "type": "string"
+    },
+    "ModeFoundations": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "$ref": "#/definitions/ColorFoundationOverride"
+        },
+        "typography": {
+          "$ref": "#/definitions/TypographyFoundationOverride"
+        },
+        "size": {
+          "type": "object",
+          "properties": {
+            "componentSize": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        },
+        "elevation": {
+          "$ref": "#/definitions/ElevationOverride"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ColorFoundationOverride": {
+      "type": "object",
+      "properties": {
+        "backgroundScaleId": {
+          "type": "string"
+        },
+        "backgroundLightness": {
+          "type": "number"
+        },
+        "contrastMultiplier": {
+          "type": "number"
+        },
+        "scaleAdjustment": {
+          "description": "Relative transforms existing keys; absolute derives all ramps from one shared color.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RelativeScaleAdjustment"
+            },
+            {
+              "$ref": "#/definitions/AbsoluteScaleAdjustment"
+            }
+          ]
+        },
+        "scaleStops": {
+          "description": "Removed in schema v10; retained for decoding historical authoring snapshots only.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/ColorStopOverride"
+            }
+          }
+        },
+        "scaleContrasts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        },
+        "dataVisSources": {
+          "description": "Removed in schema v10; retained for decoding historical authoring snapshots only.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/DataVisSourcePatch"
+            }
+          }
+        },
+        "dataVisContrasts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "RelativeScaleAdjustment": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "relative"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "hue": {
+          "type": "number"
+        },
+        "chroma": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ]
+    },
+    "AbsoluteScaleAdjustment": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "absolute"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "color": {
+          "$ref": "#/definitions/ColorStopInput"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "color",
+        "method"
+      ]
+    },
+    "ColorStopInput": {
+      "type": "object",
+      "properties": {
+        "lightness": {
+          "type": "number"
+        },
+        "hue": {
+          "type": "number"
+        },
+        "chroma": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "chroma",
+        "hue",
+        "lightness"
+      ]
+    },
+    "ColorStopOverride": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "hue": {
+          "type": "number"
+        },
+        "lightness": {
+          "type": "number"
+        },
+        "chroma": {
+          "type": "number"
+        },
+        "paletteColorId": {
+          "type": "string"
+        }
+      }
+    },
+    "DataVisSourcePatch": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "$ref": "#/definitions/Partial%3CColorStopInput%3E"
+        },
+        "scaleId": {
+          "type": "string"
+        },
+        "contrastId": {
+          "type": "string"
+        },
+        "tokenId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Partial<ColorStopInput>": {
+      "type": "object",
+      "properties": {
+        "lightness": {
+          "type": "number"
+        },
+        "hue": {
+          "type": "number"
+        },
+        "chroma": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "TypographyFoundationOverride": {
+      "type": "object",
+      "properties": {
+        "textZoom": {
+          "type": "number"
+        },
+        "textSize": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ElevationOverride": {
+      "type": "object",
+      "properties": {
+        "depth": {
+          "type": "number"
+        },
+        "color": {
+          "type": "string"
+        },
+        "layerOpacities": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Platform": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
       ]
     },
     "BrowserTokenEdits": {
@@ -2862,133 +2962,51 @@
       "type": "object",
       "additionalProperties": false
     },
-    "Interpolation": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/MethodInterpolation"
-        },
-        {
-          "$ref": "#/definitions/ExpressionInterpolation"
-        }
-      ]
-    },
-    "MethodInterpolation": {
-      "description": "A reusable blending method. Input and output endpoints belong to each consumer.",
+    "AliasDocument": {
       "type": "object",
       "properties": {
-        "kind": {
-          "type": "string",
-          "const": "method"
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
         },
-        "method": {
-          "$ref": "#/definitions/InterpolationMethod"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "locked": {
-          "description": "Built-in interpolations other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "description",
-        "id",
-        "kind",
-        "method",
-        "name"
-      ]
-    },
-    "InterpolationMethod": {
-      "enum": [
-        "cosine",
-        "exponential",
-        "linear"
-      ],
-      "type": "string"
-    },
-    "ExpressionInterpolation": {
-      "description": "value → value formula. Variables: `x` and the parameter ids.",
-      "type": "object",
-      "properties": {
-        "kind": {
-          "type": "string",
-          "const": "expression"
-        },
-        "parameters": {
+        "tokens": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/FormulaParameter"
+            "$ref": "#/definitions/AliasToken"
           }
-        },
-        "expression": {
-          "type": "string"
-        },
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "tokens"
+      ]
+    },
+    "AliasToken": {
+      "type": "object",
+      "properties": {
         "id": {
           "type": "string"
         },
         "name": {
           "type": "string"
         },
-        "description": {
+        "$ref": {
           "type": "string"
         },
-        "locked": {
-          "description": "Built-in interpolations other data falls back to; they cannot be edited or deleted.",
-          "type": "boolean"
+        "contexts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false,
       "required": [
-        "description",
-        "expression",
+        "$ref",
+        "contexts",
         "id",
-        "kind",
-        "name",
-        "parameters"
-      ]
-    },
-    "FormulaParameter": {
-      "description": "A named numeric input shared by formulas and interpolations.",
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "default": {
-          "type": "number"
-        },
-        "min": {
-          "type": "number"
-        },
-        "max": {
-          "type": "number"
-        },
-        "step": {
-          "type": "number"
-        },
-        "adaptable": {
-          "description": "Whether a foundation may bind this part to a mode parameter.",
-          "type": "boolean"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "adaptable",
-        "default",
-        "id",
-        "label",
-        "step"
+        "name"
       ]
     },
     "TokenOverride": {
@@ -3515,7 +3533,7 @@
     "PortableElement": {
       "type": "object",
       "properties": {
-        "id": {
+        "termId": {
           "type": "string"
         },
         "name": {
@@ -3524,14 +3542,14 @@
         "kind": {
           "$ref": "#/definitions/ElementKind"
         },
-        "termId": {
-          "type": "string"
-        },
         "bindings": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ElementBinding"
           }
+        },
+        "id": {
+          "type": "string"
         },
         "orientation": {
           "type": "string"
@@ -4289,6 +4307,12 @@
             "$ref": "#/definitions/CanonicalDataVisScale"
           }
         },
+        "backgroundLightness": {
+          "type": "number"
+        },
+        "background": {
+          "type": "string"
+        },
         "schemaVersion": {
           "type": "number",
           "const": 5
@@ -4299,14 +4323,8 @@
             "$ref": "#/definitions/ContrastToken"
           }
         },
-        "background": {
-          "type": "string"
-        },
         "backgroundScaleId": {
           "type": "string"
-        },
-        "backgroundLightness": {
-          "type": "number"
         },
         "settings": {
           "type": "object",
@@ -4409,16 +4427,6 @@
       "additionalProperties": false,
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
-        "lifecycle": {
-          "description": "Present only when the item is deprecated. `deprecatedIn` stays empty until\na release assigns it (DEBT-035), so the UI shows \"pending release\".",
-          "$ref": "#/definitions/ItemLifecycle"
-        },
-        "hideFromPublishing": {
-          "type": "boolean"
-        },
         "customContrasts": {
           "type": "object",
           "properties": {
@@ -4441,6 +4449,16 @@
             "namingRuleId",
             "steps"
           ]
+        },
+        "hideFromPublishing": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "lifecycle": {
+          "description": "Present only when the item is deprecated. `deprecatedIn` stays empty until\na release assigns it (DEBT-035), so the UI shows \"pending release\".",
+          "$ref": "#/definitions/ItemLifecycle"
         },
         "stops": {
           "type": "array",
@@ -4549,12 +4567,6 @@
           "const": "base",
           "type": "string"
         },
-        "id": {
-          "type": "string"
-        },
-        "contrast": {
-          "type": "number"
-        },
         "base": {
           "type": "boolean"
         },
@@ -4566,6 +4578,12 @@
           "type": "string"
         },
         "sourceScaleId": {
+          "type": "string"
+        },
+        "contrast": {
+          "type": "number"
+        },
+        "id": {
           "type": "string"
         },
         "expanded": {
@@ -4613,6 +4631,22 @@
       "additionalProperties": false,
       "type": "object",
       "properties": {
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataVisPoint"
+          }
+        },
+        "hideFromPublishing": {
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "diverging",
+            "sequential"
+          ],
+          "type": "string"
+        },
         "id": {
           "type": "string"
         },
@@ -4623,22 +4657,6 @@
             "$ref": "#/definitions/FrozenColor"
           }
         },
-        "kind": {
-          "enum": [
-            "diverging",
-            "sequential"
-          ],
-          "type": "string"
-        },
-        "points": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DataVisPoint"
-          }
-        },
-        "hideFromPublishing": {
-          "type": "boolean"
-        },
         "name": {
           "$ref": "#/definitions/TaxonomyNameReference"
         }
@@ -4648,31 +4666,6 @@
         "kind",
         "name",
         "points"
-      ]
-    },
-    "FrozenColor": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        },
-        "position": {
-          "type": "number"
-        },
-        "tokenId": {
-          "type": "string"
-        },
-        "overrideValue": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "value"
       ]
     },
     "DataVisPoint": {
@@ -4821,10 +4814,48 @@
         "tokenId"
       ]
     },
+    "FrozenColor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "position": {
+          "type": "number"
+        },
+        "tokenId": {
+          "type": "string"
+        },
+        "overrideValue": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "value"
+      ]
+    },
     "CanonicalNamedSource<CategoricalDataVisScale>": {
       "additionalProperties": false,
       "type": "object",
       "properties": {
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategoricalMember"
+          }
+        },
+        "hideFromPublishing": {
+          "type": "boolean"
+        },
+        "kind": {
+          "type": "string",
+          "const": "categorical"
+        },
         "id": {
           "type": "string"
         },
@@ -4835,21 +4866,8 @@
             "$ref": "#/definitions/FrozenColor"
           }
         },
-        "kind": {
-          "type": "string",
-          "const": "categorical"
-        },
-        "members": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CategoricalMember"
-          }
-        },
         "preferences": {
           "$ref": "#/definitions/CategoricalPreferences"
-        },
-        "hideFromPublishing": {
-          "type": "boolean"
         },
         "name": {
           "$ref": "#/definitions/TaxonomyNameReference"
@@ -5256,15 +5274,33 @@
         "lineHeightId": {
           "type": "string"
         },
-        "id": {
-          "type": "string"
+        "base": {
+          "description": "Overrides the formula's base; ignored when the formula does not allow it.",
+          "type": "number"
+        },
+        "startStep": {
+          "description": "Formula step that is named 100 (default 0, the base). Lets a scale start partway along its curve.",
+          "type": "number"
+        },
+        "componentSizeScaling": {
+          "description": "Apply component size before rounding, rather than at a Structure consumer.",
+          "type": "boolean"
+        },
+        "hideFromPublishing": {
+          "type": "boolean"
         },
         "name": {
           "type": "string"
         },
-        "base": {
-          "description": "Overrides the formula's base; ignored when the formula does not allow it.",
-          "type": "number"
+        "bindings": {
+          "description": "Keyed by parameter id, or `base`.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ParameterBinding"
+          }
+        },
+        "id": {
+          "type": "string"
         },
         "parameters": {
           "description": "Per-scale overrides of the formula's parameters; only parts the formula allows take effect.",
@@ -5279,26 +5315,8 @@
         "above": {
           "type": "number"
         },
-        "hideFromPublishing": {
-          "type": "boolean"
-        },
         "scaleTypeId": {
           "type": "string"
-        },
-        "bindings": {
-          "description": "Keyed by parameter id, or `base`.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/ParameterBinding"
-          }
-        },
-        "componentSizeScaling": {
-          "description": "Apply component size before rounding, rather than at a Structure consumer.",
-          "type": "boolean"
-        },
-        "startStep": {
-          "description": "Formula step that is named 100 (default 0, the base). Lets a scale start partway along its curve.",
-          "type": "number"
         },
         "roundingRuleId": {
           "type": "string"
@@ -5398,12 +5416,30 @@
       "additionalProperties": false,
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
         "base": {
           "description": "Overrides the formula's base; ignored when the formula does not allow it.",
           "type": "number"
+        },
+        "startStep": {
+          "description": "Formula step that is named 100 (default 0, the base). Lets a scale start partway along its curve.",
+          "type": "number"
+        },
+        "componentSizeScaling": {
+          "description": "Apply component size before rounding, rather than at a Structure consumer.",
+          "type": "boolean"
+        },
+        "hideFromPublishing": {
+          "type": "boolean"
+        },
+        "bindings": {
+          "description": "Keyed by parameter id, or `base`.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ParameterBinding"
+          }
+        },
+        "id": {
+          "type": "string"
         },
         "parameters": {
           "description": "Per-scale overrides of the formula's parameters; only parts the formula allows take effect.",
@@ -5418,26 +5454,8 @@
         "above": {
           "type": "number"
         },
-        "hideFromPublishing": {
-          "type": "boolean"
-        },
         "scaleTypeId": {
           "type": "string"
-        },
-        "bindings": {
-          "description": "Keyed by parameter id, or `base`.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/ParameterBinding"
-          }
-        },
-        "componentSizeScaling": {
-          "description": "Apply component size before rounding, rather than at a Structure consumer.",
-          "type": "boolean"
-        },
-        "startStep": {
-          "description": "Formula step that is named 100 (default 0, the base). Lets a scale start partway along its curve.",
-          "type": "number"
         },
         "roundingRuleId": {
           "type": "string"
@@ -5608,32 +5626,17 @@
           "additionalProperties": false,
           "type": "object",
           "properties": {
-            "styles": {
-              "$ref": "#/definitions/StylesDocument"
+            "foundationParameterSettings": {
+              "$ref": "#/definitions/FoundationParameterSettings"
             },
             "componentSizing": {
               "$ref": "#/definitions/ComponentSizingDocument"
             },
-            "foundationParameterSettings": {
-              "$ref": "#/definitions/FoundationParameterSettings"
-            },
-            "modeSets": {
+            "interpolations": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ModeSet"
+                "$ref": "#/definitions/Interpolation"
               }
-            },
-            "components": {
-              "$ref": "#/definitions/ComponentsDocument"
-            },
-            "platforms": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Platform"
-              }
-            },
-            "aliases": {
-              "$ref": "#/definitions/AliasDocument"
             },
             "rules": {
               "type": "array",
@@ -5641,19 +5644,34 @@
                 "$ref": "#/definitions/Rule"
               }
             },
+            "styles": {
+              "$ref": "#/definitions/StylesDocument"
+            },
+            "components": {
+              "$ref": "#/definitions/ComponentsDocument"
+            },
+            "modeSets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ModeSet"
+              }
+            },
+            "platforms": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Platform"
+              }
+            },
             "browserTokenEdits": {
               "$ref": "#/definitions/BrowserTokenEdits"
+            },
+            "aliases": {
+              "$ref": "#/definitions/AliasDocument"
             },
             "adaptiveClaims": {
               "type": "object",
               "additionalProperties": {
                 "type": "string"
-              }
-            },
-            "interpolations": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Interpolation"
               }
             },
             "tokenOverrides": {
@@ -5727,15 +5745,12 @@
             "tokenOverrides"
           ]
         },
-        "schemaVersion": {
-          "type": "number",
-          "const": 1
-        },
         "$schema": {
           "type": "string"
         },
-        "authoringDefaults": {
-          "$ref": "#/definitions/Record%3Cstring%2Cnever%3E"
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
         },
         "dataset": {
           "type": "object",
@@ -5760,6 +5775,9 @@
             "name",
             "revision"
           ]
+        },
+        "authoringDefaults": {
+          "$ref": "#/definitions/Record%3Cstring%2Cnever%3E"
         }
       },
       "additionalProperties": false,

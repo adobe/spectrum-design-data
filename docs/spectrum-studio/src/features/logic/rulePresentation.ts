@@ -2,10 +2,10 @@
 import type { Rule, RuleType } from "./model";
 
 export const RULE_SECTIONS = [
-  { type: "rounding", label: "Rounding rules" },
-  { type: "scale-naming", label: "Naming rules" },
-  { type: "generator", label: "Generators" },
-  { type: "conditional", label: "Conditional rules" },
+  { type: "rounding", label: "Rounding rules", tabLabel: "Rounding" },
+  { type: "scale-naming", label: "Naming rules", tabLabel: "Naming" },
+  { type: "generator", label: "Generators", tabLabel: "Generators" },
+  { type: "conditional", label: "Conditional rules", tabLabel: "Conditions" },
 ] as const;
 
 export function rulePresentation(type: RuleType) {

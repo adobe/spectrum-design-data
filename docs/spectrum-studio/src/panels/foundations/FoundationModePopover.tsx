@@ -177,7 +177,7 @@ export function FoundationModePopover({
     <DialogTrigger
       isOpen={open}
       onOpenChange={(next) => {
-        if (next) {
+        if (next && resolveActiveMode(modeSet, selection)?.id !== mode.id) {
           reset({ modeSetKey: modeSet.key, modeId: mode.id });
         }
         setOpen(next);

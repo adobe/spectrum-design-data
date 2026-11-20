@@ -33,7 +33,10 @@ export type DataVisExamplesProps = {
   colorScheme: "light" | "dark";
 } & (
   | { kind: "categorical"; colors: readonly string[] }
-  | { kind: QuantitativeExampleKind; evaluate: (position: number) => string }
+  | ({ kind: QuantitativeExampleKind } & (
+      | { evaluate: (position: number) => string }
+      | { records: ReturnType<typeof quantitativeExample> }
+    ))
 );
 
 export function DataVisExamples(props: DataVisExamplesProps) {
@@ -149,14 +152,15 @@ function CategoricalExamples({
   );
 }
 
-function QuantitativeExamples({
-  name,
-  kind,
-  evaluate,
-}: Extract<DataVisExamplesProps, { kind: QuantitativeExampleKind }>) {
+function QuantitativeExamples(
+  props: Extract<DataVisExamplesProps, { kind: QuantitativeExampleKind }>,
+) {
+  const { name, kind } = props;
+  const source = "records" in props ? props.records : props.evaluate;
   const records = useMemo(
-    () => quantitativeExample(kind, evaluate),
-    [kind, evaluate],
+    () =>
+      typeof source === "function" ? quantitativeExample(kind, source) : source,
+    [kind, source],
   );
   const byId = useMemo(
     () => new Map(records.map((record) => [record.id, record])),

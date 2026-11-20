@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-weight",
+  "description": "Typographic weight values for typography tokens. Assigned via the `weight` name-object field. Corresponds to the CSS font-weight axis. Note: 'black' is a typographic weight value (font-weight 900) and is distinct from the 'black' color-family entry in color-families.json (cross-registry ID overlap is intentional per SPEC-033).",
+  "values": [
+    {
+      "id": "light",
+      "label": "Light",
+      "description": "Light weight (font-weight 300)"
+    },
+    {
+      "id": "regular",
+      "label": "Regular",
+      "description": "Regular weight (font-weight 400)"
+    },
+    {
+      "id": "medium",
+      "label": "Medium",
+      "description": "Medium weight (font-weight 500)"
+    },
+    {
+      "id": "bold",
+      "label": "Bold",
+      "description": "Bold weight (font-weight 700)"
+    },
+    {
+      "id": "extra-bold",
+      "label": "Extra Bold",
+      "description": "Extra bold weight (font-weight 800)"
+    },
+    {
+      "id": "black",
+      "label": "Black",
+      "description": "Black weight (font-weight 900)"
+    }
+  ]
+}

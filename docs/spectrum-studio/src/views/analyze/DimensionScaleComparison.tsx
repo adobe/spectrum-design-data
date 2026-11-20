@@ -1,8 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
 import {
-  Content,
-  Heading,
-  InlineAlert,
   Picker,
   PickerItem,
   SegmentedControl,
@@ -20,7 +17,6 @@ import {
   type ComparisonView,
 } from "../../features/scales/comparison";
 import {
-  buildDimensionComparisons,
   type DimensionComparisonInput,
   type DimensionComparisons,
 } from "../../features/scales/dimensionComparisons";
@@ -35,6 +31,14 @@ import {
   analyzeTableStyles as tableStyle,
 } from "./AnalyzeLayout";
 import { formatAnalyzeNumber } from "./format";
+import { usePreviewWorker } from "../../features/derived-work/usePreviewWorker";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
+
+const createComparisonWorker = () =>
+  new Worker(
+    new URL("../../features/scales/comparison.worker.ts", import.meta.url),
+    { type: "module" },
+  );
 
 const notesStyle = style({
   display: "flex",
@@ -62,46 +66,40 @@ export function DimensionScaleComparison({
   const [view, setView] = useState<ComparisonView>("settings");
   const [source, setSource] = useState<"modes" | "range">();
   const [selections, setSelections] = useState<Record<string, string[]>>({});
-  const result = useMemo<{
-    data?: DimensionComparisons;
-    error?: string;
-  }>(() => {
-    try {
-      return { data: buildDimensionComparisons(input, parameter) };
-    } catch (failure) {
-      return {
-        error: failure instanceof Error ? failure.message : String(failure),
-      };
-    }
-  }, [input, parameter]);
+  const request = useMemo(() => ({ input, parameter }), [input, parameter]);
+  const work = usePreviewWorker<
+    { input: DimensionComparisonInput; parameter?: string },
+    DimensionComparisons
+  >(request, createComparisonWorker);
+  const result = { data: work.ready?.value, error: work.error };
   const withSettings = (
     card: ReactNode,
     settings?: ReactNode,
     notes?: ReactNode,
-  ) =>
-    detail ? (
-      <>
-        {(leadingSettings || settings) && (
-          <AnalyzeSettings>
-            {leadingSettings}
-            {settings}
-          </AnalyzeSettings>
-        )}
-        {notes}
-        <AnalyzeCardGrid count={1}>{card}</AnalyzeCardGrid>
-      </>
-    ) : (
-      card
-    );
-  if (!result.data)
-    return withSettings(
-      <ChartCard title={input.scale.name} label={`${input.scale.name} chart`}>
-        <InlineAlert variant="negative">
-          <Heading>Could not compare {input.scale.name}</Heading>
-          <Content>{result.error}</Content>
-        </InlineAlert>
-      </ChartCard>,
-    );
+  ) => (
+    <DerivedContentBoundary
+      state={work.status}
+      label={`Updating ${noun} comparison`}
+      error={work.error}
+      onRetry={work.retry}
+    >
+      {detail ? (
+        <>
+          {(leadingSettings || settings) && (
+            <AnalyzeSettings>
+              {leadingSettings}
+              {settings}
+            </AnalyzeSettings>
+          )}
+          {notes}
+          <AnalyzeCardGrid count={1}>{card}</AnalyzeCardGrid>
+        </>
+      ) : (
+        card
+      )}
+    </DerivedContentBoundary>
+  );
+  if (!result.data) return withSettings(null);
   const data = result.data;
   const adaptive = data.parameterId !== undefined;
   const chosenSource =

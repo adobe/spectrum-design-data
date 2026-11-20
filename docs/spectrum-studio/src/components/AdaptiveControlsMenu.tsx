@@ -18,6 +18,7 @@ import {
   previewOverridesAtom,
   clearPreviewParametersAtom,
   setPreviewParameterAtom,
+  previewResetVersionsAtom,
 } from "../features/modes/previewState";
 import {
   baseParameterValue,
@@ -48,16 +49,21 @@ function AdaptiveControl({
   const document = useAtomValue(resolvedColorSystemDocumentAtom);
   const preview = useSetAtom(setPreviewParameterAtom);
   const typography = useAtomValue(resolvedTypographyDocumentAtom);
+  const resetVersions = useAtomValue(previewResetVersionsAtom);
   const documents = { color: document, typography };
   const value = baseParameterValue(documents, parameter.id);
   if (value === undefined)
     throw new Error(`No resolved value is available for ${parameter.label}.`);
   return (
     <ModeParameterControl
+      key={resetVersions[parameter.id] ?? 0}
       parameter={parameter}
       value={value}
       documents={documents}
       onChange={(next) => preview({ parameterId: parameter.id, value: next })}
+      onPreviewChange={(next) =>
+        preview({ parameterId: parameter.id, value: next })
+      }
     />
   );
 }

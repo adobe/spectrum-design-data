@@ -57,6 +57,7 @@ import { iconsDocumentAtom } from "../icons/documentState";
 import { ICONS_DEFAULTS } from "../icons/defaults";
 import { iconLineHeightUses, type IconsDocument } from "../icons/model";
 import { splitTypographyIconography } from "../icons/upgrade";
+import { deferNumericProposal } from "../edit-session/numericProposal";
 export { resolveTypographyDocument } from "./resolution";
 
 const storedTypographyDocumentAtom = persistedAtom<TypographyDocument>({
@@ -137,6 +138,10 @@ export const updateTypographyAtom = atom(
       throw new Error(
         "Enter valid Typography settings, ranges, and references.",
       );
+    if (
+      deferNumericProposal({ source: "typography", previous: document, next })
+    )
+      return;
     if (
       ![next.textRoundingRuleId, next.lineHeightRoundingRuleId].every((id) =>
         get(rulesAtom).some(
@@ -320,7 +325,7 @@ export const addLineHeightAtom = atom(null, (get, set) => {
     )
   )
     throw new Error(
-      "Add the Linear interpolation in Logic before adding a line height.",
+      "Add the Linear interpolation in Formulas before adding a line height.",
     );
   const next = withLineHeightName(
     { ...document, lineHeights: [card, ...document.lineHeights] },

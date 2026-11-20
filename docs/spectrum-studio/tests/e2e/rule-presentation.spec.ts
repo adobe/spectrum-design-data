@@ -79,9 +79,8 @@ test("Logic cards share type colors across rules, formulas and interpolations", 
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Logic" })
+    .getByRole("link", { name: /^Rules\b/ })
     .click();
-  await page.getByRole("tab", { name: "Rules", exact: true }).click();
   const labels = [
     "Rounding rules",
     "Naming rules",
@@ -90,10 +89,14 @@ test("Logic cards share type colors across rules, formulas and interpolations", 
   ];
   const colors: string[] = [];
   for (const [index, label] of labels.entries()) {
+    await page
+      .getByRole("tab", {
+        name: ["Rounding", "Naming", "Generators", "Conditions"][index],
+        exact: true,
+      })
+      .click();
     const section = page.getByRole("region", { name: label, exact: true });
-    await expect(
-      section.getByRole("heading", { name: label, exact: true }),
-    ).toBeVisible();
+    await expect(section).toBeVisible();
     const card = section.getByRole("article", {
       name: `Example ${types[index]}`,
       exact: true,
@@ -112,7 +115,10 @@ test("Logic cards share type colors across rules, formulas and interpolations", 
     );
   }
   expect(new Set(colors).size).toBe(4);
-  await page.getByRole("tab", { name: "Formulas", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: /^Formulas\b/ })
+    .click();
   const formulaColors: string[] = [];
   for (const formula of formulas) {
     const card = page.getByRole("article", { name: formula.name, exact: true });
@@ -125,6 +131,15 @@ test("Logic cards share type colors across rules, formulas and interpolations", 
     );
   }
   expect(new Set(formulaColors).size).toBe(4);
+  const formulaOrder = await page
+    .locator('[data-component="ScaleTypeCard"]')
+    .evaluateAll((cards) =>
+      cards.map((card) => card.getAttribute("data-scale-type-id")),
+    );
+  expect(formulaOrder).toEqual(
+    snapshot.scaleTypes!.map((formula) => formula.id),
+  );
+  await page.getByRole("tab", { name: "Interpolations", exact: true }).click();
   const interpolationColors: string[] = [];
   for (const interpolation of interpolations) {
     const card = page.getByRole("article", {
@@ -145,14 +160,6 @@ test("Logic cards share type colors across rules, formulas and interpolations", 
   ).toBe(true);
   expect(interpolationColors[0]).toBe(formulaColors[2]);
   expect(interpolationColors[3]).toBe(formulaColors[3]);
-  const formulaOrder = await page
-    .locator('[data-component="ScaleTypeCard"]')
-    .evaluateAll((cards) =>
-      cards.map((card) => card.getAttribute("data-scale-type-id")),
-    );
-  expect(formulaOrder).toEqual(
-    snapshot.scaleTypes!.map((formula) => formula.id),
-  );
   const interpolationOrder = await page
     .locator('[data-component="InterpolationCard"]')
     .evaluateAll((cards) =>

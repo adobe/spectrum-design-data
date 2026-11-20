@@ -1,7 +1,16 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { useEffect, useRef, useState } from "react";
-import { ActionButton, Menu, MenuItem, MenuTrigger } from "@react-spectrum/s2";
+import {
+  ActionButton,
+  Content,
+  Heading,
+  IllustratedMessage,
+  Menu,
+  MenuItem,
+  MenuTrigger,
+} from "@react-spectrum/s2";
 import More from "@react-spectrum/s2/icons/More";
+import Filter from "@react-spectrum/s2/illustrations/linear/Filter";
 import DragHandle from "../../features/icons/SpectrumDragHandle";
 import {
   Button as DragButton,
@@ -15,7 +24,11 @@ import type {
   TaxonomyDocument,
 } from "../../features/taxonomy/model";
 import type { ReferencedTaxonomySource } from "../../features/taxonomy/referenceValidation";
-import { reorderRegistryCategories } from "../../features/taxonomy/registryDraft";
+import { reorderVisibleRegistryCategories } from "../../features/taxonomy/registryDraft";
+import {
+  categoryMatchesRegistryFilters,
+  type RegistryFilters,
+} from "../../features/taxonomy/registryFilters";
 import { RegistryCategoryCard } from "../../panels/registry/RegistryCategoryCard";
 import { RegistryError } from "../../panels/registry/RegistryFields";
 import { registryDropLine } from "../../panels/registry/registryStyles";
@@ -27,13 +40,15 @@ export interface RegistryBoardProps {
   document: TaxonomyDocument;
   source: ReferencedTaxonomySource;
   editable: boolean;
+  /** Hides non-matching categories; missing shows every category. */
+  filters?: RegistryFilters;
   onCommit: (next: TaxonomyDocument, base: TaxonomyDocument) => void;
   onOpen: (categoryId: string, termId?: string) => void;
   onDelete: (categoryId: string, termId?: string) => void;
 }
 
 export function RegistryBoard(props: RegistryBoardProps) {
-  const { document, editable, onCommit, onOpen, onDelete } = props;
+  const { document, editable, filters, onCommit, onOpen, onDelete } = props;
   const [error, setError] = useState("");
   const dragBase = useRef<TaxonomyDocument | null>(null);
   const [dragReady, setDragReady] = useState(false);
@@ -66,8 +81,12 @@ export function RegistryBoard(props: RegistryBoardProps) {
   const order = pendingOrder ?? document.order;
   const categories = order.flatMap((id) => {
     const category = document.categories.find((item) => item.id === id);
-    return category ? [category] : [];
+    return category &&
+      (!filters || categoryMatchesRegistryFilters(category, filters))
+      ? [category]
+      : [];
   });
+  const visible = categories.map((category) => category.id);
   function flush() {
     const next = pending.current;
     pending.current = null;
@@ -89,7 +108,13 @@ export function RegistryBoard(props: RegistryBoardProps) {
     try {
       if (!editable) throw new Error("Choose Edit to reorder categories.");
       const from = pending.current?.order ?? base.order;
-      const next = reorderRegistryCategories(from, moving, target, position);
+      const next = reorderVisibleRegistryCategories(
+        from,
+        visible,
+        moving,
+        target,
+        position,
+      );
       if (next.every((id, index) => id === from[index])) return;
       pending.current = { order: next, base: pending.current?.base ?? base };
       setPendingOrder(next);
@@ -148,7 +173,7 @@ export function RegistryBoard(props: RegistryBoardProps) {
     },
   });
   function card(category: TaxonomyCategory, interactive = true) {
-    const index = order.indexOf(category.id);
+    const index = visible.indexOf(category.id);
     return (
       <RegistryCategoryCard
         {...props}
@@ -183,7 +208,8 @@ export function RegistryBoard(props: RegistryBoardProps) {
                     ...(index === categories.length - 1 ? ["later"] : []),
                   ]}
                   onAction={(key) => {
-                    const target = order[index + (key === "earlier" ? -1 : 1)];
+                    const target =
+                      visible[index + (key === "earlier" ? -1 : 1)];
                     if (target)
                       move(
                         category.id,
@@ -205,25 +231,33 @@ export function RegistryBoard(props: RegistryBoardProps) {
   return (
     <>
       <RegistryError message={error} />
-      <GridList
-        aria-label="Registry category order"
-        className={`registryBoard${dragReady ? " registryBoardDragging" : ""}`}
-        orientation="horizontal"
-        layout="stack"
-        items={categories}
-        selectionMode="none"
-        dragAndDropHooks={dragAndDropHooks}
-      >
-        {(category) => (
-          <GridListItem
-            id={category.id}
-            textValue={category.name}
-            className="registryCategoryItem"
-          >
-            {card(category)}
-          </GridListItem>
-        )}
-      </GridList>
+      {categories.length ? (
+        <GridList
+          aria-label="Registry category order"
+          className={`registryBoard${dragReady ? " registryBoardDragging" : ""}`}
+          orientation="horizontal"
+          layout="stack"
+          items={categories}
+          selectionMode="none"
+          dragAndDropHooks={dragAndDropHooks}
+        >
+          {(category) => (
+            <GridListItem
+              id={category.id}
+              textValue={category.name}
+              className="registryCategoryItem"
+            >
+              {card(category)}
+            </GridListItem>
+          )}
+        </GridList>
+      ) : (
+        <IllustratedMessage>
+          <Filter />
+          <Heading>No results</Heading>
+          <Content>Remove filters to see categories and terms</Content>
+        </IllustratedMessage>
+      )}
     </>
   );
 }

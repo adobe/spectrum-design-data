@@ -12,6 +12,9 @@ import {
 import { resolveCategoryIllustration } from "../src/features/icons/categoryIllustrations";
 
 assert.deepEqual(validateCategoryIcons(config), []);
+for (const category of ["settings", "Settings", " SETTINGS "]) {
+  assert.deepEqual(resolveCategoryIcon(category), { iconName: "Settings" });
+}
 assert.deepEqual(resolveCategoryIcon("opacity"), {
   iconName: "ViewTransparency",
 });

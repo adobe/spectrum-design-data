@@ -3,6 +3,31 @@ import { expect, test, type Page } from "@playwright/test";
 import { expectEqualColumns, field, geometry } from "./fieldLayout";
 import { enableEditMode } from "./editMode";
 import { AUTHORING_STORAGE_KEY } from "../../src/features/edit-session/storage";
+import type { AuthoringRecord } from "../../src/features/edit-session/storage";
+import type { EditSessionSnapshot } from "../../src/features/edit-session/state";
+import { decodeAuthoringStorage } from "../../src/features/edit-session/authoringStorageCodec";
+import { generateTypography } from "../../src/features/typography/typographyGeneration";
+import { resolveTypographyDocument } from "../../src/features/typography/resolution";
+import { resolveActiveMode } from "../../src/features/modes/selection";
+
+test.use({ trace: "off" });
+
+function canonicalFontSize(snapshot: EditSessionSnapshot) {
+  const modes = snapshot.modeSets.flatMap((set) => {
+    const mode = resolveActiveMode(set, {});
+    return mode ? [mode] : [];
+  });
+  return generateTypography(
+    resolveTypographyDocument(snapshot.typography, modes, undefined, {
+      modeSets: snapshot.modeSets,
+    }),
+    undefined,
+    snapshot.rules,
+    snapshot.scaleTypes,
+    snapshot.interpolations,
+    snapshot.icons,
+  )[2].fontSize;
+}
 
 const errors = new WeakMap<Page, string[]>();
 test.beforeEach(({ page }) => {
@@ -21,6 +46,342 @@ async function openFixture(page: Page, theme = "light") {
   ).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
 }
+
+async function openTypography(page: Page) {
+  // An uncached load avoids Chromium's dev JSON-module cache write failure.
+  await page.route("**/*", (route) => route.continue());
+  await enableEditMode(page);
+  await page.goto("/");
+  await page
+    .getByRole("navigation", { name: "Navigation", exact: true })
+    .getByRole("link", { name: "Foundations", exact: true })
+    .dispatchEvent("click");
+  await page.getByRole("tab", { name: "Typography", exact: true }).click();
+  await page
+    .getByRole("radio", { name: "Elements", exact: true })
+    .dispatchEvent("click");
+  const panel = page.locator('[data-component="FoundationsTypographyPanel"]');
+  await panel.getByRole("tab", { name: "Font sizes", exact: true }).click();
+  const base = panel.getByRole("textbox", { name: /^Base size/ });
+  const sample = page
+    .locator(
+      ".typographyRampPreview .typographyElement:not(.typographyElementHeader) .typographyElementSample",
+    )
+    .nth(2);
+  await expect(sample).toBeVisible();
+  return { base, sample };
+}
+
+async function storedTypography(
+  page: Page,
+): Promise<AuthoringRecord<EditSessionSnapshot>> {
+  const text = await page.evaluate(
+    (key) => localStorage.getItem(key),
+    AUTHORING_STORAGE_KEY,
+  );
+  if (!text) throw new Error("Missing authoring record.");
+  return JSON.parse(decodeAuthoringStorage(text));
+}
+
+test("numeric drafts update visible typography before blur and preserve Save and Cancel", async ({
+  page,
+}) => {
+  test.setTimeout(110_000);
+  const { base, sample } = await openTypography(page);
+  const fontSize = () =>
+    sample.evaluate((element) =>
+      parseFloat(getComputedStyle(element).fontSize),
+    );
+  const initial = await fontSize();
+  await page.getByRole("button", { name: "Adaptive controls" }).first().click();
+  const adaptive = page.getByRole("slider", {
+    name: "Adaptive text scaling",
+    exact: true,
+  });
+  await adaptive.focus();
+  await adaptive.press("ArrowRight");
+  await expect.poll(fontSize).toBeGreaterThan(initial);
+  await expect(adaptive).toBeFocused();
+  await adaptive.press("ArrowLeft");
+  await expect.poll(fontSize).toBe(initial);
+  await adaptive.press("Escape");
+  await base.evaluate((input) => {
+    const state = window as typeof window & {
+      numericTiming: { feedback?: number; preview?: number };
+    };
+    state.numericTiming = {};
+    const sample = document.querySelectorAll(
+      ".typographyRampPreview .typographyElement:not(.typographyElementHeader) .typographyElementSample",
+    )[2];
+    if (!sample) throw new Error("Missing typography sample.");
+    const before = getComputedStyle(sample).fontSize;
+    input.addEventListener(
+      "input",
+      () => {
+        const start = performance.now();
+        requestAnimationFrame(() => {
+          state.numericTiming.feedback = performance.now() - start;
+        });
+        const observe = () => {
+          const current = document.querySelectorAll(
+            ".typographyRampPreview .typographyElement:not(.typographyElementHeader) .typographyElementSample",
+          )[2];
+          if (current && getComputedStyle(current).fontSize !== before)
+            state.numericTiming.preview = performance.now() - start;
+          else requestAnimationFrame(observe);
+        };
+        requestAnimationFrame(observe);
+      },
+      { once: true },
+    );
+  });
+  await base.fill("26");
+  await expect(base).toHaveValue("26");
+  await expect(base).toBeFocused();
+  await expect.poll(fontSize).toBeGreaterThan(initial);
+  await expect(base).toBeFocused();
+  const timing = await page.evaluate(
+    () =>
+      (
+        window as typeof window & {
+          numericTiming: { feedback: number; preview: number };
+        }
+      ).numericTiming,
+  );
+  expect(timing.feedback).toBeLessThanOrEqual(50);
+  expect(timing.preview).toBeLessThanOrEqual(100);
+  console.log(
+    `Numeric control feedback: ${timing.feedback.toFixed(1)} ms; visible typography: ${timing.preview.toFixed(1)} ms.`,
+  );
+  const stored = () => storedTypography(page);
+  await expect
+    .poll(async () => canonicalFontSize((await stored()).working), {
+      timeout: 15_000,
+    })
+    .toBe(await fontSize());
+  await base.evaluate((input: HTMLInputElement) =>
+    input.setSelectionRange(1, 1),
+  );
+  await base.press(".");
+  await expect(base).toHaveValue("2.6");
+  expect(
+    await base.evaluate((input: HTMLInputElement) => input.selectionStart),
+  ).toBe(2);
+  await base.press("Backspace");
+  await expect(base).toHaveValue("26");
+  await base.press("ArrowUp");
+  await expect(base).toHaveValue("27");
+  await base.press("ArrowDown");
+  await expect(base).toHaveValue("26");
+  await expect(base).toBeFocused();
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Save", exact: true })
+    .click({ timeout: 30_000 });
+  await expect
+    .poll(async () => canonicalFontSize((await stored()).saved))
+    .toBe(await fontSize());
+  const saved = (await stored()).saved;
+  await base.fill("");
+  await expect(base).toHaveValue("");
+  await expect(base).toHaveAttribute("aria-invalid", "true");
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Save", exact: true })
+    .click();
+  await expect(base).toBeFocused();
+  expect((await stored()).saved).toEqual(saved);
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Cancel", exact: true })
+    .click();
+  await page
+    .getByRole("alertdialog")
+    .getByRole("button", { name: "Discard", exact: true })
+    .click({ timeout: 30_000 });
+  expect((await stored()).working).toEqual(saved);
+});
+
+test("numeric drafts preserve adaptive dragging", async ({ page }) => {
+  test.setTimeout(110_000);
+  const { sample } = await openTypography(page);
+  const saved = (await storedTypography(page)).saved;
+  const fontSize = () =>
+    sample.evaluate((element) =>
+      parseFloat(getComputedStyle(element).fontSize),
+    );
+  const initial = await fontSize();
+  await page.getByRole("button", { name: "Adaptive controls" }).first().click();
+  const adaptive = page.getByRole("slider", {
+    name: "Adaptive text scaling",
+    exact: true,
+  });
+  await adaptive.evaluate(async (input) => {
+    const popover = input.closest('[role="dialog"]')?.parentElement;
+    if (!popover) throw new Error("Missing adaptive controls popover.");
+    await Promise.all(
+      popover
+        .getAnimations({ subtree: true })
+        .filter(
+          (animation) =>
+            animation.effect?.getComputedTiming().iterations !== Infinity,
+        )
+        .map((animation) => animation.finished),
+    );
+  });
+  const center = await adaptive.evaluate((input) => {
+    const thumb = input.parentElement?.parentElement;
+    if (!thumb) throw new Error("Missing adaptive slider thumb.");
+    const box = thumb.getBoundingClientRect();
+    return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+  });
+  await page.mouse.move(center.x, center.y);
+  await page.mouse.down();
+  await adaptive.evaluate((input: HTMLInputElement) => {
+    const state = window as typeof window & {
+      adaptiveTiming: { feedback?: number; preview?: number; done?: boolean };
+    };
+    state.adaptiveTiming = {};
+    const thumb = input.parentElement?.parentElement;
+    const track = thumb?.parentElement;
+    if (!thumb || !track) throw new Error("Missing adaptive slider geometry.");
+    const position = () =>
+      thumb.getBoundingClientRect().x - track.getBoundingClientRect().x;
+    const before = position();
+    const selector =
+      ".typographyRampPreview .typographyElement:not(.typographyElementHeader) .typographyElementSample";
+    const sample = document.querySelectorAll(selector)[2];
+    if (!sample) throw new Error("Missing adaptive typography sample.");
+    const size = getComputedStyle(sample).fontSize;
+    window.addEventListener(
+      "pointermove",
+      () => {
+        const start = performance.now();
+        const observe = () => {
+          if (position() !== before)
+            state.adaptiveTiming.feedback ??= performance.now() - start;
+          const current = document.querySelectorAll(selector)[2];
+          if (current && getComputedStyle(current).fontSize !== size)
+            state.adaptiveTiming.preview ??= performance.now() - start;
+          if (
+            (state.adaptiveTiming.feedback !== undefined &&
+              state.adaptiveTiming.preview !== undefined) ||
+            performance.now() - start > 1000
+          )
+            state.adaptiveTiming.done = true;
+          else requestAnimationFrame(observe);
+        };
+        requestAnimationFrame(observe);
+      },
+      { once: true, capture: true },
+    );
+  });
+  await page.mouse.move(center.x + 40, center.y);
+  await page.waitForFunction(
+    () =>
+      (
+        window as typeof window & {
+          adaptiveTiming: { done?: boolean };
+        }
+      ).adaptiveTiming.done,
+    undefined,
+    { polling: "raf" },
+  );
+  const timing = await page.evaluate(
+    () =>
+      (
+        window as typeof window & {
+          adaptiveTiming: { feedback?: number; preview?: number };
+        }
+      ).adaptiveTiming,
+  );
+  console.log(
+    `Adaptive drag: feedback ${timing.feedback} ms; preview ${timing.preview} ms.`,
+  );
+  expect.soft(timing.feedback).toBeLessThanOrEqual(50);
+  expect.soft(timing.preview).toBeLessThanOrEqual(100);
+  expect(await fontSize()).toBeGreaterThan(initial);
+  expect((await storedTypography(page)).working).toEqual(saved);
+  await page.mouse.up();
+  await page
+    .getByRole("button", { name: "Reset to mode values", exact: true })
+    .click();
+  await expect.poll(fontSize).toBe(initial);
+  await adaptive.press("Escape");
+});
+
+test("numeric drafts preserve navigation, pagehide and RFC ordering", async ({
+  page,
+}) => {
+  test.setTimeout(110_000);
+  const { base, sample } = await openTypography(page);
+  const saved = (await storedTypography(page)).saved;
+  const fontSize = () =>
+    sample.evaluate((element) =>
+      parseFloat(getComputedStyle(element).fontSize),
+    );
+  const initial = await fontSize();
+  await base.fill("27");
+  await expect.poll(fontSize).toBeGreaterThan(initial);
+  const navigatedSize = await fontSize();
+  const navigation = page.getByRole("navigation", {
+    name: "Navigation",
+    exact: true,
+  });
+  await navigation
+    .getByRole("link", { name: /^Objects/ })
+    .dispatchEvent("click");
+  await expect
+    .poll(
+      async () => canonicalFontSize((await storedTypography(page)).working),
+      { timeout: 45_000 },
+    )
+    .toBe(navigatedSize);
+  expect((await storedTypography(page)).saved).toEqual(saved);
+  await navigation
+    .getByRole("link", { name: "Foundations", exact: true })
+    .dispatchEvent("click");
+  await page.getByRole("tab", { name: "Typography", exact: true }).click();
+  await page
+    .locator('[data-component="FoundationsTypographyPanel"]')
+    .getByRole("tab", { name: "Font sizes", exact: true })
+    .click();
+  await expect(base).toHaveValue("27");
+
+  await base.fill("32");
+  await expect.poll(fontSize).toBeGreaterThan(navigatedSize);
+  const hiddenSize = await fontSize();
+  await page.evaluate(() => {
+    window.dispatchEvent(new PageTransitionEvent("pagehide"));
+  });
+  const hiddenRecord = await storedTypography(page);
+  expect(canonicalFontSize(hiddenRecord.working)).toBe(hiddenSize);
+  expect((await storedTypography(page)).saved).toEqual(saved);
+
+  await base.fill("");
+  const banner = page.getByRole("banner");
+  await banner.getByRole("button", { name: "Create RFC", exact: true }).click();
+  await expect(base).toBeFocused();
+  expect((await storedTypography(page)).isEditing).toBe(true);
+  await base.fill("40");
+  await expect.poll(fontSize).toBeGreaterThan(hiddenSize);
+  const reviewedSize = await fontSize();
+  await banner
+    .getByRole("button", { name: "Create RFC", exact: true })
+    .click({ timeout: 30_000 });
+  await expect(
+    banner.getByRole("button", { name: "Save", exact: true }),
+  ).toHaveCount(0);
+  await expect
+    .poll(async () => (await storedTypography(page)).isEditing, {
+      timeout: 45_000,
+    })
+    .toBe(false);
+  const reviewed = await storedTypography(page);
+  expect(reviewed.isEditing).toBe(false);
+  expect(canonicalFontSize(reviewed.working)).toBe(reviewedSize);
+  expect(reviewed.saved).toEqual(saved);
+});
 
 const gridFields = [
   "number-default",

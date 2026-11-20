@@ -3,14 +3,21 @@ import { taxonomyIdPattern, type Classification } from "../taxonomy/model";
 import type { TaxonomyNameReference } from "../taxonomy/naming";
 import type { OptionProperty } from "../option-groups/model";
 
-export const STYLE_KINDS = ["text", "icon", "background", "border"] as const;
+export const STYLE_KINDS = [
+  "text",
+  "icon",
+  "background",
+  "border",
+  "shadow",
+] as const;
 export type StyleKind = (typeof STYLE_KINDS)[number];
 export type StyleProperty =
   | "color"
   | "fontFamily"
   | "fontWeight"
   | "lineHeight"
-  | "borderWidth";
+  | "borderWidth"
+  | "shadow";
 export type StyleBinding =
   | { $ref: string; value?: never }
   | { value: string | number; $ref?: never };
@@ -25,12 +32,19 @@ export type StyleColor =
         values: { [modeId: string]: number };
       };
     };
+/** References one Elevation level; shadow values are never copied. */
+export interface StyleShadow {
+  elevationId: string;
+  scaleIndex: number;
+}
 export interface StyleAppearance {
-  color: StyleColor;
+  /** Required for every kind except shadow. */
+  color?: StyleColor;
   fontFamily?: StyleBinding;
   fontWeight?: StyleBinding;
   lineHeight?: { metricId: string };
   borderWidth?: StyleBinding;
+  shadow?: StyleShadow;
 }
 export interface StyleRuleApplication {
   id: string;
@@ -77,12 +91,14 @@ export const STYLE_LABELS: Record<StyleKind, string> = {
   icon: "Icon styles",
   background: "Background styles",
   border: "Border styles",
+  shadow: "Shadow styles",
 };
 export const STYLE_PROPERTIES: Record<StyleKind, readonly StyleProperty[]> = {
   text: ["color", "fontFamily", "fontWeight", "lineHeight"],
   icon: ["color"],
   background: ["color"],
   border: ["color", "borderWidth"],
+  shadow: ["shadow"],
 };
 
 const record = (value: unknown): value is Record<string, unknown> =>
@@ -102,7 +118,11 @@ const classification = (value: unknown): value is Classification =>
       typeof entry === "string" ||
       (Array.isArray(entry) && entry.every((id) => typeof id === "string")),
   );
-export function isStyleAppearance(value: unknown, partial = false): boolean {
+export function isStyleAppearance(
+  value: unknown,
+  partial = false,
+  kind?: StyleKind,
+): boolean {
   if (!record(value)) return false;
   if (
     Object.keys(value).some(
@@ -113,11 +133,26 @@ export function isStyleAppearance(value: unknown, partial = false): boolean {
           "fontWeight",
           "lineHeight",
           "borderWidth",
+          "shadow",
         ].includes(key),
     )
   )
     return false;
-  if (!partial || value.color !== undefined) {
+  const shadow = kind === "shadow";
+  if (shadow ? value.color !== undefined : value.shadow !== undefined)
+    return false;
+  if (shadow && (!partial || value.shadow !== undefined)) {
+    const reference = value.shadow;
+    if (
+      !record(reference) ||
+      Object.keys(reference).length !== 2 ||
+      typeof reference.elevationId !== "string" ||
+      !reference.elevationId ||
+      !Number.isSafeInteger(reference.scaleIndex)
+    )
+      return false;
+  }
+  if (!shadow && (!partial || value.color !== undefined)) {
     const color = value.color;
     if (!record(color)) return false;
     if (color.kind === "single") {
@@ -176,11 +211,15 @@ export function isStylesDocument(value: unknown): value is StylesDocument {
         !uuid(recipe.name.categoryId) ||
         !uuid(recipe.name.termId) ||
         !classification(recipe.classification) ||
-        !isStyleAppearance(recipe.appearance) ||
+        !isStyleAppearance(
+          recipe.appearance,
+          false,
+          recipe.kind as StyleKind,
+        ) ||
         !Array.isArray(recipe.options) ||
         !record(recipe.differences) ||
         !Object.values(recipe.differences).every((entry) =>
-          isStyleAppearance(entry, true),
+          isStyleAppearance(entry, true, recipe.kind as StyleKind),
         ) ||
         !Array.isArray(recipe.applications)
       )

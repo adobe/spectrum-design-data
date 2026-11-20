@@ -1,0 +1,109 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/steplist.json",
+  "specVersion": "1.0.0-draft",
+  "name": "steplist",
+  "displayName": "Steplist",
+  "description": "Step lists display progress through a sequence of steps, with each step marked as completed, current, or incomplete.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/steplist/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Step lists display progress through a sequence of steps, with each step marked as completed, current, or incomplete."
+    },
+    {
+      "type": "guideline",
+      "content": "Steplists show progress across a series of discrete steps in a process. Use them for setups, wizards, or other flows with a fixed number of stages. They can be displayed horizontally or vertically."
+    },
+    {
+      "type": "guideline",
+      "content": "A current step in a steplist is styled to indicate the user's active position within a sequence. This styling helps orient the user by showing which step they are currently working on or viewing. It typically uses a distinct visual treatment, such as displaying the number of the step, to differentiate it from completed or incomplete steps. This ensures clarity in navigation and reinforces the sense of progress through the workflow."
+    },
+    {
+      "type": "guideline",
+      "content": "Represents an individual step within the steplist. Each item conveys a specific stage in a process or workflow."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, steplists are horizontal and should be used for wider layouts or panels to keep the user’s focus moving from left to right. Vertical steplists should be used for more narrow layouts or panels to accommodate more steps without crowding."
+    },
+    {
+      "type": "guideline",
+      "content": "Users can’t click on incomplete steps. The steplist follows a linear flow, requiring completion of the previous step before moving to the next."
+    },
+    {
+      "type": "guideline",
+      "content": "Completed steps display a checkmark, while remaining steps retain their numeric indicators. The current step uses a darker fill to indicate selection. This treatment is available in medium, large, and extra-large sizes."
+    },
+    {
+      "type": "guideline",
+      "content": "When a step’s label is long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels are optional in a steplist. Here are three recommended approaches:"
+    }
+  ],
+  "options": {
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of step items in the step list.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text displayed for the step item."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the step item is disabled."
+          },
+          "stepState": {
+            "type": "string",
+            "enum": [
+              "completed default",
+              "completed hover",
+              "current default",
+              "incomplete default"
+            ],
+            "default": "current default",
+            "description": "The current state of the step item."
+          }
+        },
+        "required": ["label", "stepState"]
+      }
+    },
+    "currentStep": {
+      "type": "string",
+      "description": "The identifier or label of the currently active step."
+    }
+  },
+  "anatomy": [
+    {
+      "name": "track-size",
+      "description": "The connecting track between steps."
+    },
+    { "name": "track" },
+    { "name": "step", "description": "A single step in the list." }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "intents": ["navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

@@ -246,6 +246,7 @@ Run these from `docs/spectrum-studio`, or from the repo root with `pnpm --filter
 - `src/components/` contains generic reusable UI and application chrome that is not a page's main-content view. Do not place `ViewSwitcher` or a domain-specific sample application here.
 - `src/features/` owns domain models, state, calculations, and generation logic; keep presentation-specific view components in `views/`.
 - `src/assets/` contains static assets such as images, fonts, and other imported media.
+- `data/` (outside `src/`) holds repository-style data files: `data/studio/` is Studio's shipped default data, one subject per file (run `pnpm data:studio` after editing); `data/design-data/` is a read-only practice copy of `packages/design-data` with tokens by tier and subject, written only by `pnpm data:snapshot`. Never hand-edit the practice copy. See `data/README.md`.
 - Reusable domain visualizations that are explicitly shared with an editing panel (for example, `ContrastRamp`) stay with their domain under `views/`; panels import them rather than duplicating visualization logic.
 - When adding a file, classify it by responsibility and where it is rendered, not only by the page that currently imports it. Update all imports when moving a module and keep colocated styles beside their view.
 

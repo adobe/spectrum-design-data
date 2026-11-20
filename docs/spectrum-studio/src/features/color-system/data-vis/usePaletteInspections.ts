@@ -16,6 +16,7 @@ export type PaletteInspectionsState =
 export function usePaletteInspections(
   palettes: PaletteInspectionRequest[],
   fingerprint: string,
+  preferWorker = false,
 ): PaletteInspectionsState {
   const context = JSON.stringify([
     fingerprint,
@@ -30,6 +31,7 @@ export function usePaletteInspections(
   const cache = useMemo(() => new MeasurementCache(), []);
   const immediate = useMemo(() => {
     if (
+      preferWorker ||
       palettes.reduce(
         (count, palette) =>
           count +
@@ -60,7 +62,7 @@ export function usePaletteInspections(
       }
     }
     return reports;
-  }, [palettes, cache]);
+  }, [palettes, cache, preferWorker]);
   const task = useMemo(
     () => (immediate === null ? { kind: "inspect" as const, palettes } : null),
     [immediate, palettes],

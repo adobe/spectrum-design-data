@@ -1,0 +1,144 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/calendar.json",
+  "specVersion": "1.0.0-draft",
+  "name": "calendar",
+  "displayName": "Calendar",
+  "description": "Calendars display days, weeks, and months, allowing users to select dates or ranges.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Calendars display days, weeks, and months, allowing users to select dates or ranges."
+    },
+    {
+      "type": "guideline",
+      "content": "Unavailable dates.\n\nWhen a day or several days are unavailable within the calendar popover, each day should display a strikethrough to help the user understand that they cannot select it. Disabled days use a distinct gray style to clearly differentiate them from unavailable days. When the calendar prevents selection of past dates, this visual treatment helps users distinguish disabled days from those marked as unavailable."
+    },
+    {
+      "type": "guideline",
+      "content": "Why unavailable and disabled days are necessary.\n\nIn a date selection system, users often need to distinguish between dates that cannot be selected and dates that are simply inactive. Supporting both states improves clarity and prevents errors. Here's an example scenario: A potential guest is browsing a calendar to book a stay at a vacation rental. Unavailable dates: Days when the rental is already booked or blocked by the owner. These appear with a strikethrough, indicating they cannot be selected. Disabled dates: Past dates that are no longer valid for booking. These appear visually distinct (gray style) to show they are inactive. Guests see unavailable dates marked clearly so they don't attempt to select them. Hosts or admins can view past dates as disabled and also mark future dates as unavailable when needed. By supporting both behaviors, the system provides a clear, intuitive experience for different user roles and prevents confusion during date selection."
+    },
+    {
+      "type": "guideline",
+      "content": "Range fill color.\n\nThe range fill shows which days fall between two selected dates. If the range spans more than the three-month calendar view, it ends on the last visible day but continues as users navigate with the calendar chevrons. A dashed stroke outlines the fill to improve visibility on bright screens and for users with vision impairments."
+    },
+    {
+      "type": "do-dont",
+      "content": "Do not change the styling of unavailable days",
+      "dont": "The strikethrough styling intentionally accommodates internationalization."
+    },
+    {
+      "type": "guideline",
+      "content": "Calendar popover states.\n\nThe calendar popover supports a disabled state but not a read-only state. Dates or months may be temporarily disabled based on context (for example, if a user must complete a task before selecting a date). In these cases, help text can explain why certain dates are unavailable. If a date picker is truly read-only, users shouldn't be able to open the calendar popover at all, since they can't interact with it."
+    },
+    {
+      "type": "guideline",
+      "content": "Optional time fields.\n\nThe calendar popover can also include time-specific fields, allowing users to specify start and end times."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Calendar",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "currentMonth": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 12,
+      "description": "The month currently displayed in the calendar (1 = January, 12 = December)."
+    },
+    "currentYear": {
+      "type": "number",
+      "description": "The year currently displayed in the calendar (Gregorian year number)."
+    },
+    "selectionMode": {
+      "type": "string",
+      "default": "single",
+      "description": "Controls whether the calendar allows selecting a single date or a date range.",
+      "values": [{ "value": "single" }, { "value": "range" }]
+    },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isError": { "type": "boolean", "default": false },
+    "minValue": {
+      "type": "string",
+      "description": "The minimum allowed date that a user may select (ISO format string)."
+    },
+    "maxValue": {
+      "type": "string",
+      "description": "The maximum allowed date that a user may select (ISO format string)."
+    },
+    "showTimeZone": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to show a time zone indicator in the calendar."
+    },
+    "days": {
+      "type": "array",
+      "description": "An array of days displayed in the current calendar view.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date represented by this day (ISO format string)."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this day is disabled."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this day is currently selected."
+          },
+          "isRangeStart": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this day is the start of a selected range."
+          },
+          "isRangeEnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this day is the end of a selected range."
+          },
+          "isUnavailable": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this day is unavailable for selection. If true, the day appears with a strikethrough."
+          },
+          "isToday": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this day represents the current date."
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "keyboard focus"],
+            "default": "default",
+            "description": "The interaction state of the day cell."
+          }
+        },
+        "required": ["date"]
+      }
+    }
+  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "intents": ["input", "choose"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

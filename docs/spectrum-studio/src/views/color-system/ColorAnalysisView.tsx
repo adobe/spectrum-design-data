@@ -28,8 +28,6 @@ import {
 } from "../../components/charts/chartViewport";
 import {
   analysisDomains,
-  buildAnalysisScale,
-  buildOutputProfile,
   findSlice,
   repairReference,
   splitHueSamples,
@@ -64,6 +62,12 @@ import { ContrastRamp } from "./ContrastRamp";
 import "../chartLayout.css";
 import "./ColorAnalyze.css";
 import type { Rule } from "../../features/logic/model";
+import { usePreviewWorker } from "../../features/derived-work/usePreviewWorker";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
+import type {
+  ColorAnalysisInput,
+  ColorAnalysisOutput,
+} from "../../features/color-system/analysisWork";
 
 const columnStyles = style({
   display: "flex",
@@ -98,11 +102,73 @@ export interface ColorAnalysisViewProps {
   isPreview?: boolean;
 }
 
-export function ColorAnalysisView({
+const createAnalysisWorker = () =>
+  new Worker(
+    new URL("../../features/color-system/analysis.worker.ts", import.meta.url),
+    { type: "module" },
+  );
+
+export function ColorAnalysisView(props: ColorAnalysisViewProps) {
+  const {
+    document,
+    authoredContrasts,
+    authoredScaleContrasts,
+    rules,
+    preferences,
+    selectedScaleId,
+    surfaceId,
+  } = props;
+  const input = useMemo(
+    (): ColorAnalysisInput => ({
+      document,
+      authoredContrasts,
+      authoredScaleContrasts,
+      rules,
+      selectedScaleId,
+      surfaceId,
+      referenceScaleId: preferences.referenceScaleId,
+      includeOutput: preferences.tab === "lightness",
+    }),
+    [
+      document,
+      authoredContrasts,
+      authoredScaleContrasts,
+      rules,
+      selectedScaleId,
+      surfaceId,
+      preferences.referenceScaleId,
+      preferences.tab,
+    ],
+  );
+  const result = usePreviewWorker<ColorAnalysisInput, ColorAnalysisOutput>(
+    input,
+    createAnalysisWorker,
+  );
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label="Updating color analysis"
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready && (
+        <ReadyColorAnalysisView
+          {...props}
+          document={result.ready.input.document}
+          scales={result.ready.value.scales}
+          output={result.ready.value.output}
+          allowRepair={result.status === "ready"}
+        />
+      )}
+    </DerivedContentBoundary>
+  );
+}
+
+function ReadyColorAnalysisView({
   document,
-  authoredContrasts,
-  authoredScaleContrasts,
-  rules,
+  scales,
+  output,
+  allowRepair,
   preferences,
   onPreferencesChange,
   surfaceId,
@@ -110,7 +176,7 @@ export function ColorAnalysisView({
   selectedScaleId,
   overrideCount = 0,
   isPreview = false,
-}: ColorAnalysisViewProps) {
+}: ColorAnalysisViewProps & ColorAnalysisOutput & { allowRepair: boolean }) {
   const change = (patch: Partial<ColorAnalysisPreferences>) =>
     onPreferencesChange({ ...preferences, ...patch });
   const reference = repairReference(
@@ -128,8 +194,12 @@ export function ColorAnalysisView({
     preferences.valuesScaleId,
     reference?.id,
   );
+  const outputReference = document.scales.find(
+    (scale) => scale.id === output.referenceId,
+  );
   const [repairNotice, setRepairNotice] = useState("");
   useEffect(() => {
+    if (!allowRepair) return;
     const repairScale =
       reference && reference.id !== preferences.referenceScaleId;
     const repairSurface = surface && surface.id !== surfaceId;
@@ -147,45 +217,14 @@ export function ColorAnalysisView({
         );
       onSurfaceChange(surface.id);
     }
-  }, [reference?.id, surface?.id, preferences.referenceScaleId, surfaceId]); // eslint-disable-line react-hooks/exhaustive-deps
-  const derived = useMemo(() => {
-    try {
-      return {
-        scales: document.scales.map((scale) =>
-          buildAnalysisScale(scale, document.settings.colorOutput),
-        ),
-      };
-    } catch (failure) {
-      return {
-        error: failure instanceof Error ? failure.message : String(failure),
-      };
-    }
-  }, [document.scales, document.settings.colorOutput]);
-  const output = useMemo(() => {
-    if (preferences.tab !== "lightness" || !reference || !surface) return {};
-    try {
-      return {
-        profile: buildOutputProfile(
-          document,
-          reference,
-          surface,
-          authoredScaleContrasts?.[reference.id] ?? authoredContrasts,
-          rules,
-        ),
-      };
-    } catch (failure) {
-      return {
-        error: failure instanceof Error ? failure.message : String(failure),
-      };
-    }
   }, [
-    document,
+    allowRepair,
     reference,
     surface,
-    authoredContrasts,
-    authoredScaleContrasts,
-    rules,
-    preferences.tab,
+    preferences,
+    onPreferencesChange,
+    onSurfaceChange,
+    surfaceId,
   ]);
   const gamut = renderGamutForOutput(document.settings.colorOutput);
   return (
@@ -201,13 +240,12 @@ export function ColorAnalysisView({
           {repairNotice}
         </p>
       )}
-      {derived.error && <AnalysisError message={derived.error} />}
-      {!derived.error && (!reference || !surface) && (
+      {(!reference || !surface) && (
         <p role="status">
           Add a color scale and a surface to analyze generated colors.
         </p>
       )}
-      {derived.scales && reference && surface && (
+      {reference && surface && (
         <Tabs
           aria-label="Color analysis views"
           selectedKey={preferences.tab}
@@ -222,7 +260,7 @@ export function ColorAnalysisView({
           </TabList>
           <TabPanel id="chromaticity">
             <Chromaticity
-              scales={derived.scales}
+              scales={scales}
               gamut={gamut}
               preferences={preferences}
               change={change}
@@ -281,15 +319,15 @@ export function ColorAnalysisView({
                 </div>
               </AnalyzeSettings>
               {output.error && <AnalysisError message={output.error} />}
-              {output.profile && (
+              {output.profile && outputReference && (
                 <AnalyzeCardGrid count={1}>
                   <Lightness
                     profile={output.profile}
-                    name={reference.name}
+                    name={outputReference.name}
                     preferences={preferences}
                     values={
                       <AnalyzeValuesTable
-                        label={`${termLabel(reference.name)} output values`}
+                        label={`${termLabel(outputReference.name)} output values`}
                         headings={[
                           "Scale index",
                           "Authored target",

@@ -28,7 +28,7 @@ async function navigate(page: Page, name: string) {
     .click();
 }
 async function openBase(page: Page) {
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   await page.getByRole("tab", { name: "Structures", exact: true }).click();
   await page
     .locator('[data-component="StructureCard"]')

@@ -130,6 +130,23 @@ assert.equal(
   new Set(output.rows.map((row) => `${row.name}:${row.modeKey}`)).size,
   output.rows.length,
 );
+const shadowIds = new Set(
+  styles.recipes
+    .filter((recipe) => recipe.kind === "shadow")
+    .map((recipe) => recipe.id),
+);
+const shadowRows = output.rows.filter((row) => shadowIds.has(row.recipeId));
+assert.deepEqual(
+  [...new Set(shadowRows.map((row) => row.name))].sort(),
+  [
+    "dragged-shadow",
+    "elevated-shadow",
+    "emphasized-shadow",
+    "emphasized-shadow-hover",
+  ],
+  "Default Shadow Styles reference Elevation levels with one hover output.",
+);
+assert(shadowRows.every((row) => row.token.$ref && row.value));
 for (const context of contexts) {
   const isDark = context.selection[scheme.id] === dark.id;
   for (const recipe of icons) {

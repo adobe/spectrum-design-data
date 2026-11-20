@@ -2,19 +2,15 @@
 import { termLabel } from "../../../features/taxonomy/termPresentation";
 import { ActionButton, PickerItem, Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useAtom, useAtomValue } from "jotai";
-import { useMemo, useRef, useState } from "react";
+import { useAtom } from "jotai";
+import { useMemo, useState } from "react";
 import { Picker } from "../../../components/fields/Picker";
 import { ScaleGraph } from "../../../components/charts/ScaleGraph";
-import { dataVisInputDocumentAtom } from "../../../features/color-system/data-vis/state";
 import { dataVisBackground } from "../../../features/color-system/data-vis/resolution";
 import {
-  dataVisComparisonPage,
-  dataVisMetricPoints,
   type DataVisMetric,
   type DataVisReference,
 } from "../../../features/color-system/data-vis/analysis";
-import { MeasurementCache } from "../../../features/color-system/data-vis/measurements";
 import {
   VISION_PROFILE_LABELS,
   type VisionProfile,
@@ -31,6 +27,28 @@ import {
   analyzeNoteStyles,
   usePreviewData,
 } from "../../analyze/AnalyzeLayout";
+import { DerivedContentBoundary } from "../../../components/DerivedContentBoundary";
+import { usePreviewWorker } from "../../../features/derived-work/usePreviewWorker";
+import type {
+  DataVisAnalysisInput,
+  DataVisAnalysisOutput,
+} from "../../../features/color-system/data-vis/analysisWork";
+
+const createAnalysisWorker = () =>
+  new Worker(
+    new URL(
+      "../../../features/color-system/data-vis/analysis.worker.ts",
+      import.meta.url,
+    ),
+    { type: "module" },
+  );
+const emptyAnalysis: DataVisAnalysisOutput = {
+  points: [],
+  rows: [],
+  total: 0,
+  page: 0,
+  pageCount: 1,
+};
 
 const DATA_VIS_DRIVERS = ["color.*"];
 const row = style({
@@ -49,9 +67,10 @@ const metricNames: Record<DataVisMetric, string> = {
 };
 
 export function DataVisAnalyze() {
-  const displays = useDataVisDisplay(),
+  const preview = useDataVisDisplay(),
     [selectedId, select] = useAtom(selectedDataVisScaleIdAtom);
-  const document = useAtomValue(dataVisInputDocumentAtom),
+  const document = preview.ready?.document,
+    displays = preview.ready?.displays ?? [],
     selected =
       displays.find((display) => display.definition.id === selectedId) ??
       displays[0];
@@ -62,34 +81,41 @@ export function DataVisAnalyze() {
       title="Data vis"
       previewData={previewData}
     >
-      {!selected ? (
-        <Text>Add a data vis scale to compare its colors.</Text>
-      ) : (
-        <>
-          <AnalyzeSettings>
-            <Picker
-              label="Data vis scale"
-              selectedKey={selected.definition.id}
-              onSelectionChange={(id) => select(String(id))}
-            >
-              {displays.map((display) => (
-                <PickerItem
-                  id={display.definition.id}
-                  key={display.definition.id}
-                >
-                  {termLabel(display.definition.name)}
-                </PickerItem>
-              ))}
-            </Picker>
-          </AnalyzeSettings>
-          <Analysis
-            key={selected.definition.id}
-            display={selected}
-            background={dataVisBackground(document)}
-            gamut={renderGamutForOutput(document.settings.colorOutput)}
-          />
-        </>
-      )}
+      <DerivedContentBoundary
+        state={preview.status}
+        label="Updating data vis analysis"
+        error={preview.error}
+        onRetry={preview.retry}
+      >
+        {!selected && document ? (
+          <Text>Add a data vis scale to compare its colors.</Text>
+        ) : selected && document ? (
+          <>
+            <AnalyzeSettings>
+              <Picker
+                label="Data vis scale"
+                selectedKey={selected.definition.id}
+                onSelectionChange={(id) => select(String(id))}
+              >
+                {displays.map((display) => (
+                  <PickerItem
+                    id={display.definition.id}
+                    key={display.definition.id}
+                  >
+                    {termLabel(display.definition.name)}
+                  </PickerItem>
+                ))}
+              </Picker>
+            </AnalyzeSettings>
+            <Analysis
+              key={selected.definition.id}
+              display={selected}
+              background={dataVisBackground(document)}
+              gamut={renderGamutForOutput(document.settings.colorOutput)}
+            />
+          </>
+        ) : null}
+      </DerivedContentBoundary>
     </AnalyzePage>
   );
 }
@@ -106,8 +132,7 @@ function Analysis({
   const [metric, setMetric] = useState<DataVisMetric>("lightness"),
     [profile, setProfile] = useState<VisionProfile>("normal");
   const [referenceKey, setReferenceKey] = useState("background"),
-    [page, setPage] = useState(0),
-    cache = useRef(new MeasurementCache());
+    [page, setPage] = useState(0);
   const reference = useMemo(
     (): DataVisReference =>
       referenceKey === "background"
@@ -119,68 +144,45 @@ function Analysis({
             : { kind: "color", id: referenceKey.slice(6) },
     [referenceKey],
   );
-  const result = useMemo(() => {
-    if (display.status === "error")
-      return {
-        error: display.error,
-        points: [],
-        rows: [],
-        total: 0,
-        page: 0,
-        pageCount: 1,
-      };
-    try {
-      return {
-        error: "",
-        points: dataVisMetricPoints(
-          display.observations,
-          background,
-          gamut,
-          metric,
-          cache.current,
-        ),
-        ...dataVisComparisonPage(
-          display.observations,
-          background,
-          gamut,
-          profile,
-          reference,
-          page,
-          50,
-          cache.current,
-        ),
-      };
-    } catch (failure) {
-      return {
-        error: failure instanceof Error ? failure.message : String(failure),
-        points: [],
-        rows: [],
-        total: 0,
-        page: 0,
-        pageCount: 1,
-      };
-    }
-  }, [display, background, gamut, metric, profile, reference, page]);
+  const target =
+    display.definition.kind === "categorical" &&
+    reference.kind !== "background" &&
+    (profile === "normal" ||
+      display.definition.preferences.cvdProfiles.includes(profile))
+      ? display.definition.preferences.minimumDeltaE
+      : undefined;
+  const input = useMemo(
+    (): DataVisAnalysisInput => ({
+      observations: display.status === "ready" ? display.observations : [],
+      background,
+      gamut,
+      metric,
+      profile,
+      reference,
+      page,
+      target,
+    }),
+    [display, background, gamut, metric, profile, reference, page, target],
+  );
+  const work = usePreviewWorker<DataVisAnalysisInput, DataVisAnalysisOutput>(
+    input,
+    createAnalysisWorker,
+  );
+  const result = work.ready?.value ?? emptyAnalysis;
+  const shown = work.ready?.input ?? input;
   if (display.status === "error")
     return (
       <p className={negative} role="alert">
         {display.error}
       </p>
     );
-  const continuous = !!display.continuous,
-    target =
-      display.definition.kind === "categorical" &&
-      reference.kind !== "background" &&
-      (profile === "normal" ||
-        display.definition.preferences.cvdProfiles.includes(profile))
-        ? display.definition.preferences.minimumDeltaE
-        : undefined;
+  const continuous = !!display.continuous;
   const maximum =
-    metric === "hue"
+    shown.metric === "hue"
       ? 360
-      : metric === "contrast"
+      : shown.metric === "contrast"
         ? 21
-        : metric === "chroma"
+        : shown.metric === "chroma"
           ? result.points.reduce(
               (max, point) => Math.max(max, point.y ?? 0),
               0.4,
@@ -208,30 +210,30 @@ function Analysis({
     </Picker>
   );
   return (
-    <>
-      {result.error && (
-        <p role="alert" className={negative}>
-          {result.error}
-        </p>
-      )}
+    <DerivedContentBoundary
+      state={work.status}
+      label="Updating data vis measurements"
+      error={work.error}
+      onRetry={work.retry}
+    >
       <AnalyzeCardGrid count={2}>
         <ChartCard
-          title={metricNames[metric]}
+          title={metricNames[shown.metric]}
           label="Data vis measurement chart"
           settings={measurementPicker}
           values={
             <AnalyzeValuesTable
-              label={`${termLabel(display.definition.name)} ${metricNames[metric].toLowerCase()} values`}
+              label={`${termLabel(display.definition.name)} ${metricNames[shown.metric].toLowerCase()} values`}
               headings={[
                 continuous ? "Normalized position" : "Saved color order",
                 "Color",
-                metricNames[metric],
+                metricNames[shown.metric],
               ]}
               rows={result.points.map((point, index) => ({
                 id: String(index),
                 values: [
                   String(Number(point.x.toFixed(3))),
-                  display.observations[index]?.label ?? "",
+                  shown.observations[index]?.label ?? "",
                   point.y === null
                     ? "No chromatic hue"
                     : String(Number(point.y.toFixed(2))),
@@ -242,22 +244,20 @@ function Analysis({
         >
           <ScaleGraph
             kind="numeric"
-            label={`${termLabel(display.definition.name)} ${metricNames[metric].toLowerCase()}`}
+            label={`${termLabel(display.definition.name)} ${metricNames[shown.metric].toLowerCase()}`}
             series={[
               {
                 id: display.definition.id,
-                label: metricNames[metric],
+                label: metricNames[shown.metric],
                 points: result.points,
               },
             ]}
             xDomain={
-              continuous
-                ? [0, 1]
-                : [1, Math.max(2, display.observations.length)]
+              continuous ? [0, 1] : [1, Math.max(2, shown.observations.length)]
             }
             yDomain={[0, maximum]}
             xLabel={continuous ? "Normalized position" : "Saved color order"}
-            yLabel={metricNames[metric]}
+            yLabel={metricNames[shown.metric]}
             connectPoints={continuous}
           />
           {continuous && (
@@ -328,14 +328,17 @@ function Analysis({
             not a whole-chart certification. Delta E 2000 is a separate
             difference measure, not a WCAG pass rule.
           </p>
-          {profile !== "normal" && (
+          {shown.profile !== "normal" && (
             <p className={notice}>
               Simulated swatches, colors and background are measured together.
               Simulation contrast is not a WCAG result; grayscale is an
               approximation.
             </p>
           )}
-          <DataVisComparisonTable rows={result.rows} deltaETarget={target} />
+          <DataVisComparisonTable
+            rows={result.rows}
+            deltaETarget={shown.target}
+          />
           <Text>
             {result.total} comparisons; page {result.page + 1} of{" "}
             {result.pageCount}.
@@ -366,7 +369,7 @@ function Analysis({
       {display.continuous?.diagnostics.map((message) => (
         <Text key={message}>{message}</Text>
       ))}
-    </>
+    </DerivedContentBoundary>
   );
 }
 import {

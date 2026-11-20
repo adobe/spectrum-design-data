@@ -62,6 +62,7 @@ import "./AnalysisView.css";
 import { AnalysisTokens } from "./AnalysisTokens";
 import { modeCoverageRows } from "./colorOpacityPresentation";
 import { ClassificationReview } from "./ClassificationReview";
+import { PracticeCopyNote } from "./PracticeCopyNote";
 import { unavailableTokenReference } from "../../features/design-data/tokenInventory";
 
 const noticeTextStyles = style({ color: "neutral-subdued" });
@@ -1178,6 +1179,7 @@ export default function AnalysisView() {
               {report.inputs.reference.revision} · Reference SHA-256:{" "}
               {report.inputs.reference.hash}
             </p>
+            <PracticeCopyNote source={report.inputs.reference} />
             {!output && (
               <p
                 className="analysisProvenance"

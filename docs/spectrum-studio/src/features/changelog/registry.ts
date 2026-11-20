@@ -445,6 +445,7 @@ export function compareAuthoring(
           "fontWeight",
           "lineHeight",
           "borderWidth",
+          "shadow",
         ].includes(names.at(-1) ?? "");
       const textStyleReference =
         definition.category === "structures" && names.at(-1) === "textStyle";

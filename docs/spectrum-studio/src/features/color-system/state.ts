@@ -1,5 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom, type Getter } from "jotai";
+import { selectAtom } from "jotai/utils";
 import { createColorDefaults } from "../../data/defaults";
 import {
   COLOR_SYSTEM_SCHEMA_VERSION,
@@ -110,6 +111,7 @@ import {
   reindexSwatches,
   swatchIndex,
 } from "../scales/swatchIndices";
+import { deferNumericProposal } from "../edit-session/numericProposal";
 
 const storedColorSystemDocumentAtom = persistedAtom<ColorSystemDocument>({
   key: "foundations/color",
@@ -165,6 +167,14 @@ export const colorSystemDocumentAtom = atom(
     const next = typeof update === "function" ? update(previous) : update;
     if (!isColorSystemDocument(next))
       throw new Error("Invalid Color foundation data cannot be saved.");
+    if (
+      deferNumericProposal({
+        source: "colorSystem",
+        previous: get(namedColorSystemDocumentAtom),
+        next,
+      })
+    )
+      return;
     const sets = get(modeSetsAtom);
     const pruned = pruneDataVisPatches(
       pruneCustomContrastPatches(sets, next.scales),
@@ -185,12 +195,23 @@ export const colorSystemDocumentAtom = atom(
   },
 );
 
+const colorPreviewOverridesAtom = selectAtom(
+  previewOverridesAtom,
+  (overrides) =>
+    Object.fromEntries(
+      Object.entries(overrides).filter(([id]) => id.startsWith("color.")),
+    ),
+  (previous, next) =>
+    Object.keys(previous).length === Object.keys(next).length &&
+    Object.entries(previous).every(([id, value]) => next[id] === value),
+);
+
 /** Base document plus mode and preview overrides, then polarity compensation, then the contrast multiplier. */
 export const resolvedColorSystemDocumentAtom = atom((get) =>
   resolveColorDocument(
     get(colorSystemDocumentAtom),
     get(activeModesAtom),
-    get(previewOverridesAtom),
+    get(colorPreviewOverridesAtom),
     {
       modeSets: get(modeSetsAtom),
       opacity: get(opacityDocumentAtom),
@@ -204,7 +225,7 @@ export const cssBaseDocumentAtom = atom((get) =>
   resolveColorDocument(
     get(colorSystemDocumentAtom),
     get(activeModesAtom),
-    get(previewOverridesAtom),
+    get(colorPreviewOverridesAtom),
     {
       applyMultiplier: false,
       modeSets: get(modeSetsAtom),

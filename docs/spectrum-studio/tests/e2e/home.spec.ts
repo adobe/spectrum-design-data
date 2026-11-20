@@ -18,9 +18,8 @@ test("raw Spectrum tokens follow chrome appearance without leaking into authored
   });
   await page.goto("/");
   await page
-    .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Home", exact: true })
-    .dispatchEvent("click");
+    .getByRole("button", { name: "Spectrum Studio home", exact: true })
+    .click();
 
   const home = page.locator('[data-component="Home"]');
   const officialColors = {
@@ -139,9 +138,8 @@ test("System health page renders the six sample insight cards separately from Ho
 
   await page.goto("/");
   await page
-    .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Home" })
-    .dispatchEvent("click");
+    .getByRole("button", { name: "Spectrum Studio home", exact: true })
+    .click();
 
   const home = page.locator('[data-component="Home"]');
   await expect(
@@ -220,8 +218,7 @@ test("System health page renders the six sample insight cards separately from Ho
     );
   }
   await page
-    .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Home", exact: true })
+    .getByRole("button", { name: "Spectrum Studio home", exact: true })
     .click();
   await expect(
     home.getByRole("heading", { name: "Recent updates", exact: true }),

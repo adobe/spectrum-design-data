@@ -545,7 +545,7 @@ export function initializeAuthoringPersistence(
     store.sub(persistenceInputAtom, schedule),
     store.sub(appColorSchemeAtom, preferences),
     store.sub(modeSelectionAtom, preferences),
-    registerPersistenceFlush(flush),
+    registerPersistenceFlush(flush, store),
   ];
   if (scheduled && options.validateScheduled === undefined) {
     requestProof("visible");

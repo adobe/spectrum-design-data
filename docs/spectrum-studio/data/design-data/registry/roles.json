@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "role",
+  "description": "Terms describing an object's role within a nesting relationship, distinct from its size. This is a starting vocabulary — new role terms should be added here as design system patterns are identified.",
+  "values": [
+    {
+      "id": "container",
+      "label": "Container",
+      "description": "The outer, container-level object in a nesting relationship (e.g. an action button or picker)"
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "description": "The inner, nested control object in a nesting relationship (e.g. a checkbox's control box), sized smaller than its container to create a visually balanced gap"
+    }
+  ]
+}

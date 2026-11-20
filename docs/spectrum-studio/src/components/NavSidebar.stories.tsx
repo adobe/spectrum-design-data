@@ -23,7 +23,7 @@ const Home = getCategoryIcon("home");
 const Shapes = getCategoryIcon("foundations");
 const NamingOrder = getCategoryIcon("registry");
 const TokenIcon = getCategoryIcon("tokens");
-const Brush = getCategoryIcon("design");
+const ObjectsIcon = getCategoryIcon("objects");
 
 const exampleItems: readonly NavSidebarItem[] = [
   {
@@ -44,8 +44,8 @@ const exampleItems: readonly NavSidebarItem[] = [
   { id: "registry", label: "Registry", Icon: NamingOrder },
   {
     id: "design",
-    label: "Design",
-    Icon: Brush,
+    label: "Objects",
+    Icon: ObjectsIcon,
     status: "",
     statusVariant: "negative",
   },
@@ -150,6 +150,112 @@ export const StatusBadges: Story = {
   },
 };
 export const Collapsed: Story = { args: { isSidebarCollapsed: true } };
+export const Sections: Story = {
+  args: { items: undefined },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const nav = within(canvas.getByRole("navigation", { name: "Navigation" }));
+    const sectionNames = ["Design", "Logic", "Data", "Analysis"];
+    const names = [
+      "Foundations",
+      "Objects",
+      "Components",
+      "Formulas",
+      "Rules",
+      "Modes",
+      "Tokens",
+      "Registry",
+      "Skills",
+      "System health",
+      "Accessibility",
+      "Migration",
+      "Settings",
+    ];
+    await expect(
+      nav.queryByRole("link", { name: "Home", exact: true }),
+    ).toBeNull();
+    await expect(nav.getAllByRole("link")).toHaveLength(names.length);
+    for (const [index, name] of names.entries()) {
+      await expect(nav.getAllByRole("link")[index]).toHaveAccessibleName(
+        new RegExp(`^${name}(?:\\s|$)`),
+      );
+    }
+    for (const label of sectionNames) {
+      await expect(nav.getByText(label, { exact: true })).toBeVisible();
+      await expect(
+        nav.queryByRole("link", { name: label, exact: true }),
+      ).toBeNull();
+    }
+    await userEvent.click(nav.getByRole("link", { name: /^Rules\b/ }));
+    await expect(args.onPageChange).toHaveBeenLastCalledWith("rules");
+    await expect(nav.getByRole("link", { name: /^Rules\b/ })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    await userEvent.click(nav.getByRole("button", { name: "Collapse" }));
+    await waitFor(() => {
+      for (const label of sectionNames) {
+        expect(nav.getByText(label, { exact: true })).toHaveClass(
+          "sidebarSectionLabel-collapsed",
+        );
+      }
+      const groups = canvasElement.querySelectorAll<HTMLElement>(
+        "[data-sidebar-section]",
+      );
+      expect(groups).toHaveLength(4);
+      expect(nav.getAllByRole("separator")).toHaveLength(3);
+      for (const [index, group] of groups.entries()) {
+        const computed = getComputedStyle(group);
+        expect(computed.margin).toBe("0px");
+        expect(computed.padding).toBe("0px");
+        expect(computed.borderTopWidth).toBe("0px");
+        expect(group).toHaveAccessibleName(sectionNames[index]);
+        const firstRow = group.querySelector('[role="row"]:has(a)');
+        expect(firstRow).not.toBeNull();
+        const section = group.getBoundingClientRect();
+        if (index === 0) {
+          expect(within(group).queryByRole("separator")).toBeNull();
+          if (firstRow)
+            expect(
+              firstRow.getBoundingClientRect().top - section.top,
+            ).toBeCloseTo(0, 1);
+          continue;
+        }
+        const divider = within(group).getByRole("separator");
+        const line = divider.getBoundingClientRect();
+        const sidebar = canvas
+          .getByRole("navigation", { name: "Navigation" })
+          .getBoundingClientRect();
+        expect(line.width).toBeCloseTo(32, 1);
+        expect(line.height).toBeCloseTo(1, 1);
+        expect(line.left + line.width / 2).toBeCloseTo(
+          sidebar.left + sidebar.width / 2,
+          1,
+        );
+        expect(line.top - section.top).toBeCloseTo(6, 1);
+        if (firstRow) {
+          expect(
+            firstRow.getBoundingClientRect().top - line.bottom,
+          ).toBeCloseTo(6, 1);
+        }
+      }
+    });
+    await expect(
+      nav.getByRole("link", { name: "Rules", exact: true }),
+    ).toHaveAttribute("aria-current", "page");
+    await userEvent.click(
+      nav.getByRole("link", { name: "Settings", exact: true }),
+    );
+    await expect(args.onPageChange).toHaveBeenLastCalledWith("platforms");
+    await expect(nav.getByRole("button", { name: "Expand" })).toBeVisible();
+    await userEvent.click(nav.getByRole("button", { name: "Expand" }));
+    for (const label of sectionNames) {
+      await expect(nav.getByText(label, { exact: true })).toBeVisible();
+    }
+    await expect(nav.queryAllByRole("separator")).toHaveLength(0);
+    canvasElement.dataset.playComplete = "true";
+  },
+};
 export const Dark: Story = {
   name: "Dark appearance",
   globals: { colorScheme: "dark" },

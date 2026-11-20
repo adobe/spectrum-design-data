@@ -1,48 +1,63 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { useAtomValue } from "jotai";
-import { useMemo } from "react";
-import { typographyDocumentAtom } from "../../features/typography/state";
-import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
-import { modeSetsAtom } from "../../features/modes/state";
-import { iconsDocumentAtom } from "../../features/icons/documentState";
-import { rulesAtom } from "../../features/logic/library";
+import { atom, useAtomValue } from "jotai";
 import {
-  interpolationsAtom,
-  scaleTypesAtom,
-} from "../../features/logic/scaleTypeLibrary";
-import { buildTypographyComparisons } from "../../features/typography/comparisons";
+  typographyPreviewSourceAtom,
+  previewTaxonomyAtom,
+  previewModeSetsAtom,
+  previewIconsAtom,
+  previewRulesAtom,
+  previewInterpolationsAtom,
+  previewScaleTypesAtom,
+  liveTypographyDocumentAtom,
+} from "../../features/edit-session/previewSources";
+import type {
+  TypographyAnalysisInput,
+  TypographyAnalysisOutput,
+} from "../../features/typography/analysisWork";
+import { usePreviewWorker } from "../../features/derived-work/usePreviewWorker";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 import { AnalyzePage } from "../analyze/AnalyzeLayout";
 import { TypographyComparisonView } from "./TypographyComparisonView";
 
+const createAnalysisWorker = () =>
+  new Worker(
+    new URL("../../features/typography/analysis.worker.ts", import.meta.url),
+    { type: "module" },
+  );
+const analysisInputAtom = atom(
+  (get): TypographyAnalysisInput => ({
+    document: get(typographyPreviewSourceAtom),
+    registry: get(previewTaxonomyAtom),
+    modeSets: get(previewModeSetsAtom),
+    rules: get(previewRulesAtom),
+    scaleTypes: get(previewScaleTypesAtom),
+    interpolations: get(previewInterpolationsAtom),
+    icons: get(previewIconsAtom),
+    preview: get(liveTypographyDocumentAtom),
+  }),
+);
+
 export function TypographyAnalyze() {
-  const document = useAtomValue(typographyDocumentAtom);
-  const registry = useAtomValue(taxonomyDocumentAtom);
-  const modeSets = useAtomValue(modeSetsAtom);
-  const rules = useAtomValue(rulesAtom);
-  const scaleTypes = useAtomValue(scaleTypesAtom);
-  const interpolations = useAtomValue(interpolationsAtom);
-  const icons = useAtomValue(iconsDocumentAtom);
-  const result = useMemo(() => {
-    try {
-      return {
-        datasets: buildTypographyComparisons(document, modeSets, registry, {
-          rules,
-          scaleTypes,
-          interpolations,
-          icons,
-        }),
-      };
-    } catch (error) {
-      if (!(error instanceof Error)) throw error;
-      return { error: error.message };
-    }
-  }, [document, modeSets, registry, rules, scaleTypes, interpolations, icons]);
+  const input = useAtomValue(analysisInputAtom);
+  const result = usePreviewWorker<
+    TypographyAnalysisInput,
+    TypographyAnalysisOutput
+  >(input, createAnalysisWorker);
   return (
     <AnalyzePage component="TypographyAnalyze" title="Typography">
-      <TypographyComparisonView
-        {...result}
-        initialLineHeightId={`${document.previewLineHeightId}-lineHeight`}
-      />
+      <DerivedContentBoundary
+        state={result.status}
+        label="Updating typography analysis"
+        error={result.error}
+        onRetry={result.retry}
+      >
+        {result.ready && (
+          <TypographyComparisonView
+            datasets={result.ready.value}
+            initialLineHeightId={`${result.ready.input.document.previewLineHeightId}-lineHeight`}
+          />
+        )}
+      </DerivedContentBoundary>
     </AnalyzePage>
   );
 }

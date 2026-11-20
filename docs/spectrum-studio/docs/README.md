@@ -14,12 +14,31 @@ as the source of truth for design-data alignment status, not any prose doc.
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | [master-migration-plan.md](master-migration-plan.md)                                   | Agent-first north star, package-wide exact parity, migration gates and initiative/epic crosswalk |
 | [agent-execution.md](agent-execution.md)                                               | Bounded verification commands, resource cutoffs, browser scope and client-enforcement limits     |
-| [relationship-map.md](relationship-map.md)                                            | How agents obtain fresh relationship context, reuse the map and review dependency changes       |
+| [relationship-map.md](relationship-map.md)                                             | How agents obtain fresh relationship context, reuse the map and review dependency changes        |
 | [ROADMAP.md](ROADMAP.md)                                                               | Initiatives, epics, guiding principles, open decisions                                           |
 | [design-data-gap-register.md](design-data-gap-register.md)                             | Generated view of `src/data/design-data-gaps.json`. Do not edit by hand; run `pnpm gaps:docs`    |
 | [design-data-target-contract.md](design-data-target-contract.md)                       | Agreed direction and proposed boundaries with design-data. **Hashed evidence pin: do not edit**  |
 | [design-data-authoring-storage-contract.md](design-data-authoring-storage-contract.md) | How authored data is stored, validated and persisted                                             |
 | [design-data-coverage-metrics.md](design-data-coverage-metrics.md)                     | How coverage is measured on the Analysis page                                                    |
+
+## Navigation
+
+The Spectrum Studio logo and title in the Top Bar return to Home.
+Settings sits outside the navigation sections.
+When the sidebar is collapsed, compact dividers separate the sections,
+with no divider before the first section.
+
+| Section | Pages |
+| --- | --- |
+| Design | Foundations, Objects, Components |
+| Logic | Formulas, Rules, Modes |
+| Data | Tokens, Registry |
+| Analysis | System health, Accessibility, Migration |
+
+Formulas separates Progressions (formulas that calculate scale values) from
+Interpolations (reusable blending definitions). Rules separates Rounding,
+Naming, Generators, and Conditions. In edit mode, Add rule starts with the
+selected rule type.
 
 ## Feature references
 
@@ -55,6 +74,7 @@ Plans that were done are in [archive/](archive/README.md). The gap register and
 | [rfcs/portable-structures.md](rfcs/portable-structures.md)                                       | LTAX-013; local Structure authoring contract and separate upstream proposal  |
 | [rfcs/token-tiers-and-category-scope.md](rfcs/token-tiers-and-category-scope.md)                 | LTAX-021; conceptual token tiers and tier-scoped Registry categories         |
 | [rfcs/deletion-and-deprecation.md](rfcs/deletion-and-deprecation.md)                             | LTAX-024; shipped-item deletes, rename/deprecate paths and lifecycle data    |
+| [rfcs/design-data-token-file-layout.md](rfcs/design-data-token-file-layout.md)                   | Local draft; tier/subject token files used by the practice copy in `data/`   |
 
 ## Other
 

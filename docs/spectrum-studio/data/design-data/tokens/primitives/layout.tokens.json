@@ -1,0 +1,3743 @@
+[
+  {
+    "name": {
+      "property": "android-elevation",
+      "legacyKey": "android-elevation"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2dp",
+    "uuid": "f9456531-ab61-4c14-b7af-7016ce1c0d3e",
+    "conceptId": "e17064d9-f6ec-4082-be7f-094a2a8514b1"
+  },
+  {
+    "name": {
+      "property": "border-width",
+      "scaleIndex": 100
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
+    "conceptId": "b8a2fc03-d5bc-40d6-ace7-826d4398f023"
+  },
+  {
+    "name": {
+      "property": "border-width",
+      "scaleIndex": 200
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
+    "conceptId": "ac22970a-532e-4a04-ada1-3ebcdbf05d1d"
+  },
+  {
+    "name": {
+      "property": "border-width",
+      "scaleIndex": 400
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "18b0ff0d-494c-4d33-acab-a62528c5ca66",
+    "conceptId": "3241e3a0-c5ac-4ccc-a411-4daaa999587b"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "24def269-4582-46f6-a00c-8b5a28410917",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Change required for VF upgrade",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "79d44793-6b19-44a7-a0bd-9f2e8431b9cd"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Change required for VF upgrade",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "79d44793-6b19-44a7-a0bd-9f2e8431b9cd"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "ae65b844-9758-4708-8781-2c8df35af1e9",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Change required for VF upgrade",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "36742697-2320-4bc0-8a29-ad98e342349f"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "a39cef5c-631c-4942-b5d2-9121e05d47f8",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Change required for VF upgrade",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "36742697-2320-4bc0-8a29-ad98e342349f"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "4459554a-d872-4a6a-a620-4a1937605d29",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Change required for VF upgrade",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "e731e2e4-c3bf-4dff-aca0-04201e7e17ed"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "a6aac364-d617-4e21-a1db-5523daaa3c6c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Change required for VF upgrade",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "e731e2e4-c3bf-4dff-aca0-04201e7e17ed"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "ee165c7d-3e9a-4a8d-a71f-3083fd7fdc4b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Change required for VF upgrade",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "66f28027-02df-4ff7-bab5-f2ea3fa482c3"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "80f01183-a152-4c55-ac11-24edae62df64",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Change required for VF upgrade",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "66f28027-02df-4ff7-bab5-f2ea3fa482c3"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "923c46e1-b6f7-4d8a-844d-b4c0661b5e60",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Change required for VF upgrade",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "861fff6a-7163-495d-bcb1-caa87693fb55"
+  },
+  {
+    "name": {
+      "property": "component-bottom-to-text-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "0f1a6c63-bc4f-444c-9a18-67b6c35464b1",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Change required for VF upgrade",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "861fff6a-7163-495d-bcb1-caa87693fb55"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "0c0d6d38-6734-4312-9be5-dd48dd571841",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "7f2bb2ef-58c0-41f9-8109-0edf0ccf3d5d"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "7f2bb2ef-58c0-41f9-8109-0edf0ccf3d5d"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "44a668d6-e013-4138-a262-383994b0637f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    },
+    "conceptId": "d4e8c9a0-af84-445b-b7b3-ca55ced11875"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "19px",
+    "uuid": "c567f435-928c-4bf8-b9c0-ac2f22d58348",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    },
+    "conceptId": "d4e8c9a0-af84-445b-b7b3-ca55ced11875"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "11088de1-8e3b-4021-968d-a8c59c7b00bd",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    },
+    "conceptId": "c1e05fb1-09f6-49b9-86d9-a508cbec1dd6"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "616de468-71fc-4315-87ea-47cdc508a599",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    },
+    "conceptId": "c1e05fb1-09f6-49b9-86d9-a508cbec1dd6"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "b8af0ff9-1e4b-4298-907d-3ffcde88ba03",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "e1030243-729a-4afe-a6d5-47b8e620e2ce"
+    },
+    "conceptId": "de0a3da6-a982-40d9-8196-5c7b5e9f6f78"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "d660beeb-278b-4157-b6fc-852c680ecae7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "e1030243-729a-4afe-a6d5-47b8e620e2ce"
+    },
+    "conceptId": "de0a3da6-a982-40d9-8196-5c7b5e9f6f78"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "40778817-6e47-4b58-a495-c4f34cee78df",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    },
+    "conceptId": "7c44b345-e7eb-49ff-9276-7460559d1b43"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-text-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "942f0f34-611a-4318-9b0e-3632e7f520b3",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    },
+    "conceptId": "7c44b345-e7eb-49ff-9276-7460559d1b43"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "e220eb52-f821-4807-9ab7-b5f3905d769f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "57eb05a3-85d0-4aa5-ae22-0df4b2f2f429"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "e77f525e-5043-49c1-a663-9f6c30067043",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "57eb05a3-85d0-4aa5-ae22-0df4b2f2f429"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "13px",
+    "uuid": "e0673a9f-7993-490c-b2db-e8e836837e83",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    },
+    "conceptId": "062bb2be-32ee-4fd9-846e-5b94dc5fdf30"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "85f7f49a-7b87-4e2f-b44e-70e3ccde6291",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    },
+    "conceptId": "062bb2be-32ee-4fd9-846e-5b94dc5fdf30"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "a0ce87ca-29e0-40e3-b7dc-c53678effd9b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    },
+    "conceptId": "b076e022-a80a-4a2b-aee9-baa287c88ad4"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "19px",
+    "uuid": "4973c83c-792d-4bc1-9e3d-d047993292ba",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    },
+    "conceptId": "b076e022-a80a-4a2b-aee9-baa287c88ad4"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "a0b6c266-499d-4292-9be4-705ddd5e9fbc",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "e1030243-729a-4afe-a6d5-47b8e620e2ce"
+    },
+    "conceptId": "c99f282c-7e8f-4d3e-9e08-fbe40a3d4676"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "0b157417-e40f-481c-87e3-8563d55b3135",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "e1030243-729a-4afe-a6d5-47b8e620e2ce"
+    },
+    "conceptId": "c99f282c-7e8f-4d3e-9e08-fbe40a3d4676"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "8d128c7d-ab8e-4a4e-9243-a2e919cb6e6f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    },
+    "conceptId": "a72fe016-4be0-44ee-8400-877e7914879c"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "acc3e1b9-532d-485e-84e4-06e744c744b3",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    },
+    "conceptId": "a72fe016-4be0-44ee-8400-877e7914879c"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "8fec6012-7cba-4ac5-94d7-14f39fce7612",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "fe65b840-a0b2-48b5-88c4-052d48f0c0c0"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "93e42bfc-c2f0-40cd-a561-9045c68cb5d1",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "fe65b840-a0b2-48b5-88c4-052d48f0c0c0"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "0bf1ad10-235a-4c81-aba7-5bf55acc877d",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "37dfa899-aec4-4273-a8de-6a8d2ff08c57"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "9dffd6f3-6230-425e-9208-296cf4d5c185",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "37dfa899-aec4-4273-a8de-6a8d2ff08c57"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "815523cd-8c01-4125-bb22-3a548f1cc702",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "3d33bea5-f19d-438a-88d3-908188ff3e2e"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "090b3da5-0aa3-4bf8-b3bd-dd8dabb40721",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "3d33bea5-f19d-438a-88d3-908188ff3e2e"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "9c536051-7794-4282-bf07-c920cda83cbe",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "1afe4259-26f6-405d-8db1-9f976a846917"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "fd1c11a6-53d5-4253-a7d7-c4131c4b1a5e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "1afe4259-26f6-405d-8db1-9f976a846917"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "c38259e9-87f4-4e7d-a041-692ca676a638",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "676c9089-353a-4ea0-8692-6aae56552143"
+  },
+  {
+    "name": {
+      "property": "component-edge-to-visual-only-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "5c4f1f7a-2218-4d03-ac83-9750c2c9336b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Using consistent spacing regardless of text or visual",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "676c9089-353a-4ea0-8692-6aae56552143"
+  },
+  {
+    "name": {
+      "property": "component-height-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "965c85ea-398f-4a75-8014-91b86061f33e",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "61de58a3-53ed-4dd8-8937-08920b00968c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 128 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "40px",
+    "uuid": "5c31197d-0412-469d-a2dd-684efbd4b7e6",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "965c85ea-398f-4a75-8014-91b86061f33e",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "61de58a3-53ed-4dd8-8937-08920b00968c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 128 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "40px",
+    "uuid": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "a8f083cd-131e-4375-b948-3ef5c520cb42",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "865f1ee3-4e60-433f-9685-1bf0ea9403de"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 129 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "50px",
+    "uuid": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "a8f083cd-131e-4375-b948-3ef5c520cb42",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "865f1ee3-4e60-433f-9685-1bf0ea9403de"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 129 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "48px",
+    "uuid": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "7b41adba-a18a-41c8-841f-b199f807e0a9"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 130 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "60px",
+    "uuid": "53c665a4-83ae-45f2-b90d-33ce52430b84",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "7b41adba-a18a-41c8-841f-b199f807e0a9"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 130 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-400",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "56px",
+    "uuid": "e146c28f-3349-48fc-8281-6997ab9da222",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "b00a338c-f297-486a-94c8-cbfa8f6392c2",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "2f79ea86-7400-464a-a04e-af2a156c87c3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 131 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-400",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "70px",
+    "uuid": "4fcbb85f-afbe-41bc-a979-dc09fb98946a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "b00a338c-f297-486a-94c8-cbfa8f6392c2",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "2f79ea86-7400-464a-a04e-af2a156c87c3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 131 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "81ebf2b1-01fd-45a3-a099-72048e7d7991",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "693fb390-cc46-40cf-b99a-f8c80bbcfcba",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "053e6718-fedb-4944-8e17-ea49f263dd25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 132 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "26px",
+    "uuid": "fede8012-f00b-412b-8981-16f60a6133ab",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "693fb390-cc46-40cf-b99a-f8c80bbcfcba",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "053e6718-fedb-4944-8e17-ea49f263dd25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 132 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-500",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "b5211351-b7df-430a-93bf-906ac66ebf2e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "752a9a44-712b-429b-8161-91f7eaad8377",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "a3c39fe1-9f46-4e76-9176-c589f28aa39f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 133 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-500",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "80px",
+    "uuid": "8135e75c-9536-4743-ab6d-05ed5adb0448",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "752a9a44-712b-429b-8161-91f7eaad8377",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "a3c39fe1-9f46-4e76-9176-c589f28aa39f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 133 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "f70d4c16-f588-4fa9-9318-b7184a739193",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "fbdf2291-b332-4436-9e57-430c0a81d526",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 134 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-height-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "30px",
+    "uuid": "5f363452-6317-4e7c-965a-291b3dfa8a8f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "fbdf2291-b332-4436-9e57-430c0a81d526",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 134 of the mapping sheet."
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "5b2e9907-858e-41f9-9c63-a37e30ec472e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead.",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "b449c7b9-e88c-47ad-ac3c-09b4c6ac59ed"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "67715127-dfd9-44ed-a3bf-4816e9dafb34",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead.",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "b449c7b9-e88c-47ad-ac3c-09b4c6ac59ed"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "2af29e94-8c2c-475c-bde0-4e3f2ebd5df4",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead.",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "67a7d15d-10d6-476e-b130-cd7a0bc9300b"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "13px",
+    "uuid": "e5202547-d71b-4e1f-8d60-fe1e63cf18f9",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead.",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "67a7d15d-10d6-476e-b130-cd7a0bc9300b"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "13px",
+    "uuid": "894526c7-315d-4325-be16-8e99a8a2586b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead.",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "8c72f949-3f29-4e48-98fa-2d1670245c0c"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "17px",
+    "uuid": "ae78edbb-1b08-44d6-9c5a-37baf2fe94f6",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead.",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "8c72f949-3f29-4e48-98fa-2d1670245c0c"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "409b876c-ae13-4d31-8487-9bfcd9b8be69",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "f5a258bc-64be-4497-87d9-1946e1684415"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "262dd415-ea5d-4f07-9493-030ac33a2dce",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "f5a258bc-64be-4497-87d9-1946e1684415"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "6ff7a5b7-4344-4498-887d-3af9585035a7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "1ba30b7a-fa69-41da-828b-37df5a59d0ac"
+  },
+  {
+    "name": {
+      "property": "component-padding-vertical-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "ae87b22b-17dd-46a1-9c40-ec4fbe701e95",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Updated to follow Spectrum Future Foundations spacing formula",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "1ba30b7a-fa69-41da-828b-37df5a59d0ac"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-text-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "3c96bdad-6e05-4a1b-930b-92d35adf5d9d",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "4bc3ba2a-1e76-464a-9886-2db2d8dd961c"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-text-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "10e326b3-bcce-47df-a1ab-0e3ab9964dd2",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "4bc3ba2a-1e76-464a-9886-2db2d8dd961c"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-text-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "4cca2097-286e-46d5-bc8e-273ea50354e7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    },
+    "conceptId": "5facff87-0dd6-4193-9634-dedd452ca35e"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-text-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "25px",
+    "uuid": "c77f6b68-32b7-499c-81d9-50855cc68279",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    },
+    "conceptId": "5facff87-0dd6-4193-9634-dedd452ca35e"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-text-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "29fa8da5-3f74-4141-bfb1-0f2847655345",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    },
+    "conceptId": "fa5beb85-a5d3-42cb-aa40-e5dc4b5976d3"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-text-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "30px",
+    "uuid": "dd7bc474-d5f1-46fe-8a6e-b1645c34c982",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    },
+    "conceptId": "fa5beb85-a5d3-42cb-aa40-e5dc4b5976d3"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-text-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "5c80900c-ff68-4b78-86fa-571bbf1eb9aa",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    },
+    "conceptId": "7f421435-8922-49e3-a598-8f1391051554"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-text-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "8a23edfc-b993-48bb-917f-377051e02dff",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    },
+    "conceptId": "7f421435-8922-49e3-a598-8f1391051554"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "fff86b73-4e28-4453-9ba3-7c40998ace07",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "73e613ee-50a2-4666-b091-9cc36cf8f717"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "17px",
+    "uuid": "14624bfc-b08f-4637-991b-94a703a7b808",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "73e613ee-50a2-4666-b091-9cc36cf8f717"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "b9324a3c-557e-4832-8418-1d7783e7b9be",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    },
+    "conceptId": "ad42620f-70e0-49a2-8727-01314f2dc88b"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "053363f2-5b8e-4365-8353-3cffac169608",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    },
+    "conceptId": "ad42620f-70e0-49a2-8727-01314f2dc88b"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "21px",
+    "uuid": "4ccb4a02-6aa9-459a-a459-1d0ebbe2dc11",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    },
+    "conceptId": "e82f9abf-54e8-483c-8a0a-338becca7ba3"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "27px",
+    "uuid": "7ae3b6ee-2f80-4596-9d4a-08a5bf9612a7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
+    },
+    "conceptId": "e82f9abf-54e8-483c-8a0a-338becca7ba3"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "3eaca9fb-25c0-4a1d-8c44-320cc0e0305b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    },
+    "conceptId": "11128037-8bd7-46a1-9915-3655e1824ee4"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "13px",
+    "uuid": "64343da6-f1a6-4615-b2b8-41f9509679e5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    },
+    "conceptId": "11128037-8bd7-46a1-9915-3655e1824ee4"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-only-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "dd9e6e28-a382-46a1-a6e0-f73c8cc0ed70",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token accessory-item-padding-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "c97051d7-eccb-4d55-8487-7ffdec2b1c78"
+    },
+    "conceptId": "ede2c7d6-a602-42f3-a1e0-54e642bcd5f5"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-only-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "cf58ae75-8f3f-4b9e-809b-ee78abbb2f2f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token accessory-item-padding-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "c97051d7-eccb-4d55-8487-7ffdec2b1c78"
+    },
+    "conceptId": "ede2c7d6-a602-42f3-a1e0-54e642bcd5f5"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-only-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "64cdd254-d3fe-40e6-97a8-76dd8156afa8",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token accessory-item-padding-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "2a1b4c8d-46ca-4b7c-922f-6f117faba404"
+    },
+    "conceptId": "30720515-0648-4cdd-a5cd-411d5dd9d6d6"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-only-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "989aee4c-5c90-454a-b68d-a7564669c2bd",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token accessory-item-padding-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "2a1b4c8d-46ca-4b7c-922f-6f117faba404"
+    },
+    "conceptId": "30720515-0648-4cdd-a5cd-411d5dd9d6d6"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-only-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "9654369a-5bf8-4436-a331-aeac1fd25a70",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token accessory-item-padding-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "f644cf28-8586-43d6-9831-bbf23d4e465a"
+    },
+    "conceptId": "3c029bf1-8fef-4356-9b95-f5d15b6b54d8"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-only-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "cb4f356c-2dcd-4043-8f5c-3da904716b48",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token accessory-item-padding-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "f644cf28-8586-43d6-9831-bbf23d4e465a"
+    },
+    "conceptId": "3c029bf1-8fef-4356-9b95-f5d15b6b54d8"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-only-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "47f5ab02-22db-4d82-be1d-804669d7fbd4",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "2c5317e6-a13f-4592-8e71-c37953fb4a55"
+  },
+  {
+    "name": {
+      "property": "component-pill-edge-to-visual-only-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "7332a4d3-3775-4247-a4c0-fb01f0604d63",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "2c5317e6-a13f-4592-8e71-c37953fb4a55"
+  },
+  {
+    "name": {
+      "property": "component-to-menu-extra-large",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "31f44472-9681-469c-8ba2-9efc27eb981d",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-gap instead. Unifying to a single popover-gap value across use cases",
+      "replacedBy": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    },
+    "conceptId": "c5ff0c89-a9ad-4f9e-a050-afea29822149"
+  },
+  {
+    "name": {
+      "property": "component-to-menu-extra-large",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "9fa90167-54ec-4343-a14c-4cd18963dcc5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-gap instead. Unifying to a single popover-gap value across use cases",
+      "replacedBy": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    },
+    "conceptId": "c5ff0c89-a9ad-4f9e-a050-afea29822149"
+  },
+  {
+    "name": {
+      "property": "component-to-menu-large",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "d03d1199-f49d-4e57-8434-b94efe5da440",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-gap instead. Unifying to a single popover-gap value across use cases",
+      "replacedBy": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    },
+    "conceptId": "d4ed0bd1-8d06-42e0-a480-8d07291a1b61"
+  },
+  {
+    "name": {
+      "property": "component-to-menu-large",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "b33acdfa-525e-45c6-ab2b-c959760c4024",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-gap instead. Unifying to a single popover-gap value across use cases",
+      "replacedBy": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    },
+    "conceptId": "d4ed0bd1-8d06-42e0-a480-8d07291a1b61"
+  },
+  {
+    "name": {
+      "property": "component-to-menu-medium",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "0190ca9d-9f28-45b2-9dc7-c715089faebb",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-gap instead. Unifying to a single popover-gap value across use cases",
+      "replacedBy": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    },
+    "conceptId": "480244fc-5cb5-4156-b03f-b1aef8c8e111"
+  },
+  {
+    "name": {
+      "property": "component-to-menu-medium",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "e8602fbe-1bf9-4aec-9cb0-5b4e994558c9",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-gap instead. Unifying to a single popover-gap value across use cases",
+      "replacedBy": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    },
+    "conceptId": "480244fc-5cb5-4156-b03f-b1aef8c8e111"
+  },
+  {
+    "name": {
+      "property": "component-to-menu-small",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "4db24ebf-e169-4220-b895-787fe09f8658",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-gap instead. Unifying to a single popover-gap value across use cases",
+      "replacedBy": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    },
+    "conceptId": "bb51e98e-bf71-4348-86b2-3a560cc2035d"
+  },
+  {
+    "name": {
+      "property": "component-to-menu-small",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "cc2c2606-500a-45e2-b460-2b498dcddb26",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-gap instead. Unifying to a single popover-gap value across use cases",
+      "replacedBy": "6bae40ba-3b57-4e4b-a8a7-4044cd729068"
+    },
+    "conceptId": "bb51e98e-bf71-4348-86b2-3a560cc2035d"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "15bf492b-3a65-4577-8a3b-df09026b96a7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Change required for VF upgrade",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "46ca4b6d-c739-478b-9862-41e5d2f5db9b"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "bed358a2-0559-4501-a147-b375887f25af",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Change required for VF upgrade",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "46ca4b6d-c739-478b-9862-41e5d2f5db9b"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "c7914376-3769-4172-8467-fb811b3c155f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Change required for VF upgrade",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "306b871f-cbfa-49a2-a74b-dd120bbff503"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "621c9cf1-02e2-478b-9f47-0804f0183531",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Change required for VF upgrade",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "306b871f-cbfa-49a2-a74b-dd120bbff503"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "9bf3970e-eb76-4be5-82c4-0df2538df753",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Change required for VF upgrade",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "8108a8e0-0883-4490-a23f-f96fb9cd8ca4"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Change required for VF upgrade",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "8108a8e0-0883-4490-a23f-f96fb9cd8ca4"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "c71c0953-d9da-4e22-93a1-6982c7665ed6",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Change required for VF upgrade",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "320554e7-5437-4c16-a851-3e5b74e6a6af"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "cb2a6539-4cee-420c-aeef-dbdd3220039d",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Change required for VF upgrade",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "320554e7-5437-4c16-a851-3e5b74e6a6af"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "477d659b-6489-4e90-84db-75a93174559a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Change required for VF upgrade",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "1a76668b-c733-4ec0-ae84-774f4e6e861a"
+  },
+  {
+    "name": {
+      "property": "component-top-to-text-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Change required for VF upgrade",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "1a76668b-c733-4ec0-ae84-774f4e6e861a"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "c3a280b0-bc84-4a7c-8048-c689f8deef86",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Change required for VF upgrade",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "2b17325c-eec1-43e2-9a31-957adf67e44d"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "a3d3f9e9-a784-445a-a052-22f84b832512",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Change required for VF upgrade",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "2b17325c-eec1-43e2-9a31-957adf67e44d"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "ef82b92a-2cbd-4b70-920c-4b999b018e07",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Change required for VF upgrade",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "81bfcc6f-348b-4728-bfdc-10f2f181b041"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "259c0cf5-d321-4a6b-a3ae-b8c58fc1c9d6",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Change required for VF upgrade",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "81bfcc6f-348b-4728-bfdc-10f2f181b041"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Change required for VF upgrade",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "955bbeaf-dc4e-460b-8957-d145d4b6fc3e"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "bac14298-68f0-4fb6-a152-c95ab19fd27f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Change required for VF upgrade",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "955bbeaf-dc4e-460b-8957-d145d4b6fc3e"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "0fafc819-d65b-4952-849a-b3c426e9a4a9",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Change required for VF upgrade",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "dbd9a29e-259d-4291-a24a-2926989edc46"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "24853983-c1b0-422d-84b6-05b9313066ed",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-small instead. Change required for VF upgrade",
+      "replacedBy": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    },
+    "conceptId": "dbd9a29e-259d-4291-a24a-2926989edc46"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "2bc8b2ca-9792-4034-a604-43ce28ce8ede",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Change required for VF upgrade",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "3b07cd46-add6-4cd9-b3f8-626f113905dd"
+  },
+  {
+    "name": {
+      "property": "component-top-to-workflow-icon-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "9d1b0ef4-5433-43fe-aa33-0274ff29f6f3",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Change required for VF upgrade",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "3b07cd46-add6-4cd9-b3f8-626f113905dd"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 0
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "bb9d8350-b1fb-4496-9c22-6ec9647ff117",
+    "conceptId": "c54b8314-7048-41a0-8d8d-65e0e1a4540e"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 100
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "bf24d15e-ad86-4b6a-a9e0-e8fd49a5ae30",
+    "conceptId": "49a14bf4-8ae3-42c9-a379-70308eb95645"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 1000
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 0.5,
+    "uuid": "e4ad85b2-97bf-48cf-a5a9-3ff3d1fada5b",
+    "conceptId": "b62f9b92-483f-4b8d-8962-f65ef48a478b"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 200
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "52ad01be-f512-4fa3-ae67-8c6cef70810c",
+    "conceptId": "dbb55f8a-8728-4008-af99-bcc81af40c06"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 300
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "154642d7-c23d-44fd-9d79-b719ef32922e",
+    "conceptId": "ef0c3554-9633-40d7-a84c-8d3b115972a5"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 400
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "690db7ae-cae8-49bb-8777-b4f1829b2f0b",
+    "conceptId": "2fb8109e-7883-439a-8dc0-c226a93b4468"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 500
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "ada2ea1d-1728-411a-8aae-a198ce390a25",
+    "conceptId": "8f7af4f5-272c-4a38-b49c-017b6f989370"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 600
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "abc0f309-3bd2-4800-af12-b27386e86617",
+    "conceptId": "cd038efc-6eb9-43c2-9135-b246091704fa"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 700
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
+    "conceptId": "3e5af637-4822-4e2b-93d7-925e65b88e6e"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 75
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20",
+    "conceptId": "7b05ee51-e476-406c-a040-e6f0f901850b"
+  },
+  {
+    "name": {
+      "property": "corner-radius",
+      "scaleIndex": 800
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "8fc023ca-8aec-40fe-9130-087aa035bac7",
+    "conceptId": "1246bf1a-0061-452a-85f5-ec9d114f0199"
+  },
+  {
+    "name": {
+      "property": "corner-triangle-icon-size-100",
+      "scale": "desktop",
+      "legacyKey": "corner-triangle-icon-size-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "6fcfc18c-c5e0-4f50-beab-6c4a10bfdaa7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0"
+    },
+    "conceptId": "623e55f9-ec0f-48f1-91ed-d88e36d41d18"
+  },
+  {
+    "name": {
+      "property": "corner-triangle-icon-size-100",
+      "scale": "mobile",
+      "legacyKey": "corner-triangle-icon-size-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "1352ad8f-a8ec-459d-8ae3-71c27038a29d",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0"
+    },
+    "conceptId": "623e55f9-ec0f-48f1-91ed-d88e36d41d18"
+  },
+  {
+    "name": {
+      "property": "corner-triangle-icon-size-200",
+      "scale": "desktop",
+      "legacyKey": "corner-triangle-icon-size-200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "9c2db47b-f017-432a-a44f-238bc461c4c1",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0"
+    },
+    "conceptId": "e16424f5-12e3-4577-a3a4-414aa9eaacbf"
+  },
+  {
+    "name": {
+      "property": "corner-triangle-icon-size-200",
+      "scale": "mobile",
+      "legacyKey": "corner-triangle-icon-size-200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "2be65bca-0f16-4754-bc8a-4a491ba87b90",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0"
+    },
+    "conceptId": "e16424f5-12e3-4577-a3a4-414aa9eaacbf"
+  },
+  {
+    "name": {
+      "property": "corner-triangle-icon-size-300",
+      "scale": "desktop",
+      "legacyKey": "corner-triangle-icon-size-300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "c9c18669-11bf-4ba3-b36f-26115981327c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0"
+    },
+    "conceptId": "587b1bdb-f6a8-4526-a454-db5dc2997e67"
+  },
+  {
+    "name": {
+      "property": "corner-triangle-icon-size-300",
+      "scale": "mobile",
+      "legacyKey": "corner-triangle-icon-size-300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "d396d74a-425d-4f06-837f-349f81ebf486",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0"
+    },
+    "conceptId": "587b1bdb-f6a8-4526-a454-db5dc2997e67"
+  },
+  {
+    "name": {
+      "property": "corner-triangle-icon-size-75",
+      "scale": "desktop",
+      "legacyKey": "corner-triangle-icon-size-75"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "490fac13-d347-4c21-85fa-57814bff7537",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0"
+    },
+    "conceptId": "c12846fb-bd7e-4df0-8345-5148f68a5e7e"
+  },
+  {
+    "name": {
+      "property": "corner-triangle-icon-size-75",
+      "scale": "mobile",
+      "legacyKey": "corner-triangle-icon-size-75"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "434b019c-efde-437a-967b-b841ec95e621",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0"
+    },
+    "conceptId": "c12846fb-bd7e-4df0-8345-5148f68a5e7e"
+  },
+  {
+    "name": {
+      "property": "navigational-indicator-top-to-back-icon-extra-large",
+      "scale": "desktop",
+      "legacyKey": "navigational-indicator-top-to-back-icon-extra-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "ac4d18d5-361c-4425-82c3-83979d58f682",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-extra-large",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "1ead9248-4325-443a-9223-08175b82df95"
+  },
+  {
+    "name": {
+      "property": "navigational-indicator-top-to-back-icon-extra-large",
+      "scale": "mobile",
+      "legacyKey": "navigational-indicator-top-to-back-icon-extra-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "19px",
+    "uuid": "e68f2798-6a55-499a-b591-0cfc130607ba",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-extra-large",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    },
+    "conceptId": "1ead9248-4325-443a-9223-08175b82df95"
+  },
+  {
+    "name": {
+      "property": "navigational-indicator-top-to-back-icon-large",
+      "scale": "desktop",
+      "legacyKey": "navigational-indicator-top-to-back-icon-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "c0e06d21-7372-401f-9ec2-926e2b1faf26",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-large",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "f888e2bb-2fe5-45df-891f-3168a6737aed"
+  },
+  {
+    "name": {
+      "property": "navigational-indicator-top-to-back-icon-large",
+      "scale": "mobile",
+      "legacyKey": "navigational-indicator-top-to-back-icon-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "e84bc865-c89f-403e-bb14-2a11f03fd364",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-large",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    },
+    "conceptId": "f888e2bb-2fe5-45df-891f-3168a6737aed"
+  },
+  {
+    "name": {
+      "property": "navigational-indicator-top-to-back-icon-medium",
+      "scale": "desktop",
+      "legacyKey": "navigational-indicator-top-to-back-icon-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "5561a148-fd77-44d3-b29d-3ed7389122a1",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. UI icons must be in a frame that has height equal to workflow-icon-size-medium",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "e01b062a-4928-4999-9da0-17ef4fe2f05a"
+  },
+  {
+    "name": {
+      "property": "navigational-indicator-top-to-back-icon-medium",
+      "scale": "mobile",
+      "legacyKey": "navigational-indicator-top-to-back-icon-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "74f8a686-0e06-4f7c-9e3d-694749beb420",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. UI icons must be in a frame that has height equal to workflow-icon-size-medium",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    },
+    "conceptId": "e01b062a-4928-4999-9da0-17ef4fe2f05a"
+  },
+  {
+    "name": {
+      "property": "navigational-indicator-top-to-back-icon-small",
+      "scale": "desktop",
+      "legacyKey": "navigational-indicator-top-to-back-icon-small"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "70de4f97-bc4a-44af-9995-1042e3c7c78f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. UI icons must be in a frame that has height equal to workflow-icon-size-small",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "5a394022-1daa-4052-852d-a47c256e13c8"
+  },
+  {
+    "name": {
+      "property": "navigational-indicator-top-to-back-icon-small",
+      "scale": "mobile",
+      "legacyKey": "navigational-indicator-top-to-back-icon-small"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "d11ab0de-19bd-4f56-8798-0192fd0cfe0e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. UI icons must be in a frame that has height equal to workflow-icon-size-small",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    },
+    "conceptId": "5a394022-1daa-4052-852d-a47c256e13c8"
+  },
+  {
+    "name": {
+      "property": "side-label-character-count-to-field",
+      "scale": "desktop",
+      "legacyKey": "side-label-character-count-to-field"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "146add82-4f20-46c3-bacf-4d24d60d0e10",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead.",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "99abd526-5415-44cc-bee7-f6fd6cfb6396"
+  },
+  {
+    "name": {
+      "property": "side-label-character-count-to-field",
+      "scale": "mobile",
+      "legacyKey": "side-label-character-count-to-field"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "ec387876-31d5-42a5-99aa-02c5d35e6223",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead.",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    },
+    "conceptId": "99abd526-5415-44cc-bee7-f6fd6cfb6396"
+  },
+  {
+    "name": {
+      "property": "side-label-character-count-top-margin-extra-large",
+      "legacyKey": "side-label-character-count-top-margin-extra-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "9b1f15bf-ea4f-4f82-8c4f-3770b7f47353",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+    },
+    "conceptId": "06b88894-305f-49d6-bdc6-1615b1746c83"
+  },
+  {
+    "name": {
+      "property": "side-label-character-count-top-margin-large",
+      "legacyKey": "side-label-character-count-top-margin-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "e2d9e241-469a-4b03-bd6a-a105a8ed5e00",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+    },
+    "conceptId": "76af2fa9-fe24-41dc-83ad-ff8369b18828"
+  },
+  {
+    "name": {
+      "property": "side-label-character-count-top-margin-medium",
+      "legacyKey": "side-label-character-count-top-margin-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "4d93210f-f01a-4d1c-8c10-2cb4b9d14626",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+    },
+    "conceptId": "666ccca4-599c-425b-aed1-c85d14ef6e64"
+  },
+  {
+    "name": {
+      "property": "side-label-character-count-top-margin-small",
+      "legacyKey": "side-label-character-count-top-margin-small"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "a86ae363-b6b4-4da0-9630-97336922b3a1",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+    },
+    "conceptId": "e8694fbb-f95d-4420-9366-e960b2ba7401"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 100
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "conceptId": "be70b191-37ec-47f4-8493-b45d161132e4"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 1000
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "96px",
+    "uuid": "9d688a67-5ff6-4b72-8398-964c0337dce1",
+    "conceptId": "92e18efa-b4d7-4c3b-aae1-7b46b39c107e"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 200
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "conceptId": "a0c96fd0-a68d-493f-92ca-94172930d780"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 25
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "e832d8ae-a96c-4770-8cbc-4ca81ecf5a41",
+    "conceptId": "93ee8922-c60c-4910-99ef-d24296f73b7d"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 300
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "ba632ede-84a7-4e56-91ef-8143b2499452",
+    "conceptId": "3b3de107-0968-479e-acb4-ae2f434f1c75"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 350
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "b352f0f0-5843-4c65-8357-625b938ccaa0",
+    "conceptId": "2904d4af-a330-4e1d-97aa-220e53f204eb"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 400
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "conceptId": "dfc1b212-90f4-4d31-8684-1ea3870513bb"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 50
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "1b06f6e2-d9be-4934-b3da-bed75986d104",
+    "conceptId": "b3e8bbf5-5064-4694-8c5f-0abbd5b0daec"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 500
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "490b4010-1561-4b12-8cbb-cdb4b650ba74",
+    "conceptId": "9e4163d4-6ac5-4cc6-b910-3758e47de00e"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 600
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "40px",
+    "uuid": "b6d0b881-d25e-452c-9069-c18745d21f33",
+    "conceptId": "abfdd0e9-2e3e-4ec5-95ec-4ee980186e71"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 700
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "48px",
+    "uuid": "26639049-ec07-430d-983f-4d036758564a",
+    "conceptId": "f2fe30b5-cb47-4170-b1d8-5b2eade75fed"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 75
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "conceptId": "682ce1ce-201d-480c-b0a3-147d743ce32c"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 800
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "eeb099cb-707f-4e5e-97b9-1fdba35b2314",
+    "conceptId": "0b913881-117b-4fe5-858e-469302167b0f"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 85
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "4adbd869-2ead-49b8-bed6-950fb14c695d",
+    "conceptId": "cb6b96e9-b317-4c7f-aae3-cdae2bedf924"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "scaleIndex": 900
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "80px",
+    "uuid": "d04e5d81-0b6e-48e7-9e47-744753dfcff3",
+    "conceptId": "4e5fc74e-a76f-47fc-9009-a2f844cce87d"
+  },
+  {
+    "name": {
+      "property": "text-underline-gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "d9d51235-f3fe-4e2a-bdca-b6a104d9a9e5",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token text-gap-medium instead.",
+      "replacedBy": "62e8853d-9c4f-4e9d-be75-0020344d13ee"
+    },
+    "conceptId": "4cda9c24-c30c-493c-b1f3-cd8a5ad4264a"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-100",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "40abc60f-ab65-41ef-b724-a0f0bdd94d14",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
+      "deprecatedComment": "Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."
+    },
+    "conceptId": "dccab61e-8eed-4fa6-99c3-b997c987dd62"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-100",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
+      "deprecatedComment": "Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."
+    },
+    "conceptId": "dccab61e-8eed-4fa6-99c3-b997c987dd62"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-200",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "6392e605-932e-456d-be53-149b624a04e2",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
+      "deprecatedComment": "Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged)."
+    },
+    "conceptId": "6650d78d-2317-41c2-bb9b-e2789cffb5c0"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-200",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "28px",
+    "uuid": "9948e083-8c75-48f7-8e58-32c75ec76116",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "94f62adc-c5fb-48f8-ba05-7c639b936643",
+      "deprecatedComment": "Use workflow-icon-large instead. The desktop size changes from 22px to 20px (mobile is unchanged)."
+    },
+    "conceptId": "6650d78d-2317-41c2-bb9b-e2789cffb5c0"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-300",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "26px",
+    "uuid": "25908278-79d3-47f4-9b53-adbdd1c13e2a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
+      "deprecatedComment": "Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged)."
+    },
+    "conceptId": "c50ba02d-538f-456c-9d8d-f6ca5b1b5881"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-300",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "30px",
+    "uuid": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "65f791f8-a88f-4765-a57e-3e023a436642",
+      "deprecatedComment": "Use workflow-icon-extra-large instead. The desktop size changes from 26px to 22px (mobile is unchanged)."
+    },
+    "conceptId": "c50ba02d-538f-456c-9d8d-f6ca5b1b5881"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-50",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "1423caf1-75ca-4ca8-aa6a-22dcf3655b0e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "986ccd9d-7310-43c6-b5a2-ad5a9a7e7275",
+      "deprecatedComment": "Use workflow-icon-extra-small instead"
+    },
+    "conceptId": "10abd2ac-fdb8-4dee-86a6-1588acc7b366"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-50",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "4c4cb541-7d42-4bb4-9c86-7197c4600896",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "9b324b14-b1cf-4932-b5a7-fd5b9410b71b",
+      "deprecatedComment": "Use workflow-icon-extra-small instead"
+    },
+    "conceptId": "10abd2ac-fdb8-4dee-86a6-1588acc7b366"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-75",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "85cdef34-0682-45eb-ac06-98c76883cdf7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "f7d9ca4c-6d3f-4053-962a-152a19531389",
+      "deprecatedComment": "Use workflow-icon-small instead"
+    },
+    "conceptId": "e1029ff5-5b9c-4717-8cdb-4ced6b554c01"
+  },
+  {
+    "name": {
+      "property": "workflow-icon-size-75",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "b720c214-babe-426d-9629-9ec60d5e8622",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.5.0",
+      "replacedBy": "a659c66d-1e77-4818-95ea-501e65162841",
+      "deprecatedComment": "Use workflow-icon-small instead"
+    },
+    "conceptId": "e1029ff5-5b9c-4717-8cdb-4ced6b554c01"
+  },
+  {
+    "name": {
+      "property": "vertical-align-items",
+      "legacyKey": "vertical-align-items"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
+    "value": "center",
+    "uuid": "b2f48da9-58a4-4e86-8340-78e0f52c67ba",
+    "conceptId": "81693e80-0d1d-4410-871c-b0323a852648"
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-25",
+      "scaleIndex": 25
+    },
+    "value": "1px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "1fd0e732-d2be-4b2d-a898-8ed6d7158312",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-50",
+      "scaleIndex": 50
+    },
+    "value": "2px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "a3dcf01b-ae10-42d3-9d10-582a352d27ca",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-75",
+      "scaleIndex": 75
+    },
+    "value": "4px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "cd8c0d5f-5796-4d89-9c89-3285abde6930",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-85",
+      "scaleIndex": 85
+    },
+    "value": "6px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "2bd9ee31-adc0-4aa0-a0ea-0cf3b8d138ef",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-100",
+      "scaleIndex": 100
+    },
+    "value": "8px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "d0703b1d-57f0-4601-9353-e1807cd966a3",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-200",
+      "scaleIndex": 200
+    },
+    "value": "12px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "e965de93-70ec-4da2-a674-8f450363cc64",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-300",
+      "scaleIndex": 300
+    },
+    "value": "16px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-350",
+      "scaleIndex": 350
+    },
+    "value": "20px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "0efd036f-4738-4cba-aa6e-c154a68af0fb",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-400",
+      "scaleIndex": 400
+    },
+    "value": "24px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-450",
+      "scaleIndex": 450
+    },
+    "value": "28px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "fd71a9ac-284c-48a3-9665-5f68b90fc660",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-500",
+      "scaleIndex": 500
+    },
+    "value": "32px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "9e6c70a8-d921-42b2-9084-7408424124ef",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-550",
+      "scaleIndex": 550
+    },
+    "value": "36px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "4570ed23-5b28-4937-80f9-602852b91302",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-600",
+      "scaleIndex": 600
+    },
+    "value": "40px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "c46f0475-b34e-4f08-ae8c-728f23b09ef9",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-700",
+      "scaleIndex": 700
+    },
+    "value": "48px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "03042116-4c2d-4a29-b17f-47da76f5e103",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-750",
+      "scaleIndex": 750
+    },
+    "value": "56px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "859dc7a3-678a-414a-a177-728925480c5d",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-800",
+      "scaleIndex": 800
+    },
+    "value": "64px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-900",
+      "scaleIndex": 900
+    },
+    "value": "80px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1000",
+      "scaleIndex": 1000
+    },
+    "value": "96px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "eade2b64-ec37-4e11-959e-963f7aeade0f",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1100",
+      "scaleIndex": 1100
+    },
+    "value": "120px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "5fc1c687-7181-4c8d-bb76-aba2d742db09",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1200",
+      "scaleIndex": 1200
+    },
+    "value": "144px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "db351495-cc43-4fb6-9e36-404e6d7cf375",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1300",
+      "scaleIndex": 1300
+    },
+    "value": "192px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "6d45c79e-f65b-49da-878b-d65c00df49c7",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1400",
+      "scaleIndex": 1400
+    },
+    "value": "240px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "ac0a6745-630e-40a3-a0e9-15cb0cbbbf0d",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1500",
+      "scaleIndex": 1500
+    },
+    "value": "288px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "3f789efb-5c0c-4f60-a54c-1d4d4e77f62c",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1600",
+      "scaleIndex": 1600
+    },
+    "value": "352px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "cd0e53b5-8477-475c-9f19-b6f27ce9cf6d",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1700",
+      "scaleIndex": 1700
+    },
+    "value": "416px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "7446d52b-78ee-438d-8727-b0d55964ae2d",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1800",
+      "scaleIndex": 1800
+    },
+    "value": "512px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "3b1be600-6ce0-4627-9fe7-017a171d2545",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-1900",
+      "scaleIndex": 1900
+    },
+    "value": "608px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "8858c0f0-18b0-4cdf-9ae9-56e94ee32bd6",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "size",
+      "legacyKey": "size-2000",
+      "scaleIndex": 2000
+    },
+    "value": "736px",
+    "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
+    "uuid": "66fa439f-300b-442f-9da0-70055284201c",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 100
+    },
+    "value": 1.25,
+    "uuid": "cd95b6dd-25af-47f8-b79e-32ba79bf2463",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 200
+    },
+    "value": 1.333,
+    "uuid": "0f95b804-e429-45ca-a809-a386bdfc463d",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 300
+    },
+    "value": 1.5,
+    "uuid": "6475b781-e930-4cb1-860d-80386b75079f",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 400
+    },
+    "value": 1.78,
+    "uuid": "d9a794f7-9127-4c24-8627-d97fdfdf0b03",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 500
+    },
+    "value": 2,
+    "uuid": "8f502252-4495-4c6b-9343-3576500bd6e2",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 600
+    },
+    "value": 2.25,
+    "uuid": "a5cb7045-f2be-4a51-a4dc-72c8bf92748b",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 700
+    },
+    "value": 2.5,
+    "uuid": "f61f5ab9-84b3-4927-b256-5c6a8d31bf00",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 800
+    },
+    "value": 4,
+    "uuid": "abe2fb5d-998a-4694-a67a-9363bb7db322",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "name": {
+      "script": "cjk",
+      "property": "line-height-100",
+      "scaleIndex": 100,
+      "legacyKey": "cjk-line-height-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1.5,
+    "uuid": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
+    "conceptId": "654996c5-a510-4fa5-8e54-358ea89dd18b"
+  },
+  {
+    "name": {
+      "script": "cjk",
+      "property": "line-height-200",
+      "scaleIndex": 200,
+      "legacyKey": "cjk-line-height-200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1.7,
+    "uuid": "c5a5d186-54b3-44a0-b1c6-e9b102871015",
+    "conceptId": "265b0fb2-a540-4979-a085-14455c399baf"
+  },
+  {
+    "name": {
+      "property": "letter-spacing"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0em",
+    "uuid": "d8caf3aa-1261-411f-b383-18f87334c117",
+    "conceptId": "5ada320d-8c3c-4bea-ac30-7e766aa6f10f"
+  },
+  {
+    "name": {
+      "property": "line-height-100",
+      "scaleIndex": 100,
+      "legacyKey": "line-height-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1.3,
+    "uuid": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
+    "conceptId": "072e809e-33b5-46ad-b8d4-3a0ecf4a0a24"
+  },
+  {
+    "name": {
+      "property": "line-height-200",
+      "scaleIndex": 200,
+      "legacyKey": "line-height-200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1.5,
+    "uuid": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97",
+    "conceptId": "f5e295ff-9877-443c-894e-805e5170e8c0"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 100,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "65b87e13-5799-43e0-a8d3-7f8288ccc3f7"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 100,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "898fde6d-f477-46a6-8323-698dee558580",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "65b87e13-5799-43e0-a8d3-7f8288ccc3f7"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1000,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1000"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "46px",
+    "uuid": "8b37acbd-a978-4de3-aa1e-981afa09868c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "9c0a5092-0faa-4f70-bd5e-dfeda66ae286"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1000,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1000"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "56px",
+    "uuid": "48b573ce-0e43-4550-83db-1f44d06aafda",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "9c0a5092-0faa-4f70-bd5e-dfeda66ae286"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1100,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "52px",
+    "uuid": "a8db4407-791a-4fca-9e2a-12f703089223",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "55494016-ab3d-475c-99b3-6824e8df227a"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1100,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "cd0d821b-015c-40be-9156-c2dab18b5977",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "55494016-ab3d-475c-99b3-6824e8df227a"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1200,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "58px",
+    "uuid": "f3b61670-1a19-4c9f-aae7-cac247d24af6",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "f94ee04e-f2d7-4cb3-8d5f-f35119766fc8"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1200,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "72px",
+    "uuid": "10f70d36-8574-4476-bc0a-2b03b7db5448",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "f94ee04e-f2d7-4cb3-8d5f-f35119766fc8"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1300,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "66px",
+    "uuid": "9b7a0ea3-22e1-472e-af82-153eac1e077e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "6a5986cd-4bcb-4de2-a474-d5d0fad5187f"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1300,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "80px",
+    "uuid": "533402b6-9b8b-4615-b9db-17ea35914369",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "6a5986cd-4bcb-4de2-a474-d5d0fad5187f"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1400,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1400"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "74px",
+    "uuid": "76fa374d-f759-4198-9fc0-e61d378c3258",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "15edb168-9840-4fad-ab60-c1c3423ec855"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1400,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1400"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "90px",
+    "uuid": "1251799e-a10a-4625-b487-6b93839c6be8",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "15edb168-9840-4fad-ab60-c1c3423ec855"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1500,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1500"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "84px",
+    "uuid": "c915185b-86ab-421b-8a58-e3965e9904dc",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "330c5167-53ef-46cc-8a7c-3cb5b3ee0b2b"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 1500,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1500"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "102px",
+    "uuid": "185be0f6-8283-4068-80f1-68ee8dd06c25",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "330c5167-53ef-46cc-8a7c-3cb5b3ee0b2b"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 200,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "f8763297-f04f-4294-a7ba-376e3b12f1eb"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 200,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-200"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "790dde8d-c117-4759-be93-2498297c6fa3",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "f8763297-f04f-4294-a7ba-376e3b12f1eb"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 25,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-25"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "d1853d46-038f-4fd1-a0b2-4434bbf95099",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "1894b682-105c-409b-916a-d2e08de4f6a8"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 25,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-25"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "422ef89d-75dc-4110-b38d-45abf2b12f8d",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "1894b682-105c-409b-916a-d2e08de4f6a8"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 300,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "52e64384-f918-4415-8d02-da3af639890f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "228d27b4-ff57-4308-9761-3ad5cf7f39d1"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 300,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-300"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "26px",
+    "uuid": "80beb678-586c-4277-9db0-1ab373ec8f80",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "228d27b4-ff57-4308-9761-3ad5cf7f39d1"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 400,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-400"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "03676924-ace1-418a-97a0-17ce62f4a832",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "97f2ab52-9c62-43c3-b7b6-3eeb6c561e87"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 400,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-400"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "28px",
+    "uuid": "92adf566-babe-43cf-aefa-e4d04364cdbe",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "97f2ab52-9c62-43c3-b7b6-3eeb6c561e87"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 50,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-50"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "3696e3bf-2b72-4b08-9893-ac618f904771",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "1553daaa-14c0-405e-bd80-e04a059b52e2"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 50,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-50"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "242bf245-e7f0-4826-bcec-e19c0ed5e93f",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "1553daaa-14c0-405e-bd80-e04a059b52e2"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 500,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-500"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "26px",
+    "uuid": "cec9acbc-6b54-480f-91a2-067d947dd73e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7f8c6173-2708-4196-b04d-2d5027fface8"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 500,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-500"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "143a00de-eac6-4bb5-9b25-18011efa69f5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7f8c6173-2708-4196-b04d-2d5027fface8"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 600,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-600"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "30px",
+    "uuid": "1cb847c8-4b6d-494f-b50f-98e46e82c9c0",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7d112d28-28c4-4bca-aef7-a7a0af1b7d1d"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 600,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-600"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "36px",
+    "uuid": "51dbd9c7-37e5-4968-a84b-9f8563030f89",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7d112d28-28c4-4bca-aef7-a7a0af1b7d1d"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 700,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-700"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "2629dfc5-f358-4bd0-a24b-e683b214efb4",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "cbb416af-7b54-4024-b495-fa87fb9f742f"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 700,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-700"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "40px",
+    "uuid": "3a43e8bf-6d36-4f4d-8b32-0c5b69d68cfd",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "cbb416af-7b54-4024-b495-fa87fb9f742f"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 75,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-75"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "6214acc2-2130-4b31-857f-0f865673a9ad"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 75,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-75"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "6214acc2-2130-4b31-857f-0f865673a9ad"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 800,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-800"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "36px",
+    "uuid": "3e6bd373-90f5-4164-80a0-6dcdfdc87beb",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8bd1d897-56c3-432f-a2c7-d6138e337de6"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 800,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-800"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "44px",
+    "uuid": "05f9ed71-4b9e-4109-a8ec-bb09edfd6348",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8bd1d897-56c3-432f-a2c7-d6138e337de6"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 900,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-900"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "42px",
+    "uuid": "6f6a137d-f54e-45b4-a7a4-2586fa99bf3a",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "4ff1f344-dad7-4b12-9c38-2d9561d433a7"
+  },
+  {
+    "name": {
+      "property": "line-height",
+      "referenceScaleIndex": 900,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-900"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "50px",
+    "uuid": "c881e6cd-404b-48eb-a6f1-5dd84313de72",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "4ff1f344-dad7-4b12-9c38-2d9561d433a7"
+  },
+  {
+    "name": {
+      "property": "text-align",
+      "alignment": "center"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
+    "value": "center",
+    "uuid": "df252e5a-f115-471d-bb35-c79e733d868b",
+    "conceptId": "488cee08-3795-4099-9f43-9291530a1253"
+  },
+  {
+    "name": {
+      "property": "text-align",
+      "alignment": "end"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
+    "value": "end",
+    "uuid": "a0c425b3-668b-4413-8739-c7844b26ebad",
+    "conceptId": "d5d627ea-fa36-4083-ac23-5f92937ed780"
+  },
+  {
+    "name": {
+      "property": "text-align",
+      "alignment": "start"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
+    "value": "start",
+    "uuid": "3a7f9e91-6e1a-4937-a6d2-6c39566dc875",
+    "conceptId": "883654f4-3419-4e2b-8793-bb12c8f03497"
+  }
+]

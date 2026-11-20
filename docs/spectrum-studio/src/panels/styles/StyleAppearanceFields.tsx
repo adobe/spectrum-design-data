@@ -107,6 +107,8 @@ export function StyleAppearanceFields({
             else if (property !== "color") onChange({ [property]: undefined });
           }}
           customValue={{
+            liveNumeric:
+              property === "fontWeight" || property === "borderWidth",
             displayValue:
               binding?.value === undefined ? "" : String(binding.value),
             onAccept: (text) =>
@@ -129,7 +131,57 @@ export function StyleAppearanceFields({
       )}
     </SideLabelRow>
   );
+  if (kind === "shadow") {
+    const shadow = value.shadow;
+    const options = references.filter(
+      (reference) => reference.property === "shadow",
+    );
+    const selected = options.find(
+      (reference) =>
+        reference.familyId === shadow?.elevationId &&
+        reference.index === shadow?.scaleIndex,
+    );
+    return (
+      <div className="stylesFields">
+        <SideLabelRow label="Elevation level" size="S" labelWidth="auto">
+          {() => (
+            <TokenComboBox
+              size="S"
+              ariaLabel="Elevation level"
+              placeholder="Choose an Elevation level"
+              displayMode={display}
+              isDisabled={isReadOnly}
+              isRequired
+              options={options.map((reference) => ({
+                id: reference.id,
+                kind: "token" as const,
+                name: reference.name,
+                displayValue: String(reference.value),
+              }))}
+              selectedKey={selected?.id ?? null}
+              error={
+                shadow && !selected
+                  ? "This Elevation level is unavailable. Choose another level."
+                  : undefined
+              }
+              onChange={(id) => {
+                const reference = options.find((entry) => entry.id === id);
+                if (reference?.familyId && reference.index !== undefined)
+                  onChange({
+                    shadow: {
+                      elevationId: reference.familyId,
+                      scaleIndex: reference.index,
+                    },
+                  });
+              }}
+            />
+          )}
+        </SideLabelRow>
+      </div>
+    );
+  }
   const color = value.color;
+  if (!color) return null;
   const indexCategory = taxonomy.categories.find(
     (category) => category.key === "scaleIndex",
   );

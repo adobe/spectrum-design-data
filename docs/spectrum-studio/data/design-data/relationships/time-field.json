@@ -1,0 +1,31 @@
+[
+  {
+    "scope": {
+      "component": "time-field",
+      "property": "minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 2.5,
+    "uuid": "21bb1275-44e7-49be-926a-66966e969a6f",
+    "legacyKey": "time-field-minimum-width"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "property": "space-between",
+      "options": {
+        "from": "text",
+        "to": "visual"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8",
+    "legacyKey": "time-field-text-to-visual",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead.",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    }
+  }
+]

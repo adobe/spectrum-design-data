@@ -1,0 +1,854 @@
+[
+  {
+    "id": "rule-standard-scale-naming",
+    "name": "Standard scale naming",
+    "description": "Base 100, clean smaller indices, and increments of 100 above the base.",
+    "type": "scale-naming",
+    "locked": true,
+    "baseLabel": 100,
+    "aboveIncrement": 100,
+    "below": {
+      "kind": "automatic"
+    }
+  },
+  {
+    "id": "rule-whole-numbers",
+    "name": "Whole numbers",
+    "description": "Rounds to the nearest whole number. Used when a referenced rule is deleted.",
+    "locked": true,
+    "type": "rounding",
+    "depth": 1,
+    "defaultOutcome": {
+      "factor": 1
+    },
+    "conditions": []
+  },
+  {
+    "id": "rule-no-rounding",
+    "name": "No rounding",
+    "description": "Leaves values unrounded.",
+    "locked": true,
+    "type": "rounding",
+    "depth": 1,
+    "defaultOutcome": {
+      "factor": 0
+    },
+    "conditions": []
+  },
+  {
+    "id": "rule-text-size-rounding",
+    "name": "Text size rounding",
+    "description": "Even pixel sizes, with whole pixels below 12px.",
+    "type": "rounding",
+    "depth": 1,
+    "defaultOutcome": {
+      "factor": 2
+    },
+    "conditions": [
+      {
+        "id": "condition-text-size-small",
+        "comparator": "lt",
+        "threshold": 12,
+        "outcome": {
+          "factor": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rule-line-height-rounding",
+    "name": "Line height rounding",
+    "description": "Even pixel line heights and typographic spacing.",
+    "type": "rounding",
+    "depth": 1,
+    "defaultOutcome": {
+      "factor": 2
+    },
+    "conditions": []
+  },
+  {
+    "id": "rule-spacing-rounding",
+    "name": "Spacing rounding",
+    "description": "Coarser increments as spacing values grow.",
+    "type": "rounding",
+    "depth": 1,
+    "defaultOutcome": {
+      "factor": 32
+    },
+    "conditions": [
+      {
+        "id": "condition-spacing-2",
+        "comparator": "lt",
+        "threshold": 2,
+        "outcome": {
+          "factor": 1
+        }
+      },
+      {
+        "id": "condition-spacing-10",
+        "comparator": "lt",
+        "threshold": 10,
+        "outcome": {
+          "factor": 2
+        }
+      },
+      {
+        "id": "condition-spacing-28",
+        "comparator": "lt",
+        "threshold": 28,
+        "outcome": {
+          "factor": 4
+        }
+      },
+      {
+        "id": "condition-spacing-56",
+        "comparator": "lt",
+        "threshold": 56,
+        "outcome": {
+          "factor": 8
+        }
+      },
+      {
+        "id": "condition-spacing-96",
+        "comparator": "lt",
+        "threshold": 96,
+        "outcome": {
+          "factor": 16
+        }
+      },
+      {
+        "id": "condition-spacing-256",
+        "comparator": "lt",
+        "threshold": 256,
+        "outcome": {
+          "factor": 24
+        }
+      }
+    ]
+  },
+  {
+    "id": "rule-custom-1c20be4c-12fe-4ed1-b816-168754166eb7",
+    "name": "Small spacing rounding",
+    "description": "Whole numbers below 5 px; otherwise the nearest even number.",
+    "type": "rounding",
+    "depth": 1,
+    "defaultOutcome": {
+      "factor": 2
+    },
+    "conditions": [
+      {
+        "id": "condition-87bc0a87-354a-4e2e-849b-3cc3a6107691",
+        "comparator": "lt",
+        "threshold": 5,
+        "outcome": {
+          "factor": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rule-tshirt-sizing",
+    "name": "T-shirt sizing",
+    "description": "Generates Size options by moving along foundation tokens from a default value.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing",
+        "size",
+        "font-size",
+        "radius"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 2
+      }
+    ]
+  },
+  {
+    "id": "rule-interaction-state-colors",
+    "name": "Interaction state colors",
+    "description": "Offsets emphasized backgrounds for hover and focus, reversing direction in Dark mode.",
+    "type": "conditional",
+    "outputs": [
+      {
+        "id": "e38bd00a-747b-4c51-8083-710385075d9e",
+        "classification": {
+          "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b": "47dccbe1-70ac-4879-a770-93f292b48907"
+        }
+      },
+      {
+        "id": "57d0d236-b930-45ec-b95e-3588d8b9707b",
+        "classification": {
+          "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b": "83361a0d-207e-43fc-83c9-259346571c22"
+        }
+      }
+    ],
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "color",
+        "opacity"
+      ]
+    },
+    "when": {
+      "id": "interaction-colors-scope",
+      "kind": "group",
+      "operator": "and",
+      "children": [
+        {
+          "id": "interaction-colors-background",
+          "kind": "condition",
+          "source": "taxonomy",
+          "sourceId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "matcher": "is",
+          "valueId": "d52e1d8b-48e0-4a02-9668-8c7cb5e25a62"
+        },
+        {
+          "id": "interaction-colors-emphasized",
+          "kind": "condition",
+          "source": "taxonomy",
+          "sourceId": "eef4f38f-f4e9-42b9-97d4-0f4d561b4a53",
+          "matcher": "is",
+          "valueId": "cfea4437-94b0-4354-a0d9-0e1d5cb1039a"
+        },
+        {
+          "id": "interaction-colors-states",
+          "kind": "group",
+          "operator": "or",
+          "children": [
+            {
+              "id": "interaction-colors-hover",
+              "kind": "condition",
+              "source": "taxonomy",
+              "sourceId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+              "matcher": "is",
+              "valueId": "47dccbe1-70ac-4879-a770-93f292b48907"
+            },
+            {
+              "id": "interaction-colors-focus",
+              "kind": "condition",
+              "source": "taxonomy",
+              "sourceId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+              "matcher": "is",
+              "valueId": "83361a0d-207e-43fc-83c9-259346571c22"
+            }
+          ]
+        }
+      ]
+    },
+    "branches": [
+      {
+        "id": "interaction-colors-dark-branch",
+        "when": {
+          "id": "interaction-colors-dark-scope",
+          "kind": "group",
+          "operator": "and",
+          "children": [
+            {
+              "id": "interaction-colors-dark",
+              "kind": "condition",
+              "source": "mode",
+              "sourceId": "mode-set-color-scheme",
+              "matcher": "is",
+              "valueId": "mode-dark"
+            }
+          ]
+        },
+        "then": {
+          "offset": -1
+        }
+      }
+    ],
+    "otherwise": {
+      "offset": 1
+    }
+  },
+  {
+    "id": "c5921ede-6bef-4532-be82-6f800478102b",
+    "name": "Accessory item padding",
+    "description": "Pairs Accessory sizes with their documented foundation values.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "bf90cb12-60ed-4f9e-8508-4f33501cd8c9",
+        "offset": -3
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 4
+      }
+    ]
+  },
+  {
+    "id": "ef25c228-2a86-4a27-a1b3-025013b9c453",
+    "name": "Accessory workflow item padding",
+    "description": "Pairs Accessory sizes with their documented foundation values.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 4
+      }
+    ]
+  },
+  {
+    "id": "31e8c2f7-2b35-4a85-9e79-b16b8484fab5",
+    "name": "Accessory group spacing",
+    "description": "Pairs Accessory sizes with their documented foundation values.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -3
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 2
+      },
+      {
+        "termId": "2d438e52-5d4e-4ab7-8126-45059bf5195d",
+        "offset": 3
+      }
+    ]
+  },
+  {
+    "id": "ee1fa5e3-8474-402a-8f02-cb4e70f5a24e",
+    "name": "Accessory UI icon pairing",
+    "description": "Pairs Accessory sizes with their documented foundation values.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "size"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "bf90cb12-60ed-4f9e-8508-4f33501cd8c9",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 2
+      },
+      {
+        "termId": "2d438e52-5d4e-4ab7-8126-45059bf5195d",
+        "offset": 3
+      }
+    ]
+  },
+  {
+    "id": "81d4dd00-293d-4a41-b305-54cfa5ea28d7",
+    "name": "Accessory workflow icon pairing",
+    "description": "Pairs Accessory sizes with the shared Workflow icon size foundation.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "workflow-icon-size"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 2
+      }
+    ]
+  },
+  {
+    "id": "ca25b8d3-616b-4424-9818-64071721b692",
+    "name": "Base spacing and workflow pairing",
+    "description": "Pairs Base sizes with Size, line height, and shared Workflow icon size foundations.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing",
+        "size",
+        "workflow-icon-size",
+        "line-height"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 2
+      }
+    ]
+  },
+  {
+    "id": "279534c2-f430-480b-b408-6d0ed765f97a",
+    "name": "Type scale ratio",
+    "description": "Multiplies a Medium value by the Type scale ratio for each step, so it grows with text.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -2
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 2
+      }
+    ]
+  },
+  {
+    "id": "df16c6d7-95a2-44ab-9491-47e210369a07",
+    "name": "Base gap pairing",
+    "description": "Pairs Base sizes with documented desktop values.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 0
+      }
+    ]
+  },
+  {
+    "id": "ef41039a-4066-4698-8b28-e4679c342198",
+    "name": "Base UI icon pairing",
+    "description": "Pairs Base sizes with documented desktop values.",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "size"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1500",
+        "offset": -1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 1
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1504",
+        "offset": 2
+      }
+    ]
+  },
+  {
+    "id": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1101",
+    "name": "List-item gap",
+    "description": "",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": -3
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      }
+    ]
+  },
+  {
+    "id": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1102",
+    "name": "List-item padding",
+    "description": "",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1501",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      }
+    ]
+  },
+  {
+    "id": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1103",
+    "name": "List-item indentation",
+    "description": "",
+    "type": "generator",
+    "defaultTermId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "spacing"
+      ]
+    },
+    "movement": "available-token",
+    "mappings": [
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1502",
+        "offset": 0
+      },
+      {
+        "termId": "b07988e3-0510-4bf5-a531-86ea718b1503",
+        "offset": 2
+      }
+    ]
+  },
+  {
+    "id": "332b2879-6712-4583-9a18-88d395df52cc",
+    "name": "Icon interaction colors",
+    "description": "Offsets icon colors for hover and focus, reversing direction in Dark mode.",
+    "type": "conditional",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "color"
+      ]
+    },
+    "outputs": [
+      {
+        "id": "49aa1c30-e8f7-45ff-bdc5-11797f1523c9",
+        "classification": {
+          "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b": "47dccbe1-70ac-4879-a770-93f292b48907"
+        }
+      },
+      {
+        "id": "6f6c1757-a6ea-4e80-9460-1222d4350543",
+        "classification": {
+          "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b": "83361a0d-207e-43fc-83c9-259346571c22"
+        }
+      }
+    ],
+    "when": {
+      "id": "d53e5d84-8ab6-4bc7-8d32-684c95f27db2",
+      "kind": "group",
+      "operator": "and",
+      "children": [
+        {
+          "id": "316fa8f1-b609-45d5-aea4-18e6b49ee305",
+          "kind": "group",
+          "operator": "or",
+          "children": [
+            {
+              "id": "d00f233a-8182-4de0-8edd-d963105dd905",
+              "kind": "condition",
+              "source": "taxonomy",
+              "sourceId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+              "matcher": "is",
+              "valueId": "b8b5a40d-a9c1-49bd-8df7-ed52571b4206"
+            },
+            {
+              "id": "92776788-f8fb-415e-82f2-788cc3067cd1",
+              "kind": "condition",
+              "source": "taxonomy",
+              "sourceId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+              "matcher": "is",
+              "valueId": "c8bb5451-b245-4de7-806a-ea006a15a1ae"
+            }
+          ]
+        },
+        {
+          "id": "4867f038-e0c1-4ce1-be94-5298946045bb",
+          "kind": "group",
+          "operator": "or",
+          "children": [
+            {
+              "id": "0ff97b5d-51dc-4720-81be-2f1e87fbc264",
+              "kind": "condition",
+              "source": "taxonomy",
+              "sourceId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+              "matcher": "is",
+              "valueId": "47dccbe1-70ac-4879-a770-93f292b48907"
+            },
+            {
+              "id": "8a287af1-f78c-4066-b3d1-3f544135a077",
+              "kind": "condition",
+              "source": "taxonomy",
+              "sourceId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+              "matcher": "is",
+              "valueId": "83361a0d-207e-43fc-83c9-259346571c22"
+            }
+          ]
+        }
+      ]
+    },
+    "branches": [
+      {
+        "id": "e172b2ed-2367-42e8-b9bc-4ee921cb3fec",
+        "when": {
+          "id": "61b2f3ae-bbc4-4e13-acc7-4bf5efe83f1d",
+          "kind": "group",
+          "operator": "and",
+          "children": [
+            {
+              "id": "5d807970-e78e-4998-8e20-68738359fcf5",
+              "kind": "condition",
+              "source": "mode",
+              "sourceId": "mode-set-color-scheme",
+              "matcher": "is",
+              "valueId": "mode-dark"
+            }
+          ]
+        },
+        "then": {
+          "offset": -1
+        }
+      }
+    ],
+    "otherwise": {
+      "offset": 1
+    }
+  },
+  {
+    "id": "593a46f7-9759-433f-8cb9-cbecb7d11799",
+    "name": "Shadow interaction",
+    "description": "Raises a shadow one Elevation level on hover, such as emphasized containers that are interactive.",
+    "type": "conditional",
+    "applicability": {
+      "kind": "specific",
+      "types": [
+        "elevation"
+      ]
+    },
+    "outputs": [
+      {
+        "id": "0c30c6da-4bf8-4b39-9f16-0a8abeabd251",
+        "classification": {
+          "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b": "47dccbe1-70ac-4879-a770-93f292b48907"
+        }
+      }
+    ],
+    "when": {
+      "id": "1735f51c-9fe3-4724-a1ec-de5a219e013f",
+      "kind": "group",
+      "operator": "and",
+      "children": [
+        {
+          "id": "9abe035e-a99a-4a27-95e5-6b9225cb0b6d",
+          "kind": "condition",
+          "source": "taxonomy",
+          "sourceId": "ca732a26-decb-4746-9afc-3567ec0d445e",
+          "matcher": "is",
+          "valueId": "1c482aeb-cb4d-4a0b-a36b-109017829881"
+        },
+        {
+          "id": "6163b578-eabb-4a85-83ab-cfe3f328aefb",
+          "kind": "condition",
+          "source": "taxonomy",
+          "sourceId": "73de6ad1-a9b2-47db-8d3a-92ef7ef9ab3b",
+          "matcher": "is",
+          "valueId": "47dccbe1-70ac-4879-a770-93f292b48907"
+        }
+      ]
+    },
+    "branches": [],
+    "otherwise": {
+      "offset": 1
+    }
+  }
+]

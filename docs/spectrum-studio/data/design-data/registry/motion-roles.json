@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "motion-role",
+  "description": "Semantic roles for motion tokens — the interaction pattern or animation purpose a token governs. Assigned via the `motionRole` name-object field. NOTE: This registry is provisional. Values are seeded from design intent; entries will be refined when motion tokens are added to the foundation dataset.",
+  "values": [
+    {
+      "id": "enter",
+      "label": "Enter",
+      "description": "Animation for an element entering the viewport or becoming visible"
+    },
+    {
+      "id": "exit",
+      "label": "Exit",
+      "description": "Animation for an element leaving the viewport or becoming hidden"
+    },
+    {
+      "id": "transition",
+      "label": "Transition",
+      "description": "Animation for state changes on a persistent element (e.g. hover, selection)"
+    },
+    {
+      "id": "emphasis",
+      "label": "Emphasis",
+      "description": "Animation that draws attention to an element without entering or exiting"
+    },
+    {
+      "id": "loading",
+      "label": "Loading",
+      "description": "Animation for indeterminate loading or progress states"
+    }
+  ]
+}

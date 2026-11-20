@@ -66,7 +66,7 @@ test("Palette shows classifications, exact mode values, other modes and report p
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: /^Analysis\b/ })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   const region = page.getByRole("region", {
     name: "Primitive palette comparison",
@@ -275,7 +275,7 @@ test("Palette distinguishes exact, one-channel-step and larger differences", asy
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: /^Analysis\b/ })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   const region = page.getByRole("region", {
     name: "Primitive palette comparison",

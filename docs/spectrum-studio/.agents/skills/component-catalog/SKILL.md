@@ -34,6 +34,7 @@ component when two overlap.
 | Theme-aware transparency preview                                                 | `PreviewSurfaceProvider` inside the S2 Provider; `transparencyBackground` / `transparencyRampBackground`; `checkerboardSurfaceStyle` for explicit local surfaces (see `color-management`)                                                                                                                                                                                      | hardcoded checkerboard colors or per-cell background observers                                               |
 | Show a token name                                                                | `tokens/TokenNameTag`                                                                                                                                                                                                                                                                                                                                                          | `Tag` or plain `Text`                                                                                        |
 | Filter a token table by foundational type                                        | `tokens/TokenTypeFilters` (`value`, `onChange`): controlled single selection with All; labels and icons come from `tokenPanelRegistry`                                                                                                                                                                                                                                         | local category toggle groups or duplicated label/icon maps                                                   |
+| Filter Registry category cards by token tier and token type                      | `registry/RegistryFilters`: S2 multiselect `Picker`s with an All option, bound to in-memory `registryFiltersAtom`; matching and All/empty selection rules come from `features/taxonomy/registryFilters.ts`; filtered reorders use `reorderVisibleRegistryCategories`                                                                                                           | local checkbox filters, persisting filter choices, or reordering only the visible list                       |
 | Create a new token                                                               | `panels/tokens/AddTokenDialog` (`onCreated`, optional `initialAnswers`) inside a `DialogContainer`; questions, names and drafts come from `features/tokens/creationFlow.ts` and `createNewTokenAtom`                                                                                                                                                                           | a bespoke form or writing `browserTokenEditsAtom` directly                                                   |
 | Apply Design Data values to selected token/mode instances                        | `views/analysis/ReferenceOverrideDialog` (`count`, `onApply`, `onClose`) inside a `DialogContainer`; one opt-in checkbox, gated Apply, and recoverable errors                                                                                                                                                                                                                  | a second bulk-edit form, global-mode writes, or automatic Save                                               |
 | Card or bento layout                                                             | `BentoGrid` with `BentoCard` (`colSpan` 1-4, `rowSpan` 1-2); foundation cards use `foundationCardStyles`                                                                                                                                                                                                                                                                       | custom grid divs                                                                                             |
@@ -161,6 +162,28 @@ Reusable pieces that live outside `components/` (reuse them, do not copy):
 `views/color-system/ScaleColorPreview.tsx`, `views/color-system/ContrastRamp.tsx`,
 `panels/registry/SourceNameEditor.tsx`, `panels/foundations/DimensionFoundationPanel.tsx`,
 `panels/components/ComponentsPanel.tsx`.
+
+## Platform-wide settings
+
+The Settings page (`views/platforms/PlatformsView.tsx`, nav id `platforms`)
+holds settings that apply across the whole design system. Every control
+there must be a duplicate of a control that already lives elsewhere in the
+app, so users can edit the same data in more than one context.
+
+- **One shared component per setting:** extract the control into a
+  self-contained component that reads and writes the owning atom, then render
+  that same component in both places. Do not copy the field markup or add a
+  second write path. Changes tracking, validation and errors stay with the
+  owner.
+- **Keep the original:** the control stays in its home panel; the Settings
+  page adds a copy, it does not move it.
+- **Group by foundation:** on the Settings page, place each copy under its
+  foundation's heading (Color, Typography, …) so shared labels such as
+  "Output format" stay clear.
+- **Current shared controls:** `color-system/SharedColorOutputControls`
+  (also in the Color panel's settings) and
+  `typography/TypographyOutputFormatPicker` (also in the Typography panel's
+  System settings).
 
 ## Foundations preview standards
 

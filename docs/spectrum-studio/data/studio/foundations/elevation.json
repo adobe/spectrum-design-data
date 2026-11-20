@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "cc5cbee1-3992-4605-98bb-d5221ff5ca5c",
+  "name": {
+    "categoryId": "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa",
+    "termId": "5b1c777b-5cb8-444d-940b-9e6202f0d060",
+    "classification": {
+      "1c9dc5cf-5df3-4d4b-a25a-cf24c7e53efa": "5b1c777b-5cb8-444d-940b-9e6202f0d060",
+      "ca732a26-decb-4746-9afc-3567ec0d445e": "1c482aeb-cb4d-4a0b-a36b-109017829881"
+    }
+  },
+  "below": 0,
+  "above": 2,
+  "depth": 100,
+  "color": "#000000",
+  "layers": [
+    {
+      "id": "53e53f0d-0285-4c6a-b06f-1de92cf440b9",
+      "label": "Shadow 1",
+      "scaleTypeId": "scale-type-elevation-power",
+      "base": 4,
+      "scale": 2,
+      "opacityTokenId": "ce890e6f-73d8-4941-8c63-dcbbd11efad9"
+    }
+  ]
+}

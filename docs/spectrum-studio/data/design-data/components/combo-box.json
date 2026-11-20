@@ -1,0 +1,257 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/combo-box.json",
+  "specVersion": "1.0.0-draft",
+  "name": "combo-box",
+  "displayName": "Combo box",
+  "description": "Combo boxes combine a text entry with a picker menu, allowing users to filter longer lists to only the selections matching a query.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/combo-box/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Combo boxes combine a text entry with a picker menu, allowing users to filter longer lists to only the selections matching a query."
+    },
+    {
+      "type": "guideline",
+      "content": "Minimum width.\n\nThe minimum width for a combo box is combo-box-minimum-width-multiplier (2.5× the height of the field button for standard style). This minimum width guarantees that small combo boxes are readable and easy to target on touch devices."
+    },
+    {
+      "type": "guideline",
+      "content": "Text overflow.\n\nWhen the field label and menu text are too long for the available horizontal space, they wrap to form another line. The field text itself truncates at the end, but the text can be shown in full in the menu."
+    },
+    {
+      "type": "guideline",
+      "content": "Help text overflow.\n\nWhen the help text is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Menu height.\n\nThe combo box menu can be as tall as necessary to show as many options as possible in the available space. There is no maximum height."
+    },
+    {
+      "type": "guideline",
+      "content": "Combo box, picker, or radio buttons?\n\nThe text input functionality of the combo box is meant to make large lists easier to search. If you have fewer than 6 items, use radio buttons. If you have more than 6 items, consider whether your list of selections is complex enough to merit searching and filtering. If it's not complex enough for a combo box, you can use a picker."
+    },
+    {
+      "type": "guideline",
+      "content": "Suppressing the popover.\n\nIt's okay to suppress the popover when the combo box contains entries the user is familiar with, and when autocomplete is enabled. A suppressed popover can still be opened when the field button containing the chevron is clicked."
+    },
+    {
+      "type": "guideline",
+      "content": "Immediate popover launch.\n\nLaunch the popover immediately if your user is highly unfamiliar with the content in the combo box, or if the data is especially complex."
+    },
+    {
+      "type": "guideline",
+      "content": "Delayed popover launch.\n\nLaunch the popover on text change if your user can get started typing without seeing a long list of options."
+    },
+    {
+      "type": "guideline",
+      "content": "Saving suggestions.\n\nWhen a suggestion is appended to the end of typed text, it remains the selected value when focus leaves the field. This guards against the scenario when a user sees a word completed in a field, continues to another form component, and the failure to commit changes erases the suggestion. When autocomplete is disabled, best matches get a hover style in the popover, but don't get saved as a value unless they're clicked on or \"Enter\" is pressed."
+    },
+    {
+      "type": "guideline",
+      "content": "Include a label.\n\nEvery combo box should have a label. A combo box without a label is ambiguous and not accessible. In rare cases where a label could be absent, make sure to have the design reviewed and approved by an accessibility expert."
+    },
+    {
+      "type": "guideline",
+      "content": "Keep menu items concise.\n\nKeep menu items short and concise. Long menu items that cause text to wrap to multiple lines are discouraged. If text wrapping becomes a frequent concern, consider revising the text or use alternative UI patterns that will give your content more space."
+    },
+    {
+      "type": "guideline",
+      "content": "Truncation.\n\nChoose a width for your combo boxes that is likely to accommodate the majority of selections available within it. When a combo box is in focus and the typed input exceeds the width of the field, push the leftmost text out of sight while allowing text to continue to be entered towards the chevron. When a combo box is deselected, truncate the selected entry with ellipsis before it collides with the chevron button."
+    },
+    {
+      "type": "guideline",
+      "content": "Follow capitalization rules.\n\nField labels, placeholder text, and menu items should be in sentence case."
+    },
+    {
+      "type": "guideline",
+      "content": "Marking required vs. optional combo boxes in forms.\n\nWhen labeling combo boxes in a form, only mark the minority type—either required or optional—to reduce visual clutter: If most combo boxes are optional, mark only the required ones (e.g., add an asterisk or \"(required)\"). If most combo boxes are required, mark only the optional ones (e.g., append \"(optional)\" to their labels). Important: Never use an asterisk to indicate an optional combo box."
+    },
+    {
+      "type": "guideline",
+      "content": "Use help text to show hints, formatting, and requirements.\n\nThe description in the help text is flexible and encompasses a range of guidance. Sometimes this guidance is about what to input, and sometime it's about how to input. This includes information such as: An overall description of the input field Hints for what kind of information needs to be input Specific formatting examples or requirements The help text's message should not simply restate the same information in the label in order to prompt someone to interact with it. Don't add help text if it isn't actually relevant or meaningful to a user in order to try to maintain layout continuity with other inputs that require help text."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use placeholder text",
+      "dont": "Putting instructions for how to complete an input, requirements, or any other essential information into placeholder text is not accessible. Once a value is entered, placeholder text is no longer viewable; if someone is using an automatic form filler, they will never get the information in the placeholder text. Instead of placeholder text, use the help text description to convey requirements or to show any formatting examples that would help user comprehension. If there's placeholder text and help text at the same time, it becomes redundant and distracting, especially if they're communicating the same thing."
+    },
+    {
+      "type": "guideline",
+      "content": "Switch help text with error text.\n\nThe help text area also displays an error message. When a combo box already includes help text and an error is triggered, the help text is replaced with error text. Once the error is resolved, the help text description reappears below the field. Since one gets replaced by the other, the language of the help text and error text need to work together to convey the same messaging. Help text explains the requirement or adds supplementary context for how to successfully complete the input. Error text tells a user how to fix the error by re-stating the input requirements or describing the necessary interaction. Make sure that the help text and the error text include the same essential information so that it isn't lost if one replaces the other like minimum requirements."
+    },
+    {
+      "type": "guideline",
+      "content": "Write error text that shows a solution.\n\nWrite error messaging in a human-centered way by guiding a user and showing them a solution — don't simply state what's wrong and then leave them guessing as to how to resolve it. Ambiguous error messages can be frustrating and even shame-inducing for users. Also, keep in mind that something that a system may deem an error may not actually be perceived as an error to a user. Error text should be written in 1-2 short, complete sentences and in a clear and straightforward way. End sentences with a period, and never with an exclamation point. For combo boxes, the nature of the error is often related to something that needs to be fixed for in-line validation, so a helpful tone is most appropriate. For example, if someone were to miss filling out a combo box that asks for them to choose a topic, write the error text like you're offering a hint or a tip to help guide them to understand what needs to go in the missing field: \"Choose at least one topic."
+    },
+    {
+      "type": "guideline",
+      "content": "RTL.\n\nFor RTL (right-to-left) languages, the layout of a combo box is mirrored. The label is right-aligned and various decorations (e.g., character count, validation icon, error icon) are left-aligned. Make sure to consider that some types of content (e.g., email addresses) are not translated."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard interactions.\n\nKey Interaction Typing Initiates autocomplete or popover (unless suppressed). Down Arrow If the popover is unsuppressed and not already open, the down arrow opens the popover menu. Up or Down Arrows Move through selection of options in popover or autocomplete. Esc If the popover is open, close the popover. Enter Accept highlighted suggestion. Tab Commit current value and move focus. Alt + Down Arrow (optional) Open popup without moving focus. Alt + Up Arrow (optional) Close popup and return to input."
+    },
+    {
+      "type": "guideline",
+      "content": "Cursor guidelines.\n\nCursor Description Text Use text cursor over editable fields in all states. Pointer Any interactive control that is part of the field (e.g., clear/reveal/help icon) uses the pointer cursor."
+    },
+    {
+      "type": "guideline",
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non-text elements, such as icons paired with a combo box (validation icons, clear-input icons), must provide a text alternative. All combo boxes need an accessible name (via a visible label, title, aria-label, or associated text) so screen readers can announce their purpose. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Combo boxes should be understandable by assistive technologies. The label, help text, error message, and required state must be programmatically associated with the field using semantic HTML or ARIA. Contrast 1.4.3 AA The visual presentation of text has a contrast ratio of at least 4.5:1. Resize text 1.4.4 AA Combo boxes can be resized up to 200% without loss of content or functionality and without assistive technology. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of illustrations, icons, and component states have a contrast ratio of at least 3:1. Not applicable for empty fields. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ComboBox",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "values": [
+        { "value": "top" },
+        { "value": "side" },
+        { "value": "in line" }
+      ]
+    },
+    "value": { "type": "string" },
+    "width": { "type": "number" },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
+      ]
+    },
+    "isRequired": { "type": "boolean", "default": false },
+    "necessityIndicator": {
+      "type": "string",
+      "default": "icon",
+      "values": [{ "value": "text" }, { "value": "icon" }]
+    },
+    "hasAutocomplete": { "type": "boolean", "default": false },
+    "menuTrigger": {
+      "type": "string",
+      "default": "input",
+      "values": [
+        { "value": "input" },
+        { "value": "focus" },
+        { "value": "manual" }
+      ]
+    },
+    "isError": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isReadOnly": { "type": "boolean", "default": false },
+    "description": { "type": "string" },
+    "errorMessage": { "type": "string" }
+  },
+  "states": [
+    {
+      "name": "hover-text-area",
+      "trigger": "prop",
+      "description": "Hover scoped to the text-entry anatomy part, distinct from hover over the field button."
+    },
+    {
+      "name": "hover-button-area",
+      "trigger": "prop",
+      "description": "Hover scoped to the field button anatomy part, distinct from hover over the text-entry area."
+    },
+    {
+      "name": "focus-hover",
+      "trigger": "prop",
+      "description": "Combined focus and hover, when the field is focused and the pointer is also over it."
+    },
+    {
+      "name": "focus-not-hover",
+      "trigger": "prop",
+      "description": "Focus without hover, when the field is focused but the pointer is not over it."
+    },
+    { "name": "keyboard-focus", "trigger": "interaction" }
+  ],
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "container",
+      "description": "Bordered box that frames the text entry and the field button.",
+      "required": true,
+      "contains": [
+        "leading-icon",
+        "prefix",
+        "value",
+        "placeholder",
+        "error-icon",
+        "in-field-progress-circle",
+        "in-field-button"
+      ]
+    },
+    {
+      "name": "leading-icon",
+      "description": "Icon at the start of the field."
+    },
+    {
+      "name": "prefix",
+      "description": "Short fixed text shown before the value or placeholder."
+    },
+    {
+      "name": "value",
+      "description": "Text the user entered or the selected item."
+    },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown while the field is empty."
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon shown when the field is invalid."
+    },
+    {
+      "name": "in-field-progress-circle",
+      "description": "Progress circle shown in the field while options load."
+    },
+    {
+      "name": "in-field-button",
+      "description": "Square chevron button with its own background at the end of the field that opens the menu.",
+      "required": true
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP ComboBox.tsx:171-219,731-743 (separate square in-field button with own background), gen2 infield-button; asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Popup menu left out as its own component."
+  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "role": "combobox",
+    "intents": ["input", "select", "expand"],
+    "focusable": true,
+    "keyboardIntents": ["expand", "collapse", "navigate-options"],
+    "wcag": [
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

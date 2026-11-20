@@ -9,7 +9,16 @@ import {
   registryBatchSteps,
   registryCategoryBatch,
   reorderRegistryCategories,
+  reorderVisibleRegistryCategories,
 } from "../src/features/taxonomy/registryDraft";
+import {
+  ALL_REGISTRY_FILTERS,
+  REGISTRY_FILTER_ALL,
+  categoryMatchesRegistryFilters,
+  nextRegistryFilterSelection,
+  registryFilterKeys,
+  type RegistryFilters,
+} from "../src/features/taxonomy/registryFilters";
 
 const categoryId = "f0000000-0000-4000-8000-000000000001";
 const secondId = "f0000000-0000-4000-8000-000000000002";
@@ -65,7 +74,123 @@ assert.throws(
     ),
   /available/,
 );
-const classification = { [categoryId]: termId, [secondId]: otherTermId };
+{
+  // Moves while filtered anchor to the visible category that was passed.
+  const full = ["A", "B", "C", "D", "E", "F"];
+  const right = reorderVisibleRegistryCategories(
+    full,
+    ["A", "B", "F"],
+    "A",
+    "F",
+    "before",
+  );
+  assert.deepEqual(right, ["B", "A", "C", "D", "E", "F"]);
+  assert.deepEqual(
+    reorderVisibleRegistryCategories(
+      right,
+      ["B", "A", "D", "F"],
+      "F",
+      "D",
+      "before",
+    ),
+    ["B", "A", "C", "F", "D", "E"],
+  );
+  assert.deepEqual(
+    reorderVisibleRegistryCategories(full, ["A", "C"], "A", "C", "before"),
+    full,
+  );
+  assert.deepEqual(
+    reorderVisibleRegistryCategories(full, full, "A", "F", "after"),
+    reorderRegistryCategories(full, "A", "F", "after"),
+  );
+}
+{
+  const anyTier = { scopes: ["colors" as const] };
+  const semanticSpacing = {
+    scopes: ["spacing" as const, "styles" as const],
+    allowedTokenTiers: ["semantic" as const],
+  };
+  const noTypes = { scopes: ["styles" as const] };
+  const only = (filters: Partial<RegistryFilters>) => ({
+    ...ALL_REGISTRY_FILTERS,
+    ...filters,
+  });
+  for (const category of [anyTier, semanticSpacing, noTypes])
+    assert.ok(categoryMatchesRegistryFilters(category, ALL_REGISTRY_FILTERS));
+  assert.ok(
+    categoryMatchesRegistryFilters(anyTier, only({ tiers: ["component"] })),
+  );
+  assert.ok(
+    !categoryMatchesRegistryFilters(
+      semanticSpacing,
+      only({ tiers: ["component"] }),
+    ),
+  );
+  assert.ok(
+    categoryMatchesRegistryFilters(
+      semanticSpacing,
+      only({ tiers: ["primitive", "semantic"], types: ["spacing", "size"] }),
+    ),
+  );
+  assert.ok(
+    !categoryMatchesRegistryFilters(
+      semanticSpacing,
+      only({ types: ["colors"] }),
+    ),
+  );
+  assert.ok(
+    !categoryMatchesRegistryFilters(noTypes, only({ types: ["colors"] })),
+  );
+  assert.ok(
+    !categoryMatchesRegistryFilters(
+      { scopes: ["colors"], allowedTokenTiers: [] },
+      only({ tiers: ["semantic"] }),
+    ),
+  );
+}
+{
+  const options = ["primitive", "semantic", "component"] as const;
+  assert.deepEqual(registryFilterKeys(options, options), [
+    REGISTRY_FILTER_ALL,
+    ...options,
+  ]);
+  assert.deepEqual(registryFilterKeys(options, ["component", "primitive"]), [
+    "primitive",
+    "component",
+  ]);
+  // Unchecking one option from All leaves the others.
+  assert.deepEqual(
+    nextRegistryFilterSelection(options, options, [
+      REGISTRY_FILTER_ALL,
+      "primitive",
+      "component",
+    ]),
+    ["primitive", "component"],
+  );
+  assert.deepEqual(
+    nextRegistryFilterSelection(
+      options,
+      ["semantic"],
+      ["semantic", REGISTRY_FILTER_ALL],
+    ),
+    [...options],
+  );
+  // Unchecking the last option leaves nothing selected.
+  assert.deepEqual(nextRegistryFilterSelection(options, ["semantic"], []), []);
+  // Choosing All while everything is selected deselects all.
+  assert.deepEqual(nextRegistryFilterSelection(options, options, options), []);
+  assert.deepEqual(nextRegistryFilterSelection(options, [], ["all"]), [
+    ...options,
+  ]);
+  assert.deepEqual(
+    nextRegistryFilterSelection(
+      options,
+      ["semantic"],
+      ["semantic", "component"],
+    ),
+    ["semantic", "component"],
+  );
+}
 assert.equal(
   projectClassification(base, classification, "colors").name,
   "base-color",

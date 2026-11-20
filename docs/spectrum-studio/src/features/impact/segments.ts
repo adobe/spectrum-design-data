@@ -35,6 +35,7 @@ const CATEGORY_TONES: Record<ImpactCategory, BarTone> = {
   logic: "orangeSubtle",
   registry: "cyan",
   typography: "seafoam",
+  icons: "cyan",
   spacing: "purple",
   size: "yellow",
   radius: "magenta",

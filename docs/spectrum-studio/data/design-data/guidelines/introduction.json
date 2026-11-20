@@ -1,0 +1,31 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/introduction.json",
+  "name": "introduction",
+  "title": "Introduction",
+  "category": "fundamentals",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Introduction" },
+    {
+      "type": "guideline",
+      "content": "Spectrum 2 came about from the general need for Adobe products to start thinking beyond being purely \"professional\" tools, and from a decision that Adobe should have one design system (not multiple) that is adaptable and flexible enough to support diverse products with diverse users."
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum is approachable, friendly, and for the next generation of Adobe products. There's updated colors, icons, states, styles, and more. And, there's even more detailed guidance on design fundamentals like typography and layout."
+    },
+    {
+      "type": "guideline",
+      "content": "Here's an example of how a Spectrum action button has changed over design language updates:"
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum is Adobe's design system. It belongs to all of us, and is shaped according to our customers' needs. We'd like to thank everyone who participated in shaping and testing Spectrum 2 for their hard and thoughtful work."
+    }
+  ],
+  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/introduction/",
+  "lastUpdated": "2026-02-02",
+  "status": "published",
+  "tags": ["fundamentals"],
+  "related": [{ "ref": "home" }, { "ref": "principles" }]
+}

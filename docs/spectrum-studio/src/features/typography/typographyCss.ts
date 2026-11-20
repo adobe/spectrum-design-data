@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import type { TypographyDocument } from "./model";
+import type { GeneratedTypographyToken, TypographyDocument } from "./model";
 import type { ModeSet } from "../modes/model";
 import type { IconsDocument } from "../icons/model";
 import { parameterOwners } from "../modes/parameters";
@@ -34,7 +34,8 @@ function declarations(
   naming?: TypographyNamingContext,
   icons?: IconsDocument,
 ) {
-  return typographyTokenValues(
+  return typographyDeclarations(
+    document,
     generateTypography(
       document,
       textZoom,
@@ -43,11 +44,41 @@ function declarations(
       interpolations,
       icons,
     ),
+    indent,
     taxonomy,
     naming,
-  ).map(
+  );
+}
+
+function typographyDeclarations(
+  document: TypographyDocument,
+  tokens: GeneratedTypographyToken[],
+  indent: string,
+  taxonomy?: TaxonomyDocument,
+  naming?: TypographyNamingContext,
+) {
+  return typographyTokenValues(tokens, taxonomy, naming).map(
     ({ group, name, value }) =>
       `${indent}--${name}: ${group.isUnitless ? formatTypographyNumber(value) : formatTypographyLength(value, document.outputUnit)};`,
+  );
+}
+
+/** Uses the active generated values, not the complete export's other contexts. */
+export function buildTypographyPreviewCss(
+  document: TypographyDocument,
+  tokens: GeneratedTypographyToken[],
+  scope: string,
+  registry: TaxonomyDocument,
+) {
+  return withTaxonomyProjection(registry, () =>
+    [
+      `${scope} {`,
+      ...typographyDeclarations(document, tokens, "  ", undefined, {
+        registry,
+        names: document.metricNames,
+      }),
+      "}",
+    ].join("\n"),
   );
 }
 

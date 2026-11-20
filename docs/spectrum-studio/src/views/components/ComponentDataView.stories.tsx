@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, within } from "@storybook/test";
 import { useState } from "react";
-import defaults from "../../data/design-system.defaults.json";
+import { studioDataset as defaults } from "../../data/studioData.generated";
 import type { ComponentsDocument } from "../../features/components/model";
 import {
   isComponentsDocument,

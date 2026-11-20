@@ -5,31 +5,31 @@ import {
   style,
 } from "@react-spectrum/s2/style" with { type: "macro" };
 import { atom, useAtomValue, useSetAtom } from "jotai";
-import { useCallback, useDeferredValue, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { updateTypographyAtom } from "../../features/typography/state";
+import { TEXT_ZOOM_ATTRIBUTE } from "../../features/typography/typographyCss";
 import {
-  resolvedTypographyDocumentAtom,
-  typographyDocumentAtom,
-  updateTypographyAtom,
-} from "../../features/typography/state";
+  TYPOGRAPHY_PREVIEW_SCOPE,
+  type TypographyPreviewInput,
+  type TypographyPreviewOutput,
+} from "../../features/typography/previewWork";
+import { usePreviewWorker } from "../../features/derived-work/usePreviewWorker";
 import {
-  buildTypographyCss,
-  TEXT_ZOOM_ATTRIBUTE,
-} from "../../features/typography/typographyCss";
-import { generateTypography } from "../../features/typography/typographyGeneration";
-import { rulesAtom } from "../../features/logic/library";
-import {
-  interpolationsAtom,
-  scaleTypesAtom,
-} from "../../features/logic/scaleTypeLibrary";
+  typographyPreviewSourceAtom,
+  liveTypographyDocumentAtom,
+  previewRulesAtom,
+  previewScaleTypesAtom,
+  previewInterpolationsAtom,
+  previewTaxonomyAtom,
+  previewIconsAtom,
+} from "../../features/edit-session/previewSources";
 import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import "./TypographyElements.css";
-import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import { lineHeightName } from "../../features/typography/lineHeightNames";
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import { EditablePicker } from "../../components/editable";
 import { IconSamplePicker } from "../../components/fields/IconSamplePicker";
 import { useIconSample } from "../../features/icons/useIconSample";
-import { iconsDocumentAtom } from "../../features/icons/documentState";
 import { TypographyRamp } from "./TypographyRamp";
 import {
   defaultTypographyDisplayModes,
@@ -41,7 +41,11 @@ import { elementsSurfaceStyleAtom } from "../../state/view/elementsSurface";
 import { elementsSurfaceStyles } from "../elementsSurfaceStyles";
 import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 
-const PREVIEW_SCOPE = ".typographyRampPreview";
+const createPreviewWorker = () =>
+  new Worker(
+    new URL("../../features/typography/preview.worker.ts", import.meta.url),
+    { type: "module" },
+  );
 
 const containerStyle = style({
   display: "flex",
@@ -59,20 +63,27 @@ const listStyle = style({
   overflowX: "auto",
 });
 
-const typographyElementsInputAtom = atom((get) => ({
-  surfaceStyle: get(elementsSurfaceStyleAtom),
-  document: get(typographyDocumentAtom),
-  resolved: get(resolvedTypographyDocumentAtom),
-  rules: get(rulesAtom),
-  scaleTypes: get(scaleTypesAtom),
-  interpolations: get(interpolationsAtom),
-  registry: get(taxonomyDocumentAtom),
-  icons: get(iconsDocumentAtom),
-}));
+const typographyElementsInputAtom = atom(
+  (get): TypographyPreviewInput => ({
+    document: get(typographyPreviewSourceAtom),
+    resolved: get(liveTypographyDocumentAtom),
+    rules: get(previewRulesAtom),
+    scaleTypes: get(previewScaleTypesAtom),
+    interpolations: get(previewInterpolationsAtom),
+    registry: get(previewTaxonomyAtom),
+    icons: get(previewIconsAtom),
+  }),
+);
 
 export function TypographyElements() {
   const input = useAtomValue(typographyElementsInputAtom);
   const { document, registry } = input;
+  const generation = usePreviewWorker<
+    TypographyPreviewInput,
+    TypographyPreviewOutput
+  >(input, createPreviewWorker);
+  const generated = generation.ready;
+  const surfaceStyle = useAtomValue(elementsSurfaceStyleAtom);
   const update = useSetAtom(updateTypographyAtom);
   const [displayModes, setDisplayModes] = useState<TypographyDisplayMode[]>(
     defaultTypographyDisplayModes,
@@ -88,58 +99,10 @@ export function TypographyElements() {
     () => loadedIcon ?? { name: selectedIcon, status: "loading" as const },
     [loadedIcon, selectedIcon],
   );
-  const incoming = useMemo(
-    () => ({ ...input, displayModes, sampleText, icon }),
-    [input, displayModes, sampleText, icon],
-  );
-  const preview = useDeferredValue(incoming);
-  const {
-    document: previewDocument,
-    resolved,
-    rules,
-    scaleTypes,
-    interpolations,
-    registry: previewRegistry,
-    icons: previewIcons,
-    surfaceStyle,
-    icon: previewIcon,
-  } = preview;
-  const tokens = useMemo(
-    () =>
-      generateTypography(
-        resolved,
-        undefined,
-        rules,
-        scaleTypes,
-        interpolations,
-        previewIcons,
-      ),
-    [resolved, rules, scaleTypes, interpolations, previewIcons],
-  );
-  const css = useMemo(
-    () =>
-      buildTypographyCss(previewDocument, {
-        scope: PREVIEW_SCOPE,
-        purpose: "authoring",
-        rules,
-        scaleTypes,
-        interpolations,
-        registry: previewRegistry,
-        icons: previewIcons,
-      }),
-    [
-      previewDocument,
-      rules,
-      scaleTypes,
-      interpolations,
-      previewRegistry,
-      previewIcons,
-    ],
-  );
   const renderIcon = useCallback(
     (size: number) =>
-      previewIcon.status === "ready" ? (
-        <previewIcon.Icon
+      icon.status === "ready" ? (
+        <icon.Icon
           aria-hidden="true"
           styles={
             surfaceStyle.color === "#ffffff"
@@ -151,7 +114,7 @@ export function TypographyElements() {
       ) : (
         <span style={{ display: "block", width: size, height: size }} />
       ),
-    [previewIcon, surfaceStyle.color],
+    [icon, surfaceStyle.color],
   );
 
   return (
@@ -223,25 +186,31 @@ export function TypographyElements() {
         </div>
       )}
       <DerivedContentBoundary
-        state={incoming === preview ? "ready" : "pending"}
+        state={generation.status}
         label="Updating typography preview"
+        error={generation.error}
+        onRetry={generation.retry}
       >
-        <style>{css}</style>
-        <div
-          className={`${listStyle} ${elementsSurfaceStyles} ${PREVIEW_SCOPE.slice(1)}`}
-          style={surfaceStyle}
-          data-elements-surface
-          {...{ [TEXT_ZOOM_ATTRIBUTE]: resolved.textZoom }}
-        >
-          <TypographyRamp
-            tokens={tokens}
-            lineHeightId={previewDocument.previewLineHeightId}
-            outputUnit={previewDocument.outputUnit}
-            sampleText={preview.sampleText}
-            displayModes={preview.displayModes}
-            renderIcon={renderIcon}
-          />
-        </div>
+        {generated && (
+          <>
+            <style>{generated.value.css}</style>
+            <div
+              className={`${listStyle} ${elementsSurfaceStyles} ${TYPOGRAPHY_PREVIEW_SCOPE.slice(1)}`}
+              style={surfaceStyle}
+              data-elements-surface
+              {...{ [TEXT_ZOOM_ATTRIBUTE]: generated.input.resolved.textZoom }}
+            >
+              <TypographyRamp
+                tokens={generated.value.tokens}
+                lineHeightId={generated.input.document.previewLineHeightId}
+                outputUnit={generated.input.document.outputUnit}
+                sampleText={sampleText}
+                displayModes={displayModes}
+                renderIcon={renderIcon}
+              />
+            </div>
+          </>
+        )}
       </DerivedContentBoundary>
     </div>
   );

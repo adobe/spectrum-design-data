@@ -18,6 +18,7 @@ import { colorOutputSettingsAtom } from "./features/color-system/state";
 import { useComparisonWork } from "./features/changelog/useComparisonWork";
 import { PreviewSurfaceProvider } from "./components/PreviewSurfaceProvider";
 import { providerTextStyles, useBodyTextStyles } from "./utils/spectrumChrome";
+import { NumericDraftProvider } from "./features/edit-session/NumericDraftProvider";
 
 function ApplicationWork() {
   const storageIssues = useAtomValue(persistenceIssuesAtom);
@@ -77,12 +78,14 @@ function App() {
     >
       <PreviewSurfaceProvider colorScheme={colorScheme}>
         <NotificationProvider>
-          <ColorPickerDefaultsProvider gamut={colorOutput.authoringGamut}>
-            <BrowsingContext />
-          </ColorPickerDefaultsProvider>
-          {import.meta.env.DEV && <Blueline />}
-          {import.meta.env.DEV && <DevToolbar />}
-          <ApplicationWork />
+          <NumericDraftProvider>
+            <ColorPickerDefaultsProvider gamut={colorOutput.authoringGamut}>
+              <BrowsingContext />
+            </ColorPickerDefaultsProvider>
+            {import.meta.env.DEV && <Blueline />}
+            {import.meta.env.DEV && <DevToolbar />}
+            <ApplicationWork />
+          </NumericDraftProvider>
         </NotificationProvider>
       </PreviewSurfaceProvider>
     </Provider>

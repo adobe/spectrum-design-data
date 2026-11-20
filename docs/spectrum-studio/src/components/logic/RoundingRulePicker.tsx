@@ -6,6 +6,7 @@ import type { ComponentProps } from "react";
 import { EditablePicker } from "../editable";
 import { rulesAtom } from "../../features/logic/library";
 import { activePageAtom } from "../../state/view/navigation";
+import { rulesTabAtom } from "../../state/view/logicView";
 import { Picker } from "../fields/Picker";
 import { useIsReadOnly } from "../editable";
 import {
@@ -41,6 +42,7 @@ export function RoundingRulePicker({
     (rule) => rule.type === "rounding" && (rule.id === ruleId || applies(rule)),
   );
   const setActivePage = useSetAtom(activePageAtom);
+  const setRulesTab = useSetAtom(rulesTabAtom);
   const selectedRule = rules.find((rule) => rule.id === ruleId) ?? rules[0];
   const isReadOnly = useIsReadOnly();
   const pickerProps = {
@@ -77,8 +79,11 @@ export function RoundingRulePicker({
       )}
       <ActionButton
         isQuiet
-        aria-label={`Edit ${label} in Logic`}
-        onPress={() => setActivePage("logic")}
+        aria-label={`Edit ${label} in Rules`}
+        onPress={() => {
+          setRulesTab("rounding");
+          setActivePage("rules");
+        }}
       >
         <Edit />
       </ActionButton>

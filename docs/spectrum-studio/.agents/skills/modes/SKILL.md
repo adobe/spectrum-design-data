@@ -93,7 +93,7 @@ come from `src/data/category-icons.json`; do not duplicate them in a menu.
 
 ## Shipped mode sets
 
-From `src/data/design-system.defaults.json`:
+From `data/studio/modes/mode-sets.json`:
 
 - **Color scheme** (`colorScheme`): light (default), dark (background lightness,
   layer opacities).
@@ -154,7 +154,7 @@ From `src/data/design-system.defaults.json`:
   caps that throw (see Known debt).
 - **Listing combinations: use `modes/combinations.ts`. Never write the loop
   inline.** `modeCombinations(axes)` returns lists of modes, `modeSelections(axes,
-  seed?)` returns `{ modeSetId: modeId }` records, and `modeCombinationCount(axes)`
+seed?)` returns `{ modeSetId: modeId }` records, and `modeCombinationCount(axes)`
   returns the count. `selectionForModes` builds the id selection that token edit
   keys use, `contextForModes` builds the `{ setKey: modeKey }` context that
   generation uses, and `modesForSelection` goes back from a selection to modes.

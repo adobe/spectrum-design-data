@@ -18,6 +18,8 @@ import { useNotify } from "../../components/notifications/notificationContext";
 import { editModeAtom } from "../../state/view/editMode";
 import { activePageAtom } from "../../state/view/navigation";
 import { designSectionAtom } from "../../state/view/design";
+import { rulesTabAtom } from "../../state/view/logicView";
+import { rulePresentation } from "../../features/logic/rulePresentation";
 import {
   subPanelTabSelectionAtom,
   SECTIONS_SUBPANEL_TABS_STATE_KEY,
@@ -51,6 +53,8 @@ import {
 } from "../../features/taxonomy/registryReferences";
 import { TaxonomyEditor } from "../../panels/registry/TaxonomyEditor";
 import { TaxonomyTermDialog } from "../../panels/registry/TaxonomyTermDialog";
+import { RegistryFilters } from "../../panels/registry/RegistryFilters";
+import { registryFiltersAtom } from "../../state/view/registryFilters";
 import { RegistryError } from "../../panels/registry/RegistryFields";
 import {
   registryField,
@@ -65,9 +69,11 @@ export function TaxonomyView() {
   const document = useAtomValue(taxonomyDocumentAtom);
   const source = useAtomValue(referencedTaxonomySourceAtom);
   const editable = useAtomValue(editModeAtom);
+  const filters = useAtomValue(registryFiltersAtom);
   const edit = useSetAtom(editReferencedTaxonomyAtom);
   const setPage = useSetAtom(activePageAtom);
   const setDesignSection = useSetAtom(designSectionAtom);
+  const setRulesTab = useSetAtom(rulesTabAtom);
   const setFoundation = useSetAtom(subPanelTabSelectionAtom);
   const store = useStore();
   const notify = useNotify();
@@ -106,6 +112,8 @@ export function TaxonomyView() {
         [SECTIONS_SUBPANEL_TABS_STATE_KEY]: foundation,
       }));
     if (reference.designSection) setDesignSection(reference.designSection);
+    if (reference.ruleType)
+      setRulesTab(rulePresentation(reference.ruleType).type);
     setPage(reference.href.slice(1));
   }
   function remove(base: TaxonomyDocument, categoryId: string, termId?: string) {
@@ -228,101 +236,105 @@ export function TaxonomyView() {
       )}
       <RegistryError message={error || information.error} />
       <div className={`registryBoardSurface ${registryPasteboard}`}>
-        {editable && (
-          <DialogTrigger
-            onOpenChange={(open) => {
-              if (open) {
-                setName("");
-                setError("");
-              }
-            }}
-          >
-            <ActionButton>
-              <Add />
-              <Text>Add category</Text>
-            </ActionButton>
-            <Dialog size="S">
-              {({ close }) => (
-                <>
-                  <Heading slot="title">Create category</Heading>
-                  <Content>
-                    <div className={registrySection}>
-                      <TextField
-                        label="New category name"
-                        value={name}
-                        onChange={setName}
-                        isRequired
-                        styles={registryField}
-                      />
-                      <RegistryError message={error} />
-                    </div>
-                  </Content>
-                  <ButtonGroup>
-                    <Button variant="secondary" onPress={close}>
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="accent"
-                      isDisabled={!name.trim()}
-                      onPress={() => {
-                        try {
-                          const id = crypto.randomUUID();
-                          const created = notify.added(
-                            "taxonomyCategory",
-                            () => {
-                              commit(
-                                {
-                                  ...document,
-                                  categories: [
-                                    ...document.categories,
-                                    {
-                                      id,
-                                      key: taxonomyEmissionKey(id),
-                                      name: name.trim(),
-                                      description: "",
-                                      valueType: "string",
-                                      cardinality: "one",
-                                      scopes: [
-                                        "colors",
-                                        "typography",
-                                        "spacing",
-                                        "size",
-                                        "radius",
-                                        "elevation",
-                                      ],
-                                      required: false,
-                                      includeInProjections: true,
-                                    },
-                                  ],
-                                  order: [...document.order, id],
-                                },
-                                document,
-                              );
-                              return true;
-                            },
-                          );
-                          if (!created) return;
-                          setError("");
-                          close();
-                        } catch (failure) {
-                          setError(
-                            failure instanceof Error
-                              ? failure.message
-                              : String(failure),
-                          );
-                        }
-                      }}
-                    >
-                      Create category
-                    </Button>
-                  </ButtonGroup>
-                </>
-              )}
-            </Dialog>
-          </DialogTrigger>
-        )}
+        <div className="registryBoardToolbar">
+          {editable && (
+            <DialogTrigger
+              onOpenChange={(open) => {
+                if (open) {
+                  setName("");
+                  setError("");
+                }
+              }}
+            >
+              <ActionButton>
+                <Add />
+                <Text>Add category</Text>
+              </ActionButton>
+              <Dialog size="S">
+                {({ close }) => (
+                  <>
+                    <Heading slot="title">Create category</Heading>
+                    <Content>
+                      <div className={registrySection}>
+                        <TextField
+                          label="New category name"
+                          value={name}
+                          onChange={setName}
+                          isRequired
+                          styles={registryField}
+                        />
+                        <RegistryError message={error} />
+                      </div>
+                    </Content>
+                    <ButtonGroup>
+                      <Button variant="secondary" onPress={close}>
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="accent"
+                        isDisabled={!name.trim()}
+                        onPress={() => {
+                          try {
+                            const id = crypto.randomUUID();
+                            const created = notify.added(
+                              "taxonomyCategory",
+                              () => {
+                                commit(
+                                  {
+                                    ...document,
+                                    categories: [
+                                      ...document.categories,
+                                      {
+                                        id,
+                                        key: taxonomyEmissionKey(id),
+                                        name: name.trim(),
+                                        description: "",
+                                        valueType: "string",
+                                        cardinality: "one",
+                                        scopes: [
+                                          "colors",
+                                          "typography",
+                                          "spacing",
+                                          "size",
+                                          "radius",
+                                          "elevation",
+                                        ],
+                                        required: false,
+                                        includeInProjections: true,
+                                      },
+                                    ],
+                                    order: [...document.order, id],
+                                  },
+                                  document,
+                                );
+                                return true;
+                              },
+                            );
+                            if (!created) return;
+                            setError("");
+                            close();
+                          } catch (failure) {
+                            setError(
+                              failure instanceof Error
+                                ? failure.message
+                                : String(failure),
+                            );
+                          }
+                        }}
+                      >
+                        Create category
+                      </Button>
+                    </ButtonGroup>
+                  </>
+                )}
+              </Dialog>
+            </DialogTrigger>
+          )}
+          <RegistryFilters />
+        </div>
         <RegistryBoard
           document={document}
+          filters={filters}
           source={source}
           editable={editable}
           onCommit={commit}

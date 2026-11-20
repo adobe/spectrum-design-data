@@ -1,0 +1,113 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/takeover-dialog.json",
+  "specVersion": "1.0.0-draft",
+  "name": "takeover-dialog",
+  "displayName": "Takeover dialog",
+  "description": "Takeover dialogs are larger, flexible dialogs that contain other components to support complex workflows.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Takeover dialogs are larger, flexible dialogs that contain other components to support complex workflows."
+    },
+    {
+      "type": "guideline",
+      "content": "Title text overflow.\n\nWhen the title is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Header content overflow.\n\nTakeover dialogs can optionally include additional elements in the header custom content area. When horizontal space is limited, the header custom content will be displayed underneath the title."
+    },
+    {
+      "type": "guideline",
+      "content": "Use similar language for dialog titles and actions.\n\nMost dialog titles should communicate the primary action of the dialog. When possible, the button label should use the same language as the action mentioned in the title. For example, if the title is \"Delete conversation,\" the primary action button label should be \"Delete."
+    }
+  ],
+  "options": {
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "variant": {
+      "type": "string",
+      "default": "dialog",
+      "values": [{ "value": "dialog" }, { "value": "full screen" }]
+    },
+    "primaryActionLabel": { "type": "string" },
+    "secondaryActionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "cancelActionLabel": {
+      "type": "string",
+      "default": "cancel",
+      "description": "If undefined, this button does not appear."
+    },
+    "slots": {
+      "type": "array",
+      "description": "Areas where other components can be inserted (e.g. Side navigation, Steplist, Forms).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Identifier for the slot (e.g. 'sidebar', 'content', 'footer')."
+          },
+          "component": {
+            "type": "string",
+            "description": "The type of component placed in this slot (e.g. side-navigation, steplist, form)."
+          }
+        },
+        "required": ["name", "component"]
+      }
+    }
+  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "role": "dialog",
+    "intents": ["dismiss"],
+    "focusable": false,
+    "keyboardIntents": ["dismiss"],
+    "wcag": [
+      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Large dialog surface.",
+      "required": true,
+      "contains": [
+        "title",
+        "header-content",
+        "primary-action",
+        "secondary-action"
+      ]
+    },
+    {
+      "name": "title",
+      "description": "Dialog title.",
+      "required": true
+    },
+    {
+      "name": "header-content",
+      "description": "Optional custom content in the header."
+    },
+    {
+      "name": "primary-action",
+      "description": "Main action button in the header."
+    },
+    {
+      "name": "secondary-action",
+      "description": "Secondary action button in the header."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web takeover dialog. Body slot left out (no own styling); unsure whether overlay and cancel action apply to the Dialog variant."
+  }
+}

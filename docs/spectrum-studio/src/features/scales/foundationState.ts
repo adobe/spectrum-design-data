@@ -31,6 +31,10 @@ import { projectClassification } from "../taxonomy/model";
 import { structuresDocumentAtom } from "../structures/documentState";
 import { assertStructureReferences } from "../structures/model";
 import { dimensionReferenceIds } from "../tokens/primitiveIdentity";
+import {
+  deferPersistedNumeric,
+  numericProposalCaptureActive,
+} from "../edit-session/numericProposal";
 
 export type DimensionScalePatch = Partial<
   Pick<
@@ -142,6 +146,11 @@ export function createDimensionFoundationState<Version extends number>(
     ) => {
       const next =
         typeof update === "function" ? update(get(namedDocumentAtom)) : update;
+      if (numericProposalCaptureActive()) {
+        if (!isDimensionDocument(next, schemaVersion))
+          throw new Error(`${key}: invalid data cannot be applied.`);
+        if (deferPersistedNumeric(key, get(namedDocumentAtom), next)) return;
+      }
       if (get(taxonomyContributionsEnabledAtom))
         assertStructureReferences(
           get(structuresDocumentAtom),

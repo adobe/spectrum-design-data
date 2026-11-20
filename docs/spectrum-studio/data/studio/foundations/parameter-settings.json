@@ -1,0 +1,38 @@
+{
+  "color.backgroundLightness": {
+    "modal": true,
+    "adaptive": true
+  },
+  "color.backgroundScaleId": {
+    "modal": true,
+    "adaptive": false
+  },
+  "color.contrastMultiplier": {
+    "modal": true,
+    "adaptive": true
+  },
+  "color.scaleAdjustment": {
+    "modal": true,
+    "adaptive": false
+  },
+  "typography.textZoom": {
+    "modal": true,
+    "adaptive": true
+  },
+  "typography.textSize": {
+    "modal": true,
+    "adaptive": false
+  },
+  "size.componentSize": {
+    "modal": true,
+    "adaptive": false
+  },
+  "elevation.depth": {
+    "modal": true,
+    "adaptive": false
+  },
+  "elevation.color": {
+    "modal": true,
+    "adaptive": false
+  }
+}

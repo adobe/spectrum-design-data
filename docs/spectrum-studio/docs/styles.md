@@ -2,11 +2,17 @@
 
 # Styles
 
-Design > Styles authors reusable appearance recipes in four groups: Text,
-Icon, Background and Border. Fresh designs include six Text Styles and two
-Icon Styles; Background and Border start empty. A recipe generates
+Objects > Styles authors reusable appearance recipes in five groups: Text,
+Icon, Background, Border and Shadow. (The page's internal ID is still
+`design`.) Fresh designs include six Text Styles, two Icon Styles and three
+Shadow Styles; Background and Border start empty. A recipe generates
 separate semantic property tokens; it does not generate a composite value.
-Structures still own font size and icon size.
+Structures still own font size, icon size and corner rounding.
+
+Spectrum's "object styles" (rounding, border width and drop shadow) are kept
+as separate attributes rather than combined recipes. Rounding scales with
+component size, so Structures own it. Border width stays with Border Styles.
+Components combine Styles and Structures; Styles never reference each other.
 
 ## Default Text Styles
 
@@ -70,6 +76,25 @@ in Light and Wireframe, and one lower in Dark. This is a starting convention,
 not a claim of reviewed design-data parity. The existing background rule is
 unchanged. All default recipes, rules and publication IDs apply only to fresh
 designs and confirmed Reset all; saved designs are not reseeded.
+
+## Default Shadow Styles
+
+A Shadow Style references one Elevation level (an Elevation scale ID and a
+step), not copied shadow values. Editing the Elevation scale updates every
+Shadow Style that uses it. Shadow Styles have no color field.
+
+| Style      | Elevation level | Generated names                             |
+| ---------- | --------------- | ------------------------------------------- |
+| Emphasized | 100             | `emphasized-shadow`, `emphasized-shadow-hover` |
+| Elevated   | 200             | `elevated-shadow`                           |
+| Dragged    | 300             | `dragged-shadow`                            |
+
+Emphasized uses the shared **Shadow interaction** rule, which adds a hover
+output one Elevation level higher. Elevated and Dragged have no interaction
+outputs. `elevated` and `dragged` are new Visibility terms. design-data names
+these `drop-shadow-emphasized`, `drop-shadow-elevated` and so on; the order and
+prefix difference is a diagnostic, not a failure. Adding a Shadow Style
+requires a published Elevation scale.
 
 ## Authored data and output
 

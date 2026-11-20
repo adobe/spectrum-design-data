@@ -1,0 +1,140 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tag-field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "tag-field",
+  "displayName": "Tag field",
+  "description": "A tag field is an input field that allows users to enter and manage tags.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/tag-field/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A tag field is an input field that allows users to enter and manage tags."
+    },
+    {
+      "type": "guideline",
+      "content": "Tag field is an input component for adding and editing multiple tags. It includes standard field label and error options, and is used to capture grouped keywords or descriptors. Tags can be added directly in the field and displayed inline for editing or removal."
+    },
+    {
+      "type": "guideline",
+      "content": "The label of the tag field can be hidden if the context for the tags is sufficient without the title — for example, when the page title or section title applies to the group of tags."
+    },
+    {
+      "type": "guideline",
+      "content": "A tag field in a disabled state indicates that it exists but is not available in that context. This state helps maintain layout continuity and signals that tagging may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "Tag groups within a tag field can include a keyword, icon, thumbnail or avatar. Icons, thumbnails and avatars should also include a keyword."
+    },
+    {
+      "type": "guideline",
+      "content": "Tag fields come in three different sizes: small, medium, and large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "A flyout/menu appears when the user starts typing to suggest tags that are supported or have already been entered previously."
+    },
+    {
+      "type": "guideline",
+      "content": "Sometimes tag field can be additive, meaning new tags may be added from this particular tag field. They can also be restricted to only allowing tags that already exist in the system"
+    },
+    {
+      "type": "guideline",
+      "content": "When there are more tags than fit in the horizontal space, tags wrap to another line."
+    },
+    {
+      "type": "guideline",
+      "content": "If the order of tags within the group matters, the user must be able to click or use keyboard focus between tags to add more."
+    },
+    {
+      "type": "guideline",
+      "content": "If there is space in an experience for the field to grow with the tags, such as at the bottom of a page or dialog, you can use the multi-line option."
+    },
+    {
+      "type": "guideline",
+      "content": "If the tag field is located at the top of a header or otherwise constrained space, it is better to use a non-multi-line tag field."
+    },
+    {
+      "type": "guideline",
+      "content": "The default option should be a standard text field with tags displayed below it. You may use a tag field if space is limited, especially when using a single-line tag field. This allows all fields to stay contained within a defined area."
+    }
+  ],
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
+    },
+    "style": {
+      "type": "string",
+      "default": "keyword",
+      "values": [
+        { "value": "keyword" },
+        { "value": "icon" },
+        { "value": "thumbnail" },
+        { "value": "avatar" }
+      ]
+    },
+    "isDisabled": { "type": "boolean", "default": false },
+    "hideLabel": { "type": "boolean", "default": false }
+  },
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Label above the field."
+    },
+    {
+      "name": "field",
+      "description": "Bordered input area that holds the tags and the text area.",
+      "required": true,
+      "contains": ["tag", "text-area", "error-icon"]
+    },
+    {
+      "name": "tag",
+      "description": "One removable tag; repeated."
+    },
+    {
+      "name": "text-area",
+      "description": "Text input after the tags."
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon shown for the invalid state."
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message under the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tag field page (Field label, Field with tags, help text). text-area and error-icon taken from relationships and React Spectrum, not the default Figma tree; relationship 'Alert icon' mapped to error-icon."
+  },
+  "states": [
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "focus-+-hover", "trigger": "prop" },
+    { "name": "focus-+-not-hover", "trigger": "prop" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "default" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "intents": ["input", "select"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

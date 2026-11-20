@@ -102,7 +102,7 @@ async function navigate(page: Page, name: string) {
 const card = (page: Page) =>
   page.locator('[data-component="StructureCard"]').first();
 async function design(page: Page) {
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   const structureRow = page
     .getByRole("grid", { name: "Structures", exact: true })
     .getByRole("row", { name: "Base", exact: true });
@@ -261,13 +261,13 @@ test("New Base defaults preserve an existing saved design without Structures or 
     (rule) => rule.type !== "tshirt-sizing" && rule.type !== "generator",
   );
   await seed(page, existing);
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   await expect(page.locator('[data-component="StructureCard"]')).toHaveCount(0);
   await expect.poll(async () => (await cached(page))?.semantics.length).toBe(0);
   expect((await record(page)).working).toEqual(existing);
   expect((await record(page)).saved).toEqual(existing);
   await page.reload();
-  await navigate(page, "Design");
+  await navigate(page, "Objects");
   await expect(page.locator('[data-component="StructureCard"]')).toHaveCount(0);
   expect((await record(page)).working).toEqual(existing);
   expect((await record(page)).saved).toEqual(existing);
@@ -294,7 +294,7 @@ test("Create a reusable rule, stage an application and enable shared size permut
     .getByRole("button", { name: "Add generation rule", exact: true })
     .click();
   await expect(page.getByRole("dialog")).toContainText(
-    "Create a Generator rule in Logic first.",
+    "Create a Generator rule in Rules first.",
   );
   await expect(
     page.getByRole("dialog").getByRole("button", { name: "Apply" }),
@@ -303,14 +303,13 @@ test("Create a reusable rule, stage an application and enable shared size permut
     .getByRole("dialog")
     .getByRole("button", { name: "Cancel" })
     .click();
-  await navigate(page, "Logic");
+  await navigate(page, "Rules");
+  await page.getByRole("tab", { name: "Generators", exact: true }).click();
   await page.getByRole("button", { name: "Add rule", exact: true }).click();
   let dialog = page.getByRole("dialog");
   await dialog
     .getByRole("textbox", { name: "Name", exact: true })
     .fill("Adjacent sizes");
-  await dialog.getByRole("button", { name: /Type$/ }).click();
-  await page.getByRole("option", { name: "Generator", exact: true }).click();
   await expect(
     dialog.getByRole("textbox", { name: /^Medium token offset(?: |$)/ }),
   ).toHaveAttribute("readonly");
@@ -506,7 +505,8 @@ test("Saved semantics share inspection, pinned export, cache and source-directed
           .uuid,
     )
     .toBe(medium.token.uuid);
-  await navigate(page, "Logic");
+  await navigate(page, "Rules");
+  await page.getByRole("tab", { name: "Generators", exact: true }).click();
   await page
     .getByRole("button", { name: "Edit rule Adjacent sizes", exact: true })
     .click();

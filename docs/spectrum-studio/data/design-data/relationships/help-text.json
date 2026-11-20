@@ -1,0 +1,402 @@
+[
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon size",
+    "contextRole": ["size"],
+    "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
+    "uuid": "642f551b-1870-53d9-a919-875786525cce"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon size",
+    "contextRole": ["size"],
+    "$ref": "a659c66d-1e77-4818-95ea-501e65162841",
+    "uuid": "990dcbd9-d208-5c23-8d83-41c7d9806379"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon size",
+    "contextRole": ["size"],
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
+    "uuid": "d44a078c-e4a9-576d-8ae1-8abffb975fdf"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon size",
+    "contextRole": ["size"],
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
+    "uuid": "7981ae23-a0af-5683-ba04-4ca4ff189bb4"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon size",
+    "contextRole": ["size"],
+    "$ref": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
+    "uuid": "9bfb3695-bfde-55d9-8696-95b82d5fe617"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon size",
+    "contextRole": ["size"],
+    "$ref": "94f62adc-c5fb-48f8-ba05-7c639b936643",
+    "uuid": "2b91b85e-e830-56ec-b12b-3465a5e99ee5"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "workflow-icon-size-300"
+    },
+    "context": "Icon size",
+    "contextRole": ["size"],
+    "$ref": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
+    "uuid": "3a895e1d-0308-58b2-9398-7bdc4c887e8c"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "workflow-icon-size-300"
+    },
+    "context": "Icon size",
+    "contextRole": ["size"],
+    "$ref": "65f791f8-a88f-4765-a57e-3e023a436642",
+    "uuid": "f14b8a3a-b235-5bc0-8ebf-60a4c5e265e3"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "space-between"
+    },
+    "context": "Spacing (alert icon to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "alert icon to text",
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "7ec693da-ad15-5d07-b0a6-eada771df2c0"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "space-between"
+    },
+    "context": "Spacing (alert icon to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "alert icon to text",
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "6696223b-c3f4-52d8-99b9-22298bb0ede2"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "space-between"
+    },
+    "context": "Spacing (alert icon to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "alert icon to text",
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "6aaedbce-11ff-5c5d-a780-bd05f68742eb"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "space-between"
+    },
+    "context": "Spacing (alert icon to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "alert icon to text",
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "d023c121-d2ba-5cef-816e-6b36dda93cd4"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "content-color",
+      "options": {
+        "variant": "neutral"
+      }
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
+    "uuid": "77f45388-8db4-5e06-88ed-7b2e0a64c553"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
+    },
+    "context": "Text and alert icon",
+    "contextRole": ["label", "icon"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "8d2c38c3-1443-5d44-be50-38485e76d106"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "content-color",
+      "options": {
+        "variant": "negative"
+      }
+    },
+    "context": "Text and alert icon (warning)",
+    "contextRole": ["label", "icon"],
+    "contextQualifier": "warning",
+    "$ref": "2a1b0c71-c3a4-4f4c-a625-346e026853e5",
+    "uuid": "98dac8dd-bbd0-5731-9adc-c22e01b9d4e7"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-family"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
+    "uuid": "428b2094-9852-5a49-95ed-e2595559519e"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-weight"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "1ce23a28-d73b-5a90-9b3e-32e3a7d7f6d6"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "30ce58a4-5ca8-5aab-87ad-dcb7ec1d5ebc"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-size-75"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a",
+    "uuid": "c6f3be98-dcb4-5fcc-b73d-d265be5356b6"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-size-75"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c",
+    "uuid": "4bf42ac8-fcbf-5d51-b8fc-2d6291b6357e"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-size-100"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
+    "uuid": "411a3e10-5578-58c0-8f31-c6b2b3c0246b"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-size-100"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
+    "uuid": "fd6a566e-e718-5e40-bc61-baa1f86a1567"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-size-200"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91",
+    "uuid": "f17f5d96-d19f-56bb-a7e2-10d5f235f6b4"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-size-200"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991",
+    "uuid": "807dfa3f-329a-5468-b32b-5fed4933119d"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-size-300"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175",
+    "uuid": "1749ae75-0607-5c3d-8124-5758e8cc3563"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "font-size-300"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7",
+    "uuid": "9e1f279b-bb2b-5a66-be6c-eee0de2af5ef"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "line-height-100"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
+    "uuid": "70c13601-b63f-5e18-958d-9ad571d65c27"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "line-height-100"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
+    "uuid": "b1d58700-ca42-5cee-a59c-07ee9d34e9fd"
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "to-component"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
+    "legacyKey": "help-text-to-component",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+    }
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "workflow-icon",
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd",
+    "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
+    "legacyKey": "help-text-top-to-workflow-icon-extra-large",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0",
+      "deprecatedComment": "Replaced with component-top-to-workflow-icon-300",
+      "replacedBy": [
+        "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd",
+        "bac14298-68f0-4fb6-a152-c95ab19fd27f"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "workflow-icon",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ef82b92a-2cbd-4b70-920c-4b999b018e07",
+    "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
+    "legacyKey": "help-text-top-to-workflow-icon-large",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0",
+      "deprecatedComment": "Replaced with component-top-to-workflow-icon-200",
+      "replacedBy": [
+        "ef82b92a-2cbd-4b70-920c-4b999b018e07",
+        "259c0cf5-d321-4a6b-a3ae-b8c58fc1c9d6"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "workflow-icon",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86",
+    "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
+    "legacyKey": "help-text-top-to-workflow-icon-medium",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0",
+      "deprecatedComment": "Replaced with component-top-to-workflow-icon-100",
+      "replacedBy": [
+        "c3a280b0-bc84-4a7c-8048-c689f8deef86",
+        "a3d3f9e9-a784-445a-a052-22f84b832512"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "help-text",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "workflow-icon",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "2bc8b2ca-9792-4034-a604-43ce28ce8ede",
+    "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
+    "legacyKey": "help-text-top-to-workflow-icon-small",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0",
+      "deprecatedComment": "Replaced with component-top-to-workflow-icon-75",
+      "replacedBy": [
+        "2bc8b2ca-9792-4034-a604-43ce28ce8ede",
+        "9d1b0ef4-5433-43fe-aa33-0274ff29f6f3"
+      ]
+    }
+  }
+]

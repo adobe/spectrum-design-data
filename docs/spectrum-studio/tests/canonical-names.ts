@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readStudioDataset } from "../scripts/studioDataFiles";
 import { createStore } from "jotai";
 import { designSystemDefaults } from "../src/data/defaults";
 import { composeDesignSystemDefaults } from "../src/features/design-data/validation";
@@ -44,12 +44,7 @@ import {
 import { buildTypographyCss } from "../src/features/typography/typographyCss";
 import { surfaceLinear } from "../src/features/color-system/surfaceGeneration";
 
-const canonical: CanonicalDesignSystemDataset = JSON.parse(
-  readFileSync(
-    new URL("../src/data/design-system.defaults.json", import.meta.url),
-    "utf8",
-  ),
-);
+const canonical = readStudioDataset() as CanonicalDesignSystemDataset;
 const taxonomy = canonical.system.taxonomy;
 for (const [index, term] of taxonomy.terms.entries())
   for (const other of taxonomy.terms.slice(index + 1))

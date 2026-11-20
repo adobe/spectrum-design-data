@@ -2,9 +2,8 @@
 import { termLabel } from "../../../features/taxonomy/termPresentation";
 import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useMemo, type ReactNode } from "react";
+import { memo, useMemo, type ReactNode } from "react";
 import { useAtomValue } from "jotai";
-import { dataVisInputDocumentAtom } from "../../../features/color-system/data-vis/state";
 import { dataVisBackground } from "../../../features/color-system/data-vis/resolution";
 import { DataVisExamples } from "./DataVisExamples";
 import { DataVisScaleHeader } from "./DataVisScaleHeader";
@@ -12,6 +11,8 @@ import { useDataVisDisplay, type DataVisDisplay } from "./useDataVisDisplay";
 import { useCategoricalChecks } from "./useCategoricalChecks";
 import { elementsSurfaceStyleAtom } from "../../../state/view/elementsSurface";
 import { elementsSurfaceStyles } from "../../elementsSurfaceStyles";
+import { DerivedContentBoundary } from "../../../components/DerivedContentBoundary";
+import { restoreContinuousPreview } from "../../../features/color-system/data-vis/preview";
 
 const layout = style({
   padding: 24,
@@ -26,8 +27,9 @@ const layout = style({
 const error = style({ color: "negative" });
 
 export function DataVisElements() {
-  const displays = useDataVisDisplay();
-  const document = useAtomValue(dataVisInputDocumentAtom);
+  const preview = useDataVisDisplay();
+  const displays = preview.ready?.displays ?? [];
+  const document = preview.ready?.document;
   const checks = useCategoricalChecks();
   const surface = useAtomValue(elementsSurfaceStyleAtom);
   return (
@@ -38,113 +40,141 @@ export function DataVisElements() {
       data-component="DataVisElements"
     >
       <h1>Data vis scales</h1>
-      {!displays.length && (
-        <Text>
-          Add a sequential, diverging or categorical scale in the Data vis
-          panel.
-        </Text>
-      )}
-      {displays.map((display) => {
-        const check =
-          checks.status === "ready"
-            ? checks.reports[display.definition.id]
-            : undefined;
-        return (
-          <ScalePreview
-            key={display.definition.id}
-            display={display}
-            background={dataVisBackground(document)}
-            colorScheme={surface.color === "#000000" ? "light" : "dark"}
-          >
-            {display.definition.kind === "categorical" &&
-              (checks.status === "loading" ? (
-                <Text>Checking saved selection targets</Text>
-              ) : checks.status === "error" ? (
-                <p role="alert" className={error}>
-                  {checks.error}
-                </p>
-              ) : check?.status === "error" ? (
-                <p role="alert" className={error}>
-                  {check.error}
-                </p>
-              ) : check?.status === "ready" && check.report.failureCount > 0 ? (
-                <p role="status" className={error}>
-                  {check.report.failureCount} saved selection targets are unmet
-                  in this mode. Review the colors in Analyze; the saved links
-                  and order have not changed.
-                </p>
-              ) : null)}
-          </ScalePreview>
-        );
-      })}
+      <DerivedContentBoundary
+        state={preview.status}
+        label="Updating data vis examples"
+        error={preview.error}
+        onRetry={preview.retry}
+      >
+        {document && !displays.length && (
+          <Text>
+            Add a sequential, diverging or categorical scale in the Data vis
+            panel.
+          </Text>
+        )}
+        {document &&
+          displays.map((display) => {
+            const check =
+              checks.status === "ready"
+                ? checks.reports[display.definition.id]
+                : undefined;
+            return (
+              <ScalePreview
+                key={display.definition.id}
+                display={display}
+                background={dataVisBackground(document)}
+                colorScheme={surface.color === "#000000" ? "light" : "dark"}
+              >
+                {display.definition.kind === "categorical" &&
+                  (checks.status === "loading" ? (
+                    <Text>Checking saved selection targets</Text>
+                  ) : checks.status === "error" ? (
+                    <p role="alert" className={error}>
+                      {checks.error}
+                    </p>
+                  ) : check?.status === "error" ? (
+                    <p role="alert" className={error}>
+                      {check.error}
+                    </p>
+                  ) : check?.status === "ready" &&
+                    check.report.failureCount > 0 ? (
+                    <p role="status" className={error}>
+                      {check.report.failureCount} saved selection targets are
+                      unmet in this mode. Review the colors in Analyze; the
+                      saved links and order have not changed.
+                    </p>
+                  ) : null)}
+              </ScalePreview>
+            );
+          })}
+      </DerivedContentBoundary>
     </div>
   );
 }
 
-function ScalePreview({
-  display,
-  background,
-  colorScheme,
-  children,
-}: {
-  display: DataVisDisplay;
-  background: string;
-  colorScheme: "light" | "dark";
-  children: ReactNode;
-}) {
-  const colors = useMemo(
-    () =>
-      display.status === "ready"
-        ? display.observations.map((observation) => observation.value)
-        : [],
-    [display],
-  );
-  const name = termLabel(display.definition.name);
-  const kind = display.definition.kind;
-  return (
-    <section className="dataVisScale">
-      <DataVisScaleHeader
-        name={name}
-        kind={kind}
-        colors={colors}
-        background={background}
-        positions={
-          display.status === "ready" && display.continuous
-            ? display.observations.map((observation) => observation.position)
-            : undefined
-        }
-      />
-      {children}
-      {display.status === "error" ? (
-        <p role="alert" className={error}>
-          {display.error}
-        </p>
-      ) : (
-        <>
-          {kind === "categorical" ? (
-            <DataVisExamples
-              name={name}
-              kind={kind}
-              colors={colors}
-              background={background}
-              colorScheme={colorScheme}
-            />
-          ) : (
-            display.continuous && (
+const ScalePreview = memo(
+  function ScalePreview({
+    display,
+    background,
+    colorScheme,
+    children,
+  }: {
+    display: DataVisDisplay;
+    background: string;
+    colorScheme: "light" | "dark";
+    children: ReactNode;
+  }) {
+    const colors = useMemo(
+      () =>
+        display.status === "ready"
+          ? display.observations.map((observation) => observation.value)
+          : [],
+      [display],
+    );
+    const name = termLabel(display.definition.name);
+    const kind = display.definition.kind;
+    const quantitative = useMemo(
+      () =>
+        display.status === "ready" && display.continuous
+          ? display.examples
+            ? { records: display.examples }
+            : {
+                evaluate: restoreContinuousPreview(display.continuous).evaluate,
+              }
+          : undefined,
+      [display],
+    );
+    return (
+      <section className="dataVisScale">
+        <DataVisScaleHeader
+          name={name}
+          kind={kind}
+          colors={colors}
+          background={background}
+          positions={
+            display.status === "ready" && display.continuous
+              ? display.observations.map((observation) => observation.position)
+              : undefined
+          }
+        />
+        {children}
+        {display.status === "error" ? (
+          <p role="alert" className={error}>
+            {display.error}
+          </p>
+        ) : (
+          <>
+            {kind === "categorical" ? (
               <DataVisExamples
                 name={name}
                 kind={kind}
-                evaluate={display.continuous.evaluate}
+                colors={colors}
                 background={background}
                 colorScheme={colorScheme}
               />
-            )
-          )}
-          {display.continuous?.diagnostics.map((message) => (
-            <Text key={message}>{message}</Text>
-          ))}
-        </>
-      )}
-    </section>
-  );
-}
+            ) : (
+              quantitative && (
+                <DataVisExamples
+                  name={name}
+                  kind={kind}
+                  {...quantitative}
+                  background={background}
+                  colorScheme={colorScheme}
+                />
+              )
+            )}
+            {display.continuous?.diagnostics.map((message) => (
+              <Text key={message}>{message}</Text>
+            ))}
+          </>
+        )}
+      </section>
+    );
+  },
+  (previous, next) =>
+    previous.background === next.background &&
+    previous.colorScheme === next.colorScheme &&
+    previous.children === next.children &&
+    (previous.display === next.display ||
+      JSON.stringify(previous.display) === JSON.stringify(next.display)),
+);

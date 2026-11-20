@@ -1457,7 +1457,7 @@ try {
   );
   await assert.rejects(
     protectReportOutputs(
-      [join(appRoot, "src/data/design-system.defaults.json"), markdown],
+      [join(appRoot, "data/studio/studio.json"), markdown],
       root,
     ),
     /cannot overwrite/,

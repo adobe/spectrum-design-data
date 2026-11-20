@@ -1,6 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
 import { atom } from "jotai";
-import { captureSnapshot, assertStoredSnapshot } from "../edit-session/state";
+import {
+  captureSnapshot,
+  assertStoredSnapshot,
+  authoringSourceSnapshotAtom,
+} from "../edit-session/state";
+import { deferNumericLayoutEdit } from "../edit-session/numericProposal";
 import { componentColorWitnessAtom } from "../components/colorWitness";
 import { canonicalJson } from "../design-data/canonicalJson";
 import { buildTshirtArtifacts } from "../design-data/tshirtArtifacts";
@@ -23,7 +28,24 @@ import {
 } from "./layoutScales";
 import type { StructureRuleApplication } from "./model";
 
-export const pendingLayoutScaleAtom = atom<LayoutScaleProposal | null>(null);
+export interface NumericLayoutContinuation {
+  isCurrent: () => boolean;
+  answer: (proposal: LayoutScaleProposal) => void;
+  cancel: () => void;
+}
+type PendingLayoutScale = LayoutScaleProposal & {
+  numeric?: NumericLayoutContinuation;
+};
+const pendingLayoutScaleStateAtom = atom<PendingLayoutScale | null>(null);
+export const pendingLayoutScaleAtom = atom(
+  (get) => get(pendingLayoutScaleStateAtom),
+  (get, set, next: PendingLayoutScale | null) => {
+    const previous = get(pendingLayoutScaleStateAtom);
+    set(pendingLayoutScaleStateAtom, next);
+    if (previous?.numeric && previous.numeric !== next?.numeric)
+      previous.numeric.cancel();
+  },
+);
 
 export const requestLayoutScaleAtom = atom(
   null,
@@ -34,6 +56,10 @@ export const requestLayoutScaleAtom = atom(
   ) => {
     if (!get(editModeAtom))
       throw new Error("Enter edit mode to change Structures.");
+    const current = get(authoringSourceSnapshotAtom);
+    if (!layoutScaleQuestions(current, input.edit, input.application).length)
+      return false;
+    if (deferNumericLayoutEdit(input)) return false;
     const source = captureSnapshot(get);
     const questions = layoutScaleQuestions(
       source,
@@ -55,7 +81,9 @@ export const answerLayoutScaleAtom = atom(
     if (!pending) throw new Error("This scale choice is no longer available.");
     if (
       !get(editModeAtom) ||
-      canonicalJson(captureSnapshot(get)) !== canonicalJson(pending.source)
+      (pending.numeric
+        ? !pending.numeric.isCurrent()
+        : canonicalJson(captureSnapshot(get)) !== canonicalJson(pending.source))
     )
       throw new Error(
         "The design data changed. Cancel and enter the value again.",
@@ -63,6 +91,11 @@ export const answerLayoutScaleAtom = atom(
     const proposal = { ...pending, answers: [...pending.answers, answer] };
     if (proposal.answers.length < proposal.questions.length) {
       set(pendingLayoutScaleAtom, proposal);
+      return;
+    }
+    if (pending.numeric) {
+      pending.numeric.answer(proposal);
+      set(pendingLayoutScaleAtom, null);
       return;
     }
     const candidate = resolveLayoutScaleProposal(proposal);

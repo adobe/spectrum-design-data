@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readStudioDataset } from "../scripts/studioDataFiles";
 import { createStore } from "jotai";
 import { createDefaultSnapshot } from "../src/features/edit-session/state";
 import { buildTshirtArtifacts } from "../src/features/design-data/tshirtArtifacts";
@@ -25,12 +25,7 @@ const generatedIds = new Set(
 const primitives = new Map(
   references.map((reference) => [reference.id, reference]),
 );
-const raw: unknown = JSON.parse(
-  readFileSync(
-    new URL("../src/data/design-system.defaults.json", import.meta.url),
-    "utf8",
-  ),
-);
+const raw: unknown = readStudioDataset();
 assert.ok(raw && typeof raw === "object" && "system" in raw);
 assert.ok(
   raw.system && typeof raw.system === "object" && "structures" in raw.system,

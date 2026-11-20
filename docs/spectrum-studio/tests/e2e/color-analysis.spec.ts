@@ -540,9 +540,9 @@ test("the shared renderer preserves the existing single-formula graph", async ({
   await openAnalysis(page);
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Logic", exact: true })
+    .getByRole("link", { name: /^Formulas\b/ })
     .click();
-  await page.getByRole("tab", { name: "Formulas", exact: true }).click();
+  await page.getByRole("tab", { name: "Progressions", exact: true }).click();
   await page
     .getByRole("button", { name: "View formula Spacing", exact: true })
     .click();

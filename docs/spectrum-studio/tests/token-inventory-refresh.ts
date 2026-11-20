@@ -3,9 +3,11 @@ import assert from "node:assert/strict";
 import { EventEmitter } from "node:events";
 import { resolve } from "node:path";
 import {
+  analysisCodeFiles,
   analysisInputInvalidator,
   analysisWatchEvents,
 } from "../scripts/design-data-vite";
+import { studioDataFiles } from "../src/data/studioData.generated";
 import { createDefaultSnapshot } from "../src/features/edit-session/state";
 import { computeAnalysisComparison } from "../src/features/design-data/analysisWork";
 import {
@@ -20,6 +22,7 @@ const roots = [
   "packages/design-data-spec",
   "src/features",
   "src/data",
+  "data/studio",
 ].map((path) => resolve(path));
 const documents = [resolve("docs/design-data-target-contract.md")];
 const watcher = new EventEmitter();
@@ -36,7 +39,7 @@ for (const [event, path] of [
   ["unlink", "packages/design-data/tokens/removed.json"],
   ["change", "packages/design-data/registry/property-terms.json"],
   ["change", "packages/design-data-spec/schemas/token-types/new.json"],
-  ["change", "src/data/design-system.defaults.json"],
+  ["change", "data/studio/foundations/color.json"],
   ["change", "src/features/typography/typographyGeneration.ts"],
   ["addDir", "packages/design-data/tokens/future"],
   ["unlinkDir", "packages/design-data"],
@@ -240,6 +243,12 @@ const requests: string[] = [];
   );
   assert.deepEqual(tokenIds(updated.app), tokenIds(workingResult.app));
 }
+const codeFiles = await analysisCodeFiles([resolve("src/data/defaults.ts")]);
+for (const file of Object.keys(studioDataFiles))
+  assert(
+    codeFiles.includes(resolve("data/studio", file)),
+    `data/studio/${file} must be part of the analysis code version.`,
+  );
 console.log(
   "Reference add/change/remove/schema/directory invalidation, working/saved membership and resolution-cache refresh pass.",
 );

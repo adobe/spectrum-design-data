@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { loadReferenceInput } from "./design-data-loader";
+import { designDataCopyPaths, practiceCopySummary } from "./designDataCopy";
 import { canonicalJson } from "../src/features/design-data/canonicalJson";
 import { modeAxes } from "../src/features/design-data/colorOpacityAssessment";
 import {
@@ -39,6 +40,7 @@ export async function packagedAnalysisReference(root: string) {
           ...input.source,
           root: "Packaged reference snapshot",
           referenceOrigin: "packaged",
+          practiceCopy: practiceCopySummary(designDataCopyPaths(root)),
         },
         limitations: [
           ...input.limitations,

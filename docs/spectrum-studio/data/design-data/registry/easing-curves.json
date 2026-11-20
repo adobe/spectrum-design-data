@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "easing-curve",
+  "description": "Easing curve identifiers for motion tokens. Assigned via the `easing` name-object field. NOTE: This registry is provisional. Values are seeded from design intent; entries will be refined when motion tokens are added to the foundation dataset.",
+  "values": [
+    {
+      "id": "linear",
+      "label": "Linear",
+      "description": "Constant-rate animation with no acceleration or deceleration"
+    },
+    {
+      "id": "ease-in",
+      "label": "Ease In",
+      "description": "Animation that starts slow and accelerates toward the end"
+    },
+    {
+      "id": "ease-out",
+      "label": "Ease Out",
+      "description": "Animation that starts fast and decelerates toward the end"
+    },
+    {
+      "id": "ease-in-out",
+      "label": "Ease In-Out",
+      "description": "Animation that starts slow, accelerates through the middle, and decelerates at the end"
+    },
+    {
+      "id": "standard",
+      "label": "Standard",
+      "description": "Spectrum standard easing curve for general UI motion"
+    },
+    {
+      "id": "decelerate",
+      "label": "Decelerate",
+      "description": "Decelerate curve for elements entering the screen"
+    },
+    {
+      "id": "accelerate",
+      "label": "Accelerate",
+      "description": "Accelerate curve for elements leaving the screen"
+    }
+  ]
+}

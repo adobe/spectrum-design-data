@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
-import dataset from "../src/data/design-system.defaults.json" with { type: "json" };
+import { studioDataset as dataset } from "../src/data/studioData.generated";
 import canonical from "../../../packages/design-data/tokens/typography.tokens.json" with { type: "json" };
 import schema from "../../../packages/design-data-spec/schemas/token-types/font-family.json" with { type: "json" };
 import { isTaxonomyDocument } from "../src/features/taxonomy/model";

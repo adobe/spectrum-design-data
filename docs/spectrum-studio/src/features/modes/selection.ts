@@ -66,8 +66,17 @@ export const activeModesAtom = atom((get) => {
 export const selectModeAtom = atom(
   null,
   (get, set, input: { modeSetKey: string; modeId: string }) => {
+    const selection = get(modeSelectionAtom);
+    const modeSet = get(modeSetsAtom).find(
+      (candidate) => candidate.key === input.modeSetKey,
+    );
+    if (
+      selection[input.modeSetKey] === input.modeId ||
+      (modeSet && resolveActiveMode(modeSet, selection)?.id === input.modeId)
+    )
+      return;
     set(modeSelectionAtom, {
-      ...get(modeSelectionAtom),
+      ...selection,
       [input.modeSetKey]: input.modeId,
     });
   },

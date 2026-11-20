@@ -23,14 +23,39 @@ import {
   opacityEditDescription,
   opacityObservations,
 } from "./opacityPresentation";
+import { useNumericRuntime } from "../../features/edit-session/numericContext";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import type { EditorPreviewOutput } from "../../features/edit-session/editorPreviewWork";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 
 const chartScrollStyles = style({ overflow: "auto", minWidth: 0 });
 const PREVIEW_DRIVERS = ["color.*", "opacity.*"];
 
 export function OpacityAnalyze() {
+  return useNumericRuntime() ? (
+    <LiveOpacityAnalyze />
+  ) : (
+    <AcceptedOpacityAnalyze />
+  );
+}
+function LiveOpacityAnalyze() {
+  const result = useEditorPreview("opacity", null);
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label="Updating opacity analysis"
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready?.value.kind === "opacity" && (
+        <OpacityAnalyzeContent data={result.ready.value} />
+      )}
+    </DerivedContentBoundary>
+  );
+}
+function AcceptedOpacityAnalyze() {
   const source = useAtomValue(opacitySourceAtom);
   const result = useAtomValue(opacityResultAtom);
-  const previewData = usePreviewData(PREVIEW_DRIVERS);
   let profile: ReturnType<typeof opacityObservations> | undefined;
   let error: string | undefined;
   try {
@@ -41,6 +66,19 @@ export function OpacityAnalyze() {
   } catch (failure) {
     error = failure instanceof Error ? failure.message : String(failure);
   }
+  return (
+    <OpacityAnalyzeContent
+      data={{ kind: "opacity", source, result, profile, error }}
+    />
+  );
+}
+function OpacityAnalyzeContent({
+  data,
+}: {
+  data: Extract<EditorPreviewOutput, { kind: "opacity" }>;
+}) {
+  const { result, profile, error } = data;
+  const previewData = usePreviewData(PREVIEW_DRIVERS);
   const observations = profile?.levels ?? [];
   const ticks = observations.map((level, index) => ({
     index,

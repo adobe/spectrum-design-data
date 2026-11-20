@@ -8,6 +8,7 @@ import {
   type TaxonomyValue,
 } from "./model";
 import { withValidatedAuthoringUpdates } from "../../state/authoringGuards";
+import { deferPersistedNumeric } from "../edit-session/numericProposal";
 
 export const taxonomyContributionsEnabledAtom = atom(true);
 export interface TermContribution {
@@ -85,6 +86,7 @@ export function withTaxonomyContributions<T>(
         throw new Error(
           "Invalid foundation data cannot contribute terms or be persisted.",
         );
+      if (deferPersistedNumeric(sourceKey, previous, next)) return;
       if (enabled) {
         const named = naming?.reconcile(
           get(taxonomyDocumentAtom),

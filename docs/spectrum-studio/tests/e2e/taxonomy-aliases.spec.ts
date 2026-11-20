@@ -65,7 +65,7 @@ async function renameText(page: Page, name: string, previous = "Text") {
 }
 
 async function exportPacket(page: Page): Promise<TaxonomyPacket> {
-  await navigate(page, "Migration analysis");
+  await navigate(page, "Migration");
   await page.getByRole("button", { name: /Analysis view/ }).click();
   await page
     .getByRole("option", { name: "Classification review", exact: true })

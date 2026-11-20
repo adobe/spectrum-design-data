@@ -1,0 +1,75 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/avatar-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "avatar-group",
+  "displayName": "Avatar group",
+  "description": "Avatar groups display a collection of avatars representing people or entities.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Avatar groups display a collection of avatars representing people or entities."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus.\n\nIndividual avatars inside Avatar group can be navigated using a keyboard. The keyboard focus state adds a focus ring around the avatar."
+    },
+    {
+      "type": "guideline",
+      "content": "Adjusting stroke color to match neutral backgrounds.\n\nEach individual avatar has a stroke applied to better show distinction between individual users in the group. By default, the outline color is a neutral gray, but the stroke color should be adjusted manually to match the background where the avatar group is placed."
+    },
+    {
+      "type": "do-dont",
+      "content": "Do not adjust stroke color on a colored background",
+      "dont": "When using a colored background the avatar stroke color should remain set as default for both light and dark themes."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "AvatarGroup",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "label": {
+      "type": "string",
+      "description": "Optional text label displayed with the avatar group (e.g., group name)."
+    },
+    "size": {
+      "type": "number",
+      "default": 100,
+      "values": [
+        { "value": 50 },
+        { "value": 75 },
+        { "value": 100 },
+        { "value": 200 },
+        { "value": 300 },
+        { "value": 400 },
+        { "value": 500 }
+      ]
+    }
+  },
+  "anatomy": [
+    {
+      "name": "avatar",
+      "description": "One avatar in the overlapping stack.",
+      "required": true
+    },
+    {
+      "name": "label",
+      "description": "Text label such as the member count; optional via Show label."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web avatar group page (Stack of Avatar instances plus Label text). Relationship contexts mention a layout and a group-to-label spacing that were not made parts."
+  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "role": "group", "focusable": false }
+}

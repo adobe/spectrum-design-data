@@ -23,3 +23,45 @@
   opacity: 0;
   transform: translateX(-4px);
 }
+
+[data-component="NavSidebar"][data-collapsed] [data-sidebar-section] {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove the native heading layout without losing its accessible label. */
+[data-component="NavSidebar"][data-collapsed]
+  [data-sidebar-section]
+  :has(.sidebarSectionDivider) {
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+[data-component="NavSidebar"][data-collapsed]
+  [data-sidebar-section]
+  > :has(.sidebarSectionDivider)
+  + [role="row"] {
+  margin-block-start: 0;
+}
+
+.sidebarSectionDivider {
+  display: flex;
+  justify-content: center;
+  padding-block: 6px;
+}
+
+.sidebarSectionDivider[data-leading] {
+  padding-block: 0;
+}
+
+.sidebarSectionLabel-collapsed {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

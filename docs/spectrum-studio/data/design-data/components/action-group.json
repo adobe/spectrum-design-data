@@ -1,0 +1,99 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/action-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "action-group",
+  "displayName": "Action group",
+  "description": "An action group is a grouping of action buttons that are related to each other.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-group/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "An action group is a grouping of action buttons that are related to each other."
+    },
+    {
+      "type": "guideline",
+      "content": "Use an Action menu to show additional actions.\n\nWhen there are more actions than the action group has horizontal space for, overflowMode collapse will use an Action menu to contain additional actions. This is used in the components like action bar or panels to show an array of actions to select from when horizontal space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "When to use Action group vs. Segmented control.\n\nWhen multiple items can be selected at a time use an action group when taking actions or making choices from a list of options. Action group is the preferred competent to use when those actions are simple (1-2 words or icon only). If you are switching views or navigating to different content, a segmented control is the preferred component."
+    },
+    {
+      "type": "guideline",
+      "content": "Fully justified action groups.\n\nUse the fully justified variant when using the vertical compact action group (both the quiet and not quiet options). This will ensure the buttons have the same width."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ActionGroup",
+      "importPath": "@adobe/spectrum-wc/components/action-group",
+      "notes": "Spectrum 2 web component custom element: swc-action-group."
+    }
+  ],
+  "options": {
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
+      ]
+    },
+    "density": {
+      "type": "string",
+      "default": "regular",
+      "values": [{ "value": "regular" }, { "value": "compact" }]
+    },
+    "isJustified": { "type": "boolean", "default": false },
+    "isQuiet": { "type": "boolean", "default": false },
+    "isEmphasized": { "type": "boolean", "default": false },
+    "enableSelection": { "type": "boolean", "default": false },
+    "selectionMode": {
+      "type": "string",
+      "default": "single",
+      "description": "Only applicable if selection is enabled",
+      "values": [{ "value": "single" }, { "value": "multiple" }]
+    },
+    "allowsEmptySelection": {
+      "type": "boolean",
+      "default": false,
+      "description": "Only applicable if selection is enabled"
+    },
+    "overflowMode": {
+      "type": "string",
+      "default": "wrap",
+      "values": [{ "value": "wrap" }, { "value": "collapse" }]
+    },
+    "isDisabled": { "type": "boolean", "default": false }
+  },
+  "anatomy": [
+    {
+      "name": "action-button",
+      "description": "One action button in the group; repeated.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web action group page (only Action button instances). Group draws nothing itself; no container."
+  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "intents": ["trigger"],
+    "focusable": false,
+    "wcag": [{ "criterion": "2.1.1", "level": "A", "title": "Keyboard" }]
+  }
+}

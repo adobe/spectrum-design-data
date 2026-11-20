@@ -98,6 +98,23 @@ claim-level grounding, useful recommendations, exceptions, and appropriate abste
 Review failures rather than lowering thresholds to make a run green.
 
 The cursor-conflict case records contradictory merged button guidance.
+
+## Agent skill scenarios
+
+`skills/spectrum-color/SKILL.md` is a sample skill that Spectrum Studio generates from
+its default data. Studio's `agent-skills` check fails when the sample no longer matches
+the generator, and prints the current output to copy in.
+
+`src/skillScenarios.js` holds color questions that the generated skill should help with.
+Run them with `--skills`. Each question runs twice, once without the skill and once with it
+added to the system message, so the report shows what the skill changes:
+
+```bash
+moon run design-data-mcp-eval:evaluate -- --skills
+```
+
+Each skill scenario lists `skillFacts`, phrases the sample skill must contain. A run stops
+before calling the model if the skill no longer says them. The same human review applies.
 When that content is reconciled, update its evidence and rubric instead of preserving
 the contradiction as a permanent requirement. Check the cross-tool case distinguishes
 the medium-card example from a universal padding rule. Indexed spacing is queried

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "roundingRuleId": "rule-text-size-rounding",
+  "minIconSize": 9,
+  "maxIconSize": 200,
+  "scales": [
+    {
+      "id": "workflow",
+      "name": "Workflow",
+      "source": "line-height",
+      "lineHeightId": "component",
+      "scaleTypeId": "scale-type-typography",
+      "base": 16,
+      "below": 2,
+      "above": 14,
+      "parameters": {},
+      "roundingRuleId": "rule-text-size-rounding"
+    }
+  ]
+}

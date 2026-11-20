@@ -1,7 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
 import { createStore } from "jotai";
-import dataset from "../src/data/design-system.defaults.json" with { type: "json" };
+import { studioDataset as dataset } from "../src/data/studioData.generated";
 import { designSystemDefaults } from "../src/data/defaults";
 import {
   assertTaxonomy,

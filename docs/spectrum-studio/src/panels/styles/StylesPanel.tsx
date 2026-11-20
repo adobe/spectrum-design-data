@@ -56,6 +56,7 @@ const STYLE_TAB_LABELS: Record<StyleKind, string> = {
   icon: "Icons",
   background: "Backgrounds",
   border: "Borders",
+  shadow: "Shadows",
 };
 const tabPanelStyles = style({
   display: "flex",
@@ -101,26 +102,44 @@ function AddStyleButton({ kind }: { kind: StyleKind }) {
                 const color = context?.references.find(
                   (reference) => reference.property === "color",
                 );
+                const shadow = context?.references.find(
+                  (reference) =>
+                    reference.property === "shadow" &&
+                    reference.familyId &&
+                    reference.index !== undefined,
+                );
+                if (kind === "shadow" && !shadow)
+                  throw new Error(
+                    "Publish an Elevation scale before adding a Shadow Style.",
+                  );
                 store.set(createStyleAtom, {
                   name,
                   recipe: {
                     kind,
                     classification: {},
-                    appearance: {
-                      color: {
-                        kind: "single",
-                        binding: color
-                          ? { $ref: color.id }
-                          : { value: "#000000" },
-                      },
-                      ...(kind === "text" && {
-                        fontFamily: { value: "sans-serif" },
-                        fontWeight: { value: 400 },
-                      }),
-                      ...(kind === "border" && {
-                        borderWidth: { value: 1 },
-                      }),
-                    },
+                    appearance:
+                      kind === "shadow"
+                        ? {
+                            shadow: {
+                              elevationId: shadow!.familyId!,
+                              scaleIndex: shadow!.index!,
+                            },
+                          }
+                        : {
+                            color: {
+                              kind: "single",
+                              binding: color
+                                ? { $ref: color.id }
+                                : { value: "#000000" },
+                            },
+                            ...(kind === "text" && {
+                              fontFamily: { value: "sans-serif" },
+                              fontWeight: { value: 400 },
+                            }),
+                            ...(kind === "border" && {
+                              borderWidth: { value: 1 },
+                            }),
+                          },
                     options: [],
                     differences: {},
                     applications: [],
@@ -195,7 +214,11 @@ export function StylesPanel() {
               (recipe) => recipe.kind === kind,
             );
             return (
-              <TabPanel key={kind} id={kind} styles={tabPanelStyles}>
+              <TabPanel
+                key={kind}
+                id={kind}
+                UNSAFE_className={String(tabPanelStyles)}
+              >
                 {editing && (
                   <div className="stylesTabActions">
                     <AddStyleButton kind={kind} />

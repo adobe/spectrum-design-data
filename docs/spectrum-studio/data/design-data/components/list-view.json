@@ -1,0 +1,182 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/list-view.json",
+  "specVersion": "1.0.0-draft",
+  "name": "list-view",
+  "displayName": "List view",
+  "description": "List views display rows of data or options that users can browse, select, and interact with.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "List views display rows of data or options that users can browse, select, and interact with."
+    },
+    {
+      "type": "guideline",
+      "content": "Navigation.\n\nIn the highlight selection style for touch interactions, tapping anywhere on the item will navigate to its contents. For mouse-based interactions, double-clicking anywhere on the item or single-clicking the navigation icon will do the same. In the checkbox selection style, clicking or tapping the label area or navigation icon of a list view item will navigate to its contents."
+    },
+    {
+      "type": "guideline",
+      "content": "Selection.\n\nSingle-clicking or tapping anywhere on a list view item will select the item, except the label in checkbox selection style. For checkbox selection style, clicking the label will navigate to the item."
+    },
+    {
+      "type": "guideline",
+      "content": "Touch navigation and selection.\n\nIn touch experiences, the list view default is navigation only with the highlight selection style. Users enter a selection mode by a touch and hold gesture on any list view item. Selection mode in touch uses the checkbox selection style and suppresses navigation. Users can exit selection mode by pressing the Escape key or deselecting all items."
+    },
+    {
+      "type": "guideline",
+      "content": "Drag and drop.\n\nList view items can be dragged and dropped to reorder or restructure the list. Multiple items can be dragged at a time and shifted from one level of hierarchy to another. List views can also accept dropped items from outside the component, to modify the list. Keyboard-based drag and drop When using this option for a list view, the drag icon receives keyboard focus in order to allow for a keyboard-based drag and drop interaction. Touch-based drag and drop The drag and drop interaction is initiated by a touch and hold gesture, followed by drag gesture. If a user performs a touch and hold gesture without dragging, the list view enters a selection mode."
+    },
+    {
+      "type": "guideline",
+      "content": "Text overflow.\n\nA list view item's label or description will truncate if the text is longer than the available horizontal space. Display the full label or description text in a tooltip on hover and focus states."
+    },
+    {
+      "type": "guideline",
+      "content": "Actions overflow.\n\nWhen more than two actions are available for a list view item, the actions are nested within an action menu."
+    },
+    {
+      "type": "guideline",
+      "content": "When to use a List view vs. Tree view.\n\nList views work best for flat collections of items that share the same hierarchy level. Tree views are ideal for displaying nested or hierarchical relationships."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ListView",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "selectionMode": {
+      "type": "string",
+      "default": "single",
+      "description": "Defines how many items can be selected at once.",
+      "values": [
+        { "value": "none" },
+        { "value": "single" },
+        { "value": "multiple" }
+      ]
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the list view uses a quiet visual style."
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of list view items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Primary text displayed for the item."
+          },
+          "description": {
+            "type": "string",
+            "description": "Secondary text displayed under the label (optional)."
+          },
+          "hideCheckbox": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the checkbox is hidden."
+          },
+          "hideDragHandle": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the drag handle is hidden."
+          },
+          "hideNavigationIndicator": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the navigation indicator is hidden."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is disabled."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is selected."
+          },
+          "overflowMode": {
+            "type": "string",
+            "enum": ["wrap", "truncate"],
+            "default": "truncate",
+            "description": "Defines how text should behave when it overflows the available space."
+          },
+          "itemRounding": {
+            "type": "string",
+            "enum": ["none", "top", "bottom"],
+            "default": "none",
+            "description": "Defines the border radius of the list view item."
+          },
+          "isEmphasized": { "type": "boolean", "default": false },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "dragged"],
+            "default": "default",
+            "description": "The interaction state of the list view item."
+          }
+        },
+        "required": ["label"]
+      }
+    }
+  },
+  "anatomy": [
+    {
+      "name": "list-item",
+      "description": "A single row within the list view.",
+      "contains": [
+        "checkbox",
+        "icon",
+        "thumbnail",
+        "label",
+        "description",
+        "actions",
+        "trailing-icon"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "description": "Checkbox control for a list view item in checkbox selection style."
+    },
+    { "name": "icon", "description": "Leading icon of a list view item." },
+    {
+      "name": "thumbnail",
+      "description": "Thumbnail image of a list view item."
+    },
+    {
+      "name": "label",
+      "description": "Primary label text of a list view item."
+    },
+    {
+      "name": "description",
+      "description": "Secondary descriptive text of a list view item."
+    },
+    {
+      "name": "actions",
+      "description": "Action buttons or action menu available for a list view item."
+    },
+    {
+      "name": "trailing-icon",
+      "description": "Icon indicating a list view item navigates to a new context."
+    }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "intents": ["select", "navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate", "select-all"],
+    "wcag": [
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

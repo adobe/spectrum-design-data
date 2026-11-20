@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tray.json",
+  "specVersion": "1.0.0-draft",
+  "name": "tray",
+  "displayName": "Tray",
+  "description": "Trays are containers that display transient content such as menus, options, additional actions, and more. They only exist on mobile experiences and are used for exposing types of content that may be too overwhelming for popovers.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/page/tray/"
+  },
+  "options": {
+    "height": {
+      "type": "string",
+      "default": "auto"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "intents": ["dismiss"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Tray surface that slides in from an edge.",
+      "required": true,
+      "contains": ["gripper", "title", "description", "close-button"]
+    },
+    {
+      "name": "gripper",
+      "description": "Drag handle."
+    },
+    {
+      "name": "title",
+      "description": "Tray title."
+    },
+    {
+      "name": "description",
+      "description": "Text under the title."
+    },
+    {
+      "name": "close-button",
+      "description": "Button that dismisses the tray."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tray and .Tray header. Leading/trailing action slots left out; subtitle renamed to registry term description; gripper appears at two positions in the tree."
+  }
+}

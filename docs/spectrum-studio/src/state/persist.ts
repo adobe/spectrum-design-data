@@ -1,6 +1,16 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { atom, type WritableAtom } from "jotai";
-import { assertAuthoringUpdate } from "./authoringGuards";
+import {
+  atom,
+  createStore,
+  type Getter,
+  type Setter,
+  type WritableAtom,
+} from "jotai";
+import {
+  assertAuthoringUpdate,
+  withValidatedAuthoringUpdates,
+} from "./authoringGuards";
+import { deferPersistedNumeric } from "../features/edit-session/numericProposal";
 
 export const PROTOTYPE_STORAGE_KEYS = [
   "foundations/color",
@@ -79,6 +89,62 @@ export interface PersistedAtomOptions<T> {
   preserveInvalid?: boolean;
 }
 
+interface PersistedTarget {
+  validate: (value: unknown) => boolean;
+  write: (set: Setter, value: unknown) => void;
+  seed: (set: Setter, value: unknown) => void;
+}
+const persistedTargets = new Map<string, PersistedTarget>();
+let observeWrite: ((key: string, value: unknown) => void) | undefined;
+
+/** Seeds only a newly created store; later writes still run normal guards. */
+export function createIsolatedPersistedStore(
+  updates: ReadonlyMap<string, unknown>,
+) {
+  for (const [key, value] of updates) {
+    const target = persistedTargets.get(key);
+    if (!target || !target.validate(value))
+      throw new Error(`The isolated ${key} source has invalid data.`);
+  }
+  const store = createStore();
+  store.set(
+    atom(null, (_get, set) => {
+      for (const [key, value] of updates)
+        persistedTargets.get(key)!.seed(set, value);
+    }),
+  );
+  return store;
+}
+
+/** Records canonical writes in an isolated validation store, not attempted edits. */
+export function recordPersistedWrites(run: () => void) {
+  const updates = new Map<string, unknown>();
+  const previous = observeWrite;
+  observeWrite = (key, value) => updates.set(key, value);
+  try {
+    run();
+    return updates;
+  } finally {
+    observeWrite = previous;
+  }
+}
+
+export function applyPersistedWrites(
+  get: Getter,
+  set: Setter,
+  updates: ReadonlyMap<string, unknown>,
+) {
+  for (const [key, value] of updates) {
+    const target = persistedTargets.get(key);
+    if (!target || !target.validate(value))
+      throw new Error(`The prepared ${key} update has invalid source data.`);
+  }
+  return withValidatedAuthoringUpdates(get, updates, () => {
+    for (const [key, value] of updates)
+      persistedTargets.get(key)!.write(set, value);
+  });
+}
+
 // The edit-session coordinator persists complete snapshots, not independent atom writes.
 export function persistedAtom<T>({
   key,
@@ -89,7 +155,7 @@ export function persistedAtom<T>({
   if (validate && !validate(initial))
     throw new Error(`${key}: invalid shipped defaults.`);
   const base = atom<T>(initial);
-  return atom(
+  const source = atom(
     (get) => get(base),
     (get, set, update: T | ((previous: T) => T)) => {
       const next =
@@ -98,19 +164,45 @@ export function persistedAtom<T>({
           : update;
       if (validate && !validate(next))
         throw new Error(`${key}: invalid data cannot be applied.`);
+      if (deferPersistedNumeric(key, get(base), next)) return;
       assertAuthoringUpdate(get, key, next);
       set(base, next);
+      observeWrite?.(key, next);
     },
   );
+  if (validate)
+    persistedTargets.set(key, {
+      validate,
+      write: (set, value) => {
+        if (!validate(value))
+          throw new Error(`${key}: invalid prepared source data.`);
+        set(source, value);
+      },
+      seed: (set, value) => {
+        if (!validate(value))
+          throw new Error(`${key}: invalid isolated source data.`);
+        set(base, value);
+      },
+    });
+  return source;
 }
 
-let flush: (() => void) | undefined;
-export function registerPersistenceFlush(callback: () => void) {
-  flush = callback;
+let flush:
+  | {
+      callback: () => void;
+      store?: ReturnType<typeof createStore>;
+    }
+  | undefined;
+export function registerPersistenceFlush(
+  callback: () => void,
+  store?: ReturnType<typeof createStore>,
+) {
+  const registration = { callback, store };
+  flush = registration;
   return () => {
-    if (flush === callback) flush = undefined;
+    if (flush === registration) flush = undefined;
   };
 }
-export function flushPersistedState() {
-  flush?.();
+export function flushPersistedState(store?: ReturnType<typeof createStore>) {
+  if (!store || flush?.store === store) flush?.callback();
 }

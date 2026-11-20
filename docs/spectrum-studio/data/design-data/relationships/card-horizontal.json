@@ -1,0 +1,62 @@
+[
+  {
+    "scope": {
+      "component": "card-horizontal",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "content",
+        "density": "compact"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "fd732759-52ab-45b7-9949-9d9352091efe",
+    "legacyKey": "card-horizontal-edge-to-content-compact",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-padding-small instead.",
+      "replacedBy": "4c8d7d30-f0fb-4306-b78a-09ec0f2ffd97"
+    }
+  },
+  {
+    "scope": {
+      "component": "card-horizontal",
+      "property": "space-between",
+      "options": {
+        "state": ["default"],
+        "from": "edge",
+        "to": "content"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "45af5962-8d41-476d-a92d-befa408b47b7",
+    "legacyKey": "card-horizontal-edge-to-content-default",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-padding-medium instead.",
+      "replacedBy": "81e5f983-4ca0-4d45-89f0-4accd78d7946"
+    }
+  },
+  {
+    "scope": {
+      "component": "card-horizontal",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "content",
+        "density": "spacious"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "104c7b60-387b-4550-b0eb-573915d28f42",
+    "legacyKey": "card-horizontal-edge-to-content-spacious",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-padding-large instead.",
+      "replacedBy": "4cf528c8-fc7a-447b-ae4d-38b744ec1b0f"
+    }
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/date-field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "date-field",
+  "displayName": "Date field",
+  "description": "A field for entering a date value.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/date-field/"
+  },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "DateField",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "container",
+      "description": "Bordered box that frames the segments.",
+      "required": true,
+      "contains": ["segment"]
+    },
+    {
+      "name": "segment",
+      "description": "One editable piece of the date (month, day, year), showing a placeholder when empty.",
+      "required": true
+    },
+    {
+      "name": "help-text",
+      "description": "Description or error message shown below the field."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Date and time field page (shared with time-field): label, field with value cells. No states declared so no focus-indicator. Unsure whether the literal separators need their own part."
+  },
+  "lifecycle": { "introduced": "1.0.0-draft" }
+}

@@ -101,7 +101,7 @@ for (const appearance of ["light", "dark"]) {
     expect(await panel(page).locator("section h4").allTextContents()).toEqual([
       "System impact",
       "Foundational impact",
-      "Design impact",
+      "Objects impact",
       "Token impact",
       "Component impact",
     ]);
@@ -113,7 +113,7 @@ for (const appearance of ["light", "dark"]) {
     for (const title of [
       "System impact",
       "Foundational impact",
-      "Design impact",
+      "Objects impact",
       "Token impact",
     ]) {
       const section = panel(page).getByRole("region", {

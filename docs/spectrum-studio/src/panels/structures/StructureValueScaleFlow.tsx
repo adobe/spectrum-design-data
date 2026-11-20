@@ -16,6 +16,7 @@ import type { LayoutScaleAnswer } from "../../features/structures/layoutScales";
 import { ScaleTypeEditorLayout } from "../../pages/logic/ScaleTypeEditorLayout";
 import { NEW_SCALE_TYPE_ID } from "../../state/view/logicView";
 import { StructureValueScaleDialog } from "./StructureValueScaleDialog";
+import { NumericContext } from "../../features/edit-session/numericContext";
 
 export function StructureValueScaleFlow() {
   const [pending, setPending] = useAtom(pendingLayoutScaleAtom);
@@ -52,22 +53,24 @@ export function StructureValueScaleFlow() {
   const question = pending.questions[pending.answers.length];
   if (draft)
     return (
-      <DialogContainer onDismiss={cancel}>
-        <Dialog size="XL">
-          <Heading>New formula</Heading>
-          <Content>
-            <ScaleTypeEditorLayout
-              key={draft.id}
-              scaleTypeId={NEW_SCALE_TYPE_ID}
-              initialDraft={draft}
-              onCancel={cancel}
-              onApply={(formula) =>
-                accept({ kind: "formula", formulaId: formula.id, formula })
-              }
-            />
-          </Content>
-        </Dialog>
-      </DialogContainer>
+      <NumericContext.Provider value={null}>
+        <DialogContainer onDismiss={cancel}>
+          <Dialog size="XL">
+            <Heading>New formula</Heading>
+            <Content>
+              <ScaleTypeEditorLayout
+                key={draft.id}
+                scaleTypeId={NEW_SCALE_TYPE_ID}
+                initialDraft={draft}
+                onCancel={cancel}
+                onApply={(formula) =>
+                  accept({ kind: "formula", formulaId: formula.id, formula })
+                }
+              />
+            </Content>
+          </Dialog>
+        </DialogContainer>
+      </NumericContext.Provider>
     );
   return (
     <DialogContainer onDismiss={cancel}>

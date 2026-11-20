@@ -22,6 +22,8 @@ import { asyncComparisonAtom } from "../features/changelog/asyncComparisonState"
 import { changelogCollapsedAtom } from "../state/view/navigation";
 import { persistenceIssuesAtom } from "../state/persist";
 import MagicWand from "@react-spectrum/s2/icons/MagicWand";
+import { useNumericRuntime } from "../features/edit-session/numericContext";
+import { numericDraftInvalidAtom } from "../features/edit-session/numericState";
 
 const badgeAnchorStyles = style({
   position: "relative",
@@ -47,6 +49,8 @@ const notificationBadgeStyles = style({
 });
 
 export function EditModeActions() {
+  const numeric = useNumericRuntime();
+  const invalidNumeric = useAtomValue(numericDraftInvalidAtom);
   const notify = useNotify();
   const cancelEdit = useSetAtom(cancelEditAtom);
   const saveEdit = useSetAtom(saveEditAtom);
@@ -67,6 +71,15 @@ export function EditModeActions() {
       notify.error(
         failure instanceof Error ? failure.message : String(failure),
       );
+    }
+  }
+  async function performAfterDrafts(action: () => void) {
+    try {
+      await numeric?.flush();
+      action();
+    } catch (failure) {
+      if (!(failure instanceof DOMException && failure.name === "AbortError"))
+        notify.error(failure);
     }
   }
 
@@ -93,7 +106,8 @@ export function EditModeActions() {
       <Button
         variant="primary"
         fillStyle="outline"
-        onPress={() => submitForReview()}
+        preventFocusOnPress={invalidNumeric}
+        onPress={() => performAfterDrafts(() => submitForReview())}
       >
         <MagicWand />
         <Text>Create RFC</Text>
@@ -101,8 +115,9 @@ export function EditModeActions() {
       <TooltipTrigger>
         <Button
           variant="accent"
+          preventFocusOnPress={invalidNumeric}
           onPress={() =>
-            perform(() => {
+            performAfterDrafts(() => {
               const result = saveEdit();
               if (result.skippedAliases.length)
                 notify.info(

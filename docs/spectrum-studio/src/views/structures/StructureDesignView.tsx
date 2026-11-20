@@ -18,6 +18,7 @@ import {
   type ExtractAtomValue,
 } from "jotai";
 import {
+  useCallback,
   useDeferredValue,
   useLayoutEffect,
   useMemo,
@@ -34,7 +35,6 @@ import {
   selectedStructureIdAtom,
   renameStructureAtom,
 } from "../../features/structures/state";
-import { primitiveReferencesAtom } from "../../features/tokens/primitiveReferenceState";
 import {
   resolveStructure,
   UNMEASURED_LAYOUT,
@@ -53,8 +53,6 @@ import {
   updateElementAtom,
 } from "../../features/structures/elementState";
 import { resolveElements } from "../../features/structures/elementResolution";
-import { rulesAtom } from "../../features/logic/library";
-import { taxonomyDocumentAtom } from "../../features/taxonomy/state";
 import "./StructureDesignView.css";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 import { DesignEditorPanel } from "../../panels/design/DesignEditorPanel";
@@ -66,8 +64,6 @@ import {
   resolveCompositionResult,
   structureHasIndentation,
 } from "../../features/structures/composition";
-import { focusedTshirtArtifactsAtom } from "../../features/design-data/tshirtState";
-import { browserModeContextAtom } from "../../features/tokens/browserState";
 import { measureCompositionLayouts } from "./compositionMeasurement";
 import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 import { StructureMetadataPanel } from "../../panels/structures/StructureMetadataPanel";
@@ -93,41 +89,80 @@ import { StructureOptionSample } from "./StructureOptionSample";
 import { useNotify } from "../../components/notifications/notificationContext";
 import { configuredStructure } from "../../features/structures/configuration";
 import { editStructureOptionBindingsAtom } from "../../features/structures/configurationState";
-import { previewTextStyleSourceAtom } from "../../features/styles/state";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import type { EditorPreviewOutput } from "../../features/edit-session/editorPreviewWork";
+import { primitiveReferencesAtom } from "../../features/tokens/primitiveReferenceState";
 
 const variantLabelTextStyles = style({ color: "neutral-subdued" });
 const variantColumnLabelTextStyles = style({ color: "neutral" });
 
 const structureDesignInputAtom = atom((get) => ({
   structure: get(selectedStructureAtom),
-  references: get(primitiveReferencesAtom),
   editing: get(editModeAtom),
-  taxonomy: get(taxonomyDocumentAtom),
-  rules: get(rulesAtom),
   catalog: get(structuresDocumentAtom).structures,
-  generation: get(focusedTshirtArtifactsAtom),
-  mode: get(browserModeContextAtom),
   selectedElementId: get(selectedElementIdAtom),
-  textStyles: get(previewTextStyleSourceAtom),
 }));
 
 export function StructureDesignView() {
   const incoming = useAtomValue(structureDesignInputAtom);
+  const result = useEditorPreview(
+    "structures",
+    incoming.structure?.conceptId ?? null,
+  );
+  const referenceCache = useRef<{
+    signature: string;
+    references: Extract<
+      EditorPreviewOutput,
+      { kind: "structures" }
+    >["references"];
+  }>(undefined);
+  const references = useMemo(() => {
+    if (result.ready?.value.kind !== "structures") return undefined;
+    const next = result.ready.value.references;
+    const signature = JSON.stringify(next);
+    if (referenceCache.current?.signature === signature)
+      return referenceCache.current.references;
+    referenceCache.current = { signature, references: next };
+    return next;
+  }, [result.ready?.value]);
   const deferred = useDeferredValue(incoming);
   const pending =
     incoming.structure !== null &&
     incoming.structure.conceptId !== deferred.structure?.conceptId;
   const displayed = pending ? deferred : incoming;
   const content = useMemo(
-    () => <StructureDesignContent input={displayed} />,
-    [displayed],
+    () =>
+      result.ready?.value.kind === "structures" &&
+      result.ready.input.selectedId ===
+        (displayed.structure?.conceptId ?? null) && (
+        <StructureDesignContent
+          input={{
+            ...result.ready.value,
+            ...displayed,
+            references: references ?? result.ready.value.references,
+            previewStructure: result.ready.value.structure,
+            previewCatalog: result.ready.value.catalog,
+          }}
+        />
+      ),
+    [displayed, result.ready, references],
   );
   return (
     <DerivedContentBoundary
-      state={pending ? "pending" : "ready"}
+      state={pending ? "pending" : result.status}
       label="Updating Structure preview"
+      error={result.error}
+      onRetry={result.retry}
     >
-      <div className="structureDesignWork" inert={pending || undefined}>
+      <div
+        className="structureDesignWork"
+        inert={
+          pending ||
+          result.ready?.input.selectedId !==
+            (incoming.structure?.conceptId ?? null) ||
+          undefined
+        }
+      >
         {content}
       </div>
     </DerivedContentBoundary>
@@ -137,7 +172,20 @@ export function StructureDesignView() {
 function StructureDesignContent({
   input,
 }: {
-  input: ExtractAtomValue<typeof structureDesignInputAtom>;
+  input: ExtractAtomValue<typeof structureDesignInputAtom> &
+    Omit<
+      Extract<EditorPreviewOutput, { kind: "structures" }>,
+      "structure" | "catalog"
+    > & {
+      previewStructure: Extract<
+        EditorPreviewOutput,
+        { kind: "structures" }
+      >["structure"];
+      previewCatalog: Extract<
+        EditorPreviewOutput,
+        { kind: "structures" }
+      >["catalog"];
+    };
 }) {
   const notify = useNotify();
   const {
@@ -151,6 +199,8 @@ function StructureDesignContent({
     mode,
     selectedElementId,
     textStyles,
+    previewStructure,
+    previewCatalog,
   } = input;
   const preview = useAtomValue(structurePreviewStateAtom);
   const [previews, setPreviews] = [
@@ -168,19 +218,23 @@ function StructureDesignContent({
   );
   const effective = useMemo(
     () =>
-      authoredStructure
-        ? resolveStructureOptions(authoredStructure, preview)
+      previewStructure
+        ? resolveStructureOptions(previewStructure, preview)
         : null,
-    [authoredStructure, preview],
+    [previewStructure, preview],
   );
   const structure = effective?.structure ?? null;
-  const variant = authoredStructure
-    ? activeVariant(
-        authoredStructure,
-        preview.activePropertyId,
-        preview.options,
-      )
-    : null;
+  const variant = useMemo(
+    () =>
+      authoredStructure
+        ? activeVariant(
+            authoredStructure,
+            preview.activePropertyId,
+            preview.options,
+          )
+        : null,
+    [authoredStructure, preview.activePropertyId, preview.options],
+  );
   const canvasGrid = authoredStructure
     ? structureCanvasGrid(
         structureEditor(authoredStructure).properties,
@@ -255,13 +309,21 @@ function StructureDesignContent({
       preview,
     ],
   );
-  const inspectorVariant = inspectorSource
-    ? activeVariant(
-        inspectorSource,
-        inspectorPreview.activePropertyId,
-        inspectorPreview.options,
-      )
-    : null;
+  const inspectorVariant = useMemo(
+    () =>
+      inspectorSource
+        ? activeVariant(
+            inspectorSource,
+            inspectorPreview.activePropertyId,
+            inspectorPreview.options,
+          )
+        : null,
+    [
+      inspectorSource,
+      inspectorPreview.activePropertyId,
+      inspectorPreview.options,
+    ],
+  );
   const parentVariant =
     propertyScope === "parent" && variant?.option && !variant.isDefault
       ? variant
@@ -357,10 +419,15 @@ function StructureDesignContent({
     [structure, references, layout, preview.indentationLevel],
   );
   const compositionResult = useMemo(() => {
-    if (!authoredStructure || generation.status !== "ready") return null;
+    if (
+      !previewStructure ||
+      !authoredStructure ||
+      generation.status !== "ready"
+    )
+      return null;
     return resolveCompositionResult(
-      authoredStructure,
-      catalog,
+      previewStructure,
+      previewCatalog,
       references,
       rules,
       generation.bundle,
@@ -374,8 +441,9 @@ function StructureDesignContent({
       textStyles,
     );
   }, [
+    previewStructure,
     authoredStructure,
-    catalog,
+    previewCatalog,
     references,
     rules,
     generation,
@@ -439,15 +507,15 @@ function StructureDesignContent({
     observer.observe(natural.current);
     return () => observer.disconnect();
   }, [measurementKey, structure?.conceptId, naturalInvalid, resolved]);
-  const requireCurrentStructure = () => {
+  const requireCurrentStructure = useCallback(() => {
     const current = store.get(selectedStructureAtom);
     if (!current || current.conceptId !== structure?.conceptId)
       throw new Error(
         "The selected Structure has changed. Reopen its settings before editing.",
       );
     return current;
-  };
-  const requireCurrentInspector = () => {
+  }, [store, structure?.conceptId]);
+  const requireCurrentInspector = useCallback(() => {
     requireCurrentStructure();
     const current = store
       .get(structuresDocumentAtom)
@@ -455,7 +523,7 @@ function StructureDesignContent({
     if (!current)
       throw new Error("The selected layout is no longer available.");
     return current;
-  };
+  }, [requireCurrentStructure, store, inspectorSource?.conceptId]);
   const layoutInsertionPreview = (id: string) => {
     const owner = catalog.find((item) => item.conceptId === id);
     if (!owner) throw new Error("The selected layout is no longer available.");
@@ -469,6 +537,108 @@ function StructureDesignContent({
           selectedLayer.path.slice(0, selectedLayer.path.lastIndexOf("/"))
         ] ?? UNMEASURED_LAYOUT)
       : layout;
+  const inspectorSettings = useMemo(
+    () =>
+      inspectorStructure && (
+        <StructureEditorPanel
+          embedded
+          key={inspectorStructure.conceptId}
+          structure={inspectorStructure}
+          references={references}
+          layout={inspectorLayout}
+          isReadOnly={!editing}
+          report={notify.error}
+          onRename={
+            selectedLayer?.layout
+              ? (name) => {
+                  const current = requireCurrentInspector();
+                  rename({ id: current.conceptId, name });
+                }
+              : undefined
+          }
+          onChange={(changes) => {
+            const frame = stage.current;
+            const sample = natural.current;
+            const current = requireCurrentInspector();
+            if (parentVariant?.option && inspectorPath && authoredStructure) {
+              const root = requireCurrentStructure();
+              editOptionBindings({
+                target: {
+                  structureId: root.conceptId,
+                  path: inspectorPath.slice(1).split("/"),
+                },
+                valueId: parentVariant.option.id,
+                changes,
+                layout: inspectorLayout,
+              });
+              return;
+            }
+            if (inspectorVariant?.option && !inspectorVariant.isDefault) {
+              editOptionBindings({
+                target: {
+                  structureId: current.conceptId,
+                  path: [],
+                },
+                valueId: inspectorVariant.option.id,
+                changes,
+                layout: inspectorLayout,
+              });
+              return;
+            }
+            if (!frame || !sample)
+              throw new Error(
+                "The selected structure preview is no longer available.",
+              );
+            const currentResolved = resolveStructure(
+              current,
+              store.get(primitiveReferencesAtom),
+              inspectorLayout,
+              inspectorPreview.indentationLevel,
+            );
+            const invalidNatural = [
+              "gap",
+              "paddingTop",
+              "paddingRight",
+              "paddingBottom",
+              "paddingLeft",
+            ].some((slot) => slot in currentResolved.issues);
+            const rect = sample.getBoundingClientRect();
+            assign({
+              id: current.conceptId,
+              changes,
+              layout:
+                current.conceptId !== authoredStructure?.conceptId
+                  ? inspectorLayout
+                  : {
+                      availableWidth: frame.clientWidth,
+                      availableHeight: frame.clientHeight,
+                      naturalWidth: invalidNatural ? null : rect.width,
+                      naturalHeight: invalidNatural ? null : rect.height,
+                    },
+            });
+          }}
+        />
+      ),
+    [
+      inspectorStructure,
+      references,
+      inspectorLayout,
+      editing,
+      notify.error,
+      selectedLayer?.layout,
+      requireCurrentInspector,
+      rename,
+      parentVariant,
+      inspectorPath,
+      authoredStructure,
+      requireCurrentStructure,
+      editOptionBindings,
+      inspectorVariant,
+      store,
+      inspectorPreview.indentationLevel,
+      assign,
+    ],
+  );
   const deleteSelected = () => {
     requireCurrentStructure();
     if (!structure || !selectedElement)
@@ -607,8 +777,8 @@ function StructureDesignContent({
                               </span>
                             )}
                             <StructureOptionSample
-                              structure={authoredStructure!}
-                              catalog={catalog}
+                              structure={previewStructure!}
+                              catalog={previewCatalog}
                               references={references}
                               rules={rules}
                               bundle={
@@ -738,7 +908,7 @@ function StructureDesignContent({
           <DesignEditorPanel label={`Structure settings for ${structure.name}`}>
             {authoredStructure && (
               <StructureProperties
-                key={authoredStructure.conceptId}
+                key={`properties:${authoredStructure.conceptId}`}
                 editor={structureEditor(authoredStructure)}
                 addOptionRequest={addOptionRequest}
                 taxonomy={taxonomy}
@@ -892,88 +1062,7 @@ function StructureDesignContent({
                 }}
               />
             ) : (
-              <StructureEditorPanel
-                embedded
-                key={inspectorStructure!.conceptId}
-                structure={inspectorStructure!}
-                references={references}
-                layout={inspectorLayout}
-                isReadOnly={!editing}
-                report={notify.error}
-                onRename={
-                  selectedLayer?.layout
-                    ? (name) => {
-                        const current = requireCurrentInspector();
-                        rename({ id: current.conceptId, name });
-                      }
-                    : undefined
-                }
-                onChange={(changes) => {
-                  const frame = stage.current;
-                  const sample = natural.current;
-                  const current = requireCurrentInspector();
-                  if (
-                    parentVariant?.option &&
-                    inspectorPath &&
-                    authoredStructure
-                  ) {
-                    const root = requireCurrentStructure();
-                    editOptionBindings({
-                      target: {
-                        structureId: root.conceptId,
-                        path: inspectorPath.slice(1).split("/"),
-                      },
-                      valueId: parentVariant.option.id,
-                      changes,
-                      layout: inspectorLayout,
-                    });
-                    return;
-                  }
-                  if (inspectorVariant?.option && !inspectorVariant.isDefault) {
-                    editOptionBindings({
-                      target: {
-                        structureId: current.conceptId,
-                        path: [],
-                      },
-                      valueId: inspectorVariant.option.id,
-                      changes,
-                      layout: inspectorLayout,
-                    });
-                    return;
-                  }
-                  if (!frame || !sample)
-                    throw new Error(
-                      "The selected structure preview is no longer available.",
-                    );
-                  const currentResolved = resolveStructure(
-                    current,
-                    store.get(primitiveReferencesAtom),
-                    inspectorLayout,
-                    inspectorPreview.indentationLevel,
-                  );
-                  const invalidNatural = [
-                    "gap",
-                    "paddingTop",
-                    "paddingRight",
-                    "paddingBottom",
-                    "paddingLeft",
-                  ].some((slot) => slot in currentResolved.issues);
-                  const rect = sample.getBoundingClientRect();
-                  assign({
-                    id: current.conceptId,
-                    changes,
-                    layout:
-                      current.conceptId !== authoredStructure?.conceptId
-                        ? inspectorLayout
-                        : {
-                            availableWidth: frame.clientWidth,
-                            availableHeight: frame.clientHeight,
-                            naturalWidth: invalidNatural ? null : rect.width,
-                            naturalHeight: invalidNatural ? null : rect.height,
-                          },
-                  });
-                }}
-              />
+              inspectorSettings
             )}
           </DesignEditorPanel>
         </>

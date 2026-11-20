@@ -101,7 +101,13 @@ const propertyValues: Record<StyleProperty, string[]> = {
   fontWeight: ["font-weight", "font weight"],
   lineHeight: ["unitless line height", "line-height", "line height"],
   borderWidth: ["thickness", "border-width", "width"],
+  // Shadow names come from the Attribute term, so no Property term is added.
+  shadow: [],
 };
+/** Rule value type that a Style property's state outputs can shift. */
+export function styleRuleValueType(property: StyleProperty) {
+  return property === "shadow" ? ("elevation" as const) : ("color" as const);
+}
 export function styleColorIndex(
   color: Extract<StyleColor, { kind: "families" }>,
   selection: Record<string, string>,
@@ -213,7 +219,9 @@ function typeClassification(recipe: StyleRecipe, taxonomy: TaxonomyDocument) {
       ? PREVIEW_TERM_IDS.background
       : recipe.kind === "border"
         ? PREVIEW_TERM_IDS.border
-        : undefined;
+        : recipe.kind === "shadow"
+          ? PREVIEW_TERM_IDS.shadow
+          : undefined;
   const result: Classification = {};
   if (
     element &&
@@ -312,10 +320,11 @@ export function buildStyleArtifacts(
               report(recipe.id, "Choose an available interaction rule.");
               continue;
             }
-            if (!ruleAppliesTo(rule, "color")) {
+            const capability = recipe.kind === "shadow" ? "elevation" : "color";
+            if (!ruleAppliesTo(rule, capability)) {
               report(
                 recipe.id,
-                "Choose an interaction rule that supports color.",
+                `Choose an interaction rule that supports ${capability}.`,
               );
               continue;
             }
@@ -336,16 +345,25 @@ export function buildStyleArtifacts(
           }
           for (const property of STYLE_PROPERTIES[recipe.kind]) {
             const appearance = variant.appearance;
+            const color = appearance.color;
             const colorIndex =
-              appearance.color.kind === "families"
-                ? styleColorIndex(appearance.color, context.selection)
+              color?.kind === "families"
+                ? styleColorIndex(color, context.selection)
                 : undefined;
+            if (property === "color" && !color) {
+              report(recipe.id, "color: choose a color.");
+              continue;
+            }
+            if (property === "shadow" && !appearance.shadow) {
+              report(recipe.id, "shadow: choose an Elevation level.");
+              continue;
+            }
             if (
               property === "color" &&
-              appearance.color.kind === "families" &&
-              appearance.color.indexModes
+              color?.kind === "families" &&
+              color.indexModes
             ) {
-              const { modeSetId, values } = appearance.color.indexModes;
+              const { modeSetId, values } = color.indexModes;
               const axis = modeSets.find((axis) => axis.id === modeSetId);
               const selectedMode = context.selection[modeSetId];
               if (
@@ -363,54 +381,65 @@ export function buildStyleArtifacts(
               }
             }
             const binding =
-              property === "color" && appearance.color.kind === "single"
-                ? appearance.color.binding
-                : property === "lineHeight" || property === "color"
+              property === "color" && color?.kind === "single"
+                ? color.binding
+                : property === "lineHeight" ||
+                    property === "color" ||
+                    property === "shadow"
                   ? undefined
                   : appearance[property];
             const families =
-              property === "color" && appearance.color.kind === "families"
-                ? appearance.color.familyIds
+              property === "color" && color?.kind === "families"
+                ? color.familyIds
                 : [undefined];
             if (property === "color" && !families.length)
               report(recipe.id, "Choose at least one color family.");
             for (const familyId of families) {
               const candidates: (StyleReference | undefined)[] =
-                property === "lineHeight"
-                  ? appearance.lineHeight
-                    ? context.references.filter(
-                        (reference) =>
-                          reference.property === property &&
-                          reference.metricId ===
-                            appearance.lineHeight!.metricId,
-                      )
-                    : []
-                  : familyId
-                    ? context.references.filter(
-                        (reference) =>
-                          reference.property === "color" &&
-                          reference.familyId === familyId &&
-                          appearance.color.kind === "families" &&
-                          reference.index === colorIndex,
-                      )
-                    : binding && "$ref" in binding
+                property === "shadow"
+                  ? context.references.filter(
+                      (reference) =>
+                        reference.property === "shadow" &&
+                        reference.familyId === appearance.shadow!.elevationId &&
+                        reference.index === appearance.shadow!.scaleIndex,
+                    )
+                  : property === "lineHeight"
+                    ? appearance.lineHeight
                       ? context.references.filter(
                           (reference) =>
-                            reference.id === binding.$ref &&
-                            reference.property === property,
+                            reference.property === property &&
+                            reference.metricId ===
+                              appearance.lineHeight!.metricId,
                         )
-                      : binding
-                        ? [undefined]
-                        : [];
+                      : []
+                    : familyId
+                      ? context.references.filter(
+                          (reference) =>
+                            reference.property === "color" &&
+                            reference.familyId === familyId &&
+                            reference.index === colorIndex,
+                        )
+                      : binding && "$ref" in binding
+                        ? context.references.filter(
+                            (reference) =>
+                              reference.id === binding.$ref &&
+                              reference.property === property,
+                          )
+                        : binding
+                          ? [undefined]
+                          : [];
               if (
                 !candidates.length &&
                 (binding ||
                   familyId ||
+                  property === "shadow" ||
                   (property === "lineHeight" && appearance.lineHeight))
               ) {
                 report(
                   recipe.id,
-                  `${property}: the selected reference or scale index is unavailable.`,
+                  property === "shadow"
+                    ? "shadow: the selected Elevation level is unavailable."
+                    : `${property}: the selected reference or scale index is unavailable.`,
                 );
                 continue;
               }
@@ -426,8 +455,8 @@ export function buildStyleArtifacts(
                   // State rules affect only their declared property capabilities.
                   if (
                     output.rule &&
-                    (property !== "color" ||
-                      !ruleAppliesTo(output.rule, "color"))
+                    ((property !== "color" && property !== "shadow") ||
+                      !ruleAppliesTo(output.rule, styleRuleValueType(property)))
                   )
                     continue;
                   let reference = candidate;
@@ -454,14 +483,18 @@ export function buildStyleArtifacts(
                       ),
                     )
                     .find((term) => term !== undefined);
-                  if (!propertyCategory || !propertyTerm) {
+                  if (
+                    propertyValues[property].length &&
+                    (!propertyCategory || !propertyTerm)
+                  ) {
                     report(
                       recipe.id,
                       `${property}: choose a registered Property term.`,
                     );
                     continue;
                   }
-                  derived[propertyCategory.id] = propertyTerm.id;
+                  if (propertyCategory && propertyTerm)
+                    derived[propertyCategory.id] = propertyTerm.id;
                   if (familyId && reference?.classification) {
                     const category = taxonomy.categories.find(
                       (category) => category.key === "colorFamily",
@@ -522,7 +555,7 @@ export function buildStyleArtifacts(
                     if (evaluation.offset && !reference) {
                       report(
                         recipe.id,
-                        "Interaction color offsets require a color-scale reference.",
+                        "Interaction offsets require a scale reference.",
                       );
                       continue;
                     }
@@ -533,7 +566,7 @@ export function buildStyleArtifacts(
                           context.references
                             .filter(
                               (entry) =>
-                                entry.property === "color" &&
+                                entry.property === property &&
                                 entry.index !== undefined,
                             )
                             .map((entry) => ({
@@ -836,7 +869,7 @@ export function synchronizeStylePublications(
       ];
       for (const property of STYLE_PROPERTIES[recipe.kind]) {
         const families =
-          property === "color" && variant.appearance.color.kind === "families"
+          property === "color" && variant.appearance.color?.kind === "families"
             ? variant.appearance.color.familyIds
             : [undefined];
         const indices =

@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 import { COLOR_SYSTEM_DEFAULTS } from "../../src/features/color-system/defaults";
 import { hydrateColorSystem } from "../../src/features/color-system/model";
 import { enableEditMode } from "./editMode";
+import { selectMode } from "./modeControl";
 
 test.beforeEach(async ({ page }) => {
   await enableEditMode(page);
@@ -28,6 +29,76 @@ const openDisplayOptions = async (page: import("@playwright/test").Page) => {
   return page.getByRole("listbox", { name: "Show" });
 };
 
+test("opening the selected mode editor does not regenerate color ramps", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    const state = window as typeof window & { colorPreviewRequests: number };
+    state.colorPreviewRequests = 0;
+    window.Worker = class extends Worker {
+      constructor(url: string | URL, options?: WorkerOptions) {
+        super(url, options);
+        if (!String(url).includes("/features/color-system/preview.worker"))
+          return;
+        const send = this.postMessage.bind(this);
+        this.postMessage = (
+          message: unknown,
+          transfer?: Transferable[] | StructuredSerializeOptions,
+        ) => {
+          state.colorPreviewRequests += 1;
+          if (Array.isArray(transfer)) send(message, transfer);
+          else send(message, transfer);
+        };
+      }
+    };
+  });
+  const requests = () =>
+    page.evaluate(
+      () =>
+        (window as typeof window & { colorPreviewRequests: number })
+          .colorPreviewRequests,
+    );
+  await page.goto("/");
+  await evaluationReady(page);
+  const palette = page.locator(".colorEvaluationPaletteContent");
+  const boundary = palette.locator("xpath=ancestor::*[@data-derived-state][1]");
+  await expect(boundary).toHaveAttribute("data-derived-state", "ready");
+  const modeSets = page.getByRole("button", { name: "Mode sets", exact: true });
+  if ((await modeSets.getAttribute("aria-expanded")) === "false")
+    await modeSets.click();
+  const before = await requests();
+  expect(before).toBeGreaterThan(0);
+  const swatch = page.locator(".colorEvaluationSwatch").first();
+  const light = await swatch.getAttribute("style");
+  await page
+    .getByRole("button", { name: "Edit Light for color", exact: true })
+    .click();
+  await expect(
+    page.getByRole("dialog", { name: "Edit Light for color", exact: true }),
+  ).toBeVisible();
+  await page.waitForTimeout(300);
+  expect(await requests()).toBe(before);
+  await expect(boundary).toHaveAttribute("data-derived-state", "ready");
+  await expect(swatch).toHaveAttribute("style", light!);
+  await page.keyboard.press("Escape");
+  await selectMode(page, "Dark");
+  await expect.poll(requests).toBeGreaterThan(before);
+  await expect(boundary).toHaveAttribute("data-derived-state", "ready");
+  await expect(swatch).not.toHaveAttribute("style", light!);
+  const afterModeChange = await requests();
+  await page
+    .getByRole("button", { name: "Edit Dark for color", exact: true })
+    .click();
+  await expect(
+    page.getByRole("dialog", { name: "Edit Dark for color", exact: true }),
+  ).toBeVisible();
+  await page.waitForTimeout(300);
+  expect(await requests()).toBe(afterModeChange);
+  expect(errors).toEqual([]);
+});
+
 for (const gamut of ["display-p3", "oklch"] as const) {
   test(`renders a saved ${gamut} background swatch across Foundations views`, async ({
     page,
@@ -35,7 +106,12 @@ for (const gamut of ["display-p3", "oklch"] as const) {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     const document = hydrateColorSystem(COLOR_SYSTEM_DEFAULTS);
-    document.settings.colorOutput = gamut;
+    document.settings.colorOutput = {
+      ...document.settings.colorOutput,
+      ...(gamut === "oklch"
+        ? { outputFormat: "oklch" as const }
+        : { authoringGamut: "display-p3" as const }),
+    };
     document.backgroundLightness = 0.25;
     document.backgroundScaleId = document.scales.find(
       (scale) => scale.name === "Blue",
@@ -260,11 +336,12 @@ test("comparison toggles render their rows", async ({ page }) => {
   await evaluationReady(page);
 
   const displayOptions = await openDisplayOptions(page);
-  await expect(displayOptions.getByRole("option")).toHaveCount(4);
+  await expect(displayOptions.getByRole("option")).toHaveCount(5);
   for (const label of [
     "Opaque scale",
     "CSS opacity",
     "Show contrast",
+    "Contrast adjustment",
     "Show values",
   ]) {
     await expect(

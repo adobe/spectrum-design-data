@@ -62,7 +62,7 @@ for (const foundation of [
     await page.goto("/");
     await page
       .getByRole("navigation", { name: "Navigation", exact: true })
-      .getByRole("link", { name: "Analysis", exact: true })
+      .getByRole("link", { name: /^Migration\b/ })
       .click();
     await showAnalysisDetails(page);
     await expect(page.getByTestId("analysis-provenance")).toContainText(
@@ -107,7 +107,7 @@ for (const foundation of [
       ).toContainText(`${value}px`);
       await page
         .getByRole("navigation", { name: "Navigation", exact: true })
-        .getByRole("link", { name: "Analysis", exact: true })
+        .getByRole("link", { name: /^Migration\b/ })
         .click();
       await showAnalysisDetails(page);
     };
@@ -237,7 +237,7 @@ test("Analysis filters extension and confirmed-pair field/type diagnostics witho
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(page.getByTestId("analysis-provenance")).toContainText(
@@ -298,7 +298,7 @@ test("Analysis filters evidence and downloads a defaults report without runtime 
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(
@@ -372,7 +372,7 @@ test("Analysis separates defaults, saved, and working state through editing and 
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(page.getByTestId("analysis-provenance")).toContainText(
@@ -382,7 +382,7 @@ test("Analysis separates defaults, saved, and working state through editing and 
   await page.getByRole("button", { name: "Edit", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Logic", exact: true })
+    .getByRole("link", { name: /^Rules\b/ })
     .click();
   await page.getByRole("button", { name: "Add rule", exact: true }).click();
   const dialog = page.getByRole("dialog");
@@ -392,7 +392,7 @@ test("Analysis separates defaults, saved, and working state through editing and 
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(page.getByTestId("analysis-provenance")).toHaveText(original!);
@@ -429,7 +429,7 @@ test("Analysis separates defaults, saved, and working state through editing and 
   );
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Logic", exact: true })
+    .getByRole("link", { name: /^Rules\b/ })
     .click();
   await page.getByRole("button", { name: "Add rule", exact: true }).click();
   await dialog
@@ -438,7 +438,7 @@ test("Analysis separates defaults, saved, and working state through editing and 
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(page.getByTestId("analysis-provenance")).toHaveText(original!);
@@ -520,7 +520,7 @@ test("Analysis exposes missing-reference state and mobile layout without runtime
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(page.getByRole("status")).toContainText(

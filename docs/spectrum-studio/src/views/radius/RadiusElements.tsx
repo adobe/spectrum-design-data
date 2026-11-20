@@ -2,7 +2,7 @@
 import { termLabel } from "../../features/taxonomy/termPresentation";
 import { Text } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useAtomValue } from "jotai";
+import { useAtomValue, type ExtractAtomValue } from "jotai";
 import { generatedRadiusAtom } from "../../features/radius/state";
 import { FoundationsElementsHeader } from "../FoundationsElementsHeader";
 import { RadiusSample } from "./RadiusSample";
@@ -13,6 +13,9 @@ import {
   previewScaleNameStyles,
 } from "../previewLabelStyles";
 import "../chartLayout.css";
+import { useNumericRuntime } from "../../features/edit-session/numericContext";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 
 const container = style({
   display: "flex",
@@ -38,7 +41,36 @@ const section = style({
 });
 
 export function RadiusElements() {
+  return useNumericRuntime() ? (
+    <LiveRadiusElements />
+  ) : (
+    <AcceptedRadiusElements />
+  );
+}
+function LiveRadiusElements() {
+  const result = useEditorPreview("radius", null);
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label="Updating radius preview"
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready?.value.kind === "dimension" && (
+        <RadiusElementsContent scales={result.ready.value.scales} />
+      )}
+    </DerivedContentBoundary>
+  );
+}
+function AcceptedRadiusElements() {
   const scales = useAtomValue(generatedRadiusAtom);
+  return <RadiusElementsContent scales={scales} />;
+}
+function RadiusElementsContent({
+  scales,
+}: {
+  scales: ExtractAtomValue<typeof generatedRadiusAtom>;
+}) {
   const surfaceStyle = useAtomValue(elementsSurfaceStyleAtom);
   return (
     <div

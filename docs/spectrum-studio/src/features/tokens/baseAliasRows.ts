@@ -53,6 +53,7 @@ import type { TokenOverrideMap } from "./model";
 import { resolveToken } from "./model";
 import { isFoundationPublished } from "../foundations/types";
 import type { TshirtArtifactBundle } from "../design-data/tshirtTypes";
+import type { PreviewOverrides } from "../modes/previewState";
 import { resolveBrowserColorTokens } from "./colorResolution";
 import type { ColorOutputError } from "../color-system/outputContrast";
 import { finalUiSwatches } from "../color-system/data-vis/resolution";
@@ -161,10 +162,12 @@ export function canonicalBaseAliasRows(
     excludeColors = false,
     includeUnpublished = false,
     selections,
+    preview,
   }: {
     excludeColors?: boolean;
     includeUnpublished?: boolean;
     selections?: readonly Record<string, string>[];
+    preview?: PreviewOverrides;
   } = {},
 ): CanonicalAliasRow[] {
   const axes = source.modeSets.filter((axis) => axis.modes.length);
@@ -200,7 +203,7 @@ export function canonicalBaseAliasRows(
   for (const selection of combinations) {
     const modes = modesForSelection(axes, selection);
     const modeKey = canonicalTokenModeKey(selection);
-    const colors = resolveColorDocument(source.colorSystem, modes, undefined, {
+    const colors = resolveColorDocument(source.colorSystem, modes, preview, {
       modeSets: source.modeSets,
       opacity: source.opacity,
       browserTokenEdits: source.browserTokenEdits,
@@ -246,7 +249,7 @@ export function canonicalBaseAliasRows(
     const typography = resolveTypographyDocument(
       source.typography,
       modes,
-      undefined,
+      preview,
       { modeSets: source.modeSets },
     );
     const typeValues = generateTypography(
@@ -264,7 +267,7 @@ export function canonicalBaseAliasRows(
         componentSizing: source.componentSizing,
       },
       modes,
-      undefined,
+      preview,
       { modeSets: source.modeSets },
     );
     const dimensions = (family: "spacing" | "size" | "radius") =>
@@ -285,7 +288,7 @@ export function canonicalBaseAliasRows(
       source.elevation,
       modes,
       source.modeSets,
-      undefined,
+      preview,
       source,
     );
     const levels = generateElevation(

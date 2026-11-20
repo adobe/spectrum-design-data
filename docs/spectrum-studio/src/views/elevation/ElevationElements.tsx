@@ -14,6 +14,10 @@ import { ShadowSample } from "./ShadowSample";
 import { elementsSurfaceStyleAtom } from "../../state/view/elementsSurface";
 import { elementsSurfaceStyles } from "../elementsSurfaceStyles";
 import { previewLabelStyles } from "../previewLabelStyles";
+import { useNumericRuntime } from "../../features/edit-session/numericContext";
+import { useEditorPreview } from "../../features/edit-session/useEditorPreview";
+import type { EditorPreviewOutput } from "../../features/edit-session/editorPreviewWork";
+import { DerivedContentBoundary } from "../../components/DerivedContentBoundary";
 
 const container = style({
   display: "flex",
@@ -40,10 +44,44 @@ const row = style({
   minWidth: 0,
 });
 export function ElevationElements() {
-  const surfaceStyle = useAtomValue(elementsSurfaceStyleAtom);
+  return useNumericRuntime() ? (
+    <LiveElevationElements />
+  ) : (
+    <AcceptedElevationElements />
+  );
+}
+function LiveElevationElements() {
+  const result = useEditorPreview("elevation", null);
+  return (
+    <DerivedContentBoundary
+      state={result.status}
+      label="Updating elevation preview"
+      error={result.error}
+      onRetry={result.retry}
+    >
+      {result.ready?.value.kind === "elevation" && (
+        <ElevationElementsContent data={result.ready.value} />
+      )}
+    </DerivedContentBoundary>
+  );
+}
+function AcceptedElevationElements() {
   const document = useAtomValue(resolvedElevationAtom);
   const levels = useAtomValue(generatedElevationAtom);
   const registry = useAtomValue(taxonomyDocumentAtom);
+  return (
+    <ElevationElementsContent
+      data={{ kind: "elevation", document, levels, registry }}
+    />
+  );
+}
+function ElevationElementsContent({
+  data,
+}: {
+  data: Extract<EditorPreviewOutput, { kind: "elevation" }>;
+}) {
+  const { document, levels, registry } = data;
+  const surfaceStyle = useAtomValue(elementsSurfaceStyleAtom);
   const [showValues, setShowValues] = useState(true);
   return (
     <div className={container} data-component="ElevationElements">

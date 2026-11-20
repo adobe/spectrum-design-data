@@ -24,6 +24,22 @@ test.afterEach(({ page }) => {
   expect(errors.get(page)).toEqual([]);
 });
 
+test("Views/Data vis examples: prepared quantitative records", async ({
+  page,
+  request,
+}) => {
+  const index: StoryIndex = await (await request.get("/index.json")).json();
+  const story = Object.values(index.entries).find(
+    (entry) =>
+      entry.title === "Views/Data vis examples" &&
+      entry.name === "Prepared sequence" &&
+      entry.type === "story",
+  );
+  if (!story) throw new Error("Missing prepared quantitative example story.");
+  await page.goto(`/iframe.html?id=${story.id}&viewMode=story`);
+  await expect(page.locator('[data-play-complete="true"]')).toBeVisible();
+});
+
 test("Views/Data vis examples: categorical rendering", async ({
   page,
   request,
@@ -71,6 +87,7 @@ const families = [
     title: "Views/Data vis examples",
     interaction: [
       "Sequential",
+      "Prepared sequence",
       "Categorical",
       "Many categories",
       "Live colors",

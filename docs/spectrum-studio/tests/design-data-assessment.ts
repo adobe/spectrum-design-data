@@ -473,10 +473,7 @@ try {
   const revision = execFileSync("git", ["-C", appRoot, "rev-parse", "HEAD"], {
     encoding: "utf8",
   }).trim();
-  const path = join(
-    relative(repositoryRoot, appRoot),
-    "src/data/design-system.defaults.json",
-  )
+  const path = join(relative(repositoryRoot, appRoot), "src/data/defaults.ts")
     .split("\\")
     .join("/");
   const blob = execFileSync(

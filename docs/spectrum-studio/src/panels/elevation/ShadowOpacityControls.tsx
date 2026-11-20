@@ -54,6 +54,7 @@ export function ShadowOpacityControls({
       error={issue}
       normalizeValue={(text) => normalizeNumericEntry(text, "%")}
       customValue={{
+        liveNumeric: true,
         displayValue: manual === undefined ? "" : `${manual * 100}%`,
         onAccept: (text) => {
           const percentage = numericEntryValue(text, "%");

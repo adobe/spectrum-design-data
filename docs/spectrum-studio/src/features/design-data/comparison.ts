@@ -78,8 +78,19 @@ export interface AnalysisRecord {
   overrides?: { generatedName?: string; generatedValue?: unknown };
 }
 
+export interface PracticeCopySummary {
+  /** `current` when the live package still matches the commit the copy came from. */
+  status: "current" | "refresh-available" | "missing" | "unavailable";
+  recordedCommit?: string;
+  /** Source files changed, added or removed since the copy was taken. */
+  changedFiles: number;
+  error?: string;
+}
+
 export interface AnalysisSource {
   referenceOrigin?: "live-checkout" | "packaged";
+  /** Information only: freshness of Studio's practice copy (data/design-data). */
+  practiceCopy?: PracticeCopySummary;
   kind: "defaults" | "saved" | "working" | "reference";
   root: string;
   hash: string;

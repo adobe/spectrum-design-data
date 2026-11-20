@@ -1,5 +1,5 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { atom } from "jotai";
+import { atom, type Getter, type Setter } from "jotai";
 import { persistedAtom } from "../../state/persist";
 import { editModeAtom } from "../../state/view/editMode";
 import { modeSetsAtom } from "../modes/documentState";
@@ -35,8 +35,15 @@ import { DEFAULT_SHADOW_OPACITY_ID } from "../opacity/defaults";
 import type { OpacitySource } from "../opacity/generation";
 import { modeCombinations } from "../modes/combinations";
 import { scaleStepName } from "../scales/stepNames";
-import { registerAuthoringGuard } from "../../state/authoringGuards";
+import {
+  registerAuthoringGuard,
+  withValidatedAuthoringUpdates,
+} from "../../state/authoringGuards";
 import { isOpacityDocument } from "../opacity/model";
+import {
+  deferPersistedNumeric,
+  numericProposalCaptureActive,
+} from "../edit-session/numericProposal";
 
 function validateCandidate(
   document: ElevationDocument,
@@ -104,27 +111,27 @@ export const elevationDocumentAtom = atom(
         ),
         "elevation",
       );
-    registerAuthoringGuard("opacity-shadow-references", (get, updates) => {
-      const opacity = updates.get("foundations/opacity");
-      if (!isOpacityDocument(opacity)) return;
-      const candidate = updates.get("foundations/elevation");
-      const elevation = isElevationDocument(candidate)
-        ? candidate
-        : get(elevationDocumentAtom);
-      if (
-        elevation.layers.some(
-          (layer) =>
-            layer.opacityTokenId &&
-            !opacity.levels.some((level) => level.id === layer.opacityTokenId),
-        )
-      )
-        throw new Error(
-          "Choose another opacity token for the shadows using this level before removing it.",
-        );
-    });
     set(storedElevationAtom, next);
   },
 );
+registerAuthoringGuard("opacity-shadow-references", (get, updates) => {
+  const opacity = updates.get("foundations/opacity");
+  if (!isOpacityDocument(opacity)) return;
+  const candidate = updates.get("foundations/elevation");
+  const elevation = isElevationDocument(candidate)
+    ? candidate
+    : get(elevationDocumentAtom);
+  if (
+    elevation.layers.some(
+      (layer) =>
+        layer.opacityTokenId &&
+        !opacity.levels.some((level) => level.id === layer.opacityTokenId),
+    )
+  )
+    throw new Error(
+      "Choose another opacity token for the shadows using this level before removing it.",
+    );
+});
 export const elevationNameAtom = atom((get) =>
   registeredSourceName(
     get(taxonomyDocumentAtom),
@@ -148,6 +155,57 @@ export const generatedElevationAtom = atom((get) =>
     get(colorOutputSettingsAtom),
   ),
 );
+function writeElevationDocument(
+  get: Getter,
+  set: Setter,
+  candidate: ElevationDocument,
+) {
+  if (!get(editModeAtom))
+    throw new Error("Enter edit mode to change Elevation.");
+  if (!isElevationDocument(candidate))
+    throw new Error("Enter valid Elevation settings.");
+  if (
+    deferPersistedNumeric(
+      "foundations/elevation",
+      get(elevationDocumentAtom),
+      candidate,
+    )
+  )
+    return;
+  validateCandidate(
+    candidate,
+    get(modeSetsAtom),
+    get(scaleTypesAtom),
+    get(opacitySourceAtom),
+  );
+  assertStructureReferences(
+    get(structuresDocumentAtom),
+    new Map(
+      [...elevationReferenceIds(candidate)].map((id) => [
+        id,
+        "elevation" as const,
+      ]),
+    ),
+    "elevation",
+  );
+  const taxonomy = registerSteps(candidate, get(taxonomyDocumentAtom));
+  withValidatedAuthoringUpdates(
+    get,
+    new Map<string, unknown>([
+      ["registry/taxonomy", taxonomy],
+      ["foundations/elevation", candidate],
+    ]),
+    () => {
+      set(taxonomyDocumentAtom, taxonomy);
+      set(elevationDocumentAtom, candidate);
+    },
+  );
+}
+export const updateElevationDocumentAtom = atom(
+  null,
+  (get, set, candidate: ElevationDocument) =>
+    writeElevationDocument(get, set, candidate),
+);
 export const updateElevationAtom = atom(
   null,
   (
@@ -162,26 +220,10 @@ export const updateElevationAtom = atom(
   ) => {
     if (!get(editModeAtom))
       throw new Error("Enter edit mode to change Elevation.");
-    const candidate = { ...get(elevationDocumentAtom), ...patch };
-    validateCandidate(
-      candidate,
-      get(modeSetsAtom),
-      get(scaleTypesAtom),
-      get(opacitySourceAtom),
-    );
-    assertStructureReferences(
-      get(structuresDocumentAtom),
-      new Map(
-        [...elevationReferenceIds(candidate)].map((id) => [
-          id,
-          "elevation" as const,
-        ]),
-      ),
-      "elevation",
-    );
-    const taxonomy = registerSteps(candidate, get(taxonomyDocumentAtom));
-    set(taxonomyDocumentAtom, taxonomy);
-    set(elevationDocumentAtom, candidate);
+    writeElevationDocument(get, set, {
+      ...get(elevationDocumentAtom),
+      ...patch,
+    });
   },
 );
 export const updateShadowLayerAtom = atom(
@@ -216,13 +258,7 @@ export const updateShadowLayerAtom = atom(
           : layer,
       ),
     };
-    validateCandidate(
-      candidate,
-      get(modeSetsAtom),
-      get(scaleTypesAtom),
-      get(opacitySourceAtom),
-    );
-    set(elevationDocumentAtom, candidate);
+    writeElevationDocument(get, set, candidate);
   },
 );
 export const addShadowLayerAtom = atom(null, (get, set) => {
@@ -347,21 +383,22 @@ export const updateElevationModeParameterAtom = atom(
       throw new Error(
         "Choose a valid opaque color or Depth between 0% and 200%.",
       );
-    generateElevation(
-      resolveElevationDocument(
-        {
-          ...get(elevationDocumentAtom),
-          ...(input.parameterId === "elevation.depth"
-            ? { depth: Number(input.value) }
-            : { color: String(input.value) }),
-        },
-        get(activeModesAtom),
-        get(modeSetsAtom),
-        {},
-        get(opacitySourceAtom),
-      ),
-      get(scaleTypesAtom),
-    );
+    if (!numericProposalCaptureActive())
+      generateElevation(
+        resolveElevationDocument(
+          {
+            ...get(elevationDocumentAtom),
+            ...(input.parameterId === "elevation.depth"
+              ? { depth: Number(input.value) }
+              : { color: String(input.value) }),
+          },
+          get(activeModesAtom),
+          get(modeSetsAtom),
+          {},
+          get(opacitySourceAtom),
+        ),
+        get(scaleTypesAtom),
+      );
     const target = set(setActiveModeParameterAtom, input);
     if (!target)
       set(

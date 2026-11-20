@@ -42,7 +42,9 @@ for (const [destination, label] of [
         }),
       ).toBeVisible();
     }
-    await navigation.getByRole("link", { name: "Home", exact: true }).click();
+    await page
+      .getByRole("button", { name: "Spectrum Studio home", exact: true })
+      .click();
     await expect(home).toBeVisible();
     expect(errors).toEqual([]);
   });

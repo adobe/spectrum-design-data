@@ -1,14 +1,8 @@
 // Copyright 2026 Adobe. All rights reserved.
-import { Tab, TabList, TabPanel, Tabs } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
-import { useAtom, useAtomValue } from "jotai";
-import {
-  editingScaleTypeIdAtom,
-  logicTabAtom,
-  type LogicTab,
-} from "../state/view/logicView";
+import { useAtomValue } from "jotai";
+import { editingScaleTypeIdAtom } from "../state/view/logicView";
 import { FormulasView } from "../views/logic/FormulasView";
-import { RulesView } from "../views/logic/RulesView";
 import { ScaleTypeEditorLayout } from "./logic/ScaleTypeEditorLayout";
 
 const pageStyles = style({
@@ -37,10 +31,7 @@ const introStyles = style({
   color: "neutral-subdued",
   margin: 0,
 });
-const tabPanelStyles = style({ marginTop: 16 });
-
-export default function Logic() {
-  const [tab, setTab] = useAtom(logicTabAtom);
+export default function Formulas() {
   const editingScaleTypeId = useAtomValue(editingScaleTypeIdAtom);
 
   if (editingScaleTypeId !== null)
@@ -52,33 +43,17 @@ export default function Logic() {
     );
 
   return (
-    <div className="pageMainContent" data-component="Logic">
+    <div className="pageMainContent" data-component="Formulas">
       <div className={pageStyles}>
         <header className={headerStyles}>
           <div className={headingGroupStyles}>
-            <h2 className={headingStyles}>Logic</h2>
+            <h2 className={headingStyles}>Formulas</h2>
             <p className={introStyles}>
-              Reusable math and rules that foundations reference.
+              Reusable formulas that foundations reference.
             </p>
           </div>
         </header>
-        <Tabs
-          density="compact"
-          aria-label="Logic sections"
-          selectedKey={tab}
-          onSelectionChange={(key) => setTab(String(key) as LogicTab)}
-        >
-          <TabList>
-            <Tab id="rules">Rules</Tab>
-            <Tab id="formulas">Formulas</Tab>
-          </TabList>
-          <TabPanel styles={tabPanelStyles} id="rules">
-            <RulesView />
-          </TabPanel>
-          <TabPanel styles={tabPanelStyles} id="formulas">
-            <FormulasView />
-          </TabPanel>
-        </Tabs>
+        <FormulasView />
       </div>
     </div>
   );

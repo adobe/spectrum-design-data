@@ -53,7 +53,7 @@ test("Artifact validator refresh preserves a name draft and recovers without bro
   await name.press("Enter");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await page.getByRole("button", { name: /Analysis view/ }).click();
   await page

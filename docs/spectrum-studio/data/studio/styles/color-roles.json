@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cecc0b42-fb70-4cbd-85ec-bec7d92fb2b0",
+    "roleTermId": "c987efac-c9dd-413b-8f9d-973815d089e4",
+    "scaleId": "scale-48"
+  },
+  {
+    "id": "fbcbd86f-9444-4779-9aa2-e794ff058a9c",
+    "roleTermId": "6e32af80-32c2-4c5a-afb3-e8ed734543d3",
+    "scaleId": "scale-48"
+  },
+  {
+    "id": "cadb023e-0bfd-4a95-a8cf-aeacdf449c26",
+    "roleTermId": "d20e0d12-0915-4d33-91f4-ba1b6272326f",
+    "scaleId": "scale-32"
+  },
+  {
+    "id": "89b495b2-68b1-4591-8af6-32e794d305cb",
+    "roleTermId": "b1529dac-f806-4cf4-828e-18053154d25f",
+    "scaleId": "scale-6"
+  },
+  {
+    "id": "a8038311-5706-4031-a9b7-a5d46d1be5e2",
+    "roleTermId": "63da69ae-6929-4d6f-ae36-6750a5d315b0",
+    "scaleId": "scale-14"
+  },
+  {
+    "id": "070bfaa1-51ca-455f-a67b-20699b41ca81",
+    "roleTermId": "bb9dd37e-a07f-4602-97df-faec059917c7",
+    "scaleId": "scale-gray"
+  }
+]

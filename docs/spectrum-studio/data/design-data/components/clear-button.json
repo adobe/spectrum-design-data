@@ -1,0 +1,111 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/clear-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "clear-button",
+  "displayName": "Clear button",
+  "description": "An icon-only button inside another component that clears or removes its value, such as the remove control on a tag or the clear control in a search field.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/clear-button/"
+  },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ClearButton",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "size": {
+      "type": "string",
+      "pattern": "^(x?s|m|x{0,3}l)$",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color must not be set for the default version of this component. React Spectrum sets it on a selected, emphasized tag, whose background is accent.",
+      "values": [
+        {
+          "value": "white"
+        }
+      ]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Round, transparent hit area that holds the cross. It has no fill in any state.",
+      "required": true,
+      "contains": ["icon"]
+    },
+    {
+      "name": "icon",
+      "description": "Cross mark that clears or removes the value.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the container for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "From React Spectrum ClearButton.tsx (round, transparent, inset focus ring) and SWC 1st-gen sp-clear-button. Same parts as close-button: the cross is the icon. Figma draws no clear button, only a bare cross glyph inside the tag."
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "role": "button",
+    "intents": ["dismiss"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

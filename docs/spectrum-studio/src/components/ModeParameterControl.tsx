@@ -30,12 +30,14 @@ export function ModeParameterControl({
   value,
   documents,
   onChange,
+  onPreviewChange,
   focusOnMount = false,
 }: {
   parameter: FoundationParameterDefinition;
   value: string | number;
   documents: FoundationDocuments;
   onChange: (value: string | number) => void;
+  onPreviewChange?: (value: string | number) => void;
   focusOnMount?: boolean;
 }) {
   const sliderRef = useRef<ComponentRef<typeof Slider>>(null);
@@ -93,6 +95,7 @@ export function ModeParameterControl({
           step={1}
           ref={sliderRef}
           onChange={onChange}
+          onPreviewChange={onPreviewChange}
         />
       );
     case "shadowColor":
@@ -135,6 +138,7 @@ export function ModeParameterControl({
           ref={sliderRef}
           formatOptions={{ signDisplay: "exceptZero" }}
           onChange={onChange}
+          onPreviewChange={onPreviewChange}
         />
       );
     case "contrastMultiplier":
@@ -148,6 +152,7 @@ export function ModeParameterControl({
           ref={sliderRef}
           formatOptions={{ style: "percent" }}
           onChange={onChange}
+          onPreviewChange={onPreviewChange}
         />
       );
     case "backgroundLightness":
@@ -158,6 +163,7 @@ export function ModeParameterControl({
           ref={colorRef}
           value={Number(value)}
           onChange={onChange}
+          onPreviewChange={onPreviewChange}
         />
       );
     case "backgroundScale":

@@ -7,7 +7,7 @@ import {
   type TaxonomyScope,
 } from "./model";
 import type { ReferencedTaxonomySource } from "./referenceValidation";
-import type { RuleConditionNode } from "../logic/model";
+import type { RuleConditionNode, RuleType } from "../logic/model";
 import { ELEMENT_CATEGORY_ID } from "../structures/elements";
 import { STRUCTURE_CATEGORY_IDS } from "../structures/vocabulary";
 import { leafElements } from "../structures/children";
@@ -21,6 +21,7 @@ export interface RegistryReference {
   href: string;
   foundation?: TaxonomyScope;
   designSection?: "concepts" | "structures";
+  ruleType?: RuleType;
   classification: Classification;
 }
 
@@ -63,15 +64,16 @@ export function registryReferences(
           : kind === "foundation"
             ? "Foundations"
             : kind === "rule"
-              ? "Logic"
+              ? "Rules"
               : "Structures",
         href: token
           ? "#tokens"
           : kind === "foundation"
             ? "#foundations"
             : kind === "rule"
-              ? "#logic"
+              ? "#rules"
               : "#design",
+        ...(kind === "rule" && { ruleType: "generator" as const }),
         ...(!token &&
           kind !== "foundation" &&
           kind !== "rule" && { designSection: "structures" as const }),
@@ -94,6 +96,7 @@ export function registryReferences(
     href: string,
     classification: Classification,
     designSection?: RegistryReference["designSection"],
+    ruleType?: RuleType,
   ) =>
     records.push({
       id,
@@ -102,6 +105,7 @@ export function registryReferences(
       href,
       classification,
       designSection,
+      ruleType,
       group: "Authoring references",
     });
   for (const structure of source.snapshot.structures?.structures ?? [])
@@ -191,9 +195,15 @@ export function registryReferences(
     if (node.kind === "group")
       node.children.forEach((child) => condition(child, ruleId, name));
     else if (node.source === "taxonomy")
-      add(`condition:${ruleId}:${node.id}`, name, "Logic", "#logic", {
-        [node.sourceId]: node.valueId,
-      });
+      add(
+        `condition:${ruleId}:${node.id}`,
+        name,
+        "Rules",
+        "#rules",
+        { [node.sourceId]: node.valueId },
+        undefined,
+        "conditional",
+      );
   }
   for (const rule of source.snapshot.rules ?? []) {
     if (rule.type !== "conditional") continue;
@@ -205,9 +215,11 @@ export function registryReferences(
       add(
         `rule-output:${rule.id}:${output.id}`,
         rule.name,
-        "Logic",
-        "#logic",
+        "Rules",
+        "#rules",
         output.classification,
+        undefined,
+        "conditional",
       );
   }
   return indexRegistryReferences(records);

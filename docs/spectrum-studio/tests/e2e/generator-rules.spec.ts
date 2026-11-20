@@ -6,9 +6,9 @@ import { AUTHORING_STORAGE_KEY } from "../../src/features/edit-session/storage";
 async function openRules(page: Page) {
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: /^Logic\b/ })
+    .getByRole("link", { name: /^Rules\b/ })
     .click();
-  await page.getByRole("tab", { name: "Rules", exact: true }).click();
+  await page.getByRole("tab", { name: "Generators", exact: true }).click();
 }
 
 test("Generator options, default rebasing, Cancel and reload keep Registry edits together", async ({

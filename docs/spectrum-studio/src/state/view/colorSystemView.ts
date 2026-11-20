@@ -8,6 +8,7 @@ export const selectedContrastIdAtom = atom<string | null>(null);
 export const showOpaqueComparisonAtom = atom(false);
 export const showCssOpacityComparisonAtom = atom(false);
 export const showContrastValuesAtom = atom(false);
+export const showContrastAdjustmentAtom = atom(false);
 export const showColorValuesAtom = atom(false);
 export const rampSurfaceIdAtom = atom<string | null>(null);
 export const previewScaleIdAtom = atom<string | null>(null);

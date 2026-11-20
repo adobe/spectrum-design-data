@@ -75,7 +75,7 @@ for (const domain of ["spacing", "size"] as const) {
     await page.getByRole("button", { name: "Save", exact: true }).click();
     await page
       .getByRole("navigation", { name: "Navigation", exact: true })
-      .getByRole("link", { name: "Analysis", exact: true })
+      .getByRole("link", { name: /^Migration\b/ })
       .click();
     await showAnalysisDetails(page);
     await expect(
@@ -199,7 +199,7 @@ test("Quota failure exposes non-durable status and malformed artifact cache rebu
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   const status = page.getByRole("region", {

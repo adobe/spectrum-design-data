@@ -11,6 +11,7 @@ import {
 } from "./design-data-loader";
 import type { AnalysisInput } from "../src/features/design-data/comparison";
 import { packagedAnalysisReference } from "./packaged-analysis-reference";
+import { designDataCopyPaths, practiceCopySummary } from "./designDataCopy";
 import {
   assessmentGitWatchPaths,
   attachReferenceAssessment,
@@ -60,12 +61,14 @@ export function designDataAnalysisPlugin(): Plugin {
       const roots = [
         ...datasetRoots,
         resolve(appRoot, "src/data"),
+        resolve(appRoot, "data/studio"),
         resolve(appRoot, "src/features"),
         resolve(appRoot, "scripts"),
       ];
       const documents = [
         resolve(appRoot, "docs/design-data-target-contract.md"),
         resolve(appRoot, "docs/design-data-pr-1454-review.md"),
+        resolve(appRoot, "data/design-data.source.json"),
       ];
       let cached: Promise<AnalysisInput> | undefined;
       let revision = 0;
@@ -157,7 +160,20 @@ export function designDataAnalysisPlugin(): Plugin {
             cached ??= loadReferenceInput(root, sdk);
             // Assessment hashes/refs are checked on every request; a manual refresh
             // never reuses stale reviewed metadata just because dataset bytes are cached.
-            const input = await attachReferenceAssessment(await cached, root);
+            const assessed = await attachReferenceAssessment(
+              await cached,
+              root,
+            );
+            // Checked per request (cheap hashing) so a refreshed copy shows at once.
+            const input: AnalysisInput = {
+              ...assessed,
+              source: {
+                ...assessed.source,
+                practiceCopy: practiceCopySummary(
+                  designDataCopyPaths(root, appRoot),
+                ),
+              },
+            };
             response.setHeader("Content-Type", "application/json");
             response.setHeader("Cache-Control", "no-store");
             response.end(JSON.stringify(input));
@@ -228,6 +244,7 @@ export function analysisCodeVersionPlugin(): Plugin {
   const roots = [
     resolve(appRoot, "src/features"),
     resolve(appRoot, "src/data"),
+    resolve(appRoot, "data/studio"),
   ];
   return {
     name: "analysis-code-version",

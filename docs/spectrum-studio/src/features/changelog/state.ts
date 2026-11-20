@@ -422,7 +422,7 @@ export const legacyChangeGroupsAtom = atom((get) => {
   if (styleChanges.length) {
     let group = groups.find((group) => group.id === "structures");
     if (!group) {
-      group = { id: "structures", label: "Design", count: 0, items: [] };
+      group = { id: "structures", label: "Objects", count: 0, items: [] };
       groups.push(group);
     }
     group.items.push(...styleChanges);

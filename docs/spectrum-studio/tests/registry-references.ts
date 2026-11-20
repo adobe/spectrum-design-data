@@ -105,11 +105,18 @@ const locations = actual.terms.get(term.id)!;
 assert(
   locations.some(
     (row) =>
-      row.id === `condition:${ruleId}:${conditionId}` && row.href === "#logic",
+      row.id === `condition:${ruleId}:${conditionId}` &&
+      row.href === "#rules" &&
+      row.ruleType === "conditional",
   ),
 );
 assert(
-  locations.some((row) => row.id === `rule-output:${ruleId}:example-output`),
+  locations.some(
+    (row) =>
+      row.id === `rule-output:${ruleId}:example-output` &&
+      row.href === "#rules" &&
+      row.ruleType === "conditional",
+  ),
 );
 const styleRecipe = source.snapshot.styles!.recipes[0];
 const styleName = actual.terms

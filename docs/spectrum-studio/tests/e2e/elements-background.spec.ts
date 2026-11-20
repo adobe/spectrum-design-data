@@ -463,7 +463,7 @@ for (const appearance of ["light", "dark"] as const)
     ).toBe(original);
     await page
       .getByRole("navigation", { name: "Navigation", exact: true })
-      .getByRole("link", { name: "Design", exact: true })
+      .getByRole("link", { name: "Objects", exact: true })
       .dispatchEvent("click");
     await expectSurface(
       page.locator('[data-component="Design"] [data-elements-surface]'),

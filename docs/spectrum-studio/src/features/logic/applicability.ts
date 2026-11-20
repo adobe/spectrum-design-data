@@ -37,7 +37,7 @@ export function compatibleRuleTypes(type: Operation): RuleValueType[] {
     type === "scale-naming"
       ? id === "color"
       : type === "conditional"
-        ? id === "color" || id === "opacity"
+        ? id === "color" || id === "opacity" || id === "elevation"
         : type === "rounding"
           ? id !== "color" && id !== "elevation"
           : id !== "color" && id !== "opacity",

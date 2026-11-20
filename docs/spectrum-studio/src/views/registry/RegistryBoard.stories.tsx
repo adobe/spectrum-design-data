@@ -24,10 +24,25 @@ import { TaxonomyTermDialog } from "../../panels/registry/TaxonomyTermDialog";
 import { RegistryBoard } from "./RegistryBoard";
 import { registryPasteboard } from "../../panels/registry/registryStyles";
 import { RegistryError } from "../../panels/registry/RegistryFields";
+import type { RegistryFilters } from "../../features/taxonomy/registryFilters";
 
-function RegistryStory({ editable = true, unavailableReferences = false }) {
+function RegistryStory({
+  editable = true,
+  unavailableReferences = false,
+  filters,
+  empty = false,
+}: {
+  editable?: boolean;
+  unavailableReferences?: boolean;
+  filters?: RegistryFilters;
+  empty?: boolean;
+}) {
   const [snapshot] = useState(createRegistrySnapshot);
-  const [document, setDocument] = useState(snapshot.taxonomy);
+  const [document, setDocument] = useState(() =>
+    empty
+      ? { ...snapshot.taxonomy, categories: [], terms: [], order: [] }
+      : snapshot.taxonomy,
+  );
   const current = useRef(document);
   current.current = document;
   const [opened, setOpened] = useState<{
@@ -91,6 +106,7 @@ function RegistryStory({ editable = true, unavailableReferences = false }) {
           document={document}
           source={source}
           editable={editable}
+          filters={filters}
           onCommit={commit}
           onOpen={(categoryId, termId) => setOpened({ categoryId, termId })}
           onDelete={(categoryId, termId) => setDeleting({ categoryId, termId })}
@@ -198,3 +214,7 @@ export const ReadOnly: Story = { args: { editable: false } };
 export const ReferencesUnavailable: Story = {
   args: { editable: false, unavailableReferences: true },
 };
+export const NoResults: Story = {
+  args: { filters: { tiers: [], types: [] } },
+};
+export const Empty: Story = { args: { empty: true } };

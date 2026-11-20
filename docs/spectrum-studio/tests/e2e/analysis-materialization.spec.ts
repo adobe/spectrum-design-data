@@ -66,7 +66,7 @@ test("Analysis labels samples, declared dependencies, source assignments and omi
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   const provenance = page.getByRole("region", {
@@ -146,7 +146,7 @@ test("Analysis rejects malformed provenance, keeps stale downloads, and recovers
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: "Analysis", exact: true })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await showAnalysisDetails(page);
   await expect(page.getByTestId("analysis-provenance")).toContainText(

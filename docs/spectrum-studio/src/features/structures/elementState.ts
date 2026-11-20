@@ -57,6 +57,7 @@ import {
 } from "./variantOperations";
 import { textStyleSourceAtom } from "../styles/state";
 import { textStyleReferenceIssues } from "../styles/textAppearance";
+import { deferNumericBatch } from "../edit-session/numericProposal";
 
 export const selectedElementIdAtom = atom<string | null>(null);
 interface ElementEdit {
@@ -107,6 +108,9 @@ export const editElementsAtom = atom(null, (get, set, input: ElementEdit) => {
   });
   const taxonomy = input.taxonomy ?? get(taxonomyDocumentAtom);
   assertStructureTaxonomy(updated, taxonomy);
+  const updates = new Map<string, unknown>([["design/structures", updated]]);
+  if (input.taxonomy) updates.set("registry/taxonomy", taxonomy);
+  if (deferNumericBatch(updates)) return;
   assertElementReferences(leafElements(next), get(primitiveReferencesAtom));
   const resolved = resolveElements(
     next,
@@ -117,8 +121,6 @@ export const editElementsAtom = atom(null, (get, set, input: ElementEdit) => {
   );
   if (resolved.some((element) => element.issues.length))
     throw new Error(resolved.flatMap((element) => element.issues).join(" "));
-  const updates = new Map<string, unknown>([["design/structures", updated]]);
-  if (input.taxonomy) updates.set("registry/taxonomy", taxonomy);
   withValidatedAuthoringUpdates(get, updates, () => {
     if (input.taxonomy) set(taxonomyDocumentAtom, taxonomy);
     set(structuresDocumentAtom, updated);

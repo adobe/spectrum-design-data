@@ -1,0 +1,139 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/select-box.json",
+  "specVersion": "1.0.0-draft",
+  "name": "select-box",
+  "displayName": "Select box",
+  "description": "Select boxes allow users to choose options in a workflow.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Select boxes allow users to choose options in a workflow."
+    },
+    {
+      "type": "guideline",
+      "content": "Minimum and maximum size.\n\nMinimum and maximum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."
+    },
+    {
+      "type": "guideline",
+      "content": "Consistent sizing.\n\nAll select boxes should be the same size as one another. Keep metadata concise, and make the size of the box large enough to accommodate longer text when translated to other languages."
+    },
+    {
+      "type": "guideline",
+      "content": "Text overflow.\n\nWhen the title of the select box is too long for the available horizontal space, it wraps to another line. Wrapped text should not affect the size of an individual select box. Each box in a group should have enough space to allow for longer, localized text to fit as necessary."
+    },
+    {
+      "type": "guideline",
+      "content": "Selection.\n\nClicking a select box does not immediately move to the next step in the sequence. After making a selection, the user must initiate the next step by choosing a button or similar component outside the select box group."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus.\n\nA select box group can be navigated using a keyboard. The keyboard focus state takes the button's visual hover state and adds a blue ring to the button in focus."
+    },
+    {
+      "type": "guideline",
+      "content": "Use illustrations only when they have a clear meaning.\n\nIllustrations should be used when they help clarify the content. If the items are too complex to represent visually, it may be better to omit them. For consistency, if one select box includes an illustration, all select boxes in the group should include one."
+    },
+    {
+      "type": "guideline",
+      "content": "Keep select box groups to 9 items or less.\n\nSelect box groups work best with 3 to 9 items. If your experience needs more than 9 items, consider using a dropdown, checkboxes, or radio button group instead."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use select boxes as actions",
+      "dont": "Select boxes are used to choose an item from a group. If clicking an item is meant to immediately trigger an action, use an action group instead."
+    },
+    {
+      "type": "guideline",
+      "content": "Use consistent sizing.\n\nAll select boxes in a group should be the same size to maintain visual consistency and usability."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use radio buttons in select boxes",
+      "dont": "Select boxes use a checkbox to indicate both single- and multi-selection. Don't use radio buttons for single-selection."
+    },
+    {
+      "type": "guideline",
+      "content": "Checkbox vs. highlight selection.\n\nSome cases may make more sense for the user to select one or a few options in a group of select boxes, but if the use case doesn't make sense to be checking a selection, showCheckbox can be false and the highlight style can be used instead. There is no visual differentiation between single- and multi-select behaviors when checkboxes are not present."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SelectBox",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
+    "orientation": {
+      "type": "string",
+      "default": "vertical",
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+    },
+    "body": { "type": "string" },
+    "isSelected": { "type": "boolean", "default": false },
+    "hideIllustration": { "type": "boolean", "default": false },
+    "showCheckbox": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "multiple": {
+      "type": "boolean",
+      "default": false,
+      "description": "Set to true to allow multiple selections."
+    }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Bordered card that holds the content.",
+      "required": true,
+      "contains": ["illustration", "label", "description", "checkbox"]
+    },
+    {
+      "name": "illustration",
+      "description": "Illustration or icon."
+    },
+    {
+      "name": "label",
+      "description": "Label text."
+    },
+    {
+      "name": "description",
+      "description": "Supplementary description."
+    },
+    {
+      "name": "checkbox",
+      "description": "Checkbox shown when enabled."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web (Content frame, Text frame; checkbox is a property). Hover is a visual state, not a part."
+  },
+  "states": [
+    { "name": "down", "trigger": "interaction" },
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "selected", "trigger": "prop" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "intents": ["select"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

@@ -22,6 +22,7 @@ import {
   type StyleRow,
 } from "./generation";
 import { EMPTY_STYLES, type StyleProperty } from "./model";
+import type { PreviewOverrides } from "../modes/previewState";
 
 export type StyleAuthoringSource = Partial<AliasAuthoringSource> &
   Pick<AliasAuthoringSource, "colorSystem" | "typography" | "modeSets">;
@@ -41,13 +42,14 @@ export function styleContexts(
   selections: readonly Record<string, string>[] = modeSelections(
     source.modeSets,
   ),
+  preview?: PreviewOverrides,
 ): StyleContext[] {
   const foundation = completeAliasSource(source);
   const rows = canonicalBaseAliasRows(
     foundation,
     undefined,
     "preserve-for-review",
-    { includeUnpublished: true, selections },
+    { includeUnpublished: true, selections, preview },
   );
   return selections.map((selection) => {
     const key = canonicalTokenModeKey(selection);
@@ -69,15 +71,17 @@ export function styleContexts(
         const property: StyleProperty | undefined =
           token.type === "colors"
             ? "color"
-            : metricId?.endsWith("-unitlessLineHeight")
-              ? "lineHeight"
-              : token.type === "size"
-                ? "borderWidth"
-                : row.canonicalName?.property === "font-family"
-                  ? "fontFamily"
-                  : row.canonicalName?.property === "font-weight"
-                    ? "fontWeight"
-                    : undefined;
+            : token.type === "elevation"
+              ? "shadow"
+              : metricId?.endsWith("-unitlessLineHeight")
+                ? "lineHeight"
+                : token.type === "size"
+                  ? "borderWidth"
+                  : row.canonicalName?.property === "font-family"
+                    ? "fontFamily"
+                    : row.canonicalName?.property === "font-weight"
+                      ? "fontWeight"
+                      : undefined;
         if (!property) return [];
         const rawIndex =
           token.projection?.flat.scaleIndex ?? row.canonicalName?.scaleIndex;
@@ -158,7 +162,9 @@ export function styleBrowserToken(
         ? "colors"
         : row.property === "borderWidth"
           ? "size"
-          : "typography",
+          : row.property === "shadow"
+            ? "elevation"
+            : "typography",
     groupId: row.metricId ?? row.recipeId,
     groupLabel:
       labelTermId && source.taxonomy

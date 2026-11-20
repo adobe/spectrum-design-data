@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 import assert from "node:assert/strict";
-import dataset from "../src/data/design-system.defaults.json";
+import { studioDataset as dataset } from "../src/data/studioData.generated";
 import { OPACITY_DEFAULTS } from "../src/features/opacity/defaults";
 import {
   opacityContexts,

@@ -17,6 +17,7 @@ import { useAtomValue } from "jotai";
 import { lazy, Suspense } from "react";
 import { LoadingIndicator } from "../components/LoadingIndicator";
 import { ViewSwitcher } from "../views/ViewSwitcher";
+import { SavedAgentSkills } from "../views/AgentSkillsView";
 import { subPanelTabSelectionAtom } from "../state/view/subPanelTabs";
 import { SampleApp } from "../views/SampleApp";
 import { TypographyElements } from "../views/typography/TypographyElements";
@@ -257,6 +258,11 @@ export default function Foundations() {
           apps={<SampleApp />}
           analyze={analyze}
           code={code}
+          skills={
+            selectedFoundationTab === "colors" && !dataVis ? (
+              <SavedAgentSkills area="color" />
+            ) : undefined
+          }
         />
       </CurrentColorOutputBoundary>
     </div>

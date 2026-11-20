@@ -8,20 +8,28 @@ export type DraftSliderProps = Omit<
   ComponentProps<typeof Slider>,
   "defaultValue" | "onChange" | "onChangeEnd"
 > & {
-  /** Saves a settled value: on release, each keyboard step, or an assistive-technology change. */
+  /** Receives live authoring proposals in an edit session, or settled values outside one. */
   onChange?: (value: number) => void;
+  /** Updates temporary preview state while dragging, at most once per frame. */
+  onPreviewChange?: (value: number) => void;
 };
 
 /**
- * Spectrum `Slider` that keeps an in-progress drag local and saves through
- * `onChange` only when the value settles.
+ * Keeps thumb movement local while the shared draft boundary handles previews
+ * and accepted writes. Release flushes the latest proposal.
  */
-export function DraftSlider({ value, onChange, ...props }: DraftSliderProps) {
-  const draft = useSliderDraft(value, onChange);
+export function DraftSlider({
+  value,
+  onChange,
+  onPreviewChange,
+  ...props
+}: DraftSliderProps) {
+  const draft = useSliderDraft(value, onChange, onPreviewChange);
   return (
     <div {...draft.boundaryProps}>
       <Slider
         {...props}
+        key={draft.key}
         value={draft.value}
         onChange={draft.onChange}
         onChangeEnd={draft.onChangeEnd}
@@ -43,6 +51,7 @@ export type DraftLightnessSliderProps = Omit<
   value: number;
   /** Saves a settled lightness from 0 to 1, like `DraftSlider`. */
   onChange: (value: number) => void;
+  onPreviewChange?: (value: number) => void;
 };
 
 function lightness(color: Color) {
@@ -53,9 +62,10 @@ function lightness(color: Color) {
 export function DraftLightnessSlider({
   value,
   onChange,
+  onPreviewChange,
   ...props
 }: DraftLightnessSliderProps) {
-  const draft = useSliderDraft(value, onChange);
+  const draft = useSliderDraft(value, onChange, onPreviewChange);
   const shown = draft.value ?? value;
   const color = useMemo(
     () => parseColor(`hsl(0, 0%, ${shown * 100}%)`),
@@ -65,6 +75,7 @@ export function DraftLightnessSlider({
     <div {...draft.boundaryProps}>
       <ColorSlider
         {...props}
+        key={draft.key}
         channel="lightness"
         value={color}
         onChange={(next) => draft.onChange(lightness(next))}

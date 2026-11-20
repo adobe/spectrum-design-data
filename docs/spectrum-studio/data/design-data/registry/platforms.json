@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "platform",
+  "description": "Platform names for multi-platform design system support",
+  "values": [
+    {
+      "id": "desktop",
+      "label": "Desktop",
+      "description": "Desktop platform (macOS, Windows, Linux)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "mobile",
+      "label": "Mobile",
+      "description": "Mobile platform (iOS, Android)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "web",
+      "label": "Web",
+      "description": "Web browsers",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "ios",
+      "label": "iOS",
+      "description": "Apple iOS mobile platform",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "android",
+      "label": "Android",
+      "description": "Google Android mobile platform",
+      "usedIn": ["tokens"]
+    }
+  ]
+}

@@ -7,8 +7,8 @@ import type { StyleColor, StyleRecipe } from "./model";
 import type { StyleRow } from "./generation";
 import { canvasLabel } from "../structures/canvasGrid";
 
-export function stylePreviewFamily(color: StyleColor, selected?: string) {
-  if (color.kind !== "families") return undefined;
+export function stylePreviewFamily(color?: StyleColor, selected?: string) {
+  if (color?.kind !== "families") return undefined;
   return selected && color.familyIds.includes(selected)
     ? selected
     : color.familyIds[0];
@@ -16,18 +16,19 @@ export function stylePreviewFamily(color: StyleColor, selected?: string) {
 
 export function stylePreviewColors(
   rows: StyleRow[],
-  color: StyleColor,
+  color: StyleColor | undefined,
   selection: {
     optionIds: readonly string[];
     familyId?: string;
     outputId?: string;
     permutations?: boolean;
   },
+  property: StyleRow["property"] = "color",
 ) {
   const familyId = stylePreviewFamily(color, selection.familyId);
   return rows.filter(
     (row) =>
-      row.property === "color" &&
+      row.property === property &&
       (selection.permutations ||
         (row.outputId === selection.outputId &&
           row.optionIds.every((id) => selection.optionIds.includes(id)) &&
@@ -55,6 +56,21 @@ export function stylePreview(
   surface: string,
   gamut: RgbGamut,
 ): { preview: ValuePreviewDescriptor; appearance: CSSProperties } {
+  if (recipe.kind === "shadow") {
+    const shadow = rows.find((row) => row.property === "shadow");
+    return shadow
+      ? {
+          preview: { kind: "shadow", value: String(shadow.value) },
+          appearance: { boxShadow: String(shadow.value) },
+        }
+      : {
+          preview: {
+            kind: "unavailable",
+            message: "The Elevation level is unavailable.",
+          },
+          appearance: {},
+        };
+  }
   const color = rows.find((row) => row.property === "color");
   if (!color)
     return {

@@ -22,6 +22,7 @@ import {
   type Notice,
   type NotificationKindId,
 } from "./policy";
+import { reportNumericProposalFailure } from "../edit-session/numericProposal";
 
 export interface LifecycleCandidate {
   id: string;
@@ -142,6 +143,8 @@ export function createNotificationCenter({
   }
 
   function display(notice: Notice) {
+    if (notice.variant === "negative")
+      reportNumericProposalFailure(notice.message);
     if (quiet && notice.variant !== "negative") return;
     if (depth) collected.push(notice);
     else present(notice);

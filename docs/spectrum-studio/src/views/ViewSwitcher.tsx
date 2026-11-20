@@ -10,6 +10,7 @@ import { CategoryIcon } from "../components/CategoryIcon";
 import { useAtom, useAtomValue } from "jotai";
 import type { ReactNode } from "react";
 import {
+  availableSwitcherView,
   viewSwitcherSelectionAtom,
   type ViewSwitcherView,
 } from "../state/view/viewSwitcher";
@@ -75,6 +76,11 @@ const views = [
     icon: <CategoryIcon category="view.analyze" />,
   },
   { id: "code", label: "Code", icon: <CategoryIcon category="view.code" /> },
+  {
+    id: "skills",
+    label: "Skills",
+    icon: <CategoryIcon category="view.skills" />,
+  },
 ] as const;
 
 interface ViewSwitcherProps {
@@ -83,6 +89,8 @@ interface ViewSwitcherProps {
   /** Shown for Analyze; falls back to Elements when a page has nothing to analyze. */
   analyze?: ReactNode;
   code: ReactNode;
+  /** Agent skills for this area; the Skills option only appears when supplied. */
+  skills?: ReactNode;
   "aria-label"?: string;
   defaultView?: ViewSwitcherView;
   dataComponent?: string;
@@ -119,12 +127,18 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
   const [sharedView, setSelectedView] = useAtom(viewSwitcherSelectionAtom);
   const configuration =
     "configuration" in props ? props.configuration : undefined;
-  const selectedView =
+  const hasSkills = "elements" in props && props.skills !== undefined;
+  const requestedView =
     configuration?.selectedKey ??
     sharedView ??
     ("defaultView" in props ? props.defaultView : undefined) ??
     "elements";
-  const options = configuration?.options ?? views;
+  const selectedView = configuration
+    ? requestedView
+    : availableSwitcherView(requestedView as ViewSwitcherView, hasSkills);
+  const options =
+    configuration?.options ??
+    views.filter((view) => view.id !== "skills" || hasSkills);
   const content = configuration
     ? configuration.options.find((view) => view.id === selectedView)?.content
     : "elements" in props
@@ -132,9 +146,11 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
         ? props.apps
         : selectedView === "code"
           ? props.code
-          : selectedView === "analyze" && props.analyze !== undefined
-            ? props.analyze
-            : props.elements
+          : selectedView === "skills"
+            ? props.skills
+            : selectedView === "analyze" && props.analyze !== undefined
+              ? props.analyze
+              : props.elements
       : null;
   const hasElementsSurface =
     "hasElementsSurface" in props && props.hasElementsSurface;
@@ -159,7 +175,8 @@ export function ViewSwitcher<View extends string = ViewSwitcherView>(
               key === "elements" ||
               key === "apps" ||
               key === "analyze" ||
-              key === "code"
+              key === "code" ||
+              (key === "skills" && hasSkills)
             )
               setSelectedView(key);
             else notify.error("This content view is unavailable.");

@@ -1,0 +1,96 @@
+[
+  {
+    "name": {
+      "property": "opacity",
+      "state": ["default"],
+      "object": "background"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0",
+    "uuid": "b7b25005-7188-4936-8dbc-e2dd15213f47",
+    "conceptId": "a15c52b2-f3d0-4d82-bbb0-d1a100f84f99"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "state": ["down"],
+      "object": "background"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "0718c9fc-3bb2-4887-97bd-e23b8ad308c5",
+    "conceptId": "97b4cb98-3798-4347-ae22-d19eb6bfd432"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "state": ["hover"],
+      "object": "background"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "048c326d-93b1-435f-a9e3-a4cbd3144fdd",
+    "conceptId": "2ebc3633-7c10-4efc-a5a2-921b8291a27a"
+  },
+  {
+    "name": {
+      "object": "background",
+      "property": "opacity",
+      "state": ["keyboard-focus"],
+      "legacyKey": "background-opacity-key-focus"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "a35883a9-43fd-4be5-97ee-62fdf3a33f39",
+    "conceptId": "17221d61-4900-4d99-b946-d2d5d3406874"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "state": ["disabled"]
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.3",
+    "uuid": "fdf6fd5d-55a0-4428-a258-4e8fafc74b74",
+    "conceptId": "9388bd68-6ade-413e-8e4c-63a9865c3320"
+  },
+  {
+    "name": {
+      "anatomy": "overlay",
+      "property": "opacity",
+      "colorScheme": "light",
+      "legacyKey": "overlay-opacity"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.4",
+    "uuid": "26b9803c-577f-4a29-badd-dfc459e8b73e",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "conceptId": "2f391381-6548-45eb-ac3b-ba0543884212"
+  },
+  {
+    "name": {
+      "anatomy": "overlay",
+      "property": "opacity",
+      "colorScheme": "dark",
+      "legacyKey": "overlay-opacity"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.6",
+    "uuid": "31d5b502-6266-4309-8f8a-3892e6e158da",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "conceptId": "2f391381-6548-45eb-ac3b-ba0543884212"
+  },
+  {
+    "name": {
+      "anatomy": "overlay",
+      "property": "opacity",
+      "colorScheme": "wireframe",
+      "legacyKey": "overlay-opacity"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.4",
+    "uuid": "8964a28b-af18-4623-b530-7f4446ee6fa4",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "conceptId": "2f391381-6548-45eb-ac3b-ba0543884212"
+  }
+]

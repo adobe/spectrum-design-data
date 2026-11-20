@@ -1,0 +1,66 @@
+[
+  {
+    "target": {
+      "structureId": "308a6950-fb02-4e75-bf54-046a7c5f2fa6",
+      "path": []
+    },
+    "elementId": "3698b347-b9ce-4169-971f-65be14613b8d",
+    "glyph": "Calendar"
+  },
+  {
+    "target": {
+      "structureId": "308a6950-fb02-4e75-bf54-046a7c5f2fa6",
+      "path": []
+    },
+    "elementId": "6b72f7f6-b83c-4fe8-ad49-99299167cebb",
+    "glyph": "OpenIn"
+  },
+  {
+    "target": {
+      "structureId": "308a6950-fb02-4e75-bf54-046a7c5f2fa6",
+      "path": []
+    },
+    "elementId": "79fadbc7-c74e-4852-ac7c-dae958ed8419",
+    "glyph": "ChevronDown"
+  },
+  {
+    "target": {
+      "structureId": "b5dc94e8-7dd6-4939-b9e1-037fe99d9064",
+      "path": []
+    },
+    "elementId": "466e476d-8bef-41c2-b93a-a8e13ebab29b",
+    "glyph": "ChevronDown"
+  },
+  {
+    "target": {
+      "structureId": "ae1dd494-43f8-4c86-847a-b6a1a810e27b",
+      "path": []
+    },
+    "elementId": "0307c5c4-192a-4a52-a270-f9bf70f9d34b",
+    "glyph": "ChevronDown"
+  },
+  {
+    "target": {
+      "structureId": "360ecad9-8e4b-4876-a24e-5d721984224d",
+      "path": []
+    },
+    "elementId": "2bb79299-8cbf-40fd-9b48-ddb8faf8e789",
+    "glyph": "Calendar"
+  },
+  {
+    "target": {
+      "structureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1004",
+      "path": []
+    },
+    "elementId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1502",
+    "glyph": "DragHandle"
+  },
+  {
+    "target": {
+      "structureId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1005",
+      "path": []
+    },
+    "elementId": "e00f9ed1-95c7-4a81-b8a7-b2600e0a1507",
+    "glyph": "ChevronRight"
+  }
+]

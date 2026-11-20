@@ -140,7 +140,7 @@ test("Color/opacity table expands modes, preserves parent results and exports sh
   await page.goto("/");
   await page
     .getByRole("navigation", { name: "Navigation", exact: true })
-    .getByRole("link", { name: /Migration analysis/ })
+    .getByRole("link", { name: /^Migration\b/ })
     .click();
   await page
     .getByRole("button", { name: "Compare colors and opacities", exact: true })

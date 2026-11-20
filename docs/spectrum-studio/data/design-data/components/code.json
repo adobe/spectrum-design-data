@@ -1,0 +1,56 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/code.json",
+  "specVersion": "1.0.0-draft",
+  "name": "code",
+  "displayName": "Code",
+  "description": "Detail is a typography component used for disclosing extra information or smaller items in hierarchical relationships of text.",
+  "meta": {
+    "category": "typography",
+    "documentationUrl": "https://spectrum.adobe.com/page/code/"
+  },
+  "options": {
+    "script": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    }
+  },
+  "anatomy": [
+    {
+      "name": "text",
+      "description": "Text run styled by the typography token set.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma component; text style only (React Spectrum / relationship label contexts). One minimal text part. 'Margins' spacing contexts are layout, not a part."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "focusable": false
+  }
+}

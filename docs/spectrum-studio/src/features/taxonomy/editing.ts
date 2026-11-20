@@ -239,3 +239,22 @@ export const editReferencedTaxonomyAtom = atom(
     set(editTaxonomyAtom, input);
   },
 );
+
+/** Updates one Registry term's description; other views read the same term. */
+export const setTermDescriptionAtom = atom(
+  null,
+  (get, set, input: { termId: string; description: string }) => {
+    const document = get(taxonomyDocumentAtom);
+    const term = document.terms.find((item) => item.id === input.termId);
+    if (!term) throw new Error("This item has no Registry term.");
+    if (term.description === input.description) return;
+    set(editReferencedTaxonomyAtom, {
+      ...document,
+      terms: document.terms.map((item) =>
+        item.id === input.termId
+          ? { ...item, description: input.description }
+          : item,
+      ),
+    });
+  },
+);

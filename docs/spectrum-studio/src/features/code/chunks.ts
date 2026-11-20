@@ -1,6 +1,11 @@
 // Copyright 2026 Adobe. All rights reserved.
 export const CODE_CHUNK_LINES = 48;
-export type CodeLanguage = "css" | "javascript" | "typescript" | "json";
+export type CodeLanguage =
+  | "css"
+  | "javascript"
+  | "typescript"
+  | "json"
+  | "markdown";
 
 export function codeChunks(code: string, lines = CODE_CHUNK_LINES): string[] {
   if (!Number.isInteger(lines) || lines < 1)

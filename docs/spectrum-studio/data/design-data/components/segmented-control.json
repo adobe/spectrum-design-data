@@ -1,0 +1,195 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/segmented-control.json",
+  "specVersion": "1.0.0-draft",
+  "name": "segmented-control",
+  "displayName": "Segmented Control",
+  "description": "Segmented controls allow users to select one option from a set of mutually exclusive options.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/segmented-control/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Segmented controls allow users to select one option from a set of mutually exclusive options."
+    },
+    {
+      "type": "guideline",
+      "content": "Mutually exclusive items.\n\nSegmented controls have one item selected by default at all times, and are mutually exclusive. This means selecting one item automatically deselects the others."
+    },
+    {
+      "type": "guideline",
+      "content": "Selection.\n\nClicking on a segmented control item immediately performs the view change."
+    },
+    {
+      "type": "guideline",
+      "content": "Text overflow.\n\nWhen the segmented control item text is too long for the available horizontal space, it truncates at the end. The full text should be revealed with a tooltip on hover."
+    },
+    {
+      "type": "guideline",
+      "content": "Tooltips for hidden labels.\n\nIcon-only or truncated label segmented controls can be hard to identify. They should display a tooltip after a brief hover, showing the name and a keyboard shortcut, if applicable."
+    },
+    {
+      "type": "guideline",
+      "content": "Segmented controls are for view switching.\n\nSegmented controls are only meant to be used to change the way you view information on a page. They should not be used for navigating, filtering content, or taking actions."
+    },
+    {
+      "type": "guideline",
+      "content": "Segmented controls vs. similar components.\n\nUse a segmented control when the primary goal is to switch views of content. Tabs are reserved for navigation. Action groups are for triggering actions. Tag groups are for filtering content."
+    },
+    {
+      "type": "guideline",
+      "content": "Use icons only when they have a clear meaning.\n\nIt may not make sense in every case to include icons. If the items are too complicated to convey in an icon, don't force it. Keep in mind that if one segmented control has an icon, then they all should have an icon."
+    },
+    {
+      "type": "guideline",
+      "content": "Keep segmented control groups to 5 items or less.\n\nSegmented control groups work best with 2 to 5 items. If your component needs more than 5 items, consider using a dropdown or radio button group instead."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use segmented control as actions, to make selections, or to navigate",
+      "dont": "Segmented control groups are meant for switching views on a page. To navigate to a different page or progressively disclose different content, use tabs instead. To perform actions or make a selection, use action groups."
+    },
+    {
+      "type": "guideline",
+      "content": "RTL.\n\nThe order of the buttons in the segmented control are reversed in RTL languages. If it has icons with text, the icons are placed to the right of the text, and directional icons like arrows or chevrons are flipped horizontally."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the button. Space or Enter Executes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller."
+    },
+    {
+      "type": "guideline",
+      "content": "Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for all interactive components."
+    },
+    {
+      "type": "guideline",
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Buttons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Buttons should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SegmentedControl",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+    },
+    "isFluid": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the control takes up the full width of its container. Only applicable to horizontal segmented controls."
+    },
+    "alignment": {
+      "type": "string",
+      "default": "start",
+      "values": [{ "value": "start" }, { "value": "center" }]
+    },
+    "hideTracker": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the tracker that indicates the selected item is hidden."
+    },
+    "selectedItem": {
+      "type": "string",
+      "description": "The identifier of the currently selected item."
+    },
+    "keyboardActivation": {
+      "type": "string",
+      "default": "manual",
+      "values": [{ "value": "manual" }, { "value": "automatic" }]
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of segmented control items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text displayed for the segmented control item."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the segmented control item is disabled."
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "keyboard focus"],
+            "default": "default",
+            "description": "The interaction state of the segmented control item."
+          },
+          "contentVariant": {
+            "type": "string",
+            "enum": ["label-only", "icon-only", "icon-label"],
+            "default": "icon-label",
+            "description": "Controls whether the segmented control item displays a label, an icon, or both."
+          }
+        }
+      }
+    }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Track background behind the items.",
+      "contains": ["item", "selection"],
+      "required": true
+    },
+    {
+      "name": "item",
+      "description": "One segment with an icon, a label or both; repeated.",
+      "required": true,
+      "contains": ["icon", "label", "focus-indicator"]
+    },
+    {
+      "name": "icon",
+      "description": "Icon in a segment; optional."
+    },
+    {
+      "name": "label",
+      "description": "Text in a segment; optional."
+    },
+    {
+      "name": "selection",
+      "description": "Sliding indicator that marks the selected segment; a sibling of the items inside the track."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused segment.",
+      "presentIn": ["keyboard-focus"]
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP SegmentedControl.tsx:116-121,255 draws the track and a sliding selection indicator over the items; Figma S2 Web segmented control page. 'item' kept (not segmented-control-item) by owner decision to avoid new *-item terms. keyboard-focus and disabled states added."
+  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "intents": ["choose"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  },
+  "states": [
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
+  ]
+}
