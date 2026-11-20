@@ -3,7 +3,7 @@
     "scope": {
       "component": "color-control",
       "part": "track",
-      "property": "width",
+      "property": "thickness",
       "options": {
         "scale": "desktop"
       }
@@ -20,7 +20,7 @@
     "scope": {
       "component": "color-control",
       "part": "track",
-      "property": "width",
+      "property": "thickness",
       "options": {
         "scale": "mobile"
       }
