@@ -814,6 +814,18 @@ impl Ctx<'_> {
                     }
                 }
             }
+            // One scale for every cell, the smallest fit, so the variants are comparable.
+            let scale_of = |i: &Value| i["render"]["view"]["scale"].as_f64().unwrap_or(1.0);
+            let common = items.iter().map(scale_of).fold(f64::INFINITY, f64::min);
+            for item in &mut items {
+                let w = item["render"]["scene"]["width"].as_f64().unwrap_or(0.0);
+                let h = item["render"]["scene"]["height"].as_f64().unwrap_or(0.0);
+                item["render"]["view"] = json!({
+                    "scale": common,
+                    "x": (CELL_W - w * common) / 2.0,
+                    "y": (CELL_H - h * common) / 2.0,
+                });
+            }
             out.push(json!({
                 "kind": "gallery", "id": "anatomy--variants", "section": "anatomy",
                 "title": format!("All {} variants", items.len()), "columns": 4,

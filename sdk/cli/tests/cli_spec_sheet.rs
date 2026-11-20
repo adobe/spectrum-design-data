@@ -846,6 +846,10 @@ fn accordion_anatomy_has_a_multi_item_specimen_and_a_24_variant_board() {
     let titles: std::collections::BTreeSet<_> =
         cells.iter().map(|c| c["title"].as_str().unwrap()).collect();
     assert_eq!(titles.len(), 24, "each combination is titled once");
+    let scale = cells[0]["render"]["view"]["scale"].as_f64().unwrap();
+    assert!(cells
+        .iter()
+        .all(|c| c["render"]["view"]["scale"].as_f64() == Some(scale)));
     assert_eq!(cells[0]["title"], "Small, compact, default");
     assert_eq!(cells[23]["title"], "Extra Large, spacious, quiet");
 }
