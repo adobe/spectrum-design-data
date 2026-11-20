@@ -10,8 +10,7 @@
       "kind": "box",
       "children": ["container-divider", "accordion-item"],
       "repeat": {
-        "part": "accordion-item",
-        "option": "items",
+        "slot": "default",
         "label": "label",
         "with": {
           "isOpen": "isExpanded",

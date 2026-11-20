@@ -213,37 +213,50 @@ A component MAY declare `constraints`, an array of if-then rules restricting whi
 
 ## Slots
 
-The `slots` block declares the component's named **content injection points** — the positions where consumers place child content. Slot declarations are derived from the cross-platform audit in [`audits/slots.audit.md`](../audits/slots.audit.md).
+The `slots` block declares the component's named **content injection points** — the positions where consumers place child content. It owns every fact about a slot: which part it attaches to, what may fill it, how many fills, and whether it is a collection. Recipes ([Component visuals](component-visuals.md)) and other documents read those facts from here and do not restate them. Slots are derived from the cross-platform audit in [`audits/slots.audit.md`](../audits/slots.audit.md) and RFC [#1801](https://github.com/adobe/spectrum-design-data/discussions/1801).
 
 **NORMATIVE:** `slots` **MUST** be a JSON array. Each element is a **slot declaration**.
 
 ### Slot declaration
 
-| Field         | Type    | Required | Description                                                                 |
-| ------------- | ------- | -------- | --------------------------------------------------------------------------- |
-| `name`        | string  | REQUIRED | Slot identifier. **SHOULD** come from the canonical vocabulary (see below). |
-| `description` | string  | OPTIONAL | Plain-text description of what content goes in this slot.                   |
-| `required`    | boolean | OPTIONAL | Whether consumers **MUST** populate this slot. Default: `false`.            |
+| Field         | Type             | Required | Description                                                                                                                                                                                             |
+| ------------- | ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | string           | REQUIRED | Slot identifier, unique within the component. **SHOULD** be `default` or the name of the slot's `part` (see [Slot naming](#slot-naming)).                                                               |
+| `description` | string           | OPTIONAL | Plain-text description of what content goes in this slot.                                                                                                                                               |
+| `part`        | string           | OPTIONAL | The anatomy part the slot attaches to (see [The part link](#the-part-link)). **MUST** be a declared anatomy part.                                                                                       |
+| `accepts`     | array of strings | OPTIONAL | Components that may fill the slot, by component name. Free content is a slot with no `accepts`. Text and icons are not slot content types: a label is drawn by a text part and an icon by an icon part. |
+| `acceptsOnly` | boolean          | OPTIONAL | When `true`, only the components in `accepts` may fill the slot; when `false` (default), `accepts` is a preferred list. **MUST NOT** be `true` without `accepts`.                                       |
+| `min`         | integer          | OPTIONAL | Fewest fills, or entries for a collection. `0` or absent means optional; `1` or more makes the slot required. This replaces the earlier `required` flag.                                                |
+| `max`         | integer          | OPTIONAL | Most fills, or entries for a collection. At least `1`; absent means no limit. **MUST NOT** be less than `min`.                                                                                          |
+| `collection`  | string           | OPTIONAL | The name of a declared array option whose entries are drawn as copies of `part`. Requires `part`.                                                                                                       |
 
-### Canonical slot vocabulary
+### The part link
 
-The following slot names are defined by the cross-platform audit and **SHOULD** be used in preference to custom names:
+**NORMATIVE:** `part` is the explicit link from a slot to the anatomy ([Anatomy format](anatomy-format.md)). Several slots **MAY** share one part, and a slot **MAY** have no `part`.
 
-| Name                 | Semantics                                                               |
-| -------------------- | ----------------------------------------------------------------------- |
-| `default`            | Primary content (text, children). The main content slot.                |
-| `icon`               | Decorative icon at the leading edge of the component.                   |
-| `label`              | Human-readable identifier / placeholder text (distinct from `default`). |
-| `help-text`          | Non-error guidance text below a form field.                             |
-| `negative-help-text` | Validation error message for a form field.                              |
-| `action`             | Secondary interactive button or call-to-action.                         |
-| `heading`            | Section or dialog heading.                                              |
-| `description`        | Section or dialog body text (distinct from `help-text`).                |
-| `hero`               | Large header media (e.g. dialog hero image).                            |
-| `footer`             | Below-content supplemental area (e.g. dialog footer).                   |
-| `tooltip`            | Floating annotation attached to the component.                          |
+* Without `collection`, `part` is the **host**: the part inside which fills are drawn (`actions`, a panel, an icon position).
+* With `collection`, `part` is the component's **own part that repeats**, once per entry of the option. Its host is its anatomy parent: the part whose `contains` lists it. A part hosts at most one collection slot. A group of other components (a button group's buttons) is not a collection; it is an ordinary slot with `max` greater than `1`.
+* A recipe's container `repeat` reads the repeated part and the option from the collection slot, so neither is stated twice ([Repeated parts](component-visuals.md#repeated-parts)).
 
-**NORMATIVE:** Custom slot names are permitted but **SHOULD** be documented in the slot's `description` field (rule SPEC-021 fires a warning for undocumented custom names).
+`accepts` entries name components only: each **MUST** be a declared, non-deprecated component other than this one (SPEC-104). A slot has no condition of its own: its presence follows its host part (that part's `presentIn` and the recipe's `visibleWhen`).
+
+```json
+"slots": [
+  { "name": "default", "part": "accordion-item", "collection": "items" },
+  {
+    "name": "actions",
+    "part": "actions",
+    "accepts": ["action-button", "switch"],
+    "acceptsOnly": true,
+    "max": 2
+  },
+  { "name": "content", "part": "content" }
+]
+```
+
+### Slot naming
+
+**NORMATIVE:** A slot is named `default` (the main content slot) or after its `part`. Naming a slot after its part is a convention that rule SPEC-104 checks (a warning); the link itself is the `part` field. The names are the anatomy registry's, so `actions`, never the alias `direct-actions`. This replaces the earlier canonical slot vocabulary, which repeated anatomy terms and said `action` where the registry says `actions`.
 
 **RECOMMENDED:** Components **SHOULD** declare a `default` slot when they accept primary child content.
 
@@ -251,11 +264,12 @@ The following slot names are defined by the cross-platform audit and **SHOULD** 
 "slots": [
   {
     "name": "default",
-    "description": "Text label of the button.",
-    "required": false
+    "part": "label",
+    "description": "Text label of the button."
   },
   {
     "name": "icon",
+    "part": "icon",
     "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
   }
 ]
@@ -339,17 +353,17 @@ A component declaration does not list its tokens. Its token bindings are the Com
 
 The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) by this chapter. New component cross-reference rules start at SPEC-018 to avoid collision with existing token rules (SPEC-001–SPEC-017).
 
-| Rule ID  | Name                             | Severity | Assert                                                                                                                                                                                                                                                                  |
-| -------- | -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-018 | `component-name-exists`          | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                                                                                                         |
-| SPEC-019 | `component-variant-valid`        | error    | Token `variant` field value **MUST** match a value in the declared `variant` option `values` list for the referenced component (when that list exists).                                                                                                                 |
-| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                                           |
-| SPEC-021 | `component-slot-vocabulary`      | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings.                                                                                           |
-| SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                                                                                                              |
-| SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                                                 |
-| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `lifecycle` on the matching `values` entry on the option descriptor.       |
-| SPEC-038 | `option-enum-obsolete`           | warning  | An option descriptor **SHOULD NOT** use the JSON Schema `enum` keyword. `additionalProperties: true` silently accepts `enum` at Layer 1; SPEC-038 flags it at Layer 2 so authors replace it with the `values` array.                                                    |
-| SPEC-040 | `component-option-field-valid`   | warning  | Token name-object keys that match a declared `options.<key>` with a `values[]` list **SHOULD** use a value drawn from that list. Generalises SPEC-019 to non-`variant` option fields (e.g. `style`, `size`, `staticColor`). Advisory; silent when no `values` declared. |
+| Rule ID  | Name                             | Severity | Assert                                                                                                                                                                                                                                                                                                                                                                                                            |
+| -------- | -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-018 | `component-name-exists`          | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                                                                                                                                                                                                                                                   |
+| SPEC-019 | `component-variant-valid`        | error    | Token `variant` field value **MUST** match a value in the declared `variant` option `values` list for the referenced component (when that list exists).                                                                                                                                                                                                                                                           |
+| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                                                                                                                                                                                     |
+| SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                                                                                                                                                                                                                                                        |
+| SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                                                                                                                                                                                           |
+| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `lifecycle` on the matching `values` entry on the option descriptor.                                                                                                                                                 |
+| SPEC-038 | `option-enum-obsolete`           | warning  | An option descriptor **SHOULD NOT** use the JSON Schema `enum` keyword. `additionalProperties: true` silently accepts `enum` at Layer 1; SPEC-038 flags it at Layer 2 so authors replace it with the `values` array.                                                                                                                                                                                              |
+| SPEC-040 | `component-option-field-valid`   | warning  | Token name-object keys that match a declared `options.<key>` with a `values[]` list **SHOULD** use a value drawn from that list. Generalises SPEC-019 to non-`variant` option fields (e.g. `style`, `size`, `staticColor`). Advisory; silent when no `values` declared.                                                                                                                                           |
+| SPEC-104 | `component-slot-valid`           | error    | A slot's `part` **MUST** be a declared anatomy part and its `accepts` entries declared, non-deprecated components; `collection` **MUST** name a declared array option and its `part` have an anatomy parent that hosts one collection slot; `min` <= `max` and `max` >= 1; `acceptsOnly` needs `accepts`; names are unique. A name that is neither `default` nor the part's name is a warning. Replaces SPEC-021. |
 
 ## Full example
 
@@ -410,11 +424,12 @@ A complete button component declaration:
   "slots": [
     {
       "name": "default",
-      "description": "Text label of the button.",
-      "required": false
+      "part": "label",
+      "description": "Text label of the button."
     },
     {
       "name": "icon",
+      "part": "icon",
       "description": "Icon placed at the start of the button."
     }
   ],

@@ -183,14 +183,9 @@ rules:
     spec_ref: spec/component-format.md#anatomy-stub
     introduced_in: "1.0.0-draft"
 
-  - id: SPEC-021
-    name: component-slot-vocabulary
-    severity: warning
-    category: component-contract
-    assert: Component slot declarations with a 'name' outside the canonical slot vocabulary SHOULD include a 'description' field documenting the custom slot's purpose.
-    message: "Component '{component}' has custom slot '{slot}' with no description — add a description or use a canonical slot name"
-    spec_ref: spec/component-format.md#canonical-slot-vocabulary
-    introduced_in: "1.0.0-draft"
+  # SPEC-021 (component-slot-vocabulary) is retired: its canonical slot list overlapped the
+  # anatomy vocabulary. SPEC-104 replaces it (a slot is named `default` or after its part).
+  # The ID is not reused.
 
   - id: SPEC-022
     name: component-state-valid
@@ -736,7 +731,9 @@ rules:
       (listed in no other part's `contains`). Each part's `children` MUST be recipe parts and
       appear in that anatomy part's `contains`. `around` MUST name a declared anatomy part;
       `pressTarget` MUST name a declared anatomy part that is also a recipe part. A part's
-      `repeat.part` MUST be one of that part's `children`, and only the root declares `repeat`.
+      `repeat.slot` MUST name a component slot with `part` and `collection`; that slot's part
+      MUST be one of the part's `children` and listed in its anatomy `contains`, and only the
+      root declares `repeat`.
     message: "Recipe part '{part}' is not a declared anatomy part of '{component}'"
     spec_ref: spec/component-visuals.md#validation
     introduced_in: "1.0.0-draft"
@@ -1417,4 +1414,24 @@ rules:
       A token's explicit `tokenTier` SHOULD equal the tier derived from its name fields and value.
     message: "tokenTier '{declared}' overrides the derived tier '{derived}'"
     spec_ref: spec/taxonomy.md#token-tiers
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-104
+    name: component-slot-valid
+    severity: error
+    layer: 2
+    category: component-contract
+    note: >
+      Check 8 (the slot name) is a warning; the others are errors. Replaces SPEC-021, whose
+      canonical slot vocabulary overlapped the anatomy vocabulary.
+    assert: >
+      A component's slots MUST agree with its anatomy, options and the component catalog: (1)
+      `part` names a declared anatomy part; (2) every `accepts` entry names a declared,
+      non-deprecated component other than the component itself; (3) `collection` names a declared
+      array option; (4) a `collection` slot has a `part` with an anatomy parent (a part listing it
+      in `contains`), and that parent hosts at most one collection slot; (5) `min` <= `max` and
+      `max` >= 1; (6) `acceptsOnly` requires `accepts`; (7) slot names are unique (several slots
+      may share one part). (8) A slot SHOULD be named `default` or after its part.
+    message: "Slot '{slot}' of '{component}' names part '{part}', which is not a declared anatomy part"
+    spec_ref: spec/component-format.md#slots
     introduced_in: "1.0.0-draft"

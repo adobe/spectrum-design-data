@@ -118,6 +118,10 @@ State names follow the state registry. Use `focus` for the focus state.
 
 **NORMATIVE:** `contains` **MUST** describe visual enclosure: the parent visibly bounds its children, or its own styling (background, padding, border) frames them. It **MUST NOT** record DOM or layout nesting. A part has at most one parent. A state-only part may be contained by the part it surrounds.
 
+### Slots
+
+**NORMATIVE:** A slot attaches to the anatomy through the slot's `part` field ([Component format: Slots](component-format.md#slots)); the anatomy part does not name its slots. A part that hosts slot content, or repeats once per entry of a collection slot, is warranted by that slot and still has to be a declared part. Naming a slot after its part, or `default`, is a convention checked by SPEC-104.
+
 ### Required and optional
 
 **NORMATIVE:** `required: true` means the part is drawn in every configuration and every declared state. A part that an option can remove (an icon, a label hidden in an icon-only layout) is optional.

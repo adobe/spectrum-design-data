@@ -183,10 +183,14 @@
   "slots": [
     {
       "name": "default",
-      "description": "Text label of the button.",
-      "required": false
+      "part": "label",
+      "description": "Text label of the button."
     },
-    { "name": "icon", "description": "Icon placed at the start of the button." }
+    {
+      "name": "icon",
+      "part": "icon",
+      "description": "Icon placed at the start of the button."
+    }
   ],
   "anatomy": [
     {

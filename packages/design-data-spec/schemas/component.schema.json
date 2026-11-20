@@ -306,16 +306,46 @@
         "name": {
           "type": "string",
           "minLength": 1,
-          "description": "Slot identifier. Should come from the canonical slot vocabulary."
+          "description": "Slot identifier, unique within the component. `default`, or the name of the slot's part (SPEC-104)."
         },
         "description": {
           "type": "string",
           "description": "What content belongs in this slot."
         },
-        "required": {
+        "part": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "The anatomy part this slot attaches to. Without `collection` it is the part that hosts the slot's content; with `collection` it is the component's own part that repeats, once per entry (its host is its anatomy parent). Must be a declared anatomy part (SPEC-104)."
+        },
+        "accepts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true,
+          "minItems": 1,
+          "description": "Components that may fill the slot. Component names only; free content is a slot with no `accepts`."
+        },
+        "acceptsOnly": {
           "type": "boolean",
           "default": false,
-          "description": "Whether consumers must populate this slot."
+          "description": "Only the components in `accepts` may fill the slot. When false, `accepts` is a preferred list. Requires `accepts` (SPEC-104)."
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Fewest fills (or collection entries). 1 or more makes the slot required."
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Most fills (or collection entries). Absent means no limit."
+        },
+        "collection": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "The array option whose entries are drawn as copies of `part`. Must be a declared array option (SPEC-104)."
         }
       },
       "additionalProperties": false

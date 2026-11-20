@@ -22,7 +22,7 @@ use serde_json::Value;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{component_of, error, option_values, walk_objects};
-use crate::visual::{declared_option_values, option_template_names};
+use crate::visual::{collection_slot, declared_option_values, option_template_names};
 
 pub struct Rule;
 
@@ -30,13 +30,16 @@ const POSITIONS: [&str; 4] = ["first", "middle", "last", "only"];
 
 /// The parts a `position` condition may appear on: the part a root's `repeat` names and the
 /// parts inside it, at any depth.
-fn repeated_parts(recipe: &Value) -> HashSet<&str> {
+fn repeated_parts<'a>(recipe: &'a Value, component: &'a Value) -> HashSet<&'a str> {
     let parts = recipe.get("parts");
     let mut out = HashSet::new();
     let mut todo: Vec<&str> = recipe
         .get("root")
         .and_then(Value::as_str)
-        .and_then(|r| parts?.get(r)?.pointer("/repeat/part")?.as_str())
+        .and_then(|r| {
+            let slot = parts?.get(r)?.pointer("/repeat/slot")?.as_str()?;
+            Some(collection_slot(component, slot)?.0)
+        })
         .into_iter()
         .collect();
     while let Some(p) = todo.pop() {
@@ -81,7 +84,7 @@ impl ValidationRule for Rule {
             let Some(parts) = v.raw.get("parts") else {
                 continue;
             };
-            let repeated = repeated_parts(&v.raw);
+            let repeated = repeated_parts(&v.raw, &comp.raw);
             walk_objects(parts, "/parts", &mut |path, node| {
                 for key in ["token", "relationship"] {
                     let Some(sel) = node.get(key).filter(|s| s.is_object()) else {
@@ -230,6 +233,7 @@ mod tests {
                     "variant": {"type": "string", "values": [{"value": "accent"}, {"value": "primary"}]},
                     "isDisabled": {"type": "boolean"}
                 },
+                "slots": [{"name": "default", "part": "item", "collection": "items"}],
                 "states": [{"name": "hover"}, {"name": "down"}]}),
             layer: Layer::Foundation,
         });
@@ -320,7 +324,7 @@ mod tests {
     fn position_is_valid_only_inside_a_repeated_part() {
         let r = |pos: Value, on: &str| {
             let mut parts = json!({
-                "container": {"children": ["item", "other"], "repeat": {"part": "item", "option": "items"}},
+                "container": {"children": ["item", "other"], "repeat": {"slot": "default"}},
                 "item": {"children": ["label"]},
                 "label": {},
                 "other": {}

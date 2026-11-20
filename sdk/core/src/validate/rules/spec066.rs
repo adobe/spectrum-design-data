@@ -16,9 +16,9 @@
 //! binds carries the state, or when it is implied: `size` by `sizeScale`,
 //! `label` by a text part, and `isDisabled` / `isSelected` by the `disabled` /
 //! `selected` states (and the reverse). `notVisual` names MUST be declared and
-//! SHOULD NOT also be used. A part's `repeat` block MUST name a declared array option, its
-//! `with` keys MUST be declared options, and its `label` and `with` fields MUST be
-//! properties of that option's item schema (when it lists any).
+//! SHOULD NOT also be used. A part's `repeat` block reads its array option through the
+//! slot it names; its `with` keys MUST be declared options, and its `label` and `with`
+//! fields MUST be properties of that option's item schema (when it lists any).
 
 use std::collections::BTreeSet;
 
@@ -31,7 +31,7 @@ use crate::validate::rules::visual_util::{
     component_of, component_relationships, expand_selector, option_entries, size_entries,
     tokens_matching, walk_objects, warning,
 };
-use crate::visual::option_template_names;
+use crate::visual::{collection_slot, option_template_names};
 use crate::visual::{name_states, OPTION_STATES};
 
 pub struct Rule;
@@ -54,13 +54,22 @@ fn conditions(node: &Value) -> Vec<&Value> {
     out
 }
 
-/// The `repeat` declarations of a recipe's parts, with the part that holds each.
-fn repeats(v: &VisualRecord) -> Vec<(&str, &serde_json::Map<String, Value>)> {
+/// The `repeat` declarations of a recipe's parts, with the part that holds each and the array
+/// option their slot names (empty when the slot is not a collection slot; SPEC-060 reports it).
+fn repeats<'a>(
+    v: &'a VisualRecord,
+    comp: Option<&'a Value>,
+) -> Vec<(&'a str, &'a serde_json::Map<String, Value>, &'a str)> {
     let parts = v.raw.get("parts").and_then(Value::as_object);
     parts
         .into_iter()
         .flatten()
-        .filter_map(|(k, p)| Some((k.as_str(), p.get("repeat")?.as_object()?)))
+        .filter_map(|(k, p)| {
+            let rep = p.get("repeat")?.as_object()?;
+            let slot = rep.get("slot")?.as_str()?;
+            let option = comp.and_then(|c| collection_slot(c, slot)).map(|(_, o)| o);
+            Some((k.as_str(), rep, option.unwrap_or("")))
+        })
         .collect()
 }
 
@@ -119,9 +128,10 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
             }
         }
     });
-    for (_, rep) in repeats(v) {
-        if let Some(o) = rep.get("option").and_then(Value::as_str) {
-            used.options.insert(o.into());
+    let comp = component_of(graph, v).map(|c| &c.raw);
+    for (_, _, option) in repeats(v, comp) {
+        if !option.is_empty() {
+            used.options.insert(option.into());
         }
     }
     if !sizes.is_empty() {
@@ -213,22 +223,18 @@ impl ValidationRule for Rule {
                     ));
                 }
             }
-            for (key, rep) in repeats(v) {
+            for (key, rep, opt) in repeats(v, Some(&comp.raw)) {
+                if opt.is_empty() {
+                    continue; // SPEC-060 reports a slot that is not a collection slot
+                }
                 let base = format!("/parts/{key}/repeat");
-                let opt = rep.get("option").and_then(Value::as_str).unwrap_or("");
                 let def = comp.raw.pointer(&format!("/options/{opt}"));
                 let mut bad = |path: &str, msg: String| {
                     out.push(warning(self.id(), v, path, msg));
                 };
-                match def {
-                    None => bad(
-                        &format!("{base}/option"),
-                        format!("repeat names option '{opt}', which '{name}' does not declare"),
-                    ),
-                    Some(d) if d.get("type").and_then(Value::as_str) != Some("array") => bad(
-                        &format!("{base}/option"),
-                        format!("repeat names option '{opt}' of '{name}', which is not an array"),
-                    ),
+                // A collection that is not a declared array option is SPEC-104's to report.
+                match def.filter(|d| d.get("type").and_then(Value::as_str) == Some("array")) {
+                    None => {}
                     Some(d) => {
                         let fields = d.pointer("/items/properties").and_then(Value::as_object);
                         let with = rep.get("with").and_then(Value::as_object);
@@ -348,7 +354,7 @@ mod tests {
     }
 
     #[test]
-    fn repeat_must_name_a_declared_array_option_and_known_fields() {
+    fn repeat_reads_known_fields_of_the_slots_option() {
         let comp = json!({
             "name": "switch",
             "options": {
@@ -356,6 +362,7 @@ mod tests {
                 "isReadOnly": {"type": "boolean"},
                 "items": {"type": "array", "items": {"type": "object", "properties": {"label": {}, "on": {}}}}
             },
+            "slots": [{"name": "default", "part": "row", "collection": "items"}],
             "states": [{"name": "hover"}, {"name": "selected"}]
         });
         let r = |rep: serde_json::Value| {
@@ -364,13 +371,10 @@ mod tests {
             let d = run(recipe, comp.clone());
             d.into_iter().map(|d| d.message).collect::<Vec<_>>()
         };
-        let ok = json!({"option": "items", "label": "label", "with": {"isSelected": "on"}});
+        let ok = json!({"slot": "default", "label": "label", "with": {"isSelected": "on"}});
         assert!(r(ok).is_empty());
-        let has = |m: Vec<String>, t: &str| m.iter().any(|x| x.contains(t));
-        assert!(has(r(json!({"option": "itms"})), "does not declare"));
-        assert!(has(r(json!({"option": "isSelected"})), "not an array"));
         let m = r(
-            json!({"option": "items", "label": "title", "with": {"nope": "on", "isSelected": "gone"}}),
+            json!({"slot": "default", "label": "title", "with": {"nope": "on", "isSelected": "gone"}}),
         );
         assert_eq!(m.len(), 3, "{m:?}");
     }
