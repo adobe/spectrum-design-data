@@ -1462,7 +1462,10 @@
       "component": "card",
       "part": "container",
       "property": "color",
-      "attribute": "border"
+      "attribute": "border",
+      "options": {
+        "variant": "tertiary"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1474,7 +1477,10 @@
       "component": "card",
       "part": "container",
       "property": "color",
-      "attribute": "border"
+      "attribute": "border",
+      "options": {
+        "variant": "tertiary"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1486,7 +1492,10 @@
       "component": "card",
       "part": "container",
       "property": "color",
-      "attribute": "border"
+      "attribute": "border",
+      "options": {
+        "variant": "tertiary"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1498,7 +1507,11 @@
       "component": "card",
       "part": "container",
       "property": "color",
-      "attribute": "border"
+      "attribute": "border",
+      "options": {
+        "variant": "tertiary",
+        "state": ["hover"]
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1510,7 +1523,11 @@
       "component": "card",
       "part": "container",
       "property": "color",
-      "attribute": "border"
+      "attribute": "border",
+      "options": {
+        "variant": "tertiary",
+        "state": ["hover"]
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1522,7 +1539,11 @@
       "component": "card",
       "part": "container",
       "property": "color",
-      "attribute": "border"
+      "attribute": "border",
+      "options": {
+        "variant": "tertiary",
+        "state": ["hover"]
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
