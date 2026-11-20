@@ -882,3 +882,73 @@ fn accessibility_edges_keep_placeholder_or_skip_the_annotation() {
         .iter()
         .all(|r| !r[0].as_str().unwrap().contains("part")));
 }
+
+fn sheet_with_changelog(component: &str) -> Value {
+    let log = repo_root().join(format!("packages/design-data/changelog/{component}.json"));
+    let out = Command::cargo_bin("design-data")
+        .unwrap()
+        .current_dir(repo_root())
+        .args(["spec-sheet", component, "--changelog"])
+        .arg(log)
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    serde_json::from_slice(&out).unwrap()
+}
+
+#[test]
+fn accordion_states_and_decision_log_come_from_data() {
+    let sheet = sheet_with_changelog("accordion");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    let states = section(&sheet, "states")["blocks"].as_array().unwrap();
+    assert_eq!(
+        states[0]["columns"],
+        serde_json::json!(["State", "Trigger", "Relationship records"])
+    );
+    let names: Vec<&str> = states[0]["rows"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|r| r[0].as_str().unwrap())
+        .collect();
+    assert_eq!(names, ["hover", "down", "keyboard-focus"]);
+    assert_eq!(states[1]["kind"], "placeholder");
+    let log = &section(&sheet, "decision-log")["blocks"][0];
+    assert_eq!(log["kind"], "table");
+    assert_eq!(log["columns"].as_array().unwrap().len(), 7);
+    let rows = log["rows"].as_array().unwrap();
+    assert!(rows.len() > 1);
+    assert!(rows
+        .windows(2)
+        .all(|w| w[0][0].as_str() >= w[1][0].as_str()));
+    for r in rows {
+        assert_eq!(&r.as_array().unwrap()[4..], ["", "", ""]);
+        assert!(!r[3].as_str().unwrap().is_empty());
+    }
+    for key in ["how-to-use", "feedback"] {
+        assert_eq!(section(&sheet, key)["blocks"][0]["kind"], "placeholder");
+    }
+}
+
+#[test]
+fn states_and_decision_log_edges_keep_placeholders() {
+    // No changelog flag: the log stays a placeholder. bar-panel declares no states.
+    let sheet = sheet_of("bar-panel");
+    assert_eq!(
+        section(&sheet, "decision-log")["blocks"][0]["kind"],
+        "placeholder"
+    );
+    assert_eq!(
+        section(&sheet, "states")["blocks"][0]["kind"],
+        "placeholder"
+    );
+    // With a changelog but no states data.
+    let sheet = sheet_with_changelog("bar-panel");
+    assert_eq!(schema_errors(&sheet), Vec::<String>::new());
+    assert_eq!(
+        section(&sheet, "states")["blocks"][0]["kind"],
+        "placeholder"
+    );
+}

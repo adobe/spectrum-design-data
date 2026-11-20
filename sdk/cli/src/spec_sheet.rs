@@ -1310,7 +1310,7 @@ fn build_sheet(
         .and_then(|c| s(&c.raw, "displayName").map(String::from))
         .unwrap_or_else(|| component.clone());
     let mut template = template_sections();
-    sections::fill(&mut template, graph, &component);
+    sections::fill(&mut template, graph, &component, changelog);
     Ok(json!({
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-spec-sheet.schema.json",
         "specVersion": "1.0.0-draft",

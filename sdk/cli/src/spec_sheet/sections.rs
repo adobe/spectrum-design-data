@@ -323,8 +323,142 @@ fn accessibility(component: &Value, name: &str) -> Option<Vec<Value>> {
     Some(out)
 }
 
+fn trigger_text(t: Option<&Value>) -> String {
+    match t {
+        Some(Value::String(x)) => x.clone(),
+        Some(o @ Value::Object(_)) => [s(o, "type"), s(o, "prop")]
+            .into_iter()
+            .flatten()
+            .collect::<Vec<_>>()
+            .join(": "),
+        _ => String::new(),
+    }
+}
+
+/// States table: each declared state, its trigger, and how many of the component's
+/// relationship records mention it. The state board, flow and responsive notes stay manual.
+fn states(graph: &TokenGraph, component: &str, raw: &Value) -> Option<Vec<Value>> {
+    let declared = raw.get("states").and_then(Value::as_array)?;
+    let mut counts: BTreeMap<String, usize> = BTreeMap::new();
+    for r in &graph.relationships {
+        let scope = r.raw.get("scope");
+        if scope.and_then(|c| s(c, "component")) != Some(component) {
+            continue;
+        }
+        let mentioned = scope
+            .and_then(|c| c.get("options"))
+            .and_then(Value::as_object)
+            .map(design_data_core::scope::mentioned_states)
+            .unwrap_or_default();
+        for m in mentioned {
+            *counts.entry(m).or_default() += 1;
+        }
+    }
+    let rows: Vec<Vec<String>> = declared
+        .iter()
+        .filter_map(|st| {
+            let name = s(st, "name")?;
+            Some(vec![
+                name.to_string(),
+                trigger_text(st.get("trigger")),
+                counts.get(name).copied().unwrap_or(0).to_string(),
+            ])
+        })
+        .collect();
+    if rows.is_empty() {
+        return None;
+    }
+    Some(vec![
+        table(
+            "states",
+            "states--table",
+            "States",
+            &["State", "Trigger", "Relationship records"],
+            rows,
+        ),
+        placeholder(
+            "states",
+            "states--placeholder",
+            "States, interactions and responsive behavior",
+            "State board, interaction flow and responsive behavior. Manual.",
+        ),
+    ])
+}
+
+/// Decision log: one row per changelog commit, newest first. Jira link, R&R contacts and the
+/// decision with its rationale are authored by hand (decision A10), so they stay blank.
+fn decision_log(changelog: &Value) -> Option<Value> {
+    let mut rows: Vec<Vec<String>> = Vec::new();
+    for rel in changelog.get("releases")?.as_array()? {
+        for c in rel
+            .get("commits")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+        {
+            let mut classes: Vec<&str> = c
+                .get("entries")
+                .and_then(Value::as_array)
+                .into_iter()
+                .flatten()
+                .filter_map(|e| s(e, "class"))
+                .collect();
+            classes.sort();
+            classes.dedup();
+            let src = c.get("source");
+            let details = match src {
+                Some(src) => {
+                    let title = s(src, "title").unwrap_or("");
+                    let pr = src
+                        .get("number")
+                        .and_then(Value::as_u64)
+                        .map(|n| format!(" (#{n})"))
+                        .unwrap_or_default();
+                    format!("{title}{pr} {}", s(src, "url").unwrap_or(""))
+                        .trim()
+                        .to_string()
+                }
+                None => s(c, "commit").unwrap_or("").chars().take(8).collect(),
+            };
+            rows.push(vec![
+                s(c, "date").or_else(|| s(rel, "date")).unwrap_or("").into(),
+                s(rel, "version").unwrap_or("").into(),
+                classes.join(", "),
+                details,
+                String::new(),
+                String::new(),
+                String::new(),
+            ]);
+        }
+    }
+    if rows.is_empty() {
+        return None;
+    }
+    rows.reverse();
+    Some(table(
+        "decision-log",
+        "decision-log--table",
+        "Decision log",
+        &[
+            "Date",
+            "Version",
+            "Class",
+            "Details/PR",
+            "Jira link",
+            "R&R contacts",
+            "Decision and rationale",
+        ],
+        rows,
+    ))
+}
+
 /// Replaces the placeholders the component data backs.
-pub fn fill(sections: &mut [Value], graph: &TokenGraph, component: &str) {
+pub fn fill(
+    sections: &mut [Value],
+    graph: &TokenGraph,
+    component: &str,
+    changelog: Option<&Value>,
+) {
     let Some(raw) = component_raw(graph, component) else {
         return;
     };
@@ -344,6 +478,12 @@ pub fn fill(sections: &mut [Value], graph: &TokenGraph, component: &str) {
     }
     if let Some(blocks) = accessibility(raw, component) {
         set_blocks(sections, "accessibility", blocks);
+    }
+    if let Some(blocks) = states(graph, component, raw) {
+        set_blocks(sections, "states", blocks);
+    }
+    if let Some(log) = changelog.and_then(decision_log) {
+        set_blocks(sections, "decision-log", vec![log]);
     }
     if let Some(blocks) = usage(raw) {
         set_blocks(sections, "usage", blocks);
