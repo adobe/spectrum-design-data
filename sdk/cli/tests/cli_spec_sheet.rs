@@ -1010,7 +1010,12 @@ fn measurement_blocks_of_a_repeating_recipe_draw_two_collapsed_items() {
         let items = render["request"]["options"]["items"].as_array().unwrap();
         assert_eq!(items.len(), 2, "{}", b["title"]);
         assert_eq!(items[0]["label"], "Item one");
-        assert_eq!(items[0]["isExpanded"], false);
+        // A block that pins `isOpen` leaves it off the entries, so both items follow the pin.
+        if render["request"]["options"].get("isOpen").is_none() {
+            assert_eq!(items[0]["isExpanded"], false, "{}", b["title"]);
+        } else {
+            assert!(items[0].get("isExpanded").is_none(), "{}", b["title"]);
+        }
         let parts: Vec<&str> = render["scene"]["nodes"]
             .as_array()
             .unwrap()
