@@ -1,0 +1,30 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*names collection 'size'.*not a declared array option.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*names part 'toolbar'.*not a declared anatomy part.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*accepts 'ghost'.*not a declared component.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*needs min <= max.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "warning",
+      "message_pattern": ".*'badge'.*neither 'default' nor after its part.*"
+    }
+  ]
+}

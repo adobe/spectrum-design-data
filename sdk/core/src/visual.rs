@@ -1337,7 +1337,29 @@ impl<'a> CompileCx<'a> {
         parts: &serde_json::Map<String, Value>,
     ) -> Result<serde_json::Map<String, Value>, String> {
         let mut out_parts = parts.clone();
+        let comp = self
+            .graph
+            .components
+            .iter()
+            .find(|c| c.name == self.req.component);
         for (id, part) in out_parts.iter_mut() {
+            // The compiled form names the repeated part and option itself, so the solver and
+            // the published engine never read component data.
+            if let Some(rep) = part.get_mut("repeat").and_then(Value::as_object_mut) {
+                let slot = rep.remove("slot");
+                let slot = slot.as_ref().and_then(Value::as_str);
+                let (p, o) = comp
+                    .zip(slot)
+                    .and_then(|(c, s)| collection_slot(&c.raw, s))
+                    .ok_or_else(|| {
+                        format!(
+                            "part '{id}' repeats slot {slot:?}, which '{}' does not declare as a collection slot",
+                            self.req.component
+                        )
+                    })?;
+                rep.insert("part".into(), p.into());
+                rep.insert("option".into(), o.into());
+            }
             if part.get("kind").and_then(Value::as_str) == Some("component") {
                 let (nested, size) = self.compile_nested(id, part)?;
                 part["nested"] = nested;
@@ -2409,14 +2431,6 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
                             }
                         }
                     }
-                    if k == "repeat" {
-                        // The array option a container repeats a child over counts as read.
-                        if let Some(name) = x.get("option").and_then(Value::as_str) {
-                            if !used.iter().any(|u| u == name) {
-                                used.push(name.to_string());
-                            }
-                        }
-                    }
                     if k == "options" {
                         if let Some(opts) = x.as_object() {
                             for name in opts.keys() {
@@ -2452,6 +2466,21 @@ pub fn recipe_options_in(
     component: &str,
 ) -> (Vec<String>, Vec<String>) {
     let (mut used, structural) = recipe_options(recipe);
+    // The array option a container repeats a child over counts as read.
+    let comp = graph.components.iter().find(|c| c.name == component);
+    for part in recipe
+        .get("parts")
+        .and_then(Value::as_object)
+        .into_iter()
+        .flat_map(|p| p.values())
+    {
+        let slot = part.pointer("/repeat/slot").and_then(Value::as_str);
+        if let Some((_, option)) = comp.zip(slot).and_then(|(c, s)| collection_slot(&c.raw, s)) {
+            if !used.iter().any(|u| u == option) {
+                used.push(option.to_string());
+            }
+        }
+    }
     let mut selectors: Vec<Value> = Vec::new();
     fn walk(v: &Value, out: &mut Vec<Value>) {
         match v {
@@ -2540,6 +2569,18 @@ pub fn with_context_selectors(recipe: &Value, graph: &TokenGraph, component: &st
     let mut out = recipe.clone();
     walk(&mut out, graph, component);
     out
+}
+
+/// The repeated part and the array option of a component's `collection` slot named `slot`:
+/// what a container's recipe `repeat.slot` stands for. `None` when the component has no such
+/// slot, or it declares no `collection` and `part`.
+pub fn collection_slot<'a>(component: &'a Value, slot: &str) -> Option<(&'a str, &'a str)> {
+    let s = component
+        .get("slots")?
+        .as_array()?
+        .iter()
+        .find(|s| s.get("name").and_then(Value::as_str) == Some(slot))?;
+    Some((s.get("part")?.as_str()?, s.get("collection")?.as_str()?))
 }
 
 /// A component's option defaults, from its component schema.
@@ -6717,7 +6758,14 @@ mod tests {
         tweak: impl FnOnce(&mut RenderRequest),
         items: Value,
     ) -> Scene {
-        let (g, _) = load();
+        let (mut g, _) = load();
+        let comp = g
+            .components
+            .iter_mut()
+            .find(|c| c.name == "action-button")
+            .unwrap();
+        comp.raw["slots"] =
+            serde_json::json!([{ "name": "default", "part": "item", "collection": "items" }]);
         let merge = |mut base: Value, extra: Value| {
             base.as_object_mut()
                 .unwrap()
@@ -6731,7 +6779,7 @@ mod tests {
             "sizeScale": { "m": 100 },
             "parts": {
                 "container": { "kind": "box", "children": ["item"], "props": props,
-                    "repeat": merge(serde_json::json!({ "part": "item", "option": "items", "label": "label" }), repeat) },
+                    "repeat": merge(serde_json::json!({ "slot": "default", "label": "label" }), repeat) },
                 "item": merge(serde_json::json!({ "kind": "box", "children": ["label"] }), item),
                 "label": { "kind": "text", "props": merge(serde_json::json!({ "fontSize": { "value": 10 } }), label_props) }
             }
@@ -6944,6 +6992,22 @@ mod tests {
             part(&s, "item-2.label").unwrap().text.as_deref(),
             Some("A much longer label")
         );
+    }
+
+    #[test]
+    fn repeat_naming_a_slot_without_a_collection_fails_to_compile() {
+        let (g, _) = load();
+        let recipe = serde_json::json!({
+            "specVersion": "1.0.0-draft", "component": "action-button", "root": "container",
+            "sizeScale": { "m": 100 },
+            "parts": {
+                "container": { "kind": "box", "children": ["item"], "repeat": { "slot": "ghost" } },
+                "item": { "kind": "box" }
+            }
+        });
+        assert!(build_scene(&g, &recipe, &req(&[]))
+            .unwrap_err()
+            .contains("collection slot"));
     }
 
     #[test]

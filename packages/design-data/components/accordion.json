@@ -125,6 +125,27 @@
       "description": "If true, multiple accordion items can be expanded at the same time."
     }
   },
+  "slots": [
+    {
+      "name": "default",
+      "part": "accordion-item",
+      "collection": "items",
+      "description": "The accordion items. Each entry of the items option is drawn as one copy of the accordion-item part."
+    },
+    {
+      "name": "actions",
+      "part": "actions",
+      "accepts": ["action-button", "switch"],
+      "acceptsOnly": true,
+      "max": 2,
+      "description": "Direct actions on the trailing edge of the item header."
+    },
+    {
+      "name": "content",
+      "part": "content",
+      "description": "Content shown below the header while the item is open."
+    }
+  ],
   "anatomy": [
     {
       "name": "container",

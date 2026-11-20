@@ -19,8 +19,8 @@ use serde_json::Value;
 
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::visual_util::warning;
-use crate::visual::{part_role, reads_prop};
+use crate::validate::rules::visual_util::{component_of, warning};
+use crate::visual::{collection_slot, part_role, reads_prop};
 
 pub struct Rule;
 
@@ -43,8 +43,11 @@ impl ValidationRule for Rule {
             // The part a container repeats is solved as the root of its own copy.
             let repeated = root
                 .and_then(|r| parts.get(r))
-                .and_then(|r| r.pointer("/repeat/part"))
-                .and_then(Value::as_str);
+                .and_then(|r| r.pointer("/repeat/slot"))
+                .and_then(Value::as_str)
+                .zip(component_of(ctx.graph, v))
+                .and_then(|(slot, c)| collection_slot(&c.raw, slot))
+                .map(|(part, _)| part);
             for (id, part) in parts {
                 let is_root = Some(id.as_str()) == root || Some(id.as_str()) == repeated;
                 let role = part_role(part, is_root);
@@ -129,6 +132,22 @@ mod tests {
             d[0].instance_path.as_deref(),
             Some("/parts/b/props/minWidth")
         );
+    }
+
+    #[test]
+    fn the_part_a_collection_slot_repeats_is_read_as_a_root() {
+        let g = graph(
+            json!({"name": "switch", "slots": [{"name": "default", "part": "b", "collection": "items"}]}),
+            vec![],
+            vec![],
+            vec![(
+                "switch",
+                json!({ "component": "switch", "root": "r", "parts": {
+                    "r": { "kind": "box", "children": ["b"], "repeat": {"slot": "default"} },
+                    "b": { "kind": "box", "props": { "minWidth": {"value": 1} } } } }),
+            )],
+        );
+        assert!(run(&Rule, &g).is_empty());
     }
 
     #[test]

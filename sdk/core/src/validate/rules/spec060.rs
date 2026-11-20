@@ -20,6 +20,7 @@ use serde_json::Value;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{component_of, error};
+use crate::visual::collection_slot;
 
 pub struct Rule;
 
@@ -153,21 +154,41 @@ impl ValidationRule for Rule {
                         ));
                     }
                 }
-                if let Some(named) = part.pointer("/repeat/part").and_then(Value::as_str) {
-                    let path = format!("/parts/{key}/repeat/part");
-                    let is_child = part
-                        .get("children")
-                        .and_then(Value::as_array)
-                        .is_some_and(|c| c.iter().any(|c| c.as_str() == Some(named)));
-                    if !is_child {
-                        out.push(error(
+                if let Some(slot) = part.pointer("/repeat/slot").and_then(Value::as_str) {
+                    let path = format!("/parts/{key}/repeat/slot");
+                    match collection_slot(&comp.raw, slot) {
+                        None => out.push(error(
                             self.id(),
                             v,
                             &path,
-                            format!(
-                                "Part '{key}' repeats '{named}', which is not one of its children"
-                            ),
-                        ));
+                            format!("Part '{key}' repeats slot '{slot}', which '{comp_name}' does not declare with a 'part' and a 'collection'"),
+                        )),
+                        Some((named, _)) => {
+                            if !contains_of(key).contains(named) {
+                                out.push(error(
+                                    self.id(),
+                                    v,
+                                    &path,
+                                    format!(
+                                        "Part '{key}' repeats '{named}' (slot '{slot}'), but '{key}' is not its anatomy parent"
+                                    ),
+                                ));
+                            }
+                            let is_child = part
+                                .get("children")
+                                .and_then(Value::as_array)
+                                .is_some_and(|c| c.iter().any(|c| c.as_str() == Some(named)));
+                            if !is_child {
+                                out.push(error(
+                                    self.id(),
+                                    v,
+                                    &path,
+                                    format!(
+                                        "Part '{key}' repeats '{named}', which is not one of its children"
+                                    ),
+                                ));
+                            }
+                        }
                     }
                     if v.raw.get("root").and_then(Value::as_str) != Some(key.as_str()) {
                         out.push(error(
@@ -225,6 +246,10 @@ mod tests {
             {"name": "icon"},
             {"name": "label"},
             {"name": "focus-ring"}
+        ], "slots": [
+            {"name": "default", "part": "icon", "collection": "items"},
+            {"name": "plain", "part": "icon"},
+            {"name": "focus", "part": "focus-ring", "collection": "items"}
         ]})
     }
 
@@ -261,20 +286,22 @@ mod tests {
     }
 
     #[test]
-    fn repeat_names_a_child_of_the_root() {
+    fn repeat_names_a_collection_slot_whose_part_the_repeating_part_encloses() {
         let mut r = valid();
-        r["parts"]["container"]["repeat"] = json!({"part": "icon", "option": "items"});
+        r["parts"]["container"]["repeat"] = json!({"slot": "default"});
         assert!(run(r.clone()).is_empty());
-        r["parts"]["container"]["repeat"] = json!({"part": "label2", "option": "items"});
+        r["parts"]["container"]["repeat"] = json!({"slot": "ghost"});
         assert_eq!(run(r.clone()).len(), 1);
-        r["parts"]["container"]["repeat"] = json!({"part": "container", "option": "items"});
+        r["parts"]["container"]["repeat"] = json!({"slot": "plain"});
         assert_eq!(run(r.clone()).len(), 1);
+        r["parts"]["container"]["repeat"] = json!({"slot": "focus"});
+        assert_eq!(run(r.clone()).len(), 2);
         r["parts"]["container"]
             .as_object_mut()
             .unwrap()
             .remove("repeat");
-        r["parts"]["icon"]["repeat"] = json!({"part": "label", "option": "items"});
-        assert_eq!(run(r).len(), 2);
+        r["parts"]["icon"]["repeat"] = json!({"slot": "default"});
+        assert_eq!(run(r).len(), 3);
     }
 
     #[test]

@@ -203,18 +203,13 @@
         },
         "repeat": {
           "type": "object",
-          "description": "For the root (the container): draw the child `part` once per entry of an array option (spec/component-visuals.md, Repeated parts).",
-          "required": ["part", "option"],
+          "description": "For the root (the container): draw the repeated child once per entry of a collection slot (spec/component-visuals.md, Repeated parts). The component's `collection` slot names the repeated part and the array option.",
+          "required": ["slot"],
           "properties": {
-            "part": {
+            "slot": {
               "type": "string",
-              "pattern": "^[a-z][a-z0-9-]*$",
-              "description": "The direct child of this part that repeats. Never the root."
-            },
-            "option": {
-              "type": "string",
-              "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
-              "description": "A declared array option of the component, such as `items`."
+              "minLength": 1,
+              "description": "Name of a slot of the component that declares `collection`. Its `part` is the direct child of this part that repeats (never the root); its `collection` is the array option."
             },
             "label": {
               "type": "string",
