@@ -80,8 +80,11 @@ test("a script-specific token is judgement, never pinned by size", () => {
     [
       "cjk",
       {
-        name: { script: "cjk", property: "line-height-100" },
-        legacyKey: "cjk-line-height-100",
+        name: {
+          script: "cjk",
+          property: "line-height-100",
+          legacyKey: "cjk-line-height-100",
+        },
       },
     ],
   ]);
@@ -90,6 +93,18 @@ test("a script-specific token is judgement, never pinned by size", () => {
     tokens: withScript,
   });
   assert.equal(r.status, "judgement");
+  assert.equal(r.rule, "script token");
+  assert.match(r.notes[0], /^cjk-line-height-100:/);
+});
+
+test("a cjk legacyKey without a script field is still a script token", () => {
+  const legacy = new Map([
+    ["cjk", { name: { property: "line-height-100", legacyKey: "cjk-x" } }],
+  ]);
+  const r = plan(rec({ property: "line-height-100" }, { $ref: "cjk" }), {
+    ...ctx,
+    tokens: legacy,
+  });
   assert.equal(r.rule, "script token");
 });
 
@@ -183,7 +198,15 @@ test("color gets an attribute; background and border is reported; held names are
     "background",
   );
   assert.equal(plan(color("Border"), ctx).next[0].scope.attribute, "border");
-  assert.equal(plan(color("Background and border"), ctx).status, "judgement");
+  const split = plan(color("Background and border"), ctx);
+  assert.equal(split.status, "mechanical");
+  assert.deepEqual(
+    split.next.map((n) => n.scope.attribute),
+    ["background", "border"],
+  );
+  assert.equal(split.next[0].uuid, "u1");
+  assert.notEqual(split.next[1].uuid, "u1");
+  assert.equal(split.next[1].$ref, split.next[0].$ref);
   assert.equal(plan(color("Alert icon"), ctx).status, "ok");
   assert.equal(
     plan(color("Border", { attribute: "border" }), ctx).status,
@@ -223,4 +246,42 @@ test("records that become duplicates are noted", () => {
     attributes: ctx.attributes,
   });
   assert.ok(res[1].notes.some((n) => n.startsWith("duplicate")));
+});
+
+test("records that tie on identity get a size pin from the token, one per size", () => {
+  const sizes = new Map([
+    ["a", { name: { size: "s" } }],
+    ["b", { name: { size: "m" } }],
+    ["c", { name: { size: "m", script: "cjk" } }],
+  ]);
+  const between = { from: "top-edge", to: "value" };
+  const base = {
+    components: new Map([["field", component]]),
+    tokens: sizes,
+    terms,
+    attributes: ctx.attributes,
+  };
+  const mk = (uuid, $ref) =>
+    rec({ property: "space-between", between }, { uuid, $ref });
+  const res = planFile([mk("1", "a"), mk("2", "b")], "field", base);
+  assert.deepEqual(
+    res.map((r) => r.next[0].scope.options),
+    [{ size: "s" }, { size: "m" }],
+  );
+  assert.equal(res[0].rule, "size from token");
+  // a script token, or two records of one size (a desktop/mobile pair), stays unpinned
+  assert.equal(
+    planFile([mk("1", "a"), mk("2", "c")], "field", base)[0].status,
+    "ok",
+  );
+  assert.equal(
+    planFile([mk("1", "b"), mk("2", "b")], "field", base)[0].status,
+    "ok",
+  );
+  // no between and nothing decomposed: left alone
+  const plain = (u, r) => rec({ property: "width" }, { uuid: u, $ref: r });
+  assert.equal(
+    planFile([plain("1", "a"), plain("2", "b")], "field", base)[0].status,
+    "ok",
+  );
 });
