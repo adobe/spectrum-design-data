@@ -9,7 +9,8 @@ Anatomy review of date-picker and level 2 identity (A9, PR 3 of 3). The legacy
 
 - Anatomy: container, field-label, field (segment, error-icon, in-field-button, focus-indicator),
   help-text, and a top-level popover (present when open, no tip) that holds the calendar and, with
-  time granularity, a time-field. The draft parts `value` and `day` are removed.
+  time granularity, a time-field. The draft part `value` is removed; `day` is deprecated
+  (replaced by calendar's day) and stays declared only for the strikethrough tokens.
 - Options flattened from the nested `dateField` and `calendarPopover` objects, matching picker.
   Added `granularity`, `hourCycle`, `hideTimeZone`, `selectionMode` and `visibleMonths` (1, 2, 3).
   Removed `variant`, the nested `state` enum, `showTimeZone`, `is24Hour` and `timeFields`.

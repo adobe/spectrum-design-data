@@ -321,7 +321,10 @@
     },
     {
       "name": "day",
-      "description": "Legacy anchor only: the strikethrough-day tokens name this part. The day cell itself belongs to calendar."
+      "description": "Replaced by the day part of calendar. Kept declared only because deprecated and legacy tokens (strikethrough-day-thickness, strikethrough-day-orientation) still name it.",
+      "lifecycle": {
+        "deprecatedIn": "1.0.0-draft"
+      }
     }
   ],
   "anatomyReview": {
