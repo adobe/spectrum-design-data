@@ -577,6 +577,14 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             }
             v
         };
+        // The all-on golden picks each option's last value, and the accent variant (the last of
+        // the in-line alert and the banner) has no records, so it would draw no fill. Use the
+        // last variant that has one.
+        for (label, r) in out.iter_mut() {
+            if *label == "all-on-dark-mobile" {
+                r.options.insert("variant".into(), "negative".into());
+            }
+        }
         let long = "Your changes could not be saved because the connection to the server was lost";
         let cases: Vec<Case> = match name {
             "in-line-alert" => vec![

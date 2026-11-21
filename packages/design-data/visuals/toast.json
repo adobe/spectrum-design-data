@@ -114,11 +114,9 @@
           }
         },
         "color": {
-          "token": {
+          "relationship": {
             "property": "color",
-            "variant": "static",
-            "colorFamily": "white",
-            "anatomy": "text"
+            "part": "icon"
           }
         }
       }
@@ -160,11 +158,9 @@
           }
         },
         "color": {
-          "token": {
+          "relationship": {
             "property": "color",
-            "variant": "static",
-            "colorFamily": "white",
-            "anatomy": "text"
+            "part": "text"
           }
         }
       }

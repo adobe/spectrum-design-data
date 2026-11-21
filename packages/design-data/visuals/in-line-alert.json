@@ -176,40 +176,24 @@
           {
             "when": {
               "options": {
-                "style": ["outline", "subtle"]
+                "style": ["outline", "bold"]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "title"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "style": "subtle"
               }
             },
             "token": {
               "property": "color",
               "colorFamily": "gray",
               "scaleIndex": 900
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "style": "bold"
-              }
-            },
-            "token": {
-              "property": "color",
-              "variant": "static",
-              "colorFamily": "white",
-              "anatomy": "text"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "style": "bold",
-                "variant": "notice"
-              }
-            },
-            "token": {
-              "property": "color",
-              "variant": "static",
-              "colorFamily": "black",
-              "anatomy": "text"
             }
           }
         ]
@@ -249,40 +233,24 @@
           {
             "when": {
               "options": {
-                "style": ["outline", "subtle"]
+                "style": ["outline", "bold"]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "description"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "style": "subtle"
               }
             },
             "token": {
               "property": "color",
               "colorFamily": "gray",
               "scaleIndex": 800
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "style": "bold"
-              }
-            },
-            "token": {
-              "property": "color",
-              "variant": "static",
-              "colorFamily": "white",
-              "anatomy": "text"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "style": "bold",
-                "variant": "notice"
-              }
-            },
-            "token": {
-              "property": "color",
-              "variant": "static",
-              "colorFamily": "black",
-              "anatomy": "text"
             }
           }
         ]
