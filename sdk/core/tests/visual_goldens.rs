@@ -458,6 +458,93 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Picker: the defaults draw an empty field (no label, value, placeholder or description are
+    // set). These fill it in at each size, with the placeholder, the hover and keyboard-focus
+    // states, the invalid border, the disabled look and the dark mobile scheme.
+    if name == "picker" {
+        type Case = (
+            &'static str,
+            &'static str,
+            Vec<&'static str>,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+        );
+        let filled: [(&str, Value); 3] = [
+            ("label", "Label".into()),
+            ("value", "Selected".into()),
+            ("description", "Help text".into()),
+        ];
+        let placeholder =
+            || -> Vec<(&'static str, Value)> { vec![("placeholder", "Select an option".into())] };
+        let cases: Vec<Case> = vec![
+            ("filled-s", "s", vec![], vec![], "light", "desktop"),
+            ("filled-m", "m", vec![], vec![], "light", "desktop"),
+            ("filled-l", "l", vec![], vec![], "light", "desktop"),
+            ("filled-xl", "xl", vec![], vec![], "light", "desktop"),
+            (
+                "placeholder",
+                "m",
+                vec![],
+                placeholder(),
+                "light",
+                "desktop",
+            ),
+            ("hover", "m", vec!["hover"], vec![], "light", "desktop"),
+            (
+                "keyboard-focus",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "light",
+                "desktop",
+            ),
+            (
+                "invalid",
+                "m",
+                vec![],
+                vec![("isError", true.into()), ("isRequired", true.into())],
+                "light",
+                "desktop",
+            ),
+            (
+                "invalid-placeholder-dark",
+                "m",
+                vec![],
+                [placeholder(), vec![("isError", true.into())]].concat(),
+                "dark",
+                "desktop",
+            ),
+            (
+                "disabled",
+                "m",
+                vec![],
+                vec![("isDisabled", true.into())],
+                "light",
+                "desktop",
+            ),
+            ("dark-mobile-xl", "xl", vec![], vec![], "dark", "mobile"),
+        ];
+        for (label, size, states, extra, scheme, scale) in cases {
+            let mut opts: HashMap<String, Value> = filled
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            opts.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            // The placeholder shows only while no value is set.
+            if extra.iter().any(|(k, _)| *k == "placeholder") {
+                opts.remove("value");
+            }
+            let mut r = req(
+                states.iter().map(|s| s.to_string()).collect(),
+                opts,
+                scheme,
+                scale,
+            );
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
     // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
     // over the dark scheme, where the neutral colours would not show.
     if name == "close-button" {
