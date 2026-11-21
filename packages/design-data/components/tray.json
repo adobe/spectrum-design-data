@@ -16,7 +16,9 @@
     }
   },
   "lifecycle": {
-    "introduced": "1.0.0-draft"
+    "introduced": "1.0.0-draft",
+    "deprecatedIn": "1.0.0-draft",
+    "deprecatedComment": "Archive-only: Spectrum 1 only. The Figma Web POC has no tray, React Spectrum S2 has a TODO to add it back and SWC gen2 has none. Its legacy records are already deprecated, so nothing live is left. Revive it only from a Spectrum 2 mobile source."
   },
   "accessibility": {
     "intents": ["dismiss"],
@@ -34,10 +36,10 @@
       "name": "container",
       "description": "Tray surface that slides in from an edge.",
       "required": true,
-      "contains": ["gripper", "title", "description", "close-button"]
+      "contains": ["drag-handle", "title", "description", "close-button"]
     },
     {
-      "name": "gripper",
+      "name": "drag-handle",
       "description": "Drag handle."
     },
     {
@@ -56,6 +58,6 @@
   "anatomyReview": {
     "status": "draft",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web tray and .Tray header. Leading/trailing action slots left out; subtitle renamed to registry term description; gripper appears at two positions in the tree."
+    "notes": "Archived as Spectrum 1 only (owner decision A8, 2026-11-20; the A5 floating-action-button rule). No S2 source found, so the parts are inferred and stay a draft; the earlier note citing a Figma S2 Web tray could not be confirmed. The grip part follows the panels: drag-handle."
   }
 }

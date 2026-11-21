@@ -4,11 +4,40 @@
   "specVersion": "1.0.0-draft",
   "name": "bar-panel",
   "displayName": "Bar panel",
-  "description": "A panel anchored to an edge, exposing a draggable gripper for resizing.",
+  "description": "A panel anchored to an edge, exposing a drag handle for moving it. Also called a toolbar.",
   "meta": {
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/bar-panel/"
   },
-  "anatomy": [{ "name": "gripper" }],
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Bar surface. Root of the component and host of the actions slot.",
+      "required": true,
+      "contains": ["drag-handle", "actions", "divider"]
+    },
+    {
+      "name": "drag-handle",
+      "description": "Grip that moves the bar (Figma Drag handle layer, S2_Gripper icon)."
+    },
+    { "name": "actions", "description": "Row or column of action buttons." },
+    {
+      "name": "divider",
+      "description": "Line between groups of actions; horizontal or vertical by orientation."
+    }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "slots": [
+    {
+      "name": "actions",
+      "part": "actions",
+      "accepts": ["action-button"],
+      "description": "The action buttons in the bar."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Owner decisions (A8, 2026-11-20): explicit root part container; the grip part is drag-handle (4 legacy records said gripper and moved to the new part name, legacy output unchanged). Figma S2 Web Bar panel and toolbar (9952:19120): Drag handle, action buttons, Divider, Slot. Style (primary, secondary), density (5 widths 44 to 72) and the floating shadow are options and styling, not parts; the legacy widths 40/56/72 do not match the Figma densities (gap bead). The registry entry wrongly called this a sub-part shared by color area and color wheel; fixed."
+  }
 }

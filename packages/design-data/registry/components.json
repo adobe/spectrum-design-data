@@ -51,7 +51,8 @@
     {
       "id": "bar-panel",
       "label": "Bar Panel",
-      "description": "A cross-cutting anatomy sub-part shared by multiple components (e.g. color area, color wheel) rather than a standalone top-level component."
+      "description": "A panel anchored to an edge that holds a bar of actions and a drag handle; also called a toolbar.",
+      "aliases": ["toolbar"]
     },
     {
       "id": "body",
