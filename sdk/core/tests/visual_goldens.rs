@@ -353,6 +353,98 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Text field: the defaults draw an empty field (no value, label or help text are set). These
+    // fill it in: a label, a value and help text at each size, the hover and keyboard-focus
+    // borders, the invalid and disabled borders, the valid check and the dark mobile scheme.
+    if name == "text-field" {
+        type Case = (
+            &'static str,
+            &'static str,
+            Vec<&'static str>,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+        );
+        let filled: [(&str, Value); 3] = [
+            ("label", "Name".into()),
+            ("value", "Hello".into()),
+            ("helpText", "Help text".into()),
+        ];
+        let cases: Vec<Case> = vec![
+            ("filled-s", "s", vec![], vec![], "light", "desktop"),
+            ("filled-m", "m", vec![], vec![], "light", "desktop"),
+            ("filled-l", "l", vec![], vec![], "light", "desktop"),
+            ("filled-xl", "xl", vec![], vec![], "light", "desktop"),
+            (
+                "required-text",
+                "m",
+                vec![],
+                vec![
+                    ("isRequired", true.into()),
+                    ("necessityIndicator", "text".into()),
+                ],
+                "light",
+                "desktop",
+            ),
+            ("hover", "m", vec!["hover"], vec![], "light", "desktop"),
+            (
+                "keyboard-focus",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "light",
+                "desktop",
+            ),
+            (
+                "keyboard-focus-dark",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "dark",
+                "desktop",
+            ),
+            (
+                "disabled",
+                "m",
+                vec![],
+                vec![("isDisabled", true.into())],
+                "light",
+                "desktop",
+            ),
+            (
+                "valid",
+                "m",
+                vec![],
+                vec![("showValidIcon", true.into())],
+                "light",
+                "desktop",
+            ),
+            ("dark-mobile-xl", "xl", vec![], vec![], "dark", "mobile"),
+            (
+                "hidden-label",
+                "m",
+                vec![],
+                vec![("hideLabel", true.into())],
+                "light",
+                "desktop",
+            ),
+        ];
+        for (label, size, states, extra, scheme, scale) in cases {
+            let mut opts: HashMap<String, Value> = filled
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            opts.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            let mut r = req(
+                states.iter().map(|s| s.to_string()).collect(),
+                opts,
+                scheme,
+                scale,
+            );
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
     // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
     // over the dark scheme, where the neutral colours would not show.
     if name == "close-button" {
