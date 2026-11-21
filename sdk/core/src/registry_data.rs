@@ -1019,8 +1019,9 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "title",
       "label": "Title",
-      "description": "Title text element within a component",
-      "usedIn": ["tokens"]
+      "description": "Title text element within a component. In a calendar it is the month and year text of each month.",
+      "usedIn": ["tokens"],
+      "aliases": ["month-and-year", "calendar-heading"]
     },
     {
       "id": "description",
@@ -1433,7 +1434,52 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "calendar",
       "label": "Calendar",
-      "description": "Calendar component used as an anatomy part within a date-picker",
+      "description": "Calendar component used as an anatomy part within a date-picker (nested in its popover). Also called RangeCalendar when it selects a range, or the calendar popover when it sits in a date-picker's popover.",
+      "usedIn": ["s2-docs"],
+      "aliases": ["range-calendar", "calendar-popover"]
+    },
+    {
+      "id": "day",
+      "label": "Day",
+      "description": "One date cell of a calendar",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "weekday-label",
+      "label": "Weekday Label",
+      "description": "Single-letter weekday heading above a calendar's day grid",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "range-fill",
+      "label": "Range Fill",
+      "description": "Highlight band behind the days between the two ends of a selected date range",
+      "usedIn": ["s2-docs"],
+      "aliases": ["highlight-fill", "selection-background"]
+    },
+    {
+      "id": "current-day-indicator",
+      "label": "Current Day Indicator",
+      "description": "Marker that sets today's cell apart in a calendar",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "unavailable-indicator",
+      "label": "Unavailable Indicator",
+      "description": "Line struck through the day number of an unavailable calendar day",
+      "usedIn": ["s2-docs"],
+      "aliases": ["strikethrough"]
+    },
+    {
+      "id": "previous-button",
+      "label": "Previous Button",
+      "description": "Quiet action button that moves a calendar to the previous month",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "next-button",
+      "label": "Next Button",
+      "description": "Quiet action button that moves a calendar to the next month",
       "usedIn": ["s2-docs"]
     },
     {
