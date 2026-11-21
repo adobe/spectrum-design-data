@@ -362,6 +362,7 @@ recipe_tests! {
     radio_button => "radio-button",
     swatch => "swatch",
     switch => "switch",
+    tag => "tag",
     text_field => "text-field",
     thumbnail => "thumbnail",
 }

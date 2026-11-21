@@ -1,0 +1,257 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tag",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200
+  },
+  "notVisual": ["isError"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["avatar", "icon", "label", "clear-button"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "minimum-height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "container"
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "start-edge",
+              "to": "label"
+            }
+          }
+        },
+        "paddingInlineEnd": [
+          {
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "start-edge",
+                "to": "label"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isRemovable": true
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "clear-button",
+                "to": "end-edge"
+              }
+            }
+          }
+        ],
+        "gap": [
+          {
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "icon",
+                "to": "label"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isRemovable": true,
+                "hasAvatar": false
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "label",
+                "to": "clear-button"
+              }
+            }
+          }
+        ],
+        "minWidth": {
+          "relationship": {
+            "property": "minimum-width",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "avatar": {
+      "kind": "component",
+      "component": "avatar",
+      "sizeMap": {
+        "s": "50",
+        "m": "100",
+        "l": "200"
+      },
+      "visibleWhen": {
+        "options": {
+          "hasAvatar": true
+        }
+      },
+      "with": {
+        "image": "initials",
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "add",
+        "content": true,
+        "optional": true
+      },
+      "visibleWhen": {
+        "options": {
+          "icon": true
+        }
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "overflow": {
+          "value": "truncate"
+        },
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "label"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "label"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "label"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "clear-button": {
+      "kind": "component",
+      "component": "clear-button",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l"
+      },
+      "visibleWhen": {
+        "options": {
+          "isRemovable": true
+        }
+      },
+      "with": {
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "around": "container",
+      "visibleWhen": {
+        "states": ["keyboard-focus"]
+      },
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    }
+  }
+}
