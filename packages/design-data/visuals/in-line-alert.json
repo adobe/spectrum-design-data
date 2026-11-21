@@ -1,0 +1,292 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "in-line-alert",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["href", "actionLabel"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["title", "description"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "minWidth": {
+          "relationship": {
+            "property": "minimum-width",
+            "part": "container"
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "top-edge",
+              "to": "content"
+            }
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "bottom-edge",
+              "to": "content"
+            }
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "start-edge",
+              "to": "content"
+            }
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "end-edge",
+              "to": "content"
+            }
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "title",
+              "to": "description"
+            }
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "variant": [
+                  "neutral",
+                  "informative",
+                  "positive",
+                  "notice",
+                  "negative"
+                ]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "attribute": "background",
+              "part": "container"
+            }
+          }
+        ],
+        "stroke": [
+          {
+            "when": {
+              "options": {
+                "style": "outline",
+                "variant": [
+                  "neutral",
+                  "informative",
+                  "positive",
+                  "notice",
+                  "negative"
+                ]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "attribute": "border",
+              "part": "container"
+            }
+          }
+        ],
+        "strokeWidth": {
+          "when": {
+            "options": {
+              "style": "outline"
+            }
+          },
+          "relationship": {
+            "property": "border-width",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "title": {
+      "kind": "text",
+      "text": {
+        "option": "heading"
+      },
+      "visibleWhen": {
+        "options": {
+          "heading": true
+        }
+      },
+      "props": {
+        "overflow": {
+          "value": "wrap"
+        },
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "title"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "title"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "title"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "title"
+          }
+        },
+        "color": [
+          {
+            "when": {
+              "options": {
+                "style": ["outline", "subtle"]
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorFamily": "gray",
+              "scaleIndex": 900
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "style": "bold"
+              }
+            },
+            "token": {
+              "property": "color",
+              "variant": "static",
+              "colorFamily": "white",
+              "anatomy": "text"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "style": "bold",
+                "variant": "notice"
+              }
+            },
+            "token": {
+              "property": "color",
+              "variant": "static",
+              "colorFamily": "black",
+              "anatomy": "text"
+            }
+          }
+        ]
+      }
+    },
+    "description": {
+      "kind": "text",
+      "props": {
+        "overflow": {
+          "value": "wrap"
+        },
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "description"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "description"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "description"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "description"
+          }
+        },
+        "color": [
+          {
+            "when": {
+              "options": {
+                "style": ["outline", "subtle"]
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorFamily": "gray",
+              "scaleIndex": 800
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "style": "bold"
+              }
+            },
+            "token": {
+              "property": "color",
+              "variant": "static",
+              "colorFamily": "white",
+              "anatomy": "text"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "style": "bold",
+                "variant": "notice"
+              }
+            },
+            "token": {
+              "property": "color",
+              "variant": "static",
+              "colorFamily": "black",
+              "anatomy": "text"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

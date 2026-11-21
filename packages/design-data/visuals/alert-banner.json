@@ -1,0 +1,185 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "alert-banner",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["actionLabel"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon", "text", "close-button"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "minimum-height",
+            "part": "container"
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "top-edge",
+              "to": "text"
+            }
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "bottom-edge",
+              "to": "text"
+            }
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "start-edge",
+              "to": "icon"
+            }
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "icon",
+              "to": "text"
+            }
+          }
+        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "variant": ["neutral", "informative", "negative"]
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "attribute": "background",
+              "part": "container"
+            }
+          }
+        ],
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "alert-triangle"
+      },
+      "visibleWhen": {
+        "options": {
+          "variant": "negative"
+        }
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "color": {
+          "token": {
+            "property": "color",
+            "variant": "static",
+            "colorFamily": "white",
+            "anatomy": "text"
+          }
+        }
+      }
+    },
+    "text": {
+      "kind": "text",
+      "text": {
+        "option": "text"
+      },
+      "props": {
+        "grow": {
+          "value": true
+        },
+        "overflow": {
+          "value": "wrap"
+        },
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "text"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "text"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "text"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "text"
+          }
+        },
+        "color": {
+          "token": {
+            "property": "color",
+            "variant": "static",
+            "colorFamily": "white",
+            "anatomy": "text"
+          }
+        }
+      }
+    },
+    "close-button": {
+      "kind": "component",
+      "component": "close-button",
+      "sizeMap": {
+        "m": "m"
+      },
+      "with": {
+        "staticColor": "white"
+      },
+      "visibleWhen": {
+        "options": {
+          "isDismissible": true
+        }
+      }
+    }
+  }
+}
