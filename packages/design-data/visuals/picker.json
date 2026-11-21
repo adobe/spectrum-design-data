@@ -37,8 +37,36 @@
             "property": "width",
             "part": "container"
           }
+        },
+        "pressDifference": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-difference",
+            "part": "field"
+          }
+        },
+        "pressWidthRatio": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "part": "field"
+          }
+        },
+        "pressMinPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "part": "field"
+          }
         }
-      }
+      },
+      "pressTarget": "field"
     },
     "field-label": {
       "kind": "component",
@@ -137,7 +165,14 @@
               "part": "field"
             }
           }
-        ]
+        ],
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "field"
+          }
+        }
       }
     },
     "value": {
