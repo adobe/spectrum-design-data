@@ -2,7 +2,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "vertical-height",
+      "part": "container",
+      "property": "height",
       "options": {
         "orientation": "vertical"
       }
@@ -15,7 +16,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "vertical-height",
+      "part": "container",
+      "property": "height",
       "options": {
         "orientation": "vertical"
       }
@@ -28,7 +30,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "vertical-edge-to-content",
+      "part": "container",
+      "property": "padding",
       "options": {
         "orientation": "vertical"
       }
@@ -41,21 +44,27 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "vertical-illustration-to-label",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "illustration",
+        "to": "label"
+      },
       "options": {
         "orientation": "vertical"
       }
     },
-    "context": "Spacing (illustration to text)",
+    "context": "Spacing (illustration to label)",
     "contextRole": ["spacing"],
-    "contextQualifier": "illustration to text",
+    "contextQualifier": "illustration to label",
     "$ref": "9c79efdc-ab56-4f2e-b44d-5641d2480964",
     "uuid": "7588a9bc-4ec5-5219-a712-10bd38d09201"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-width",
+      "part": "container",
+      "property": "width",
       "options": {
         "orientation": "horizontal"
       }
@@ -68,7 +77,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-width",
+      "part": "container",
+      "property": "width",
       "options": {
         "orientation": "horizontal"
       }
@@ -81,7 +91,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-minimum-width",
+      "part": "container",
+      "property": "minimum-width",
       "options": {
         "orientation": "horizontal"
       }
@@ -94,7 +105,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-minimum-width",
+      "part": "container",
+      "property": "minimum-width",
       "options": {
         "orientation": "horizontal"
       }
@@ -107,7 +119,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-minimum-height",
+      "part": "container",
+      "property": "minimum-height",
       "options": {
         "orientation": "horizontal"
       }
@@ -119,7 +132,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-minimum-height",
+      "part": "container",
+      "property": "minimum-height",
       "options": {
         "orientation": "horizontal"
       }
@@ -131,46 +145,69 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-top-to-content",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "content"
+      },
       "options": {
         "orientation": "horizontal"
       }
     },
-    "context": "Padding",
+    "context": "Spacing (top-edge to content)",
     "contextRole": ["spacing"],
     "$ref": "81e5f983-4ca0-4d45-89f0-4accd78d7946",
-    "uuid": "cf9589d9-0e24-5c81-baf1-4a6a8dee15dd"
+    "uuid": "cf9589d9-0e24-5c81-baf1-4a6a8dee15dd",
+    "contextQualifier": "top-edge to content"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-start-to-content",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "content"
+      },
       "options": {
         "orientation": "horizontal"
       }
     },
-    "context": "Padding",
+    "context": "Spacing (start-edge to content)",
     "contextRole": ["spacing"],
     "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d",
-    "uuid": "f6e793f8-28ca-5f5f-99aa-2f13e7391fc1"
+    "uuid": "f6e793f8-28ca-5f5f-99aa-2f13e7391fc1",
+    "contextQualifier": "start-edge to content"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-end-to-content",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "content"
+      },
       "options": {
         "orientation": "horizontal"
       }
     },
-    "context": "Padding",
+    "context": "Spacing (end-edge to content)",
     "contextRole": ["spacing"],
     "$ref": "4b6cd7dd-2b7c-4fec-935e-8ea88de4c412",
-    "uuid": "fb0687d7-9674-525f-b415-a11b6c21e55f"
+    "uuid": "fb0687d7-9674-525f-b415-a11b6c21e55f",
+    "contextQualifier": "end-edge to content"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-label-to-description",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "description"
+      },
       "options": {
         "orientation": "horizontal"
       }
@@ -184,7 +221,12 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "horizontal-illustration-to-label",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "illustration",
+        "to": "label"
+      },
       "options": {
         "orientation": "horizontal"
       }
@@ -198,6 +240,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "border-width",
       "options": {
         "isSelected": true
@@ -211,6 +254,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "component-size-difference"
     },
     "context": "Down state",
@@ -221,6 +265,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "component-size-width-ratio"
     },
     "context": "Down state",
@@ -231,6 +276,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "component-size-minimum-perspective"
     },
     "context": "Down state",
@@ -241,6 +287,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "thickness",
       "options": {
         "isSelected": true
@@ -254,6 +301,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Border radius",
@@ -264,7 +312,12 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "container",
+        "to": "checkbox"
+      }
     },
     "context": "Spacing (top/side edge to checkbox)",
     "contextRole": ["spacing"],
@@ -275,6 +328,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "label",
       "property": "font-family",
       "options": {
         "orientation": "vertical"
@@ -288,6 +342,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Text",
@@ -298,6 +353,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "label",
       "property": "font-style",
       "options": {
         "orientation": "vertical"
@@ -311,7 +367,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "font-size-100",
+      "part": "label",
+      "property": "font-size",
       "options": {
         "orientation": "vertical"
       }
@@ -324,7 +381,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "font-size-100",
+      "part": "label",
+      "property": "font-size",
       "options": {
         "orientation": "vertical"
       }
@@ -337,7 +395,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "line-height-100",
+      "part": "label",
+      "property": "line-height",
       "options": {
         "orientation": "vertical"
       }
@@ -350,7 +409,8 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "line-height-100",
+      "part": "label",
+      "property": "line-height",
       "options": {
         "orientation": "vertical"
       }
@@ -363,6 +423,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "label",
       "property": "font-weight",
       "options": {
         "orientation": "horizontal"
@@ -376,7 +437,12 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      },
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -386,7 +452,12 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      },
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -396,7 +467,12 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      },
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -406,6 +482,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "illustration",
       "property": "content-color"
     },
     "context": "Illustration color",
@@ -416,6 +493,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "illustration",
       "property": "content-color"
     },
     "context": "Illustration color",
@@ -426,6 +504,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "illustration",
       "property": "content-color"
     },
     "context": "Illustration color",
@@ -436,10 +515,12 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "color",
       "options": {
         "isSelected": true
-      }
+      },
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -449,10 +530,13 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "color",
       "options": {
-        "isSelected": true
-      }
+        "isSelected": true,
+        "colorScheme": "light"
+      },
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -462,10 +546,13 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "color",
       "options": {
-        "isSelected": true
-      }
+        "isSelected": true,
+        "colorScheme": "dark"
+      },
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -475,10 +562,13 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "color",
       "options": {
-        "isSelected": true
-      }
+        "isSelected": true,
+        "colorScheme": "wireframe"
+      },
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -488,6 +578,7 @@
   {
     "scope": {
       "component": "select-box",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Border (focus)",
@@ -499,7 +590,11 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "content-color"
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Disabled",
     "contextRole": ["state"],
@@ -509,146 +604,202 @@
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "isDisabled": true
+      },
+      "attribute": "background"
     },
-    "context": "Disabled",
-    "contextRole": ["state"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
     "uuid": "cf21c11a-c1cf-5f0d-93fa-131b2c01da4d"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "x"
+      "part": "container",
+      "property": "x",
+      "attribute": "shadow"
     },
-    "context": "Default",
-    "contextRole": ["state"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "5b611aa8-9db2-495d-a119-3385eee62442",
     "uuid": "bc9b03e3-0be9-5b2a-bf71-92f442f5e99b"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "y"
+      "part": "container",
+      "property": "y",
+      "attribute": "shadow"
     },
-    "context": "Default",
-    "contextRole": ["state"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "02949dd5-0596-44bc-8b63-dcc7d2ba628b",
     "uuid": "f5fdca2e-5c66-5741-bb0d-3aa0766ac142"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "blur"
+      "part": "container",
+      "property": "blur",
+      "attribute": "shadow"
     },
-    "context": "Default",
-    "contextRole": ["state"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "57920fe8-72ad-48d2-aa9b-feec4c989106",
     "uuid": "86c52b7e-c55d-5a89-8395-aef6225a7ba6"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "shadow"
     },
-    "context": "Default",
-    "contextRole": ["state"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "af4e0a7a-7c6a-4cf2-a17b-0b07ef365869",
     "uuid": "753444b4-38e0-584a-b487-62cd2c9d37d5"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "x"
+      "part": "container",
+      "property": "x",
+      "options": {
+        "state": ["hover"]
+      },
+      "attribute": "shadow"
     },
-    "context": "Hover",
-    "contextRole": ["state"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "d86f7c89-92a6-4bad-83b0-43953472ce7f",
     "uuid": "ced3ae0b-5193-5396-add6-1131fd0618ac"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "y"
+      "part": "container",
+      "property": "y",
+      "options": {
+        "state": ["hover"]
+      },
+      "attribute": "shadow"
     },
-    "context": "Hover",
-    "contextRole": ["state"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "da17e314-f3e9-4d49-9362-533eb65c0f7b",
     "uuid": "92744ac1-b0cf-5a23-9a23-94b876478a4a"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "blur"
+      "part": "container",
+      "property": "blur",
+      "options": {
+        "state": ["hover"]
+      },
+      "attribute": "shadow"
     },
-    "context": "Hover",
-    "contextRole": ["state"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "5f6674e8-ef00-490a-800d-3b946059bae2",
     "uuid": "6b15b37b-72ca-559f-8dd5-649a1dc84dd1"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "state": ["hover"]
+      },
+      "attribute": "shadow"
     },
-    "context": "Hover",
-    "contextRole": ["state"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "4c84adb3-9edf-4a5d-b39a-5f31a0d3529c",
     "uuid": "dc9fac89-7216-5b9a-b4ff-c7b709735ce4"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "x"
+      "part": "container",
+      "property": "x",
+      "options": {
+        "state": ["keyboard-focus"]
+      },
+      "attribute": "shadow"
     },
-    "context": "Focus",
-    "contextRole": ["focus"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "59324423-4428-40d7-a227-5f75aeb38312",
     "uuid": "b69d0e87-6361-50a1-95a8-cdc1b9c0894b"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "y"
+      "part": "container",
+      "property": "y",
+      "options": {
+        "state": ["keyboard-focus"]
+      },
+      "attribute": "shadow"
     },
-    "context": "Focus",
-    "contextRole": ["focus"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84",
     "uuid": "1f7421ca-066f-553b-8164-85785ab24628"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "blur"
+      "part": "container",
+      "property": "blur",
+      "options": {
+        "state": ["keyboard-focus"]
+      },
+      "attribute": "shadow"
     },
-    "context": "Focus",
-    "contextRole": ["focus"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c",
     "uuid": "35390be8-d356-5b32-ac6d-9a918b9dbcb9"
   },
   {
     "scope": {
       "component": "select-box",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "state": ["keyboard-focus"]
+      },
+      "attribute": "shadow"
     },
-    "context": "Focus",
-    "contextRole": ["focus"],
+    "context": "Shadow",
+    "contextRole": ["shadow"],
     "$ref": "e475981f-97af-479c-859b-7619dd87c448",
     "uuid": "bccf92e4-770a-51fa-b6f1-520feed3609e"
   },
   {
     "scope": {
       "component": "select-box",
+      "part": "container",
       "property": "color",
       "options": {
-        "state": ["selected"],
-        "object": "border"
-      }
+        "isSelected": true
+      },
+      "attribute": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
     "uuid": "4bbb81b1-09fb-4ebe-80b5-cebb75c13839",
-    "legacyKey": "select-box-selected-border-color"
+    "legacyKey": "select-box-selected-border-color",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {

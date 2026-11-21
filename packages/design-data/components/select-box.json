@@ -69,17 +69,40 @@
     }
   ],
   "options": {
-    "label": { "type": "string" },
+    "label": {
+      "type": "string"
+    },
     "orientation": {
       "type": "string",
       "default": "vertical",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
-    "body": { "type": "string" },
-    "isSelected": { "type": "boolean", "default": false },
-    "hideIllustration": { "type": "boolean", "default": false },
-    "showCheckbox": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false },
+    "body": {
+      "type": "string"
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideIllustration": {
+      "type": "boolean",
+      "default": false
+    },
+    "showCheckbox": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
     "multiple": {
       "type": "boolean",
       "default": false,
@@ -116,24 +139,42 @@
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (Content frame, Text frame; checkbox is a property). Hover is a visual state, not a part."
+    "notes": "Figma S2 Web (Content frame, Text frame; checkbox is a property) and React Spectrum S2 SelectBox. Hover is a visual state, not a part. The state selected is dropped: the option isSelected covers it (A8 local call). multiple belongs to a select-box-group component that does not exist yet (gap bead), so the option stays here until it does."
   },
   "states": [
-    { "name": "down", "trigger": "interaction" },
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "selected", "trigger": "prop" }
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["select"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }
