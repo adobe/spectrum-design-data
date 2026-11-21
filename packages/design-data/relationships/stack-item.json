@@ -2,12 +2,16 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "state": ["down"],
         "object": "background"
       }
     },
+    "context": "Background",
+    "contextRole": ["background"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
     "uuid": "c99360a4-de28-48e6-80ad-93adb714d388",
@@ -16,12 +20,16 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "state": ["hover"],
         "object": "background"
       }
     },
+    "context": "Background",
+    "contextRole": ["background"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
     "uuid": "022a6244-ce6c-4c3f-82a1-e2f5118d3c5e",
@@ -30,12 +38,16 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "state": ["keyboard-focus"],
         "object": "background"
       }
     },
+    "context": "Background",
+    "contextRole": ["background"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
     "uuid": "a0251da6-7517-4712-85a1-29ca7f16ef91",
@@ -44,12 +56,16 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "state": ["selected", "default"],
         "object": "background"
       }
     },
+    "context": "Background",
+    "contextRole": ["background"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
     "uuid": "128c4963-471a-44e3-9fb5-328d92d0266d",
@@ -58,12 +74,16 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "state": ["selected", "down"],
         "object": "background"
       }
     },
+    "context": "Background",
+    "contextRole": ["background"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
     "uuid": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
@@ -72,16 +92,17 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "state": ["selected"],
         "emphasis": "emphasized",
         "object": "background"
       }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e05251ac-d64a-4157-9b20-224f0392269e",
     "uuid": "95685612-09b7-477f-9c13-06eb58abe5c8",
@@ -90,12 +111,16 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "state": ["selected", "hover"],
         "object": "background"
       }
     },
+    "context": "Background",
+    "contextRole": ["background"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
     "uuid": "a1bcd6c6-ef3e-42e4-8d88-2fafe2b318da",
@@ -104,12 +129,16 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "state": ["selected", "keyboard-focus"],
         "object": "background"
       }
     },
+    "context": "Background",
+    "contextRole": ["background"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
     "uuid": "93f433f2-2d0b-4225-8b39-b10000808360",
@@ -358,6 +387,7 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "minimum-padding-vertical",
       "options": {
         "scale": "desktop"
@@ -373,6 +403,7 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "minimum-padding-vertical",
       "options": {
         "scale": "mobile"
@@ -388,6 +419,7 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "opacity",
       "options": {
         "state": ["selected"],
@@ -395,9 +427,8 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "d1cd1fc2-5ad1-4a6e-bef8-55a385c1ce29",
@@ -406,6 +437,7 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "opacity",
       "options": {
         "state": ["selected", "down"],
@@ -413,9 +445,8 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "67946e29-b480-4991-85eb-c57331a509f7",
@@ -424,6 +455,7 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "opacity",
       "options": {
         "state": ["selected", "hover"],
@@ -431,9 +463,8 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "bb522e19-6bb9-471c-95af-5ab7fa748557",
@@ -442,6 +473,7 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "opacity",
       "options": {
         "state": ["selected", "keyboard-focus"],
@@ -449,9 +481,8 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "35415d70-944b-4c5a-ae70-4810f991b70d",
@@ -460,6 +491,7 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "opacity",
       "options": {
         "state": ["selected"],
@@ -467,9 +499,8 @@
         "qualifier": "highlight"
       }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "2e8ef316-9ea1-41f3-bb2e-a9b777466794",
@@ -478,6 +509,7 @@
   {
     "scope": {
       "component": "stack-item",
+      "part": "container",
       "property": "opacity",
       "options": {
         "state": ["selected", "hover"],
@@ -485,6 +517,8 @@
         "qualifier": "highlight"
       }
     },
+    "context": "Background",
+    "contextRole": ["background"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "2d07949e-416d-4ab6-b36e-15dde4df78b0",
