@@ -548,6 +548,160 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Tag: the defaults draw a bare label. These show the removable tag at each size, a
+    // leading icon and avatar, the selected and emphasized looks, the hover, down and
+    // keyboard-focus looks, the disabled tag and the dark mobile scheme.
+    if name == "tag" {
+        type Case = (
+            &'static str,
+            &'static str,
+            Vec<&'static str>,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+        );
+        let removable: (&str, Value) = ("isRemovable", true.into());
+        let selected: (&str, Value) = ("isSelected", true.into());
+        let emphasized: (&str, Value) = ("isEmphasized", true.into());
+        let disabled: (&str, Value) = ("isDisabled", true.into());
+        let cases: Vec<Case> = vec![
+            (
+                "removable-s",
+                "s",
+                vec![],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "removable-m",
+                "m",
+                vec![],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "removable-l",
+                "l",
+                vec![],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "icon",
+                "m",
+                vec![],
+                vec![("icon", true.into()), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "avatar",
+                "m",
+                vec![],
+                vec![("hasAvatar", true.into()), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "hover",
+                "m",
+                vec!["hover"],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "down",
+                "m",
+                vec!["down"],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "keyboard-focus",
+                "m",
+                vec!["keyboard-focus"],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "selected",
+                "m",
+                vec![],
+                vec![selected.clone(), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "selected-emphasized",
+                "m",
+                vec![],
+                vec![selected.clone(), emphasized.clone(), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "selected-emphasized-hover-dark",
+                "m",
+                vec!["hover"],
+                vec![selected.clone(), emphasized.clone(), removable.clone()],
+                "dark",
+                "desktop",
+            ),
+            (
+                "selected-keyboard-focus-dark",
+                "m",
+                vec!["keyboard-focus"],
+                vec![selected.clone(), removable.clone()],
+                "dark",
+                "desktop",
+            ),
+            (
+                "disabled",
+                "m",
+                vec![],
+                vec![disabled.clone(), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "disabled-selected",
+                "m",
+                vec![],
+                vec![disabled.clone(), selected.clone(), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "dark-mobile-l",
+                "l",
+                vec![],
+                vec![("icon", true.into()), selected.clone(), removable.clone()],
+                "dark",
+                "mobile",
+            ),
+        ];
+        for (label, size, states, extra, scheme, scale) in cases {
+            let opts: HashMap<String, Value> = extra
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            let mut r = req(
+                states.iter().map(|s| s.to_string()).collect(),
+                opts,
+                scheme,
+                scale,
+            );
+            r.label = "Tag label".into();
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
     // Status light: the default is the informative dot at size m. These draw the other sizes, the
     // semantic variants (neutral, positive, notice, negative, accent) and a named color in light,
     // plus the dark scheme and the wireframe scheme at the largest size on mobile.
