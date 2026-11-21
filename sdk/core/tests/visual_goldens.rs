@@ -582,6 +582,88 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Number field: it has no `value` option, so the value text is the request label; the goldens
+    // set it to 42 and the field label option to Quantity. The defaults show the value "Label".
+    if name == "number-field" {
+        type Case = (
+            &'static str,
+            &'static str,
+            Vec<&'static str>,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+        );
+        let cases: Vec<Case> = vec![
+            ("filled-s", "s", vec![], vec![], "light", "desktop"),
+            ("filled-m", "m", vec![], vec![], "light", "desktop"),
+            ("filled-l", "l", vec![], vec![], "light", "desktop"),
+            ("filled-xl", "xl", vec![], vec![], "light", "desktop"),
+            (
+                "required-icon",
+                "m",
+                vec![],
+                vec![("isRequired", true.into())],
+                "light",
+                "desktop",
+            ),
+            ("hover", "m", vec!["hover"], vec![], "light", "desktop"),
+            (
+                "keyboard-focus",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "light",
+                "desktop",
+            ),
+            (
+                "keyboard-focus-dark",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "dark",
+                "desktop",
+            ),
+            (
+                "invalid",
+                "m",
+                vec![],
+                vec![("isError", true.into()), ("isRequired", true.into())],
+                "light",
+                "desktop",
+            ),
+            (
+                "invalid-hover-dark",
+                "m",
+                vec!["hover"],
+                vec![("isError", true.into())],
+                "dark",
+                "desktop",
+            ),
+            (
+                "disabled",
+                "m",
+                vec![],
+                vec![("isDisabled", true.into())],
+                "light",
+                "desktop",
+            ),
+            ("dark-mobile-xl", "xl", vec![], vec![], "dark", "mobile"),
+        ];
+        for (label, size, states, extra, scheme, scale) in cases {
+            let mut opts: HashMap<String, Value> =
+                HashMap::from([("label".to_string(), Value::String("Quantity".into()))]);
+            opts.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            let mut r = req(
+                states.iter().map(|s| s.to_string()).collect(),
+                opts,
+                scheme,
+                scale,
+            );
+            r.size = size.into();
+            r.label = "42".into();
+            out.push((label, r));
+        }
+    }
     // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
     // over the dark scheme, where the neutral colours would not show.
     if name == "close-button" {

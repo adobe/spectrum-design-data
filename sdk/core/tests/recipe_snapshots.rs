@@ -355,6 +355,7 @@ recipe_tests! {
     in_field_progress_circle => "in-field-progress-circle",
     link => "link",
     meter => "meter",
+    number_field => "number-field",
     opacity_checkerboard => "opacity-checkerboard",
     picker => "picker",
     progress_bar => "progress-bar",
