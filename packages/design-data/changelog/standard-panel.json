@@ -65,6 +65,37 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "bc0958652fa2b1ad9cf8559f556d174be92c26cd",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2001,"title":"feat(design-data): review anatomy of panels and empty states (A8 2/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2001"},
+          "entries": [
+            {"id":"bc095865-0","kind":"option","change":"renamed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"standard-panel/options/type","name":"type","fields":[],"before":"container"},
+            {"id":"bc095865-1","kind":"option","change":"renamed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"standard-panel/options/hideDragHandle","name":"hideDragHandle","fields":[],"before":"hideGripper"},
+            {"id":"bc095865-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"standard-panel/anatomy/gripper","name":"gripper","fields":[],"before":{"name":"gripper","description":"Drag handle at the top center."}},
+            {"id":"bc095865-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-panel/anatomy/drag-handle","name":"drag-handle","fields":[],"after":{"name":"drag-handle","description":"Grip at the top center that moves or undocks the panel (Figma S2_Gripper icon). Shown unless hideDragHandle."}},
+            {"id":"bc095865-4","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/anatomy/back-button","name":"back-button","fields":[{"path":"description","before":"Optional button that goes back a level.","after":"Optional icon that goes back a level, left of the title."}]},
+            {"id":"bc095865-5","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/anatomy/close-button","name":"close-button","fields":[{"path":"description","before":"Button in the top corner that dismisses the panel.","after":"Button in the top corner that dismisses the panel. Shown unless hideCloseButton."}]},
+            {"id":"bc095865-6","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/anatomy/container","name":"container","fields":[{"path":"contains","before":["gripper","title","close-button","back-button","divider"],"after":["drag-handle","back-button","title","close-button","divider"]}]},
+            {"id":"bc095865-7","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/anatomy/container","name":"container","fields":[{"path":"description","before":"Panel surface.","after":"Panel surface. Root of the component and host of the default slot."}]},
+            {"id":"bc095865-8","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/anatomy/divider","name":"divider","fields":[{"path":"description","before":"Line under the title area.","after":"Line under the title area. Shown unless hideDivider."}]},
+            {"id":"bc095865-9","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-panel/slots/default","name":"default","fields":[],"after":{"name":"default","part":"container","description":"The panel content. With sections, an accordion fills it."}},
+            {"id":"bc095865-10","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/documentBlocks/0","name":"guideline: Determines whether the drag handle is visible at","fields":[{"path":"content","before":"Determines whether the gripper is visible at the top center of the panel. Set to true to hide the gripper when panel dragging is not required.","after":"Determines whether the drag handle is visible at the top center of the panel. Set to true to hide the drag handle when panel dragging is not required."}]},
+            {"id":"bc095865-11","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/documentBlocks/1","name":"guideline: A standard panel can sometimes be dragged and re","fields":[{"path":"content","before":"A standard panel can sometimes be dragged and rearranged, or undocked to become a floating panel. In this case, display the gripper at the top of the panel, then click and drag to detach it.","after":"A standard panel can sometimes be dragged and rearranged, or undocked to become a floating panel. In this case, display the drag handle at the top of the panel, then click and drag to detach it."}]},
+            {"id":"bc095865-12","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/documentBlocks/2","name":"guideline: Dragging refers to manually moving a panel by cl","fields":[{"path":"content","before":"Dragging refers to manually moving a panel by clicking and dragging the gripper. This interaction allows users to reposition a panel within the workspace. A dragged panel can be docked into a new location (anchored) or left to float independently. This behavior supports workspace customization, helping users tailor panel placement to fit their workflow. For example, dragging the Tools panel from the left side of Photoshop to float next to the canvas.","after":"Dragging refers to manually moving a panel by clicking and dragging the drag handle. This interaction allows users to reposition a panel within the workspace. A dragged panel can be docked into a new location (anchored) or left to float independently. This behavior supports workspace customization, helping users tailor panel placement to fit their workflow. For example, dragging the Tools panel from the left side of Photoshop to float next to the canvas."}]},
+            {"id":"bc095865-13","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web standard panel; relationships name gripper and title. Unsure: section dividers in the With sections variant.","after":"Owner decisions (A8, 2026-11-20): explicit root part container; the grip part is drag-handle (the Figma bar-panel layer name; the S2_Gripper icon; the 4 legacy records said gripper and moved to the new part name, legacy output unchanged). The option container (anchored, floating, dragged) is renamed type, the Figma property name, so it no longer shares a name with the part. Figma S2 Web standard panel (10151:8140), .Title + Close button. No React Spectrum or SWC component. The options label, description and value have no S2 source (options pass). Unsure: section dividers in the With sections variant."}]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.status","context","contextQualifier","scope.part"]}
+        }
+      ]
     }
   ]
 }

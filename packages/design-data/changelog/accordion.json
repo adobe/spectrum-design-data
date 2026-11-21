@@ -606,6 +606,25 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "4.2.0",
+      "bump": "minor",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "15f49f2c55f494739e463b2029d9e91498d7f687",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2003,"title":"feat(design-data): draw items[].content in expanded accordion items","url":"https://github.com/adobe/spectrum-design-data/pull/2003"},
+          "entries": [
+            {"id":"15f49f2c-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/options/content","name":"content","fields":[],"after":{"type":"string","description":"The text shown in the content area of the rendered accordion item while it is expanded. Per-item in a data-driven accordion is items[].content."}},
+            {"id":"15f49f2c-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/container","name":"container","fields":[{"path":"repeat.with.content","after":"content"}]},
+            {"id":"15f49f2c-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/content","name":"content","fields":[{"path":"kind","before":"box","after":"text"},{"path":"props.color","after":[{"relationship":{"property":"content-color","part":"title"}}]},{"path":"props.fontFamily.relationship.part","after":"title"},{"path":"props.fontFamily.relationship.property","after":"font-family"},{"path":"props.fontSize.relationship.part","after":"title"},{"path":"props.fontSize.relationship.property","after":"font-size-{sizeIndex}"},{"path":"props.fontWeight.relationship.part","after":"title"},{"path":"props.fontWeight.relationship.property","after":"font-weight"},{"path":"props.lineHeight.token.property","after":"line-height"},{"path":"props.lineHeight.token.referenceScaleIndex","after":"{sizeIndex}"},{"path":"props.paddingBlockEnd.relationship.context","before":"Content (bottom)"},{"path":"props.paddingBlockEnd.relationship.part","after":"content"},{"path":"props.paddingBlockStart.relationship.context","before":"Content (top)"},{"path":"props.paddingBlockStart.relationship.part","after":"content"},{"path":"props.paddingInlineEnd.relationship.part","after":"content"},{"path":"props.paddingInlineEnd.relationship.property","after":"padding-horizontal"},{"path":"props.paddingInlineStart.relationship.part","after":"content"},{"path":"props.paddingInlineStart.relationship.property","after":"padding-horizontal"},{"path":"text.option","after":"content"},{"path":"visibleWhen.options.content","after":true}]}
+          ]
+        }
+      ]
     }
   ]
 }
