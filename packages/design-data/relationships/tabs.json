@@ -2,17 +2,18 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "height"
     },
-    "context": "Height (compact density)",
+    "context": "Height",
     "contextRole": ["height"],
-    "contextQualifier": "compact density",
     "$ref": "e8c7c826-548d-4037-b064-3cf699675d35",
     "uuid": "306493af-50b6-526f-abf3-84b1fa48e1fe"
   },
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "height"
     },
     "context": "Height",
@@ -23,6 +24,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "corner-radius"
     },
     "context": "Corner radius",
@@ -33,7 +35,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -43,7 +49,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -53,7 +63,12 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "space-between"
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -64,7 +79,15 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "top-to-workflow-icon-compact-medium"
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "density": "compact"
+      }
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
     "contextRole": ["spacing"],
@@ -75,7 +98,34 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "top-to-workflow-icon-medium"
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "density": "compact"
+      }
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to edge, workflow icon only",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "68a60720-e5fb-58b6-84d5-a54645e34858"
+  },
+  {
+    "scope": {
+      "component": "tabs",
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "density": "regular"
+      }
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
     "contextRole": ["spacing"],
@@ -86,6 +136,26 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "density": "regular"
+      }
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to edge, workflow icon only",
+    "$ref": "71a2a059-e5d7-4965-a4c0-5ed1fee74c6a",
+    "uuid": "49c6956b-5c8c-5859-a9e1-8537f3a387e1"
+  },
+  {
+    "scope": {
+      "component": "tabs",
+      "part": "tab-item",
       "property": "spacing"
     },
     "context": "Spacing (edge to edge)",
@@ -97,7 +167,15 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "top-to-text-compact-medium"
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "density": "compact"
+      }
     },
     "context": "Spacing (top edge to label)",
     "contextRole": ["spacing"],
@@ -108,7 +186,15 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "top-to-text-medium"
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "density": "regular"
+      }
     },
     "context": "Spacing (top edge to label)",
     "contextRole": ["spacing"],
@@ -119,7 +205,15 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "bottom-to-text-compact-medium"
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "density": "compact"
+      }
     },
     "context": "Spacing (bottom edge to label)",
     "contextRole": ["spacing"],
@@ -130,7 +224,15 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "bottom-to-text-medium"
+      "part": "tab-item",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "density": "regular"
+      }
     },
     "context": "Spacing (bottom edge to label)",
     "contextRole": ["spacing"],
@@ -141,7 +243,12 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "to-tab-item-horizontal-medium",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "tab-item",
+        "to": "tab-item"
+      },
       "options": {
         "orientation": "horizontal"
       }
@@ -155,6 +262,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus ring",
@@ -165,6 +273,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus ring",
@@ -175,6 +284,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "selection-indicator",
       "property": "spacing"
     },
     "context": "Spacing (selected)",
@@ -186,6 +296,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "selection-indicator",
       "property": "spacing"
     },
     "context": "Spacing (selected)",
@@ -197,6 +308,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "focus-indicator",
       "property": "spacing"
     },
     "context": "Spacing (selected with keyboard focus)",
@@ -208,6 +320,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
@@ -218,6 +331,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
@@ -228,6 +342,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
@@ -238,6 +353,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
@@ -248,6 +364,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
@@ -258,6 +375,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "tab-item",
       "property": "content-color"
     },
     "context": "Tab items and selection indicator",
@@ -268,7 +386,9 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Disabled",
     "contextRole": ["state"],
@@ -278,6 +398,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Disabled",
@@ -288,6 +409,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -298,6 +420,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Label",
@@ -308,6 +431,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Label",
@@ -318,6 +442,7 @@
   {
     "scope": {
       "component": "tabs",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Label",
@@ -328,7 +453,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -338,7 +467,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -348,7 +481,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -358,7 +495,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -368,7 +509,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -378,7 +523,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -388,7 +537,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -398,7 +551,11 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -408,7 +565,8 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -761,9 +919,8 @@
         "density": "compact"
       }
     },
-    "context": "Height (compact density)",
+    "context": "Height",
     "contextRole": ["height"],
-    "contextQualifier": "compact density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
     "uuid": "49130d66-edfb-48bd-8648-96c47f40a884",
@@ -779,9 +936,8 @@
         "density": "compact"
       }
     },
-    "context": "Height (compact density)",
+    "context": "Height",
     "contextRole": ["height"],
-    "contextQualifier": "compact density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8f083cd-131e-4375-b948-3ef5c520cb42",
     "uuid": "6d781a0e-e03d-4750-ae4f-67a29d731702",
@@ -800,7 +956,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
     "uuid": "e8c7c826-548d-4037-b064-3cf699675d35",
-    "legacyKey": "tab-item-compact-height-medium"
+    "legacyKey": "tab-item-compact-height-medium",
+    "context": "Height",
+    "contextRole": ["height"]
   },
   {
     "scope": {
@@ -812,9 +970,8 @@
         "density": "compact"
       }
     },
-    "context": "Height (compact density)",
+    "context": "Height",
     "contextRole": ["height"],
-    "contextQualifier": "compact density",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fbdf2291-b332-4436-9e57-430c0a81d526",
     "uuid": "25f7d9a5-9464-4447-97d9-97839b371f96",
@@ -2268,8 +2425,12 @@
   {
     "scope": {
       "component": "tabs",
-      "part": "tab-item",
-      "property": "gap",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "tab-item",
+        "to": "tab-item"
+      },
       "options": {
         "orientation": "horizontal",
         "size": "xl"
@@ -2286,8 +2447,12 @@
   {
     "scope": {
       "component": "tabs",
-      "part": "tab-item",
-      "property": "gap",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "tab-item",
+        "to": "tab-item"
+      },
       "options": {
         "orientation": "horizontal",
         "size": "l"
@@ -2304,8 +2469,12 @@
   {
     "scope": {
       "component": "tabs",
-      "part": "tab-item",
-      "property": "gap",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "tab-item",
+        "to": "tab-item"
+      },
       "options": {
         "orientation": "horizontal",
         "size": "m"
@@ -2314,13 +2483,20 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
     "uuid": "7a5f3049-0c20-4ff8-84ea-d161e58546fb",
-    "legacyKey": "tab-gap-horizontal-medium"
+    "legacyKey": "tab-gap-horizontal-medium",
+    "context": "Spacing (between tab items)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "between tab items"
   },
   {
     "scope": {
       "component": "tabs",
-      "part": "tab-item",
-      "property": "gap",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "tab-item",
+        "to": "tab-item"
+      },
       "options": {
         "orientation": "horizontal",
         "size": "s"
@@ -2337,7 +2513,12 @@
   {
     "scope": {
       "component": "tabs",
-      "property": "gap",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "tab-item",
+        "to": "tab-item"
+      },
       "options": {
         "orientation": "horizontal",
         "density": "compact",
