@@ -5,6 +5,9 @@
       "part": "container",
       "property": "minimum-width"
     },
+    "context": "Width (minimum)",
+    "contextRole": ["width"],
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 2.5,
     "uuid": "21bb1275-44e7-49be-926a-66966e969a6f",

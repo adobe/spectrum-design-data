@@ -409,7 +409,7 @@
     {
       "id": "popover",
       "label": "Popover",
-      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help)",
+      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help, date-picker)",
       "usedIn": ["s2-docs"]
     },
     {
