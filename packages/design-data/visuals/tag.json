@@ -120,8 +120,8 @@
       "component": "avatar",
       "sizeMap": {
         "s": "50",
-        "m": "100",
-        "l": "200"
+        "m": "75",
+        "l": "100"
       },
       "visibleWhen": {
         "options": {
