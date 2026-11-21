@@ -3,7 +3,11 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "size": "m",
+        "density": "compact"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -14,7 +18,10 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -38,7 +45,8 @@
       "part": "icon",
       "property": "size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Icon",
@@ -52,7 +60,8 @@
       "part": "icon",
       "property": "size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Icon",
@@ -68,6 +77,9 @@
       "between": {
         "from": "icon",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (icon to label)",
@@ -86,7 +98,8 @@
         "to": "icon"
       },
       "options": {
-        "density": "compact"
+        "density": "compact",
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
@@ -105,7 +118,8 @@
         "to": "bottom-edge"
       },
       "options": {
-        "density": "compact"
+        "density": "compact",
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
@@ -174,7 +188,7 @@
         "to": "label"
       },
       "options": {
-        "density": "compact"
+        "size": "m"
       }
     },
     "context": "Spacing (top edge to label)",
@@ -189,30 +203,12 @@
       "part": "tab-item",
       "property": "space-between",
       "between": {
-        "from": "top-edge",
-        "to": "label"
-      },
-      "options": {
-        "density": "regular"
-      }
-    },
-    "context": "Spacing (top edge to label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top edge to label",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "84006095-45e2-5043-9a92-74820d3fb1eb"
-  },
-  {
-    "scope": {
-      "component": "tabs",
-      "part": "tab-item",
-      "property": "space-between",
-      "between": {
         "from": "label",
         "to": "bottom-edge"
       },
       "options": {
-        "density": "compact"
+        "density": "compact",
+        "size": "m"
       }
     },
     "context": "Spacing (bottom edge to label)",
@@ -250,7 +246,8 @@
         "to": "tab-item"
       },
       "options": {
-        "orientation": "horizontal"
+        "orientation": "horizontal",
+        "size": "m"
       }
     },
     "context": "Spacing (between tab items)",
@@ -456,7 +453,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "s"
       }
     },
     "context": "Label",
@@ -470,7 +468,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "s"
       }
     },
     "context": "Label",
@@ -484,7 +483,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Label",
@@ -498,7 +498,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Label",
@@ -512,7 +513,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "l"
       }
     },
     "context": "Label",
@@ -526,7 +528,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "l"
       }
     },
     "context": "Label",
@@ -540,7 +543,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "xl"
       }
     },
     "context": "Label",
@@ -554,7 +558,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "xl"
       }
     },
     "context": "Label",

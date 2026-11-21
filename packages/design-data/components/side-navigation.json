@@ -130,6 +130,16 @@
           "value": "multiple"
         }
       ]
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the item is selected. Selected items use bold label text and a selection indicator."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the item is disabled."
     }
   },
   "slots": [

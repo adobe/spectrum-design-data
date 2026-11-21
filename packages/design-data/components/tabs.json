@@ -146,6 +146,38 @@
           }
         }
       }
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "description": "The size of the tabs.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "density": {
+      "type": "string",
+      "default": "regular",
+      "description": "The density of the tab items. Compact tab items are shorter and sit closer together.",
+      "values": [
+        {
+          "value": "regular"
+        },
+        {
+          "value": "compact"
+        }
+      ]
     }
   },
   "slots": [

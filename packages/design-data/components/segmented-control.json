@@ -155,6 +155,25 @@
           }
         }
       }
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "description": "The size of the segmented control.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     }
   },
   "slots": [
