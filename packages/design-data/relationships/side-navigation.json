@@ -652,7 +652,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
     "uuid": "eaaacfbe-d320-5744-98b2-bfad250d43e9"
   },
@@ -662,7 +663,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6",
     "uuid": "dfff4851-3bb0-54f6-899b-33c36b7c46fa"
   },
@@ -672,7 +674,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "8ab4accc-bd95-48e0-ae3a-539740a07cc6",
     "uuid": "46173156-325d-5ff0-b694-bafaac41f814"
   },
@@ -682,7 +685,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3",
     "uuid": "5dc83163-45f7-5d75-b232-f7632f7e08b0"
   },
@@ -692,7 +696,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "27f0c846-27b0-5272-a12b-0dea3c8e366f"
   },
@@ -702,7 +707,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "f73f702a-b336-59c7-b533-e59f7ae4bbf6"
   },
@@ -712,7 +718,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "6ba81663-5887-5ba6-8aaa-38e33f7f26b2"
   },
@@ -722,7 +729,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "9284a3ee-78b3-5a06-b967-5b3476ac51d7"
   },
@@ -774,7 +782,8 @@
       "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "5af7c54a-0e4b-5987-b0cf-df442b44ce45"
   },
