@@ -10,5 +10,7 @@ Text field: first visual recipe.
   border width and the focus ring come from the text field relationships.
 - The label and help text reuse the field-label and help-text recipes. The field-label recipe now
   reads its text from the `label` option when a host sets it.
-- Not drawn yet: error border and icon, value color, placeholder, leading icon, prefix, character
+- Known limits until an engine fix lands: dark mode value text has no color (unreadable), and an
+  error field draws with no border. The error state is not drawn.
+- Not drawn yet: error icon, placeholder, leading icon, prefix, character
   count, in-field progress circle and button, side label.
