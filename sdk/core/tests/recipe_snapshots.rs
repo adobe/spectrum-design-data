@@ -356,6 +356,7 @@ recipe_tests! {
     link => "link",
     meter => "meter",
     opacity_checkerboard => "opacity-checkerboard",
+    picker => "picker",
     progress_bar => "progress-bar",
     progress_circle => "progress-circle",
     radio_button => "radio-button",
