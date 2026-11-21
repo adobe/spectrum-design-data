@@ -3,7 +3,10 @@
     "scope": {
       "component": "steplist",
       "part": "step",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Width small (default)",
     "contextRole": ["width"],
@@ -15,7 +18,10 @@
     "scope": {
       "component": "steplist",
       "part": "step",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Width small (default)",
     "contextRole": ["width"],
@@ -27,7 +33,10 @@
     "scope": {
       "component": "steplist",
       "part": "step",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Width small (default)",
     "contextRole": ["width"],
@@ -39,7 +48,10 @@
     "scope": {
       "component": "steplist",
       "part": "step",
-      "property": "width"
+      "property": "width",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Width small (default)",
     "contextRole": ["width"],
@@ -51,7 +63,10 @@
     "scope": {
       "component": "steplist",
       "part": "step",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height small (default)",
     "contextRole": ["height"],
@@ -63,7 +78,10 @@
     "scope": {
       "component": "steplist",
       "part": "step",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height small (default)",
     "contextRole": ["height"],
@@ -75,7 +93,10 @@
     "scope": {
       "component": "steplist",
       "part": "step",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Height small (default)",
     "contextRole": ["height"],
@@ -87,7 +108,10 @@
     "scope": {
       "component": "steplist",
       "part": "step",
-      "property": "height"
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Height small (default)",
     "contextRole": ["height"],
@@ -103,6 +127,9 @@
       "between": {
         "from": "visual",
         "to": "track"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (step to track)",
@@ -119,6 +146,9 @@
       "between": {
         "from": "visual",
         "to": "track"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (step to track)",
@@ -135,6 +165,9 @@
       "between": {
         "from": "visual",
         "to": "track"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (step to track)",
@@ -151,6 +184,9 @@
       "between": {
         "from": "visual",
         "to": "track"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (step to track)",
@@ -194,6 +230,9 @@
       "between": {
         "from": "label",
         "to": "visual"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (text to visual)",
@@ -210,6 +249,9 @@
       "between": {
         "from": "label",
         "to": "visual"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (text to visual)",
@@ -226,6 +268,9 @@
       "between": {
         "from": "label",
         "to": "visual"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (text to visual)",
@@ -242,6 +287,9 @@
       "between": {
         "from": "label",
         "to": "visual"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (text to visual)",
@@ -254,7 +302,10 @@
     "scope": {
       "component": "steplist",
       "part": "visual",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Visual size",
     "contextRole": ["size"],
@@ -265,7 +316,10 @@
     "scope": {
       "component": "steplist",
       "part": "visual",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Visual size",
     "contextRole": ["size"],
@@ -276,7 +330,10 @@
     "scope": {
       "component": "steplist",
       "part": "visual",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Visual size",
     "contextRole": ["size"],
@@ -287,7 +344,10 @@
     "scope": {
       "component": "steplist",
       "part": "visual",
-      "property": "size"
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Visual size",
     "contextRole": ["size"],
@@ -881,7 +941,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "s"
       }
     },
     "context": "Label",
@@ -895,7 +956,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "s"
       }
     },
     "context": "Label",
@@ -909,7 +971,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Label",
@@ -923,7 +986,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Label",
@@ -937,7 +1001,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "l"
       }
     },
     "context": "Label",
@@ -951,7 +1016,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "l"
       }
     },
     "context": "Label",
@@ -965,7 +1031,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "xl"
       }
     },
     "context": "Label",
@@ -979,7 +1046,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "xl"
       }
     },
     "context": "Label",

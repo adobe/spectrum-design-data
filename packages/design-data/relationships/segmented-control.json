@@ -14,7 +14,10 @@
     "scope": {
       "component": "segmented-control",
       "part": "item",
-      "property": "corner-radius"
+      "property": "corner-radius",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Corner radius",
     "contextRole": ["rounding"],
@@ -27,7 +30,8 @@
       "part": "icon",
       "property": "size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Icon",
@@ -41,7 +45,8 @@
       "part": "icon",
       "property": "size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Icon",
@@ -57,6 +62,9 @@
       "between": {
         "from": "top-edge",
         "to": "icon"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
@@ -73,6 +81,9 @@
       "between": {
         "from": "icon",
         "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
@@ -89,6 +100,9 @@
       "between": {
         "from": "icon",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (icon to label)",
@@ -107,7 +121,8 @@
         "to": "icon"
       },
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
@@ -126,7 +141,8 @@
         "to": "end-edge"
       },
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
@@ -145,7 +161,8 @@
         "to": "icon"
       },
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
@@ -164,7 +181,8 @@
         "to": "end-edge"
       },
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
@@ -183,7 +201,8 @@
         "to": "label"
       },
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
@@ -202,7 +221,8 @@
         "to": "end-edge"
       },
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
@@ -221,7 +241,8 @@
         "to": "label"
       },
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
@@ -240,7 +261,8 @@
         "to": "end-edge"
       },
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
@@ -257,6 +279,9 @@
       "between": {
         "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
@@ -273,6 +298,9 @@
       "between": {
         "from": "label",
         "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
@@ -352,7 +380,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "hideTracker": true
       },
       "attribute": "border"
     },
@@ -368,7 +397,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "hideTracker": true
       },
       "attribute": "border"
     },
@@ -384,7 +414,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "hideTracker": true
       },
       "attribute": "border"
     },
@@ -398,7 +429,10 @@
     "scope": {
       "component": "segmented-control",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
     "context": "Control",
     "contextRole": ["control"],
@@ -409,7 +443,10 @@
     "scope": {
       "component": "segmented-control",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
     "context": "Control",
     "contextRole": ["control"],
@@ -420,7 +457,10 @@
     "scope": {
       "component": "segmented-control",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
     "context": "Control",
     "contextRole": ["control"],
@@ -431,7 +471,10 @@
     "scope": {
       "component": "segmented-control",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
     "context": "Control",
     "contextRole": ["control"],
@@ -442,7 +485,10 @@
     "scope": {
       "component": "segmented-control",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
     "context": "Control",
     "contextRole": ["control"],
@@ -455,7 +501,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "hideTracker": true
       },
       "attribute": "background"
     },
@@ -470,7 +517,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "hideTracker": true
       },
       "attribute": "background"
     },
@@ -485,7 +533,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "hideTracker": true
       },
       "attribute": "background"
     },
@@ -498,7 +547,10 @@
     "scope": {
       "component": "segmented-control",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "hideTracker": false
+      }
     },
     "context": "Control",
     "contextRole": ["control"],
@@ -511,7 +563,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "hideTracker": false
       },
       "attribute": "background"
     },
@@ -526,7 +579,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "hideTracker": false
       },
       "attribute": "background"
     },
@@ -541,7 +595,8 @@
       "part": "selection-indicator",
       "property": "color",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "hideTracker": false
       },
       "attribute": "background"
     },
@@ -556,7 +611,8 @@
       "part": "container",
       "property": "color",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "hideTracker": false
       },
       "attribute": "background"
     },
@@ -572,7 +628,8 @@
       "part": "container",
       "property": "color",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "hideTracker": false
       },
       "attribute": "background"
     },
@@ -588,7 +645,8 @@
       "part": "container",
       "property": "color",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "hideTracker": false
       },
       "attribute": "background"
     },
@@ -671,7 +729,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "desktop"
+        "scale": "desktop",
+        "size": "m"
       }
     },
     "context": "Label",
@@ -685,7 +744,8 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "scale": "mobile"
+        "scale": "mobile",
+        "size": "m"
       }
     },
     "context": "Label",
