@@ -1,5 +1,26 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 6.2.2
+
+### Patch Changes
+
+- [#2011](https://github.com/adobe/spectrum-design-data/pull/2011) [`dbedcc0`](https://github.com/adobe/spectrum-design-data/commit/dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of the calendar and its three legacy holders (A9, part 2 of 3). calendar
+  and the holders reach level 2. The legacy `@adobe/spectrum-tokens` output is byte-identical.
+  - calendar: reviewed anatomy with container, previous-button, next-button, title, weekday-label,
+    day (current-day-indicator, unavailable-indicator, focus-indicator), range-fill and help-text,
+    plus a `days` slot. New option `visibleMonths` (1, 2, 3); `showTimeZone` is removed; the
+    `days[].state` value `keyboard focus` becomes `keyboard-focus`.
+  - single-, double- and triple-calendar: frozen legacy holders with a container part only. Their
+    six legacy records move from part `popover` to `container`; the components are not deprecated.
+  - The 27 calendar styling records move from date-picker to calendar (same uuids), with parts,
+    background and border attributes, `between` pairs and pins for hover, error and disabled.
+  - Registry: terms day, weekday-label, range-fill, current-day-indicator, unavailable-indicator,
+    previous-button and next-button; aliases on calendar, title and range-fill.
+  - CLI 0.62.0. Component-status and same-pin-set baselines are updated.
+
+- Updated dependencies [[`dbedcc0`](https://github.com/adobe/spectrum-design-data/commit/dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b), [`500a4e0`](https://github.com/adobe/spectrum-design-data/commit/500a4e00ffce7eceabf26a826987fac54e2318e2), [`4544078`](https://github.com/adobe/spectrum-design-data/commit/4544078251ccaee511a1e5aca89945d8d8f9ae82), [`76e46e3`](https://github.com/adobe/spectrum-design-data/commit/76e46e36b710a6362446a41504295b87284be80c)]:
+  - @adobe/spectrum-design-data@3.31.0
+
 ## 6.2.1
 
 ### Patch Changes

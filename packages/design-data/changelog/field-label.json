@@ -331,6 +331,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "3.0.1",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "500a4e00ffce7eceabf26a826987fac54e2318e2",
+      "commits": [
+        {
+          "commit": "4544078251ccaee511a1e5aca89945d8d8f9ae82",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2008,"title":"feat(design-data): add text-field visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2008"},
+          "entries": [
+            {"id":"45440782-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"field-label/visual/parts/label","name":"label","fields":[{"path":"text.option","after":"label"}]}
+          ]
+        }
+      ]
     }
   ]
 }
