@@ -693,7 +693,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "segmented-text-field",
       "label": "Segmented Text Field",
-      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/",
+      "description": "The shared segment base: a row of editable segments that date-field, time-field and date-picker copy."
     },
     {
       "id": "select-box",
@@ -1422,13 +1423,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "date-field",
       "label": "Date Field",
-      "description": "Date input component used as an anatomy part within a date-picker",
+      "description": "Date input component. date-picker keeps its own copy of the field parts rather than embedding a date-field",
       "usedIn": ["s2-docs"]
     },
     {
       "id": "time-field",
       "label": "Time Field",
-      "description": "Time input component used as an anatomy part within a date-picker",
+      "description": "Time input component. date-picker keeps its own copy of the field parts rather than embedding a time-field",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1796,7 +1797,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "segment",
       "label": "Segment",
       "description": "One editable unit of a segmented field (the day, month or year of a date; the hour or minute of a time)",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["Placeholder cell", "DateSegment"]
     },
     {
       "id": "drag-handle",

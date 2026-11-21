@@ -322,7 +322,8 @@
     {
       "id": "segmented-text-field",
       "label": "Segmented Text Field",
-      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/",
+      "description": "The shared segment base: a row of editable segments that date-field, time-field and date-picker copy."
     },
     {
       "id": "select-box",

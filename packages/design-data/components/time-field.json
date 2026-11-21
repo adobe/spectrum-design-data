@@ -16,31 +16,107 @@
       "package": "@react-spectrum/s2"
     }
   ],
+  "options": {
+    "granularity": {
+      "type": "string",
+      "default": "minute",
+      "values": [
+        {
+          "value": "hour"
+        },
+        {
+          "value": "minute"
+        },
+        {
+          "value": "second"
+        }
+      ]
+    },
+    "hourCycle": {
+      "type": "string",
+      "values": [
+        {
+          "value": "12"
+        },
+        {
+          "value": "24"
+        }
+      ]
+    },
+    "hideTimeZone": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the field in its error state: the error icon appears at the end of the field."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "focus-+-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "focus-+-not-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
   "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
     {
       "name": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
     {
-      "name": "container",
+      "name": "field",
       "description": "Bordered box that frames the segments.",
       "required": true,
-      "contains": ["segment"]
+      "contains": ["segment", "error-icon", "focus-indicator"]
     },
     {
       "name": "segment",
-      "description": "One editable piece of the time (hour, minute, period), showing a placeholder when empty.",
+      "description": "One editable piece of the time (hour, minute, period), drawn as its own rounded cell and showing a placeholder when empty.",
       "required": true
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon in the end container of the field, shown when isError is true."
     },
     {
       "name": "help-text",
       "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web Date and time field page (shared with time-field): label, field with value cells. No states declared so no focus-indicator. Unsure whether the literal separators need their own part."
+    "notes": "Aligned to date-field (owner decisions D2 and A87, applied 2026-11-20): the bordered box was the container part and is now field, under a new root container. Figma S2 Web Date and time field page (shared with date-field); RSP TimeField. Options granularity, hourCycle and hideTimeZone use the RSP names; state set matches text-field. Literal separators are not a part."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
 }
