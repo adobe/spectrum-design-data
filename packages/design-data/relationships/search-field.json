@@ -1564,7 +1564,8 @@
     "scope": {
       "component": "search-field",
       "part": "value",
-      "property": "content-color"
+      "property": "content-color",
+      "options": { "state": ["focus-+-hover"] }
     },
     "context": "Value, label and icon",
     "contextRole": ["value", "label", "icon"],
@@ -1575,7 +1576,8 @@
     "scope": {
       "component": "search-field",
       "part": "value",
-      "property": "content-color"
+      "property": "content-color",
+      "options": { "state": ["focus-+-not-hover"] }
     },
     "context": "Value, label and icon",
     "contextRole": ["value", "label", "icon"],

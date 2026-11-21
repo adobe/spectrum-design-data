@@ -1895,7 +1895,8 @@
     "scope": {
       "component": "number-field",
       "part": "value",
-      "property": "content-color"
+      "property": "content-color",
+      "options": { "state": ["focus-+-hover"] }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1906,7 +1907,8 @@
     "scope": {
       "component": "number-field",
       "part": "value",
-      "property": "content-color"
+      "property": "content-color",
+      "options": { "state": ["focus-+-not-hover"] }
     },
     "context": "Value",
     "contextRole": ["value"],
