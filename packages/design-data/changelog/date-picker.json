@@ -359,6 +359,22 @@
           "metadata": {"count":1,"fields":["scope.part","scope.property"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.0.3",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "500a4e00ffce7eceabf26a826987fac54e2318e2",
+      "commits": [
+        {
+          "commit": "dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2011,"title":"feat(design-data): anatomy review of calendar and its holders (A9 2/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2011"},
+          "entries": [],
+          "metadata": {"count":6,"fields":["scope.part"]}
+        }
+      ]
     }
   ]
 }

@@ -28,6 +28,32 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "500a4e00ffce7eceabf26a826987fac54e2318e2",
+      "commits": [
+        {
+          "commit": "dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2011,"title":"feat(design-data): anatomy review of calendar and its holders (A9 2/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2011"},
+          "entries": [
+            {"id":"dbedcc00-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"triple-calendar/anatomy/day","name":"day","fields":[],"before":{"name":"day","description":"One date cell. Styled for selected, error, unavailable and current-day."}},
+            {"id":"dbedcc00-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"triple-calendar/anatomy/help-text","name":"help-text","fields":[],"before":{"name":"help-text","description":"Error message shown below the calendar when the selection is invalid."}},
+            {"id":"dbedcc00-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"triple-calendar/anatomy/month-button","name":"month-button","fields":[],"before":{"name":"month-button","description":"Chevron button that moves to the previous or next month."}},
+            {"id":"dbedcc00-3","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"triple-calendar/anatomy/month-label","name":"month-label","fields":[],"before":{"name":"month-label","description":"Month and year text."}},
+            {"id":"dbedcc00-4","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"triple-calendar/anatomy/popover","name":"popover","fields":[],"before":{"name":"popover","description":"Surface that holds the month navigation, weekday labels and day grid.","required":true,"contains":["month-button","month-label","weekday-label","day","range-fill","help-text"]}},
+            {"id":"dbedcc00-5","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"triple-calendar/anatomy/range-fill","name":"range-fill","fields":[],"before":{"name":"range-fill","description":"Highlight band behind the days of a selected range."}},
+            {"id":"dbedcc00-6","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"triple-calendar/anatomy/weekday-label","name":"weekday-label","fields":[],"before":{"name":"weekday-label","description":"Single-letter weekday heading above the day grid."}},
+            {"id":"dbedcc00-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"triple-calendar/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Root of the legacy holder. Its minimum width and minimum height records are pinned to this file by their legacy keys; the calendar parts live on calendar.","required":true}},
+            {"id":"dbedcc00-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"triple-calendar/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web .Calendar popover (Type=Triple), same parts as single; relationship part popover.","after":"A9 (2026-11-21), owner decision C2: a frozen legacy holder (three months), not deprecated. calendar is the only anatomy (option visibleMonths). The two legacy records keep their keys and move from part popover to container; no Figma, RSP or SWC source draws this component on its own. Same precedent as color-control."}]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

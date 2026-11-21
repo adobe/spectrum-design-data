@@ -1,5 +1,56 @@
 # @adobe/spectrum-design-data
 
+## 3.31.0
+
+### Minor Changes
+
+- [#2011](https://github.com/adobe/spectrum-design-data/pull/2011) [`dbedcc0`](https://github.com/adobe/spectrum-design-data/commit/dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of the calendar and its three legacy holders (A9, part 2 of 3). calendar
+  and the holders reach level 2. The legacy `@adobe/spectrum-tokens` output is byte-identical.
+  - calendar: reviewed anatomy with container, previous-button, next-button, title, weekday-label,
+    day (current-day-indicator, unavailable-indicator, focus-indicator), range-fill and help-text,
+    plus a `days` slot. New option `visibleMonths` (1, 2, 3); `showTimeZone` is removed; the
+    `days[].state` value `keyboard focus` becomes `keyboard-focus`.
+  - single-, double- and triple-calendar: frozen legacy holders with a container part only. Their
+    six legacy records move from part `popover` to `container`; the components are not deprecated.
+  - The 27 calendar styling records move from date-picker to calendar (same uuids), with parts,
+    background and border attributes, `between` pairs and pins for hover, error and disabled.
+  - Registry: terms day, weekday-label, range-fill, current-day-indicator, unavailable-indicator,
+    previous-button and next-button; aliases on calendar, title and range-fill.
+  - CLI 0.62.0. Component-status and same-pin-set baselines are updated.
+
+- [#2008](https://github.com/adobe/spectrum-design-data/pull/2008) [`4544078`](https://github.com/adobe/spectrum-design-data/commit/4544078251ccaee511a1e5aca89945d8d8f9ae82) Thanks [@GarthDB](https://github.com/GarthDB)! - Text field: first visual recipe.
+  - The recipe draws the field label above a bordered field, the value, a valid check and the help
+    text below, at sizes s, m, l and xl, in light, dark and wireframe, on desktop and mobile.
+  - States drawn: default, hover, keyboard focus, disabled and invalid (error border). Colors,
+    heights, padding, radius, border width and the focus ring come from the relationships.
+  - The label and help text reuse the field-label and help-text recipes. The field-label recipe now
+    reads its text from the `label` option when a host sets it.
+  - Known limit: at keyboard focus the value color has two records (focus and keyboard focus) that
+    tie, so a render with a value reports an ambiguity diagnostic.
+  - Not drawn yet: error icon, error message, placeholder, leading icon, prefix, character
+    count, in-field progress circle and button, side label.
+
+### Patch Changes
+
+- [#2014](https://github.com/adobe/spectrum-design-data/pull/2014) [`500a4e0`](https://github.com/adobe/spectrum-design-data/commit/500a4e00ffce7eceabf26a826987fac54e2318e2) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate side-navigation, stack-item and tree-view to level 2 identity (5m92.6).
+  - Every live record now names a part or a between, no property name carries structure, and
+    no identity is shared by records with different contexts.
+  - Fused names are decomposed: icon size, minimum and fixed heights, font size and line height
+    get a part and a scale pin. Edge, item and indicator spacing becomes space-between with
+    start-edge, end-edge, top-edge and bottom-edge endpoints.
+  - Colour records get an attribute (background or border) and colorScheme pins. Background,
+    opacity and label colour records of stack-item and tree-view share one context each and pin
+    the state that the old qualifier named.
+  - Side navigation: the second and third level indent records pointed at the same tokens, so
+    four exact duplicates are removed.
+  - Deprecated records and legacy keys are untouched.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#2009](https://github.com/adobe/spectrum-design-data/pull/2009) [`76e46e3`](https://github.com/adobe/spectrum-design-data/commit/76e46e36b710a6362446a41504295b87284be80c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the render ambiguity check so a record pinned to an inactive state
+  no longer ties with the chosen candidate. A text field in its default
+  or error state keeps its border and value text colors.
+
 ## 3.30.0
 
 ### Minor Changes
