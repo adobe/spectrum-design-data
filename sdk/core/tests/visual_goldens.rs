@@ -475,12 +475,8 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ("value", "Selected".into()),
             ("description", "Help text".into()),
         ];
-        let placeholder = || -> Vec<(&'static str, Value)> {
-            vec![
-                ("value", "".into()),
-                ("placeholder", "Select an option".into()),
-            ]
-        };
+        let placeholder =
+            || -> Vec<(&'static str, Value)> { vec![("placeholder", "Select an option".into())] };
         let cases: Vec<Case> = vec![
             ("filled-s", "s", vec![], vec![], "light", "desktop"),
             ("filled-m", "m", vec![], vec![], "light", "desktop"),
@@ -535,6 +531,10 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 .map(|(k, v)| (k.to_string(), v.clone()))
                 .collect();
             opts.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            // The placeholder shows only while no value is set.
+            if extra.iter().any(|(k, _)| *k == "placeholder") {
+                opts.remove("value");
+            }
             let mut r = req(
                 states.iter().map(|s| s.to_string()).collect(),
                 opts,
