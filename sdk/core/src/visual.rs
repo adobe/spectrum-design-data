@@ -2111,9 +2111,18 @@ impl Ctx<'_> {
                             == c.get("states").and_then(Value::as_array).map(Vec::len)
                             && precedence(o) == precedence(c)))
             };
+            // A record pinned to a state that is not active takes no part in the render, so it
+            // cannot tie with the chosen candidate.
+            let applies = |o: &&Value| {
+                std::ptr::eq(*o, c)
+                    || o.get("states").and_then(Value::as_array).is_none_or(|st| {
+                        st.iter()
+                            .all(|x| x.as_str().is_some_and(|x| active.iter().any(|a| a == x)))
+                    })
+            };
             let mut tokens: Vec<&str> = fit
                 .iter()
-                .filter(|o| tied(o))
+                .filter(|o| applies(o) && tied(o))
                 .filter_map(|o| o.get("token").and_then(Value::as_str))
                 .collect();
             tokens.sort_unstable();
@@ -5563,6 +5572,37 @@ mod tests {
         // A candidate with fewer name fields wins the tie-break, so nothing is ambiguous.
         assert!(diags(&["x:row", "track"]).is_empty());
         assert!(diags(&["a"]).is_empty());
+    }
+
+    #[test]
+    fn inactive_state_records_do_not_tie_with_the_chosen_candidate() {
+        let diags = |active: &[&str]| {
+            let list = serde_json::json!([
+                { "value": "a", "token": "a", "states": ["focus-+-hover"], "precedence": [50] },
+                { "value": "b", "token": "b", "states": ["focus-+-not-hover"], "precedence": [50] },
+                { "value": "c", "token": "c", "states": ["hover"], "precedence": [50] },
+                { "value": "d", "token": "d", "states": ["down"], "precedence": [50] },
+            ]);
+            let r = req(active);
+            let defaults = HashMap::new();
+            let mut cx = Ctx {
+                req: &r,
+                option_defaults: &defaults,
+                position: None,
+                diags: Vec::new(),
+            };
+            cx.resolve_candidates(&serde_json::json!({ "candidates": list, "miss": "x: no y" }));
+            cx.diags
+        };
+        // Nothing active: the fallback candidate ties only with active ones, so no diagnostic.
+        assert!(diags(&[]).is_empty());
+        // One active state wins alone.
+        assert!(diags(&["hover"]).is_empty());
+        // Two active states with equal precedence still tie and report.
+        assert_eq!(
+            diags(&["hover", "down"]),
+            ["x: y is ambiguous: 2 candidates remain after narrowing"]
+        );
     }
 
     #[test]
