@@ -223,7 +223,7 @@
                 "type": "string",
                 "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
               },
-              "description": "Maps a component option to the entry field that sets it for that copy."
+              "description": "Maps a component option (boolean, or a string option a text part reads with `text.option`) to the entry field that sets it for that copy."
             }
           },
           "additionalProperties": false

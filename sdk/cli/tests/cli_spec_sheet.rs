@@ -836,6 +836,13 @@ fn accordion_anatomy_has_a_multi_item_specimen_and_a_24_variant_board() {
     assert!(items.len() >= 3);
     assert!(items.iter().filter(|i| i["isExpanded"] == true).count() >= 2);
     assert!(render["scene"].get("measurements").is_none());
+    let nodes = render["scene"]["nodes"].as_array().unwrap();
+    let content = |part: &str| nodes.iter().find(|n| n["part"] == part);
+    assert_eq!(
+        content("accordion-item-1.content").unwrap()["text"],
+        "Content"
+    );
+    assert!(content("accordion-item-3.content").is_none());
 
     let board = blocks
         .iter()
