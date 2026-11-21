@@ -1,0 +1,64 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "status-light",
+  "root": "container",
+  "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["dot", "label"],
+      "props": {
+        "direction": { "value": "row" },
+        "align": { "value": "center" },
+        "justify": { "value": "start" },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "between": { "from": "dot", "to": "label" }
+          }
+        }
+      }
+    },
+    "dot": {
+      "kind": "box",
+      "props": {
+        "width": {
+          "relationship": { "property": "size", "part": "dot" }
+        },
+        "height": {
+          "relationship": { "property": "size", "part": "dot" }
+        },
+        "cornerRadius": { "value": 0.5, "relativeTo": "height" },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "dot"
+          }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "text": { "option": "label" },
+      "props": {
+        "fontFamily": {
+          "relationship": { "property": "font-family", "part": "label" }
+        },
+        "fontWeight": {
+          "relationship": { "property": "font-weight", "part": "label" }
+        },
+        "fontSize": {
+          "relationship": { "property": "font-size", "part": "label" }
+        },
+        "lineHeight": {
+          "relationship": { "property": "line-height", "part": "label" }
+        },
+        "color": {
+          "relationship": { "property": "content-color", "part": "label" }
+        }
+      }
+    }
+  }
+}

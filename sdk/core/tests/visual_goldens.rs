@@ -548,6 +548,40 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Status light: the default is the informative dot at size m. These draw the other sizes, the
+    // semantic variants (neutral, positive, notice, negative, accent) and a named color in light,
+    // plus the dark scheme and the wireframe scheme at the largest size on mobile.
+    if name == "status-light" {
+        let cases: [(&str, &str, &str, &str, &str); 11] = [
+            ("size-s", "s", "informative", "light", "desktop"),
+            ("size-l", "l", "informative", "light", "desktop"),
+            ("size-xl", "xl", "informative", "light", "desktop"),
+            ("neutral", "m", "neutral", "light", "desktop"),
+            ("positive", "m", "positive", "light", "desktop"),
+            ("notice", "m", "notice", "light", "desktop"),
+            ("negative", "m", "negative", "light", "desktop"),
+            ("accent", "m", "accent", "light", "desktop"),
+            ("celery", "m", "celery", "light", "desktop"),
+            ("positive-dark", "m", "positive", "dark", "desktop"),
+            (
+                "magenta-wireframe-xl-mobile",
+                "xl",
+                "magenta",
+                "wireframe",
+                "mobile",
+            ),
+        ];
+        for (label, size, variant, scheme, scale) in cases {
+            let mut r = req(
+                vec![],
+                HashMap::from([("variant".to_string(), Value::String(variant.into()))]),
+                scheme,
+                scale,
+            );
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
     // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
     // over the dark scheme, where the neutral colours would not show.
     if name == "close-button" {
