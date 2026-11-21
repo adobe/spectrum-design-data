@@ -343,6 +343,7 @@ macro_rules! recipe_tests {
 recipe_tests! {
     accordion => "accordion",
     action_button => "action-button",
+    alert_banner => "alert-banner",
     avatar => "avatar",
     badge => "badge",
     button => "button",
@@ -353,6 +354,7 @@ recipe_tests! {
     field_label => "field-label",
     help_text => "help-text",
     in_field_progress_circle => "in-field-progress-circle",
+    in_line_alert => "in-line-alert",
     link => "link",
     meter => "meter",
     opacity_checkerboard => "opacity-checkerboard",
@@ -366,6 +368,7 @@ recipe_tests! {
     tag => "tag",
     text_field => "text-field",
     thumbnail => "thumbnail",
+    toast => "toast",
 }
 
 #[test]

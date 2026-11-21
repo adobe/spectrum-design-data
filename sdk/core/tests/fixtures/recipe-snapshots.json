@@ -355,6 +355,16 @@
     "hasHoldIcon=true,hideLabel=true,isDisabled=true,isEmphasized=true,isPending=true,isQuiet=true,isSelected=true,staticColor=\"black\"": "d7da195e5d25fc79",
     "hasHoldIcon=true,hideLabel=true,isDisabled=true,isEmphasized=true,isPending=true,isQuiet=true,isSelected=true,staticColor=\"white\"": "b1d670e2f333e29d"
   },
+  "alert-banner": {
+    "isDismissible=false,variant=\"accent\"": "b3891de8298623a5",
+    "isDismissible=false,variant=\"informative\"": "dd8a69c09a79d88b",
+    "isDismissible=false,variant=\"negative\"": "4bbdbe83761ac2b6",
+    "isDismissible=false,variant=\"neutral\"": "23b4323b2ee36159",
+    "isDismissible=true,variant=\"accent\"": "49cc1050f4ce6966",
+    "isDismissible=true,variant=\"informative\"": "c43f87b54b800500",
+    "isDismissible=true,variant=\"negative\"": "e566769d64009345",
+    "isDismissible=true,variant=\"neutral\"": "4fb5d9152c5637e0"
+  },
   "avatar": {
     "image=\"gradient image\",isDisabled=false,showStroke=false": "4765aa0cd656d6c0",
     "image=\"gradient image\",isDisabled=false,showStroke=true": "f505010275dd1972",
@@ -629,6 +639,26 @@
   "in-field-progress-circle": {
     "staticColor=\"black\"": "8225b334cc14f0ff",
     "staticColor=\"white\"": "fbb5a09e173951a3"
+  },
+  "in-line-alert": {
+    "style=\"bold\",variant=\"accent\"": "c9fb0b492e2fb90e",
+    "style=\"bold\",variant=\"informative\"": "91b4f06153ca15d8",
+    "style=\"bold\",variant=\"negative\"": "696d659e96cd9712",
+    "style=\"bold\",variant=\"neutral\"": "bad45973beae7faa",
+    "style=\"bold\",variant=\"notice\"": "5ec3e52cb10305f4",
+    "style=\"bold\",variant=\"positive\"": "dccf73a33b8840ca",
+    "style=\"outline\",variant=\"accent\"": "a49e8ccb0816e7c2",
+    "style=\"outline\",variant=\"informative\"": "138c7f7c3463e8f3",
+    "style=\"outline\",variant=\"negative\"": "2987ddc48160fe8b",
+    "style=\"outline\",variant=\"neutral\"": "7a95d14025e02303",
+    "style=\"outline\",variant=\"notice\"": "9bd154257949d9ed",
+    "style=\"outline\",variant=\"positive\"": "ca0c336633f9fbdb",
+    "style=\"subtle\",variant=\"accent\"": "24b220664a25cae2",
+    "style=\"subtle\",variant=\"informative\"": "a10ede164b3c82c6",
+    "style=\"subtle\",variant=\"negative\"": "23bef852b1f4030a",
+    "style=\"subtle\",variant=\"neutral\"": "0a89b38851687ebe",
+    "style=\"subtle\",variant=\"notice\"": "00dcc6cb870576b6",
+    "style=\"subtle\",variant=\"positive\"": "ca57a16f66e053a8"
   },
   "link": {
     "isQuiet=false,isStandalone=false,staticColor=\"black\",variant=\"primary\"": "2a08670ad80557e9",
@@ -976,5 +1006,11 @@
   "thumbnail": {
     "isDisabled=false": "046ade9fdfb91f10",
     "isDisabled=true": "81059f7e7b110fba"
+  },
+  "toast": {
+    "variant=\"informative\"": "c7fe31ba1e87b82c",
+    "variant=\"negative\"": "a9cd34b7873bd65c",
+    "variant=\"neutral\"": "95d6e94f37a89e52",
+    "variant=\"positive\"": "1d34b65d738c3d28"
   }
 }
