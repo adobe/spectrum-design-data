@@ -13,10 +13,10 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["fill"],
+      "children": ["opacity-checkerboard", "fill"],
       "props": {
         "direction": {
-          "value": "column"
+          "value": "stack"
         },
         "width": {
           "relationship": {
@@ -45,6 +45,14 @@
           }
         },
         "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "none"
+              }
+            },
+            "value": 0
+          },
           {
             "when": {
               "options": {
@@ -109,8 +117,44 @@
         ],
         "strokeOver": {
           "value": true
+        },
+        "innerStroke": {
+          "when": {
+            "options": {
+              "isSelected": true
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "container",
+            "position": "inner"
+          }
+        },
+        "innerStrokeWidth": {
+          "when": {
+            "options": {
+              "isSelected": true
+            }
+          },
+          "relationship": {
+            "property": "border-width",
+            "attribute": "border",
+            "part": "container"
+          }
         }
       }
+    },
+    "opacity-checkerboard": {
+      "kind": "component",
+      "component": "opacity-checkerboard",
+      "sizeMap": {
+        "xs": "m",
+        "s": "m",
+        "m": "m",
+        "l": "m"
+      },
+      "inherit": ["width", "height", "cornerRadius"]
     },
     "fill": {
       "kind": "box",

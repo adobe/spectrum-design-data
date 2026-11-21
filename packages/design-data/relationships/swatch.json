@@ -148,7 +148,8 @@
     "scope": {
       "component": "swatch",
       "part": "container",
-      "property": "border-width"
+      "property": "border-width",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -160,6 +161,7 @@
       "component": "swatch",
       "part": "container",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "isSelected": true
       }
@@ -462,7 +464,8 @@
     "scope": {
       "component": "swatch",
       "part": "container",
-      "property": "outline-color",
+      "property": "color",
+      "attribute": "border",
       "options": {
         "isSelected": true,
         "colorScheme": "light",
@@ -478,7 +481,8 @@
     "scope": {
       "component": "swatch",
       "part": "container",
-      "property": "outline-color",
+      "property": "color",
+      "attribute": "border",
       "options": {
         "isSelected": true,
         "colorScheme": "dark",
@@ -494,7 +498,8 @@
     "scope": {
       "component": "swatch",
       "part": "container",
-      "property": "outline-color",
+      "property": "color",
+      "attribute": "border",
       "options": {
         "isSelected": true,
         "colorScheme": "wireframe",

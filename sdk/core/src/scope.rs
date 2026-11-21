@@ -454,12 +454,39 @@ pub fn relationship_identity(rec: &Value) -> String {
 /// the record's. A field the selector leaves out is not compared; SPEC-062 rejects a selector
 /// that then names more than one identity.
 pub fn selector_identity_matches(sel: &Value, rec: &Value) -> bool {
+    if !position_fits(sel, rec) {
+        return false;
+    }
     if let Some(c) = sel.get("context").and_then(Value::as_str) {
         return rec.get("context").and_then(Value::as_str).map(str::trim) == Some(c.trim());
     }
     IDENTITY_FIELDS
         .iter()
         .all(|(k, p)| sel.get(k).is_none_or(|v| Some(v) == rec.pointer(p)))
+}
+
+/// The stroke position a `border` record pins with `scope.options.position`: `inner` or `outer`.
+/// A record of another attribute, or any other value (a type-style `top`, a list) is a different option and `None`.
+pub fn stroke_position(rec: &Value) -> Option<&str> {
+    if rec.pointer("/scope/attribute").and_then(Value::as_str) != Some("border") {
+        return None;
+    }
+    rec.pointer("/scope/options/position")
+        .and_then(Value::as_str)
+        .filter(|p| matches!(*p, "inner" | "outer"))
+}
+
+/// The stroke position a selector asks for: its `position`, else `outer` (the first stroke).
+pub fn selector_position(sel: &Value) -> &str {
+    sel.get("position")
+        .and_then(Value::as_str)
+        .unwrap_or("outer")
+}
+
+/// Whether a record's stroke position does not rule it out for a selector: a record pinned to
+/// `inner` or `outer` serves only the selector with that `position`; any other record serves both.
+pub fn position_fits(sel: &Value, rec: &Value) -> bool {
+    stroke_position(rec).is_none_or(|p| p == selector_position(sel))
 }
 
 /// [`selector_identity_matches`] and the same `scope.property`.
@@ -507,6 +534,47 @@ mod tests {
 
     fn rec(options: Value) -> Value {
         json!({"scope": {"component": "x", "property": "y", "options": options}, "$ref": "t"})
+    }
+
+    #[test]
+    fn a_stroke_position_pin_serves_only_the_selector_with_that_position() {
+        let at = |p: Option<&str>| {
+            let mut r = match p {
+                Some(p) => rec(json!({"position": p})),
+                None => rec(json!({})),
+            };
+            r["scope"]["attribute"] = json!("border");
+            r
+        };
+        let sel = |p: Option<&str>| match p {
+            Some(p) => json!({"property": "y", "context": "c", "position": p}),
+            None => json!({"property": "y", "context": "c"}),
+        };
+        for (record, selector, fits) in [
+            (None, None, true),
+            (None, Some("inner"), true),
+            (Some("outer"), None, true),
+            (Some("outer"), Some("inner"), false),
+            (Some("inner"), None, false),
+            (Some("inner"), Some("outer"), false),
+            (Some("inner"), Some("inner"), true),
+        ] {
+            assert_eq!(
+                position_fits(&sel(selector), &at(record)),
+                fits,
+                "{record:?} {selector:?}"
+            );
+        }
+        // A record of another attribute keeps its `position` pin whatever the selector asks.
+        let corner = rec(json!({"position": "inner"}));
+        assert!(position_fits(&sel(None), &corner));
+        assert!(position_fits(&sel(Some("outer")), &corner));
+        // Another `position` option (a type style's `top`) is not a stroke position.
+        assert!(position_fits(&sel(None), &rec(json!({"position": "top"}))));
+        assert!(position_fits(
+            &sel(None),
+            &rec(json!({"position": ["top"]}))
+        ));
     }
 
     #[test]
