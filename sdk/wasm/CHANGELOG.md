@@ -1,5 +1,97 @@
 # @adobe/design-data-wasm
 
+## 0.35.0
+
+### Minor Changes
+
+- [#2006](https://github.com/adobe/spectrum-design-data/pull/2006) [`f6285d8`](https://github.com/adobe/spectrum-design-data/commit/f6285d8d380fa73810b4d63c5c25b560be0b7335) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can draw a second stroke, stack parts and pick a stroke by position.
+  - Root props `innerStroke`, `innerStrokeWidth` and `innerStrokeOpacity` draw a second border
+    just inside the first, over the children, as the ring node `<root>.inner-border`.
+  - A root with `direction: "stack"` overlays its children in declaration order.
+  - A relationship selector can add `position: "inner"` or `"outer"` (default outer). A record
+    pinned to one position serves only that selector, so two strokes no longer collide.
+  - A nested component now inherits a corner radius given as a ratio of the host height.
+  - The swatch draws its checkerboard behind the fill and its inner band when selected.
+
+### Patch Changes
+
+- [#2003](https://github.com/adobe/spectrum-design-data/pull/2003) [`15f49f2`](https://github.com/adobe/spectrum-design-data/commit/15f49f2c55f494739e463b2029d9e91498d7f687) Thanks [@GarthDB](https://github.com/GarthDB)! - Embed the Accordion data change: expanded items draw their content (`items[].content`).
+
+- [#2000](https://github.com/adobe/spectrum-design-data/pull/2000) [`de570f2`](https://github.com/adobe/spectrum-design-data/commit/de570f2598546e75f64ec6ae4322771c26569e89) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of the anchored overlays and modal dialogs (A8, part 1).
+  - popover and tooltip: explicit `container` root; `tip` is a top-level sibling part (popover
+    keeps a `default` slot on the container). tooltip loses `icon` and the `hasIcon` option.
+  - standard-dialog, alert-dialog, takeover-dialog: a top-level `overlay` part (colour, opacity),
+    one `button-group` part in place of the primary, secondary and cancel action parts, and
+    `description` as the secondary text (`body` stays only as the slot host in standard-dialog and
+    takeover). takeover-dialog declares slots and drops its `slots` option. The registry terms
+    `overlay-color` and `overlay-opacity` are retired.
+  - coach-mark: explicit root, `cover-image` (was `media`), `description` (was `body`),
+    `button-group`, `menu-container`; `pagination-text` removed. contextual-help: top-level
+    `popover` part with `description`; the radius record, two S2 records on deprecated
+    targets and the `down` and `keyboard-focus` states are removed.
+  - Records move to part, attribute, between and option pins; legacy records take their S2
+    alias's part and context. popover, tooltip and the three dialogs reach level 2; coach-mark
+    and contextual-help reach level 1. Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#2001](https://github.com/adobe/spectrum-design-data/pull/2001) [`bc09586`](https://github.com/adobe/spectrum-design-data/commit/bc0958652fa2b1ad9cf8559f556d174be92c26cd) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of panels and empty states (A8, part 2 of 3).
+  - standard-panel, bar-panel, drop-zone and illustrated-message are reviewed, each with a root
+    `container`. The panel grip part is `drag-handle` (was `gripper`; legacy records moved, gripper
+    contexts harmonised). standard-panel option `container` is now `type`. bar-panel gets an
+    `actions` slot and the alias `toolbar`.
+  - The secondary text part is `description` (was `body`); illustrated-message `actions` is the
+    `button-group` part; drop-zone has its own parts, `button` (was `action`) and a `banner` part
+    (state `drag-and-drop`, new option `isFilled`). tray is archived as Spectrum 1 only.
+  - Records get parts, `between` and size/script/scale pins from their `$ref` targets. New term
+    `banner`; `gripper` is an alias of `drag-handle`.
+  - Status: standard-panel and bar-panel reach level 2; drop-zone and illustrated-message level 1.
+    Legacy `@adobe/spectrum-tokens` output is byte-identical.
+  - **Published options:** standard-panel `hideGripper` is renamed `hideDragHandle`.
+
+- [#2002](https://github.com/adobe/spectrum-design-data/pull/2002) [`f6c40de`](https://github.com/adobe/spectrum-design-data/commit/f6c40de77fc87ca84dc1976ca6fb2e6f4e2f9230) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review and identity migration of slider, rating and select-box (A8, PR 3 of 3). All three
+  reach level 2. The legacy `@adobe/spectrum-tokens` output is byte-identical.
+  - slider: reviewed anatomy with container, field-label, value, control, track, fill, handle,
+    number-field and focus-indicator; `text-field` is removed. Options gain `size`, `isEmphasized`,
+    `trackStyle` (thin, thick, ramp) and `handleStyle`; `hasGradient` and `progressionScale` are
+    removed. Records get parts, size pins and `between`; `component-height-N`,
+    `control-to-field-label-*` and `font-size-N` are decomposed.
+    The Label font records move to `value`.
+  - slider: the old `size` values small, medium, large and extra-large stay as deprecated
+    values (replaced by s, m, l, xl).
+  - rating: the star part `indicator` is renamed `icon`; option `size` (s, m) added.
+    The `indicator` part is kept as deprecated.
+  - select-box: state `selected` is removed (the option `isSelected` covers it); the `vertical-` and
+    `horizontal-` name prefixes become an `orientation` pin; shadows get `attribute: shadow`.
+  - Registry: `number-field` anatomy term. Disabled and shadow collisions are resolved by a pin.
+    Component-status, recipe-lint and same-pin-set baselines are updated.
+
+- [#2007](https://github.com/adobe/spectrum-design-data/pull/2007) [`16de304`](https://github.com/adobe/spectrum-design-data/commit/16de304f900ebb1d4021f71f5c57e9c5825668e5) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate breadcrumbs and steplist to level 2 identity (5m92.6).
+  - Every live record now names a part or a between, no property name carries structure, and
+    no identity is shared by records with different contexts.
+  - Breadcrumbs: the current page title is a breadcrumb-title part that owns the multiline
+    font and the top text to bottom text spacing. Edge and item spacing becomes space-between
+    with start-edge, end-edge, top-edge and bottom-edge endpoints.
+  - Steplist: track is a child part of step. Font names lose their size suffix.
+  - Colour records get an attribute (background or border) and colorScheme pins. Records that
+    scale carry scale pins; breadcrumbs records are pinned to isMultiline false or true.
+  - Disabled colour records share the context of their sibling records, because the disabled
+    state is not a declared option. The state stays on the referenced token.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- [#2005](https://github.com/adobe/spectrum-design-data/pull/2005) [`c66f9a2`](https://github.com/adobe/spectrum-design-data/commit/c66f9a2e7a40c2414e625cf76eb3bba3574dedc5) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate tabs and segmented-control to level 2 identity (5m92.6).
+  - Every live record now names a part or a between, so no record is left without structure.
+  - Fused names become real terms: `font-size-N` to `font-size`, `workflow-icon-size-100` to
+    `size` on the icon. Edge spacing becomes `space-between` with start-edge, end-edge,
+    top-edge and bottom-edge endpoints; symmetric pairs are two records sharing one `$ref`.
+  - Colour records get an `attribute` (background or border). No `background-color` or
+    `border-color` record is added.
+  - Records that scale or change by colour scheme carry `scale` and `colorScheme` pins.
+  - Contexts (and the qualifier that goes with them) were made equal only where two records
+    shared one identity. One duplicate segmented-control spacing pair was removed.
+  - Tab gap records and the compact tab heights now share one identity and context.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
 ## 0.34.2
 
 ### Patch Changes

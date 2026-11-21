@@ -1,5 +1,23 @@
 # @adobe/design-data-spec
 
+## 6.4.0
+
+### Minor Changes
+
+- [#2006](https://github.com/adobe/spectrum-design-data/pull/2006) [`f6285d8`](https://github.com/adobe/spectrum-design-data/commit/f6285d8d380fa73810b4d63c5c25b560be0b7335) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can draw a second stroke, stack parts and pick a stroke by position.
+  - Root props `innerStroke`, `innerStrokeWidth` and `innerStrokeOpacity` draw a second border
+    just inside the first, over the children, as the ring node `<root>.inner-border`.
+  - A root with `direction: "stack"` overlays its children in declaration order.
+  - A relationship selector can add `position: "inner"` or `"outer"` (default outer). A record
+    pinned to one position serves only that selector, so two strokes no longer collide.
+  - A nested component now inherits a corner radius given as a ratio of the host height.
+  - The swatch draws its checkerboard behind the fill and its inner band when selected.
+
+### Patch Changes
+
+- [#2003](https://github.com/adobe/spectrum-design-data/pull/2003) [`15f49f2`](https://github.com/adobe/spectrum-design-data/commit/15f49f2c55f494739e463b2029d9e91498d7f687) Thanks [@GarthDB](https://github.com/GarthDB)! - Document that a repeat `with` mapping can target a string option read by a text part
+  (`text.option`), so a repeated entry can carry copy beyond its label.
+
 ## 6.3.0
 
 ### Minor Changes

@@ -810,6 +810,22 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "4.0.1",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "de570f2598546e75f64ec6ae4322771c26569e89",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2000,"title":"feat(design-data): anatomy review and identity migration of anchored overlays and modal dialogs","url":"https://github.com/adobe/spectrum-design-data/pull/2000"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["scope.part","scope.property"]}
+        }
+      ]
     }
   ]
 }
