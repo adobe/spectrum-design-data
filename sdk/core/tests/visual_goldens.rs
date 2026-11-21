@@ -548,6 +548,300 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Message family (in-line alert, alert banner, toast): the defaults draw an empty message,
+    // so these set the copy and cover each variant, the in-line alert styles, a dismissible
+    // banner, the dark and wireframe schemes, the mobile scale and a wrapped message.
+    if matches!(name, "in-line-alert" | "alert-banner" | "toast") {
+        type Case = (
+            &'static str,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+            Option<f64>,
+        );
+        let copy = |text: &'static str| -> Vec<(&'static str, Value)> {
+            if name == "in-line-alert" {
+                vec![("heading", "Heading".into())]
+            } else {
+                vec![("text", text.into())]
+            }
+        };
+        let with = |variant: &'static str, style: Option<&'static str>| {
+            let mut v = copy("Your changes were saved");
+            v.push(("variant", variant.into()));
+            if let Some(s) = style {
+                v.push(("style", s.into()));
+            }
+            if name == "alert-banner" {
+                v.push(("isDismissible", true.into()));
+            }
+            v
+        };
+        let long = "Your changes could not be saved because the connection to the server was lost";
+        let cases: Vec<Case> = match name {
+            "in-line-alert" => vec![
+                (
+                    "outline-neutral",
+                    with("neutral", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-informative",
+                    with("informative", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-positive",
+                    with("positive", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-notice",
+                    with("notice", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-negative",
+                    with("negative", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-neutral",
+                    with("neutral", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-informative",
+                    with("informative", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-positive",
+                    with("positive", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-notice",
+                    with("notice", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-negative",
+                    with("negative", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-neutral",
+                    with("neutral", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-informative",
+                    with("informative", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-positive",
+                    with("positive", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-notice",
+                    with("notice", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-negative",
+                    with("negative", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-negative-dark",
+                    with("negative", Some("outline")),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-notice-dark",
+                    with("notice", Some("subtle")),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-notice-dark",
+                    with("notice", Some("bold")),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-informative-wireframe",
+                    with("informative", Some("bold")),
+                    "wireframe",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-informative-mobile",
+                    with("informative", Some("outline")),
+                    "light",
+                    "mobile",
+                    None,
+                ),
+                (
+                    "wrapped",
+                    with("negative", Some("outline")),
+                    "light",
+                    "desktop",
+                    Some(280.0),
+                ),
+            ],
+            "alert-banner" => vec![
+                ("neutral", with("neutral", None), "light", "desktop", None),
+                (
+                    "informative",
+                    with("informative", None),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                ("negative", with("negative", None), "light", "desktop", None),
+                (
+                    "negative-dark",
+                    with("negative", None),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "informative-wireframe",
+                    with("informative", None),
+                    "wireframe",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "neutral-mobile",
+                    with("neutral", None),
+                    "light",
+                    "mobile",
+                    None,
+                ),
+                (
+                    "wrapped-mobile",
+                    {
+                        let mut v = with("negative", None);
+                        v.retain(|(k, _)| *k != "text");
+                        v.push(("text", long.into()));
+                        v
+                    },
+                    "light",
+                    "mobile",
+                    Some(390.0),
+                ),
+                (
+                    "not-dismissible",
+                    {
+                        let mut v = with("informative", None);
+                        v.retain(|(k, _)| *k != "isDismissible");
+                        v
+                    },
+                    "light",
+                    "desktop",
+                    None,
+                ),
+            ],
+            _ => vec![
+                ("neutral", with("neutral", None), "light", "desktop", None),
+                (
+                    "informative",
+                    with("informative", None),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                ("positive", with("positive", None), "light", "desktop", None),
+                ("negative", with("negative", None), "light", "desktop", None),
+                (
+                    "negative-dark",
+                    with("negative", None),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "positive-wireframe",
+                    with("positive", None),
+                    "wireframe",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "informative-mobile",
+                    with("informative", None),
+                    "light",
+                    "mobile",
+                    None,
+                ),
+                (
+                    "wrapped",
+                    {
+                        let mut v = with("negative", None);
+                        v.retain(|(k, _)| *k != "text");
+                        v.push(("text", long.into()));
+                        v
+                    },
+                    "light",
+                    "desktop",
+                    Some(320.0),
+                ),
+            ],
+        };
+        for (label, opts, scheme, scale, width) in cases {
+            let opts: HashMap<String, Value> =
+                opts.into_iter().map(|(k, v)| (k.to_string(), v)).collect();
+            let mut r = req(vec![], opts, scheme, scale);
+            r.label = if label == "wrapped" {
+                long.into()
+            } else {
+                "Review the highlighted fields and try again".into()
+            };
+            r.width = width;
+            out.push((label, r));
+        }
+    }
     // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
     // over the dark scheme, where the neutral colours would not show.
     if name == "close-button" {
