@@ -362,6 +362,7 @@ recipe_tests! {
     progress_bar => "progress-bar",
     progress_circle => "progress-circle",
     radio_button => "radio-button",
+    status_light => "status-light",
     swatch => "swatch",
     switch => "switch",
     text_field => "text-field",
