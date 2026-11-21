@@ -22,7 +22,8 @@
 //! counts once), a record with a pin that does not match is dropped, and the highest score
 //! wins. A pin on an option the component does not declare, or on `state`, `scale` or
 //! `colorScheme`, is ignored, as `pinned_options` ignores it, so two records that differ only
-//! by such a pin count as one pin set. If the solver's scoring changes, change this test too.
+//! by such a pin count as one pin set. The exception is a `position` pin of `inner` or `outer`:
+//! the solver picks the stroke it serves, so such records are grouped apart from the rest. If the solver's scoring changes, change this test too.
 //!
 //! It looks at option pins only. Token states and modes can still tell two records apart at
 //! solve time, so a counted group is a candidate for review, not proof of a bug. A group with
@@ -113,7 +114,14 @@ fn scope_identity(r: &Value) -> String {
 
 /// A record's context with its scope identity, so the group label says what tells them apart.
 fn group_context(r: &Value, context: &str) -> String {
-    match scope_identity(r) {
+    let id = scope_identity(r);
+    // A record pinned to a stroke position is only compared with records of that position: the
+    // solver drops the other position's records and lets a pinned one replace an unpinned one.
+    let id = match r.pointer("/scope/options/position").and_then(Value::as_str) {
+        Some(p @ ("inner" | "outer")) => format!("{id} stroke={p}").trim().to_string(),
+        _ => id,
+    };
+    match id {
         id if id.is_empty() => context.to_string(),
         id => format!("{context} [{id}]"),
     }
