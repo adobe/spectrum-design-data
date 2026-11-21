@@ -543,7 +543,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "date-picker",
       "label": "Date Picker",
-      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
+      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/",
+      "aliases": ["date-range-picker"]
     },
     {
       "id": "detail",
@@ -1326,7 +1327,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "popover",
       "label": "Popover",
-      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help)",
+      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help, date-picker)",
       "usedIn": ["s2-docs"]
     },
     {

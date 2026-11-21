@@ -172,7 +172,8 @@
     {
       "id": "date-picker",
       "label": "Date Picker",
-      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
+      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/",
+      "aliases": ["date-range-picker"]
     },
     {
       "id": "detail",

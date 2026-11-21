@@ -20,7 +20,7 @@
     },
     {
       "type": "guideline",
-      "content": "Range selection.\n\nIf a user selects a day preceding the first selection, that earlier day becomes the start of the range. For example: First selection: Jan 3. This is the start of the range. Second selection: Jan 1. This is the new start of the range. The range is now Jan 1–3 in the calendar popover and date field. A third selection resets the range. For example: Third selection: Jan 4. This is the start of a new range. Current state: Jan 4 (no end of range). The calendar popover displays Jan 4 as the start of the range but with no defined end. The date field remains populated by the user's last complete input (Jan 1-3) until they indicate the end of their new range."
+      "content": "Range selection.\n\nIf a user selects a day preceding the first selection, that earlier day becomes the start of the range. For example: First selection: Jan 3. This is the start of the range. Second selection: Jan 1. This is the new start of the range. The range is now Jan 1\u20133 in the calendar popover and date field. A third selection resets the range. For example: Third selection: Jan 4. This is the start of a new range. Current state: Jan 4 (no end of range). The calendar popover displays Jan 4 as the start of the range but with no defined end. The date field remains populated by the user's last complete input (Jan 1-3) until they indicate the end of their new range."
     },
     {
       "type": "guideline",
@@ -40,11 +40,11 @@
     },
     {
       "type": "guideline",
-      "content": "Required or optional.\n\nDate pickers can be marked as optional or required, depending on the situation. For required date pickers, there are two styling options: a \"(required)\" label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means. Optional date pickers are either denoted with text added to the end of the label — \"(optional)\" — or have no indication at all. The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."
+      "content": "Required or optional.\n\nDate pickers can be marked as optional or required, depending on the situation. For required date pickers, there are two styling options: a \"(required)\" label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means. Optional date pickers are either denoted with text added to the end of the label \u2014 \"(optional)\" \u2014 or have no indication at all. The asterisk used in this component is an icon that has specific spacing from the label text \u2014 not part of the label text itself."
     },
     {
       "type": "guideline",
-      "content": "Read-only states vs. disabled states.\n\nA read-only state of date picker means that the user cannot interact with the field, and they can only read what the field is displaying. Therefore, the in-field button is not clickable. In the disabled state, the read-only state of date picker allows the user to focus on a value—even though they cannot change the value. A disabled date picker means that the user cannot interact with the field, but not for the same reasons as a read-only scenario. For example, a date picker may be temporarily disabled because the user needs to complete a dependent task (such as filling out another field) somewhere within their experience. A disabled date picker does not allow for the ability to focus on a value, or to change its value."
+      "content": "Read-only states vs. disabled states.\n\nA read-only state of date picker means that the user cannot interact with the field, and they can only read what the field is displaying. Therefore, the in-field button is not clickable. In the disabled state, the read-only state of date picker allows the user to focus on a value\u2014even though they cannot change the value. A disabled date picker means that the user cannot interact with the field, but not for the same reasons as a read-only scenario. For example, a date picker may be temporarily disabled because the user needs to complete a dependent task (such as filling out another field) somewhere within their experience. A disabled date picker does not allow for the ability to focus on a value, or to change its value."
     },
     {
       "type": "guideline",
@@ -59,15 +59,79 @@
     }
   ],
   "options": {
-    "variant": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
       "type": "string",
-      "default": "single",
-      "description": "Controls the number of months displayed in the calendar popover.",
+      "default": "top",
       "values": [
-        { "value": "single" },
-        { "value": "double" },
-        { "value": "triple" }
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
       ]
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the field in its error state: the error icon appears at the end of the field."
+    },
+    "description": {
+      "type": "string",
+      "default": null
+    },
+    "errorMessage": {
+      "type": "string",
+      "default": null
     },
     "selectedDate": {
       "type": "string",
@@ -77,167 +141,220 @@
       "type": "object",
       "description": "The currently selected date range, used when selectionMode is range.",
       "properties": {
-        "start": { "type": "string", "description": "Range start date." },
-        "end": { "type": "string", "description": "Range end date." }
-      }
-    },
-    "dateField": {
-      "type": "object",
-      "description": "Configuration for the date input field.",
-      "properties": {
-        "label": {
+        "start": {
           "type": "string",
-          "description": "Optional text label displayed with the date field."
+          "description": "Range start date."
         },
-        "labelPosition": {
+        "end": {
           "type": "string",
-          "enum": ["top", "side"],
-          "default": "top"
-        },
-        "hideLabel": { "type": "boolean", "default": false },
-        "isDisabled": { "type": "boolean", "default": false },
-        "isReadOnly": { "type": "boolean", "default": false },
-        "isRequired": { "type": "boolean", "default": false },
-        "isError": {
-          "type": "boolean",
-          "default": false,
-          "description": "If there is an error, this property overrides show valid icon."
-        },
-        "state": {
-          "type": "string",
-          "enum": [
-            "default",
-            "hover",
-            "hover (in-field button)",
-            "focus + hover",
-            "focus + open",
-            "focus + not hover",
-            "keyboard focus"
-          ],
-          "default": "default"
+          "description": "Range end date."
         }
       }
     },
-    "calendarPopover": {
-      "type": "object",
-      "description": "Configuration for the calendar popover.",
-      "properties": {
-        "isDisabled": { "type": "boolean", "default": false },
-        "minValue": {
-          "type": "string",
-          "description": "The minimum allowed date that a user may select."
+    "selectionMode": {
+      "type": "string",
+      "default": "single",
+      "description": "Single date or date range. A range shows a second set of segments in the field and the range-fill band in the calendar.",
+      "values": [
+        {
+          "value": "single"
         },
-        "maxValue": {
-          "type": "string",
-          "description": "The maximum allowed date that a user may select (ISO format string)."
-        },
-        "currentMonth": {
-          "type": "number",
-          "minimum": 1,
-          "maximum": 12,
-          "description": "The month currently displayed in the calendar (1 = January, 12 = December)."
-        },
-        "currentYear": {
-          "type": "number",
-          "description": "The year currently displayed in the calendar (Gregorian year number)."
-        },
-        "selectionMode": {
-          "type": "string",
-          "enum": ["single", "range"],
-          "default": "single",
-          "description": "Controls whether the calendar allows selecting a single date or a date range."
-        },
-        "showTimeZone": {
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to show a time zone indicator in the popover."
-        },
-        "isError": {
-          "type": "boolean",
-          "default": false,
-          "description": "If the calendar popover is in an error state."
-        },
-        "timeFields": {
-          "type": "object",
-          "description": "Optional start and end time fields displayed within the calendar popover.",
-          "properties": {
-            "showStartTime": {
-              "type": "boolean",
-              "default": false,
-              "description": "If true, displays a start time field."
-            },
-            "showEndTime": {
-              "type": "boolean",
-              "default": false,
-              "description": "If true, displays an end time field."
-            },
-            "granularity": {
-              "type": "string",
-              "enum": ["hour", "minute", "second"],
-              "default": "minute",
-              "description": "The level of time granularity for the time fields."
-            },
-            "is24Hour": {
-              "type": "boolean",
-              "default": false,
-              "description": "If true, displays time in 24-hour format instead of AM/PM."
-            }
-          }
+        {
+          "value": "range"
         }
-      }
+      ]
+    },
+    "visibleMonths": {
+      "type": "number",
+      "default": 1,
+      "description": "How many months the calendar in the popover shows side by side: one, two or three.",
+      "values": [
+        {
+          "value": 1
+        },
+        {
+          "value": 2
+        },
+        {
+          "value": 3
+        }
+      ]
+    },
+    "granularity": {
+      "type": "string",
+      "default": "day",
+      "description": "Smallest unit the field edits; hour, minute and second add time segments and a time-field in the popover.",
+      "values": [
+        {
+          "value": "day"
+        },
+        {
+          "value": "hour"
+        },
+        {
+          "value": "minute"
+        },
+        {
+          "value": "second"
+        }
+      ]
+    },
+    "hourCycle": {
+      "type": "string",
+      "values": [
+        {
+          "value": "12"
+        },
+        {
+          "value": "24"
+        }
+      ]
+    },
+    "hideTimeZone": {
+      "type": "boolean",
+      "default": false
+    },
+    "minValue": {
+      "type": "string",
+      "description": "The minimum allowed date that a user may select."
+    },
+    "maxValue": {
+      "type": "string",
+      "description": "The maximum allowed date that a user may select (ISO format string)."
+    },
+    "currentMonth": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 12,
+      "description": "The month currently displayed in the calendar (1 = January, 12 = December)."
+    },
+    "currentYear": {
+      "type": "number",
+      "description": "The year currently displayed in the calendar (Gregorian year number)."
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["input", "choose"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text. The popover opens from it but is not drawn inside it.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
       "name": "field-label",
-      "description": "Label for the field."
+      "description": "The field-label component: text label that names the field, placed above or beside it."
     },
     {
       "name": "field",
-      "description": "Bordered input box that holds the date value and calendar button.",
-      "contains": ["value", "in-field-button"]
+      "description": "Bordered box that frames the date segments and the in-field button. This is date-picker's own copy of the field: it holds its border, background, height, rounding and padding.",
+      "required": true,
+      "contains": [
+        "segment",
+        "error-icon",
+        "in-field-button",
+        "focus-indicator"
+      ]
     },
     {
-      "name": "value",
-      "description": "Date or date range segments."
+      "name": "segment",
+      "description": "One editable unit of the date (month, day, year, and hour, minute or period when granularity includes time), drawn as its own rounded cell and showing a placeholder when empty. Repeated for every unit; a range (selectionMode range) shows a second set. Literal separators and the time zone are segment text.",
+      "required": true
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon in the end container of the field, shown when isError is true."
     },
     {
       "name": "in-field-button",
-      "description": "Calendar icon button that opens the popover."
+      "description": "The in-field-button component with its icon set to calendar: it sits at the end of the field and opens the popover.",
+      "required": true
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentIn": ["keyboard-focus"]
     },
     {
       "name": "help-text",
-      "description": "Description or error message."
+      "description": "The help-text component: description or error message shown below the field."
     },
     {
       "name": "popover",
-      "description": "Popover that opens from the field.",
-      "contains": ["calendar"]
+      "description": "The popover component, a top-level part present only while open, with hideTip set so it draws no tip. Its content is the calendar and, when granularity includes time, a time-field (two for a range). date-picker overrides the popover margin, minimum width and height (set by visibleMonths) and padding.",
+      "presentIn": ["open"],
+      "contains": ["calendar", "time-field"]
     },
     {
       "name": "calendar",
-      "description": "Calendar shown in the popover.",
-      "contains": ["day"]
+      "description": "The calendar component inside the popover. It draws no surface; the popover provides it.",
+      "presentIn": ["open"]
+    },
+    {
+      "name": "time-field",
+      "description": "The time-field component inside the popover, present when granularity includes time. One for a single date, two (start and end) for a range.",
+      "presentIn": ["open"]
     },
     {
       "name": "day",
-      "description": "One date cell in the calendar. Styled for selected, error, unavailable and current-day."
+      "description": "Replaced by the day part of calendar. Kept declared only because deprecated and legacy tokens (strikethrough-day-thickness, strikethrough-day-orientation) still name it.",
+      "lifecycle": {
+        "deprecatedIn": "1.0.0-draft"
+      }
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web date picker. Placeholder cells treated as part of value; focus indicator and error icon omitted (no states declared). Day added because tokens reference date-picker day (SPEC-020)."
-  }
+    "notes": "A9 (2026-11-21), owner decisions C2, C3, C5, C6, C8 to C10 and C16. Figma S2 Web Date picker page; RSP S2 DatePicker and DateRangePicker. date-picker keeps its own per-host copy of the field (field, segment, error-icon, in-field-button, focus-indicator), as picker and combo-box do. The popover is a top-level part like contextual-help: it draws the surface and holds the calendar (visibleMonths 1 to 3) and, with time granularity, a time-field. One repeated segment part; the renderer derives the count. Nested components are described in text: the anatomy component field and presentWhen are not built, so a part tied to an option (time-field, the second segment set) is described, not gated. Deleted: variant (replaced by visibleMonths), the nested dateField and calendarPopover option objects (flattened), the nested state enum, showTimeZone, is24Hour, timeFields (replaced by granularity, hourCycle, hideTimeZone), the draft parts value (now segment) and day (belongs to calendar; a bare legacy anchor part is kept because the frozen deprecated token strikethrough-day-thickness names it, SPEC-020), and the restated date-field and time-field minimum widths."
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "focus-+-hover",
+      "trigger": "prop",
+      "description": "The field is focused and the pointer is over it."
+    },
+    {
+      "name": "focus-+-not-hover",
+      "trigger": "prop",
+      "description": "The field is focused and the pointer is not over it."
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "open",
+      "trigger": "prop",
+      "description": "The popover is open."
+    }
+  ]
 }
