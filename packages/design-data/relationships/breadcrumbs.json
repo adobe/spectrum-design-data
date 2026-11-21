@@ -2,7 +2,13 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "scale": "desktop",
+        "size": "l",
+        "isMultiline": false
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -12,7 +18,13 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "scale": "mobile",
+        "size": "l",
+        "isMultiline": false
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -22,7 +34,15 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "text",
+        "to": "separator"
+      },
+      "options": {
+        "isMultiline": false
+      }
     },
     "context": "Spacing (breadcrumb item/title to separator icon)",
     "contextRole": ["spacing"],
@@ -33,7 +53,15 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "text"
+      },
+      "options": {
+        "isMultiline": false
+      }
     },
     "context": "Spacing (start and end edge to text)",
     "contextRole": ["spacing"],
@@ -44,7 +72,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (start and end edge to text)",
     "contextRole": ["spacing"],
@@ -55,7 +88,16 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "component-top-to-text-200"
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      },
+      "options": {
+        "size": "l",
+        "isMultiline": false
+      }
     },
     "context": "Spacing (top and bottom edge to text)",
     "contextRole": ["spacing"],
@@ -66,7 +108,16 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "component-bottom-to-text-200"
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      },
+      "options": {
+        "size": "l",
+        "isMultiline": false
+      }
     },
     "context": "Spacing (top and bottom edge to text)",
     "contextRole": ["spacing"],
@@ -77,7 +128,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "truncated-menu"
+      }
     },
     "context": "Spacing (top and bottom edge to truncated menu button)",
     "contextRole": ["spacing"],
@@ -88,7 +144,31 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "truncated-menu"
+      }
+    },
+    "context": "Spacing (top and bottom edge to truncated menu button)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top and bottom edge to truncated menu button",
+    "$ref": "751734bd-1c58-4222-bbd8-8b2349f2fbd2",
+    "uuid": "a773a3ab-9010-5c2e-9215-b9a9a5a5e28a"
+  },
+  {
+    "scope": {
+      "component": "breadcrumbs",
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "separator"
+      },
+      "options": {
+        "isMultiline": false
+      }
     },
     "context": "Spacing (top and bottom edge to separator icon)",
     "contextRole": ["spacing"],
@@ -99,7 +179,31 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "separator"
+      },
+      "options": {
+        "isMultiline": false
+      }
+    },
+    "context": "Spacing (top and bottom edge to separator icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top and bottom edge to separator icon",
+    "$ref": "51761a5c-200d-467d-a575-3722f825edb9",
+    "uuid": "2dbba339-accf-5157-9dc2-0b9268acc6d1"
+  },
+  {
+    "scope": {
+      "component": "breadcrumbs",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "truncated-menu",
+        "to": "separator"
+      }
     },
     "context": "Spacing (truncated menu button to separator icon)",
     "contextRole": ["spacing"],
@@ -110,7 +214,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "truncated-menu"
+      }
     },
     "context": "Spacing (start edge to truncated menu button)",
     "contextRole": ["spacing"],
@@ -121,6 +230,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "underline-thickness",
       "options": {
         "state": [
@@ -138,6 +248,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "text-underline-gap",
       "options": {
         "state": [
@@ -155,6 +266,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -165,6 +277,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus indicator",
@@ -175,6 +288,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "font-family"
     },
     "context": "Text (breadcrumb item and title)",
@@ -186,6 +300,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "font-weight"
     },
     "context": "Text (breadcrumb item and title)",
@@ -197,6 +312,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "font-style"
     },
     "context": "Text (breadcrumb item and title)",
@@ -208,7 +324,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size-200"
+      "part": "breadcrumb-item",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "isMultiline": false
+      }
     },
     "context": "Text (breadcrumb item and title)",
     "contextRole": ["label"],
@@ -219,7 +340,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size-200"
+      "part": "breadcrumb-item",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "isMultiline": false
+      }
     },
     "context": "Text (breadcrumb item and title)",
     "contextRole": ["label"],
@@ -230,7 +356,8 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "line-height-100"
+      "part": "breadcrumb-item",
+      "property": "line-height"
     },
     "context": "Text (breadcrumb item and title)",
     "contextRole": ["label"],
@@ -241,6 +368,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-title",
       "property": "font-weight"
     },
     "context": "Text (breadcrumb item and title)",
@@ -252,6 +380,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "content-color"
     },
     "context": "Breadcrumb item and title",
@@ -262,6 +391,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-title",
       "property": "content-color"
     },
     "context": "Breadcrumb item and title",
@@ -272,17 +402,18 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "content-color"
     },
-    "context": "Breadcrumb item (disabled)",
-    "contextRole": ["breadcrumb-item"],
-    "contextQualifier": "disabled",
+    "context": "Breadcrumb item and title",
+    "contextRole": ["breadcrumb-item", "label"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "54f059a8-568b-5e9e-8d9b-3fc6c7fb4237"
   },
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus indicator",
@@ -293,9 +424,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "component-height-100",
+      "part": "container",
+      "property": "height",
       "options": {
-        "size": "m"
+        "size": "m",
+        "scale": "desktop",
+        "isMultiline": false
       }
     },
     "context": "Height",
@@ -306,9 +440,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "component-height-100",
+      "part": "container",
+      "property": "height",
       "options": {
-        "size": "m"
+        "size": "m",
+        "scale": "mobile",
+        "isMultiline": false
       }
     },
     "context": "Height",
@@ -319,7 +456,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "space-between",
+      "between": {
+        "from": "text",
+        "to": "separator"
+      },
       "options": {
         "size": "m",
         "isMultiline": false
@@ -334,7 +476,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "text"
+      },
       "options": {
         "size": "m",
         "isMultiline": false
@@ -349,9 +496,15 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "component-top-to-text-100",
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      },
       "options": {
-        "size": "m"
+        "size": "m",
+        "isMultiline": false
       }
     },
     "context": "Spacing (top and bottom edge to text)",
@@ -363,9 +516,15 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "component-bottom-to-text-100",
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      },
       "options": {
-        "size": "m"
+        "size": "m",
+        "isMultiline": false
       }
     },
     "context": "Spacing (top and bottom edge to text)",
@@ -377,9 +536,15 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "separator"
+      },
       "options": {
-        "size": "m"
+        "size": "m",
+        "isMultiline": false
       }
     },
     "context": "Spacing (top and bottom edge to separator icon)",
@@ -391,9 +556,32 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size-100",
+      "part": "breadcrumb-item",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "separator"
+      },
       "options": {
-        "size": "m"
+        "size": "m",
+        "isMultiline": false
+      }
+    },
+    "context": "Spacing (top and bottom edge to separator icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top and bottom edge to separator icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "62287def-6213-54c0-a55b-b973be020c2e"
+  },
+  {
+    "scope": {
+      "component": "breadcrumbs",
+      "part": "breadcrumb-item",
+      "property": "font-size",
+      "options": {
+        "size": "m",
+        "scale": "desktop",
+        "isMultiline": false
       }
     },
     "context": "Text (breadcrumb item and title)",
@@ -405,9 +593,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size-100",
+      "part": "breadcrumb-item",
+      "property": "font-size",
       "options": {
-        "size": "m"
+        "size": "m",
+        "scale": "mobile",
+        "isMultiline": false
       }
     },
     "context": "Text (breadcrumb item and title)",
@@ -419,7 +610,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "height"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "scale": "desktop",
+        "isMultiline": true
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -429,7 +625,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "height"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "scale": "mobile",
+        "isMultiline": true
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -439,7 +640,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "space-between",
+      "between": {
+        "from": "text",
+        "to": "separator"
+      },
       "options": {
         "isMultiline": true
       }
@@ -453,7 +659,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "text"
+      },
       "options": {
         "isMultiline": true
       }
@@ -467,7 +678,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      },
       "options": {
         "isMultiline": true
       }
@@ -481,7 +697,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      },
       "options": {
         "isMultiline": true
       }
@@ -495,21 +716,31 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-item",
       "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "separator"
+      },
       "options": {
         "isMultiline": true
       }
     },
-    "context": "Spacing (top edge to separator icon)",
+    "context": "Spacing (top and bottom edge to separator icon)",
     "contextRole": ["spacing"],
-    "contextQualifier": "top edge to separator icon",
+    "contextQualifier": "top and bottom edge to separator icon",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "eda1af25-5f68-5d44-9b16-d368221b564f"
   },
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "container",
       "property": "space-between",
+      "between": {
+        "from": "separator",
+        "to": "breadcrumb-title"
+      },
       "options": {
         "isMultiline": true
       }
@@ -523,7 +754,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "container",
       "property": "space-between",
+      "between": {
+        "from": "truncated-menu",
+        "to": "breadcrumb-title"
+      },
       "options": {
         "isMultiline": true
       }
@@ -537,7 +773,12 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "space-between"
+      "part": "breadcrumb-title",
+      "property": "space-between",
+      "between": {
+        "from": "top-text",
+        "to": "bottom-text"
+      }
     },
     "context": "Spacing (top text to bottom text)",
     "contextRole": ["spacing"],
@@ -548,9 +789,11 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size-75",
+      "part": "breadcrumb-item",
+      "property": "font-size",
       "options": {
-        "isMultiline": true
+        "isMultiline": true,
+        "scale": "desktop"
       }
     },
     "context": "Text (breadcrumb item and title)",
@@ -562,9 +805,11 @@
   {
     "scope": {
       "component": "breadcrumbs",
-      "property": "font-size-75",
+      "part": "breadcrumb-item",
+      "property": "font-size",
       "options": {
-        "isMultiline": true
+        "isMultiline": true,
+        "scale": "mobile"
       }
     },
     "context": "Text (breadcrumb item and title)",
@@ -576,6 +821,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-title",
       "property": "font-weight",
       "options": {
         "isMultiline": true
@@ -590,6 +836,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "breadcrumb-title",
       "property": "font-size",
       "options": {
         "isMultiline": true
@@ -732,6 +979,7 @@
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "container",
       "property": "height",
       "options": {
         "scale": "desktop",
@@ -743,11 +991,14 @@
     "uuid": "237ff958-a86d-4632-aa7d-504a697509c3",
     "legacyKey": "breadcrumbs-height-multiline",
     "setUuid": "060266b1-4ac4-4392-8554-fc1304bd3572",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Height",
+    "contextRole": ["height"]
   },
   {
     "scope": {
       "component": "breadcrumbs",
+      "part": "container",
       "property": "height",
       "options": {
         "scale": "mobile",
@@ -759,7 +1010,9 @@
     "uuid": "5e7426da-1a1e-4d37-8c96-4fdac06bfad5",
     "legacyKey": "breadcrumbs-height-multiline",
     "setUuid": "060266b1-4ac4-4392-8554-fc1304bd3572",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Height",
+    "contextRole": ["height"]
   },
   {
     "scope": {
