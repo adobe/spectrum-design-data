@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "time-field",
+      "part": "container",
       "property": "minimum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
