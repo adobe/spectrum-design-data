@@ -27,6 +27,7 @@
     },
     "label": {
       "kind": "text",
+      "text": { "option": "label" },
       "props": {
         "overflow": { "value": "wrap" },
         "typeStyle": {
