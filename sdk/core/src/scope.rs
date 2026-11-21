@@ -454,12 +454,36 @@ pub fn relationship_identity(rec: &Value) -> String {
 /// the record's. A field the selector leaves out is not compared; SPEC-062 rejects a selector
 /// that then names more than one identity.
 pub fn selector_identity_matches(sel: &Value, rec: &Value) -> bool {
+    if !position_fits(sel, rec) {
+        return false;
+    }
     if let Some(c) = sel.get("context").and_then(Value::as_str) {
         return rec.get("context").and_then(Value::as_str).map(str::trim) == Some(c.trim());
     }
     IDENTITY_FIELDS
         .iter()
         .all(|(k, p)| sel.get(k).is_none_or(|v| Some(v) == rec.pointer(p)))
+}
+
+/// The stroke position a record pins with `scope.options.position`: `inner` or `outer`. Any other
+/// value (a type-style `top`, a list) is a different option and `None`.
+pub fn stroke_position(rec: &Value) -> Option<&str> {
+    rec.pointer("/scope/options/position")
+        .and_then(Value::as_str)
+        .filter(|p| matches!(*p, "inner" | "outer"))
+}
+
+/// The stroke position a selector asks for: its `position`, else `outer` (the first stroke).
+pub fn selector_position(sel: &Value) -> &str {
+    sel.get("position")
+        .and_then(Value::as_str)
+        .unwrap_or("outer")
+}
+
+/// Whether a record's stroke position does not rule it out for a selector: a record pinned to
+/// `inner` or `outer` serves only the selector with that `position`; any other record serves both.
+pub fn position_fits(sel: &Value, rec: &Value) -> bool {
+    stroke_position(rec).is_none_or(|p| p == selector_position(sel))
 }
 
 /// [`selector_identity_matches`] and the same `scope.property`.

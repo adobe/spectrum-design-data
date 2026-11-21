@@ -57,6 +57,9 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "strokeWidth",
             "strokeOpacity",
             "strokeOver",
+            "innerStroke",
+            "innerStrokeWidth",
+            "innerStrokeOpacity",
             "patternFill",
             "patternSize",
             "pressDifference",
@@ -1070,7 +1073,11 @@ impl<'a> CompileCx<'a> {
                 Value::Object(ident).to_string()
             }
         };
-        let key = format!("{}\u{1f}{property}\u{1f}{context}", self.req.component);
+        let position = crate::scope::selector_position(rel);
+        let key = format!(
+            "{}\u{1f}{property}\u{1f}{context}\u{1f}{position}",
+            self.req.component
+        );
         let cached = self.lookup.relationships.borrow().get(&key).cloned();
         let refs = cached.unwrap_or_else(|| {
             let declared: Vec<&str> = self
@@ -1103,7 +1110,7 @@ impl<'a> CompileCx<'a> {
                 property.clone(),
                 context.clone(),
             );
-            let matched: Vec<usize> = if by_context.is_some() {
+            let mut matched: Vec<usize> = if by_context.is_some() {
                 by_scope.get(&scope_key).cloned().unwrap_or_default()
             } else {
                 let mut sel = rel.clone();
@@ -1117,6 +1124,29 @@ impl<'a> CompileCx<'a> {
                     })
                     .collect()
             };
+            // A record pinned to the stroke position the selector asks for replaces an unpinned
+            // record with the same other pins; a record pinned to the other position is not
+            // a candidate.
+            matched.retain(|&i| crate::scope::position_fits(rel, &self.graph.relationships[i].raw));
+            let other_pins = |raw: &Value| {
+                let mut o = raw
+                    .pointer("/scope/options")
+                    .and_then(Value::as_object)
+                    .cloned()
+                    .unwrap_or_default();
+                o.remove("position");
+                o
+            };
+            let pinned: Vec<_> = matched
+                .iter()
+                .map(|&i| &self.graph.relationships[i].raw)
+                .filter(|r| crate::scope::stroke_position(r).is_some())
+                .map(other_pins)
+                .collect();
+            matched.retain(|&i| {
+                let raw = &self.graph.relationships[i].raw;
+                crate::scope::stroke_position(raw).is_some() || !pinned.contains(&other_pins(raw))
+            });
             for i in matched {
                 let r = &self.graph.relationships[i];
                 let scope = r.raw.get("scope");
@@ -2659,10 +2689,14 @@ pub fn with_context_selectors(recipe: &Value, graph: &TokenGraph, component: &st
                         });
                         if let Some(c) = ctx {
                             let property = sel.get("property").cloned().unwrap_or_default();
+                            let position = sel.get("position").cloned();
                             *sel = serde_json::Map::from_iter([
                                 ("property".to_string(), property),
                                 ("context".to_string(), Value::String(c.trim().to_string())),
                             ]);
+                            if let Some(p) = position {
+                                sel.insert("position".into(), p);
+                            }
                         }
                     }
                 }
@@ -3051,6 +3085,9 @@ fn solve_root(
     let stroke_w = rp(&mut cx, root, "strokeWidth");
     let stroke_o = rp(&mut cx, root, "strokeOpacity");
     let stroke_over = rp(&mut cx, root, "strokeOver").is_some_and(|r| r.value.trim() == "true");
+    let inner_stroke = rp(&mut cx, root, "innerStroke");
+    let inner_w = rp(&mut cx, root, "innerStrokeWidth");
+    let inner_o = rp(&mut cx, root, "innerStrokeOpacity");
     let corner_names = [
         "cornerRadiusStartStart",
         "cornerRadiusStartEnd",
@@ -3066,6 +3103,9 @@ fn solve_root(
         ("stroke", &stroke),
         ("strokeWidth", &stroke_w),
         ("strokeOpacity", &stroke_o),
+        ("innerStroke", &inner_stroke),
+        ("innerStrokeWidth", &inner_w),
+        ("innerStrokeOpacity", &inner_o),
         ("width", &root_width),
         ("minWidth", &min_width),
         ("height", &height),
@@ -3129,13 +3169,27 @@ fn solve_root(
         defer_width: false,
         width: fixed_w.map(|w| w.max(min_w) - pad_s - pad_e),
         height: explicit_h.map(|h| h - pad_bs - pad_be),
-        corner_radius: radius.as_ref().and_then(Resolved::num),
+        // A ratio of the height (a pill is 0.5) needs the root's height; without one the
+        // nested root cannot inherit it.
+        corner_radius: radius.as_ref().and_then(|r| {
+            let v = r.num()?;
+            match r.relative_to.as_deref() {
+                Some("height") => explicit_h.map(|h| v * h),
+                _ => Some(v),
+            }
+        }),
     };
     let gap = gap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let direction = rp(&mut cx, root, "direction");
     let align = rp(&mut cx, root, "align");
     let justify = rp(&mut cx, root, "justify");
-    let column = layout_keyword(&mut cx, "direction", &direction, &["row", "column"]) == "column";
+    let direction = layout_keyword(
+        &mut cx,
+        "direction",
+        &direction,
+        &["row", "column", "stack"],
+    );
+    let (column, stack) = (direction == "column", direction == "stack");
     let align = layout_keyword(&mut cx, "align", &align, &["start", "center", "end"]);
     let justify = layout_keyword(&mut cx, "justify", &justify, &["start", "center", "end"]);
     let press_diff = rp(&mut cx, root, "pressDifference");
@@ -3685,13 +3739,17 @@ fn solve_root(
     // A text part with `overflow` breaks (or truncates) against the width the root leaves it:
     // the fixed width minus the inline padding, the gaps and the other parts. Several such
     // parts share what is left equally. With no fixed width the text hugs and never breaks.
-    let gaps = gap * flow.len().saturating_sub(1) as f64;
+    let gaps = if stack {
+        0.0
+    } else {
+        gap * flow.len().saturating_sub(1) as f64
+    };
     let mut word_overflow = false;
     let mut fixed_over = false;
     let n_wrap = flow.iter().filter(|c| c.overflow.is_some()).count();
     if let (Some(fw), true) = (fixed_w, n_wrap > 0) {
         let inner = fw.max(min_w) - pad_s - pad_e;
-        let raw = if column {
+        let raw = if column || stack {
             inner
         } else {
             let others: f64 = flow
@@ -3757,7 +3815,7 @@ fn solve_root(
     let multi_line = flow.iter().any(|c| !c.lines.is_empty());
     let sum_w = flow.iter().map(|c| c.w).sum::<f64>() + gaps;
     let sum_h = flow.iter().map(|c| c.h).sum::<f64>() + gaps;
-    let content_w = pad_s + if column { widest } else { sum_w } + pad_e;
+    let content_w = pad_s + if column || stack { widest } else { sum_w } + pad_e;
     let w = fixed_w.unwrap_or(content_w).max(min_w);
     if w < content_w - 1e-6 && (!word_overflow || fixed_over) {
         cx.diags.push(format!(
@@ -3781,7 +3839,7 @@ fn solve_root(
     // `(minHeight - one line) / 2`, the single-line padding, so a label that wraps grows the
     // container and keeps that padding.
     let (pad_bs, pad_be) = match min_h {
-        Some(m) if explicit_h.is_none() && !column && !block_padded => {
+        Some(m) if explicit_h.is_none() && !column && !stack && !block_padded => {
             let p = ((m - tallest_one_line) / 2.0).max(0.0);
             (p, p)
         }
@@ -3897,7 +3955,7 @@ fn solve_root(
             .unwrap_or(0.0)
     };
     let layout = Layout {
-        gap: (flow.len() > 1).then_some(gap),
+        gap: (flow.len() > 1 && !stack).then_some(gap),
         padding: [pad_bs, pad_e, pad_be, pad_s],
     };
     let mut y = oy
@@ -3908,7 +3966,7 @@ fn solve_root(
             0.0
         };
     let mut gap_from: Option<f64> = None;
-    let total_grow: f64 = if column {
+    let total_grow: f64 = if column || stack {
         0.0
     } else {
         flow.iter().map(|c| c.grow).sum()
@@ -3917,14 +3975,14 @@ fn solve_root(
     // A row with no growing part justifies its content in the space a minWidth or width leaves.
     let mut x = ox
         + pad_s
-        + if column || total_grow > 0.0 {
+        + if column || stack || total_grow > 0.0 {
             0.0
         } else {
             axis_offset(&justify, free_w)
         };
     for mut c in flow {
         // A column stretches a box that has no width of its own across its inner width.
-        let cw = if column && c.kind == "box" && c.auto_w {
+        let cw = if (column || stack) && c.kind == "box" && c.auto_w {
             w - pad_s - pad_e
         } else {
             c.w
@@ -3938,7 +3996,13 @@ fn solve_root(
         };
         let adv = cw + extra;
         let cw = if c.kind == "box" { adv } else { cw };
-        let (cx0, cy0) = if column {
+        let (cx0, cy0) = if stack {
+            // Siblings overlay: each sits in the inner box, `justify` across and `align` down.
+            (
+                ox + pad_s + axis_offset(&justify, w - pad_s - pad_e - cw),
+                oy + pad_bs + axis_offset(&align, h - pad_bs - pad_be - c.h),
+            )
+        } else if column {
             (x + axis_offset(&align, w - pad_s - pad_e - cw), y)
         } else {
             (
@@ -3953,7 +4017,7 @@ fn solve_root(
             )
         };
         let ch = c.h;
-        if let Some(from) = gap_from {
+        if let Some(from) = gap_from.filter(|_| !stack) {
             if let Some(token) = m_gap.clone() {
                 let span = if column {
                     (cx0, from, cw, gap)
@@ -3984,7 +4048,13 @@ fn solve_root(
                         m
                     }),
             );
-            place_nested(&mut nested_out, n, cx0, cy0);
+            // A stack draws in declaration order, so a nested recipe joins the nodes now.
+            place_nested(
+                if stack { &mut nodes } else { &mut nested_out },
+                n,
+                cx0,
+                cy0,
+            );
             if column {
                 y += ch + gap;
             } else {
@@ -4479,6 +4549,29 @@ fn solve_root(
             border.stroke_width = sw;
             border.stroke_opacity = nodes[0].stroke_opacity;
             nodes.push(border);
+        }
+    }
+
+    // `innerStroke`: a second border just inside the first, drawn over the children as a ring
+    // node `<root>.inner-border`. It starts where the outer stroke ends.
+    if let Some(c) = inner_stroke.as_ref() {
+        let outer = nodes[0].stroke_width;
+        let sw = inner_w.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+        if radii.is_some() {
+            cx.diags
+                .push("innerStroke draws one corner radius; the root's corners differ".into());
+        }
+        if sw > 0.0 && w - 2.0 * outer - sw > 0.0 && h - 2.0 * outer - sw > 0.0 {
+            let mut band = blank_node(&format!("{root_id}.inner-border"), "ring");
+            band.x = ox + outer + sw / 2.0;
+            band.y = oy + outer + sw / 2.0;
+            band.w = w - 2.0 * outer - sw;
+            band.h = h - 2.0 * outer - sw;
+            band.radius = (nodes[0].radius - outer - sw / 2.0).max(0.0);
+            band.stroke = Some(c.value.clone());
+            band.stroke_width = sw;
+            band.stroke_opacity = inner_o.as_ref().and_then(Resolved::num);
+            nodes.push(band);
         }
     }
 
