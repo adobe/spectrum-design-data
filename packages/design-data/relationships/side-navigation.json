@@ -694,7 +694,11 @@
     "scope": {
       "component": "side-navigation",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isDisabled": false
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -705,7 +709,11 @@
     "scope": {
       "component": "side-navigation",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isDisabled": false
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -716,7 +724,11 @@
     "scope": {
       "component": "side-navigation",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isDisabled": false
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -727,7 +739,11 @@
     "scope": {
       "component": "side-navigation",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isDisabled": false
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -780,7 +796,10 @@
     "scope": {
       "component": "side-navigation",
       "part": "item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -885,7 +904,10 @@
     "scope": {
       "component": "side-navigation",
       "part": "label",
-      "property": "font-weight"
+      "property": "font-weight",
+      "options": {
+        "isSelected": true
+      }
     },
     "context": "Text",
     "contextRole": ["label"],

@@ -93,6 +93,25 @@
     "currentStep": {
       "type": "string",
       "description": "The identifier or label of the currently active step."
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "description": "The size of the step list.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     }
   },
   "slots": [
