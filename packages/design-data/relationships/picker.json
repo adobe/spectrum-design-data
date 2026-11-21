@@ -1992,7 +1992,8 @@
       "component": "picker",
       "part": "field",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": { "state": ["hover"] }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -2004,7 +2005,8 @@
       "component": "picker",
       "part": "field",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": { "state": ["hover"] }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -2016,7 +2018,8 @@
       "component": "picker",
       "part": "field",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": { "state": ["hover"] }
     },
     "context": "Background",
     "contextRole": ["background"],
