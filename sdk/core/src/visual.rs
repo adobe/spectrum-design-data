@@ -8559,6 +8559,76 @@ mod tests {
     }
 
     #[test]
+    fn a_stack_overlays_its_children_in_declaration_order() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a", "c", "b"],
+                "props": lit_props(&[("gap", 9.0)]) },
+            "a": { "kind": "box", "props": lit_props(&[("width", 60.0), ("height", 20.0)]) },
+            "c": comp("action-button", serde_json::json!({ "hideLabel": true })),
+            "b": { "kind": "box", "props": lit_props(&[("width", 30.0), ("height", 30.0)]) }
+        }));
+        r["parts"]["a"]["props"]["fill"] = serde_json::json!({ "value": "#111111" });
+        r["parts"]["b"]["props"]["fill"] = serde_json::json!({ "value": "#222222" });
+        let flow = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        r["parts"]["r"]["props"]["direction"] = serde_json::json!({ "value": "stack" });
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        // The root is as big as its biggest child, not the sum, and no gap is measured.
+        assert!(flow.nodes[0].w > s.nodes[0].w + 30.0);
+        assert!(s.nodes[0].w >= 60.0 && s.nodes[0].h >= 30.0);
+        assert!(s.measurements.iter().all(|m| m.kind != "gap"));
+        assert_eq!(s.layout.gap, None);
+        // Siblings centre on one another, and the nested recipe sits between them.
+        let (a, b) = (part(&s, "a").unwrap(), part(&s, "b").unwrap());
+        assert_eq!(a.x + a.w / 2.0, b.x + b.w / 2.0);
+        assert_eq!(a.y + a.h / 2.0, b.y + b.h / 2.0);
+        let order: Vec<usize> = ["a", "c", "b"]
+            .iter()
+            .map(|id| s.nodes.iter().position(|n| n.part == *id).unwrap())
+            .collect();
+        assert!(order[0] < order[1] && order[1] < order[2], "{order:?}");
+        // A box with no width fills the inner width, as in a column.
+        r["parts"]["a"]["props"]
+            .as_object_mut()
+            .unwrap()
+            .remove("width");
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(part(&s, "a").unwrap().w, s.nodes[0].w);
+    }
+
+    #[test]
+    fn inner_stroke_draws_a_second_ring_inside_the_outer_stroke() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": [], "props": lit_props(&[
+                ("width", 100.0), ("height", 40.0), ("cornerRadius", 5.0),
+                ("strokeWidth", 2.0), ("innerStrokeWidth", 3.0)]) }
+        }));
+        for (prop, v) in [("stroke", "#ff0000"), ("innerStroke", "#0000ff")] {
+            r["parts"]["r"]["props"][prop] = serde_json::json!({ "value": v });
+        }
+        for over in [false, true] {
+            r["parts"]["r"]["props"]["strokeOver"] = serde_json::json!({ "value": over });
+            let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+            let band = s.nodes.last().unwrap();
+            assert_eq!(
+                (band.kind.as_str(), band.part.as_str()),
+                ("ring", "r.inner-border")
+            );
+            assert_eq!(
+                (band.x, band.y, band.w, band.h, band.radius),
+                (11.5, 11.5, 93.0, 33.0, 1.5)
+            );
+            assert_eq!(band.stroke.as_deref(), Some("#0000ff"));
+            assert_eq!(band.stroke_width, 3.0);
+        }
+        // No inner width draws nothing.
+        r["parts"]["r"]["props"]["innerStrokeWidth"] = serde_json::json!({ "value": 0.0 });
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert!(s.nodes.iter().all(|n| n.part != "r.inner-border"));
+    }
+
+    #[test]
     fn sizemap_picks_the_nested_size() {
         let g = nest_graph(&[]);
         let mut r = row_host();

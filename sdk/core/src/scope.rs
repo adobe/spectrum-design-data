@@ -534,6 +534,39 @@ mod tests {
     }
 
     #[test]
+    fn a_stroke_position_pin_serves_only_the_selector_with_that_position() {
+        let at = |p: Option<&str>| match p {
+            Some(p) => rec(json!({"position": p})),
+            None => rec(json!({})),
+        };
+        let sel = |p: Option<&str>| match p {
+            Some(p) => json!({"property": "y", "context": "c", "position": p}),
+            None => json!({"property": "y", "context": "c"}),
+        };
+        for (record, selector, fits) in [
+            (None, None, true),
+            (None, Some("inner"), true),
+            (Some("outer"), None, true),
+            (Some("outer"), Some("inner"), false),
+            (Some("inner"), None, false),
+            (Some("inner"), Some("outer"), false),
+            (Some("inner"), Some("inner"), true),
+        ] {
+            assert_eq!(
+                position_fits(&sel(selector), &at(record)),
+                fits,
+                "{record:?} {selector:?}"
+            );
+        }
+        // Another `position` option (a type style's `top`) is not a stroke position.
+        assert!(position_fits(&sel(None), &rec(json!({"position": "top"}))));
+        assert!(position_fits(
+            &sel(None),
+            &rec(json!({"position": ["top"]}))
+        ));
+    }
+
+    #[test]
     fn a_selector_names_a_record_by_context_or_by_the_identity_fields_it_gives() {
         let rec = json!({
             "scope": {"component": "x", "property": "space-between", "part": "p",
