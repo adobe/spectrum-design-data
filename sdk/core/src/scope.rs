@@ -465,9 +465,12 @@ pub fn selector_identity_matches(sel: &Value, rec: &Value) -> bool {
         .all(|(k, p)| sel.get(k).is_none_or(|v| Some(v) == rec.pointer(p)))
 }
 
-/// The stroke position a record pins with `scope.options.position`: `inner` or `outer`. Any other
-/// value (a type-style `top`, a list) is a different option and `None`.
+/// The stroke position a `border` record pins with `scope.options.position`: `inner` or `outer`.
+/// A record of another attribute, or any other value (a type-style `top`, a list) is a different option and `None`.
 pub fn stroke_position(rec: &Value) -> Option<&str> {
+    if rec.pointer("/scope/attribute").and_then(Value::as_str) != Some("border") {
+        return None;
+    }
     rec.pointer("/scope/options/position")
         .and_then(Value::as_str)
         .filter(|p| matches!(*p, "inner" | "outer"))
@@ -535,9 +538,13 @@ mod tests {
 
     #[test]
     fn a_stroke_position_pin_serves_only_the_selector_with_that_position() {
-        let at = |p: Option<&str>| match p {
-            Some(p) => rec(json!({"position": p})),
-            None => rec(json!({})),
+        let at = |p: Option<&str>| {
+            let mut r = match p {
+                Some(p) => rec(json!({"position": p})),
+                None => rec(json!({})),
+            };
+            r["scope"]["attribute"] = json!("border");
+            r
         };
         let sel = |p: Option<&str>| match p {
             Some(p) => json!({"property": "y", "context": "c", "position": p}),
@@ -558,6 +565,10 @@ mod tests {
                 "{record:?} {selector:?}"
             );
         }
+        // A record of another attribute keeps its `position` pin whatever the selector asks.
+        let corner = rec(json!({"position": "inner"}));
+        assert!(position_fits(&sel(None), &corner));
+        assert!(position_fits(&sel(Some("outer")), &corner));
         // Another `position` option (a type style's `top`) is not a stroke position.
         assert!(position_fits(&sel(None), &rec(json!({"position": "top"}))));
         assert!(position_fits(

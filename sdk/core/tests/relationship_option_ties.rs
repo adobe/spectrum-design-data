@@ -117,8 +117,9 @@ fn group_context(r: &Value, context: &str) -> String {
     let id = scope_identity(r);
     // A record pinned to a stroke position is only compared with records of that position: the
     // solver drops the other position's records and lets a pinned one replace an unpinned one.
+    let border = r.pointer("/scope/attribute").and_then(Value::as_str) == Some("border");
     let id = match r.pointer("/scope/options/position").and_then(Value::as_str) {
-        Some(p @ ("inner" | "outer")) => format!("{id} stroke={p}").trim().to_string(),
+        Some(p @ ("inner" | "outer")) if border => format!("{id} stroke={p}").trim().to_string(),
         _ => id,
     };
     match id {
