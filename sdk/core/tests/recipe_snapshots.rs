@@ -365,6 +365,7 @@ recipe_tests! {
     status_light => "status-light",
     swatch => "swatch",
     switch => "switch",
+    tag => "tag",
     text_field => "text-field",
     thumbnail => "thumbnail",
     toast => "toast",
