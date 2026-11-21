@@ -592,6 +592,24 @@
     "isDisabled=true,staticColor=\"black\"": "b92a70cb11f46659",
     "isDisabled=true,staticColor=\"white\"": "05dba9e8ac60a33d"
   },
+  "combo-box": {
+    "isDisabled=false,isError=false,isRequired=false,necessityIndicator=\"icon\"": "c0fff652c5565a06",
+    "isDisabled=false,isError=false,isRequired=false,necessityIndicator=\"text\"": "f54ae377b5e78022",
+    "isDisabled=false,isError=false,isRequired=true,necessityIndicator=\"icon\"": "4599844b62082430",
+    "isDisabled=false,isError=false,isRequired=true,necessityIndicator=\"text\"": "8127d19146738a94",
+    "isDisabled=false,isError=true,isRequired=false,necessityIndicator=\"icon\"": "30fe408b2b6eca44",
+    "isDisabled=false,isError=true,isRequired=false,necessityIndicator=\"text\"": "d81c7473acd1a82c",
+    "isDisabled=false,isError=true,isRequired=true,necessityIndicator=\"icon\"": "c46eb4e027cc531a",
+    "isDisabled=false,isError=true,isRequired=true,necessityIndicator=\"text\"": "c012f0cf2c170cf2",
+    "isDisabled=true,isError=false,isRequired=false,necessityIndicator=\"icon\"": "66ae01748ebcb9a0",
+    "isDisabled=true,isError=false,isRequired=false,necessityIndicator=\"text\"": "8c6a5a3635ed1b58",
+    "isDisabled=true,isError=false,isRequired=true,necessityIndicator=\"icon\"": "7fb118b159200f76",
+    "isDisabled=true,isError=false,isRequired=true,necessityIndicator=\"text\"": "391a1fcc7dbd42a2",
+    "isDisabled=true,isError=true,isRequired=false,necessityIndicator=\"icon\"": "55212985da15be22",
+    "isDisabled=true,isError=true,isRequired=false,necessityIndicator=\"text\"": "f7557fe42ad2c622",
+    "isDisabled=true,isError=true,isRequired=true,necessityIndicator=\"icon\"": "cd905b1335b37688",
+    "isDisabled=true,isError=true,isRequired=true,necessityIndicator=\"text\"": "9ed696c69a16d710"
+  },
   "divider": {
     "orientation=\"horizontal\",staticColor=\"black\"": "d0974b4d62da2fc5",
     "orientation=\"horizontal\",staticColor=\"white\"": "423a86f843aeb603",

@@ -349,6 +349,7 @@ recipe_tests! {
     checkbox => "checkbox",
     clear_button => "clear-button",
     close_button => "close-button",
+    combo_box => "combo-box",
     divider => "divider",
     field_label => "field-label",
     help_text => "help-text",
