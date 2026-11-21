@@ -1406,6 +1406,12 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
+      "id": "number-field",
+      "label": "Number Field",
+      "description": "Number field component used as a named anatomy part (slider editable value)",
+      "usedIn": ["s2-docs"]
+    },
+    {
       "id": "input",
       "label": "Input",
       "description": "The actual input control(s) associated with a field-label component",
