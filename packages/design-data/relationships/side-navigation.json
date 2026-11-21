@@ -696,7 +696,8 @@
       "part": "item",
       "property": "content-color",
       "options": {
-        "isSelected": true
+        "isSelected": true,
+        "isDisabled": false
       }
     },
     "context": "Label and icon",
@@ -710,7 +711,8 @@
       "part": "item",
       "property": "content-color",
       "options": {
-        "isSelected": true
+        "isSelected": true,
+        "isDisabled": false
       }
     },
     "context": "Label and icon",
@@ -724,7 +726,8 @@
       "part": "item",
       "property": "content-color",
       "options": {
-        "isSelected": true
+        "isSelected": true,
+        "isDisabled": false
       }
     },
     "context": "Label and icon",
@@ -738,7 +741,8 @@
       "part": "item",
       "property": "content-color",
       "options": {
-        "isSelected": true
+        "isSelected": true,
+        "isDisabled": false
       }
     },
     "context": "Label and icon",
@@ -801,21 +805,6 @@
     "contextRole": ["label", "icon"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "5af7c54a-0e4b-5987-b0cf-df442b44ce45"
-  },
-  {
-    "scope": {
-      "component": "side-navigation",
-      "part": "item",
-      "property": "content-color",
-      "options": {
-        "isDisabled": true,
-        "isSelected": true
-      }
-    },
-    "context": "Label and icon",
-    "contextRole": ["label", "icon"],
-    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
-    "uuid": "0e82914a-f2d2-5aaf-882c-b4d069f1fa84"
   },
   {
     "scope": {
