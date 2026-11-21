@@ -143,20 +143,13 @@
             "part": "field"
           }
         },
-        "stroke": [
-          {
-            "when": {
-              "options": {
-                "isError": false
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "attribute": "border",
-              "part": "field"
-            }
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "field"
           }
-        ],
+        },
         "strokeWidth": {
           "relationship": {
             "property": "border-width",
@@ -179,7 +172,27 @@
             "property": "type-style",
             "part": "value"
           }
-        }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "value"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "relationship": {
+              "property": "content-color",
+              "part": "field"
+            }
+          }
+        ]
       },
       "text": {
         "option": "value"
