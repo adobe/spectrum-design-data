@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "component-height-100"
+      "part": "item",
+      "property": "minimum-height",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "component-height-100"
+      "part": "item",
+      "property": "minimum-height",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "width"
+      "part": "container",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width (default)",
     "contextRole": ["width"],
@@ -33,7 +45,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "width"
+      "part": "container",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Width (default)",
     "contextRole": ["width"],
@@ -44,7 +60,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "minimum-width"
+      "part": "container",
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width (minimum)",
     "contextRole": ["width"],
@@ -55,7 +75,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "minimum-width"
+      "part": "container",
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Width (minimum)",
     "contextRole": ["width"],
@@ -66,7 +90,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "maximum-width"
+      "part": "container",
+      "property": "maximum-width",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width (maximum)",
     "contextRole": ["width"],
@@ -77,7 +105,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "maximum-width"
+      "part": "container",
+      "property": "maximum-width",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Width (maximum)",
     "contextRole": ["width"],
@@ -88,6 +120,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
@@ -99,6 +132,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
@@ -110,6 +144,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
@@ -121,7 +156,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "height"
+      "part": "selection-indicator",
+      "property": "height",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
@@ -131,7 +170,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "height"
+      "part": "selection-indicator",
+      "property": "height",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
@@ -141,6 +184,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "selection-indicator",
       "property": "thickness"
     },
     "context": "Side navigation indicator",
@@ -151,7 +195,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "selection-indicator",
+        "to": "label"
+      }
     },
     "context": "Spacing (indicator to content)",
     "contextRole": ["spacing"],
@@ -162,7 +211,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -172,7 +225,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -182,7 +239,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -193,7 +255,15 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "component-edge-to-text-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Spacing (single-level, start/end to content)",
     "contextRole": ["spacing"],
@@ -204,7 +274,34 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "component-edge-to-text-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      },
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "context": "Spacing (single-level, start/end to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "single-level, start/end to content",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "cda17808-aacc-547d-8ccf-7f26f86c90dd"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Spacing (single-level, start/end to content)",
     "contextRole": ["spacing"],
@@ -215,7 +312,31 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      },
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "context": "Spacing (single-level, start/end to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "single-level, start/end to content",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "e5174575-64fe-59d8-bc2c-fede744afe61"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "trailing-accessory-area",
+        "to": "disclosure-button"
+      }
     },
     "context": "Spacing (single-level, start/end to content)",
     "contextRole": ["spacing"],
@@ -226,7 +347,8 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "second-level-edge-to-indicator"
+      "part": "item",
+      "property": "level-increment"
     },
     "context": "Spacing (multi-level, no icon, start edge to content)",
     "contextRole": ["spacing"],
@@ -237,18 +359,8 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "third-level-edge-to-indicator"
-    },
-    "context": "Spacing (multi-level, no icon, start edge to content)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "multi-level, no icon, start edge to content",
-    "$ref": "c5c94124-c16d-46f1-a22a-acf1378846bc",
-    "uuid": "886b152e-bc1f-5d55-9896-39c07a049c72"
-  },
-  {
-    "scope": {
-      "component": "side-navigation",
-      "property": "second-level-with-icon-edge-to-indicator"
+      "part": "item",
+      "property": "level-increment"
     },
     "context": "Spacing (multi-level, no icon, start edge to content)",
     "contextRole": ["spacing"],
@@ -259,62 +371,15 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "third-level-with-icon-edge-to-indicator"
-    },
-    "context": "Spacing (multi-level, no icon, start edge to content)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "multi-level, no icon, start edge to content",
-    "$ref": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f",
-    "uuid": "9b56d0db-1cde-5693-9e2c-f9dd946200e1"
-  },
-  {
-    "scope": {
-      "component": "side-navigation",
-      "property": "second-level-edge-to-text"
-    },
-    "context": "Spacing (multi-level, no icon, start edge to content)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "multi-level, no icon, start edge to content",
-    "$ref": "c5c94124-c16d-46f1-a22a-acf1378846bc",
-    "uuid": "5b5a40e2-9af6-56fe-85fe-12bf8db6405f"
-  },
-  {
-    "scope": {
-      "component": "side-navigation",
-      "property": "third-level-edge-to-text"
-    },
-    "context": "Spacing (multi-level, no icon, start edge to content)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "multi-level, no icon, start edge to content",
-    "$ref": "c5c94124-c16d-46f1-a22a-acf1378846bc",
-    "uuid": "0c606b9d-903b-51f4-b303-80f246e1b0f1"
-  },
-  {
-    "scope": {
-      "component": "side-navigation",
-      "property": "with-icon-second-level-edge-to-text"
-    },
-    "context": "Spacing (multi-level, no icon, start edge to content)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "multi-level, no icon, start edge to content",
-    "$ref": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f",
-    "uuid": "3b66fc08-ba3d-55ab-a64f-3963abe2fc39"
-  },
-  {
-    "scope": {
-      "component": "side-navigation",
-      "property": "with-icon-third-level-edge-to-text"
-    },
-    "context": "Spacing (multi-level, no icon, start edge to content)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "multi-level, no icon, start edge to content",
-    "$ref": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f",
-    "uuid": "e3a72e28-ba22-5379-a650-4feec72516b7"
-  },
-  {
-    "scope": {
-      "component": "side-navigation",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-button"
+      },
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Spacing (edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -325,7 +390,15 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-button"
+      },
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Spacing (edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -336,7 +409,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "trailing-accessory-area"
+      }
     },
     "context": "Spacing (text to trailing accessory area)",
     "contextRole": ["spacing"],
@@ -347,7 +425,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "trailing-accessory-area"
+      }
     },
     "context": "Spacing (single-level, end to content)",
     "contextRole": ["spacing"],
@@ -358,7 +441,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "item",
+        "to": "item"
+      }
     },
     "context": "Spacing (vertically between side-nav items)",
     "contextRole": ["spacing"],
@@ -369,7 +457,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "item",
+        "to": "section-header"
+      }
     },
     "context": "Spacing (vertically between side-nav item and side-nav title)",
     "contextRole": ["spacing"],
@@ -380,7 +473,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "section-header",
+        "to": "item"
+      }
     },
     "context": "Spacing (vertically between side-nav item and side-nav title)",
     "contextRole": ["spacing"],
@@ -391,17 +489,28 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      }
     },
-    "context": "Layout",
-    "contextRole": ["layout"],
+    "context": "Spacing (top edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to icon",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "472bbedb-0e78-5487-8eaa-a500cc93a9a7"
   },
   {
     "scope": {
       "component": "side-navigation",
-      "property": "component-padding-vertical-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (top edge to label)",
     "contextRole": ["spacing"],
@@ -412,7 +521,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (label wrapping)",
     "contextRole": ["spacing"],
@@ -423,6 +537,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -433,6 +548,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus indicator",
@@ -443,7 +559,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
@@ -453,7 +574,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
@@ -463,7 +589,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
@@ -473,7 +604,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
@@ -483,7 +619,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
@@ -493,7 +634,12 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Side navigation indicator",
     "contextRole": ["navigation"],
@@ -503,79 +649,99 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
     "uuid": "eaaacfbe-d320-5744-98b2-bfad250d43e9"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6",
     "uuid": "dfff4851-3bb0-54f6-899b-33c36b7c46fa"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "8ab4accc-bd95-48e0-ae3a-539740a07cc6",
     "uuid": "46173156-325d-5ff0-b694-bafaac41f814"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3",
     "uuid": "5dc83163-45f7-5d75-b232-f7632f7e08b0"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon (selected)",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "27f0c846-27b0-5272-a12b-0dea3c8e366f"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon (selected)",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "f73f702a-b336-59c7-b533-e59f7ae4bbf6"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon (selected)",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "6ba81663-5887-5ba6-8aaa-38e33f7f26b2"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Navigation item label and icon (selected)",
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "9284a3ee-78b3-5a06-b967-5b3476ac51d7"
   },
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "section-header",
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Side navigation title",
     "contextRole": ["label"],
@@ -585,7 +751,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "section-header",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Side navigation title",
     "contextRole": ["label"],
@@ -595,7 +765,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "color"
+      "part": "section-header",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Side navigation title",
     "contextRole": ["label"],
@@ -605,17 +779,18 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "item",
       "property": "content-color"
     },
-    "context": "Label and icon (disabled)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "5af7c54a-0e4b-5987-b0cf-df442b44ce45"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus indicator",
@@ -626,6 +801,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Text",
@@ -636,6 +812,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Text",
@@ -646,6 +823,7 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Text",
@@ -656,7 +834,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -666,7 +848,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -676,7 +862,8 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -686,7 +873,8 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -696,17 +884,18 @@
   {
     "scope": {
       "component": "side-navigation",
+      "part": "label",
       "property": "font-weight"
     },
-    "context": "Text (selected)",
+    "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "selected",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
     "uuid": "b80f6896-28f2-51d6-a12b-bb36a6b78cc9"
   },
   {
     "scope": {
       "component": "side-navigation",
+      "part": "section-header",
       "property": "font-weight"
     },
     "context": "Text (Side navigation title)",
@@ -718,7 +907,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "font-size-75"
+      "part": "section-header",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Text (Side navigation title)",
     "contextRole": ["label"],
@@ -729,7 +922,11 @@
   {
     "scope": {
       "component": "side-navigation",
-      "property": "font-size-75"
+      "part": "section-header",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Text (Side navigation title)",
     "contextRole": ["label"],
