@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
+"@adobe/design-data-wasm": patch
 ---
 
 Add visual recipes for button-group, action-group, swatch-group,
