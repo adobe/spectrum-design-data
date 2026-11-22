@@ -1513,7 +1513,9 @@ rules:
     category: reference-integrity
     note: >
       Follows the pattern of SPEC-060 and SPEC-061 for recipes. Skipped when no component
-      catalog is loaded.
+      catalog is loaded. The reference SDK resolves against the platform's view: the manifest
+      is applied first, so `componentAliases`, platform-declared components and platform
+      anatomy are in effect (a file for an alias key checks against its target).
     assert: >
       A deviation's `component` MUST resolve to a declared component, directly or through
       `componentAliases`. Its `part` MUST be a part of the resolved component's anatomy. Every
@@ -1530,8 +1532,11 @@ rules:
     layer: 2
     category: component-contract
     note: >
-      A deviation with no `property` or no `part` is documentation and is not checked. A
-      component with no recipe is skipped.
+      A deviation with no `property` or no `part` is documentation and is not checked, and so
+      is a property `render-compare` does not compare yet (`fontFamily`, `opacity`). A
+      component with no recipe is skipped. The CLI `validate` loads foundation recipes only with
+      `--visuals-path` (a platform's own recipes are always in effect), so a foundation
+      recipe is checked only then.
     assert: >
       A deviation's `property`, when present together with `part`, SHOULD be a property the
       effective recipe sets for that part.

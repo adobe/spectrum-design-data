@@ -4,9 +4,9 @@
     {
       "id": "unset-property",
       "part": "track",
-      "property": "opacity",
+      "property": "cornerRadius",
       "status": "accepted",
-      "reason": "The track recipe sets no opacity."
+      "reason": "The track recipe sets no cornerRadius."
     }
   ]
 }

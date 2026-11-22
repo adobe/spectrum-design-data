@@ -302,7 +302,7 @@ Records where the platform cannot match a component's foundation recipe, for exa
 }
 ```
 
-**NORMATIVE:** each file **MUST** validate against `platform-deviation.schema.json`.
+**NORMATIVE:** each file **MUST** validate against `platform-deviation.schema.json`. As for every other category, the reference SDK rejects the manifest load on a file that fails it (a manifest error, with no rule id) rather than reporting a diagnostic.
 
 | Field                    | Required | Description                                                                                                                               |
 | ------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -318,7 +318,7 @@ Records where the platform cannot match a component's foundation recipe, for exa
 
 **NORMATIVE:** a renderer **MUST NOT** read a deviation (see [Component visuals](component-visuals.md)). Files are processed in sorted path order; a file is a list of independent entries, so there is no merge between files.
 
-Rules ([rules.yaml](../rules/rules.yaml)), enforced by the reference SDK:
+Rules ([rules.yaml](../rules/rules.yaml)), enforced by the reference SDK. Limits today: the SDK applies the platform manifest before checking, so `component` may be a foundation name, an alias key or a platform-declared component, and SPEC-110 and SPEC-111 read the platform's anatomy and recipe; SPEC-111 reads a foundation recipe only when recipes are loaded (`--visuals-path`) and skips properties `render-compare` does not compare yet:
 
 * **SPEC-109** (Layer 1, error): the file validates against the schema and `id` is unique within the file.
 * **SPEC-110** (Layer 2, error): `component` resolves directly or through `componentAliases`; `part` is in the resolved anatomy; every `when.states` value is a state of the component; every `when.options` key is an option and every value one of its values; every `when.modes` key and value is a known mode set and mode (the pattern of SPEC-060 and SPEC-061).

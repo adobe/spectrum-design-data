@@ -11,7 +11,9 @@
 //! SPEC-111: platform-deviation-property-set
 //!
 //! A deviation's `property`, when present with a `part`, SHOULD be a property the
-//! effective recipe sets for that part. A deviation without a property is documentation and
+//! effective recipe sets for that part. Only properties `render-compare` compares are
+//! checked: a property the engine does not compare yet (`fontFamily`, `opacity`, ...) is
+//! documentation and is skipped. A deviation without a property is documentation and
 //! is not checked; a part the recipe does not draw is SPEC-110's concern.
 
 use std::path::PathBuf;
@@ -20,9 +22,32 @@ use serde_json::Value;
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::deviation_util::{entries, files, id};
+use crate::validate::rules::deviation_util::{effective_graph, entries, files, id};
 
 pub struct Rule;
+
+/// The properties `render-compare` compares (docs/visual-comparison.md, "Measured values").
+const COMPARED: &[&str] = &[
+    "width",
+    "height",
+    "paddingTop",
+    "paddingRight",
+    "paddingBottom",
+    "paddingLeft",
+    "cornerRadius",
+    "cornerRadiusTopLeft",
+    "cornerRadiusTopRight",
+    "cornerRadiusBottomRight",
+    "cornerRadiusBottomLeft",
+    "gap",
+    "borderWidth",
+    "strokeWidth",
+    "stroke",
+    "fill",
+    "color",
+    "fontSize",
+    "fontWeight",
+];
 
 impl ValidationRule for Rule {
     fn id(&self) -> &'static str {
@@ -34,10 +59,19 @@ impl ValidationRule for Rule {
     }
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
+        let Some(manifest) = ctx.manifest else {
+            return vec![];
+        };
+        if files(ctx.manifest).next().is_none() {
+            return vec![];
+        }
+        let Some(graph) = effective_graph(ctx.graph, manifest) else {
+            return vec![];
+        };
         let mut out = Vec::new();
         for (file, doc) in files(ctx.manifest) {
             let name = doc.get("component").and_then(Value::as_str).unwrap_or("");
-            let Some(recipe) = ctx.graph.visual_recipe(name) else {
+            let Some(recipe) = graph.visual_recipe(name) else {
                 continue;
             };
             for (i, entry) in entries(doc).enumerate() {
@@ -47,6 +81,9 @@ impl ValidationRule for Rule {
                 ) else {
                     continue;
                 };
+                if !COMPARED.contains(&property) {
+                    continue;
+                }
                 let Some(drawn) = recipe.raw.get("parts").and_then(|p| p.get(part)) else {
                     continue;
                 };
@@ -112,5 +149,33 @@ mod tests {
         );
         assert_eq!(run(json!({ "id": "a", "property": "stroke" })), 0);
         assert_eq!(run(json!({ "id": "a", "part": "track" })), 0);
+    }
+
+    #[test]
+    fn reads_the_platform_recipe_through_an_alias() {
+        let m = |property: &str| {
+            json!({ "platform": "ios",
+            "componentAliases": { "switch": "switch-ios" },
+            "extensions": {
+                "components": [{ "name": "switch-ios", "anatomy": [{ "name": "knob" }] }],
+                "visuals": [{ "file": "v.json", "recipe": { "component": "switch-ios",
+                    "parts": { "knob": { "kind": "box", "props": { "fill": {} } } } } }],
+                "deviations": [{ "file": "d.json", "deviations": {
+                    "component": "switch",
+                    "deviations": [{ "id": "a", "part": "knob", "property": property }] } }] } })
+        };
+        let g = TokenGraph::default();
+        let ex = std::collections::HashSet::new();
+        let run = |m: &Value| {
+            Rule.validate(&ValidationContext {
+                graph: &g,
+                naming_exceptions: &ex,
+                registry: RegistryData::embedded(),
+                manifest: Some(m),
+            })
+            .len()
+        };
+        assert_eq!(run(&m("fill")), 0);
+        assert_eq!(run(&m("stroke")), 1);
     }
 }

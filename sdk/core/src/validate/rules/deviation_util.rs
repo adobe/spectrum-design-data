@@ -12,6 +12,8 @@
 
 use serde_json::Value;
 
+use crate::graph::TokenGraph;
+
 /// `(file, document)` for each loaded `extensions/deviations/` file.
 pub(crate) fn files(manifest: Option<&Value>) -> impl Iterator<Item = (&str, &Value)> {
     manifest
@@ -33,4 +35,14 @@ pub(crate) fn entries(doc: &Value) -> impl Iterator<Item = &Value> {
 
 pub(crate) fn id(entry: &Value) -> &str {
     entry.get("id").and_then(Value::as_str).unwrap_or("?")
+}
+
+/// A copy of `graph` with the platform manifest applied, so `componentAliases`,
+/// platform-declared components and platform recipes are in effect. `None` when the
+/// manifest fails to apply (SPEC-082 reports that), in which case the deviation rules
+/// stay silent.
+pub(crate) fn effective_graph(graph: &TokenGraph, manifest: &Value) -> Option<TokenGraph> {
+    let mut g = graph.clone();
+    g.apply_platform_manifest(manifest).ok()?;
+    Some(g)
 }

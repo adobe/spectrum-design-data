@@ -23,7 +23,7 @@ use serde_json::Value;
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::deviation_util::{entries, files, id};
+use crate::validate::rules::deviation_util::{effective_graph, entries, files, id};
 use crate::validate::rules::visual_util::option_values;
 use crate::visual::state_ids;
 
@@ -39,15 +39,25 @@ impl ValidationRule for Rule {
     }
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
+        let Some(manifest) = ctx.manifest else {
+            return vec![];
+        };
+        if files(ctx.manifest).next().is_none() {
+            return vec![];
+        }
+        // The platform's view: aliases, platform components and recipes in effect.
+        let Some(graph) = effective_graph(ctx.graph, manifest) else {
+            return vec![];
+        };
         // Without a component catalog there is nothing to check selectors against.
-        if ctx.graph.components.is_empty() {
+        if graph.components.is_empty() {
             return vec![];
         }
         let mut out = Vec::new();
         for (file, doc) in files(ctx.manifest) {
             let name = doc.get("component").and_then(Value::as_str).unwrap_or("");
-            let canonical = ctx.graph.canonical_component(name);
-            let comp = ctx.graph.components.iter().find(|c| c.name == canonical);
+            let canonical = graph.canonical_component(name);
+            let comp = graph.components.iter().find(|c| c.name == canonical);
             for (i, entry) in entries(doc).enumerate() {
                 let dev = id(entry);
                 let mut report = |path: &str, problem: String| {
@@ -143,7 +153,7 @@ impl ValidationRule for Rule {
                     .flatten()
                 {
                     let path = format!("/when/modes/{set}");
-                    match ctx.graph.mode_sets.iter().find(|m| &m.name == set) {
+                    match graph.mode_sets.iter().find(|m| &m.name == set) {
                         None => report(&path, format!("'{set}' is not a mode set")),
                         Some(m)
                             if !mode
@@ -260,5 +270,41 @@ mod tests {
         assert_eq!(count("valid/switch-focus-stroke"), 0);
         assert_eq!(count("invalid/SPEC-110-unknown-part"), 1);
         assert_eq!(count("invalid/SPEC-110-unknown-state"), 1);
+    }
+
+    fn platform_run(component: &str, part: &str) -> Vec<String> {
+        let g = TokenGraph::default().with_components(vec![ComponentRecord {
+            name: "switch".into(),
+            file: "switch.json".into(),
+            raw: json!({ "name": "switch", "anatomy": [{ "name": "track" }] }),
+            layer: Layer::Foundation,
+        }]);
+        let m = json!({ "platform": "ios",
+            "componentAliases": { "switch": "switch-ios" },
+            "extensions": {
+                "components": [{ "name": "switch-ios", "anatomy": [{ "name": "knob" }] }],
+                "deviations": [{ "file": "d.json", "deviations": {
+                    "component": component,
+                    "deviations": [{ "id": "a", "part": part }] } }] } });
+        let ex = std::collections::HashSet::new();
+        Rule.validate(&ValidationContext {
+            graph: &g,
+            naming_exceptions: &ex,
+            registry: RegistryData::embedded(),
+            manifest: Some(&m),
+        })
+        .into_iter()
+        .map(|d| d.message)
+        .collect()
+    }
+
+    #[test]
+    fn resolves_through_the_platform_cascade() {
+        // an alias key and its platform-declared target both see the platform anatomy
+        assert!(platform_run("switch", "knob").is_empty());
+        assert!(platform_run("switch-ios", "knob").is_empty());
+        // the foundation anatomy is not what the platform draws
+        assert_eq!(platform_run("switch", "track").len(), 1);
+        assert_eq!(platform_run("nosuch", "knob").len(), 1);
     }
 }
