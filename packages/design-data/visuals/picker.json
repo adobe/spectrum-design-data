@@ -275,7 +275,27 @@
       "props": {
         "rotation": {
           "value": 90
-        }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "value"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "relationship": {
+              "property": "content-color",
+              "part": "field"
+            }
+          }
+        ]
       }
     },
     "focus-indicator": {
