@@ -144,6 +144,7 @@
       "contains": [
         "cover-image",
         "title",
+        "description",
         "header-content",
         "body",
         "footer-content",
