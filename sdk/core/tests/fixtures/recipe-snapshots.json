@@ -602,6 +602,16 @@
     "isDisabled=true,staticColor=\"black\"": "b92a70cb11f46659",
     "isDisabled=true,staticColor=\"white\"": "05dba9e8ac60a33d"
   },
+  "color-handle": {
+    "hasFill=false,isDisabled=false": "d97437c180fc05d3",
+    "hasFill=false,isDisabled=true": "5c3de8c0e203c1f9",
+    "hasFill=true,isDisabled=false": "60257c42d786b5b7",
+    "hasFill=true,isDisabled=true": "9e3ceb7e2e38acf5"
+  },
+  "color-loupe": {
+    "hasFill=false": "65e597e09b80c18f",
+    "hasFill=true": "409ad9501df9ebf7"
+  },
   "combo-box": {
     "isDisabled=false,isError=false,isRequired=false,necessityIndicator=\"icon\"": "c0fff652c5565a06",
     "isDisabled=false,isError=false,isRequired=false,necessityIndicator=\"text\"": "f54ae377b5e78022",

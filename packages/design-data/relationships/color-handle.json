@@ -61,7 +61,8 @@
     "scope": {
       "component": "color-handle",
       "part": "container",
-      "property": "border-width"
+      "property": "border-width",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -73,6 +74,7 @@
       "component": "color-handle",
       "part": "fill",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "inner"
       }
@@ -87,6 +89,7 @@
       "component": "color-handle",
       "part": "container",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "outer"
       }
@@ -288,7 +291,8 @@
     "scope": {
       "component": "color-handle",
       "part": "container",
-      "property": "border-width"
+      "property": "border-width",
+      "attribute": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
@@ -350,6 +354,7 @@
       "component": "color-handle",
       "part": "fill",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "inner"
       }
@@ -366,6 +371,7 @@
       "component": "color-handle",
       "part": "container",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "outer"
       }

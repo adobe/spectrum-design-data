@@ -26,6 +26,7 @@
       "component": "color-loupe",
       "part": "container",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "outer"
       }
@@ -40,6 +41,7 @@
       "component": "color-loupe",
       "part": "fill",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "inner"
       }
@@ -230,6 +232,7 @@
       "component": "color-loupe",
       "part": "fill",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "inner"
       }
@@ -246,6 +249,7 @@
       "component": "color-loupe",
       "part": "container",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "outer"
       }
