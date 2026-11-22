@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
+"@adobe/design-data-wasm": patch
 ---
 
 Identity migration for opacity-checkerboard. It reaches level 2 (and its recipe selectors carry no
