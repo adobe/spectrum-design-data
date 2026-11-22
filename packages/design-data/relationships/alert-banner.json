@@ -414,6 +414,17 @@
   {
     "scope": {
       "component": "alert-banner",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "a21940b0-5950-5a35-98a7-b211d38cfd4b"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
       "property": "space-between",
       "options": {
         "scale": "desktop",

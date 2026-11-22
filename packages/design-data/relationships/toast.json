@@ -468,6 +468,17 @@
   {
     "scope": {
       "component": "toast",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "876ed969-e1eb-54bd-bad6-19b87411a327"
+  },
+  {
+    "scope": {
+      "component": "toast",
       "part": "container",
       "property": "color",
       "attribute": "background",
