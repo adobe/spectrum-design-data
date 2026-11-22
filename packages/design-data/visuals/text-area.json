@@ -141,11 +141,6 @@
             "dimension": "height"
           },
           {
-            "when": {
-              "options": {
-                "size": "l"
-              }
-            },
             "relationship": {
               "property": "minimum-height",
               "part": "field"
@@ -156,7 +151,7 @@
           {
             "when": {
               "options": {
-                "size": ["m", "l", "xl"]
+                "size": ["s", "m", "l", "xl"]
               }
             },
             "relationship": {
@@ -173,7 +168,7 @@
           {
             "when": {
               "options": {
-                "size": ["m", "l", "xl"]
+                "size": ["s", "m", "l", "xl"]
               }
             },
             "relationship": {
