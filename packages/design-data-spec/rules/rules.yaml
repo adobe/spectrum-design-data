@@ -1489,3 +1489,52 @@ rules:
     message: "Slot part '{part}' of '{component}': {problem}"
     spec_ref: spec/component-visuals.md#slot-parts
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-109
+    name: platform-deviation-file-valid
+    severity: error
+    layer: 1
+    category: manifest
+    note: >
+      Defined, not yet enforced: the reference SDK does not load `extensions/deviations/` until
+      the core-loading follow-up (proposal 019, PR 2). Conformance fixtures are in
+      `conformance/deviations/`.
+    assert: >
+      A platform manifest `extensions/deviations/` file MUST validate against
+      `platform-deviation.schema.json`, and each deviation `id` MUST be unique within the file.
+    message: "Deviations file '{file}': {problem}"
+    spec_ref: spec/manifest.md#extensionsdeviations
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-110
+    name: platform-deviation-selector-resolves
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Defined, not yet enforced (needs the core-loading follow-up, proposal 019, PR 2). Follows
+      the pattern of SPEC-060 and SPEC-061 for recipes.
+    assert: >
+      A deviation's `component` MUST resolve to a declared component, directly or through
+      `componentAliases`. Its `part` MUST be a part of the resolved component's anatomy. Every
+      `when.states` value MUST be a state of the component, every `when.options` key MUST be an
+      option of the component with every value one of its values, and every `when.modes` key and
+      value MUST be a known mode set and mode.
+    message: "Deviation '{id}' of '{component}': {problem}"
+    spec_ref: spec/manifest.md#extensionsdeviations
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-111
+    name: platform-deviation-property-set
+    severity: warning
+    layer: 2
+    category: component-contract
+    note: >
+      Defined, not yet enforced (needs the core-loading follow-up, proposal 019, PR 2). A
+      deviation with no `property` is documentation and is not checked.
+    assert: >
+      A deviation's `property`, when present together with `part`, SHOULD be a property the
+      effective recipe sets for that part.
+    message: "Deviation '{id}' of '{component}': part '{part}' has no '{property}' in the recipe"
+    spec_ref: spec/manifest.md#extensionsdeviations
+    introduced_in: "1.0.0-draft"

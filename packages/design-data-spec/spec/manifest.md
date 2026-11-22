@@ -25,6 +25,7 @@ The manifest supports a fixed, enumerated set of operations against the foundati
 | Annotate existing terminology (cannot add new ids)        | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids or modes               |
 | Upsert / remove own implementation mappings               | Yes                                                          | `extensions/implementations/`     | Component `implementations`                  |
 | Add / replace a component's visual recipe                 | Yes (loaded into the graph; `render` and `site` read it)     | `extensions/visuals/`             | Visual recipes                               |
+| Record where the platform cannot match a recipe           | Schema and spec only; the reference SDK does not load it yet | `extensions/deviations/`          | Component, part, property, state or option   |
 | Alias a foundation component name to a platform component | Field and SPEC-081 enforced; renderers apply it              | `componentAliases`                | `render`, `site`, WASM render, recipe lookup |
 | Restrict allowed mode-set values                          | Yes                                                          | `modeSetRestrictions`             | Mode sets                                    |
 | Reformat name serialization                               | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings                           |
@@ -119,6 +120,7 @@ extensions/
   platform-extensions/   <platform>-<registry>.json
   implementations/       <component>.json      one component's implementation rows
   visuals/               <component>.json      one visual recipe per file
+  deviations/            <component>.json      one component's deviations (not yet loaded by the SDK)
 ```
 
 **NORMATIVE:** Each subdirectory is discovered by a recursive glob for `*.json` files (for
@@ -155,6 +157,8 @@ load time — this is enforced reference-SDK behavior, not an aspirational goal:
 * **`implementations/`** → `implementation-mapping.schema.json` (see
   [`extensions/implementations/`](#extensionsimplementations) below)
 * **`tokens/`** → `cascade-file.schema.json` (see above)
+* **`deviations/`** → `platform-deviation.schema.json` (see
+  [`extensions/deviations/`](#extensionsdeviations) below)
 
 A fragment that fails validation against its category schema is a manifest error — the
 reference SDK rejects the load rather than silently skipping the malformed file.
@@ -272,6 +276,60 @@ a different `implementation` id are never modified or removed.
   `implementation`, `package`, `importPath`. It deletes every owned row whose values equal every
   selector field given. A remove that matches no owned row is a manifest error.
 
+#### `extensions/deviations/`
+
+> **Status:** the schema and the rules below are defined in this revision. The reference SDK does not load `extensions/deviations/` yet, so a manifest that has the directory is still rejected as an unknown subdirectory, and SPEC-109 to SPEC-111 are not enforced. Loading, the tool behaviour below and `MANIFEST-007` arrive in follow-up work ([Proposal 019](../../../docs/proposals/019-platform-deviations.md)).
+
+Records where the platform cannot match a component's foundation recipe, for example because its renderer has no API for a focus-visible stroke. A deviation changes no value and no scene; it is a declaration other tools read. (A token `override` changes the value; a deviation does not.) One file per component:
+
+```json
+{
+  "component": "switch",
+  "deviations": [
+    {
+      "id": "track-focus-stroke",
+      "part": "track",
+      "property": "stroke",
+      "when": {
+        "states": ["keyboard-focus"],
+        "options": { "isSelected": false }
+      },
+      "status": "accepted",
+      "reason": "No focus-visible stroke API; the stroke stays at its rest colour.",
+      "upstream": "https://github.com/anomalyco/rune/issues/106"
+    }
+  ]
+}
+```
+
+**NORMATIVE:** each file **MUST** validate against `platform-deviation.schema.json`.
+
+| Field                    | Required | Description                                                                                                                               |
+| ------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `component`              | yes      | The component. A foundation name, a platform-local name, or a key of `componentAliases`. No wildcard: repeat an entry for each component. |
+| `deviations[].id`        | yes      | Slug, unique within the file.                                                                                                             |
+| `deviations[].status`    | yes      | `accepted` (the platform will not match) or `planned` (it expects to).                                                                    |
+| `deviations[].reason`    | yes      | Why.                                                                                                                                      |
+| `deviations[].part`      | no       | An anatomy part. Absent means any part.                                                                                                   |
+| `deviations[].property`  | no       | A visual property. Absent means documentation only: nothing is matched against it.                                                        |
+| `deviations[].when`      | no       | `states`, `options`, `modes`, the shape of a recipe condition without `position`. Absent keys mean any.                                   |
+| `deviations[].upstream`  | no       | URI of the blocking issue.                                                                                                                |
+| `deviations[].tolerance` | no       | Largest difference a tool treats as the deviation.                                                                                        |
+
+**NORMATIVE:** a renderer **MUST NOT** read a deviation (see [Component visuals](component-visuals.md)). Files are processed in sorted path order; a file is a list of independent entries, so there is no merge between files.
+
+Rules ([rules.yaml](../rules/rules.yaml)). All three are defined and **not yet enforced** by the reference SDK:
+
+* **SPEC-109** (Layer 1, error): the file validates against the schema and `id` is unique within the file.
+* **SPEC-110** (Layer 2, error): `component` resolves directly or through `componentAliases`; `part` is in the resolved anatomy; every `when.states` value is a state of the component; every `when.options` key is an option and every value one of its values; every `when.modes` key and value is a known mode set and mode (the pattern of SPEC-060 and SPEC-061).
+* **SPEC-111** (Layer 2, warning): `property`, when present with `part`, is a property the effective recipe sets for that part.
+
+**RECOMMENDED** tool behaviour, not implemented yet:
+
+* `render-compare` matches a difference to a deviation by `part`, `property` and `when`. A matched difference is reported as a known deviation with its `id`, `reason` and `upstream`, gets no gap suggestion and does not fail `--fail-on-diff`. A deviation whose selector was compared and produced no difference is reported as stale (a warning: the platform now matches). A deviation that was not compared in the run is not evaluated, never stale. A deviation with no `property` is listed only.
+* `validate-manifest` and `platform doctor` report `MANIFEST-007` for a deviation whose component, part, state or option no longer resolves.
+* `platform impact` reports a deviation whose selector names something the change removed (`deviation-dangling`), and one whose part or property the change touched (`deviation-review`).
+
 ### `componentAliases`
 
 The field, `TokenGraph::canonical_component` and SPEC-081 are implemented; `render`, `site`, WASM render and recipe lookup call it, so a request for the alias key draws the target's recipe ([Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). A map from a foundation component name to a component the platform declares in `extensions/components/`, for example `{ "button": "button-ios" }`.
@@ -332,6 +390,7 @@ meaningful. Report a pre-cascade pin as an error per product policy.
 | `MANIFEST-004` | An `extensions/relationships` `override` or `remove` whose `uuid` targets no record.                                                                                  |
 | `MANIFEST-005` | An `extensions/implementations` entry naming a component that does not exist, or an `op: "remove"` that matches none of the platform's rows.                          |
 | `MANIFEST-006` | A `componentAliases` entry SPEC-081 rejects, or whose target component is deprecated.                                                                                 |
+| `MANIFEST-007` | A deviation whose component, part, state or option no longer resolves (not yet implemented; see [`extensions/deviations/`](#extensionsdeviations)).                   |
 
 ## Automated upgrades
 
