@@ -1,5 +1,76 @@
 # @adobe/design-data-spec
 
+## 6.4.0
+
+### Minor Changes
+
+- [#2006](https://github.com/adobe/spectrum-design-data/pull/2006) [`f6285d8`](https://github.com/adobe/spectrum-design-data/commit/f6285d8d380fa73810b4d63c5c25b560be0b7335) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can draw a second stroke, stack parts and pick a stroke by position.
+  - Root props `innerStroke`, `innerStrokeWidth` and `innerStrokeOpacity` draw a second border
+    just inside the first, over the children, as the ring node `<root>.inner-border`.
+  - A root with `direction: "stack"` overlays its children in declaration order.
+  - A relationship selector can add `position: "inner"` or `"outer"` (default outer). A record
+    pinned to one position serves only that selector, so two strokes no longer collide.
+  - A nested component now inherits a corner radius given as a ratio of the host height.
+  - The swatch draws its checkerboard behind the fill and its inner band when selected.
+
+### Patch Changes
+
+- [#2003](https://github.com/adobe/spectrum-design-data/pull/2003) [`15f49f2`](https://github.com/adobe/spectrum-design-data/commit/15f49f2c55f494739e463b2029d9e91498d7f687) Thanks [@GarthDB](https://github.com/GarthDB)! - Document that a repeat `with` mapping can target a string option read by a text part
+  (`text.option`), so a repeated entry can carry copy beyond its label.
+
+## 6.3.0
+
+### Minor Changes
+
+- [#1997](https://github.com/adobe/spectrum-design-data/pull/1997) [`212a1cd`](https://github.com/adobe/spectrum-design-data/commit/212a1cd467dbc4a72be91c7307730f9465523a24) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `gallery` section block to the component spec sheet schema.
+  - A grid of small scene renders, each titled, with a caption, a column count and a cell size.
+  - The generator fills Accordion's anatomy with a multi-item specimen (several items
+    expanded) and a variants board (size x density x quiet).
+
+- [#1997](https://github.com/adobe/spectrum-design-data/pull/1997) [`212a1cd`](https://github.com/adobe/spectrum-design-data/commit/212a1cd467dbc4a72be91c7307730f9465523a24) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an optional `sections` array to the component spec sheet schema.
+  - Prose, table and placeholder blocks for the non-measurement template sections.
+  - Sections: anatomy, usage, states, accessibility, decision log, how to use, feedback.
+
+## 6.2.0
+
+### Minor Changes
+
+- [#1982](https://github.com/adobe/spectrum-design-data/pull/1982) [`8707903`](https://github.com/adobe/spectrum-design-data/commit/8707903e328dc037810aa9b1568ff513ebe4f479) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `typeStyle` recipe prop (type styles, renderer half; 5m92.25.1).
+  - A `text` part can bind `typeStyle` to a `type-style` relationship record. The renderer
+    unpacks the composite it `$ref`s for the request's scale into `fontFamily`, `fontSize`,
+    `fontWeight` and `lineHeight`. A font prop the part binds itself wins for its axis.
+  - Diagnostics: `typeStyle: '<label>' is not a typography composite` and
+    `typeStyle: <composite>.<axis> '{<alias>}' not found`.
+  - Spec text for the prop and its precedence in component-visuals.md; the component-visual
+    schema lists `typeStyle`.
+  - Diagnostic also: `typeStyle: composite has no such axis`.
+  - CLI 0.60.0 (0.59.0 is released); `requires.cli` is unchanged.
+  - No recipe uses it yet, so no rendered output changes. `layoutRevision` is unchanged:
+    nothing in the solver or layout semantics moves for existing recipes.
+  - Core: `cascade::resolve_reference_in` and `typography::unpack_in` take a prebuilt alias
+    index, so unpacking many composites does not rescan the tokens.
+
+## 6.1.0
+
+### Minor Changes
+
+- [#1981](https://github.com/adobe/spectrum-design-data/pull/1981) [`3f4978c`](https://github.com/adobe/spectrum-design-data/commit/3f4978c0bb6300e7b81cbbed898fad973b4c71e6) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `type-style` property and rule SPEC-105 (type styles, data half; 5m92.25.1).
+  - New property term `type-style`. The 44 records that used `typography` to `$ref` a
+    typography composite (text-field, text-area, search-field, number-field, combo-box,
+    picker) now use it; uuids, `$ref`s and values are unchanged, and the composite tokens
+    keep `name.property: typography`.
+  - SPEC-105 (warning): a `type-style` record must `$ref` a typography composite and a
+    typography `$ref` must have that property; the size must be a declared size; every
+    inner alias must resolve in every `scale` mode. No existing record warns.
+  - Spec text: type-style records, inner aliases resolve by mode, and `layoutRevision` bumps
+    only for solver or layout changes, not for a data-only snapshot change.
+  - Core: `typography::unpack` resolves a composite's sub-values per mode.
+  - `design-data-component-tokens` returns a composite as `style` (resolved `fontFamily`,
+    `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`, by `scale` where they differ)
+    instead of the raw `{font-size-100}` strings.
+  - Spec sheets show a type style's resolved values on the Typography page.
+  - The fused-property codemod treats a `$ref` to a typography composite as `type-style`.
+
 ## 6.0.0
 
 ### Major Changes

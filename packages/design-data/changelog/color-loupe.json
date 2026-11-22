@@ -156,6 +156,41 @@
           "metadata": {"count":2,"fields":["contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"outer"}},"record":"ee5a2569-aa3c-5a32-8408-a20135c41170","name":"border-width[position=outer]","fields":[{"path":"scope.options.position","after":"outer"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"inner"}},"record":"dfc2b4db-8554-53ca-8463-d6f818381692","name":"border-width[position=inner]","fields":[{"path":"scope.options.position","after":"inner"}]},
+            {"id":"23810aed-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"inner"}},"record":"dfc2b4db-8554-53ca-8463-d6f818381692","name":"border-width[position=inner]","fields":[{"path":"scope.part","after":"fill"}]},
+            {"id":"23810aed-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"position":"outer"}},"record":"6eec5a64-6ad2-56d7-81d3-2ee26cd26599","name":"color[position=outer]","fields":[{"path":"scope.options.position","after":"outer"}]},
+            {"id":"23810aed-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"position":"outer"}},"record":"6eec5a64-6ad2-56d7-81d3-2ee26cd26599","name":"color[position=outer]","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]},
+            {"id":"23810aed-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Shadows"],"scope":{"property":"color","options":null},"record":"53eff591-e021-5919-905d-a3ce0c3f1326","name":"color","fields":[{"path":"scope.attribute","after":"shadow"},{"path":"scope.part","after":"container"}]},
+            {"id":"23810aed-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Shadows"],"scope":{"property":"color","options":null},"record":"53eff591-e021-5919-905d-a3ce0c3f1326","name":"color","fields":[{"path":"context","before":"S1 Shadows","after":"Shadows"}]},
+            {"id":"23810aed-7","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["S1 Shadows"],"scope":{"property":"x","options":null},"record":"9abcbd82-7cac-504e-89ad-cb629b5c3d11","name":"x","fields":[],"before":"81415747-aa3f-4ef3-b0bc-7c33f07a4316"},
+            {"id":"23810aed-8","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["S1 Shadows"],"scope":{"property":"y","options":null},"record":"ce6629c2-2e2c-59ce-b732-9780555cb98d","name":"y","fields":[],"before":"c9af5d60-11b1-4fc3-972e-6a607120657b"},
+            {"id":"23810aed-9","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["S1 Shadows"],"scope":{"property":"blur","options":null},"record":"9d2357d2-8dda-57d1-9f03-33ad51ab49a3","name":"blur","fields":[],"before":"86caa027-9e9e-4a5f-aa38-058f0a96bc9d"},
+            {"id":"23810aed-10","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-loupe/options/value","name":"value","fields":[],"before":{"$ref":"https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"}},
+            {"id":"23810aed-11","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/options/color","name":"color","fields":[],"after":{"$ref":"https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json","description":"The sampled color: always one solid color, possibly with alpha."}},
+            {"id":"23810aed-12","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/options/hasFill","name":"hasFill","fields":[],"after":{"type":"boolean","default":true,"description":"Whether the loupe shows its fill (Figma Show fill)."}},
+            {"id":"23810aed-13","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"The sampled color, with its 1px inner border. Drawn when hasFill is true."}},
+            {"id":"23810aed-14","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/container","name":"container","fields":[{"path":"contains","before":["opacity-checkerboard"],"after":["opacity-checkerboard","fill"]}]},
+            {"id":"23810aed-15","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/container","name":"container","fields":[{"path":"description","before":"Teardrop magnifier shape filled with the sampled color; borders and shadow are container styling.","after":"Teardrop magnifier shape; its 2px white outer border and elevated shadow are container styling."}]},
+            {"id":"23810aed-16","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"description","before":"Checkerboard behind the sampled color so transparency reads.","after":"Checkerboard behind the sampled color so transparency reads. Drawn when hasFill is true; sized m."}]},
+            {"id":"23810aed-17","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP ColorHandle.tsx:82-84,174-182 (loupe shadow on the container, checkerboard behind the fill).","after":"A7 (2026-11-20). RSP ColorHandle.tsx:82-84,174-182 (loupe shadow on the container, checkerboard behind the fill); Figma .Color loupe (Inner fill, Inner border 1px, Outer border 2px, elevated shadow). The loupe is placed by the color handle (space-between {container, color-loupe} on color-handle), not by its own records."}]}
+          ],
+          "metadata": {"count":12,"fields":["anatomyReview.status","context","contextRole","scope.attribute","scope.part"]}
+        }
+      ]
     }
   ]
 }

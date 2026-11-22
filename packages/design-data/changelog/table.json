@@ -340,6 +340,55 @@
           "metadata": {"count":1,"fields":["scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"table/options/header","name":"header","fields":[{"path":"properties.state.enum","before":["default","hover","down","keyboard focus"],"after":["default","hover","down","keyboard-focus"]}]},
+            {"id":"5168ad1a-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"table/anatomy/divider","name":"divider","fields":[],"before":{"name":"divider"}},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"table/anatomy/item","name":"item","fields":[],"before":{"name":"item","description":"Generic item element within a table row; used for item-level padding tokens (e.g. table-item-padding-*)."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/anatomy/cell","name":"cell","fields":[],"after":{"name":"cell","description":"One cell of a row; repeated once per entry of columns. Holds the item-level padding (table-item-padding-*)."}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/anatomy/column-header","name":"column-header","fields":[],"after":{"name":"column-header","description":"Header of one column; repeated once per entry of columns.","contains":["sort-icon"]}},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The table: border, corner radius and column divider. It is the root.","required":true,"contains":["column-header-row","section-header","row"]}},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/anatomy/sort-icon","name":"sort-icon","fields":[],"after":{"name":"sort-icon","description":"Icon that shows the sort direction of a column."}},
+            {"id":"5168ad1a-7","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"table/anatomy/column-header-row","name":"column-header-row","fields":[{"path":"contains","after":["header-row-checkbox","column-header"]}]},
+            {"id":"5168ad1a-8","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"table/anatomy/column-header-row","name":"column-header-row","fields":[{"path":"description","before":"The header row containing column titles.","after":"The header row containing the column headers."}]},
+            {"id":"5168ad1a-9","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"table/anatomy/row","name":"row","fields":[{"path":"contains","before":["row-checkbox","item"],"after":["row-checkbox","cell"]},{"path":"required","after":true}]},
+            {"id":"5168ad1a-10","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"table/anatomy/row","name":"row","fields":[{"path":"description","before":"A single data row.","after":"A single data row; repeated once per entry of rows."}]},
+            {"id":"5168ad1a-11","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"table/anatomy/section-header","name":"section-header","fields":[{"path":"description","after":"Row that heads a group of rows."}]},
+            {"id":"5168ad1a-12","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/slots/cell","name":"cell","fields":[],"after":{"name":"cell","part":"cell","collection":"columns","description":"The cells of a row. Each entry of the columns option is drawn as one cell in every row."}},
+            {"id":"5168ad1a-13","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/slots/column-header","name":"column-header","fields":[],"after":{"name":"column-header","part":"column-header","collection":"columns","description":"The column headers. Each entry of the columns option is drawn as one column-header in the header row."}},
+            {"id":"5168ad1a-14","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"table/slots/row","name":"row","fields":[],"after":{"name":"row","part":"row","collection":"rows","description":"The data rows. Each entry of the rows option is drawn as one copy of the row part."}},
+            {"id":"5168ad1a-15","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"table/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web table page (column-major: Table columns holding the header, summary and cells) and React Spectrum S2 TableView (row-major: TableHeader > Column; Row > Cell). container added as the root. Decision A70 D7a: three collection slots, two driven by columns (column-header in column-header-row, cell in row) and one by rows (row in container); one option feeds two slots, which SPEC-104 allows on different parents. item renamed cell (decision A72 D9a: the sources' name). divider removed: borders are styling on the part that draws them (the container's column divider, the row's border). column-header gets sort-icon. No focus-indicator yet: the table declares no states, and adding keyboard-focus alone makes SPEC-054 reject the state pins on its row records. summary-row is not declared yet (no source decision)."}]}
+          ],
+          "metadata": {"count":5,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "500a4e00ffce7eceabf26a826987fac54e2318e2",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2014,"title":"feat(design-data): migrate side-navigation, stack-item and tree-view to level 2 identity","url":"https://github.com/adobe/spectrum-design-data/pull/2014"},
+          "entries": [],
+          "metadata": {"count":5,"fields":["context","contextRole","scope.attribute","scope.part"]}
+        }
+      ]
     }
   ]
 }

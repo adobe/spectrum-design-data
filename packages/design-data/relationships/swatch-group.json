@@ -2,20 +2,27 @@
   {
     "scope": {
       "component": "swatch-group",
-      "property": "spacing",
+      "between": {
+        "from": "swatch",
+        "to": "swatch"
+      },
+      "property": "space-between",
       "options": {
         "density": "spacious"
       }
     },
-    "context": "Spacing",
+    "context": "Spacing (swatch to swatch)",
     "contextRole": ["spacing"],
+    "contextQualifier": "swatch to swatch",
     "$ref": "b83df7f2-8811-4bad-b012-213e430e2aaf",
     "uuid": "2fbf78a0-5964-5fad-90f5-3a24427ccd67"
   },
   {
     "scope": {
       "component": "swatch-group",
-      "property": "color"
+      "property": "color",
+      "part": "container",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -25,7 +32,8 @@
   {
     "scope": {
       "component": "swatch-group",
-      "property": "opacity"
+      "property": "opacity",
+      "part": "container"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -38,7 +46,8 @@
       "property": "color",
       "options": {
         "object": "border"
-      }
+      },
+      "part": "container"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
@@ -51,12 +60,15 @@
       "property": "opacity",
       "options": {
         "object": "border"
-      }
+      },
+      "part": "container"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.2",
     "uuid": "19968846-dad0-42eb-b6a8-af65f3a910ff",
-    "legacyKey": "swatch-group-border-opacity"
+    "legacyKey": "swatch-group-border-opacity",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -75,5 +87,23 @@
       "deprecatedComment": "Use semantic token container-gap-2x-small instead. NOTE: All other swatch gaps need to use these semantics too",
       "replacedBy": "b83df7f2-8811-4bad-b012-213e430e2aaf"
     }
+  },
+  {
+    "scope": {
+      "component": "swatch-group",
+      "between": {
+        "from": "swatch",
+        "to": "swatch"
+      },
+      "property": "space-between",
+      "options": {
+        "density": "compact"
+      }
+    },
+    "context": "Spacing (swatch to swatch)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "swatch to swatch",
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
+    "uuid": "75df89ad-eb01-5654-ad0a-4466ec375d7c"
   }
 ]

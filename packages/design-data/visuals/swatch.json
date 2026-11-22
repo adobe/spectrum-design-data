@@ -9,14 +9,14 @@
     "m": 100,
     "l": 200
   },
-  "notVisual": ["hover", "down"],
+  "notVisual": ["hover", "down", "value"],
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["fill"],
+      "children": ["opacity-checkerboard", "fill"],
       "props": {
         "direction": {
-          "value": "column"
+          "value": "stack"
         },
         "width": {
           "relationship": {
@@ -43,50 +43,16 @@
             "property": "size",
             "context": "Size"
           }
-        }
-      }
-    },
-    "fill": {
-      "kind": "box",
-      "children": ["border", "slash", "icon"],
-      "props": {
-        "height": {
-          "relationship": {
-            "property": "size",
-            "context": "Size"
-          }
         },
         "cornerRadius": [
           {
             "when": {
               "options": {
-                "cornerRounding": "partial"
+                "cornerRounding": "none"
               }
             },
-            "relationship": {
-              "property": "corner-radius",
-              "context": "Rounding"
-            }
+            "value": 0
           },
-          {
-            "when": {
-              "options": {
-                "cornerRounding": "full"
-              }
-            },
-            "value": 0.5,
-            "relativeTo": "height"
-          }
-        ],
-        "fill": {
-          "option": "preview"
-        }
-      }
-    },
-    "border": {
-      "kind": "box",
-      "props": {
-        "cornerRadius": [
           {
             "when": {
               "options": {
@@ -145,10 +111,86 @@
             },
             "relationship": {
               "property": "border-width",
-              "context": "Border and inner border"
+              "context": "Border"
             }
           }
-        ]
+        ],
+        "strokeOver": {
+          "value": true
+        },
+        "innerStroke": {
+          "when": {
+            "options": {
+              "isSelected": true
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "container",
+            "position": "inner"
+          }
+        },
+        "innerStrokeWidth": {
+          "when": {
+            "options": {
+              "isSelected": true
+            }
+          },
+          "relationship": {
+            "property": "border-width",
+            "attribute": "border",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "opacity-checkerboard": {
+      "kind": "component",
+      "component": "opacity-checkerboard",
+      "sizeMap": {
+        "xs": "m",
+        "s": "m",
+        "m": "m",
+        "l": "m"
+      },
+      "inherit": ["width", "height", "cornerRadius"]
+    },
+    "fill": {
+      "kind": "box",
+      "children": ["slash", "icon"],
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "partial"
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "context": "Rounding"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "full"
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "fill": {
+          "option": "preview"
+        }
       }
     },
     "slash": {
@@ -203,13 +245,13 @@
         },
         "width": {
           "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
+            "property": "size",
             "context": "Disabled icon asset"
           }
         },
         "height": {
           "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
+            "property": "size",
             "context": "Disabled icon asset"
           }
         }
@@ -240,36 +282,6 @@
           }
         }
       }
-    },
-    "inner-border": {
-      "kind": "ring",
-      "around": "fill",
-      "visibleWhen": {
-        "options": {
-          "isSelected": true
-        }
-      },
-      "props": {
-        "stroke": {
-          "relationship": {
-            "property": "color",
-            "context": "Inner border"
-          }
-        },
-        "strokeWidth": {
-          "relationship": {
-            "property": "border-width",
-            "context": "Border and inner border"
-          }
-        },
-        "gapToParent": {
-          "relationship": {
-            "property": "border-width",
-            "context": "Border and inner border"
-          }
-        }
-      },
-      "inside": true
     }
   }
 }

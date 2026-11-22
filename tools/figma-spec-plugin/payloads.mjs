@@ -22,7 +22,7 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 /** `use_figma` accepts 50,000 characters of code; keep a margin for the call wrapper. */
-export const LIMIT = 45000;
+export const LIMIT = 44000;
 
 /** code.js minus the desktop plugin shell and full-line comments. */
 export function coreSource(
@@ -96,6 +96,71 @@ export function slimBlock(b) {
   };
 }
 
+/** A gallery's items reduced to titles and the scene nodes their cells draw. */
+const slimGallery = (b) =>
+  b.kind === "gallery"
+    ? {
+        items: b.items.map((i) => ({
+          title: i.title,
+          render: {
+            view: i.render.view,
+            scene: {
+              nodes: i.render.scene.nodes.map((n) => pick(n, NODE_KEYS)),
+            },
+          },
+        })),
+      }
+    : {};
+
+/** A section reduced to what its frame draws. */
+export function slimSection(s) {
+  return {
+    ...pick(s, ["key", "title"]),
+    blocks: s.blocks.map((b) => ({
+      ...slimGallery(b),
+      ...pick(b, [
+        "kind",
+        "id",
+        "title",
+        "paragraphs",
+        "bullets",
+        "do",
+        "dont",
+        "columns",
+        "rows",
+        "hint",
+        "caption",
+        "columns",
+        "cell",
+      ]),
+    })),
+  };
+}
+
+/** A section's blocks in the pieces code.js draws (`splitBlocks`): the payload unit. */
+function sectionPieces(section) {
+  const chunk = 25;
+  return section.blocks.flatMap((b) => {
+    if (b.kind === "table" && b.rows.length > chunk) {
+      const out = [];
+      for (let i = 0; i < b.rows.length; i += chunk)
+        out.push({
+          ...b,
+          title: i ? b.title + " (continued)" : b.title,
+          rows: b.rows.slice(i, i + chunk),
+        });
+      return out;
+    }
+    if (b.kind !== "gallery" || b.items.length <= b.columns) return [b];
+    const rows = [];
+    for (let i = 0; i < b.items.length; i += b.columns)
+      rows.push(b.items.slice(i, i + b.columns));
+    return rows.map((items, i) =>
+      i ? { ...b, title: "", caption: undefined, items } : { ...b, items },
+    );
+  });
+}
+
 /** A changelog reduced to what the changelog frame lists; commits without entries drop out. */
 export function slimChangelog(c) {
   return {
@@ -127,6 +192,8 @@ function callSource(c) {
       return `results.push(await beginSheet(META, ${json(c.pages)}));`;
     case "changelog":
       return `results.push(await appendChangelog(META, ${json(c.data)}));`;
+    case "section":
+      return `results.push(await appendSection(META, ${json(c.section)}${c.more ? ", true" : ""}));`;
     case "blocks":
       return `results.push(await appendBlocks(META, ${json(c.page)}, ${json(c.blocks)}));`;
     default:
@@ -135,7 +202,11 @@ function callSource(c) {
 }
 
 const describe = (c) =>
-  c.fn === "blocks" ? `blocks ${c.page} x${c.blocks.length}` : c.fn;
+  c.fn === "section"
+    ? `section ${c.section.key}${c.more ? " (more)" : ""}`
+    : c.fn === "blocks"
+      ? `blocks ${c.page} x${c.blocks.length}`
+      : c.fn;
 
 /**
  * Payloads for one sheet. `pages` limits the pages drawn (default all). Each payload is
@@ -160,6 +231,16 @@ export function buildPayloads({ sheet, changelog, pages, limit = LIMIT }) {
   for (const p of drawn)
     for (const b of p.blocks)
       units.push({ fn: "blocks", page: p.title, blocks: [slimBlock(b)] });
+  // Sections follow the pages, in sheet order; a page subset draws none (as in code.js).
+  if (!pages)
+    for (const s of sheet.sections ?? [])
+      sectionPieces(slimSection(s)).forEach((b, i) =>
+        units.push({
+          fn: "section",
+          more: i > 0,
+          section: { ...pick(s, ["key", "title"]), blocks: [b] },
+        }),
+      );
   units.push({ fn: "finish" });
 
   const payloads = [];

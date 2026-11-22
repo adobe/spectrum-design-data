@@ -187,6 +187,18 @@
       "aliases": ["drag and drop"],
       "description": "Being dragged or drag target state",
       "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "collapsed",
+      "label": "Collapsed",
+      "description": "Resting, smaller size of an animated indicator (coach-indicator pulse)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded",
+      "description": "Peak, larger size of an animated indicator (coach-indicator pulse)",
+      "usedIn": ["component-schemas"]
     }
   ]
 }

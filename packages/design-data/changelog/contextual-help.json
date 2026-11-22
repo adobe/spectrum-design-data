@@ -150,6 +150,66 @@
           "metadata": {"count":8,"fields":["context","contextRole","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "de570f2598546e75f64ec6ae4322771c26569e89",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2000,"title":"feat(design-data): anatomy review and identity migration of anchored overlays and modal dialogs","url":"https://github.com/adobe/spectrum-design-data/pull/2000"},
+          "entries": [
+            {"id":"de570f25-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom/start/end edge to text)"],"scope":{"property":"padding","options":null},"record":"09e273fe-f026-53ad-a3cc-5c423e9e6d0e","name":"padding","fields":[{"path":"scope.part","after":"popover"},{"path":"scope.property","before":"spacing","after":"padding"}]},
+            {"id":"de570f25-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-family","options":null},"record":"7d01cc8a-36be-5a70-9f1a-830c46741213","name":"font-family","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-weight","options":null},"record":"a6a4b518-8613-5ce0-85ad-7600e7fac05e","name":"font-weight","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-style","options":null},"record":"5118e765-03fd-5291-a2b6-b87cde03e5d4","name":"font-style","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"line-height","options":null},"record":"ed8cb975-43d5-5fa9-88bc-b6a5b386e370","name":"line-height","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-family","options":null},"record":"add9c942-be2a-544a-8888-d9e7054689f5","name":"font-family","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-weight","options":null},"record":"b6d37a4d-8c86-5553-8955-d289e93b845b","name":"font-weight","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-style","options":null},"record":"208d9864-6def-557a-8c86-466ecde0ce26","name":"font-style","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-8","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"line-height","options":null},"record":"56b2e231-b3c1-5707-bbe6-eeeb22abe82a","name":"line-height","fields":[{"path":"scope.part","after":"description"},{"path":"scope.property","before":"line-height-200","after":"line-height"}]},
+            {"id":"de570f25-9","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"d5f382a1-fc44-5c22-8509-05b676839138","name":"color","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-10","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"6e350535-1596-5d0d-bf80-4a8c29d2615f","name":"color","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-11","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Rounding"],"scope":{"property":"corner-radius","options":null},"record":"d74311cc-bf29-5d0a-8fd2-84eb0c02e013","name":"corner-radius","fields":[],"before":"29981aef-aea6-4cde-849f-4bc67e320ea7"},
+            {"id":"de570f25-12","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Title"],"scope":{"property":"size","options":null},"record":"72619749-2865-5a23-a573-011b5f7c8e3e","name":"size","fields":[],"before":"5358fd6c-d9a0-4caa-a85e-af82ed82efaf"},
+            {"id":"de570f25-13","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Body"],"scope":{"property":"size","options":null},"record":"eeb1ebd5-b72d-5abf-ad65-055d6de78bc7","name":"size","fields":[],"before":"e458fa68-ab9c-4441-a7d5-a02f42df1cae"},
+            {"id":"de570f25-14","kind":"anatomy-part","change":"renamed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"contextual-help/anatomy/description","name":"description","fields":[],"before":"body"},
+            {"id":"de570f25-15","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"contextual-help/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Root of the component. It draws nothing itself: it holds the action button, and the popover opens from it.","required":true,"contains":["action-button"]}},
+            {"id":"de570f25-16","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"contextual-help/anatomy/action-button","name":"action-button","fields":[{"path":"description","before":"Help or info button that opens the popover.","after":"The action-button component: a quiet icon-only help or info button that opens the popover."}]},
+            {"id":"de570f25-17","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"contextual-help/anatomy/link","name":"link","fields":[{"path":"description","before":"Optional link at the end of the popover.","after":"Optional link component at the end of the popover."}]},
+            {"id":"de570f25-18","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"contextual-help/anatomy/popover","name":"popover","fields":[{"path":"contains","before":["title","body","link"],"after":["title","description","link"]}]},
+            {"id":"de570f25-19","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"contextual-help/anatomy/popover","name":"popover","fields":[{"path":"description","before":"Popover shown when open.","after":"The popover component, a top-level part present only while open. Its content is the title, description and link. contextual-help overrides its minimum width and padding and draws no tip."}]},
+            {"id":"de570f25-20","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"contextual-help/states/down","name":"down","fields":[],"before":{"name":"down","trigger":"interaction"}},
+            {"id":"de570f25-21","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"contextual-help/states/keyboard-focus","name":"keyboard-focus","fields":[],"before":{"name":"keyboard-focus","trigger":"interaction"}},
+            {"id":"de570f25-22","kind":"state","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"contextual-help/states/open","name":"open","fields":[{"path":"description","after":"The popover is open."}]},
+            {"id":"de570f25-23","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"contextual-help/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web (.Contextual help action button, Popover, Text, Link). Popover internals assumed present only while open.","after":"Figma S2 Web contextual help (.Contextual help action button plus a local Popover frame with no tip and no border) and React Spectrum S2 ContextualHelp (ActionButton plus Popover hideArrow, padding none). Decisions (Garth default, 2026-11-20): C7 popover is a top-level component part present when open, with host overrides (min-width, padding) and no radius record of its own; C5 description (renamed from body). Only the open state is kept: down and keyboard-focus belong to the nested action-button. The nested-component relation (popover and its content as slot fills) is prose only: the anatomy component field and slot fills are not built."}]}
+          ],
+          "metadata": {"count":5,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.1",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+      "commits": [
+        {
+          "commit": "cc2bccd6fde88765f41ff4be282bc7dba58d8762",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2031,"title":"feat(design-data): migrate drop-zone, illustrated-message, coach-mark and contextual-help to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/2031"},
+          "entries": [
+            {"id":"cc2bccd6-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"d5f382a1-fc44-5c22-8509-05b676839138","name":"color","fields":[{"path":"scope.attribute","after":"background"}]},
+            {"id":"cc2bccd6-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"6e350535-1596-5d0d-bf80-4a8c29d2615f","name":"color","fields":[{"path":"scope.attribute","after":"background"}]}
+          ],
+          "metadata": {"count":3,"fields":["scope.part"]}
+        }
+      ]
     }
   ]
 }

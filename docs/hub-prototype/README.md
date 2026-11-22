@@ -37,6 +37,7 @@ Add one entry (`id`, `label`, `path`, `description`) to the `platforms` list in 
 The `.awesome/state.json` link is git-ignored and must stay in place.
 
 1. Connect the VPN, then run `adt whoami`.
+
 2. From `docs/hub-prototype`, run `adt deploy dist --publish-mode replace --wait`. Replace mode removes files from earlier deployments, such as the old root build.
    If the upload fails with `Unknown CLI error` (an HTTP 413: the full `dist/`, about 30 MB in 500 files, is too large for one directory upload), zip it and upload the archive instead. Run `adt --json deploy ...` to see the real error.
 
@@ -46,6 +47,7 @@ The `.awesome/state.json` link is git-ignored and must stay in place.
    ```
 
    Do not use `incremental` mode: it leaves files from earlier builds in place.
+
 3. If `.awesome/` is lost, relink with `adt deploy link --deployment-id 75e47275-3a8d-43cb-8db6-26076186fa3f`.
 
 The site is at <https://design-data-visual-render.entapp.adproto.com/>.
@@ -87,3 +89,7 @@ Open `/specs/` for the component index: each component links to its sheet and sh
 ### Links between pages
 
 `build.mjs` also copies `tools/figma-spec-plugin/figma-files.json` to `dist/specs/data/figma-files.json`. A sheet and the `/specs/` index link to the component's generated Figma spec file when the registry has an entry (the files are in a test folder, so only people with access can open them), and a sheet with a visual links back to `../rsp/?c=<component>`. The explorer shows "Spec sheet and changelog" only when `../specs/data/sheets/index.json` exists, so a single local build is unchanged.
+
+## Spec sheet sections
+
+`specs/sheet.html` draws `sheet.sections` (template sections: prose, table, placeholder blocks) below the measurement blocks, with a section nav in the header and `#section-<key>` anchors. Placeholders carry a "Manual" badge. The HTML comes from `specs/sections.js` and is tested by `moon run hub-prototype:test`. Sheets without `sections` show nothing extra.

@@ -39,6 +39,24 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.28.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "8cbc6c0d92dbffc8bfa8b064e3cd4348e1bfd9de",
+      "commits": [
+        {
+          "commit": "8cbc6c0d92dbffc8bfa8b064e3cd4348e1bfd9de",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1987,"title":"feat(design-data): review anatomy of messages and status components (A5)","url":"https://github.com/adobe/spectrum-design-data/pull/1987"},
+          "entries": [
+            {"id":"8cbc6c0d-0","kind":"lifecycle","change":"updated","class":"api","bump":"major","indirect":false,"contexts":[],"record":"floating-action-button/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedIn","after":"1.0.0-draft"}]},
+            {"id":"8cbc6c0d-1","kind":"lifecycle","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"floating-action-button/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedComment","after":"Archive-only: Spectrum 1 only. The Figma Web POC and React Spectrum S2 have no floating action button. Its records keep their legacy keys (the legacy token package must not change), so they are not deprecated yet."}]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,5 +1,54 @@
 # @adobe/component-options-editor
 
+## 1.1.105
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.2.3
+
+## 1.1.104
+
+### Patch Changes
+
+- Updated dependencies [[`dbedcc0`](https://github.com/adobe/spectrum-design-data/commit/dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b), [`1712d51`](https://github.com/adobe/spectrum-design-data/commit/1712d5161d085f81ca157cdf6b3fb4cef30b5b38), [`4b64f17`](https://github.com/adobe/spectrum-design-data/commit/4b64f17d6a8928e5fb3f67d7998ecaf11a96e400)]:
+  - @adobe/spectrum-component-api-schemas@6.2.2
+
+## 1.1.103
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.2.1
+
+## 1.1.102
+
+### Patch Changes
+
+- Updated dependencies [[`5168ad1`](https://github.com/adobe/spectrum-design-data/commit/5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf)]:
+  - @adobe/spectrum-component-api-schemas@6.2.0
+
+## 1.1.101
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.100
+
+## 1.1.100
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.99
+
+## 1.1.99
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.98
+
 ## 1.1.98
 
 ### Patch Changes

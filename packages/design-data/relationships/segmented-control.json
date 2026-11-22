@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "item",
       "property": "height"
     },
     "context": "Height",
@@ -12,7 +13,11 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "corner-radius"
+      "part": "item",
+      "property": "corner-radius",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Corner radius",
     "contextRole": ["rounding"],
@@ -22,7 +27,12 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -32,7 +42,12 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -42,7 +57,15 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-edge-to-visual-only-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
     "contextRole": ["spacing"],
@@ -53,7 +76,34 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "space-between"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon only)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to edge, workflow icon only",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "421cf44e-02ca-5190-ac9a-cd6e5476ae85"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -64,7 +114,16 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-edge-to-visual-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
     "contextRole": ["spacing"],
@@ -75,7 +134,36 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-edge-to-visual-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "end-edge"
+      },
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edges, workflow icon with label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges, workflow icon with label",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "92f5f06d-883a-54c7-80f6-394b2bd3c214"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
     "contextRole": ["spacing"],
@@ -86,7 +174,36 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-edge-to-text-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "end-edge"
+      },
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edges, workflow icon with label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges, workflow icon with label",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "4948697b-dd5d-5105-9fb7-4c5f78d18ca5"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
     "contextRole": ["spacing"],
@@ -97,7 +214,36 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-edge-to-text-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "end-edge"
+      },
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edges, workflow icon with label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges, workflow icon with label",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "8970d28f-9ab4-5b42-bbd5-af08e34d6e72"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
     "contextRole": ["spacing"],
@@ -108,7 +254,35 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-top-to-text-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "end-edge"
+      },
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edges, workflow icon with label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges, workflow icon with label",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "3a038fcd-8cbc-53ee-b819-ad9228b9a5cc"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
     "contextRole": ["spacing"],
@@ -119,7 +293,15 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-bottom-to-text-100"
+      "part": "item",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
     "contextRole": ["spacing"],
@@ -130,18 +312,12 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "component-top-to-workflow-icon-100"
-    },
-    "context": "Spacing (top/bottom edge to icon, workflow icon with label)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to icon, workflow icon with label",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
-    "uuid": "a788fe1d-e9b8-5e59-8e48-bf835a1a1165"
-  },
-  {
-    "scope": {
-      "component": "segmented-control",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "item",
+        "to": "item"
+      }
     },
     "context": "Spacing (between segmented control items)",
     "contextRole": ["spacing"],
@@ -152,7 +328,12 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "item",
+        "to": "item"
+      }
     },
     "context": "Spacing (between segmented control items)",
     "contextRole": ["spacing"],
@@ -163,6 +344,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus ring",
@@ -173,6 +355,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus ring",
@@ -183,6 +366,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "selection-indicator",
       "property": "border-width"
     },
     "context": "Selection border",
@@ -193,7 +377,13 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "light",
+        "hideTracker": true
+      },
+      "attribute": "border"
     },
     "context": "Segmented control items (no track)",
     "contextRole": ["control"],
@@ -204,7 +394,13 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark",
+        "hideTracker": true
+      },
+      "attribute": "border"
     },
     "context": "Segmented control items (no track)",
     "contextRole": ["control"],
@@ -215,7 +411,13 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe",
+        "hideTracker": true
+      },
+      "attribute": "border"
     },
     "context": "Segmented control items (no track)",
     "contextRole": ["control"],
@@ -226,139 +428,193 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "content-color"
+      "part": "item",
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
-    "context": "Segmented control items (no track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "no track",
     "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6",
     "uuid": "05c47d7d-91ba-5cd9-abf1-ad925d155aef"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "content-color"
+      "part": "item",
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
-    "context": "Segmented control items (no track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "no track",
     "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3",
     "uuid": "7707eb13-a660-5f97-a328-d4be7eb9532c"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "content-color"
+      "part": "item",
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
-    "context": "Segmented control items (no track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "no track",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "0cfec3f5-d91a-584b-9993-27680f6d7684"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "content-color"
+      "part": "item",
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
-    "context": "Segmented control items (no track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "no track",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "8c0791cb-b7d7-5a75-ba53-6a430a7e7867"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "content-color"
+      "part": "item",
+      "property": "content-color",
+      "options": {
+        "hideTracker": true
+      }
     },
-    "context": "Segmented control items (no track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "no track",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "a92c88ad-e0c2-5f14-8181-afebc0fd0dcf"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "light",
+        "hideTracker": true
+      },
+      "attribute": "background"
     },
-    "context": "Segmented control items (no track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "no track",
     "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
     "uuid": "79234b83-b1d8-5c02-94ec-4ebb76de0aa0"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark",
+        "hideTracker": true
+      },
+      "attribute": "background"
     },
-    "context": "Segmented control items (no track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "no track",
     "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
     "uuid": "b4e5996e-ed6d-5324-872b-ed06bf289e77"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe",
+        "hideTracker": true
+      },
+      "attribute": "background"
     },
-    "context": "Segmented control items (no track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "no track",
     "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
     "uuid": "e4e917cf-175f-5741-978e-f3baedf066c5"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "content-color"
+      "part": "item",
+      "property": "content-color",
+      "options": {
+        "hideTracker": false
+      }
     },
-    "context": "Segmented control items (with track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "with track",
     "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
     "uuid": "ab304c4e-9141-528c-94e7-4e1a380946e1"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "light",
+        "hideTracker": false
+      },
+      "attribute": "background"
     },
-    "context": "Segmented control items (with track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "with track",
     "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
     "uuid": "ee0fa524-fd1f-5213-b9ea-62d7dddc9881"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark",
+        "hideTracker": false
+      },
+      "attribute": "background"
     },
-    "context": "Segmented control items (with track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "with track",
     "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
     "uuid": "bc1a82b0-cc52-5fcd-9f80-256ff10c3ac5"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "selection-indicator",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe",
+        "hideTracker": false
+      },
+      "attribute": "background"
     },
-    "context": "Segmented control items (with track)",
+    "context": "Control",
     "contextRole": ["control"],
-    "contextQualifier": "with track",
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
     "uuid": "07de87f0-9284-5534-b40e-ead800fd1782"
   },
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "colorScheme": "light",
+        "hideTracker": false
+      },
+      "attribute": "background"
     },
     "context": "Segmented control items (with track)",
     "contextRole": ["control"],
@@ -369,7 +625,13 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark",
+        "hideTracker": false
+      },
+      "attribute": "background"
     },
     "context": "Segmented control items (with track)",
     "contextRole": ["control"],
@@ -380,7 +642,13 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe",
+        "hideTracker": false
+      },
+      "attribute": "background"
     },
     "context": "Segmented control items (with track)",
     "contextRole": ["control"],
@@ -391,6 +659,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Disabled",
@@ -401,7 +670,9 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "color"
+      "part": "item",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Disabled",
     "contextRole": ["state"],
@@ -411,6 +682,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -421,6 +693,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Label",
@@ -431,6 +704,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Label",
@@ -441,6 +715,7 @@
   {
     "scope": {
       "component": "segmented-control",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Label",
@@ -451,7 +726,12 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -461,7 +741,12 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -471,7 +756,8 @@
   {
     "scope": {
       "component": "segmented-control",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -518,12 +804,14 @@
   {
     "scope": {
       "component": "segmented-control",
-      "part": "selection",
+      "part": "selection-indicator",
       "property": "border-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "10f93760-7b09-4a4e-8cc2-33783e571926",
-    "legacyKey": "segmented-control-selection-border-width"
+    "legacyKey": "segmented-control-selection-border-width",
+    "context": "Selection border",
+    "contextRole": ["border"]
   }
 ]

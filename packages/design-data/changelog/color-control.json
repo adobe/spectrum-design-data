@@ -21,6 +21,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-control/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"A7 (2026-11-20), owner decision C11: a shared base. Its two track-thickness records are pinned to color-control.json by their legacy keys and are referenced by color-slider and color-wheel, so they cannot move. No container and no recipe; no Figma, RSP or SWC source draws it on its own."}]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.property"]}
+        }
+      ]
     }
   ]
 }

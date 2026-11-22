@@ -422,7 +422,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "bar-panel",
       "label": "Bar Panel",
-      "description": "A cross-cutting anatomy sub-part shared by multiple components (e.g. color area, color wheel) rather than a standalone top-level component."
+      "description": "A panel anchored to an edge that holds a bar of actions and a drag handle; also called a toolbar.",
+      "aliases": ["toolbar"]
     },
     {
       "id": "body",
@@ -542,7 +543,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "date-picker",
       "label": "Date Picker",
-      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
+      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/",
+      "aliases": ["date-range-picker"]
     },
     {
       "id": "detail",
@@ -692,7 +694,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "segmented-text-field",
       "label": "Segmented Text Field",
-      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/",
+      "description": "The shared segment base: a row of editable segments that date-field, time-field and date-picker copy."
     },
     {
       "id": "select-box",
@@ -937,7 +940,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Icon",
       "description": "Icon elements",
       "usedIn": ["tokens", "component-schemas"],
-      "standaloneScope": true
+      "standaloneScope": true,
+      "aliases": ["alert-icon"]
     },
     {
       "id": "label",
@@ -1017,8 +1021,9 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "title",
       "label": "Title",
-      "description": "Title text element within a component",
-      "usedIn": ["tokens"]
+      "description": "Title text element within a component. In a calendar it is the month and year text of each month.",
+      "usedIn": ["tokens"],
+      "aliases": ["month-and-year", "calendar-heading"]
     },
     {
       "id": "description",
@@ -1054,13 +1059,21 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "tip",
       "label": "Tip",
       "description": "Tooltip tip or arrow element",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "aliases": ["arrow", "popover-tip"]
     },
     {
       "id": "selection",
       "label": "Selection",
-      "description": "Selection indicator or highlight element",
+      "description": "Region of a component that holds selection controls (the plate that holds a card's selection checkbox). The marker on a selected item is selection-indicator",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "selection-indicator",
+      "label": "Selection indicator",
+      "description": "Marker drawn inside an item to show it is selected: the underline of a tab, the selection bar of a side navigation item, the fill and border of a selected segment",
+      "aliases": ["underline", "selection-bar", "indicator", "selection"],
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "media",
@@ -1084,7 +1097,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "fill",
       "label": "Fill",
-      "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle)",
+      "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle), or the color a color control or preview shows (color handle, color loupe, color slider gradient, swatch)",
       "usedIn": ["tokens", "s2-docs"]
     },
     {
@@ -1097,7 +1110,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "container",
       "label": "Container",
       "description": "Outer wrapper element of a component (cards, swatch, thumbnail, avatar)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "aliases": ["popover-content"]
     },
     {
       "id": "chevron",
@@ -1106,16 +1120,23 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "loupe",
-      "label": "Loupe",
-      "description": "Magnified color preview element in color components (color-area, color-slider, color-wheel)",
+      "id": "color-loupe",
+      "label": "Color Loupe",
+      "description": "The color-loupe component when used as an anatomy part of the color handle: a floating magnified preview of the sampled color",
       "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "tooltip",
+      "label": "Tooltip",
+      "description": "The tooltip component when used as an anatomy part of another component (swatch): a floating label shown on hover",
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "dot",
       "label": "Dot",
       "description": "Small circular indicator element (status-light)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "aliases": ["light"]
     },
     {
       "id": "separator",
@@ -1152,12 +1173,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "area",
       "label": "Area",
       "description": "Interactive surface region (color-area gradient surface)",
-      "usedIn": ["tokens", "s2-docs"]
-    },
-    {
-      "id": "gripper",
-      "label": "Gripper",
-      "description": "Draggable resize handle element (standard-panel)",
       "usedIn": ["tokens", "s2-docs"]
     },
     {
@@ -1214,7 +1229,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "button-group",
       "label": "Button Group",
       "description": "A grouped set of action buttons, typically in dialog footers or coach-mark controls",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["actions"]
     },
     {
       "id": "clear-button",
@@ -1291,12 +1307,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "trailing-icon",
-      "label": "Trailing Icon",
-      "description": "Icon placed at the trailing (end) edge of a list item or row",
-      "usedIn": ["s2-docs"]
-    },
-    {
       "id": "thumbnail",
       "label": "Thumbnail",
       "description": "Small image preview element used as a named part within list, menu, or card components",
@@ -1317,7 +1327,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "popover",
       "label": "Popover",
-      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help)",
+      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help, date-picker)",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1394,6 +1404,12 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
+      "id": "number-field",
+      "label": "Number Field",
+      "description": "Number field component used as a named anatomy part (slider editable value)",
+      "usedIn": ["s2-docs"]
+    },
+    {
       "id": "input",
       "label": "Input",
       "description": "The actual input control(s) associated with a field-label component",
@@ -1408,19 +1424,64 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "date-field",
       "label": "Date Field",
-      "description": "Date input component used as an anatomy part within a date-picker",
+      "description": "Date input component. date-picker keeps its own copy of the field parts rather than embedding a date-field",
       "usedIn": ["s2-docs"]
     },
     {
       "id": "time-field",
       "label": "Time Field",
-      "description": "Time input component used as an anatomy part within a date-picker",
+      "description": "Time input component. date-picker keeps its own copy of the field parts rather than embedding a time-field",
       "usedIn": ["s2-docs"]
     },
     {
       "id": "calendar",
       "label": "Calendar",
-      "description": "Calendar component used as an anatomy part within a date-picker",
+      "description": "Calendar component used as an anatomy part within a date-picker (nested in its popover). Also called RangeCalendar when it selects a range, or the calendar popover when it sits in a date-picker's popover.",
+      "usedIn": ["s2-docs"],
+      "aliases": ["range-calendar", "calendar-popover"]
+    },
+    {
+      "id": "day",
+      "label": "Day",
+      "description": "One date cell of a calendar",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "weekday-label",
+      "label": "Weekday Label",
+      "description": "Single-letter weekday heading above a calendar's day grid",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "range-fill",
+      "label": "Range Fill",
+      "description": "Highlight band behind the days between the two ends of a selected date range",
+      "usedIn": ["s2-docs"],
+      "aliases": ["highlight-fill", "selection-background"]
+    },
+    {
+      "id": "current-day-indicator",
+      "label": "Current Day Indicator",
+      "description": "Marker that sets today's cell apart in a calendar",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "unavailable-indicator",
+      "label": "Unavailable Indicator",
+      "description": "Line struck through the day number of an unavailable calendar day",
+      "usedIn": ["s2-docs"],
+      "aliases": ["strikethrough"]
+    },
+    {
+      "id": "previous-button",
+      "label": "Previous Button",
+      "description": "Quiet action button that moves a calendar to the previous month",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "next-button",
+      "label": "Next Button",
+      "description": "Quiet action button that moves a calendar to the next month",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1474,9 +1535,10 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "overlay",
       "label": "Overlay",
-      "description": "Semi-transparent backdrop element behind modal dialogs (alert-dialog, standard-dialog, takeover-dialog)",
+      "description": "Semi-transparent backdrop behind a modal dialog (alert-dialog, standard-dialog, takeover-dialog); a top-level part that owns the overlay colour and opacity",
       "usedIn": ["s2-docs"],
-      "standaloneScope": true
+      "standaloneScope": true,
+      "aliases": ["underlay", "modal-overlay"]
     },
     {
       "id": "header-area",
@@ -1511,7 +1573,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "cover-image",
       "label": "Cover Image",
-      "description": "Large decorative image at the top of a standard dialog",
+      "description": "Large decorative image at the top of a standard dialog or coach mark",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "keyboard-shortcut",
+      "label": "Keyboard Shortcut",
+      "description": "Hint that shows the keyboard shortcut of an action (coach-mark)",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1632,25 +1700,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "disclosure-button",
       "label": "Disclosure Button",
-      "description": "Collapse/expand toggle button on a tree-view item or accordion item",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "drag-icon",
-      "label": "Drag Icon",
-      "description": "Drag handle icon on a reorderable tree-view item",
+      "description": "Interactive collapse/expand button on a tree-view or side-navigation item, with its own states",
       "usedIn": ["s2-docs"]
     },
     {
       "id": "context-area",
       "label": "Context Area",
       "description": "Optional icon or thumbnail context slot on the leading edge of a tree-view item",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "step-item",
-      "label": "Step Item",
-      "description": "Individual step node within a steplist component",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1742,13 +1798,15 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "segment",
       "label": "Segment",
       "description": "One editable unit of a segmented field (the day, month or year of a date; the hour or minute of a time)",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["Placeholder cell", "DateSegment"]
     },
     {
       "id": "drag-handle",
       "label": "Drag handle",
-      "description": "A grip affordance for reordering an item via drag",
-      "usedIn": ["tokens"]
+      "description": "A grip affordance for dragging: moves a panel or bar (standard-panel, bar-panel) or reorders an item in a list",
+      "aliases": ["gripper"],
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "in-field-stepper",
@@ -1758,9 +1816,16 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "aliases": ["stepper"]
     },
     {
+      "id": "banner",
+      "label": "Banner",
+      "description": "A pill or strip of text drawn over a component to announce a state (drop-zone replace message); not the alert-banner component",
+      "aliases": ["Drop info", "replace message"],
+      "usedIn": ["s2-docs"]
+    },
+    {
       "id": "pagination",
       "label": "Pagination",
-      "description": "Paged-navigation indicator element (e.g. coach-mark step dots)",
+      "description": "Paged-navigation indicator element (e.g. step dots, step count text or a page indicator)",
       "usedIn": ["tokens"]
     },
     {
@@ -1787,6 +1852,60 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "description": "Linear anatomy element used to represent a value or range",
       "usedIn": ["tokens"],
       "standaloneScope": true
+    },
+    {
+      "id": "action-group",
+      "label": "Action Group",
+      "description": "Group of action buttons as a named part of a larger component (action-bar)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "avatars",
+      "label": "Avatars",
+      "description": "Host of the overlapping avatars in an avatar-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "item-counter",
+      "label": "Item Counter",
+      "description": "Text showing how many items are selected (action-bar)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "options",
+      "label": "Options",
+      "description": "Host of the repeated checkbox or radio button options in checkbox-group and radio-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "tags",
+      "label": "Tags",
+      "description": "Host of the wrapping row of tags in a tag-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "column-header-row",
+      "label": "Column Header Row",
+      "description": "Header row of a table that holds the column headers",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "row-checkbox",
+      "label": "Row Checkbox",
+      "description": "Selection checkbox within a table row",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "header-row-checkbox",
+      "label": "Header Row Checkbox",
+      "description": "Select-all checkbox within the header row of a table",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "trailing-accessory-area",
+      "label": "Trailing Accessory Area",
+      "description": "Trailing area of an item for accessory content such as counts or actions",
+      "usedIn": ["s2-docs"]
     }
   ]
 }
@@ -1896,7 +2015,7 @@ const TYPOGRAPHY_EMPHASIS_JSON: &str = r##"{
 const PROPERTY_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
   "values": [
     {
       "id": "color",
@@ -1939,11 +2058,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Drop shadow color component"
     },
     {
-      "id": "overlay-color",
-      "label": "Overlay Color",
-      "description": "Overlay or scrim tint color"
-    },
-    {
       "id": "outline-color",
       "label": "Outline Color",
       "description": "CSS outline color"
@@ -1967,11 +2081,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "border-opacity",
       "label": "Border Opacity",
       "description": "Border transparency level"
-    },
-    {
-      "id": "overlay-opacity",
-      "label": "Overlay Opacity",
-      "description": "Overlay or scrim transparency level"
     },
     {
       "id": "width",
@@ -2102,6 +2211,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "typography",
       "label": "Typography",
       "description": "Composite type style bundling font family, size, weight, letter-spacing, and line-height in one value"
+    },
+    {
+      "id": "type-style",
+      "label": "Type Style",
+      "description": "A component's type style: the property of a relationship record whose $ref is a typography composite token"
     },
     {
       "id": "text-align",
@@ -2313,6 +2427,11 @@ const POSITIONS_JSON: &str = r##"{
       "id": "end-edge",
       "label": "End edge",
       "description": "Outer boundary at the end (right in LTR, left in RTL)"
+    },
+    {
+      "id": "top-edge",
+      "label": "Top edge",
+      "description": "Outer boundary at the top"
     },
     {
       "id": "bottom-edge",
@@ -2653,6 +2772,18 @@ const STATES_JSON: &str = r##"{
       "label": "Drag and Drop",
       "aliases": ["drag and drop"],
       "description": "Being dragged or drag target state",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "collapsed",
+      "label": "Collapsed",
+      "description": "Resting, smaller size of an animated indicator (coach-indicator pulse)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded",
+      "description": "Peak, larger size of an animated indicator (coach-indicator pulse)",
       "usedIn": ["component-schemas"]
     }
   ]

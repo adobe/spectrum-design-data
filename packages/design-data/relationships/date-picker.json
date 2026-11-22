@@ -2,7 +2,8 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "gap"
+      "part": "popover",
+      "property": "margin"
     },
     "context": "Spacing (open)",
     "contextRole": ["spacing"],
@@ -13,7 +14,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "minimum-width"
+      "part": "popover",
+      "property": "minimum-width",
+      "options": {
+        "visibleMonths": 1
+      }
     },
     "context": "Width (minimum)",
     "contextRole": ["width"],
@@ -24,7 +29,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "minimum-width"
+      "part": "popover",
+      "property": "minimum-width",
+      "options": {
+        "visibleMonths": 2
+      }
     },
     "context": "Width (minimum)",
     "contextRole": ["width"],
@@ -35,7 +44,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "minimum-height"
+      "part": "popover",
+      "property": "minimum-height",
+      "options": {
+        "visibleMonths": 1
+      }
     },
     "context": "Height (minimum)",
     "contextRole": ["height"],
@@ -46,7 +59,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "minimum-height"
+      "part": "popover",
+      "property": "minimum-height",
+      "options": {
+        "visibleMonths": 2
+      }
     },
     "context": "Height (minimum)",
     "contextRole": ["height"],
@@ -57,17 +74,8 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "corner-radius"
-    },
-    "context": "Corner rounding",
-    "contextRole": ["rounding"],
-    "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
-    "uuid": "d7ca01d2-e009-5abc-866f-44b866edddd0"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "spacing"
+      "part": "popover",
+      "property": "padding-horizontal"
     },
     "context": "Spacing (start/end edge to days)",
     "contextRole": ["spacing"],
@@ -78,7 +86,8 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "spacing"
+      "part": "popover",
+      "property": "padding-vertical"
     },
     "context": "Spacing (top/bottom edge to days)",
     "contextRole": ["spacing"],
@@ -89,270 +98,12 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "spacing"
-    },
-    "context": "Spacing (month + year to chevron)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "month + year to chevron",
-    "$ref": "26639049-ec07-430d-983f-4d036758564a",
-    "uuid": "0db9dbf7-c8ac-5a08-8826-a827ad5e74ae"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "spacing"
-    },
-    "context": "Spacing (between week labels)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "between week labels",
-    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
-    "uuid": "b07a14f1-300f-52f1-bc63-9e314ad89438"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "spacing"
-    },
-    "context": "Spacing (between week labels and days)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "between week labels and days",
-    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
-    "uuid": "46c5e274-9fa8-5539-8731-7b71a4947092"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "3451c170-3e78-449b-86f2-8b7dbea24c1c",
-    "uuid": "a918fdb0-b7dd-5e6a-9a0f-c1ba0d368408"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "82b09b04-6a70-4a95-9eb5-a321a66a6465",
-    "uuid": "e56d6a65-fb5c-5dbf-bebd-c92d23a0835b"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "895407bb-8fda-4857-92a9-bf0cc06f2c3f",
-    "uuid": "fb8b6de1-58e4-5908-a5f6-1cb346543576"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
-    "uuid": "3059fe30-b04a-5540-b1a0-4aa7b5d07dd9"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "da15fc4a-a3ce-4cbe-a2d1-bf5a2e77e5c4",
-    "uuid": "c55ebefb-1a9f-5903-8189-ff8940cff42c"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "147ed079-b4f0-4cd7-89cd-7ec93750d688",
-    "uuid": "865c11f9-d4c3-55e3-ba11-5a57dcd89b4c"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "a50fef9e-d01f-490c-9baa-8c9672f1ac96",
-    "uuid": "d8e5c281-0df8-539c-b11d-b0ba36ee3b29"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
-    "uuid": "8519bfd1-5be6-5109-b64b-7e4c90c7b998"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "content-color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
-    "uuid": "0a4f63d4-8a2a-51cd-a390-c6563a975a5c"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
-    "uuid": "17e43524-c788-51ff-8dbe-739a34a6e6fa"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
-    "uuid": "89c4315f-6119-5a64-ae31-25d0971bd185"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
-    "uuid": "f2aa04f6-d77a-5ba3-831c-7fa29d586d15"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "content-color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
-    "uuid": "da82c574-8bb1-5a72-91c6-3b0ae10f7406"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc",
-    "uuid": "2a626852-355b-5af1-91e4-5c1d8636e7cb"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb",
-    "uuid": "e34e3fad-a963-5b07-a11e-c35c5c6f6a35"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5",
-    "uuid": "7caab498-7c8f-5af2-b429-e1cc2f71a60f"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "d2481a50-13a0-4f19-8faa-a1a215fee21d",
-    "uuid": "a0375bd1-7fc2-5879-a0ad-b3f6bdba74d6"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "648da867-549e-47c3-9312-e9cfda288705",
-    "uuid": "27e25d5d-d0ec-5cb6-9317-2cf16e7373f6"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Day values",
-    "contextRole": ["value"],
-    "$ref": "b1104fe3-4965-411e-95d3-87f59cdbc756",
-    "uuid": "62ac67dd-447a-5816-b75c-c0d5d6a79779"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "content-color"
-    },
-    "context": "Current day",
-    "contextRole": ["value"],
-    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
-    "uuid": "f9439955-3785-578e-b357-0f2cf3982902"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Range fill color",
-    "contextRole": ["track"],
-    "$ref": "7d52711e-43fa-4a95-a7b1-3a7367570596",
-    "uuid": "50f59a64-ccca-5887-8f3d-966ef3502b0a"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Range fill color",
-    "contextRole": ["track"],
-    "$ref": "7da4709c-caf3-401a-a2ce-07186a7e8e8c",
-    "uuid": "e42cf56d-c064-5738-8fa3-a93fac088cc4"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
-    },
-    "context": "Range fill color",
-    "contextRole": ["track"],
-    "$ref": "93563495-60af-4a84-b811-9672fc46a1cc",
-    "uuid": "092a11ef-b0e4-56fd-9c45-c4ed88d48363"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      },
+      "attribute": "background"
     },
     "context": "Background and border",
     "contextRole": ["background", "border"],
@@ -362,7 +113,27 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      },
+      "attribute": "border"
+    },
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
+    "uuid": "6169d2f2-2df6-556f-9923-d2e702e5578d"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      },
+      "attribute": "background"
     },
     "context": "Background and border",
     "contextRole": ["background", "border"],
@@ -372,7 +143,27 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "field",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      },
+      "attribute": "border"
+    },
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
+    "uuid": "9c004f65-3c3e-50a1-be27-faa2b164f8e1"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      },
+      "attribute": "background"
     },
     "context": "Background and border",
     "contextRole": ["background", "border"],
@@ -382,7 +173,26 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "content-color"
+      "part": "field",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      },
+      "attribute": "border"
+    },
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
+    "uuid": "4024df57-9504-5208-b68b-5ca8b1cff4b3"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "in-field-button",
+      "property": "content-color",
+      "options": {
+        "state": ["focus-+-hover"]
+      }
     },
     "context": "In field button colors",
     "$ref": "a370f375-b3b1-4af8-9628-fa901c0252fb",
@@ -391,7 +201,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "content-color"
+      "part": "in-field-button",
+      "property": "content-color",
+      "options": {
+        "state": ["focus-+-not-hover"]
+      }
     },
     "context": "In field button colors",
     "$ref": "f218dfd0-23be-4f07-becb-6027cc971c8b",
@@ -400,7 +214,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "content-color"
+      "part": "in-field-button",
+      "property": "content-color",
+      "options": {
+        "state": ["keyboard-focus"]
+      }
     },
     "context": "In field button colors",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
@@ -409,7 +227,13 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "in-field-button",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "state": ["open"],
+        "colorScheme": "light"
+      }
     },
     "context": "In field button colors",
     "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
@@ -418,7 +242,13 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "in-field-button",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "state": ["open"],
+        "colorScheme": "dark"
+      }
     },
     "context": "In field button colors",
     "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
@@ -427,7 +257,13 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "in-field-button",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "state": ["open"],
+        "colorScheme": "wireframe"
+      }
     },
     "context": "In field button colors",
     "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
@@ -436,7 +272,12 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "in-field-button",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "In field button colors",
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
@@ -445,6 +286,7 @@
   {
     "scope": {
       "component": "date-picker",
+      "part": "segment",
       "property": "font-family"
     },
     "context": "Label, value, help text, and error message",
@@ -455,6 +297,7 @@
   {
     "scope": {
       "component": "date-picker",
+      "part": "segment",
       "property": "font-weight"
     },
     "context": "Label, value, help text, and error message",
@@ -465,6 +308,7 @@
   {
     "scope": {
       "component": "date-picker",
+      "part": "segment",
       "property": "font-style"
     },
     "context": "Label, value, help text, and error message",
@@ -475,7 +319,12 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "font-size-100"
+      "part": "segment",
+      "property": "font-size",
+      "options": {
+        "size": "m",
+        "scale": "desktop"
+      }
     },
     "context": "Label, value, help text, and error message",
     "contextRole": ["label", "value", "label", "label"],
@@ -485,7 +334,12 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "font-size-100"
+      "part": "segment",
+      "property": "font-size",
+      "options": {
+        "size": "m",
+        "scale": "mobile"
+      }
     },
     "context": "Label, value, help text, and error message",
     "contextRole": ["label", "value", "label", "label"],
@@ -495,7 +349,8 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "line-height-100"
+      "part": "segment",
+      "property": "line-height"
     },
     "context": "Label, value, help text, and error message",
     "contextRole": ["label", "value", "label", "label"],
@@ -505,7 +360,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "line-height-100"
+      "part": "segment",
+      "property": "line-height",
+      "options": {
+        "script": "cjk"
+      }
     },
     "context": "Label, value, help text, and error message",
     "contextRole": ["label", "value", "label", "label"],
@@ -515,18 +374,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "minimum-width"
-    },
-    "context": "Width (minimum)",
-    "contextRole": ["width"],
-    "contextQualifier": "minimum",
-    "$ref": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4",
-    "uuid": "ef7cb27c-4aab-5413-a1c1-7acbe1146d21"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "component-height-100"
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -536,7 +388,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "component-height-100"
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -546,7 +402,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "corner-radius"
+      "part": "field",
+      "property": "corner-radius",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Corner rounding",
     "contextRole": ["rounding"],
@@ -556,7 +416,15 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "component-edge-to-text-100"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start edge to value)",
     "contextRole": ["spacing"],
@@ -567,7 +435,15 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "component-edge-to-text-100"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start edge to value)",
     "contextRole": ["spacing"],
@@ -578,7 +454,15 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "component-top-to-text-100"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -589,7 +473,15 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "component-bottom-to-text-100"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -600,6 +492,7 @@
   {
     "scope": {
       "component": "date-picker",
+      "part": "field",
       "property": "border-width"
     },
     "context": "Border",
@@ -610,6 +503,7 @@
   {
     "scope": {
       "component": "date-picker",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Keyboard focus indicator",
@@ -620,6 +514,7 @@
   {
     "scope": {
       "component": "date-picker",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Keyboard focus indicator",
@@ -630,7 +525,8 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "spacing"
+      "part": "segment",
+      "property": "padding-horizontal"
     },
     "context": "Individual value spacing",
     "contextRole": ["spacing"],
@@ -640,6 +536,7 @@
   {
     "scope": {
       "component": "date-picker",
+      "part": "field",
       "property": "gap"
     },
     "context": "Spacing between values",
@@ -650,6 +547,7 @@
   {
     "scope": {
       "component": "date-picker",
+      "part": "segment",
       "property": "corner-radius"
     },
     "context": "Focused value rounding",
@@ -660,18 +558,30 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "in-field-button"
+      },
+      "options": {
+        "isError": true
+      }
     },
-    "context": "Icon spacing (error)",
+    "context": "Spacing (alert icon to in-field button)",
     "contextRole": ["spacing"],
-    "contextQualifier": "error",
     "$ref": "da7f0c10-fa1b-4700-8acf-01feebdeed7f",
-    "uuid": "261827d4-c7a9-5833-8451-bd3a48d12c89"
+    "uuid": "261827d4-c7a9-5833-8451-bd3a48d12c89",
+    "contextQualifier": "alert icon to in-field button"
   },
   {
     "scope": {
       "component": "date-picker",
-      "property": "workflow-icon-size-100"
+      "part": "error-icon",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Alert icon size",
     "contextRole": ["size"],
@@ -681,7 +591,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "workflow-icon-size-100"
+      "part": "error-icon",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Alert icon size",
     "contextRole": ["size"],
@@ -691,18 +605,15 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "minimum-width"
-    },
-    "context": "Width (minimum)",
-    "contextRole": ["width"],
-    "contextQualifier": "minimum",
-    "$ref": "ebc4d09b-03c8-475a-af01-9bfcd590d92b",
-    "uuid": "d39aeb9a-3f66-5a56-99af-f86695385b29"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "error-icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (value to alert icon)",
     "contextRole": ["spacing"],
@@ -713,18 +624,15 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "minimum-width"
-    },
-    "context": "Width (minimum)",
-    "contextRole": ["width"],
-    "contextQualifier": "minimum",
-    "$ref": "21bb1275-44e7-49be-926a-66966e969a6f",
-    "uuid": "49c364ca-dc96-505f-8737-231a004c8233"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "error-icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (value to alert icon)",
     "contextRole": ["spacing"],
@@ -735,7 +643,15 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "error-icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
     "contextRole": ["spacing"],
@@ -746,7 +662,12 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "error-icon"
+      }
     },
     "context": "Spacing (value to alert icon)",
     "contextRole": ["spacing"],
@@ -757,7 +678,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "error-icon",
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Alert icon (error) color",
     "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f",
@@ -766,7 +691,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "error-icon",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Alert icon (error) color",
     "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6",
@@ -775,7 +704,11 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "color"
+      "part": "error-icon",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Alert icon (error) color",
     "$ref": "9211e320-de05-4097-8350-fef2293be6a0",
@@ -784,51 +717,46 @@
   {
     "scope": {
       "component": "date-picker",
-      "property": "content-color"
+      "part": "popover",
+      "property": "minimum-width",
+      "options": {
+        "visibleMonths": 3
+      }
     },
-    "context": "Error message (error) color",
-    "$ref": "2a1b0c71-c3a4-4f4c-a625-346e026853e5",
-    "uuid": "2ed7c7c2-2d2d-58a4-9018-b0ce9d414f66"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "content-color"
-    },
-    "context": "Help text color",
-    "contextRole": ["label"],
-    "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
-    "uuid": "90419a2c-5a29-5054-97b6-499fc6ed2c36"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "minimum-width"
-    },
-    "context": "Popover minimum width",
+    "context": "Width (minimum)",
     "contextRole": ["width"],
     "$ref": "1ccfcd2c-6de7-4a25-b6b7-0b40acc702c6",
-    "uuid": "a1187857-b9a1-5ccb-99f2-7d39f7f7657c"
+    "uuid": "a1187857-b9a1-5ccb-99f2-7d39f7f7657c",
+    "contextQualifier": "minimum"
   },
   {
     "scope": {
       "component": "date-picker",
-      "property": "minimum-height"
+      "part": "popover",
+      "property": "minimum-height",
+      "options": {
+        "visibleMonths": 3
+      }
     },
-    "context": "Popover minimum height",
+    "context": "Height (minimum)",
     "contextRole": ["height"],
     "$ref": "19c4d5a5-6ccb-407e-afa7-79f19286837b",
-    "uuid": "e6423304-5971-553f-8156-7f476d8fb0dc"
+    "uuid": "e6423304-5971-553f-8156-7f476d8fb0dc",
+    "contextQualifier": "minimum"
   },
   {
     "scope": {
       "component": "date-picker",
+      "part": "container",
       "property": "minimum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "152px",
     "uuid": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4",
-    "legacyKey": "date-picker-minimum-width"
+    "legacyKey": "date-picker-minimum-width",
+    "context": "Width (minimum)",
+    "contextRole": ["width"],
+    "contextQualifier": "minimum"
   },
   {
     "scope": {
@@ -869,19 +797,12 @@
   {
     "scope": {
       "component": "date-picker",
-      "part": "day",
-      "property": "thickness"
-    },
-    "context": "Thickness (strikethrough day)",
-    "contextRole": ["thickness"],
-    "contextPart": "strikethrough day",
-    "$ref": "3766d95f-33c6-4b9d-84c8-1a546ee98d32",
-    "uuid": "48db65be-3fe3-5cd5-8016-2285c16de6f5"
-  },
-  {
-    "scope": {
-      "component": "date-picker",
-      "property": "space-between"
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "in-field-button"
+      }
     },
     "context": "Spacing (value to in-field button)",
     "contextRole": ["spacing"],

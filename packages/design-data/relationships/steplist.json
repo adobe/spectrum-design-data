@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "width"
+      "part": "step",
+      "property": "width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Width small (default)",
     "contextRole": ["width"],
@@ -13,7 +17,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "width"
+      "part": "step",
+      "property": "width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Width small (default)",
     "contextRole": ["width"],
@@ -24,7 +32,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "width"
+      "part": "step",
+      "property": "width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Width small (default)",
     "contextRole": ["width"],
@@ -35,7 +47,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "width"
+      "part": "step",
+      "property": "width",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Width small (default)",
     "contextRole": ["width"],
@@ -46,7 +62,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "height"
+      "part": "step",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height small (default)",
     "contextRole": ["height"],
@@ -57,7 +77,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "height"
+      "part": "step",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height small (default)",
     "contextRole": ["height"],
@@ -68,7 +92,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "height"
+      "part": "step",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Height small (default)",
     "contextRole": ["height"],
@@ -79,7 +107,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "height"
+      "part": "step",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Height small (default)",
     "contextRole": ["height"],
@@ -90,7 +122,15 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "visual",
+        "to": "track"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (step to track)",
     "contextRole": ["spacing"],
@@ -101,7 +141,15 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "visual",
+        "to": "track"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (step to track)",
     "contextRole": ["spacing"],
@@ -112,7 +160,15 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "visual",
+        "to": "track"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (step to track)",
     "contextRole": ["spacing"],
@@ -123,7 +179,15 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "visual",
+        "to": "track"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (step to track)",
     "contextRole": ["spacing"],
@@ -134,16 +198,23 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      }
     },
-    "context": "Text adjustment",
+    "context": "Label (text adjustment)",
     "contextRole": ["label"],
+    "contextQualifier": "text adjustment",
     "$ref": "a52c893c-8c03-43a5-88ed-3cd230365b84",
     "uuid": "4d23cd8d-af34-5f4d-a4e6-6af94b30186d"
   },
   {
     "scope": {
       "component": "steplist",
+      "part": "visual",
       "property": "border-width"
     },
     "context": "Visual border",
@@ -154,7 +225,15 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "visual"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (text to visual)",
     "contextRole": ["spacing"],
@@ -165,7 +244,15 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "visual"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (text to visual)",
     "contextRole": ["spacing"],
@@ -176,7 +263,15 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "visual"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (text to visual)",
     "contextRole": ["spacing"],
@@ -187,7 +282,15 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "space-between"
+      "part": "step",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "visual"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (text to visual)",
     "contextRole": ["spacing"],
@@ -198,7 +301,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "size"
+      "part": "visual",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Visual size",
     "contextRole": ["size"],
@@ -208,7 +315,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "size"
+      "part": "visual",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Visual size",
     "contextRole": ["size"],
@@ -218,7 +329,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "size"
+      "part": "visual",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Visual size",
     "contextRole": ["size"],
@@ -228,7 +343,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "size"
+      "part": "visual",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Visual size",
     "contextRole": ["size"],
@@ -238,6 +357,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Steplist track thickness",
@@ -248,6 +368,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Step text",
@@ -258,6 +379,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Step text",
@@ -268,6 +390,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Step text",
@@ -278,6 +401,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Step text",
@@ -288,6 +412,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Step text",
@@ -298,6 +423,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Step text",
@@ -308,6 +434,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Step text",
@@ -318,7 +445,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -328,7 +460,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -338,7 +475,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -348,7 +490,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -358,7 +505,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -368,7 +520,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -378,7 +535,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -388,7 +550,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -398,7 +565,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -408,7 +580,9 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -418,7 +592,9 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -428,7 +604,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -438,7 +619,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -448,7 +634,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -458,7 +649,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -468,7 +664,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -478,7 +679,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -488,7 +694,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -498,7 +709,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -508,7 +724,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -518,7 +739,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -528,7 +754,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -538,7 +769,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Step visual",
     "contextRole": ["step"],
@@ -548,7 +784,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Step visual text",
     "contextRole": ["step"],
@@ -558,7 +798,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Step visual text",
     "contextRole": ["step"],
@@ -568,7 +812,11 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Step visual text",
     "contextRole": ["step"],
@@ -578,6 +826,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "visual",
       "property": "color"
     },
     "context": "Step visual text",
@@ -588,7 +837,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Steplist track",
     "contextRole": ["track"],
@@ -598,7 +852,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Steplist track",
     "contextRole": ["track"],
@@ -608,7 +867,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Steplist track",
     "contextRole": ["track"],
@@ -618,26 +882,30 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Disabled",
-    "contextRole": ["state"],
+    "context": "Step text",
+    "contextRole": ["label"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "e16bfea3-cefe-50ee-85eb-cf55652fda77"
   },
   {
     "scope": {
       "component": "steplist",
-      "property": "color"
+      "part": "visual",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Disabled",
-    "contextRole": ["state"],
+    "context": "Step visual",
+    "contextRole": ["step"],
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
     "uuid": "187afcf6-c0d1-5718-b8e0-2921a921dabb"
   },
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Label",
@@ -648,6 +916,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Label",
@@ -658,6 +927,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Label",
@@ -668,7 +938,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -678,7 +953,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -688,7 +968,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -698,7 +983,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -708,7 +998,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -718,7 +1013,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -728,7 +1028,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -738,7 +1043,12 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -748,7 +1058,8 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -758,7 +1069,8 @@
   {
     "scope": {
       "component": "steplist",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1046,6 +1358,7 @@
   {
     "scope": {
       "component": "steplist",
+      "part": "visual",
       "property": "size",
       "options": {
         "size": "xl",
@@ -1055,11 +1368,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
     "uuid": "1b147315-b106-4d2a-80cb-9be0eed84b7e",
-    "legacyKey": "steplist-visual-size-extra-large"
+    "legacyKey": "steplist-visual-size-extra-large",
+    "context": "Visual size",
+    "contextRole": ["size"]
   },
   {
     "scope": {
       "component": "steplist",
+      "part": "visual",
       "property": "size",
       "options": {
         "object": "visual",
@@ -1069,11 +1385,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "7f7539e6-5d8f-4f24-99a7-9338a3a3c630",
-    "legacyKey": "steplist-visual-size-large"
+    "legacyKey": "steplist-visual-size-large",
+    "context": "Visual size",
+    "contextRole": ["size"]
   },
   {
     "scope": {
       "component": "steplist",
+      "part": "visual",
       "property": "size",
       "options": {
         "object": "visual",
@@ -1083,11 +1402,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "a94843d0-9ef6-423f-b963-7b9ad658ce40",
-    "legacyKey": "steplist-visual-size-medium"
+    "legacyKey": "steplist-visual-size-medium",
+    "context": "Visual size",
+    "contextRole": ["size"]
   },
   {
     "scope": {
       "component": "steplist",
+      "part": "visual",
       "property": "size",
       "options": {
         "object": "visual",
@@ -1097,6 +1419,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "a65898ec-6a5a-4e4a-8a75-358e78a8345d",
-    "legacyKey": "steplist-visual-size-small"
+    "legacyKey": "steplist-visual-size-small",
+    "context": "Visual size",
+    "contextRole": ["size"]
   }
 ]

@@ -223,7 +223,7 @@
                 "type": "string",
                 "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
               },
-              "description": "Maps a component option to the entry field that sets it for that copy."
+              "description": "Maps a component option (boolean, or a string option a text part reads with `text.option`) to the entry field that sets it for that copy."
             }
           },
           "additionalProperties": false
@@ -306,6 +306,7 @@
               "color",
               "trackColor",
               "sweep",
+              "typeStyle",
               "fontFamily",
               "fontSize",
               "fontWeight",
@@ -313,6 +314,9 @@
               "overflow",
               "strokeOpacity",
               "strokeOver",
+              "innerStroke",
+              "innerStrokeWidth",
+              "innerStrokeOpacity",
               "patternFill",
               "patternSize",
               "textDecoration",
@@ -570,6 +574,10 @@
             "to": { "type": "string", "minLength": 1 }
           },
           "additionalProperties": false
+        },
+        "position": {
+          "enum": ["inner", "outer"],
+          "description": "Which stroke the selector is for: a record pinned `scope.options.position` to this value, or one with no such pin, matches. Default `outer`."
         }
       },
       "additionalProperties": false,
@@ -586,7 +594,7 @@
       "else": {
         "anyOf": [{ "required": ["part"] }, { "required": ["between"] }]
       },
-      "description": "Names a relationship by `property` and either its `context` label or its structured identity: `attribute` (the record's `scope.attribute`), `part` (its `scope.part`) and `between` (its `scope.between`). A structured selector names at least one of `part` and `between`, matches every record whose given fields are equal, and a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity. `context` cannot be combined with them."
+      "description": "Names a relationship by `property` and either its `context` label or its structured identity: `attribute` (the record's `scope.attribute`), `part` (its `scope.part`) and `between` (its `scope.between`). A structured selector names at least one of `part` and `between`, matches every record whose given fields are equal, and a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity. `context` cannot be combined with them, except `position`."
     }
   }
 }

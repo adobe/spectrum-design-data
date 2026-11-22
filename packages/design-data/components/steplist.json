@@ -51,7 +51,14 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -86,24 +93,84 @@
     "currentStep": {
       "type": "string",
       "description": "The identifier or label of the currently active step."
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "description": "The size of the step list.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     }
   },
+  "slots": [
+    {
+      "name": "default",
+      "part": "step",
+      "collection": "items",
+      "description": "The steps. Each entry of the items option is drawn as one copy of the step part."
+    }
+  ],
   "anatomy": [
     {
-      "name": "track-size",
-      "description": "The connecting track between steps."
+      "name": "container",
+      "description": "The step list: a row (or column, when vertical) of steps. It is the root.",
+      "required": true,
+      "contains": ["step"]
     },
-    { "name": "track" },
-    { "name": "step", "description": "A single step in the list." }
+    {
+      "name": "step",
+      "description": "A single step in the list; repeated once per entry of items.",
+      "required": true,
+      "contains": ["visual", "label", "track"]
+    },
+    {
+      "name": "visual",
+      "description": "Circle that shows the step number, or a checkmark once the step is completed."
+    },
+    {
+      "name": "label",
+      "description": "Text label of a step; optional."
+    },
+    {
+      "name": "track",
+      "description": "Connecting line from this step to the next. Absent on the last step. It takes its step's completed or incomplete state."
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web steplist page (.Step, Track 1-2, Track 2-3). There is no React Spectrum or SWC steplist. container added as the root. Decision A67 D4a: track is a child of step, absent on the last step, taking its step's completed or incomplete state; this goes against Figma's layer structure (n-1 Track instances on the container), so Design confirms through the steplist needs-decision bead. track-size deleted (a property name used as a part); step kept (the registry's step-item is removed)."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

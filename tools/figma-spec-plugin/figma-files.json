@@ -7,13 +7,13 @@
   "files": {
     "accordion": {
       "fileKey": "4ODFvP7T7X7TMevsYBQXPP",
-      "hash": "bec16d609fc16093",
-      "generatedAt": "2026-11-16",
+      "hash": "ae5ff5d2a230ab3c",
+      "generatedAt": "2026-11-20",
       "textMetrics": {
         "family": "adobe-clean-spectrum-vf",
         "test700At14px": 23.673,
         "fingerprint": "584378d3822d25fd",
-        "generated": "2026-11-16",
+        "generated": "2026-11-14",
         "platform": "darwin-arm64"
       }
     },

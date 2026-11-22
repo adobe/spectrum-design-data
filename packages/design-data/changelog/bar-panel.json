@@ -19,6 +19,31 @@
           "metadata": {"count":5,"fields":["context","contextQualifier","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "bc0958652fa2b1ad9cf8559f556d174be92c26cd",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2001,"title":"feat(design-data): review anatomy of panels and empty states (A8 2/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2001"},
+          "entries": [
+            {"id":"bc095865-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"bar-panel/anatomy/gripper","name":"gripper","fields":[],"before":{"name":"gripper"}},
+            {"id":"bc095865-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"bar-panel/anatomy/actions","name":"actions","fields":[],"after":{"name":"actions","description":"Row or column of action buttons."}},
+            {"id":"bc095865-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"bar-panel/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Bar surface. Root of the component and host of the actions slot.","required":true,"contains":["drag-handle","actions","divider"]}},
+            {"id":"bc095865-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"bar-panel/anatomy/divider","name":"divider","fields":[],"after":{"name":"divider","description":"Line between groups of actions; horizontal or vertical by orientation."}},
+            {"id":"bc095865-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"bar-panel/anatomy/drag-handle","name":"drag-handle","fields":[],"after":{"name":"drag-handle","description":"Grip that moves the bar (Figma Drag handle layer, S2_Gripper icon)."}},
+            {"id":"bc095865-5","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"bar-panel/slots/actions","name":"actions","fields":[],"after":{"name":"actions","part":"actions","accepts":["action-button"],"description":"The action buttons in the bar."}},
+            {"id":"bc095865-6","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"bar-panel/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Owner decisions (A8, 2026-11-20): explicit root part container; the grip part is drag-handle (4 legacy records said gripper and moved to the new part name, legacy output unchanged). Figma S2 Web Bar panel and toolbar (9952:19120): Drag handle, action buttons, Divider, Slot. Style (primary, secondary), density (5 widths 44 to 72) and the floating shadow are options and styling, not parts; the legacy widths 40/56/72 do not match the Figma densities (gap bead). The registry entry wrongly called this a sub-part shared by color area and color wheel; fixed."}]},
+            {"id":"bc095865-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"bar-panel/description","name":"description","fields":[{"path":"description","before":"A panel anchored to an edge, exposing a draggable gripper for resizing.","after":"A panel anchored to an edge, exposing a drag handle for moving it. Also called a toolbar."}]}
+          ],
+          "metadata": {"count":6,"fields":["anatomyReview.reviewedIn","anatomyReview.status","context","contextQualifier","scope.part"]}
+        }
+      ]
     }
   ]
 }

@@ -210,6 +210,128 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.28.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-20",
+      "commit": "8cbc6c0d92dbffc8bfa8b064e3cd4348e1bfd9de",
+      "commits": [
+        {
+          "commit": "8cbc6c0d92dbffc8bfa8b064e3cd4348e1bfd9de",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1987,"title":"feat(design-data): review anatomy of messages and status components (A5)","url":"https://github.com/adobe/spectrum-design-data/pull/1987"},
+          "entries": [
+            {"id":"8cbc6c0d-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"b437db88-e6f5-579a-b9f9-4294d9c32370","name":"workflow-icon-size-100","fields":[{"path":"scope.part","after":"icon"}]},
+            {"id":"8cbc6c0d-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"9bbad538-8028-5eb9-97c4-c9705610791f","name":"workflow-icon-size-100","fields":[{"path":"scope.part","after":"icon"}]},
+            {"id":"8cbc6c0d-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (icon to text)"],"scope":{"property":"space-between","options":null},"record":"ea74a7d6-9814-57c5-a8cf-41cc655cc0a0","name":"space-between","fields":[{"path":"scope.between.from","after":"icon"},{"path":"scope.between.to","after":"text"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (text to button, horizontal)"],"scope":{"property":"space-between","options":null},"record":"32531f17-e2e8-583a-a971-f501ab7cbf4e","name":"space-between","fields":[{"path":"scope.between.from","after":"text"},{"path":"scope.between.to","after":"button"},{"path":"scope.part","after":"container"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"8cbc6c0d-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start edge to text and icon)"],"scope":{"property":"space-between","options":null},"record":"4963789c-53af-544c-bad1-49ced3b47e87","name":"space-between","fields":[{"path":"scope.between.from","after":"start-edge"},{"path":"scope.between.to","after":"icon"},{"path":"scope.part","after":"container"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"8cbc6c0d-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (button to close button, horizontal)"],"scope":{"property":"space-between","options":null},"record":"8cf995c0-4030-548b-b4ce-b971070e383d","name":"space-between","fields":[{"path":"scope.between.from","after":"button"},{"path":"scope.between.to","after":"close-button"},{"path":"scope.part","after":"container"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"8cbc6c0d-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (close button to end edge)"],"scope":{"property":"space-between","options":null},"record":"c38a05cc-2798-5e0c-bb5e-cbdeaca03e8d","name":"space-between","fields":[{"path":"scope.between.from","after":"end-edge"},{"path":"scope.between.to","after":"close-button"},{"path":"scope.part","after":"container"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"8cbc6c0d-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["18px (desktop), 20px (mobile)"],"scope":{"property":"space-between","options":null},"record":"0bff066d-b4b6-5175-8fd4-7a98b782e940","name":"space-between","fields":[{"path":"scope.between.from","after":"top-edge"},{"path":"scope.between.to","after":"text"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-8","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["20px (desktop), 22px (mobile)"],"scope":{"property":"space-between","options":null},"record":"4b43756a-1aa3-563a-89c5-28175758e8b7","name":"space-between","fields":[{"path":"scope.between.from","after":"bottom-edge"},{"path":"scope.between.to","after":"text"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"b5ef3830-4405-5bb7-b3d9-a156e058d3d8","name":"color[variant=neutral]","fields":[{"path":"scope.options.variant","after":"neutral"}]},
+            {"id":"8cbc6c0d-10","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"b5ef3830-4405-5bb7-b3d9-a156e058d3d8","name":"color[variant=neutral]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"3d08e31d-963e-541a-aa80-6d17ff45216f","name":"color[variant=neutral]","fields":[{"path":"scope.options.variant","after":"neutral"}]},
+            {"id":"8cbc6c0d-12","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"3d08e31d-963e-541a-aa80-6d17ff45216f","name":"color[variant=neutral]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"f2575941-4302-53ac-b764-0185934f50d3","name":"color[variant=neutral]","fields":[{"path":"scope.options.variant","after":"neutral"}]},
+            {"id":"8cbc6c0d-14","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"f2575941-4302-53ac-b764-0185934f50d3","name":"color[variant=neutral]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-15","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"92ba7d0d-f1b7-57cd-afd6-2f3474bcb3e7","name":"color[variant=informative]","fields":[{"path":"scope.options.variant","after":"informative"}]},
+            {"id":"8cbc6c0d-16","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"92ba7d0d-f1b7-57cd-afd6-2f3474bcb3e7","name":"color[variant=informative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-17","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"b091a686-4a96-52e8-a5c7-0edf0e0b7816","name":"color[variant=informative]","fields":[{"path":"scope.options.variant","after":"informative"}]},
+            {"id":"8cbc6c0d-18","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"b091a686-4a96-52e8-a5c7-0edf0e0b7816","name":"color[variant=informative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-19","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"abcca3fb-75bc-5272-b49c-9f8d6812c3a9","name":"color[variant=informative]","fields":[{"path":"scope.options.variant","after":"informative"}]},
+            {"id":"8cbc6c0d-20","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"abcca3fb-75bc-5272-b49c-9f8d6812c3a9","name":"color[variant=informative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-21","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"positive"}},"record":"477a4a28-bf23-5572-a971-9688401409bc","name":"color[variant=positive]","fields":[{"path":"scope.options.variant","after":"positive"}]},
+            {"id":"8cbc6c0d-22","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"positive"}},"record":"477a4a28-bf23-5572-a971-9688401409bc","name":"color[variant=positive]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-23","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"positive"}},"record":"76faf7fa-5ff1-5034-a449-d6f964d8c1ba","name":"color[variant=positive]","fields":[{"path":"scope.options.variant","after":"positive"}]},
+            {"id":"8cbc6c0d-24","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"positive"}},"record":"76faf7fa-5ff1-5034-a449-d6f964d8c1ba","name":"color[variant=positive]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-25","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"positive"}},"record":"b3049504-1bb0-503c-8fbb-66f0982d76f1","name":"color[variant=positive]","fields":[{"path":"scope.options.variant","after":"positive"}]},
+            {"id":"8cbc6c0d-26","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"positive"}},"record":"b3049504-1bb0-503c-8fbb-66f0982d76f1","name":"color[variant=positive]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-27","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"a4c48986-f584-5810-bfba-1d919c151f18","name":"color[variant=negative]","fields":[{"path":"scope.options.variant","after":"negative"}]},
+            {"id":"8cbc6c0d-28","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"a4c48986-f584-5810-bfba-1d919c151f18","name":"color[variant=negative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-29","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"8c4b577b-6895-5771-bfcd-0f5a57411578","name":"color[variant=negative]","fields":[{"path":"scope.options.variant","after":"negative"}]},
+            {"id":"8cbc6c0d-30","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"8c4b577b-6895-5771-bfcd-0f5a57411578","name":"color[variant=negative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-31","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"b6376d4d-dd20-522d-9672-20d3679c9a95","name":"color[variant=negative]","fields":[{"path":"scope.options.variant","after":"negative"}]},
+            {"id":"8cbc6c0d-32","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"b6376d4d-dd20-522d-9672-20d3679c9a95","name":"color[variant=negative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"8cbc6c0d-33","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text and icon"],"scope":{"property":"color","options":null},"record":"99b84917-3395-5795-a62f-7a1fda121a29","name":"color","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"8cbc6c0d-34","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"font-family","options":null},"record":"c3677542-e73a-5eb8-95ab-98973bc4c0a3","name":"font-family","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"8cbc6c0d-35","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"font-weight","options":null},"record":"c063a1e1-a223-5d41-b684-35e45723ea7c","name":"font-weight","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"8cbc6c0d-36","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"font-style","options":null},"record":"27fe83d6-e215-59cf-ad7a-c29b21de6893","name":"font-style","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"8cbc6c0d-37","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"font-size-100","options":null},"record":"1479b02e-3e93-5130-99c7-949a3a8f7fda","name":"font-size-100","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"8cbc6c0d-38","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"font-size-100","options":null},"record":"f6ddc2cd-481d-58e4-a71c-d995e68c44c1","name":"font-size-100","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"8cbc6c0d-39","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"line-height-100","options":null},"record":"77cb0b9f-8654-59ca-b86b-19ff4cc26d56","name":"line-height-100","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"8cbc6c0d-40","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"line-height-100","options":null},"record":"d2a0bd68-c8ba-5b72-ac1d-f1640acbc1b5","name":"line-height-100","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"8cbc6c0d-41","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Text and icon"],"scope":{"property":"color","options":null},"record":"1544f5d1-c9f6-5a72-82fa-6b2263ab10bc","name":"color","fields":[],"after":"9b799da8-2130-417e-b7ee-5e1154a89837"},
+            {"id":"8cbc6c0d-42","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"toast/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP Toast.tsx:622 (close button always drawn), Toast.tsx:331-333 (neutral has no icon), Toast.tsx:605-618 (optional action button). Figma S2 Web toast frames.","after":"Owner decisions (A137, 2026-11-20): explicit root part container; icon (registry alias alert-icon, Figma workflow icon); text part named text; the toast stack is a future Pattern (no part). RSP Toast.tsx:622 (close button always drawn), Toast.tsx:331-333 (neutral has no icon), Toast.tsx:605-618 (optional action button). The Background colour records are pinned to a variant by the bold-fill token they alias in in-line-alert."}]}
+          ],
+          "metadata": {"count":6,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "1.3.1",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "fc69dda6c1054f2a7d3be88f921690eb3a927aef",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1993,"title":"feat(design-data): migrate status-light, in-line-alert, alert-banner and toast to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/1993"},
+          "entries": [
+            {"id":"fc69dda6-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"size","options":null},"record":"b437db88-e6f5-579a-b9f9-4294d9c32370","name":"size","fields":[{"path":"scope.property","before":"workflow-icon-size-100","after":"size"}]},
+            {"id":"fc69dda6-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"size","options":null},"record":"9bbad538-8028-5eb9-97c4-c9705610791f","name":"size","fields":[{"path":"scope.property","before":"workflow-icon-size-100","after":"size"}]},
+            {"id":"fc69dda6-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"font-size","options":null},"record":"1479b02e-3e93-5130-99c7-949a3a8f7fda","name":"font-size","fields":[{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"fc69dda6-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"font-size","options":null},"record":"f6ddc2cd-481d-58e4-a71c-d995e68c44c1","name":"font-size","fields":[{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"fc69dda6-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"line-height","options":null},"record":"77cb0b9f-8654-59ca-b86b-19ff4cc26d56","name":"line-height","fields":[{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"fc69dda6-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"line-height","options":null},"record":"d2a0bd68-c8ba-5b72-ac1d-f1640acbc1b5","name":"line-height","fields":[{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"fc69dda6-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"7f343eb3-37f6-5e3d-9e1a-2a320d9182b9","name":"color[variant=neutral]","fields":[{"path":"scope.options.variant","after":"neutral"}]},
+            {"id":"fc69dda6-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"7f343eb3-37f6-5e3d-9e1a-2a320d9182b9","name":"color[variant=neutral]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"fc69dda6-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"7f343eb3-37f6-5e3d-9e1a-2a320d9182b9","name":"color[variant=neutral]","fields":[{"path":"context","before":"Toast token changes (Jan 2025)","after":"Background"}]}
+          ],
+          "metadata": {"count":1,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "1.4.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "1ae6569690f1429b734139c8703f678e59884f64",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2022,"title":"feat(design-data): add toast, alert banner and in-line alert visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2022"},
+          "entries": [
+            {"id":"1ae65696-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text and icon"],"scope":{"property":"color","options":null},"record":"99b84917-3395-5795-a62f-7a1fda121a29","name":"color","fields":[{"path":"$ref","before":"9b799da8-2130-417e-b7ee-5e1154a89837","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"1ae65696-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text and icon"],"scope":{"property":"color","options":null},"record":"1544f5d1-c9f6-5a72-82fa-6b2263ab10bc","name":"color","fields":[{"path":"$ref","before":"9b799da8-2130-417e-b7ee-5e1154a89837","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"1ae65696-2","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"toast/visual","name":"toast","fields":[]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.31.1",
+      "version": "1.5.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+      "commits": [
+        {
+          "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2033,"title":"feat(design-data): add type-style records to status-light, toast, alert-banner and in-line-alert","url":"https://github.com/adobe/spectrum-design-data/pull/2033"},
+          "entries": [
+            {"id":"6f91b018-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Value"],"scope":{"property":"type-style","options":null},"record":"876ed969-e1eb-54bd-bad6-19b87411a327","name":"type-style","fields":[],"after":"567a8eff-028f-4de1-b58a-a0473775219f"}
+          ]
+        }
+      ]
     }
   ]
 }

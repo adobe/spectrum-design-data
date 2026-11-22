@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-height-75"
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item"
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-height-75"
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item"
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-height-100"
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item"
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -32,7 +44,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-height-100"
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item"
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -42,7 +58,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-height-200"
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item"
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -52,7 +72,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-height-200"
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item"
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -62,7 +86,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-height-300"
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item"
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -72,7 +100,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-height-300"
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item"
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -82,7 +114,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-size-difference"
+      "property": "component-size-difference",
+      "part": "menu-item"
     },
     "context": "Component size (down)",
     "contextRole": ["size"],
@@ -93,7 +126,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-size-width-ratio"
+      "property": "component-size-width-ratio",
+      "part": "menu-item"
     },
     "context": "Component size (down)",
     "contextRole": ["size"],
@@ -104,7 +138,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-size-minimum-perspective"
+      "property": "component-size-minimum-perspective",
+      "part": "menu-item"
     },
     "context": "Component size (down)",
     "contextRole": ["size"],
@@ -115,7 +150,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "corner-radius"
+      "property": "corner-radius",
+      "part": "menu-item"
     },
     "context": "Rounding",
     "contextRole": ["rounding"],
@@ -125,7 +161,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "corner-radius"
+      "property": "corner-radius",
+      "part": "menu-item"
     },
     "context": "Rounding",
     "contextRole": ["rounding"],
@@ -135,7 +172,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "corner-radius"
+      "property": "corner-radius",
+      "part": "menu-item"
     },
     "context": "Rounding",
     "contextRole": ["rounding"],
@@ -145,7 +183,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "corner-radius"
+      "property": "corner-radius",
+      "part": "menu-item"
     },
     "context": "Rounding",
     "contextRole": ["rounding"],
@@ -155,7 +194,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "height"
+      "property": "height",
+      "part": "section-divider"
     },
     "context": "Height (section divider)",
     "contextRole": ["height"],
@@ -166,7 +206,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -177,7 +225,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -188,7 +244,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -199,7 +263,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -210,7 +282,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-top-to-workflow-icon-75"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -221,7 +301,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-top-to-workflow-icon-100"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -232,7 +320,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-top-to-workflow-icon-200"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -243,7 +339,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-top-to-workflow-icon-300"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -254,7 +358,12 @@
   {
     "scope": {
       "component": "menu",
-      "property": "spacing"
+      "property": "space-between",
+      "part": "container",
+      "between": {
+        "from": "menu-item",
+        "to": "menu-item"
+      }
     },
     "context": "Spacing (item to item)",
     "contextRole": ["spacing"],
@@ -265,7 +374,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-edge-to-text-75"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
@@ -276,7 +393,34 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-edge-to-text-75"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (start/end edges to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges to content",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "4df10f56-8bff-5740-8fe7-ee0e7fa84017"
+  },
+  {
+    "scope": {
+      "component": "menu",
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
@@ -287,7 +431,34 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-edge-to-text-100"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (start/end edges to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges to content",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "83a2afe4-1758-5bfa-8340-4cb6c2ae77aa"
+  },
+  {
+    "scope": {
+      "component": "menu",
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
@@ -298,7 +469,34 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-edge-to-text-100"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (start/end edges to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges to content",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "a7534ba7-759f-54b1-b566-e68098db9e38"
+  },
+  {
+    "scope": {
+      "component": "menu",
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
@@ -309,7 +507,34 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-edge-to-text-200"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (start/end edges to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges to content",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "0b452a4c-de30-5500-acde-50e5710d7387"
+  },
+  {
+    "scope": {
+      "component": "menu",
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
@@ -320,7 +545,34 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-edge-to-text-200"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (start/end edges to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges to content",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "a31b6383-67ad-5874-97c5-a0faa98d8186"
+  },
+  {
+    "scope": {
+      "component": "menu",
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
@@ -331,7 +583,34 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-edge-to-text-300"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (start/end edges to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges to content",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "35e49126-4fb8-5679-8fce-8565778d5013"
+  },
+  {
+    "scope": {
+      "component": "menu",
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
@@ -342,7 +621,34 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-edge-to-text-300"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (start/end edges to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges to content",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "4e9a218b-d7ff-535d-9dd2-365b9ac7c8f5"
+  },
+  {
+    "scope": {
+      "component": "menu",
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
@@ -353,7 +659,31 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "end-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (start/end edges to content)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edges to content",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "96e1a588-2f0c-542c-bb85-f7602a6cb053"
+  },
+  {
+    "scope": {
+      "component": "menu",
+      "property": "space-between",
+      "part": "menu-item",
+      "between": {
+        "from": "thumbnail",
+        "to": "label"
+      }
     },
     "context": "Spacing (thumbnail to label)",
     "contextRole": ["spacing"],
@@ -364,7 +694,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "top-to-thumbnail-small"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "thumbnail"
+      }
     },
     "context": "Spacing (top to thumbnail)",
     "contextRole": ["spacing"],
@@ -375,7 +713,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "top-to-thumbnail-medium"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "thumbnail"
+      }
     },
     "context": "Spacing (top to thumbnail)",
     "contextRole": ["spacing"],
@@ -386,7 +732,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "top-to-thumbnail-large"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "thumbnail"
+      }
     },
     "context": "Spacing (top to thumbnail)",
     "contextRole": ["spacing"],
@@ -397,7 +751,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "top-to-thumbnail-extra-large"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "thumbnail"
+      }
     },
     "context": "Spacing (top to thumbnail)",
     "contextRole": ["spacing"],
@@ -408,7 +770,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-top-to-text-75"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (top to to label/value)",
     "contextRole": ["spacing"],
@@ -419,7 +789,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-top-to-text-100"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (top to to label/value)",
     "contextRole": ["spacing"],
@@ -430,7 +808,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-top-to-text-200"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (top to to label/value)",
     "contextRole": ["spacing"],
@@ -441,7 +827,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-top-to-text-300"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (top to to label/value)",
     "contextRole": ["spacing"],
@@ -452,7 +846,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "container",
+      "between": {
+        "from": "section-header",
+        "to": "description"
+      }
     },
     "context": "Spacing (section header to description)",
     "contextRole": ["spacing"],
@@ -463,7 +865,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "container",
+      "between": {
+        "from": "section-header",
+        "to": "description"
+      }
     },
     "context": "Spacing (section header to description)",
     "contextRole": ["spacing"],
@@ -474,7 +884,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "container",
+      "between": {
+        "from": "section-header",
+        "to": "description"
+      }
     },
     "context": "Spacing (section header to description)",
     "contextRole": ["spacing"],
@@ -485,7 +903,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "container",
+      "between": {
+        "from": "section-header",
+        "to": "description"
+      }
     },
     "context": "Spacing (section header to description)",
     "contextRole": ["spacing"],
@@ -496,7 +922,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "label-to-description-small"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "label",
+        "to": "description"
+      }
     },
     "context": "Spacing (label to description)",
     "contextRole": ["spacing"],
@@ -507,7 +941,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "label-to-description-medium"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "label",
+        "to": "description"
+      }
     },
     "context": "Spacing (label to description)",
     "contextRole": ["spacing"],
@@ -518,7 +960,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "label-to-description-large"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "label",
+        "to": "description"
+      }
     },
     "context": "Spacing (label to description)",
     "contextRole": ["spacing"],
@@ -529,7 +979,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "label-to-description-extra-large"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "label",
+        "to": "description"
+      }
     },
     "context": "Spacing (label to description)",
     "contextRole": ["spacing"],
@@ -540,7 +998,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-bottom-to-text-75"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (bottom edge to label/description)",
     "contextRole": ["spacing"],
@@ -551,7 +1017,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-bottom-to-text-100"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (bottom edge to label/description)",
     "contextRole": ["spacing"],
@@ -562,7 +1036,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-bottom-to-text-200"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (bottom edge to label/description)",
     "contextRole": ["spacing"],
@@ -573,7 +1055,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "component-bottom-to-text-300"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      }
     },
     "context": "Spacing (bottom edge to label/description)",
     "contextRole": ["spacing"],
@@ -584,7 +1074,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "spacing"
+      "property": "spacing",
+      "part": "menu-item"
     },
     "context": "Spacing (label area to actions/value area, minimum)",
     "contextRole": ["spacing"],
@@ -595,7 +1086,16 @@
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-top-to-selected-icon-small"
+      "property": "space-between",
+      "options": {
+        "size": "s",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "checkmark"
+      }
     },
     "context": "Spacing (top edge to selected icon, single selection)",
     "contextRole": ["spacing"],
@@ -606,7 +1106,16 @@
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-top-to-selected-icon-medium"
+      "property": "space-between",
+      "options": {
+        "size": "m",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "checkmark"
+      }
     },
     "context": "Spacing (top edge to selected icon, single selection)",
     "contextRole": ["spacing"],
@@ -617,7 +1126,16 @@
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-top-to-selected-icon-large"
+      "property": "space-between",
+      "options": {
+        "size": "l",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "checkmark"
+      }
     },
     "context": "Spacing (top edge to selected icon, single selection)",
     "contextRole": ["spacing"],
@@ -628,7 +1146,16 @@
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-top-to-selected-icon-extra-large"
+      "property": "space-between",
+      "options": {
+        "size": "xl",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "checkmark"
+      }
     },
     "context": "Spacing (top edge to selected icon, single selection)",
     "contextRole": ["spacing"],
@@ -639,7 +1166,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "checkmark",
+        "to": "label"
+      }
     },
     "context": "Spacing (checkmark icon/checkbox to label)",
     "contextRole": ["spacing"],
@@ -650,7 +1185,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "checkmark",
+        "to": "label"
+      }
     },
     "context": "Spacing (checkmark icon/checkbox to label)",
     "contextRole": ["spacing"],
@@ -661,7 +1204,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "checkmark",
+        "to": "label"
+      }
     },
     "context": "Spacing (checkmark icon/checkbox to label)",
     "contextRole": ["spacing"],
@@ -672,7 +1223,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "checkmark",
+        "to": "label"
+      }
     },
     "context": "Spacing (checkmark icon/checkbox to label)",
     "contextRole": ["spacing"],
@@ -683,95 +1242,175 @@
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-edge-to-content-not-selected-small"
+      "property": "space-between",
+      "options": {
+        "size": "s",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
-    "context": "Spacing (start edge to label, single selection, not selected)",
+    "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start edge to label, single selection, not selected",
+    "contextQualifier": "start/end edges to content",
     "$ref": "033fb47f-30d8-4ff2-9825-a3318ca2118b",
     "uuid": "eda3adc4-8d54-538b-b40c-0a57798f65f8"
   },
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-edge-to-content-not-selected-small"
+      "property": "space-between",
+      "options": {
+        "size": "s",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
-    "context": "Spacing (start edge to label, single selection, not selected)",
+    "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start edge to label, single selection, not selected",
+    "contextQualifier": "start/end edges to content",
     "$ref": "de2ef572-54a2-46c2-ad1d-60468fbe6090",
     "uuid": "c7864aeb-8e6f-5f2c-8e23-47f11c08d4d6"
   },
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-edge-to-content-not-selected-medium"
+      "property": "space-between",
+      "options": {
+        "size": "m",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
-    "context": "Spacing (start edge to label, single selection, not selected)",
+    "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start edge to label, single selection, not selected",
+    "contextQualifier": "start/end edges to content",
     "$ref": "ac4c8abe-abca-4c6f-82e7-ed7fae0c761d",
     "uuid": "a1e56829-6e29-5b74-9ba5-7a28a94726d7"
   },
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-edge-to-content-not-selected-medium"
+      "property": "space-between",
+      "options": {
+        "size": "m",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
-    "context": "Spacing (start edge to label, single selection, not selected)",
+    "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start edge to label, single selection, not selected",
+    "contextQualifier": "start/end edges to content",
     "$ref": "5faa4858-5590-40d4-bd12-b4c839908c4c",
     "uuid": "47f6b6f0-d921-56c8-ae2b-e83b304b5e39"
   },
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-edge-to-content-not-selected-large"
+      "property": "space-between",
+      "options": {
+        "size": "l",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
-    "context": "Spacing (start edge to label, single selection, not selected)",
+    "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start edge to label, single selection, not selected",
+    "contextQualifier": "start/end edges to content",
     "$ref": "bc6a7e9d-b84c-4bf3-9a63-a08047deb41c",
     "uuid": "b2bca21c-59f8-59a0-86a9-d4eba742cee7"
   },
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-edge-to-content-not-selected-large"
+      "property": "space-between",
+      "options": {
+        "size": "l",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
-    "context": "Spacing (start edge to label, single selection, not selected)",
+    "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start edge to label, single selection, not selected",
+    "contextQualifier": "start/end edges to content",
     "$ref": "90385dcc-ea45-466f-ba4d-a1b13f6a079c",
     "uuid": "30367fdf-fba7-5e9c-a609-bcd10cd2d7c7"
   },
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-edge-to-content-not-selected-extra-large"
+      "property": "space-between",
+      "options": {
+        "size": "xl",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
-    "context": "Spacing (start edge to label, single selection, not selected)",
+    "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start edge to label, single selection, not selected",
+    "contextQualifier": "start/end edges to content",
     "$ref": "2480bdaf-ac18-4f67-9a0b-f92200fb31d7",
     "uuid": "7f8ca4ae-845d-51de-a7c0-402bbb478a56"
   },
   {
     "scope": {
       "component": "menu",
-      "property": "menu-item-edge-to-content-not-selected-extra-large"
+      "property": "space-between",
+      "options": {
+        "size": "xl",
+        "selectionMode": "single"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
     },
-    "context": "Spacing (start edge to label, single selection, not selected)",
+    "context": "Spacing (start/end edges to content)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start edge to label, single selection, not selected",
+    "contextQualifier": "start/end edges to content",
     "$ref": "3385c12f-199b-4e9d-b2e2-ef6e2658d180",
     "uuid": "ad30d2ba-82ee-500e-9a85-9128dc1e211e"
   },
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "drill-in-chevron"
+      }
     },
     "context": "Spacing (top edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -782,7 +1421,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "m"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "drill-in-chevron"
+      }
     },
     "context": "Spacing (top edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -793,7 +1440,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "l"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "drill-in-chevron"
+      }
     },
     "context": "Spacing (top edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -804,7 +1459,15 @@
   {
     "scope": {
       "component": "menu",
-      "property": "space-between"
+      "property": "space-between",
+      "options": {
+        "size": "xl"
+      },
+      "part": "menu-item",
+      "between": {
+        "from": "top-edge",
+        "to": "drill-in-chevron"
+      }
     },
     "context": "Spacing (top edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -815,7 +1478,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "thickness"
+      "property": "thickness",
+      "part": "focus-indicator"
     },
     "context": "Focus indicator",
     "contextRole": ["focus"],
@@ -825,7 +1489,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "gap"
+      "property": "gap",
+      "part": "focus-indicator"
     },
     "context": "Focus indicator",
     "contextRole": ["focus"],
@@ -835,7 +1500,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "workflow-icon-size-75"
+      "property": "size",
+      "options": {
+        "size": "s"
+      },
+      "part": "icon"
     },
     "context": "Icon (menu item)",
     "contextRole": ["icon"],
@@ -846,7 +1515,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "workflow-icon-size-75"
+      "property": "size",
+      "options": {
+        "size": "s"
+      },
+      "part": "icon"
     },
     "context": "Icon (menu item)",
     "contextRole": ["icon"],
@@ -857,7 +1530,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "workflow-icon-size-100"
+      "property": "size",
+      "options": {
+        "size": "m"
+      },
+      "part": "icon"
     },
     "context": "Icon (menu item)",
     "contextRole": ["icon"],
@@ -868,7 +1545,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "workflow-icon-size-100"
+      "property": "size",
+      "options": {
+        "size": "m"
+      },
+      "part": "icon"
     },
     "context": "Icon (menu item)",
     "contextRole": ["icon"],
@@ -879,7 +1560,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "workflow-icon-size-200"
+      "property": "size",
+      "options": {
+        "size": "l"
+      },
+      "part": "icon"
     },
     "context": "Icon (menu item)",
     "contextRole": ["icon"],
@@ -890,7 +1575,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "workflow-icon-size-200"
+      "property": "size",
+      "options": {
+        "size": "l"
+      },
+      "part": "icon"
     },
     "context": "Icon (menu item)",
     "contextRole": ["icon"],
@@ -901,7 +1590,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "workflow-icon-size-300"
+      "property": "size",
+      "options": {
+        "size": "xl"
+      },
+      "part": "icon"
     },
     "context": "Icon (menu item)",
     "contextRole": ["icon"],
@@ -912,7 +1605,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "workflow-icon-size-300"
+      "property": "size",
+      "options": {
+        "size": "xl"
+      },
+      "part": "icon"
     },
     "context": "Icon (menu item)",
     "contextRole": ["icon"],
@@ -923,7 +1620,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "checkmark"
     },
     "context": "Icon (single selection, selected menu item)",
     "contextRole": ["icon"],
@@ -934,7 +1632,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "checkmark"
     },
     "context": "Icon (single selection, selected menu item)",
     "contextRole": ["icon"],
@@ -945,7 +1644,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "checkmark"
     },
     "context": "Icon (single selection, selected menu item)",
     "contextRole": ["icon"],
@@ -956,7 +1656,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "checkmark"
     },
     "context": "Icon (single selection, selected menu item)",
     "contextRole": ["icon"],
@@ -967,7 +1668,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "checkmark"
     },
     "context": "Icon (single selection, selected menu item)",
     "contextRole": ["icon"],
@@ -978,7 +1680,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "checkmark"
     },
     "context": "Icon (single selection, selected menu item)",
     "contextRole": ["icon"],
@@ -989,7 +1692,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "checkmark"
     },
     "context": "Icon (single selection, selected menu item)",
     "contextRole": ["icon"],
@@ -1000,7 +1704,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "checkmark"
     },
     "context": "Icon (single selection, selected menu item)",
     "contextRole": ["icon"],
@@ -1011,7 +1716,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "drill-in-chevron"
     },
     "context": "Icon (drill-in action, menu item)",
     "contextRole": ["icon"],
@@ -1022,7 +1728,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "drill-in-chevron"
     },
     "context": "Icon (drill-in action, menu item)",
     "contextRole": ["icon"],
@@ -1033,7 +1740,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "drill-in-chevron"
     },
     "context": "Icon (drill-in action, menu item)",
     "contextRole": ["icon"],
@@ -1044,7 +1752,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "drill-in-chevron"
     },
     "context": "Icon (drill-in action, menu item)",
     "contextRole": ["icon"],
@@ -1055,7 +1764,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "drill-in-chevron"
     },
     "context": "Icon (drill-in action, menu item)",
     "contextRole": ["icon"],
@@ -1066,7 +1776,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "drill-in-chevron"
     },
     "context": "Icon (drill-in action, menu item)",
     "contextRole": ["icon"],
@@ -1077,7 +1788,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "drill-in-chevron"
     },
     "context": "Icon (drill-in action, menu item)",
     "contextRole": ["icon"],
@@ -1088,7 +1800,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "drill-in-chevron"
     },
     "context": "Icon (drill-in action, menu item)",
     "contextRole": ["icon"],
@@ -1099,7 +1812,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "link-out-icon"
     },
     "context": "Icon (external link action, menu item)",
     "contextRole": ["icon"],
@@ -1110,7 +1824,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "link-out-icon"
     },
     "context": "Icon (external link action, menu item)",
     "contextRole": ["icon"],
@@ -1121,7 +1836,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "link-out-icon"
     },
     "context": "Icon (external link action, menu item)",
     "contextRole": ["icon"],
@@ -1132,7 +1848,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "link-out-icon"
     },
     "context": "Icon (external link action, menu item)",
     "contextRole": ["icon"],
@@ -1143,7 +1860,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "link-out-icon"
     },
     "context": "Icon (external link action, menu item)",
     "contextRole": ["icon"],
@@ -1154,7 +1872,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "link-out-icon"
     },
     "context": "Icon (external link action, menu item)",
     "contextRole": ["icon"],
@@ -1165,7 +1884,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "thumbnail"
     },
     "context": "Thumbnail",
     "contextRole": ["control"],
@@ -1175,7 +1895,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "thumbnail"
     },
     "context": "Thumbnail",
     "contextRole": ["control"],
@@ -1185,7 +1906,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "thumbnail"
     },
     "context": "Thumbnail",
     "contextRole": ["control"],
@@ -1195,7 +1917,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "thumbnail"
     },
     "context": "Thumbnail",
     "contextRole": ["control"],
@@ -1205,7 +1928,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "thumbnail"
     },
     "context": "Thumbnail",
     "contextRole": ["control"],
@@ -1215,7 +1939,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "thumbnail"
     },
     "context": "Thumbnail",
     "contextRole": ["control"],
@@ -1225,7 +1950,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "thumbnail"
     },
     "context": "Thumbnail",
     "contextRole": ["control"],
@@ -1235,7 +1961,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "size"
+      "property": "size",
+      "part": "thumbnail"
     },
     "context": "Thumbnail",
     "contextRole": ["control"],
@@ -1245,7 +1972,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1255,7 +1984,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1265,7 +1996,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1275,7 +2008,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1285,7 +2020,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1295,7 +2032,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1305,7 +2044,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1315,7 +2056,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1325,7 +2068,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1335,7 +2080,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1345,7 +2092,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1355,7 +2104,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1365,7 +2116,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1375,7 +2128,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1385,7 +2140,9 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "attribute": "background",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1395,7 +2152,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "opacity"
+      "property": "opacity",
+      "part": "menu-item"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1405,7 +2163,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "menu-item"
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -1415,7 +2174,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "menu-item"
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -1425,7 +2185,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "menu-item"
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -1435,7 +2196,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "menu-item"
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -1445,7 +2207,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "menu-item"
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -1455,7 +2218,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "description"
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -1465,7 +2229,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "description"
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -1475,7 +2240,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "description"
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -1485,7 +2251,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "description"
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -1495,7 +2262,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "checkmark"
     },
     "context": "Checkmark icon",
     "contextRole": ["icon"],
@@ -1505,7 +2273,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "checkmark"
     },
     "context": "Checkmark icon",
     "contextRole": ["icon"],
@@ -1515,7 +2284,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "checkmark"
     },
     "context": "Checkmark icon",
     "contextRole": ["icon"],
@@ -1525,7 +2295,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "content-color"
+      "property": "content-color",
+      "part": "checkmark"
     },
     "context": "Checkmark icon",
     "contextRole": ["icon"],
@@ -1535,7 +2306,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "color"
+      "property": "color",
+      "part": "focus-indicator"
     },
     "context": "Focus indicator",
     "contextRole": ["focus"],
@@ -1545,7 +2317,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-family"
+      "property": "font-family",
+      "part": "section-header"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1555,7 +2328,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-weight"
+      "property": "font-weight",
+      "part": "section-header"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1565,7 +2339,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-style"
+      "property": "font-style",
+      "part": "section-header"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1575,7 +2350,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-75"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1585,7 +2364,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-75"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1595,7 +2378,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1605,7 +2392,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1615,7 +2406,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1625,7 +2420,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1635,7 +2434,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1645,7 +2448,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1655,7 +2462,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "line-height-100"
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      },
+      "part": "label"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1665,7 +2476,11 @@
   {
     "scope": {
       "component": "menu",
-      "property": "line-height-100"
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      },
+      "part": "section-header"
     },
     "context": "Section header title",
     "contextRole": ["label"],
@@ -1675,7 +2490,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-weight"
+      "property": "font-weight",
+      "part": "description"
     },
     "context": "Descriptions (section header and item)",
     "contextRole": ["label"],
@@ -1686,7 +2502,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-50"
+      "property": "font-size",
+      "part": "description"
     },
     "context": "Descriptions (section header and item)",
     "contextRole": ["label"],
@@ -1697,7 +2514,8 @@
   {
     "scope": {
       "component": "menu",
-      "property": "font-size-50"
+      "property": "font-size",
+      "part": "description"
     },
     "context": "Descriptions (section header and item)",
     "contextRole": ["label"],
@@ -1987,7 +2805,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0",
     "uuid": "6f464689-0b87-4f38-b9a4-e5015acdd0d7",
-    "legacyKey": "menu-item-background-opacity"
+    "legacyKey": "menu-item-background-opacity",
+    "context": "Background",
+    "contextRole": ["background"]
   },
   {
     "scope": {
@@ -2231,7 +3051,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "dac5c077-b948-434b-91bd-0759c2414007",
-    "legacyKey": "menu-item-section-divider-height"
+    "legacyKey": "menu-item-section-divider-height",
+    "context": "Height (section divider)",
+    "contextRole": ["height"],
+    "contextPart": "section divider"
   },
   {
     "scope": {

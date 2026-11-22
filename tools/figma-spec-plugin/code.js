@@ -540,6 +540,258 @@ function changelogFrame(changelog, rev8) {
   return f;
 }
 
+// Template sections (sheet.sections): a frame per section after the measurement pages. Prose is
+// wrapped text, a table is a grid of text cells, a placeholder is a dashed "Manual" box.
+const SECTION_W = 960;
+const LINE = { r: 0.88, g: 0.88, b: 0.88 };
+
+function para(str, size, style, color, width) {
+  const t = text(str, size, style, color);
+  t.textAutoResize = "HEIGHT";
+  t.resize(width, t.height);
+  return t;
+}
+
+// resize() makes both axes FIXED in Figma, so hug the height after it.
+function fixedWidth(f, w) {
+  f.resize(w, 10);
+  f.primaryAxisSizingMode = "AUTO";
+  f.counterAxisSizingMode = "FIXED";
+}
+
+function textList(label, items, width, tint) {
+  const f = auto("VERTICAL", {
+    itemSpacing: 6,
+    paddingLeft: 12,
+    paddingRight: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
+    cornerRadius: 8,
+  });
+  f.name = label;
+  f.fills = [solid(tint)];
+  fixedWidth(f, width);
+  f.appendChild(text(label, 13, "Bold"));
+  for (const i of items)
+    f.appendChild(para("\u2022 " + i, 13, "Regular", INK, width - 24));
+  return f;
+}
+
+function proseBlock(b) {
+  const f = auto("VERTICAL", { itemSpacing: 8 });
+  for (const p of b.paragraphs || [])
+    f.appendChild(para(p, 14, "Regular", INK, SECTION_W));
+  if ((b.bullets || []).length)
+    f.appendChild(textList("List", b.bullets, SECTION_W, WHITE));
+  if ((b.do || []).length || (b.dont || []).length) {
+    const pair = auto("HORIZONTAL", { itemSpacing: 16 });
+    pair.name = "Do and don't";
+    const half = (SECTION_W - 16) / 2;
+    if ((b.do || []).length)
+      pair.appendChild(textList("Do", b.do, half, { r: 0.9, g: 0.97, b: 0.9 }));
+    if ((b.dont || []).length)
+      pair.appendChild(
+        textList("Don't", b.dont, half, { r: 0.99, g: 0.92, b: 0.92 }),
+      );
+    f.appendChild(pair);
+  }
+  return f;
+}
+
+// Column widths: weighted by the larger of the header length and the 90th percentile of the
+// cell lengths, but never narrower than the longest unbreakable word (7.2px a character plus the
+// 16px cell padding) and never wider than 45% of the width; they sum to SECTION_W.
+function columnWidths(b) {
+  const MAX = SECTION_W * 0.45;
+  const pct = (a) => {
+    const s = a.slice().sort((x, y) => x - y);
+    return s.length ? s[Math.ceil(s.length * 0.9) - 1] : 0;
+  };
+  const word = (v) =>
+    String(v ?? "")
+      .split(/\s+/)
+      .reduce((m, x) => Math.max(m, x.length), 0);
+  const cols = b.columns.map((h, i) => {
+    const cells = b.rows.map((r) => String(r[i] ?? ""));
+    return {
+      weight: Math.max(String(h).length, pct(cells.map((x) => x.length)), 1),
+      min: Math.min(
+        Math.ceil(Math.max(word(h), pct(cells.map(word))) * 7.2) + 16,
+        MAX,
+      ),
+    };
+  });
+  const minSum = cols.reduce((s, c) => s + c.min, 0);
+  if (minSum > SECTION_W)
+    cols.forEach((c) => (c.min = (c.min / minSum) * SECTION_W));
+  const w = cols.map(() => null);
+  for (let pass = 0; pass <= cols.length * 2; pass++) {
+    const free = cols.filter((_, i) => w[i] === null);
+    const left = SECTION_W - w.reduce((s, x) => s + (x === null ? 0 : x), 0);
+    const total = free.reduce((s, c) => s + c.weight, 0);
+    let pinned = false;
+    cols.forEach((c, i) => {
+      if (w[i] !== null) return;
+      const x = (c.weight / total) * left;
+      if (x < c.min) ((w[i] = c.min), (pinned = true));
+      else if (x > MAX) ((w[i] = MAX), (pinned = true));
+    });
+    if (!pinned) {
+      cols.forEach((c, i) => {
+        if (w[i] === null) w[i] = (c.weight / total) * left;
+      });
+      break;
+    }
+  }
+  const out = w.map((x) => Math.floor(x ?? 0));
+  out[out.length - 1] += SECTION_W - out.reduce((x, y) => x + y, 0);
+  return out;
+}
+
+function tableBlock(b) {
+  const f = auto("VERTICAL", { itemSpacing: 0 });
+  const widths = columnWidths(b);
+  const row = (cells, head) => {
+    const r = auto("HORIZONTAL", { itemSpacing: 0 });
+    r.name = head ? "Header row" : "Row";
+    cells.forEach((c, ci) => {
+      const w = widths[ci];
+      const cell = auto("VERTICAL", {
+        paddingLeft: 8,
+        paddingRight: 8,
+        paddingTop: 6,
+        paddingBottom: 6,
+      });
+      cell.name = "Cell";
+      fixedWidth(cell, w);
+      cell.layoutAlign = "STRETCH";
+      cell.fills = [solid(head ? { r: 0.96, g: 0.96, b: 0.96 } : WHITE)];
+      cell.strokes = [solid(LINE)];
+      cell.strokeWeight = 1;
+      cell.appendChild(para(c, 13, head ? "Bold" : "Regular", INK, w - 16));
+      r.appendChild(cell);
+      cell.layoutSizingVertical = "FILL";
+    });
+    return r;
+  };
+  f.appendChild(row(b.columns, true));
+  for (const r of b.rows) f.appendChild(row(r, false));
+  return f;
+}
+
+// A grid of small scene renders, each under its title.
+function galleryBlock(b) {
+  const f = auto("VERTICAL", { itemSpacing: 12 });
+  if (b.caption) f.appendChild(para(b.caption, 13, "Regular", GREY, SECTION_W));
+  const cols = b.columns || 1;
+  const { width, height } = b.cell;
+  for (let i = 0; i < b.items.length; i += cols) {
+    const row = auto("HORIZONTAL", { itemSpacing: 16 });
+    row.name = "Gallery row";
+    for (const item of b.items.slice(i, i + cols)) {
+      const col = auto("VERTICAL", { itemSpacing: 4 });
+      col.name = "Gallery cell \u2013 " + item.title;
+      const v = figma.createFrame();
+      v.name = "Visual";
+      v.resize(width, height);
+      v.cornerRadius = 8;
+      v.clipsContent = true;
+      v.fills = [solid({ r: 0.96, g: 0.96, b: 0.96 })];
+      const g = figma.createFrame();
+      g.name = "Scene";
+      g.fills = [];
+      g.clipsContent = false;
+      g.resize(width, height);
+      v.appendChild(g);
+      g.x = 0;
+      g.y = 0;
+      sceneNodes(g, item.render.scene, item.render.view);
+      col.appendChild(v);
+      col.appendChild(text(item.title, 11, "Regular", GREY));
+      row.appendChild(col);
+    }
+    f.appendChild(row);
+  }
+  return f;
+}
+
+function placeholderBlock(b) {
+  const f = auto("VERTICAL", {
+    itemSpacing: 8,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+    cornerRadius: 8,
+  });
+  fixedWidth(f, SECTION_W);
+  f.strokes = [solid(GREY)];
+  f.strokeWeight = 1;
+  f.dashPattern = [6, 4];
+  f.appendChild(pill("Manual", GREY));
+  f.appendChild(para(b.hint || "", 13, "Regular", GREY, SECTION_W - 32));
+  return f;
+}
+
+// A gallery is drawn one row per piece and a long table TABLE_CHUNK rows per piece (a
+// continuation repeats the header), so a payload can carry part of a big block.
+const TABLE_CHUNK = 25;
+function splitBlocks(blocks) {
+  return blocks.flatMap((b) => {
+    if (b.kind === "table" && b.rows.length > TABLE_CHUNK) {
+      const out = [];
+      for (let i = 0; i < b.rows.length; i += TABLE_CHUNK)
+        out.push({
+          ...b,
+          title: i ? b.title + " (continued)" : b.title,
+          rows: b.rows.slice(i, i + TABLE_CHUNK),
+        });
+      return out;
+    }
+    if (b.kind !== "gallery" || b.items.length <= b.columns) return [b];
+    const rows = [];
+    for (let i = 0; i < b.items.length; i += b.columns)
+      rows.push(b.items.slice(i, i + b.columns));
+    return rows.map((items, i) =>
+      i ? { ...b, title: "", caption: undefined, items } : { ...b, items },
+    );
+  });
+}
+
+function sectionBlockNode(section, b) {
+  const body =
+    b.kind === "table"
+      ? tableBlock(b)
+      : b.kind === "gallery"
+        ? galleryBlock(b)
+        : b.kind === "placeholder"
+          ? placeholderBlock(b)
+          : proseBlock(b);
+  body.name = "Section block \u2013 " + b.id;
+  if (!b.title || b.title === section.title || b.kind === "placeholder")
+    return body;
+  const col = auto("VERTICAL", { itemSpacing: 8 });
+  col.name = "Section block box";
+  col.appendChild(text(b.title, 20, "Bold"));
+  col.appendChild(body);
+  return col;
+}
+
+function sectionFrame(section) {
+  const f = auto("VERTICAL", {
+    itemSpacing: 24,
+    paddingLeft: 64,
+    paddingRight: 64,
+    paddingTop: 32,
+    paddingBottom: 32,
+  });
+  f.name = "Section \u2013 " + section.title;
+  f.appendChild(text(section.title, 32, "Bold"));
+  for (const b of splitBlocks(section.blocks))
+    f.appendChild(sectionBlockNode(section, b));
+  return f;
+}
+
 const BUILDING = " (building)";
 const rootNameOf = (sheet) => sheet.displayName + " \u2013 spec (generated)";
 const revOf = (sheet) =>
@@ -655,6 +907,22 @@ async function appendBlocks(sheet, pageTitle, blocks) {
   return { step: "blocks", page: pageTitle, blocksRendered: blocks.length };
 }
 
+// `more` adds the blocks to the section frame an earlier call made (a section too big for one
+// payload is drawn in several).
+async function appendSection(sheet, section, more) {
+  await loadFonts();
+  const root = findBuilding(sheet);
+  if (more) {
+    const frame = root.children.find(
+      (n) => n.name === "Section \u2013 " + section.title,
+    );
+    if (!frame) throw new Error("No section frame for " + section.title);
+    for (const b of section.blocks)
+      frame.appendChild(sectionBlockNode(section, b));
+  } else root.appendChild(sectionFrame(section));
+  return { step: "section", key: section.key, blocks: section.blocks.length };
+}
+
 async function finishSheet(sheet) {
   const root = findBuilding(sheet);
   const name = rootNameOf(sheet);
@@ -673,6 +941,9 @@ async function finishSheet(sheet) {
     id: root.id,
     pagesRendered: columns.length,
     blocksRendered: blocks.length,
+    sectionsRendered: root.children.filter((n) =>
+      n.name.startsWith("Section \u2013 "),
+    ).length,
   };
 }
 
@@ -684,11 +955,15 @@ async function renderSheet(sheet, changelog, pageTitles) {
       if (begun.pages.indexOf(p.title) === -1) continue;
       await appendBlocks(sheet, p.title, p.blocks);
     }
+    // Sections are not drawn when a subset of pages is asked for.
+    if (!pageTitles)
+      for (const sec of sheet.sections || []) await appendSection(sheet, sec);
     const done = await finishSheet(sheet);
     return {
       root: done.root,
       pagesRendered: done.pagesRendered,
       blocksRendered: done.blocksRendered,
+      sectionsRendered: done.sectionsRendered,
       warning: begun.warning,
     };
   } catch (err) {

@@ -111,7 +111,10 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-height-75"
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -122,7 +125,10 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-height-75"
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -133,7 +139,10 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-height-100"
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -144,7 +153,10 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-height-100"
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -155,7 +167,10 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-height-200"
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -166,7 +181,10 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-height-200"
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -177,7 +195,10 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-height-300"
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -188,7 +209,10 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-height-300"
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -243,10 +267,13 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-edge-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -259,10 +286,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-edge-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "71bf3553-513f-5652-b815-131592b1387a"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -275,10 +324,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-edge-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "a5fcc519-0913-5bf7-a8ac-d34e832156b4"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -291,10 +362,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-edge-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "7b6ab668-7bb7-520e-873d-eef3da3d95ff"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -307,10 +400,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-edge-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "b35226d4-cbb0-5cce-9634-2c438c6cfcb4"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -323,10 +438,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-edge-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "cad3ad59-2b1b-5e2a-a399-371ffff88c01"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -339,10 +476,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-edge-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "844f69ab-071b-5284-a43e-cce3f1ef7b5a"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -355,10 +514,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-edge-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "543ac9f8-50f8-5fce-a077-2f68b0f19d3b"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -373,7 +554,26 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "533f00bd-228b-5311-b26f-6dec451cc44e"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
       }
     },
@@ -382,6 +582,22 @@
     "contextQualifier": "start/end edge to value",
     "$ref": "3f7cee20-c187-4066-be4b-f5a1335736f5",
     "uuid": "7e5bb100-28ef-527b-a476-924c0bbf6d5f"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "value",
+        "to": "end-edge"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "3f7cee20-c187-4066-be4b-f5a1335736f5",
+    "uuid": "b10d3a44-a717-596a-9f0b-c44fe91fd267"
   },
   {
     "scope": {
@@ -445,7 +661,10 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "workflow-icon-size-75"
+      "property": "minimum-width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -456,7 +675,10 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "workflow-icon-size-75"
+      "property": "minimum-width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -467,7 +689,10 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "workflow-icon-size-100"
+      "property": "minimum-width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -478,7 +703,10 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "workflow-icon-size-100"
+      "property": "minimum-width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -489,7 +717,10 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "workflow-icon-size-200"
+      "property": "minimum-width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -500,7 +731,10 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "workflow-icon-size-200"
+      "property": "minimum-width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -511,7 +745,10 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "workflow-icon-size-300"
+      "property": "minimum-width",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -522,7 +759,10 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "workflow-icon-size-300"
+      "property": "minimum-width",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -533,10 +773,13 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "end-edge-to-disclosure-icon-quiet",
+      "property": "space-between",
       "between": {
         "from": "end-edge",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "isQuiet": true
       }
     },
     "context": "Spacing (end edge to disclosure icon)",
@@ -553,6 +796,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -569,6 +815,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -585,6 +834,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -601,6 +853,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -703,8 +958,11 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
@@ -719,8 +977,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "disclosure-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (top/bottom to disclosure icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to disclosure icon",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "34f4c5a8-db04-5d56-91d3-2d32f1cf9ab5"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
@@ -735,8 +1015,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "disclosure-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom to disclosure icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to disclosure icon",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "4ac97b7c-1e8d-50d6-916c-c3e7b0810cc7"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
@@ -751,8 +1053,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "disclosure-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (top/bottom to disclosure icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to disclosure icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "f34a85e2-e0e6-50f4-96e4-07d83667e1e3"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
@@ -760,6 +1084,25 @@
     "contextQualifier": "top/bottom to disclosure icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "7350ca23-3a87-5184-8612-3d868c06f40c"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "disclosure-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom to disclosure icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom to disclosure icon",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "d7a45bbd-f388-5eb6-aba8-3af6b354c1d9"
   },
   {
     "scope": {
@@ -1021,10 +1364,13 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-top-to-workflow-icon-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "leading-icon"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to icon)",
@@ -1037,10 +1383,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-top-to-workflow-icon-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "leading-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to icon",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "37d2095c-f0e4-56aa-8958-a5ff444fbe91"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "leading-icon"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to icon)",
@@ -1053,10 +1421,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-top-to-workflow-icon-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "leading-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to icon",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "04da8731-4eee-5da3-af1a-c50062866f83"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "leading-icon"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to icon)",
@@ -1069,10 +1459,32 @@
     "scope": {
       "component": "picker",
       "part": "field",
-      "property": "component-top-to-workflow-icon-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "leading-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "8f8e883f-47dc-50e4-a22b-82fe23f1215e"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "leading-icon"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to icon)",
@@ -1087,8 +1499,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
+        "from": "leading-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to icon",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "09891c55-9807-5fc2-b95a-24428725cb75"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
         "from": "error-icon",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (alert icon to disclosure icon)",
@@ -1105,6 +1539,9 @@
       "between": {
         "from": "error-icon",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (alert icon to disclosure icon)",
@@ -1121,6 +1558,9 @@
       "between": {
         "from": "error-icon",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (alert icon to disclosure icon)",
@@ -1137,6 +1577,9 @@
       "between": {
         "from": "error-icon",
         "to": "disclosure-icon"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (alert icon to disclosure icon)",
@@ -1149,7 +1592,7 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
@@ -1165,10 +1608,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component-quiet-small",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
+      },
+      "options": {
+        "size": "s",
+        "isQuiet": true
       }
     },
     "context": "Spacing (field label to picker)",
@@ -1181,10 +1628,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component-quiet-small",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
+      },
+      "options": {
+        "size": "s",
+        "isQuiet": true
       }
     },
     "context": "Spacing (field label to picker)",
@@ -1197,10 +1648,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component-quiet-medium",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
+      },
+      "options": {
+        "size": "m",
+        "isQuiet": true
       }
     },
     "context": "Spacing (field label to picker)",
@@ -1213,10 +1668,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component-quiet-medium",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
+      },
+      "options": {
+        "size": "m",
+        "isQuiet": true
       }
     },
     "context": "Spacing (field label to picker)",
@@ -1229,10 +1688,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component-quiet-large",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
+      },
+      "options": {
+        "size": "l",
+        "isQuiet": true
       }
     },
     "context": "Spacing (field label to picker)",
@@ -1245,10 +1708,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component-quiet-large",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
+      },
+      "options": {
+        "size": "l",
+        "isQuiet": true
       }
     },
     "context": "Spacing (field label to picker)",
@@ -1261,10 +1728,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component-quiet-extra-large",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
+      },
+      "options": {
+        "size": "xl",
+        "isQuiet": true
       }
     },
     "context": "Spacing (field label to picker)",
@@ -1277,10 +1748,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "to-component-quiet-extra-large",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
+      },
+      "options": {
+        "size": "xl",
+        "isQuiet": true
       }
     },
     "context": "Spacing (field label to picker)",
@@ -1293,7 +1768,14 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "component-to-menu-small"
+      "property": "space-between",
+      "between": {
+        "from": "container",
+        "to": "menu-container"
+      },
+      "options": {
+        "size": ["s", "m", "l", "xl"]
+      }
     },
     "context": "Spacing (component to menu)",
     "contextRole": ["spacing"],
@@ -1305,43 +1787,7 @@
     "scope": {
       "component": "picker",
       "part": "container",
-      "property": "component-to-menu-medium"
-    },
-    "context": "Spacing (component to menu)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "component to menu",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
-    "uuid": "30d80c24-428b-59e4-8a60-38cd0fd3437c"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "part": "container",
-      "property": "component-to-menu-large"
-    },
-    "context": "Spacing (component to menu)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "component to menu",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
-    "uuid": "4080312a-eda7-5c48-84bf-4053cb776369"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "part": "container",
-      "property": "component-to-menu-extra-large"
-    },
-    "context": "Spacing (component to menu)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "component to menu",
-    "$ref": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
-    "uuid": "1bcbc4e3-09aa-5161-8671-14cd60f3906e"
-  },
-  {
-    "scope": {
-      "component": "picker",
-      "part": "container",
-      "property": "to-component",
+      "property": "space-between",
       "between": {
         "from": "field",
         "to": "help-text"
@@ -1359,8 +1805,11 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "in-field-progress-circle"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
@@ -1375,8 +1824,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "in-field-progress-circle",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (top/bottom edge to progress circle icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to progress circle icon",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "98404c58-c0e3-590e-b7c6-26a49f4d2d86"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "in-field-progress-circle"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
@@ -1391,8 +1862,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "in-field-progress-circle",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom edge to progress circle icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to progress circle icon",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "d9fceebb-8b52-58ea-bc17-2ce8747520ca"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "in-field-progress-circle"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
@@ -1407,8 +1900,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "in-field-progress-circle",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (top/bottom edge to progress circle icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to progress circle icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "7edf3d39-b474-57f1-8e3a-ccb8423155d2"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "in-field-progress-circle"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to progress circle icon)",
@@ -1416,6 +1931,25 @@
     "contextQualifier": "top/bottom edge to progress circle icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "572a6da4-ad07-58fa-a775-ec8ac0420807"
+  },
+  {
+    "scope": {
+      "component": "picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "in-field-progress-circle",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom edge to progress circle icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to progress circle icon",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "c84705fb-12a7-5163-9c67-c087223760e0"
   },
   {
     "scope": {
@@ -1458,7 +1992,8 @@
       "component": "picker",
       "part": "field",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": { "state": ["hover"] }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1470,7 +2005,8 @@
       "component": "picker",
       "part": "field",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": { "state": ["hover"] }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1482,7 +2018,8 @@
       "component": "picker",
       "part": "field",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": { "state": ["hover"] }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1620,7 +2157,8 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "content-color"
+      "property": "content-color",
+      "options": { "state": ["focus-+-hover"] }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1631,7 +2169,8 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "content-color"
+      "property": "content-color",
+      "options": { "state": ["focus-+-not-hover"] }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1796,7 +2335,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1807,7 +2346,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1818,7 +2357,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1829,7 +2368,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1928,7 +2467,7 @@
     "scope": {
       "component": "picker",
       "part": "value",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1950,7 +2489,7 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -1961,7 +2500,7 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -1972,7 +2511,7 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -1983,7 +2522,7 @@
     "scope": {
       "component": "picker",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],

@@ -72,45 +72,85 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "size": {
       "type": "string",
       "pattern": "^(x?s|m|x{0,3}l)$",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
     "overflowMode": {
       "type": "string",
       "default": "wrap",
-      "values": [{ "value": "wrap" }, { "value": "collapse" }]
+      "values": [
+        {
+          "value": "wrap"
+        },
+        {
+          "value": "collapse"
+        }
+      ]
     },
-    "isDisabled": { "type": "boolean", "default": false }
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "anatomy": [
     {
-      "name": "button",
-      "description": "One button in the group; repeated.",
+      "name": "container",
+      "description": "Row or column that holds the buttons. It draws nothing itself: it sets the gap between buttons and the direction. It is the root and the host of the default slot.",
       "required": true
     }
   ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "container",
+      "accepts": ["button"],
+      "min": 1,
+      "description": "The button in the group. Any number of buttons, at least one."
+    }
+  ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web button group page (only Button instances). Group draws nothing itself; no container."
+    "notes": "Figma S2 Web button group page (Button instances only) and React Spectrum S2 ButtonGroup (provides ButtonContext to any children). The group stays a component with an explicit container and one slot (decision A139, 2026-11-20). button is no longer a part: it is what the default slot accepts. No items option: a slot with no max holds any number of buttons (A141)."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "group",
     "intents": ["trigger"],
     "focusable": false,
     "wcag": [
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

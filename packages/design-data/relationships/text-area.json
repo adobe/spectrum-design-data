@@ -189,10 +189,13 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-edge-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -205,10 +208,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-edge-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "cdc568e5-4147-564f-bd33-17ec9e37f27a"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -221,10 +246,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-edge-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "85b33447-e9e0-5146-92f6-90d096fff090"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -237,10 +284,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-edge-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "ae0c7f16-39a2-5166-af84-62e762f4443d"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -253,10 +322,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-edge-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "0d8e6ae6-800a-5bda-8110-3efc313ceceb"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -269,10 +360,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-edge-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "f99433d9-9063-5141-83c6-41e9a486e0d8"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -285,10 +398,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-edge-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "e467d0bf-07c5-563a-982c-46db35111b84"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -301,10 +436,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-edge-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "84276949-58a1-5841-8dca-171587cc14f2"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (start/end edge to value)",
@@ -316,8 +473,30 @@
   {
     "scope": {
       "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "value",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "82d53f7f-c6f3-5b09-82c8-e0083ec6051b"
+  },
+  {
+    "scope": {
+      "component": "text-area",
       "part": "prefix",
-      "property": "workflow-icon-size-75"
+      "property": "minimum-width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -328,7 +507,10 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "workflow-icon-size-75"
+      "property": "minimum-width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -339,7 +521,10 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "workflow-icon-size-100"
+      "property": "minimum-width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -350,7 +535,10 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "workflow-icon-size-100"
+      "property": "minimum-width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -361,7 +549,10 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "workflow-icon-size-200"
+      "property": "minimum-width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -372,7 +563,10 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "workflow-icon-size-200"
+      "property": "minimum-width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -383,7 +577,10 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "workflow-icon-size-300"
+      "property": "minimum-width",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -394,7 +591,10 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "workflow-icon-size-300"
+      "property": "minimum-width",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Prefix min-width",
     "contextRole": ["width"],
@@ -409,6 +609,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -425,6 +628,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -441,6 +647,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -457,6 +666,9 @@
       "between": {
         "from": "prefix",
         "to": "value"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (prefix to value/placeholder)",
@@ -491,7 +703,7 @@
     "scope": {
       "component": "text-area",
       "part": "container",
-      "property": "to-component",
+      "property": "space-between",
       "between": {
         "from": "field-label",
         "to": "field"
@@ -523,10 +735,13 @@
     "scope": {
       "component": "text-area",
       "part": "container",
-      "property": "side-label-character-count-to-field",
+      "property": "space-between",
       "between": {
         "from": "field",
         "to": "character-count"
+      },
+      "options": {
+        "labelPosition": "side"
       }
     },
     "context": "Spacing (side label, field to character count)",
@@ -539,10 +754,13 @@
     "scope": {
       "component": "text-area",
       "part": "container",
-      "property": "side-label-character-count-to-field",
+      "property": "space-between",
       "between": {
         "from": "field",
         "to": "character-count"
+      },
+      "options": {
+        "labelPosition": "side"
       }
     },
     "context": "Spacing (side label, field to character count)",
@@ -555,7 +773,7 @@
     "scope": {
       "component": "text-area",
       "part": "container",
-      "property": "to-component",
+      "property": "space-between",
       "between": {
         "from": "field",
         "to": "help-text"
@@ -571,10 +789,13 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-top-to-workflow-icon-75",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "error-icon"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
@@ -587,10 +808,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-top-to-workflow-icon-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "error-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (top/bottom edge to alert icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to alert icon",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "677b7c3b-31da-5123-a759-580809b8b41a"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "error-icon"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
@@ -603,10 +846,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-top-to-workflow-icon-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "error-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom edge to alert icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to alert icon",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "e7411b0c-fc06-5019-8c98-d992d0305929"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "error-icon"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
@@ -619,10 +884,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-top-to-workflow-icon-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "error-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (top/bottom edge to alert icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to alert icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "e4d648b3-beaa-5a47-9a41-57b3eb478aa7"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "error-icon"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to alert icon)",
@@ -630,6 +917,25 @@
     "contextQualifier": "top/bottom edge to alert icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "eb14dc04-0f67-5b58-aa27-431451ae0174"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "error-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom edge to alert icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to alert icon",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "00f24554-1e6d-5130-be80-c1b322e271d6"
   },
   {
     "scope": {
@@ -845,8 +1151,11 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "validation-marker"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -861,8 +1170,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "validation-marker",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (top/bottom edge to validation icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to validation icon",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "a121a431-2187-5016-8b28-6c2d081aa00b"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "validation-marker"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -877,8 +1208,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "validation-marker",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom edge to validation icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to validation icon",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "b92b691b-6be6-503a-88f0-0f41818721cb"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "validation-marker"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -893,8 +1246,30 @@
       "part": "field",
       "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "validation-marker",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (top/bottom edge to validation icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to validation icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "a7c40f52-e339-5a42-9a00-59dbe2095316"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "validation-marker"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to validation icon)",
@@ -902,6 +1277,25 @@
     "contextQualifier": "top/bottom edge to validation icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "755d79b1-b93a-5573-b3c0-695ac2c4d634"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "validation-marker",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom edge to validation icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to validation icon",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "734e3bdd-990f-5480-89a9-b2f33561cfd3"
   },
   {
     "scope": {
@@ -1370,7 +1764,8 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "content-color"
+      "property": "content-color",
+      "options": { "state": ["focus-+-hover"] }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1381,7 +1776,8 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "content-color"
+      "property": "content-color",
+      "options": { "state": ["focus-+-not-hover"] }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -1480,10 +1876,13 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Disabled",
-    "contextRole": ["state"],
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "faeb428a-a33c-53d8-885c-33fdb2438342"
   },
@@ -1568,7 +1967,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1579,7 +1978,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1590,7 +1989,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1601,7 +2000,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1700,7 +2099,7 @@
     "scope": {
       "component": "text-area",
       "part": "value",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1722,7 +2121,7 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -1733,7 +2132,7 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -1744,7 +2143,7 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -1755,7 +2154,7 @@
     "scope": {
       "component": "text-area",
       "part": "prefix",
-      "property": "typography"
+      "property": "type-style"
     },
     "context": "Prefix",
     "contextRole": ["prefix"],
@@ -1766,9 +2165,9 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-top-to-text-50",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "value"
       }
     },
@@ -1782,10 +2181,29 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-top-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "bottom-edge"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
+    "uuid": "bf8619ce-6613-512a-b496-b3411150afa0"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to text)",
@@ -1798,10 +2216,32 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-top-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "value",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "fef81632-725b-5065-8474-0256eeafa051"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
         "to": "leading-icon"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Leading icon (top/bottom edge to leading icon)",
@@ -1814,31 +2254,37 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-top-to-workflow-icon-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
-        "to": "leading-icon"
+        "from": "leading-icon",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Leading icon (top/bottom edge to leading icon)",
     "contextRole": ["icon"],
     "contextQualifier": "top/bottom edge to leading icon",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
-    "uuid": "28aa034d-a876-5f7e-a23f-8280a3b8cee7"
+    "uuid": "85afd83b-f7dc-54ed-9226-c51eee86f317"
   },
   {
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-padding-vertical-200",
+      "property": "space-between",
       "between": {
-        "from": "edge",
+        "from": "top-edge",
         "to": "value"
+      },
+      "options": {
+        "size": "l"
       }
     },
-    "context": "Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to text: inline",
+    "contextQualifier": "top/bottom edge to text",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "b34aa619-c496-5f60-9224-13c2e9f735bc"
   },
@@ -1846,17 +2292,58 @@
     "scope": {
       "component": "text-area",
       "part": "field",
-      "property": "component-padding-vertical-300",
+      "property": "space-between",
       "between": {
-        "from": "edge",
-        "to": "value"
+        "from": "value",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "l"
       }
     },
-    "context": "Spacing (top/bottom edge to text: inline)",
+    "context": "Spacing (top/bottom edge to text)",
     "contextRole": ["spacing"],
-    "contextQualifier": "top/bottom edge to text: inline",
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "9b8d5622-49a7-5485-9a08-0828879c7259"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "value"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "055c687b-38c8-5d9d-a7d0-75d6d90f795e"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "value",
+        "to": "bottom-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "bd1c3429-e71e-5faf-b9dc-789e7e94a37b"
   },
   {
     "scope": {

@@ -136,6 +136,7 @@
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
     { "name": "focus-+-hover", "trigger": "prop" },
     { "name": "focus-+-not-hover", "trigger": "prop" },
     { "name": "keyboard-focus", "trigger": "interaction" }
@@ -200,6 +201,10 @@
       "description": "Description or error message shown below the field."
     },
     {
+      "name": "menu-container",
+      "description": "Floating popover that opens from the field and holds the list of options, offset from the field by the popover gap."
+    },
+    {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
       "presentIn": ["keyboard-focus"]
@@ -208,7 +213,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). RSP Picker.tsx:287,736-739 (loading progress circle before the chevron; chevron is a plain disclosure icon); asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Popup menu left out as its own component."
+    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). RSP Picker.tsx:287,736-739 (loading progress circle before the chevron; chevron is a plain disclosure icon); asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Owner decision A117 (2026-11-19): the menu-container part is the floating popover holding the options; it sits outside the root container (RSP Popover with offset 6/6/7/8 from the field, ComboBox.tsx:582-590,752, Picker.tsx:337-345,447) and has no open state to key presentIn on. The menu contents stay their own component."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {

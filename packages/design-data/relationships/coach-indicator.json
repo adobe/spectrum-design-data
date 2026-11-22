@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "coach-indicator",
-      "property": "thickness"
+      "part": "ring",
+      "property": "thickness",
+      "options": {
+        "state": ["collapsed"]
+      }
     },
     "context": "Ring",
     "contextRole": ["focus"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "coach-indicator",
-      "property": "thickness"
+      "part": "ring",
+      "property": "thickness",
+      "options": {
+        "state": ["expanded"]
+      }
     },
     "context": "Ring",
     "contextRole": ["focus"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "coach-indicator",
-      "property": "collapsed-gap"
+      "part": "ring",
+      "property": "collapsed-gap",
+      "options": {
+        "state": ["collapsed"]
+      }
     },
     "context": "Ring",
     "contextRole": ["focus"],
@@ -32,7 +44,11 @@
   {
     "scope": {
       "component": "coach-indicator",
-      "property": "expanded-gap"
+      "part": "ring",
+      "property": "expanded-gap",
+      "options": {
+        "state": ["expanded"]
+      }
     },
     "context": "Ring",
     "contextRole": ["focus"],
@@ -42,7 +58,11 @@
   {
     "scope": {
       "component": "coach-indicator",
-      "property": "rounding-increment"
+      "part": "ring",
+      "property": "rounding-increment",
+      "options": {
+        "state": ["collapsed"]
+      }
     },
     "context": "Rounding",
     "contextRole": ["rounding"],
@@ -52,7 +72,11 @@
   {
     "scope": {
       "component": "coach-indicator",
-      "property": "rounding-increment"
+      "part": "ring",
+      "property": "rounding-increment",
+      "options": {
+        "state": ["expanded"]
+      }
     },
     "context": "Rounding",
     "contextRole": ["rounding"],
@@ -62,45 +86,51 @@
   {
     "scope": {
       "component": "coach-indicator",
+      "part": "ring",
       "property": "color"
     },
-    "context": "Indicator (Default)",
+    "context": "Indicator",
     "contextRole": ["control"],
-    "contextQualifier": "Default",
     "$ref": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c",
     "uuid": "20fb4641-e66c-55c1-a523-0342cd8fae41"
   },
   {
     "scope": {
       "component": "coach-indicator",
+      "part": "ring",
       "property": "opacity"
     },
-    "context": "Indicator (Default)",
+    "context": "Indicator",
     "contextRole": ["control"],
-    "contextQualifier": "Default",
     "$ref": "6fa9bbc8-4c96-45a4-b133-bb2556a003de",
     "uuid": "d9bc2ebd-3678-534d-b66d-75d7713730c4"
   },
   {
     "scope": {
       "component": "coach-indicator",
-      "property": "color"
+      "part": "ring",
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Indicator (Static white)",
+    "context": "Indicator",
     "contextRole": ["control"],
-    "contextQualifier": "Static white",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
     "uuid": "ae233497-e855-54c2-b927-bf3854950655"
   },
   {
     "scope": {
       "component": "coach-indicator",
+      "part": "ring",
       "property": "color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "85be576c-6810-4971-9748-e558384b903d",
     "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c",
-    "legacyKey": "coach-indicator-color"
+    "legacyKey": "coach-indicator-color",
+    "context": "Indicator",
+    "contextRole": ["control"]
   },
   {
     "scope": {
@@ -123,13 +153,15 @@
       "part": "ring",
       "property": "rounding-increment",
       "options": {
-        "qualifier": "collapsed"
+        "state": ["collapsed"]
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
     "uuid": "252dc667-b847-4295-8669-3e2f4d408f51",
-    "legacyKey": "coach-indicator-collapsed-ring-rounding-increment"
+    "legacyKey": "coach-indicator-collapsed-ring-rounding-increment",
+    "context": "Rounding",
+    "contextRole": ["rounding"]
   },
   {
     "scope": {
@@ -137,13 +169,15 @@
       "part": "ring",
       "property": "thickness",
       "options": {
-        "qualifier": "collapsed"
+        "state": ["collapsed"]
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "fff486aa-26a4-4b41-91a7-762f8b29d47a",
-    "legacyKey": "coach-indicator-collapsed-ring-thickness"
+    "legacyKey": "coach-indicator-collapsed-ring-thickness",
+    "context": "Ring",
+    "contextRole": ["focus"]
   },
   {
     "scope": {
@@ -166,13 +200,15 @@
       "part": "ring",
       "property": "rounding-increment",
       "options": {
-        "qualifier": "expanded"
+        "state": ["expanded"]
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "770aa608-80a3-4715-894b-c1d85a1b0c5e",
-    "legacyKey": "coach-indicator-expanded-ring-rounding-increment"
+    "legacyKey": "coach-indicator-expanded-ring-rounding-increment",
+    "context": "Rounding",
+    "contextRole": ["rounding"]
   },
   {
     "scope": {
@@ -180,22 +216,27 @@
       "part": "ring",
       "property": "thickness",
       "options": {
-        "qualifier": "expanded"
+        "state": ["expanded"]
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "09c84cdf-0c82-4201-8203-9eb05d8b9486",
-    "legacyKey": "coach-indicator-expanded-ring-thickness"
+    "legacyKey": "coach-indicator-expanded-ring-thickness",
+    "context": "Ring",
+    "contextRole": ["focus"]
   },
   {
     "scope": {
       "component": "coach-indicator",
+      "part": "ring",
       "property": "opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.2",
     "uuid": "6fa9bbc8-4c96-45a4-b133-bb2556a003de",
-    "legacyKey": "coach-indicator-opacity"
+    "legacyKey": "coach-indicator-opacity",
+    "context": "Indicator",
+    "contextRole": ["control"]
   }
 ]

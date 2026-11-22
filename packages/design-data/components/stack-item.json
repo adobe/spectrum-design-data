@@ -10,28 +10,58 @@
     "documentationUrl": "https://spectrum.adobe.com/page/stack-item/"
   },
   "states": [
-    { "name": "default", "description": "Resting base state." },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "selected", "trigger": "prop" },
-    { "name": "selected-default", "trigger": "interaction" },
-    { "name": "selected-down", "trigger": "interaction" },
-    { "name": "selected-hover", "trigger": "interaction" },
-    { "name": "selected-keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "default",
+      "description": "Resting base state."
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected",
+      "trigger": "prop"
+    },
+    {
+      "name": "selected-default",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-keyboard-focus",
+      "trigger": "interaction"
+    }
   ],
   "anatomy": [
     {
       "name": "container",
-      "description": "Row background; fills when the item is selected or highlighted.",
+      "description": "The row: background that fills when the item is selected or highlighted. It carries the shared row chrome of list-view and tree-view.",
       "required": true,
       "contains": [
         "drag-handle",
         "checkbox",
-        "visual",
-        "header",
+        "icon",
+        "thumbnail",
+        "label",
+        "description",
         "actions",
-        "disclosure-indicator"
+        "drill-in-chevron",
+        "focus-indicator"
       ]
     },
     {
@@ -43,31 +73,41 @@
       "description": "Selection checkbox shown in a selection mode."
     },
     {
-      "name": "visual",
-      "description": "Icon or thumbnail at the start of the content."
+      "name": "icon",
+      "description": "Leading icon of the item."
     },
     {
-      "name": "header",
+      "name": "thumbnail",
+      "description": "Thumbnail at the start of the content, used instead of the icon."
+    },
+    {
+      "name": "label",
       "description": "Text of the item; the relationships set its minimum width."
+    },
+    {
+      "name": "description",
+      "description": "Secondary text under the label."
     },
     {
       "name": "actions",
       "description": "Row of action buttons at the end of the item."
     },
     {
-      "name": "disclosure-indicator",
-      "description": "Chevron that marks the item as navigable."
+      "name": "drill-in-chevron",
+      "description": "Non-interactive chevron that shows the item navigates to another level."
     },
     {
       "name": "focus-indicator",
-      "description": "Outline drawn around the row for keyboard focus.",
+      "description": "Outline drawn around the focused row.",
       "presentIn": ["keyboard-focus", "selected-keyboard-focus"]
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). The part name header comes from the relationship scope; Figma calls it Visual + Text. Selection checkbox inferred from Selection mode."
+    "notes": "Decision A68 D5a: stack-item stays the shared row-chrome component (Slack #spectrum-tokens-talk Jan 2026: Design made list-view and tree-view use the stack-item tokens); it takes list-item's anatomy. list-view and tree-view keep their own records; a follow-up proposal covers nesting and sharing. Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). Renames: header -> label (the sources say label; two records follow), visual -> icon and thumbnail, disclosure-indicator -> drill-in-chevron (decision A71 D8 a2). description added from list-item."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
 }

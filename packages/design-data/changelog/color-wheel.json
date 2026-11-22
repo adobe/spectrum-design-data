@@ -123,6 +123,36 @@
           "metadata": {"count":6,"fields":["scope.options.scale","uuid"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"ceca0d86-45d5-5f8b-bd4c-7181ec2b8352","name":"border-width","fields":[{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track width"],"scope":{"property":"thickness","options":{"scale":"desktop"}},"record":"d26c357d-d4d4-5f4e-90c8-cb1e3d79ba83","name":"thickness[scale=desktop]","fields":[{"path":"scope.part","after":"track"},{"path":"scope.property","before":"width","after":"thickness"}]},
+            {"id":"23810aed-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track width"],"scope":{"property":"thickness","options":{"scale":"mobile"}},"record":"c09f6258-9e4f-57c1-9251-202220c53be2","name":"thickness[scale=mobile]","fields":[{"path":"scope.part","after":"track"},{"path":"scope.property","before":"width","after":"thickness"}]},
+            {"id":"23810aed-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Margin to color area"],"scope":{"property":"padding","options":null},"record":"32826202-98a3-5ce0-aea6-9c04311a338b","name":"padding","fields":[{"path":"scope.part","after":"track"},{"path":"scope.property","before":"margin","after":"padding"}]},
+            {"id":"23810aed-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"5ec56f1b-ebdf-5cbd-95ef-cf2604dc245c","name":"color","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"opacity","options":null},"record":"78b60015-cc8d-5951-9759-465622b60037","name":"opacity","fields":[{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"e6a32af0-eed9-5070-8368-110377dca4cd","name":"color[isDisabled=?]","fields":[{"path":"scope.options.isDisabled","after":true}]},
+            {"id":"23810aed-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"e6a32af0-eed9-5070-8368-110377dca4cd","name":"color[isDisabled=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-8","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-wheel/options/background","name":"background","fields":[],"before":{"type":"string","description":"This will vary depending on implementation."}},
+            {"id":"23810aed-9","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-wheel/anatomy/color-area","name":"color-area","fields":[],"before":{"name":"color-area","description":"Optional nested color area inside the ring."}},
+            {"id":"23810aed-10","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-wheel/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Root: owns the wheel's width and minimum width.","required":true,"contains":["track"]}},
+            {"id":"23810aed-11","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/anatomy/track","name":"track","fields":[{"path":"description","before":"Circular hue ring; border is track styling.","after":"Circular hue ring; owns thickness, border styling on both edges, the gradient and the disabled background."}]},
+            {"id":"23810aed-12","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP ColorWheel.tsx:75-115 (ColorWheelTrack); relationship part color-area (Margin to color area) is the nested color area, ring is track; focus-indicator dropped.","after":"A7 (2026-11-20). RSP ColorWheel.tsx:75-115 (ColorWheelTrack, thickness 24); Figma Color wheel (fill image, inner and outer border vectors, a Color handle). Explicit container added. Option background dropped (no source has it). Owner decision C10: the color-area part is dropped (neither Figma nor RSP nests an area in the wheel); the 12px margin to it is track padding, the space inside the ring. A wheel plus an area is a future Pattern."}]}
+          ],
+          "metadata": {"count":14,"fields":["anatomyReview.status","context","contextQualifier","contextRole","scope.attribute","scope.part","scope.property"]}
+        }
+      ]
     }
   ]
 }

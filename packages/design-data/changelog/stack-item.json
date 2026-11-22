@@ -103,6 +103,50 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"anatomy-part","change":"renamed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"stack-item/anatomy/label","name":"label","fields":[],"before":"header"},
+            {"id":"5168ad1a-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"stack-item/anatomy/disclosure-indicator","name":"disclosure-indicator","fields":[],"before":{"name":"disclosure-indicator","description":"Chevron that marks the item as navigable."}},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"stack-item/anatomy/visual","name":"visual","fields":[],"before":{"name":"visual","description":"Icon or thumbnail at the start of the content."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Secondary text under the label."}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/drill-in-chevron","name":"drill-in-chevron","fields":[],"after":{"name":"drill-in-chevron","description":"Non-interactive chevron that shows the item navigates to another level."}},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Leading icon of the item."}},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/thumbnail","name":"thumbnail","fields":[],"after":{"name":"thumbnail","description":"Thumbnail at the start of the content, used instead of the icon."}},
+            {"id":"5168ad1a-7","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/container","name":"container","fields":[{"path":"contains","before":["drag-handle","checkbox","visual","header","actions","disclosure-indicator"],"after":["drag-handle","checkbox","icon","thumbnail","label","description","actions","drill-in-chevron","focus-indicator"]}]},
+            {"id":"5168ad1a-8","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/container","name":"container","fields":[{"path":"description","before":"Row background; fills when the item is selected or highlighted.","after":"The row: background that fills when the item is selected or highlighted. It carries the shared row chrome of list-view and tree-view."}]},
+            {"id":"5168ad1a-9","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"description","before":"Outline drawn around the row for keyboard focus.","after":"Outline drawn around the focused row."}]},
+            {"id":"5168ad1a-10","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). The part name header comes from the relationship scope; Figma calls it Visual + Text. Selection checkbox inferred from Selection mode.","after":"Decision A68 D5a: stack-item stays the shared row-chrome component (Slack #spectrum-tokens-talk Jan 2026: Design made list-view and tree-view use the stack-item tokens); it takes list-item's anatomy. list-view and tree-view keep their own records; a follow-up proposal covers nesting and sharing. Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). Renames: header -> label (the sources say label; two records follow), visual -> icon and thumbnail, disclosure-indicator -> drill-in-chevron (decision A71 D8 a2). description added from list-item."}]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "500a4e00ffce7eceabf26a826987fac54e2318e2",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2014,"title":"feat(design-data): migrate side-navigation, stack-item and tree-view to level 2 identity","url":"https://github.com/adobe/spectrum-design-data/pull/2014"},
+          "entries": [],
+          "metadata": {"count":16,"fields":["context","contextQualifier","contextRole","scope.attribute","scope.part"]}
+        }
+      ]
     }
   ]
 }

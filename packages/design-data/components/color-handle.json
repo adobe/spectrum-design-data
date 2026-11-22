@@ -48,48 +48,69 @@
     }
   ],
   "options": {
-    "channel": {
-      "type": "string",
-      "default": "hue",
-      "description": "Which channel of the color this handle controls. Use 'alpha' for opacity.",
-      "values": [
-        { "value": "hue" },
-        { "value": "saturation" },
-        { "value": "lightness" },
-        { "value": "red" },
-        { "value": "green" },
-        { "value": "blue" },
-        { "value": "alpha" }
-      ]
+    "color": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
+      "description": "The sampled color shown inside the handle: always one solid color, possibly with alpha."
     },
-    "isDisabled": { "type": "boolean", "default": false }
+    "hasFill": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the handle shows its fill (Figma Show handle fill)."
+    },
+    "isOpen": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the color loupe is shown above the handle (Figma Show color loupe, SWC open)."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "anatomy": [
     {
       "name": "container",
-      "description": "Circular handle; dark and white rings and drop shadow are container styling.",
+      "description": "Circular handle; the white ring and the outer dark border are container styling. Its size grows on keyboard focus.",
       "required": true,
-      "contains": ["fill", "opacity-checkerboard"]
-    },
-    {
-      "name": "fill",
-      "description": "Selected color shown inside the handle; hidden when Show handle fill is off."
+      "contains": ["opacity-checkerboard", "fill"]
     },
     {
       "name": "opacity-checkerboard",
-      "description": "Checkerboard behind the fill so transparency reads."
+      "description": "Checkerboard behind the fill so transparency reads. Drawn when hasFill is true; sized m by every host."
+    },
+    {
+      "name": "fill",
+      "description": "Selected color shown inside the handle, with its 1px inner border. Drawn when hasFill is true."
+    },
+    {
+      "name": "color-loupe",
+      "description": "Floating loupe above the handle, outside its circle, showing the sampled color. A second top-level part: it is not enclosed by the container. The offset from the container is a space-between record. Drawn when isOpen is true."
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "RSP ColorHandle.tsx:52-81 and gen2 color-handle.css:35-82 (rings/shadow are styling on one element); ring part removed; relationship file has no scope.part."
+    "notes": "A7 (2026-11-20). RSP ColorHandle.tsx:52-81 and gen2 color-handle.css:35-82 (rings and shadow are styling on one element); the sources draw the color over a checkerboard (opacity-checkerboard is a nested component, size m in RSP and SWC 1st-gen; gen2 uses S, gap bead). Owner decisions C7 (the loupe is a second top-level part, like picker menu-container) and C9 (option `color`). The loupe lives inside the handle component in all three sources but outside the circle. `channel` dropped: no source has it. The nested-component kind of opacity-checkerboard and color-loupe is described here because the anatomy `component` field and `presentWhen` are not built. Owner decision C8: the loupe is present through the option isOpen (Figma Show color loupe, SWC open), not the state down."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
-    "wcag": [{ "criterion": "2.1.1", "level": "A", "title": "Keyboard" }]
-  }
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      }
+    ]
+  },
+  "states": [
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ]
 }

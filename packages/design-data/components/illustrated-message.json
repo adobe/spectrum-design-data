@@ -121,29 +121,36 @@
   },
   "anatomy": [
     {
+      "name": "container",
+      "description": "Root of the component: draws no surface, but owns the maximum width and holds the message.",
+      "required": true,
+      "contains": ["illustration", "title", "description", "button-group"]
+    },
+    {
       "name": "illustration",
       "description": "Illustration or icon above or beside the text.",
       "required": true
     },
+    { "name": "title", "description": "Title text.", "required": true },
     {
-      "name": "title",
-      "description": "Title text.",
-      "required": true
-    },
-    {
-      "name": "body",
+      "name": "description",
       "description": "Description text.",
       "required": true
     },
     {
-      "name": "actions",
-      "description": "Button group below the description."
+      "name": "button-group",
+      "description": "Optional button group below the description, shown with the action labels."
+    },
+    {
+      "name": "body",
+      "description": "Renamed description. Kept only so one archived Spectrum 1 size record still resolves.",
+      "lifecycle": { "deprecatedIn": "1.0.0-draft" }
     }
   ],
   "anatomyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web (Icon, Content, Button group). No container: the component has no surface of its own. Wrapper frames not parts."
+    "notes": "Owner decisions (A8, 2026-11-20): explicit root part container although the component has no surface; the secondary text part is description (Figma property, RSP slot; legacy records said body and moved to the new part name, legacy output unchanged); the actions part is a button-group component part, renamed from actions. Figma S2 Web (Icon, Content, Button group); RSP IllustratedMessage grid areas illustration, heading, content, buttonGroup. Wrapper frames are not parts. The button-group is not a slot host yet: slot fills are not built."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }

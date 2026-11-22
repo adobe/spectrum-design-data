@@ -27,5 +27,9 @@
     "reviewedIn": "1.0.0-draft",
     "notes": "No Figma page, no React Spectrum or SWC component found. Parts inferred from the description. Drop shadow context left without a part."
   },
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "lifecycle": {
+    "introduced": "1.0.0-draft",
+    "deprecatedIn": "1.0.0-draft",
+    "deprecatedComment": "Archive-only: Spectrum 1 only. The Figma Web POC and React Spectrum S2 have no floating action button. Its records keep their legacy keys (the legacy token package must not change), so they are not deprecated yet."
+  }
 }

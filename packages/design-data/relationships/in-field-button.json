@@ -363,6 +363,7 @@
   {
     "scope": {
       "component": "in-field-button",
+      "part": "container",
       "property": "width",
       "options": {
         "qualifier": "stacked",
@@ -380,6 +381,7 @@
   {
     "scope": {
       "component": "in-field-button",
+      "part": "container",
       "property": "width",
       "options": {
         "qualifier": "stacked",
@@ -397,6 +399,7 @@
   {
     "scope": {
       "component": "in-field-button",
+      "part": "container",
       "property": "width",
       "options": {
         "qualifier": "stacked",
@@ -414,6 +417,7 @@
   {
     "scope": {
       "component": "in-field-button",
+      "part": "container",
       "property": "width",
       "options": {
         "qualifier": "stacked",

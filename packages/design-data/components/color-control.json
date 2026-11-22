@@ -9,6 +9,17 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/color-control/"
   },
-  "anatomy": [{ "name": "track" }],
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "anatomy": [
+    {
+      "name": "track"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "A7 (2026-11-20), owner decision C11: a shared base. Its two track-thickness records are pinned to color-control.json by their legacy keys and are referenced by color-slider and color-wheel, so they cannot move. No container and no recipe; no Figma, RSP or SWC source draws it on its own."
+  }
 }

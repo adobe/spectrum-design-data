@@ -7601,7 +7601,7 @@
   {
     "name": {
       "component": "tabs",
-      "anatomy": "indicator",
+      "anatomy": "selection-indicator",
       "property": "thickness",
       "legacyKey": "tab-selection-indicator-thickness"
     },

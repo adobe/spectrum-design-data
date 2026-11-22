@@ -28,6 +28,33 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.27.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "ff813ddb3add6a16fdee77edd527dae8ae280d05",
+      "commits": [
+        {
+          "commit": "ff813ddb3add6a16fdee77edd527dae8ae280d05",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1974,"title":"feat(design-data): review card anatomy and merge cards into card (A4)","url":"https://github.com/adobe/spectrum-design-data/pull/1974"},
+          "entries": [
+            {"id":"ff813ddb-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/action-button","name":"action-button","fields":[],"before":{"name":"action-button","description":"Action button, in the basic variant."}},
+            {"id":"ff813ddb-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/checkbox","name":"checkbox","fields":[],"before":{"name":"checkbox","description":"Selection checkbox."}},
+            {"id":"ff813ddb-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/container","name":"container","fields":[],"before":{"name":"container","description":"Card surface.","required":true,"contains":["preview","checkbox","thumbnail","title","description","action-button"]}},
+            {"id":"ff813ddb-3","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/description","name":"description","fields":[],"before":{"name":"description","description":"Card description."}},
+            {"id":"ff813ddb-4","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/preview","name":"preview","fields":[],"before":{"name":"preview","description":"Image area at the start."}},
+            {"id":"ff813ddb-5","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/thumbnail","name":"thumbnail","fields":[],"before":{"name":"thumbnail","description":"Small image, in the basic variant."}},
+            {"id":"ff813ddb-6","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"card-horizontal/anatomy/title","name":"title","fields":[],"before":{"name":"title","description":"Card title."}},
+            {"id":"ff813ddb-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"card-horizontal/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web Card (Horizontal) and Horizontal basic, merged. Unsure: which parts belong to which variant."}]},
+            {"id":"ff813ddb-8","kind":"lifecycle","change":"updated","class":"api","bump":"major","indirect":false,"contexts":[],"record":"card-horizontal/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedIn","after":"1.0.0-draft"}]},
+            {"id":"ff813ddb-9","kind":"lifecycle","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"card-horizontal/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedComment","after":"Archive-only: this card kind is not modelled in card yet (Patterns candidate, 5m92.30). Its archived records stay frozen and keep their legacy keys."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
     }
   ]
 }

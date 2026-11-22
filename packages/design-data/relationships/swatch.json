@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "xs",
@@ -16,6 +17,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "xs",
@@ -30,6 +32,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "s",
@@ -44,6 +47,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "s",
@@ -58,6 +62,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "m",
@@ -72,6 +77,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "m",
@@ -86,6 +92,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "l",
@@ -100,6 +107,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "l",
@@ -114,6 +122,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "width-multiplier",
       "options": {
         "shape": "rectangle"
@@ -127,6 +136,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -137,7 +147,9 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "border-width"
+      "part": "container",
+      "property": "border-width",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -147,12 +159,14 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "isSelected": true
       }
     },
-    "context": "Border and inner border",
+    "context": "Border",
     "contextRole": ["border"],
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "db0b902f-a67a-5d69-b06e-f6ef5f991e3c"
@@ -160,7 +174,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "workflow-icon-size-50"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "xs",
+        "scale": "desktop"
+      }
     },
     "context": "Disabled icon asset",
     "contextRole": ["icon"],
@@ -170,7 +189,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "workflow-icon-size-50"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "xs",
+        "scale": "mobile"
+      }
     },
     "context": "Disabled icon asset",
     "contextRole": ["icon"],
@@ -180,7 +204,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "workflow-icon-size-75"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "s",
+        "scale": "desktop"
+      }
     },
     "context": "Disabled icon asset",
     "contextRole": ["icon"],
@@ -190,7 +219,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "workflow-icon-size-75"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "s",
+        "scale": "mobile"
+      }
     },
     "context": "Disabled icon asset",
     "contextRole": ["icon"],
@@ -200,7 +234,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "m",
+        "scale": "desktop"
+      }
     },
     "context": "Disabled icon asset",
     "contextRole": ["icon"],
@@ -210,7 +249,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "m",
+        "scale": "mobile"
+      }
     },
     "context": "Disabled icon asset",
     "contextRole": ["icon"],
@@ -220,7 +264,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "workflow-icon-size-200"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "l",
+        "scale": "desktop"
+      }
     },
     "context": "Disabled icon asset",
     "contextRole": ["icon"],
@@ -230,7 +279,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "workflow-icon-size-200"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "l",
+        "scale": "mobile"
+      }
     },
     "context": "Disabled icon asset",
     "contextRole": ["icon"],
@@ -240,7 +294,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "thickness"
+      "part": "slash",
+      "property": "thickness",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Slash thickness (empty)",
     "contextRole": ["thickness"],
@@ -251,7 +309,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "thickness"
+      "part": "slash",
+      "property": "thickness",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Slash thickness (empty)",
     "contextRole": ["thickness"],
@@ -262,7 +324,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "thickness"
+      "part": "slash",
+      "property": "thickness",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Slash thickness (empty)",
     "contextRole": ["thickness"],
@@ -273,7 +339,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "thickness"
+      "part": "slash",
+      "property": "thickness",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Slash thickness (empty)",
     "contextRole": ["thickness"],
@@ -284,6 +354,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus ring",
@@ -294,6 +365,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus ring",
@@ -304,18 +376,25 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "spacing"
+      "part": "container",
+      "between": {
+        "from": "container",
+        "to": "tooltip"
+      },
+      "property": "space-between"
     },
-    "context": "Spacing (Tooltip to Swatch)",
+    "context": "Spacing (container to tooltip)",
     "contextRole": ["spacing"],
-    "contextQualifier": "Tooltip to Swatch",
+    "contextQualifier": "container to tooltip",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "2ddd955b-56e3-58ec-b70d-b975834cb2e8"
   },
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -325,6 +404,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "opacity"
     },
     "context": "Border",
@@ -335,7 +415,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isSelected": true,
+        "colorScheme": "light"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -345,7 +431,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isSelected": true,
+        "colorScheme": "dark"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -355,7 +447,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isSelected": true,
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -365,9 +463,16 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isSelected": true,
+        "colorScheme": "light",
+        "position": "inner"
+      }
     },
-    "context": "Inner border",
+    "context": "Border",
     "contextRole": ["border"],
     "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
     "uuid": "3d4a4bb0-8521-59b8-ad34-34a9c8d60cd3"
@@ -375,9 +480,16 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isSelected": true,
+        "colorScheme": "dark",
+        "position": "inner"
+      }
     },
-    "context": "Inner border",
+    "context": "Border",
     "contextRole": ["border"],
     "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
     "uuid": "ac426ab2-a8bb-5c1d-bf80-df4519479bd9"
@@ -385,9 +497,16 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isSelected": true,
+        "colorScheme": "wireframe",
+        "position": "inner"
+      }
     },
-    "context": "Inner border",
+    "context": "Border",
     "contextRole": ["border"],
     "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
     "uuid": "5885fb35-3ce3-5fb2-a345-eab49454498a"
@@ -395,7 +514,12 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "icon",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["disabled"]
+      }
     },
     "context": "Disabled icon (outline)",
     "contextRole": ["icon"],
@@ -406,7 +530,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "opacity"
+      "part": "icon",
+      "property": "opacity",
+      "options": {
+        "state": ["disabled"]
+      }
     },
     "context": "Disabled icon (outline)",
     "contextRole": ["icon"],
@@ -417,6 +545,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "icon",
       "property": "color"
     },
     "context": "Disabled icon",
@@ -427,7 +556,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "slash",
+      "property": "color",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Slash",
     "contextRole": ["slash"],
@@ -437,7 +570,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "slash",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Slash",
     "contextRole": ["slash"],
@@ -447,7 +584,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "slash",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Slash",
     "contextRole": ["slash"],
@@ -457,7 +598,11 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "content-color"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "value": "mixed"
+      }
     },
     "context": "Dash UI icon",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
@@ -466,7 +611,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "light"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -476,7 +627,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "dark"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -486,7 +643,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -496,7 +659,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "light"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -506,7 +675,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "dark"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -516,7 +691,13 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "value": "add",
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Add “button” background",
     "contextRole": ["background"],
@@ -526,6 +707,7 @@
   {
     "scope": {
       "component": "swatch",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -536,29 +718,27 @@
   {
     "scope": {
       "component": "swatch",
-      "property": "spacing"
+      "between": {
+        "from": "swatch",
+        "to": "swatch"
+      },
+      "property": "space-between",
+      "options": {
+        "density": "spacious"
+      }
     },
-    "context": "Spacing (compact)",
+    "context": "Spacing (swatch to swatch)",
     "contextRole": ["spacing"],
-    "contextQualifier": "compact",
-    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
-    "uuid": "75df89ad-eb01-5654-ad0a-4466ec375d7c"
-  },
-  {
-    "scope": {
-      "component": "swatch",
-      "property": "spacing"
-    },
-    "context": "Spacing (spacious)",
-    "contextRole": ["spacing"],
-    "contextQualifier": "spacious",
+    "contextQualifier": "swatch to swatch",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "7bfc05fe-bb4e-5dac-80da-5883aeb4c50e"
   },
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "object": "border"
       }
@@ -566,11 +746,14 @@
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
     "uuid": "7da5157d-7f25-405b-8de0-f3669565fb48",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "legacyKey": "swatch-border-color"
+    "legacyKey": "swatch-border-color",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "swatch",
+      "part": "container",
       "property": "opacity",
       "options": {
         "object": "border"
@@ -579,13 +762,16 @@
     "uuid": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.42",
-    "legacyKey": "swatch-border-opacity"
+    "legacyKey": "swatch-border-opacity",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "swatch",
       "part": "icon",
       "property": "color",
+      "attribute": "border",
       "options": {
         "state": ["disabled"],
         "object": "border"
@@ -594,7 +780,10 @@
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
     "uuid": "c49cd7ae-7657-458b-871a-6b4f28bca535",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "legacyKey": "swatch-disabled-icon-border-color"
+    "legacyKey": "swatch-disabled-icon-border-color",
+    "context": "Disabled icon (outline)",
+    "contextRole": ["icon"],
+    "contextPart": "outline"
   },
   {
     "scope": {
@@ -609,7 +798,10 @@
     "uuid": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.42",
-    "legacyKey": "swatch-disabled-icon-border-opacity"
+    "legacyKey": "swatch-disabled-icon-border-opacity",
+    "context": "Disabled icon (outline)",
+    "contextRole": ["icon"],
+    "contextPart": "outline"
   },
   {
     "scope": {
@@ -817,7 +1009,10 @@
     "uuid": "944c49d7-e189-4daa-aca1-b0b590d78875",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "legacyKey": "swatch-slash-thickness-extra-small"
+    "legacyKey": "swatch-slash-thickness-extra-small",
+    "context": "Slash thickness (empty)",
+    "contextRole": ["thickness"],
+    "contextQualifier": "empty"
   },
   {
     "scope": {
@@ -831,7 +1026,10 @@
     "uuid": "6b1b2709-de8c-450d-9299-49200208599e",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
-    "legacyKey": "swatch-slash-thickness-large"
+    "legacyKey": "swatch-slash-thickness-large",
+    "context": "Slash thickness (empty)",
+    "contextRole": ["thickness"],
+    "contextQualifier": "empty"
   },
   {
     "scope": {
@@ -845,7 +1043,10 @@
     "uuid": "4e735599-f420-4b51-aa75-607046431c76",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "legacyKey": "swatch-slash-thickness-medium"
+    "legacyKey": "swatch-slash-thickness-medium",
+    "context": "Slash thickness (empty)",
+    "contextRole": ["thickness"],
+    "contextQualifier": "empty"
   },
   {
     "scope": {
@@ -859,6 +1060,9 @@
     "uuid": "f626d145-7840-4958-86be-d2306b5b2233",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "legacyKey": "swatch-slash-thickness-small"
+    "legacyKey": "swatch-slash-thickness-small",
+    "context": "Slash thickness (empty)",
+    "contextRole": ["thickness"],
+    "contextQualifier": "empty"
   }
 ]

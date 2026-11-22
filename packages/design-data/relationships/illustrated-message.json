@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "container",
       "property": "vertical-maximum-width",
       "options": {
         "orientation": "vertical"
@@ -15,6 +16,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "container",
       "property": "horizontal-maximum-width",
       "options": {
         "orientation": "horizontal"
@@ -28,7 +30,11 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "spacing"
+      "between": {
+        "from": "illustration",
+        "to": "title"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (Illustration to heading)",
     "contextRole": ["spacing"],
@@ -39,7 +45,11 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "spacing"
+      "between": {
+        "from": "illustration",
+        "to": "title"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (Illustration to heading)",
     "contextRole": ["spacing"],
@@ -50,7 +60,11 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "spacing"
+      "between": {
+        "from": "title",
+        "to": "description"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (Heading to description - vertical)",
     "contextRole": ["spacing"],
@@ -61,7 +75,11 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "spacing"
+      "between": {
+        "from": "description",
+        "to": "button-group"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (Description to action - vertical)",
     "contextRole": ["spacing"],
@@ -72,6 +90,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-family"
     },
     "context": "Title",
@@ -82,6 +101,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-weight"
     },
     "context": "Title",
@@ -92,6 +112,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-style"
     },
     "context": "Title",
@@ -102,6 +123,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "line-height"
     },
     "context": "Title",
@@ -112,7 +134,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "s"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -122,7 +149,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "s"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -132,8 +164,13 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-size",
-      "options": { "script": "cjk" }
+      "options": {
+        "script": "cjk",
+        "scale": "desktop",
+        "size": "s"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -143,8 +180,13 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-size",
-      "options": { "script": "cjk" }
+      "options": {
+        "script": "cjk",
+        "scale": "mobile",
+        "size": "s"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -154,7 +196,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -164,7 +211,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -174,8 +226,13 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-size",
-      "options": { "script": "cjk" }
+      "options": {
+        "script": "cjk",
+        "scale": "desktop",
+        "size": "m"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -185,8 +242,13 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-size",
-      "options": { "script": "cjk" }
+      "options": {
+        "script": "cjk",
+        "scale": "mobile",
+        "size": "m"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -196,7 +258,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "l"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -206,7 +273,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "l"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -216,8 +288,13 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-size",
-      "options": { "script": "cjk" }
+      "options": {
+        "script": "cjk",
+        "scale": "desktop",
+        "size": "l"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -227,8 +304,13 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "font-size",
-      "options": { "script": "cjk" }
+      "options": {
+        "script": "cjk",
+        "scale": "mobile",
+        "size": "l"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -238,6 +320,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "description",
       "property": "font-family"
     },
     "context": "Description",
@@ -248,6 +331,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "description",
       "property": "font-weight"
     },
     "context": "Description",
@@ -258,6 +342,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "description",
       "property": "font-style"
     },
     "context": "Description",
@@ -268,7 +353,8 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "line-height-200"
+      "part": "description",
+      "property": "line-height"
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -278,7 +364,11 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -288,7 +378,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -298,7 +393,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -308,7 +408,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop",
+        "size": "l"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -318,7 +423,12 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile",
+        "size": "l"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -328,6 +438,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "illustration",
       "property": "content-color"
     },
     "context": "Illustration color",
@@ -338,6 +449,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "title",
       "property": "color"
     },
     "context": "Heading color",
@@ -348,6 +460,7 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "description",
       "property": "color"
     },
     "context": "Description color",
@@ -411,7 +524,7 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "scale": "desktop",
@@ -423,12 +536,14 @@
     "uuid": "0208e74a-4a86-42e4-a5d0-f931715c293b",
     "legacyKey": "illustrated-message-large-body-font-size",
     "setUuid": "83e747ed-01c0-484c-9c89-53bd77e4d2c8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
       "component": "illustrated-message",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "scale": "mobile",
@@ -440,7 +555,9 @@
     "uuid": "f4956b2c-dfda-4449-850b-36cf3a82ea09",
     "legacyKey": "illustrated-message-large-body-font-size",
     "setUuid": "83e747ed-01c0-484c-9c89-53bd77e4d2c8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -458,7 +575,9 @@
     "uuid": "1929c819-5333-43ad-ba6c-fcf236270251",
     "legacyKey": "illustrated-message-large-cjk-title-font-size",
     "setUuid": "44509721-b85a-4c57-8850-d52322e0afef",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -476,7 +595,9 @@
     "uuid": "e3c5a7ed-94f9-4938-9b92-b411e971af20",
     "legacyKey": "illustrated-message-large-cjk-title-font-size",
     "setUuid": "44509721-b85a-4c57-8850-d52322e0afef",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -493,7 +614,9 @@
     "uuid": "abfe147d-04dd-45bd-8e86-eae6249e1745",
     "legacyKey": "illustrated-message-large-title-font-size",
     "setUuid": "ba5544ad-9362-4b55-ba0a-fa4944ca31ca",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -510,7 +633,9 @@
     "uuid": "05104cea-7882-4f80-a994-3e072d29eec2",
     "legacyKey": "illustrated-message-large-title-font-size",
     "setUuid": "ba5544ad-9362-4b55-ba0a-fa4944ca31ca",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -528,7 +653,7 @@
   {
     "scope": {
       "component": "illustrated-message",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "scale": "desktop",
@@ -540,12 +665,14 @@
     "uuid": "ca0d9e22-35a8-4ae5-99ee-29cce3ffa0bd",
     "legacyKey": "illustrated-message-medium-body-font-size",
     "setUuid": "22f5b08c-2b86-447d-be0b-ed03841dbcfb",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
       "component": "illustrated-message",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "scale": "mobile",
@@ -557,7 +684,9 @@
     "uuid": "32b359dc-b489-4476-afbd-1c04e6b0ff0e",
     "legacyKey": "illustrated-message-medium-body-font-size",
     "setUuid": "22f5b08c-2b86-447d-be0b-ed03841dbcfb",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -575,7 +704,9 @@
     "uuid": "ee763c7d-b98f-4f2e-9fc4-764cfa2ac53f",
     "legacyKey": "illustrated-message-medium-cjk-title-font-size",
     "setUuid": "d873db87-9e50-4aef-a9ee-b3b7da6bb44f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -593,7 +724,9 @@
     "uuid": "1cb0c913-f4ec-478c-b92d-4c9d78875362",
     "legacyKey": "illustrated-message-medium-cjk-title-font-size",
     "setUuid": "d873db87-9e50-4aef-a9ee-b3b7da6bb44f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -610,7 +743,9 @@
     "uuid": "8e2d1a48-937c-4493-9624-5ca8383f74bd",
     "legacyKey": "illustrated-message-medium-title-font-size",
     "setUuid": "5a575423-6129-4fcf-93f0-d3eb44096dd5",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -627,12 +762,14 @@
     "uuid": "65961091-abdb-4155-9887-4aebe857c4fd",
     "legacyKey": "illustrated-message-medium-title-font-size",
     "setUuid": "5a575423-6129-4fcf-93f0-d3eb44096dd5",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
       "component": "illustrated-message",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "size": "s"
@@ -641,7 +778,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25e93322-8f0b-45f8-ae9a-18668251f064",
     "uuid": "fad078e5-1791-4003-994d-3567162d8233",
-    "legacyKey": "illustrated-message-small-body-font-size"
+    "legacyKey": "illustrated-message-small-body-font-size",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -659,7 +798,9 @@
     "uuid": "9a6cf390-ca10-4242-a7d4-da4c9acc4058",
     "legacyKey": "illustrated-message-small-cjk-title-font-size",
     "setUuid": "e5e7d4e3-39c7-4184-b590-cc4abf2f60fc",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -677,7 +818,9 @@
     "uuid": "a144455d-6bb3-43d4-828c-6b6f67ae9c51",
     "legacyKey": "illustrated-message-small-cjk-title-font-size",
     "setUuid": "e5e7d4e3-39c7-4184-b590-cc4abf2f60fc",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -694,7 +837,9 @@
     "uuid": "f21da7b8-ba19-43e0-96e5-f9e60476ef6e",
     "legacyKey": "illustrated-message-small-title-font-size",
     "setUuid": "2164a3c7-b90d-4072-8f72-f364d07edb38",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -711,7 +856,9 @@
     "uuid": "ef8d0abb-9652-4db3-8f1d-506c03e5e115",
     "legacyKey": "illustrated-message-small-title-font-size",
     "setUuid": "2164a3c7-b90d-4072-8f72-f364d07edb38",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -735,11 +882,14 @@
   {
     "scope": {
       "component": "illustrated-message",
+      "part": "container",
       "property": "vertical-maximum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "352px",
     "uuid": "95c055b0-f688-4405-8426-1b2302e32ebd",
-    "legacyKey": "illustrated-message-vertical-maximum-width"
+    "legacyKey": "illustrated-message-vertical-maximum-width",
+    "context": "Maximum width",
+    "contextRole": ["width"]
   }
 ]

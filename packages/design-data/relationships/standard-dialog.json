@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "maximum-width"
+      "part": "container",
+      "property": "maximum-width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Maximum width",
     "contextRole": ["width"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "maximum-width"
+      "part": "container",
+      "property": "maximum-width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Maximum width",
     "contextRole": ["width"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "maximum-width"
+      "part": "container",
+      "property": "maximum-width",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Maximum width",
     "contextRole": ["width"],
@@ -32,6 +44,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Minimum width",
@@ -42,6 +55,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -52,7 +66,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "spacing"
+      "part": "container",
+      "property": "padding",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Spacing (edge to content)",
     "contextRole": ["spacing"],
@@ -63,7 +81,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "spacing"
+      "part": "container",
+      "property": "padding",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Spacing (edge to content)",
     "contextRole": ["spacing"],
@@ -74,7 +96,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "spacing"
+      "property": "space-between",
+      "between": {
+        "from": "title",
+        "to": "description"
+      }
     },
     "context": "Spacing (title to description)",
     "contextRole": ["spacing"],
@@ -85,7 +111,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "spacing"
+      "property": "space-between",
+      "between": {
+        "from": "container",
+        "to": "close-button"
+      }
     },
     "context": "Spacing (edge to close button)",
     "contextRole": ["spacing"],
@@ -96,7 +126,12 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -106,7 +141,12 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -116,7 +156,12 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -126,6 +171,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "overlay",
       "property": "color"
     },
     "context": "Overlay",
@@ -136,7 +182,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "opacity"
+      "part": "overlay",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "light"
+      }
     },
     "context": "Overlay",
     "contextRole": ["layout"],
@@ -146,7 +196,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "opacity"
+      "part": "overlay",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "dark"
+      }
     },
     "context": "Overlay",
     "contextRole": ["layout"],
@@ -156,7 +210,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "opacity"
+      "part": "overlay",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "wireframe"
+      }
     },
     "context": "Overlay",
     "contextRole": ["layout"],
@@ -166,6 +224,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "title",
       "property": "font-family"
     },
     "context": "Title",
@@ -176,6 +235,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "title",
       "property": "font-weight"
     },
     "context": "Title",
@@ -186,6 +246,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "title",
       "property": "font-style"
     },
     "context": "Title",
@@ -196,7 +257,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -206,7 +271,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "font-size"
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Title",
     "contextRole": ["label"],
@@ -216,6 +285,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "title",
       "property": "line-height"
     },
     "context": "Title",
@@ -226,6 +296,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "title",
       "property": "color"
     },
     "context": "Title",
@@ -236,6 +307,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "description",
       "property": "font-family"
     },
     "context": "Description",
@@ -246,6 +318,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "description",
       "property": "font-weight"
     },
     "context": "Description",
@@ -256,6 +329,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "description",
       "property": "font-style"
     },
     "context": "Description",
@@ -266,7 +340,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -276,7 +354,11 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "font-size"
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -286,7 +368,8 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "property": "line-height-200"
+      "part": "description",
+      "property": "line-height"
     },
     "context": "Description",
     "contextRole": ["label"],
@@ -296,6 +379,7 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "description",
       "property": "color"
     },
     "context": "Description",
@@ -306,7 +390,7 @@
   {
     "scope": {
       "component": "standard-dialog",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "scale": "desktop"
@@ -317,12 +401,14 @@
     "uuid": "84aa108a-3c23-494f-b9c0-da64acdbeb79",
     "legacyKey": "standard-dialog-body-font-size",
     "setUuid": "3f6ab646-b255-4e0f-9911-cd2fb41fbaa4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
       "component": "standard-dialog",
-      "part": "body",
+      "part": "description",
       "property": "font-size",
       "options": {
         "scale": "mobile"
@@ -333,7 +419,9 @@
     "uuid": "f33e2125-0424-4329-bf60-ec42a15c36bc",
     "legacyKey": "standard-dialog-body-font-size",
     "setUuid": "3f6ab646-b255-4e0f-9911-cd2fb41fbaa4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Description",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -395,12 +483,15 @@
   {
     "scope": {
       "component": "standard-dialog",
+      "part": "container",
       "property": "minimum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "288px",
     "uuid": "27f2bc13-53e4-4416-8592-a2a44909d22d",
-    "legacyKey": "standard-dialog-minimum-width"
+    "legacyKey": "standard-dialog-minimum-width",
+    "context": "Minimum width",
+    "contextRole": ["width"]
   },
   {
     "scope": {
@@ -416,7 +507,9 @@
     "uuid": "d4e81ac4-8855-4ac4-b28f-ad054f74e517",
     "legacyKey": "standard-dialog-title-font-size",
     "setUuid": "670ecc3e-b844-4958-ba2f-998b72d39de2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   },
   {
     "scope": {
@@ -432,6 +525,8 @@
     "uuid": "02c75ba4-2c9f-45f3-8e74-c9a1065142ac",
     "legacyKey": "standard-dialog-title-font-size",
     "setUuid": "670ecc3e-b844-4958-ba2f-998b72d39de2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Title",
+    "contextRole": ["label"]
   }
 ]

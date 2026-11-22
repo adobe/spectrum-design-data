@@ -223,6 +223,25 @@
           "metadata": {"count":62,"fields":["anatomyReview.status","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"5a4e7f82-747b-5dab-99df-1547463645a1","name":"color","fields":[{"path":"scope.attribute","after":"border"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"opacity","options":null},"record":"081a049c-4dac-5fb0-81a7-9a88b5ef2e5d","name":"opacity","fields":[{"path":"scope.attribute","after":"border"}]}
+          ],
+          "metadata": {"count":5,"fields":["context","contextRole","scope.attribute","scope.property"]}
+        }
+      ]
     }
   ]
 }

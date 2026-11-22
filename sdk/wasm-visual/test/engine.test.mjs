@@ -108,7 +108,7 @@ describe("Engine equals design-data render", () => {
     ).scene;
     const parts = nodes.map((n) => n.part);
     for (const part of [
-      "direct-actions",
+      "actions",
       "action-button",
       "action-button.icon",
       "switch",

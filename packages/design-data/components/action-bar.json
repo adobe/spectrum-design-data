@@ -59,24 +59,51 @@
       "package": "@react-spectrum/s2"
     }
   ],
-  "options": { "isEmphasized": { "type": "boolean", "default": false } },
+  "options": {
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    }
+  },
   "anatomy": [
     {
-      "name": "action-group-area",
-      "description": "Group of secondary action controls."
+      "name": "container",
+      "description": "Floating bar that holds the close button, the item counter and the action group. It is the root and carries the width, height, rounding, background, border and shadow.",
+      "required": true,
+      "contains": ["close-button", "item-counter", "action-group"]
+    },
+    {
+      "name": "close-button",
+      "description": "Button that clears the selection."
     },
     {
       "name": "item-counter",
-      "description": "Badge showing a count of items or actions."
+      "description": "Text showing how many items are selected.",
+      "required": true
     },
-    { "name": "counter" }
+    {
+      "name": "action-group",
+      "description": "The action group at the trailing end of the bar. Holds the actions for the selection.",
+      "required": true
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["trigger"],
     "focusable": false,
     "wcag": [
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
+  },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "React Spectrum S2 ActionBar (selected item count, clear button, action group) and the Figma S2 Web action bar page. counter merged into item-counter; action-group-area renamed action-group (it is the action-group component, so it uses the component name as part name, as tag-group does with action-button); close-button added (the legacy close-button spacing records name it); container made explicit. Archived records keep their old part names in options.from/to (SPEC-051..054 do not check them). The 17 Step visual and Step text records are misfiled and left alone (5m92.5.7.2). Figma has separate dark and light theme sets, each with a frame \"Close button + item counter\" and an Action group instance."
   }
 }

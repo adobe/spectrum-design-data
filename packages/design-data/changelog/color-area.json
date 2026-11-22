@@ -139,6 +139,32 @@
           "metadata": {"count":8,"fields":["contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"e6851ae4-79da-57d1-8d80-4af81667294f","name":"border-width","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"corner-radius","options":null},"record":"eaced5b4-0560-5596-9571-9113d87c9c7e","name":"corner-radius","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
+            {"id":"23810aed-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"edcd5ae0-c7dd-55c0-8075-a666f3cf0944","name":"color","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]},
+            {"id":"23810aed-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"edcd5ae0-c7dd-55c0-8075-a666f3cf0944","name":"color","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
+            {"id":"23810aed-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"opacity","options":null},"record":"5b4f11a1-0cf9-5ab0-b696-34d67268b066","name":"opacity","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
+            {"id":"23810aed-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"65c76c10-f058-5967-bf64-72b338ada0a8","name":"color[isDisabled=?]","fields":[{"path":"scope.options.isDisabled","after":true}]},
+            {"id":"23810aed-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"65c76c10-f058-5967-bf64-72b338ada0a8","name":"color[isDisabled=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"23810aed-7","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-area/options/background","name":"background","fields":[],"before":{"type":"string","description":"This will vary depending on implementation."}},
+            {"id":"23810aed-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP ColorArea.tsx:69-79 (border on the area), ColorHandle.tsx:37-40 and gen2 color-handle.css:85-95 (handle grows on focus, no separate ring); focus-indicator dropped.","after":"RSP ColorArea.tsx:69-79 (border on the area), ColorHandle.tsx:37-40 and gen2 color-handle.css:85-95 (handle grows on focus, no separate ring); focus-indicator dropped. A7 (2026-11-20): option background dropped (no source has it); every record is on container."}]}
+          ],
+          "metadata": {"count":25,"fields":["anatomyReview.status","context","contextRole","scope.attribute","scope.part"]}
+        }
+      ]
     }
   ]
 }

@@ -57,6 +57,9 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "strokeWidth",
             "strokeOpacity",
             "strokeOver",
+            "innerStroke",
+            "innerStrokeWidth",
+            "innerStrokeOpacity",
             "patternFill",
             "patternSize",
             "pressDifference",
@@ -106,6 +109,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
         "text",
         &[
             "color",
+            "typeStyle",
             "fontFamily",
             "fontSize",
             "fontWeight",
@@ -557,6 +561,9 @@ struct Lookup {
     scoped: std::cell::RefCell<HashMap<String, std::rc::Rc<Vec<crate::graph::TokenRecord>>>>,
     /// Token label → its `name` object, built on first use (see `CompileCx::name_of`).
     names: std::cell::OnceCell<HashMap<String, Value>>,
+    /// Legacy name → token keys, built on first use so unpacking a composite's inner aliases
+    /// does not scan every token per alias (see `CompileCx::type_style_axes`).
+    legacy_keys: std::cell::OnceCell<crate::cascade::LegacyKeys>,
     /// Component, property, trimmed context → indices into `TokenGraph::relationships`, in
     /// graph order, built on first use so `relationship_cands` does not scan them all.
     by_scope: std::cell::OnceCell<HashMap<(String, String, String), Vec<usize>>>,
@@ -831,6 +838,68 @@ pub(crate) fn declared_option_values(component: &Value, option: &str) -> Vec<Str
         .unwrap_or_default()
 }
 
+/// Replace a compiled `typeStyle` prop with the font props it supplies. Each of `fontFamily`,
+/// `fontSize`, `fontWeight` and `lineHeight` the part does not bind itself gets a copy of the
+/// `typeStyle` entries whose candidates carry that axis's unpacked value (token: the composite,
+/// chain: the inner token). A prop the part binds always wins for its axis; this is recipe-level
+/// precedence, not a token cascade. A candidate whose composite does not resolve is dropped, and
+/// the first expanded axis reports why (the rest stay silent, so it shows once).
+fn expand_type_style(props: &mut serde_json::Map<String, Value>) {
+    let Some(source) = props.remove("typeStyle") else {
+        return;
+    };
+    let mut first = true;
+    for axis in ["fontFamily", "fontSize", "fontWeight", "lineHeight"] {
+        if props.contains_key(axis) {
+            continue;
+        }
+        let mut one = |entry: &Value| -> Value {
+            let mut entry = entry.clone();
+            let mut miss: Option<String> = None;
+            let list: Vec<Value> = entry["candidates"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .filter_map(|c| {
+                    let a = &c["style"][axis];
+                    let whole = c["style"]["miss"].as_str();
+                    let reason = whole.or_else(|| a["miss"].as_str());
+                    if let (Some(v), None) = (a.get("value"), reason) {
+                        let mut c = c.clone();
+                        c["value"] = v.clone();
+                        c["chain"] = a["token"]
+                            .as_str()
+                            .map_or(serde_json::json!([]), |t| serde_json::json!([t]));
+                        c.as_object_mut().map(|o| o.remove("style"));
+                        return Some(c);
+                    }
+                    // A composite-wide miss shows once, on the first axis expanded.
+                    let silent = whole.is_some() && !first;
+                    miss.get_or_insert(if silent {
+                        String::new()
+                    } else {
+                        reason
+                            .unwrap_or("typeStyle: composite has no such axis")
+                            .to_string()
+                    });
+                    None
+                })
+                .collect();
+            entry["candidates"] = Value::Array(list);
+            if let Some(m) = miss {
+                entry["miss"] = Value::String(m);
+            }
+            entry
+        };
+        let expanded = match &source {
+            Value::Array(entries) => Value::Array(entries.iter().map(&mut one).collect()),
+            other => one(other),
+        };
+        first = false;
+        props.insert(axis.into(), expanded);
+    }
+}
+
 fn value_to_string(v: &Value) -> Option<String> {
     match v {
         Value::String(s) => Some(s.clone()),
@@ -1004,7 +1073,12 @@ impl<'a> CompileCx<'a> {
                 Value::Object(ident).to_string()
             }
         };
-        let key = format!("{}\u{1f}{property}\u{1f}{context}", self.req.component);
+        let position = crate::scope::selector_position(rel);
+        let scale = self.req.mode.get("scale").cloned().unwrap_or_default();
+        let key = format!(
+            "{}\u{1f}{property}\u{1f}{context}\u{1f}{position}\u{1f}{scale}",
+            self.req.component
+        );
         let cached = self.lookup.relationships.borrow().get(&key).cloned();
         let refs = cached.unwrap_or_else(|| {
             let declared: Vec<&str> = self
@@ -1037,7 +1111,7 @@ impl<'a> CompileCx<'a> {
                 property.clone(),
                 context.clone(),
             );
-            let matched: Vec<usize> = if by_context.is_some() {
+            let mut matched: Vec<usize> = if by_context.is_some() {
                 by_scope.get(&scope_key).cloned().unwrap_or_default()
             } else {
                 let mut sel = rel.clone();
@@ -1051,6 +1125,39 @@ impl<'a> CompileCx<'a> {
                     })
                     .collect()
             };
+            // A record pinned to the stroke position the selector asks for replaces an unpinned
+            // record with the same other pins; a record pinned to the other position is not
+            // a candidate.
+            matched.retain(|&i| crate::scope::position_fits(rel, &self.graph.relationships[i].raw));
+            // A record pinned to the other scale is not a candidate at this one.
+            // shortcut: only a plain string scale is a pin; an array or anyOf scale still applies
+            // at every scale, upgrade when a recipe needs it.
+            matched.retain(|&i| {
+                self.graph.relationships[i]
+                    .raw
+                    .pointer("/scope/options/scale")
+                    .and_then(Value::as_str)
+                    .is_none_or(|s| scale.is_empty() || s == scale)
+            });
+            let other_pins = |raw: &Value| {
+                let mut o = raw
+                    .pointer("/scope/options")
+                    .and_then(Value::as_object)
+                    .cloned()
+                    .unwrap_or_default();
+                o.remove("position");
+                o
+            };
+            let pinned: Vec<_> = matched
+                .iter()
+                .map(|&i| &self.graph.relationships[i].raw)
+                .filter(|r| crate::scope::stroke_position(r).is_some())
+                .map(other_pins)
+                .collect();
+            matched.retain(|&i| {
+                let raw = &self.graph.relationships[i].raw;
+                crate::scope::stroke_position(raw).is_some() || !pinned.contains(&other_pins(raw))
+            });
             for i in matched {
                 let r = &self.graph.relationships[i];
                 let scope = r.raw.get("scope");
@@ -1305,10 +1412,48 @@ impl<'a> CompileCx<'a> {
                 if let Some(r) = rel {
                     c["boundBy"] = serde_json::json!(r);
                 }
+                if prop == "typeStyle" {
+                    c["style"] = self.type_style_axes(t);
+                }
                 c
             })
             .collect();
         (list, miss)
+    }
+
+    /// A `typeStyle` candidate's composite unpacked for the request's mode: per axis the
+    /// terminal `value` and the inner token's legacy name, or `{"miss": ...}` when the token is
+    /// not a composite or the axis alias does not resolve. Consumed by [`expand_type_style`].
+    fn type_style_axes(&self, t: &crate::graph::TokenRecord) -> Value {
+        let label = token_label(t);
+        let keys = self
+            .lookup
+            .legacy_keys
+            .get_or_init(|| crate::cascade::legacy_keys(self.graph));
+        let Some(u) = crate::typography::unpack_in(self.graph, t, &self.mode_ctx(), Some(keys))
+        else {
+            return serde_json::json!({
+                "miss": format!("typeStyle: '{label}' is not a typography composite")
+            });
+        };
+        let mut out = serde_json::Map::new();
+        for (axis, sub) in [
+            ("fontFamily", u.font_family),
+            ("fontSize", u.font_size),
+            ("fontWeight", u.font_weight),
+            ("lineHeight", u.line_height),
+        ] {
+            let Some(sub) = sub else { continue };
+            let entry = match sub.value {
+                Some(v) => serde_json::json!({ "value": v, "token": sub.token }),
+                None => serde_json::json!({ "miss": format!(
+                    "typeStyle: {label}.{axis} '{{{}}}' not found",
+                    sub.token.unwrap_or_default()
+                )}),
+            };
+            out.insert(axis.into(), entry);
+        }
+        Value::Object(out)
     }
 
     /// Compile the sources of a `gradient` value source's stops, which bind colors and offsets
@@ -1386,6 +1531,7 @@ impl<'a> CompileCx<'a> {
                         }
                     }
                 }
+                expand_type_style(props);
             }
         }
         Ok(out_parts)
@@ -1951,15 +2097,11 @@ impl Ctx<'_> {
                     .and_then(Value::as_array)
                     .is_none_or(|s| s.is_empty())
             };
-            if disabled {
-                fit.iter()
-                    .find(|c| no_states(c))
-                    .or_else(|| fit.iter().find(|c| precedence(c).is_empty()))
-                    .or_else(|| fit.first())
-                    .copied()
-            } else {
-                fit.first().copied()
-            }
+            fit.iter()
+                .find(|c| no_states(c))
+                .or_else(|| fit.iter().find(|c| disabled && precedence(c).is_empty()))
+                .or_else(|| fit.first())
+                .copied()
         });
         if let Some(c) = chosen {
             // Candidates tied with the chosen one that name a different token are ambiguous.
@@ -1976,9 +2118,18 @@ impl Ctx<'_> {
                             == c.get("states").and_then(Value::as_array).map(Vec::len)
                             && precedence(o) == precedence(c)))
             };
+            // A record pinned to a state that is not active takes no part in the render, so it
+            // cannot tie with the chosen candidate.
+            let applies = |o: &&Value| {
+                std::ptr::eq(*o, c)
+                    || o.get("states").and_then(Value::as_array).is_none_or(|st| {
+                        st.iter()
+                            .all(|x| x.as_str().is_some_and(|x| active.iter().any(|a| a == x)))
+                    })
+            };
             let mut tokens: Vec<&str> = fit
                 .iter()
-                .filter(|o| tied(o))
+                .filter(|o| applies(o) && tied(o))
                 .filter_map(|o| o.get("token").and_then(Value::as_str))
                 .collect();
             tokens.sort_unstable();
@@ -2554,10 +2705,14 @@ pub fn with_context_selectors(recipe: &Value, graph: &TokenGraph, component: &st
                         });
                         if let Some(c) = ctx {
                             let property = sel.get("property").cloned().unwrap_or_default();
+                            let position = sel.get("position").cloned();
                             *sel = serde_json::Map::from_iter([
                                 ("property".to_string(), property),
                                 ("context".to_string(), Value::String(c.trim().to_string())),
                             ]);
+                            if let Some(p) = position {
+                                sel.insert("position".into(), p);
+                            }
                         }
                     }
                 }
@@ -2946,6 +3101,9 @@ fn solve_root(
     let stroke_w = rp(&mut cx, root, "strokeWidth");
     let stroke_o = rp(&mut cx, root, "strokeOpacity");
     let stroke_over = rp(&mut cx, root, "strokeOver").is_some_and(|r| r.value.trim() == "true");
+    let inner_stroke = rp(&mut cx, root, "innerStroke");
+    let inner_w = rp(&mut cx, root, "innerStrokeWidth");
+    let inner_o = rp(&mut cx, root, "innerStrokeOpacity");
     let corner_names = [
         "cornerRadiusStartStart",
         "cornerRadiusStartEnd",
@@ -2961,6 +3119,9 @@ fn solve_root(
         ("stroke", &stroke),
         ("strokeWidth", &stroke_w),
         ("strokeOpacity", &stroke_o),
+        ("innerStroke", &inner_stroke),
+        ("innerStrokeWidth", &inner_w),
+        ("innerStrokeOpacity", &inner_o),
         ("width", &root_width),
         ("minWidth", &min_width),
         ("height", &height),
@@ -3024,13 +3185,27 @@ fn solve_root(
         defer_width: false,
         width: fixed_w.map(|w| w.max(min_w) - pad_s - pad_e),
         height: explicit_h.map(|h| h - pad_bs - pad_be),
-        corner_radius: radius.as_ref().and_then(Resolved::num),
+        // A ratio of the height (a pill is 0.5) needs the root's height; without one the
+        // nested root cannot inherit it.
+        corner_radius: radius.as_ref().and_then(|r| {
+            let v = r.num()?;
+            match r.relative_to.as_deref() {
+                Some("height") => explicit_h.map(|h| v * h),
+                _ => Some(v),
+            }
+        }),
     };
     let gap = gap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let direction = rp(&mut cx, root, "direction");
     let align = rp(&mut cx, root, "align");
     let justify = rp(&mut cx, root, "justify");
-    let column = layout_keyword(&mut cx, "direction", &direction, &["row", "column"]) == "column";
+    let direction = layout_keyword(
+        &mut cx,
+        "direction",
+        &direction,
+        &["row", "column", "stack"],
+    );
+    let (column, stack) = (direction == "column", direction == "stack");
     let align = layout_keyword(&mut cx, "align", &align, &["start", "center", "end"]);
     let justify = layout_keyword(&mut cx, "justify", &justify, &["start", "center", "end"]);
     let press_diff = rp(&mut cx, root, "pressDifference");
@@ -3580,13 +3755,17 @@ fn solve_root(
     // A text part with `overflow` breaks (or truncates) against the width the root leaves it:
     // the fixed width minus the inline padding, the gaps and the other parts. Several such
     // parts share what is left equally. With no fixed width the text hugs and never breaks.
-    let gaps = gap * flow.len().saturating_sub(1) as f64;
+    let gaps = if stack {
+        0.0
+    } else {
+        gap * flow.len().saturating_sub(1) as f64
+    };
     let mut word_overflow = false;
     let mut fixed_over = false;
     let n_wrap = flow.iter().filter(|c| c.overflow.is_some()).count();
     if let (Some(fw), true) = (fixed_w, n_wrap > 0) {
         let inner = fw.max(min_w) - pad_s - pad_e;
-        let raw = if column {
+        let raw = if column || stack {
             inner
         } else {
             let others: f64 = flow
@@ -3652,7 +3831,7 @@ fn solve_root(
     let multi_line = flow.iter().any(|c| !c.lines.is_empty());
     let sum_w = flow.iter().map(|c| c.w).sum::<f64>() + gaps;
     let sum_h = flow.iter().map(|c| c.h).sum::<f64>() + gaps;
-    let content_w = pad_s + if column { widest } else { sum_w } + pad_e;
+    let content_w = pad_s + if column || stack { widest } else { sum_w } + pad_e;
     let w = fixed_w.unwrap_or(content_w).max(min_w);
     if w < content_w - 1e-6 && (!word_overflow || fixed_over) {
         cx.diags.push(format!(
@@ -3676,7 +3855,7 @@ fn solve_root(
     // `(minHeight - one line) / 2`, the single-line padding, so a label that wraps grows the
     // container and keeps that padding.
     let (pad_bs, pad_be) = match min_h {
-        Some(m) if explicit_h.is_none() && !column && !block_padded => {
+        Some(m) if explicit_h.is_none() && !column && !stack && !block_padded => {
             let p = ((m - tallest_one_line) / 2.0).max(0.0);
             (p, p)
         }
@@ -3792,7 +3971,7 @@ fn solve_root(
             .unwrap_or(0.0)
     };
     let layout = Layout {
-        gap: (flow.len() > 1).then_some(gap),
+        gap: (flow.len() > 1 && !stack).then_some(gap),
         padding: [pad_bs, pad_e, pad_be, pad_s],
     };
     let mut y = oy
@@ -3803,7 +3982,7 @@ fn solve_root(
             0.0
         };
     let mut gap_from: Option<f64> = None;
-    let total_grow: f64 = if column {
+    let total_grow: f64 = if column || stack {
         0.0
     } else {
         flow.iter().map(|c| c.grow).sum()
@@ -3812,14 +3991,14 @@ fn solve_root(
     // A row with no growing part justifies its content in the space a minWidth or width leaves.
     let mut x = ox
         + pad_s
-        + if column || total_grow > 0.0 {
+        + if column || stack || total_grow > 0.0 {
             0.0
         } else {
             axis_offset(&justify, free_w)
         };
     for mut c in flow {
         // A column stretches a box that has no width of its own across its inner width.
-        let cw = if column && c.kind == "box" && c.auto_w {
+        let cw = if (column || stack) && c.kind == "box" && c.auto_w {
             w - pad_s - pad_e
         } else {
             c.w
@@ -3833,7 +4012,13 @@ fn solve_root(
         };
         let adv = cw + extra;
         let cw = if c.kind == "box" { adv } else { cw };
-        let (cx0, cy0) = if column {
+        let (cx0, cy0) = if stack {
+            // Siblings overlay: each sits in the inner box, `justify` across and `align` down.
+            (
+                ox + pad_s + axis_offset(&justify, w - pad_s - pad_e - cw),
+                oy + pad_bs + axis_offset(&align, h - pad_bs - pad_be - c.h),
+            )
+        } else if column {
             (x + axis_offset(&align, w - pad_s - pad_e - cw), y)
         } else {
             (
@@ -3848,7 +4033,7 @@ fn solve_root(
             )
         };
         let ch = c.h;
-        if let Some(from) = gap_from {
+        if let Some(from) = gap_from.filter(|_| !stack) {
             if let Some(token) = m_gap.clone() {
                 let span = if column {
                     (cx0, from, cw, gap)
@@ -3879,7 +4064,13 @@ fn solve_root(
                         m
                     }),
             );
-            place_nested(&mut nested_out, n, cx0, cy0);
+            // A stack draws in declaration order, so a nested recipe joins the nodes now.
+            place_nested(
+                if stack { &mut nodes } else { &mut nested_out },
+                n,
+                cx0,
+                cy0,
+            );
             if column {
                 y += ch + gap;
             } else {
@@ -4374,6 +4565,29 @@ fn solve_root(
             border.stroke_width = sw;
             border.stroke_opacity = nodes[0].stroke_opacity;
             nodes.push(border);
+        }
+    }
+
+    // `innerStroke`: a second border just inside the first, drawn over the children as a ring
+    // node `<root>.inner-border`. It starts where the outer stroke ends.
+    if let Some(c) = inner_stroke.as_ref() {
+        let outer = nodes[0].stroke_width;
+        let sw = inner_w.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+        if radii.is_some() {
+            cx.diags
+                .push("innerStroke draws one corner radius; the root's corners differ".into());
+        }
+        if sw > 0.0 && w - 2.0 * outer - sw > 0.0 && h - 2.0 * outer - sw > 0.0 {
+            let mut band = blank_node(&format!("{root_id}.inner-border"), "ring");
+            band.x = ox + outer + sw / 2.0;
+            band.y = oy + outer + sw / 2.0;
+            band.w = w - 2.0 * outer - sw;
+            band.h = h - 2.0 * outer - sw;
+            band.radius = (nodes[0].radius - outer - sw / 2.0).max(0.0);
+            band.stroke = Some(c.value.clone());
+            band.stroke_width = sw;
+            band.stroke_opacity = inner_o.as_ref().and_then(Resolved::num);
+            nodes.push(band);
         }
     }
 
@@ -5216,9 +5430,10 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 }
 
 /// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
-/// same change whenever a solver change alters how existing recipes render
-/// (a changed `recipe-snapshots.json`).
-pub const LAYOUT_REVISION: u32 = 4;
+/// same change whenever a solver or layout-semantics change alters how existing recipes render
+/// (a changed `recipe-snapshots.json`). A data-only snapshot change (same geometry and resolved
+/// values) does not bump it.
+pub const LAYOUT_REVISION: u32 = 5;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
@@ -5364,6 +5579,92 @@ mod tests {
         // A candidate with fewer name fields wins the tie-break, so nothing is ambiguous.
         assert!(diags(&["x:row", "track"]).is_empty());
         assert!(diags(&["a"]).is_empty());
+    }
+
+    #[test]
+    fn inactive_state_records_do_not_tie_with_the_chosen_candidate() {
+        let diags = |active: &[&str]| {
+            let list = serde_json::json!([
+                { "value": "a", "token": "a", "states": ["focus-+-hover"], "precedence": [50] },
+                { "value": "b", "token": "b", "states": ["focus-+-not-hover"], "precedence": [50] },
+                { "value": "c", "token": "c", "states": ["hover"], "precedence": [50] },
+                { "value": "d", "token": "d", "states": ["down"], "precedence": [50] },
+            ]);
+            let r = req(active);
+            let defaults = HashMap::new();
+            let mut cx = Ctx {
+                req: &r,
+                option_defaults: &defaults,
+                position: None,
+                diags: Vec::new(),
+            };
+            cx.resolve_candidates(&serde_json::json!({ "candidates": list, "miss": "x: no y" }));
+            cx.diags
+        };
+        // Nothing active: the fallback candidate ties only with active ones, so no diagnostic.
+        assert!(diags(&[]).is_empty());
+        // One active state wins alone.
+        assert!(diags(&["hover"]).is_empty());
+        // Two active states with equal precedence still tie and report.
+        assert_eq!(
+            diags(&["hover", "down"]),
+            ["x: y is ambiguous: 2 candidates remain after narrowing"]
+        );
+    }
+
+    #[test]
+    fn nothing_active_falls_back_to_the_default_record() {
+        let list = serde_json::json!([
+            { "value": "a", "token": "a", "states": ["hover"], "precedence": [50] },
+            { "value": "d", "token": "d" },
+        ]);
+        let r = req(&[]);
+        let defaults = HashMap::new();
+        let mut cx = Ctx {
+            req: &r,
+            option_defaults: &defaults,
+            position: None,
+            diags: Vec::new(),
+        };
+        let got = cx
+            .resolve_candidates(&serde_json::json!({ "candidates": list, "miss": "x: no y" }))
+            .unwrap();
+        assert_eq!(got.token, "d");
+        assert!(cx.diags.is_empty(), "{:?}", cx.diags);
+    }
+
+    #[test]
+    fn a_scale_pinned_relationship_applies_only_at_its_scale() {
+        let g = any_of_graph(
+            serde_json::json!({"scale": "desktop"}),
+            serde_json::json!({"scale": "mobile"}),
+        );
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box", "props": {
+                "fill": {"relationship": {"property": "color", "context": "Control"}}}}}
+        });
+        let fill = |scale: &str| {
+            let r = RenderRequest {
+                component: "gadget".into(),
+                size: "m".into(),
+                mode: HashMap::from([("scale".to_string(), scale.to_string())]),
+                ..Default::default()
+            };
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+            scene.nodes[0].fill.clone().unwrap()
+        };
+        assert_eq!(fill("desktop"), "#111111");
+        assert_eq!(fill("mobile"), "#0000ff");
+        // No scale in the request: both records are kept, so they tie.
+        let r = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            ..Default::default()
+        };
+        let scene = build_scene(&g, &recipe, &r).unwrap();
+        assert!(scene.diagnostics.iter().any(|d| d.contains("ambiguous")));
     }
 
     #[test]
@@ -8357,6 +8658,76 @@ mod tests {
             (9.0, 9.0, 98.0, 38.0, 4.0)
         );
         assert_eq!(border.stroke.as_deref(), Some("#ff0000"));
+    }
+
+    #[test]
+    fn a_stack_overlays_its_children_in_declaration_order() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["a", "c", "b"],
+                "props": lit_props(&[("gap", 9.0)]) },
+            "a": { "kind": "box", "props": lit_props(&[("width", 60.0), ("height", 20.0)]) },
+            "c": comp("action-button", serde_json::json!({ "hideLabel": true })),
+            "b": { "kind": "box", "props": lit_props(&[("width", 30.0), ("height", 30.0)]) }
+        }));
+        r["parts"]["a"]["props"]["fill"] = serde_json::json!({ "value": "#111111" });
+        r["parts"]["b"]["props"]["fill"] = serde_json::json!({ "value": "#222222" });
+        let flow = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        r["parts"]["r"]["props"]["direction"] = serde_json::json!({ "value": "stack" });
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        // The root is as big as its biggest child, not the sum, and no gap is measured.
+        assert!(flow.nodes[0].w > s.nodes[0].w + 30.0);
+        assert!(s.nodes[0].w >= 60.0 && s.nodes[0].h >= 30.0);
+        assert!(s.measurements.iter().all(|m| m.kind != "gap"));
+        assert_eq!(s.layout.gap, None);
+        // Siblings centre on one another, and the nested recipe sits between them.
+        let (a, b) = (part(&s, "a").unwrap(), part(&s, "b").unwrap());
+        assert_eq!(a.x + a.w / 2.0, b.x + b.w / 2.0);
+        assert_eq!(a.y + a.h / 2.0, b.y + b.h / 2.0);
+        let order: Vec<usize> = ["a", "c", "b"]
+            .iter()
+            .map(|id| s.nodes.iter().position(|n| n.part == *id).unwrap())
+            .collect();
+        assert!(order[0] < order[1] && order[1] < order[2], "{order:?}");
+        // A box with no width fills the inner width, as in a column.
+        r["parts"]["a"]["props"]
+            .as_object_mut()
+            .unwrap()
+            .remove("width");
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(part(&s, "a").unwrap().w, s.nodes[0].w);
+    }
+
+    #[test]
+    fn inner_stroke_draws_a_second_ring_inside_the_outer_stroke() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": [], "props": lit_props(&[
+                ("width", 100.0), ("height", 40.0), ("cornerRadius", 5.0),
+                ("strokeWidth", 2.0), ("innerStrokeWidth", 3.0)]) }
+        }));
+        for (prop, v) in [("stroke", "#ff0000"), ("innerStroke", "#0000ff")] {
+            r["parts"]["r"]["props"][prop] = serde_json::json!({ "value": v });
+        }
+        for over in [false, true] {
+            r["parts"]["r"]["props"]["strokeOver"] = serde_json::json!({ "value": over });
+            let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+            let band = s.nodes.last().unwrap();
+            assert_eq!(
+                (band.kind.as_str(), band.part.as_str()),
+                ("ring", "r.inner-border")
+            );
+            assert_eq!(
+                (band.x, band.y, band.w, band.h, band.radius),
+                (11.5, 11.5, 93.0, 33.0, 1.5)
+            );
+            assert_eq!(band.stroke.as_deref(), Some("#0000ff"));
+            assert_eq!(band.stroke_width, 3.0);
+        }
+        // No inner width draws nothing.
+        r["parts"]["r"]["props"]["innerStrokeWidth"] = serde_json::json!({ "value": 0.0 });
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert!(s.nodes.iter().all(|n| n.part != "r.inner-border"));
     }
 
     #[test]

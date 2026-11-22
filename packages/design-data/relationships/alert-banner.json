@@ -2,7 +2,8 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size"
     },
     "context": "Icon asset",
     "contextRole": ["icon"],
@@ -12,7 +13,8 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size"
     },
     "context": "Icon asset",
     "contextRole": ["icon"],
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "alert-banner",
+      "part": "container",
       "property": "minimum-height"
     },
     "context": "Height",
@@ -32,6 +35,7 @@
   {
     "scope": {
       "component": "alert-banner",
+      "part": "container",
       "property": "minimum-height"
     },
     "context": "Height",
@@ -42,6 +46,7 @@
   {
     "scope": {
       "component": "alert-banner",
+      "part": "container",
       "property": "width"
     },
     "context": "Width",
@@ -52,6 +57,7 @@
   {
     "scope": {
       "component": "alert-banner",
+      "part": "container",
       "property": "width"
     },
     "context": "Width",
@@ -62,7 +68,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "text"
+      }
     },
     "context": "Spacing (icon to text)",
     "contextRole": ["spacing"],
@@ -73,7 +84,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      }
     },
     "context": "Spacing (start edge to text and icon)",
     "contextRole": ["spacing"],
@@ -84,7 +100,15 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "close-button"
+      },
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Spacing (close button to end edge)",
     "contextRole": ["spacing"],
@@ -95,7 +119,15 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "close-button"
+      },
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Spacing (close button to end edge)",
     "contextRole": ["spacing"],
@@ -106,7 +138,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      }
     },
     "context": "Spacing (top/bottom edge to icon)",
     "contextRole": ["spacing"],
@@ -117,7 +154,28 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "icon"
+      }
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to icon",
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
+    "uuid": "aa118e53-32da-53c7-b159-57ec6846c6a9"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (top/bottom edge to text)",
     "contextRole": ["spacing"],
@@ -128,7 +186,28 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
+    "uuid": "c9fe1808-94a4-5c5f-8cd5-fa22212ac40c"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -138,7 +217,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -148,7 +232,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -158,7 +247,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -168,7 +262,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -178,7 +277,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -188,7 +292,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -198,7 +307,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -208,7 +322,12 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -218,6 +337,7 @@
   {
     "scope": {
       "component": "alert-banner",
+      "part": "text",
       "property": "font-family"
     },
     "context": "Text",
@@ -228,6 +348,7 @@
   {
     "scope": {
       "component": "alert-banner",
+      "part": "text",
       "property": "font-weight"
     },
     "context": "Text",
@@ -238,6 +359,7 @@
   {
     "scope": {
       "component": "alert-banner",
+      "part": "text",
       "property": "font-style"
     },
     "context": "Text",
@@ -248,7 +370,8 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "font-size-100"
+      "part": "text",
+      "property": "font-size"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -258,7 +381,8 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "font-size-100"
+      "part": "text",
+      "property": "font-size"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -268,7 +392,8 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "line-height-100"
+      "part": "text",
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -278,12 +403,24 @@
   {
     "scope": {
       "component": "alert-banner",
-      "property": "line-height-100"
+      "part": "text",
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "9a980ebc-1a31-5197-b637-281c0381ebca"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "a21940b0-5950-5a35-98a7-b211d38cfd4b"
   },
   {
     "scope": {
