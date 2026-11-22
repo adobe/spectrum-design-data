@@ -13,7 +13,8 @@
     "footerContent",
     "primaryActionLabel",
     "secondaryActionLabel",
-    "cancelActionLabel"
+    "cancelActionLabel",
+    "hideCloseButton"
   ],
   "parts": {
     "container": {
@@ -129,12 +130,6 @@
         "overflow": {
           "value": "wrap"
         },
-        "fontStyle": {
-          "relationship": {
-            "property": "font-style",
-            "part": "title"
-          }
-        },
         "fontSize": [
           {
             "when": {
@@ -183,12 +178,6 @@
         "fontWeight": {
           "relationship": {
             "property": "font-weight",
-            "part": "description"
-          }
-        },
-        "fontStyle": {
-          "relationship": {
-            "property": "font-style",
             "part": "description"
           }
         },
@@ -253,9 +242,12 @@
           "value": "row"
         },
         "gap": {
-          "token": {
-            "property": "spacing",
-            "scaleIndex": 200
+          "relationship": {
+            "property": "space-between",
+            "between": {
+              "from": "container",
+              "to": "close-button"
+            }
           }
         }
       }

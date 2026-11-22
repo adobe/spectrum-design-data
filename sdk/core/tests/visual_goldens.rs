@@ -153,7 +153,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     if name == "accordion" {
         let mut r = req(vec![], HashMap::new(), "light", "desktop");
         r.slots = HashMap::from([(
-            "button-group".to_string(),
+            "actions".to_string(),
             ["action-button", "switch"]
                 .iter()
                 .map(|c| design_data_core::visual::SlotFill {

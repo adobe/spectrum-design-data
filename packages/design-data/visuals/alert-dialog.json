@@ -137,12 +137,6 @@
             "part": "title"
           }
         },
-        "fontStyle": {
-          "relationship": {
-            "property": "font-style",
-            "part": "title"
-          }
-        },
         "fontSize": [
           {
             "when": {
@@ -197,12 +191,6 @@
         "fontWeight": {
           "relationship": {
             "property": "font-weight",
-            "part": "description"
-          }
-        },
-        "fontStyle": {
-          "relationship": {
-            "property": "font-style",
             "part": "description"
           }
         },
