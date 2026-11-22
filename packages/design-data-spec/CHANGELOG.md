@@ -1,5 +1,45 @@
 # @adobe/design-data-spec
 
+## 7.1.0
+
+### Minor Changes
+
+- [#2050](https://github.com/adobe/spectrum-design-data/pull/2050) [`1509d43`](https://github.com/adobe/spectrum-design-data/commit/1509d43992dbf9564e9074dce79318821e937947) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `snake_case` as an explicit platform manifest `formatting.casing` value.
+  Lowercase words joined by `_` (the default delimiter for it). Same output as
+  `kebab-case` with delimiter `_`, which remains valid.
+
+- [#2051](https://github.com/adobe/spectrum-design-data/pull/2051) [`df4012b`](https://github.com/adobe/spectrum-design-data/commit/df4012b1d5b92bce207592e807483a734bf9255b) Thanks [@GarthDB](https://github.com/GarthDB)! - A nested component part's `with.label` sets the nested request's label text.
+  - `with.label` is a string literal or `{"option": name}` naming a string host option. It is
+    the nested component's text, not an option; SPEC-089 checks that it is a string.
+  - A slot fill's `options.label` works the same way.
+  - A group of labelled radios can now be expressed: each nested item carries its own text.
+  - Without `with.label` the nested label stays empty, as before.
+
+- [#2057](https://github.com/adobe/spectrum-design-data/pull/2057) [`a0564ae`](https://github.com/adobe/spectrum-design-data/commit/a0564ae218c819939d7b6a65fb606b4109ebe24d) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests can declare `deviations`: where a platform cannot match a component's recipe.
+  - New schema `platform-deviation.schema.json`; `manifest.md` gains `extensions/deviations/`.
+  - SPEC-109 to SPEC-111 are defined in `rules.yaml`. The SDK does not load the directory yet,
+    so none is enforced. Loading and tool behaviour follow.
+  - `component-visuals.md`: a renderer MUST NOT read deviations.
+  - Proposal 019 records the design.
+
+- [#2052](https://github.com/adobe/spectrum-design-data/pull/2052) [`ebe9f5e`](https://github.com/adobe/spectrum-design-data/commit/ebe9f5e8d29bf732208bf0b9de660a49c75e0613) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the `MANIFEST-001` to `MANIFEST-006` diagnostics that `validate-manifest` and
+  `platform doctor` report, including the new checks for a platform's relationships,
+  implementations and component aliases.
+
+- [#2058](https://github.com/adobe/spectrum-design-data/pull/2058) [`7d30326`](https://github.com/adobe/spectrum-design-data/commit/7d30326545c8252f1b2e0d5bedb0fd28fa5dd758) Thanks [@GarthDB](https://github.com/GarthDB)! - A `slot` part accepts `direction: column`: fills stack vertically,
+  with `gap` and `align` on the cross axis.
+
+### Patch Changes
+
+- [#2059](https://github.com/adobe/spectrum-design-data/pull/2059) [`d919378`](https://github.com/adobe/spectrum-design-data/commit/d9193786f28838841f2e9db3601103e2c352d24d) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the rune issue links in proposal 019.
+  - `platform-deviation.schema.json` now notes that `when` mirrors the recipe condition.
+
+- [#2056](https://github.com/adobe/spectrum-design-data/pull/2056) [`d11b4ae`](https://github.com/adobe/spectrum-design-data/commit/d11b4ae1ee5254d29a3b59981c522485898fc472) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(design-data): warn when a request slot key matches no slot
+  - A render request `slots` key that is no slot name of a slot part now adds a
+    scene warning. It lists the slots that have a part, and says so when the key
+    is the part id (radio-group: `default`, not `options`). The render succeeds.
+  - Document that `--slots` keys are slot names, not part ids.
+
 ## 7.0.0
 
 ### Major Changes

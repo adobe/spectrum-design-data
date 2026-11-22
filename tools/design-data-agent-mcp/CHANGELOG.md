@@ -1,5 +1,14 @@
 # @adobe/design-data-agent-mcp
 
+## 1.16.13
+
+### Patch Changes
+
+- Updated dependencies [[`3e55d13`](https://github.com/adobe/spectrum-design-data/commit/3e55d131306f367fc4c4e808bc6a3c12feb8a6cb), [`df4012b`](https://github.com/adobe/spectrum-design-data/commit/df4012b1d5b92bce207592e807483a734bf9255b), [`d11b4ae`](https://github.com/adobe/spectrum-design-data/commit/d11b4ae1ee5254d29a3b59981c522485898fc472), [`9d4a10c`](https://github.com/adobe/spectrum-design-data/commit/9d4a10c0ceb37513db3985e24a23022004fd7204)]:
+  - @adobe/design-data-wasm@0.37.0
+  - @adobe/spectrum-design-data@4.1.0
+  - @adobe/design-data@3.4.1
+
 ## 1.16.12
 
 ### Patch Changes

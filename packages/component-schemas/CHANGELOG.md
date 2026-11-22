@@ -1,5 +1,24 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 7.1.0
+
+### Minor Changes
+
+- [#2054](https://github.com/adobe/spectrum-design-data/pull/2054) [`3e55d13`](https://github.com/adobe/spectrum-design-data/commit/3e55d131306f367fc4c4e808bc6a3c12feb8a6cb) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(design-data): accordion headingLevel option and per-item isDisabled
+  - Add the `headingLevel` option to accordion (integer 1 to 6, default 3).
+    It matches React Spectrum S2 `AccordionItemTitle` `level`.
+    It is an accessibility value and changes no render.
+  - Add `isDisabled` (boolean, default false) to the accordion `items[]`
+    entries, matching S2 `AccordionItem`.
+  - List `headingLevel` in the accordion visuals `notVisual`.
+  - The accordion visuals still read the component-level `isDisabled`.
+    Drawing one disabled item needs the engine to read `items[].isDisabled`.
+
+### Patch Changes
+
+- Updated dependencies [[`3e55d13`](https://github.com/adobe/spectrum-design-data/commit/3e55d131306f367fc4c4e808bc6a3c12feb8a6cb), [`9d4a10c`](https://github.com/adobe/spectrum-design-data/commit/9d4a10c0ceb37513db3985e24a23022004fd7204)]:
+  - @adobe/spectrum-design-data@4.1.0
+
 ## 7.0.0
 
 ### Major Changes
