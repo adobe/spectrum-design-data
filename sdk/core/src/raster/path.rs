@@ -428,7 +428,10 @@ pub fn paint_shadow(
         return true;
     }
     let reach = (3.0 * sigma).ceil() as i64;
-    let b = |f: fn(f64, f64) -> f64, i: usize, init: f64| pts().map(|p| p[i]).fold(init, f);
+    // Clamped before the integer cast, so a huge coordinate cannot overflow the buffer bounds.
+    let b = |f: fn(f64, f64) -> f64, i: usize, init: f64| {
+        pts().map(|p| p[i]).fold(init, f).clamp(-1.0e9, 1.0e9)
+    };
     let (cw, ch) = (cv.width as i64, cv.height as i64);
     // The buffer is the shape plus its blur reach, cut to the canvas plus that reach.
     let x0 = (b(f64::min, 0, f64::INFINITY).floor() as i64 - reach - 1).max(-reach);

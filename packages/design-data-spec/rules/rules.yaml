@@ -1550,12 +1550,30 @@ rules:
     layer: 2
     category: component
     note: >
-      A part with `floating` is drawn outside the root, beside one of its sides. The engine
-      sizes it from its own `width` and `height`, and it takes no part in layout, so it cannot
-      also be the root, a child, a container or a `placement` part.
+      A part with `floating` is drawn outside the root, beside one of its sides. It takes no
+      part in the root's layout, so it cannot also be the root, a child or a `placement` part.
+      It is sized by its own `width` and `height`, or by its layout when it hosts `children`.
     assert: >
       A part with `floating` MUST NOT be the root or a child of another part, MUST be a `box`
-      with no `children` and no `placement`, and MUST bind both `width` and `height`.
+      with no `placement`, and MUST either have `children` or bind both `width` and `height`.
     message: "Floating part '{part}' of '{component}' {problem}"
     spec_ref: spec/component-visuals.md#floating-parts
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-113
+    name: path-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A part with `path` is drawn as a closed vector shape in its box. The engine reads a
+      small SVG path subset and refuses data it cannot draw (arcs, malformed or oversized
+      data), so a recipe that passes validation draws.
+    assert: >
+      A part with `path` MUST be a `box` that binds `width` and `height`, and its `path` MUST
+      have a string `d` of `M L H V C S Q T Z` commands within 4096 bytes, 1024 numbers and
+      coordinates of at most 1000000, an optional `viewBox` of two positive numbers, and an
+      optional `fillRule` of `nonzero` or `evenodd`.
+    message: "Path part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#path-shapes
     introduced_in: "1.0.0-draft"

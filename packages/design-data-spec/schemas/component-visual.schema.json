@@ -307,6 +307,26 @@
           },
           "additionalProperties": false
         },
+        "path": {
+          "type": "object",
+          "description": "Draws this box as a closed vector shape instead of a rounded rectangle (spec/component-visuals.md, Path shapes).",
+          "required": ["d"],
+          "properties": {
+            "d": {
+              "type": "string",
+              "maxLength": 4096,
+              "description": "SVG path data of M L H V C S Q T Z commands; no arcs."
+            },
+            "viewBox": {
+              "type": "array",
+              "items": { "type": "number", "exclusiveMinimum": 0 },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "fillRule": { "enum": ["nonzero", "evenodd"] }
+          },
+          "additionalProperties": false
+        },
         "placement": {
           "type": "object",
           "required": ["anchor"],

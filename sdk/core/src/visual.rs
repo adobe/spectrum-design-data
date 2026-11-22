@@ -4987,7 +4987,7 @@ fn solve_root(
         let mut sub = None;
         let (fw, fh) = if hosts_children {
             match solve_root(variant, id, req, cx.position) {
-                Ok(sc) if sc.nodes.first().is_some() => {
+                Ok(sc) if !sc.nodes.is_empty() => {
                     cx.diags.extend(
                         sc.diagnostics
                             .iter()
@@ -10964,5 +10964,353 @@ mod tests {
         assert_eq!(px(&img, 28, 3), vec![255, 0, 0, 255]);
         assert_eq!(px(&img, 28, 9)[3], 0);
         assert_eq!(px(&img, 28, 20), vec![255, 255, 255, 255]);
+    }
+
+    // --- floating subtrees and path shapes ---
+
+    const TEARDROP: &str =
+        "M10 0C15.5 0 20 4.5 20 10C20 15 14 20 10 24C6 20 0 15 0 10C0 4.5 4.5 0 10 0Z";
+    const TIP: &str = "M0 0L10 0L6 5Q5 6.5 4 5Z";
+
+    /// A 40x20 root with a loupe-like floating teardrop (20x24, stack) over a checkerboard child.
+    fn loupe_recipe(floating: Value) -> Value {
+        let teardrop = |extra: Value| {
+            let mut p = serde_json::json!({ "kind": "box",
+                "path": { "d": TEARDROP, "viewBox": [20, 24] },
+                "props": { "width": lit(20.into()), "height": lit(24.into()) } });
+            p["props"]
+                .as_object_mut()
+                .unwrap()
+                .extend(extra.as_object().unwrap().clone());
+            p
+        };
+        let mut loupe = teardrop(serde_json::json!({
+            "direction": lit("stack".into()),
+            "fill": lit("#0000ff".into()),
+            "shadow": { "shadow": [layer(0, 2, 4, "#000000")] }
+        }));
+        loupe["floating"] = floating;
+        loupe["children"] = serde_json::json!(["chk"]);
+        loupe["visibleWhen"] = serde_json::json!({ "options": { "isOpen": true } });
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "props": {
+                "width": lit(40.into()), "height": lit(20.into()), "fill": lit("#ffffff".into())
+            } },
+            "loupe": loupe,
+            "chk": teardrop(serde_json::json!({
+                "fill": lit("#ffffff".into()), "patternFill": lit("#cccccc".into()),
+                "patternSize": lit(4.into()) })) }
+        })
+    }
+
+    fn node_of<'a>(s: &'a Scene, part: &str) -> &'a SceneNode {
+        s.nodes
+            .iter()
+            .find(|n| n.part == part)
+            .unwrap_or_else(|| panic!("no node {part}"))
+    }
+
+    #[test]
+    fn a_floating_part_hosts_children_laid_out_at_its_anchor() {
+        let s = open_scene(&loupe_recipe(serde_json::json!({
+            "side": "top", "align": "center", "offset": lit(2.into()) })));
+        let (root, loupe, chk) = (node_of(&s, "r"), node_of(&s, "loupe"), node_of(&s, "chk"));
+        // 20x24 above a 40x20 root, 2 apart, centered: (10, -26) from the root's top-left.
+        assert_eq!((loupe.x - root.x, loupe.y - root.y), (10.0, -26.0));
+        assert_eq!((loupe.w, loupe.h), (20.0, 24.0));
+        // The child fills the stack at the same corner and has a checker pattern.
+        assert_eq!((chk.x, chk.y, chk.w, chk.h), (loupe.x, loupe.y, 20.0, 24.0));
+        assert_eq!(chk.pattern.as_ref().map(|p| p.size), Some(4.0));
+        assert!(loupe.path.is_some() && chk.path.is_some());
+        // The root keeps its size, and a closed loupe leaves the scene as it was.
+        let (g, _) = load();
+        let closed = build_scene(
+            &g,
+            &loupe_recipe(serde_json::json!({ "side": "top" })),
+            &req(&[]),
+        )
+        .unwrap();
+        assert!(closed
+            .nodes
+            .iter()
+            .all(|n| n.part != "loupe" && n.part != "chk"));
+        assert_eq!((closed.nodes[0].w, closed.nodes[0].h), (root.w, root.h));
+        assert_eq!((closed.width, closed.height), (56.0, 36.0));
+    }
+
+    #[test]
+    fn the_scene_grows_to_hold_a_floating_subtree_and_its_shadow() {
+        let s = open_scene(&loupe_recipe(serde_json::json!({
+            "side": "top", "offset": lit(2.into()) })));
+        // The subtree reaches 26 above the root; the 8px margin leaves 18 of growth, so the root
+        // moves down to y 26 and the canvas is 26 + 20 + 8 tall. The shadow (blur 4, y 2) reaches
+        // 3 sigma = 6 beyond the loupe, 2 below: the loupe's top edge is at 0, so it grows by 4.
+        let root = node_of(&s, "r");
+        assert_eq!((root.x, root.y), (8.0, 30.0));
+        assert_eq!((s.width, s.height), (56.0, 58.0));
+        assert_eq!(node_of(&s, "loupe").y, 4.0);
+        // The same recipe with the loupe at the bottom grows the other way.
+        let b = open_scene(&loupe_recipe(serde_json::json!({
+            "side": "bottom", "offset": lit(2.into()) })));
+        assert_eq!((node_of(&b, "r").x, node_of(&b, "r").y), (8.0, 8.0));
+        assert_eq!(b.height, 8.0 + 20.0 + 2.0 + 24.0 + 2.0 + 6.0);
+    }
+
+    #[test]
+    fn a_second_floating_part_is_not_solved_again_inside_a_floating_subtree() {
+        let mut recipe = loupe_recipe(serde_json::json!({ "side": "top" }));
+        recipe["parts"]["tip"] = serde_json::json!({ "kind": "box", "floating": { "side": "bottom" },
+            "props": lit_props(&[("width", 4.0), ("height", 4.0)]) });
+        let s = open_scene(&recipe);
+        for id in ["loupe", "chk", "tip"] {
+            assert_eq!(s.nodes.iter().filter(|n| n.part == id).count(), 1, "{id}");
+        }
+        // The tip is anchored to the root (below it), not to the loupe.
+        let (root, tip) = (node_of(&s, "r"), node_of(&s, "tip"));
+        assert_eq!((tip.x - root.x, tip.y - root.y), (18.0, 20.0));
+    }
+
+    #[test]
+    fn a_floating_part_of_a_nested_recipe_is_dropped_with_a_diagnostic() {
+        let sizes = serde_json::json!({ "s": 100, "m": 100, "l": 100, "xl": 100 });
+        let nested = serde_json::json!({ "component": "action-button", "root": "n", "sizeScale": sizes,
+            "parts": { "n": { "kind": "box", "children": ["k"], "props": lit_props(&[("width", 10.0), ("height", 10.0)]) },
+                       "k": { "kind": "box", "props": lit_props(&[("width", 2.0), ("height", 2.0)]) },
+                       "f": { "kind": "box", "floating": { "side": "top" },
+                              "children": ["fk"],
+                              "props": lit_props(&[("width", 4.0), ("height", 4.0)]) },
+                       "fk": { "kind": "box", "props": lit_props(&[("width", 2.0), ("height", 2.0)]) } } });
+        let g = nest_graph(&[("action-button", nested)]);
+        let s = nest_scene(&g, &row_host(), "m", &[], &[]).unwrap();
+        let names: Vec<&String> = s.nodes.iter().map(|n| &n.part).collect();
+        assert!(names.contains(&&"a.k".to_string()), "{names:?}");
+        assert!(
+            !names
+                .iter()
+                .any(|n| n.ends_with(".f") || n.ends_with(".fk")),
+            "{names:?}"
+        );
+        assert!(
+            s.diagnostics
+                .iter()
+                .any(|d| d.contains("floating parts of the nested recipe are not drawn")),
+            "{:?}",
+            s.diagnostics
+        );
+    }
+
+    #[test]
+    fn an_unresolved_floating_offset_is_reported_and_taken_as_zero() {
+        for key in ["offset", "crossOffset"] {
+            let (x, y, s) = tip_at(serde_json::json!({ "side": "top", key: lit("NaN".into()) }));
+            assert_eq!((x, y), (15.0, -6.0), "{key}");
+            assert!(
+                s.diagnostics
+                    .iter()
+                    .any(|d| d.contains(key) && d.contains("does not resolve")),
+                "{key}: {:?}",
+                s.diagnostics
+            );
+        }
+    }
+
+    #[test]
+    fn a_huge_shadow_offset_or_spread_is_skipped_so_the_canvas_stays_small() {
+        for key in ["x", "y", "spread"] {
+            let mut l = layer(0, 0, 4, "#000000");
+            l[key] = lit(1e300.into());
+            let s = solve_width(&shadow_recipe(serde_json::json!({ "shadow": [l] })), None);
+            assert!(s.nodes[0].shadow.is_empty(), "{key}");
+            assert!(
+                s.width < 200.0 && s.height < 200.0,
+                "{key}: {}x{}",
+                s.width,
+                s.height
+            );
+            assert!(s.diagnostics.iter().any(|d| d.contains("beyond")), "{key}");
+            // Both renderers see the same small canvas.
+            let (img, _) = crate::raster::rasterize(
+                &s,
+                &[],
+                &crate::raster::RasterOptions {
+                    scale: 1.0,
+                    background: None,
+                },
+            )
+            .unwrap();
+            assert_eq!(img.width as f64, s.width.ceil());
+            assert!(scene_to_svg(&s).contains(&format!("width=\"{}\"", s.width)));
+        }
+    }
+
+    #[test]
+    fn scale_path_scales_closes_and_refuses_bad_data() {
+        assert_eq!(
+            scale_path("M0 0L10 0L5 10", 2.0, 3.0).unwrap(),
+            "M0 0L20 0L10 30Z"
+        );
+        // Relative commands scale the same way; H and V use one axis; a second pair after M is a line.
+        assert_eq!(
+            scale_path("m1 1 2 2h3v4z", 2.0, 10.0).unwrap(),
+            "m2 10l4 20h6v40Z"
+        );
+        // Each subpath is closed, so a stroke and a fill see one shape.
+        assert_eq!(
+            scale_path("M0 0L1 0M5 5L6 5", 1.0, 1.0).unwrap(),
+            "M0 0L1 0ZM5 5L6 5Z"
+        );
+        for bad in [
+            "",
+            "   ",
+            "L1 1",
+            "M",
+            "M1",
+            "M1 2L",
+            "M1 2 A5 5 0 0 1 9 9",
+            "M1 2X3",
+            "M NaN 2",
+            "Minf 0",
+            "M1e999 0",
+            "M1e300 0",
+            "M0 0L-- 1",
+            "M 0 0 L 1 1 $",
+            "M0,0,,,L",
+            "5 5",
+        ] {
+            assert!(scale_path(bad, 1.0, 1.0).is_err(), "{bad:?}");
+        }
+        assert!(scale_path("M0 0", f64::NAN, 1.0).is_err());
+        assert!(scale_path("M0 0", 0.0, 1.0).is_err());
+        let long = format!("M0 0{}", "L1 1".repeat(2000));
+        assert!(scale_path(&long, 1.0, 1.0).is_err());
+        let wide = format!("M0 0{}", "L1 1".repeat(MAX_PATH_BYTES));
+        assert!(scale_path(&wide, 1.0, 1.0).is_err());
+        // Just inside the limits.
+        let ok = format!("M0 0{}", "L1 1".repeat(500));
+        assert!(scale_path(&ok, 1.0, 1.0).is_ok());
+    }
+
+    #[test]
+    fn path_shape_reads_view_box_and_fill_rule() {
+        let p = path_shape(&serde_json::json!({ "d": "M0 0L10 0L10 10", "viewBox": [10, 10], "fillRule": "evenodd" }), 20.0, 40.0).unwrap();
+        assert_eq!((p.d.as_str(), p.even_odd), ("M0 0L20 0L20 40Z", true));
+        assert!(
+            !path_shape(&serde_json::json!({ "d": "M0 0L1 1" }), 5.0, 5.0)
+                .unwrap()
+                .even_odd
+        );
+        for bad in [
+            serde_json::json!({}),
+            serde_json::json!({ "d": 5 }),
+            serde_json::json!({ "d": "M0 0L1 1", "viewBox": [0, 10] }),
+            serde_json::json!({ "d": "M0 0L1 1", "viewBox": [1] }),
+            serde_json::json!({ "d": "M0 0L1 1", "viewBox": "x" }),
+            serde_json::json!({ "d": "M0 0L1 1", "fillRule": "x" }),
+        ] {
+            assert!(path_shape(&bad, 5.0, 5.0).is_err(), "{bad}");
+        }
+        assert!(path_shape(&serde_json::json!({ "d": "M0 0L1 1" }), 0.0, 5.0).is_err());
+        assert!(path_shape(&serde_json::json!({ "d": "M0 0L1 1" }), f64::INFINITY, 5.0).is_err());
+    }
+
+    #[test]
+    fn a_bad_path_draws_the_plain_box_with_a_diagnostic() {
+        let mut recipe = loupe_recipe(serde_json::json!({ "side": "top" }));
+        recipe["parts"]["loupe"]["path"]["d"] = "M0 0 A1 1 0 0 1 2 2".into();
+        let s = open_scene(&recipe);
+        assert!(node_of(&s, "loupe").path.is_none());
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("part 'loupe'") && d.contains("arc")));
+    }
+
+    #[test]
+    fn svg_draws_the_path_with_its_shadow_pattern_and_stroke() {
+        let mut recipe = loupe_recipe(serde_json::json!({ "side": "top" }));
+        recipe["parts"]["loupe"]["props"]["stroke"] = lit("#00ff00".into());
+        recipe["parts"]["loupe"]["props"]["strokeWidth"] = lit(2.into());
+        let s = open_scene(&recipe);
+        let svg = scene_to_svg(&s);
+        let l = node_of(&s, "loupe");
+        let tf = format!("translate({} {})", l.x, l.y);
+        let d = &l.path.as_ref().unwrap().d;
+        assert!(
+            svg.contains(&format!("transform=\"{tf}\" d=\"{d}\" fill=\"#0000ff\"")),
+            "{svg}"
+        );
+        assert!(svg.contains("stroke=\"#00ff00\" stroke-width=\"2\" stroke-linejoin=\"round\""));
+        assert!(svg.contains("data-shadow=\"true\"") && svg.contains("<pattern"));
+        // The box is not drawn as a rect for a path part.
+        assert!(!svg.contains("data-part=\"loupe\" x="));
+    }
+
+    #[test]
+    fn png_draws_the_teardrop_its_checker_and_a_shadow_outside_it() {
+        let opts = crate::raster::RasterOptions {
+            scale: 1.0,
+            background: None,
+        };
+        let s = open_scene(&loupe_recipe(
+            serde_json::json!({ "side": "top", "offset": lit(2.into()) }),
+        ));
+        let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
+        let px = |x: f64, y: f64| {
+            let i = ((y as u32 * img.width + x as u32) * 4) as usize;
+            img.rgba[i..i + 4].to_vec()
+        };
+        let l = node_of(&s, "loupe");
+        // Inside the round top the checker (cells of 4, top-left cell is the plain fill) alternates.
+        let at = |dx: f64, dy: f64| px(l.x + dx, l.y + dy);
+        assert_eq!(at(10.5, 10.5), vec![255, 255, 255, 255]);
+        assert_eq!(at(10.5, 6.5), vec![204, 204, 204, 255]);
+        // The corner of the box is outside the teardrop: only the blurred shadow (or nothing).
+        assert!(at(0.5, 0.5)[3] < 20, "{:?}", at(0.5, 0.5));
+        // The point at the bottom is narrow: the bottom corners are empty too.
+        assert!(at(1.5, 23.5)[3] < 20);
+    }
+
+    #[test]
+    fn a_tooltip_like_recipe_draws_a_bubble_with_text_and_a_path_tip() {
+        let text = serde_json::json!({ "kind": "text", "props": {
+            "fontSize": lit(10.into()), "color": lit("#ffffff".into()) } });
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "props": lit_props(&[("width", 40.0), ("height", 20.0)]) },
+                "bubble": { "kind": "box", "floating": { "side": "top", "offset": lit(5.into()) },
+                    "children": ["label"],
+                    "props": { "fill": lit("#222222".into()), "cornerRadius": lit(4.into()),
+                        "paddingInlineStart": lit(6.into()), "paddingInlineEnd": lit(6.into()),
+                        "paddingBlockStart": lit(4.into()), "paddingBlockEnd": lit(4.into()) } },
+                "label": text,
+                "tip": { "kind": "box", "floating": { "side": "top", "offset": lit(0.into()) },
+                    "path": { "d": TIP, "viewBox": [10, 6] },
+                    "props": { "width": lit(10.into()), "height": lit(6.into()), "fill": lit("#222222".into()) } }
+            }
+        });
+        let (g, _) = load();
+        let mut r = req(&[]);
+        r.label = "Hi".into();
+        let s = build_scene(&g, &recipe, &r).unwrap();
+        let (root, bubble, label, tip) = (
+            node_of(&s, "r"),
+            node_of(&s, "bubble"),
+            node_of(&s, "label"),
+            node_of(&s, "tip"),
+        );
+        // The bubble is centered over the root, 5 above it, and holds the text inside its padding.
+        assert!((bubble.x - root.x - (root.w - bubble.w) / 2.0).abs() < 1e-9);
+        assert_eq!(bubble.y + bubble.h + 5.0, root.y);
+        assert!(label.x >= bubble.x + 6.0 && label.x + label.w <= bubble.x + bubble.w - 6.0 + 0.01);
+        assert_eq!(label.text.as_deref(), Some("Hi"));
+        // The tip is a path, centered on the root and touching it.
+        assert!(tip.path.is_some());
+        assert_eq!((tip.x - root.x, tip.y + tip.h - root.y), (15.0, 0.0));
+        assert!(
+            s.nodes.iter().all(|n| n.x >= 0.0 && n.y >= 0.0),
+            "nothing is cut off"
+        );
     }
 }

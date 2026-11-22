@@ -10,9 +10,10 @@
 
 //! SPEC-112: floating-part-well-formed
 //!
-//! Error. A part with `floating` is a top-level leaf `box` drawn outside the root: it is
-//! not the root, not a child of any part, has no children or `placement`, and binds a
-//! `width` and a `height` (the engine cannot place a box it cannot size).
+//! Error. A part with `floating` is a top-level `box` drawn outside the root: it is not the
+//! root, not a child of any part, has no `placement`, and either hosts `children` (a subtree
+//! the layout sizes) or binds a `width` and a `height` (the engine cannot place a leaf box it
+//! cannot size).
 
 use serde_json::Value;
 
@@ -54,13 +55,16 @@ impl ValidationRule for Rule {
                     problems.push("is a child of another part");
                 }
                 if part.get("kind").and_then(Value::as_str) != Some("box")
-                    || part.get("children").is_some()
                     || part.get("placement").is_some()
                 {
-                    problems.push("is not a leaf box without a placement");
+                    problems.push("is not a box without a placement");
                 }
+                let hosts = part
+                    .get("children")
+                    .and_then(Value::as_array)
+                    .is_some_and(|c| !c.is_empty());
                 let bound = |n: &str| part.pointer(&format!("/props/{n}")).is_some();
-                if !(bound("width") && bound("height")) {
+                if !hosts && (!bound("width") || !bound("height")) {
                     problems.push("does not bind both width and height");
                 }
                 for problem in problems {
@@ -107,19 +111,23 @@ mod tests {
     }
 
     #[test]
-    fn a_leaf_floating_box_with_a_size_is_clean() {
+    fn a_leaf_floating_box_with_a_size_and_a_subtree_without_one_are_clean() {
         assert!(check(json!({ "r": { "kind": "box" }, "t": tip(json!({})) })).is_empty());
+        let host = json!({ "kind": "box", "floating": {"side": "top"}, "children": ["c"] });
+        assert!(
+            check(json!({ "r": { "kind": "box" }, "t": host, "c": { "kind": "box" } })).is_empty()
+        );
     }
 
     #[test]
-    fn flags_a_child_the_root_a_non_leaf_and_a_missing_size() {
+    fn flags_a_child_the_root_a_non_box_and_a_missing_size() {
         let m = check(json!({ "r": { "kind": "box", "children": ["t"] }, "t": tip(json!({})) }));
         assert_eq!(m.len(), 1, "{m:?}");
         assert!(m[0].contains("child of another part"));
         let m = check(json!({ "r": tip(json!({})) }));
         assert!(m.iter().any(|m| m.contains("is the root")), "{m:?}");
         let m = check(json!({ "r": { "kind": "box" }, "t": tip(json!({"kind": "text"})) }));
-        assert!(m.iter().any(|m| m.contains("leaf box")), "{m:?}");
+        assert!(m.iter().any(|m| m.contains("is not a box")), "{m:?}");
         let m = check(json!({ "r": { "kind": "box" },
             "t": { "kind": "box", "floating": {"side": "top"}, "props": { "width": {"value": 4} } } }));
         assert!(m.iter().any(|m| m.contains("width and height")), "{m:?}");

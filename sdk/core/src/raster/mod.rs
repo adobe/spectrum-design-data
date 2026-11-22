@@ -1378,4 +1378,117 @@ mod tests {
             0
         );
     }
+
+    fn path_node(d: &str, fill: Option<&str>) -> SceneNode {
+        let mut n = node("box", "p", 10.0, 10.0, 20.0, 20.0);
+        n.fill = fill.map(String::from);
+        n.path = Some(crate::visual::PathShape {
+            d: d.into(),
+            even_odd: false,
+        });
+        n
+    }
+
+    const NESTED: &str = "M0 0L20 0L20 20L0 20ZM5 5L15 5L15 15L5 15Z";
+
+    #[test]
+    fn a_path_fills_with_exact_edge_coverage_and_the_fill_rule() {
+        let s = scene(
+            40.0,
+            40.0,
+            vec![path_node("M0 0L20 0L0 20Z", Some("#ff0000"))],
+        );
+        let (img, d) = render(&s, 1.0);
+        assert!(d.is_empty(), "{d:?}");
+        // Inside, outside, and the hypotenuse pixel (x + y = 20 crosses it at half coverage).
+        assert_eq!(at(&img, 12, 12), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 28, 28), [0, 0, 0, 0]);
+        assert_eq!(at(&img, 9, 12), [0, 0, 0, 0]);
+        let a = at(&img, 20, 19)[3];
+        assert!((120..=135).contains(&a), "{a}");
+        assert_eq!(render(&s, 1.0).0.rgba, img.rgba);
+        // Two same-direction squares: non-zero fills the hole, even-odd leaves it empty.
+        let mut n = path_node(NESTED, Some("#00ff00"));
+        let (img, _) = render(&scene(40.0, 40.0, vec![n.clone()]), 1.0);
+        assert_eq!(at(&img, 20, 20), [0, 255, 0, 255]);
+        n.path.as_mut().unwrap().even_odd = true;
+        let (img, _) = render(&scene(40.0, 40.0, vec![n]), 1.0);
+        assert_eq!(at(&img, 20, 20)[3], 0);
+        assert_eq!(at(&img, 12, 20), [0, 255, 0, 255]);
+    }
+
+    #[test]
+    fn a_path_scales_with_the_image() {
+        let s = scene(
+            40.0,
+            40.0,
+            vec![path_node("M0 0L20 0L20 20L0 20Z", Some("#ff0000"))],
+        );
+        let (img, _) = render(&s, 2.0);
+        assert_eq!((img.width, img.height), (80, 80));
+        assert_eq!(at(&img, 21, 21), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 19, 21)[3], 0);
+        assert_eq!(at(&img, 59, 59), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 60, 60)[3], 0);
+    }
+
+    #[test]
+    fn a_path_stroke_is_centered_on_the_outline_with_round_joins() {
+        let mut n = path_node("M0 0L20 0L20 20L0 20Z", None);
+        (n.stroke, n.stroke_width) = (Some("#0000ff".into()), 4.0);
+        let (img, d) = render(&scene(40.0, 40.0, vec![n]), 1.0);
+        assert!(d.is_empty(), "{d:?}");
+        // The left edge is at x 10: the band covers 8 to 12, so 8 and 11 are ink, 7 and 12 are not.
+        assert_eq!(at(&img, 8, 20), [0, 0, 255, 255]);
+        assert_eq!(at(&img, 11, 20), [0, 0, 255, 255]);
+        assert_eq!(at(&img, 7, 20)[3], 0);
+        assert_eq!(at(&img, 12, 20)[3], 0);
+        // The middle is empty (no fill), and a round join leaves the corner's outer pixel half
+        // empty where a miter would fill it.
+        assert_eq!(at(&img, 20, 20)[3], 0);
+        let corner = at(&img, 8, 8)[3];
+        assert!((80..=115).contains(&corner), "{corner}");
+        assert_eq!(at(&img, 9, 9)[3], 255);
+    }
+
+    #[test]
+    fn a_path_shadow_follows_the_shape_and_never_shows_inside_it() {
+        let mut n = path_node("M0 0L20 0L0 20Z", Some("rgba(255, 255, 255, 0)"));
+        n.shadow = vec![shadow(0.0, 6.0, 4.0, "#000000")];
+        let (img, d) = render(&scene(50.0, 50.0, vec![n]), 1.0);
+        assert!(d.is_empty(), "{d:?}");
+        // Inside the triangle: nothing. Below its hypotenuse: shadow. Past the empty corner,
+        // beyond the offset and blur reach: none. The shadow of a triangle is not a box's.
+        assert_eq!(at(&img, 13, 13)[3], 0);
+        assert!(at(&img, 22, 22)[3] > 60, "{}", at(&img, 22, 22)[3]);
+        assert_eq!(at(&img, 40, 10)[3], 0);
+        assert!(at(&img, 26, 24)[3] < at(&img, 22, 22)[3]);
+    }
+
+    #[test]
+    fn a_path_pattern_is_clipped_to_the_shape() {
+        let mut n = path_node("M0 0L20 0L0 20Z", Some("#ffffff"));
+        n.pattern = Some(crate::visual::Pattern {
+            alt: "#cccccc".into(),
+            size: 4.0,
+        });
+        let (img, _) = render(&scene(40.0, 40.0, vec![n]), 1.0);
+        // Cell (0,0) is the fill, cell (1,0) the alt color; outside the triangle: empty.
+        assert_eq!(at(&img, 11, 11), [255, 255, 255, 255]);
+        assert_eq!(at(&img, 15, 11), [204, 204, 204, 255]);
+        assert_eq!(at(&img, 28, 28)[3], 0);
+    }
+
+    #[test]
+    fn a_bad_or_huge_path_is_skipped_with_a_diagnostic_and_never_panics() {
+        for d in ["bogus", "M0 0L1e300 1e300L0 5Z"] {
+            let mut n = path_node(d, Some("#ff0000"));
+            n.stroke = Some("#000000".into());
+            n.stroke_width = 2.0;
+            n.shadow = vec![shadow(0.0, 2.0, 4.0, "#000000")];
+            let (img, diags) = render(&scene(40.0, 40.0, vec![n]), 1.0);
+            assert_eq!((img.width, img.height), (40, 40));
+            assert!(!diags.is_empty(), "{d}");
+        }
+    }
 }
