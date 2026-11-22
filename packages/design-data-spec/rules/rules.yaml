@@ -1572,7 +1572,7 @@ rules:
     assert: >
       A part with `path` MUST be a `box` that binds `width` and `height`, and its `path` MUST
       have a string `d` of `M L H V C S Q T Z` commands within 4096 bytes, 1024 numbers and
-      coordinates of at most 1000000, an optional `viewBox` of two positive numbers, and an
+      coordinates of at most 1000000 (100000 after scaling to the box), an optional `viewBox` of two positive numbers, and an
       optional `fillRule` of `nonzero` or `evenodd`.
     message: "Path part '{part}' of '{component}' {problem}"
     spec_ref: spec/component-visuals.md#path-shapes

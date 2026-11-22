@@ -28,7 +28,7 @@ const RING_MARGIN: f64 = 8.0;
 
 /// The largest floating-part size or offset the engine draws, in px; a larger one is skipped
 /// with a diagnostic so a bad value cannot make a huge canvas.
-pub const MAX_FLOATING: f64 = 10_000.0;
+pub const MAX_FLOATING: f64 = 2_000.0;
 
 /// The largest shadow `blur` a renderer draws, in px; a larger one is clamped with a diagnostic.
 pub const MAX_SHADOW_BLUR: f64 = 100.0;
@@ -394,6 +394,10 @@ pub const MAX_PATH_BYTES: usize = 4096;
 pub const MAX_PATH_NUMBERS: usize = 1024;
 /// The largest coordinate magnitude a `path.d` may hold, in its own units.
 pub const MAX_PATH_COORD: f64 = 1.0e6;
+/// The largest coordinate magnitude after scaling to the part's box, in px.
+pub const MAX_PATH_SCALED: f64 = 100_000.0;
+/// The largest path part box, in px squared: a path costs a blur and a distance grid per pixel.
+pub const MAX_PATH_AREA: f64 = 250_000.0;
 
 /// Scale path data by `(sx, sy)` (relative commands scale the same way) and close every
 /// subpath, so a stroke and a fill see the same shape. Arcs are refused: a non-uniform scale
@@ -407,6 +411,9 @@ pub fn scale_path(d: &str, sx: f64, sy: f64) -> Result<String, String> {
     }
     let b = d.as_bytes();
     let (mut i, mut out, mut open, mut started, mut count) = (0, String::new(), false, false, 0);
+    // The current point and subpath start, in scaled units, to turn a relative `m` that follows
+    // an implied close into an absolute `M`.
+    let (mut cur, mut start_pt) = ([0.0f64; 2], [0.0f64; 2]);
     let skip = |i: &mut usize| {
         while *i < b.len() && (b[*i].is_ascii_whitespace() || b[*i] == b',') {
             *i += 1;
@@ -438,6 +445,7 @@ pub fn scale_path(d: &str, sx: f64, sy: f64) -> Result<String, String> {
                 out.push('Z');
                 open = false;
             }
+            cur = start_pt;
             continue;
         }
         if !started && up != b'M' {
@@ -505,28 +513,61 @@ pub fn scale_path(d: &str, sx: f64, sy: f64) -> Result<String, String> {
                     (b'V', _) | (_, 1) => sy,
                     _ => sx,
                 };
-                vals.push(((v * scale * 1e4).round() / 1e4) + 0.0);
-            }
-            let letter = if up == b'M' && !first {
-                if c.is_ascii_lowercase() {
-                    'l'
-                } else {
-                    'L'
+                let scaled = v * scale;
+                if !scaled.is_finite() || scaled.abs() > MAX_PATH_SCALED {
+                    return Err(format!(
+                        "number at offset {start} scales to beyond {MAX_PATH_SCALED}"
+                    ));
                 }
-            } else {
-                c as char
-            };
-            if up == b'M' && first && open {
-                out.push('Z');
+                vals.push(((scaled * 1e4).round() / 1e4) + 0.0);
             }
-            out.push(letter);
-            out.push_str(
-                &vals
-                    .iter()
-                    .map(f64::to_string)
-                    .collect::<Vec<_>>()
-                    .join(" "),
-            );
+            let rel = c.is_ascii_lowercase();
+            let base = if rel { cur } else { [0.0, 0.0] };
+            let end = match up {
+                b'H' => [base[0] + vals[0], cur[1]],
+                b'V' => [cur[0], base[1] + vals[0]],
+                b'C' => [base[0] + vals[4], base[1] + vals[5]],
+                b'S' | b'Q' => [base[0] + vals[2], base[1] + vals[3]],
+                _ => [base[0] + vals[0], base[1] + vals[1]],
+            };
+            if up == b'M' && first {
+                if open {
+                    // Closing returns to the subpath start, so a relative move is made absolute
+                    // from the point it was written relative to.
+                    out.push('Z');
+                    out.push('M');
+                    out.push_str(&format!("{} {}", end[0] + 0.0, end[1] + 0.0));
+                } else {
+                    out.push(c as char);
+                    out.push_str(
+                        &vals
+                            .iter()
+                            .map(f64::to_string)
+                            .collect::<Vec<_>>()
+                            .join(" "),
+                    );
+                }
+                start_pt = end;
+            } else {
+                let letter = if up == b'M' {
+                    if rel {
+                        'l'
+                    } else {
+                        'L'
+                    }
+                } else {
+                    c as char
+                };
+                out.push(letter);
+                out.push_str(
+                    &vals
+                        .iter()
+                        .map(f64::to_string)
+                        .collect::<Vec<_>>()
+                        .join(" "),
+                );
+            }
+            cur = end;
             open = true;
             first = false;
         }
@@ -569,6 +610,9 @@ pub fn path_shape(spec: &Value, w: f64, h: f64) -> Result<PathShape, String> {
     };
     if !(w.is_finite() && h.is_finite() && w > 0.0 && h > 0.0) {
         return Err("a path part needs a positive width and height".into());
+    }
+    if w * h > MAX_PATH_AREA {
+        return Err(format!("a path part is at most {MAX_PATH_AREA} px squared"));
     }
     Ok(PathShape {
         d: scale_path(d, w / vw, h / vh)?,
@@ -6349,10 +6393,12 @@ fn write_path_box(s: &mut String, n: &SceneNode, attrs: &str, so: &str) {
     for sh in n.shadow.iter().rev() {
         let sigma = sh.blur / 2.0;
         let pad = (3.0 * sigma).ceil();
+        // The shadow element is translated, and a userSpaceOnUse filter region is in the
+        // element's own (translated) space, so the region is the box in local coordinates.
         let region = format!(
             "x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\"",
-            n.x + sh.x - pad,
-            n.y + sh.y - pad,
+            -pad,
+            -pad,
             n.w + 2.0 * pad,
             n.h + 2.0 * pad
         );
@@ -11312,5 +11358,88 @@ mod tests {
             s.nodes.iter().all(|n| n.x >= 0.0 && n.y >= 0.0),
             "nothing is cut off"
         );
+    }
+
+    #[test]
+    fn the_svg_shadow_filter_region_is_local_to_the_translated_shadow_element() {
+        // The loupe sits away from the origin; its filter region must still cover the blurred shadow.
+        let s = open_scene(&loupe_recipe(
+            serde_json::json!({ "side": "top", "offset": lit(2.into()) }),
+        ));
+        let l = node_of(&s, "loupe");
+        assert!(l.x > 0.0 && l.y > 0.0);
+        let svg = scene_to_svg(&s);
+        // blur 4 reaches 3 sigma = 6 on every side of the 20x24 shape, in the element's own space.
+        assert!(
+            svg.contains(
+                "filterUnits=\"userSpaceOnUse\" x=\"-6\" y=\"-6\" width=\"32\" height=\"36\""
+            ),
+            "{svg}"
+        );
+        assert!(svg.contains(&format!(
+            "data-shadow=\"true\" transform=\"translate({} {})\"",
+            l.x,
+            l.y + 2.0
+        )));
+    }
+
+    #[test]
+    fn scale_path_keeps_a_relative_move_after_an_unclosed_subpath_where_it_was() {
+        // The second subpath starts at (10, 8) + (3, 3), not at the first one's start.
+        assert_eq!(
+            scale_path("M2 2L10 2L10 8 m 3 3 l 5 0 l 0 5", 1.0, 1.0).unwrap(),
+            "M2 2L10 2L10 8ZM13 11l5 0l0 5Z"
+        );
+        assert_eq!(
+            scale_path(
+                "m2 2 l8 0 l0 6 m 3 3 h5 v-1 c1 1 2 2 3 3 m1 1 l1 1",
+                2.0,
+                1.0
+            )
+            .unwrap(),
+            "m4 2l16 0l0 6ZM26 11h10v-1c2 1 4 2 6 3ZM44 14l2 1Z"
+        );
+        // After an explicit close the point is the subpath start, so `m` stays relative.
+        assert_eq!(
+            scale_path("M0 0L4 0Z m 1 1 L2 2", 1.0, 1.0).unwrap(),
+            "M0 0L4 0Zm1 1L2 2Z"
+        );
+    }
+
+    #[test]
+    fn a_path_is_refused_when_its_scaled_coordinates_or_box_are_too_big() {
+        let d = serde_json::json!({ "d": "M0 0L1 1", "viewBox": [1e-9, 1e-9] });
+        assert!(path_shape(&d, 5.0, 5.0)
+            .unwrap_err()
+            .contains("scales to beyond"));
+        let d = serde_json::json!({ "d": "M0 0L1 1" });
+        assert!(path_shape(&d, 500.0, 500.0).is_ok());
+        assert!(path_shape(&d, 501.0, 500.0)
+            .unwrap_err()
+            .contains("at most"));
+    }
+
+    #[test]
+    fn a_floating_offset_beyond_the_cap_is_skipped_so_svg_and_png_stay_drawable() {
+        let (_, _, s) = tip_at(serde_json::json!({ "side": "top", "offset": lit(2000.into()) }));
+        assert!(s.nodes.iter().any(|n| n.part == "tip"));
+        assert!(s.height < 2100.0);
+        let (g, _) = load();
+        let mut r = req(&[]);
+        r.options.insert("isOpen".into(), Value::Bool(true));
+        let s = build_scene(
+            &g,
+            &floating_recipe(
+                serde_json::json!({ "side": "top", "offset": lit(2001.into()) }),
+                serde_json::json!({}),
+            ),
+            &r,
+        )
+        .unwrap();
+        assert!(s.nodes.iter().all(|n| n.part != "tip"));
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("floating part 'tip'")));
     }
 }
