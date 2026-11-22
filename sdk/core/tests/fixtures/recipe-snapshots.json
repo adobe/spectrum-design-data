@@ -764,6 +764,16 @@
     "hideLabel=true,isDisabled=false": "d71e0a1f756c562d",
     "hideLabel=true,isDisabled=true": "5458a20cce253baf"
   },
+  "segmented-control": {
+    "hideTracker=false,isSelected=false,orientation=\"horizontal\"": "56920f0b91d43837",
+    "hideTracker=false,isSelected=false,orientation=\"vertical\"": "8fc02feb377cafc3",
+    "hideTracker=false,isSelected=true,orientation=\"horizontal\"": "60907e42e536fb91",
+    "hideTracker=false,isSelected=true,orientation=\"vertical\"": "26df5c2f6cfceff5",
+    "hideTracker=true,isSelected=false,orientation=\"horizontal\"": "5e984cb777ed02ff",
+    "hideTracker=true,isSelected=false,orientation=\"vertical\"": "08752e2f796c96eb",
+    "hideTracker=true,isSelected=true,orientation=\"horizontal\"": "5cc53f50db308059",
+    "hideTracker=true,isSelected=true,orientation=\"vertical\"": "6948b5d3e9161175"
+  },
   "status-light": {
     "variant=\"accent\"": "f83a2073706c9ff7",
     "variant=\"blue\"": "ece52f79defa7a77",
@@ -834,6 +844,16 @@
     "hideLabel=true,isDisabled=true,isEmphasized=false,isSelected=true": "6f842425a8c64de5",
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=false": "544a4cb2ae03b41f",
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=true": "1faf25a2ae0ce491"
+  },
+  "tabs": {
+    "density=\"compact\",isSelected=false,orientation=\"horizontal\"": "93775c34bc4c83cd",
+    "density=\"compact\",isSelected=false,orientation=\"vertical\"": "01f8caf003b5a9d1",
+    "density=\"compact\",isSelected=true,orientation=\"horizontal\"": "4775290be92ef3b3",
+    "density=\"compact\",isSelected=true,orientation=\"vertical\"": "f24f79a495677caf",
+    "density=\"regular\",isSelected=false,orientation=\"horizontal\"": "997bc7d70c016fa1",
+    "density=\"regular\",isSelected=false,orientation=\"vertical\"": "5b5542022f4a147d",
+    "density=\"regular\",isSelected=true,orientation=\"horizontal\"": "6516c5718b74f517",
+    "density=\"regular\",isSelected=true,orientation=\"vertical\"": "c238452bb01b74bb"
   },
   "tag": {
     "hasAvatar=false,isDisabled=false,isEmphasized=false,isRemovable=false,isSelected=false": "29ccfffb746f81b7",

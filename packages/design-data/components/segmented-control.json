@@ -152,6 +152,11 @@
             "enum": ["label-only", "icon-only", "icon-label"],
             "default": "icon-label",
             "description": "Controls whether the segmented control item displays a label, an icon, or both."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this item is the selected one."
           }
         }
       }
@@ -174,6 +179,11 @@
           "value": "xl"
         }
       ]
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered item is the selected one. Drives the selection indicator and the item colors. Per-item in a data-driven component is items[].isSelected."
     }
   },
   "slots": [
@@ -207,12 +217,19 @@
     },
     {
       "name": "selection-indicator",
-      "description": "Fill and border that mark the selected segment. It is drawn inside the item and is present on the selected segment only."
+      "description": "Fill and border that mark the selected segment. It is drawn inside the item and is present on the selected segment only.",
+      "presentWhen": {
+        "options": {
+          "isSelected": true
+        }
+      }
     },
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused segment.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     }
   ],
   "anatomyReview": {
