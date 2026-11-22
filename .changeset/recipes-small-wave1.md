@@ -6,7 +6,8 @@ In-field button, coach indicator, standard panel and bar panel: first visual rec
 
 - In-field button draws a square (16, 20, 24 or 32 px) with a gray-100 fill, a gray-200 hover
   fill, a disabled look and a content icon.
-  The component gains `size`, `isDisabled` and the `hover` state. Its four stacked-width records now use the sizes `s`, `m`, `l` and `xl`.
+  The component gains `size`, `isDisabled` and the `hover` state.
+  Its four stacked-width records now use the sizes `s`, `m`, `l` and `xl`.
 - Coach indicator draws a static frame of the ring: 4 px and full strength collapsed, 8 px and 20%
   expanded, white or the default color, around a target with any `cornerRounding`.
 - Standard panel draws the gripper, title, nested close button and divider, and an accordion in
