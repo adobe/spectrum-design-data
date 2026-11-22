@@ -1,0 +1,20 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-107",
+      "severity": "error",
+      "message_pattern": ".*scope.part 'header' is not the repeated part.*"
+    },
+    {
+      "rule_id": "SPEC-107",
+      "severity": "error",
+      "message_pattern": ".*scope.part \\(none\\) is not the repeated part.*"
+    },
+    {
+      "rule_id": "SPEC-107",
+      "severity": "error",
+      "message_pattern": ".*itemPosition \"top\" is not first, middle, last or only.*"
+    }
+  ]
+}

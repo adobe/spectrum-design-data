@@ -691,6 +691,10 @@ mod validation_conformance {
         let registered: std::collections::HashSet<String> =
             default_rules().iter().map(|r| r.id().to_string()).collect();
         let mut failures = Vec::new();
+        // The skip below must not hide a rule that is implemented: these fail if unregistered.
+        for id in ["SPEC-106", "SPEC-107"] {
+            assert!(registered.contains(id), "{id} is not in default_rules()");
+        }
 
         let mut dirs: Vec<_> = std::fs::read_dir(&base)
             .expect("conformance/invalid dir missing")
