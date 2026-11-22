@@ -148,7 +148,12 @@ export function buildStates(sites) {
           for (const scheme of ["light", "dark"])
             add("direct-actions", size, scheme, "desktop", {
               request: {
-                options: { hasActionButton: true, hasSwitch: true },
+                slots: {
+                  actions: [
+                    { component: "action-button" },
+                    { component: "switch" },
+                  ],
+                },
                 width: 300,
               },
             });

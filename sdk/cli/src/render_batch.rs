@@ -46,6 +46,9 @@ struct BatchState {
     width: Option<f64>,
     /// `{ "set", "name" }` or `"none"`: replaces or hides the content icon.
     icon: Option<visual::IconOverride>,
+    /// Slot fills by slot name (the request `slots`).
+    #[serde(default)]
+    slots: HashMap<String, Vec<visual::SlotFill>>,
     /// A `[platforms.<id>]` entry; the global `--platform` when absent.
     platform: Option<String>,
 }
@@ -105,7 +108,7 @@ fn read_states(file: &Path) -> miette::Result<Vec<BatchState>> {
     }
     serde_json::from_value(v)
         .into_diagnostic()
-        .wrap_err("a batch file is an array of states (or {\"states\": [...]}): component, size, states, options, colorScheme, scale, label, width, platform, id")
+        .wrap_err("a batch file is an array of states (or {\"states\": [...]}): component, size, states, options, colorScheme, scale, label, width, icon, slots, platform, id")
 }
 
 pub fn run_batch(
@@ -169,6 +172,7 @@ pub fn run_batch(
                 icon: st.icon.clone(),
                 text_metrics: text_metrics.clone(),
                 width: st.width,
+                slots: st.slots.clone(),
             };
             let scene = visual::build_scene(&env.0, recipe, &req)?;
             let value = serde_json::to_value(&scene).map_err(|e| e.to_string())?;

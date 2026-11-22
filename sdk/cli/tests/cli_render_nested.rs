@@ -60,19 +60,17 @@ fn parts(scene: &Value) -> Vec<&str> {
 #[test]
 fn actions_draw_a_nested_button_and_switch() {
     let on = scene(&[
-        "--option",
-        "hasActionButton=true",
-        "--option",
-        "hasSwitch=true",
+        "--slots",
+        r#"{"actions":[{"component":"action-button"},{"component":"switch"}]}"#,
     ]);
     let p = parts(&on);
     for want in [
         "actions",
-        "action-button",
-        "action-button.icon",
-        "switch",
-        "switch.track",
-        "switch.handle",
+        "actions-1",
+        "actions-1.icon",
+        "actions-2",
+        "actions-2.track",
+        "actions-2.handle",
     ] {
         assert!(p.contains(&want), "{want} in {p:?}");
     }
@@ -82,7 +80,7 @@ fn actions_draw_a_nested_button_and_switch() {
         .as_array()
         .unwrap()
         .iter()
-        .find(|n| n["part"] == "action-button")
+        .find(|n| n["part"] == "actions-1")
         .unwrap();
     assert_eq!(button["h"], 32.0);
 

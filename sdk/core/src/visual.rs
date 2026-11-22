@@ -127,6 +127,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
     ),
     ("placed", &["color"]),
     ("component", &[]),
+    ("slot", &["width", "height", "direction", "align", "gap"]),
 ];
 
 /// The props the solver reads for a part: its role is `root` for the root part, `placed` when
@@ -173,6 +174,17 @@ pub struct RenderRequest {
     /// Replaces the default text-measurement table (the `textMetrics` request field).
     #[serde(rename = "textMetrics")]
     pub text_metrics: Option<TextMetrics>,
+    /// Components that fill the component's slots (`slots` request field), by slot name.
+    pub slots: HashMap<String, Vec<SlotFill>>,
+}
+
+/// One fill of a slot: a component and the options it is drawn with (spec: component-visuals.md,
+/// Slot parts).
+#[derive(Debug, Clone, Default, serde::Deserialize)]
+#[serde(default)]
+pub struct SlotFill {
+    pub component: String,
+    pub options: HashMap<String, Value>,
 }
 
 /// A request's `icon`: `{ "set", "name" }` or `"none"` (spec: component-visuals.md, Content icons).
@@ -1541,6 +1553,9 @@ impl<'a> CompileCx<'a> {
                 part["nested"] = nested;
                 part["nestedSize"] = Value::String(size);
             }
+            if part.get("kind").and_then(Value::as_str) == Some("slot") {
+                self.compile_slot(id, comp.map(|c| &c.raw), part)?;
+            }
             if let Some(inset) = part.get_mut("placement").and_then(|p| p.get_mut("inset")) {
                 match inset {
                     Value::Array(entries) => entries
@@ -1566,6 +1581,65 @@ impl<'a> CompileCx<'a> {
             }
         }
         Ok(out_parts)
+    }
+
+    /// Embed what a `slot` part needs to draw any request fill without reading component data:
+    /// the slot's name, `acceptsOnly` and `max`, and for each accepted component its compiled
+    /// recipe at the size `sizeMap` chose and the part's `with` options that component declares.
+    /// The slot is the one of the host whose `part` is this recipe part.
+    fn compile_slot(&self, id: &str, host: Option<&Value>, part: &mut Value) -> Result<(), String> {
+        let slot = host
+            .and_then(|h| h.get("slots")?.as_array())
+            .and_then(|a| {
+                a.iter().find(|s| {
+                    s.get("part").and_then(Value::as_str) == Some(id)
+                        && s.get("collection").is_none()
+                })
+            })
+            .ok_or_else(|| {
+                format!(
+                    "slot part '{id}' is not the part of a slot of '{}'",
+                    self.req.component
+                )
+            })?
+            .clone();
+        let mut fills = serde_json::Map::new();
+        for name in slot
+            .get("accepts")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(Value::as_str)
+        {
+            let (nested, size) = self.compile_nested(id, name, part)?;
+            let declared = self
+                .graph
+                .components
+                .iter()
+                .find(|c| c.name == self.graph.canonical_component(name))
+                .and_then(|c| c.raw.get("options")?.as_object());
+            let with: serde_json::Map<String, Value> = part
+                .get("with")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flatten()
+                .filter(|(k, _)| declared.is_some_and(|o| o.contains_key(*k)))
+                .map(|(k, v)| (k.clone(), v.clone()))
+                .collect();
+            fills.insert(
+                name.to_string(),
+                serde_json::json!({ "nested": nested, "nestedSize": size, "with": with }),
+            );
+        }
+        part["slot"] = slot["name"].clone();
+        part["acceptsOnly"] =
+            Value::Bool(slot.get("acceptsOnly").and_then(Value::as_bool) == Some(true));
+        if let Some(max) = slot.get("max") {
+            part["max"] = max.clone();
+        }
+        part["fills"] = Value::Object(fills);
+        part.as_object_mut().map(|o| o.remove("with"));
+        Ok(())
     }
 
     /// The compiled variant of a `component` part's recipe, for this host size and mode, and
@@ -3424,6 +3498,12 @@ fn solve_root(
             continue;
         }
         let kind = part.get("kind").and_then(Value::as_str).unwrap_or("box");
+        if kind == "slot" {
+            cx.diags.push(format!(
+                "slot part '{id}' is only laid out in a row box; it is not drawn"
+            ));
+            continue;
+        }
         let mut tokens = Vec::new();
         let color = (kind != "component")
             .then(|| rp(&mut cx, part, "color"))
@@ -3540,6 +3620,60 @@ fn solve_root(
                     for nid in ids {
                         let Some(np) = parts.get(&nid) else { continue };
                         if !cx.visible(np) {
+                            continue;
+                        }
+                        let nkind = np.get("kind").and_then(Value::as_str).unwrap_or("box");
+                        if nkind == "slot" {
+                            let group = solve_slot(&mut cx, &nid, np);
+                            let mut tokens = Vec::new();
+                            let nw = rp(&mut cx, np, "width");
+                            let nh = rp(&mut cx, np, "height");
+                            track(&mut tokens, "width", &nw);
+                            track(&mut tokens, "height", &nh);
+                            let mut node = blank_node(&nid, "box");
+                            let (mut group_gap, mut group_align) = (0.0, String::new());
+                            if group.is_empty() {
+                                // The empty-slot placeholder is a recipe literal (spec:
+                                // component-visuals.md, Slot parts); no placeholder, no node.
+                                let Some(ph) = np.get("placeholder") else {
+                                    continue;
+                                };
+                                let side =
+                                    |k: &str| ph.get(k).and_then(Value::as_f64).unwrap_or(0.0);
+                                (node.w, node.h) = (side("width"), side("height"));
+                            } else {
+                                let gdir = rp(&mut cx, np, "direction");
+                                layout_keyword(&mut cx, "direction", &gdir, &["row"]);
+                                let galign = rp(&mut cx, np, "align");
+                                group_align = layout_keyword(
+                                    &mut cx,
+                                    "align",
+                                    &galign,
+                                    &["start", "center", "end"],
+                                );
+                                let ggap = rp(&mut cx, np, "gap");
+                                track(&mut tokens, "gap", &ggap);
+                                group_gap = ggap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                                let sum = group.iter().map(|n| n.w).sum::<f64>()
+                                    + group_gap * (group.len() - 1) as f64;
+                                node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(sum);
+                                node.h = nh.as_ref().and_then(Resolved::num).unwrap_or_else(|| {
+                                    group.iter().map(|n| n.h).fold(0.0, f64::max)
+                                });
+                            }
+                            node.tokens = tokens;
+                            items.push(RowItem {
+                                ow: node.w,
+                                oh: node.h,
+                                node,
+                                ox: 0.0,
+                                oy: 0.0,
+                                grow: 0.0,
+                                nested: None,
+                                group,
+                                group_gap,
+                                group_align,
+                            });
                             continue;
                         }
                         let nkind = np.get("kind").and_then(Value::as_str).unwrap_or("box");
@@ -4268,9 +4402,18 @@ fn solve_root(
             if !cx.visible(np) {
                 continue;
             }
-            if np.get("kind").and_then(Value::as_str) == Some("component") {
+            if let Some(k) = np
+                .get("kind")
+                .and_then(Value::as_str)
+                .filter(|k| matches!(*k, "component" | "slot"))
+            {
+                let place = if k == "slot" {
+                    "a row box"
+                } else {
+                    "the root's flow or a row box"
+                };
                 cx.diags.push(format!(
-                    "component part '{nid}' is only laid out in the root's flow or a row box; it is not drawn"
+                    "{k} part '{nid}' is only laid out in {place}; it is not drawn"
                 ));
                 continue;
             }
@@ -4868,6 +5011,68 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
         nodes,
         ..Default::default()
     })
+}
+
+/// Solve a `slot` part: one nested component per request fill of its slot, in order, as
+/// `<id>-<n>`. A fill the slot does not accept (not in `accepts`, or not in `accepts` at all
+/// when `acceptsOnly`) or that is not drawable (no embedded recipe), and a fill past `max`, is
+/// dropped with a scene diagnostic; the render does not fail. The part's `with` options are
+/// the defaults of every fill and a fill's own `options` win.
+fn solve_slot(cx: &mut Ctx, id: &str, part: &Value) -> Vec<Nested> {
+    let slot = part.get("slot").and_then(Value::as_str).unwrap_or(id);
+    let max = part.get("max").and_then(Value::as_u64);
+    let strict = part.get("acceptsOnly").and_then(Value::as_bool) == Some(true);
+    let fills = cx
+        .req
+        .slots
+        .get(slot)
+        .map(Vec::as_slice)
+        .unwrap_or_default();
+    let mut out: Vec<Nested> = Vec::new();
+    for fill in fills {
+        let Some(recipe) = part.pointer(&format!("/fills/{}", fill.component)) else {
+            let why = if strict {
+                "the slot accepts only the components it lists"
+            } else {
+                "only the components the slot lists are drawn"
+            };
+            cx.diags.push(format!(
+                "slot '{slot}': fill '{}' is not drawn: {why}",
+                fill.component
+            ));
+            continue;
+        };
+        if max.is_some_and(|m| out.len() as u64 >= m) {
+            cx.diags.push(format!(
+                "slot '{slot}': fill '{}' is past the slot's max of {}; it is not drawn",
+                fill.component,
+                max.unwrap_or_default()
+            ));
+            continue;
+        }
+        let mut with = recipe
+            .get("with")
+            .and_then(Value::as_object)
+            .cloned()
+            .unwrap_or_default();
+        // shortcut: a fill option whose value is an object with an `option` key is read as a
+        // host binding by `solve_component`; no component option has such a value.
+        with.extend(fill.options.iter().map(|(k, v)| (k.clone(), v.clone())));
+        let synth = serde_json::json!({
+            "kind": "component",
+            "component": fill.component,
+            "nested": recipe["nested"],
+            "nestedSize": recipe["nestedSize"],
+            "with": with,
+        });
+        out.extend(solve_component(
+            cx,
+            &format!("{id}-{}", out.len() + 1),
+            &synth,
+            &Host::default(),
+        ));
+    }
+    out
 }
 
 /// Solve the part a container's `repeat` names, once per entry of the array option, each copy
@@ -5543,7 +5748,7 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 /// same change whenever a solver or layout-semantics change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`). A data-only snapshot change (same geometry and resolved
 /// values) does not bump it.
-pub const LAYOUT_REVISION: u32 = 5;
+pub const LAYOUT_REVISION: u32 = 6;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.

@@ -209,6 +209,7 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
                             label: if name == "avatar" { "A" } else { "Label" }.into(),
                             icon: None,
                             text_metrics: None,
+                            slots: Default::default(),
                             width: None,
                         };
                         let label = format!(

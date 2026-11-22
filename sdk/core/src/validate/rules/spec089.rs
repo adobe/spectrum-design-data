@@ -34,7 +34,11 @@ fn is_component(part: &Value) -> bool {
 
 /// The first nesting problem below `name` (cycle or depth), following `component` parts of
 /// each recipe. `stack` holds the canonical names from the host down to `name`.
-fn nesting_problem(graph: &TokenGraph, name: &str, stack: &mut Vec<String>) -> Option<String> {
+pub(crate) fn nesting_problem(
+    graph: &TokenGraph,
+    name: &str,
+    stack: &mut Vec<String>,
+) -> Option<String> {
     let canonical = graph.canonical_component(name).to_string();
     if stack.contains(&canonical) {
         return Some(format!(
@@ -103,7 +107,7 @@ fn check_map(map: &Value, host_opt: &Value, nested_opt: &Value, name: &str) -> O
     None
 }
 
-fn check_option(
+pub(crate) fn check_option(
     graph: &TokenGraph,
     host: &VisualRecord,
     nested: &Value,

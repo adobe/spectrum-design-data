@@ -607,8 +607,8 @@
   {
     "scope": {
       "component": "accordion",
-      "part": "header",
-      "property": "spacing"
+      "property": "spacing",
+      "between": { "from": "title", "to": "actions" }
     },
     "context": "Spacing (section title to action area)",
     "contextRole": ["spacing"],

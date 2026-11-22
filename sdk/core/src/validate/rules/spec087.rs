@@ -46,6 +46,7 @@ fn request(component: &str, size: &str, scale: &str) -> RenderRequest {
         label: "Label".into(),
         icon: None,
         text_metrics: None,
+        slots: Default::default(),
         width: None,
     }
 }
