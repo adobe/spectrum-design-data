@@ -242,6 +242,31 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.1",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+      "commits": [
+        {
+          "commit": "2370b994c5b72d8a51672b6310d8df77c3293b8a",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2030,"title":"fix(design-data): engine slice 3 default fallback and scale pin","url":"https://github.com/adobe/spectrum-design-data/pull/2030"},
+          "entries": [
+            {"id":"2370b994-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"alert-banner/visual/parts/container","name":"container","fields":[{"path":"props.paddingInlineEnd.relationship.between.from","after":"end-edge"},{"path":"props.paddingInlineEnd.relationship.between.to","after":"close-button"},{"path":"props.paddingInlineEnd.relationship.part","after":"container"},{"path":"props.paddingInlineEnd.relationship.property","after":"space-between"}]}
+          ]
+        },
+        {
+          "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2033,"title":"feat(design-data): add type-style records to status-light, toast, alert-banner and in-line-alert","url":"https://github.com/adobe/spectrum-design-data/pull/2033"},
+          "entries": [
+            {"id":"6f91b018-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Text"],"scope":{"property":"type-style","options":null},"record":"a21940b0-5950-5a35-98a7-b211d38cfd4b","name":"type-style","fields":[],"after":"567a8eff-028f-4de1-b58a-a0473775219f"}
+          ]
+        }
+      ]
     }
   ]
 }

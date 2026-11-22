@@ -1,5 +1,16 @@
 # @adobe/design-data-wasm
 
+## 0.35.2
+
+### Patch Changes
+
+- [#2030](https://github.com/adobe/spectrum-design-data/pull/2030) [`2370b99`](https://github.com/adobe/spectrum-design-data/commit/2370b994c5b72d8a51672b6310d8df77c3293b8a) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe renderer: no matching state now falls back to the default record, and a
+  relationship pinned to a `scale` applies only at that scale.
+  - Alert banner: the close button end spacing is bound, so the close button sits 8px
+    (desktop) or 16px (mobile) in from the end edge instead of flush.
+  - Dataset `layoutRevision` is now 5, since the recipe layout output changed.
+  - Dataset `requires.cli` is raised to 0.62.1 (the CLI bump in this change).
+
 ## 0.35.1
 
 ### Patch Changes
