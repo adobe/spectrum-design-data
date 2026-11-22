@@ -10,8 +10,8 @@
 
 //! SPEC-089: visual-nested-component-valid
 //!
-//! A recipe part of kind `component` embeds another component's recipe. The nested component
-//! MUST be declared and have a recipe, every `with` option MUST be an option of it with a
+//! A recipe part of kind `component` embeds another component's recipe. The component comes
+//! from the `component` of the host's anatomy part of the same name. It MUST be declared and have a recipe, every `with` option MUST be an option of it with a
 //! valid value (a host-option binding MUST name an option of the host), `sizeMap` MUST cover
 //! every size of the host and map into the nested recipe's `sizeScale`, the nesting MUST NOT
 //! cycle or go deeper than `MAX_NEST_DEPTH`, and the part MUST sit where the solver lays it
@@ -23,7 +23,7 @@ use crate::graph::{TokenGraph, VisualRecord};
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::visual_util::{component_of, error, option_values};
-use crate::visual::MAX_NEST_DEPTH;
+use crate::visual::{part_component, MAX_NEST_DEPTH};
 
 pub struct Rule;
 
@@ -50,15 +50,16 @@ fn nesting_problem(graph: &TokenGraph, name: &str, stack: &mut Vec<String>) -> O
     let recipe = graph.visual_recipe(name)?;
     stack.push(canonical);
     let mut found = None;
-    for part in recipe
+    for (id, _) in recipe
         .raw
         .get("parts")
         .and_then(Value::as_object)
         .into_iter()
-        .flat_map(|p| p.values())
-        .filter(|p| is_component(p))
+        .into_iter()
+        .flatten()
+        .filter(|(_, p)| is_component(p))
     {
-        if let Some(n) = part.get("component").and_then(Value::as_str) {
+        if let Some(n) = part_component(graph, &recipe.component, id) {
             found = found.or_else(|| nesting_problem(graph, n, stack));
         }
     }
@@ -153,8 +154,11 @@ impl ValidationRule for Rule {
                         );
                     }
                 }
-                let Some(name) = part.get("component").and_then(Value::as_str) else {
-                    bad(&format!("{path}/component"), "it names no component".into());
+                let Some(name) = part_component(graph, comp, id) else {
+                    bad(
+                        &path,
+                        format!("anatomy part '{id}' has no `component`, so the recipe part names no component"),
+                    );
                     continue;
                 };
                 let canonical = graph.canonical_component(name);
@@ -231,7 +235,7 @@ mod tests {
         ComponentRecord {
             name: name.into(),
             file: PathBuf::from(format!("components/{name}.json")),
-            raw: json!({ "name": name, "options": options }),
+            raw: json!({ "name": name, "options": options, "anatomy": [] }),
             layer: Layer::Foundation,
         }
     }
@@ -243,6 +247,13 @@ mod tests {
             raw,
             layer: Layer::Foundation,
         }
+    }
+
+    fn link(g: &mut TokenGraph, host: &str, part: &str, to: &str) {
+        let c = g.components.iter_mut().find(|c| c.name == host).unwrap();
+        let anatomy = c.raw["anatomy"].as_array_mut().unwrap();
+        anatomy.retain(|p| p["name"] != part);
+        anatomy.push(json!({ "name": part, "component": to }));
     }
 
     fn graph(host_parts: Value, extra: Vec<VisualRecord>) -> TokenGraph {
@@ -267,6 +278,9 @@ mod tests {
                 "parts": { "c": {"kind": "box"} } }),
         ));
         g.visuals.extend(extra);
+        for part in ["n", "r"] {
+            link(&mut g, "host", part, "chip");
+        }
         g
     }
 
@@ -275,7 +289,7 @@ mod tests {
     }
 
     fn nested(with: Value, size_map: Value) -> Value {
-        json!({ "kind": "component", "component": "chip", "with": with, "sizeMap": size_map })
+        json!({ "kind": "component", "with": with, "sizeMap": size_map })
     }
 
     fn run(g: &TokenGraph) -> Vec<String> {
@@ -303,9 +317,12 @@ mod tests {
 
     #[test]
     fn an_unknown_component_or_a_missing_recipe_errors() {
-        let mut n = nested(json!({}), ok_map());
-        n["component"] = "nope".into();
-        assert!(run(&graph(parts(n.clone()), vec![]))[0].contains("not a declared component"));
+        let mut g = graph(parts(nested(json!({}), ok_map())), vec![]);
+        link(&mut g, "host", "n", "nope");
+        assert!(run(&g)[0].contains("not a declared component"));
+        let mut g = graph(parts(nested(json!({}), ok_map())), vec![]);
+        g.components[0].raw["anatomy"] = json!([]);
+        assert!(run(&g)[0].contains("has no `component`"));
         let mut g = graph(parts(nested(json!({}), ok_map())), vec![]);
         g.visuals.retain(|v| v.component != "chip");
         assert!(run(&g)[0].contains("no visual recipe"));
@@ -347,29 +364,32 @@ mod tests {
 
     #[test]
     fn cycles_and_deep_nesting_error() {
-        let chip_nests = |child: &str| {
+        let chip_nests = || {
             visual(
                 "chip",
                 json!({ "component": "chip", "root": "c", "sizeScale": {"s": 1, "m": 2},
                     "parts": { "c": {"kind": "box", "children": ["x"]},
-                        "x": {"kind": "component", "component": child, "sizeMap": ok_map()} } }),
+                        "x": {"kind": "component", "sizeMap": ok_map()} } }),
             )
         };
         let mut g = graph(parts(nested(json!({}), ok_map())), vec![]);
         g.visuals.retain(|v| v.component != "chip");
-        g.visuals.push(chip_nests("chip"));
+        g.visuals.push(chip_nests());
+        link(&mut g, "chip", "x", "chip");
         assert!(run(&g).iter().any(|m| m.contains("inside itself")));
         // host > chip > badge > pill > leaf is three levels below the host.
         let mut g = graph(parts(nested(json!({}), ok_map())), vec![]);
         g.visuals.retain(|v| v.component != "chip");
-        g.visuals.push(chip_nests("badge"));
+        g.visuals.push(chip_nests());
+        link(&mut g, "chip", "x", "badge");
         for (name, child) in [("badge", "pill"), ("pill", "leaf")] {
             g.components.push(component(name, json!({})));
+            link(&mut g, name, "x", child);
             g.visuals.push(visual(
                 name,
                 json!({ "component": name, "root": "c", "sizeScale": {"s": 1, "m": 2},
                     "parts": { "c": {"kind": "box", "children": ["x"]},
-                        "x": {"kind": "component", "component": child, "sizeMap": ok_map()} } }),
+                        "x": {"kind": "component", "sizeMap": ok_map()} } }),
             ));
         }
         assert!(run(&g).iter().any(|m| m.contains("levels deep")));
@@ -378,7 +398,7 @@ mod tests {
     #[test]
     fn the_root_and_parts_outside_a_row_error() {
         let g = graph(
-            json!({ "r": {"kind": "component", "component": "chip", "sizeMap": ok_map()} }),
+            json!({ "r": {"kind": "component", "sizeMap": ok_map()} }),
             vec![],
         );
         assert!(run(&g)[0].contains("root part cannot be a component"));

@@ -23,6 +23,7 @@
     { "name": "actions", "description": "Row or column of action buttons." },
     {
       "name": "divider",
+      "component": "divider",
       "description": "Line between groups of actions; horizontal or vertical by orientation."
     }
   ],

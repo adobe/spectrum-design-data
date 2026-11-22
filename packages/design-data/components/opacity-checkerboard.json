@@ -9,6 +9,7 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
   },
+  "subcomponent": true,
   "options": {
     "size": {
       "type": "string",

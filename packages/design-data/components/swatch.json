@@ -124,6 +124,7 @@
     },
     {
       "name": "opacity-checkerboard",
+      "component": "opacity-checkerboard",
       "description": "Pattern behind a preview color with alpha below 1; sized m. It sits before fill, so the color draws over it."
     },
     {
@@ -146,6 +147,7 @@
     },
     {
       "name": "tooltip",
+      "component": "tooltip",
       "description": "Floating label shown when the swatch is hovered; a nested component placed outside the swatch, like picker menu-container. The gap from the container to it is a space-between record.",
       "presentIn": ["hover"]
     }

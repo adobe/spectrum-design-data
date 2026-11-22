@@ -170,10 +170,12 @@
     },
     {
       "name": "button-group",
+      "component": "button-group",
       "description": "The button-group component that holds the dialog actions. Its buttons are slot fills; the action label options map to them."
     },
     {
       "name": "close-button",
+      "component": "close-button",
       "description": "Button in the top corner that dismisses the dialog. Hidden with hideCloseButton."
     },
     {

@@ -683,6 +683,26 @@ struct CompileCx<'a> {
 /// How many levels of `component` parts a recipe may nest (host, nested, nested in nested).
 pub const MAX_NEST_DEPTH: usize = 2;
 
+/// The component a recipe `component` part draws: the `component` of the host's anatomy part
+/// of the same name (spec/anatomy-format.md, Another component as a part).
+pub(crate) fn part_component<'a>(graph: &'a TokenGraph, host: &str, part: &str) -> Option<&'a str> {
+    [graph.canonical_component(host), host]
+        .into_iter()
+        .find_map(|name| {
+            graph
+                .components
+                .iter()
+                .find(|c| c.name == name)?
+                .raw
+                .get("anatomy")?
+                .as_array()?
+                .iter()
+                .find(|p| p.get("name").and_then(Value::as_str) == Some(part))?
+                .get("component")?
+                .as_str()
+        })
+}
+
 /// Solve-time context: picks among compiled candidates for one request.
 struct Ctx<'a> {
     req: &'a RenderRequest,
@@ -1506,7 +1526,18 @@ impl<'a> CompileCx<'a> {
                 rep.insert("option".into(), o.into());
             }
             if part.get("kind").and_then(Value::as_str) == Some("component") {
-                let (nested, size) = self.compile_nested(id, part)?;
+                let name = part_component(self.graph, &self.req.component, id)
+                    .ok_or_else(|| {
+                        format!(
+                            "component part '{id}' has no anatomy part '{id}' with a `component` in '{}'",
+                            self.req.component
+                        )
+                    })?
+                    .to_string();
+                // The compiled part keeps carrying the component so readers of the compiled
+                // form (the solver, the slim WASM engine) are unchanged.
+                part["component"] = Value::String(name.clone());
+                let (nested, size) = self.compile_nested(id, &name, part)?;
                 part["nested"] = nested;
                 part["nestedSize"] = Value::String(size);
             }
@@ -1539,11 +1570,12 @@ impl<'a> CompileCx<'a> {
 
     /// The compiled variant of a `component` part's recipe, for this host size and mode, and
     /// the nested size `sizeMap` chose. The recipe resolves through the platform alias.
-    fn compile_nested(&self, id: &str, part: &Value) -> Result<(Value, String), String> {
-        let name = part
-            .get("component")
-            .and_then(Value::as_str)
-            .ok_or_else(|| format!("component part '{id}' names no component"))?;
+    fn compile_nested(
+        &self,
+        id: &str,
+        name: &str,
+        part: &Value,
+    ) -> Result<(Value, String), String> {
         let canonical = self.graph.canonical_component(name).to_string();
         if self.stack.contains(&canonical) {
             return Err(format!(

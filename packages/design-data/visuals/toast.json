@@ -167,7 +167,6 @@
     },
     "close-button": {
       "kind": "component",
-      "component": "close-button",
       "sizeMap": {
         "m": "m"
       },

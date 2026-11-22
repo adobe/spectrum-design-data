@@ -166,6 +166,7 @@
     },
     {
       "name": "button-group",
+      "component": "button-group",
       "description": "The button-group component that holds the dialog actions. Its buttons are slot fills; the action label options map to them."
     },
     {

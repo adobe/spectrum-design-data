@@ -139,6 +139,7 @@
     },
     {
       "name": "button-group",
+      "component": "button-group",
       "description": "Optional button group below the description, shown with the action labels."
     },
     {

@@ -128,6 +128,7 @@
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Optional supporting text below the track."
     }
   ],
