@@ -292,6 +292,7 @@ fn stroke_color(n: &SceneNode, diags: &mut Vec<String>) -> Option<Rgba> {
 fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &mut Vec<String>) {
     let bounds = |pad: f64| (n.x - pad, n.y - pad, n.x + n.w + pad, n.y + n.h + pad);
     match n.kind.as_str() {
+        "box" if n.path.is_some() => draw_path_box(cv, xf, n, diags),
         "box" => {
             for sh in n.shadow.iter().rev() {
                 if let Some(c) = color_of(Some(sh.color.as_str()), "shadow", &n.part, diags) {
@@ -412,6 +413,91 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
         }
         "icon" => draw_icon(cv, xf, n, diags),
         _ => {}
+    }
+}
+
+/// A box with a `path`: the shape filled (and checkered), stroked on its outline with round
+/// joins, and shadowed by its blurred silhouette (spread is not applied to a shape).
+fn draw_path_box(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
+    let Some(shape) = &n.path else { return };
+    let polys = match path::flatten(&shape.d, 0.25 / xf.s.max(1e-3)) {
+        Ok(p) => p,
+        Err(e) => return note(diags, format!("{}: path: {e}; skipped", n.part)),
+    };
+    let rule = if shape.even_odd {
+        path::Rule::EvenOdd
+    } else {
+        path::Rule::NonZero
+    };
+    let at = |dx: f64, dy: f64| -> Vec<Vec<path::Pt>> {
+        polys
+            .iter()
+            .map(|p| {
+                p.iter()
+                    .map(|q| {
+                        [
+                            (q[0] + n.x + dx) * xf.s + xf.tx,
+                            (q[1] + n.y + dy) * xf.s + xf.ty,
+                        ]
+                    })
+                    .collect()
+            })
+            .collect()
+    };
+    let big = |ok: bool, what: &str, diags: &mut Vec<String>| {
+        if !ok {
+            note(
+                diags,
+                format!("{}: path {what} is too large to draw; skipped", n.part),
+            );
+        }
+    };
+    let own = at(0.0, 0.0);
+    for sh in n.shadow.iter().rev() {
+        if let Some(c) = color_of(Some(sh.color.as_str()), "shadow", &n.part, diags) {
+            let sigma = sh.blur.min(crate::visual::MAX_SHADOW_BLUR) / 2.0 * xf.s;
+            big(
+                path::paint_shadow(cv, &at(sh.x, sh.y), &own, rule, sigma, c),
+                "shadow",
+                diags,
+            );
+        }
+    }
+    if let Some(c) = color_of(n.fill.as_deref(), "fill", &n.part, diags) {
+        big(path::fill(cv, &own, rule, c), "fill", diags);
+    }
+    if let Some(p) = &n.pattern {
+        if let Some(c) = color_of(Some(p.alt.as_str()), "patternFill", &n.part, diags) {
+            let ok = path::fill_cov(&own, rule, &mut |x, y, cov| {
+                let (sx, sy) = (
+                    ((x as f64 + 0.5) - xf.tx) / xf.s - n.x,
+                    ((y as f64 + 0.5) - xf.ty) / xf.s - n.y,
+                );
+                let chk = (0.5 - checker_sdf(sx, sy, p.size) * xf.s).clamp(0.0, 1.0) as f32;
+                cv.blend(x, y, c, cov * chk);
+            });
+            big(ok, "pattern", diags);
+        }
+    }
+    if n.stroke_width > 0.0 {
+        if let Some(c) = stroke_color(n, diags) {
+            let hw = n.stroke_width / 2.0;
+            let scene: Vec<Vec<path::Pt>> = polys
+                .iter()
+                .map(|p| p.iter().map(|q| [q[0] + n.x, q[1] + n.y]).collect())
+                .collect();
+            if let Some(o) = path::Outline::new(&scene, hw + 1.0 / xf.s) {
+                let pad = hw + 1.0;
+                paint(
+                    cv,
+                    xf,
+                    (n.x - pad, n.y - pad, n.x + n.w + pad, n.y + n.h + pad),
+                    c,
+                    Paint::Band(hw),
+                    |x, y| o.dist(x, y),
+                );
+            }
+        }
     }
 }
 
@@ -657,6 +743,7 @@ mod tests {
             pattern: None,
             gradient: None,
             shadow: Vec::new(),
+            path: None,
             stroke_opacity: None,
             tokens: vec![],
         }

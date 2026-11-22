@@ -33,6 +33,10 @@ pub const MAX_FLOATING: f64 = 10_000.0;
 /// The largest shadow `blur` a renderer draws, in px; a larger one is clamped with a diagnostic.
 pub const MAX_SHADOW_BLUR: f64 = 100.0;
 
+/// The largest shadow `x`, `y` or `spread` the engine draws, in px; a layer past it is skipped
+/// with a diagnostic, so SVG and PNG size the canvas the same way.
+pub const MAX_SHADOW_REACH: f64 = 1_000.0;
+
 /// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
 /// (a part with a `placement`). `rp` checks every read against this table in debug builds, and
 /// SPEC-083 warns about a recipe prop missing from it (through `reads_prop`, which both use),
@@ -366,7 +370,210 @@ pub struct SceneNode {
     /// Drop shadows drawn under the node, outside its box, first layer on top (CSS order).
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub shadow: Vec<Shadow>,
+    /// Set when the part has a `path`: the box is drawn as this shape instead of a rounded
+    /// rectangle (fill, pattern, stroke and shadow follow the shape; `radius` is ignored).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub path: Option<PathShape>,
     pub tokens: Vec<TokenRef>,
+}
+
+/// A closed vector shape in a node's own pixel space (origin at the node's top-left corner):
+/// SVG path data of absolute or relative `M L H V C S Q T Z` commands, already scaled from the
+/// recipe's `viewBox` to the node's box, every subpath closed. Both renderers draw this string.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct PathShape {
+    pub d: String,
+    /// Fill with the even-odd rule instead of non-zero.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub even_odd: bool,
+}
+
+/// The longest `path.d` the engine reads, in bytes.
+pub const MAX_PATH_BYTES: usize = 4096;
+/// The most numbers a `path.d` may hold.
+pub const MAX_PATH_NUMBERS: usize = 1024;
+/// The largest coordinate magnitude a `path.d` may hold, in its own units.
+pub const MAX_PATH_COORD: f64 = 1.0e6;
+
+/// Scale path data by `(sx, sy)` (relative commands scale the same way) and close every
+/// subpath, so a stroke and a fill see the same shape. Arcs are refused: a non-uniform scale
+/// does not map an arc to an arc.
+pub fn scale_path(d: &str, sx: f64, sy: f64) -> Result<String, String> {
+    if d.len() > MAX_PATH_BYTES {
+        return Err(format!("path data is longer than {MAX_PATH_BYTES} bytes"));
+    }
+    if !(sx.is_finite() && sy.is_finite() && sx > 0.0 && sy > 0.0) {
+        return Err("path scale is not a positive finite number".into());
+    }
+    let b = d.as_bytes();
+    let (mut i, mut out, mut open, mut started, mut count) = (0, String::new(), false, false, 0);
+    let skip = |i: &mut usize| {
+        while *i < b.len() && (b[*i].is_ascii_whitespace() || b[*i] == b',') {
+            *i += 1;
+        }
+    };
+    let at_num = |i: usize| {
+        b.get(i)
+            .is_some_and(|c| c.is_ascii_digit() || matches!(c, b'.' | b'-' | b'+'))
+    };
+    loop {
+        skip(&mut i);
+        let Some(&c) = b.get(i) else { break };
+        if !c.is_ascii_alphabetic() {
+            return Err(format!("expected a command at offset {i}"));
+        }
+        let up = c.to_ascii_uppercase();
+        let arity = match up {
+            b'M' | b'L' | b'T' => 2,
+            b'H' | b'V' => 1,
+            b'C' => 6,
+            b'S' | b'Q' => 4,
+            b'Z' => 0,
+            b'A' => return Err("arc commands are not supported; use C or Q".into()),
+            _ => return Err(format!("unknown path command '{}'", c as char)),
+        };
+        i += 1;
+        if up == b'Z' {
+            if open {
+                out.push('Z');
+                open = false;
+            }
+            continue;
+        }
+        if !started && up != b'M' {
+            return Err("path data must start with a move".into());
+        }
+        started = true;
+        let mut first = true;
+        loop {
+            skip(&mut i);
+            if !at_num(i) {
+                if first {
+                    return Err(format!(
+                        "command '{}' needs numbers at offset {i}",
+                        c as char
+                    ));
+                }
+                break;
+            }
+            let mut vals = Vec::with_capacity(arity);
+            for k in 0..arity {
+                skip(&mut i);
+                let start = i;
+                if matches!(b.get(i), Some(b'-' | b'+')) {
+                    i += 1;
+                }
+                let digits = |i: &mut usize| {
+                    let from = *i;
+                    while b.get(*i).is_some_and(u8::is_ascii_digit) {
+                        *i += 1;
+                    }
+                    *i - from
+                };
+                let mut n = digits(&mut i);
+                if b.get(i) == Some(&b'.') {
+                    i += 1;
+                    n += digits(&mut i);
+                }
+                if n == 0 {
+                    return Err(format!("expected a number at offset {start}"));
+                }
+                if matches!(b.get(i), Some(b'e' | b'E')) {
+                    let save = i;
+                    i += 1;
+                    if matches!(b.get(i), Some(b'-' | b'+')) {
+                        i += 1;
+                    }
+                    if digits(&mut i) == 0 {
+                        i = save;
+                    }
+                }
+                let v: f64 = d[start..i]
+                    .parse()
+                    .ok()
+                    .filter(|v: &f64| v.is_finite() && v.abs() <= MAX_PATH_COORD)
+                    .ok_or_else(|| {
+                        format!("number at offset {start} is not within {MAX_PATH_COORD}")
+                    })?;
+                count += 1;
+                if count > MAX_PATH_NUMBERS {
+                    return Err(format!(
+                        "path data has more than {MAX_PATH_NUMBERS} numbers"
+                    ));
+                }
+                let scale = match (up, k % 2) {
+                    (b'V', _) | (_, 1) => sy,
+                    _ => sx,
+                };
+                vals.push(((v * scale * 1e4).round() / 1e4) + 0.0);
+            }
+            let letter = if up == b'M' && !first {
+                if c.is_ascii_lowercase() {
+                    'l'
+                } else {
+                    'L'
+                }
+            } else {
+                c as char
+            };
+            if up == b'M' && first && open {
+                out.push('Z');
+            }
+            out.push(letter);
+            out.push_str(
+                &vals
+                    .iter()
+                    .map(f64::to_string)
+                    .collect::<Vec<_>>()
+                    .join(" "),
+            );
+            open = true;
+            first = false;
+        }
+    }
+    if open {
+        out.push('Z');
+    }
+    if out.is_empty() {
+        return Err("path data is empty".into());
+    }
+    Ok(out)
+}
+
+/// The shape a part's `path` source draws in a `w` x `h` box: its `d` scaled from `viewBox`
+/// (default: the box itself) to the box. `fillRule` is `nonzero` (default) or `evenodd`.
+pub fn path_shape(spec: &Value, w: f64, h: f64) -> Result<PathShape, String> {
+    let d = spec
+        .get("d")
+        .and_then(Value::as_str)
+        .ok_or("path needs a string `d`")?;
+    let (vw, vh) = match spec.get("viewBox") {
+        None => (w, h),
+        Some(v) => match v
+            .as_array()
+            .map(|a| a.iter().map(Value::as_f64).collect::<Vec<_>>())
+            .as_deref()
+        {
+            Some([Some(vw), Some(vh)])
+                if *vw > 0.0 && *vh > 0.0 && vw.is_finite() && vh.is_finite() =>
+            {
+                (*vw, *vh)
+            }
+            _ => return Err("path viewBox must be [width, height], both positive".into()),
+        },
+    };
+    let even_odd = match spec.get("fillRule").and_then(Value::as_str) {
+        None | Some("nonzero") => false,
+        Some("evenodd") => true,
+        Some(o) => return Err(format!("path fillRule '{o}' is not nonzero or evenodd")),
+    };
+    if !(w.is_finite() && h.is_finite() && w > 0.0 && h > 0.0) {
+        return Err("a path part needs a positive width and height".into());
+    }
+    Ok(PathShape {
+        d: scale_path(d, w / vw, h / vh)?,
+        even_odd,
+    })
 }
 
 /// One drop shadow layer: the box offset by (`x`, `y`) and grown by `spread` on every side,
@@ -2140,6 +2347,16 @@ impl Ctx<'_> {
             });
             let color = color.filter(|c| css_color_alpha(&c.value).is_some());
             match (x, y, blur, spread, color.as_ref()) {
+                (Some(x), Some(y), Some(_), Some(spread), Some(_))
+                    if ![x, y, spread]
+                        .iter()
+                        .all(|v| v.is_finite() && v.abs() <= MAX_SHADOW_REACH) =>
+                {
+                    self.diags.push(format!(
+                        "shadow layer {} x, y or spread is beyond {MAX_SHADOW_REACH}px; skipping it",
+                        i + 1
+                    ));
+                }
                 (Some(x), Some(y), Some(blur), Some(spread), Some(c)) => {
                     out.push(Shadow {
                         x,
@@ -3881,6 +4098,7 @@ fn solve_root(
                             pattern: None,
                             gradient: None,
                             shadow: Vec::new(),
+                            path: None,
                             stroke_opacity: None,
                             tokens: Vec::new(),
                         };
@@ -4304,6 +4522,7 @@ fn solve_root(
         pattern: root_pattern,
         gradient: root_gradient,
         shadow: Vec::new(),
+        path: None,
         tokens: container_tokens,
     }];
 
@@ -4490,6 +4709,7 @@ fn solve_root(
             pattern: c.pattern,
             gradient: c.gradient,
             shadow: Vec::new(),
+            path: None,
             color: c.color,
             icon: None,
             rotation: None,
@@ -4616,6 +4836,7 @@ fn solve_root(
                     pattern: None,
                     gradient: None,
                     shadow: Vec::new(),
+                    path: None,
                     stroke_opacity: None,
                     tokens,
                 });
@@ -4683,6 +4904,7 @@ fn solve_root(
                 pattern: None,
                 gradient: nfill.as_ref().and_then(|f| f.gradient.clone()),
                 shadow: Vec::new(),
+                path: None,
                 tokens,
             });
         }
@@ -4721,6 +4943,7 @@ fn solve_root(
             pattern: None,
             gradient: None,
             shadow: Vec::new(),
+            path: None,
             stroke_opacity: None,
             tokens,
         });
@@ -4730,10 +4953,16 @@ fn solve_root(
     // layout input. They are solved after the root, so the root's box is final.
     let mut floating: Vec<(&String, &Value)> = parts
         .iter()
-        .filter(|(id, p)| p.get("floating").is_some() && id.as_str() != root_id)
+        .filter(|(id, p)| {
+            p.get("floating").is_some()
+                && id.as_str() != root_id
+                && parts
+                    .get(root_id)
+                    .is_some_and(|r| r.get("floating").is_none())
+        })
         .collect();
     floating.sort_by(|a, b| a.0.cmp(b.0));
-    let mut floating_ids: Vec<&str> = Vec::new();
+    let mut floating_ids: Vec<String> = Vec::new();
     for (id, part) in floating {
         if !cx.visible(part) {
             continue;
@@ -4742,11 +4971,49 @@ fn solve_root(
         let finite = |r: Option<Resolved>| r.and_then(|r| r.num()).filter(|v| v.is_finite());
         let offset = finite(cx.eval(spec.get("offset")));
         let cross = finite(cx.eval(spec.get("crossOffset")));
-        let (fw, fh) = (rp(&mut cx, part, "width"), rp(&mut cx, part, "height"));
-        let (Some(fw_n), Some(fh_n)) = (
-            fw.as_ref().and_then(Resolved::num),
-            fh.as_ref().and_then(Resolved::num),
-        ) else {
+        for (key, v) in [("offset", offset), ("crossOffset", cross)] {
+            if spec.get(key).is_some() && v.is_none() {
+                cx.diags.push(format!(
+                    "floating part '{id}': {key} does not resolve to a finite number; using 0"
+                ));
+            }
+        }
+        let hosts_children = part
+            .get("children")
+            .and_then(Value::as_array)
+            .is_some_and(|c| !c.is_empty());
+        // A floating part with children is a subtree: solved as the root of its own scene (as a
+        // repeated copy is), sized by its own layout, then moved to the anchor.
+        let mut sub = None;
+        let (fw, fh) = if hosts_children {
+            match solve_root(variant, id, req, cx.position) {
+                Ok(sc) if sc.nodes.first().is_some() => {
+                    cx.diags.extend(
+                        sc.diagnostics
+                            .iter()
+                            .map(|d| format!("floating part '{id}': {d}")),
+                    );
+                    sub = Some(sc);
+                    (None, None)
+                }
+                _ => {
+                    cx.diags.push(format!(
+                        "floating part '{id}' could not be laid out; skipping it"
+                    ));
+                    continue;
+                }
+            }
+        } else {
+            (rp(&mut cx, part, "width"), rp(&mut cx, part, "height"))
+        };
+        let size = match &sub {
+            Some(sc) => Some((sc.nodes[0].w, sc.nodes[0].h)),
+            None => fw
+                .as_ref()
+                .and_then(Resolved::num)
+                .zip(fh.as_ref().and_then(Resolved::num)),
+        };
+        let Some((fw_n, fh_n)) = size else {
             cx.diags.push(format!(
                 "floating part '{id}' needs a width and a height that resolve; skipping it"
             ));
@@ -4777,6 +5044,22 @@ fn solve_root(
             "end" => (rx + rw + offset, along(ry, rh, fh_n) + cross),
             _ => (along(rx, rw, fw_n) + cross, ry - offset - fh_n),
         };
+        if let Some(sc) = sub {
+            let (ox, oy) = (sc.nodes[0].x, sc.nodes[0].y);
+            let (mx, my) = (fx - ox, fy - oy);
+            for mut n in sc.nodes {
+                n.x += mx;
+                n.y += my;
+                floating_ids.push(n.part.clone());
+                nodes.push(n);
+            }
+            measurements.extend(sc.measurements.into_iter().map(|mut m| {
+                m.x += mx;
+                m.y += my;
+                m
+            }));
+            continue;
+        }
         let fill = rp(&mut cx, part, "fill");
         let stroke = rp(&mut cx, part, "stroke");
         let sw = rp(&mut cx, part, "strokeWidth");
@@ -4804,7 +5087,7 @@ fn solve_root(
             fw_n,
             fh_n,
         );
-        floating_ids.push(id);
+        floating_ids.push(id.clone());
         nodes.push(node);
     }
 
@@ -4943,6 +5226,7 @@ fn solve_root(
             pattern: None,
             gradient: None,
             shadow: Vec::new(),
+            path: None,
             tokens,
         });
     }
@@ -5050,6 +5334,17 @@ fn solve_root(
             })
             .collect();
         n.tokens.extend(tokens);
+    }
+    for n in nodes.iter_mut().filter(|n| n.kind == "box") {
+        let Some(spec) = parts.get(&n.part).and_then(|p| p.get("path")) else {
+            continue;
+        };
+        match path_shape(spec, n.w, n.h) {
+            Ok(shape) => n.path = Some(shape),
+            Err(e) => cx
+                .diags
+                .push(format!("part '{}': {e}; drawing the plain box", n.part)),
+        }
     }
     // `strokeOver`: the root's border is drawn after everything else, as a ring node, so it
     // lies over the children. Same band as the box stroke: inside the box.
@@ -5174,7 +5469,7 @@ fn solve_root(
 /// shadow box grown by three standard deviations, the blur the renderers draw).
 fn scene_extent(
     nodes: &[SceneNode],
-    floating: &[&str],
+    floating: &[String],
     base: (f64, f64, f64, f64),
 ) -> (f64, f64, f64, f64) {
     let mut e = (base.0, base.1, base.0 + base.2, base.1 + base.3);
@@ -5184,7 +5479,7 @@ fn scene_extent(
         }
     };
     for n in nodes {
-        if floating.contains(&n.part.as_str()) {
+        if floating.contains(&n.part) {
             let half = n.stroke_width / 2.0;
             grow(n.x - half, n.y - half, n.x + n.w + half, n.y + n.h + half);
         }
@@ -5234,6 +5529,36 @@ fn inherits(part: &Value, name: &str) -> bool {
     part.get("inherit")
         .and_then(Value::as_array)
         .is_some_and(|a| a.iter().any(|v| v.as_str() == Some(name)))
+}
+
+/// The ids of every floating part and of the parts below it, with their `.border` rings.
+fn floating_subtree_ids(parts: &serde_json::Map<String, Value>) -> Vec<String> {
+    let mut ids: Vec<String> = parts
+        .iter()
+        .filter(|(_, p)| p.get("floating").is_some())
+        .map(|(id, _)| id.clone())
+        .collect();
+    let mut i = 0;
+    while i < ids.len() {
+        let kids = parts[&ids[i]]
+            .get("children")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(Value::as_str);
+        let new: Vec<String> = kids
+            .filter(|k| !ids.iter().any(|x| x == k))
+            .map(String::from)
+            .collect();
+        ids.extend(new);
+        i += 1;
+    }
+    let rings: Vec<String> = ids
+        .iter()
+        .flat_map(|id| [format!("{id}.border"), format!("{id}.inner-border")])
+        .collect();
+    ids.extend(rings);
+    ids
 }
 
 fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<Nested> {
@@ -5318,7 +5643,7 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
         text_metrics: cx.req.text_metrics.clone(),
         ..Default::default()
     };
-    let scene = match solve(&variant, &req) {
+    let mut scene = match solve(&variant, &req) {
         Ok(s) => s,
         Err(e) => {
             cx.diags.push(format!("component part '{id}': {e}"));
@@ -5327,6 +5652,15 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
     };
     cx.diags
         .extend(scene.diagnostics.iter().map(|d| format!("{id}: {d}")));
+    // A floating part sits outside its root, which a nested recipe has no room for.
+    let hidden = floating_subtree_ids(&variant.parts);
+    let drawn = scene.nodes.len();
+    scene.nodes.retain(|n| !hidden.contains(&n.part));
+    if scene.nodes.len() != drawn {
+        cx.diags.push(format!(
+            "component part '{id}': floating parts of the nested recipe are not drawn"
+        ));
+    }
     let root = scene.nodes.first()?;
     let (ox, oy, w, h) = (root.x, root.y, root.w, root.h);
     let nodes = scene
@@ -5693,6 +6027,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         pattern: None,
         gradient: None,
         shadow: Vec::new(),
+        path: None,
         stroke_opacity: None,
         tokens: Vec::new(),
     }
@@ -5994,6 +6329,90 @@ fn write_shadows(s: &mut String, n: &SceneNode) {
     }
 }
 
+/// A box drawn as its `path`: drop shadows (spread is not applied to a shape), fill, checker
+/// pattern and a stroke centered on the outline with round joins. The path is in the node's
+/// own pixel space, so a `translate` places it and leaves the stroke width alone.
+fn write_path_box(s: &mut String, n: &SceneNode, attrs: &str, so: &str) {
+    let Some(p) = &n.path else { return };
+    let tf = format!("transform=\"translate({} {})\"", n.x, n.y);
+    let rule = if p.even_odd {
+        " fill-rule=\"evenodd\""
+    } else {
+        ""
+    };
+    let d = esc(&p.d);
+    let hash = |key: String| {
+        key.bytes().fold(0xcbf2_9ce4_8422_2325u64, |h, b| {
+            (h ^ u64::from(b)).wrapping_mul(0x0100_0000_01b3)
+        })
+    };
+    for sh in n.shadow.iter().rev() {
+        let sigma = sh.blur / 2.0;
+        let pad = (3.0 * sigma).ceil();
+        let region = format!(
+            "x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\"",
+            n.x + sh.x - pad,
+            n.y + sh.y - pad,
+            n.w + 2.0 * pad,
+            n.h + 2.0 * pad
+        );
+        // The hole is the node's own shape, at the node, so it needs the whole box in its region.
+        let mask_region = format!(
+            "x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\"",
+            n.x.min(n.x + sh.x) - pad,
+            n.y.min(n.y + sh.y) - pad,
+            n.w + sh.x.abs() + 2.0 * pad,
+            n.h + sh.y.abs() + 2.0 * pad
+        );
+        let key = hash(format!("{sh:?}|{}|{}|{}|{}|{p:?}", n.x, n.y, n.w, n.h));
+        let (fid, mid) = (
+            format!("shadow-{key:016x}"),
+            format!("shadow-mask-{key:016x}"),
+        );
+        let blur = if sigma > 0.0 {
+            format!("<filter id=\"{fid}\" filterUnits=\"userSpaceOnUse\" {region}><feGaussianBlur stdDeviation=\"{sigma}\"/></filter>")
+        } else {
+            String::new()
+        };
+        let filter = if sigma > 0.0 {
+            format!(" filter=\"url(#{fid})\"")
+        } else {
+            String::new()
+        };
+        let _ = write!(
+            s,
+            "<defs>{blur}<mask id=\"{mid}\" maskUnits=\"userSpaceOnUse\" {mask_region}><rect {mask_region} fill=\"#fff\"/><path {tf} d=\"{d}\" fill=\"#000\"{rule}/></mask></defs><g mask=\"url(#{mid})\"><path data-part=\"{}\" data-shadow=\"true\" transform=\"translate({} {})\" d=\"{d}\" fill=\"{}\"{rule}{filter}/></g>",
+            esc(&n.part),
+            n.x + sh.x,
+            n.y + sh.y,
+            esc(&sh.color)
+        );
+    }
+    let _ = write!(
+        s,
+        "<path {attrs} {tf} d=\"{d}\" fill=\"{}\"{rule}/>",
+        esc(n.fill.as_deref().unwrap_or("none"))
+    );
+    if let Some(pt) = &n.pattern {
+        let key: String = hash(format!("{}|{}|{p:?}", pt.alt, pt.size)).to_string();
+        let (id, z) = (format!("pattern-{key}"), pt.size * 2.0);
+        let _ = write!(
+            s,
+            "<defs><pattern id=\"{id}\" width=\"{z}\" height=\"{z}\" patternUnits=\"userSpaceOnUse\"><rect x=\"{sz}\" width=\"{sz}\" height=\"{sz}\" fill=\"{alt}\"/><rect y=\"{sz}\" width=\"{sz}\" height=\"{sz}\" fill=\"{alt}\"/></pattern></defs><path {tf} d=\"{d}\" fill=\"url(#{id})\"{rule}/>",
+            sz = pt.size,
+            alt = esc(&pt.alt)
+        );
+    }
+    if let (Some(c), true) = (n.stroke.as_deref(), n.stroke_width > 0.0) {
+        let _ = write!(
+            s,
+            "<path {tf} d=\"{d}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\" stroke-linejoin=\"round\"{so}/>",
+            esc(c),
+            n.stroke_width
+        );
+    }
+}
+
 /// Serialize a scene as SVG. Parts carry `data-part`; token bindings are `data-tokens`.
 pub fn scene_to_svg(scene: &Scene) -> String {
     let mut s = String::new();
@@ -6048,6 +6467,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             .map(|o| format!(" stroke-opacity=\"{o}\""))
             .unwrap_or_default();
         match n.kind.as_str() {
+            "box" if n.path.is_some() => write_path_box(&mut s, n, &attrs, &so),
             "box" => {
                 write_shadows(&mut s, n);
                 let mut layers = vec![(attrs.clone(), n.fill.clone())];
