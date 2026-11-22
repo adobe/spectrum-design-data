@@ -1083,6 +1083,24 @@
     "hideLabel=true,isDisabled=false": "477c0e9dd01229e6",
     "hideLabel=true,isDisabled=true": "1e3b76fe2c9dbdce"
   },
+  "segmented-control": {
+    "hideTracker=false,isDisabled=false,isSelected=false,orientation=\"horizontal\"": "4ddd88853bc9a3b1",
+    "hideTracker=false,isDisabled=false,isSelected=false,orientation=\"vertical\"": "9b989e8e9fce2121",
+    "hideTracker=false,isDisabled=false,isSelected=true,orientation=\"horizontal\"": "6ecb11113c1732cd",
+    "hideTracker=false,isDisabled=false,isSelected=true,orientation=\"vertical\"": "9dd19836fec87b65",
+    "hideTracker=false,isDisabled=true,isSelected=false,orientation=\"horizontal\"": "37acb4ad179ffb39",
+    "hideTracker=false,isDisabled=true,isSelected=false,orientation=\"vertical\"": "78be9ede3bad9891",
+    "hideTracker=false,isDisabled=true,isSelected=true,orientation=\"horizontal\"": "9dc6b5133eefeaf5",
+    "hideTracker=false,isDisabled=true,isSelected=true,orientation=\"vertical\"": "005400474ceff7fd",
+    "hideTracker=true,isDisabled=false,isSelected=false,orientation=\"horizontal\"": "ecc0a3dc52a5ef6f",
+    "hideTracker=true,isDisabled=false,isSelected=false,orientation=\"vertical\"": "a4fe246109889097",
+    "hideTracker=true,isDisabled=false,isSelected=true,orientation=\"horizontal\"": "b1256f8e2ede26c7",
+    "hideTracker=true,isDisabled=false,isSelected=true,orientation=\"vertical\"": "8d97999e53896357",
+    "hideTracker=true,isDisabled=true,isSelected=false,orientation=\"horizontal\"": "f92f510ebd3cecb9",
+    "hideTracker=true,isDisabled=true,isSelected=false,orientation=\"vertical\"": "bac670ebb5f7b689",
+    "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"horizontal\"": "c44e623c54c98f41",
+    "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"vertical\"": "ef3d9c3305cb89b9"
+  },
   "standard-panel": {
     "density=\"compact\",hideCloseButton=false,hideDivider=false,hideDragHandle=false,style=\"primary\",type=\"anchored\"": "bc0169ebea5c5dbf",
     "density=\"compact\",hideCloseButton=false,hideDivider=false,hideDragHandle=false,style=\"primary\",type=\"dragged\"": "b8cd6aff8ac1ee3d",
@@ -1310,6 +1328,24 @@
     "hideLabel=true,isDisabled=true,isEmphasized=false,isSelected=true": "6f842425a8c64de5",
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=false": "544a4cb2ae03b41f",
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=true": "1faf25a2ae0ce491"
+  },
+  "tabs": {
+    "density=\"compact\",isDisabled=false,isSelected=false,orientation=\"horizontal\"": "5974337665fb43e7",
+    "density=\"compact\",isDisabled=false,isSelected=false,orientation=\"vertical\"": "e27384646087fc37",
+    "density=\"compact\",isDisabled=false,isSelected=true,orientation=\"horizontal\"": "d16f0e377e639aa7",
+    "density=\"compact\",isDisabled=false,isSelected=true,orientation=\"vertical\"": "c8a04eb5a702392b",
+    "density=\"compact\",isDisabled=true,isSelected=false,orientation=\"horizontal\"": "49225a40c91d62cf",
+    "density=\"compact\",isDisabled=true,isSelected=false,orientation=\"vertical\"": "94e9186247f81233",
+    "density=\"compact\",isDisabled=true,isSelected=true,orientation=\"horizontal\"": "efb18f5dcc9fc759",
+    "density=\"compact\",isDisabled=true,isSelected=true,orientation=\"vertical\"": "af4be7b0558f3d07",
+    "density=\"regular\",isDisabled=false,isSelected=false,orientation=\"horizontal\"": "ace7e57c223683fb",
+    "density=\"regular\",isDisabled=false,isSelected=false,orientation=\"vertical\"": "99aa5df2da241b65",
+    "density=\"regular\",isDisabled=false,isSelected=true,orientation=\"horizontal\"": "d165c29ff075a981",
+    "density=\"regular\",isDisabled=false,isSelected=true,orientation=\"vertical\"": "0e8d5f79c1e2306d",
+    "density=\"regular\",isDisabled=true,isSelected=false,orientation=\"horizontal\"": "82d98151385bfa39",
+    "density=\"regular\",isDisabled=true,isSelected=false,orientation=\"vertical\"": "7801dffd825a96e7",
+    "density=\"regular\",isDisabled=true,isSelected=true,orientation=\"horizontal\"": "e330bde3e523651f",
+    "density=\"regular\",isDisabled=true,isSelected=true,orientation=\"vertical\"": "6ce44a188721cd11"
   },
   "tag": {
     "hasAvatar=false,isDisabled=false,isEmphasized=false,isRemovable=false,isSelected=false": "29ccfffb746f81b7",

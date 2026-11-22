@@ -143,6 +143,11 @@
             "type": "string",
             "enum": ["manual", "automatic"],
             "default": "manual"
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this item is the selected one."
           }
         }
       }
@@ -178,6 +183,16 @@
           "value": "compact"
         }
       ]
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered item is the selected one. Drives the selection indicator and the item colors. Per-item in a data-driven component is items[].isSelected."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered item is disabled. Per-item in a data-driven component is items[].isDisabled."
     }
   },
   "slots": [
@@ -199,7 +214,12 @@
       "name": "tab-item",
       "description": "One tab; repeated once per entry of items.",
       "required": true,
-      "contains": ["icon", "label", "selection-indicator", "focus-indicator"]
+      "contains": ["row", "selection-indicator", "focus-indicator"]
+    },
+    {
+      "name": "row",
+      "description": "Row that holds the icon and the label, inside the item's padding.",
+      "contains": ["icon", "label"]
     },
     {
       "name": "icon",
@@ -211,12 +231,19 @@
     },
     {
       "name": "selection-indicator",
-      "description": "Underline (a bar beside the tabs when vertical) that marks the selected tab. It is drawn inside the tab item and is present on the selected tab only."
+      "description": "Underline (a bar beside the tabs when vertical) that marks the selected tab. It is drawn inside the tab item and is present on the selected tab only.",
+      "presentWhen": {
+        "options": {
+          "isSelected": true
+        }
+      }
     },
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused tab.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     }
   ],
   "anatomyReview": {

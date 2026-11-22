@@ -172,6 +172,82 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let opts = HashMap::from([("items".to_string(), items)]);
         out.push(("three-items", req(vec![], opts, "light", "desktop")));
     }
+    // Collections: selected, unselected and disabled items side by side, in each layout the
+    // recipe draws (tabs horizontal and vertical, segmented control with and without a track).
+    if name == "tabs" || name == "segmented-control" {
+        let items = serde_json::json!([
+            { "label": "Tab one", "isSelected": true },
+            { "label": "Tab two" },
+            { "label": "Tab three", "isDisabled": true }
+        ]);
+        let with = |extra: &[(&str, Value)]| -> HashMap<String, Value> {
+            let mut m = HashMap::from([("items".to_string(), items.clone())]);
+            m.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            m
+        };
+        out.push(("three-items", req(vec![], with(&[]), "light", "desktop")));
+        for size in ["s", "l", "xl"] {
+            let mut r = req(
+                vec![],
+                with(&[("density", "compact".into())]),
+                "light",
+                "desktop",
+            );
+            if name == "segmented-control" {
+                r.options.remove("density");
+            }
+            r.size = size.into();
+            out.push((
+                match size {
+                    "s" => "three-items-size-s",
+                    "l" => "three-items-size-l",
+                    _ => "three-items-size-xl",
+                },
+                r,
+            ));
+        }
+        if name == "tabs" {
+            for (size, id) in [
+                ("s", "three-items-size-s-regular"),
+                ("l", "three-items-size-l-regular"),
+            ] {
+                let mut r = req(vec![], with(&[]), "light", "desktop");
+                r.size = size.into();
+                out.push((id, r));
+            }
+            let mut r = req(vec![], with(&[]), "light", "mobile");
+            r.size = "xl".into();
+            out.push(("three-items-size-xl-regular-mobile", r));
+            out.push((
+                "three-items-compact",
+                req(
+                    vec![],
+                    with(&[("density", "compact".into())]),
+                    "light",
+                    "desktop",
+                ),
+            ));
+            out.push((
+                "three-items-vertical",
+                req(
+                    vec![],
+                    with(&[("orientation", "vertical".into())]),
+                    "light",
+                    "desktop",
+                ),
+            ));
+        } else {
+            out.push((
+                "three-items-no-track",
+                req(
+                    vec![],
+                    with(&[("hideTracker", true.into())]),
+                    "dark",
+                    "mobile",
+                ),
+            ));
+        }
+    }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
     if let Some(item) = match name {

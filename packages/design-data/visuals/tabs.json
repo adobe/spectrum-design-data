@@ -1,0 +1,388 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tabs",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["tab-item"],
+      "repeat": {
+        "slot": "default",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled"
+        }
+      },
+      "props": {
+        "direction": [
+          {
+            "value": "row"
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "value": "column"
+          }
+        ],
+        "align": [
+          {
+            "value": "start"
+          }
+        ],
+        "gap": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "tab-item",
+                "to": "tab-item"
+              }
+            }
+          }
+        ],
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "spacing",
+              "part": "selection-indicator"
+            }
+          }
+        ]
+      }
+    },
+    "tab-item": {
+      "kind": "box",
+      "children": ["row", "selection-indicator"],
+      "props": {
+        "direction": {
+          "value": "stack"
+        },
+        "align": {
+          "value": "end"
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "tab-item"
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "add",
+        "content": true,
+        "optional": true
+      },
+      "props": {
+        "width": [
+          {
+            "relationship": {
+              "property": "size",
+              "part": "icon"
+            },
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "xl"
+            }
+          }
+        ],
+        "height": [
+          {
+            "relationship": {
+              "property": "size",
+              "part": "icon"
+            },
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "xl"
+            }
+          }
+        ],
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "tab-item"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "label"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "label"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "label"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "tab-item"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "selection-indicator": {
+      "kind": "box",
+      "props": {
+        "height": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "thickness",
+              "part": "selection-indicator"
+            }
+          }
+        ],
+        "fill": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "tab-item"
+            },
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true,
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "attribute": "border",
+              "part": "selection-indicator"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "row": {
+      "kind": "box",
+      "children": ["icon", "label"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "gap": [
+          {
+            "relationship": {
+              "property": "space-between",
+              "part": "tab-item",
+              "between": {
+                "from": "icon",
+                "to": "label"
+              }
+            },
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "xl"
+            }
+          }
+        ],
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "tab-item"
+          }
+        }
+      }
+    }
+  }
+}
