@@ -129,6 +129,11 @@
       ]
     },
     {
+      "id": "square",
+      "label": "Square",
+      "description": "The colors of the two alternating tiles of an opacity checkerboard"
+    },
+    {
       "id": "size",
       "label": "Size",
       "description": "Overall or part size",

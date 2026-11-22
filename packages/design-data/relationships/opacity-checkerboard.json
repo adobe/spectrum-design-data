@@ -46,8 +46,9 @@
   {
     "scope": {
       "component": "opacity-checkerboard",
-      "part": "square",
-      "property": "square-light"
+      "part": "light-tile",
+      "attribute": "background",
+      "property": "color"
     },
     "context": "Square",
     "$ref": "c7e50676-3f61-49c3-a35f-2532fdb02360",
@@ -56,8 +57,9 @@
   {
     "scope": {
       "component": "opacity-checkerboard",
-      "part": "square",
-      "property": "square-dark"
+      "part": "dark-tile",
+      "attribute": "background",
+      "property": "color"
     },
     "context": "Square",
     "$ref": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761",
@@ -66,8 +68,9 @@
   {
     "scope": {
       "component": "opacity-checkerboard",
-      "part": "square",
-      "property": "square-dark"
+      "part": "dark-tile",
+      "attribute": "background",
+      "property": "color"
     },
     "context": "Square",
     "$ref": "f783b8cb-d31f-46c2-b550-990639752510",
@@ -76,8 +79,9 @@
   {
     "scope": {
       "component": "opacity-checkerboard",
-      "part": "square",
-      "property": "square-dark"
+      "part": "dark-tile",
+      "attribute": "background",
+      "property": "color"
     },
     "context": "Square",
     "$ref": "35fcf7b1-7140-4522-8410-48547aaf6fd6",
@@ -86,8 +90,8 @@
   {
     "scope": {
       "component": "opacity-checkerboard",
-      "part": "square",
-      "property": "square-dark",
+      "part": "dark-tile",
+      "property": "color",
       "options": {
         "colorScheme": "light"
       }
@@ -102,8 +106,8 @@
   {
     "scope": {
       "component": "opacity-checkerboard",
-      "part": "square",
-      "property": "square-dark",
+      "part": "dark-tile",
+      "property": "color",
       "options": {
         "colorScheme": "dark"
       }
@@ -118,8 +122,8 @@
   {
     "scope": {
       "component": "opacity-checkerboard",
-      "part": "square",
-      "property": "square-dark",
+      "part": "dark-tile",
+      "property": "color",
       "options": {
         "colorScheme": "wireframe"
       }
@@ -134,8 +138,8 @@
   {
     "scope": {
       "component": "opacity-checkerboard",
-      "part": "square",
-      "property": "square-light"
+      "part": "light-tile",
+      "property": "color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
@@ -194,6 +198,8 @@
         "scale": "desktop"
       }
     },
+    "context": "Square size",
+    "contextRole": ["size"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "ead3f34f-55b1-4012-a4af-0f7fbf226020",
@@ -211,6 +217,8 @@
         "scale": "mobile"
       }
     },
+    "context": "Square size",
+    "contextRole": ["size"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "cc6fdec6-c03a-4691-805f-b60d199bb60d",
@@ -228,6 +236,8 @@
         "scale": "desktop"
       }
     },
+    "context": "Square size",
+    "contextRole": ["size"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "2537f52b-5cae-4a35-a1f3-b1d4fe89060d",
@@ -245,6 +255,8 @@
         "scale": "mobile"
       }
     },
+    "context": "Square size",
+    "contextRole": ["size"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
     "uuid": "0916cc84-f46f-45c3-b76d-d7d85d576480",
