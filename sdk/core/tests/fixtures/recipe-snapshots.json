@@ -786,6 +786,12 @@
     "isDisabled=true,isEmphasized=true,isSelected=false": "b6ab1960ac246808",
     "isDisabled=true,isEmphasized=true,isSelected=true": "8164d9cc8dbe0530"
   },
+  "search-field": {
+    "hideLabel=false,isDisabled=false": "4d40204d7fcce5b7",
+    "hideLabel=false,isDisabled=true": "6f54a2adf27c345b",
+    "hideLabel=true,isDisabled=false": "d71e0a1f756c562d",
+    "hideLabel=true,isDisabled=true": "5458a20cce253baf"
+  },
   "status-light": {
     "variant=\"accent\"": "ebfbb634a0df5343",
     "variant=\"blue\"": "3c86b77f1ae0013f",
