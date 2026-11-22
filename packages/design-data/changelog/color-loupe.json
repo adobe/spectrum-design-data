@@ -191,6 +191,46 @@
           "metadata": {"count":12,"fields":["anatomyReview.status","context","contextRole","scope.attribute","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"component","after":"opacity-checkerboard"}]},
+            {"id":"5d6bd008-1","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/subcomponent","name":"subcomponent","fields":[{"path":"subcomponent","after":true}]}
+          ]
+        },
+        {
+          "commit": "f563f96ff5aef38caa8c892263495bd6efbd76c2",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2039,"title":"feat(design-data): add color handle and color loupe visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2039"},
+          "entries": [
+            {"id":"f563f96f-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"outer"}},"record":"ee5a2569-aa3c-5a32-8408-a20135c41170","name":"border-width[position=outer]","fields":[{"path":"scope.attribute","after":"border"}]},
+            {"id":"f563f96f-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"inner"}},"record":"dfc2b4db-8554-53ca-8463-d6f818381692","name":"border-width[position=inner]","fields":[{"path":"scope.attribute","after":"border"}]},
+            {"id":"f563f96f-2","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/visual","name":"color-loupe","fields":[]}
+          ],
+          "metadata": {"count":2,"fields":["scope.attribute"]}
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/fill","name":"fill","fields":[{"path":"presentWhen.options.hasFill","after":true}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"presentWhen.options.hasFill","after":true}]},
+            {"id":"1951adf7-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/visual/parts/fill","name":"fill","fields":[{"path":"visibleWhen.options.hasFill","before":true}]},
+            {"id":"1951adf7-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/visual/parts/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"visibleWhen.options.hasFill","before":true}]}
+          ]
+        }
+      ]
     }
   ]
 }

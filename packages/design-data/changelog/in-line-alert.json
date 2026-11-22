@@ -501,6 +501,42 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "1.4.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "c37b6809884cac367c148b2f1f9e3d72c81ad407",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2034,"title":"feat(design-data): add Title and Body composite typography tokens and in-line-alert type styles","url":"https://github.com/adobe/spectrum-design-data/pull/2034"},
+          "entries": [
+            {"id":"c37b6809-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Title"],"scope":{"property":"type-style","options":null},"record":"076cba47-635f-4ee7-adf1-44ec9923b7e4","name":"type-style","fields":[],"after":"9d0572aa-aa80-47c2-9a47-4864fbba4bd4"},
+            {"id":"c37b6809-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Description"],"scope":{"property":"type-style","options":null},"record":"61d87280-c9dc-4923-94ec-d21b63d65b5c","name":"type-style","fields":[],"after":"41537e21-a0a9-4933-b92e-10e72b291cbf"}
+          ]
+        },
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/anatomy/button","name":"button","fields":[{"path":"component","after":"button"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/anatomy/link","name":"link","fields":[{"path":"component","after":"link"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/anatomy/title","name":"title","fields":[{"path":"presentWhen.options.heading","after":true}]},
+            {"id":"1951adf7-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"in-line-alert/visual/parts/title","name":"title","fields":[{"path":"visibleWhen.options.heading","before":true}]}
+          ]
+        }
+      ]
     }
   ]
 }

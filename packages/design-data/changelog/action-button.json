@@ -634,6 +634,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "3.0.2",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"action-button/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"action-button/anatomy/hold-icon","name":"hold-icon","fields":[{"path":"presentWhen.options.hasHoldIcon","after":true},{"path":"presentWhen.options.isPending","after":false}]},
+            {"id":"1951adf7-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"action-button/anatomy/icon","name":"icon","fields":[{"path":"presentWhen.options.isPending","after":false}]},
+            {"id":"1951adf7-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"action-button/anatomy/label","name":"label","fields":[{"path":"presentWhen.options.hideLabel","after":false},{"path":"presentWhen.options.isPending","after":false}]},
+            {"id":"1951adf7-4","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"action-button/anatomy/progress","name":"progress","fields":[{"path":"presentWhen.options.isPending","after":true}]},
+            {"id":"1951adf7-5","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"action-button/visual/parts/focus-indicator","name":"focus-indicator","fields":[{"path":"visibleWhen.states","before":["keyboard-focus"]}]},
+            {"id":"1951adf7-6","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"action-button/visual/parts/hold-icon","name":"hold-icon","fields":[{"path":"visibleWhen.options.hasHoldIcon","before":true},{"path":"visibleWhen.options.isPending","before":false}]},
+            {"id":"1951adf7-7","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"action-button/visual/parts/icon","name":"icon","fields":[{"path":"visibleWhen.options.isPending","before":false}]},
+            {"id":"1951adf7-8","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"action-button/visual/parts/label","name":"label","fields":[{"path":"visibleWhen.options.hideLabel","before":false},{"path":"visibleWhen.options.isPending","before":false}]},
+            {"id":"1951adf7-9","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"action-button/visual/parts/progress","name":"progress","fields":[{"path":"visibleWhen.options.isPending","before":true}]}
+          ]
+        }
+      ]
     }
   ]
 }

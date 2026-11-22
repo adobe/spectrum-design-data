@@ -203,6 +203,47 @@
           "metadata": {"count":24,"fields":["anatomyReview.status","context","contextQualifier","contextRole","scope.attribute","scope.component","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-handle/anatomy/color-loupe","name":"color-loupe","fields":[{"path":"component","after":"color-loupe"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-handle/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"component","after":"opacity-checkerboard"}]}
+          ]
+        },
+        {
+          "commit": "f563f96ff5aef38caa8c892263495bd6efbd76c2",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2039,"title":"feat(design-data): add color handle and color loupe visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2039"},
+          "entries": [
+            {"id":"f563f96f-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"e376788b-70df-53fe-8b09-f1ff19673c93","name":"border-width","fields":[{"path":"scope.attribute","after":"border"}]},
+            {"id":"f563f96f-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"inner"}},"record":"5dc8cd69-35c1-5b54-9191-bcd1bf67c4f2","name":"border-width[position=inner]","fields":[{"path":"scope.attribute","after":"border"}]},
+            {"id":"f563f96f-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"outer"}},"record":"69750493-2f85-5a56-970b-50dc1f2fe809","name":"border-width[position=outer]","fields":[{"path":"scope.attribute","after":"border"}]},
+            {"id":"f563f96f-3","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"color-handle/visual","name":"color-handle","fields":[]}
+          ],
+          "metadata": {"count":3,"fields":["scope.attribute"]}
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-handle/anatomy/fill","name":"fill","fields":[{"path":"presentWhen.options.hasFill","after":true},{"path":"presentWhen.options.isDisabled","after":false}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-handle/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"presentWhen.options.hasFill","after":true},{"path":"presentWhen.options.isDisabled","after":false}]},
+            {"id":"1951adf7-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"color-handle/visual/parts/fill","name":"fill","fields":[{"path":"visibleWhen.options.hasFill","before":true},{"path":"visibleWhen.options.isDisabled","before":false}]},
+            {"id":"1951adf7-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"color-handle/visual/parts/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"visibleWhen.options.hasFill","before":true},{"path":"visibleWhen.options.isDisabled","before":false}]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -764,6 +764,51 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "3.1.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"text-area/anatomy/field-label","name":"field-label","fields":[{"path":"component","after":"field-label"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"text-area/anatomy/help-text","name":"help-text","fields":[{"path":"component","after":"help-text"}]},
+            {"id":"5d6bd008-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"text-area/visual/parts/field-label","name":"field-label","fields":[{"path":"component","before":"field-label"}]},
+            {"id":"5d6bd008-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"text-area/visual/parts/help-text","name":"help-text","fields":[{"path":"component","before":"help-text"}]}
+          ]
+        },
+        {
+          "commit": "55328ccb343be47b437ec1d56b40d76cfc9f19f1",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2042,"title":"feat(design-data): add the nested with value mapping (text-field isError to help-text negative)","url":"https://github.com/adobe/spectrum-design-data/pull/2042"},
+          "entries": [
+            {"id":"55328ccb-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"text-area/visual/parts/help-text","name":"help-text","fields":[{"path":"with.variant.map.false","after":"neutral"},{"path":"with.variant.map.true","after":"negative"},{"path":"with.variant.option","after":"isError"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"text-area/anatomy/field-label","name":"field-label","fields":[{"path":"presentWhen.options.hideLabel","after":false},{"path":"presentWhen.options.label","after":true}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"text-area/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]},
+            {"id":"1951adf7-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"text-area/anatomy/help-text","name":"help-text","fields":[{"path":"presentWhen.options.helpText","after":true}]},
+            {"id":"1951adf7-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"text-area/anatomy/validation-marker","name":"validation-marker","fields":[{"path":"presentWhen.options.isError","after":false},{"path":"presentWhen.options.showValidIcon","after":true}]},
+            {"id":"1951adf7-4","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"text-area/anatomy/value","name":"value","fields":[{"path":"presentWhen.options.value","after":true}]},
+            {"id":"1951adf7-5","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"text-area/visual/parts/field-label","name":"field-label","fields":[{"path":"visibleWhen.options.hideLabel","before":false},{"path":"visibleWhen.options.label","before":true}]},
+            {"id":"1951adf7-6","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"text-area/visual/parts/focus-indicator","name":"focus-indicator","fields":[{"path":"visibleWhen.states","before":["keyboard-focus"]}]},
+            {"id":"1951adf7-7","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"text-area/visual/parts/help-text","name":"help-text","fields":[{"path":"visibleWhen.options.helpText","before":true}]},
+            {"id":"1951adf7-8","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"text-area/visual/parts/validation-marker","name":"validation-marker","fields":[{"path":"visibleWhen.options.isError","before":false},{"path":"visibleWhen.options.showValidIcon","before":true}]},
+            {"id":"1951adf7-9","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"text-area/visual/parts/value","name":"value","fields":[{"path":"visibleWhen.options.value","before":true}]}
+          ]
+        }
+      ]
     }
   ]
 }

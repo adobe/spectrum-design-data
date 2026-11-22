@@ -1,5 +1,29 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 7.0.0
+
+### Major Changes
+
+- [#2045](https://github.com/adobe/spectrum-design-data/pull/2045) [`84a3a3a`](https://github.com/adobe/spectrum-design-data/commit/84a3a3a25b832fed1b94bd2edae8141c1013dd49) Thanks [@GarthDB](https://github.com/GarthDB)! - BREAKING: accordion drops the `hasActionButton` and `hasSwitch` options; slot fills replace them.
+  - **Migrate** a consumer that passed `hasActionButton` or `hasSwitch` (or the same keys on
+    `items[]`) to fill the `actions` slot: a render request `slots: {"actions": [{"component":
+"action-button"}, {"component": "switch"}]}`. The CLI takes `--slots <json>`, a batch state takes
+    `slots`. Fills are the same for every item of the accordion.
+  - **Spec**: a new `slot` recipe part kind draws a request's fills through the nested-component path.
+    Fills past the slot's `max`, or outside its `accepts`, are scene diagnostics, never a failure. An
+    optional `placeholder` literal (with a required `reason`) draws an empty slot. New rule SPEC-108.
+  - **Data**: accordion loses the two options, their `items[]` copies and the `action-button` and
+    `switch` parts; its `actions` part draws the slot. The "section title to action area" spacing
+    record is scoped by `between` (title, actions) instead of `part: header`.
+  - **Layout revision 6**: the accordion snapshot option sets changed. Renders with fills are
+    unchanged apart from the part ids (`actions-1`, `actions-2`, replacing `action-button`, `switch`).
+  - **Engine**: `RenderRequest` gains `slots`; older engines ignore it and draw no fills.
+
+### Patch Changes
+
+- Updated dependencies [[`5d6bd00`](https://github.com/adobe/spectrum-design-data/commit/5d6bd008a946579c54356ac519cfb220dd07b3de), [`2ee32ce`](https://github.com/adobe/spectrum-design-data/commit/2ee32ce2e9c4de2a1542b0deb60ceb5c7de927c9), [`b836045`](https://github.com/adobe/spectrum-design-data/commit/b836045680bb838600769ba506e72bbdbb529c53), [`d6236ca`](https://github.com/adobe/spectrum-design-data/commit/d6236ca9bf616fa4a9933517061f0d3db386a895), [`55328cc`](https://github.com/adobe/spectrum-design-data/commit/55328ccb343be47b437ec1d56b40d76cfc9f19f1), [`1951adf`](https://github.com/adobe/spectrum-design-data/commit/1951adf71da6c4b0d9e5419d91134dfe522e1b69), [`f563f96`](https://github.com/adobe/spectrum-design-data/commit/f563f96ff5aef38caa8c892263495bd6efbd76c2), [`84a3a3a`](https://github.com/adobe/spectrum-design-data/commit/84a3a3a25b832fed1b94bd2edae8141c1013dd49), [`c37b680`](https://github.com/adobe/spectrum-design-data/commit/c37b6809884cac367c148b2f1f9e3d72c81ad407), [`fcdce33`](https://github.com/adobe/spectrum-design-data/commit/fcdce330770f35d5b768566b55219d17ee2d6940)]:
+  - @adobe/spectrum-design-data@4.0.0
+
 ## 6.2.3
 
 ### Patch Changes

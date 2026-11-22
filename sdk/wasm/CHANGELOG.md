@@ -1,5 +1,103 @@
 # @adobe/design-data-wasm
 
+## 0.36.0
+
+### Minor Changes
+
+- [#2037](https://github.com/adobe/spectrum-design-data/pull/2037) [`5d6bd00`](https://github.com/adobe/spectrum-design-data/commit/5d6bd008a946579c54356ac519cfb220dd07b3de) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy parts can be another component; recipes read that link. Part of the 7.0.0 bundle.
+  - **anatomy-format.md**: new "What is a part" rule replaces "What is not anatomy"; new `component`
+    field on a part, checked by SPEC-106.
+  - **component-format.md**: new `subcomponent: boolean`; hosts are derived ("Used in"), not stored.
+  - **component-visuals.md and schemas**: BREAKING. A recipe `kind: component` part drops its
+    `component` and reads the host's anatomy part of the same key (SPEC-089 reports a missing link).
+  - **@adobe/spectrum-design-data**: BREAKING data shape. `component` on 95 anatomy parts in 46
+    components, removed from 21 recipe parts in 12 recipes, 5 components marked `subcomponent`.
+  - **@adobe/design-data-wasm**: the engine reads the nested component from anatomy; spec sheets
+    and the site list gain `subcomponent` and `usedIn`. CLI is 0.62.2.
+  - **@adobe/design-data, @adobe/design-data-mcp**: component search results gain `subcomponent`
+    and `usedIn`.
+  - Dataset `requires.cli` is raised to 0.62.2: older CLIs cannot read a part `component`.
+
+- [#2041](https://github.com/adobe/spectrum-design-data/pull/2041) [`2ee32ce`](https://github.com/adobe/spectrum-design-data/commit/2ee32ce2e9c4de2a1542b0deb60ceb5c7de927c9) Thanks [@GarthDB](https://github.com/GarthDB)! - Relationships can scope to the place of a repeated item. Part of the 7.0.0 bundle.
+  - **relationship-format.md, relationship.schema.json**: new `scope.itemPosition` (`first`,
+    `middle`, `last`, `only`), counted over the drawn copies like a recipe `when.position`.
+    `scope.position` (sides and corners) is unchanged.
+  - **SPEC-107** (error): `itemPosition` needs a `scope.part` that is the repeated part of a
+    collection slot, or a part inside it.
+  - **@adobe/spectrum-design-data**: list-view's two "Item rounding" records move from
+    `options.position` top/bottom to `itemPosition` first/last. Their `legacyKey` pins stay, so the
+    legacy tokens are unchanged.
+  - **@adobe/design-data-wasm**: the engine resolves a record per drawn copy by `itemPosition`
+    (one satisfied condition) and refuses `itemPosition` values it does not know. CLI is 0.62.2.
+  - Dataset `requires.cli` is unchanged: 0.62.2 is untagged and carries this.
+
+- [#2042](https://github.com/adobe/spectrum-design-data/pull/2042) [`55328cc`](https://github.com/adobe/spectrum-design-data/commit/55328ccb343be47b437ec1d56b40d76cfc9f19f1) Thanks [@GarthDB](https://github.com/GarthDB)! - A nested recipe part's `with` entry can map a host option value to a nested value.
+  Part of the 7.0.0 bundle.
+  - **component-visuals.md, component-visual.schema.json**: a third `with` form,
+    `{"option": "<host option>", "map": {"<host value as string>": "<nested value>"}}`, next to the
+    literal and `{option}` forms. Booleans key as `"true"`/`"false"`.
+  - **SPEC-089** (error) now checks the form: the host option exists, every key is a value of it,
+    every mapped value is valid for the nested option. No new rule.
+  - **@adobe/spectrum-design-data**: text-field, text-area, combo-box and picker draw their help text
+    from `isError` (`true` is `negative`, `false` is `neutral`).
+  - **@adobe/design-data-wasm**: the engine resolves the map. A host value with no key keeps the
+    nested option's default and adds a scene diagnostic (a warning, not an error). CLI is 0.62.2.
+  - Dataset `requires.cli` is unchanged: 0.62.2 is untagged and carries this.
+
+- [#2044](https://github.com/adobe/spectrum-design-data/pull/2044) [`1951adf`](https://github.com/adobe/spectrum-design-data/commit/1951adf71da6c4b0d9e5419d91134dfe522e1b69) Thanks [@GarthDB](https://github.com/GarthDB)! - BREAKING: `presentWhen` replaces `presentIn` on anatomy parts (spec 7.0.0).
+  - **Migrate** `presentIn: ["keyboard-focus"]` to `presentWhen: {"states": ["keyboard-focus"]}`.
+    A part shown while an option is set takes `presentWhen: {"options": {"isSelected": true}}`. The
+    key holds only `states` and `options`; `position` and `modes` fail the schema.
+  - **ANY-of became ALL-of**: `presentIn` drew a part when any listed state was active, `states` needs
+    every listed state. Do not copy a multi-state `presentIn` over: `selected-keyboard-focus`
+    implies `keyboard-focus`, so stack-item takes `states: ["keyboard-focus"]`.
+  - **Recipes**: `visibleWhen` keeps only `position`. Its `states` and `options` move to the anatomy
+    part of the same name, and the renderer applies both (anatomy `presentWhen` and recipe position).
+  - **Rules**: SPEC-075 is removed. SPEC-074 (`anatomy-present-when-declared`) now covers the whole
+    condition: declared states, declared options, allowed values.
+  - **@adobe/spectrum-design-data**: 42 `presentIn` keys became `presentWhen`, and 62 recipe
+    conditions on 78 parts moved into 47 components. Renders are unchanged.
+  - **CLI 0.63.0**: older CLIs read no presence condition and draw every part, so the dataset
+    `requires.cli` is raised to 0.63.0. `presentIn` and recipe `states` and `options` are not read.
+
+- [#2045](https://github.com/adobe/spectrum-design-data/pull/2045) [`84a3a3a`](https://github.com/adobe/spectrum-design-data/commit/84a3a3a25b832fed1b94bd2edae8141c1013dd49) Thanks [@GarthDB](https://github.com/GarthDB)! - BREAKING: accordion drops the `hasActionButton` and `hasSwitch` options; slot fills replace them.
+  - **Migrate** a consumer that passed `hasActionButton` or `hasSwitch` (or the same keys on
+    `items[]`) to fill the `actions` slot: a render request `slots: {"actions": [{"component":
+"action-button"}, {"component": "switch"}]}`. The CLI takes `--slots <json>`, a batch state takes
+    `slots`. Fills are the same for every item of the accordion.
+  - **Spec**: a new `slot` recipe part kind draws a request's fills through the nested-component path.
+    Fills past the slot's `max`, or outside its `accepts`, are scene diagnostics, never a failure. An
+    optional `placeholder` literal (with a required `reason`) draws an empty slot. New rule SPEC-108.
+  - **Data**: accordion loses the two options, their `items[]` copies and the `action-button` and
+    `switch` parts; its `actions` part draws the slot. The "section title to action area" spacing
+    record is scoped by `between` (title, actions) instead of `part: header`.
+  - **Layout revision 6**: the accordion snapshot option sets changed. Renders with fills are
+    unchanged apart from the part ids (`actions-1`, `actions-2`, replacing `action-button`, `switch`).
+  - **Engine**: `RenderRequest` gains `slots`; older engines ignore it and draw no fills.
+
+### Patch Changes
+
+- [#2043](https://github.com/adobe/spectrum-design-data/pull/2043) [`d6236ca`](https://github.com/adobe/spectrum-design-data/commit/d6236ca9bf616fa4a9933517061f0d3db386a895) Thanks [@GarthDB](https://github.com/GarthDB)! - Identity migration for opacity-checkerboard. It reaches level 2 (and its recipe selectors carry no
+  `context`, so the status check also reads level 3). The legacy `@adobe/spectrum-tokens` output is
+  byte-identical. Recipe snapshots and goldens pass unchanged; the standalone checkerboard
+  render now draws its pattern.
+  - New anatomy parts `light-tile` and `dark-tile` (new registry terms) model the two alternating
+    tiles; `square` keeps the size and now contains both. No tone option, no renamed terms.
+  - The `square-light` and `square-dark` properties become `color` on `light-tile` and `dark-tile`.
+    Records keep their uuids and legacy keys. Deprecated records are untouched.
+  - The 4 non-legacy color records get a `background` attribute (interim): without it the recipe finds
+    no relationship. `render --strict` still reports `patternFill` and `patternSize` as ambiguous
+    (main already failed --strict on these recipes); the unlabelled size records get the `Square size`
+    context their siblings already carry.
+  - The recipe binds `fill` to the light tile and `patternFill` to the dark tile by part, not by
+    context. `square` joins the relationship contexts registry.
+  - tree-view and thumbnail records that restate these tokens are not part of this change.
+
+- [#2039](https://github.com/adobe/spectrum-design-data/pull/2039) [`f563f96`](https://github.com/adobe/spectrum-design-data/commit/f563f96ff5aef38caa8c892263495bd6efbd76c2) Thanks [@GarthDB](https://github.com/GarthDB)! - Embed the color handle and color loupe recipes.
+
+- [#2034](https://github.com/adobe/spectrum-design-data/pull/2034) [`c37b680`](https://github.com/adobe/spectrum-design-data/commit/c37b6809884cac367c148b2f1f9e3d72c81ad407) Thanks [@GarthDB](https://github.com/GarthDB)! - Skip tokens with `excludeFromLegacy` in legacy output. The embedded
+  registry gains the `title` and `body` variants.
+
 ## 0.35.2
 
 ### Patch Changes

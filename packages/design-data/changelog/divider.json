@@ -177,6 +177,26 @@
           "metadata": {"count":3,"fields":["scope.options.scale","scope.options.size"]}
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "b836045680bb838600769ba506e72bbdbb529c53",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2040,"title":"feat(design-data): migrate clear-button, close-button, link and 3 more to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/2040"},
+          "entries": [
+            {"id":"b8360456-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Horizontal"],"scope":{"property":"minimum-width","options":{"orientation":"horizontal"}},"record":"5f735347-8c40-59d7-a403-d3af41bfe9ce","name":"minimum-width[orientation=horizontal]","fields":[{"path":"scope.part","after":"line"},{"path":"scope.property","before":"horizontal-minimum-width","after":"minimum-width"}]},
+            {"id":"b8360456-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Vertical"],"scope":{"property":"minimum-height","options":{"orientation":"vertical"}},"record":"2aa871a4-49ac-500c-9842-61b1c1bf937e","name":"minimum-height[orientation=vertical]","fields":[{"path":"scope.part","after":"line"},{"path":"scope.property","before":"vertical-minimum-height","after":"minimum-height"}]},
+            {"id":"b8360456-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"divider/visual/parts/line","name":"line","fields":[{"path":"props.minHeight.relationship.property","before":"vertical-minimum-height","after":"minimum-height"},{"path":"props.minWidth.relationship.property","before":"horizontal-minimum-width","after":"minimum-width"}]}
+          ],
+          "metadata": {"count":14,"fields":["scope.part"]}
+        }
+      ]
     }
   ]
 }

@@ -538,6 +538,34 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "4.0.0",
+      "bump": "major",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "fcdce330770f35d5b768566b55219d17ee2d6940",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2036,"title":"feat(design-data): move status-light, toast and alert-banner recipes to typeStyle","url":"https://github.com/adobe/spectrum-design-data/pull/2036"},
+          "entries": [
+            {"id":"fcdce330-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-family","options":null},"record":"f72b9538-7849-5afb-a125-f604364c55a9","name":"font-family","fields":[],"before":"45d43d4e-a4e4-4c5f-94ec-644a81300eb0"},
+            {"id":"fcdce330-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-weight","options":null},"record":"be512e8a-d186-5c98-a044-c62c35dabcfc","name":"font-weight","fields":[],"before":"02a94ddf-1007-4c86-8863-905874e40f95"},
+            {"id":"fcdce330-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-style","options":null},"record":"8c534c39-6d67-5722-bada-d2f5e780aef7","name":"font-style","fields":[],"before":"25668698-bf78-46f4-bc6c-8fea068ddb34"},
+            {"id":"fcdce330-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"s"}},"record":"4a5875e8-07d1-5125-a1e5-c4f4b9471742","name":"font-size[size=s]","fields":[],"before":"55d90327-8cc9-4d4f-891f-9d42751d989a"},
+            {"id":"fcdce330-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"s"}},"record":"09f6c836-317e-561b-a6f3-bf347a266221","name":"font-size[size=s]","fields":[],"before":"07e1c2a8-3925-4d71-8fae-3486483ff44c"},
+            {"id":"fcdce330-5","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"m"}},"record":"4153c286-8d61-5ee4-b96e-96ca5466d655","name":"font-size[size=m]","fields":[],"before":"938e2d24-1e90-48f0-a596-595a69103707"},
+            {"id":"fcdce330-6","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"m"}},"record":"18625de4-164b-59b3-9b41-076518ddb29d","name":"font-size[size=m]","fields":[],"before":"2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"},
+            {"id":"fcdce330-7","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"l"}},"record":"25dbf66c-6860-5eca-83e5-bdbd49706f33","name":"font-size[size=l]","fields":[],"before":"b36caaa3-7047-4dfb-8a84-f990a8ac3a91"},
+            {"id":"fcdce330-8","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"l"}},"record":"a8bfd31e-fc59-549e-aebc-f63df1c8ce51","name":"font-size[size=l]","fields":[],"before":"7e51ff4e-2749-49d1-b9ed-75de92a73991"},
+            {"id":"fcdce330-9","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"xl"}},"record":"78dbf526-0b5f-55b3-b221-5a24cf2a6559","name":"font-size[size=xl]","fields":[],"before":"3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"},
+            {"id":"fcdce330-10","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"size":"xl"}},"record":"e9037fab-226a-5e0c-8d70-5e7702868aa7","name":"font-size[size=xl]","fields":[],"before":"9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"},
+            {"id":"fcdce330-11","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"status-light/visual/parts/label","name":"label","fields":[{"path":"props.fontFamily.relationship.part","before":"label"},{"path":"props.fontFamily.relationship.property","before":"font-family"},{"path":"props.fontSize.relationship.part","before":"label"},{"path":"props.fontSize.relationship.property","before":"font-size"},{"path":"props.fontWeight.relationship.part","before":"label"},{"path":"props.fontWeight.relationship.property","before":"font-weight"},{"path":"props.typeStyle.relationship.part","after":"label"},{"path":"props.typeStyle.relationship.property","after":"type-style"}]}
+          ]
+        }
+      ]
     }
   ]
 }

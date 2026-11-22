@@ -566,6 +566,41 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "3.1.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag/anatomy/avatar","name":"avatar","fields":[{"path":"component","after":"avatar"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag/anatomy/clear-button","name":"clear-button","fields":[{"path":"component","after":"clear-button"}]},
+            {"id":"5d6bd008-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"tag/visual/parts/avatar","name":"avatar","fields":[{"path":"component","before":"avatar"}]},
+            {"id":"5d6bd008-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"tag/visual/parts/clear-button","name":"clear-button","fields":[{"path":"component","before":"clear-button"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag/anatomy/avatar","name":"avatar","fields":[{"path":"presentWhen.options.hasAvatar","after":true}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag/anatomy/clear-button","name":"clear-button","fields":[{"path":"presentWhen.options.isRemovable","after":true}]},
+            {"id":"1951adf7-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]},
+            {"id":"1951adf7-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag/anatomy/icon","name":"icon","fields":[{"path":"presentWhen.options.icon","after":true}]},
+            {"id":"1951adf7-4","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"tag/visual/parts/avatar","name":"avatar","fields":[{"path":"visibleWhen.options.hasAvatar","before":true}]},
+            {"id":"1951adf7-5","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"tag/visual/parts/clear-button","name":"clear-button","fields":[{"path":"visibleWhen.options.isRemovable","before":true}]},
+            {"id":"1951adf7-6","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"tag/visual/parts/focus-indicator","name":"focus-indicator","fields":[{"path":"visibleWhen.states","before":["keyboard-focus"]}]},
+            {"id":"1951adf7-7","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"tag/visual/parts/icon","name":"icon","fields":[{"path":"visibleWhen.options.icon","before":true}]}
+          ]
+        }
+      ]
     }
   ]
 }

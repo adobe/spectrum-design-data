@@ -443,6 +443,30 @@
           "metadata": {"count":94,"fields":["scope.between.from","scope.between.to","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "3.0.3",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/anatomy/checkmark","name":"checkmark","fields":[{"path":"presentWhen.options.isIndeterminate","after":false},{"path":"presentWhen.options.isSelected","after":true}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/anatomy/dash","name":"dash","fields":[{"path":"presentWhen.options.isIndeterminate","after":true}]},
+            {"id":"1951adf7-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]},
+            {"id":"1951adf7-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/anatomy/label","name":"label","fields":[{"path":"presentWhen.options.label","after":true}]},
+            {"id":"1951adf7-4","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/checkmark","name":"checkmark","fields":[{"path":"visibleWhen.options.isIndeterminate","before":false},{"path":"visibleWhen.options.isSelected","before":true}]},
+            {"id":"1951adf7-5","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/dash","name":"dash","fields":[{"path":"visibleWhen.options.isIndeterminate","before":true}]},
+            {"id":"1951adf7-6","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/focus-indicator","name":"focus-indicator","fields":[{"path":"visibleWhen.states","before":["keyboard-focus"]}]},
+            {"id":"1951adf7-7","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/parts/label","name":"label","fields":[{"path":"visibleWhen.options.label","before":true}]}
+          ]
+        }
+      ]
     }
   ]
 }

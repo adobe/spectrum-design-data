@@ -1,5 +1,12 @@
 # @adobe/design-data-tui
 
+## 0.22.1
+
+### Patch Changes
+
+- [#1975](https://github.com/adobe/spectrum-design-data/pull/1975) [`80c3999`](https://github.com/adobe/spectrum-design-data/commit/80c399955eba3e1eeb484348b51a8c6dc1c26450) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-073 skips deprecated components (`lifecycle.deprecatedIn`) when it lists components
+  with missing or draft anatomy.
+
 ## 0.22.0
 
 ### Minor Changes

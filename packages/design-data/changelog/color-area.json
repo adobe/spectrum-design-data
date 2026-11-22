@@ -165,6 +165,23 @@
           "metadata": {"count":25,"fields":["anatomyReview.status","context","contextRole","scope.attribute","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-area/anatomy/color-handle","name":"color-handle","fields":[{"path":"component","after":"color-handle"}]}
+          ]
+        }
+      ]
     }
   ]
 }

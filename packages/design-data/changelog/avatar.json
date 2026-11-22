@@ -339,6 +339,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"avatar/anatomy/guest-icon","name":"guest-icon","fields":[{"path":"presentWhen.options.image","after":"guest"}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"avatar/anatomy/initials","name":"initials","fields":[{"path":"presentWhen.options.image","after":"initials"}]},
+            {"id":"1951adf7-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"avatar/visual/parts/guest-icon","name":"guest-icon","fields":[{"path":"visibleWhen.options.image","before":"guest"}]},
+            {"id":"1951adf7-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"avatar/visual/parts/initials","name":"initials","fields":[{"path":"visibleWhen.options.image","before":"initials"}]}
+          ]
+        }
+      ]
     }
   ]
 }
