@@ -1602,5 +1602,25 @@
       "replacedBy": "3e2c5e59-3167-453e-b484-ad0d6d6506da"
     },
     "rationale": "Deprecated via refine-from-sheets from row 204 of the mapping sheet."
+  },
+  {
+    "scope": {
+      "component": "in-line-alert",
+      "part": "title",
+      "property": "type-style"
+    },
+    "context": "Title",
+    "$ref": "9d0572aa-aa80-47c2-9a47-4864fbba4bd4",
+    "uuid": "076cba47-635f-4ee7-adf1-44ec9923b7e4"
+  },
+  {
+    "scope": {
+      "component": "in-line-alert",
+      "part": "description",
+      "property": "type-style"
+    },
+    "context": "Description",
+    "$ref": "41537e21-a0a9-4933-b92e-10e72b291cbf",
+    "uuid": "61d87280-c9dc-4923-94ec-d21b63d65b5c"
   }
 ]
