@@ -47,7 +47,7 @@
             },
             "token": {
               "property": "spacing",
-              "scaleIndex": 75
+              "scaleIndex": 85
             }
           },
           {
@@ -104,7 +104,7 @@
             },
             "token": {
               "property": "spacing",
-              "scaleIndex": 75
+              "scaleIndex": 85
             }
           },
           {
@@ -161,7 +161,7 @@
             },
             "token": {
               "property": "spacing",
-              "scaleIndex": 75
+              "scaleIndex": 85
             }
           },
           {
@@ -218,7 +218,7 @@
             },
             "token": {
               "property": "spacing",
-              "scaleIndex": 75
+              "scaleIndex": 85
             }
           },
           {

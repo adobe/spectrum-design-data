@@ -103,6 +103,14 @@
             }
           },
           {
+            "when": { "states": ["hover"] },
+            "token": {
+              "colorRole": "neutral",
+              "property": "content-color",
+              "state": "hover"
+            }
+          },
+          {
             "when": { "options": { "isDisabled": true } },
             "priority": 10,
             "token": { "legacyKey": "disabled-content-color" }
