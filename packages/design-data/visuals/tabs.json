@@ -87,21 +87,7 @@
             "property": "corner-radius",
             "part": "tab-item"
           }
-        },
-        "height": [
-          {
-            "when": {
-              "options": {
-                "density": "compact"
-              }
-            },
-            "token": {
-              "structure": "base",
-              "property": "height",
-              "size": "{size}"
-            }
-          }
-        ]
+        }
       }
     },
     "icon": {
@@ -337,131 +323,6 @@
         "align": {
           "value": "center"
         },
-        "paddingBlockStart": [
-          {
-            "relationship": {
-              "property": "space-between",
-              "part": "tab-item",
-              "between": {
-                "from": "top-edge",
-                "to": "label"
-              }
-            },
-            "when": {
-              "options": {
-                "size": "m"
-              }
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "size": "s"
-              }
-            },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "s"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "size": "l"
-              }
-            },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "l"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "size": "xl"
-              }
-            },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "xl"
-            }
-          }
-        ],
-        "paddingBlockEnd": [
-          {
-            "when": {
-              "options": {
-                "density": "regular"
-              }
-            },
-            "relationship": {
-              "property": "space-between",
-              "part": "tab-item",
-              "between": {
-                "from": "label",
-                "to": "bottom-edge"
-              }
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "density": "compact",
-                "size": "m"
-              }
-            },
-            "relationship": {
-              "property": "space-between",
-              "part": "tab-item",
-              "between": {
-                "from": "label",
-                "to": "bottom-edge"
-              }
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "density": "compact",
-                "size": "s"
-              }
-            },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "s"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "density": "compact",
-                "size": "l"
-              }
-            },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "l"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "density": "compact",
-                "size": "xl"
-              }
-            },
-            "token": {
-              "structure": "base",
-              "property": "padding-vertical",
-              "size": "xl"
-            }
-          }
-        ],
         "gap": [
           {
             "relationship": {
@@ -514,7 +375,13 @@
               "size": "xl"
             }
           }
-        ]
+        ],
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "tab-item"
+          }
+        }
       }
     }
   }
