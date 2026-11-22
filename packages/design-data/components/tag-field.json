@@ -91,6 +91,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Label above the field."
     },
     {
@@ -101,6 +102,7 @@
     },
     {
       "name": "tag",
+      "component": "tag",
       "description": "One removable tag; repeated."
     },
     {
@@ -113,6 +115,7 @@
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Description or error message under the field."
     },
     {

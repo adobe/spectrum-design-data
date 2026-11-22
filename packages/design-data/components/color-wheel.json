@@ -84,6 +84,7 @@
     },
     {
       "name": "color-handle",
+      "component": "color-handle",
       "description": "Handle marking the selected hue.",
       "required": true
     }

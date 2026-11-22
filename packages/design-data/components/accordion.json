@@ -159,6 +159,7 @@
     },
     {
       "name": "container-divider",
+      "component": "divider",
       "description": "One-pixel line that opens the list, above the first item. It belongs to the container, not to an item, and fills the container's width. Absent when the accordion is quiet (isQuiet)."
     },
     {
@@ -190,10 +191,12 @@
     },
     {
       "name": "action-button",
+      "component": "action-button",
       "description": "Icon-only action button (the action-button component) in the actions. Shown when hasActionButton is on."
     },
     {
       "name": "switch",
+      "component": "switch",
       "description": "Switch (the switch component) in the actions. Shown when hasSwitch is on."
     },
     {
@@ -202,6 +205,7 @@
     },
     {
       "name": "divider",
+      "component": "divider",
       "description": "One-pixel line below the item. Absent when the accordion is quiet (isQuiet)."
     },
     {

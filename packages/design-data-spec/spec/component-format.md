@@ -31,18 +31,19 @@ A component declaration **MUST** contain:
 
 ### Optional fields
 
-| Field             | Type   | Description                                                                                                                                |
-| ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `specVersion`     | string | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
-| `description`     | string | Plain-text description of the component's purpose.                                                                                         |
-| `implementations` | array  | Known platform implementations — see [Implementations](#implementations).                                                                  |
-| `options`         | object | Component API options — see [Options](#options).                                                                                           |
-| `slots`           | array  | Named content injection points — see [Slots](#slots).                                                                                      |
-| `anatomy`         | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
-| `states`          | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
-| `lifecycle`       | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
-| `documentBlocks`  | array  | Typed prose blocks for this component — see [Document blocks](#document-blocks) (Phase 9).                                                 |
-| `accessibility`   | object | Semantic accessibility vocabulary — see [Accessibility](accessibility.md) (Phase 7).                                                       |
+| Field             | Type    | Description                                                                                                                                |
+| ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `specVersion`     | string  | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
+| `description`     | string  | Plain-text description of the component's purpose.                                                                                         |
+| `implementations` | array   | Known platform implementations — see [Implementations](#implementations).                                                                  |
+| `subcomponent`    | boolean | `true` when the component exists only inside another component — see [Sub-components](#sub-components).                                    |
+| `options`         | object  | Component API options — see [Options](#options).                                                                                           |
+| `slots`           | array   | Named content injection points — see [Slots](#slots).                                                                                      |
+| `anatomy`         | array   | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
+| `states`          | array   | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
+| `lifecycle`       | object  | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
+| `documentBlocks`  | array   | Typed prose blocks for this component — see [Document blocks](#document-blocks) (Phase 9).                                                 |
+| `accessibility`   | object  | Semantic accessibility vocabulary — see [Accessibility](accessibility.md) (Phase 7).                                                       |
 
 **NORMATIVE:** No properties beyond those listed above are permitted at the top level of a component declaration. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -285,13 +286,14 @@ The `anatomy` block declares the component's named **visual parts** — the anat
 
 Each anatomy part carries at minimum:
 
-| Field         | Type             | Required | Description                                                                                                         |
-| ------------- | ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
-| `name`        | string           | REQUIRED | Anatomy part identifier (e.g. `icon`, `label`, `handle`).                                                           |
-| `description` | string           | OPTIONAL | Plain-text description of the part.                                                                                 |
-| `required`    | boolean          | OPTIONAL | Whether this part is always present. Default: `false`.                                                              |
-| `contains`    | array of strings | OPTIONAL | Informative: other anatomy part names nested within this part.                                                      |
-| `lifecycle`   | object           | OPTIONAL | Version lifecycle metadata for this part. When `lifecycle.deprecated` is set, SPEC-037 fires on referencing tokens. |
+| Field         | Type             | Required | Description                                                                                                                               |
+| ------------- | ---------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | string           | REQUIRED | Anatomy part identifier (e.g. `icon`, `label`, `handle`).                                                                                 |
+| `description` | string           | OPTIONAL | Plain-text description of the part.                                                                                                       |
+| `required`    | boolean          | OPTIONAL | Whether this part is always present. Default: `false`.                                                                                    |
+| `component`   | string           | OPTIONAL | The part is another component drawn inside this one (SPEC-106). See [`anatomy-format.md`](anatomy-format.md#another-component-as-a-part). |
+| `contains`    | array of strings | OPTIONAL | Informative: other anatomy part names nested within this part.                                                                            |
+| `lifecycle`   | object           | OPTIONAL | Version lifecycle metadata for this part. When `lifecycle.deprecated` is set, SPEC-037 fires on referencing tokens.                       |
 
 See [`spec/anatomy-format.md`](anatomy-format.md) for constraints, cross-field validation, and the full anatomy part schema.
 
@@ -301,6 +303,12 @@ See [`spec/anatomy-format.md`](anatomy-format.md) for constraints, cross-field v
   { "name": "label", "description": "Button text.", "required": true }
 ]
 ```
+
+## Sub-components
+
+`subcomponent: true` marks a component that has no stand-alone use: it exists only inside another component (an in-field button, a color loupe). The flag is the only stored fact. The hosts are **derived**: the components with an anatomy part whose `component` names it, and the recipes that nest it. A component never lists its hosts, so the list cannot drift.
+
+**NORMATIVE:** `subcomponent` is a boolean, default `false`. A sub-component keeps its own options, records and recipe, and stays listed in catalogs, spec sheets and MCP tools. A consumer marks it as a sub-component and shows the derived hosts as "Used in".
 
 ## States (stub)
 
@@ -363,6 +371,7 @@ The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) b
 | SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `lifecycle` on the matching `values` entry on the option descriptor.                                                                                                                                                 |
 | SPEC-038 | `option-enum-obsolete`           | warning  | An option descriptor **SHOULD NOT** use the JSON Schema `enum` keyword. `additionalProperties: true` silently accepts `enum` at Layer 1; SPEC-038 flags it at Layer 2 so authors replace it with the `values` array.                                                                                                                                                                                              |
 | SPEC-040 | `component-option-field-valid`   | warning  | Token name-object keys that match a declared `options.<key>` with a `values[]` list **SHOULD** use a value drawn from that list. Generalises SPEC-019 to non-`variant` option fields (e.g. `style`, `size`, `staticColor`). Advisory; silent when no `values` declared.                                                                                                                                           |
+| SPEC-106 | `anatomy-part-component-valid`   | error    | An anatomy part's `component` **MUST** name a declared, non-deprecated component other than the component itself.                                                                                                                                                                                                                                                                                                 |
 | SPEC-104 | `component-slot-valid`           | error    | A slot's `part` **MUST** be a declared anatomy part and its `accepts` entries declared, non-deprecated components; `collection` **MUST** name a declared array option and its `part` have an anatomy parent that hosts one collection slot; `min` <= `max` and `max` >= 1; `acceptsOnly` needs `accepts`; names are unique. A name that is neither `default` nor the part's name is a warning. Replaces SPEC-021. |
 
 ## Full example

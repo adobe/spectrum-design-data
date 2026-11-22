@@ -132,7 +132,7 @@
         {
           "if": { "properties": { "kind": { "const": "component" } } },
           "then": {
-            "required": ["component", "sizeMap"],
+            "required": ["sizeMap"],
             "not": {
               "anyOf": [{ "required": ["props"] }, { "required": ["children"] }]
             }
@@ -140,7 +140,6 @@
           "else": {
             "not": {
               "anyOf": [
-                { "required": ["component"] },
                 { "required": ["sizeMap"] },
                 { "required": ["with"] },
                 { "required": ["inherit"] }
@@ -152,11 +151,6 @@
       "properties": {
         "kind": {
           "enum": ["box", "text", "icon", "ring", "progress", "component"]
-        },
-        "component": {
-          "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "For a component part: the component whose recipe is embedded (spec/component-visuals.md, Nested recipes). SPEC-089 checks it."
         },
         "sizeMap": {
           "type": "object",

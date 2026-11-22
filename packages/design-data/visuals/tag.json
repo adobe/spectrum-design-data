@@ -117,7 +117,6 @@
     },
     "avatar": {
       "kind": "component",
-      "component": "avatar",
       "sizeMap": {
         "s": "50",
         "m": "75",
@@ -209,7 +208,6 @@
     },
     "clear-button": {
       "kind": "component",
-      "component": "clear-button",
       "sizeMap": {
         "s": "s",
         "m": "m",

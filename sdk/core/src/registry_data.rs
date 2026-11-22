@@ -617,8 +617,7 @@ const COMPONENTS_JSON: &str = r##"{
     },
     {
       "id": "in-field-button",
-      "label": "In-Field Button",
-      "description": "A cross-cutting anatomy sub-part shared by multiple field-adjacent components rather than a standalone top-level component."
+      "label": "In-Field Button"
     },
     {
       "id": "in-field-progress-circle",

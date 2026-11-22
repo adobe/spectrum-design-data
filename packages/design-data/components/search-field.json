@@ -118,6 +118,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Text label that names the field; hidden with hideLabel."
     },
     {
@@ -146,10 +147,12 @@
     },
     {
       "name": "in-field-button",
+      "component": "in-field-button",
       "description": "Clear button at the end of the field, shown when there is a value."
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Description or error message shown below the field."
     },
     {

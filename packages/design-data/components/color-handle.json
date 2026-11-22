@@ -76,6 +76,7 @@
     },
     {
       "name": "opacity-checkerboard",
+      "component": "opacity-checkerboard",
       "description": "Checkerboard behind the fill so transparency reads. Drawn when hasFill is true; sized m by every host."
     },
     {
@@ -84,6 +85,7 @@
     },
     {
       "name": "color-loupe",
+      "component": "color-loupe",
       "description": "Floating loupe above the handle, outside its circle, showing the sampled color. A second top-level part: it is not enclosed by the container. The offset from the container is a space-between record. Drawn when isOpen is true."
     }
   ],

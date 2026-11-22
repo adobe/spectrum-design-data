@@ -120,6 +120,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
     {
@@ -163,10 +164,12 @@
     },
     {
       "name": "in-field-button",
+      "component": "in-field-button",
       "description": "One of the two stepper buttons (decrement and increment). Styled by the in-field-button component."
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Description or error message shown below the field."
     },
     {

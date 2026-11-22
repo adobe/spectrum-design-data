@@ -9,6 +9,7 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-circle/"
   },
+  "subcomponent": true,
   "options": {
     "size": {
       "type": "string",

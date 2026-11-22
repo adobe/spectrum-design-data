@@ -1523,7 +1523,7 @@ fn build_sheet(
         None => Vec::new(),
     };
     sections::fill(&mut template, graph, &component, changelog, gallery);
-    Ok(json!({
+    let mut sheet = json!({
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-spec-sheet.schema.json",
         "specVersion": "1.0.0-draft",
         "component": component,
@@ -1539,7 +1539,17 @@ fn build_sheet(
         "block": {"width": BLOCK_W, "height": BLOCK_H},
         "pages": pages,
         "sections": template,
-    }))
+    });
+    if graph.components.iter().any(|c| {
+        c.name == component && c.raw.get("subcomponent").and_then(Value::as_bool) == Some(true)
+    }) {
+        sheet["subcomponent"] = true.into();
+    }
+    let hosts = graph.component_hosts(&component);
+    if !hosts.is_empty() {
+        sheet["usedIn"] = hosts.into();
+    }
+    Ok(sheet)
 }
 
 /// Lauryn Lesley's v1 spec template, in order: (key, title, hint). Every
@@ -1619,7 +1629,7 @@ fn run_all(
             .and_then(|c| c.get("releases"))
             .and_then(Value::as_array)
             .and_then(|r| r.last());
-        index.push(json!({
+        let mut entry = json!({
             "component": component,
             "displayName": sheet["displayName"],
             "visual": sheet["visual"],
@@ -1628,7 +1638,14 @@ fn run_all(
             "blocks": blocks,
             "version": latest.and_then(|r| r.get("version")),
             "latestRelease": latest.map(|r| json!({"release": r["release"], "date": r["date"], "bump": r["bump"]})),
-        }));
+        });
+        for key in ["subcomponent", "usedIn"] {
+            if let Some(v) = sheet.get(key) {
+                entry[key] = v.clone();
+            }
+        }
+        index.push(entry);
+
         write_text(
             &out_dir.join(format!("{component}.json")),
             serde_json::to_string_pretty(&sheet).into_diagnostic()?,

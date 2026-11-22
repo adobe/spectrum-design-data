@@ -14,6 +14,15 @@
       "description": "True when the component has a visual recipe. False marks a table-only sheet: blocks carry token rows but no render, and views show \"No visual recipe yet\". The same stub is the starting point for a new component.",
       "type": "boolean"
     },
+    "subcomponent": {
+      "description": "True when the component exists only inside another component (`subcomponent` on the component declaration). Absent otherwise.",
+      "const": true
+    },
+    "usedIn": {
+      "description": "The components that draw this one inside themselves, derived from their anatomy parts' `component`. Absent when none.",
+      "type": "array",
+      "items": { "type": "string" }
+    },
     "datasetRevision": {
       "description": "Dataset revision (git commit) the sheet and its changelog were generated from.",
       "type": ["string", "null"]

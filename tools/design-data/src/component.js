@@ -90,7 +90,7 @@ function loadComponent(componentsDir, file) {
  * @param {string} query
  * @param {{category?: string, limit?: number}} [options] `limit` is clamped to
  *   an integer of at least 1.
- * @returns {Array<{id: string, displayName: string, category: string, snippet: string}>}
+ * @returns {Array<{id: string, displayName: string, category: string, snippet: string, subcomponent?: true, usedIn?: string[]}>}
  */
 export function searchComponents(
   componentsDir,
@@ -102,11 +102,26 @@ export function searchComponents(
   const max = Number.isFinite(limit) ? Math.max(1, Math.floor(limit)) : 10;
   const phrase = asString(query).trim().toLowerCase();
 
-  const scored = [];
+  const docs = [];
   for (const file of readdirSync(componentsDir).sort()) {
     if (!file.endsWith(".json")) continue;
     const doc = loadComponent(componentsDir, file);
-    if (!doc) continue;
+    if (doc) docs.push({ file, doc });
+  }
+
+  // Hosts are derived: the components with an anatomy part that names the component.
+  const hostsOf = new Map();
+  for (const { doc } of docs) {
+    for (const part of doc.anatomy ?? []) {
+      if (!part.component || part.component === doc.name) continue;
+      hostsOf.set(part.component, [
+        ...new Set([...(hostsOf.get(part.component) ?? []), doc.name]),
+      ]);
+    }
+  }
+
+  const scored = [];
+  for (const { file, doc } of docs) {
     const componentCategory = doc.meta?.category ?? "uncategorized";
     if (category && componentCategory !== category) continue;
 
@@ -163,7 +178,14 @@ export function searchComponents(
       all: hits.length === words.length,
       tier,
       count: hits.length,
-      result: { id, displayName, category: componentCategory, snippet },
+      result: {
+        id,
+        displayName,
+        category: componentCategory,
+        snippet,
+        ...(doc.subcomponent === true && { subcomponent: true }),
+        ...(hostsOf.has(id) && { usedIn: hostsOf.get(id) }),
+      },
     });
   }
 

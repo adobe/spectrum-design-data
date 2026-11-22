@@ -931,7 +931,7 @@ rules:
     category: component
     note: >
       One diagnostic for the whole dataset, so the gap stays visible without a line per
-      component. Never an error: anatomy is authored as recipes are built. A component with
+      component. Skips deprecated components (`lifecycle.deprecatedIn`). Never an error: anatomy is authored as recipes are built. A component with
       anatomy and no `anatomyReview` counts as draft.
     assert: >
       A component that has relationship records SHOULD declare anatomy, and a component's
@@ -1453,4 +1453,19 @@ rules:
       never be chosen. Every inner `{alias}` of the composite MUST resolve in every `scale` mode.
     message: "A 'type-style' relationship must $ref a typography composite, but '{token}' is not one"
     spec_ref: spec/relationship-format.md#type-style-records
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-106
+    name: anatomy-part-component-valid
+    severity: error
+    layer: 2
+    category: component-contract
+    note: >
+      An anatomy part `component` says the part is another component drawn inside this one. A
+      deprecated part is skipped.
+    assert: >
+      An anatomy part's `component` MUST name a declared component that is not deprecated and is
+      not the component itself.
+    message: "Part '{part}' of '{component}' has component '{target}', which is {problem}"
+    spec_ref: spec/anatomy-format.md#another-component-as-a-part
     introduced_in: "1.0.0-draft"

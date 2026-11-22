@@ -9,6 +9,7 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/clear-button/"
   },
+  "subcomponent": true,
   "implementations": [
     {
       "platform": "web",

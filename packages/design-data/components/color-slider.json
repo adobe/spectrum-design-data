@@ -126,6 +126,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "The field label component above the track (Figma Field label instance, RSP FieldLabel)."
     },
     {
@@ -140,6 +141,7 @@
     },
     {
       "name": "opacity-checkerboard",
+      "component": "opacity-checkerboard",
       "description": "Checkerboard behind the gradient so an opacity channel reads. Absent when disabled (Figma); sized m."
     },
     {
@@ -148,6 +150,7 @@
     },
     {
       "name": "color-handle",
+      "component": "color-handle",
       "description": "Handle marking the selected channel value.",
       "required": true
     }

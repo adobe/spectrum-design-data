@@ -20,6 +20,7 @@ An anatomy part is a **JSON object** that appears as an element of a component d
 | `description` | string           | OPTIONAL | Plain-text description of the part's visual role and boundaries.                                                         |
 | `required`    | boolean          | OPTIONAL | Whether this part is always rendered regardless of configuration. Default: `false`.                                      |
 | `presentIn`   | array of strings | OPTIONAL | Declared component states in which the part is present. Absent means any state — see [`presentIn`](#presentin).          |
+| `component`   | string           | OPTIONAL | The part is another component drawn inside this one — see [Another component as a part](#another-component-as-a-part).   |
 | `contains`    | array of strings | OPTIONAL | Informative list of child anatomy part names nested within this part (e.g. a `field` contains `["label", "help-text"]`). |
 | `lifecycle`   | object           | OPTIONAL | Version lifecycle metadata for this anatomy part — see [lifecycle](#lifecycle).                                          |
 
@@ -126,25 +127,41 @@ State names follow the state registry. Use `focus` for the focus state.
 
 **NORMATIVE:** `required: true` means the part is drawn in every configuration and every declared state. A part that an option can remove (an icon, a label hidden in an icon-only layout) is optional.
 
-### What is not anatomy
+### What is a part
 
-The following **MUST NOT** be declared as parts:
+**NORMATIVE:** A part exists in the anatomy when a design source names it **and** at least one of these holds:
+
+* It owns a value: a style, size, gap, alignment or other value that a record or a recipe binds to it.
+* It is a slot: a content injection point (see [Slots](#slots)).
+* It is a region an option toggles: an element that an option shows, hides or swaps (for example `hasIcon` or `isQuiet`).
+
+A layout group the design names, and a recipe lays out, is a part when it meets one of these tests. Name a layout part with no better semantic name `container`.
+
+**NORMATIVE:** The following **MUST NOT** be declared as parts:
 
 * Platform wrappers and hosts.
-* Layout helpers: gaps, spacers, alignment boxes, stacks.
 * Hit areas and accessibility-only elements: hidden inputs, live regions, hidden text.
-* Shadows, borders and strokes. They are styling on the part that carries them (for example the container's border, or the elevation of a popover), not parts. A focus indicator is the exception because it is drawn apart from the edge and has its own gap.
 * Elements that exist only so one renderer works: clip layers, pseudo-elements, a second element used to fake a border.
-* A grouping that has no style of its own, such as a `control` that only wraps a `box` and a `checkmark`.
+* Elements that are always hidden.
+* Shadows, borders and strokes. They are styling on the part that carries them (for example the container's border, or the elevation of a popover), not parts. A focus indicator is the exception because it is drawn apart from the edge and has its own gap.
+* A grouping that a source names but that owns no value, is not a slot and no option toggles, such as a `control` that only wraps a `box` and a `checkmark`.
 
-Another component shown inside this one (for example the progress circle in a button) is a part only when the host component styles it as its own role.
+A part that draws nothing itself (a box with children and no paint) stays declared and is shown in spec output. A renderer or a report that wants to hide such pure groups derives that from the recipe; nothing is stored.
+
+### Another component as a part
+
+**NORMATIVE:** A part that is another component, drawn inside this one, carries `component: <id>`. The id **MUST** name a declared component that is not deprecated and is not the component itself (SPEC-106). The part keeps its own `name`, so two parts can be the same component (the two stepper buttons of a number field). A part named like a component but not that component (a `title` text part next to the `title` typography component, a `field` box) carries no `component`.
+
+**NORMATIVE:** A [recipe](component-visuals.md) part of `kind: component` has no `component` of its own. It reads the component from the anatomy part of the same name in the host component, and SPEC-089 reports a recipe part whose anatomy part has no `component`.
+
+The hosts of a component are derived from these links and from recipes (the "Used in" list); a component never stores its hosts. A component that exists only inside another component is marked `subcomponent: true` ([Component format: Sub-components](component-format.md#sub-components)).
 
 ### Review checklist
 
 Anatomy is hand-written and has to be reviewed against this chapter before recipes depend on it. For each part:
 
 1. Is it visible in at least one declared state or option?
-2. Does it have a style of its own?
+2. Is it named by a design source and does it own a value, host a slot or form a region an option toggles ([What is a part](#what-is-a-part))? If it is another component, does it carry `component`?
 3. Would someone on web, iOS, Android and in Figma recognize it without explanation?
 4. Is it free of anything that exists only to make one renderer work?
 5. Does its name follow the naming rules, using a registry term when one fits?
@@ -165,7 +182,7 @@ The component declaration carries the review result next to `anatomy`:
 "anatomyReview": { "status": "reviewed", "reviewedIn": "1.0.0-draft", "notes": "Dropped control; focus-indicator now state-only." }
 ```
 
-`status` is `draft` or `reviewed`. A component with anatomy and no `anatomyReview` is `draft`. A recipe **SHOULD** only depend on `reviewed` anatomy. Rule SPEC-073 reports, at info level, the components that have relationships but no anatomy and those whose anatomy is still `draft`.
+`status` is `draft` or `reviewed`. A component with anatomy and no `anatomyReview` is `draft`. A recipe **SHOULD** only depend on `reviewed` anatomy. Rule SPEC-073 reports, at info level, the components that have relationships but no anatomy and those whose anatomy is still `draft`. It skips deprecated components (`lifecycle.deprecatedIn`).
 
 ## Canonical anatomy vocabulary
 
@@ -220,18 +237,19 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
 
 The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to anatomy part declarations. SPEC-020 was introduced in Phase 6.1 (component-format); SPEC-023, SPEC-024, and SPEC-025 are introduced by this chapter.
 
-| Rule ID  | Name                                | Severity | Assert                                                                                                                                                                                                                     |
-| -------- | ----------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-020 | `component-anatomy-valid`           | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                              |
-| SPEC-023 | `anatomy-custom-part-documented`    | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose.                                                                  |
-| SPEC-024 | `anatomy-part-name-unique`          | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                                                                                 |
-| SPEC-025 | `anatomy-requires-component`        | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                                                                                    |
-| SPEC-035 | `anatomy-part-name-registry-sync`   | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`); a registry alias is reported with its canonical term.                                                  |
-| SPEC-037 | `sub-entity-deprecation-cascade`    | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part via `name.anatomy`. Advisory warning prompts migration.                                                                                          |
-| SPEC-048 | `anatomy-contains-resolves`         | warning  | An anatomy part's `contains` entries **SHOULD** match the `name` of another part declared on the same component. Advisory warning for unresolved entries.                                                                  |
-| SPEC-073 | `component-anatomy-reviewed`        | info     | A component with relationships **SHOULD** declare anatomy, and its anatomy **SHOULD** be `reviewed` (see [`anatomyReview`](#anatomyreview)). One report for the whole dataset.                                             |
-| SPEC-074 | `anatomy-present-in-declared`       | error    | Every `presentIn` entry **MUST** match a state declared on the component, after state-name normalization (`focus`, `key-focus` and `keyboard-focus` are one state).                                                        |
-| SPEC-075 | `visual-present-in-matches-anatomy` | error    | A recipe part's `visibleWhen.states` **MUST** agree with the `presentIn` of the anatomy part of the same name. Info when either lists more than one state, since `visibleWhen.states` means all and `presentIn` means any. |
+| Rule ID  | Name                                | Severity | Assert                                                                                                                                                                                                                                       |
+| -------- | ----------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-020 | `component-anatomy-valid`           | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                |
+| SPEC-023 | `anatomy-custom-part-documented`    | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose.                                                                                    |
+| SPEC-024 | `anatomy-part-name-unique`          | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                                                                                                   |
+| SPEC-025 | `anatomy-requires-component`        | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                                                                                                      |
+| SPEC-035 | `anatomy-part-name-registry-sync`   | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`); a registry alias is reported with its canonical term.                                                                    |
+| SPEC-037 | `sub-entity-deprecation-cascade`    | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part via `name.anatomy`. Advisory warning prompts migration.                                                                                                            |
+| SPEC-048 | `anatomy-contains-resolves`         | warning  | An anatomy part's `contains` entries **SHOULD** match the `name` of another part declared on the same component. Advisory warning for unresolved entries.                                                                                    |
+| SPEC-073 | `component-anatomy-reviewed`        | info     | A component with relationships **SHOULD** declare anatomy, and its anatomy **SHOULD** be `reviewed` (see [`anatomyReview`](#anatomyreview)). One report for the whole dataset. Deprecated components (`lifecycle.deprecatedIn`) are skipped. |
+| SPEC-074 | `anatomy-present-in-declared`       | error    | Every `presentIn` entry **MUST** match a state declared on the component, after state-name normalization (`focus`, `key-focus` and `keyboard-focus` are one state).                                                                          |
+| SPEC-075 | `visual-present-in-matches-anatomy` | error    | A recipe part's `visibleWhen.states` **MUST** agree with the `presentIn` of the anatomy part of the same name. Info when either lists more than one state, since `visibleWhen.states` means all and `presentIn` means any.                   |
+| SPEC-106 | `anatomy-part-component-valid`      | error    | An anatomy part's `component` **MUST** name a declared component that is not deprecated and is not the component itself.                                                                                                                     |
 
 ## Full example
 

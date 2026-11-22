@@ -9,6 +9,7 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/in-field-button/"
   },
+  "subcomponent": true,
   "anatomy": [
     {
       "name": "container",
