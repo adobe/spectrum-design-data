@@ -5,7 +5,8 @@
 
 Identity migration for opacity-checkerboard. It reaches level 2 (and its recipe selectors carry no
 `context`, so the status check also reads level 3). The legacy `@adobe/spectrum-tokens` output is
-byte-identical. Recipe snapshots and goldens pass unchanged; the standalone checkerboard render now draws its pattern.
+byte-identical. Recipe snapshots and goldens pass unchanged; the standalone checkerboard
+render now draws its pattern.
 
 - New anatomy parts `light-tile` and `dark-tile` (new registry terms) model the two alternating
   tiles; `square` keeps the size and now contains both. No tone option, no renamed terms.
