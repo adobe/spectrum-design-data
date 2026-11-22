@@ -317,6 +317,9 @@
       "between": {
         "from": "item",
         "to": "item"
+      },
+      "options": {
+        "hideTracker": true
       }
     },
     "context": "Spacing (between segmented control items)",
@@ -333,6 +336,9 @@
       "between": {
         "from": "item",
         "to": "item"
+      },
+      "options": {
+        "hideTracker": false
       }
     },
     "context": "Spacing (between segmented control items)",

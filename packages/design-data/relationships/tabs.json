@@ -282,10 +282,7 @@
     "scope": {
       "component": "tabs",
       "part": "selection-indicator",
-      "property": "spacing",
-      "options": {
-        "isSelected": true
-      }
+      "property": "spacing"
     },
     "context": "Spacing",
     "contextRole": ["spacing"],
@@ -296,10 +293,7 @@
     "scope": {
       "component": "tabs",
       "part": "selection-indicator",
-      "property": "spacing",
-      "options": {
-        "isSelected": true
-      }
+      "property": "spacing"
     },
     "context": "Spacing",
     "contextRole": ["spacing"],
@@ -322,7 +316,10 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true
+      }
     },
     "context": "Tab items and selection indicator",
     "contextRole": ["navigation", "control"],
@@ -333,7 +330,10 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true
+      }
     },
     "context": "Tab items and selection indicator",
     "contextRole": ["navigation", "control"],
@@ -344,7 +344,10 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true
+      }
     },
     "context": "Tab items and selection indicator",
     "contextRole": ["navigation", "control"],
@@ -355,7 +358,10 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": false
+      }
     },
     "context": "Tab items and selection indicator",
     "contextRole": ["navigation", "control"],
@@ -366,7 +372,10 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": false
+      }
     },
     "context": "Tab items and selection indicator",
     "contextRole": ["navigation", "control"],
@@ -377,7 +386,10 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": false
+      }
     },
     "context": "Tab items and selection indicator",
     "contextRole": ["navigation", "control"],

@@ -238,18 +238,6 @@
         "align": {
           "value": "center"
         },
-        "paddingInlineStart": {
-          "relationship": {
-            "property": "spacing",
-            "part": "tab-item"
-          }
-        },
-        "paddingInlineEnd": {
-          "relationship": {
-            "property": "spacing",
-            "part": "tab-item"
-          }
-        },
         "paddingBlockStart": [
           {
             "relationship": {

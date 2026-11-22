@@ -65,7 +65,17 @@
               "part": "container"
             }
           }
-        ]
+        ],
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "item",
+              "to": "item"
+            }
+          }
+        }
       }
     },
     "item": {
@@ -185,6 +195,40 @@
               "property": "color",
               "attribute": "border",
               "part": "selection-indicator"
+            }
+          }
+        ],
+        "paddingBlockStart": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "item",
+              "between": {
+                "from": "top-edge",
+                "to": "label"
+              }
+            }
+          }
+        ],
+        "paddingBlockEnd": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "item",
+              "between": {
+                "from": "label",
+                "to": "bottom-edge"
+              }
             }
           }
         ]

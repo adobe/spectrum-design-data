@@ -172,6 +172,51 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let opts = HashMap::from([("items".to_string(), items)]);
         out.push(("three-items", req(vec![], opts, "light", "desktop")));
     }
+    // Collections: selected, unselected and disabled items side by side, in each layout the
+    // recipe draws (tabs horizontal and vertical, segmented control with and without a track).
+    if name == "tabs" || name == "segmented-control" {
+        let items = serde_json::json!([
+            { "label": "Tab one", "isSelected": true },
+            { "label": "Tab two" },
+            { "label": "Tab three", "isDisabled": true }
+        ]);
+        let with = |extra: &[(&str, Value)]| -> HashMap<String, Value> {
+            let mut m = HashMap::from([("items".to_string(), items.clone())]);
+            m.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            m
+        };
+        out.push(("three-items", req(vec![], with(&[]), "light", "desktop")));
+        if name == "tabs" {
+            out.push((
+                "three-items-compact",
+                req(
+                    vec![],
+                    with(&[("density", "compact".into())]),
+                    "light",
+                    "desktop",
+                ),
+            ));
+            out.push((
+                "three-items-vertical",
+                req(
+                    vec![],
+                    with(&[("orientation", "vertical".into())]),
+                    "light",
+                    "desktop",
+                ),
+            ));
+        } else {
+            out.push((
+                "three-items-no-track",
+                req(
+                    vec![],
+                    with(&[("hideTracker", true.into())]),
+                    "dark",
+                    "mobile",
+                ),
+            ));
+        }
+    }
     // Progress bar: the fill is a share of the track and the value text a percentage, so the
     // defaults (no value) show an empty bar. These show a half-full bar and an indeterminate one.
     if name == "progress-bar" {
