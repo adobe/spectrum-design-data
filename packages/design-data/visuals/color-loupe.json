@@ -65,7 +65,6 @@
     },
     "opacity-checkerboard": {
       "kind": "component",
-      "component": "opacity-checkerboard",
       "visibleWhen": {
         "options": {
           "hasFill": true
