@@ -191,23 +191,113 @@
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "line-height"
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
-    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
-    "uuid": "6288e3c0-de76-531f-b5ca-6e653ff82473"
+    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3",
+    "uuid": "c64376c4-852f-5b87-82bb-1bb4e57b9ad2"
   },
   {
     "scope": {
       "component": "status-light",
       "part": "label",
-      "property": "line-height"
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
-    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
-    "uuid": "fa00d6d7-0fcb-57bd-bd94-32d6fa9220e6"
+    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b",
+    "uuid": "3587786c-d005-5fd9-bceb-d216325d0a0b"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd",
+    "uuid": "6df6a1c4-bd2e-54a2-931f-102f6f527bec"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "898fde6d-f477-46a6-8323-698dee558580",
+    "uuid": "665f2b4c-b0f1-551c-ac00-7461c1c0f7f7"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9",
+    "uuid": "b7ae9a9c-a223-5878-928c-f8922e493dbf"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3",
+    "uuid": "5bb22197-7f80-59c4-99e4-21a340613afb"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "52e64384-f918-4415-8d02-da3af639890f",
+    "uuid": "2bafc6a4-5f4d-5b7f-97ff-ba620d0a944f"
+  },
+  {
+    "scope": {
+      "component": "status-light",
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80",
+    "uuid": "95ad409a-07c5-5b2e-82ae-4044e36c8430"
   },
   {
     "scope": {

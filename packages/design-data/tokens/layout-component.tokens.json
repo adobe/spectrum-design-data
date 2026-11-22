@@ -3854,5 +3854,149 @@
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "anatomy": "field",
+      "scale": "desktop",
+      "scaleIndex": 75
+    },
+    "value": "192px",
+    "rationale": "Default field width by size scale, for the search field container. Same values as the deprecated field-default-width-* records.",
+    "uuid": "053da3a7-a0f8-4bf5-aa28-16ee7e8c4d68",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8d6ecfe0-f50e-47db-95db-1cd59e6fc59a",
+    "excludeFromLegacy": true
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "anatomy": "field",
+      "scale": "mobile",
+      "scaleIndex": 75
+    },
+    "value": "240px",
+    "rationale": "Default field width by size scale, for the search field container. Same values as the deprecated field-default-width-* records.",
+    "uuid": "6d7d1e9c-e136-426f-be98-0402b96dacbd",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "8d6ecfe0-f50e-47db-95db-1cd59e6fc59a",
+    "excludeFromLegacy": true
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "anatomy": "field",
+      "scale": "desktop",
+      "scaleIndex": 100
+    },
+    "value": "208px",
+    "rationale": "Default field width by size scale, for the search field container. Same values as the deprecated field-default-width-* records.",
+    "uuid": "3b62cbb9-c136-4cdb-958e-64648a19e633",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7d1a3226-6619-4412-8dc2-b0f282677685",
+    "excludeFromLegacy": true
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "anatomy": "field",
+      "scale": "mobile",
+      "scaleIndex": 100
+    },
+    "value": "256px",
+    "rationale": "Default field width by size scale, for the search field container. Same values as the deprecated field-default-width-* records.",
+    "uuid": "b8e998e4-6a5b-4a92-a8ba-49e345d5f785",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "7d1a3226-6619-4412-8dc2-b0f282677685",
+    "excludeFromLegacy": true
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "anatomy": "field",
+      "scale": "desktop",
+      "scaleIndex": 200
+    },
+    "value": "224px",
+    "rationale": "Default field width by size scale, for the search field container. Same values as the deprecated field-default-width-* records.",
+    "uuid": "4dd5493f-36d5-4d92-9fc8-875b3e738366",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "f5bdd548-b2da-4a80-8e98-b88cdff15cdc",
+    "excludeFromLegacy": true
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "anatomy": "field",
+      "scale": "mobile",
+      "scaleIndex": 200
+    },
+    "value": "272px",
+    "rationale": "Default field width by size scale, for the search field container. Same values as the deprecated field-default-width-* records.",
+    "uuid": "0155ecd7-1542-4e6b-a6aa-539355afa76c",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "f5bdd548-b2da-4a80-8e98-b88cdff15cdc",
+    "excludeFromLegacy": true
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "anatomy": "field",
+      "scale": "desktop",
+      "scaleIndex": 300
+    },
+    "value": "240px",
+    "rationale": "Default field width by size scale, for the search field container. Same values as the deprecated field-default-width-* records.",
+    "uuid": "61ba4dc9-8eb5-424e-86b3-a1cea51eda84",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "45e183f8-d311-47d1-8883-cf212cd0ef5e",
+    "excludeFromLegacy": true
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "name": {
+      "property": "width",
+      "anatomy": "field",
+      "scale": "mobile",
+      "scaleIndex": 300
+    },
+    "value": "288px",
+    "rationale": "Default field width by size scale, for the search field container. Same values as the deprecated field-default-width-* records.",
+    "uuid": "77312824-8aab-46de-97c9-6a003b0e3baf",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    },
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "45e183f8-d311-47d1-8883-cf212cd0ef5e",
+    "excludeFromLegacy": true
   }
 ]

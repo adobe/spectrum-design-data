@@ -2428,5 +2428,129 @@
       "replacedBy": "83b01fb3-ddcd-4421-8b28-5240a2a1ab54"
     },
     "rationale": "Deprecated via refine-from-sheets from row 364 of the mapping sheet."
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "minimum-height",
+      "options": { "size": "s" }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "uuid": "172475a5-4b1e-5f62-9ace-54609d379211"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "minimum-height",
+      "options": { "size": "s" }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
+    "uuid": "731d0578-e549-5e2f-baa5-693c4e129726"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "minimum-height",
+      "options": { "size": "m" }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "uuid": "4a66b504-2336-5b47-bdec-49058d01e265"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "minimum-height",
+      "options": { "size": "m" }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
+    "uuid": "456e9355-9403-5ecd-8ed9-a4cc87d2e758"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "minimum-height",
+      "options": { "size": "l" }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "uuid": "ef13ba82-b77f-56e5-8936-909e8fd796da"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "minimum-height",
+      "options": { "size": "l" }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
+    "uuid": "542055a4-ec07-51fb-9628-6b4a01419bb2"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "minimum-height",
+      "options": { "size": "xl" }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "uuid": "8da1fda3-37bb-51bb-bafc-e67f074c59ee"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "minimum-height",
+      "options": { "size": "xl" }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
+    "uuid": "de11a154-5068-52ca-b35d-521c563e264a"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "value" },
+      "options": { "size": "s" }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "c870dfbc-beb8-5076-872b-ad2d1452ae3f"
+  },
+  {
+    "scope": {
+      "component": "text-area",
+      "part": "field",
+      "property": "space-between",
+      "between": { "from": "value", "to": "bottom-edge" },
+      "options": { "size": "s" }
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to text",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "5a0fa2a4-e446-5661-b826-37571101d8cc"
   }
 ]

@@ -44,11 +44,6 @@
             "dimension": "width"
           },
           {
-            "when": {
-              "options": {
-                "size": "m"
-              }
-            },
             "relationship": {
               "property": "width",
               "part": "container"
