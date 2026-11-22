@@ -9,6 +9,32 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/bar-panel/"
   },
+  "options": {
+    "style": {
+      "type": "string",
+      "default": "primary",
+      "values": [{ "value": "primary" }, { "value": "secondary" }]
+    },
+    "density": {
+      "type": "string",
+      "default": "extra-spacious",
+      "values": [
+        { "value": "extra-compact" },
+        { "value": "compact" },
+        { "value": "regular" },
+        { "value": "spacious" },
+        { "value": "extra-spacious" }
+      ]
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical",
+      "values": [{ "value": "vertical" }, { "value": "horizontal" }]
+    },
+    "isFloating": { "type": "boolean", "default": false },
+    "hideDragHandle": { "type": "boolean", "default": false },
+    "hideDivider": { "type": "boolean", "default": false }
+  },
   "anatomy": [
     {
       "name": "container",
@@ -18,13 +44,15 @@
     },
     {
       "name": "drag-handle",
-      "description": "Grip that moves the bar (Figma Drag handle layer, S2_Gripper icon)."
+      "description": "Grip that moves the bar (Figma Drag handle layer, S2_Gripper icon).",
+      "presentWhen": { "options": { "hideDragHandle": false } }
     },
     { "name": "actions", "description": "Row or column of action buttons." },
     {
       "name": "divider",
       "component": "divider",
-      "description": "Line between groups of actions; horizontal or vertical by orientation."
+      "description": "Line between groups of actions; horizontal or vertical by orientation.",
+      "presentWhen": { "options": { "hideDivider": false } }
     }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
@@ -39,6 +67,6 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Owner decisions (A8, 2026-11-20): explicit root part container; the grip part is drag-handle (4 legacy records said gripper and moved to the new part name, legacy output unchanged). Figma S2 Web Bar panel and toolbar (9952:19120): Drag handle, action buttons, Divider, Slot. Style (primary, secondary), density (5 widths 44 to 72) and the floating shadow are options and styling, not parts; the legacy widths 40/56/72 do not match the Figma densities (gap bead). The registry entry wrongly called this a sub-part shared by color area and color wheel; fixed."
+    "notes": "Owner decisions (A8, 2026-11-20): explicit root part container; the grip part is drag-handle (4 legacy records said gripper and moved to the new part name, legacy output unchanged). Figma S2 Web Bar panel and toolbar (9952:19120): Drag handle, action buttons, Divider, Slot. Style (primary, secondary), density (5 widths 44 to 72) and the floating shadow are options and styling, not parts; the legacy widths 40/56/72 do not match the Figma densities (gap bead). The registry entry wrongly called this a sub-part shared by color area and color wheel; fixed. Recipe wave R1: declared the options style, density (extra-compact to extra-spacious), orientation, isFloating, hideDragHandle and hideDivider from the Figma properties (Style, Density, Orientation, Floating, Show drag handle, Show divider); presence of drag-handle and divider follows hideDragHandle and hideDivider."
   }
 }

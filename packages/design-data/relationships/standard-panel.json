@@ -18,7 +18,7 @@
       "part": "drag-handle",
       "property": "color",
       "options": {
-        "qualifier": "drag"
+        "type": "dragged"
       }
     },
     "context": "Gripper",
