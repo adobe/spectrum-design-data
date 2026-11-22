@@ -12,8 +12,9 @@
 //!
 //! Informational. Reports components that have relationship records but declare no
 //! anatomy, and components whose anatomy is still draft (`anatomyReview.status` is not
-//! `reviewed`). It is one diagnostic for the whole dataset, so the gap stays visible
-//! without adding a line per component. Never an error: anatomy is authored as recipes
+//! `reviewed`). Deprecated components (`lifecycle.deprecatedIn`) are skipped. It is one
+//! diagnostic for the whole dataset, so the gap stays visible without adding a line per
+//! component. Never an error: anatomy is authored as recipes
 //! are built (anatomy-format.md#review-checklist).
 
 use std::collections::BTreeSet;
@@ -54,6 +55,15 @@ impl ValidationRule for Rule {
         let mut missing: Vec<&String> = Vec::new();
         let mut draft: Vec<&String> = Vec::new();
         for comp in &ctx.graph.components {
+            let deprecated = comp
+                .raw
+                .get("lifecycle")
+                .and_then(|l| l.get("deprecatedIn"))
+                .and_then(Value::as_str)
+                .is_some();
+            if deprecated {
+                continue;
+            }
             let has_anatomy = comp
                 .raw
                 .get("anatomy")
@@ -165,6 +175,18 @@ mod tests {
             d[0].message,
             "Components without reviewed anatomy: 1 with relationships but no anatomy (accordion); 1 with draft anatomy (switch)"
         );
+    }
+
+    #[test]
+    fn skips_deprecated_components() {
+        let d = run(
+            vec![
+                json!({"name": "old", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
+                json!({"name": "older", "anatomy": [{"name": "x"}], "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
+            ],
+            &["old"],
+        );
+        assert!(d.is_empty());
     }
 
     #[test]

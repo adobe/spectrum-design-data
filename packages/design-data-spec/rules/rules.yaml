@@ -931,7 +931,7 @@ rules:
     category: component
     note: >
       One diagnostic for the whole dataset, so the gap stays visible without a line per
-      component. Never an error: anatomy is authored as recipes are built. A component with
+      component. Skips deprecated components (`lifecycle.deprecatedIn`). Never an error: anatomy is authored as recipes are built. A component with
       anatomy and no `anatomyReview` counts as draft.
     assert: >
       A component that has relationship records SHOULD declare anatomy, and a component's
