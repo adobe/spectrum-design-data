@@ -657,6 +657,7 @@ impl Ctx<'_> {
         recipe: &Value,
         options: &Map<String, Value>,
         states: Vec<String>,
+        slot_parts: &[&str],
     ) -> miette::Result<Value> {
         let mut options = options.clone();
         self.default_repeat_items(recipe, &mut options);
@@ -668,6 +669,7 @@ impl Ctx<'_> {
             self.size,
             (BLOCK_W, BLOCK_H),
             (BLOCK_W - MARGIN_X, BLOCK_H - MARGIN_Y),
+            slot_parts,
         )
     }
 
@@ -731,6 +733,7 @@ impl Ctx<'_> {
     }
 
     /// Renders into a `bx` box, fitting the scene into `fit` (the box less the room for marks).
+    #[allow(clippy::too_many_arguments)]
     fn render_in(
         &self,
         recipe: &Value,
@@ -739,7 +742,40 @@ impl Ctx<'_> {
         size: &str,
         bx: (f64, f64),
         fit: (f64, f64),
+        slot_parts: &[&str],
     ) -> miette::Result<Value> {
+        // A highlighted slot part is shown occupied: its slot gets one fill of the first
+        // accepted component, because an empty slot draws no part to mark.
+        let slots = self
+            .graph
+            .components
+            .iter()
+            .find(|c| c.name == self.component)
+            .and_then(|c| c.raw.get("slots")?.as_array())
+            .into_iter()
+            .flatten()
+            .filter(|sl| {
+                sl.get("part")
+                    .and_then(Value::as_str)
+                    .is_some_and(|p| slot_parts.contains(&p))
+            })
+            .filter_map(|sl| {
+                let name = sl.get("name")?.as_str()?.to_string();
+                let first = sl
+                    .get("accepts")?
+                    .as_array()?
+                    .first()?
+                    .as_str()?
+                    .to_string();
+                Some((
+                    name,
+                    vec![visual::SlotFill {
+                        component: first,
+                        ..Default::default()
+                    }],
+                ))
+            })
+            .collect();
         let req = RenderRequest {
             component: self.component.to_string(),
             size: size.to_string(),
@@ -757,6 +793,7 @@ impl Ctx<'_> {
             icon: None,
             text_metrics: self.text_metrics.cloned(),
             width: None,
+            slots,
         };
         let scene = visual::build_scene_cached(self.graph, recipe, &req, &self.scenes)
             .map_err(|e| miette::miette!(e))?;
@@ -837,6 +874,7 @@ impl Ctx<'_> {
                 self.size,
                 (SPECIMEN_W, SPECIMEN_H),
                 (SPECIMEN_W - 32.0, SPECIMEN_H - 32.0),
+                &[],
             )?;
             out.push(json!({
                 "kind": "gallery", "id": "anatomy--specimen", "section": "anatomy",
@@ -865,6 +903,7 @@ impl Ctx<'_> {
                             size.as_str().unwrap_or(self.size),
                             (CELL_W, CELL_H),
                             (CELL_W - 16.0, CELL_H - 16.0),
+                            &[],
                         )?;
                         let title = format!(
                             "{}, {}, {}",
@@ -1149,7 +1188,17 @@ impl Ctx<'_> {
                             options.entry(k).or_insert(v);
                         }
                     }
-                    self.render(recipe, &options, states)?
+                    let slot_parts: Vec<&str> = pairs
+                        .iter()
+                        .filter(|(p, _)| {
+                            recipe
+                                .pointer(&format!("/parts/{p}/kind"))
+                                .and_then(Value::as_str)
+                                == Some("slot")
+                        })
+                        .map(|(p, _)| *p)
+                        .collect();
+                    self.render(recipe, &options, states, &slot_parts)?
                 }
                 None => Value::Null,
             };

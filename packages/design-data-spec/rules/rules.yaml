@@ -1470,3 +1470,22 @@ rules:
     message: "scope.part {part} is not the repeated part of a collection slot of '{component}' or a part inside it"
     spec_ref: spec/relationship-format.md#derived-item-position
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-108
+    name: visual-slot-part-valid
+    severity: error
+    layer: 2
+    category: component-contract
+    note: >
+      A recipe part of kind `slot` draws the components a render request puts in one slot of the
+      component. The compiler embeds the recipe of every accepted component, so the slot has to
+      list them.
+    assert: >
+      A `slot` part MUST be the `part` of exactly one non-collection slot of the component, and
+      that slot MUST declare `accepts`. Every accepted component MUST be declared, have a recipe
+      and not nest the host. The part's `with` options MUST be options of at least one accepted
+      component and valid for every one that declares them, `sizeMap` MUST cover every host size
+      and map into each accepted recipe's `sizeScale`, and the part MUST sit in a row box.
+    message: "Slot part '{part}' of '{component}': {problem}"
+    spec_ref: spec/component-visuals.md#slot-parts
+    introduced_in: "1.0.0-draft"

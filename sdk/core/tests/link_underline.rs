@@ -56,6 +56,7 @@ fn scene_with(overflow: &str, label: &str, width: f64, extra: Value) -> Scene {
         label: label.into(),
         icon: None,
         text_metrics: None,
+        slots: Default::default(),
         width: Some(width),
     };
     build_scene(&graph, &recipe, &req).expect("scene")

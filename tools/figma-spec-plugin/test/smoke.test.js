@@ -365,15 +365,15 @@ test("measurements of nested parts, the focus ring and the press ratio are drawn
 
 test("a nested recipe's namespaced parts are drawn as layers named by their part", async (t) => {
   const sheet = generate("accordion");
-  // The repeated item's copies are numbered: accordion-item-1.action-button.icon.
+  // The repeated item's copies are numbered: accordion-item-1.actions-1.icon (the slot's first fill).
   const block = sheet.pages
     .flatMap((p) => p.blocks)
     .find((b) =>
-      b.render?.scene?.nodes.some((n) => /(^|\.)action-button$/.test(n.part)),
+      b.render?.scene?.nodes.some((n) => /(^|\.)actions-1$/.test(n.part)),
     );
-  t.truthy(block, "an accordion block with the nested action button");
+  t.truthy(block, "an accordion block with the slot fill");
   const parts = block.render.scene.nodes.map((n) => n.part);
-  for (const part of ["action-button.icon", "switch", "switch.track"])
+  for (const part of ["actions-1.icon"])
     t.true(
       parts.some((p) => p === part || p.endsWith("." + part)),
       part,
@@ -381,11 +381,9 @@ test("a nested recipe's namespaced parts are drawn as layers named by their part
   const { figma, page, messages } = mock();
   await figma.ui.onmessage({ type: "render-sheet", sheet, pages: ["Layout"] });
   t.truthy(messages.find((m) => m.type === "render-complete"));
-  const layers = page.findAll((n) =>
-    /(^|\.)(action-button|switch)\b/.test(n.name),
-  );
+  const layers = page.findAll((n) => /(^|\.)actions-1\b/.test(n.name));
   const names = layers.map((n) => n.name);
-  for (const part of ["action-button", "action-button.icon", "switch.track"])
+  for (const part of ["actions-1", "actions-1.icon"])
     t.true(
       names.some((n) => n === part || n.endsWith("." + part)),
       `${part} in ${names.join("|")}`,

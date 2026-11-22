@@ -301,6 +301,9 @@ enum Commands {
         /// Content icon: SET:NAME (e.g. workflow:edit) replaces it, `none` hides an optional one
         #[arg(long, value_name = "SET:NAME|none")]
         icon: Option<visual::IconOverride>,
+        /// Slot fills as JSON: {"<slot>": [{"component": "switch", "options": {}}]}, drawn by the recipe's slot parts
+        #[arg(long, value_name = "JSON", conflicts_with = "batch")]
+        slots: Option<String>,
         /// Directory containing visual recipes (default: sibling `visuals/` of the tokens root)
         #[arg(long, value_name = "DIR")]
         visuals_path: Option<PathBuf>,
@@ -1702,6 +1705,7 @@ fn run_render(
     label: String,
     width: Option<f64>,
     icon: Option<visual::IconOverride>,
+    slots: Option<String>,
     visuals_path: Option<PathBuf>,
     path: Option<PathBuf>,
     format: String,
@@ -1777,6 +1781,12 @@ fn run_render(
         let val = serde_json::from_str(v).unwrap_or_else(|_| serde_json::Value::String(v.into()));
         opts.insert(k.to_string(), val);
     }
+    let slots = match slots {
+        Some(j) => serde_json::from_str(&j).into_diagnostic().wrap_err(
+            "--slots expects JSON: {\"<slot>\": [{\"component\": \"<name>\", \"options\": {}}]}",
+        )?,
+        None => HashMap::new(),
+    };
     let req = visual::RenderRequest {
         component,
         size,
@@ -1790,6 +1800,7 @@ fn run_render(
         icon,
         text_metrics,
         width,
+        slots,
     };
     let scene = visual::build_scene(&graph, recipe, &req).map_err(|e| miette::miette!(e))?;
     let exit = if strict && !scene.diagnostics.is_empty() {
@@ -5365,6 +5376,7 @@ fn main() -> ExitCode {
             label,
             width,
             icon,
+            slots,
             visuals_path,
             path,
             format,
@@ -5385,6 +5397,7 @@ fn main() -> ExitCode {
             label,
             width,
             icon,
+            slots,
             visuals_path,
             path,
             format,

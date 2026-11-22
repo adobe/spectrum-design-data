@@ -116,6 +116,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             label: "Label".into(),
             icon: None,
             text_metrics: None,
+            slots: Default::default(),
             width: None,
         }
     };
@@ -150,11 +151,18 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     // The item with its trailing action button and switch (nested recipes), at the default
     // size: the case the M size Figma measurements are compared with.
     if name == "accordion" {
-        let on = ["hasActionButton", "hasSwitch"]
-            .iter()
-            .map(|o| (o.to_string(), Value::Bool(true)))
-            .collect();
-        out.push(("direct-actions", req(vec![], on, "light", "desktop")));
+        let mut r = req(vec![], HashMap::new(), "light", "desktop");
+        r.slots = HashMap::from([(
+            "actions".to_string(),
+            ["action-button", "switch"]
+                .iter()
+                .map(|c| design_data_core::visual::SlotFill {
+                    component: c.to_string(),
+                    ..Default::default()
+                })
+                .collect(),
+        )]);
+        out.push(("direct-actions", r));
         // The container: three items, the first open, drawn as one stack.
         let items = serde_json::json!([
             { "label": "Title 1", "isExpanded": true },

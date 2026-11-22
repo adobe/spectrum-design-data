@@ -71,16 +71,6 @@
       "type": "string",
       "description": "The text shown in the content area of the rendered accordion item while it is expanded. Per-item in a data-driven accordion is items[].content."
     },
-    "hasActionButton": {
-      "type": "boolean",
-      "default": false,
-      "description": "Whether the rendered accordion item shows an icon-only action button on its trailing edge. Per-item in a data-driven accordion is items[].hasActionButton."
-    },
-    "hasSwitch": {
-      "type": "boolean",
-      "default": false,
-      "description": "Whether the rendered accordion item shows a switch on its trailing edge. Per-item in a data-driven accordion is items[].hasSwitch."
-    },
     "density": {
       "type": "string",
       "default": "regular",
@@ -108,16 +98,6 @@
             "type": "boolean",
             "default": false,
             "description": "Whether the accordion item is expanded by default."
-          },
-          "hasSwitch": {
-            "type": "boolean",
-            "default": false,
-            "description": "If true, the accordion item includes a switch."
-          },
-          "hasActionButton": {
-            "type": "boolean",
-            "default": false,
-            "description": "If true, the accordion item includes an action button."
           }
         },
         "required": ["label"]
@@ -187,20 +167,7 @@
     },
     {
       "name": "actions",
-      "description": "Row on the trailing edge of the header that holds the optional action button and switch. Absent when neither is shown.",
-      "contains": ["action-button", "switch"]
-    },
-    {
-      "name": "action-button",
-      "presentWhen": { "options": { "hasActionButton": true } },
-      "component": "action-button",
-      "description": "Icon-only action button (the action-button component) in the actions. Shown when hasActionButton is on."
-    },
-    {
-      "name": "switch",
-      "presentWhen": { "options": { "hasSwitch": true } },
-      "component": "switch",
-      "description": "Switch (the switch component) in the actions. Shown when hasSwitch is on."
+      "description": "Row on the trailing edge of the header that holds the direct actions, the components a request puts in the actions slot. Absent when the slot has no fills."
     },
     {
       "name": "content",

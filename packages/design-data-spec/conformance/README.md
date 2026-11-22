@@ -56,6 +56,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-105` | SPEC-105 | A `type-style` record whose `$ref` is not a typography composite, a typography `$ref` without that property, an undeclared size pin, or a composite size the component does not declare (warning). |
 | `invalid/SPEC-106` | SPEC-106 | An anatomy part whose `component` names an undeclared component, a deprecated component, or the component itself.                                                                                  |
 | `invalid/SPEC-107` | SPEC-107 | A relationship whose `scope.itemPosition` is on a part that is not the repeated part of a collection slot (or inside it), has no part, or is not first, middle, last or only.                      |
+| `invalid/SPEC-108` | SPEC-108 | A `slot` recipe part that is not the part of a non-collection slot, whose slot declares no `accepts`, or whose `with` or `sizeMap` is invalid for an accepted component.                           |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 

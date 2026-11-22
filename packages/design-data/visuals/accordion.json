@@ -14,9 +14,7 @@
         "label": "label",
         "with": {
           "content": "content",
-          "isOpen": "isExpanded",
-          "hasSwitch": "hasSwitch",
-          "hasActionButton": "hasActionButton"
+          "isOpen": "isExpanded"
         }
       },
       "props": {
@@ -114,8 +112,13 @@
       }
     },
     "actions": {
-      "kind": "box",
-      "children": ["action-button", "switch"],
+      "kind": "slot",
+      "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
+      "with": {
+        "hideLabel": true,
+        "hasHoldIcon": true,
+        "isDisabled": { "option": "isDisabled" }
+      },
       "props": {
         "direction": { "value": "row" },
         "align": { "value": "center" },
@@ -126,30 +129,6 @@
           }
         }
       }
-    },
-    "action-button": {
-      "kind": "component",
-      "sizeMap": {
-        "s": "s",
-        "m": "m",
-        "l": "l",
-        "xl": "xl"
-      },
-      "with": {
-        "hideLabel": true,
-        "hasHoldIcon": true,
-        "isDisabled": { "option": "isDisabled" }
-      }
-    },
-    "switch": {
-      "kind": "component",
-      "sizeMap": {
-        "s": "s",
-        "m": "m",
-        "l": "l",
-        "xl": "xl"
-      },
-      "with": { "hideLabel": true, "isDisabled": { "option": "isDisabled" } }
     },
     "disclosure-icon": {
       "kind": "icon",
