@@ -25,13 +25,13 @@
         },
         "width": {
           "relationship": {
-            "property": "component-height-{sizeIndex}",
+            "property": "height",
             "context": "Button size"
           }
         },
         "height": {
           "relationship": {
-            "property": "component-height-{sizeIndex}",
+            "property": "height",
             "context": "Button size"
           }
         },
@@ -62,7 +62,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background (static white)"
+              "context": "Background"
             }
           },
           {
@@ -75,7 +75,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background (static black)"
+              "context": "Background"
             }
           },
           {
@@ -100,7 +100,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background (static white)"
+              "context": "Background"
             }
           },
           {
@@ -113,7 +113,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background (static black)"
+              "context": "Background"
             }
           },
           {
@@ -138,7 +138,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background (static white)"
+              "context": "Background"
             }
           },
           {
@@ -151,7 +151,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background (static black)"
+              "context": "Background"
             }
           }
         ],
@@ -298,7 +298,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Cross icon (static white)"
+              "context": "Cross icon"
             }
           },
           {
@@ -309,7 +309,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Cross icon (static black)"
+              "context": "Cross icon"
             }
           }
         ]
@@ -336,7 +336,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Focus ring (static white)"
+              "context": "Focus ring"
             }
           },
           {
@@ -347,7 +347,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Focus ring (static black)"
+              "context": "Focus ring"
             }
           }
         ],

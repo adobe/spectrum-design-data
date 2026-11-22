@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Button size",
     "contextRole": ["size"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Button size",
     "contextRole": ["size"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Button size",
     "contextRole": ["size"],
@@ -32,7 +44,11 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Button size",
     "contextRole": ["size"],
@@ -42,7 +58,11 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Button size",
     "contextRole": ["size"],
@@ -52,7 +72,11 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Button size",
     "contextRole": ["size"],
@@ -62,7 +86,11 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Button size",
     "contextRole": ["size"],
@@ -72,7 +100,11 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Button size",
     "contextRole": ["size"],
@@ -82,6 +114,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "container",
       "property": "component-size-difference"
     },
     "context": "Button size (down)",
@@ -93,6 +126,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "container",
       "property": "component-size-width-ratio"
     },
     "context": "Button size (down)",
@@ -104,6 +138,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "container",
       "property": "component-size-minimum-perspective"
     },
     "context": "Button size (down)",
@@ -115,6 +150,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "size",
       "options": {
         "size": "s"
@@ -128,6 +164,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "size",
       "options": {
         "size": "s"
@@ -141,6 +178,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "size",
       "options": {
         "size": "m"
@@ -154,6 +192,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "size",
       "options": {
         "size": "m"
@@ -167,6 +206,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "size",
       "options": {
         "size": "l"
@@ -180,6 +220,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "size",
       "options": {
         "size": "l"
@@ -193,6 +234,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "size",
       "options": {
         "size": "xl"
@@ -206,6 +248,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "size",
       "options": {
         "size": "xl"
@@ -219,6 +262,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus ring",
@@ -229,6 +273,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus ring",
@@ -239,6 +284,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Cross icon",
@@ -249,6 +295,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Cross icon",
@@ -259,6 +306,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Cross icon",
@@ -269,6 +317,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Cross icon",
@@ -279,6 +328,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Cross icon",
@@ -289,6 +339,7 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -299,7 +350,9 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -309,7 +362,9 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -319,7 +374,9 @@
   {
     "scope": {
       "component": "close-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -329,204 +386,206 @@
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "white"
       }
     },
-    "context": "Cross icon (static white)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static white",
     "$ref": "b85836bf-af47-412a-900a-4ec5ad0733b2",
     "uuid": "ced19328-9b74-5b20-9992-e73de05418f7"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "white",
         "state": ["hover"]
       }
     },
-    "context": "Cross icon (static white)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static white",
     "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
     "uuid": "5ff0314e-f175-5278-b02b-9a2e93cecec0"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "white",
         "state": ["down"]
       }
     },
-    "context": "Cross icon (static white)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static white",
     "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
     "uuid": "76e1ce17-eafa-53bc-bc7b-c2d179b34748"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "white",
         "state": ["keyboard-focus"]
       }
     },
-    "context": "Cross icon (static white)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static white",
     "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
     "uuid": "ab7d7503-46f5-5c66-a724-9989d1e2c578"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "white",
         "isDisabled": true
       }
     },
-    "context": "Cross icon (static white)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static white",
     "$ref": "12e610d4-e3dc-4e86-9c09-09d86915b6f1",
     "uuid": "d851324a-bee9-5a2e-a2d5-230bb5232c66"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "focus-indicator",
       "property": "color",
       "options": {
         "staticColor": "white"
       }
     },
-    "context": "Focus ring (static white)",
+    "context": "Focus ring",
     "contextRole": ["focus"],
-    "contextQualifier": "static white",
     "$ref": "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13",
     "uuid": "19387326-4852-5af7-a3ca-1434c58d55ce"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "staticColor": "white"
       }
     },
-    "context": "Background (static white)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "static white",
     "$ref": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb",
     "uuid": "b4213fe6-f8f9-5446-83c2-7054df5e67b0"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "black"
       }
     },
-    "context": "Cross icon (static black)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static black",
     "$ref": "3e89f180-b0f0-4de0-904b-c80f0210a361",
     "uuid": "3e127d7a-7c30-5fca-8cb5-6193195ba9e6"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "black",
         "state": ["hover"]
       }
     },
-    "context": "Cross icon (static black)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static black",
     "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
     "uuid": "badba104-1791-571f-8f59-ab7f86809d49"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "black",
         "state": ["down"]
       }
     },
-    "context": "Cross icon (static black)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static black",
     "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
     "uuid": "3a3a1e3a-9a46-5afd-9fce-9adee7e9b418"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "black",
         "state": ["keyboard-focus"]
       }
     },
-    "context": "Cross icon (static black)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static black",
     "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
     "uuid": "1712e73a-fab6-53e1-9d45-b4dadb0e3b66"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "staticColor": "black",
         "isDisabled": true
       }
     },
-    "context": "Cross icon (static black)",
+    "context": "Cross icon",
     "contextRole": ["icon"],
-    "contextQualifier": "static black",
     "$ref": "b769453b-586c-4dd2-b3a1-ddf5964160bc",
     "uuid": "ea9a8a5e-298a-5dbe-b4bb-e0a870585c5b"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "focus-indicator",
       "property": "color",
       "options": {
         "staticColor": "black"
       }
     },
-    "context": "Focus ring (static black)",
+    "context": "Focus ring",
     "contextRole": ["focus"],
-    "contextQualifier": "static black",
     "$ref": "c6b8275b-f44e-43b4-b763-82dda94d963c",
     "uuid": "2963d529-0938-5092-9eb6-e9a0cbc3f1b4"
   },
   {
     "scope": {
       "component": "close-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "staticColor": "black"
       }
     },
-    "context": "Background (static black)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "static black",
     "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
     "uuid": "df2cf738-5a42-5946-a101-9180e1d9fb5e"
   }

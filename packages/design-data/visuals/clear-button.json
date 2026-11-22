@@ -25,13 +25,13 @@
         },
         "width": {
           "relationship": {
-            "property": "component-height-{sizeIndex}",
+            "property": "height",
             "context": "Button size"
           }
         },
         "height": {
           "relationship": {
-            "property": "component-height-{sizeIndex}",
+            "property": "height",
             "context": "Button size"
           }
         },

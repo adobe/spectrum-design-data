@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "size",
       "options": {
         "size": "s"
@@ -15,6 +16,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "size",
       "options": {
         "size": "s"
@@ -28,6 +30,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "size",
       "options": {
         "size": "m"
@@ -41,6 +44,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "size",
       "options": {
         "size": "m"
@@ -54,6 +58,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "size",
       "options": {
         "size": "l"
@@ -67,6 +72,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "size",
       "options": {
         "size": "l"
@@ -80,6 +86,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "size",
       "options": {
         "size": "xl"
@@ -93,6 +100,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "size",
       "options": {
         "size": "xl"
@@ -106,6 +114,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "color"
     },
     "context": "Track and fill",
@@ -116,6 +125,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "color"
     },
     "context": "Track and fill",
@@ -126,6 +136,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "color"
     },
     "context": "Track and fill",
@@ -136,6 +147,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "fill",
       "property": "content-color"
     },
     "context": "Track and fill",
@@ -146,6 +158,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "color",
       "options": {
         "staticColor": "white"
@@ -159,6 +172,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "staticColor": "white"
@@ -172,6 +186,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "color",
       "options": {
         "staticColor": "black"
@@ -185,6 +200,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "staticColor": "black"
@@ -198,6 +214,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "thickness",
       "options": {
         "size": ["s", "m", "l", "xl"]
@@ -210,6 +227,7 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "thickness",
       "options": {
         "size": ["s", "m", "l", "xl"]
