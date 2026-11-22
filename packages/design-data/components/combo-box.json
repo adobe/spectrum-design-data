@@ -188,6 +188,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
     {
@@ -227,15 +228,18 @@
     },
     {
       "name": "in-field-progress-circle",
+      "component": "in-field-progress-circle",
       "description": "Progress circle shown in the field while options load."
     },
     {
       "name": "in-field-button",
+      "component": "in-field-button",
       "description": "Square chevron button with its own background at the end of the field that opens the menu.",
       "required": true
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Description or error message shown below the field."
     },
     {

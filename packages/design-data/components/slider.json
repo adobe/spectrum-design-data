@@ -234,6 +234,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Text label that names the slider, above or beside the control."
     },
     {
@@ -262,6 +263,7 @@
     },
     {
       "name": "number-field",
+      "component": "number-field",
       "description": "Editable value: a number-field component with hideStepper. Drawn when isEditable is true."
     },
     {

@@ -130,6 +130,7 @@
     },
     {
       "name": "checkbox",
+      "component": "checkbox",
       "description": "Checkbox shown when enabled."
     },
     {

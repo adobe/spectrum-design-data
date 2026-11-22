@@ -50,7 +50,6 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | Field         | Type             | Description                                                                                                                                                                                                                                                                |
 | ------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `kind`        | enum             | `box`, `text`, `icon`, `ring`, `progress`, `component`. `ring` is an outline drawn outside the parent box (focus indicator). `component` embeds another component's recipe (see [Nested recipes](#nested-recipes)).                                                        |
-| `component`   | string           | For a `component` part (REQUIRED there, not allowed on other kinds): the component whose recipe is drawn. SPEC-089.                                                                                                                                                        |
 | `sizeMap`     | object           | For a `component` part (REQUIRED there): maps each size of the recipe's `sizeScale` to a size of the nested recipe's `sizeScale`.                                                                                                                                          |
 | `inherit`     | array of strings | For a `component` part (not allowed on other kinds): which of the host root's values the nested root takes, from `width`, `height`, `cornerRadius`. See [Nested recipes](#nested-recipes).                                                                                 |
 | `with`        | object           | For a `component` part: options of the nested component, each a literal or `{"option": "<host option>"}`.                                                                                                                                                                  |
@@ -131,12 +130,11 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 
 ### Nested recipes
 
-A part of kind `component` draws another component's recipe inside this one, for example an icon-only action button and a switch in an accordion item's header:
+A part of kind `component` draws another component's recipe inside this one. The recipe part names no component: it reads it from the host's anatomy part of the same key, whose `component` field names the component to draw ([Anatomy format: Another component as a part](anatomy-format.md#another-component-as-a-part)). A recipe part with a `component` property is a Layer 1 error, and a `component` part whose anatomy part has no `component` is a SPEC-089 error. For example an icon-only action button and a switch in an accordion item's header:
 
 ```json
 "action": {
   "kind": "component",
-  "component": "action-button",
   "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
   "with": { "hideLabel": true, "isDisabled": { "option": "isDisabled" } }
 }
@@ -306,7 +304,7 @@ The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot re
 | SPEC-085 | Error. An `icon` part's `set` and `name` exist in the `icons/` catalog. Runs when the catalog is loaded (`--icons-path`, or the probed `packages/design-data/icons`)                                                                                                                                                                                                                                            |   |
 | SPEC-086 | Warning. Over the request grid, every `ui` icon has a drawing at the scale its size binding gives (see [Icons](#icons)), so the renderer does not fall back to the nearest size                                                                                                                                                                                                                                 |   |
 | SPEC-087 | Warning. For every size and scale, the token a `derived` context gives equals the value of its formula over the solved scene (see [Derived contexts](#derived-contexts))                                                                                                                                                                                                                                        |   |
-| SPEC-089 | Error. A `component` part names a declared component with a recipe; its `with` options and `sizeMap` are valid; no cycle, at most two levels; it sits in the root's flow or a row box (see [Nested recipes](#nested-recipes))                                                                                                                                                                                   |   |
+| SPEC-089 | Error. A `component` part's anatomy part names (through `component`) a declared component with a recipe; its `with` options and `sizeMap` are valid; no cycle, at most two levels; it sits in the root's flow or a row box (see [Nested recipes](#nested-recipes))                                                                                                                                              |   |
 
 SPEC-066 to SPEC-070 are warnings, so `validate` stays green while recipes are migrated. A ratchet keeps the debt from growing: `sdk/core/tests/recipe_lint_baseline.rs` compares each (rule, recipe) warning count with `sdk/core/tests/fixtures/recipe-lint-baseline.json`. A new warning fails the test, an improvement must lower the baseline, and a recipe that is not in the baseline must have none.
 

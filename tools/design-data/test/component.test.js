@@ -144,3 +144,11 @@ test("fallback ignores docs-text-only matches", (t) => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("a sub-component is marked and lists its derived hosts", (t) => {
+  const [first] = searchComponents(DIR, "in-field button");
+  t.is(first.id, "in-field-button");
+  t.true(first.subcomponent);
+  t.true(first.usedIn.includes("combo-box"));
+  t.is(searchComponents(DIR, "button")[0].subcomponent, undefined);
+});

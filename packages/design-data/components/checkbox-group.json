@@ -125,6 +125,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Label above or beside the options. Names the group."
     },
     {
@@ -134,6 +135,7 @@
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Description or error message under the options."
     }
   ],

@@ -105,6 +105,7 @@
     { "name": "description", "description": "Description text." },
     {
       "name": "button",
+      "component": "button",
       "description": "Button for choosing a file; shown with actionLabel."
     },
     {

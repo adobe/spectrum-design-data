@@ -55,6 +55,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-103` | SPEC-103 | An explicit `tokenTier` differs from the derived tier (info).                                                                                                                                      |
 | `invalid/SPEC-104` | SPEC-104 | A slot names an undeclared part or component, a collection that is not an array option, inverted counts, or a name that is neither `default` nor its part.                                         |
 | `invalid/SPEC-105` | SPEC-105 | A `type-style` record whose `$ref` is not a typography composite, a typography `$ref` without that property, an undeclared size pin, or a composite size the component does not declare (warning). |
+| `invalid/SPEC-106` | SPEC-106 | An anatomy part whose `component` names an undeclared component, a deprecated component, or the component itself.                                                                                  |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 

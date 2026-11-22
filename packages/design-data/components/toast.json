@@ -125,10 +125,12 @@
     },
     {
       "name": "button",
+      "component": "button",
       "description": "Optional action button, shown with actionLabel."
     },
     {
       "name": "close-button",
+      "component": "close-button",
       "description": "Button that dismisses the toast; always drawn.",
       "required": true
     }

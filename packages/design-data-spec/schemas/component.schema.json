@@ -44,6 +44,11 @@
       },
       "description": "Known platform implementations of this component. Foundation data carries canonical default mappings; a platform manifest refines its own rows through extensions/implementations/. See spec/component-format.md#implementations."
     },
+    "subcomponent": {
+      "type": "boolean",
+      "default": false,
+      "description": "True when the component exists only inside another component and has no stand-alone use. The hosts are derived from the anatomy parts and recipes that name it, never stored. See spec/component-format.md#sub-components."
+    },
     "options": {
       "$ref": "#/$defs/optionsMap"
     },
@@ -372,6 +377,11 @@
           "items": { "type": "string" },
           "uniqueItems": true,
           "description": "Declared component states in which this part is present; drawn when any is active. Absent means any state. Not for state-dependent styling."
+        },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Another component this part is (for example a progress circle in a button): the part is that component drawn inside this one. Names a declared, non-deprecated component other than the host (SPEC-106). A recipe `component` part reads it from here."
         },
         "contains": {
           "type": "array",

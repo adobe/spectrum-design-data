@@ -683,6 +683,26 @@ struct CompileCx<'a> {
 /// How many levels of `component` parts a recipe may nest (host, nested, nested in nested).
 pub const MAX_NEST_DEPTH: usize = 2;
 
+/// The component a recipe `component` part draws: the `component` of the host's anatomy part
+/// of the same name (spec/anatomy-format.md, Another component as a part).
+pub(crate) fn part_component<'a>(graph: &'a TokenGraph, host: &str, part: &str) -> Option<&'a str> {
+    [graph.canonical_component(host), host]
+        .into_iter()
+        .find_map(|name| {
+            graph
+                .components
+                .iter()
+                .find(|c| c.name == name)?
+                .raw
+                .get("anatomy")?
+                .as_array()?
+                .iter()
+                .find(|p| p.get("name").and_then(Value::as_str) == Some(part))?
+                .get("component")?
+                .as_str()
+        })
+}
+
 /// Solve-time context: picks among compiled candidates for one request.
 struct Ctx<'a> {
     req: &'a RenderRequest,
@@ -1506,7 +1526,18 @@ impl<'a> CompileCx<'a> {
                 rep.insert("option".into(), o.into());
             }
             if part.get("kind").and_then(Value::as_str) == Some("component") {
-                let (nested, size) = self.compile_nested(id, part)?;
+                let name = part_component(self.graph, &self.req.component, id)
+                    .ok_or_else(|| {
+                        format!(
+                            "component part '{id}' has no anatomy part '{id}' with a `component` in '{}'",
+                            self.req.component
+                        )
+                    })?
+                    .to_string();
+                // The compiled part keeps carrying the component so readers of the compiled
+                // form (the solver, the slim WASM engine) are unchanged.
+                part["component"] = Value::String(name.clone());
+                let (nested, size) = self.compile_nested(id, &name, part)?;
                 part["nested"] = nested;
                 part["nestedSize"] = Value::String(size);
             }
@@ -1539,11 +1570,12 @@ impl<'a> CompileCx<'a> {
 
     /// The compiled variant of a `component` part's recipe, for this host size and mode, and
     /// the nested size `sizeMap` chose. The recipe resolves through the platform alias.
-    fn compile_nested(&self, id: &str, part: &Value) -> Result<(Value, String), String> {
-        let name = part
-            .get("component")
-            .and_then(Value::as_str)
-            .ok_or_else(|| format!("component part '{id}' names no component"))?;
+    fn compile_nested(
+        &self,
+        id: &str,
+        name: &str,
+        part: &Value,
+    ) -> Result<(Value, String), String> {
         let canonical = self.graph.canonical_component(name).to_string();
         if self.stack.contains(&canonical) {
             return Err(format!(
@@ -8478,12 +8510,34 @@ mod tests {
         assert!(svg.contains(&want), "{svg}");
     }
 
+    /// The graph with an anatomy part per `component` part of `recipe` on `host`, as the data
+    /// carries it (a test recipe keeps `component` inline for readability; the engine ignores it).
+    fn link_nested(mut g: TokenGraph, host: &str, recipe: &Value) -> TokenGraph {
+        let linked: Vec<(String, String)> = recipe["parts"]
+            .as_object()
+            .into_iter()
+            .flatten()
+            .filter(|(_, p)| p["kind"] == "component")
+            .filter_map(|(id, p)| Some((id.clone(), p["component"].as_str()?.to_string())))
+            .collect();
+        if let Some(c) = g.components.iter_mut().find(|c| c.name == host) {
+            let anatomy = c.raw["anatomy"].as_array_mut().unwrap();
+            for (id, component) in linked {
+                anatomy.retain(|p| p["name"] != id.as_str());
+                anatomy.push(serde_json::json!({ "name": id, "component": component }));
+            }
+        }
+        g
+    }
+
     fn nest_graph(replace: &[(&str, Value)]) -> TokenGraph {
         let (g, _) = load();
         let mut visuals = TokenGraph::load_spec_visuals(&root().join("visuals")).expect("visuals");
+        let mut g = g;
         for (name, raw) in replace {
             let v = visuals.iter_mut().find(|v| v.component == *name).unwrap();
             v.raw = raw.clone();
+            g = link_nested(g, name, raw);
         }
         g.with_visuals(visuals)
     }
@@ -8518,6 +8572,7 @@ mod tests {
         states: &[&str],
         opts: &[(&str, Value)],
     ) -> Result<Scene, String> {
+        let g = &link_nested(g.clone(), "accordion", recipe);
         let mut r = req(states);
         r.component = "accordion".into();
         r.size = size.into();
@@ -8870,6 +8925,32 @@ mod tests {
             .remove("m");
         let err = nest_scene(&g, &r, "m", &[], &[]).unwrap_err();
         assert!(err.contains("no sizeMap entry"), "{err}");
+        // The component comes from the host's anatomy part: a part with none cannot be drawn.
+        let mut g = nest_graph(&[]);
+        let anatomy = g
+            .components
+            .iter_mut()
+            .find(|c| c.name == "accordion")
+            .unwrap()
+            .raw["anatomy"]
+            .as_array_mut()
+            .unwrap();
+        anatomy.retain(|p| p["name"] != "a");
+        anatomy.push(serde_json::json!({ "name": "a" }));
+        let r = row_host();
+        let g2 = link_nested(g.clone(), "accordion", &r);
+        assert!(nest_scene(&g2, &r, "m", &[], &[]).is_ok());
+        let err = build_scene(&g, &r, &{
+            let mut q = req(&[]);
+            q.component = "accordion".into();
+            q.size = "m".into();
+            q
+        })
+        .unwrap_err();
+        assert!(
+            err.contains("has no anatomy part 'a' with a `component`"),
+            "{err}"
+        );
     }
 
     #[test]

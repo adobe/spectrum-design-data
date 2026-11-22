@@ -52,6 +52,7 @@
     },
     {
       "name": "close-button",
+      "component": "close-button",
       "description": "Button that dismisses the tray."
     }
   ],
