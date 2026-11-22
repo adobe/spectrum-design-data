@@ -240,6 +240,20 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "title",
+      "label": "Title",
+      "description": "Page-level title typography role",
+      "category": "typography-role",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "description": "Page-level body typography role",
+      "category": "typography-role",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",

@@ -214,6 +214,10 @@
         "private": {
           "type": "boolean"
         },
+        "excludeFromLegacy": {
+          "type": "boolean",
+          "description": "When true, this token is omitted from the generated packages/tokens/src legacy output."
+        },
         "description": {
           "type": "string",
           "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
@@ -278,6 +282,10 @@
         },
         "private": {
           "type": "boolean"
+        },
+        "excludeFromLegacy": {
+          "type": "boolean",
+          "description": "When true, this token is omitted from the generated packages/tokens/src legacy output."
         },
         "description": {
           "type": "string",
