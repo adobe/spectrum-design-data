@@ -296,6 +296,25 @@
           "metadata": {"count":1,"fields":["contextRole"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "1.4.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "1ae6569690f1429b734139c8703f678e59884f64",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2022,"title":"feat(design-data): add toast, alert banner and in-line alert visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2022"},
+          "entries": [
+            {"id":"1ae65696-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text and icon"],"scope":{"property":"color","options":null},"record":"99b84917-3395-5795-a62f-7a1fda121a29","name":"color","fields":[{"path":"$ref","before":"9b799da8-2130-417e-b7ee-5e1154a89837","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"1ae65696-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text and icon"],"scope":{"property":"color","options":null},"record":"1544f5d1-c9f6-5a72-82fa-6b2263ab10bc","name":"color","fields":[{"path":"$ref","before":"9b799da8-2130-417e-b7ee-5e1154a89837","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"1ae65696-2","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"toast/visual","name":"toast","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -225,6 +225,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "1ae6569690f1429b734139c8703f678e59884f64",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2022,"title":"feat(design-data): add toast, alert banner and in-line alert visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2022"},
+          "entries": [
+            {"id":"1ae65696-0","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"alert-banner/visual","name":"alert-banner","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

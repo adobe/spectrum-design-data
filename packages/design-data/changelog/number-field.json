@@ -737,6 +737,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "3.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "145cdf5d70ec23b3691a49ecbc1cc9f107484da9",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2019,"title":"fix(design-data): pin focus and focus-hover value color records to their states","url":"https://github.com/adobe/spectrum-design-data/pull/2019"},
+          "entries": [
+            {"id":"145cdf5d-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus-+-hover"]}},"record":"1594a96d-b1ec-5d03-8dea-b8f5bc3ae476","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-hover"]}]},
+            {"id":"145cdf5d-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus-+-not-hover"]}},"record":"3fe7dc02-ebbf-5805-a925-17f0e6c695df","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-not-hover"]}]}
+          ]
+        },
+        {
+          "commit": "e452a2357402f424ec10d115e23150b786a4f007",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2026,"title":"feat(design-data): add number-field visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2026"},
+          "entries": [
+            {"id":"e452a235-0","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"number-field/visual","name":"number-field","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

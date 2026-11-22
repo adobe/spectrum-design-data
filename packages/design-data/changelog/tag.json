@@ -539,6 +539,33 @@
           "metadata": {"count":36,"fields":["context","contextQualifier","contextRole","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "3.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "3576f7de9ea88eae0dd3db73734e3960d257e029",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2020,"title":"feat(design-data): add tag visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2020"},
+          "entries": [
+            {"id":"3576f7de-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"isSelected":true,"isEmphasized":true,"isDisabled":false}},"record":"a914a65e-52f3-5671-a205-89df7e40cf73","name":"content-color[isDisabled=?,isEmphasized=?,isSelected=?]","fields":[{"path":"scope.property","before":"color","after":"content-color"}]},
+            {"id":"3576f7de-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"isSelected":true,"isEmphasized":false,"isDisabled":false}},"record":"57a45fdb-87df-556c-baa7-e94a415a51f4","name":"content-color[isDisabled=?,isEmphasized=?,isSelected=?]","fields":[{"path":"scope.property","before":"color","after":"content-color"}]},
+            {"id":"3576f7de-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"isSelected":true,"isEmphasized":false,"isDisabled":false}},"record":"b04f6adc-fd94-592c-a7e0-7147b6191d54","name":"content-color[isDisabled=?,isEmphasized=?,isSelected=?]","fields":[{"path":"scope.property","before":"color","after":"content-color"}]},
+            {"id":"3576f7de-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"isSelected":true,"isEmphasized":false,"isDisabled":false}},"record":"24e0bdc7-7bd6-54a0-9d45-7fe040b40ee8","name":"content-color[isDisabled=?,isEmphasized=?,isSelected=?]","fields":[{"path":"scope.property","before":"color","after":"content-color"}]},
+            {"id":"3576f7de-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isSelected":false,"isDisabled":false,"state":["hover"]}},"record":"27ca88ce-9b83-598d-bc98-25ef57d9652d","name":"color[isDisabled=?,isSelected=?,state=?]","fields":[{"path":"scope.options.state","before":["hover","keyboard-focus"],"after":["hover"]}]},
+            {"id":"3576f7de-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isSelected":false,"isDisabled":false,"state":["hover"]}},"record":"5402012a-e4c5-5e96-8630-c7397e71fecf","name":"color[isDisabled=?,isSelected=?,state=?]","fields":[{"path":"scope.options.state","before":["hover","keyboard-focus"],"after":["hover"]}]},
+            {"id":"3576f7de-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isSelected":false,"isDisabled":false,"state":["hover"]}},"record":"0886d775-21b9-58e0-9e90-a6a915211936","name":"color[isDisabled=?,isSelected=?,state=?]","fields":[{"path":"scope.options.state","before":["hover","keyboard-focus"],"after":["hover"]}]},
+            {"id":"3576f7de-7","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isSelected":false,"isDisabled":false,"state":["keyboard-focus"]}},"record":"042fa2f4-952b-5e50-ac3a-e7dcf7c85fd5","name":"color[isDisabled=?,isSelected=?,state=?]","fields":[],"after":"8de4888d-8da5-45a0-8d5d-64a734993ae4"},
+            {"id":"3576f7de-8","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isSelected":false,"isDisabled":false,"state":["keyboard-focus"]}},"record":"060f5d2d-9fdb-5b3d-88be-1dac075ed051","name":"color[isDisabled=?,isSelected=?,state=?]","fields":[],"after":"0a676e7a-8a89-4607-a918-3abcfb0234a2"},
+            {"id":"3576f7de-9","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"isSelected":false,"isDisabled":false,"state":["keyboard-focus"]}},"record":"2f41b79d-575b-5628-b947-d1e7b831c842","name":"color[isDisabled=?,isSelected=?,state=?]","fields":[],"after":"eaad36fe-2827-4404-8876-060de75c2b34"},
+            {"id":"3576f7de-10","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"tag/visual","name":"tag","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

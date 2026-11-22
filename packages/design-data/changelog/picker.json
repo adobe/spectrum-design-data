@@ -795,6 +795,51 @@
           "metadata": {"count":1,"fields":["scope.part","scope.property"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "7130289e7cdbbbb3cc278e7dfd49d7f6fb1d5057",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2016,"title":"fix(design-data): pin picker hover background records and declare the down state","url":"https://github.com/adobe/spectrum-design-data/pull/2016"},
+          "entries": [
+            {"id":"7130289e-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"state":["hover"]}},"record":"e9e36d13-0932-56cf-b2af-4b95573932e9","name":"color[state=?]","fields":[{"path":"scope.options.state","after":["hover"]}]},
+            {"id":"7130289e-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"state":["hover"]}},"record":"2de88a85-bc00-513c-8d22-55d7cb874b78","name":"color[state=?]","fields":[{"path":"scope.options.state","after":["hover"]}]},
+            {"id":"7130289e-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"state":["hover"]}},"record":"24504266-ddc3-5e27-9d6e-c1da24374fcb","name":"color[state=?]","fields":[{"path":"scope.options.state","after":["hover"]}]},
+            {"id":"7130289e-3","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"picker/states/down","name":"down","fields":[],"after":{"name":"down","trigger":"interaction"}}
+          ]
+        },
+        {
+          "commit": "57f05425d8621bdd841a24ff5dfdc019ab4c7102",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2015,"title":"feat(design-data): add picker visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2015"},
+          "entries": [
+            {"id":"57f05425-0","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"picker/visual","name":"picker","fields":[]}
+          ]
+        },
+        {
+          "commit": "145cdf5d70ec23b3691a49ecbc1cc9f107484da9",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2019,"title":"fix(design-data): pin focus and focus-hover value color records to their states","url":"https://github.com/adobe/spectrum-design-data/pull/2019"},
+          "entries": [
+            {"id":"145cdf5d-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus-+-hover"]}},"record":"d49bc640-899d-5753-937e-8ed2a55f885f","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-hover"]}]},
+            {"id":"145cdf5d-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus-+-not-hover"]}},"record":"87a46be5-b789-51f8-8933-7d4c6f2715c7","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-not-hover"]}]}
+          ]
+        },
+        {
+          "commit": "003f55ca2089e2c6aeadbef21250e3bf7bc2cbe5",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2023,"title":"feat(design-data): bind the picker chevron color","url":"https://github.com/adobe/spectrum-design-data/pull/2023"},
+          "entries": [
+            {"id":"003f55ca-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"picker/visual/parts/disclosure-icon","name":"disclosure-icon","fields":[{"path":"props.color","after":[{"relationship":{"property":"content-color","part":"value"}},{"when":{"options":{"isDisabled":true}},"priority":10,"relationship":{"property":"content-color","part":"field"}}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

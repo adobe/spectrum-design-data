@@ -615,6 +615,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "1.4.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "145cdf5d70ec23b3691a49ecbc1cc9f107484da9",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2019,"title":"fix(design-data): pin focus and focus-hover value color records to their states","url":"https://github.com/adobe/spectrum-design-data/pull/2019"},
+          "entries": [
+            {"id":"145cdf5d-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value, label and icon"],"scope":{"property":"content-color","options":{"state":["focus-+-hover"]}},"record":"0a2b571c-869c-54ed-b4f0-238945d0ff2b","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-hover"]}]},
+            {"id":"145cdf5d-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value, label and icon"],"scope":{"property":"content-color","options":{"state":["focus-+-not-hover"]}},"record":"1a9e1f0b-01fe-512b-b08e-cbc79e2e4d31","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-not-hover"]}]}
+          ]
+        },
+        {
+          "commit": "ce87951b8034359e5dc7320a5eae2564ed227861",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2025,"title":"feat(design-data): add search-field visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2025"},
+          "entries": [
+            {"id":"ce87951b-0","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"search-field/visual","name":"search-field","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -331,6 +331,22 @@
           "metadata": {"count":3,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "500a4e00ffce7eceabf26a826987fac54e2318e2",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2014,"title":"feat(design-data): migrate side-navigation, stack-item and tree-view to level 2 identity","url":"https://github.com/adobe/spectrum-design-data/pull/2014"},
+          "entries": [],
+          "metadata": {"count":10,"fields":["context","contextRole","scope.attribute","scope.part"]}
+        }
+      ]
     }
   ]
 }
