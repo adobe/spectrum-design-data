@@ -12,8 +12,9 @@
 //!
 //! Informational. Reports components that have relationship records but declare no
 //! anatomy, and components whose anatomy is still draft (`anatomyReview.status` is not
-//! `reviewed`). Deprecated components (`lifecycle.deprecatedIn`) are skipped. It is one diagnostic for the whole dataset, so the gap stays visible
-//! without adding a line per component. Never an error: anatomy is authored as recipes
+//! `reviewed`). Deprecated components (`lifecycle.deprecatedIn`) are skipped. It is one
+//! diagnostic for the whole dataset, so the gap stays visible without adding a line per
+//! component. Never an error: anatomy is authored as recipes
 //! are built (anatomy-format.md#review-checklist).
 
 use std::collections::BTreeSet;
