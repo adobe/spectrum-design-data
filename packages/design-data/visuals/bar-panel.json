@@ -1,0 +1,427 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "bar-panel",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["drag-handle", "actions", "divider"],
+      "props": {
+        "direction": [
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "value": "column"
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "value": "row"
+          }
+        ],
+        "align": {
+          "value": "center"
+        },
+        "gap": {
+          "token": {
+            "property": "spacing",
+            "scaleIndex": 100
+          }
+        },
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "density": "extra-compact"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 75
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "compact"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "regular"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 200
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 300
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "extra-spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 350
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "when": {
+              "options": {
+                "density": "extra-compact"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 75
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "compact"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "regular"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 200
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 300
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "extra-spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 350
+            }
+          }
+        ],
+        "paddingBlockStart": [
+          {
+            "when": {
+              "options": {
+                "density": "extra-compact"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 75
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "compact"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "regular"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 200
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 300
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "extra-spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 350
+            }
+          }
+        ],
+        "paddingBlockEnd": [
+          {
+            "when": {
+              "options": {
+                "density": "extra-compact"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 75
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "compact"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "regular"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 200
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 300
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "extra-spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 350
+            }
+          }
+        ],
+        "cornerRadius": {
+          "when": {
+            "options": {
+              "isFloating": true
+            }
+          },
+          "token": {
+            "property": "corner-radius",
+            "scaleIndex": 700
+          }
+        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "style": "primary"
+              }
+            },
+            "token": {
+              "variant": "layer",
+              "object": "background",
+              "property": "color",
+              "scaleIndex": 2
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "style": "secondary"
+              }
+            },
+            "token": {
+              "variant": "layer",
+              "object": "background",
+              "property": "color",
+              "scaleIndex": 1
+            }
+          }
+        ]
+      }
+    },
+    "drag-handle": {
+      "kind": "box",
+      "props": {
+        "width": [
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "token": {
+              "property": "size",
+              "legacyKey": "size-400"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "token": {
+              "property": "size",
+              "legacyKey": "size-75"
+            }
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "token": {
+              "property": "size",
+              "legacyKey": "size-75"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "token": {
+              "property": "size",
+              "legacyKey": "size-400"
+            }
+          }
+        ],
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
+        },
+        "fill": {
+          "token": {
+            "property": "color",
+            "colorFamily": "gray",
+            "scaleIndex": 200
+          }
+        }
+      }
+    },
+    "actions": {
+      "kind": "slot",
+      "sizeMap": {
+        "m": "m"
+      },
+      "props": {
+        "direction": [
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "value": "column"
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "value": "row"
+          }
+        ],
+        "gap": {
+          "token": {
+            "property": "spacing",
+            "scaleIndex": 100
+          }
+        }
+      },
+      "placeholder": {
+        "width": 32,
+        "height": 32,
+        "reason": "An empty bar keeps one 32 px action button slot (Figma Action button, extra large); the slot has no size token."
+      }
+    },
+    "divider": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "s"
+      },
+      "with": {
+        "orientation": {
+          "option": "orientation",
+          "map": {
+            "vertical": "horizontal",
+            "horizontal": "vertical"
+          }
+        }
+      }
+    }
+  }
+}

@@ -347,6 +347,7 @@ recipe_tests! {
     alert_banner => "alert-banner",
     avatar => "avatar",
     badge => "badge",
+    bar_panel => "bar-panel",
     button => "button",
     checkbox => "checkbox",
     clear_button => "clear-button",
