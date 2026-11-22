@@ -3870,7 +3870,8 @@
       "introduced": "1.0.0-draft"
     },
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "8d6ecfe0-f50e-47db-95db-1cd59e6fc59a"
+    "conceptId": "8d6ecfe0-f50e-47db-95db-1cd59e6fc59a",
+    "excludeFromLegacy": true
   },
   {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3887,7 +3888,8 @@
       "introduced": "1.0.0-draft"
     },
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "8d6ecfe0-f50e-47db-95db-1cd59e6fc59a"
+    "conceptId": "8d6ecfe0-f50e-47db-95db-1cd59e6fc59a",
+    "excludeFromLegacy": true
   },
   {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3904,7 +3906,8 @@
       "introduced": "1.0.0-draft"
     },
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "7d1a3226-6619-4412-8dc2-b0f282677685"
+    "conceptId": "7d1a3226-6619-4412-8dc2-b0f282677685",
+    "excludeFromLegacy": true
   },
   {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3921,7 +3924,8 @@
       "introduced": "1.0.0-draft"
     },
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "7d1a3226-6619-4412-8dc2-b0f282677685"
+    "conceptId": "7d1a3226-6619-4412-8dc2-b0f282677685",
+    "excludeFromLegacy": true
   },
   {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3938,7 +3942,8 @@
       "introduced": "1.0.0-draft"
     },
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "f5bdd548-b2da-4a80-8e98-b88cdff15cdc"
+    "conceptId": "f5bdd548-b2da-4a80-8e98-b88cdff15cdc",
+    "excludeFromLegacy": true
   },
   {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3955,7 +3960,8 @@
       "introduced": "1.0.0-draft"
     },
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "f5bdd548-b2da-4a80-8e98-b88cdff15cdc"
+    "conceptId": "f5bdd548-b2da-4a80-8e98-b88cdff15cdc",
+    "excludeFromLegacy": true
   },
   {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3972,7 +3978,8 @@
       "introduced": "1.0.0-draft"
     },
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "45e183f8-d311-47d1-8883-cf212cd0ef5e"
+    "conceptId": "45e183f8-d311-47d1-8883-cf212cd0ef5e",
+    "excludeFromLegacy": true
   },
   {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3989,6 +3996,7 @@
       "introduced": "1.0.0-draft"
     },
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "45e183f8-d311-47d1-8883-cf212cd0ef5e"
+    "conceptId": "45e183f8-d311-47d1-8883-cf212cd0ef5e",
+    "excludeFromLegacy": true
   }
 ]
