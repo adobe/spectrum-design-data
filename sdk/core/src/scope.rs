@@ -45,7 +45,11 @@ const SCOPE_KEYS: &[&str] = &[
     "structure",
     "qualifier",
     "icon",
+    "itemPosition",
 ];
+
+/// The values of `scope.itemPosition`: the place of one drawn copy of a repeated part.
+pub const ITEM_POSITIONS: [&str; 4] = ["first", "middle", "last", "only"];
 
 /// The descriptive scope fields that hold one registry term. `scope.between` is the pair
 /// `{from, to}` and is checked on its own.
@@ -86,7 +90,8 @@ fn state_alternatives(element: &Value) -> Option<&Vec<Value>> {
 /// understand: a solver that dropped an unknown pin would apply the record to every request,
 /// which is silent wrong output.
 ///
-/// A `scope` may only hold `component`, `part`, `property`, `options`, `between` (an object
+/// A `scope` may only hold `component`, `part`, `property`, `options`, `itemPosition` (one of
+/// [`ITEM_POSITIONS`]), `between` (an object
 /// with a non-empty string `from` and/or `to`) and the descriptive fields in
 /// [`DESCRIPTIVE_FIELDS`] (each a non-empty string).
 ///
@@ -220,6 +225,14 @@ fn unsupported_descriptive(raw: &Value) -> Option<String> {
                 "scope.{key} has a value this engine does not support ({v}). {NEWER}"
             ));
         }
+    }
+    if let Some(v) = scope
+        .get("itemPosition")
+        .filter(|v| !v.as_str().is_some_and(|p| ITEM_POSITIONS.contains(&p)))
+    {
+        return Some(format!(
+            "scope.itemPosition has a value this engine does not support ({v}). {NEWER}"
+        ));
     }
     let between = scope.get("between")?;
     let ok = between.as_object().is_some_and(|b| {

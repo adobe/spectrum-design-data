@@ -186,6 +186,7 @@ with the component declaring `"slots": [{ "name": "default", "part": "accordion-
 * **Evaluated per copy.** The position is that of the repeated copy being drawn, and holds for the repeated part and every part inside it. With *n* drawn copies, copy 1 is `first`, copy *n* is `last` and the ones between are `middle`; a single copy (one entry, no entries, or one entry that is an object) is `only`, and is neither `first` nor `last`. "Not last" is `["first", "middle"]`.
 * **Specificity.** A matched `position` counts as one satisfied condition, like an option.
 * **Outside a repeated copy** a `position` condition never matches.
+* **Relationships.** A relationship record pins the same positions with `scope.itemPosition` ([relationship-format.md](relationship-format.md#derived-item-position)); a recipe's relationship binding then picks the record for the copy being drawn.
 * **Validation.** SPEC-061 requires every value to be one of the four positions, and `position` to appear only on the repeated part or a part inside it.
 
 ### Icons

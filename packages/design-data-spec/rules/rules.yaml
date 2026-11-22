@@ -1469,3 +1469,18 @@ rules:
     message: "Part '{part}' of '{component}' has component '{target}', which is {problem}"
     spec_ref: spec/anatomy-format.md#another-component-as-a-part
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-107
+    name: relationship-item-position-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      `scope.itemPosition` is the place of one drawn copy of a collection slot's repeated part.
+      It has no meaning on any other part.
+    assert: >
+      A relationship's `scope.itemPosition` MUST be `first`, `middle`, `last` or `only`, and its
+      `scope.part` MUST be the part of a collection slot of the component, or a part inside it.
+    message: "scope.part {part} is not the repeated part of a collection slot of '{component}' or a part inside it"
+    spec_ref: spec/relationship-format.md#derived-item-position
+    introduced_in: "1.0.0-draft"
