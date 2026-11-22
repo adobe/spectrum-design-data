@@ -480,6 +480,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "1ae6569690f1429b734139c8703f678e59884f64",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2022,"title":"feat(design-data): add toast, alert banner and in-line alert visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2022"},
+          "entries": [
+            {"id":"1ae65696-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"color","options":{"style":"bold"}},"record":"c5f3c769-d7a0-571f-bdf3-a8168a6c7560","name":"color[style=bold]","fields":[{"path":"$ref","before":"9b799da8-2130-417e-b7ee-5e1154a89837","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"1ae65696-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"color","options":{"style":"bold"}},"record":"0936fc2c-bf43-591b-abbd-be20ec08aa61","name":"color[style=bold]","fields":[{"path":"$ref","before":"9b799da8-2130-417e-b7ee-5e1154a89837","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"1ae65696-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"color","options":{"variant":"notice","style":"bold"}},"record":"d94905b9-042d-5054-9a44-f77a42e4a7bd","name":"color[style=bold,variant=notice]","fields":[{"path":"$ref","before":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","after":"86a162cc-9e91-494c-9fee-207721eb4e88"}]},
+            {"id":"1ae65696-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"color","options":{"variant":"notice","style":"bold"}},"record":"fadccf03-a3d8-5135-8eb2-ea19a7af4c7b","name":"color[style=bold,variant=notice]","fields":[{"path":"$ref","before":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","after":"86a162cc-9e91-494c-9fee-207721eb4e88"}]},
+            {"id":"1ae65696-4","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"in-line-alert/visual","name":"in-line-alert","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

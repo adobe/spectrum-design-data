@@ -1,5 +1,58 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 6.2.2
+
+### Patch Changes
+
+- [#2011](https://github.com/adobe/spectrum-design-data/pull/2011) [`dbedcc0`](https://github.com/adobe/spectrum-design-data/commit/dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of the calendar and its three legacy holders (A9, part 2 of 3). calendar
+  and the holders reach level 2. The legacy `@adobe/spectrum-tokens` output is byte-identical.
+  - calendar: reviewed anatomy with container, previous-button, next-button, title, weekday-label,
+    day (current-day-indicator, unavailable-indicator, focus-indicator), range-fill and help-text,
+    plus a `days` slot. New option `visibleMonths` (1, 2, 3); `showTimeZone` is removed; the
+    `days[].state` value `keyboard focus` becomes `keyboard-focus`.
+  - single-, double- and triple-calendar: frozen legacy holders with a container part only. Their
+    six legacy records move from part `popover` to `container`; the components are not deprecated.
+  - The 27 calendar styling records move from date-picker to calendar (same uuids), with parts,
+    background and border attributes, `between` pairs and pins for hover, error and disabled.
+  - Registry: terms day, weekday-label, range-fill, current-day-indicator, unavailable-indicator,
+    previous-button and next-button; aliases on calendar, title and range-fill.
+  - CLI 0.62.0. Component-status and same-pin-set baselines are updated.
+
+- [#2018](https://github.com/adobe/spectrum-design-data/pull/2018) [`1712d51`](https://github.com/adobe/spectrum-design-data/commit/1712d5161d085f81ca157cdf6b3fb4cef30b5b38) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy review of date-picker and level 2 identity (A9, PR 3 of 3). The legacy
+  `@adobe/spectrum-tokens` output is byte-identical.
+  - Anatomy: container, field-label, field (segment, error-icon, in-field-button, focus-indicator),
+    help-text, and a top-level popover (present when open, no tip) that holds the calendar and, with
+    time granularity, a time-field. The draft part `value` is removed; `day` is deprecated
+    (replaced by calendar's day) and stays declared only for the strikethrough tokens.
+  - Options flattened from the nested `dateField` and `calendarPopover` objects, matching picker.
+    Added `granularity`, `hourCycle`, `hideTimeZone`, `selectionMode` and `visibleMonths` (1, 2, 3).
+    Removed `variant`, the nested `state` enum, `showTimeZone`, `is24Hour` and `timeFields`.
+  - States hover, focus-+-hover, focus-+-not-hover, keyboard-focus and open.
+  - Records are scoped to field, segment, error-icon, in-field-button, focus-indicator, popover or a
+    `between`. The popover minimum sizes are pinned by `visibleMonths`. Removed records restate other
+    components: popover radius, date-field and time-field minimum widths, help-text colours.
+  - Registry: alias date-range-picker on date-picker. Component-status baseline is updated.
+
+- [#2017](https://github.com/adobe/spectrum-design-data/pull/2017) [`4b64f17`](https://github.com/adobe/spectrum-design-data/commit/4b64f17d6a8928e5fb3f67d7998ecaf11a96e400) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the options that tell merged records apart in tabs, segmented control, steplist and side
+  navigation (5m92.6.2).
+
+  Tabs declare size (s, m, l, xl) and density (regular, compact). Segmented control and steplist
+  declare size. Side navigation declares isSelected and isDisabled.
+
+  Records pin them, read off the token a record points at or off its former context. Tabs and
+  steplist font sizes pin per size, tab height pins per density, segmented control items pin
+  hideTracker (no track or with track), and side navigation pins its selected (not disabled) and
+  disabled records.
+
+  Same pin set groups fall from 4 to 1 in tabs, and from 2 to 1 in steplist, side navigation and
+  segmented control. One tabs record that differed from its twin only by density, with the same
+  token, is merged.
+
+  Legacy `@adobe/spectrum-tokens` output is byte-identical.
+
+- Updated dependencies [[`dbedcc0`](https://github.com/adobe/spectrum-design-data/commit/dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b), [`1712d51`](https://github.com/adobe/spectrum-design-data/commit/1712d5161d085f81ca157cdf6b3fb4cef30b5b38), [`325fad1`](https://github.com/adobe/spectrum-design-data/commit/325fad1ff8a05ec6fe349ab5773bc1a2f8c9b85e), [`4b64f17`](https://github.com/adobe/spectrum-design-data/commit/4b64f17d6a8928e5fb3f67d7998ecaf11a96e400), [`145cdf5`](https://github.com/adobe/spectrum-design-data/commit/145cdf5d70ec23b3691a49ecbc1cc9f107484da9), [`500a4e0`](https://github.com/adobe/spectrum-design-data/commit/500a4e00ffce7eceabf26a826987fac54e2318e2), [`7130289`](https://github.com/adobe/spectrum-design-data/commit/7130289e7cdbbbb3cc278e7dfd49d7f6fb1d5057), [`003f55c`](https://github.com/adobe/spectrum-design-data/commit/003f55ca2089e2c6aeadbef21250e3bf7bc2cbe5), [`fd29bb7`](https://github.com/adobe/spectrum-design-data/commit/fd29bb7b5b24685c04b139207165b0bfbdc4a8a0), [`1ae6569`](https://github.com/adobe/spectrum-design-data/commit/1ae6569690f1429b734139c8703f678e59884f64), [`e452a23`](https://github.com/adobe/spectrum-design-data/commit/e452a2357402f424ec10d115e23150b786a4f007), [`57f0542`](https://github.com/adobe/spectrum-design-data/commit/57f05425d8621bdd841a24ff5dfdc019ab4c7102), [`ce87951`](https://github.com/adobe/spectrum-design-data/commit/ce87951b8034359e5dc7320a5eae2564ed227861), [`88a4427`](https://github.com/adobe/spectrum-design-data/commit/88a44271269f3f278f8de3a2841e4ae333b35d14), [`3576f7d`](https://github.com/adobe/spectrum-design-data/commit/3576f7de9ea88eae0dd3db73734e3960d257e029), [`1aae2d7`](https://github.com/adobe/spectrum-design-data/commit/1aae2d73e9b2f2b5ba227881a8aaed230ddadc76), [`4544078`](https://github.com/adobe/spectrum-design-data/commit/4544078251ccaee511a1e5aca89945d8d8f9ae82), [`76e46e3`](https://github.com/adobe/spectrum-design-data/commit/76e46e36b710a6362446a41504295b87284be80c)]:
+  - @adobe/spectrum-design-data@3.31.0
+
 ## 6.2.1
 
 ### Patch Changes

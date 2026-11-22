@@ -826,6 +826,25 @@
           "metadata": {"count":1,"fields":["scope.part","scope.property"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "4.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "fd29bb7b5b24685c04b139207165b0bfbdc4a8a0",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2024,"title":"feat(design-data): add combo-box visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2024"},
+          "entries": [
+            {"id":"fd29bb7b-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus-hover"]}},"record":"60d246de-e617-5e1e-9cf5-fb62b64071e3","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-hover"]}]},
+            {"id":"fd29bb7b-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus-not-hover"]}},"record":"892de7e7-5547-5adc-9881-49e205b8f556","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-not-hover"]}]},
+            {"id":"fd29bb7b-2","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"combo-box/visual","name":"combo-box","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

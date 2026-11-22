@@ -501,6 +501,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "3.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "88a44271269f3f278f8de3a2841e4ae333b35d14",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2021,"title":"feat(design-data): add status-light visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2021"},
+          "entries": [
+            {"id":"88a44271-0","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"status-light/visual","name":"status-light","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

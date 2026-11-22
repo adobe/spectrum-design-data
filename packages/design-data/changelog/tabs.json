@@ -388,6 +388,43 @@
           "metadata": {"count":9,"fields":["context","contextQualifier","contextRole","scope.between.from","scope.between.to","scope.part","scope.property"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "4b64f17d6a8928e5fb3f67d7998ecaf11a96e400",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2017,"title":"feat(design-data): add size, density and selection options to collections","url":"https://github.com/adobe/spectrum-design-data/pull/2017"},
+          "entries": [
+            {"id":"4b64f17d-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"m","density":"compact"}},"record":"306493af-50b6-526f-abf3-84b1fa48e1fe","name":"height[density=compact,size=m]","fields":[{"path":"scope.options.density","after":"compact"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"m"}},"record":"ac91d639-d076-548d-bdc5-e07be16b3f32","name":"height[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"size","options":{"scale":"desktop","size":"m"}},"record":"161b5af1-18f0-538a-8ca7-88a35e5ddaab","name":"size[scale=desktop,size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Icon"],"scope":{"property":"size","options":{"scale":"mobile","size":"m"}},"record":"547472d1-6925-5f6c-8932-09c82db7ad40","name":"size[scale=mobile,size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"b8f81b81-493d-58bc-9ca3-a55eb9ae3c35","name":"space-between[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)"],"scope":{"property":"space-between","options":{"density":"compact","size":"m"}},"record":"8768d1e6-a010-5870-a06c-f5a5e1cc50f5","name":"space-between[density=compact,size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)"],"scope":{"property":"space-between","options":{"density":"compact","size":"m"}},"record":"68a60720-e5fb-58b6-84d5-a54645e34858","name":"space-between[density=compact,size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to label)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"a1ec389c-1034-5f0f-b205-cc0e6396b11a","name":"space-between[size=m]","fields":[{"path":"scope.options.density","before":"compact"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (bottom edge to label)"],"scope":{"property":"space-between","options":{"density":"compact","size":"m"}},"record":"b1508aae-18be-54ea-a06e-e7797c49d058","name":"space-between[density=compact,size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (between tab items)"],"scope":{"property":"space-between","options":{"orientation":"horizontal","size":"m"}},"record":"997ffb60-9e33-561b-a57a-bd268fc52a39","name":"space-between[orientation=horizontal,size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"s"}},"record":"897e484a-a475-5831-ab8a-09a0d34300bd","name":"font-size[scale=desktop,size=s]","fields":[{"path":"scope.options.size","after":"s"}]},
+            {"id":"4b64f17d-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"s"}},"record":"913588be-ee76-594c-a230-81419aef9a69","name":"font-size[scale=mobile,size=s]","fields":[{"path":"scope.options.size","after":"s"}]},
+            {"id":"4b64f17d-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"m"}},"record":"250aa466-c62d-5b79-9969-c9036dd00d01","name":"font-size[scale=desktop,size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"m"}},"record":"a4799c54-c072-5e37-9cf2-7799edecfa6e","name":"font-size[scale=mobile,size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"4b64f17d-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"l"}},"record":"8576112b-3a71-5177-82f2-8bc076bd4a82","name":"font-size[scale=desktop,size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"4b64f17d-15","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"l"}},"record":"597c6859-4a14-5370-b37a-df3977743aa3","name":"font-size[scale=mobile,size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"4b64f17d-16","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"xl"}},"record":"46f10443-7164-5ecd-91dd-15ad6c3de374","name":"font-size[scale=desktop,size=xl]","fields":[{"path":"scope.options.size","after":"xl"}]},
+            {"id":"4b64f17d-17","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"xl"}},"record":"61cb7d3f-5375-5e31-b086-f8f775870683","name":"font-size[scale=mobile,size=xl]","fields":[{"path":"scope.options.size","after":"xl"}]},
+            {"id":"4b64f17d-18","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top edge to label)"],"scope":{"property":"space-between","options":{"density":"regular"}},"record":"84006095-45e2-5043-9a92-74820d3fb1eb","name":"space-between[density=regular]","fields":[],"before":"5741f832-f012-45bc-9e87-6e07ab2cb87f"},
+            {"id":"4b64f17d-19","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/options/size","name":"size","fields":[],"after":{"type":"string","default":"m","description":"The size of the tabs.","values":[{"value":"s"},{"value":"m"},{"value":"l"},{"value":"xl"}]}},
+            {"id":"4b64f17d-20","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/options/density","name":"density","fields":[],"after":{"type":"string","default":"regular","description":"The density of the tab items. Compact tab items are shorter and sit closer together.","values":[{"value":"regular"},{"value":"compact"}]}}
+          ]
+        }
+      ]
     }
   ]
 }

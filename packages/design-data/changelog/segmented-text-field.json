@@ -23,6 +23,27 @@
           "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "325fad1ff8a05ec6fe349ab5773bc1a2f8c9b85e",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2013,"title":"feat(design-data): anatomy review of date-field, time-field and segmented-text-field (A9 1/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2013"},
+          "entries": [
+            {"id":"325fad1f-0","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-text-field/anatomy/container","name":"container","fields":[{"path":"description","before":"Frame that holds the row of segments.","after":"Unstyled root that holds the row of segments."}]},
+            {"id":"325fad1f-1","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-text-field/anatomy/segment","name":"segment","fields":[{"path":"description","before":"One editable piece of a structured value, drawn as its own rounded cell.","after":"One editable piece of a structured value, drawn as its own rounded cell (RSP DateSegment, 2px radius)."}]},
+            {"id":"325fad1f-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-text-field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"No Figma page (SAME PAGE AS text-field) and no relationship parts. Derived from the description and the gap and corner-radius relationships. Unsure whether the segments sit in a shared container with its own border.","after":"Owner decision A9 (2026-11-20): this component is the shared segment base that date-field, time-field and date-picker copy. No Figma page of its own. The root container is unstyled; the rounding sits on segment (RSP DateSegment radius 2px). The deprecated gap record is a frozen archive."}]},
+            {"id":"325fad1f-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"segmented-text-field/description","name":"description","fields":[{"path":"description","before":"A text field split into discrete segments, such as for structured input.","after":"The shared segment base: a row of editable segments, each its own rounded cell. date-field, time-field and date-picker copy this anatomy rather than reference it."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
     }
   ]
 }

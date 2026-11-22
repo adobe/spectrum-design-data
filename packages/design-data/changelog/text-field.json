@@ -781,6 +781,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "3.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "4544078251ccaee511a1e5aca89945d8d8f9ae82",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2008,"title":"feat(design-data): add text-field visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2008"},
+          "entries": [
+            {"id":"45440782-0","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"text-field/visual","name":"text-field","fields":[]}
+          ]
+        },
+        {
+          "commit": "145cdf5d70ec23b3691a49ecbc1cc9f107484da9",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2019,"title":"fix(design-data): pin focus and focus-hover value color records to their states","url":"https://github.com/adobe/spectrum-design-data/pull/2019"},
+          "entries": [
+            {"id":"145cdf5d-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus-+-hover"]}},"record":"ce4a3827-81e6-5713-89d6-c436e12f696a","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-hover"]}]},
+            {"id":"145cdf5d-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus-+-not-hover"]}},"record":"3a99a586-4baa-5d47-9792-7a90ebdc296c","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-not-hover"]}]}
+          ]
+        }
+      ]
     }
   ]
 }
