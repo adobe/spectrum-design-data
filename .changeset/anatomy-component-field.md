@@ -19,5 +19,4 @@ Anatomy parts can be another component; recipes read that link. Part of the 7.0.
   and the site list gain `subcomponent` and `usedIn`. CLI is 0.62.2.
 - **@adobe/design-data, @adobe/design-data-mcp**: component search results gain `subcomponent`
   and `usedIn`.
-- Older CLIs reject `component` on a part (anatomy parts are closed); `requires.cli` is raised
-  later in the bundle.
+- Dataset `requires.cli` is raised to 0.62.2: older CLIs cannot read a part `component`.
