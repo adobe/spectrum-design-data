@@ -16,7 +16,7 @@
 //! MUST be declared with a recipe and MUST NOT nest the host; the part's `with` options MUST be
 //! valid for the accepted components that declare them and declared by at least one; `sizeMap`
 //! MUST cover every size of the host and map into each accepted recipe's `sizeScale`; and the
-//! part MUST sit in a row box, where the solver lays it out.
+//! part MUST sit in the root or a row box, where the solver lays it out.
 
 use serde_json::Value;
 
@@ -104,14 +104,13 @@ impl ValidationRule for Rule {
                         .is_some_and(|c| c.iter().any(|x| x.as_str() == Some(id)))
                 });
                 let in_row = parent.is_some_and(|(pid, p)| {
-                    Some(pid.as_str()) != v.raw.get("root").and_then(Value::as_str)
-                        && p.pointer("/props/direction").is_some()
+                    Some(pid.as_str()) == v.raw.get("root").and_then(Value::as_str)
+                        || p.pointer("/props/direction").is_some()
                 });
                 if !in_row {
                     bad(
                         &path,
-                        "it must sit in a row box (not the root); the solver would not draw it"
-                            .into(),
+                        "it must sit in the root or a row box; the solver would not draw it".into(),
                     );
                 }
                 let with: Vec<(&String, &Value)> = part
@@ -342,7 +341,7 @@ mod tests {
     #[test]
     fn a_slot_part_outside_a_row_box_errors() {
         let m = run(&graph(good_slot(), good_part(), json!({})));
-        assert!(m[0].contains("must sit in a row box"), "{m:?}");
+        assert!(m[0].contains("must sit in the root or a row box"), "{m:?}");
     }
 
     #[test]

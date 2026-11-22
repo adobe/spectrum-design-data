@@ -3467,6 +3467,7 @@ fn solve_root(
         group: Vec<Nested>,
         group_gap: f64,
         group_align: String,
+        group_col: bool,
     }
     struct Row {
         items: Vec<RowItem>,
@@ -3529,9 +3530,16 @@ fn solve_root(
         }
         let kind = part.get("kind").and_then(Value::as_str).unwrap_or("box");
         if kind == "slot" {
-            cx.diags.push(format!(
-                "slot part '{id}' is only laid out in a row box; it is not drawn"
-            ));
+            if let Some(n) = slot_nested(&mut cx, id, part, (&rp, &track)) {
+                flow.push(Child {
+                    id: id.clone(),
+                    kind: "component".into(),
+                    w: n.w,
+                    h: n.h,
+                    nested: Some(n),
+                    ..Default::default()
+                });
+            }
             continue;
         }
         let mut tokens = Vec::new();
@@ -3662,6 +3670,7 @@ fn solve_root(
                             track(&mut tokens, "height", &nh);
                             let mut node = blank_node(&nid, "box");
                             let (mut group_gap, mut group_align) = (0.0, String::new());
+                            let mut group_col = false;
                             if group.is_empty() {
                                 // The empty-slot placeholder is a recipe literal (spec:
                                 // component-visuals.md, Slot parts); no placeholder, no node.
@@ -3672,24 +3681,17 @@ fn solve_root(
                                     |k: &str| ph.get(k).and_then(Value::as_f64).unwrap_or(0.0);
                                 (node.w, node.h) = (side("width"), side("height"));
                             } else {
-                                let gdir = rp(&mut cx, np, "direction");
-                                layout_keyword(&mut cx, "direction", &gdir, &["row"]);
-                                let galign = rp(&mut cx, np, "align");
-                                group_align = layout_keyword(
+                                let g = group_layout(
                                     &mut cx,
-                                    "align",
-                                    &galign,
-                                    &["start", "center", "end"],
+                                    np,
+                                    &group,
+                                    &nw,
+                                    &nh,
+                                    &mut tokens,
+                                    (&rp, &track),
                                 );
-                                let ggap = rp(&mut cx, np, "gap");
-                                track(&mut tokens, "gap", &ggap);
-                                group_gap = ggap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
-                                let sum = group.iter().map(|n| n.w).sum::<f64>()
-                                    + group_gap * (group.len() - 1) as f64;
-                                node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(sum);
-                                node.h = nh.as_ref().and_then(Resolved::num).unwrap_or_else(|| {
-                                    group.iter().map(|n| n.h).fold(0.0, f64::max)
-                                });
+                                (node.w, node.h) = (g.w, g.h);
+                                (group_gap, group_align, group_col) = (g.gap, g.align, g.col);
                             }
                             node.tokens = tokens;
                             items.push(RowItem {
@@ -3703,6 +3705,7 @@ fn solve_root(
                                 group,
                                 group_gap,
                                 group_align,
+                                group_col,
                             });
                             continue;
                         }
@@ -3722,6 +3725,7 @@ fn solve_root(
                                     group: Vec::new(),
                                     group_gap: 0.0,
                                     group_align: String::new(),
+                                    group_col: false,
                                 });
                             }
                             continue;
@@ -3764,6 +3768,7 @@ fn solve_root(
                         let (mut ox, mut oy) = (0.0, 0.0);
                         let mut group: Vec<Nested> = Vec::new();
                         let (mut group_gap, mut group_align) = (0.0, String::new());
+                        let mut group_col2 = false;
                         let grow = if matches!(nkind, "text" | "box") {
                             grow_share(&rp(&mut cx, np, "grow"))
                         } else {
@@ -3888,27 +3893,17 @@ fn solve_root(
                                     if group.is_empty() {
                                         continue;
                                     }
-                                    let gdir = rp(&mut cx, np, "direction");
-                                    layout_keyword(&mut cx, "direction", &gdir, &["row"]);
-                                    let galign = rp(&mut cx, np, "align");
-                                    group_align = layout_keyword(
+                                    let g = group_layout(
                                         &mut cx,
-                                        "align",
-                                        &galign,
-                                        &["start", "center", "end"],
+                                        np,
+                                        &group,
+                                        &nw,
+                                        &nh,
+                                        &mut tokens,
+                                        (&rp, &track),
                                     );
-                                    let ggap = rp(&mut cx, np, "gap");
-                                    track(&mut tokens, "gap", &ggap);
-                                    group_gap =
-                                        ggap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
-                                    let sum = group.iter().map(|n| n.w).sum::<f64>()
-                                        + group_gap * (group.len() - 1) as f64;
-                                    if nw.is_none() {
-                                        node.w = sum;
-                                    }
-                                    if nh.is_none() {
-                                        node.h = group.iter().map(|n| n.h).fold(0.0, f64::max);
-                                    }
+                                    (group_gap, group_align, group_col2) = (g.gap, g.align, g.col);
+                                    (node.w, node.h) = (g.w, g.h);
                                     (ow, oh) = (node.w, node.h);
                                 }
                             }
@@ -3925,6 +3920,7 @@ fn solve_root(
                             group,
                             group_gap,
                             group_align,
+                            group_col: group_col2,
                         });
                     }
                     let sum = items.iter().map(|i| i.ow).sum::<f64>()
@@ -4412,13 +4408,20 @@ fn solve_root(
                     place_nested(&mut nested_out, n, it.node.x, it.node.y);
                     continue;
                 }
-                let (gx, gy, gh) = (it.node.x, it.node.y, it.node.h);
+                let (gx, gy, gh, gw) = (it.node.x, it.node.y, it.node.h, it.node.w);
                 nodes.push(it.node);
                 let mut gx = gx;
+                let mut gy2 = gy;
                 for n in it.group {
-                    let (w, y) = (n.w, gy + axis_offset(&it.group_align, gh - n.h));
-                    place_nested(&mut nested_out, n, gx, y);
-                    gx += w + it.group_gap;
+                    if it.group_col {
+                        let (h, x) = (n.h, gx + axis_offset(&it.group_align, gw - n.w));
+                        place_nested(&mut nested_out, n, x, gy2);
+                        gy2 += h + it.group_gap;
+                    } else {
+                        let (w, y) = (n.w, gy + axis_offset(&it.group_align, gh - n.h));
+                        place_nested(&mut nested_out, n, gx, y);
+                        gx += w + it.group_gap;
+                    }
                 }
             }
             continue;
@@ -5047,6 +5050,92 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
         nodes,
         ..Default::default()
     })
+}
+
+type RpFn<'a> = &'a dyn Fn(&mut Ctx, &Value, &str) -> Option<Resolved>;
+type TrackFn<'a> = &'a dyn Fn(&mut Vec<TokenRef>, &str, &Option<Resolved>);
+
+struct GroupLayout {
+    w: f64,
+    h: f64,
+    gap: f64,
+    align: String,
+    col: bool,
+}
+
+/// Size a slot part's (or component group's) fills along its `direction` (`row` or `column`).
+fn group_layout(
+    cx: &mut Ctx,
+    np: &Value,
+    group: &[Nested],
+    nw: &Option<Resolved>,
+    nh: &Option<Resolved>,
+    tokens: &mut Vec<TokenRef>,
+    (rp, track): (RpFn, TrackFn),
+) -> GroupLayout {
+    let gdir = rp(cx, np, "direction");
+    let col = layout_keyword(cx, "direction", &gdir, &["row", "column"]) == "column";
+    let galign = rp(cx, np, "align");
+    let align = layout_keyword(cx, "align", &galign, &["start", "center", "end"]);
+    let ggap = rp(cx, np, "gap");
+    track(tokens, "gap", &ggap);
+    let gap = ggap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+    let gaps = gap * group.len().saturating_sub(1) as f64;
+    let (sw, sh) = if col {
+        (
+            group.iter().map(|n| n.w).fold(0.0, f64::max),
+            group.iter().map(|n| n.h).sum::<f64>() + gaps,
+        )
+    } else {
+        (
+            group.iter().map(|n| n.w).sum::<f64>() + gaps,
+            group.iter().map(|n| n.h).fold(0.0, f64::max),
+        )
+    };
+    GroupLayout {
+        w: nw.as_ref().and_then(Resolved::num).unwrap_or(sw),
+        h: nh.as_ref().and_then(Resolved::num).unwrap_or(sh),
+        gap,
+        align,
+        col,
+    }
+}
+
+/// A slot part directly under the root: the slot box and its placed fills as one nested block.
+fn slot_nested(cx: &mut Ctx, id: &str, np: &Value, f: (RpFn, TrackFn)) -> Option<Nested> {
+    let (rp, track) = f;
+    let group = solve_slot(cx, id, np);
+    let mut tokens = Vec::new();
+    let nw = rp(cx, np, "width");
+    let nh = rp(cx, np, "height");
+    track(&mut tokens, "width", &nw);
+    track(&mut tokens, "height", &nh);
+    let mut node = blank_node(id, "box");
+    let mut out = Nested::default();
+    if group.is_empty() {
+        let ph = np.get("placeholder")?;
+        let side = |k: &str| ph.get(k).and_then(Value::as_f64).unwrap_or(0.0);
+        (node.w, node.h) = (side("width"), side("height"));
+    } else {
+        let g = group_layout(cx, np, &group, &nw, &nh, &mut tokens, (rp, track));
+        (node.w, node.h) = (g.w, g.h);
+        let (mut x, mut y) = (0.0, 0.0);
+        for n in group {
+            if g.col {
+                let (h, dx) = (n.h, axis_offset(&g.align, g.w - n.w));
+                place_nested(&mut out.nodes, n, dx, y);
+                y += h + g.gap;
+            } else {
+                let (w, dy) = (n.w, axis_offset(&g.align, g.h - n.h));
+                place_nested(&mut out.nodes, n, x, dy);
+                x += w + g.gap;
+            }
+        }
+    }
+    node.tokens = tokens;
+    (out.w, out.h) = (node.w, node.h);
+    out.nodes.insert(0, node);
+    Some(out)
 }
 
 /// Solve a `slot` part: one nested component per request fill of its slot, in order, as
@@ -9095,6 +9184,123 @@ mod tests {
     }
 
     #[test]
+    fn a_column_slot_stacks_fills_with_gap_and_cross_axis_align() {
+        let col = |align: &str| {
+            let mut s = actions_slot(serde_json::json!({}));
+            s["props"]["direction"] = serde_json::json!({ "value": "column" });
+            s["props"]["align"] = serde_json::json!({ "value": align });
+            let sc = slot_scene(
+                &slot_host(s),
+                fills(&[("action-button", Value::Null), ("switch", Value::Null)]),
+            );
+            assert!(sc.diagnostics.is_empty(), "{:?}", sc.diagnostics);
+            sc
+        };
+        let sc = col("end");
+        let (slot, a, b) = (
+            part(&sc, "actions").unwrap(),
+            part(&sc, "actions-1").unwrap(),
+            part(&sc, "actions-2").unwrap(),
+        );
+        assert_eq!((slot.w, slot.h), (32.0, 32.0 + 4.0 + b.h));
+        assert_eq!(b.y, a.y + a.h + 4.0, "stacked with the gap");
+        assert_eq!(b.x, slot.x + slot.w - b.w, "align end on the cross axis");
+        assert_eq!(a.x, slot.x);
+        let start = col("start");
+        assert_eq!(
+            part(&start, "actions-2").unwrap().x,
+            part(&start, "actions").unwrap().x
+        );
+    }
+
+    #[test]
+    fn a_slot_directly_under_the_root_flows_in_a_row_or_column_root() {
+        let run = |root_dir: &str, slot_dir: &str| {
+            let mut s = actions_slot(serde_json::json!({}));
+            s["props"]["direction"] = serde_json::json!({ "value": slot_dir });
+            let mut root = serde_json::json!({ "kind": "box", "children": ["actions"],
+                "props": lit_props(&[("gap", 10.0)]) });
+            root["props"]["direction"] = serde_json::json!({ "value": root_dir });
+            let r = host(serde_json::json!({ "r": root, "actions": s }));
+            slot_scene(
+                &r,
+                fills(&[("action-button", Value::Null), ("switch", Value::Null)]),
+            )
+        };
+        let sc = run("column", "column");
+        assert!(sc.diagnostics.is_empty(), "{:?}", sc.diagnostics);
+        let (slot, a, b) = (
+            part(&sc, "actions").unwrap(),
+            part(&sc, "actions-1").unwrap(),
+            part(&sc, "actions-2").unwrap(),
+        );
+        assert_eq!(slot.h, 32.0 + 4.0 + b.h);
+        assert_eq!(b.y, a.y + a.h + 4.0);
+        let sc = run("row", "row");
+        let (a, b) = (
+            part(&sc, "actions-1").unwrap(),
+            part(&sc, "actions-2").unwrap(),
+        );
+        assert_eq!(b.x, a.x + a.w + 4.0);
+    }
+
+    #[test]
+    fn a_column_slot_is_one_flex_child_among_sibling_parts() {
+        let mut s = actions_slot(serde_json::json!({}));
+        s["props"]["direction"] = serde_json::json!({ "value": "column" });
+        let mut r = slot_host(s);
+        r["parts"]["row"]["children"] = serde_json::json!(["sib", "actions"]);
+        r["parts"]["row"]["props"]["gap"] = serde_json::json!({ "value": 10 });
+        r["parts"]["sib"] = serde_json::json!({ "kind": "box", "props": lit_props(&[
+            ("width", 12.0), ("height", 20.0)]) });
+        let sc = slot_scene(
+            &r,
+            fills(&[("action-button", Value::Null), ("switch", Value::Null)]),
+        );
+        let (sib, slot) = (part(&sc, "sib").unwrap(), part(&sc, "actions").unwrap());
+        assert_eq!((sib.w, sib.h), (12.0, 20.0));
+        assert_eq!(slot.x, sib.x + 12.0 + 10.0, "the group is one row item");
+        assert_eq!(slot.w, 32.0);
+        let (a, b) = (
+            part(&sc, "actions-1").unwrap(),
+            part(&sc, "actions-2").unwrap(),
+        );
+        assert_eq!((a.x, b.y), (slot.x, a.y + a.h + 4.0));
+    }
+
+    #[test]
+    fn fills_carry_their_label_in_a_column_slot() {
+        let mut s = actions_slot(serde_json::json!({}));
+        s["props"]["direction"] = serde_json::json!({ "value": "column" });
+        s["with"] = serde_json::json!({});
+        let sc = slot_scene(
+            &slot_host(s),
+            fills(&[
+                ("switch", serde_json::json!({ "label": "One" })),
+                ("switch", serde_json::json!({ "label": "Two" })),
+            ]),
+        );
+        let texts: Vec<_> = sc.nodes.iter().filter_map(|n| n.text.as_deref()).collect();
+        assert_eq!(texts, ["One", "Two"], "{:?}", sc.diagnostics);
+        let (a, b) = (
+            part(&sc, "actions-1").unwrap(),
+            part(&sc, "actions-2").unwrap(),
+        );
+        assert!(b.y > a.y);
+    }
+
+    #[test]
+    fn an_empty_column_slot_still_draws_its_placeholder() {
+        let mut s = actions_slot(serde_json::json!({
+            "placeholder": { "width": 20, "height": 10, "reason": "x" }
+        }));
+        s["props"]["direction"] = serde_json::json!({ "value": "column" });
+        let sc = slot_scene(&slot_host(s), HashMap::new());
+        let n = part(&sc, "actions").unwrap();
+        assert_eq!((n.w, n.h), (20.0, 10.0));
+    }
+
+    #[test]
     fn an_empty_slot_draws_nothing_or_its_placeholder_literal() {
         let none = slot_scene(
             &slot_host(actions_slot(serde_json::json!({}))),
@@ -9486,6 +9692,28 @@ mod tests {
         assert_eq!(part(&one, "g").unwrap().w, 32.0);
         let none = nest_scene(&g, &r, "m", &[], &[]).unwrap();
         assert!(part(&none, "g").is_none() && part(&none, "a").is_none());
+    }
+
+    #[test]
+    fn a_component_group_stacks_in_a_column() {
+        let g = nest_graph(&[]);
+        let a = comp("action-button", serde_json::json!({ "hideLabel": true }));
+        let b = comp("switch", serde_json::json!({ "hideLabel": true }));
+        let mut group_props = lit_props(&[("gap", 8.0)]);
+        group_props["direction"] = serde_json::json!({ "value": "column" });
+        let r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["h"], "props": lit_props(&[]) },
+            "h": { "kind": "box", "children": ["g"], "props": {
+                "direction": { "value": "row" } } },
+            "g": { "kind": "box", "children": ["a", "b"], "props": group_props },
+            "a": a, "b": b
+        }));
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        let group = part(&s, "g").unwrap();
+        assert_eq!((group.w, group.h), (32.0, 32.0 + 8.0 + 32.0));
+        let (pa, pb) = (part(&s, "a").unwrap(), part(&s, "b").unwrap());
+        assert_eq!(pb.y, pa.y + pa.h + 8.0);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
     }
 
     #[test]

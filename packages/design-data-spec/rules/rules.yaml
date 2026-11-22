@@ -1485,7 +1485,7 @@ rules:
       that slot MUST declare `accepts`. Every accepted component MUST be declared, have a recipe
       and not nest the host. The part's `with` options MUST be options of at least one accepted
       component and valid for every one that declares them, `sizeMap` MUST cover every host size
-      and map into each accepted recipe's `sizeScale`, and the part MUST sit in a row box.
+      and map into each accepted recipe's `sizeScale`, and the part MUST sit in the root or a row box.
     message: "Slot part '{part}' of '{component}': {problem}"
     spec_ref: spec/component-visuals.md#slot-parts
     introduced_in: "1.0.0-draft"
