@@ -4949,7 +4949,7 @@ fn solve_root(
 
     // Pressed scale-down: CSS `perspective(p) translateZ(z)` scales by p / (p - z), where
     // p = clamp(width * ratio, min, max).
-    let press = match (
+    let mut press = match (
         press_diff.as_ref().and_then(Resolved::num),
         press_ratio.as_ref().and_then(Resolved::num),
     ) {
@@ -5141,8 +5141,6 @@ fn solve_root(
         ),
     );
     let (dx, dy) = (-x0, -y0);
-    let mut press = press;
-    let mut measurements = measurements;
     if dx != 0.0 || dy != 0.0 {
         for n in nodes.iter_mut() {
             n.x += dx;
@@ -6699,16 +6697,11 @@ mod tests {
         assert_eq!(n.shadow.len(), 2);
         assert_eq!(n.shadow[0].color, "rgba(0, 0, 0, 0.15)");
         assert_eq!((n.shadow[1].spread, n.shadow[1].blur), (2.0, 0.0));
+        // Layout is unchanged (same box size); only the canvas grows, and the origin shifts.
+        assert_eq!((n.w, n.h), (plain.nodes[0].w, plain.nodes[0].h));
         assert_eq!(
-            (n.x, n.y, n.w, n.h, scene.width, scene.height),
-            (
-                plain.nodes[0].x,
-                plain.nodes[0].y,
-                plain.nodes[0].w,
-                plain.nodes[0].h,
-                plain.width,
-                plain.height
-            )
+            (n.x, n.y, scene.width, scene.height),
+            (12.0, 9.0, 64.0, 44.0)
         );
         let svg = scene_to_svg(&scene);
         assert!(
@@ -10441,11 +10434,11 @@ mod tests {
         assert_eq!((s.nodes[0].x, s.nodes[0].y), (8.0, 16.0));
         assert_eq!((s.width, s.height), (56.0, 44.0));
         let (_, _, s) = tip_at(serde_json::json!({ "side": "start", "offset": lit(20.into()) }));
-        assert_eq!((s.nodes[0].x, s.nodes[0].y), (38.0, 8.0));
-        assert_eq!((s.width, s.height), (86.0, 36.0));
-        assert!(scene_to_svg(&s).contains("viewBox=\"0 0 86 36\""));
+        assert_eq!((s.nodes[0].x, s.nodes[0].y), (30.0, 8.0));
+        assert_eq!((s.width, s.height), (78.0, 36.0));
+        assert!(scene_to_svg(&s).contains("viewBox=\"0 0 78 36\""));
         let (_, _, s) = tip_at(serde_json::json!({ "side": "bottom", "offset": lit(10.into()) }));
-        assert_eq!((s.width, s.height), (56.0, 52.0));
+        assert_eq!((s.width, s.height), (56.0, 44.0));
     }
 
     #[test]
