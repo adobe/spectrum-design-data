@@ -165,19 +165,85 @@
   "slots": [
     {
       "name": "default",
-      "part": "container",
-      "description": "The popover content. Free content, no restriction on what goes in."
+      "part": "content",
+      "description": "The popover content. Free content, no restriction on what goes in; accepts lists what a recipe draws today (acceptsOnly stays false).",
+      "accepts": ["action-button", "link", "switch"]
     }
   ],
   "anatomy": [
     {
       "name": "container",
-      "description": "Surface holding the content. It is the root and carries the background, border, rounding, padding and drop shadow. It hosts the default slot.",
-      "required": true
+      "description": "Surface holding the content. It is the root and carries the background, border, rounding, padding and drop shadow.",
+      "required": true,
+      "contains": ["content"]
+    },
+    {
+      "name": "content",
+      "description": "Area inside the padding that hosts the default slot."
     },
     {
       "name": "tip",
-      "description": "Arrow pointing at the source. A top-level sibling of the container (it is drawn outside the surface), sharing the surface fill and border. Drawn unless hideTip is set."
+      "description": "Arrow pointing at the source. A top-level sibling of the container (it is drawn outside the surface), sharing the surface fill and border. Drawn unless hideTip is set. It is drawn by the placement part that matches the placement: tip-bottom (placement top), tip-top (bottom), tip-end (left, start) and tip-start (right, end)."
+    },
+    {
+      "name": "tip-bottom",
+      "description": "Tip on the bottom edge of the container, drawn when the placement starts with top and hideTip is not set.",
+      "presentWhen": {
+        "options": {
+          "placement": ["top", "top left", "top right", "top start", "top end"],
+          "hideTip": false
+        }
+      }
+    },
+    {
+      "name": "tip-top",
+      "description": "Tip on the top edge of the container, drawn when the placement starts with bottom and hideTip is not set.",
+      "presentWhen": {
+        "options": {
+          "placement": [
+            "bottom",
+            "bottom left",
+            "bottom right",
+            "bottom start",
+            "bottom end"
+          ],
+          "hideTip": false
+        }
+      }
+    },
+    {
+      "name": "tip-end",
+      "description": "Tip on the end edge of the container, drawn when the placement starts with left/start and hideTip is not set.",
+      "presentWhen": {
+        "options": {
+          "placement": [
+            "left",
+            "left top",
+            "left bottom",
+            "start",
+            "start top",
+            "start bottom"
+          ],
+          "hideTip": false
+        }
+      }
+    },
+    {
+      "name": "tip-start",
+      "description": "Tip on the start edge of the container, drawn when the placement starts with right/end and hideTip is not set.",
+      "presentWhen": {
+        "options": {
+          "placement": [
+            "right",
+            "right top",
+            "right bottom",
+            "end",
+            "end top",
+            "end bottom"
+          ],
+          "hideTip": false
+        }
+      }
     }
   ],
   "anatomyReview": {

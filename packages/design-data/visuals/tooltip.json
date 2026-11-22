@@ -1,0 +1,229 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tooltip",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["maxWidth", "shouldFlip", "offset", "containerPadding"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["label"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "minimum-height",
+            "part": "container"
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "padding-horizontal",
+            "part": "container"
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "padding-horizontal",
+            "part": "container"
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "padding-vertical",
+            "part": "container"
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "padding-vertical",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
+          }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "label"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "label"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "label"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "label"
+          }
+        }
+      }
+    },
+    "tip-bottom": {
+      "kind": "box",
+      "floating": {
+        "side": "bottom"
+      },
+      "path": {
+        "d": "M0 0 L6.4 6.4 Q8 8 9.6 6.4 L16 0 Z",
+        "viewBox": [16, 8]
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "tip"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "tip"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
+          }
+        }
+      }
+    },
+    "tip-top": {
+      "kind": "box",
+      "floating": {
+        "side": "top"
+      },
+      "path": {
+        "d": "M0 8 L6.4 1.6 Q8 0 9.6 1.6 L16 8 Z",
+        "viewBox": [16, 8]
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "tip"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "tip"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
+          }
+        }
+      }
+    },
+    "tip-end": {
+      "kind": "box",
+      "floating": {
+        "side": "end"
+      },
+      "path": {
+        "d": "M0 0 L6.4 6.4 Q8 8 6.4 9.6 L0 16 Z",
+        "viewBox": [8, 16]
+      },
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "width",
+            "part": "tip"
+          }
+        },
+        "width": {
+          "relationship": {
+            "property": "height",
+            "part": "tip"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
+          }
+        }
+      }
+    },
+    "tip-start": {
+      "kind": "box",
+      "floating": {
+        "side": "start"
+      },
+      "path": {
+        "d": "M8 0 L1.6 6.4 Q0 8 1.6 9.6 L8 16 Z",
+        "viewBox": [8, 16]
+      },
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "width",
+            "part": "tip"
+          }
+        },
+        "width": {
+          "relationship": {
+            "property": "height",
+            "part": "tip"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
+          }
+        }
+      }
+    }
+  }
+}
