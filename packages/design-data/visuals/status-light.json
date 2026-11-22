@@ -43,6 +43,9 @@
       "kind": "text",
       "text": { "option": "label" },
       "props": {
+        "overflow": {
+          "value": "wrap"
+        },
         "typeStyle": {
           "relationship": { "property": "type-style", "part": "label" }
         },
