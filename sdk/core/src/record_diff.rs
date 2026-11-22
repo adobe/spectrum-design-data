@@ -337,6 +337,12 @@ fn scope_label(rec: &Value) -> String {
                 .collect()
         })
         .unwrap_or_default();
+    if let Some(p) = scope
+        .and_then(|s| s.get("itemPosition"))
+        .and_then(Value::as_str)
+    {
+        q.push(format!("itemPosition={p}"));
+    }
     q.sort();
     if q.is_empty() {
         prop.to_string()
