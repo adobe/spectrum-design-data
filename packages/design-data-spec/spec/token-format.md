@@ -178,10 +178,11 @@ OpenAPI 3.3's deprecation model.
 | `lifecycle.replacedBy`        | string (UUID) or array of string (UUID)        | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
 | `lifecycle.plannedRemoval`    | string (version)                               | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecatedIn`.              |
 | `private`                     | boolean                                        | Not part of public API surface.                                                                                                |
+| `excludeFromLegacy`           | boolean                                        | When `true`, legacy output generation **MUST** omit the token. Default `false`. Use for tokens with no legacy counterpart.     |
 | `tokenTier`                   | `"primitive"` \| `"semantic"` \| `"component"` | Overrides the tier derived from the token. Usually omitted; see [Taxonomy: Token tiers](taxonomy.md#token-tiers).              |
 | `rationale`                   | string                                         | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
 
-`private` and `rationale` stay flat (not version-lifecycle concepts).
+`private`, `excludeFromLegacy` and `rationale` stay flat (not version-lifecycle concepts).
 
 #### Lifecycle example
 
