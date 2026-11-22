@@ -126,9 +126,10 @@
     "scope": {
       "component": "drop-zone",
       "part": "banner",
-      "property": "component-height-300",
+      "property": "height",
       "options": {
-        "isFilled": true
+        "isFilled": true,
+        "scale": "desktop"
       }
     },
     "context": "Text area (hover)",
@@ -141,9 +142,10 @@
     "scope": {
       "component": "drop-zone",
       "part": "banner",
-      "property": "component-height-300",
+      "property": "height",
       "options": {
-        "isFilled": true
+        "isFilled": true,
+        "scale": "mobile"
       }
     },
     "context": "Text area (hover)",
@@ -156,9 +158,10 @@
     "scope": {
       "component": "drop-zone",
       "part": "banner",
-      "property": "component-edge-to-text-300",
+      "property": "padding-horizontal",
       "options": {
-        "isFilled": true
+        "isFilled": true,
+        "scale": "desktop"
       }
     },
     "context": "Text area (hover)",
@@ -171,9 +174,10 @@
     "scope": {
       "component": "drop-zone",
       "part": "banner",
-      "property": "component-edge-to-text-300",
+      "property": "padding-horizontal",
       "options": {
-        "isFilled": true
+        "isFilled": true,
+        "scale": "mobile"
       }
     },
     "context": "Text area (hover)",
@@ -186,7 +190,7 @@
     "scope": {
       "component": "drop-zone",
       "part": "banner",
-      "property": "component-bottom-to-text-300",
+      "property": "padding-vertical",
       "options": {
         "isFilled": true
       }
@@ -324,6 +328,7 @@
   {
     "scope": {
       "component": "drop-zone",
+      "part": "title",
       "property": "font-family"
     },
     "context": "Title area and body area",
@@ -346,7 +351,10 @@
     "scope": {
       "component": "drop-zone",
       "part": "title",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Title area and body area",
     "contextRole": ["label", "label"],
@@ -357,7 +365,10 @@
     "scope": {
       "component": "drop-zone",
       "part": "title",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Title area and body area",
     "contextRole": ["label", "label"],
@@ -368,7 +379,7 @@
     "scope": {
       "component": "drop-zone",
       "part": "title",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Title area and body area",
     "contextRole": ["label", "label"],
@@ -379,7 +390,8 @@
     "scope": {
       "component": "drop-zone",
       "part": "container",
-      "property": "color"
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border color",
     "contextRole": ["border"],
@@ -390,7 +402,8 @@
     "scope": {
       "component": "drop-zone",
       "part": "container",
-      "property": "color"
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border color",
     "contextRole": ["border"],
@@ -401,7 +414,8 @@
     "scope": {
       "component": "drop-zone",
       "part": "container",
-      "property": "color"
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border color",
     "contextRole": ["border"],
@@ -443,7 +457,8 @@
     "scope": {
       "component": "drop-zone",
       "part": "container",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Border and background color (empty, hover)",
     "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322",
@@ -453,7 +468,8 @@
     "scope": {
       "component": "drop-zone",
       "part": "container",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Border and background color (empty, hover)",
     "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89",
@@ -463,7 +479,8 @@
     "scope": {
       "component": "drop-zone",
       "part": "container",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Border and background color (empty, hover)",
     "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190",
@@ -473,7 +490,8 @@
     "scope": {
       "component": "drop-zone",
       "part": "container",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Border and background color (empty, hover)",
     "$ref": "866f3613-c12f-4475-87b1-ad86ef2ce153",
@@ -485,7 +503,7 @@
       "part": "container",
       "property": "opacity"
     },
-    "context": "Border and background color (empty, hover)",
+    "context": "Background (empty, hover)",
     "$ref": "ee5ed78b-230c-4b37-9d76-1787a975bb63",
     "uuid": "114268d8-06d6-5eb6-a5df-1aa1d4b2f801"
   },
@@ -498,7 +516,7 @@
         "isFilled": true
       }
     },
-    "context": "Border, background, and text area color (hover)",
+    "context": "Background (hover)",
     "$ref": "ca70550a-b11a-438f-9c70-ff1eeba532cc",
     "uuid": "ed32e791-16aa-530a-8b32-0a86b2b98104"
   },
@@ -509,7 +527,8 @@
       "property": "color",
       "options": {
         "isFilled": true
-      }
+      },
+      "attribute": "background"
     },
     "context": "Border, background, and text area color (hover)",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
@@ -541,7 +560,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "ee5ed78b-230c-4b37-9d76-1787a975bb63",
-    "legacyKey": "drop-zone-background-color-opacity"
+    "legacyKey": "drop-zone-background-color-opacity",
+    "context": "Background (empty, hover)"
   },
   {
     "scope": {
@@ -556,7 +576,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.3",
     "uuid": "ca70550a-b11a-438f-9c70-ff1eeba532cc",
-    "legacyKey": "drop-zone-background-color-opacity-filled"
+    "legacyKey": "drop-zone-background-color-opacity-filled",
+    "context": "Background (hover)"
   },
   {
     "scope": {

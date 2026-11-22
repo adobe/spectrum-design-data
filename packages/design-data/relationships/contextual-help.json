@@ -25,6 +25,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "container",
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to link)",
@@ -36,6 +37,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "container",
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to link)",
@@ -47,6 +49,7 @@
   {
     "scope": {
       "component": "contextual-help",
+      "part": "container",
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to link)",
@@ -147,7 +150,8 @@
     "scope": {
       "component": "contextual-help",
       "part": "title",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Color",
     "contextRole": ["background"],
@@ -158,7 +162,8 @@
     "scope": {
       "component": "contextual-help",
       "part": "description",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Color",
     "contextRole": ["background"],
