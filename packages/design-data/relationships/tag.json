@@ -1571,7 +1571,7 @@
     "scope": {
       "component": "tag",
       "part": "container",
-      "property": "color",
+      "property": "content-color",
       "options": {
         "isSelected": true,
         "isEmphasized": true,
@@ -1657,7 +1657,7 @@
     "scope": {
       "component": "tag",
       "part": "container",
-      "property": "color",
+      "property": "content-color",
       "options": {
         "isSelected": true,
         "isEmphasized": false,
@@ -1672,7 +1672,7 @@
     "scope": {
       "component": "tag",
       "part": "container",
-      "property": "color",
+      "property": "content-color",
       "options": {
         "isSelected": true,
         "isEmphasized": false,
@@ -1687,7 +1687,7 @@
     "scope": {
       "component": "tag",
       "part": "container",
-      "property": "color",
+      "property": "content-color",
       "options": {
         "isSelected": true,
         "isEmphasized": false,
@@ -1754,7 +1754,7 @@
       "options": {
         "isSelected": false,
         "isDisabled": false,
-        "state": ["hover", "keyboard-focus"]
+        "state": ["hover"]
       },
       "attribute": "background"
     },
@@ -1771,7 +1771,24 @@
       "options": {
         "isSelected": false,
         "isDisabled": false,
-        "state": ["hover", "keyboard-focus"]
+        "state": ["keyboard-focus"]
+      },
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
+    "uuid": "042fa2f4-952b-5e50-ac3a-e7dcf7c85fd5"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "part": "container",
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["hover"]
       },
       "attribute": "background"
     },
@@ -1788,7 +1805,24 @@
       "options": {
         "isSelected": false,
         "isDisabled": false,
-        "state": ["hover", "keyboard-focus"]
+        "state": ["keyboard-focus"]
+      },
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
+    "uuid": "060f5d2d-9fdb-5b3d-88be-1dac075ed051"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "part": "container",
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["hover"]
       },
       "attribute": "background"
     },
@@ -1796,6 +1830,23 @@
     "contextRole": ["background"],
     "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
     "uuid": "0886d775-21b9-58e0-9e90-a6a915211936"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "part": "container",
+      "property": "color",
+      "options": {
+        "isSelected": false,
+        "isDisabled": false,
+        "state": ["keyboard-focus"]
+      },
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
+    "uuid": "2f41b79d-575b-5628-b947-d1e7b831c842"
   },
   {
     "scope": {

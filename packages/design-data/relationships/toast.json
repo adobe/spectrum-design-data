@@ -374,7 +374,7 @@
     },
     "context": "Text and icon",
     "contextRole": ["label", "icon"],
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
     "uuid": "99b84917-3395-5795-a62f-7a1fda121a29"
   },
   {
@@ -385,7 +385,7 @@
     },
     "context": "Text and icon",
     "contextRole": ["label", "icon"],
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
     "uuid": "1544f5d1-c9f6-5a72-82fa-6b2263ab10bc"
   },
   {

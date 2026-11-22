@@ -458,6 +458,111 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Combo box: the defaults draw an empty hugging field (no value, label, description or width set). These
+    // fill it in: a label, a value and help text at each size, the hover and keyboard-focus
+    // borders, the invalid and disabled borders and the dark mobile scheme.
+    if name == "combo-box" {
+        type Case = (
+            &'static str,
+            &'static str,
+            Vec<&'static str>,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+        );
+        let filled: [(&str, Value); 4] = [
+            ("label", "Name".into()),
+            ("value", "Hello".into()),
+            ("description", "Help text".into()),
+            ("width", 240.into()),
+        ];
+        let cases: Vec<Case> = vec![
+            ("filled-s", "s", vec![], vec![], "light", "desktop"),
+            ("filled-m", "m", vec![], vec![], "light", "desktop"),
+            ("filled-l", "l", vec![], vec![], "light", "desktop"),
+            ("filled-xl", "xl", vec![], vec![], "light", "desktop"),
+            (
+                "required-icon",
+                "m",
+                vec![],
+                vec![("isRequired", true.into())],
+                "light",
+                "desktop",
+            ),
+            (
+                "hover",
+                "m",
+                vec!["hover-text-area"],
+                vec![],
+                "light",
+                "desktop",
+            ),
+            (
+                "keyboard-focus",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "light",
+                "desktop",
+            ),
+            (
+                "keyboard-focus-dark",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "dark",
+                "desktop",
+            ),
+            (
+                "invalid",
+                "m",
+                vec![],
+                vec![("isError", true.into()), ("isRequired", true.into())],
+                "light",
+                "desktop",
+            ),
+            (
+                "invalid-hover-dark",
+                "m",
+                vec!["hover-text-area"],
+                vec![("isError", true.into())],
+                "dark",
+                "desktop",
+            ),
+            (
+                "disabled",
+                "m",
+                vec![],
+                vec![("isDisabled", true.into())],
+                "light",
+                "desktop",
+            ),
+            ("dark-mobile-xl", "xl", vec![], vec![], "dark", "mobile"),
+            (
+                "focus-hover",
+                "m",
+                vec!["focus-hover"],
+                vec![],
+                "light",
+                "desktop",
+            ),
+        ];
+        for (label, size, states, extra, scheme, scale) in cases {
+            let mut opts: HashMap<String, Value> = filled
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            opts.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            let mut r = req(
+                states.iter().map(|s| s.to_string()).collect(),
+                opts,
+                scheme,
+                scale,
+            );
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
     // Picker: the defaults draw an empty field (no label, value, placeholder or description are
     // set). These fill it in at each size, with the placeholder, the hover and keyboard-focus
     // states, the invalid border, the disabled look and the dark mobile scheme.
@@ -548,6 +653,462 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Message family (in-line alert, alert banner, toast): the defaults draw an empty message,
+    // so these set the copy and cover each variant, the in-line alert styles, a dismissible
+    // banner, the dark and wireframe schemes, the mobile scale and a wrapped message.
+    if matches!(name, "in-line-alert" | "alert-banner" | "toast") {
+        type Case = (
+            &'static str,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+            Option<f64>,
+        );
+        let copy = |text: &'static str| -> Vec<(&'static str, Value)> {
+            if name == "in-line-alert" {
+                vec![("heading", "Heading".into())]
+            } else {
+                vec![("text", text.into())]
+            }
+        };
+        let with = |variant: &'static str, style: Option<&'static str>| {
+            let mut v = copy("Your changes were saved");
+            v.push(("variant", variant.into()));
+            if let Some(s) = style {
+                v.push(("style", s.into()));
+            }
+            if name == "alert-banner" {
+                v.push(("isDismissible", true.into()));
+            }
+            v
+        };
+        // The all-on golden picks each option's last value, and the accent variant (the last of
+        // the in-line alert and the banner) has no records, so it would draw no fill. Use the
+        // last variant that has one.
+        for (label, r) in out.iter_mut() {
+            if *label == "all-on-dark-mobile" {
+                r.options.insert("variant".into(), "negative".into());
+            }
+        }
+        let long = "Your changes could not be saved because the connection to the server was lost";
+        let cases: Vec<Case> = match name {
+            "in-line-alert" => vec![
+                (
+                    "outline-neutral",
+                    with("neutral", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-informative",
+                    with("informative", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-positive",
+                    with("positive", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-notice",
+                    with("notice", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-negative",
+                    with("negative", Some("outline")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-neutral",
+                    with("neutral", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-informative",
+                    with("informative", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-positive",
+                    with("positive", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-notice",
+                    with("notice", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-negative",
+                    with("negative", Some("subtle")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-neutral",
+                    with("neutral", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-informative",
+                    with("informative", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-positive",
+                    with("positive", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-notice",
+                    with("notice", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-negative",
+                    with("negative", Some("bold")),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-negative-dark",
+                    with("negative", Some("outline")),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "subtle-notice-dark",
+                    with("notice", Some("subtle")),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-notice-dark",
+                    with("notice", Some("bold")),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "bold-informative-wireframe",
+                    with("informative", Some("bold")),
+                    "wireframe",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "outline-informative-mobile",
+                    with("informative", Some("outline")),
+                    "light",
+                    "mobile",
+                    None,
+                ),
+                (
+                    "wrapped",
+                    with("negative", Some("outline")),
+                    "light",
+                    "desktop",
+                    Some(280.0),
+                ),
+            ],
+            "alert-banner" => vec![
+                ("neutral", with("neutral", None), "light", "desktop", None),
+                (
+                    "informative",
+                    with("informative", None),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                ("negative", with("negative", None), "light", "desktop", None),
+                (
+                    "negative-dark",
+                    with("negative", None),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "informative-wireframe",
+                    with("informative", None),
+                    "wireframe",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "neutral-mobile",
+                    with("neutral", None),
+                    "light",
+                    "mobile",
+                    None,
+                ),
+                (
+                    "wrapped-mobile",
+                    {
+                        let mut v = with("negative", None);
+                        v.retain(|(k, _)| *k != "text");
+                        v.push(("text", long.into()));
+                        v
+                    },
+                    "light",
+                    "mobile",
+                    Some(390.0),
+                ),
+                (
+                    "not-dismissible",
+                    {
+                        let mut v = with("informative", None);
+                        v.retain(|(k, _)| *k != "isDismissible");
+                        v
+                    },
+                    "light",
+                    "desktop",
+                    None,
+                ),
+            ],
+            _ => vec![
+                ("neutral", with("neutral", None), "light", "desktop", None),
+                (
+                    "informative",
+                    with("informative", None),
+                    "light",
+                    "desktop",
+                    None,
+                ),
+                ("positive", with("positive", None), "light", "desktop", None),
+                ("negative", with("negative", None), "light", "desktop", None),
+                (
+                    "negative-dark",
+                    with("negative", None),
+                    "dark",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "positive-wireframe",
+                    with("positive", None),
+                    "wireframe",
+                    "desktop",
+                    None,
+                ),
+                (
+                    "informative-mobile",
+                    with("informative", None),
+                    "light",
+                    "mobile",
+                    None,
+                ),
+                (
+                    "wrapped",
+                    {
+                        let mut v = with("negative", None);
+                        v.retain(|(k, _)| *k != "text");
+                        v.push(("text", long.into()));
+                        v
+                    },
+                    "light",
+                    "desktop",
+                    Some(320.0),
+                ),
+            ],
+        };
+        for (label, opts, scheme, scale, width) in cases {
+            let opts: HashMap<String, Value> =
+                opts.into_iter().map(|(k, v)| (k.to_string(), v)).collect();
+            let mut r = req(vec![], opts, scheme, scale);
+            r.label = if label == "wrapped" {
+                long.into()
+            } else {
+                "Review the highlighted fields and try again".into()
+            };
+            r.width = width;
+            out.push((label, r));
+        }
+    }
+    // Tag: the defaults draw a bare label. These show the removable tag at each size, a
+    // leading icon and avatar, the selected and emphasized looks, the hover, down and
+    // keyboard-focus looks, the disabled tag and the dark mobile scheme.
+    if name == "tag" {
+        type Case = (
+            &'static str,
+            &'static str,
+            Vec<&'static str>,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+        );
+        let removable: (&str, Value) = ("isRemovable", true.into());
+        let selected: (&str, Value) = ("isSelected", true.into());
+        let emphasized: (&str, Value) = ("isEmphasized", true.into());
+        let disabled: (&str, Value) = ("isDisabled", true.into());
+        let cases: Vec<Case> = vec![
+            (
+                "removable-s",
+                "s",
+                vec![],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "removable-m",
+                "m",
+                vec![],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "removable-l",
+                "l",
+                vec![],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "icon",
+                "m",
+                vec![],
+                vec![("icon", true.into()), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "avatar",
+                "m",
+                vec![],
+                vec![("hasAvatar", true.into()), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "hover",
+                "m",
+                vec!["hover"],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "down",
+                "m",
+                vec!["down"],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "keyboard-focus",
+                "m",
+                vec!["keyboard-focus"],
+                vec![removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "selected",
+                "m",
+                vec![],
+                vec![selected.clone(), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "selected-emphasized",
+                "m",
+                vec![],
+                vec![selected.clone(), emphasized.clone(), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "selected-emphasized-hover-dark",
+                "m",
+                vec!["hover"],
+                vec![selected.clone(), emphasized.clone(), removable.clone()],
+                "dark",
+                "desktop",
+            ),
+            (
+                "selected-keyboard-focus-dark",
+                "m",
+                vec!["keyboard-focus"],
+                vec![selected.clone(), removable.clone()],
+                "dark",
+                "desktop",
+            ),
+            (
+                "disabled",
+                "m",
+                vec![],
+                vec![disabled.clone(), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "disabled-selected",
+                "m",
+                vec![],
+                vec![disabled.clone(), selected.clone(), removable.clone()],
+                "light",
+                "desktop",
+            ),
+            (
+                "dark-mobile-l",
+                "l",
+                vec![],
+                vec![("icon", true.into()), selected.clone(), removable.clone()],
+                "dark",
+                "mobile",
+            ),
+        ];
+        for (label, size, states, extra, scheme, scale) in cases {
+            let opts: HashMap<String, Value> = extra
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            let mut r = req(
+                states.iter().map(|s| s.to_string()).collect(),
+                opts,
+                scheme,
+                scale,
+            );
+            r.label = "Tag label".into();
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
     // Status light: the default is the informative dot at size m. These draw the other sizes, the
     // semantic variants (neutral, positive, notice, negative, accent) and a named color in light,
     // plus the dark scheme and the wireframe scheme at the largest size on mobile.
@@ -575,6 +1136,94 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             let mut r = req(
                 vec![],
                 HashMap::from([("variant".to_string(), Value::String(variant.into()))]),
+                scheme,
+                scale,
+            );
+            r.size = size.into();
+            out.push((label, r));
+        }
+    }
+    // Search field: the defaults draw an empty field with the search icon. These fill it in at each
+    // size (the width option stands in for the width token only the medium size has), with the
+    // placeholder, the hover and keyboard-focus borders, the disabled look and the dark mobile
+    // scheme.
+    if name == "search-field" {
+        type Case = (
+            &'static str,
+            &'static str,
+            Vec<&'static str>,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+        );
+        let filled: [(&str, Value); 4] = [
+            ("label", "Search".into()),
+            ("value", "Hello".into()),
+            ("helpText", "Help text".into()),
+            ("width", 192.into()),
+        ];
+        let cases: Vec<Case> = vec![
+            ("filled-s", "s", vec![], vec![], "light", "desktop"),
+            ("filled-m", "m", vec![], vec![], "light", "desktop"),
+            ("filled-l", "l", vec![], vec![], "light", "desktop"),
+            ("filled-xl", "xl", vec![], vec![], "light", "desktop"),
+            (
+                "placeholder",
+                "m",
+                vec![],
+                vec![("placeholder", "Search".into())],
+                "light",
+                "desktop",
+            ),
+            ("hover", "m", vec!["hover"], vec![], "light", "desktop"),
+            ("hover-dark", "m", vec!["hover"], vec![], "dark", "desktop"),
+            (
+                "keyboard-focus",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "light",
+                "desktop",
+            ),
+            (
+                "keyboard-focus-dark",
+                "m",
+                vec!["keyboard-focus"],
+                vec![],
+                "dark",
+                "desktop",
+            ),
+            (
+                "disabled",
+                "m",
+                vec![],
+                vec![("isDisabled", true.into())],
+                "light",
+                "desktop",
+            ),
+            (
+                "disabled-dark",
+                "m",
+                vec![],
+                vec![("isDisabled", true.into())],
+                "dark",
+                "desktop",
+            ),
+            ("dark-mobile-xl", "xl", vec![], vec![], "dark", "mobile"),
+        ];
+        for (label, size, states, extra, scheme, scale) in cases {
+            let mut opts: HashMap<String, Value> = filled
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.clone()))
+                .collect();
+            opts.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            // The placeholder shows only while no value is set.
+            if extra.iter().any(|(k, _)| *k == "placeholder") {
+                opts.remove("value");
+            }
+            let mut r = req(
+                states.iter().map(|s| s.to_string()).collect(),
+                opts,
                 scheme,
                 scale,
             );

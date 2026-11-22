@@ -1,0 +1,237 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "combo-box",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": [
+    "labelPosition",
+    "hasAutocomplete",
+    "menuTrigger",
+    "isReadOnly",
+    "errorMessage",
+    "hover-button-area"
+  ],
+  "derived": [
+    {
+      "context": "Spacing (top/bottom edge to text)",
+      "property": "space-between",
+      "part": "value",
+      "from": "(height - value.lineHeight) / 2"
+    },
+    {
+      "context": "Spacing (top/bottom edge to text)",
+      "property": "space-between",
+      "part": "value",
+      "edge": "bottom",
+      "from": "(height - value.lineHeight) / 2"
+    }
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["field-label", "field", "help-text"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "gap": {
+          "value": 0
+        },
+        "width": {
+          "dimension": "width"
+        }
+      }
+    },
+    "field-label": {
+      "kind": "component",
+      "component": "field-label",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "visibleWhen": {
+        "options": {
+          "label": true
+        }
+      },
+      "with": {
+        "isRequired": {
+          "option": "isRequired"
+        },
+        "necessityIndicator": {
+          "option": "necessityIndicator"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "label": {
+          "option": "label"
+        }
+      }
+    },
+    "field": {
+      "kind": "box",
+      "children": ["value"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "field"
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "field",
+            "between": {
+              "from": "start-edge",
+              "to": "value"
+            }
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "field",
+            "between": {
+              "from": "value",
+              "to": "end-edge"
+            }
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "field"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "field"
+          }
+        },
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "field"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "field"
+          }
+        }
+      }
+    },
+    "value": {
+      "kind": "text",
+      "props": {
+        "grow": {
+          "value": true
+        },
+        "overflow": {
+          "value": "truncate"
+        },
+        "typeStyle": {
+          "relationship": {
+            "property": "type-style",
+            "part": "value"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "value"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "relationship": {
+              "property": "content-color",
+              "part": "field"
+            }
+          }
+        ]
+      },
+      "text": {
+        "option": "value"
+      },
+      "visibleWhen": {
+        "options": {
+          "value": true
+        }
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "around": "field",
+      "visibleWhen": {
+        "states": ["keyboard-focus"]
+      },
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    },
+    "help-text": {
+      "kind": "component",
+      "component": "help-text",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "visibleWhen": {
+        "options": {
+          "description": true
+        }
+      },
+      "with": {
+        "text": {
+          "option": "description"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    }
+  }
+}
