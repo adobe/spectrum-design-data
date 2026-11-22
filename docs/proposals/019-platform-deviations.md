@@ -2,7 +2,7 @@
 
 # Proposal 019: Platform manifest `deviations`
 
-**Status:** Draft; the owner chose option A (decision A309). The spec text, the schema and the rule definitions ship with this proposal (PR 1). The engine and the CLI do not read deviations yet.\
+**Status:** Draft; the owner chose option A (decision A309). PR 1 (spec, schema, rule definitions) and PR 2 (core loading, SPEC-109 to SPEC-111 enforced) are merged or in review. `render-compare`, `MANIFEST-007` and `platform impact` do not read deviations yet (PRs 3 to 5). `validate` resolves selectors against the platform's view (aliases, platform components and recipes applied).\
 **Issue:** [#1746](https://github.com/adobe/spectrum-design-data/issues/1746), filed from spectrum-rune. The issue expected this to become proposal 016; that number was taken.\
 **Affects:** `packages/design-data-spec/spec/manifest.md`, `spec/component-visuals.md`, `schemas/platform-deviation.schema.json`, `rules/rules.yaml` (SPEC-109 to SPEC-111), `sdk/core/src/manifest.rs`, `sdk/core/src/graph.rs`, `sdk/cli/src/render_batch.rs` (`run_compare`), `sdk/cli/src/doctor.rs`, `sdk/cli/src/main.rs` (`validate-manifest`), `sdk/core/src/platform_impact.rs`.
 

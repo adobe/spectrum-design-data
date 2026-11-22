@@ -1,0 +1,4 @@
+{
+  "component": "switch",
+  "deviations": [{ "id": "no-status", "reason": "status is required" }]
+}

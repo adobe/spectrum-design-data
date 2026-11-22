@@ -1496,8 +1496,8 @@ rules:
     layer: 1
     category: manifest
     note: >
-      Defined, not yet enforced: the reference SDK does not load `extensions/deviations/` until
-      the core-loading follow-up (proposal 019, PR 2). Conformance fixtures are in
+      The schema half is checked when the manifest loads (a file that fails it rejects the
+      load); the uniqueness half is this rule. Conformance fixtures are in
       `conformance/deviations/`.
     assert: >
       A platform manifest `extensions/deviations/` file MUST validate against
@@ -1512,8 +1512,10 @@ rules:
     layer: 2
     category: reference-integrity
     note: >
-      Defined, not yet enforced (needs the core-loading follow-up, proposal 019, PR 2). Follows
-      the pattern of SPEC-060 and SPEC-061 for recipes.
+      Follows the pattern of SPEC-060 and SPEC-061 for recipes. Skipped when no component
+      catalog is loaded. The reference SDK resolves against the platform's view: the manifest
+      is applied first, so `componentAliases`, platform-declared components and platform
+      anatomy are in effect (a file for an alias key checks against its target).
     assert: >
       A deviation's `component` MUST resolve to a declared component, directly or through
       `componentAliases`. Its `part` MUST be a part of the resolved component's anatomy. Every
@@ -1530,8 +1532,11 @@ rules:
     layer: 2
     category: component-contract
     note: >
-      Defined, not yet enforced (needs the core-loading follow-up, proposal 019, PR 2). A
-      deviation with no `property` is documentation and is not checked.
+      A deviation with no `property` or no `part` is documentation and is not checked, and so
+      is a property `render-compare` does not compare yet (`fontFamily`, `opacity`). A
+      component with no recipe is skipped. The CLI `validate` loads foundation recipes only with
+      `--visuals-path` (a platform's own recipes are always in effect), so a foundation
+      recipe is checked only then.
     assert: >
       A deviation's `property`, when present together with `part`, SHOULD be a property the
       effective recipe sets for that part.

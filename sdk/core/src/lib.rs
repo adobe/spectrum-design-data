@@ -692,7 +692,9 @@ mod validation_conformance {
             default_rules().iter().map(|r| r.id().to_string()).collect();
         let mut failures = Vec::new();
         // The skip below must not hide a rule that is implemented: these fail if unregistered.
-        for id in ["SPEC-074", "SPEC-106", "SPEC-107", "SPEC-108"] {
+        for id in [
+            "SPEC-074", "SPEC-106", "SPEC-107", "SPEC-108", "SPEC-109", "SPEC-110", "SPEC-111",
+        ] {
             assert!(registered.contains(id), "{id} is not in default_rules()");
         }
 
@@ -2228,5 +2230,96 @@ mod generation_conformance {
     #[test]
     fn ctr_legacy_key() {
         run_fixture("ctr-legacy-key");
+    }
+}
+
+/// Platform deviation conformance: runs `conformance/deviations/{valid,invalid}/<case>/`
+/// through `run_rules` and compares the SPEC-109 to SPEC-111 diagnostics with each case's
+/// `expected-errors.json` (a valid case expects none). Disabling any of the three rules
+/// fails it.
+#[cfg(test)]
+mod deviations_conformance {
+    use std::collections::HashSet;
+    use std::path::{Path, PathBuf};
+
+    use serde_json::{json, Value};
+
+    use crate::graph::{ComponentRecord, Layer, TokenGraph, VisualRecord};
+    use crate::validate::rules::run_rules;
+
+    const RULES: [&str; 3] = ["SPEC-109", "SPEC-110", "SPEC-111"];
+
+    fn graph() -> TokenGraph {
+        TokenGraph::default()
+            .with_components(vec![ComponentRecord {
+                name: "switch".into(),
+                file: "switch.json".into(),
+                raw: json!({ "name": "switch", "anatomy": [{ "name": "track" }],
+                    "states": [{ "name": "keyboard-focus" }],
+                    "options": { "isSelected": { "type": "boolean" } } }),
+                layer: Layer::Foundation,
+            }])
+            .with_visuals(vec![VisualRecord {
+                component: "switch".into(),
+                file: "switch.json".into(),
+                raw: json!({ "component": "switch", "parts": { "track": {
+                    "kind": "box", "props": { "fill": {}, "stroke": {} } } } }),
+                layer: Layer::Foundation,
+            }])
+    }
+
+    fn cases(dir: &Path) -> Vec<PathBuf> {
+        let mut v: Vec<PathBuf> = std::fs::read_dir(dir)
+            .unwrap()
+            .map(|e| e.unwrap().path())
+            .filter(|p| p.is_dir())
+            .collect();
+        v.sort();
+        v
+    }
+
+    fn diagnostics(case: &Path) -> Vec<(String, String)> {
+        let doc: Value =
+            serde_json::from_str(&std::fs::read_to_string(case.join("switch.json")).unwrap())
+                .unwrap();
+        let manifest = json!({ "extensions": { "deviations": [
+            { "file": "switch.json", "deviations": doc }] } });
+        run_rules(&graph(), &HashSet::new(), Some(&manifest))
+            .into_iter()
+            .filter_map(|d| {
+                let id = d.rule_id?;
+                RULES.contains(&id.as_str()).then_some((id, d.message))
+            })
+            .collect()
+    }
+
+    #[test]
+    fn cases_match_expected_errors() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/deviations");
+        for case in cases(&root.join("valid")) {
+            assert_eq!(diagnostics(&case), vec![], "{}", case.display());
+        }
+        let mut seen = HashSet::new();
+        for case in cases(&root.join("invalid")) {
+            let expected: Value = serde_json::from_str(
+                &std::fs::read_to_string(case.join("expected-errors.json")).unwrap(),
+            )
+            .unwrap();
+            let got = diagnostics(&case);
+            let want = expected["errors"].as_array().unwrap();
+            assert_eq!(got.len(), want.len(), "{}: {got:?}", case.display());
+            for (g, w) in got.iter().zip(want) {
+                assert_eq!(g.0, w["rule_id"].as_str().unwrap(), "{}", case.display());
+                assert!(
+                    g.1.contains(w["message_pattern"].as_str().unwrap()),
+                    "{}: {}",
+                    case.display(),
+                    g.1
+                );
+                seen.insert(g.0.clone());
+            }
+        }
+        assert_eq!(seen.len(), RULES.len(), "every rule has an invalid case");
     }
 }

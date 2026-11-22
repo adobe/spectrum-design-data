@@ -10,7 +10,7 @@
     },
     {
       "id": "track-focus-stroke",
-      "part": "handle",
+      "part": "track",
       "property": "fill",
       "status": "planned",
       "reason": "No focus-visible fill API."
