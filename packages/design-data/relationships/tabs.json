@@ -1259,6 +1259,66 @@
     "scope": {
       "component": "tabs",
       "part": "tab-item",
+      "property": "height",
+      "options": {
+        "size": "s",
+        "density": "regular"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "uuid": "04966a17-6a69-5387-93d3-250494ad9998"
+  },
+  {
+    "scope": {
+      "component": "tabs",
+      "part": "tab-item",
+      "property": "height",
+      "options": {
+        "size": "m",
+        "density": "regular"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "uuid": "9b094f82-20f6-5e7e-93ee-2140ff7036af"
+  },
+  {
+    "scope": {
+      "component": "tabs",
+      "part": "tab-item",
+      "property": "height",
+      "options": {
+        "size": "l",
+        "density": "regular"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "2f79ea86-7400-464a-a04e-af2a156c87c3",
+    "uuid": "8edc9cc9-bd02-58ae-8331-597a7c1ce6ae"
+  },
+  {
+    "scope": {
+      "component": "tabs",
+      "part": "tab-item",
+      "property": "height",
+      "options": {
+        "size": "xl",
+        "density": "regular"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "a3c39fe1-9f46-4e76-9176-c589f28aa39f",
+    "uuid": "d7d555cc-16ce-53aa-9110-0a3ea7d8ce4c"
+  },
+  {
+    "scope": {
+      "component": "tabs",
+      "part": "tab-item",
       "property": "start-to-edge-extra-large",
       "options": {
         "scale": "desktop"
