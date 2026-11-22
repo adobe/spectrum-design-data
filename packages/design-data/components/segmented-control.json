@@ -210,12 +210,7 @@
       "name": "item",
       "description": "One segment with an icon, a label or both; repeated once per entry of items.",
       "required": true,
-      "contains": ["item-content", "selection-indicator", "focus-indicator"]
-    },
-    {
-      "name": "item-content",
-      "description": "Row that holds the icon and the label, inside the item's padding.",
-      "contains": ["icon", "label"]
+      "contains": ["icon", "label", "selection-indicator", "focus-indicator"]
     },
     {
       "name": "icon",

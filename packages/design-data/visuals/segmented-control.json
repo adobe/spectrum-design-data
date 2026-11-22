@@ -39,12 +39,6 @@
         "align": {
           "value": "start"
         },
-        "gap": {
-          "token": {
-            "property": "spacing",
-            "scaleIndex": 75
-          }
-        },
         "cornerRadius": [
           {
             "relationship": {
@@ -76,28 +70,23 @@
     },
     "item": {
       "kind": "box",
-      "children": ["selection-indicator", "item-content"],
+      "children": ["icon", "label"],
       "props": {
         "direction": {
-          "value": "stack"
+          "value": "row"
         },
         "align": {
           "value": "center"
         },
-        "justify": {
-          "value": "center"
-        },
-        "height": {
-          "relationship": {
-            "property": "height",
-            "part": "item"
-          }
-        },
-        "cornerRadius": [
+        "paddingInlineStart": [
           {
             "relationship": {
-              "property": "corner-radius",
-              "part": "item"
+              "property": "space-between",
+              "part": "item",
+              "between": {
+                "from": "start-edge",
+                "to": "label"
+              }
             },
             "when": {
               "options": {
@@ -105,17 +94,43 @@
               }
             }
           }
-        ]
-      }
-    },
-    "selection-indicator": {
-      "kind": "box",
-      "props": {
-        "height": {
-          "relationship": {
-            "property": "height",
-            "part": "item"
+        ],
+        "paddingInlineEnd": [
+          {
+            "relationship": {
+              "property": "space-between",
+              "part": "item",
+              "between": {
+                "from": "label",
+                "to": "end-edge"
+              }
+            },
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            }
           }
+        ],
+        "gap": [
+          {
+            "relationship": {
+              "property": "space-between",
+              "part": "item",
+              "between": {
+                "from": "icon",
+                "to": "label"
+              }
+            },
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            }
+          }
+        ],
+        "justify": {
+          "value": "center"
         },
         "cornerRadius": [
           {
@@ -130,10 +145,25 @@
             }
           }
         ],
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "attribute": "background",
+              "part": "selection-indicator"
+            }
+          }
+        ],
         "strokeWidth": [
           {
             "when": {
               "options": {
+                "isSelected": true,
                 "hideTracker": true
               }
             },
@@ -147,6 +177,7 @@
           {
             "when": {
               "options": {
+                "isSelected": true,
                 "hideTracker": true
               }
             },
@@ -156,14 +187,7 @@
               "part": "selection-indicator"
             }
           }
-        ],
-        "fill": {
-          "relationship": {
-            "property": "color",
-            "attribute": "background",
-            "part": "selection-indicator"
-          }
-        }
+        ]
       }
     },
     "icon": {
@@ -278,69 +302,6 @@
               "part": "label"
             },
             "priority": 10
-          }
-        ]
-      }
-    },
-    "item-content": {
-      "kind": "box",
-      "children": ["icon", "label"],
-      "props": {
-        "direction": {
-          "value": "row"
-        },
-        "align": {
-          "value": "center"
-        },
-        "paddingInlineStart": [
-          {
-            "relationship": {
-              "property": "space-between",
-              "part": "item",
-              "between": {
-                "from": "start-edge",
-                "to": "label"
-              }
-            },
-            "when": {
-              "options": {
-                "size": "m"
-              }
-            }
-          }
-        ],
-        "paddingInlineEnd": [
-          {
-            "relationship": {
-              "property": "space-between",
-              "part": "item",
-              "between": {
-                "from": "label",
-                "to": "end-edge"
-              }
-            },
-            "when": {
-              "options": {
-                "size": "m"
-              }
-            }
-          }
-        ],
-        "gap": [
-          {
-            "relationship": {
-              "property": "space-between",
-              "part": "item",
-              "between": {
-                "from": "icon",
-                "to": "label"
-              }
-            },
-            "when": {
-              "options": {
-                "size": "m"
-              }
-            }
           }
         ]
       }

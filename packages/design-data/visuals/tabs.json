@@ -61,7 +61,7 @@
     },
     "tab-item": {
       "kind": "box",
-      "children": ["item-content", "selection-indicator"],
+      "children": ["row", "selection-indicator"],
       "props": {
         "direction": {
           "value": "stack"
@@ -228,7 +228,7 @@
         ]
       }
     },
-    "item-content": {
+    "row": {
       "kind": "box",
       "children": ["icon", "label"],
       "props": {
