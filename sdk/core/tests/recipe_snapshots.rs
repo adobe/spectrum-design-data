@@ -209,7 +209,7 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
                             label: if name == "avatar" { "A" } else { "Label" }.into(),
                             icon: None,
                             text_metrics: None,
-                            slots: Default::default(),
+                            slots: group_fills(name),
                             width: None,
                         };
                         let label = format!(
@@ -242,6 +242,28 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
         }
     }
     run
+}
+
+/// A group recipe is only drawn through its slot, so its snapshots fill the default slot with
+/// three items (an empty group draws nothing and hides a gap binding).
+fn group_fills(name: &str) -> HashMap<String, Vec<design_data_core::visual::SlotFill>> {
+    let item = match name {
+        "button-group" => "button",
+        "action-group" => "action-button",
+        "swatch-group" => "swatch",
+        "checkbox-group" => "checkbox",
+        "radio-group" => "radio-button",
+        _ => return Default::default(),
+    };
+    HashMap::from([(
+        "default".to_string(),
+        (0..3)
+            .map(|_| design_data_core::visual::SlotFill {
+                component: item.into(),
+                ..Default::default()
+            })
+            .collect(),
+    )])
 }
 
 fn recipe_names() -> Vec<String> {

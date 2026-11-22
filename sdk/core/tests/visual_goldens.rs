@@ -172,6 +172,47 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let opts = HashMap::from([("items".to_string(), items)]);
         out.push(("three-items", req(vec![], opts, "light", "desktop")));
     }
+    // Group recipes draw only their slot fills: three items at the default size, and a small
+    // vertical one (compact for the action group), so the gap bindings show.
+    if let Some(item) = match name {
+        "button-group" => Some("button"),
+        "action-group" => Some("action-button"),
+        "swatch-group" => Some("swatch"),
+        "checkbox-group" => Some("checkbox"),
+        "radio-group" => Some("radio-button"),
+        _ => None,
+    } {
+        let fills = || {
+            HashMap::from([(
+                "default".to_string(),
+                (0..3)
+                    .map(|_| design_data_core::visual::SlotFill {
+                        component: item.to_string(),
+                        ..Default::default()
+                    })
+                    .collect::<Vec<_>>(),
+            )])
+        };
+        let mut r = req(vec![], HashMap::new(), "light", "desktop");
+        r.slots = fills();
+        out.push(("fills", r));
+        let (key, val) = match name {
+            "swatch-group" => ("density", "spacious"),
+            "action-group" => ("density", "compact"),
+            _ => ("orientation", "horizontal"),
+        };
+        let mut opts = HashMap::from([(key.to_string(), Value::from(val))]);
+        if matches!(name, "button-group" | "action-group") {
+            opts.insert("orientation".into(), "vertical".into());
+        }
+        let mut r = req(vec![], opts, "dark", "mobile");
+        if name != "checkbox-group" {
+            // checkbox-group has no size option and one sizeScale entry.
+            r.size = "s".into();
+        }
+        r.slots = fills();
+        out.push(("fills-s-variant", r));
+    }
     // Progress bar: the fill is a share of the track and the value text a percentage, so the
     // defaults (no value) show an empty bar. These show a half-full bar and an indeterminate one.
     if name == "progress-bar" {

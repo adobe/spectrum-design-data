@@ -120,7 +120,7 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Row or column that holds the buttons. It draws nothing itself: it sets the gap between buttons and the direction. It is the root and the host of the default slot.",
+      "description": "Root of the group. It draws nothing itself: it holds the `buttons` part, which hosts the default slot.",
       "required": true,
       "contains": ["buttons"]
     },
@@ -142,7 +142,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web button group page (Button instances only) and React Spectrum S2 ButtonGroup (provides ButtonContext to any children). The group stays a component with an explicit container and one slot (decision A139, 2026-11-20). button is no longer a part: it is what the default slot accepts. No items option: a slot with no max holds any number of buttons (A141)."
+    "notes": "Figma S2 Web button group page (Button instances only) and React Spectrum S2 ButtonGroup (provides ButtonContext to any children). The group stays a component with an explicit container and one slot, hosted by the child part `buttons`. The part is a spec choice (anatomy-format: a slot host is a declared part); the renderer only needs a slot part under the root, which it rejects on the root itself (decision A139, 2026-11-20). button is no longer a part: it is what the default slot accepts. No items option: a slot with no max holds any number of buttons (A141)."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
