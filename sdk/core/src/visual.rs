@@ -3102,7 +3102,49 @@ pub fn build_scene_cached(
 /// `req` must have the size and mode the variant was compiled for. A container whose
 /// `repeat` names a child draws that child once per entry (see [`solve_copies`]).
 pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
-    solve_root(variant, &variant.root, req, None)
+    let mut scene = solve_root(variant, &variant.root, req, None)?;
+    scene.diagnostics.extend(unmatched_slot_keys(variant, req));
+    Ok(scene)
+}
+
+/// One warning per request `slots` key that is no slot name of the recipe's slot parts. A key
+/// that is a part id (`options` for slot `default`) is called out: the request keys by name.
+fn unmatched_slot_keys(variant: &CompiledVariant, req: &RenderRequest) -> Vec<String> {
+    let mut slots: Vec<(&str, &str)> = variant
+        .parts
+        .iter()
+        .filter(|(_, p)| p.get("kind").and_then(Value::as_str) == Some("slot"))
+        .filter_map(|(id, p)| Some((p.get("slot")?.as_str()?, id.as_str())))
+        .collect();
+    slots.sort_unstable();
+    let mut keys: Vec<&String> = req
+        .slots
+        .keys()
+        .filter(|k| !slots.iter().any(|(n, _)| n == k))
+        .collect();
+    keys.sort_unstable();
+    let list = if slots.is_empty() {
+        "none".to_string()
+    } else {
+        slots
+            .iter()
+            .map(|(n, id)| format!("{n} (part '{id}')"))
+            .collect::<Vec<_>>()
+            .join(", ")
+    };
+    keys.into_iter()
+        .map(|k| {
+            let c = &req.component;
+            match slots.iter().find(|(_, id)| id == k) {
+                Some((n, _)) => format!(
+                    "slots: request key '{k}' is the part id of slot '{n}'; use the slot name. Slots with a part: {list}"
+                ),
+                None => format!(
+                    "slots: request key '{k}' is not a slot of '{c}'; slots with a part: {list}"
+                ),
+            }
+        })
+        .collect()
 }
 
 /// [`solve`] with `root_id` as the root: a repeated part is solved as the root of its own
@@ -8992,6 +9034,41 @@ mod tests {
         r.component = "accordion".into();
         r.slots = slots;
         build_scene(g, recipe, &r).unwrap()
+    }
+
+    #[test]
+    fn a_request_slot_key_that_matches_no_slot_warns() {
+        let r = slot_host(actions_slot(serde_json::json!({})));
+        let warns = |key: &str| {
+            let f = fills(&[("action-button", Value::Null)])
+                .remove("actions")
+                .unwrap();
+            slot_scene(&r, HashMap::from([(key.to_string(), f)])).diagnostics
+        };
+        assert!(warns("actions").iter().all(|d| !d.starts_with("slots:")));
+        let unknown = warns("nope");
+        assert!(unknown.iter().any(|d| d.contains(
+            "slots: request key 'nope' is not a slot of 'accordion'; slots with a part: actions (part 'actions')"
+        )), "{unknown:?}");
+        // A slot named apart from its part: the part id is not a key.
+        let v = CompiledVariant {
+            root: "r".into(),
+            option_defaults: HashMap::new(),
+            parts: serde_json::json!({ "actions": { "kind": "slot", "slot": "default" } })
+                .as_object()
+                .unwrap()
+                .clone(),
+            drawings: Default::default(),
+        };
+        let mut q = req(&[]);
+        q.component = "accordion".into();
+        q.slots = fills(&[("action-button", Value::Null)]);
+        let d = unmatched_slot_keys(&v, &q);
+        assert_eq!(d.len(), 1, "{d:?}");
+        assert!(
+            d[0].contains("part id of slot 'default'") && d[0].contains("default (part 'actions')"),
+            "{d:?}"
+        );
     }
 
     #[test]

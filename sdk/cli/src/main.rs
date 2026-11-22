@@ -301,7 +301,7 @@ enum Commands {
         /// Content icon: SET:NAME (e.g. workflow:edit) replaces it, `none` hides an optional one
         #[arg(long, value_name = "SET:NAME|none")]
         icon: Option<visual::IconOverride>,
-        /// Slot fills as JSON: {"<slot>": [{"component": "switch", "options": {}}]}, drawn by the recipe's slot parts
+        /// Slot fills as JSON: {"<slot name>": [{"component": "switch", "options": {}}]}, drawn by the recipe's slot parts. Keys are slot names, not part ids (radio-group: "default", not "options"); an unmatched key is a scene warning
         #[arg(long, value_name = "JSON", conflicts_with = "batch")]
         slots: Option<String>,
         /// Directory containing visual recipes (default: sibling `visuals/` of the tokens root)
