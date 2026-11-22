@@ -1,3 +1,9 @@
 # Platform deviation fixtures
 
-Files for `extensions/deviations/` (see `spec/manifest.md#extensionsdeviations`), one case per folder. Not read by the Rust `validation_conformance` harness: the engine does not load `extensions/deviations/` yet (follow-up PR 2 of proposal 019), so SPEC-109 to SPEC-111 are defined in `rules/rules.yaml` and not enforced. Cases in `valid/` pass Layer 1. `invalid/SPEC-109-*` fails Layer 2 uniqueness (the file is schema-valid; the duplicate id is the SPEC-109 uniqueness half) and `invalid/SPEC-110-*` fail the existence checks against the `switch` component.
+Files for `extensions/deviations/` (see `spec/manifest.md#extensionsdeviations`), one case per folder.
+
+* `valid/` passes Layer 1 and loads (`manifest-extensions/valid/deviations-load` is the same file under a manifest). A file that fails the schema is rejected at load (`manifest-extensions/invalid/deviations-missing-status`).
+* `invalid/SPEC-109-duplicate-id` is schema-valid; SPEC-109 reports the repeated id.
+* `invalid/SPEC-110-*` fail the existence checks against a `switch` component with a `track` part and no `no-such-state`.
+
+The `validation_conformance` harness runs `dataset.json` graphs and does not read this folder; the rules' unit tests (`sdk/core/src/validate/rules/spec109.rs`, `spec110.rs`) load these files.

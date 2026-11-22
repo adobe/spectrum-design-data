@@ -372,6 +372,7 @@ fn build_extensions_value(
         .chain(std::iter::once("relationships"))
         .chain(std::iter::once("mode-sets"))
         .chain(std::iter::once("visuals"))
+        .chain(std::iter::once("deviations"))
         .collect();
     for entry in std::fs::read_dir(&ext_root)? {
         let entry = entry?;
@@ -499,6 +500,33 @@ fn build_extensions_value(
         }
         if !items.is_empty() {
             out.insert("visuals".to_string(), Value::Array(items));
+        }
+    }
+
+    // deviations/ — one component per file; each entry keeps its fragment path so
+    // SPEC-109 and SPEC-110 can name the file. No renderer reads it.
+    let deviations_dir = ext_root.join("deviations");
+    if deviations_dir.is_dir() {
+        let schema = schema_dir.join("platform-deviation.schema.json");
+        let mut items = Vec::new();
+        for f in discover_json_files(&deviations_dir)? {
+            let text = std::fs::read_to_string(&f).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to read extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            let doc: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to parse extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            check_fragment(&f, &doc, &schema)?;
+            items.push(serde_json::json!({ "file": f.to_string_lossy(), "deviations": doc }));
+        }
+        if !items.is_empty() {
+            out.insert("deviations".to_string(), Value::Array(items));
         }
     }
 
