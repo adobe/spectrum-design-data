@@ -566,6 +566,31 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.1.0",
+      "version": "4.0.1",
+      "bump": "patch",
+      "date": "2026-11-22",
+      "commit": "7d30326545c8252f1b2e0d5bedb0fd28fa5dd758",
+      "commits": [
+        {
+          "commit": "9d4a10c0ceb37513db3985e24a23022004fd7204",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2053,"title":"fix(design-data): status-light label wraps and the dot size binds ui-icon tokens on both scales","url":"https://github.com/adobe/spectrum-design-data/pull/2053"},
+          "entries": [
+            {"id":"9d4a10c0-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Dot size"],"scope":{"property":"size","options":{"size":"s"}},"record":"4de101d7-6a1d-5385-a436-b072a8df2006","name":"size[size=s]","fields":[{"path":"$ref","before":"0d252df3-59fc-422e-8f47-d4c894660eb9","after":"8c4f32d5-746f-4dce-aca3-5e657a03afda"}]},
+            {"id":"9d4a10c0-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Dot size"],"scope":{"property":"size","options":{"size":"s"}},"record":"cdb5bb11-5867-5a51-98d8-634d1fb1fa80","name":"size[size=s]","fields":[{"path":"$ref","before":"5945e9fe-311a-4d2c-8052-ca4eae4c7c63","after":"d9e04bc9-d510-4bfb-8193-3269f0ed4e7c"}]},
+            {"id":"9d4a10c0-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Dot size"],"scope":{"property":"size","options":{"size":"m"}},"record":"24bbd4dc-0a12-538e-b63b-915acb3f006a","name":"size[size=m]","fields":[{"path":"$ref","before":"a7fc9ca1-ad6d-47cb-8798-4a18ba4acc79","after":"17cec018-ae0f-4aaf-ad6d-08b758f94c8c"}]},
+            {"id":"9d4a10c0-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Dot size"],"scope":{"property":"size","options":{"size":"l"}},"record":"b382d33d-7809-5e2c-ab8a-3946ef0a0d15","name":"size[size=l]","fields":[{"path":"$ref","before":"6554dae9-18b6-4c90-b2f4-8aeaab0724ad","after":"9516737f-6855-416e-adc0-f03e08f63259"}]},
+            {"id":"9d4a10c0-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Dot size"],"scope":{"property":"size","options":{"size":"xl"}},"record":"233e2ac3-3d39-5d98-bb51-8e097f783702","name":"size[size=xl]","fields":[{"path":"$ref","before":"b0281fdc-b044-45e6-af04-e56913432575","after":"2cc848e3-7990-4235-8cb6-6d246e1bf1df"}]},
+            {"id":"9d4a10c0-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Dot size"],"scope":{"property":"size","options":{"size":"xl"}},"record":"d4217b9c-28b3-5063-aaa8-bb0d0ea8bda3","name":"size[size=xl]","fields":[{"path":"$ref","before":"38b8d9c8-d340-4123-88bc-f739cfde91e9","after":"d6ab89f2-4d40-413c-ade4-95fb8a010665"}]},
+            {"id":"9d4a10c0-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"scope":{"property":"size","options":{"scale":"desktop","size":"s"}},"record":"04485265-2983-4377-9ec5-f2456863a1df","name":"size[scale=desktop,size=s]","fields":[{"path":"lifecycle.replacedBy","before":"0d252df3-59fc-422e-8f47-d4c894660eb9","after":"8c4f32d5-746f-4dce-aca3-5e657a03afda"}],"rationale":"Deprecated via refine-from-sheets from row 282 of the mapping sheet."},
+            {"id":"9d4a10c0-7","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Dot size"],"scope":{"property":"size","options":{"scale":"mobile","size":"s"}},"record":"5945e9fe-311a-4d2c-8052-ca4eae4c7c63","name":"size[scale=mobile,size=s]","fields":[{"path":"lifecycle.replacedBy","before":"0d252df3-59fc-422e-8f47-d4c894660eb9","after":"8c4f32d5-746f-4dce-aca3-5e657a03afda"}],"rationale":"Deprecated via refine-from-sheets from row 282 of the mapping sheet."},
+            {"id":"9d4a10c0-8","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"status-light/visual/parts/label","name":"label","fields":[{"path":"props.overflow.value","after":"wrap"}]}
+          ]
+        }
+      ]
     }
   ]
 }
