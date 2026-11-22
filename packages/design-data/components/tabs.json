@@ -188,6 +188,11 @@
       "type": "boolean",
       "default": false,
       "description": "Whether the rendered item is the selected one. Drives the selection indicator and the item colors. Per-item in a data-driven component is items[].isSelected."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered item is disabled. Per-item in a data-driven component is items[].isDisabled."
     }
   },
   "slots": [
@@ -209,7 +214,12 @@
       "name": "tab-item",
       "description": "One tab; repeated once per entry of items.",
       "required": true,
-      "contains": ["icon", "label", "selection-indicator", "focus-indicator"]
+      "contains": ["item-content", "selection-indicator", "focus-indicator"]
+    },
+    {
+      "name": "item-content",
+      "description": "Row that holds the icon and the label, inside the item's padding.",
+      "contains": ["icon", "label"]
     },
     {
       "name": "icon",

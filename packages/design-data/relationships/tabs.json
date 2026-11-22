@@ -282,11 +282,13 @@
     "scope": {
       "component": "tabs",
       "part": "selection-indicator",
-      "property": "spacing"
+      "property": "spacing",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Spacing (selected)",
+    "context": "Spacing",
     "contextRole": ["spacing"],
-    "contextQualifier": "selected",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "5eedefa8-cec9-577b-8933-41b116a014c4"
   },
@@ -294,11 +296,13 @@
     "scope": {
       "component": "tabs",
       "part": "selection-indicator",
-      "property": "spacing"
+      "property": "spacing",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Spacing (selected)",
+    "context": "Spacing",
     "contextRole": ["spacing"],
-    "contextQualifier": "selected",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "3466354b-9829-53db-9e65-23d9803e8e7f"
   },

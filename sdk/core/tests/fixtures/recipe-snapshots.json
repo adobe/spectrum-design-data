@@ -765,14 +765,22 @@
     "hideLabel=true,isDisabled=true": "5458a20cce253baf"
   },
   "segmented-control": {
-    "hideTracker=false,isSelected=false,orientation=\"horizontal\"": "56920f0b91d43837",
-    "hideTracker=false,isSelected=false,orientation=\"vertical\"": "8fc02feb377cafc3",
-    "hideTracker=false,isSelected=true,orientation=\"horizontal\"": "60907e42e536fb91",
-    "hideTracker=false,isSelected=true,orientation=\"vertical\"": "26df5c2f6cfceff5",
-    "hideTracker=true,isSelected=false,orientation=\"horizontal\"": "5e984cb777ed02ff",
-    "hideTracker=true,isSelected=false,orientation=\"vertical\"": "08752e2f796c96eb",
-    "hideTracker=true,isSelected=true,orientation=\"horizontal\"": "5cc53f50db308059",
-    "hideTracker=true,isSelected=true,orientation=\"vertical\"": "6948b5d3e9161175"
+    "hideTracker=false,isDisabled=false,isSelected=false,orientation=\"horizontal\"": "21bb68f0e3e9dc1b",
+    "hideTracker=false,isDisabled=false,isSelected=false,orientation=\"vertical\"": "6ef243b3c9577a83",
+    "hideTracker=false,isDisabled=false,isSelected=true,orientation=\"horizontal\"": "8314a8578ec72c57",
+    "hideTracker=false,isDisabled=false,isSelected=true,orientation=\"vertical\"": "6021b9af46284edf",
+    "hideTracker=false,isDisabled=true,isSelected=false,orientation=\"horizontal\"": "bcccd8865b3b7e0b",
+    "hideTracker=false,isDisabled=true,isSelected=false,orientation=\"vertical\"": "5c7954bc9250a943",
+    "hideTracker=false,isDisabled=true,isSelected=true,orientation=\"horizontal\"": "d8eb4fd5ffb5ab3b",
+    "hideTracker=false,isDisabled=true,isSelected=true,orientation=\"vertical\"": "2c5e644b7a67f82b",
+    "hideTracker=true,isDisabled=false,isSelected=false,orientation=\"horizontal\"": "ff70c8505e1f7abb",
+    "hideTracker=true,isDisabled=false,isSelected=false,orientation=\"vertical\"": "4a7c134469fcd51b",
+    "hideTracker=true,isDisabled=false,isSelected=true,orientation=\"horizontal\"": "6eb04f014650950f",
+    "hideTracker=true,isDisabled=false,isSelected=true,orientation=\"vertical\"": "61d3149069bc9a07",
+    "hideTracker=true,isDisabled=true,isSelected=false,orientation=\"horizontal\"": "52dc75a6928673ab",
+    "hideTracker=true,isDisabled=true,isSelected=false,orientation=\"vertical\"": "0c6c24a8a94e3c9b",
+    "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"horizontal\"": "6ad6f154b0b6b45b",
+    "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"vertical\"": "8d3cf228b2864893"
   },
   "status-light": {
     "variant=\"accent\"": "f83a2073706c9ff7",
@@ -846,14 +854,22 @@
     "hideLabel=true,isDisabled=true,isEmphasized=true,isSelected=true": "1faf25a2ae0ce491"
   },
   "tabs": {
-    "density=\"compact\",isSelected=false,orientation=\"horizontal\"": "93775c34bc4c83cd",
-    "density=\"compact\",isSelected=false,orientation=\"vertical\"": "01f8caf003b5a9d1",
-    "density=\"compact\",isSelected=true,orientation=\"horizontal\"": "4775290be92ef3b3",
-    "density=\"compact\",isSelected=true,orientation=\"vertical\"": "f24f79a495677caf",
-    "density=\"regular\",isSelected=false,orientation=\"horizontal\"": "997bc7d70c016fa1",
-    "density=\"regular\",isSelected=false,orientation=\"vertical\"": "5b5542022f4a147d",
-    "density=\"regular\",isSelected=true,orientation=\"horizontal\"": "6516c5718b74f517",
-    "density=\"regular\",isSelected=true,orientation=\"vertical\"": "c238452bb01b74bb"
+    "density=\"compact\",isDisabled=false,isSelected=false,orientation=\"horizontal\"": "a5bf5628455aa1fd",
+    "density=\"compact\",isDisabled=false,isSelected=false,orientation=\"vertical\"": "7c0808394add96f5",
+    "density=\"compact\",isDisabled=false,isSelected=true,orientation=\"horizontal\"": "29deea8d4eb78d69",
+    "density=\"compact\",isDisabled=false,isSelected=true,orientation=\"vertical\"": "0b8b24929affcfeb",
+    "density=\"compact\",isDisabled=true,isSelected=false,orientation=\"horizontal\"": "bef31cfb96ace30d",
+    "density=\"compact\",isDisabled=true,isSelected=false,orientation=\"vertical\"": "8abf5715fc3a07a5",
+    "density=\"compact\",isDisabled=true,isSelected=true,orientation=\"horizontal\"": "9c217709ecb4677b",
+    "density=\"compact\",isDisabled=true,isSelected=true,orientation=\"vertical\"": "c2c3311655e6cdc3",
+    "density=\"regular\",isDisabled=false,isSelected=false,orientation=\"horizontal\"": "706c312ecdf3c3c1",
+    "density=\"regular\",isDisabled=false,isSelected=false,orientation=\"vertical\"": "be8db4f7c92b4fc1",
+    "density=\"regular\",isDisabled=false,isSelected=true,orientation=\"horizontal\"": "10edd02876a20349",
+    "density=\"regular\",isDisabled=false,isSelected=true,orientation=\"vertical\"": "11bec55ed0f40d73",
+    "density=\"regular\",isDisabled=true,isSelected=false,orientation=\"horizontal\"": "96494c3fd376b91d",
+    "density=\"regular\",isDisabled=true,isSelected=false,orientation=\"vertical\"": "cf6e51c9c6bca489",
+    "density=\"regular\",isDisabled=true,isSelected=true,orientation=\"horizontal\"": "117863b9a123a9c7",
+    "density=\"regular\",isDisabled=true,isSelected=true,orientation=\"vertical\"": "a89c4faecb8f5c2f"
   },
   "tag": {
     "hasAvatar=false,isDisabled=false,isEmphasized=false,isRemovable=false,isSelected=false": "29ccfffb746f81b7",
