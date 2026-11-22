@@ -74,12 +74,14 @@
     },
     {
       "name": "avatar",
+      "component": "avatar",
       "description": "Optional leading avatar, shown when hasAvatar is set."
     },
     { "name": "icon", "description": "Optional leading workflow icon." },
     { "name": "label", "description": "Tag text.", "required": true },
     {
       "name": "clear-button",
+      "component": "clear-button",
       "description": "Button that removes the tag, shown when isRemovable is set (React Spectrum ClearButton, the shared in-field button)."
     },
     {

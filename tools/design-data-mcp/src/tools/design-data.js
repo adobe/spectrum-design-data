@@ -810,7 +810,8 @@ export function createDesignDataTools() {
       description:
         "Search Spectrum components by name, description, or documentation text " +
         '(e.g. "date", "form input", "navigation"). Returns id, displayName, ' +
-        "category, and a snippet per match. Use the id with design-data-component " +
+        "category, and a snippet per match; a component that exists only inside another " +
+        "carries subcomponent: true and usedIn (its derived hosts). Use the id with design-data-component " +
         "for the full declaration.",
       inputSchema: {
         type: "object",

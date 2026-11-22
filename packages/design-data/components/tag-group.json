@@ -101,6 +101,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Label above or beside the tags. Hidden with hideLabel."
     },
     {
@@ -110,10 +111,12 @@
     },
     {
       "name": "action-button",
+      "component": "action-button",
       "description": "Group-level button after the tags, such as show all or collapse. Drawn only when the actionLabel option is set. A sibling of the tags host, not one of the tags (A138)."
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Description or error message under the tags."
     }
   ],

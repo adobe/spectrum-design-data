@@ -81,10 +81,12 @@
     },
     {
       "name": "button",
+      "component": "button",
       "description": "Optional action button, shown with actionLabel."
     },
     {
       "name": "link",
+      "component": "link",
       "description": "Optional link, shown with href."
     }
   ],

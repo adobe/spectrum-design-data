@@ -95,6 +95,7 @@
     },
     {
       "name": "color-handle",
+      "component": "color-handle",
       "description": "Circular handle marking the selected color position.",
       "required": true
     }

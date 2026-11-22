@@ -227,6 +227,7 @@
     },
     {
       "name": "checkbox",
+      "component": "checkbox",
       "description": "Selection checkbox, shown in the checkbox selection style."
     },
     {
@@ -239,6 +240,7 @@
     },
     {
       "name": "thumbnail",
+      "component": "thumbnail",
       "description": "Thumbnail of an item, used instead of the icon (the thumbnail component)."
     },
     {

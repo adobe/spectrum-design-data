@@ -180,6 +180,7 @@
     },
     {
       "name": "checkbox",
+      "component": "checkbox",
       "description": "Checkbox control for a list view item in checkbox selection style."
     },
     {
@@ -188,6 +189,7 @@
     },
     {
       "name": "thumbnail",
+      "component": "thumbnail",
       "description": "Thumbnail image of a list view item."
     },
     {

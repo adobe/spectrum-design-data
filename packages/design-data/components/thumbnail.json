@@ -80,6 +80,7 @@
     },
     {
       "name": "opacity-checkerboard",
+      "component": "opacity-checkerboard",
       "description": "Checkerboard tile pattern shown behind transparent image areas."
     },
     {

@@ -267,6 +267,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "The field-label component: text label that names the field, placed above or beside it."
     },
     {
@@ -291,6 +292,7 @@
     },
     {
       "name": "in-field-button",
+      "component": "in-field-button",
       "description": "The in-field-button component with its icon set to calendar: it sits at the end of the field and opens the popover.",
       "required": true
     },
@@ -301,21 +303,25 @@
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "The help-text component: description or error message shown below the field."
     },
     {
       "name": "popover",
+      "component": "popover",
       "description": "The popover component, a top-level part present only while open, with hideTip set so it draws no tip. Its content is the calendar and, when granularity includes time, a time-field (two for a range). date-picker overrides the popover margin, minimum width and height (set by visibleMonths) and padding.",
       "presentIn": ["open"],
       "contains": ["calendar", "time-field"]
     },
     {
       "name": "calendar",
+      "component": "calendar",
       "description": "The calendar component inside the popover. It draws no surface; the popover provides it.",
       "presentIn": ["open"]
     },
     {
       "name": "time-field",
+      "component": "time-field",
       "description": "The time-field component inside the popover, present when granularity includes time. One for a single date, two (start and end) for a range.",
       "presentIn": ["open"]
     },

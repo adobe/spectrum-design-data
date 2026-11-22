@@ -58,7 +58,6 @@
     },
     "container-divider": {
       "kind": "component",
-      "component": "divider",
       "sizeMap": { "s": "s", "m": "s", "l": "s", "xl": "s" },
       "inherit": ["width"],
       "visibleWhen": { "options": { "isQuiet": false } }
@@ -131,7 +130,6 @@
     },
     "action-button": {
       "kind": "component",
-      "component": "action-button",
       "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
       "visibleWhen": { "options": { "hasActionButton": true } },
       "with": {
@@ -142,7 +140,6 @@
     },
     "switch": {
       "kind": "component",
-      "component": "switch",
       "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
       "visibleWhen": { "options": { "hasSwitch": true } },
       "with": { "hideLabel": true, "isDisabled": { "option": "isDisabled" } }
@@ -344,7 +341,6 @@
     },
     "divider": {
       "kind": "component",
-      "component": "divider",
       "sizeMap": { "s": "s", "m": "s", "l": "s", "xl": "s" },
       "inherit": ["width"],
       "visibleWhen": { "options": { "isQuiet": false } }

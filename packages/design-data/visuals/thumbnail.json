@@ -77,7 +77,6 @@
     },
     "opacity-checkerboard": {
       "kind": "component",
-      "component": "opacity-checkerboard",
       "sizeMap": {
         "50": "s",
         "75": "s",

@@ -240,6 +240,20 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "title",
+      "label": "Title",
+      "description": "Page-level title typography role",
+      "category": "typography-role",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "description": "Page-level body typography role",
+      "category": "typography-role",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",
@@ -603,8 +617,7 @@ const COMPONENTS_JSON: &str = r##"{
     },
     {
       "id": "in-field-button",
-      "label": "In-Field Button",
-      "description": "A cross-cutting anatomy sub-part shared by multiple field-adjacent components rather than a standalone top-level component."
+      "label": "In-Field Button"
     },
     {
       "id": "in-field-progress-circle",

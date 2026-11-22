@@ -658,6 +658,9 @@ fn convert_array(
     let mut groups: BTreeMap<String, Vec<&Map<String, Value>>> = BTreeMap::new();
 
     for tok in candidates {
+        if tok.get("excludeFromLegacy").and_then(Value::as_bool) == Some(true) {
+            continue;
+        }
         // extract_legacy_key handles both object names (decomposed or thin) and
         // string names (SPEC-017 escape hatch).
         let Some(key) = tok.get("name").and_then(extract_legacy_key) else {
@@ -1383,6 +1386,20 @@ mod tests {
         assert_eq!(tok["set_schema"], "color-set");
         assert!(tok.get("setUuid").is_none());
         assert!(tok.get("setSchema").is_none());
+    }
+
+    #[test]
+    fn exclude_from_legacy_flag_skips_token() {
+        let arr = json!([
+            {"name": {"property": "spacing-100"}, "value": "8px", "uuid": "excl-0001"},
+            {"name": {"property": "typography", "variant": "title", "size": "s"},
+             "value": "x", "uuid": "excl-0002", "excludeFromLegacy": true},
+            {"name": {"property": "spacing-200"}, "value": "9px", "uuid": "excl-0003", "excludeFromLegacy": false}
+        ]);
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
+        assert_eq!(out.len(), 2);
+        assert!(out.contains_key("spacing-100") && out.contains_key("spacing-200"));
     }
 
     #[test]

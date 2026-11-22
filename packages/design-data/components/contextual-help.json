@@ -205,11 +205,13 @@
     },
     {
       "name": "action-button",
+      "component": "action-button",
       "description": "The action-button component: a quiet icon-only help or info button that opens the popover.",
       "required": true
     },
     {
       "name": "popover",
+      "component": "popover",
       "description": "The popover component, a top-level part present only while open. Its content is the title, description and link. contextual-help overrides its minimum width and padding and draws no tip.",
       "presentIn": ["open"],
       "contains": ["title", "description", "link"]
@@ -226,6 +228,7 @@
     },
     {
       "name": "link",
+      "component": "link",
       "description": "Optional link component at the end of the popover.",
       "presentIn": ["open"]
     }

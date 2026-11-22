@@ -74,6 +74,7 @@
     },
     {
       "name": "close-button",
+      "component": "close-button",
       "description": "Button that clears the selection."
     },
     {
@@ -83,6 +84,7 @@
     },
     {
       "name": "action-group",
+      "component": "action-group",
       "description": "The action group at the trailing end of the bar. Holds the actions for the selection.",
       "required": true
     }

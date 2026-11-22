@@ -145,6 +145,7 @@
     },
     {
       "name": "action-button",
+      "component": "action-button",
       "description": "The action-button component at the top, usually opening a menu. Drawn with topActionLabel."
     },
     {
@@ -157,6 +158,7 @@
     },
     {
       "name": "button-group",
+      "component": "button-group",
       "description": "The button-group component in the footer. Its buttons are slot fills; the action label options map to them."
     },
     {
