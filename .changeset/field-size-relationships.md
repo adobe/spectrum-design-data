@@ -4,7 +4,8 @@
 
 Bind search-field width and text-area field height through relationships for every size.
 
-- search-field width binds `field-default-width-*` for s, m, l and xl.
+- Adds live field width tokens `width-field-{desktop,mobile}-{75,100,200,300}` (no legacy key).
+- search-field width binds them for s, m, l and xl.
   Desktop 192, 208, 224, 240; mobile 240, 256, 272, 288.
   Size m now draws 208 instead of 192.
 - text-area `minimum-height` binds `base-height-*` for s, m, l and xl.

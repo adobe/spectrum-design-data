@@ -759,10 +759,10 @@
     "isDisabled=true,isEmphasized=true,isSelected=true": "8164d9cc8dbe0530"
   },
   "search-field": {
-    "hideLabel=false,isDisabled=false": "9d6b7f854d55dd72",
-    "hideLabel=false,isDisabled=true": "f1c9673faab69972",
-    "hideLabel=true,isDisabled=false": "25b92c8c38593c86",
-    "hideLabel=true,isDisabled=true": "775caff6561bfc06"
+    "hideLabel=false,isDisabled=false": "fce222cc0a02e9c2",
+    "hideLabel=false,isDisabled=true": "68253030bbf7f47e",
+    "hideLabel=true,isDisabled=false": "477c0e9dd01229e6",
+    "hideLabel=true,isDisabled=true": "1e3b76fe2c9dbdce"
   },
   "status-light": {
     "variant=\"accent\"": "f83a2073706c9ff7",
