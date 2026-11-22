@@ -354,7 +354,7 @@
     "scope": {
       "component": "illustrated-message",
       "part": "description",
-      "property": "line-height-200"
+      "property": "line-height"
     },
     "context": "Description",
     "contextRole": ["label"],

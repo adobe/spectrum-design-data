@@ -98,6 +98,7 @@
   {
     "scope": {
       "component": "coach-mark",
+      "part": "container",
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to footer)",
@@ -109,6 +110,7 @@
   {
     "scope": {
       "component": "coach-mark",
+      "part": "container",
       "property": "spacing"
     },
     "context": "Spacing (header to body, body to footer)",
@@ -388,7 +390,8 @@
     "scope": {
       "component": "coach-mark",
       "part": "title",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Color",
     "contextRole": ["background"],
@@ -399,7 +402,8 @@
     "scope": {
       "component": "coach-mark",
       "part": "description",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Color",
     "contextRole": ["background"],
@@ -410,7 +414,8 @@
     "scope": {
       "component": "coach-mark",
       "part": "pagination",
-      "property": "color"
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Color",
     "contextRole": ["background"],
