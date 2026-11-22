@@ -4,7 +4,7 @@
   "component": "accordion",
   "root": "container",
   "sizeScale": { "s": 100, "m": 200, "l": 300, "xl": 400 },
-  "notVisual": ["isMultiple", "down"],
+  "notVisual": ["isMultiple", "down", "headingLevel"],
   "parts": {
     "container": {
       "kind": "box",

@@ -98,10 +98,22 @@
             "type": "boolean",
             "default": false,
             "description": "Whether the accordion item is expanded by default."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the accordion item is disabled."
           }
         },
         "required": ["label"]
       }
+    },
+    "headingLevel": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6,
+      "default": 3,
+      "description": "Heading level (aria-level) of the element that wraps each item's header button. An accessibility value only: it does not change how the accordion renders. Matches the level of AccordionItemTitle in React Spectrum S2 (default 3)."
     },
     "isMultiple": {
       "type": "boolean",
