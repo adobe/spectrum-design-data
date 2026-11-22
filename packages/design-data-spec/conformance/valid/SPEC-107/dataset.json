@@ -1,0 +1,70 @@
+{
+  "relationships": [
+    {
+      "scope": {
+        "component": "list-view",
+        "property": "corner-radius",
+        "itemPosition": "first",
+        "part": "row"
+      },
+      "value": "4px",
+      "uuid": "00000001-0000-4000-8000-000000000000"
+    },
+    {
+      "scope": {
+        "component": "list-view",
+        "property": "corner-radius",
+        "itemPosition": "only",
+        "part": "icon"
+      },
+      "value": "4px",
+      "uuid": "00000002-0000-4000-8000-000000000000"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/list-view.json",
+      "name": "list-view",
+      "displayName": "List view",
+      "meta": {
+        "category": "collections"
+      },
+      "options": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "anatomy": [
+        {
+          "name": "container",
+          "contains": ["row", "header"]
+        },
+        {
+          "name": "row",
+          "contains": ["icon"]
+        },
+        {
+          "name": "icon"
+        },
+        {
+          "name": "header"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "part": "row",
+          "collection": "items"
+        }
+      ]
+    }
+  ]
+}

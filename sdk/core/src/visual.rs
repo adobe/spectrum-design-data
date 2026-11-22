@@ -1793,6 +1793,12 @@ impl Ctx<'_> {
         if name == "size" {
             return Value::String(self.req.size.clone());
         }
+        // A relationship's `scope.itemPosition` is compiled as this pin: the drawn copy's place.
+        if name == "itemPosition" {
+            return self
+                .position
+                .map_or(Value::Null, |p| Value::String(p.into()));
+        }
         self.req
             .options
             .get(name)
@@ -2236,13 +2242,16 @@ fn scope_variants(scope: Option<&Value>, declared: &[&str]) -> Vec<(Option<Value
     let options = scope
         .and_then(|s| s.get("options"))
         .and_then(Value::as_object);
-    let Some(options) = options else {
-        return vec![(None, Vec::new())];
+    let none = serde_json::Map::new();
+    let options = match options {
+        Some(o) => o,
+        None if scope.is_some_and(|s| s.get("itemPosition").is_some()) => &none,
+        None => return vec![(None, Vec::new())],
     };
     crate::scope::variants(options)
         .into_iter()
         .map(|v| {
-            let pinned: serde_json::Map<String, Value> = v
+            let mut pinned: serde_json::Map<String, Value> = v
                 .options
                 .into_iter()
                 .filter(|(k, _)| {
@@ -2250,6 +2259,9 @@ fn scope_variants(scope: Option<&Value>, declared: &[&str]) -> Vec<(Option<Value
                         && declared.contains(&k.as_str())
                 })
                 .collect();
+            if let Some(p) = scope.and_then(|s| s.get("itemPosition")) {
+                pinned.insert("itemPosition".into(), p.clone());
+            }
             let states = v.states.iter().flat_map(|s| state_ids(s)).collect();
             (
                 (!pinned.is_empty()).then_some(Value::Object(pinned)),

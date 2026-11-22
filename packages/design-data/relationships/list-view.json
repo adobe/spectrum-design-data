@@ -815,9 +815,7 @@
       "component": "list-view",
       "part": "list-item",
       "property": "corner-radius",
-      "options": {
-        "position": ["bottom"]
-      }
+      "itemPosition": "last"
     },
     "context": "Item rounding",
     "contextRole": ["rounding"],
@@ -831,9 +829,7 @@
       "component": "list-view",
       "part": "list-item",
       "property": "corner-radius",
-      "options": {
-        "position": ["top"]
-      }
+      "itemPosition": "first"
     },
     "context": "Item rounding",
     "contextRole": ["rounding"],
