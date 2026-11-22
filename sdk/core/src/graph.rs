@@ -1970,6 +1970,31 @@ impl TokenGraph {
             .map_or(name, String::as_str)
     }
 
+    /// The components that draw `name` inside themselves, sorted: those with a non-deprecated
+    /// anatomy part whose `component` is `name`. Derived, never stored (spec/component-format.md,
+    /// Sub-components).
+    pub fn component_hosts(&self, name: &str) -> Vec<&str> {
+        let mut hosts: Vec<&str> = self
+            .components
+            .iter()
+            .filter(|c| c.name != name)
+            .filter(|c| {
+                c.raw
+                    .get("anatomy")
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                    .any(|p| {
+                        p.get("component").and_then(Value::as_str) == Some(name)
+                            && p.pointer("/lifecycle/deprecatedIn").is_none()
+                    })
+            })
+            .map(|c| c.name.as_str())
+            .collect();
+        hosts.sort_unstable();
+        hosts
+    }
+
     /// True when `name` is the target of an active `componentAliases` entry.
     pub fn is_alias_target(&self, name: &str) -> bool {
         self.component_aliases.values().any(|t| t == name)

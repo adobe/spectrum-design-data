@@ -8510,12 +8510,34 @@ mod tests {
         assert!(svg.contains(&want), "{svg}");
     }
 
+    /// The graph with an anatomy part per `component` part of `recipe` on `host`, as the data
+    /// carries it (a test recipe keeps `component` inline for readability; the engine ignores it).
+    fn link_nested(mut g: TokenGraph, host: &str, recipe: &Value) -> TokenGraph {
+        let linked: Vec<(String, String)> = recipe["parts"]
+            .as_object()
+            .into_iter()
+            .flatten()
+            .filter(|(_, p)| p["kind"] == "component")
+            .filter_map(|(id, p)| Some((id.clone(), p["component"].as_str()?.to_string())))
+            .collect();
+        if let Some(c) = g.components.iter_mut().find(|c| c.name == host) {
+            let anatomy = c.raw["anatomy"].as_array_mut().unwrap();
+            for (id, component) in linked {
+                anatomy.retain(|p| p["name"] != id.as_str());
+                anatomy.push(serde_json::json!({ "name": id, "component": component }));
+            }
+        }
+        g
+    }
+
     fn nest_graph(replace: &[(&str, Value)]) -> TokenGraph {
         let (g, _) = load();
         let mut visuals = TokenGraph::load_spec_visuals(&root().join("visuals")).expect("visuals");
+        let mut g = g;
         for (name, raw) in replace {
             let v = visuals.iter_mut().find(|v| v.component == *name).unwrap();
             v.raw = raw.clone();
+            g = link_nested(g, name, raw);
         }
         g.with_visuals(visuals)
     }
@@ -8550,6 +8572,7 @@ mod tests {
         states: &[&str],
         opts: &[(&str, Value)],
     ) -> Result<Scene, String> {
+        let g = &link_nested(g.clone(), "accordion", recipe);
         let mut r = req(states);
         r.component = "accordion".into();
         r.size = size.into();
@@ -8902,6 +8925,32 @@ mod tests {
             .remove("m");
         let err = nest_scene(&g, &r, "m", &[], &[]).unwrap_err();
         assert!(err.contains("no sizeMap entry"), "{err}");
+        // The component comes from the host's anatomy part: a part with none cannot be drawn.
+        let mut g = nest_graph(&[]);
+        let anatomy = g
+            .components
+            .iter_mut()
+            .find(|c| c.name == "accordion")
+            .unwrap()
+            .raw["anatomy"]
+            .as_array_mut()
+            .unwrap();
+        anatomy.retain(|p| p["name"] != "a");
+        anatomy.push(serde_json::json!({ "name": "a" }));
+        let r = row_host();
+        let g2 = link_nested(g.clone(), "accordion", &r);
+        assert!(nest_scene(&g2, &r, "m", &[], &[]).is_ok());
+        let err = build_scene(&g, &r, &{
+            let mut q = req(&[]);
+            q.component = "accordion".into();
+            q.size = "m".into();
+            q
+        })
+        .unwrap_err();
+        assert!(
+            err.contains("has no anatomy part 'a' with a `component`"),
+            "{err}"
+        );
     }
 
     #[test]
