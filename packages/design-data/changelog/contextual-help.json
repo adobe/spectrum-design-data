@@ -191,6 +191,25 @@
           "metadata": {"count":5,"fields":["anatomyReview.status","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "3.31.1",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+      "commits": [
+        {
+          "commit": "cc2bccd6fde88765f41ff4be282bc7dba58d8762",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2031,"title":"feat(design-data): migrate drop-zone, illustrated-message, coach-mark and contextual-help to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/2031"},
+          "entries": [
+            {"id":"cc2bccd6-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"d5f382a1-fc44-5c22-8509-05b676839138","name":"color","fields":[{"path":"scope.attribute","after":"background"}]},
+            {"id":"cc2bccd6-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"6e350535-1596-5d0d-bf80-4a8c29d2615f","name":"color","fields":[{"path":"scope.attribute","after":"background"}]}
+          ],
+          "metadata": {"count":3,"fields":["scope.part"]}
+        }
+      ]
     }
   ]
 }

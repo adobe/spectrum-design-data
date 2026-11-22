@@ -315,6 +315,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.1",
+      "version": "1.5.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+      "commits": [
+        {
+          "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2033,"title":"feat(design-data): add type-style records to status-light, toast, alert-banner and in-line-alert","url":"https://github.com/adobe/spectrum-design-data/pull/2033"},
+          "entries": [
+            {"id":"6f91b018-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Value"],"scope":{"property":"type-style","options":null},"record":"876ed969-e1eb-54bd-bad6-19b87411a327","name":"type-style","fields":[],"after":"567a8eff-028f-4de1-b58a-a0473775219f"}
+          ]
+        }
+      ]
     }
   ]
 }

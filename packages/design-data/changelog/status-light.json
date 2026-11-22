@@ -518,6 +518,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "3.31.1",
+      "version": "3.2.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+      "commits": [
+        {
+          "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2033,"title":"feat(design-data): add type-style records to status-light, toast, alert-banner and in-line-alert","url":"https://github.com/adobe/spectrum-design-data/pull/2033"},
+          "entries": [
+            {"id":"6f91b018-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"type-style","options":null},"record":"e6b65b4d-1d22-5b65-8543-0cb83223fd08","name":"type-style","fields":[],"after":"cde5212c-520d-4657-8184-f07739ffed07"},
+            {"id":"6f91b018-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"type-style","options":null},"record":"8f01f964-09ce-575a-9190-b05bcba05c02","name":"type-style","fields":[],"after":"567a8eff-028f-4de1-b58a-a0473775219f"},
+            {"id":"6f91b018-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"type-style","options":null},"record":"9f353d4b-e874-5842-80fe-1810655ce74c","name":"type-style","fields":[],"after":"5a58a097-2235-4302-a6ed-6c1fa854c523"},
+            {"id":"6f91b018-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label"],"scope":{"property":"type-style","options":null},"record":"eba27e64-818d-57db-8a6c-c34970a82fe0","name":"type-style","fields":[],"after":"5096f188-f728-4db4-8cd9-cc23b08956e1"}
+          ]
+        }
+      ]
     }
   ]
 }

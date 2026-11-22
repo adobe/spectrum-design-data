@@ -1,5 +1,12 @@
 # @adobe/design-data-skill
 
+## 2.2.26
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.16.6
+
 ## 2.2.25
 
 ### Patch Changes
