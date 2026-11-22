@@ -177,6 +177,38 @@
             "anatomy": "handle",
             "property": "background-color"
           }
+        },
+        "shadow": {
+          "shadow": [
+            {
+              "x": {
+                "value": 0
+              },
+              "y": {
+                "value": 3
+              },
+              "blur": {
+                "value": 8
+              },
+              "color": {
+                "value": "rgba(0, 0, 0, 0.15)"
+              }
+            },
+            {
+              "x": {
+                "value": 0
+              },
+              "y": {
+                "value": 3
+              },
+              "blur": {
+                "value": 1
+              },
+              "color": {
+                "value": "rgba(0, 0, 0, 0.06)"
+              }
+            }
+          ]
         }
       }
     }

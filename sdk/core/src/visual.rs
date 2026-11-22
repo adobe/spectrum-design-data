@@ -67,6 +67,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "pressMinPerspective",
             "pressMaxPerspective",
             "opacity",
+            "shadow",
         ],
     ),
     (
@@ -76,6 +77,7 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "width",
             "height",
             "grow",
+            "shadow",
             "cornerRadius",
             "fill",
             "stroke",
@@ -339,7 +341,22 @@ pub struct SceneNode {
     /// consumer that draws solid fills only.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub gradient: Option<Gradient>,
+    /// Drop shadows drawn under the node, outside its box, first layer on top (CSS order).
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub shadow: Vec<Shadow>,
     pub tokens: Vec<TokenRef>,
+}
+
+/// One drop shadow layer: the box offset by (`x`, `y`) and grown by `spread` on every side,
+/// blurred by a Gaussian of standard deviation `blur / 2` (`blur` is the Figma radius and the
+/// CSS blur radius), filled with `color`. It is not drawn inside the node's own box.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Shadow {
+    pub x: f64,
+    pub y: f64,
+    pub blur: f64,
+    pub spread: f64,
+    pub color: String,
 }
 
 /// A linear gradient across a box. `from` and `to` are the ends of the gradient line in the
@@ -1491,6 +1508,15 @@ impl<'a> CompileCx<'a> {
     /// Compile the sources of a `gradient` value source's stops, which bind colors and offsets
     /// like any other prop.
     fn compile_gradient(&self, entry: &mut Value) {
+        if let Some(layers) = entry.get_mut("shadow").and_then(Value::as_array_mut) {
+            for layer in layers {
+                for key in ["x", "y", "blur", "spread", "color"] {
+                    if let Some(source) = layer.get_mut(key) {
+                        self.compile_source("shadow", source);
+                    }
+                }
+            }
+        }
         let Some(stops) = entry
             .get_mut("gradient")
             .and_then(|g| g.get_mut("stops"))
@@ -2034,9 +2060,9 @@ impl Ctx<'_> {
         }
     }
 
-    fn eval(&mut self, source: Option<&Value>) -> Option<Resolved> {
-        let source = source?;
-        let chosen = match source {
+    /// The entry of a (possibly conditional) source whose `when` holds and ranks highest.
+    fn choose<'a>(&self, source: &'a Value) -> Option<&'a Value> {
+        match source {
             Value::Array(entries) => {
                 let mut best: Option<((i64, usize), &Value)> = None;
                 for e in entries {
@@ -2047,13 +2073,76 @@ impl Ctx<'_> {
                         }
                     }
                 }
-                best?.1
+                Some(best?.1)
             }
             other => {
                 self.when_score(other.get("when"))?;
-                other
+                Some(other)
             }
-        };
+        }
+    }
+
+    /// The drop shadows a `shadow` source describes. A layer whose `x`, `y`, `blur` or `color`
+    /// does not resolve (or whose `blur` or `spread` is not a number, `blur` not below 0) is
+    /// dropped with a diagnostic; `spread` defaults to 0.
+    fn shadows(&mut self, source: Option<&Value>) -> (Vec<Shadow>, Vec<TokenRef>) {
+        let layers = source
+            .and_then(|s| self.choose(s))
+            .and_then(|c| c.get("shadow"))
+            .and_then(Value::as_array);
+        let (mut out, mut tokens) = (Vec::new(), Vec::new());
+        for (i, layer) in layers.into_iter().flatten().enumerate() {
+            let mut num = |key: &str, default: Option<f64>| {
+                let r = self.eval(layer.get(key));
+                let n = r.as_ref().and_then(Resolved::num).or(default);
+                (n, r)
+            };
+            let (x, rx) = num("x", None);
+            let (y, ry) = num("y", None);
+            let (blur, rb) = num("blur", None);
+            let (spread, rs) = num("spread", Some(0.0));
+            let color = self.eval(layer.get("color"));
+            match (x, y, blur.filter(|b| *b >= 0.0), spread, color.as_ref()) {
+                (Some(x), Some(y), Some(blur), Some(spread), Some(c)) => {
+                    out.push(Shadow {
+                        x,
+                        y,
+                        blur,
+                        spread,
+                        color: c.value.clone(),
+                    });
+                    let n = out.len();
+                    for (name, r) in [
+                        ("x", rx),
+                        ("y", ry),
+                        ("blur", rb),
+                        ("spread", rs),
+                        ("color", color),
+                    ] {
+                        let Some(r) = r.filter(|r| !r.token.is_empty()) else {
+                            continue;
+                        };
+                        tokens.push(TokenRef {
+                            prop: format!("shadow{n}.{name}"),
+                            token: r.token,
+                            value: r.value,
+                            chain: r.chain,
+                            relationship: r.relationship,
+                        });
+                    }
+                }
+                _ => self.diags.push(format!(
+                    "shadow layer {} needs x, y, a blur of 0 or more and a color that resolve (and a numeric spread); skipping it",
+                    i + 1
+                )),
+            }
+        }
+        (out, tokens)
+    }
+
+    fn eval(&mut self, source: Option<&Value>) -> Option<Resolved> {
+        let source = source?;
+        let chosen = self.choose(source)?;
         let relative_to = chosen
             .get("relativeTo")
             .and_then(Value::as_str)
@@ -3754,6 +3843,7 @@ fn solve_root(
                             underline: None,
                             pattern: None,
                             gradient: None,
+                            shadow: Vec::new(),
                             stroke_opacity: None,
                             tokens: Vec::new(),
                         };
@@ -4176,6 +4266,7 @@ fn solve_root(
         underline: None,
         pattern: root_pattern,
         gradient: root_gradient,
+        shadow: Vec::new(),
         tokens: container_tokens,
     }];
 
@@ -4361,6 +4452,7 @@ fn solve_root(
             underline: c.underline,
             pattern: c.pattern,
             gradient: c.gradient,
+            shadow: Vec::new(),
             color: c.color,
             icon: None,
             rotation: None,
@@ -4486,6 +4578,7 @@ fn solve_root(
                     underline: None,
                     pattern: None,
                     gradient: None,
+                    shadow: Vec::new(),
                     stroke_opacity: None,
                     tokens,
                 });
@@ -4552,6 +4645,7 @@ fn solve_root(
                 underline: None,
                 pattern: None,
                 gradient: nfill.as_ref().and_then(|f| f.gradient.clone()),
+                shadow: Vec::new(),
                 tokens,
             });
         }
@@ -4589,6 +4683,7 @@ fn solve_root(
             underline: None,
             pattern: None,
             gradient: None,
+            shadow: Vec::new(),
             stroke_opacity: None,
             tokens,
         });
@@ -4728,6 +4823,7 @@ fn solve_root(
             underline: None,
             pattern: None,
             gradient: None,
+            shadow: Vec::new(),
             tokens,
         });
     }
@@ -4812,6 +4908,17 @@ fn solve_root(
     }
 
     nodes.extend(nested_out);
+    for n in nodes.iter_mut().filter(|n| n.kind == "box") {
+        let Some(source) = parts
+            .get(&n.part)
+            .and_then(|p| p.get("props")?.get("shadow"))
+        else {
+            continue;
+        };
+        let (layers, tokens) = cx.shadows(Some(source));
+        n.shadow = layers;
+        n.tokens.extend(tokens);
+    }
     // `strokeOver`: the root's border is drawn after everything else, as a ring node, so it
     // lies over the children. Same band as the box stroke: inside the box.
     if stroke_over && radii.is_some() {
@@ -5392,6 +5499,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         underline: None,
         pattern: None,
         gradient: None,
+        shadow: Vec::new(),
         stroke_opacity: None,
         tokens: Vec::new(),
     }
@@ -5620,6 +5728,74 @@ fn placeholder_svg(n: &SceneNode, attrs: &str) -> String {
     )
 }
 
+/// The node's drop shadows, last layer first so the first is on top: each is a blurred rect of
+/// the shadow's color, masked so nothing lands inside the node's own box. Ids hash the whole
+/// definition, so SVGs inlined in one page share an id only when they are identical.
+fn write_shadows(s: &mut String, n: &SceneNode) {
+    for sh in n.shadow.iter().rev() {
+        let sigma = sh.blur / 2.0;
+        let (x, y) = (n.x + sh.x - sh.spread, n.y + sh.y - sh.spread);
+        let (w, h) = (n.w + 2.0 * sh.spread, n.h + 2.0 * sh.spread);
+        if w <= 0.0 || h <= 0.0 {
+            continue;
+        }
+        let pad = (3.0 * sigma).ceil();
+        let region = format!(
+            "x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\"",
+            x - pad,
+            y - pad,
+            w + 2.0 * pad,
+            h + 2.0 * pad
+        );
+        let key = format!("{sh:?}|{}|{}|{}|{}|{}", n.x, n.y, n.w, n.h, n.radius)
+            .bytes()
+            .fold(0xcbf2_9ce4_8422_2325u64, |h, b| {
+                (h ^ u64::from(b)).wrapping_mul(0x0100_0000_01b3)
+            });
+        let (fid, mid) = (
+            format!("shadow-{key:016x}"),
+            format!("shadow-mask-{key:016x}"),
+        );
+        let hole = match n.radii {
+            Some(r) => format!(
+                "<path d=\"{}\" fill=\"#000\"/>",
+                rounded_path(n.x, n.y, n.w, n.h, r)
+            ),
+            None => format!(
+                "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"#000\"/>",
+                n.x, n.y, n.w, n.h, n.radius
+            ),
+        };
+        let blur = if sigma > 0.0 {
+            format!(
+                "<filter id=\"{fid}\" filterUnits=\"userSpaceOnUse\" {region}><feGaussianBlur stdDeviation=\"{sigma}\"/></filter>"
+            )
+        } else {
+            String::new()
+        };
+        let _ = write!(
+            s,
+            "<defs>{blur}<mask id=\"{mid}\" maskUnits=\"userSpaceOnUse\" {region}><rect {region} fill=\"#fff\"/>{hole}</mask></defs>"
+        );
+        let radius = match n.radii {
+            Some(r) => r.iter().sum::<f64>() / 4.0,
+            None => n.radius,
+        };
+        let filter = if sigma > 0.0 {
+            format!(" filter=\"url(#{fid})\"")
+        } else {
+            String::new()
+        };
+        let _ = write!(
+            s,
+            "<g mask=\"url(#{mid})\"><rect data-part=\"{}\" data-shadow=\"true\" x=\"{x}\" y=\"{y}\" width=\"{w}\" height=\"{h}\" rx=\"{}\" fill=\"{}\"{filter}/></g>",
+            esc(&n.part),
+            (radius + sh.spread).max(0.0),
+            esc(&sh.color)
+        );
+    }
+}
+
 /// Serialize a scene as SVG. Parts carry `data-part`; token bindings are `data-tokens`.
 pub fn scene_to_svg(scene: &Scene) -> String {
     let mut s = String::new();
@@ -5675,6 +5851,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             .unwrap_or_default();
         match n.kind.as_str() {
             "box" => {
+                write_shadows(&mut s, n);
                 let mut layers = vec![(attrs.clone(), n.fill.clone())];
                 if let Some(g) = &n.gradient {
                     // The ends are in the box's unit space; the gradient is drawn in user space,
@@ -6292,6 +6469,115 @@ mod tests {
                 "c": { "kind": "box", "props": p(16) }
             }
         })
+    }
+
+    fn shadow_recipe(shadow: Value) -> Value {
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "props": {
+                "width": lit(40.into()), "height": lit(20.into()), "fill": lit("#ffffff".into()),
+                "shadow": shadow
+            } } }
+        })
+    }
+
+    fn layer(x: i32, y: i32, blur: i32, color: &str) -> Value {
+        serde_json::json!({ "x": lit(x.into()), "y": lit(y.into()), "blur": lit(blur.into()),
+            "color": lit(color.into()) })
+    }
+
+    #[test]
+    fn a_shadow_source_draws_layers_under_the_box_without_moving_layout() {
+        let plain = solve_width(&shadow_recipe(Value::Null), None);
+        let shadow = serde_json::json!({ "shadow": [
+            layer(0, 3, 8, "rgba(0, 0, 0, 0.15)"),
+            { "x": lit(1.into()), "y": lit(2.into()), "blur": lit(0.into()),
+              "spread": lit(2.into()), "color": lit("#000000".into()) }
+        ] });
+        let scene = solve_width(&shadow_recipe(shadow), None);
+        let n = &scene.nodes[0];
+        assert_eq!(n.shadow.len(), 2);
+        assert_eq!(n.shadow[0].color, "rgba(0, 0, 0, 0.15)");
+        assert_eq!((n.shadow[1].spread, n.shadow[1].blur), (2.0, 0.0));
+        assert_eq!(
+            (n.x, n.y, n.w, n.h, scene.width, scene.height),
+            (
+                plain.nodes[0].x,
+                plain.nodes[0].y,
+                plain.nodes[0].w,
+                plain.nodes[0].h,
+                plain.width,
+                plain.height
+            )
+        );
+        let svg = scene_to_svg(&scene);
+        assert!(
+            svg.contains("<feGaussianBlur stdDeviation=\"4\"/>"),
+            "{svg}"
+        );
+        assert_eq!(svg.matches("data-shadow=\"true\"").count(), 2, "{svg}");
+        // The blur-0 layer draws no filter; the box fill comes after every shadow.
+        assert_eq!(svg.matches("<filter ").count(), 1, "{svg}");
+        assert!(
+            svg.rfind("data-shadow").unwrap() < svg.find("fill=\"#ffffff\"").unwrap(),
+            "{svg}"
+        );
+        assert_eq!(
+            svg,
+            scene_to_svg(&solve_width(
+                &shadow_recipe(serde_json::json!({ "shadow": [
+            layer(0, 3, 8, "rgba(0, 0, 0, 0.15)"),
+            { "x": lit(1.into()), "y": lit(2.into()), "blur": lit(0.into()),
+              "spread": lit(2.into()), "color": lit("#000000".into()) }
+        ] })),
+                None
+            ))
+        );
+    }
+
+    #[test]
+    fn shadow_layers_bind_the_drop_shadow_tokens() {
+        let tok = |prop: &str| {
+            serde_json::json!({ "token": {
+            "structure": "drop-shadow", "property": prop, "scaleIndex": "100" } })
+        };
+        let src = serde_json::json!({ "shadow": [
+            { "x": tok("x"), "y": tok("y"), "blur": tok("blur"), "color": tok("color") }
+        ] });
+        let scene = solve_width(&shadow_recipe(src), None);
+        let n = &scene.nodes[0];
+        assert_eq!(n.shadow.len(), 1, "{:?}", scene.diagnostics);
+        assert_eq!(
+            (n.shadow[0].x, n.shadow[0].y, n.shadow[0].blur),
+            (0.0, 1.0, 6.0)
+        );
+        assert!(
+            n.shadow[0].color.starts_with("rgba(0, 0, 0,"),
+            "{}",
+            n.shadow[0].color
+        );
+        assert!(
+            n.tokens.iter().any(|t| t.prop == "shadow1.blur"),
+            "{:?}",
+            n.tokens
+        );
+    }
+
+    #[test]
+    fn a_shadow_layer_that_does_not_resolve_is_skipped_with_a_diagnostic() {
+        let bad = serde_json::json!({ "x": lit(0.into()), "y": lit(1.into()),
+            "blur": lit((-2).into()), "color": lit("#000000".into()) });
+        let src = serde_json::json!({ "shadow": [bad, layer(0, 1, 2, "#000000")] });
+        let scene = solve_width(&shadow_recipe(src), None);
+        assert_eq!(scene.nodes[0].shadow.len(), 1);
+        assert!(
+            scene
+                .diagnostics
+                .iter()
+                .any(|d| d.contains("shadow layer 1")),
+            "{:?}",
+            scene.diagnostics
+        );
     }
 
     #[test]

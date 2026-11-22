@@ -123,6 +123,104 @@ pub fn paint_with(
     }
 }
 
+/// A drop shadow: the rounded box `(x, y, w, h)` with corner radii `r`, offset by `(dx, dy)`,
+/// grown by `spread`, blurred by a Gaussian of standard deviation `blur / 2`, and drawn in
+/// `color` everywhere except inside the box itself (`hole`: the node's own box, so a
+/// translucent node shows no shadow through it, as in CSS and Figma).
+#[allow(clippy::too_many_arguments)]
+pub fn paint_shadow(
+    cv: &mut Canvas,
+    xf: Xf,
+    (x, y, w, h): (f64, f64, f64, f64),
+    r: [f64; 4],
+    (dx, dy, blur, spread): (f64, f64, f64, f64),
+    color: Rgba,
+) {
+    let (sx, sy, sw, sh) = (
+        x + dx - spread,
+        y + dy - spread,
+        w + 2.0 * spread,
+        h + 2.0 * spread,
+    );
+    if xf.s <= 0.0 || color.a <= 0.0 || sw <= 0.0 || sh <= 0.0 {
+        return;
+    }
+    let sr = r.map(|v| (v + spread).max(0.0));
+    let sigma = blur / 2.0 * xf.s;
+    let reach = (3.0 * sigma).ceil() as i64;
+    let px0 = (sx * xf.s + xf.tx).floor() as i64 - reach - 1;
+    let py0 = (sy * xf.s + xf.ty).floor() as i64 - reach - 1;
+    let px1 = ((sx + sw) * xf.s + xf.tx).ceil() as i64 + reach + 1;
+    let py1 = ((sy + sh) * xf.s + xf.ty).ceil() as i64 + reach + 1;
+    let (bw, bh) = ((px1 - px0) as usize, (py1 - py0) as usize);
+    let center = |p: i64, o: i64, t: f64| ((p + o) as f64 + 0.5 - t) / xf.s;
+    let mut buf = vec![0f32; bw * bh];
+    for j in 0..bh {
+        for i in 0..bw {
+            let d = rrect_sdf(
+                center(i as i64, px0, xf.tx),
+                center(j as i64, py0, xf.ty),
+                sx,
+                sy,
+                sw,
+                sh,
+                sr,
+            );
+            buf[j * bw + i] = (0.5 - d * xf.s).clamp(0.0, 1.0) as f32;
+        }
+    }
+    if sigma > 0.0 {
+        let kernel: Vec<f32> = (-reach..=reach)
+            .map(|k| (-((k * k) as f64) / (2.0 * sigma * sigma)).exp() as f32)
+            .collect();
+        let norm: f32 = kernel.iter().sum();
+        let blur_pass = |src: &[f32], horizontal: bool| {
+            let mut out = vec![0f32; src.len()];
+            for j in 0..bh {
+                for i in 0..bw {
+                    let mut acc = 0.0;
+                    for (k, wgt) in kernel.iter().enumerate() {
+                        let o = k as i64 - reach;
+                        let (ii, jj) = if horizontal {
+                            (i as i64 + o, j as i64)
+                        } else {
+                            (i as i64, j as i64 + o)
+                        };
+                        if ii >= 0 && jj >= 0 && (ii as usize) < bw && (jj as usize) < bh {
+                            acc += wgt * src[jj as usize * bw + ii as usize];
+                        }
+                    }
+                    out[j * bw + i] = acc / norm;
+                }
+            }
+            out
+        };
+        buf = blur_pass(&blur_pass(&buf, true), false);
+    }
+    for j in 0..bh {
+        for i in 0..bw {
+            let (cx, cy) = ((px0 + i as i64), (py0 + j as i64));
+            if cx < 0 || cy < 0 {
+                continue;
+            }
+            let d = rrect_sdf(
+                center(i as i64, px0, xf.tx),
+                center(j as i64, py0, xf.ty),
+                x,
+                y,
+                w,
+                h,
+                r,
+            );
+            let outside = (0.5 + d * xf.s).clamp(0.0, 1.0) as f32;
+            let a = buf[j * bw + i] * outside;
+            if a > 0.0 {
+                cv.blend(cx as usize, cy as usize, color, a);
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
