@@ -137,17 +137,17 @@
       "name": "container",
       "description": "Panel surface. Root of the component and host of the default slot.",
       "required": true,
-      "contains": [
-        "drag-handle",
-        "back-button",
-        "title",
-        "close-button",
-        "divider"
-      ]
+      "contains": ["drag-handle", "header-area", "divider", "content"]
     },
     {
       "name": "drag-handle",
-      "description": "Grip at the top center that moves or undocks the panel (Figma S2_Gripper icon). Shown unless hideDragHandle."
+      "description": "Grip at the top center that moves or undocks the panel (Figma S2_Gripper icon). Shown unless hideDragHandle.",
+      "presentWhen": { "options": { "hideDragHandle": false } }
+    },
+    {
+      "name": "header-area",
+      "description": "Row at the top of the panel that holds the back button, the title and the close button (Figma Title area, .Title + Close button).",
+      "contains": ["back-button", "title", "close-button"]
     },
     {
       "name": "back-button",
@@ -157,23 +157,30 @@
     {
       "name": "close-button",
       "component": "close-button",
-      "description": "Button in the top corner that dismisses the panel. Shown unless hideCloseButton."
+      "description": "Button in the top corner that dismisses the panel. Shown unless hideCloseButton.",
+      "presentWhen": { "options": { "hideCloseButton": false } }
     },
     {
       "name": "divider",
       "component": "divider",
-      "description": "Line under the title area. Shown unless hideDivider."
+      "description": "Line under the title area. Shown unless hideDivider.",
+      "presentWhen": { "options": { "hideDivider": false } }
+    },
+    {
+      "name": "content",
+      "description": "Area under the title that holds the panel content; the default slot fills it. With sections, an accordion fills it."
     }
   ],
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Owner decisions (A8, 2026-11-20): explicit root part container; the grip part is drag-handle (the Figma bar-panel layer name; the S2_Gripper icon; the 4 legacy records said gripper and moved to the new part name, legacy output unchanged). The option container (anchored, floating, dragged) is renamed type, the Figma property name, so it no longer shares a name with the part. Figma S2 Web standard panel (10151:8140), .Title + Close button. No React Spectrum or SWC component. The options label, description and value have no S2 source (options pass). Unsure: section dividers in the With sections variant."
+    "notes": "Owner decisions (A8, 2026-11-20): explicit root part container; the grip part is drag-handle (the Figma bar-panel layer name; the S2_Gripper icon; the 4 legacy records said gripper and moved to the new part name, legacy output unchanged). The option container (anchored, floating, dragged) is renamed type, the Figma property name, so it no longer shares a name with the part. Figma S2 Web standard panel (10151:8140), .Title + Close button. No React Spectrum or SWC component. The options label, description and value have no S2 source (options pass). Unsure: section dividers in the With sections variant. Recipe wave R1: added header-area (Figma Title area frame, holds back-button, title and close-button in a row) and content (the part the default slot fills; a slot part cannot be the root); presence of drag-handle, close-button and divider follows hideDragHandle, hideCloseButton and hideDivider."
   },
   "slots": [
     {
       "name": "default",
-      "part": "container",
+      "part": "content",
+      "accepts": ["accordion"],
       "description": "The panel content. With sections, an accordion fills it."
     }
   ]

@@ -209,7 +209,7 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
                             label: if name == "avatar" { "A" } else { "Label" }.into(),
                             icon: None,
                             text_metrics: None,
-                            slots: Default::default(),
+                            slots: group_fills(name),
                             width: None,
                         };
                         let label = format!(
@@ -242,6 +242,28 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
         }
     }
     run
+}
+
+/// A group recipe is only drawn through its slot, so its snapshots fill the default slot with
+/// three items (an empty group draws nothing and hides a gap binding).
+fn group_fills(name: &str) -> HashMap<String, Vec<design_data_core::visual::SlotFill>> {
+    let item = match name {
+        "button-group" => "button",
+        "action-group" => "action-button",
+        "swatch-group" => "swatch",
+        "checkbox-group" => "checkbox",
+        "radio-group" => "radio-button",
+        _ => return Default::default(),
+    };
+    HashMap::from([(
+        "default".to_string(),
+        (0..3)
+            .map(|_| design_data_core::visual::SlotFill {
+                component: item.into(),
+                ..Default::default()
+            })
+            .collect(),
+    )])
 }
 
 fn recipe_names() -> Vec<String> {
@@ -344,19 +366,25 @@ macro_rules! recipe_tests {
 recipe_tests! {
     accordion => "accordion",
     action_button => "action-button",
+    action_group => "action-group",
     alert_banner => "alert-banner",
     avatar => "avatar",
     badge => "badge",
+    bar_panel => "bar-panel",
     button => "button",
+    button_group => "button-group",
     checkbox => "checkbox",
+    checkbox_group => "checkbox-group",
     clear_button => "clear-button",
     close_button => "close-button",
+    coach_indicator => "coach-indicator",
     color_handle => "color-handle",
     color_loupe => "color-loupe",
     combo_box => "combo-box",
     divider => "divider",
     field_label => "field-label",
     help_text => "help-text",
+    in_field_button => "in-field-button",
     in_field_progress_circle => "in-field-progress-circle",
     in_line_alert => "in-line-alert",
     link => "link",
@@ -367,10 +395,13 @@ recipe_tests! {
     progress_bar => "progress-bar",
     progress_circle => "progress-circle",
     radio_button => "radio-button",
+    radio_group => "radio-group",
     search_field => "search-field",
     segmented_control => "segmented-control",
+    standard_panel => "standard-panel",
     status_light => "status-light",
     swatch => "swatch",
+    swatch_group => "swatch-group",
     switch => "switch",
     tabs => "tabs",
     tag => "tag",

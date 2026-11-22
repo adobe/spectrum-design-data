@@ -1,0 +1,62 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "button-group",
+  "root": "container",
+  "sizeScale": {
+    "s": 100,
+    "m": 200,
+    "l": 200,
+    "xl": 200
+  },
+  "notVisual": ["overflowMode"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["buttons"],
+      "props": {
+        "direction": {
+          "value": "row"
+        }
+      }
+    },
+    "buttons": {
+      "kind": "slot",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      },
+      "props": {
+        "direction": [
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "value": "column"
+          },
+          {
+            "value": "row"
+          }
+        ],
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "between": {
+              "from": "button",
+              "to": "button"
+            }
+          }
+        }
+      }
+    }
+  }
+}

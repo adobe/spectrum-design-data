@@ -132,14 +132,20 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Row or column that holds the action buttons. It draws nothing itself: it sets the gap between buttons and the direction. It is the root and the host of the default slot.",
+      "description": "Root of the group. It draws nothing itself: it holds the `action-buttons` part, which hosts the default slot.",
+      "required": true,
+      "contains": ["action-buttons"]
+    },
+    {
+      "name": "action-buttons",
+      "description": "Row or column of action buttons. It draws nothing itself: it sets the gap between action buttons and the direction. It hosts the default slot.",
       "required": true
     }
   ],
   "slots": [
     {
       "name": "default",
-      "part": "container",
+      "part": "action-buttons",
       "accepts": ["action-button"],
       "min": 1,
       "description": "The action button in the group. Any number of action buttons, at least one."
@@ -148,7 +154,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web action group page (Action button instances only), React Spectrum S2 ActionButtonGroup. The group stays a component with an explicit container and one slot (A139). action-button is no longer a part: it is what the default slot accepts. Selection options (enableSelection, selectionMode, allowsEmptySelection) stay options (A144)."
+    "notes": "Figma S2 Web action group page (Action button instances only), React Spectrum S2 ActionButtonGroup. The group stays a component with an explicit container and one slot, hosted by the child part `action-buttons`. The part is a spec choice (anatomy-format: a slot host is a declared part); the renderer only needs a slot part under the root, which it rejects on the root itself (A139). action-button is no longer a part: it is what the default slot accepts. Selection options (enableSelection, selectionMode, allowsEmptySelection) stay options (A144)."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"

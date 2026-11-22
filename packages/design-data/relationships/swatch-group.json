@@ -105,5 +105,23 @@
     "contextQualifier": "swatch to swatch",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
     "uuid": "75df89ad-eb01-5654-ad0a-4466ec375d7c"
+  },
+  {
+    "scope": {
+      "component": "swatch-group",
+      "between": {
+        "from": "swatch",
+        "to": "swatch"
+      },
+      "property": "space-between",
+      "options": {
+        "density": "regular"
+      }
+    },
+    "context": "Spacing (swatch to swatch)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "swatch to swatch",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "50e1d266-13ed-5cfe-b91a-8e70b699afbb"
   }
 ]

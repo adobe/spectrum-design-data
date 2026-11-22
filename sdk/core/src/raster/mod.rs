@@ -293,6 +293,18 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
     let bounds = |pad: f64| (n.x - pad, n.y - pad, n.x + n.w + pad, n.y + n.h + pad);
     match n.kind.as_str() {
         "box" => {
+            for sh in n.shadow.iter().rev() {
+                if let Some(c) = color_of(Some(sh.color.as_str()), "shadow", &n.part, diags) {
+                    shape::paint_shadow(
+                        cv,
+                        xf,
+                        (n.x, n.y, n.w, n.h),
+                        corner_radii(n),
+                        (sh.x, sh.y, sh.blur, sh.spread),
+                        c,
+                    );
+                }
+            }
             let gradient = n.gradient.as_ref().and_then(|g| {
                 let stops: Option<Vec<(f64, Rgba)>> = g
                     .stops
@@ -644,6 +656,7 @@ mod tests {
             underline: None,
             pattern: None,
             gradient: None,
+            shadow: Vec::new(),
             stroke_opacity: None,
             tokens: vec![],
         }
@@ -693,6 +706,107 @@ mod tests {
         assert_eq!(at(&img, 2, 12), [0, 0, 0, 0]);
         assert_eq!(at(&img, 4, 12), [255, 0, 0, 255]);
         assert!(d.is_empty());
+    }
+
+    #[test]
+    fn a_drop_shadow_blurs_outside_the_box_and_never_inside_it() {
+        let mut n = node("box", "root", 20.0, 20.0, 20.0, 20.0);
+        n.fill = Some("rgba(255, 255, 255, 0)".into());
+        n.shadow = vec![crate::visual::Shadow {
+            x: 0.0,
+            y: 4.0,
+            blur: 8.0,
+            spread: 0.0,
+            color: "#000000".into(),
+        }];
+        let s = scene(60.0, 60.0, vec![n]);
+        let (img, d) = render(&s, 1.0);
+        assert!(d.is_empty(), "{d:?}");
+        // Inside the box nothing is drawn, though the shadow lies beneath it.
+        assert_eq!(at(&img, 30, 30)[3], 0);
+        // Below the box the shadow is partial: darker near the box than farther away.
+        let (near, far) = (at(&img, 30, 41)[3], at(&img, 30, 47)[3]);
+        assert!(near > far && far > 0, "{near} {far}");
+        // Above it the shadow is weaker than below (offset down), and left/right mirror.
+        assert!(at(&img, 30, 17)[3] < near);
+        assert_eq!(at(&img, 14, 41), at(&img, 45, 41));
+        // Far outside there is none, and the render is deterministic.
+        assert_eq!(at(&img, 2, 2)[3], 0);
+        assert_eq!(render(&s, 1.0).0.rgba, img.rgba);
+    }
+
+    fn shadow(x: f64, y: f64, blur: f64, color: &str) -> crate::visual::Shadow {
+        crate::visual::Shadow {
+            x,
+            y,
+            blur,
+            spread: 0.0,
+            color: color.into(),
+        }
+    }
+
+    #[test]
+    fn the_blur_edge_follows_a_gaussian_of_half_the_blur() {
+        // Beside a wide box the edge is a half-plane: at distance d the alpha is
+        // Phi(-d / sigma). Blur 8 is sigma 4; the rows sampled are 4.5 and 8.5px below the
+        // edge: Phi(-1.125) = 0.130 (33/255) and Phi(-2.125) = 0.017 (4/255). A doubled or
+        // halved sigma misses both.
+        let mut n = node("box", "root", 20.0, 20.0, 200.0, 20.0);
+        n.shadow = vec![shadow(0.0, 0.0, 8.0, "#000000")];
+        let (img, _) = render(&scene(240.0, 80.0, vec![n]), 1.0);
+        let (a4, a8) = (at(&img, 120, 44)[3] as i32, at(&img, 120, 48)[3] as i32);
+        assert!((a4 - 33).abs() <= 2, "{a4}");
+        assert!((a8 - 4).abs() <= 2, "{a8}");
+    }
+
+    #[test]
+    fn the_first_shadow_layer_is_drawn_on_top() {
+        let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
+        n.shadow = vec![
+            shadow(12.0, 0.0, 0.0, "#0000ff"),
+            shadow(16.0, 0.0, 0.0, "#ff0000"),
+        ];
+        let (img, _) = render(&scene(50.0, 30.0, vec![n]), 1.0);
+        // x 28..32 is covered by both layers: the first (blue) wins.
+        assert_eq!(at(&img, 30, 15), [0, 0, 255, 255]);
+        assert_eq!(at(&img, 35, 15), [255, 0, 0, 255]);
+    }
+
+    #[test]
+    fn a_huge_blur_or_offset_neither_panics_nor_exhausts_memory() {
+        let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
+        n.shadow = vec![
+            shadow(0.0, 0.0, 1e9, "#000000"),
+            shadow(1e9, -1e9, 8.0, "#000000"),
+        ];
+        let (img, _) = render(&scene(30.0, 30.0, vec![n]), 2.0);
+        assert_eq!(img.width, 60);
+    }
+
+    #[test]
+    fn node_opacity_dims_the_shadow_with_the_node() {
+        let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
+        n.shadow = vec![shadow(12.0, 0.0, 0.0, "#000000")];
+        let mut s = scene(40.0, 30.0, vec![n]);
+        s.opacity = Some(0.5);
+        let (img, _) = render(&s, 1.0);
+        assert_eq!(at(&img, 26, 15)[3], 128);
+    }
+
+    #[test]
+    fn a_drop_shadow_with_no_blur_is_a_hard_offset_copy() {
+        let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
+        n.shadow = vec![crate::visual::Shadow {
+            x: 5.0,
+            y: 0.0,
+            blur: 0.0,
+            spread: 0.0,
+            color: "#000000".into(),
+        }];
+        let (img, _) = render(&scene(30.0, 30.0, vec![n]), 1.0);
+        assert_eq!(at(&img, 22, 15), [0, 0, 0, 255]);
+        assert_eq!(at(&img, 26, 15)[3], 0);
+        assert_eq!(at(&img, 12, 15)[3], 0);
     }
 
     #[test]
