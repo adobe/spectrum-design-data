@@ -1585,7 +1585,8 @@ impl<'a> CompileCx<'a> {
 
     /// Embed what a `slot` part needs to draw any request fill without reading component data:
     /// the slot's name, `acceptsOnly` and `max`, and for each accepted component its compiled
-    /// recipe at the size `sizeMap` chose and the part's `with` options that component declares.
+    /// recipe at the size `sizeMap` chose and the part's `with` options (a nested solve ignores an
+    /// option its component does not declare).
     /// The slot is the one of the host whose `part` is this recipe part.
     fn compile_slot(&self, id: &str, host: Option<&Value>, part: &mut Value) -> Result<(), String> {
         let slot = host
@@ -1612,20 +1613,7 @@ impl<'a> CompileCx<'a> {
             .filter_map(Value::as_str)
         {
             let (nested, size) = self.compile_nested(id, name, part)?;
-            let declared = self
-                .graph
-                .components
-                .iter()
-                .find(|c| c.name == self.graph.canonical_component(name))
-                .and_then(|c| c.raw.get("options")?.as_object());
-            let with: serde_json::Map<String, Value> = part
-                .get("with")
-                .and_then(Value::as_object)
-                .into_iter()
-                .flatten()
-                .filter(|(k, _)| declared.is_some_and(|o| o.contains_key(*k)))
-                .map(|(k, v)| (k.clone(), v.clone()))
-                .collect();
+            let with = part.get("with").cloned().unwrap_or_default();
             fills.insert(
                 name.to_string(),
                 serde_json::json!({ "nested": nested, "nestedSize": size, "with": with }),
@@ -8939,6 +8927,170 @@ mod tests {
             .iter()
             .all(|n| n.part != "icon" && n.part != "track"));
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    fn slot_host(slot: Value) -> Value {
+        host(serde_json::json!({
+            "r": { "kind": "box", "children": ["row"] },
+            "row": { "kind": "box", "children": ["actions"], "props": lit_props(&[
+                ("paddingInlineStart", 6.0), ("paddingInlineEnd", 6.0)]) },
+            "actions": slot
+        }))
+        .tap_row()
+    }
+
+    trait TapRow {
+        fn tap_row(self) -> Value;
+    }
+    impl TapRow for Value {
+        fn tap_row(mut self) -> Value {
+            self["parts"]["row"]["props"]["direction"] = serde_json::json!({ "value": "row" });
+            self
+        }
+    }
+
+    fn actions_slot(extra: Value) -> Value {
+        let mut s = serde_json::json!({
+            "kind": "slot",
+            "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
+            "with": { "hideLabel": true },
+            "props": lit_props(&[("gap", 4.0)])
+        });
+        for (k, v) in extra.as_object().unwrap() {
+            s[k] = v.clone();
+        }
+        s
+    }
+
+    fn fills(list: &[(&str, Value)]) -> HashMap<String, Vec<SlotFill>> {
+        HashMap::from([(
+            "actions".to_string(),
+            list.iter()
+                .map(|(c, o)| SlotFill {
+                    component: c.to_string(),
+                    options: o
+                        .as_object()
+                        .cloned()
+                        .unwrap_or_default()
+                        .into_iter()
+                        .collect(),
+                })
+                .collect(),
+        )])
+    }
+
+    fn slot_scene(recipe: &Value, slots: HashMap<String, Vec<SlotFill>>) -> Scene {
+        let g = nest_graph(&[]);
+        let g = &link_nested(g, "accordion", recipe);
+        let mut r = req(&[]);
+        r.component = "accordion".into();
+        r.slots = slots;
+        build_scene(g, recipe, &r).unwrap()
+    }
+
+    #[test]
+    fn a_slot_part_draws_each_fill_in_a_row_as_a_nested_component() {
+        let r = slot_host(actions_slot(serde_json::json!({})));
+        let s = slot_scene(
+            &r,
+            fills(&[("action-button", Value::Null), ("switch", Value::Null)]),
+        );
+        let n = |id: &str| {
+            part(&s, id).unwrap_or_else(|| {
+                panic!(
+                    "no node {id}: {:?}",
+                    s.nodes.iter().map(|n| &n.part).collect::<Vec<_>>()
+                )
+            })
+        };
+        let (a, b, slot) = (n("actions-1"), n("actions-2"), n("actions"));
+        assert_eq!((a.w, a.h, b.w), (32.0, 32.0, 26.0));
+        assert_eq!(b.x, a.x + a.w + 4.0, "the part's own gap separates fills");
+        assert_eq!((slot.w, slot.h), (32.0 + 4.0 + 26.0, 32.0));
+        assert!(n("actions-1.icon").x >= a.x && part(&s, "actions-2.track").is_some());
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    #[test]
+    fn an_empty_slot_draws_nothing_or_its_placeholder_literal() {
+        let none = slot_scene(
+            &slot_host(actions_slot(serde_json::json!({}))),
+            HashMap::new(),
+        );
+        assert!(part(&none, "actions").is_none() && none.diagnostics.is_empty());
+        let ph =
+            serde_json::json!({ "placeholder": { "width": 172, "height": 44, "reason": "x" } });
+        let s = slot_scene(&slot_host(actions_slot(ph)), HashMap::new());
+        let n = part(&s, "actions").expect("placeholder");
+        assert_eq!((n.w, n.h), (172.0, 44.0));
+    }
+
+    #[test]
+    fn fills_past_max_or_outside_accepts_are_diagnostics_not_failures() {
+        let r = slot_host(actions_slot(serde_json::json!({})));
+        // accordion's actions slot: accepts action-button and switch, acceptsOnly, max 2.
+        let s = slot_scene(
+            &r,
+            fills(&[
+                ("switch", Value::Null),
+                ("button", Value::Null),
+                ("switch", Value::Null),
+                ("action-button", Value::Null),
+            ]),
+        );
+        let drawn: Vec<_> = s
+            .nodes
+            .iter()
+            .filter(|n| n.part.starts_with("actions-") && !n.part.contains('.'))
+            .map(|n| n.part.as_str())
+            .collect();
+        assert_eq!(drawn, ["actions-1", "actions-2"]);
+        assert!(
+            s.diagnostics
+                .iter()
+                .any(|d| d.contains("'button'") && d.contains("accepts only")),
+            "{:?}",
+            s.diagnostics
+        );
+        assert!(
+            s.diagnostics
+                .iter()
+                .any(|d| d.contains("past the slot's max of 2")),
+            "{:?}",
+            s.diagnostics
+        );
+    }
+
+    #[test]
+    fn a_fills_options_win_over_the_parts_with_and_with_skips_undeclared_options() {
+        let colors = |with: Value, opts: Value| {
+            let r = slot_host(actions_slot(serde_json::json!({ "with": with })));
+            let s = slot_scene(&r, fills(&[("switch", opts)]));
+            assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+            format!(
+                "{:?}",
+                s.nodes
+                    .iter()
+                    .map(|n| (&n.color, &n.fill))
+                    .collect::<Vec<_>>()
+            )
+        };
+        let off = colors(serde_json::json!({ "isDisabled": false }), Value::Null);
+        let with_on = colors(serde_json::json!({ "isDisabled": true }), Value::Null);
+        let fill_on = colors(
+            serde_json::json!({ "isDisabled": false }),
+            serde_json::json!({ "isDisabled": true }),
+        );
+        assert_ne!(off, with_on);
+        assert_eq!(with_on, fill_on, "the fill's own option wins");
+        // `hasHoldIcon` is an option of action-button only: the switch ignores it.
+        assert_eq!(
+            off,
+            colors(
+                serde_json::json!({ "isDisabled": false, "hasHoldIcon": true }),
+                Value::Null
+            )
+        );
     }
 
     #[test]

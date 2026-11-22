@@ -153,7 +153,7 @@ A part of kind `component` draws another component's recipe inside this one. The
 
 ### Slot parts
 
-A `slot` part draws the **fills** a render request puts in one of the component's slots ([Slots](component-format.md#slots)). The slot is the one of the component whose `part` is this recipe part (not a collection slot), so the recipe names neither the slot nor what it accepts. The request carries the fills as `slots`: `{"<slot name>": [{"component": "<name>", "options": {...}}]}`. Each fill is drawn through the nested-component path (see [Nested recipes](#nested-recipes)): `sizeMap` chooses its size from the host's, and the part's `with` gives default options (a literal or a host binding, as for a `component` part) that apply to every accepted component that declares the option, while a fill's own `options` win.
+A `slot` part draws the **fills** a render request puts in one of the component's slots ([Slots](component-format.md#slots)). The slot is the one of the component whose `part` is this recipe part (not a collection slot), so the recipe names neither the slot nor what it accepts. The request carries the fills as `slots`: `{"<slot name>": [{"component": "<name>", "options": {...}}]}`. Each fill is drawn through the nested-component path (see [Nested recipes](#nested-recipes)): `sizeMap` chooses its size from the host's, and the part's `with` gives default options (a literal or a host binding, as for a `component` part) applied to each accepted component that declares the option, while a fill's own `options` win.
 
 ```json
 "actions": {
@@ -168,7 +168,7 @@ A `slot` part draws the **fills** a render request puts in one of the component'
 * **Nodes.** The part itself is a `box` node with the slot part's id, as wide and as tall as its fills. Fill *n* (from 1) is a nested component with the id `<id>-<n>`, and its inner nodes are `<id>-<n>.<part>`.
 * **Placeholder.** A slot part **MAY** declare `placeholder`: `{ "width", "height", "reason" }`. When the slot has no fills the part draws an empty frame of that size instead of nothing. The size is a recipe literal because it is the size of an empty drop target, which no token describes; `reason` (REQUIRED) says so, as for any literal.
 * **Constraints are diagnostics.** The slot's `acceptsOnly` and `max` ([Slots](component-format.md#slots)) are enforced by the renderer as scene `diagnostics`, never as a failure: a fill whose component is not in `accepts` while `acceptsOnly` is `true`, a fill for which there is no embedded recipe (a component outside `accepts`), and every fill past `max` are not drawn, and the scene says which. A slot's `min` is not checked at render time.
-* **Compiled shape.** A compiled `slot` part carries `slot` (the slot's name), `acceptsOnly`, `max` when set, and `fills`: an object from each accepted component's name to `{nested, nestedSize, with}`, where `with` holds only the options that component declares. A fill of a component the slot does not accept has no entry. The compiled recipe does not depend on the request's `slots`.
+* **Compiled shape.** A compiled `slot` part carries `slot` (the slot's name), `acceptsOnly`, `max` when set, and `fills`: an object from each accepted component's name to `{nested, nestedSize, with}`, where `with` is the part's `with`, which a nested solve applies only for the options that component declares. A fill of a component the slot does not accept has no entry. The compiled recipe does not depend on the request's `slots`.
 * **Validation.** SPEC-108.
 
 ### Repeated parts
@@ -182,7 +182,7 @@ A collection component (an accordion's items, a tab list's tabs, a button group'
   "repeat": {
     "slot": "default",
     "label": "label",
-    "with": { "isOpen": "isExpanded", "hasSwitch": "hasSwitch" }
+    "with": { "isOpen": "isExpanded", "content": "content" }
   }
 }
 ```

@@ -733,6 +733,7 @@ impl Ctx<'_> {
     }
 
     /// Renders into a `bx` box, fitting the scene into `fit` (the box less the room for marks).
+    #[allow(clippy::too_many_arguments)]
     fn render_in(
         &self,
         recipe: &Value,
