@@ -123,6 +123,40 @@ pub fn paint_with(
     }
 }
 
+/// Blur the `bw` x `bh` coverage buffer in place with a Gaussian of standard deviation `sigma`
+/// pixels, truncated at `reach` pixels; pixels outside the buffer count as 0.
+pub fn gaussian_blur(buf: &mut Vec<f32>, bw: usize, bh: usize, sigma: f64, reach: i64) {
+    if sigma <= 0.0 {
+        return;
+    }
+    let kernel: Vec<f32> = (-reach..=reach)
+        .map(|k| (-((k * k) as f64) / (2.0 * sigma * sigma)).exp() as f32)
+        .collect();
+    let norm: f32 = kernel.iter().sum();
+    let blur_pass = |src: &[f32], horizontal: bool| {
+        let mut out = vec![0f32; src.len()];
+        for j in 0..bh {
+            for i in 0..bw {
+                let mut acc = 0.0;
+                for (k, wgt) in kernel.iter().enumerate() {
+                    let o = k as i64 - reach;
+                    let (ii, jj) = if horizontal {
+                        (i as i64 + o, j as i64)
+                    } else {
+                        (i as i64, j as i64 + o)
+                    };
+                    if ii >= 0 && jj >= 0 && (ii as usize) < bw && (jj as usize) < bh {
+                        acc += wgt * src[jj as usize * bw + ii as usize];
+                    }
+                }
+                out[j * bw + i] = acc / norm;
+            }
+        }
+        out
+    };
+    *buf = blur_pass(&blur_pass(buf, true), false);
+}
+
 /// A drop shadow: the rounded box `(x, y, w, h)` with corner radii `r`, offset by `(dx, dy)`,
 /// grown by `spread`, blurred by a Gaussian of standard deviation `blur / 2`, and drawn in
 /// `color` everywhere except inside the box itself (`hole`: the node's own box, so a
@@ -175,34 +209,7 @@ pub fn paint_shadow(
             buf[j * bw + i] = (0.5 - d * xf.s).clamp(0.0, 1.0) as f32;
         }
     }
-    if sigma > 0.0 {
-        let kernel: Vec<f32> = (-reach..=reach)
-            .map(|k| (-((k * k) as f64) / (2.0 * sigma * sigma)).exp() as f32)
-            .collect();
-        let norm: f32 = kernel.iter().sum();
-        let blur_pass = |src: &[f32], horizontal: bool| {
-            let mut out = vec![0f32; src.len()];
-            for j in 0..bh {
-                for i in 0..bw {
-                    let mut acc = 0.0;
-                    for (k, wgt) in kernel.iter().enumerate() {
-                        let o = k as i64 - reach;
-                        let (ii, jj) = if horizontal {
-                            (i as i64 + o, j as i64)
-                        } else {
-                            (i as i64, j as i64 + o)
-                        };
-                        if ii >= 0 && jj >= 0 && (ii as usize) < bw && (jj as usize) < bh {
-                            acc += wgt * src[jj as usize * bw + ii as usize];
-                        }
-                    }
-                    out[j * bw + i] = acc / norm;
-                }
-            }
-            out
-        };
-        buf = blur_pass(&blur_pass(&buf, true), false);
-    }
+    gaussian_blur(&mut buf, bw, bh, sigma, reach);
     for j in 0..bh {
         for i in 0..bw {
             let (cx, cy) = ((px0 + i as i64), (py0 + j as i64));

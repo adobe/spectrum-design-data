@@ -694,7 +694,7 @@ mod validation_conformance {
         // The skip below must not hide a rule that is implemented: these fail if unregistered.
         for id in [
             "SPEC-074", "SPEC-106", "SPEC-107", "SPEC-108", "SPEC-109", "SPEC-110", "SPEC-111",
-            "SPEC-112",
+            "SPEC-112", "SPEC-113",
         ] {
             assert!(registered.contains(id), "{id} is not in default_rules()");
         }

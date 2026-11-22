@@ -353,6 +353,12 @@ const MAX_FILL_PIXELS: f64 = 16.0e6;
 /// Fill closed polygons (already in pixel coordinates) with `color`. Returns false when the
 /// shape was too large to draw.
 pub fn fill(cv: &mut Canvas, polys: &[Vec<Pt>], rule: Rule, color: Rgba) -> bool {
+    fill_cov(polys, rule, &mut |x, y, cov| cv.blend(x, y, color, cov))
+}
+
+/// [`fill`] without a canvas: call `put(x, y, coverage)` for each pixel with coverage above 0
+/// (non-negative pixel coordinates only). Returns false when the shape was too large to draw.
+pub fn fill_cov(polys: &[Vec<Pt>], rule: Rule, put: &mut dyn FnMut(usize, usize, f32)) -> bool {
     let pts = || polys.iter().flatten();
     if pts().any(|p| !p[0].is_finite() || !p[1].is_finite()) {
         return false;
@@ -399,11 +405,161 @@ pub fn fill(cv: &mut Canvas, polys: &[Vec<Pt>], rule: Rule, color: Rgba) -> bool
             };
             let (px, py) = (bx0 as i64 + x as i64, by0 as i64 + y as i64);
             if cov > 0.0 && px >= 0 && py >= 0 {
-                cv.blend(px as usize, py as usize, color, cov);
+                put(px as usize, py as usize, cov);
             }
         }
     }
     true
+}
+
+/// A drop shadow of a closed shape: `shadow` (pixel polygons, already offset) blurred by a
+/// Gaussian of `sigma` pixels and drawn in `color` everywhere outside `hole` (the shape itself).
+pub fn paint_shadow(
+    cv: &mut Canvas,
+    shadow: &[Vec<Pt>],
+    hole: &[Vec<Pt>],
+    rule: Rule,
+    sigma: f64,
+    color: Rgba,
+) -> bool {
+    let pts = || shadow.iter().flatten();
+    if shadow.is_empty() || color.a <= 0.0 || pts().any(|p| !p[0].is_finite() || !p[1].is_finite())
+    {
+        return true;
+    }
+    let reach = (3.0 * sigma).ceil() as i64;
+    // Clamped before the integer cast, so a huge coordinate cannot overflow the buffer bounds.
+    let b = |f: fn(f64, f64) -> f64, i: usize, init: f64| {
+        pts().map(|p| p[i]).fold(init, f).clamp(-1.0e9, 1.0e9)
+    };
+    let (cw, ch) = (cv.width as i64, cv.height as i64);
+    // The buffer is the shape plus its blur reach, cut to the canvas plus that reach.
+    let x0 = (b(f64::min, 0, f64::INFINITY).floor() as i64 - reach - 1).max(-reach);
+    let y0 = (b(f64::min, 1, f64::INFINITY).floor() as i64 - reach - 1).max(-reach);
+    let x1 = (b(f64::max, 0, f64::NEG_INFINITY).ceil() as i64 + reach + 1).min(cw + reach);
+    let y1 = (b(f64::max, 1, f64::NEG_INFINITY).ceil() as i64 + reach + 1).min(ch + reach);
+    if x1 <= x0 || y1 <= y0 || ((x1 - x0) as f64) * ((y1 - y0) as f64) > MAX_FILL_PIXELS {
+        return true;
+    }
+    let (bw, bh) = ((x1 - x0) as usize, (y1 - y0) as usize);
+    let into = |polys: &[Vec<Pt>]| {
+        let mut buf = vec![0f32; bw * bh];
+        // A pixel left of or above the canvas has a negative index, so draw in a shifted frame.
+        let moved: Vec<Vec<Pt>> = polys
+            .iter()
+            .map(|p| {
+                p.iter()
+                    .map(|q| [q[0] - x0 as f64, q[1] - y0 as f64])
+                    .collect()
+            })
+            .collect();
+        let ok = fill_cov(&moved, rule, &mut |x, y, c| {
+            if x < bw && y < bh {
+                buf[y * bw + x] = c;
+            }
+        });
+        (ok, buf)
+    };
+    let (ok, mut buf) = into(shadow);
+    let (ok2, hole_buf) = into(hole);
+    if !(ok && ok2) {
+        return false;
+    }
+    super::shape::gaussian_blur(&mut buf, bw, bh, sigma, reach);
+    for j in 0..bh {
+        for i in 0..bw {
+            let (cx, cy) = (x0 + i as i64, y0 + j as i64);
+            if cx < 0 || cy < 0 || cx >= cw || cy >= ch {
+                continue;
+            }
+            let a = buf[j * bw + i] * (1.0 - hole_buf[j * bw + i]);
+            if a > 0.0 {
+                cv.blend(cx as usize, cy as usize, color, a);
+            }
+        }
+    }
+    true
+}
+
+/// Distance to the outline of closed polygons, with a bucket grid so a query looks only at
+/// the edges within `reach` of its cell. Beyond `reach` of every edge the answer is infinity.
+pub struct Outline {
+    segs: Vec<(Pt, Pt)>,
+    cell: f64,
+    x0: f64,
+    y0: f64,
+    nx: usize,
+    grid: Vec<Vec<u32>>,
+}
+
+impl Outline {
+    pub fn new(polys: &[Vec<Pt>], reach: f64) -> Option<Outline> {
+        let segs: Vec<(Pt, Pt)> = polys
+            .iter()
+            .flat_map(|p| (0..p.len()).map(move |i| (p[i], p[(i + 1) % p.len()])))
+            .collect();
+        let all = || segs.iter().flat_map(|(a, b)| [a, b]);
+        if segs.is_empty() || all().any(|p| !p[0].is_finite() || !p[1].is_finite()) {
+            return None;
+        }
+        let lo = |i: usize| all().map(|p| p[i]).fold(f64::INFINITY, f64::min) - reach;
+        let hi = |i: usize| all().map(|p| p[i]).fold(f64::NEG_INFINITY, f64::max) + reach;
+        let (x0, y0) = (lo(0), lo(1));
+        let (w, h) = (hi(0) - x0, hi(1) - y0);
+        let mut cell = 8.0f64.max(reach);
+        while (w / cell + 1.0) * (h / cell + 1.0) > 1.0e6 {
+            cell *= 2.0;
+        }
+        let (nx, ny) = ((w / cell) as usize + 1, (h / cell) as usize + 1);
+        let mut grid = vec![Vec::new(); nx * ny];
+        for (n, (a, b)) in segs.iter().enumerate() {
+            let c =
+                |v: f64, o: f64, m: usize| (((v - o) / cell).floor().max(0.0) as usize).min(m - 1);
+            let (cx0, cx1) = (
+                c(a[0].min(b[0]) - reach, x0, nx),
+                c(a[0].max(b[0]) + reach, x0, nx),
+            );
+            let (cy0, cy1) = (
+                c(a[1].min(b[1]) - reach, y0, ny),
+                c(a[1].max(b[1]) + reach, y0, ny),
+            );
+            for gy in cy0..=cy1 {
+                for gx in cx0..=cx1 {
+                    grid[gy * nx + gx].push(n as u32);
+                }
+            }
+        }
+        Some(Outline {
+            segs,
+            cell,
+            x0,
+            y0,
+            nx,
+            grid,
+        })
+    }
+
+    pub fn dist(&self, x: f64, y: f64) -> f64 {
+        let ny = self.grid.len() / self.nx;
+        let (gx, gy) = ((x - self.x0) / self.cell, (y - self.y0) / self.cell);
+        if gx < 0.0 || gy < 0.0 || gx as usize >= self.nx || gy as usize >= ny {
+            return f64::INFINITY;
+        }
+        self.grid[gy as usize * self.nx + gx as usize]
+            .iter()
+            .map(|&n| {
+                let (a, b) = self.segs[n as usize];
+                let (dx, dy) = (b[0] - a[0], b[1] - a[1]);
+                let len2 = dx * dx + dy * dy;
+                let t = if len2 > 0.0 {
+                    (((x - a[0]) * dx + (y - a[1]) * dy) / len2).clamp(0.0, 1.0)
+                } else {
+                    0.0
+                };
+                (x - a[0] - t * dx).hypot(y - a[1] - t * dy)
+            })
+            .fold(f64::INFINITY, f64::min)
+    }
 }
 
 /// Add one edge's signed area to the accumulation buffer (`w` wide, `h` tall).

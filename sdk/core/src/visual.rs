@@ -28,10 +28,14 @@ const RING_MARGIN: f64 = 8.0;
 
 /// The largest floating-part size or offset the engine draws, in px; a larger one is skipped
 /// with a diagnostic so a bad value cannot make a huge canvas.
-pub const MAX_FLOATING: f64 = 10_000.0;
+pub const MAX_FLOATING: f64 = 2_000.0;
 
 /// The largest shadow `blur` a renderer draws, in px; a larger one is clamped with a diagnostic.
 pub const MAX_SHADOW_BLUR: f64 = 100.0;
+
+/// The largest shadow `x`, `y` or `spread` the engine draws, in px; a layer past it is skipped
+/// with a diagnostic, so SVG and PNG size the canvas the same way.
+pub const MAX_SHADOW_REACH: f64 = 1_000.0;
 
 /// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
 /// (a part with a `placement`). `rp` checks every read against this table in debug builds, and
@@ -366,7 +370,254 @@ pub struct SceneNode {
     /// Drop shadows drawn under the node, outside its box, first layer on top (CSS order).
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub shadow: Vec<Shadow>,
+    /// Set when the part has a `path`: the box is drawn as this shape instead of a rounded
+    /// rectangle (fill, pattern, stroke and shadow follow the shape; `radius` is ignored).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub path: Option<PathShape>,
     pub tokens: Vec<TokenRef>,
+}
+
+/// A closed vector shape in a node's own pixel space (origin at the node's top-left corner):
+/// SVG path data of absolute or relative `M L H V C S Q T Z` commands, already scaled from the
+/// recipe's `viewBox` to the node's box, every subpath closed. Both renderers draw this string.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct PathShape {
+    pub d: String,
+    /// Fill with the even-odd rule instead of non-zero.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub even_odd: bool,
+}
+
+/// The longest `path.d` the engine reads, in bytes.
+pub const MAX_PATH_BYTES: usize = 4096;
+/// The most numbers a `path.d` may hold.
+pub const MAX_PATH_NUMBERS: usize = 1024;
+/// The largest coordinate magnitude a `path.d` may hold, in its own units.
+pub const MAX_PATH_COORD: f64 = 1.0e6;
+/// The largest coordinate magnitude after scaling to the part's box, in px.
+pub const MAX_PATH_SCALED: f64 = 100_000.0;
+/// The largest path part box, in px squared: a path costs a blur and a distance grid per pixel.
+pub const MAX_PATH_AREA: f64 = 250_000.0;
+
+/// Scale path data by `(sx, sy)` (relative commands scale the same way) and close every
+/// subpath, so a stroke and a fill see the same shape. Arcs are refused: a non-uniform scale
+/// does not map an arc to an arc.
+pub fn scale_path(d: &str, sx: f64, sy: f64) -> Result<String, String> {
+    if d.len() > MAX_PATH_BYTES {
+        return Err(format!("path data is longer than {MAX_PATH_BYTES} bytes"));
+    }
+    if !(sx.is_finite() && sy.is_finite() && sx > 0.0 && sy > 0.0) {
+        return Err("path scale is not a positive finite number".into());
+    }
+    let b = d.as_bytes();
+    let (mut i, mut out, mut open, mut started, mut count) = (0, String::new(), false, false, 0);
+    // The current point and subpath start, in scaled units, to turn a relative `m` that follows
+    // an implied close into an absolute `M`.
+    let (mut cur, mut start_pt) = ([0.0f64; 2], [0.0f64; 2]);
+    let skip = |i: &mut usize| {
+        while *i < b.len() && (b[*i].is_ascii_whitespace() || b[*i] == b',') {
+            *i += 1;
+        }
+    };
+    let at_num = |i: usize| {
+        b.get(i)
+            .is_some_and(|c| c.is_ascii_digit() || matches!(c, b'.' | b'-' | b'+'))
+    };
+    loop {
+        skip(&mut i);
+        let Some(&c) = b.get(i) else { break };
+        if !c.is_ascii_alphabetic() {
+            return Err(format!("expected a command at offset {i}"));
+        }
+        let up = c.to_ascii_uppercase();
+        let arity = match up {
+            b'M' | b'L' | b'T' => 2,
+            b'H' | b'V' => 1,
+            b'C' => 6,
+            b'S' | b'Q' => 4,
+            b'Z' => 0,
+            b'A' => return Err("arc commands are not supported; use C or Q".into()),
+            _ => return Err(format!("unknown path command '{}'", c as char)),
+        };
+        i += 1;
+        if up == b'Z' {
+            if open {
+                out.push('Z');
+                open = false;
+            }
+            cur = start_pt;
+            continue;
+        }
+        if !started && up != b'M' {
+            return Err("path data must start with a move".into());
+        }
+        started = true;
+        let mut first = true;
+        loop {
+            skip(&mut i);
+            if !at_num(i) {
+                if first {
+                    return Err(format!(
+                        "command '{}' needs numbers at offset {i}",
+                        c as char
+                    ));
+                }
+                break;
+            }
+            let mut vals = Vec::with_capacity(arity);
+            for k in 0..arity {
+                skip(&mut i);
+                let start = i;
+                if matches!(b.get(i), Some(b'-' | b'+')) {
+                    i += 1;
+                }
+                let digits = |i: &mut usize| {
+                    let from = *i;
+                    while b.get(*i).is_some_and(u8::is_ascii_digit) {
+                        *i += 1;
+                    }
+                    *i - from
+                };
+                let mut n = digits(&mut i);
+                if b.get(i) == Some(&b'.') {
+                    i += 1;
+                    n += digits(&mut i);
+                }
+                if n == 0 {
+                    return Err(format!("expected a number at offset {start}"));
+                }
+                if matches!(b.get(i), Some(b'e' | b'E')) {
+                    let save = i;
+                    i += 1;
+                    if matches!(b.get(i), Some(b'-' | b'+')) {
+                        i += 1;
+                    }
+                    if digits(&mut i) == 0 {
+                        i = save;
+                    }
+                }
+                let v: f64 = d[start..i]
+                    .parse()
+                    .ok()
+                    .filter(|v: &f64| v.is_finite() && v.abs() <= MAX_PATH_COORD)
+                    .ok_or_else(|| {
+                        format!("number at offset {start} is not within {MAX_PATH_COORD}")
+                    })?;
+                count += 1;
+                if count > MAX_PATH_NUMBERS {
+                    return Err(format!(
+                        "path data has more than {MAX_PATH_NUMBERS} numbers"
+                    ));
+                }
+                let scale = match (up, k % 2) {
+                    (b'V', _) | (_, 1) => sy,
+                    _ => sx,
+                };
+                let scaled = v * scale;
+                if !scaled.is_finite() || scaled.abs() > MAX_PATH_SCALED {
+                    return Err(format!(
+                        "number at offset {start} scales to beyond {MAX_PATH_SCALED}"
+                    ));
+                }
+                vals.push(((scaled * 1e4).round() / 1e4) + 0.0);
+            }
+            let rel = c.is_ascii_lowercase();
+            let base = if rel { cur } else { [0.0, 0.0] };
+            let end = match up {
+                b'H' => [base[0] + vals[0], cur[1]],
+                b'V' => [cur[0], base[1] + vals[0]],
+                b'C' => [base[0] + vals[4], base[1] + vals[5]],
+                b'S' | b'Q' => [base[0] + vals[2], base[1] + vals[3]],
+                _ => [base[0] + vals[0], base[1] + vals[1]],
+            };
+            if up == b'M' && first {
+                if open {
+                    // Closing returns to the subpath start, so a relative move is made absolute
+                    // from the point it was written relative to.
+                    out.push('Z');
+                    out.push('M');
+                    out.push_str(&format!("{} {}", end[0] + 0.0, end[1] + 0.0));
+                } else {
+                    out.push(c as char);
+                    out.push_str(
+                        &vals
+                            .iter()
+                            .map(f64::to_string)
+                            .collect::<Vec<_>>()
+                            .join(" "),
+                    );
+                }
+                start_pt = end;
+            } else {
+                let letter = if up == b'M' {
+                    if rel {
+                        'l'
+                    } else {
+                        'L'
+                    }
+                } else {
+                    c as char
+                };
+                out.push(letter);
+                out.push_str(
+                    &vals
+                        .iter()
+                        .map(f64::to_string)
+                        .collect::<Vec<_>>()
+                        .join(" "),
+                );
+            }
+            cur = end;
+            open = true;
+            first = false;
+        }
+    }
+    if open {
+        out.push('Z');
+    }
+    if out.is_empty() {
+        return Err("path data is empty".into());
+    }
+    Ok(out)
+}
+
+/// The shape a part's `path` source draws in a `w` x `h` box: its `d` scaled from `viewBox`
+/// (default: the box itself) to the box. `fillRule` is `nonzero` (default) or `evenodd`.
+pub fn path_shape(spec: &Value, w: f64, h: f64) -> Result<PathShape, String> {
+    let d = spec
+        .get("d")
+        .and_then(Value::as_str)
+        .ok_or("path needs a string `d`")?;
+    let (vw, vh) = match spec.get("viewBox") {
+        None => (w, h),
+        Some(v) => match v
+            .as_array()
+            .map(|a| a.iter().map(Value::as_f64).collect::<Vec<_>>())
+            .as_deref()
+        {
+            Some([Some(vw), Some(vh)])
+                if *vw > 0.0 && *vh > 0.0 && vw.is_finite() && vh.is_finite() =>
+            {
+                (*vw, *vh)
+            }
+            _ => return Err("path viewBox must be [width, height], both positive".into()),
+        },
+    };
+    let even_odd = match spec.get("fillRule").and_then(Value::as_str) {
+        None | Some("nonzero") => false,
+        Some("evenodd") => true,
+        Some(o) => return Err(format!("path fillRule '{o}' is not nonzero or evenodd")),
+    };
+    if !(w.is_finite() && h.is_finite() && w > 0.0 && h > 0.0) {
+        return Err("a path part needs a positive width and height".into());
+    }
+    if w * h > MAX_PATH_AREA {
+        return Err(format!("a path part is at most {MAX_PATH_AREA} px squared"));
+    }
+    Ok(PathShape {
+        d: scale_path(d, w / vw, h / vh)?,
+        even_odd,
+    })
 }
 
 /// One drop shadow layer: the box offset by (`x`, `y`) and grown by `spread` on every side,
@@ -2140,6 +2391,16 @@ impl Ctx<'_> {
             });
             let color = color.filter(|c| css_color_alpha(&c.value).is_some());
             match (x, y, blur, spread, color.as_ref()) {
+                (Some(x), Some(y), Some(_), Some(spread), Some(_))
+                    if ![x, y, spread]
+                        .iter()
+                        .all(|v| v.is_finite() && v.abs() <= MAX_SHADOW_REACH) =>
+                {
+                    self.diags.push(format!(
+                        "shadow layer {} x, y or spread is beyond {MAX_SHADOW_REACH}px; skipping it",
+                        i + 1
+                    ));
+                }
                 (Some(x), Some(y), Some(blur), Some(spread), Some(c)) => {
                     out.push(Shadow {
                         x,
@@ -3881,6 +4142,7 @@ fn solve_root(
                             pattern: None,
                             gradient: None,
                             shadow: Vec::new(),
+                            path: None,
                             stroke_opacity: None,
                             tokens: Vec::new(),
                         };
@@ -4304,6 +4566,7 @@ fn solve_root(
         pattern: root_pattern,
         gradient: root_gradient,
         shadow: Vec::new(),
+        path: None,
         tokens: container_tokens,
     }];
 
@@ -4490,6 +4753,7 @@ fn solve_root(
             pattern: c.pattern,
             gradient: c.gradient,
             shadow: Vec::new(),
+            path: None,
             color: c.color,
             icon: None,
             rotation: None,
@@ -4616,6 +4880,7 @@ fn solve_root(
                     pattern: None,
                     gradient: None,
                     shadow: Vec::new(),
+                    path: None,
                     stroke_opacity: None,
                     tokens,
                 });
@@ -4683,6 +4948,7 @@ fn solve_root(
                 pattern: None,
                 gradient: nfill.as_ref().and_then(|f| f.gradient.clone()),
                 shadow: Vec::new(),
+                path: None,
                 tokens,
             });
         }
@@ -4721,6 +4987,7 @@ fn solve_root(
             pattern: None,
             gradient: None,
             shadow: Vec::new(),
+            path: None,
             stroke_opacity: None,
             tokens,
         });
@@ -4730,10 +4997,16 @@ fn solve_root(
     // layout input. They are solved after the root, so the root's box is final.
     let mut floating: Vec<(&String, &Value)> = parts
         .iter()
-        .filter(|(id, p)| p.get("floating").is_some() && id.as_str() != root_id)
+        .filter(|(id, p)| {
+            p.get("floating").is_some()
+                && id.as_str() != root_id
+                && parts
+                    .get(root_id)
+                    .is_some_and(|r| r.get("floating").is_none())
+        })
         .collect();
     floating.sort_by(|a, b| a.0.cmp(b.0));
-    let mut floating_ids: Vec<&str> = Vec::new();
+    let mut floating_ids: Vec<String> = Vec::new();
     for (id, part) in floating {
         if !cx.visible(part) {
             continue;
@@ -4742,11 +5015,49 @@ fn solve_root(
         let finite = |r: Option<Resolved>| r.and_then(|r| r.num()).filter(|v| v.is_finite());
         let offset = finite(cx.eval(spec.get("offset")));
         let cross = finite(cx.eval(spec.get("crossOffset")));
-        let (fw, fh) = (rp(&mut cx, part, "width"), rp(&mut cx, part, "height"));
-        let (Some(fw_n), Some(fh_n)) = (
-            fw.as_ref().and_then(Resolved::num),
-            fh.as_ref().and_then(Resolved::num),
-        ) else {
+        for (key, v) in [("offset", offset), ("crossOffset", cross)] {
+            if spec.get(key).is_some() && v.is_none() {
+                cx.diags.push(format!(
+                    "floating part '{id}': {key} does not resolve to a finite number; using 0"
+                ));
+            }
+        }
+        let hosts_children = part
+            .get("children")
+            .and_then(Value::as_array)
+            .is_some_and(|c| !c.is_empty());
+        // A floating part with children is a subtree: solved as the root of its own scene (as a
+        // repeated copy is), sized by its own layout, then moved to the anchor.
+        let mut sub = None;
+        let (fw, fh) = if hosts_children {
+            match solve_root(variant, id, req, cx.position) {
+                Ok(sc) if !sc.nodes.is_empty() => {
+                    cx.diags.extend(
+                        sc.diagnostics
+                            .iter()
+                            .map(|d| format!("floating part '{id}': {d}")),
+                    );
+                    sub = Some(sc);
+                    (None, None)
+                }
+                _ => {
+                    cx.diags.push(format!(
+                        "floating part '{id}' could not be laid out; skipping it"
+                    ));
+                    continue;
+                }
+            }
+        } else {
+            (rp(&mut cx, part, "width"), rp(&mut cx, part, "height"))
+        };
+        let size = match &sub {
+            Some(sc) => Some((sc.nodes[0].w, sc.nodes[0].h)),
+            None => fw
+                .as_ref()
+                .and_then(Resolved::num)
+                .zip(fh.as_ref().and_then(Resolved::num)),
+        };
+        let Some((fw_n, fh_n)) = size else {
             cx.diags.push(format!(
                 "floating part '{id}' needs a width and a height that resolve; skipping it"
             ));
@@ -4777,6 +5088,22 @@ fn solve_root(
             "end" => (rx + rw + offset, along(ry, rh, fh_n) + cross),
             _ => (along(rx, rw, fw_n) + cross, ry - offset - fh_n),
         };
+        if let Some(sc) = sub {
+            let (ox, oy) = (sc.nodes[0].x, sc.nodes[0].y);
+            let (mx, my) = (fx - ox, fy - oy);
+            for mut n in sc.nodes {
+                n.x += mx;
+                n.y += my;
+                floating_ids.push(n.part.clone());
+                nodes.push(n);
+            }
+            measurements.extend(sc.measurements.into_iter().map(|mut m| {
+                m.x += mx;
+                m.y += my;
+                m
+            }));
+            continue;
+        }
         let fill = rp(&mut cx, part, "fill");
         let stroke = rp(&mut cx, part, "stroke");
         let sw = rp(&mut cx, part, "strokeWidth");
@@ -4804,7 +5131,7 @@ fn solve_root(
             fw_n,
             fh_n,
         );
-        floating_ids.push(id);
+        floating_ids.push(id.clone());
         nodes.push(node);
     }
 
@@ -4943,6 +5270,7 @@ fn solve_root(
             pattern: None,
             gradient: None,
             shadow: Vec::new(),
+            path: None,
             tokens,
         });
     }
@@ -5050,6 +5378,17 @@ fn solve_root(
             })
             .collect();
         n.tokens.extend(tokens);
+    }
+    for n in nodes.iter_mut().filter(|n| n.kind == "box") {
+        let Some(spec) = parts.get(&n.part).and_then(|p| p.get("path")) else {
+            continue;
+        };
+        match path_shape(spec, n.w, n.h) {
+            Ok(shape) => n.path = Some(shape),
+            Err(e) => cx
+                .diags
+                .push(format!("part '{}': {e}; drawing the plain box", n.part)),
+        }
     }
     // `strokeOver`: the root's border is drawn after everything else, as a ring node, so it
     // lies over the children. Same band as the box stroke: inside the box.
@@ -5174,7 +5513,7 @@ fn solve_root(
 /// shadow box grown by three standard deviations, the blur the renderers draw).
 fn scene_extent(
     nodes: &[SceneNode],
-    floating: &[&str],
+    floating: &[String],
     base: (f64, f64, f64, f64),
 ) -> (f64, f64, f64, f64) {
     let mut e = (base.0, base.1, base.0 + base.2, base.1 + base.3);
@@ -5184,7 +5523,7 @@ fn scene_extent(
         }
     };
     for n in nodes {
-        if floating.contains(&n.part.as_str()) {
+        if floating.contains(&n.part) {
             let half = n.stroke_width / 2.0;
             grow(n.x - half, n.y - half, n.x + n.w + half, n.y + n.h + half);
         }
@@ -5234,6 +5573,36 @@ fn inherits(part: &Value, name: &str) -> bool {
     part.get("inherit")
         .and_then(Value::as_array)
         .is_some_and(|a| a.iter().any(|v| v.as_str() == Some(name)))
+}
+
+/// The ids of every floating part and of the parts below it, with their `.border` rings.
+fn floating_subtree_ids(parts: &serde_json::Map<String, Value>) -> Vec<String> {
+    let mut ids: Vec<String> = parts
+        .iter()
+        .filter(|(_, p)| p.get("floating").is_some())
+        .map(|(id, _)| id.clone())
+        .collect();
+    let mut i = 0;
+    while i < ids.len() {
+        let kids = parts[&ids[i]]
+            .get("children")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(Value::as_str);
+        let new: Vec<String> = kids
+            .filter(|k| !ids.iter().any(|x| x == k))
+            .map(String::from)
+            .collect();
+        ids.extend(new);
+        i += 1;
+    }
+    let rings: Vec<String> = ids
+        .iter()
+        .flat_map(|id| [format!("{id}.border"), format!("{id}.inner-border")])
+        .collect();
+    ids.extend(rings);
+    ids
 }
 
 fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<Nested> {
@@ -5318,7 +5687,7 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
         text_metrics: cx.req.text_metrics.clone(),
         ..Default::default()
     };
-    let scene = match solve(&variant, &req) {
+    let mut scene = match solve(&variant, &req) {
         Ok(s) => s,
         Err(e) => {
             cx.diags.push(format!("component part '{id}': {e}"));
@@ -5327,6 +5696,15 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
     };
     cx.diags
         .extend(scene.diagnostics.iter().map(|d| format!("{id}: {d}")));
+    // A floating part sits outside its root, which a nested recipe has no room for.
+    let hidden = floating_subtree_ids(&variant.parts);
+    let drawn = scene.nodes.len();
+    scene.nodes.retain(|n| !hidden.contains(&n.part));
+    if scene.nodes.len() != drawn {
+        cx.diags.push(format!(
+            "component part '{id}': floating parts of the nested recipe are not drawn"
+        ));
+    }
     let root = scene.nodes.first()?;
     let (ox, oy, w, h) = (root.x, root.y, root.w, root.h);
     let nodes = scene
@@ -5693,6 +6071,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         pattern: None,
         gradient: None,
         shadow: Vec::new(),
+        path: None,
         stroke_opacity: None,
         tokens: Vec::new(),
     }
@@ -5994,6 +6373,92 @@ fn write_shadows(s: &mut String, n: &SceneNode) {
     }
 }
 
+/// A box drawn as its `path`: drop shadows (spread is not applied to a shape), fill, checker
+/// pattern and a stroke centered on the outline with round joins. The path is in the node's
+/// own pixel space, so a `translate` places it and leaves the stroke width alone.
+fn write_path_box(s: &mut String, n: &SceneNode, attrs: &str, so: &str) {
+    let Some(p) = &n.path else { return };
+    let tf = format!("transform=\"translate({} {})\"", n.x, n.y);
+    let rule = if p.even_odd {
+        " fill-rule=\"evenodd\""
+    } else {
+        ""
+    };
+    let d = esc(&p.d);
+    let hash = |key: String| {
+        key.bytes().fold(0xcbf2_9ce4_8422_2325u64, |h, b| {
+            (h ^ u64::from(b)).wrapping_mul(0x0100_0000_01b3)
+        })
+    };
+    for sh in n.shadow.iter().rev() {
+        let sigma = sh.blur / 2.0;
+        let pad = (3.0 * sigma).ceil();
+        // The shadow element is translated, and a userSpaceOnUse filter region is in the
+        // element's own (translated) space, so the region is the box in local coordinates.
+        let region = format!(
+            "x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\"",
+            -pad,
+            -pad,
+            n.w + 2.0 * pad,
+            n.h + 2.0 * pad
+        );
+        // The hole is the node's own shape, at the node, so it needs the whole box in its region.
+        let mask_region = format!(
+            "x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\"",
+            n.x.min(n.x + sh.x) - pad,
+            n.y.min(n.y + sh.y) - pad,
+            n.w + sh.x.abs() + 2.0 * pad,
+            n.h + sh.y.abs() + 2.0 * pad
+        );
+        let key = hash(format!("{sh:?}|{}|{}|{}|{}|{p:?}", n.x, n.y, n.w, n.h));
+        let (fid, mid) = (
+            format!("shadow-{key:016x}"),
+            format!("shadow-mask-{key:016x}"),
+        );
+        let blur = if sigma > 0.0 {
+            format!("<filter id=\"{fid}\" filterUnits=\"userSpaceOnUse\" {region}><feGaussianBlur stdDeviation=\"{sigma}\"/></filter>")
+        } else {
+            String::new()
+        };
+        let filter = if sigma > 0.0 {
+            format!(" filter=\"url(#{fid})\"")
+        } else {
+            String::new()
+        };
+        let _ = write!(
+            s,
+            "<defs>{blur}<mask id=\"{mid}\" maskUnits=\"userSpaceOnUse\" {mask_region}><rect {mask_region} fill=\"#fff\"/><path {tf} d=\"{d}\" fill=\"#000\"{rule}/></mask></defs><g mask=\"url(#{mid})\"><path data-part=\"{}\" data-shadow=\"true\" transform=\"translate({} {})\" d=\"{d}\" fill=\"{}\"{rule}{filter}/></g>",
+            esc(&n.part),
+            n.x + sh.x,
+            n.y + sh.y,
+            esc(&sh.color)
+        );
+    }
+    let _ = write!(
+        s,
+        "<path {attrs} {tf} d=\"{d}\" fill=\"{}\"{rule}/>",
+        esc(n.fill.as_deref().unwrap_or("none"))
+    );
+    if let Some(pt) = &n.pattern {
+        let key: String = hash(format!("{}|{}|{p:?}", pt.alt, pt.size)).to_string();
+        let (id, z) = (format!("pattern-{key}"), pt.size * 2.0);
+        let _ = write!(
+            s,
+            "<defs><pattern id=\"{id}\" width=\"{z}\" height=\"{z}\" patternUnits=\"userSpaceOnUse\"><rect x=\"{sz}\" width=\"{sz}\" height=\"{sz}\" fill=\"{alt}\"/><rect y=\"{sz}\" width=\"{sz}\" height=\"{sz}\" fill=\"{alt}\"/></pattern></defs><path {tf} d=\"{d}\" fill=\"url(#{id})\"{rule}/>",
+            sz = pt.size,
+            alt = esc(&pt.alt)
+        );
+    }
+    if let (Some(c), true) = (n.stroke.as_deref(), n.stroke_width > 0.0) {
+        let _ = write!(
+            s,
+            "<path {tf} d=\"{d}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\" stroke-linejoin=\"round\"{so}/>",
+            esc(c),
+            n.stroke_width
+        );
+    }
+}
+
 /// Serialize a scene as SVG. Parts carry `data-part`; token bindings are `data-tokens`.
 pub fn scene_to_svg(scene: &Scene) -> String {
     let mut s = String::new();
@@ -6048,6 +6513,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             .map(|o| format!(" stroke-opacity=\"{o}\""))
             .unwrap_or_default();
         match n.kind.as_str() {
+            "box" if n.path.is_some() => write_path_box(&mut s, n, &attrs, &so),
             "box" => {
                 write_shadows(&mut s, n);
                 let mut layers = vec![(attrs.clone(), n.fill.clone())];
@@ -10544,5 +11010,436 @@ mod tests {
         assert_eq!(px(&img, 28, 3), vec![255, 0, 0, 255]);
         assert_eq!(px(&img, 28, 9)[3], 0);
         assert_eq!(px(&img, 28, 20), vec![255, 255, 255, 255]);
+    }
+
+    // --- floating subtrees and path shapes ---
+
+    const TEARDROP: &str =
+        "M10 0C15.5 0 20 4.5 20 10C20 15 14 20 10 24C6 20 0 15 0 10C0 4.5 4.5 0 10 0Z";
+    const TIP: &str = "M0 0L10 0L6 5Q5 6.5 4 5Z";
+
+    /// A 40x20 root with a loupe-like floating teardrop (20x24, stack) over a checkerboard child.
+    fn loupe_recipe(floating: Value) -> Value {
+        let teardrop = |extra: Value| {
+            let mut p = serde_json::json!({ "kind": "box",
+                "path": { "d": TEARDROP, "viewBox": [20, 24] },
+                "props": { "width": lit(20.into()), "height": lit(24.into()) } });
+            p["props"]
+                .as_object_mut()
+                .unwrap()
+                .extend(extra.as_object().unwrap().clone());
+            p
+        };
+        let mut loupe = teardrop(serde_json::json!({
+            "direction": lit("stack".into()),
+            "fill": lit("#0000ff".into()),
+            "shadow": { "shadow": [layer(0, 2, 4, "#000000")] }
+        }));
+        loupe["floating"] = floating;
+        loupe["children"] = serde_json::json!(["chk"]);
+        loupe["visibleWhen"] = serde_json::json!({ "options": { "isOpen": true } });
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "props": {
+                "width": lit(40.into()), "height": lit(20.into()), "fill": lit("#ffffff".into())
+            } },
+            "loupe": loupe,
+            "chk": teardrop(serde_json::json!({
+                "fill": lit("#ffffff".into()), "patternFill": lit("#cccccc".into()),
+                "patternSize": lit(4.into()) })) }
+        })
+    }
+
+    fn node_of<'a>(s: &'a Scene, part: &str) -> &'a SceneNode {
+        s.nodes
+            .iter()
+            .find(|n| n.part == part)
+            .unwrap_or_else(|| panic!("no node {part}"))
+    }
+
+    #[test]
+    fn a_floating_part_hosts_children_laid_out_at_its_anchor() {
+        let s = open_scene(&loupe_recipe(serde_json::json!({
+            "side": "top", "align": "center", "offset": lit(2.into()) })));
+        let (root, loupe, chk) = (node_of(&s, "r"), node_of(&s, "loupe"), node_of(&s, "chk"));
+        // 20x24 above a 40x20 root, 2 apart, centered: (10, -26) from the root's top-left.
+        assert_eq!((loupe.x - root.x, loupe.y - root.y), (10.0, -26.0));
+        assert_eq!((loupe.w, loupe.h), (20.0, 24.0));
+        // The child fills the stack at the same corner and has a checker pattern.
+        assert_eq!((chk.x, chk.y, chk.w, chk.h), (loupe.x, loupe.y, 20.0, 24.0));
+        assert_eq!(chk.pattern.as_ref().map(|p| p.size), Some(4.0));
+        assert!(loupe.path.is_some() && chk.path.is_some());
+        // The root keeps its size, and a closed loupe leaves the scene as it was.
+        let (g, _) = load();
+        let closed = build_scene(
+            &g,
+            &loupe_recipe(serde_json::json!({ "side": "top" })),
+            &req(&[]),
+        )
+        .unwrap();
+        assert!(closed
+            .nodes
+            .iter()
+            .all(|n| n.part != "loupe" && n.part != "chk"));
+        assert_eq!((closed.nodes[0].w, closed.nodes[0].h), (root.w, root.h));
+        assert_eq!((closed.width, closed.height), (56.0, 36.0));
+    }
+
+    #[test]
+    fn the_scene_grows_to_hold_a_floating_subtree_and_its_shadow() {
+        let s = open_scene(&loupe_recipe(serde_json::json!({
+            "side": "top", "offset": lit(2.into()) })));
+        // The subtree reaches 26 above the root; the 8px margin leaves 18 of growth, so the root
+        // moves down to y 26 and the canvas is 26 + 20 + 8 tall. The shadow (blur 4, y 2) reaches
+        // 3 sigma = 6 beyond the loupe, 2 below: the loupe's top edge is at 0, so it grows by 4.
+        let root = node_of(&s, "r");
+        assert_eq!((root.x, root.y), (8.0, 30.0));
+        assert_eq!((s.width, s.height), (56.0, 58.0));
+        assert_eq!(node_of(&s, "loupe").y, 4.0);
+        // The same recipe with the loupe at the bottom grows the other way.
+        let b = open_scene(&loupe_recipe(serde_json::json!({
+            "side": "bottom", "offset": lit(2.into()) })));
+        assert_eq!((node_of(&b, "r").x, node_of(&b, "r").y), (8.0, 8.0));
+        assert_eq!(b.height, 8.0 + 20.0 + 2.0 + 24.0 + 2.0 + 6.0);
+    }
+
+    #[test]
+    fn a_second_floating_part_is_not_solved_again_inside_a_floating_subtree() {
+        let mut recipe = loupe_recipe(serde_json::json!({ "side": "top" }));
+        recipe["parts"]["tip"] = serde_json::json!({ "kind": "box", "floating": { "side": "bottom" },
+            "props": lit_props(&[("width", 4.0), ("height", 4.0)]) });
+        let s = open_scene(&recipe);
+        for id in ["loupe", "chk", "tip"] {
+            assert_eq!(s.nodes.iter().filter(|n| n.part == id).count(), 1, "{id}");
+        }
+        // The tip is anchored to the root (below it), not to the loupe.
+        let (root, tip) = (node_of(&s, "r"), node_of(&s, "tip"));
+        assert_eq!((tip.x - root.x, tip.y - root.y), (18.0, 20.0));
+    }
+
+    #[test]
+    fn a_floating_part_of_a_nested_recipe_is_dropped_with_a_diagnostic() {
+        let sizes = serde_json::json!({ "s": 100, "m": 100, "l": 100, "xl": 100 });
+        let nested = serde_json::json!({ "component": "action-button", "root": "n", "sizeScale": sizes,
+            "parts": { "n": { "kind": "box", "children": ["k"], "props": lit_props(&[("width", 10.0), ("height", 10.0)]) },
+                       "k": { "kind": "box", "props": lit_props(&[("width", 2.0), ("height", 2.0)]) },
+                       "f": { "kind": "box", "floating": { "side": "top" },
+                              "children": ["fk"],
+                              "props": lit_props(&[("width", 4.0), ("height", 4.0)]) },
+                       "fk": { "kind": "box", "props": lit_props(&[("width", 2.0), ("height", 2.0)]) } } });
+        let g = nest_graph(&[("action-button", nested)]);
+        let s = nest_scene(&g, &row_host(), "m", &[], &[]).unwrap();
+        let names: Vec<&String> = s.nodes.iter().map(|n| &n.part).collect();
+        assert!(names.contains(&&"a.k".to_string()), "{names:?}");
+        assert!(
+            !names
+                .iter()
+                .any(|n| n.ends_with(".f") || n.ends_with(".fk")),
+            "{names:?}"
+        );
+        assert!(
+            s.diagnostics
+                .iter()
+                .any(|d| d.contains("floating parts of the nested recipe are not drawn")),
+            "{:?}",
+            s.diagnostics
+        );
+    }
+
+    #[test]
+    fn an_unresolved_floating_offset_is_reported_and_taken_as_zero() {
+        for key in ["offset", "crossOffset"] {
+            let (x, y, s) = tip_at(serde_json::json!({ "side": "top", key: lit("NaN".into()) }));
+            assert_eq!((x, y), (15.0, -6.0), "{key}");
+            assert!(
+                s.diagnostics
+                    .iter()
+                    .any(|d| d.contains(key) && d.contains("does not resolve")),
+                "{key}: {:?}",
+                s.diagnostics
+            );
+        }
+    }
+
+    #[test]
+    fn a_huge_shadow_offset_or_spread_is_skipped_so_the_canvas_stays_small() {
+        for key in ["x", "y", "spread"] {
+            let mut l = layer(0, 0, 4, "#000000");
+            l[key] = lit(1e300.into());
+            let s = solve_width(&shadow_recipe(serde_json::json!({ "shadow": [l] })), None);
+            assert!(s.nodes[0].shadow.is_empty(), "{key}");
+            assert!(
+                s.width < 200.0 && s.height < 200.0,
+                "{key}: {}x{}",
+                s.width,
+                s.height
+            );
+            assert!(s.diagnostics.iter().any(|d| d.contains("beyond")), "{key}");
+            // Both renderers see the same small canvas.
+            let (img, _) = crate::raster::rasterize(
+                &s,
+                &[],
+                &crate::raster::RasterOptions {
+                    scale: 1.0,
+                    background: None,
+                },
+            )
+            .unwrap();
+            assert_eq!(img.width as f64, s.width.ceil());
+            assert!(scene_to_svg(&s).contains(&format!("width=\"{}\"", s.width)));
+        }
+    }
+
+    #[test]
+    fn scale_path_scales_closes_and_refuses_bad_data() {
+        assert_eq!(
+            scale_path("M0 0L10 0L5 10", 2.0, 3.0).unwrap(),
+            "M0 0L20 0L10 30Z"
+        );
+        // Relative commands scale the same way; H and V use one axis; a second pair after M is a line.
+        assert_eq!(
+            scale_path("m1 1 2 2h3v4z", 2.0, 10.0).unwrap(),
+            "m2 10l4 20h6v40Z"
+        );
+        // Each subpath is closed, so a stroke and a fill see one shape.
+        assert_eq!(
+            scale_path("M0 0L1 0M5 5L6 5", 1.0, 1.0).unwrap(),
+            "M0 0L1 0ZM5 5L6 5Z"
+        );
+        for bad in [
+            "",
+            "   ",
+            "L1 1",
+            "M",
+            "M1",
+            "M1 2L",
+            "M1 2 A5 5 0 0 1 9 9",
+            "M1 2X3",
+            "M NaN 2",
+            "Minf 0",
+            "M1e999 0",
+            "M1e300 0",
+            "M0 0L-- 1",
+            "M 0 0 L 1 1 $",
+            "M0,0,,,L",
+            "5 5",
+        ] {
+            assert!(scale_path(bad, 1.0, 1.0).is_err(), "{bad:?}");
+        }
+        assert!(scale_path("M0 0", f64::NAN, 1.0).is_err());
+        assert!(scale_path("M0 0", 0.0, 1.0).is_err());
+        let long = format!("M0 0{}", "L1 1".repeat(2000));
+        assert!(scale_path(&long, 1.0, 1.0).is_err());
+        let wide = format!("M0 0{}", "L1 1".repeat(MAX_PATH_BYTES));
+        assert!(scale_path(&wide, 1.0, 1.0).is_err());
+        // Just inside the limits.
+        let ok = format!("M0 0{}", "L1 1".repeat(500));
+        assert!(scale_path(&ok, 1.0, 1.0).is_ok());
+    }
+
+    #[test]
+    fn path_shape_reads_view_box_and_fill_rule() {
+        let p = path_shape(&serde_json::json!({ "d": "M0 0L10 0L10 10", "viewBox": [10, 10], "fillRule": "evenodd" }), 20.0, 40.0).unwrap();
+        assert_eq!((p.d.as_str(), p.even_odd), ("M0 0L20 0L20 40Z", true));
+        assert!(
+            !path_shape(&serde_json::json!({ "d": "M0 0L1 1" }), 5.0, 5.0)
+                .unwrap()
+                .even_odd
+        );
+        for bad in [
+            serde_json::json!({}),
+            serde_json::json!({ "d": 5 }),
+            serde_json::json!({ "d": "M0 0L1 1", "viewBox": [0, 10] }),
+            serde_json::json!({ "d": "M0 0L1 1", "viewBox": [1] }),
+            serde_json::json!({ "d": "M0 0L1 1", "viewBox": "x" }),
+            serde_json::json!({ "d": "M0 0L1 1", "fillRule": "x" }),
+        ] {
+            assert!(path_shape(&bad, 5.0, 5.0).is_err(), "{bad}");
+        }
+        assert!(path_shape(&serde_json::json!({ "d": "M0 0L1 1" }), 0.0, 5.0).is_err());
+        assert!(path_shape(&serde_json::json!({ "d": "M0 0L1 1" }), f64::INFINITY, 5.0).is_err());
+    }
+
+    #[test]
+    fn a_bad_path_draws_the_plain_box_with_a_diagnostic() {
+        let mut recipe = loupe_recipe(serde_json::json!({ "side": "top" }));
+        recipe["parts"]["loupe"]["path"]["d"] = "M0 0 A1 1 0 0 1 2 2".into();
+        let s = open_scene(&recipe);
+        assert!(node_of(&s, "loupe").path.is_none());
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("part 'loupe'") && d.contains("arc")));
+    }
+
+    #[test]
+    fn svg_draws_the_path_with_its_shadow_pattern_and_stroke() {
+        let mut recipe = loupe_recipe(serde_json::json!({ "side": "top" }));
+        recipe["parts"]["loupe"]["props"]["stroke"] = lit("#00ff00".into());
+        recipe["parts"]["loupe"]["props"]["strokeWidth"] = lit(2.into());
+        let s = open_scene(&recipe);
+        let svg = scene_to_svg(&s);
+        let l = node_of(&s, "loupe");
+        let tf = format!("translate({} {})", l.x, l.y);
+        let d = &l.path.as_ref().unwrap().d;
+        assert!(
+            svg.contains(&format!("transform=\"{tf}\" d=\"{d}\" fill=\"#0000ff\"")),
+            "{svg}"
+        );
+        assert!(svg.contains("stroke=\"#00ff00\" stroke-width=\"2\" stroke-linejoin=\"round\""));
+        assert!(svg.contains("data-shadow=\"true\"") && svg.contains("<pattern"));
+        // The box is not drawn as a rect for a path part.
+        assert!(!svg.contains("data-part=\"loupe\" x="));
+    }
+
+    #[test]
+    fn png_draws_the_teardrop_its_checker_and_a_shadow_outside_it() {
+        let opts = crate::raster::RasterOptions {
+            scale: 1.0,
+            background: None,
+        };
+        let s = open_scene(&loupe_recipe(
+            serde_json::json!({ "side": "top", "offset": lit(2.into()) }),
+        ));
+        let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
+        let px = |x: f64, y: f64| {
+            let i = ((y as u32 * img.width + x as u32) * 4) as usize;
+            img.rgba[i..i + 4].to_vec()
+        };
+        let l = node_of(&s, "loupe");
+        // Inside the round top the checker (cells of 4, top-left cell is the plain fill) alternates.
+        let at = |dx: f64, dy: f64| px(l.x + dx, l.y + dy);
+        assert_eq!(at(10.5, 10.5), vec![255, 255, 255, 255]);
+        assert_eq!(at(10.5, 6.5), vec![204, 204, 204, 255]);
+        // The corner of the box is outside the teardrop: only the blurred shadow (or nothing).
+        assert!(at(0.5, 0.5)[3] < 20, "{:?}", at(0.5, 0.5));
+        // The point at the bottom is narrow: the bottom corners are empty too.
+        assert!(at(1.5, 23.5)[3] < 20);
+    }
+
+    #[test]
+    fn a_tooltip_like_recipe_draws_a_bubble_with_text_and_a_path_tip() {
+        let text = serde_json::json!({ "kind": "text", "props": {
+            "fontSize": lit(10.into()), "color": lit("#ffffff".into()) } });
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "props": lit_props(&[("width", 40.0), ("height", 20.0)]) },
+                "bubble": { "kind": "box", "floating": { "side": "top", "offset": lit(5.into()) },
+                    "children": ["label"],
+                    "props": { "fill": lit("#222222".into()), "cornerRadius": lit(4.into()),
+                        "paddingInlineStart": lit(6.into()), "paddingInlineEnd": lit(6.into()),
+                        "paddingBlockStart": lit(4.into()), "paddingBlockEnd": lit(4.into()) } },
+                "label": text,
+                "tip": { "kind": "box", "floating": { "side": "top", "offset": lit(0.into()) },
+                    "path": { "d": TIP, "viewBox": [10, 6] },
+                    "props": { "width": lit(10.into()), "height": lit(6.into()), "fill": lit("#222222".into()) } }
+            }
+        });
+        let (g, _) = load();
+        let mut r = req(&[]);
+        r.label = "Hi".into();
+        let s = build_scene(&g, &recipe, &r).unwrap();
+        let (root, bubble, label, tip) = (
+            node_of(&s, "r"),
+            node_of(&s, "bubble"),
+            node_of(&s, "label"),
+            node_of(&s, "tip"),
+        );
+        // The bubble is centered over the root, 5 above it, and holds the text inside its padding.
+        assert!((bubble.x - root.x - (root.w - bubble.w) / 2.0).abs() < 1e-9);
+        assert_eq!(bubble.y + bubble.h + 5.0, root.y);
+        assert!(label.x >= bubble.x + 6.0 && label.x + label.w <= bubble.x + bubble.w - 6.0 + 0.01);
+        assert_eq!(label.text.as_deref(), Some("Hi"));
+        // The tip is a path, centered on the root and touching it.
+        assert!(tip.path.is_some());
+        assert_eq!((tip.x - root.x, tip.y + tip.h - root.y), (15.0, 0.0));
+        assert!(
+            s.nodes.iter().all(|n| n.x >= 0.0 && n.y >= 0.0),
+            "nothing is cut off"
+        );
+    }
+
+    #[test]
+    fn the_svg_shadow_filter_region_is_local_to_the_translated_shadow_element() {
+        // The loupe sits away from the origin; its filter region must still cover the blurred shadow.
+        let s = open_scene(&loupe_recipe(
+            serde_json::json!({ "side": "top", "offset": lit(2.into()) }),
+        ));
+        let l = node_of(&s, "loupe");
+        assert!(l.x > 0.0 && l.y > 0.0);
+        let svg = scene_to_svg(&s);
+        // blur 4 reaches 3 sigma = 6 on every side of the 20x24 shape, in the element's own space.
+        assert!(
+            svg.contains(
+                "filterUnits=\"userSpaceOnUse\" x=\"-6\" y=\"-6\" width=\"32\" height=\"36\""
+            ),
+            "{svg}"
+        );
+        assert!(svg.contains(&format!(
+            "data-shadow=\"true\" transform=\"translate({} {})\"",
+            l.x,
+            l.y + 2.0
+        )));
+    }
+
+    #[test]
+    fn scale_path_keeps_a_relative_move_after_an_unclosed_subpath_where_it_was() {
+        // The second subpath starts at (10, 8) + (3, 3), not at the first one's start.
+        assert_eq!(
+            scale_path("M2 2L10 2L10 8 m 3 3 l 5 0 l 0 5", 1.0, 1.0).unwrap(),
+            "M2 2L10 2L10 8ZM13 11l5 0l0 5Z"
+        );
+        assert_eq!(
+            scale_path(
+                "m2 2 l8 0 l0 6 m 3 3 h5 v-1 c1 1 2 2 3 3 m1 1 l1 1",
+                2.0,
+                1.0
+            )
+            .unwrap(),
+            "m4 2l16 0l0 6ZM26 11h10v-1c2 1 4 2 6 3ZM44 14l2 1Z"
+        );
+        // After an explicit close the point is the subpath start, so `m` stays relative.
+        assert_eq!(
+            scale_path("M0 0L4 0Z m 1 1 L2 2", 1.0, 1.0).unwrap(),
+            "M0 0L4 0Zm1 1L2 2Z"
+        );
+    }
+
+    #[test]
+    fn a_path_is_refused_when_its_scaled_coordinates_or_box_are_too_big() {
+        let d = serde_json::json!({ "d": "M0 0L1 1", "viewBox": [1e-9, 1e-9] });
+        assert!(path_shape(&d, 5.0, 5.0)
+            .unwrap_err()
+            .contains("scales to beyond"));
+        let d = serde_json::json!({ "d": "M0 0L1 1" });
+        assert!(path_shape(&d, 500.0, 500.0).is_ok());
+        assert!(path_shape(&d, 501.0, 500.0)
+            .unwrap_err()
+            .contains("at most"));
+    }
+
+    #[test]
+    fn a_floating_offset_beyond_the_cap_is_skipped_so_svg_and_png_stay_drawable() {
+        let (_, _, s) = tip_at(serde_json::json!({ "side": "top", "offset": lit(2000.into()) }));
+        assert!(s.nodes.iter().any(|n| n.part == "tip"));
+        assert!(s.height < 2100.0);
+        let (g, _) = load();
+        let mut r = req(&[]);
+        r.options.insert("isOpen".into(), Value::Bool(true));
+        let s = build_scene(
+            &g,
+            &floating_recipe(
+                serde_json::json!({ "side": "top", "offset": lit(2001.into()) }),
+                serde_json::json!({}),
+            ),
+            &r,
+        )
+        .unwrap();
+        assert!(s.nodes.iter().all(|n| n.part != "tip"));
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("floating part 'tip'")));
     }
 }
