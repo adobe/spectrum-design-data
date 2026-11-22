@@ -1543,3 +1543,19 @@ rules:
     message: "Deviation '{id}' of '{component}': part '{part}' has no '{property}' in the recipe"
     spec_ref: spec/manifest.md#extensionsdeviations
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-112
+    name: floating-part-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A part with `floating` is drawn outside the root, beside one of its sides. The engine
+      sizes it from its own `width` and `height`, and it takes no part in layout, so it cannot
+      also be the root, a child, a container or a `placement` part.
+    assert: >
+      A part with `floating` MUST NOT be the root or a child of another part, MUST be a `box`
+      with no `children` and no `placement`, and MUST bind both `width` and `height`.
+    message: "Floating part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#floating-parts
+    introduced_in: "1.0.0-draft"
