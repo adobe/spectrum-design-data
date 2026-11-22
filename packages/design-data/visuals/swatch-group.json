@@ -1,0 +1,70 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "swatch-group",
+  "root": "container",
+  "sizeScale": {
+    "xs": 50,
+    "s": 75,
+    "m": 100,
+    "l": 200
+  },
+  "notVisual": ["enableSelection", "selectionMode", "allowsEmptySelection"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["swatches"],
+      "props": {
+        "direction": {
+          "value": "row"
+        }
+      }
+    },
+    "swatches": {
+      "kind": "slot",
+      "sizeMap": {
+        "xs": "xs",
+        "s": "s",
+        "m": "m",
+        "l": "l"
+      },
+      "with": {
+        "cornerRounding": {
+          "option": "cornerRadius"
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "gap": [
+          {
+            "when": {
+              "options": {
+                "density": ["compact", "regular"]
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "between": {
+                "from": "swatch",
+                "to": "swatch"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "spacious"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 85
+            }
+          }
+        ]
+      }
+    }
+  }
+}

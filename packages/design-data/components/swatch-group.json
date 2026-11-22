@@ -112,13 +112,19 @@
     {
       "name": "container",
       "description": "Grid of swatches. It draws nothing itself: it sets the gap between swatches and wraps rows. It is the root and the host of the default slot.",
+      "required": true,
+      "contains": ["swatches"]
+    },
+    {
+      "name": "swatches",
+      "description": "Grid of swatches. It draws nothing itself: it sets the gap between swatches and wraps rows. It hosts the default slot.",
       "required": true
     }
   ],
   "slots": [
     {
       "name": "default",
-      "part": "container",
+      "part": "swatches",
       "accepts": ["swatch"],
       "min": 1,
       "description": "The swatch in the group. Any number of swatches, at least one."
