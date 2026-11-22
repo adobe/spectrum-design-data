@@ -146,12 +146,18 @@ pub fn paint_shadow(
         return;
     }
     let sr = r.map(|v| (v + spread).max(0.0));
-    let sigma = blur / 2.0 * xf.s;
+    let sigma = blur.min(crate::visual::MAX_SHADOW_BLUR) / 2.0 * xf.s;
     let reach = (3.0 * sigma).ceil() as i64;
-    let px0 = (sx * xf.s + xf.tx).floor() as i64 - reach - 1;
-    let py0 = (sy * xf.s + xf.ty).floor() as i64 - reach - 1;
-    let px1 = ((sx + sw) * xf.s + xf.tx).ceil() as i64 + reach + 1;
-    let py1 = ((sy + sh) * xf.s + xf.ty).ceil() as i64 + reach + 1;
+    // The buffer covers the shadow plus its blur reach, cut to the canvas plus that reach (a
+    // pixel farther out cannot blur onto the canvas), so a huge offset costs nothing.
+    let (cw, ch) = (cv.width as i64, cv.height as i64);
+    let px0 = ((sx * xf.s + xf.tx).floor() as i64 - reach - 1).max(-reach);
+    let py0 = ((sy * xf.s + xf.ty).floor() as i64 - reach - 1).max(-reach);
+    let px1 = (((sx + sw) * xf.s + xf.tx).ceil() as i64 + reach + 1).min(cw + reach);
+    let py1 = (((sy + sh) * xf.s + xf.ty).ceil() as i64 + reach + 1).min(ch + reach);
+    if px1 <= px0 || py1 <= py0 {
+        return;
+    }
     let (bw, bh) = ((px1 - px0) as usize, (py1 - py0) as usize);
     let center = |p: i64, o: i64, t: f64| ((p + o) as f64 + 0.5 - t) / xf.s;
     let mut buf = vec![0f32; bw * bh];
@@ -200,7 +206,7 @@ pub fn paint_shadow(
     for j in 0..bh {
         for i in 0..bw {
             let (cx, cy) = ((px0 + i as i64), (py0 + j as i64));
-            if cx < 0 || cy < 0 {
+            if cx < 0 || cy < 0 || cx >= cw || cy >= ch {
                 continue;
             }
             let d = rrect_sdf(

@@ -26,6 +26,9 @@ use crate::text_metrics::TextMetrics;
 
 const RING_MARGIN: f64 = 8.0;
 
+/// The largest shadow `blur` a renderer draws, in px; a larger one is clamped with a diagnostic.
+pub const MAX_SHADOW_BLUR: f64 = 100.0;
+
 /// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
 /// (a part with a `placement`). `rp` checks every read against this table in debug builds, and
 /// SPEC-083 warns about a recipe prop missing from it (through `reads_prop`, which both use),
@@ -2102,7 +2105,17 @@ impl Ctx<'_> {
             let (blur, rb) = num("blur", None);
             let (spread, rs) = num("spread", Some(0.0));
             let color = self.eval(layer.get("color"));
-            match (x, y, blur.filter(|b| *b >= 0.0), spread, color.as_ref()) {
+            let blur = blur.filter(|b| *b >= 0.0).map(|b| {
+                if b > MAX_SHADOW_BLUR {
+                    self.diags.push(format!(
+                        "shadow layer {} blur {b} is above {MAX_SHADOW_BLUR}; drawing {MAX_SHADOW_BLUR}",
+                        i + 1
+                    ));
+                }
+                b.min(MAX_SHADOW_BLUR)
+            });
+            let color = color.filter(|c| css_color_alpha(&c.value).is_some());
+            match (x, y, blur, spread, color.as_ref()) {
                 (Some(x), Some(y), Some(blur), Some(spread), Some(c)) => {
                     out.push(Shadow {
                         x,
@@ -2132,7 +2145,7 @@ impl Ctx<'_> {
                     }
                 }
                 _ => self.diags.push(format!(
-                    "shadow layer {} needs x, y, a blur of 0 or more and a color that resolve (and a numeric spread); skipping it",
+                    "shadow layer {} needs x, y, a blur of 0 or more and a color (hex, rgb(), rgba() or transparent) that resolve (and a numeric spread); skipping it",
                     i + 1
                 )),
             }
@@ -4916,7 +4929,20 @@ fn solve_root(
             continue;
         };
         let (layers, tokens) = cx.shadows(Some(source));
-        n.shadow = layers;
+        let (w, h) = (n.w, n.h);
+        n.shadow = layers
+            .into_iter()
+            .filter(|l| {
+                let ok = w + 2.0 * l.spread > 0.0 && h + 2.0 * l.spread > 0.0;
+                if !ok {
+                    cx.diags.push(format!(
+                        "shadow spread {} leaves nothing of part '{}'; skipping the layer",
+                        l.spread, n.part
+                    ));
+                }
+                ok
+            })
+            .collect();
         n.tokens.extend(tokens);
     }
     // `strokeOver`: the root's border is drawn after everything else, as a ring node, so it
@@ -5777,22 +5803,27 @@ fn write_shadows(s: &mut String, n: &SceneNode) {
             s,
             "<defs>{blur}<mask id=\"{mid}\" maskUnits=\"userSpaceOnUse\" {region}><rect {region} fill=\"#fff\"/>{hole}</mask></defs>"
         );
-        let radius = match n.radii {
-            Some(r) => r.iter().sum::<f64>() / 4.0,
-            None => n.radius,
-        };
         let filter = if sigma > 0.0 {
             format!(" filter=\"url(#{fid})\"")
         } else {
             String::new()
         };
-        let _ = write!(
-            s,
-            "<g mask=\"url(#{mid})\"><rect data-part=\"{}\" data-shadow=\"true\" x=\"{x}\" y=\"{y}\" width=\"{w}\" height=\"{h}\" rx=\"{}\" fill=\"{}\"{filter}/></g>",
+        let common = format!(
+            "data-part=\"{}\" data-shadow=\"true\" fill=\"{}\"{filter}",
             esc(&n.part),
-            (radius + sh.spread).max(0.0),
             esc(&sh.color)
         );
+        let shape = match n.radii {
+            Some(r) => format!(
+                "<path {common} d=\"{}\"/>",
+                rounded_path(x, y, w, h, r.map(|v| (v + sh.spread).max(0.0)))
+            ),
+            None => format!(
+                "<rect {common} x=\"{x}\" y=\"{y}\" width=\"{w}\" height=\"{h}\" rx=\"{}\"/>",
+                (n.radius + sh.spread).max(0.0)
+            ),
+        };
+        let _ = write!(s, "<g mask=\"url(#{mid})\">{shape}</g>");
     }
 }
 
@@ -6578,6 +6609,24 @@ mod tests {
             "{:?}",
             scene.diagnostics
         );
+    }
+
+    #[test]
+    fn a_huge_blur_is_clamped_and_a_bad_color_or_spread_is_skipped() {
+        let src = serde_json::json!({ "shadow": [
+            layer(0, 1, 1_000_000_000, "#000000"),
+            layer(0, 1, 2, "notacolor"),
+            { "x": lit(0.into()), "y": lit(1.into()), "blur": lit(2.into()),
+              "spread": lit((-100).into()), "color": lit("#000000".into()) }
+        ] });
+        let scene = solve_width(&shadow_recipe(src), None);
+        assert_eq!(scene.nodes[0].shadow.len(), 1);
+        assert_eq!(scene.nodes[0].shadow[0].blur, MAX_SHADOW_BLUR);
+        let d = scene.diagnostics.join("|");
+        assert!(d.contains("above 100"), "{d}");
+        assert!(d.contains("shadow layer 2"), "{d}");
+        assert!(d.contains("shadow spread -100"), "{d}");
+        assert!(!scene_to_svg(&scene).contains("notacolor"));
     }
 
     #[test]

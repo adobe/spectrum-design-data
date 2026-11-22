@@ -735,6 +735,64 @@ mod tests {
         assert_eq!(render(&s, 1.0).0.rgba, img.rgba);
     }
 
+    fn shadow(x: f64, y: f64, blur: f64, color: &str) -> crate::visual::Shadow {
+        crate::visual::Shadow {
+            x,
+            y,
+            blur,
+            spread: 0.0,
+            color: color.into(),
+        }
+    }
+
+    #[test]
+    fn the_blur_edge_follows_a_gaussian_of_half_the_blur() {
+        // Beside a wide box the edge is a half-plane: at distance d the alpha is
+        // Phi(-d / sigma). Blur 8 is sigma 4; the rows sampled are 4.5 and 8.5px below the
+        // edge: Phi(-1.125) = 0.130 (33/255) and Phi(-2.125) = 0.017 (4/255). A doubled or
+        // halved sigma misses both.
+        let mut n = node("box", "root", 20.0, 20.0, 200.0, 20.0);
+        n.shadow = vec![shadow(0.0, 0.0, 8.0, "#000000")];
+        let (img, _) = render(&scene(240.0, 80.0, vec![n]), 1.0);
+        let (a4, a8) = (at(&img, 120, 44)[3] as i32, at(&img, 120, 48)[3] as i32);
+        assert!((a4 - 33).abs() <= 2, "{a4}");
+        assert!((a8 - 4).abs() <= 2, "{a8}");
+    }
+
+    #[test]
+    fn the_first_shadow_layer_is_drawn_on_top() {
+        let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
+        n.shadow = vec![
+            shadow(12.0, 0.0, 0.0, "#0000ff"),
+            shadow(16.0, 0.0, 0.0, "#ff0000"),
+        ];
+        let (img, _) = render(&scene(50.0, 30.0, vec![n]), 1.0);
+        // x 28..32 is covered by both layers: the first (blue) wins.
+        assert_eq!(at(&img, 30, 15), [0, 0, 255, 255]);
+        assert_eq!(at(&img, 35, 15), [255, 0, 0, 255]);
+    }
+
+    #[test]
+    fn a_huge_blur_or_offset_neither_panics_nor_exhausts_memory() {
+        let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
+        n.shadow = vec![
+            shadow(0.0, 0.0, 1e9, "#000000"),
+            shadow(1e9, -1e9, 8.0, "#000000"),
+        ];
+        let (img, _) = render(&scene(30.0, 30.0, vec![n]), 2.0);
+        assert_eq!(img.width, 60);
+    }
+
+    #[test]
+    fn node_opacity_dims_the_shadow_with_the_node() {
+        let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
+        n.shadow = vec![shadow(12.0, 0.0, 0.0, "#000000")];
+        let mut s = scene(40.0, 30.0, vec![n]);
+        s.opacity = Some(0.5);
+        let (img, _) = render(&s, 1.0);
+        assert_eq!(at(&img, 26, 15)[3], 128);
+    }
+
     #[test]
     fn a_drop_shadow_with_no_blur_is_a_hard_offset_copy() {
         let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
