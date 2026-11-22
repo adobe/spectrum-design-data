@@ -26,6 +26,10 @@ use crate::text_metrics::TextMetrics;
 
 const RING_MARGIN: f64 = 8.0;
 
+/// The largest floating-part size or offset the engine draws, in px; a larger one is skipped
+/// with a diagnostic so a bad value cannot make a huge canvas.
+pub const MAX_FLOATING: f64 = 10_000.0;
+
 /// The largest shadow `blur` a renderer draws, in px; a larger one is clamped with a diagnostic.
 pub const MAX_SHADOW_BLUR: f64 = 100.0;
 
@@ -131,6 +135,19 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
         &["stroke", "strokeWidth", "strokeOpacity", "gapToParent"],
     ),
     ("placed", &["color"]),
+    (
+        "floating",
+        &[
+            "width",
+            "height",
+            "cornerRadius",
+            "fill",
+            "stroke",
+            "strokeWidth",
+            "strokeOpacity",
+            "shadow",
+        ],
+    ),
     ("component", &[]),
     ("slot", &["width", "height", "direction", "align", "gap"]),
 ];
@@ -154,6 +171,8 @@ pub fn reads_prop(part: &Value, is_root: bool, name: &str) -> bool {
 pub fn part_role(part: &Value, is_root: bool) -> &str {
     if is_root {
         "root"
+    } else if part.get("floating").is_some() {
+        "floating"
     } else if part.get("placement").is_some() {
         "placed"
     } else {
@@ -1591,6 +1610,11 @@ impl<'a> CompileCx<'a> {
                         .iter_mut()
                         .for_each(|e| self.compile_source("inset", e)),
                     other => self.compile_source("inset", other),
+                }
+            }
+            for key in ["offset", "crossOffset"] {
+                if let Some(src) = part.get_mut("floating").and_then(|f| f.get_mut(key)) {
+                    self.compile_source(key, src);
                 }
             }
             if let Some(props) = part.get_mut("props").and_then(Value::as_object_mut) {
@@ -4702,6 +4726,88 @@ fn solve_root(
         });
     }
 
+    // Floating parts sit outside the root: a leaf box beside one side of the root, never a
+    // layout input. They are solved after the root, so the root's box is final.
+    let mut floating: Vec<(&String, &Value)> = parts
+        .iter()
+        .filter(|(id, p)| p.get("floating").is_some() && id.as_str() != root_id)
+        .collect();
+    floating.sort_by(|a, b| a.0.cmp(b.0));
+    let mut floating_ids: Vec<&str> = Vec::new();
+    for (id, part) in floating {
+        if !cx.visible(part) {
+            continue;
+        }
+        let spec = &part["floating"];
+        let finite = |r: Option<Resolved>| r.and_then(|r| r.num()).filter(|v| v.is_finite());
+        let offset = finite(cx.eval(spec.get("offset")));
+        let cross = finite(cx.eval(spec.get("crossOffset")));
+        let (fw, fh) = (rp(&mut cx, part, "width"), rp(&mut cx, part, "height"));
+        let (Some(fw_n), Some(fh_n)) = (
+            fw.as_ref().and_then(Resolved::num),
+            fh.as_ref().and_then(Resolved::num),
+        ) else {
+            cx.diags.push(format!(
+                "floating part '{id}' needs a width and a height that resolve; skipping it"
+            ));
+            continue;
+        };
+        let sane = |v: f64| v.is_finite() && v.abs() <= MAX_FLOATING;
+        let (offset, cross) = (offset.unwrap_or(0.0), cross.unwrap_or(0.0));
+        if !(sane(fw_n) && sane(fh_n) && fw_n > 0.0 && fh_n > 0.0 && sane(offset) && sane(cross)) {
+            cx.diags.push(format!(
+                "floating part '{id}' needs a positive width and height and an offset within {MAX_FLOATING}px; skipping it"
+            ));
+            continue;
+        }
+        let side = spec.get("side").and_then(Value::as_str).unwrap_or("top");
+        let align = spec
+            .get("align")
+            .and_then(Value::as_str)
+            .unwrap_or("center");
+        let (rx, ry, rw, rh) = (nodes[0].x, nodes[0].y, nodes[0].w, nodes[0].h);
+        let along = |start: f64, len: f64, own: f64| match align {
+            "start" => start,
+            "end" => start + len - own,
+            _ => start + (len - own) / 2.0,
+        };
+        let (fx, fy) = match side {
+            "bottom" => (along(rx, rw, fw_n) + cross, ry + rh + offset),
+            "start" => (rx - offset - fw_n, along(ry, rh, fh_n) + cross),
+            "end" => (rx + rw + offset, along(ry, rh, fh_n) + cross),
+            _ => (along(rx, rw, fw_n) + cross, ry - offset - fh_n),
+        };
+        let fill = rp(&mut cx, part, "fill");
+        let stroke = rp(&mut cx, part, "stroke");
+        let sw = rp(&mut cx, part, "strokeWidth");
+        let so = rp(&mut cx, part, "strokeOpacity");
+        let radius = rp(&mut cx, part, "cornerRadius");
+        let mut node = blank_node(id, "box");
+        for (n, r) in [
+            ("width", &fw),
+            ("height", &fh),
+            ("fill", &fill),
+            ("stroke", &stroke),
+            ("strokeWidth", &sw),
+            ("strokeOpacity", &so),
+            ("cornerRadius", &radius),
+        ] {
+            track(&mut node.tokens, n, r);
+        }
+        (node.x, node.y, node.w, node.h) = (fx, fy, fw_n, fh_n);
+        node.fill = fill.map(|f| f.value);
+        node.stroke = stroke.map(|s| s.value);
+        node.stroke_width = sw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+        node.stroke_opacity = so.as_ref().and_then(Resolved::num);
+        node.radius = clamp_radius(
+            radius.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+            fw_n,
+            fh_n,
+        );
+        floating_ids.push(id);
+        nodes.push(node);
+    }
+
     // Token-bound sizes of the laid-out parts. The root's height, padding, gap and radius are
     // measured above; its width is content-sized, so only its border is added here.
     for (i, n) in nodes.iter().enumerate() {
@@ -5022,10 +5128,40 @@ fn solve_root(
         }
     }
 
+    // The canvas is the root plus its ring margin, grown to hold every floating part and every
+    // drop shadow; an origin shift keeps the top-left at 0, so a recipe with neither is unchanged.
+    let (x0, y0, x1, y1) = scene_extent(
+        &nodes,
+        &floating_ids,
+        (
+            ox - RING_MARGIN,
+            oy - RING_MARGIN,
+            w + 2.0 * RING_MARGIN,
+            h + 2.0 * RING_MARGIN,
+        ),
+    );
+    let (dx, dy) = (-x0, -y0);
+    let mut press = press;
+    let mut measurements = measurements;
+    if dx != 0.0 || dy != 0.0 {
+        for n in nodes.iter_mut() {
+            n.x += dx;
+            n.y += dy;
+        }
+        for m in measurements.iter_mut() {
+            m.x += dx;
+            m.y += dy;
+        }
+        if let Some(p) = press.as_mut() {
+            p.cx += dx;
+            p.cy += dy;
+        }
+    }
+
     Ok(Scene {
         component: req.component.clone(),
-        width: w + 2.0 * RING_MARGIN,
-        height: h + 2.0 * RING_MARGIN,
+        width: x1 - x0,
+        height: y1 - y0,
         press,
         measurements,
         opacity: opacity.as_ref().and_then(Resolved::num).or(copy_opacity),
@@ -5033,6 +5169,39 @@ fn solve_root(
         layout,
         diagnostics: cx.diags,
     })
+}
+
+/// The bounding box `(x0, y0, x1, y1)` of `base` (`x, y, w, h`), every floating part in
+/// `floating` (with half its stroke) and every drop shadow of every node (the
+/// shadow box grown by three standard deviations, the blur the renderers draw).
+fn scene_extent(
+    nodes: &[SceneNode],
+    floating: &[&str],
+    base: (f64, f64, f64, f64),
+) -> (f64, f64, f64, f64) {
+    let mut e = (base.0, base.1, base.0 + base.2, base.1 + base.3);
+    let mut grow = |x0: f64, y0: f64, x1: f64, y1: f64| {
+        if [x0, y0, x1, y1].iter().all(|v| v.is_finite()) {
+            e = (e.0.min(x0), e.1.min(y0), e.2.max(x1), e.3.max(y1));
+        }
+    };
+    for n in nodes {
+        if floating.contains(&n.part.as_str()) {
+            let half = n.stroke_width / 2.0;
+            grow(n.x - half, n.y - half, n.x + n.w + half, n.y + n.h + half);
+        }
+        for s in &n.shadow {
+            let pad = 1.5 * s.blur + s.spread;
+            let cap = |v: f64| v.clamp(-MAX_FLOATING, MAX_FLOATING);
+            grow(
+                cap(n.x + s.x - pad),
+                cap(n.y + s.y - pad),
+                cap(n.x + n.w + s.x + pad),
+                cap(n.y + n.h + s.y + pad),
+            );
+        }
+    }
+    e
 }
 
 /// The host root's box a `component` part can `inherit` from: its inner size (outer size
@@ -10192,5 +10361,195 @@ mod tests {
     fn recipe_options_counts_a_host_option_a_component_part_reads() {
         let (used, structural) = recipe_options(&row_host());
         assert!(used.contains(&"isSelected".to_string()) && structural.is_empty());
+    }
+
+    fn floating_recipe(floating: Value, props: Value) -> Value {
+        let mut tip = serde_json::json!({
+            "kind": "box", "floating": floating,
+            "visibleWhen": { "options": { "isOpen": true } },
+            "props": { "width": lit(10.into()), "height": lit(6.into()), "fill": lit("#ff0000".into()) }
+        });
+        tip["props"]
+            .as_object_mut()
+            .unwrap()
+            .extend(props.as_object().unwrap().clone());
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "props": {
+                "width": lit(40.into()), "height": lit(20.into()), "fill": lit("#ffffff".into())
+            } }, "tip": tip }
+        })
+    }
+
+    fn open_scene(recipe: &Value) -> Scene {
+        let (g, _) = load();
+        let mut r = req(&[]);
+        r.options.insert("isOpen".into(), Value::Bool(true));
+        build_scene(&g, recipe, &r).unwrap()
+    }
+
+    fn tip_at(floating: Value) -> (f64, f64, Scene) {
+        let s = open_scene(&floating_recipe(floating, serde_json::json!({})));
+        let t = s.nodes.iter().find(|n| n.part == "tip").expect("tip drawn");
+        (t.x - s.nodes[0].x, t.y - s.nodes[0].y, s)
+    }
+
+    #[test]
+    fn a_floating_part_sits_beside_its_side_relative_to_the_root() {
+        // Root is 40x20, tip 10x6; positions are relative to the root's top-left.
+        let f = |side: &str, align: &str, off: i32, cross: i32| {
+            let (x, y, _) = tip_at(serde_json::json!({ "side": side, "align": align,
+                "offset": lit(off.into()), "crossOffset": lit(cross.into()) }));
+            (x, y)
+        };
+        assert_eq!(f("top", "center", 2, 0), (15.0, -8.0));
+        assert_eq!(f("top", "start", 2, 0), (0.0, -8.0));
+        assert_eq!(f("top", "end", 2, 0), (30.0, -8.0));
+        assert_eq!(f("bottom", "center", 2, 0), (15.0, 22.0));
+        assert_eq!(f("start", "center", 2, 0), (-12.0, 7.0));
+        assert_eq!(f("end", "start", 2, 0), (42.0, 0.0));
+        assert_eq!(f("end", "end", 2, 0), (42.0, 14.0));
+        // A negative offset overlaps the root; crossOffset moves along the edge.
+        assert_eq!(f("top", "center", -2, 3), (18.0, -4.0));
+        assert_eq!(f("bottom", "start", 0, -3), (-3.0, 20.0));
+    }
+
+    #[test]
+    fn a_floating_part_is_drawn_only_when_its_condition_holds_and_never_moves_layout() {
+        let recipe = floating_recipe(
+            serde_json::json!({ "side": "top", "offset": lit(2.into()) }),
+            serde_json::json!({}),
+        );
+        let (g, _) = load();
+        let closed = build_scene(&g, &recipe, &req(&[])).unwrap();
+        assert!(closed.nodes.iter().all(|n| n.part != "tip"));
+        let open = open_scene(&recipe);
+        let (c, o) = (&closed.nodes[0], &open.nodes[0]);
+        assert_eq!((c.w, c.h), (o.w, o.h));
+        assert_eq!((closed.width, closed.height), (56.0, 36.0));
+        // The tip pokes 8 above the root top (offset 2 + height 6), 2 above the 8px margin:
+        // the canvas grows by 0 there, and the root is where it was.
+        assert_eq!((o.x, o.y), (8.0, 8.0));
+        assert_eq!((open.width, open.height), (56.0, 36.0));
+    }
+
+    #[test]
+    fn the_scene_grows_and_shifts_to_hold_a_floating_part() {
+        let (x, y, s) = tip_at(serde_json::json!({ "side": "top", "offset": lit(10.into()) }));
+        assert_eq!((x, y), (15.0, -16.0));
+        // 16 above the root and 8 of margin: the top is 8 above the old canvas.
+        assert_eq!((s.nodes[0].x, s.nodes[0].y), (8.0, 16.0));
+        assert_eq!((s.width, s.height), (56.0, 44.0));
+        let (_, _, s) = tip_at(serde_json::json!({ "side": "start", "offset": lit(20.into()) }));
+        assert_eq!((s.nodes[0].x, s.nodes[0].y), (38.0, 8.0));
+        assert_eq!((s.width, s.height), (86.0, 36.0));
+        assert!(scene_to_svg(&s).contains("viewBox=\"0 0 86 36\""));
+        let (_, _, s) = tip_at(serde_json::json!({ "side": "bottom", "offset": lit(10.into()) }));
+        assert_eq!((s.width, s.height), (56.0, 52.0));
+    }
+
+    #[test]
+    fn a_bad_floating_part_is_skipped_with_a_diagnostic_and_never_panics() {
+        let bad = [
+            serde_json::json!({ "width": lit(0.into()) }),
+            serde_json::json!({ "width": lit((-4).into()) }),
+            serde_json::json!({ "height": lit(1e300.into()) }),
+            serde_json::json!({ "width": lit("NaN".into()) }),
+            serde_json::json!({ "height": lit("inf".into()) }),
+            serde_json::json!({ "width": {"token": {"property": "nope"}} }),
+        ];
+        for props in bad {
+            let s = open_scene(&floating_recipe(
+                serde_json::json!({ "side": "top" }),
+                props.clone(),
+            ));
+            assert!(s.nodes.iter().all(|n| n.part != "tip"), "{props}");
+            assert!(
+                s.diagnostics
+                    .iter()
+                    .any(|d| d.contains("floating part 'tip'")),
+                "{props}: {:?}",
+                s.diagnostics
+            );
+            assert_eq!((s.width, s.height), (56.0, 36.0));
+        }
+        for off in [
+            serde_json::json!(1e300),
+            serde_json::json!(-1e300),
+            serde_json::json!("NaN"),
+        ] {
+            let s = open_scene(&floating_recipe(
+                serde_json::json!({ "side": "top", "offset": lit(off.clone()), "crossOffset": lit(off.clone()) }),
+                serde_json::json!({}),
+            ));
+            assert!(
+                s.width.is_finite() && s.height.is_finite() && s.width < 3.0 * MAX_FLOATING,
+                "{off}"
+            );
+        }
+    }
+
+    #[test]
+    fn the_scene_grows_to_hold_a_large_shadow_and_shifts_its_origin() {
+        let scene = solve_width(
+            &shadow_recipe(
+                serde_json::json!({ "shadow": [layer(0, 6, 16, "rgba(0, 0, 0, 0.3)")] }),
+            ),
+            None,
+        );
+        // 40x20 root at (8, 8); the shadow reaches 1.5 * 16 = 24 on each side, 6 lower.
+        // Left -16, right 72, top -10, bottom 58.
+        assert_eq!((scene.width, scene.height), (88.0, 68.0));
+        let n = &scene.nodes[0];
+        assert_eq!((n.x, n.y, n.w, n.h), (24.0, 18.0, 40.0, 20.0));
+        assert!(scene_to_svg(&scene).contains("viewBox=\"0 0 88 68\""));
+        // A shadow inside the margin changes nothing; a huge offset is capped.
+        let small = solve_width(
+            &shadow_recipe(serde_json::json!({ "shadow": [layer(0, 1, 2, "#000000")] })),
+            None,
+        );
+        assert_eq!(
+            (small.width, small.height, small.nodes[0].x),
+            (56.0, 36.0, 8.0)
+        );
+        let huge = solve_width(
+            &shadow_recipe(
+                serde_json::json!({ "shadow": [layer(0, 1_000_000_000, 8, "#000000")] }),
+            ),
+            None,
+        );
+        assert!(huge.height <= 3.0 * MAX_FLOATING, "{}", huge.height);
+    }
+
+    #[cfg(feature = "raster")]
+    #[test]
+    fn png_draws_the_whole_shadow_and_the_floating_part() {
+        let opts = crate::raster::RasterOptions {
+            scale: 1.0,
+            background: None,
+        };
+        let px = |img: &crate::raster::Image, x: u32, y: u32| {
+            let i = ((y * img.width + x) * 4) as usize;
+            img.rgba[i..i + 4].to_vec()
+        };
+        let scene = solve_width(
+            &shadow_recipe(serde_json::json!({ "shadow": [layer(0, 6, 16, "#000000")] })),
+            None,
+        );
+        let (img, _) = crate::raster::rasterize(&scene, &[], &opts).unwrap();
+        assert_eq!((img.width, img.height), (88, 68));
+        // Below the root (bottom at y 38) the shadow is still visible at y 50, beyond the old 8px margin.
+        assert!(px(&img, 44, 50)[3] > 0);
+        assert_eq!(px(&img, 44, 28), vec![255, 255, 255, 255]);
+        let tip = open_scene(&floating_recipe(
+            serde_json::json!({ "side": "top", "offset": lit(10.into()) }),
+            serde_json::json!({}),
+        ));
+        let (img, _) = crate::raster::rasterize(&tip, &[], &opts).unwrap();
+        assert_eq!((img.width, img.height), (56, 44));
+        // The tip is 10x6 at (23, 0); the root starts at y 16.
+        assert_eq!(px(&img, 28, 3), vec![255, 0, 0, 255]);
+        assert_eq!(px(&img, 28, 9)[3], 0);
+        assert_eq!(px(&img, 28, 20), vec![255, 255, 255, 255]);
     }
 }

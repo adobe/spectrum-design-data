@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-112",
+      "severity": "error",
+      "message_pattern": ".*Floating part 'tip'.*width and height.*"
+    }
+  ]
+}

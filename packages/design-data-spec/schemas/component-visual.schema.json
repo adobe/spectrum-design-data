@@ -295,6 +295,18 @@
           "pattern": "^[a-z][a-z0-9-]*$",
           "description": "For the root: the part the press scale applies to, together with the parts nested inside it. Defaults to the whole scene."
         },
+        "floating": {
+          "type": "object",
+          "description": "Draws this part outside the root, beside one side of the root's box, instead of as a child (spec/component-visuals.md, Floating parts).",
+          "required": ["side"],
+          "properties": {
+            "side": { "enum": ["top", "bottom", "start", "end"] },
+            "align": { "enum": ["start", "center", "end"] },
+            "offset": { "$ref": "#/$defs/valueSource" },
+            "crossOffset": { "$ref": "#/$defs/valueSource" }
+          },
+          "additionalProperties": false
+        },
         "placement": {
           "type": "object",
           "required": ["anchor"],
