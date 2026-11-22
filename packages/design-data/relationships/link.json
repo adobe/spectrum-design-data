@@ -110,7 +110,6 @@
     },
     "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "static white",
     "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
     "uuid": "930a3dc6-7c29-5256-9a56-2cff79c0e8d1"
   },
@@ -125,7 +124,6 @@
     },
     "context": "Text",
     "contextRole": ["label"],
-    "contextQualifier": "static black",
     "$ref": "86a162cc-9e91-494c-9fee-207721eb4e88",
     "uuid": "0d29a9e4-59af-5e44-868e-273d9c601505"
   },
@@ -303,7 +301,6 @@
     },
     "context": "Focus ring",
     "contextRole": ["focus"],
-    "contextQualifier": "static white",
     "$ref": "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13",
     "uuid": "eae738c4-7236-5bd9-ba94-8e63affa588c"
   },
@@ -318,7 +315,6 @@
     },
     "context": "Focus ring",
     "contextRole": ["focus"],
-    "contextQualifier": "static black",
     "$ref": "c6b8275b-f44e-43b4-b763-82dda94d963c",
     "uuid": "955df4be-a044-5e00-a8dd-18b2533aea32"
   }
