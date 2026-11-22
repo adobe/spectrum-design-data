@@ -1,0 +1,125 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "radio-group",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": ["labelPosition", "errorMessage"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["field-label", "options", "help-text"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "gap": {
+          "value": 0
+        }
+      }
+    },
+    "field-label": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "isRequired": {
+          "option": "isRequired"
+        },
+        "necessityIndicator": {
+          "option": "necessityIndicator"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "label": {
+          "option": "label"
+        }
+      }
+    },
+    "options": {
+      "kind": "slot",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "isEmphasized": {
+          "option": "isEmphasized"
+        }
+      },
+      "props": {
+        "direction": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "value": "row"
+          },
+          {
+            "value": "column"
+          }
+        ],
+        "align": {
+          "value": "start"
+        },
+        "gap": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 300
+            }
+          }
+        ]
+      }
+    },
+    "help-text": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "text": {
+          "option": "description"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "variant": {
+          "option": "isError",
+          "map": {
+            "true": "negative",
+            "false": "neutral"
+          }
+        }
+      }
+    }
+  }
+}
