@@ -300,6 +300,10 @@
         },
         "isDisabled": {
           "option": "isDisabled"
+        },
+        "variant": {
+          "option": "isError",
+          "map": { "true": "negative", "false": "neutral" }
         }
       }
     }

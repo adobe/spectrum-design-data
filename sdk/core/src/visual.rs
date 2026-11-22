@@ -4755,7 +4755,27 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
         .flatten()
     {
         let v = match v.get("option").and_then(Value::as_str) {
-            Some(host) => cx.option(host),
+            Some(host) => {
+                let have = cx.option(host);
+                match v.get("map").and_then(Value::as_object) {
+                    None => have,
+                    Some(_) if have.is_null() => have,
+                    Some(map) => {
+                        let key = have
+                            .as_str()
+                            .map_or_else(|| have.to_string(), str::to_string);
+                        match map.get(&key) {
+                            Some(mapped) => mapped.clone(),
+                            None => {
+                                cx.diags.push(format!(
+                                    "component part '{id}': option '{host}' value '{key}' has no entry in the `with` map for '{name}'; the nested default is used"
+                                ));
+                                Value::Null
+                            }
+                        }
+                    }
+                }
+            }
             None => v.clone(),
         };
         if !v.is_null() {
@@ -8668,6 +8688,51 @@ mod tests {
             .iter()
             .all(|n| n.part != "icon" && n.part != "track"));
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    #[test]
+    fn a_with_map_picks_the_nested_value_from_the_host_option() {
+        let g = nest_graph(&[]);
+        let map = serde_json::json!({ "true": "negative", "false": "neutral" });
+        let r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["h"] },
+            "h": comp("help-text", serde_json::json!({
+                "text": "Hi", "variant": { "option": "isError", "map": map } }))
+        }));
+        let colors = |opts: &[(&str, Value)]| {
+            let s = nest_scene(&g, &r, "m", &[], opts).unwrap();
+            (
+                s.nodes
+                    .iter()
+                    .map(|n| format!("{:?}", n.color))
+                    .collect::<Vec<_>>(),
+                s.diagnostics,
+            )
+        };
+        let (err, d1) = colors(&[("isError", Value::Bool(true))]);
+        let (ok, d2) = colors(&[("isError", Value::Bool(false))]);
+        let (unset, d3) = colors(&[]);
+        assert_ne!(err, ok, "the mapped variant must change the nested colors");
+        assert_eq!(ok, unset);
+        assert!(
+            d1.is_empty() && d2.is_empty() && d3.is_empty(),
+            "{d1:?}{d2:?}{d3:?}"
+        );
+        // A host value with no key keeps the nested default and says so.
+        let mut partial = r.clone();
+        partial["parts"]["h"]["with"]["variant"]["map"] = serde_json::json!({ "true": "negative" });
+        let s = nest_scene(&g, &partial, "m", &[], &[("isError", Value::Bool(false))]).unwrap();
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("has no entry in the `with` map")));
+        assert_eq!(
+            s.nodes
+                .iter()
+                .map(|n| format!("{:?}", n.color))
+                .collect::<Vec<_>>(),
+            ok
+        );
     }
 
     #[test]
