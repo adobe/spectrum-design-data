@@ -133,8 +133,23 @@
         "overflow": {
           "value": "wrap"
         },
-        "typeStyle": {
-          "relationship": { "property": "type-style", "part": "text" }
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "text"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "text"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "text"
+          }
         },
         "lineHeight": {
           "relationship": {

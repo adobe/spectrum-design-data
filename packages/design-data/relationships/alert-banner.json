@@ -338,6 +338,61 @@
     "scope": {
       "component": "alert-banner",
       "part": "text",
+      "property": "font-family"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
+    "uuid": "21d0c575-663a-5f86-b8d4-4cf4bcd4d688"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "part": "text",
+      "property": "font-weight"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "838cfd60-fc7d-591e-9668-7d61ced99d51"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "part": "text",
+      "property": "font-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "87bf7f38-ce02-51ec-9060-e48dffd3fb0c"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "part": "text",
+      "property": "font-size"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
+    "uuid": "eb1358f7-4f82-504d-a360-8da387b4fcca"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "part": "text",
+      "property": "font-size"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
+    "uuid": "d300b05a-45bf-51f1-b33c-8d7bb0280375"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "part": "text",
       "property": "line-height"
     },
     "context": "Text",

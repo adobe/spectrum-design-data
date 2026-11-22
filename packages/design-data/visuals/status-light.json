@@ -43,8 +43,14 @@
       "kind": "text",
       "text": { "option": "label" },
       "props": {
-        "typeStyle": {
-          "relationship": { "property": "type-style", "part": "label" }
+        "fontFamily": {
+          "relationship": { "property": "font-family", "part": "label" }
+        },
+        "fontWeight": {
+          "relationship": { "property": "font-weight", "part": "label" }
+        },
+        "fontSize": {
+          "relationship": { "property": "font-size", "part": "label" }
         },
         "lineHeight": {
           "relationship": { "property": "line-height", "part": "label" }
