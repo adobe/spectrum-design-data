@@ -1425,9 +1425,28 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     if name == "color-handle" || name == "color-loupe" {
         let opaque = || Value::String("#e0457b".into());
         let clear = || Value::String("#e0457b80".into());
-        let mut cases: Vec<(&str, Vec<&str>, Vec<(&str, Value)>, &str, &str)> = vec![
-            ("color", vec![], vec![("color", opaque())], "light", "desktop"),
-            ("transparent", vec![], vec![("color", clear())], "light", "desktop"),
+        type Case = (
+            &'static str,
+            Vec<&'static str>,
+            Vec<(&'static str, Value)>,
+            &'static str,
+            &'static str,
+        );
+        let mut cases: Vec<Case> = vec![
+            (
+                "color",
+                vec![],
+                vec![("color", opaque())],
+                "light",
+                "desktop",
+            ),
+            (
+                "transparent",
+                vec![],
+                vec![("color", clear())],
+                "light",
+                "desktop",
+            ),
             (
                 "transparent-dark-mobile",
                 vec![],
