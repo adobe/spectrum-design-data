@@ -186,7 +186,30 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             m
         };
         out.push(("three-items", req(vec![], with(&[]), "light", "desktop")));
+        for size in ["s", "l", "xl"] {
+            let mut r = req(
+                vec![],
+                with(&[("density", "compact".into())]),
+                "light",
+                "desktop",
+            );
+            if name == "segmented-control" {
+                r.options.remove("density");
+            }
+            r.size = size.into();
+            out.push((
+                match size {
+                    "s" => "three-items-size-s",
+                    "l" => "three-items-size-l",
+                    _ => "three-items-size-xl",
+                },
+                r,
+            ));
+        }
         if name == "tabs" {
+            let mut r = req(vec![], with(&[]), "light", "mobile");
+            r.size = "xl".into();
+            out.push(("three-items-size-xl-regular-mobile", r));
             out.push((
                 "three-items-compact",
                 req(
