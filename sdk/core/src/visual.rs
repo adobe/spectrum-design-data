@@ -5647,7 +5647,7 @@ fn place_axis(
             None => 0.0,
         };
         let (a, b) = (from.min(f), from.max(f));
-        return (b > a).then(|| (parent.0 + a * parent.1, (b - a) * parent.1));
+        return (b > a).then_some((parent.0 + a * parent.1, (b - a) * parent.1));
     }
     let c = parent.0 + f * parent.1;
     let start = match align {
