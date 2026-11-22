@@ -50,6 +50,39 @@
                 "size": "m"
               }
             }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 500
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 500
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 500
+            }
           }
         ],
         "fill": [
@@ -103,6 +136,42 @@
                 "size": "m"
               }
             }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "xl"
+            }
           }
         ],
         "paddingInlineEnd": [
@@ -119,6 +188,42 @@
               "options": {
                 "size": "m"
               }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "xl"
             }
           }
         ],
@@ -137,6 +242,78 @@
                 "size": "m"
               }
             }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "xl"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "xl"
+            }
           }
         ],
         "justify": {
@@ -152,6 +329,39 @@
               "options": {
                 "size": "m"
               }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 500
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 500
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 500
             }
           }
         ],
@@ -213,6 +423,42 @@
                 "to": "label"
               }
             }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "xl"
+            }
           }
         ],
         "paddingBlockEnd": [
@@ -229,6 +475,42 @@
                 "from": "label",
                 "to": "bottom-edge"
               }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "xl"
             }
           }
         ]
@@ -254,6 +536,42 @@
                 "size": "m"
               }
             }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "xl"
+            }
           }
         ],
         "height": [
@@ -266,6 +584,42 @@
               "options": {
                 "size": "m"
               }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "xl"
             }
           }
         ],
@@ -313,6 +667,36 @@
               "options": {
                 "size": "m"
               }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "property": "font-size-75"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "property": "font-size-200"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "property": "font-size-300"
             }
           }
         ],

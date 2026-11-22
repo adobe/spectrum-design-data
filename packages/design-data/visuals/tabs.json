@@ -56,6 +56,19 @@
               }
             }
           }
+        ],
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "spacing",
+              "part": "selection-indicator"
+            }
+          }
         ]
       }
     },
@@ -74,7 +87,21 @@
             "property": "corner-radius",
             "part": "tab-item"
           }
-        }
+        },
+        "height": [
+          {
+            "when": {
+              "options": {
+                "density": "compact"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "height",
+              "size": "{size}"
+            }
+          }
+        ]
       }
     },
     "icon": {
@@ -97,6 +124,42 @@
                 "size": "m"
               }
             }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "xl"
+            }
           }
         ],
         "height": [
@@ -109,6 +172,42 @@
               "options": {
                 "size": "m"
               }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "xl"
             }
           }
         ],
@@ -253,10 +352,51 @@
                 "size": "m"
               }
             }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "xl"
+            }
           }
         ],
         "paddingBlockEnd": [
           {
+            "when": {
+              "options": {
+                "density": "regular"
+              }
+            },
             "relationship": {
               "property": "space-between",
               "part": "tab-item",
@@ -264,11 +404,61 @@
                 "from": "label",
                 "to": "bottom-edge"
               }
-            },
+            }
+          },
+          {
             "when": {
               "options": {
+                "density": "compact",
                 "size": "m"
               }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "tab-item",
+              "between": {
+                "from": "label",
+                "to": "bottom-edge"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "compact",
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "compact",
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "density": "compact",
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "xl"
             }
           }
         ],
@@ -286,6 +476,42 @@
               "options": {
                 "size": "m"
               }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "xl"
             }
           }
         ]
