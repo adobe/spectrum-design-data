@@ -207,6 +207,14 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
         if name == "tabs" {
+            for (size, id) in [
+                ("s", "three-items-size-s-regular"),
+                ("l", "three-items-size-l-regular"),
+            ] {
+                let mut r = req(vec![], with(&[]), "light", "desktop");
+                r.size = size.into();
+                out.push((id, r));
+            }
             let mut r = req(vec![], with(&[]), "light", "mobile");
             r.size = "xl".into();
             out.push(("three-items-size-xl-regular-mobile", r));
