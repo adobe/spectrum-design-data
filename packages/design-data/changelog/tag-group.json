@@ -145,6 +145,25 @@
           "metadata": {"count":2,"fields":["anatomyReview.status","contextQualifier"]}
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/action-button","name":"action-button","fields":[{"path":"component","after":"action-button"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/field-label","name":"field-label","fields":[{"path":"component","after":"field-label"}]},
+            {"id":"5d6bd008-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/help-text","name":"help-text","fields":[{"path":"component","after":"help-text"}]}
+          ]
+        }
+      ]
     }
   ]
 }

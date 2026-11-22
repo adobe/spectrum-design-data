@@ -332,6 +332,47 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "fcdce330770f35d5b768566b55219d17ee2d6940",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2036,"title":"feat(design-data): move status-light, toast and alert-banner recipes to typeStyle","url":"https://github.com/adobe/spectrum-design-data/pull/2036"},
+          "entries": [
+            {"id":"fcdce330-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Value"],"scope":{"property":"font-family","options":null},"record":"c3677542-e73a-5eb8-95ab-98973bc4c0a3","name":"font-family","fields":[],"before":"45d43d4e-a4e4-4c5f-94ec-644a81300eb0"},
+            {"id":"fcdce330-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Value"],"scope":{"property":"font-weight","options":null},"record":"c063a1e1-a223-5d41-b684-35e45723ea7c","name":"font-weight","fields":[],"before":"02a94ddf-1007-4c86-8863-905874e40f95"},
+            {"id":"fcdce330-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Value"],"scope":{"property":"font-style","options":null},"record":"27fe83d6-e215-59cf-ad7a-c29b21de6893","name":"font-style","fields":[],"before":"25668698-bf78-46f4-bc6c-8fea068ddb34"},
+            {"id":"fcdce330-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Value"],"scope":{"property":"font-size","options":null},"record":"1479b02e-3e93-5130-99c7-949a3a8f7fda","name":"font-size","fields":[],"before":"938e2d24-1e90-48f0-a596-595a69103707"},
+            {"id":"fcdce330-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Value"],"scope":{"property":"font-size","options":null},"record":"f6ddc2cd-481d-58e4-a71c-d995e68c44c1","name":"font-size","fields":[],"before":"2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"},
+            {"id":"fcdce330-5","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"toast/visual/parts/text","name":"text","fields":[{"path":"props.fontFamily.relationship.part","before":"text"},{"path":"props.fontFamily.relationship.property","before":"font-family"},{"path":"props.fontSize.relationship.part","before":"text"},{"path":"props.fontSize.relationship.property","before":"font-size"},{"path":"props.fontWeight.relationship.part","before":"text"},{"path":"props.fontWeight.relationship.property","before":"font-weight"},{"path":"props.typeStyle.relationship.part","after":"text"},{"path":"props.typeStyle.relationship.property","after":"type-style"}]}
+          ]
+        },
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"toast/anatomy/button","name":"button","fields":[{"path":"component","after":"button"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"toast/anatomy/close-button","name":"close-button","fields":[{"path":"component","after":"close-button"}]},
+            {"id":"5d6bd008-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"toast/visual/parts/close-button","name":"close-button","fields":[{"path":"component","before":"close-button"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"toast/anatomy/icon","name":"icon","fields":[{"path":"presentWhen.options.variant","after":"negative"}]},
+            {"id":"1951adf7-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"toast/visual/parts/icon","name":"icon","fields":[{"path":"visibleWhen.options.variant","before":"negative"}]}
+          ]
+        }
+      ]
     }
   ]
 }

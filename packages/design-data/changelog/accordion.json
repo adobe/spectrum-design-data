@@ -625,6 +625,68 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "5.0.0",
+      "bump": "major",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/action-button","name":"action-button","fields":[{"path":"component","after":"action-button"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/container-divider","name":"container-divider","fields":[{"path":"component","after":"divider"}]},
+            {"id":"5d6bd008-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/divider","name":"divider","fields":[{"path":"component","after":"divider"}]},
+            {"id":"5d6bd008-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/switch","name":"switch","fields":[{"path":"component","after":"switch"}]},
+            {"id":"5d6bd008-4","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/action-button","name":"action-button","fields":[{"path":"component","before":"action-button"}]},
+            {"id":"5d6bd008-5","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/container-divider","name":"container-divider","fields":[{"path":"component","before":"divider"}]},
+            {"id":"5d6bd008-6","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/divider","name":"divider","fields":[{"path":"component","before":"divider"}]},
+            {"id":"5d6bd008-7","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/switch","name":"switch","fields":[{"path":"component","before":"switch"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/action-button","name":"action-button","fields":[{"path":"presentWhen.options.hasActionButton","after":true}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/container-divider","name":"container-divider","fields":[{"path":"presentWhen.options.isQuiet","after":false}]},
+            {"id":"1951adf7-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/content","name":"content","fields":[{"path":"presentWhen.options.content","after":true},{"path":"presentWhen.options.isOpen","after":true}]},
+            {"id":"1951adf7-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/divider","name":"divider","fields":[{"path":"presentWhen.options.isQuiet","after":false}]},
+            {"id":"1951adf7-4","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]},
+            {"id":"1951adf7-5","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/switch","name":"switch","fields":[{"path":"presentWhen.options.hasSwitch","after":true}]},
+            {"id":"1951adf7-6","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/action-button","name":"action-button","fields":[{"path":"visibleWhen.options.hasActionButton","before":true}]},
+            {"id":"1951adf7-7","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/container-divider","name":"container-divider","fields":[{"path":"visibleWhen.options.isQuiet","before":false}]},
+            {"id":"1951adf7-8","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/content","name":"content","fields":[{"path":"visibleWhen.options.content","before":true},{"path":"visibleWhen.options.isOpen","before":true}]},
+            {"id":"1951adf7-9","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/divider","name":"divider","fields":[{"path":"visibleWhen.options.isQuiet","before":false}]},
+            {"id":"1951adf7-10","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/switch","name":"switch","fields":[{"path":"visibleWhen.options.hasSwitch","before":true}]}
+          ]
+        },
+        {
+          "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2045,"title":"feat(design-data)!: slot-fill part kind; accordion drops hasActionButton and hasSwitch","url":"https://github.com/adobe/spectrum-design-data/pull/2045"},
+          "entries": [
+            {"id":"84a3a3a2-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (section title to action area)"],"scope":{"property":"spacing","options":null},"record":"4ada493a-03dd-5d00-89d8-d416ea200e28","name":"spacing","fields":[{"path":"scope.between.from","after":"title"},{"path":"scope.between.to","after":"actions"},{"path":"scope.part","before":"header"}]},
+            {"id":"84a3a3a2-1","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"accordion/options/hasActionButton","name":"hasActionButton","fields":[],"before":{"type":"boolean","default":false,"description":"Whether the rendered accordion item shows an icon-only action button on its trailing edge. Per-item in a data-driven accordion is items[].hasActionButton."}},
+            {"id":"84a3a3a2-2","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"accordion/options/hasSwitch","name":"hasSwitch","fields":[],"before":{"type":"boolean","default":false,"description":"Whether the rendered accordion item shows a switch on its trailing edge. Per-item in a data-driven accordion is items[].hasSwitch."}},
+            {"id":"84a3a3a2-3","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/options/items","name":"items","fields":[{"path":"items.properties.hasActionButton.default","before":false},{"path":"items.properties.hasActionButton.type","before":"boolean"},{"path":"items.properties.hasSwitch.default","before":false},{"path":"items.properties.hasSwitch.type","before":"boolean"}]},
+            {"id":"84a3a3a2-4","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"accordion/options/items","name":"items","fields":[{"path":"items.properties.hasActionButton.description","before":"If true, the accordion item includes an action button."},{"path":"items.properties.hasSwitch.description","before":"If true, the accordion item includes a switch."}]},
+            {"id":"84a3a3a2-5","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"accordion/anatomy/action-button","name":"action-button","fields":[],"before":{"name":"action-button","presentWhen":{"options":{"hasActionButton":true}},"component":"action-button","description":"Icon-only action button (the action-button component) in the actions. Shown when hasActionButton is on."}},
+            {"id":"84a3a3a2-6","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"accordion/anatomy/switch","name":"switch","fields":[],"before":{"name":"switch","presentWhen":{"options":{"hasSwitch":true}},"component":"switch","description":"Switch (the switch component) in the actions. Shown when hasSwitch is on."}},
+            {"id":"84a3a3a2-7","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/actions","name":"actions","fields":[{"path":"contains","before":["action-button","switch"]}]},
+            {"id":"84a3a3a2-8","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"accordion/anatomy/actions","name":"actions","fields":[{"path":"description","before":"Row on the trailing edge of the header that holds the optional action button and switch. Absent when neither is shown.","after":"Row on the trailing edge of the header that holds the direct actions, the components a request puts in the actions slot. Absent when the slot has no fills."}]},
+            {"id":"84a3a3a2-9","kind":"visual-part","change":"removed","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/action-button","name":"action-button","fields":[]},
+            {"id":"84a3a3a2-10","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/actions","name":"actions","fields":[{"path":"children","before":["action-button","switch"]},{"path":"kind","before":"box","after":"slot"},{"path":"sizeMap.l","after":"l"},{"path":"sizeMap.m","after":"m"},{"path":"sizeMap.s","after":"s"},{"path":"sizeMap.xl","after":"xl"},{"path":"with.hasHoldIcon","after":true},{"path":"with.hideLabel","after":true},{"path":"with.isDisabled.option","after":"isDisabled"}]},
+            {"id":"84a3a3a2-11","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/container","name":"container","fields":[{"path":"repeat.with.hasActionButton","before":"hasActionButton"},{"path":"repeat.with.hasSwitch","before":"hasSwitch"}]},
+            {"id":"84a3a3a2-12","kind":"visual-part","change":"removed","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/parts/switch","name":"switch","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

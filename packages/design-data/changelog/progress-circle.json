@@ -154,6 +154,26 @@
           "metadata": {"count":6,"fields":["scope.options.scale","scope.options.size"]}
         }
       ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "b836045680bb838600769ba506e72bbdbb529c53",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2040,"title":"feat(design-data): migrate clear-button, close-button, link and 3 more to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/2040"},
+          "entries": [
+            {"id":"b8360456-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":null},"record":"74b68a93-8600-51cf-89d7-b5fab8fbeb6e","name":"content-color","fields":[{"path":"scope.part","after":"fill"}]},
+            {"id":"b8360456-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":{"staticColor":"white"}},"record":"a256c2a6-6d0f-51ed-9af8-00d03f163c32","name":"content-color[staticColor=white]","fields":[{"path":"scope.part","after":"fill"}]},
+            {"id":"b8360456-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":{"staticColor":"black"}},"record":"8fec7f0f-3acf-559d-bb52-881d8d5d65a9","name":"content-color[staticColor=black]","fields":[{"path":"scope.part","after":"fill"}]}
+          ],
+          "metadata": {"count":22,"fields":["context","contextRole","scope.part"]}
+        }
+      ]
     }
   ]
 }

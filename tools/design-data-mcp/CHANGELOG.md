@@ -1,5 +1,30 @@
 # @adobe/design-data-mcp
 
+## 1.17.0
+
+### Minor Changes
+
+- [#2037](https://github.com/adobe/spectrum-design-data/pull/2037) [`5d6bd00`](https://github.com/adobe/spectrum-design-data/commit/5d6bd008a946579c54356ac519cfb220dd07b3de) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy parts can be another component; recipes read that link. Part of the 7.0.0 bundle.
+  - **anatomy-format.md**: new "What is a part" rule replaces "What is not anatomy"; new `component`
+    field on a part, checked by SPEC-106.
+  - **component-format.md**: new `subcomponent: boolean`; hosts are derived ("Used in"), not stored.
+  - **component-visuals.md and schemas**: BREAKING. A recipe `kind: component` part drops its
+    `component` and reads the host's anatomy part of the same key (SPEC-089 reports a missing link).
+  - **@adobe/spectrum-design-data**: BREAKING data shape. `component` on 95 anatomy parts in 46
+    components, removed from 21 recipe parts in 12 recipes, 5 components marked `subcomponent`.
+  - **@adobe/design-data-wasm**: the engine reads the nested component from anatomy; spec sheets
+    and the site list gain `subcomponent` and `usedIn`. CLI is 0.62.2.
+  - **@adobe/design-data, @adobe/design-data-mcp**: component search results gain `subcomponent`
+    and `usedIn`.
+  - Dataset `requires.cli` is raised to 0.62.2: older CLIs cannot read a part `component`.
+
+### Patch Changes
+
+- Updated dependencies [[`5d6bd00`](https://github.com/adobe/spectrum-design-data/commit/5d6bd008a946579c54356ac519cfb220dd07b3de), [`2ee32ce`](https://github.com/adobe/spectrum-design-data/commit/2ee32ce2e9c4de2a1542b0deb60ceb5c7de927c9), [`b836045`](https://github.com/adobe/spectrum-design-data/commit/b836045680bb838600769ba506e72bbdbb529c53), [`d6236ca`](https://github.com/adobe/spectrum-design-data/commit/d6236ca9bf616fa4a9933517061f0d3db386a895), [`55328cc`](https://github.com/adobe/spectrum-design-data/commit/55328ccb343be47b437ec1d56b40d76cfc9f19f1), [`1951adf`](https://github.com/adobe/spectrum-design-data/commit/1951adf71da6c4b0d9e5419d91134dfe522e1b69), [`f563f96`](https://github.com/adobe/spectrum-design-data/commit/f563f96ff5aef38caa8c892263495bd6efbd76c2), [`f563f96`](https://github.com/adobe/spectrum-design-data/commit/f563f96ff5aef38caa8c892263495bd6efbd76c2), [`84a3a3a`](https://github.com/adobe/spectrum-design-data/commit/84a3a3a25b832fed1b94bd2edae8141c1013dd49), [`c37b680`](https://github.com/adobe/spectrum-design-data/commit/c37b6809884cac367c148b2f1f9e3d72c81ad407), [`c37b680`](https://github.com/adobe/spectrum-design-data/commit/c37b6809884cac367c148b2f1f9e3d72c81ad407), [`fcdce33`](https://github.com/adobe/spectrum-design-data/commit/fcdce330770f35d5b768566b55219d17ee2d6940)]:
+  - @adobe/spectrum-design-data@4.0.0
+  - @adobe/design-data-wasm@0.36.0
+  - @adobe/design-data@3.4.0
+
 ## 1.16.6
 
 ### Patch Changes
