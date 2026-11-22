@@ -104,6 +104,15 @@
       "part": "footer-content",
       "accepts": ["checkbox"],
       "description": "Optional content at the start of the footer, such as a checkbox."
+    },
+    {
+      "name": "button-group",
+      "part": "button-group",
+      "accepts": ["button"],
+      "acceptsOnly": true,
+      "min": 1,
+      "max": 3,
+      "description": "The dialog actions, up to three buttons ordered by ascending importance."
     }
   ],
   "lifecycle": {

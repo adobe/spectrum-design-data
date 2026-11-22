@@ -144,6 +144,17 @@
       }
     ]
   },
+  "slots": [
+    {
+      "name": "button-group",
+      "part": "button-group",
+      "accepts": ["button"],
+      "acceptsOnly": true,
+      "min": 1,
+      "max": 3,
+      "description": "The dialog actions, up to three buttons ordered by ascending importance."
+    }
+  ],
   "anatomy": [
     {
       "name": "container",
@@ -153,7 +164,8 @@
     },
     {
       "name": "icon",
-      "description": "Status icon beside the title, shown for the warning and error variants only."
+      "description": "Status icon beside the title, shown for the warning and error variants only.",
+      "presentWhen": { "options": { "variant": ["warning", "error"] } }
     },
     {
       "name": "title",

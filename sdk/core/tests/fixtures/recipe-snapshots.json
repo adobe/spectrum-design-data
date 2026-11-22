@@ -327,6 +327,13 @@
     "isDismissible=true,variant=\"negative\"": "5794af0126af46a8",
     "isDismissible=true,variant=\"neutral\"": "9169e015d598c589"
   },
+  "alert-dialog": {
+    "variant=\"confirmation\"": "f99c76ac4eb4bc82",
+    "variant=\"destructive\"": "5ba8eda482b6c818",
+    "variant=\"error\"": "783bcd160c4ba73b",
+    "variant=\"information\"": "ea2cc3b486b78d54",
+    "variant=\"warning\"": "a3b0f2f865c8efeb"
+  },
   "avatar": {
     "image=\"gradient image\",isDisabled=false,showStroke=false": "4765aa0cd656d6c0",
     "image=\"gradient image\",isDisabled=false,showStroke=true": "f505010275dd1972",
@@ -1100,6 +1107,9 @@
     "hideTracker=true,isDisabled=true,isSelected=false,orientation=\"vertical\"": "bac670ebb5f7b689",
     "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"horizontal\"": "c44e623c54c98f41",
     "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"vertical\"": "ef3d9c3305cb89b9"
+  },
+  "standard-dialog": {
+    "(defaults)": "f1dfd2146b760ed8"
   },
   "standard-panel": {
     "density=\"compact\",hideCloseButton=false,hideDivider=false,hideDragHandle=false,style=\"primary\",type=\"anchored\"": "bc0169ebea5c5dbf",

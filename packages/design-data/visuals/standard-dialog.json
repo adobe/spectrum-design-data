@@ -1,0 +1,264 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "standard-dialog",
+  "root": "container",
+  "sizeScale": {
+    "s": 100,
+    "m": 200,
+    "l": 300
+  },
+  "notVisual": [
+    "hideImage",
+    "footerContent",
+    "primaryActionLabel",
+    "secondaryActionLabel",
+    "cancelActionLabel"
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["title", "description", "footer-content", "button-group"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "width": {
+          "relationship": {
+            "property": "maximum-width",
+            "part": "container"
+          }
+        },
+        "minWidth": {
+          "relationship": {
+            "property": "minimum-width",
+            "part": "container"
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "between": {
+              "from": "title",
+              "to": "description"
+            }
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
+          }
+        },
+        "shadow": {
+          "shadow": [
+            {
+              "x": {
+                "token": {
+                  "structure": "drop-shadow",
+                  "property": "x",
+                  "variant": "elevated"
+                }
+              },
+              "y": {
+                "token": {
+                  "structure": "drop-shadow",
+                  "property": "y",
+                  "variant": "elevated"
+                }
+              },
+              "blur": {
+                "token": {
+                  "structure": "drop-shadow",
+                  "property": "blur",
+                  "variant": "elevated"
+                }
+              },
+              "color": {
+                "token": {
+                  "structure": "drop-shadow",
+                  "property": "color",
+                  "variant": "elevated"
+                }
+              }
+            }
+          ]
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "padding",
+            "part": "container"
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "padding",
+            "part": "container"
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "padding",
+            "part": "container"
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "padding",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "title": {
+      "kind": "text",
+      "text": {
+        "option": "title"
+      },
+      "props": {
+        "overflow": {
+          "value": "wrap"
+        },
+        "fontStyle": {
+          "relationship": {
+            "property": "font-style",
+            "part": "title"
+          }
+        },
+        "fontSize": [
+          {
+            "when": {
+              "modes": {
+                "scale": "desktop"
+              }
+            },
+            "token": {
+              "property": "font-size-500"
+            }
+          },
+          {
+            "when": {
+              "modes": {
+                "scale": "mobile"
+              }
+            },
+            "token": {
+              "property": "font-size-400"
+            }
+          }
+        ],
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "title"
+          }
+        }
+      }
+    },
+    "description": {
+      "kind": "text",
+      "text": {
+        "option": "description"
+      },
+      "props": {
+        "overflow": {
+          "value": "wrap"
+        },
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "description"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "description"
+          }
+        },
+        "fontStyle": {
+          "relationship": {
+            "property": "font-style",
+            "part": "description"
+          }
+        },
+        "fontSize": [
+          {
+            "when": {
+              "modes": {
+                "scale": "desktop"
+              }
+            },
+            "token": {
+              "property": "font-size-200"
+            }
+          },
+          {
+            "when": {
+              "modes": {
+                "scale": "mobile"
+              }
+            },
+            "token": {
+              "property": "font-size-100"
+            }
+          }
+        ],
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "description"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "description"
+          }
+        }
+      }
+    },
+    "footer-content": {
+      "kind": "slot",
+      "sizeMap": {
+        "s": "m",
+        "m": "m",
+        "l": "m"
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        }
+      }
+    },
+    "button-group": {
+      "kind": "slot",
+      "sizeMap": {
+        "s": "m",
+        "m": "m",
+        "l": "m"
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "gap": {
+          "token": {
+            "property": "spacing",
+            "scaleIndex": 200
+          }
+        }
+      }
+    }
+  }
+}
