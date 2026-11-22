@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
+"@adobe/design-data-wasm": patch
 ---
 
 Bind search-field width and text-area field height through relationships for every size.
