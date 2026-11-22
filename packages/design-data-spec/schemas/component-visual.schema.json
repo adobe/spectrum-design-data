@@ -166,7 +166,7 @@
         },
         "with": {
           "type": "object",
-          "description": "For a component part: options of the nested component, each a literal or {\"option\": name} (read from the host's request). Not `options`: that key means a condition elsewhere in a recipe.",
+          "description": "For a component part: options of the nested component, each a literal, {\"option\": name} (read from the host's request), or {\"option\": name, \"map\": {...}} (the host's value, as a string, picked through the map). Not `options`: that key means a condition elsewhere in a recipe.",
           "additionalProperties": {
             "oneOf": [
               { "type": ["string", "boolean", "number"] },
@@ -177,6 +177,14 @@
                   "option": {
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+                  },
+                  "map": {
+                    "type": "object",
+                    "minProperties": 1,
+                    "description": "Host option value (as a string: \"true\"/\"false\" for a boolean) to the nested option's value.",
+                    "additionalProperties": {
+                      "type": ["string", "boolean", "number"]
+                    }
                   }
                 },
                 "additionalProperties": false

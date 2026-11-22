@@ -12,7 +12,8 @@
 //!
 //! A recipe part of kind `component` embeds another component's recipe. The component comes
 //! from the `component` of the host's anatomy part of the same name. It MUST be declared and have a recipe, every `with` option MUST be an option of it with a
-//! valid value (a host-option binding MUST name an option of the host), `sizeMap` MUST cover
+//! valid value (a host-option binding MUST name an option of the host; a `{option, map}`
+//! entry MUST key only values of the host option and map to valid nested values), `sizeMap` MUST cover
 //! every size of the host and map into the nested recipe's `sizeScale`, the nesting MUST NOT
 //! cycle or go deeper than `MAX_NEST_DEPTH`, and the part MUST sit where the solver lays it
 //! out: in the root's flow or in a row box.
@@ -66,6 +67,42 @@ fn nesting_problem(graph: &TokenGraph, name: &str, stack: &mut Vec<String>) -> O
     found
 }
 
+/// A `{option, map}` entry: every key is a value of the host option (as a string), every
+/// mapped value is valid for the nested option.
+fn check_map(map: &Value, host_opt: &Value, nested_opt: &Value, name: &str) -> Option<String> {
+    let Some(map) = map.as_object() else {
+        return Some(format!("the `map` of '{name}' must be an object"));
+    };
+    let host_values: Option<Vec<String>> = match host_opt.get("type").and_then(Value::as_str) {
+        Some("boolean") => Some(vec!["true".into(), "false".into()]),
+        _ => option_values(host_opt).map(|v| {
+            v.iter()
+                .map(|x| x.as_str().map_or_else(|| x.to_string(), str::to_string))
+                .collect()
+        }),
+    };
+    let allowed = option_values(nested_opt);
+    let ty = nested_opt.get("type").and_then(Value::as_str);
+    for (key, mapped) in map {
+        if host_values.as_ref().is_some_and(|v| !v.contains(key)) {
+            return Some(format!("'{key}' is not a value of the host option"));
+        }
+        let ok = match (ty, &allowed) {
+            (_, Some(values)) => values.contains(mapped),
+            (Some("boolean"), None) => mapped.is_boolean(),
+            (Some("string"), None) => mapped.is_string(),
+            (Some("number" | "integer"), None) => mapped.is_number(),
+            _ => true,
+        };
+        if !ok {
+            return Some(format!(
+                "{mapped} (mapped from '{key}') is not a valid value of '{name}'"
+            ));
+        }
+    }
+    None
+}
+
 fn check_option(
     graph: &TokenGraph,
     host: &VisualRecord,
@@ -82,6 +119,9 @@ fn check_option(
         let host_opt = component_of(graph, host)?
             .raw
             .pointer(&format!("/options/{h}"));
+        if let (Some(map), Some(ho)) = (value.get("map"), host_opt) {
+            return check_map(map, ho, opt, name);
+        }
         return match host_opt {
             None => Some(format!("'{h}' is not an option of '{}'", host.component)),
             Some(ho) if ho.get("type").and_then(Value::as_str) != ty => Some(format!(
@@ -345,6 +385,31 @@ mod tests {
         assert!(m[0].contains("different types"), "{m:?}");
         let m = run(&graph(
             parts(nested(json!({"isQuiet": {"option": "missing"}}), ok_map())),
+            vec![],
+        ));
+        assert!(m[0].contains("not an option of 'host'"), "{m:?}");
+    }
+
+    #[test]
+    fn a_with_map_checks_host_values_and_nested_values() {
+        let map = |m: Value| nested(json!({"kind": {"option": "isOpen", "map": m}}), ok_map());
+        assert!(run(&graph(
+            parts(map(json!({"true": "a", "false": "b"}))),
+            vec![]
+        ))
+        .is_empty());
+        let m = run(&graph(parts(map(json!({"yes": "a"}))), vec![]));
+        assert!(
+            m[0].contains("'yes' is not a value of the host option"),
+            "{m:?}"
+        );
+        let m = run(&graph(parts(map(json!({"true": "z"}))), vec![]));
+        assert!(m[0].contains("not a valid value of 'kind'"), "{m:?}");
+        let m = run(&graph(
+            parts(nested(
+                json!({"kind": {"option": "missing", "map": {"true": "a"}}}),
+                ok_map(),
+            )),
             vec![],
         ));
         assert!(m[0].contains("not an option of 'host'"), "{m:?}");
