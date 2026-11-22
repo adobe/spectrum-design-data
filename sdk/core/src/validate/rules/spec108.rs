@@ -339,6 +339,13 @@ mod tests {
     }
 
     #[test]
+    fn a_slot_part_directly_under_the_root_is_accepted() {
+        let mut g = graph(good_slot(), good_part(), json!({}));
+        g.visuals[0].raw["parts"]["r"]["children"] = json!(["row"]);
+        assert!(run(&g).is_empty(), "{:?}", run(&g));
+    }
+
+    #[test]
     fn a_slot_part_outside_a_row_box_errors() {
         let m = run(&graph(good_slot(), good_part(), json!({})));
         assert!(m[0].contains("must sit in the root or a row box"), "{m:?}");

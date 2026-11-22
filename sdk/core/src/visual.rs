@@ -9214,6 +9214,36 @@ mod tests {
     }
 
     #[test]
+    fn a_root_slot_sizes_itself_and_the_root() {
+        let run = |slot: Value, f: HashMap<String, Vec<SlotFill>>| {
+            let mut root = serde_json::json!({ "kind": "box", "children": ["sib", "actions"],
+                "props": lit_props(&[("gap", 10.0), ("paddingBlockStart", 8.0),
+                    ("paddingBlockEnd", 8.0)]) });
+            root["props"]["direction"] = serde_json::json!({ "value": "column" });
+            let r = host(serde_json::json!({ "r": root, "actions": slot,
+                "sib": { "kind": "box", "props": lit_props(&[("width", 50.0), ("height", 20.0)]) } }));
+            slot_scene(&r, f)
+        };
+        let mut s = actions_slot(serde_json::json!({}));
+        s["props"]["direction"] = serde_json::json!({ "value": "column" });
+        let sc = run(
+            s,
+            fills(&[("action-button", Value::Null), ("switch", Value::Null)]),
+        );
+        let (root, slot) = (part(&sc, "r").unwrap(), part(&sc, "actions").unwrap());
+        assert_eq!((slot.y - root.y, slot.w, slot.h), (38.0, 32.0, 68.0));
+        assert_eq!(root.h, 8.0 + 20.0 + 10.0 + 68.0 + 8.0);
+        let mut e = actions_slot(serde_json::json!({
+            "placeholder": { "width": 20, "height": 10, "reason": "x" }
+        }));
+        e["props"]["direction"] = serde_json::json!({ "value": "column" });
+        let sc = run(e, HashMap::new());
+        let (root, slot) = (part(&sc, "r").unwrap(), part(&sc, "actions").unwrap());
+        assert_eq!((slot.y - root.y, slot.w, slot.h), (38.0, 20.0, 10.0));
+        assert_eq!(root.h, 8.0 + 20.0 + 10.0 + 10.0 + 8.0);
+    }
+
+    #[test]
     fn a_slot_directly_under_the_root_flows_in_a_row_or_column_root() {
         let run = |root_dir: &str, slot_dir: &str| {
             let mut s = actions_slot(serde_json::json!({}));
