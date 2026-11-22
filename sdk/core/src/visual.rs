@@ -5590,6 +5590,49 @@ mod tests {
     }
 
     #[test]
+    fn an_item_position_pin_picks_the_copys_record_and_beats_an_unpinned_one() {
+        let list = serde_json::json!([
+            { "value": "base", "token": "base" },
+            { "value": "first", "token": "first", "options": { "itemPosition": "first" } },
+            { "value": "last", "token": "last", "options": { "itemPosition": "last" } },
+        ]);
+        let pick = |position: Option<&'static str>| {
+            let r = req(&[]);
+            let defaults = HashMap::new();
+            let mut cx = Ctx {
+                req: &r,
+                option_defaults: &defaults,
+                position,
+                diags: Vec::new(),
+            };
+            cx.resolve_candidates(&serde_json::json!({ "candidates": list }))
+                .map(|r| r.token)
+                .unwrap_or_default()
+        };
+        assert_eq!(pick(Some("first")), "first");
+        assert_eq!(pick(Some("last")), "last");
+        assert_eq!(pick(Some("only")), "base");
+        assert_eq!(pick(Some("middle")), "base");
+        assert_eq!(pick(None), "base");
+    }
+
+    #[test]
+    fn scope_item_position_compiles_to_a_pin() {
+        let scope = serde_json::json!({ "itemPosition": "last" });
+        let v = scope_variants(Some(&scope), &[]);
+        assert_eq!(
+            v,
+            [(Some(serde_json::json!({ "itemPosition": "last" })), vec![])]
+        );
+        let scope = serde_json::json!({ "itemPosition": "first", "options": { "size": "m" } });
+        let v = scope_variants(Some(&scope), &["size"]);
+        assert_eq!(
+            v[0].0,
+            Some(serde_json::json!({ "size": "m", "itemPosition": "first" }))
+        );
+    }
+
+    #[test]
     fn tied_candidates_with_different_tokens_report_a_diagnostic() {
         let diags = |tokens: &[&str]| {
             let list: Vec<Value> = tokens
