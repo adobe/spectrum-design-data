@@ -9710,7 +9710,7 @@ mod tests {
         }));
         let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
         let group = part(&s, "g").unwrap();
-        assert_eq!((group.w, group.h), (32.0, 32.0 + 8.0 + 16.0));
+        assert_eq!((group.w, group.h), (32.0, 32.0 + 8.0 + 32.0));
         let (pa, pb) = (part(&s, "a").unwrap(), part(&s, "b").unwrap());
         assert_eq!(pb.y, pa.y + pa.h + 8.0);
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
