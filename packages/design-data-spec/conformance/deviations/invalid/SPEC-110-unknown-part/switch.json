@@ -1,0 +1,12 @@
+{
+  "component": "switch",
+  "deviations": [
+    {
+      "id": "no-such-part",
+      "part": "no-such-part",
+      "property": "stroke",
+      "status": "accepted",
+      "reason": "The part does not exist in the switch anatomy."
+    }
+  ]
+}

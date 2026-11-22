@@ -1,0 +1,9 @@
+{
+  "errors": [
+    {
+      "rule_id": "SPEC-109",
+      "severity": "error",
+      "message_pattern": "duplicate"
+    }
+  ]
+}

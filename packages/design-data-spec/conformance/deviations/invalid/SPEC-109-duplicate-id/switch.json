@@ -1,0 +1,19 @@
+{
+  "component": "switch",
+  "deviations": [
+    {
+      "id": "track-focus-stroke",
+      "part": "track",
+      "property": "stroke",
+      "status": "accepted",
+      "reason": "No focus-visible stroke API."
+    },
+    {
+      "id": "track-focus-stroke",
+      "part": "handle",
+      "property": "fill",
+      "status": "planned",
+      "reason": "No focus-visible fill API."
+    }
+  ]
+}

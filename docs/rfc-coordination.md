@@ -71,6 +71,7 @@ export path; the Phase B foundation-corpus write-path redirect that gated this h
 | [015 Single visual engine](proposals/015-single-visual-engine.md)                         | Accepted 2026-11-07                                                                                      |
 | [016 Collections and slots](proposals/016-collections-and-slots.md)                       | Collections built; slots are RFC [#1801](https://github.com/adobe/spectrum-design-data/discussions/1801) |
 | [018 Structured relationship identity](proposals/018-structured-relationship-identity.md) | Draft; spike on switch and checkbox                                                                      |
+| [019 Platform deviations](proposals/019-platform-deviations.md)                           | Draft; spec and schema only (issue [#1746](https://github.com/adobe/spectrum-design-data/issues/1746))   |
 
 ## How to use this file
 
