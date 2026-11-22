@@ -21,20 +21,20 @@
           "relationship": {
             "property": "color",
             "part": "light-tile",
-            "context": "Square"
+            "attribute": "background"
           }
         },
         "patternFill": {
           "relationship": {
             "property": "color",
             "part": "dark-tile",
-            "context": "Square"
+            "attribute": "background"
           }
         },
         "patternSize": {
           "relationship": {
             "property": "size",
-            "context": "Square size"
+            "part": "square"
           }
         }
       }

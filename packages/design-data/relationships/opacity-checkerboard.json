@@ -47,6 +47,7 @@
     "scope": {
       "component": "opacity-checkerboard",
       "part": "light-tile",
+      "attribute": "background",
       "property": "color"
     },
     "context": "Square",
@@ -57,6 +58,7 @@
     "scope": {
       "component": "opacity-checkerboard",
       "part": "dark-tile",
+      "attribute": "background",
       "property": "color"
     },
     "context": "Square",
@@ -67,6 +69,7 @@
     "scope": {
       "component": "opacity-checkerboard",
       "part": "dark-tile",
+      "attribute": "background",
       "property": "color"
     },
     "context": "Square",
@@ -77,6 +80,7 @@
     "scope": {
       "component": "opacity-checkerboard",
       "part": "dark-tile",
+      "attribute": "background",
       "property": "color"
     },
     "context": "Square",
@@ -92,7 +96,6 @@
         "colorScheme": "light"
       }
     },
-    "context": "Square",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
     "uuid": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761",
@@ -109,7 +112,6 @@
         "colorScheme": "dark"
       }
     },
-    "context": "Square",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
     "uuid": "f783b8cb-d31f-46c2-b550-990639752510",
@@ -126,7 +128,6 @@
         "colorScheme": "wireframe"
       }
     },
-    "context": "Square",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
     "uuid": "35fcf7b1-7140-4522-8410-48547aaf6fd6",
@@ -140,7 +141,6 @@
       "part": "light-tile",
       "property": "color"
     },
-    "context": "Square",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
     "uuid": "c7e50676-3f61-49c3-a35f-2532fdb02360",
