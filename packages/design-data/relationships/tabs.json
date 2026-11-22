@@ -293,7 +293,10 @@
     "scope": {
       "component": "tabs",
       "part": "selection-indicator",
-      "property": "spacing"
+      "property": "spacing",
+      "options": {
+        "orientation": "vertical"
+      }
     },
     "context": "Spacing",
     "contextRole": ["spacing"],
