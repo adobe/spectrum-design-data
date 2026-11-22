@@ -609,8 +609,8 @@
     "hasFill=true,isDisabled=true": "9e3ceb7e2e38acf5"
   },
   "color-loupe": {
-    "hasFill=false": "32bff65cd9b3d739",
-    "hasFill=true": "f518b729069eb365"
+    "hasFill=false": "65e597e09b80c18f",
+    "hasFill=true": "409ad9501df9ebf7"
   },
   "combo-box": {
     "isDisabled=false,isError=false,isRequired=false,necessityIndicator=\"icon\"": "c0fff652c5565a06",

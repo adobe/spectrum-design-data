@@ -11,6 +11,8 @@ Color handle and color loupe: first visual recipes.
 - Sizes, colors and border widths come from the relationships. The border width records of both
   components now carry `attribute: border`, like the swatch, so the outer and inner position pins
   select the right width.
+- The loupe binds its white border and inner border by token name because its records still alias
+  palette tokens deprecated in 15.6.0.
 - Not drawn yet: the loupe above the handle (`isOpen`) and its offset, the teardrop shape of the
   loupe (drawn as a rounded box), the loupe drop shadow, the handle inner border over the fill,
   the handle drop shadow.

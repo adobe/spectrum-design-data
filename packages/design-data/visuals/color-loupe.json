@@ -31,11 +31,10 @@
           "relativeTo": "height"
         },
         "stroke": {
-          "relationship": {
+          "token": {
             "property": "color",
-            "attribute": "border",
-            "part": "container",
-            "position": "outer"
+            "colorFamily": "transparent-static-white",
+            "scaleIndex": 1000
           }
         },
         "strokeWidth": {
@@ -49,11 +48,10 @@
           "value": true
         },
         "innerStroke": {
-          "relationship": {
+          "token": {
             "property": "color",
-            "attribute": "border",
-            "part": "fill",
-            "position": "inner"
+            "colorFamily": "transparent-static-black",
+            "scaleIndex": 200
           }
         },
         "innerStrokeWidth": {
