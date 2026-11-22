@@ -10,7 +10,7 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "0d252df3-59fc-422e-8f47-d4c894660eb9",
+    "$ref": "8c4f32d5-746f-4dce-aca3-5e657a03afda",
     "uuid": "4de101d7-6a1d-5385-a436-b072a8df2006"
   },
   {
@@ -24,7 +24,7 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "5945e9fe-311a-4d2c-8052-ca4eae4c7c63",
+    "$ref": "d9e04bc9-d510-4bfb-8193-3269f0ed4e7c",
     "uuid": "cdb5bb11-5867-5a51-98d8-634d1fb1fa80"
   },
   {
@@ -52,7 +52,7 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "a7fc9ca1-ad6d-47cb-8798-4a18ba4acc79",
+    "$ref": "17cec018-ae0f-4aaf-ad6d-08b758f94c8c",
     "uuid": "24bbd4dc-0a12-538e-b63b-915acb3f006a"
   },
   {
@@ -80,7 +80,7 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "6554dae9-18b6-4c90-b2f4-8aeaab0724ad",
+    "$ref": "9516737f-6855-416e-adc0-f03e08f63259",
     "uuid": "b382d33d-7809-5e2c-ab8a-3946ef0a0d15"
   },
   {
@@ -94,7 +94,7 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "b0281fdc-b044-45e6-af04-e56913432575",
+    "$ref": "2cc848e3-7990-4235-8cb6-6d246e1bf1df",
     "uuid": "233e2ac3-3d39-5d98-bb51-8e097f783702"
   },
   {
@@ -108,7 +108,7 @@
     },
     "context": "Dot size",
     "contextRole": ["size"],
-    "$ref": "38b8d9c8-d340-4123-88bc-f739cfde91e9",
+    "$ref": "d6ab89f2-4d40-413c-ade4-95fb8a010665",
     "uuid": "d4217b9c-28b3-5063-aaa8-bb0d0ea8bda3"
   },
   {
@@ -1654,7 +1654,7 @@
     "lifecycle": {
       "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot’s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
-      "replacedBy": "0d252df3-59fc-422e-8f47-d4c894660eb9"
+      "replacedBy": "8c4f32d5-746f-4dce-aca3-5e657a03afda"
     },
     "rationale": "Deprecated via refine-from-sheets from row 282 of the mapping sheet."
   },
@@ -1677,7 +1677,7 @@
     "lifecycle": {
       "deprecatedIn": "15.8.0",
       "deprecatedComment": "Status light dot’s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
-      "replacedBy": "0d252df3-59fc-422e-8f47-d4c894660eb9"
+      "replacedBy": "8c4f32d5-746f-4dce-aca3-5e657a03afda"
     },
     "rationale": "Deprecated via refine-from-sheets from row 282 of the mapping sheet."
   },

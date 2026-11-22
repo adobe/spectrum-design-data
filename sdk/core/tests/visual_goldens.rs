@@ -1725,6 +1725,13 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             }
         }
     }
+    // Status light wraps its label next to the dot.
+    if name == "status-light" {
+        let mut r = req(vec![], HashMap::new(), "light", "desktop");
+        r.label = "Wrapped label text goes here".into();
+        r.width = Some(110.0);
+        out.push(("wrapped-label", r));
+    }
     // Checkbox, radio button and switch wrap their label too: the control stays on the first line.
     if matches!(name, "checkbox" | "radio-button" | "switch") {
         let mut r = req(vec![], HashMap::new(), "light", "desktop");
