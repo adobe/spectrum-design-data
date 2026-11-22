@@ -687,6 +687,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.1.0",
+      "version": "5.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "7d30326545c8252f1b2e0d5bedb0fd28fa5dd758",
+      "commits": [
+        {
+          "commit": "3e55d131306f367fc4c4e808bc6a3c12feb8a6cb",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2054,"title":"feat(design-data): accordion headingLevel option and per-item isDisabled","url":"https://github.com/adobe/spectrum-design-data/pull/2054"},
+          "entries": [
+            {"id":"3e55d131-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"accordion/options/headingLevel","name":"headingLevel","fields":[],"after":{"type":"integer","minimum":1,"maximum":6,"default":3,"description":"Heading level (aria-level) of the element that wraps each item's header button. An accessibility value only: it does not change how the accordion renders. Matches the level of AccordionItemTitle in React Spectrum S2 (default 3)."}},
+            {"id":"3e55d131-1","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"accordion/options/items","name":"items","fields":[{"path":"items.properties.isDisabled.default","after":false},{"path":"items.properties.isDisabled.type","after":"boolean"}]},
+            {"id":"3e55d131-2","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"accordion/options/items","name":"items","fields":[{"path":"items.properties.isDisabled.description","after":"Whether the accordion item is disabled."}]},
+            {"id":"3e55d131-3","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"accordion/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["isMultiple","down"],"after":["isMultiple","down","headingLevel"]}]}
+          ]
+        }
+      ]
     }
   ]
 }
