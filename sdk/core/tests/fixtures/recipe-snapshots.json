@@ -592,6 +592,10 @@
     "hideIcon=true,isDisabled=true,variant=\"negative\"": "f3b3335576f4719c",
     "hideIcon=true,isDisabled=true,variant=\"neutral\"": "85aab138ceadeb76"
   },
+  "in-field-button": {
+    "isDisabled=false": "488cba43c08cf183",
+    "isDisabled=true": "1034d67f2daf59d7"
+  },
   "in-field-progress-circle": {
     "staticColor=\"black\"": "8225b334cc14f0ff",
     "staticColor=\"white\"": "fbb5a09e173951a3"

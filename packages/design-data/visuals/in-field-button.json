@@ -1,0 +1,114 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "in-field-button",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon"],
+      "props": {
+        "direction": { "value": "row" },
+        "align": { "value": "center" },
+        "justify": { "value": "center" },
+        "width": [
+          {
+            "when": { "options": { "size": "s" } },
+            "token": { "property": "size", "legacyKey": "size-300" }
+          },
+          {
+            "when": { "options": { "size": "m" } },
+            "token": { "property": "size", "legacyKey": "size-350" }
+          },
+          {
+            "when": { "options": { "size": "l" } },
+            "token": { "property": "size", "legacyKey": "size-400" }
+          },
+          {
+            "when": { "options": { "size": "xl" } },
+            "token": { "property": "size", "legacyKey": "size-500" }
+          }
+        ],
+        "height": [
+          {
+            "when": { "options": { "size": "s" } },
+            "token": { "property": "size", "legacyKey": "size-300" }
+          },
+          {
+            "when": { "options": { "size": "m" } },
+            "token": { "property": "size", "legacyKey": "size-350" }
+          },
+          {
+            "when": { "options": { "size": "l" } },
+            "token": { "property": "size", "legacyKey": "size-400" }
+          },
+          {
+            "when": { "options": { "size": "xl" } },
+            "token": { "property": "size", "legacyKey": "size-500" }
+          }
+        ],
+        "cornerRadius": {
+          "token": {
+            "property": "corner-radius",
+            "role": "control",
+            "size": "{size}"
+          }
+        },
+        "fill": [
+          {
+            "token": {
+              "property": "color",
+              "colorFamily": "gray",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": { "states": ["hover"] },
+            "token": {
+              "property": "color",
+              "colorFamily": "gray",
+              "scaleIndex": 200
+            }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "priority": 10,
+            "token": { "legacyKey": "disabled-background-color" }
+          }
+        ]
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": { "set": "ui", "name": "chevron", "content": true },
+      "props": {
+        "width": {
+          "token": { "icon": "ui", "property": "size", "size": "{size}" }
+        },
+        "height": {
+          "token": { "icon": "ui", "property": "size", "size": "{size}" }
+        },
+        "color": [
+          {
+            "token": {
+              "colorRole": "neutral",
+              "property": "content-color",
+              "state": "default"
+            }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "priority": 10,
+            "token": { "legacyKey": "disabled-content-color" }
+          }
+        ]
+      }
+    }
+  }
+}

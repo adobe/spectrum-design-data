@@ -357,6 +357,7 @@ recipe_tests! {
     divider => "divider",
     field_label => "field-label",
     help_text => "help-text",
+    in_field_button => "in-field-button",
     in_field_progress_circle => "in-field-progress-circle",
     in_line_alert => "in-line-alert",
     link => "link",

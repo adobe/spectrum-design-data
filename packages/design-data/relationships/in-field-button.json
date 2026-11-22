@@ -367,7 +367,7 @@
       "property": "width",
       "options": {
         "qualifier": "stacked",
-        "size": "extra-large"
+        "size": "xl"
       }
     },
     "context": "Width (stacked)",
@@ -385,7 +385,7 @@
       "property": "width",
       "options": {
         "qualifier": "stacked",
-        "size": "large"
+        "size": "l"
       }
     },
     "context": "Width (stacked)",
@@ -403,7 +403,7 @@
       "property": "width",
       "options": {
         "qualifier": "stacked",
-        "size": "medium"
+        "size": "m"
       }
     },
     "context": "Width (stacked)",
@@ -421,7 +421,7 @@
       "property": "width",
       "options": {
         "qualifier": "stacked",
-        "size": "small"
+        "size": "s"
       }
     },
     "context": "Width (stacked)",
