@@ -201,7 +201,7 @@
         },
         "with": {
           "type": "object",
-          "description": "For a component part, or a slot part (for every accepted component that declares the option): options of the nested component, each a literal, {\"option\": name} (read from the host's request), or {\"option\": name, \"map\": {...}} (the host's value, as a string, picked through the map). Not `options`: that key means a condition elsewhere in a recipe.",
+          "description": "For a component part, or a slot part (for every accepted component that declares the option): options of the nested component, each a literal, {\"option\": name} (read from the host's request), or {\"option\": name, \"map\": {...}} (the host's value, as a string, picked through the map). The key `label` is the nested request's text, not an option (a string literal or a string host option). Not `options`: that key means a condition elsewhere in a recipe.",
           "additionalProperties": {
             "oneOf": [
               { "type": ["string", "boolean", "number"] },

@@ -4883,8 +4883,8 @@ struct Nested {
 
 /// Solve a `component` part's embedded recipe (see `CompileCx::compile_nested`). The nested
 /// request has its own component and size, the host's mode and text metrics, no states (the
-/// host's hover, down and focus do not reach it) and no label or icon override; `with`
-/// options are literals or `{ "option": name }`, read from the host request.
+/// host's hover, down and focus do not reach it) and no icon override; `with`
+/// options (and its `label`, the nested text) are literals or `{ "option": name }`, read from the host request.
 fn inherits(part: &Value, name: &str) -> bool {
     part.get("inherit")
         .and_then(Value::as_array)
@@ -4925,6 +4925,7 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
         }
     };
     let mut options = HashMap::new();
+    let mut label = String::new();
     for (name, v) in part
         .get("with")
         .and_then(Value::as_object)
@@ -4955,7 +4956,11 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
             }
             None => v.clone(),
         };
-        if !v.is_null() {
+        if name == "label" {
+            if let Some(s) = v.as_str() {
+                label = s.to_string();
+            }
+        } else if !v.is_null() {
             options.insert(name.clone(), v);
         }
     }
@@ -4963,6 +4968,7 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
         component: part.get("component")?.as_str()?.to_string(),
         size: part.get("nestedSize")?.as_str()?.to_string(),
         options,
+        label,
         mode: cx.req.mode.clone(),
         text_metrics: cx.req.text_metrics.clone(),
         ..Default::default()
@@ -9090,6 +9096,29 @@ mod tests {
                 serde_json::json!({ "isDisabled": false, "hasHoldIcon": true }),
                 Value::Null
             )
+        );
+    }
+
+    #[test]
+    fn a_with_label_sets_the_nested_text_from_a_literal_or_a_host_option() {
+        let g = nest_graph(&[]);
+        let text = |with: Value, opts: &[(&str, Value)]| {
+            let r = host(serde_json::json!({
+                "r": { "kind": "box", "children": ["b"] },
+                "b": comp("action-button", with)
+            }));
+            let s = nest_scene(&g, &r, "m", &[], opts).unwrap();
+            assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+            part(&s, "b.label").and_then(|n| n.text.clone())
+        };
+        assert_eq!(
+            text(serde_json::json!({ "label": "One" }), &[]).as_deref(),
+            Some("One")
+        );
+        let by_option = serde_json::json!({ "label": { "option": "title" } });
+        assert_eq!(
+            text(by_option, &[("title", Value::String("Two".into()))]).as_deref(),
+            Some("Two")
         );
     }
 

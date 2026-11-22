@@ -114,7 +114,11 @@ pub(crate) fn check_option(
     name: &str,
     value: &Value,
 ) -> Option<String> {
-    let opt = nested.pointer(&format!("/options/{name}"));
+    // `label` is the nested request's text, not an option (spec: component-visuals.md, Options).
+    let label = serde_json::json!({ "type": "string" });
+    let opt = nested
+        .pointer(&format!("/options/{name}"))
+        .or_else(|| (name == "label").then_some(&label));
     let Some(opt) = opt else {
         return Some(format!("'{name}' is not an option of it"));
     };
@@ -356,6 +360,15 @@ mod tests {
         assert!(run(&graph(parts(n), vec![])).is_empty());
         let bound = nested(json!({"isQuiet": {"option": "isOpen"}}), ok_map());
         assert!(run(&graph(parts(bound), vec![])).is_empty());
+    }
+
+    #[test]
+    fn a_label_is_the_nested_text_a_string_literal_or_a_string_host_option() {
+        let ok = |w: Value| run(&graph(parts(nested(w, ok_map())), vec![]));
+        assert!(ok(json!({"label": "One"})).is_empty());
+        assert!(ok(json!({"label": {"option": "tone"}})).is_empty());
+        assert_eq!(ok(json!({"label": true})).len(), 1);
+        assert_eq!(ok(json!({"label": {"option": "isOpen"}})).len(), 1);
     }
 
     #[test]
