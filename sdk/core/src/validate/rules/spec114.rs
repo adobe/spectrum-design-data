@@ -13,16 +13,24 @@
 //! Error. A `floating.position` places a floating part at a fraction of a part's box. It is an
 //! alternative to `side` (not both), names a drawn non-floating part in `of` (default the
 //! root), has an `x` or a `y` axis, and every axis has a `value` and optional `min`, `max` and
-//! `from` that are `{ "option": name }` or `{ "value": number }`. A `length` axis is the part's
-//! size along it, so the part binds no size there and hosts no `children`.
+//! `from` that are `{ "option": name }` or `{ "value": number }`; an option MUST be a number
+//! option of the component when the component declares options. An axis may be a list of
+//! entries with a `when`, so an option such as `orientation` picks the axis. A `length` axis is
+//! the part's size along it, so the part binds no size there and hosts no `children`; a nested
+//! `component` part has a size of its own, so it has no length axis.
 
 use serde_json::Value;
 
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::visual_util::error;
+use crate::validate::rules::visual_util::{component_of, error};
 
 pub struct Rule;
+
+/// The options of a source a recipe reads: `Some(name)` for `{ "option": name }`.
+fn option_name(v: &Value) -> Option<&str> {
+    v.get("option").and_then(Value::as_str)
+}
 
 fn source_ok(v: &Value) -> bool {
     match (v.get("option"), v.get("value")) {
@@ -48,6 +56,9 @@ impl ValidationRule for Rule {
                 continue;
             };
             let root = v.raw.get("root").and_then(Value::as_str);
+            let options = component_of(ctx.graph, v)
+                .and_then(|c| c.raw.get("options"))
+                .and_then(Value::as_object);
             for (id, part) in parts {
                 let Some(floating) = part.get("floating") else {
                     continue;
@@ -73,31 +84,53 @@ impl ValidationRule for Rule {
                         problems.push("position has neither x nor y".into());
                     }
                     for k in ["x", "y"] {
-                        let Some(axis) = pos.get(k) else { continue };
-                        if !axis.get("value").is_some_and(source_ok) {
-                            problems
-                                .push(format!("position.{k}.value is not an option or a number"));
-                        }
-                        for s in ["min", "max", "from"] {
-                            if axis.get(s).is_some_and(|x| !source_ok(x)) {
-                                problems
-                                    .push(format!("position.{k}.{s} is not an option or a number"));
-                            }
-                        }
-                        if axis.get("length").and_then(Value::as_bool) == Some(true) {
-                            let size = if k == "x" { "width" } else { "height" };
-                            if part.pointer(&format!("/props/{size}")).is_some()
-                                || part
-                                    .get("children")
-                                    .and_then(Value::as_array)
-                                    .is_some_and(|c| !c.is_empty())
-                            {
+                        let Some(src) = pos.get(k) else { continue };
+                        let entries: Vec<&Value> = match src {
+                            Value::Array(a) => a.iter().collect(),
+                            one => vec![one],
+                        };
+                        for axis in entries {
+                            if !axis.get("value").is_some_and(source_ok) {
                                 problems.push(format!(
-                                    "position.{k} is a length but the part binds {size} or has children"
+                                    "position.{k}.value is not an option or a number"
                                 ));
                             }
-                        } else if axis.get("from").is_some() {
-                            problems.push(format!("position.{k}.from needs length"));
+                            for s in ["value", "min", "max", "from"] {
+                                let Some(src) = axis.get(s) else { continue };
+                                if s != "value" && !source_ok(src) {
+                                    problems.push(format!(
+                                        "position.{k}.{s} is not an option or a number"
+                                    ));
+                                }
+                                let (Some(name), Some(opts)) = (option_name(src), options) else {
+                                    continue;
+                                };
+                                match opts.get(name).and_then(|o| o.get("type")).and_then(Value::as_str) {
+                                    None => problems.push(format!(
+                                        "position.{k}.{s} names option '{name}', which the component does not declare"
+                                    )),
+                                    Some("number") => {}
+                                    Some(t) => problems.push(format!(
+                                        "position.{k}.{s} names option '{name}', which is a {t}, not a number"
+                                    )),
+                                }
+                            }
+                            if axis.get("length").and_then(Value::as_bool) == Some(true) {
+                                let size = if k == "x" { "width" } else { "height" };
+                                if part.get("kind").and_then(Value::as_str) == Some("component")
+                                    || part.pointer(&format!("/props/{size}")).is_some()
+                                    || part
+                                        .get("children")
+                                        .and_then(Value::as_array)
+                                        .is_some_and(|c| !c.is_empty())
+                                {
+                                    problems.push(format!(
+                                        "position.{k} is a length but the part binds {size}, has children or is a component"
+                                    ));
+                                }
+                            } else if axis.get("from").is_some() {
+                                problems.push(format!("position.{k}.from needs length"));
+                            }
                         }
                     }
                 }
@@ -129,7 +162,8 @@ mod tests {
             .unwrap()
             .extend(extra.as_object().unwrap().clone());
         let g = graph(
-            json!({"name": "slider"}),
+            json!({"name": "slider", "options": { "value": {"type": "number"},
+                "v": {"type": "number"}, "maxValue": {"type": "number"}, "label": {"type": "string"} } }),
             vec![],
             vec![],
             vec![(
@@ -180,5 +214,14 @@ mod tests {
         .contains("from needs length"));
         let len = json!({ "value": {"option": "v"}, "length": true });
         assert!(m(pos(len), json!({})).contains("binds width"));
+        let m2 = |o: &str| m(pos(json!({ "value": {"option": o} })), json!({}));
+        assert!(m2("valeu").contains("does not declare"));
+        assert!(m2("label").contains("not a number"));
+        assert!(m2("value").is_empty());
+        let by_orientation = json!([
+            { "when": {"options": {"orientation": "horizontal"}}, "value": {"option": "v"} },
+            { "when": {"options": {"orientation": "vertical"}}, "value": {"option": "nope"}, "invert": true }
+        ]);
+        assert!(m(pos(by_orientation), json!({})).contains("'nope'"));
     }
 }

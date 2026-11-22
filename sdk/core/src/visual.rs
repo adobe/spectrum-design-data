@@ -5029,7 +5029,26 @@ fn solve_root(
         // A floating part with children is a subtree: solved as the root of its own scene (as a
         // repeated copy is), sized by its own layout, then moved to the anchor.
         let mut sub = None;
-        let (fw, fh) = if hosts_children {
+        let mut comp = None;
+        let axes: [Option<Value>; 2] = ["x", "y"].map(|k| {
+            let src = spec.pointer(&format!("/position/{k}"))?;
+            cx.choose(src).cloned()
+        });
+        let is_component = part.get("kind").and_then(Value::as_str) == Some("component");
+        let (fw, fh) = if is_component {
+            match solve_component(&mut cx, id, part, &host) {
+                Some(n) => {
+                    comp = Some(n);
+                    (None, None)
+                }
+                None => {
+                    cx.diags.push(format!(
+                        "floating part '{id}': the nested component could not be laid out; skipping it"
+                    ));
+                    continue;
+                }
+            }
+        } else if hosts_children {
             match solve_root(variant, id, req, cx.position) {
                 Ok(sc) if !sc.nodes.is_empty() => {
                     cx.diags.extend(
@@ -5050,21 +5069,24 @@ fn solve_root(
         } else {
             (rp(&mut cx, part, "width"), rp(&mut cx, part, "height"))
         };
-        let is_len = |k: &str| {
-            spec.pointer(&format!("/position/{k}/length"))
+        let is_len = |i: usize| {
+            axes[i]
+                .as_ref()
+                .and_then(|a| a.get("length"))
                 .and_then(Value::as_bool)
                 == Some(true)
         };
-        let size = match &sub {
-            Some(sc) => Some((sc.nodes[0].w, sc.nodes[0].h)),
-            None => fw
+        let size = match (&sub, &comp) {
+            (Some(sc), _) => Some((sc.nodes[0].w, sc.nodes[0].h)),
+            (_, Some(n)) => Some((n.w, n.h)),
+            _ => fw
                 .as_ref()
                 .and_then(Resolved::num)
-                .or(is_len("x").then_some(1.0))
+                .or(is_len(0).then_some(1.0))
                 .zip(
                     fh.as_ref()
                         .and_then(Resolved::num)
-                        .or(is_len("y").then_some(1.0)),
+                        .or(is_len(1).then_some(1.0)),
                 ),
         };
         let Some((fw_n, fh_n)) = size else {
@@ -5099,7 +5121,7 @@ fn solve_root(
                 &mut cx,
                 id,
                 "x",
-                pos.get("x"),
+                axes[0].as_ref(),
                 (parent.0, parent.2),
                 fw_n,
                 align,
@@ -5108,7 +5130,7 @@ fn solve_root(
                 &mut cx,
                 id,
                 "y",
-                pos.get("y"),
+                axes[1].as_ref(),
                 (parent.1, parent.3),
                 fh_n,
                 align,
@@ -5145,6 +5167,20 @@ fn solve_root(
                 _ => (along(rx, rw, fw_n) + cross, ry - offset - fh_n),
             }
         };
+        if let Some(mut n) = comp {
+            floating_ids.extend(n.nodes.iter().map(|x| x.part.clone()));
+            measurements.extend(
+                std::mem::take(&mut n.measurements)
+                    .into_iter()
+                    .map(|mut m| {
+                        m.x += fx;
+                        m.y += fy;
+                        m
+                    }),
+            );
+            place_nested(&mut nodes, n, fx, fy);
+            continue;
+        }
         if let Some(sc) = sub {
             let (ox, oy) = (sc.nodes[0].x, sc.nodes[0].y);
             let (mx, my) = (fx - ox, fy - oy);
@@ -5590,8 +5626,13 @@ fn position_fraction(
     let lo = position_number(cx, axis_spec.get("min")).unwrap_or(0.0);
     let hi = position_number(cx, axis_spec.get("max")).unwrap_or(1.0);
     let raw = position_number(cx, Some(src));
+    let unset = src
+        .get("option")
+        .and_then(Value::as_str)
+        .is_some_and(|n| cx.option(n).is_null());
     let f = match raw {
-        Some(v) if hi > lo => (v - lo) / (hi - lo),
+        _ if unset => 0.0,
+        Some(v) if hi > lo && (hi - lo).is_finite() => (v - lo) / (hi - lo),
         _ => {
             cx.diags.push(format!(
                 "floating part '{id}': position.{axis}.{key} does not resolve to a number inside a non-empty min..max range; using 0"
@@ -11716,7 +11757,6 @@ mod tests {
             "center",
         );
         for v in [
-            Value::Null,
             "abc".into(),
             serde_json::json!(f64::NAN),
             serde_json::json!([1]),
@@ -11814,5 +11854,99 @@ mod tests {
         assert_eq!(px(30, 18), vec![0, 0, 255, 255]);
         assert_eq!(px(70, 18), vec![255, 255, 255, 255]);
         assert_eq!(px(30, 10), vec![255, 255, 255, 255]);
+    }
+
+    #[test]
+    fn an_unset_value_draws_at_the_start_without_a_diagnostic() {
+        let r = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({ "x": axis(serde_json::json!({ "length": true })) }),
+            "center",
+        );
+        let (g, _) = load();
+        let s = build_scene(&g, &r, &req(&[])).unwrap();
+        assert_eq!(rel(&s, "handle").0, -5.0);
+        assert!(s.nodes.iter().all(|n| n.part != "fill"));
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        // Inverted, the start is the far end.
+        let inv = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({ "invert": true })) }),
+            serde_json::json!({}),
+            "center",
+        );
+        assert_eq!(
+            rel(&build_scene(&g, &inv, &req(&[])).unwrap(), "handle").0,
+            95.0
+        );
+    }
+
+    #[test]
+    fn a_range_too_wide_to_subtract_is_diagnosed_and_draws_at_zero() {
+        let wide = axis(serde_json::json!({ "min": {"value": -1e308}, "max": {"value": 1e308} }));
+        let r = slider_recipe(
+            serde_json::json!({ "x": wide }),
+            serde_json::json!({}),
+            "center",
+        );
+        let s = at(&r, serde_json::json!(1e300));
+        assert_eq!(rel(&s, "handle").0, -5.0);
+        assert!(
+            s.diagnostics.iter().any(|d| d.contains("non-empty")),
+            "{:?}",
+            s.diagnostics
+        );
+    }
+
+    #[test]
+    fn an_option_picks_the_axis_and_its_direction() {
+        let h = serde_json::json!([
+            { "when": { "options": { "orientation": "horizontal" } }, "value": {"option": "value"},
+              "min": {"value": 0}, "max": {"value": 200} },
+        ]);
+        let v = serde_json::json!([
+            { "when": { "options": { "orientation": "vertical" } }, "value": {"option": "value"},
+              "min": {"value": 0}, "max": {"value": 200}, "invert": true },
+        ]);
+        let r = slider_recipe(
+            serde_json::json!({ "x": h, "y": v }),
+            serde_json::json!({}),
+            "center",
+        );
+        let (g, _) = load();
+        let draw = |o: &str| {
+            let mut q = req(&[]);
+            q.options.insert("value".into(), 50.into());
+            q.options.insert("orientation".into(), o.into());
+            build_scene(&g, &r, &q).unwrap()
+        };
+        // Horizontal: x from the value, y centred on the 20px track.
+        assert_eq!(rel(&draw("horizontal"), "handle"), (20.0, 5.0, 10.0, 10.0));
+        // Vertical: x centred on the 100px track, y inverted 0.25 -> 0.75 of 20, minus 5.
+        assert_eq!(rel(&draw("vertical"), "handle"), (45.0, 10.0, 10.0, 10.0));
+    }
+
+    #[test]
+    fn a_nested_component_is_positioned_at_its_fraction() {
+        let recipe = host(serde_json::json!({
+            "r": { "kind": "box", "props": lit_props(&[("width", 100.0), ("height", 20.0)]) },
+            "h": {
+                "kind": "component", "component": "switch", "sizeMap": { "m": "m" },
+                "with": { "hideLabel": true },
+                "floating": { "position": { "x": axis(serde_json::json!({})) } }
+            }
+        }));
+        let g = nest_graph(&[]);
+        let s = nest_scene(&g, &recipe, "m", &[], &[("value", 100.into())]).unwrap();
+        let (r, h) = (part(&s, "r").unwrap(), part(&s, "h").unwrap());
+        // 100 of 0..200 is the middle of the track; the nested root is centred on it and on y.
+        assert_eq!(h.x - r.x, 50.0 - h.w / 2.0);
+        assert_eq!(h.y - r.y, (20.0 - h.h) / 2.0);
+        // Its inner parts moved with it.
+        let track = part(&s, "h.track").unwrap();
+        assert!(track.x >= h.x && track.x + track.w <= h.x + h.w + 0.01);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        let s = nest_scene(&g, &recipe, "m", &[], &[("value", 0.into())]).unwrap();
+        let (r, h) = (part(&s, "r").unwrap(), part(&s, "h").unwrap());
+        assert_eq!(h.x - r.x, -h.w / 2.0);
     }
 }
