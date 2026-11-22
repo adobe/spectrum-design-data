@@ -12,3 +12,4 @@ Add visual recipes for tooltip and popover.
 - `placement` picks the edge; popover `hideTip` draws no tip.
 - The popover `default` slot moves to a new `content` part and lists `accepts`.
 - Not drawn yet: popover border, tip shadow, tip radius, tooltip max width.
+- Registers the `tip-top`, `tip-bottom`, `tip-start` and `tip-end` anatomy terms.
