@@ -55,7 +55,6 @@ fn nesting_problem(graph: &TokenGraph, name: &str, stack: &mut Vec<String>) -> O
         .get("parts")
         .and_then(Value::as_object)
         .into_iter()
-        .into_iter()
         .flatten()
         .filter(|(_, p)| is_component(p))
     {

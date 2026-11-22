@@ -37,7 +37,7 @@ globs: packages/design-data/**/*.json, packages/design-data-spec/**, docs/propos
 
 15. **Deprecated records are a frozen archive.** Do not rely on them or change them. If a live record needs one, repoint the live record or un-deprecate it on purpose. The identity check ignores them.
 
-16. **Parts cover slots and named layout groups.** A part is warranted when a design source names it and it owns a value, when it is a slot, or when it is an option-togglable region. RFC [#1801](https://github.com/adobe/spectrum-design-data/issues/1801) owns slot typing, with an explicit `slots[].part` link; the slot rules are in progress, so follow the RFC rather than inventing rules here. Pending 5m92.8: `anatomy-format.md` still forbids layout groups as parts.
+16. **Parts cover slots and named layout groups.** A part is warranted when a design source names it and it owns a value, when it is a slot, or when it is an option-togglable region (`anatomy-format.md`, "What is a part"). RFC [#1801](https://github.com/adobe/spectrum-design-data/issues/1801) owns slot typing, with an explicit `slots[].part` link. A part that is another component carries `component: <id>` (SPEC-106); a recipe `component` part reads it from the host's anatomy part of the same key and names no component itself. `subcomponent: true` marks a component with no stand-alone use; its hosts are derived, never stored.
 
 17. **Identity is `(property, attribute, part, between)`.** `contextRole` is derived from the property where the property implies it. `contextQualifier` is retired. Proposal 018 has the detail.
 
