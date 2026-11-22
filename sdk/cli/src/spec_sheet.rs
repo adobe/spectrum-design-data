@@ -1141,7 +1141,7 @@ impl Ctx<'_> {
                     let folded = design_data_core::visual::recipe_with_presence(
                         self.graph,
                         recipe,
-                        &self.component,
+                        self.component,
                     );
                     let (states, wanted) = required_visibility(&folded, &context, &pairs);
                     for (k, v) in wanted {
