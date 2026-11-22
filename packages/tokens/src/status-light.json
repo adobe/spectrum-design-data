@@ -77,7 +77,7 @@
         "uuid": "5945e9fe-311a-4d2c-8052-ca4eae4c7c63"
       }
     },
-    "renamed": "ui-icon-small"
+    "renamed": "ui-icon-extra-small"
   },
   "status-light-text-to-visual-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
