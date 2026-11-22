@@ -141,16 +141,17 @@
           "type": "string",
           "enum": [
             "kebab-case",
+            "snake_case",
             "camelCase",
             "PascalCase",
             "SCREAMING_SNAKE_CASE"
           ],
-          "description": "Casing style for serialized token names. Default: kebab-case."
+          "description": "Casing style for serialized token names. Default: kebab-case. `snake_case` is lowercase words joined by `_` (the default delimiter for it)."
         },
         "delimiter": {
           "type": "string",
           "minLength": 1,
-          "description": "Character(s) separating concepts in the serialized string. Default: -."
+          "description": "Character(s) separating concepts in the serialized string. Default: - (_ for snake_case)."
         },
         "abbreviations": {
           "type": "object",
