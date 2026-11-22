@@ -369,6 +369,7 @@ recipe_tests! {
     swatch => "swatch",
     switch => "switch",
     tag => "tag",
+    text_area => "text-area",
     text_field => "text-field",
     thumbnail => "thumbnail",
     toast => "toast",
