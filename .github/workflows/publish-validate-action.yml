@@ -1,0 +1,92 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+
+name: Publish validate action tags
+
+# Tags .github/actions/validate under refs without a second `@` (the
+# `design-data-cli@x.y.z` tags are not valid `uses:` refs). For each CLI release
+# it pushes an immutable `validate-action/vX.Y.Z` and moves `validate-action/v1`.
+# The release is created by release.yml with the GH_TOKEN PAT, which is what lets
+# it trigger this workflow.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "design-data-cli version to tag (for example 0.63.0); its design-data-cli@<version> tag must exist"
+        required: true
+
+permissions:
+  contents: read
+
+concurrency: publish-validate-action
+
+jobs:
+  publish:
+    name: Tag validate action
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.release.tag_name, 'design-data-cli@')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve CLI release
+        id: cli
+        shell: bash
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          version="${INPUT_VERSION:-${RELEASE_TAG#design-data-cli@}}"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::'$version' is not a stable x.y.z version"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      # The PAT is git's push credential: the default token cannot push a tag whose
+      # commit changed .github/workflows (see release.yml).
+      - uses: actions/checkout@v4
+        with:
+          ref: design-data-cli@${{ steps.cli.outputs.version }}
+          fetch-depth: 1
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Push tags
+        shell: bash
+        env:
+          VERSION: ${{ steps.cli.outputs.version }}
+        run: |
+          set -euo pipefail
+          test -f .github/actions/validate/action.yml
+          git fetch --tags --force origin 'refs/tags/validate-action/*:refs/tags/validate-action/*'
+          sha=$(git rev-parse HEAD)
+          exact="validate-action/v${VERSION}"
+
+          # Immutable: never move an existing per-release tag.
+          if git rev-parse -q --verify "refs/tags/${exact}" >/dev/null; then
+            existing=$(git rev-parse "${exact}^{commit}")
+            if [[ "$existing" != "$sha" ]]; then
+              echo "::error::${exact} already points at ${existing}, not ${sha}; refusing to move it"
+              exit 1
+            fi
+            echo "${exact} already published."
+          else
+            git tag "$exact" "$sha"
+            git push origin "refs/tags/${exact}"
+          fi
+
+          # Floating major: move forward only, to the highest per-release version.
+          highest=$(git tag --list 'validate-action/v[0-9]*.[0-9]*.[0-9]*' | sed 's|^validate-action/v||' | sort -V | tail -1)
+          if [[ "$highest" != "$VERSION" ]]; then
+            echo "::notice::validate-action/v${highest} is newer than ${VERSION}; leaving validate-action/v1 alone."
+            exit 0
+          fi
+          git tag -f validate-action/v1 "$sha"
+          git push --force origin refs/tags/validate-action/v1
