@@ -85,6 +85,16 @@ expands over the declared values, and a record pinned to `isSelected: true`
 counts), so this check does not ask that every combination resolve; `design-data
 render --strict` does. `design-data validate` does not run `MANIFEST-001`.
 
+`validate-manifest` also checks your `extensions/relationships/`, `extensions/implementations/`
+and `componentAliases`:
+
+- `MANIFEST-003`: a relationship you add or override names a component, option value, state or
+  `$ref` that does not exist (the SPEC-051 to SPEC-055 checks, on your records only).
+- `MANIFEST-004`: a relationship `override` or `remove` targets a uuid that does not exist.
+- `MANIFEST-005`: an implementations file names a component that does not exist, or a `remove`
+  matches none of your rows.
+- `MANIFEST-006`: a component alias is invalid (SPEC-081) or targets a deprecated component.
+
 `validate-manifest` also checks that the pin agrees with itself. You state the
 foundation release twice: the manifest's `foundationVersion` and the `[source]`
 `tag` (or npm `version`) in `.design-data.toml`. If they name different
@@ -162,7 +172,8 @@ design-data platform doctor --latest   # also asks GitHub for the newest release
 ```
 
 It checks that the manifest applies to the foundation and that every binding in
-your recipes resolves (`MANIFEST-001`), that `foundationVersion` and `[source]`
+your recipes resolves (`MANIFEST-001`), that your relationships and component aliases
+resolve (`MANIFEST-003`, `MANIFEST-006`), that `foundationVersion` and `[source]`
 name the same release (`MANIFEST-002`), that this CLI meets what the dataset
 (`requires.cli`) and your project (`cli_version`) ask of it, that the platform
 is in `platform-implementations.json`, and which of your extensions replace a
@@ -256,6 +267,6 @@ when a platform seems to be missing.
 
 ## Where to go next
 
-* The [manifest spec](/spec/manifest/) for every field and extension category.
-* [`platforms/`](https://github.com/adobe/spectrum-design-data/tree/main/platforms) for the incubating React Spectrum, Web Components, and iOS manifests.
-* The ejection steps in `platforms/README.md`, when your team is ready to own its manifest in its own repo.
+- The [manifest spec](/spec/manifest/) for every field and extension category.
+- [`platforms/`](https://github.com/adobe/spectrum-design-data/tree/main/platforms) for the incubating React Spectrum, Web Components, and iOS manifests.
+- The ejection steps in `platforms/README.md`, when your team is ready to own its manifest in its own repo.

@@ -322,6 +322,17 @@ dataset (`packages/design-data/*`), not a pre-cascade legacy release predating t
 `name` object, mode sets, and UUIDs — a manifest cascaded against a pre-cascade pin is not
 meaningful. Report a pre-cascade pin as an error per product policy.
 
+**RECOMMENDED:** The reference CLI's `validate-manifest` and `platform doctor` also report these manifest diagnostics. They are not registry rules, so `validate` does not run them.
+
+| Id             | Reports                                                                                                                                                               |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `MANIFEST-001` | A platform recipe binding a token or relationship the data does not have.                                                                                             |
+| `MANIFEST-002` | `foundationVersion` and the project's `[source]` pin naming different releases.                                                                                       |
+| `MANIFEST-003` | A relationship the platform adds or overrides whose component, option value, state or `$ref` does not resolve (SPEC-051 to SPEC-055, on the platform's records only). |
+| `MANIFEST-004` | An `extensions/relationships` `override` or `remove` whose `uuid` targets no record.                                                                                  |
+| `MANIFEST-005` | An `extensions/implementations` entry naming a component that does not exist, or an `op: "remove"` that matches none of the platform's rows.                          |
+| `MANIFEST-006` | A `componentAliases` entry SPEC-081 rejects, or whose target component is deprecated.                                                                                 |
+
 ## Automated upgrades
 
 **OPTIONAL:** Workflows **MAY** open upgrade PRs when `foundationVersion` lags the latest release; details are out of scope for this document (see [#715](https://github.com/adobe/spectrum-design-data/discussions/715)).

@@ -54,6 +54,7 @@ mod spec043;
 // inspects the on-disk directory layout before the graph is built. See
 // `crate::validate::dataset_structure` and `validate::validate_dataset`.
 pub mod manifest_bindings;
+pub mod manifest_extensions;
 mod spec045;
 mod spec046;
 mod spec047;

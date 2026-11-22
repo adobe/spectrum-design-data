@@ -1604,11 +1604,13 @@ impl TokenGraph {
                             .find(|r| r.uuid.as_deref() == Some(target_uuid))
                             .ok_or_else(|| {
                                 CoreError::ParseError(format!(
-                                    "platform manifest extensions.relationships override \
-                                     targets uuid \"{target_uuid}\" which does not exist"
+                                    "MANIFEST-004 (validate-manifest): platform manifest \
+                                     extensions.relationships override targets uuid \"{target_uuid}\" which does not exist"
                                 ))
                             })?;
                         target.raw = value;
+                        // Platform-owned from here on, so MANIFEST-003 can tell it apart.
+                        target.file = PathBuf::from("manifest.json");
                     }
                     Some("remove") => {
                         let target_uuid =
@@ -1625,8 +1627,8 @@ impl TokenGraph {
                             .retain(|r| r.uuid.as_deref() != Some(target_uuid));
                         if self.relationships.len() == before {
                             return Err(CoreError::ParseError(format!(
-                                "platform manifest extensions.relationships remove targets \
-                                 uuid \"{target_uuid}\" which does not exist"
+                                "MANIFEST-004 (validate-manifest): platform manifest \
+                                 extensions.relationships remove targets uuid \"{target_uuid}\" which does not exist"
                             )));
                         }
                     }
@@ -2354,8 +2356,8 @@ fn merge_implementation_fragment(
         .find(|c| c.name == component)
         .ok_or_else(|| {
             CoreError::ParseError(format!(
-                "platform manifest extensions.implementations targets component \
-                 \"{component}\" which does not exist in the component catalog"
+                "MANIFEST-005 (validate-manifest): platform manifest \
+                 extensions.implementations targets component \"{component}\" which does not exist in the component catalog"
             ))
         })?;
     let Some(obj) = record.raw.as_object_mut() else {
@@ -2386,8 +2388,8 @@ fn merge_implementation_fragment(
             rows.retain(|row| !(row_owned_by(row, owner) && remove_selector_matches(entry, row)));
             if rows.len() == before {
                 return Err(CoreError::ParseError(format!(
-                    "platform manifest extensions.implementations op:\"remove\" on component \
-                     \"{component}\" matched no implementation row owned by {} ({entry})",
+                    "MANIFEST-005 (validate-manifest): platform manifest \
+                     extensions.implementations op:\"remove\" on component \"{component}\" matched no implementation row owned by {} ({entry})",
                     owner.map_or_else(|| "this manifest".to_string(), |o| format!("\"{o}\""))
                 )));
             }
