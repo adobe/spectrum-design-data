@@ -138,6 +138,17 @@ mod tests {
     }
 
     #[test]
+    fn skips_properties_render_compare_does_not_compare() {
+        for property in ["fontFamily", "opacity"] {
+            assert_eq!(
+                run(json!({ "id": "a", "part": "track", "property": property })),
+                0,
+                "{property} must not warn"
+            );
+        }
+    }
+
+    #[test]
     fn warns_only_on_a_property_the_part_does_not_set() {
         assert_eq!(
             run(json!({ "id": "a", "part": "track", "property": "stroke" })),
