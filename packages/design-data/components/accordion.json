@@ -31,10 +31,6 @@
       "content": "Progressive disclosure.\n\nAccordions are effective for organizing large amounts of related content within a limited space. They help users stay focused by revealing information only when it's needed, making them ideal for scenarios where not all content needs to be visible at once."
     },
     {
-      "type": "guideline",
-      "content": "Heading structure.\n\nEach item's header button sits inside a heading element. Set headingLevel (default 3) so the level fits the page's heading structure; it has no visual effect."
-    },
-    {
       "type": "do-dont",
       "content": "Avoid accordion overuse",
       "dont": "Avoid using accordions when users are likely to read all the content in one go, as they can introduce unnecessary clicks and hinder the user experience. For complex or deeply nested information structures, consider alternative components such as tree views or tabs to maintain clarity and ease of navigation"
