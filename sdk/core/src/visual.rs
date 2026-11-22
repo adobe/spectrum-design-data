@@ -3425,6 +3425,7 @@ fn solve_root(
         group: Vec<Nested>,
         group_gap: f64,
         group_align: String,
+        group_col: bool,
     }
     struct Row {
         items: Vec<RowItem>,
@@ -3488,7 +3489,7 @@ fn solve_root(
         let kind = part.get("kind").and_then(Value::as_str).unwrap_or("box");
         if kind == "slot" {
             cx.diags.push(format!(
-                "slot part '{id}' is only laid out in a row box; it is not drawn"
+                "slot part '{id}' is only laid out in a row box (put it in a row box and set direction column for a vertical list); it is not drawn"
             ));
             continue;
         }
@@ -3620,6 +3621,7 @@ fn solve_root(
                             track(&mut tokens, "height", &nh);
                             let mut node = blank_node(&nid, "box");
                             let (mut group_gap, mut group_align) = (0.0, String::new());
+                            let mut group_col = false;
                             if group.is_empty() {
                                 // The empty-slot placeholder is a recipe literal (spec:
                                 // component-visuals.md, Slot parts); no placeholder, no node.
@@ -3631,7 +3633,9 @@ fn solve_root(
                                 (node.w, node.h) = (side("width"), side("height"));
                             } else {
                                 let gdir = rp(&mut cx, np, "direction");
-                                layout_keyword(&mut cx, "direction", &gdir, &["row"]);
+                                group_col =
+                                    layout_keyword(&mut cx, "direction", &gdir, &["row", "column"])
+                                        == "column";
                                 let galign = rp(&mut cx, np, "align");
                                 group_align = layout_keyword(
                                     &mut cx,
@@ -3642,12 +3646,20 @@ fn solve_root(
                                 let ggap = rp(&mut cx, np, "gap");
                                 track(&mut tokens, "gap", &ggap);
                                 group_gap = ggap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
-                                let sum = group.iter().map(|n| n.w).sum::<f64>()
-                                    + group_gap * (group.len() - 1) as f64;
-                                node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(sum);
-                                node.h = nh.as_ref().and_then(Resolved::num).unwrap_or_else(|| {
-                                    group.iter().map(|n| n.h).fold(0.0, f64::max)
-                                });
+                                let gaps = group_gap * (group.len() - 1) as f64;
+                                let (sw, sh) = if group_col {
+                                    (
+                                        group.iter().map(|n| n.w).fold(0.0, f64::max),
+                                        group.iter().map(|n| n.h).sum::<f64>() + gaps,
+                                    )
+                                } else {
+                                    (
+                                        group.iter().map(|n| n.w).sum::<f64>() + gaps,
+                                        group.iter().map(|n| n.h).fold(0.0, f64::max),
+                                    )
+                                };
+                                node.w = nw.as_ref().and_then(Resolved::num).unwrap_or(sw);
+                                node.h = nh.as_ref().and_then(Resolved::num).unwrap_or(sh);
                             }
                             node.tokens = tokens;
                             items.push(RowItem {
@@ -3661,6 +3673,7 @@ fn solve_root(
                                 group,
                                 group_gap,
                                 group_align,
+                                group_col,
                             });
                             continue;
                         }
@@ -3680,6 +3693,7 @@ fn solve_root(
                                     group: Vec::new(),
                                     group_gap: 0.0,
                                     group_align: String::new(),
+                                    group_col: false,
                                 });
                             }
                             continue;
@@ -3883,6 +3897,7 @@ fn solve_root(
                             group,
                             group_gap,
                             group_align,
+                            group_col: false,
                         });
                     }
                     let sum = items.iter().map(|i| i.ow).sum::<f64>()
@@ -4370,13 +4385,20 @@ fn solve_root(
                     place_nested(&mut nested_out, n, it.node.x, it.node.y);
                     continue;
                 }
-                let (gx, gy, gh) = (it.node.x, it.node.y, it.node.h);
+                let (gx, gy, gh, gw) = (it.node.x, it.node.y, it.node.h, it.node.w);
                 nodes.push(it.node);
                 let mut gx = gx;
+                let mut gy2 = gy;
                 for n in it.group {
-                    let (w, y) = (n.w, gy + axis_offset(&it.group_align, gh - n.h));
-                    place_nested(&mut nested_out, n, gx, y);
-                    gx += w + it.group_gap;
+                    if it.group_col {
+                        let (h, x) = (n.h, gx + axis_offset(&it.group_align, gw - n.w));
+                        place_nested(&mut nested_out, n, x, gy2);
+                        gy2 += h + it.group_gap;
+                    } else {
+                        let (w, y) = (n.w, gy + axis_offset(&it.group_align, gh - n.h));
+                        place_nested(&mut nested_out, n, gx, y);
+                        gx += w + it.group_gap;
+                    }
                 }
             }
             continue;
@@ -9015,6 +9037,47 @@ mod tests {
         assert_eq!((slot.w, slot.h), (32.0 + 4.0 + 26.0, 32.0));
         assert!(n("actions-1.icon").x >= a.x && part(&s, "actions-2.track").is_some());
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    #[test]
+    fn a_column_slot_stacks_fills_with_gap_and_cross_axis_align() {
+        let col = |align: &str| {
+            let mut s = actions_slot(serde_json::json!({}));
+            s["props"]["direction"] = serde_json::json!({ "value": "column" });
+            s["props"]["align"] = serde_json::json!({ "value": align });
+            let sc = slot_scene(
+                &slot_host(s),
+                fills(&[("action-button", Value::Null), ("switch", Value::Null)]),
+            );
+            assert!(sc.diagnostics.is_empty(), "{:?}", sc.diagnostics);
+            sc
+        };
+        let sc = col("end");
+        let (slot, a, b) = (
+            part(&sc, "actions").unwrap(),
+            part(&sc, "actions-1").unwrap(),
+            part(&sc, "actions-2").unwrap(),
+        );
+        assert_eq!((slot.w, slot.h), (32.0, 32.0 + 4.0 + b.h));
+        assert_eq!(b.y, a.y + a.h + 4.0, "stacked with the gap");
+        assert_eq!(b.x, slot.x + slot.w - b.w, "align end on the cross axis");
+        assert_eq!(a.x, slot.x);
+        let start = col("start");
+        assert_eq!(
+            part(&start, "actions-2").unwrap().x,
+            part(&start, "actions").unwrap().x
+        );
+    }
+
+    #[test]
+    fn an_empty_column_slot_still_draws_its_placeholder() {
+        let mut s = actions_slot(serde_json::json!({
+            "placeholder": { "width": 20, "height": 10, "reason": "x" }
+        }));
+        s["props"]["direction"] = serde_json::json!({ "value": "column" });
+        let sc = slot_scene(&slot_host(s), HashMap::new());
+        let n = part(&sc, "actions").unwrap();
+        assert_eq!((n.w, n.h), (20.0, 10.0));
     }
 
     #[test]
