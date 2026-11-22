@@ -1130,6 +1130,8 @@ impl<'a> CompileCx<'a> {
             // a candidate.
             matched.retain(|&i| crate::scope::position_fits(rel, &self.graph.relationships[i].raw));
             // A record pinned to the other scale is not a candidate at this one.
+            // shortcut: only a plain string scale is a pin; an array or anyOf scale still applies
+            // at every scale, upgrade when a recipe needs it.
             matched.retain(|&i| {
                 self.graph.relationships[i]
                     .raw
@@ -2095,15 +2097,11 @@ impl Ctx<'_> {
                     .and_then(Value::as_array)
                     .is_none_or(|s| s.is_empty())
             };
-            if disabled {
-                fit.iter()
-                    .find(|c| no_states(c))
-                    .or_else(|| fit.iter().find(|c| precedence(c).is_empty()))
-                    .or_else(|| fit.first())
-                    .copied()
-            } else {
-                fit.iter().find(|c| no_states(c)).or(fit.first()).copied()
-            }
+            fit.iter()
+                .find(|c| no_states(c))
+                .or_else(|| fit.iter().find(|c| disabled && precedence(c).is_empty()))
+                .or_else(|| fit.first())
+                .copied()
         });
         if let Some(c) = chosen {
             // Candidates tied with the chosen one that name a different token are ambiguous.
@@ -5435,7 +5433,7 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 /// same change whenever a solver or layout-semantics change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`). A data-only snapshot change (same geometry and resolved
 /// values) does not bump it.
-pub const LAYOUT_REVISION: u32 = 4;
+pub const LAYOUT_REVISION: u32 = 5;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
@@ -5659,6 +5657,14 @@ mod tests {
         };
         assert_eq!(fill("desktop"), "#111111");
         assert_eq!(fill("mobile"), "#0000ff");
+        // No scale in the request: both records are kept, so they tie.
+        let r = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            ..Default::default()
+        };
+        let scene = build_scene(&g, &recipe, &r).unwrap();
+        assert!(scene.diagnostics.iter().any(|d| d.contains("ambiguous")));
     }
 
     #[test]

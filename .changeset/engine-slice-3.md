@@ -8,3 +8,5 @@ relationship pinned to a `scale` applies only at that scale.
 
 - Alert banner: the close button end spacing is bound, so the close button sits 8px
   (desktop) or 16px (mobile) in from the end edge instead of flush.
+- Dataset `layoutRevision` is now 5, since the recipe layout output changed.
+- Dataset `requires.cli` is raised to 0.62.1 (the CLI bump in this change).
