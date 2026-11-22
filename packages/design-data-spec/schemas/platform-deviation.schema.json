@@ -68,7 +68,7 @@
     },
     "condition": {
       "type": "object",
-      "description": "Where the deviation applies: the recipe condition shape without `position`. An absent key means any.",
+      "description": "Where the deviation applies. Mirrors the recipe condition in component-visual.schema.json (states, options, modes) without `position`, and must change with it: a $ref cannot drop `position` because that schema is closed. An absent key means any.",
       "properties": {
         "options": {
           "type": "object",
