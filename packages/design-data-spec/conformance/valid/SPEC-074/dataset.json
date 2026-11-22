@@ -15,7 +15,7 @@
           "trigger": "interaction"
         },
         {
-          "name": "focus",
+          "name": "keyboard-focus",
           "trigger": "interaction"
         }
       ],
@@ -28,24 +28,28 @@
         {
           "name": "focus-indicator",
           "description": "Outline drawn outside the container for keyboard focus.",
-          "presentIn": ["hover"]
-        }
-      ]
-    }
-  ],
-  "visuals": [
-    {
-      "component": "button",
-      "root": "container",
-      "parts": {
-        "container": {
-          "kind": "box"
-        },
-        "focus-indicator": {
-          "kind": "ring",
-          "visibleWhen": {
+          "presentWhen": {
             "states": ["focus"]
           }
+        },
+        {
+          "name": "checkmark",
+          "description": "Mark drawn while selected.",
+          "presentWhen": {
+            "options": {
+              "isSelected": true,
+              "variant": ["accent", "negative"]
+            }
+          }
+        }
+      ],
+      "options": {
+        "isSelected": {
+          "type": "boolean"
+        },
+        "variant": {
+          "type": "string",
+          "values": ["accent", "negative"]
         }
       }
     }

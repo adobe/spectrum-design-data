@@ -83,7 +83,8 @@
     },
     {
       "name": "icon",
-      "description": "Alert icon shown for the negative variant. Hidden by hideIcon."
+      "description": "Alert icon shown for the negative variant. Hidden by hideIcon.",
+      "presentWhen": { "options": { "variant": "negative", "hideIcon": false } }
     },
     {
       "name": "text",

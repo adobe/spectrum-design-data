@@ -122,7 +122,8 @@
     },
     {
       "name": "icon",
-      "description": "Icon indicating the alert's severity (Figma alert icon)."
+      "description": "Icon indicating the alert's severity (Figma alert icon).",
+      "presentWhen": { "options": { "variant": "negative" } }
     },
     {
       "name": "text",
@@ -136,6 +137,7 @@
     },
     {
       "name": "close-button",
+      "presentWhen": { "options": { "isDismissible": true } },
       "component": "close-button",
       "description": "Button that dismisses the banner, shown with isDismissible."
     }

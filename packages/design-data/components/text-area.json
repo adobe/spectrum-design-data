@@ -147,6 +147,7 @@
     },
     {
       "name": "field-label",
+      "presentWhen": { "options": { "hideLabel": false, "label": true } },
       "component": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
@@ -175,7 +176,8 @@
     },
     {
       "name": "value",
-      "description": "Text the user entered."
+      "description": "Text the user entered.",
+      "presentWhen": { "options": { "value": true } }
     },
     {
       "name": "placeholder",
@@ -191,7 +193,8 @@
     },
     {
       "name": "validation-marker",
-      "description": "Checkmark shown at the end of the field when the value is valid."
+      "description": "Checkmark shown at the end of the field when the value is valid.",
+      "presentWhen": { "options": { "showValidIcon": true, "isError": false } }
     },
     {
       "name": "character-count",
@@ -199,13 +202,14 @@
     },
     {
       "name": "help-text",
+      "presentWhen": { "options": { "helpText": true } },
       "component": "help-text",
       "description": "Description or error message shown below the field."
     },
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

@@ -122,11 +122,6 @@
         "m": "75",
         "l": "100"
       },
-      "visibleWhen": {
-        "options": {
-          "hasAvatar": true
-        }
-      },
       "with": {
         "image": "initials",
         "isDisabled": {
@@ -141,11 +136,6 @@
         "name": "add",
         "content": true,
         "optional": true
-      },
-      "visibleWhen": {
-        "options": {
-          "icon": true
-        }
       },
       "props": {
         "width": {
@@ -213,11 +203,6 @@
         "m": "m",
         "l": "l"
       },
-      "visibleWhen": {
-        "options": {
-          "isRemovable": true
-        }
-      },
       "with": {
         "isDisabled": {
           "option": "isDisabled"
@@ -227,9 +212,6 @@
     "focus-indicator": {
       "kind": "ring",
       "around": "container",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {

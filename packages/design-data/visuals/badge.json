@@ -184,11 +184,6 @@
         "content": true,
         "optional": true
       },
-      "visibleWhen": {
-        "options": {
-          "icon": true
-        }
-      },
       "props": {
         "width": {
           "relationship": {
@@ -212,11 +207,6 @@
     },
     "label": {
       "kind": "text",
-      "visibleWhen": {
-        "options": {
-          "label": true
-        }
-      },
       "props": {
         "overflow": {
           "value": "wrap"

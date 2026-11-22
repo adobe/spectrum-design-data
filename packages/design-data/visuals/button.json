@@ -274,11 +274,6 @@
         "content": true,
         "optional": true
       },
-      "visibleWhen": {
-        "options": {
-          "isPending": false
-        }
-      },
       "props": {
         "width": {
           "relationship": {
@@ -309,12 +304,6 @@
     },
     "label": {
       "kind": "text",
-      "visibleWhen": {
-        "options": {
-          "isLabelHidden": false,
-          "isPending": false
-        }
-      },
       "props": {
         "overflow": {
           "value": "wrap"
@@ -355,11 +344,6 @@
     },
     "progress": {
       "kind": "progress",
-      "visibleWhen": {
-        "options": {
-          "isPending": true
-        }
-      },
       "props": {
         "width": {
           "relationship": {
@@ -389,9 +373,6 @@
     },
     "focus-indicator": {
       "kind": "ring",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": [
           {

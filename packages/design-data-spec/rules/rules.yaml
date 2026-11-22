@@ -744,9 +744,9 @@ rules:
     layer: 2
     category: reference-integrity
     assert: >
-      Every `when.options` key (and `visibleWhen.options` key) in a visual recipe MUST be an
+      Every `when.options` key in a visual recipe MUST be an
       option of the component, with a value in that option's `values` (a boolean option
-      requires a boolean). Every `when.states` / `visibleWhen.states` entry MUST be the `name`
+      requires a boolean). Every `when.states` entry MUST be the `name`
       of a state declared by the component. Every `{name}` placeholder in a `token` or
       `relationship` selector MUST be `size`, `sizeIndex` or an option of the component that
       declares `values`. A `position` condition MUST list only `first`, `middle`, `last` or `only`,
@@ -820,7 +820,7 @@ rules:
     layer: 2
     category: component
     note: >
-      A name counts as used when a `when` or `visibleWhen` condition names it, when a token the
+      A name counts as used when a `when` condition or the `presentWhen` of an anatomy part the recipe draws names it, when a token the
       recipe binds carries the state, or when it is implied: `size` by `sizeScale`, `label` by a
       text part, and `isDisabled` or `isSelected` by the `disabled` or `selected` states (and the
       reverse). New recipes MUST be free of this warning; existing recipes are held at a baseline.
@@ -941,36 +941,22 @@ rules:
     introduced_in: "1.0.0-draft"
 
   - id: SPEC-074
-    name: anatomy-present-in-declared
+    name: anatomy-present-when-declared
     severity: error
     layer: 2
     category: reference-integrity
     note: >
-      The anatomy version of SPEC-054. State names are compared after normalization, so
-      `focus`, `key-focus` and `keyboard-focus` are one state. A part that lists `presentIn`
-      on a component that declares no states is also reported.
+      The anatomy version of SPEC-054 and SPEC-064. State names are compared after normalization,
+      so `focus`, `key-focus` and `keyboard-focus` are one state. A part that lists
+      `presentWhen.states` on a component that declares no states is also reported. Option
+      names and values are checked as SPEC-064 checks them (an enum value is a listed value; a
+      boolean option takes a boolean).
     assert: >
-      Every entry of an anatomy part's `presentIn` MUST match a state declared on the same
-      component.
+      Every `presentWhen.states` entry of an anatomy part MUST match a state declared on the
+      same component, every `presentWhen.options` key MUST be an option the component declares,
+      and every value MUST be one that option allows.
     message: "Anatomy part '{part}' on component '{component}' is present in state '{state}', but it is not a declared state"
-    spec_ref: spec/anatomy-format.md#presentin
-    introduced_in: "1.0.0-draft"
-
-  - id: SPEC-075
-    name: visual-present-in-matches-anatomy
-    severity: error
-    layer: 2
-    category: component
-    note: >
-      Keeps a recipe's `visibleWhen.states` and the anatomy's `presentIn` from drifting. States
-      are compared after normalization. `visibleWhen.states` means every listed state, and
-      `presentIn` means any listed state, so a difference is an error only when neither side
-      lists more than one state; otherwise it is reported at info level.
-    assert: >
-      For a recipe part that is also an anatomy part, the recipe's `visibleWhen.states` MUST
-      equal the anatomy part's `presentIn`.
-    message: "Recipe part '{part}' of '{component}' is visible in {recipeStates}, but its anatomy presentIn lists {presentIn}"
-    spec_ref: spec/anatomy-format.md#presentin
+    spec_ref: spec/anatomy-format.md#presentwhen
     introduced_in: "1.0.0-draft"
 
   - id: SPEC-076

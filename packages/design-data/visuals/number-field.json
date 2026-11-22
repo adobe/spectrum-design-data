@@ -40,12 +40,6 @@
         "l": "l",
         "xl": "xl"
       },
-      "visibleWhen": {
-        "options": {
-          "hideLabel": false,
-          "label": true
-        }
-      },
       "with": {
         "isRequired": {
           "option": "isRequired"
@@ -165,9 +159,6 @@
     "focus-indicator": {
       "kind": "ring",
       "around": "field",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {

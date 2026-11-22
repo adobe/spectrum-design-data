@@ -194,11 +194,6 @@
     },
     "slash": {
       "kind": "icon",
-      "visibleWhen": {
-        "options": {
-          "preview": false
-        }
-      },
       "icon": {
         "set": "workflow",
         "name": "slash"
@@ -226,11 +221,6 @@
     },
     "icon": {
       "kind": "icon",
-      "visibleWhen": {
-        "options": {
-          "isDisabled": true
-        }
-      },
       "icon": {
         "set": "workflow",
         "name": "cancel"
@@ -258,9 +248,6 @@
     },
     "focus-indicator": {
       "kind": "ring",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {

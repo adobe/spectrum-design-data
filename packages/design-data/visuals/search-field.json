@@ -65,12 +65,6 @@
         "l": "l",
         "xl": "xl"
       },
-      "visibleWhen": {
-        "options": {
-          "hideLabel": false,
-          "label": true
-        }
-      },
       "with": {
         "isDisabled": {
           "option": "isDisabled"
@@ -193,19 +187,11 @@
       },
       "text": {
         "option": "value"
-      },
-      "visibleWhen": {
-        "options": {
-          "value": true
-        }
       }
     },
     "focus-indicator": {
       "kind": "ring",
       "around": "field",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {
@@ -228,11 +214,6 @@
         "m": "m",
         "l": "l",
         "xl": "xl"
-      },
-      "visibleWhen": {
-        "options": {
-          "helpText": true
-        }
       },
       "with": {
         "text": {
@@ -288,12 +269,6 @@
       "kind": "text",
       "text": {
         "option": "placeholder"
-      },
-      "visibleWhen": {
-        "options": {
-          "value": false,
-          "placeholder": true
-        }
       },
       "props": {
         "grow": {

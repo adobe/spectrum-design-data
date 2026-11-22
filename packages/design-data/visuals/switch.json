@@ -164,7 +164,6 @@
     },
     "label": {
       "kind": "text",
-      "visibleWhen": { "options": { "hideLabel": false } },
       "props": {
         "overflow": {
           "value": "wrap"
@@ -194,7 +193,6 @@
     "focus-indicator": {
       "kind": "ring",
       "around": "track",
-      "visibleWhen": { "states": ["keyboard-focus"] },
       "props": {
         "stroke": {
           "relationship": { "property": "color", "part": "focus-indicator" }

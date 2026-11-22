@@ -68,12 +68,14 @@
     },
     {
       "name": "opacity-checkerboard",
+      "presentWhen": { "options": { "hasFill": true } },
       "component": "opacity-checkerboard",
       "description": "Checkerboard behind the sampled color so transparency reads. Drawn when hasFill is true; sized m."
     },
     {
       "name": "fill",
-      "description": "The sampled color, with its 1px inner border. Drawn when hasFill is true."
+      "description": "The sampled color, with its 1px inner border. Drawn when hasFill is true.",
+      "presentWhen": { "options": { "hasFill": true } }
     }
   ],
   "anatomyReview": {

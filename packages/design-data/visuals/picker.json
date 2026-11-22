@@ -76,11 +76,6 @@
         "l": "l",
         "xl": "xl"
       },
-      "visibleWhen": {
-        "options": {
-          "label": true
-        }
-      },
       "with": {
         "isRequired": {
           "option": "isRequired"
@@ -179,11 +174,6 @@
       "text": {
         "option": "value"
       },
-      "visibleWhen": {
-        "options": {
-          "value": true
-        }
-      },
       "props": {
         "grow": {
           "value": true
@@ -223,12 +213,6 @@
       "kind": "text",
       "text": {
         "option": "placeholder"
-      },
-      "visibleWhen": {
-        "options": {
-          "value": false,
-          "placeholder": true
-        }
       },
       "props": {
         "grow": {
@@ -300,9 +284,6 @@
     "focus-indicator": {
       "kind": "ring",
       "around": "field",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {
@@ -325,11 +306,6 @@
         "m": "m",
         "l": "l",
         "xl": "xl"
-      },
-      "visibleWhen": {
-        "options": {
-          "description": true
-        }
       },
       "with": {
         "text": {

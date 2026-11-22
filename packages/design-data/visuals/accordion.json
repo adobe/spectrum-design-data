@@ -59,8 +59,7 @@
     "container-divider": {
       "kind": "component",
       "sizeMap": { "s": "s", "m": "s", "l": "s", "xl": "s" },
-      "inherit": ["width"],
-      "visibleWhen": { "options": { "isQuiet": false } }
+      "inherit": ["width"]
     },
     "accordion-item": {
       "kind": "box",
@@ -130,8 +129,12 @@
     },
     "action-button": {
       "kind": "component",
-      "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
-      "visibleWhen": { "options": { "hasActionButton": true } },
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
       "with": {
         "hideLabel": true,
         "hasHoldIcon": true,
@@ -140,8 +143,12 @@
     },
     "switch": {
       "kind": "component",
-      "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" },
-      "visibleWhen": { "options": { "hasSwitch": true } },
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
       "with": { "hideLabel": true, "isDisabled": { "option": "isDisabled" } }
     },
     "disclosure-icon": {
@@ -295,7 +302,6 @@
     },
     "content": {
       "kind": "text",
-      "visibleWhen": { "options": { "isOpen": true, "content": true } },
       "text": { "option": "content" },
       "props": {
         "paddingInlineStart": {
@@ -342,8 +348,7 @@
     "divider": {
       "kind": "component",
       "sizeMap": { "s": "s", "m": "s", "l": "s", "xl": "s" },
-      "inherit": ["width"],
-      "visibleWhen": { "options": { "isQuiet": false } }
+      "inherit": ["width"]
     }
   }
 }

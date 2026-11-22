@@ -98,11 +98,13 @@
     },
     {
       "name": "initials",
-      "description": "Text initials shown for the Initials style."
+      "description": "Text initials shown for the Initials style.",
+      "presentWhen": { "options": { "image": "initials" } }
     },
     {
       "name": "guest-icon",
-      "description": "Guest glyph shown for the Guest style."
+      "description": "Guest glyph shown for the Guest style.",
+      "presentWhen": { "options": { "image": "guest" } }
     }
   ],
   "anatomyReview": {

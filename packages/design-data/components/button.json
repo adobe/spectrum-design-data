@@ -199,19 +199,27 @@
       "required": true,
       "contains": ["icon", "progress", "label"]
     },
-    { "name": "icon", "description": "Leading icon." },
+    {
+      "name": "icon",
+      "description": "Leading icon.",
+      "presentWhen": { "options": { "isPending": false } }
+    },
     {
       "name": "progress",
-      "description": "Progress indicator shown in place of the icon and label while an action is pending."
+      "description": "Progress indicator shown in place of the icon and label while an action is pending.",
+      "presentWhen": { "options": { "isPending": true } }
     },
     {
       "name": "label",
-      "description": "Button text. Hidden when the label is hidden or the button is pending."
+      "description": "Button text. Hidden when the label is hidden or the button is pending.",
+      "presentWhen": {
+        "options": { "isLabelHidden": false, "isPending": false }
+      }
     },
     {
       "name": "focus-indicator",
       "description": "Outline drawn outside the container for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

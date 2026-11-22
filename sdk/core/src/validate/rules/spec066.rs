@@ -12,7 +12,8 @@
 //!
 //! Every option and state a component declares SHOULD either affect its visual
 //! recipe or be listed in the recipe's `notVisual` array. A name counts as used
-//! when a `when` / `visibleWhen` condition names it, when a token the recipe
+//! when a `when` condition or the `presentWhen` of an anatomy part the recipe draws
+//! names it, when a token the recipe
 //! binds carries the state, or when it is implied: `size` by `sizeScale`,
 //! `label` by a text part, and `isDisabled` / `isSelected` by the `disabled` /
 //! `selected` states (and the reverse). `notVisual` names MUST be declared and
@@ -129,6 +130,29 @@ fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
         }
     });
     let comp = component_of(graph, v).map(|c| &c.raw);
+    // A part's presence condition lives on its anatomy part, not in the recipe.
+    let drawn = parts.as_object();
+    for part in comp
+        .and_then(|c| c.get("anatomy"))
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter(|a| {
+            let name = a.get("name").and_then(Value::as_str).unwrap_or_default();
+            drawn.is_some_and(|d| d.contains_key(name))
+        })
+    {
+        let Some(cond) = part.get("presentWhen") else {
+            continue;
+        };
+        if let Some(o) = cond.get("options").and_then(Value::as_object) {
+            used.options.extend(o.keys().cloned());
+        }
+        if let Some(s) = cond.get("states").and_then(Value::as_array) {
+            used.states
+                .extend(s.iter().filter_map(|x| x.as_str().map(String::from)));
+        }
+    }
     for (_, _, option) in repeats(v, comp) {
         if !option.is_empty() {
             used.options.insert(option.into());

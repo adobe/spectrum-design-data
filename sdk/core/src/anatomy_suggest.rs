@@ -36,8 +36,8 @@ pub struct Candidate {
     pub evidence: Vec<String>,
     /// Checklist items this candidate does not yet satisfy.
     pub flags: Vec<String>,
-    /// Declared component states the part should list in `presentIn`, when state-only.
-    #[serde(rename = "presentIn")]
+    /// Declared component states the part should list in `presentWhen.states`, when state-only.
+    #[serde(rename = "presentWhenStates")]
     pub present_in: Vec<String>,
 }
 
@@ -352,7 +352,7 @@ pub fn suggest_component(graph: &TokenGraph, component: &str) -> Option<Suggesti
                 Some(f) => present_in.push(f.clone()),
                 None => match focus_states.first() {
                     Some(f) => present_in.push(f.clone()),
-                    None => flags.push("no declared focus state to list in `presentIn`".into()),
+                    None => flags.push("no declared focus state to list in `presentWhen`".into()),
                 },
             }
         }
@@ -423,7 +423,7 @@ Nothing here is reviewed anatomy.\n",
             let reg = if c.registry { "registry" } else { "custom" };
             out.push_str(&format!("- `{}` ({reg})", c.name));
             if !c.present_in.is_empty() {
-                out.push_str(&format!(" presentIn: {}", c.present_in.join(", ")));
+                out.push_str(&format!(" presentWhen states: {}", c.present_in.join(", ")));
             }
             out.push('\n');
             for e in &c.evidence {

@@ -134,22 +134,24 @@
     },
     {
       "name": "slash",
-      "description": "Diagonal slash indicating an empty or \"none\" swatch."
+      "description": "Diagonal slash indicating an empty or \"none\" swatch.",
+      "presentWhen": { "options": { "preview": false } }
     },
     {
       "name": "icon",
-      "description": "Cancel glyph drawn over a disabled swatch."
+      "description": "Cancel glyph drawn over a disabled swatch.",
+      "presentWhen": { "options": { "isDisabled": true } }
     },
     {
       "name": "focus-indicator",
       "description": "Ring drawn around the swatch for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     },
     {
       "name": "tooltip",
       "component": "tooltip",
       "description": "Floating label shown when the swatch is hovered; a nested component placed outside the swatch, like picker menu-container. The gap from the container to it is a space-between record.",
-      "presentIn": ["hover"]
+      "presentWhen": { "states": ["hover"] }
     }
   ],
   "anatomyReview": {

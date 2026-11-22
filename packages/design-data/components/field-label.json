@@ -95,7 +95,10 @@
     { "name": "label", "description": "Text label.", "required": true },
     {
       "name": "necessity-indicator",
-      "description": "Required-field indicator."
+      "description": "Required-field indicator.",
+      "presentWhen": {
+        "options": { "isRequired": true, "necessityIndicator": "icon" }
+      }
     }
   ],
   "anatomyReview": {

@@ -138,8 +138,16 @@
       "required": true,
       "contains": ["icon", "label"]
     },
-    { "name": "icon", "description": "Optional leading icon." },
-    { "name": "label", "description": "Badge text." }
+    {
+      "name": "icon",
+      "description": "Optional leading icon.",
+      "presentWhen": { "options": { "icon": true } }
+    },
+    {
+      "name": "label",
+      "description": "Badge text.",
+      "presentWhen": { "options": { "label": true } }
+    }
   ],
   "anatomyReview": {
     "status": "reviewed",
