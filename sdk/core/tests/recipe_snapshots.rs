@@ -370,6 +370,7 @@ recipe_tests! {
     progress_circle => "progress-circle",
     radio_button => "radio-button",
     search_field => "search-field",
+    standard_panel => "standard-panel",
     status_light => "status-light",
     swatch => "swatch",
     switch => "switch",
