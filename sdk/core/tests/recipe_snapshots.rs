@@ -358,6 +358,7 @@ recipe_tests! {
     in_line_alert => "in-line-alert",
     link => "link",
     meter => "meter",
+    number_field => "number-field",
     opacity_checkerboard => "opacity-checkerboard",
     picker => "picker",
     progress_bar => "progress-bar",
