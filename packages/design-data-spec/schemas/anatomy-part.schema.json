@@ -21,11 +21,8 @@
       "default": false,
       "description": "Whether this part is always rendered regardless of component configuration."
     },
-    "presentIn": {
-      "type": "array",
-      "items": { "type": "string" },
-      "uniqueItems": true,
-      "description": "Declared component states in which this part is present (for example focus for a focus indicator); drawn when any is active. Absent means the part can appear in any state. Not for state-dependent styling. Each entry should match a `states[].name` declared on the component (SPEC-074)."
+    "presentWhen": {
+      "$ref": "component.schema.json#/$defs/presentWhen"
     },
     "component": {
       "type": "string",
@@ -56,6 +53,6 @@
     "required": ["required"],
     "properties": { "required": { "const": true } }
   },
-  "then": { "not": { "required": ["presentIn"] } },
+  "then": { "not": { "required": ["presentWhen"] } },
   "additionalProperties": false
 }

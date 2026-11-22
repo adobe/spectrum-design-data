@@ -386,16 +386,31 @@ mod tests {
     fn anatomy_part_rejects_presence_states_on_a_required_part() {
         for (part, valid) in [
             (
-                json!({"name": "focus-indicator", "presentIn": ["focus"]}),
+                json!({"name": "focus-indicator", "presentWhen": {"states": ["focus"]}}),
                 true,
             ),
             (json!({"name": "label", "required": true}), true),
             (
-                json!({"name": "focus-indicator", "required": false, "presentIn": ["focus"]}),
+                json!({"name": "checkmark", "presentWhen": {"options": {"isSelected": true, "variant": ["a", "b"]}}}),
+                true,
+            ),
+            // presentWhen has its own keys: no position, modes, or the old presentIn.
+            (
+                json!({"name": "x", "presentWhen": {"position": "first"}}),
+                false,
+            ),
+            (
+                json!({"name": "x", "presentWhen": {"modes": {"colorScheme": "dark"}}}),
+                false,
+            ),
+            (json!({"name": "x", "presentWhen": {}}), false),
+            (json!({"name": "x", "presentIn": ["focus"]}), false),
+            (
+                json!({"name": "focus-indicator", "required": false, "presentWhen": {"states": ["focus"]}}),
                 true,
             ),
             (
-                json!({"name": "focus-indicator", "required": true, "presentIn": ["focus"]}),
+                json!({"name": "focus-indicator", "required": true, "presentWhen": {"states": ["focus"]}}),
                 false,
             ),
         ] {

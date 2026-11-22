@@ -150,6 +150,7 @@
     },
     {
       "name": "field-label",
+      "presentWhen": { "options": { "label": true } },
       "component": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
@@ -178,11 +179,13 @@
     },
     {
       "name": "value",
-      "description": "Currently selected item."
+      "description": "Currently selected item.",
+      "presentWhen": { "options": { "value": true } }
     },
     {
       "name": "placeholder",
-      "description": "Hint text shown when nothing is selected."
+      "description": "Hint text shown when nothing is selected.",
+      "presentWhen": { "options": { "value": false, "placeholder": true } }
     },
     {
       "name": "error-icon",
@@ -200,6 +203,7 @@
     },
     {
       "name": "help-text",
+      "presentWhen": { "options": { "description": true } },
       "component": "help-text",
       "description": "Description or error message shown below the field."
     },
@@ -210,7 +214,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

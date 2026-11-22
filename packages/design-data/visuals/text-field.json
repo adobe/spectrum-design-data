@@ -55,11 +55,6 @@
         "l": "l",
         "xl": "xl"
       },
-      "visibleWhen": {
-        "options": {
-          "hideLabel": false
-        }
-      },
       "with": {
         "isRequired": {
           "option": "isRequired"
@@ -195,11 +190,6 @@
       },
       "text": {
         "option": "value"
-      },
-      "visibleWhen": {
-        "options": {
-          "value": true
-        }
       }
     },
     "validation-marker": {
@@ -207,12 +197,6 @@
       "icon": {
         "set": "ui",
         "name": "checkmark"
-      },
-      "visibleWhen": {
-        "options": {
-          "showValidIcon": true,
-          "isError": false
-        }
       },
       "props": {
         "color": {
@@ -226,9 +210,6 @@
     "focus-indicator": {
       "kind": "ring",
       "around": "field",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {
@@ -251,11 +232,6 @@
         "m": "m",
         "l": "l",
         "xl": "xl"
-      },
-      "visibleWhen": {
-        "options": {
-          "helpText": true
-        }
       },
       "with": {
         "text": {

@@ -111,6 +111,7 @@
     {
       "name": "header",
       "description": "Row that holds the label and the value text above the track. Not drawn when the label is hidden.",
+      "presentWhen": { "options": { "label": true, "hideLabel": false } },
       "contains": ["label", "value"]
     },
     {
@@ -119,7 +120,8 @@
     },
     {
       "name": "value",
-      "description": "Percentage text in the header. Hidden when no value label."
+      "description": "Percentage text in the header. Hidden when no value label.",
+      "presentWhen": { "options": { "isIndeterminate": false } }
     },
     {
       "name": "track",

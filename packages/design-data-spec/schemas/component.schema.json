@@ -372,11 +372,8 @@
           "type": "boolean",
           "default": false
         },
-        "presentIn": {
-          "type": "array",
-          "items": { "type": "string" },
-          "uniqueItems": true,
-          "description": "Declared component states in which this part is present; drawn when any is active. Absent means any state. Not for state-dependent styling."
+        "presentWhen": {
+          "$ref": "#/$defs/presentWhen"
         },
         "component": {
           "type": "string",
@@ -402,7 +399,40 @@
         "required": ["required"],
         "properties": { "required": { "const": true } }
       },
-      "then": { "not": { "required": ["presentIn"] } },
+      "then": { "not": { "required": ["presentWhen"] } },
+      "additionalProperties": false
+    },
+    "presentWhen": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "When an anatomy part is present: every listed state is active (all of) and every listed option has one of its values. Absent means the part is present in any configuration. Not for state-dependent styling. See spec/anatomy-format.md (presentWhen).",
+      "properties": {
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "description": "Declared component states that must all be active (SPEC-074)."
+        },
+        "options": {
+          "type": "object",
+          "minProperties": 1,
+          "description": "Declared options and the value each must have; an array lists alternatives (any of). Option names and values are checked by SPEC-074 (as SPEC-064).",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "boolean", "number"] },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": ["string", "boolean", "number"] }
+              }
+            ]
+          }
+        }
+      },
       "additionalProperties": false
     },
     "stateDeclaration": {

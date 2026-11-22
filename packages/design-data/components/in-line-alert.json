@@ -72,7 +72,8 @@
     },
     {
       "name": "title",
-      "description": "Alert heading. Hidden when no heading."
+      "description": "Alert heading. Hidden when no heading.",
+      "presentWhen": { "options": { "heading": true } }
     },
     {
       "name": "description",

@@ -21,9 +21,9 @@
     },
     "icon": {
       "kind": "icon",
-      "icon": { "set": "workflow", "name": "alert-triangle" },
-      "visibleWhen": {
-        "options": { "variant": "negative", "hideIcon": false }
+      "icon": {
+        "set": "workflow",
+        "name": "alert-triangle"
       },
       "props": {
         "width": { "relationship": { "property": "size", "part": "icon" } },

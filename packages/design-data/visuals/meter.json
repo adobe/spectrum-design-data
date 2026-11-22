@@ -38,12 +38,6 @@
     "header": {
       "kind": "box",
       "children": ["label", "value"],
-      "visibleWhen": {
-        "options": {
-          "label": true,
-          "hideLabel": false
-        }
-      },
       "props": {
         "direction": {
           "value": "row"
@@ -224,11 +218,6 @@
       },
       "text": {
         "option": "helpText"
-      },
-      "visibleWhen": {
-        "options": {
-          "helpText": true
-        }
       }
     }
   }

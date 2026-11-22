@@ -135,7 +135,6 @@
     },
     "label": {
       "kind": "text",
-      "visibleWhen": { "options": { "isLabelHidden": false } },
       "props": {
         "fontSize": {
           "token": {

@@ -69,13 +69,18 @@
     },
     {
       "name": "selection-indicator",
-      "description": "Dot at the center of the control, shown while the radio button is selected."
+      "description": "Dot at the center of the control, shown while the radio button is selected.",
+      "presentWhen": { "options": { "isSelected": true } }
     },
-    { "name": "label", "description": "Text label." },
+    {
+      "name": "label",
+      "description": "Text label.",
+      "presentWhen": { "options": { "label": true } }
+    },
     {
       "name": "focus-indicator",
       "description": "Outline drawn outside the control for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

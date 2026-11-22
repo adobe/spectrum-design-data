@@ -87,12 +87,6 @@
     },
     "opacity-checkerboard": {
       "kind": "component",
-      "visibleWhen": {
-        "options": {
-          "hasFill": true,
-          "isDisabled": false
-        }
-      },
       "sizeMap": {
         "m": "m"
       },
@@ -100,12 +94,6 @@
     },
     "fill": {
       "kind": "box",
-      "visibleWhen": {
-        "options": {
-          "hasFill": true,
-          "isDisabled": false
-        }
-      },
       "props": {
         "fill": {
           "option": "color"

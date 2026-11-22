@@ -299,7 +299,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     },
     {
       "name": "help-text",
@@ -310,20 +310,20 @@
       "name": "popover",
       "component": "popover",
       "description": "The popover component, a top-level part present only while open, with hideTip set so it draws no tip. Its content is the calendar and, when granularity includes time, a time-field (two for a range). date-picker overrides the popover margin, minimum width and height (set by visibleMonths) and padding.",
-      "presentIn": ["open"],
+      "presentWhen": { "states": ["open"] },
       "contains": ["calendar", "time-field"]
     },
     {
       "name": "calendar",
       "component": "calendar",
       "description": "The calendar component inside the popover. It draws no surface; the popover provides it.",
-      "presentIn": ["open"]
+      "presentWhen": { "states": ["open"] }
     },
     {
       "name": "time-field",
       "component": "time-field",
       "description": "The time-field component inside the popover, present when granularity includes time. One for a single date, two (start and end) for a range.",
-      "presentIn": ["open"]
+      "presentWhen": { "states": ["open"] }
     },
     {
       "name": "day",

@@ -77,7 +77,7 @@
     {
       "name": "label",
       "description": "Button text. Hidden when isLabelHidden is set.",
-      "required": true
+      "presentWhen": { "options": { "isLabelHidden": false } }
     }
   ],
   "lifecycle": {

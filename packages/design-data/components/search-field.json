@@ -118,6 +118,7 @@
     },
     {
       "name": "field-label",
+      "presentWhen": { "options": { "hideLabel": false, "label": true } },
       "component": "field-label",
       "description": "Text label that names the field; hidden with hideLabel."
     },
@@ -139,11 +140,13 @@
     },
     {
       "name": "value",
-      "description": "Text the user entered."
+      "description": "Text the user entered.",
+      "presentWhen": { "options": { "value": true } }
     },
     {
       "name": "placeholder",
-      "description": "Hint text shown while the field is empty."
+      "description": "Hint text shown while the field is empty.",
+      "presentWhen": { "options": { "value": false, "placeholder": true } }
     },
     {
       "name": "in-field-button",
@@ -152,13 +155,14 @@
     },
     {
       "name": "help-text",
+      "presentWhen": { "options": { "helpText": true } },
       "component": "help-text",
       "description": "Description or error message shown below the field."
     },
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

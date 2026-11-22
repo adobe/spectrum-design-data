@@ -38,12 +38,6 @@
     "header": {
       "kind": "box",
       "children": ["label", "value"],
-      "visibleWhen": {
-        "options": {
-          "label": true,
-          "hideLabel": false
-        }
-      },
       "props": {
         "direction": {
           "value": "row"
@@ -125,11 +119,6 @@
           "value": "value",
           "min": "minValue",
           "max": "maxValue"
-        }
-      },
-      "visibleWhen": {
-        "options": {
-          "isIndeterminate": false
         }
       }
     },

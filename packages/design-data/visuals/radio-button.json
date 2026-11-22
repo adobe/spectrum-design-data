@@ -170,11 +170,6 @@
     },
     "selection-indicator": {
       "kind": "box",
-      "visibleWhen": {
-        "options": {
-          "isSelected": true
-        }
-      },
       "props": {
         "width": {
           "relationship": {
@@ -205,11 +200,6 @@
     },
     "label": {
       "kind": "text",
-      "visibleWhen": {
-        "options": {
-          "label": true
-        }
-      },
       "props": {
         "overflow": {
           "value": "wrap"
@@ -245,9 +235,6 @@
     "focus-indicator": {
       "kind": "ring",
       "around": "control",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {

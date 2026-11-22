@@ -102,11 +102,6 @@
         "set": "workflow",
         "name": "alert-triangle"
       },
-      "visibleWhen": {
-        "options": {
-          "variant": "negative"
-        }
-      },
       "props": {
         "width": {
           "relationship": {
@@ -168,11 +163,6 @@
       },
       "with": {
         "staticColor": "white"
-      },
-      "visibleWhen": {
-        "options": {
-          "isDismissible": true
-        }
       }
     }
   }

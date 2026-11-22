@@ -213,24 +213,24 @@
       "name": "popover",
       "component": "popover",
       "description": "The popover component, a top-level part present only while open. Its content is the title, description and link. contextual-help overrides its minimum width and padding and draws no tip.",
-      "presentIn": ["open"],
+      "presentWhen": { "states": ["open"] },
       "contains": ["title", "description", "link"]
     },
     {
       "name": "title",
       "description": "Heading of the popover.",
-      "presentIn": ["open"]
+      "presentWhen": { "states": ["open"] }
     },
     {
       "name": "description",
       "description": "Description text in the popover.",
-      "presentIn": ["open"]
+      "presentWhen": { "states": ["open"] }
     },
     {
       "name": "link",
       "component": "link",
       "description": "Optional link component at the end of the popover.",
-      "presentIn": ["open"]
+      "presentWhen": { "states": ["open"] }
     }
   ],
   "anatomyReview": {

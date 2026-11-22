@@ -74,20 +74,26 @@
     },
     {
       "name": "avatar",
+      "presentWhen": { "options": { "hasAvatar": true } },
       "component": "avatar",
       "description": "Optional leading avatar, shown when hasAvatar is set."
     },
-    { "name": "icon", "description": "Optional leading workflow icon." },
+    {
+      "name": "icon",
+      "description": "Optional leading workflow icon.",
+      "presentWhen": { "options": { "icon": true } }
+    },
     { "name": "label", "description": "Tag text.", "required": true },
     {
       "name": "clear-button",
+      "presentWhen": { "options": { "isRemovable": true } },
       "component": "clear-button",
       "description": "Button that removes the tag, shown when isRemovable is set (React Spectrum ClearButton, the shared in-field button)."
     },
     {
       "name": "focus-indicator",
       "description": "Outline drawn outside the container for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "states": [

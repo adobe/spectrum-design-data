@@ -201,7 +201,7 @@
           "uniqueItems": true
         },
         "visibleWhen": {
-          "$ref": "#/$defs/condition"
+          "$ref": "#/$defs/visibleWhen"
         },
         "repeat": {
           "type": "object",
@@ -395,6 +395,16 @@
               "items": { "$ref": "#/$defs/position" }
             }
           ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "visibleWhen": {
+      "type": "object",
+      "description": "Whether a recipe part is drawn for a repeated copy. Only `position`: whether the part exists at all (a state or option condition) is the anatomy part's `presentWhen` (spec/anatomy-format.md).",
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/condition/properties/position"
         }
       },
       "additionalProperties": false

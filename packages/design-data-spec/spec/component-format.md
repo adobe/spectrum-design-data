@@ -239,7 +239,7 @@ The `slots` block declares the component's named **content injection points** â€
 * With `collection`, `part` is the component's **own part that repeats**, once per entry of the option. Its host is its anatomy parent: the part whose `contains` lists it. A part hosts at most one collection slot. A group of other components (a button group's buttons) is not a collection; it is an ordinary slot with `max` greater than `1`.
 * A recipe's container `repeat` reads the repeated part and the option from the collection slot, so neither is stated twice ([Repeated parts](component-visuals.md#repeated-parts)).
 
-`accepts` entries name components only: each **MUST** be a declared, non-deprecated component other than this one (SPEC-104). A slot has no condition of its own: its presence follows its host part (that part's `presentIn` and the recipe's `visibleWhen`).
+`accepts` entries name components only: each **MUST** be a declared, non-deprecated component other than this one (SPEC-104). A slot has no condition of its own: its presence follows its host part (that part's `presentWhen`).
 
 ```json
 "slots": [

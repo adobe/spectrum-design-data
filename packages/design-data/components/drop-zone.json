@@ -111,7 +111,7 @@
     {
       "name": "banner",
       "description": "Pill that offers to replace the content (text such as Drop file to replace). Drawn only when isFilled and a file is dragged over (state drag-and-drop).",
-      "presentIn": ["drag-and-drop"]
+      "presentWhen": { "states": ["drag-and-drop"] }
     },
     {
       "name": "body",

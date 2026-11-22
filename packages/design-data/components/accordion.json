@@ -159,6 +159,7 @@
     },
     {
       "name": "container-divider",
+      "presentWhen": { "options": { "isQuiet": false } },
       "component": "divider",
       "description": "One-pixel line that opens the list, above the first item. It belongs to the container, not to an item, and fills the container's width. Absent when the accordion is quiet (isQuiet)."
     },
@@ -191,27 +192,31 @@
     },
     {
       "name": "action-button",
+      "presentWhen": { "options": { "hasActionButton": true } },
       "component": "action-button",
       "description": "Icon-only action button (the action-button component) in the actions. Shown when hasActionButton is on."
     },
     {
       "name": "switch",
+      "presentWhen": { "options": { "hasSwitch": true } },
       "component": "switch",
       "description": "Switch (the switch component) in the actions. Shown when hasSwitch is on."
     },
     {
       "name": "content",
-      "description": "Area below the header holding the item's content. Shown only while the item is open (isOpen)."
+      "description": "Area below the header holding the item's content. Shown only while the item is open (isOpen).",
+      "presentWhen": { "options": { "isOpen": true, "content": true } }
     },
     {
       "name": "divider",
+      "presentWhen": { "options": { "isQuiet": false } },
       "component": "divider",
       "description": "One-pixel line below the item. Absent when the accordion is quiet (isQuiet)."
     },
     {
       "name": "focus-indicator",
       "description": "Outline for keyboard focus on the header.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

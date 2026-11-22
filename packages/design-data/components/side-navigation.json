@@ -197,7 +197,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused item.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     },
     {
       "name": "indicator",

@@ -264,21 +264,10 @@
             }
           }
         ]
-      },
-      "visibleWhen": {
-        "options": {
-          "isPending": false
-        }
       }
     },
     "label": {
       "kind": "text",
-      "visibleWhen": {
-        "options": {
-          "hideLabel": false,
-          "isPending": false
-        }
-      },
       "props": {
         "fontSize": {
           "relationship": {
@@ -316,12 +305,9 @@
     },
     "hold-icon": {
       "kind": "icon",
-      "icon": { "set": "ui", "name": "corner-triangle" },
-      "visibleWhen": {
-        "options": {
-          "hasHoldIcon": true,
-          "isPending": false
-        }
+      "icon": {
+        "set": "ui",
+        "name": "corner-triangle"
       },
       "placement": {
         "anchor": "bottom-end",
@@ -351,9 +337,6 @@
     },
     "focus-indicator": {
       "kind": "ring",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {
@@ -377,11 +360,6 @@
     },
     "progress": {
       "kind": "progress",
-      "visibleWhen": {
-        "options": {
-          "isPending": true
-        }
-      },
       "props": {
         "width": {
           "relationship": {

@@ -223,7 +223,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused day.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

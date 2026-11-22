@@ -319,7 +319,7 @@ fn when_options(recipe: &Value, context: &str) -> Map<String, Value> {
     out
 }
 
-/// States and options the highlighted bindings need to appear: the part's `visibleWhen` (a focus
+/// States and options the highlighted bindings need to appear: the part's presence condition (a focus
 /// ring, the badge icon) and the `when` of the binding for `context` (the pressed scale). The
 /// block renders with them, so the scene holds what the block documents. An option that lists
 /// values takes the first.
@@ -1137,7 +1137,13 @@ impl Ctx<'_> {
                     }
                     let pairs: Vec<(&str, &str)> =
                         hl.iter().map(|b| (b.0.as_str(), b.1.as_str())).collect();
-                    let (states, wanted) = required_visibility(recipe, &context, &pairs);
+                    // Presence now lives on the anatomy part (`presentWhen`).
+                    let folded = design_data_core::visual::recipe_with_presence(
+                        self.graph,
+                        recipe,
+                        self.component,
+                    );
+                    let (states, wanted) = required_visibility(&folded, &context, &pairs);
                     for (k, v) in wanted {
                         if !split.is_some_and(|keys| keys.contains(&k)) {
                             options.entry(k).or_insert(v);

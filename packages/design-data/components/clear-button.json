@@ -66,7 +66,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the container for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

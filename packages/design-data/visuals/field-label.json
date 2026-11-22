@@ -46,9 +46,9 @@
     },
     "necessity-indicator": {
       "kind": "icon",
-      "icon": { "set": "ui", "name": "asterisk" },
-      "visibleWhen": {
-        "options": { "isRequired": true, "necessityIndicator": "icon" }
+      "icon": {
+        "set": "ui",
+        "name": "asterisk"
       },
       "props": {
         "width": [

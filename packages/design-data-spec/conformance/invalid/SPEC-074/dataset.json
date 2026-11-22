@@ -28,9 +28,30 @@
         {
           "name": "focus-indicator",
           "description": "Outline drawn outside the container for keyboard focus.",
-          "presentIn": ["focus"]
+          "presentWhen": {
+            "states": ["focus"]
+          }
+        },
+        {
+          "name": "checkmark",
+          "description": "Mark drawn while selected.",
+          "presentWhen": {
+            "options": {
+              "isSelected": "yes",
+              "tone": true
+            }
+          }
         }
-      ]
+      ],
+      "options": {
+        "isSelected": {
+          "type": "boolean"
+        },
+        "variant": {
+          "type": "string",
+          "values": ["accent", "negative"]
+        }
+      }
     }
   ]
 }

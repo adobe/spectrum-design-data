@@ -59,11 +59,6 @@
         "l": "l",
         "xl": "xl"
       },
-      "visibleWhen": {
-        "options": {
-          "label": true
-        }
-      },
       "with": {
         "isRequired": {
           "option": "isRequired"
@@ -181,19 +176,11 @@
       },
       "text": {
         "option": "value"
-      },
-      "visibleWhen": {
-        "options": {
-          "value": true
-        }
       }
     },
     "focus-indicator": {
       "kind": "ring",
       "around": "field",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": {
@@ -216,11 +203,6 @@
         "m": "m",
         "l": "l",
         "xl": "xl"
-      },
-      "visibleWhen": {
-        "options": {
-          "description": true
-        }
       },
       "with": {
         "text": {

@@ -95,11 +95,6 @@
         "set": "workflow",
         "name": "alert-triangle"
       },
-      "visibleWhen": {
-        "options": {
-          "variant": "negative"
-        }
-      },
       "props": {
         "width": {
           "relationship": {

@@ -139,11 +139,6 @@
       "text": {
         "option": "heading"
       },
-      "visibleWhen": {
-        "options": {
-          "heading": true
-        }
-      },
       "props": {
         "overflow": {
           "value": "wrap"

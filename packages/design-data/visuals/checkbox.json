@@ -150,12 +150,9 @@
     },
     "checkmark": {
       "kind": "icon",
-      "icon": { "set": "ui", "name": "checkmark" },
-      "visibleWhen": {
-        "options": {
-          "isSelected": true,
-          "isIndeterminate": false
-        }
+      "icon": {
+        "set": "ui",
+        "name": "checkmark"
       },
       "props": {
         "width": [
@@ -233,11 +230,9 @@
     },
     "dash": {
       "kind": "icon",
-      "icon": { "set": "ui", "name": "dash" },
-      "visibleWhen": {
-        "options": {
-          "isIndeterminate": true
-        }
+      "icon": {
+        "set": "ui",
+        "name": "dash"
       },
       "props": {
         "width": [
@@ -315,11 +310,6 @@
     },
     "label": {
       "kind": "text",
-      "visibleWhen": {
-        "options": {
-          "label": true
-        }
-      },
       "props": {
         "overflow": {
           "value": "wrap"
@@ -347,9 +337,6 @@
     "focus-indicator": {
       "kind": "ring",
       "around": "box",
-      "visibleWhen": {
-        "states": ["keyboard-focus"]
-      },
       "props": {
         "stroke": {
           "relationship": { "property": "color", "part": "focus-indicator" }

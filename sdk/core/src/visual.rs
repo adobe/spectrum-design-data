@@ -2654,13 +2654,14 @@ pub fn recipe_options(recipe: &Value) -> (Vec<String>, Vec<String>) {
 
 /// [`recipe_options`] for a recipe bound to a component's data: it also counts the component
 /// options pinned (`scope.options`) by the relationships the recipe binds, since a recipe
-/// that moves its conditions into relationships no longer names those options itself.
+/// that moves its conditions into relationships no longer names those options itself. A part's
+/// anatomy `presentWhen` counts as its recipe condition.
 pub fn recipe_options_in(
     graph: &TokenGraph,
     recipe: &Value,
     component: &str,
 ) -> (Vec<String>, Vec<String>) {
-    let (mut used, structural) = recipe_options(recipe);
+    let (mut used, structural) = recipe_options(&recipe_with_presence(graph, recipe, component));
     // The array option a container repeats a child over counts as read.
     let comp = graph.components.iter().find(|c| c.name == component);
     for part in recipe
@@ -2798,6 +2799,49 @@ fn component_option_defaults(graph: &TokenGraph, component: &str) -> HashMap<Str
         .unwrap_or_default()
 }
 
+/// The recipe's parts with each anatomy part's `presentWhen` folded into the part's
+/// `visibleWhen`: presence is read from the anatomy, and the recipe keeps only `position`
+/// (spec/anatomy-format.md, `presentWhen`).
+fn parts_with_presence(
+    graph: &TokenGraph,
+    component: &str,
+    parts: &serde_json::Map<String, Value>,
+) -> serde_json::Map<String, Value> {
+    let anatomy = [graph.canonical_component(component), component]
+        .into_iter()
+        .find_map(|name| graph.components.iter().find(|c| c.name == name))
+        .and_then(|c| c.raw.get("anatomy")?.as_array());
+    let mut parts = parts.clone();
+    for (name, part) in parts.iter_mut() {
+        let when = anatomy
+            .and_then(|a| {
+                a.iter()
+                    .find(|p| p.get("name").and_then(Value::as_str) == Some(name))
+            })
+            .and_then(|p| p.get("presentWhen")?.as_object());
+        let (Some(when), Some(part)) = (when, part.as_object_mut()) else {
+            continue;
+        };
+        let visible = part
+            .entry("visibleWhen")
+            .or_insert_with(|| Value::Object(Default::default()));
+        if let Some(visible) = visible.as_object_mut() {
+            visible.extend(when.iter().map(|(k, v)| (k.clone(), v.clone())));
+        }
+    }
+    parts
+}
+
+/// `recipe` with each part's anatomy `presentWhen` folded into its `visibleWhen`, so a reader
+/// of a recipe's conditions sees presence as well.
+pub fn recipe_with_presence(graph: &TokenGraph, recipe: &Value, component: &str) -> Value {
+    let mut folded = recipe.clone();
+    if let Some(parts) = recipe.get("parts").and_then(Value::as_object) {
+        folded["parts"] = Value::Object(parts_with_presence(graph, component, parts));
+    }
+    folded
+}
+
 /// Pre-resolve every token and relationship binding in a recipe so a renderer needs
 /// no token graph. Each binding becomes a `candidates` list (`{value, token, states}`,
 /// best mode fit first) per `size|colorScheme|scale`; the renderer only applies the
@@ -2816,6 +2860,7 @@ pub fn compile_recipe(
         .get("parts")
         .and_then(Value::as_object)
         .ok_or("recipe has no parts")?;
+    let parts = &parts_with_presence(graph, component, parts);
     let option_defaults = component_option_defaults(graph, component);
 
     let lookup = Lookup::default();
@@ -2878,6 +2923,7 @@ fn compile_variant(
         .get("parts")
         .and_then(Value::as_object)
         .ok_or("recipe has no parts")?;
+    let parts = &parts_with_presence(graph, &req.component, parts);
     let root = recipe
         .get("root")
         .and_then(Value::as_str)
@@ -7890,7 +7936,7 @@ mod tests {
             .unwrap()
             .iter()
             .any(|e| e["candidates"].as_array().is_some_and(|c| !c.is_empty())));
-        let (used, structural) = recipe_options(&recipe);
+        let (used, structural) = recipe_options_in(&g, &recipe, "action-button");
         assert!(used.contains(&"isPending".to_string()));
         assert!(structural.contains(&"isPending".to_string()));
     }

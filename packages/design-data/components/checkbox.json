@@ -119,17 +119,25 @@
     },
     {
       "name": "checkmark",
-      "description": "Mark drawn inside the box while the checkbox is selected."
+      "description": "Mark drawn inside the box while the checkbox is selected.",
+      "presentWhen": {
+        "options": { "isSelected": true, "isIndeterminate": false }
+      }
     },
     {
       "name": "dash",
-      "description": "Mark drawn inside the box while the checkbox is indeterminate; it replaces the checkmark."
+      "description": "Mark drawn inside the box while the checkbox is indeterminate; it replaces the checkmark.",
+      "presentWhen": { "options": { "isIndeterminate": true } }
     },
-    { "name": "label", "description": "Text label." },
+    {
+      "name": "label",
+      "description": "Text label.",
+      "presentWhen": { "options": { "label": true } }
+    },
     {
       "name": "focus-indicator",
       "description": "Outline drawn outside the box for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

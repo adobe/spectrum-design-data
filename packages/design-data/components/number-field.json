@@ -120,6 +120,7 @@
     },
     {
       "name": "field-label",
+      "presentWhen": { "options": { "hideLabel": false, "label": true } },
       "component": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
@@ -175,7 +176,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

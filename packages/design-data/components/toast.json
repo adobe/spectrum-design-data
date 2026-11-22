@@ -116,7 +116,8 @@
     },
     {
       "name": "icon",
-      "description": "Status icon chosen by variant; optional (neutral has none)."
+      "description": "Status icon chosen by variant; optional (neutral has none).",
+      "presentWhen": { "options": { "variant": "negative" } }
     },
     {
       "name": "text",

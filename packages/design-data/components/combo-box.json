@@ -188,6 +188,7 @@
     },
     {
       "name": "field-label",
+      "presentWhen": { "options": { "label": true } },
       "component": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
@@ -216,7 +217,8 @@
     },
     {
       "name": "value",
-      "description": "Text the user entered or the selected item."
+      "description": "Text the user entered or the selected item.",
+      "presentWhen": { "options": { "value": true } }
     },
     {
       "name": "placeholder",
@@ -239,6 +241,7 @@
     },
     {
       "name": "help-text",
+      "presentWhen": { "options": { "description": true } },
       "component": "help-text",
       "description": "Description or error message shown below the field."
     },
@@ -249,7 +252,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {

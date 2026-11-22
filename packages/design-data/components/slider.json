@@ -269,7 +269,7 @@
     {
       "name": "focus-indicator",
       "description": "Ring drawn around the handle for keyboard focus.",
-      "presentIn": ["keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "states": [

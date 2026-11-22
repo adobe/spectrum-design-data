@@ -152,11 +152,6 @@
     },
     "initials": {
       "kind": "text",
-      "visibleWhen": {
-        "options": {
-          "image": "initials"
-        }
-      },
       "props": {
         "fontFamily": {
           "relationship": {
@@ -195,11 +190,6 @@
       "icon": {
         "set": "workflow",
         "name": "user"
-      },
-      "visibleWhen": {
-        "options": {
-          "image": "guest"
-        }
       },
       "props": {
         "color": {

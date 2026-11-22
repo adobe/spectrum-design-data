@@ -105,6 +105,7 @@
     {
       "name": "header",
       "description": "Row that holds the label and the value text above the track. Not drawn when the label is hidden.",
+      "presentWhen": { "options": { "label": true, "hideLabel": false } },
       "contains": ["label", "value"]
     },
     {
@@ -128,6 +129,7 @@
     },
     {
       "name": "help-text",
+      "presentWhen": { "options": { "helpText": true } },
       "component": "help-text",
       "description": "Optional supporting text below the track."
     }

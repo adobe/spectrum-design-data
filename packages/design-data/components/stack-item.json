@@ -101,7 +101,7 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused row.",
-      "presentIn": ["keyboard-focus", "selected-keyboard-focus"]
+      "presentWhen": { "states": ["keyboard-focus"] }
     }
   ],
   "anatomyReview": {
