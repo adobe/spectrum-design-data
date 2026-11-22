@@ -29,13 +29,13 @@
           "relationship": { "property": "font-family", "context": "Text" }
         },
         "fontSize": {
-          "relationship": { "property": "font-size-100", "context": "Text" }
+          "relationship": { "property": "font-size", "context": "Text" }
         },
         "fontWeight": {
           "relationship": { "property": "font-weight", "context": "Text" }
         },
         "lineHeight": {
-          "relationship": { "property": "line-height-100", "context": "Text" }
+          "relationship": { "property": "line-height", "context": "Text" }
         },
         "color": [
           {
@@ -45,14 +45,14 @@
             "when": { "options": { "staticColor": "white" } },
             "relationship": {
               "property": "color",
-              "context": "Text (static white)"
+              "context": "Text"
             }
           },
           {
             "when": { "options": { "staticColor": "black" } },
             "relationship": {
               "property": "color",
-              "context": "Text (static black)"
+              "context": "Text"
             }
           }
         ],
@@ -88,7 +88,7 @@
         },
         "underlineOffset": {
           "relationship": {
-            "property": "text-underline-gap",
+            "property": "gap",
             "context": "Text"
           }
         }
@@ -104,14 +104,14 @@
             "when": { "options": { "staticColor": "white" } },
             "relationship": {
               "property": "color",
-              "context": "Focus ring (static white)"
+              "context": "Focus ring"
             }
           },
           {
             "when": { "options": { "staticColor": "black" } },
             "relationship": {
               "property": "color",
-              "context": "Focus ring (static black)"
+              "context": "Focus ring"
             }
           }
         ],

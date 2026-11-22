@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "thickness",
       "options": {
         "size": "s"
@@ -15,6 +16,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "thickness",
       "options": {
         "size": "m"
@@ -28,6 +30,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "thickness",
       "options": {
         "size": "l",
@@ -42,6 +45,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "thickness",
       "options": {
         "size": "l",
@@ -56,7 +60,8 @@
   {
     "scope": {
       "component": "divider",
-      "property": "horizontal-minimum-width",
+      "part": "line",
+      "property": "minimum-width",
       "options": {
         "orientation": "horizontal"
       }
@@ -69,7 +74,8 @@
   {
     "scope": {
       "component": "divider",
-      "property": "vertical-minimum-height",
+      "part": "line",
+      "property": "minimum-height",
       "options": {
         "orientation": "vertical"
       }
@@ -82,6 +88,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "size": ["s", "m"]
@@ -95,6 +102,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "size": ["s", "m"]
@@ -108,6 +116,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "size": ["s", "m"]
@@ -121,6 +130,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "size": "l"
@@ -134,6 +144,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "size": "l"
@@ -147,6 +158,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "size": "l"
@@ -160,6 +172,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "staticColor": "white",
@@ -174,6 +187,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "staticColor": "white",
@@ -188,6 +202,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "staticColor": "black",
@@ -202,6 +217,7 @@
   {
     "scope": {
       "component": "divider",
+      "part": "line",
       "property": "color",
       "options": {
         "staticColor": "black",

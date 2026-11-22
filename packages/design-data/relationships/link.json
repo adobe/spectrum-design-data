@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "content-color"
     },
     "context": "Text",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "content-color"
     },
     "context": "Text",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "content-color"
     },
     "context": "Text",
@@ -32,6 +35,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "content-color"
     },
     "context": "Text",
@@ -42,6 +46,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "content-color",
       "options": {
         "variant": "secondary"
@@ -55,6 +60,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "content-color",
       "options": {
         "variant": "secondary"
@@ -68,6 +74,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "content-color",
       "options": {
         "variant": "secondary"
@@ -81,6 +88,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "content-color",
       "options": {
         "variant": "secondary"
@@ -94,12 +102,13 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "color",
       "options": {
         "staticColor": "white"
       }
     },
-    "context": "Text (static white)",
+    "context": "Text",
     "contextRole": ["label"],
     "contextQualifier": "static white",
     "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
@@ -108,12 +117,13 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "color",
       "options": {
         "staticColor": "black"
       }
     },
-    "context": "Text (static black)",
+    "context": "Text",
     "contextRole": ["label"],
     "contextQualifier": "static black",
     "$ref": "86a162cc-9e91-494c-9fee-207721eb4e88",
@@ -122,6 +132,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "font-family"
     },
     "context": "Text",
@@ -132,6 +143,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "isStandalone": true
@@ -145,6 +157,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "font-style"
     },
     "context": "Text",
@@ -155,7 +168,8 @@
   {
     "scope": {
       "component": "link",
-      "property": "font-size-100"
+      "part": "text",
+      "property": "font-size"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -165,7 +179,8 @@
   {
     "scope": {
       "component": "link",
-      "property": "font-size-100"
+      "part": "text",
+      "property": "font-size"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -175,7 +190,8 @@
   {
     "scope": {
       "component": "link",
-      "property": "line-height-100"
+      "part": "text",
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -185,7 +201,11 @@
   {
     "scope": {
       "component": "link",
-      "property": "line-height-100"
+      "part": "text",
+      "property": "line-height",
+      "options": {
+        "script": "cjk"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -195,7 +215,8 @@
   {
     "scope": {
       "component": "link",
-      "property": "text-underline-gap"
+      "part": "text",
+      "property": "gap"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -205,6 +226,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "underline-thickness"
     },
     "context": "Text",
@@ -215,6 +237,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "text",
       "property": "font-weight",
       "options": {
         "isStandalone": false
@@ -228,6 +251,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -238,6 +262,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus ring",
@@ -248,6 +273,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus ring",
@@ -258,6 +284,7 @@
   {
     "scope": {
       "component": "link",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Focus ring",
@@ -268,12 +295,13 @@
   {
     "scope": {
       "component": "link",
+      "part": "focus-indicator",
       "property": "color",
       "options": {
         "staticColor": "white"
       }
     },
-    "context": "Focus ring (static white)",
+    "context": "Focus ring",
     "contextRole": ["focus"],
     "contextQualifier": "static white",
     "$ref": "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13",
@@ -282,12 +310,13 @@
   {
     "scope": {
       "component": "link",
+      "part": "focus-indicator",
       "property": "color",
       "options": {
         "staticColor": "black"
       }
     },
-    "context": "Focus ring (static black)",
+    "context": "Focus ring",
     "contextRole": ["focus"],
     "contextQualifier": "static black",
     "$ref": "c6b8275b-f44e-43b4-b763-82dda94d963c",

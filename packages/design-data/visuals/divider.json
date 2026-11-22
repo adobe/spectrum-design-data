@@ -41,7 +41,7 @@
             }
           },
           "relationship": {
-            "property": "horizontal-minimum-width",
+            "property": "minimum-width",
             "context": "Horizontal"
           }
         },
@@ -52,7 +52,7 @@
             }
           },
           "relationship": {
-            "property": "vertical-minimum-height",
+            "property": "minimum-height",
             "context": "Vertical"
           }
         },
