@@ -392,61 +392,6 @@
     "scope": {
       "component": "toast",
       "part": "text",
-      "property": "font-family"
-    },
-    "context": "Value",
-    "contextRole": ["value"],
-    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
-    "uuid": "c3677542-e73a-5eb8-95ab-98973bc4c0a3"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "part": "text",
-      "property": "font-weight"
-    },
-    "context": "Value",
-    "contextRole": ["value"],
-    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
-    "uuid": "c063a1e1-a223-5d41-b684-35e45723ea7c"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "part": "text",
-      "property": "font-style"
-    },
-    "context": "Value",
-    "contextRole": ["value"],
-    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
-    "uuid": "27fe83d6-e215-59cf-ad7a-c29b21de6893"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "part": "text",
-      "property": "font-size"
-    },
-    "context": "Value",
-    "contextRole": ["value"],
-    "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
-    "uuid": "1479b02e-3e93-5130-99c7-949a3a8f7fda"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "part": "text",
-      "property": "font-size"
-    },
-    "context": "Value",
-    "contextRole": ["value"],
-    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
-    "uuid": "f6ddc2cd-481d-58e4-a71c-d995e68c44c1"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "part": "text",
       "property": "line-height"
     },
     "context": "Value",
@@ -464,6 +409,17 @@
     "contextRole": ["value"],
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "d2a0bd68-c8ba-5b72-ac1d-f1640acbc1b5"
+  },
+  {
+    "scope": {
+      "component": "toast",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "876ed969-e1eb-54bd-bad6-19b87411a327"
   },
   {
     "scope": {
