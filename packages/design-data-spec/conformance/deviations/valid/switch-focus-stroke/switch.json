@@ -1,0 +1,17 @@
+{
+  "component": "switch",
+  "deviations": [
+    {
+      "id": "track-focus-stroke",
+      "part": "track",
+      "property": "stroke",
+      "when": {
+        "states": ["keyboard-focus"],
+        "options": { "isSelected": false }
+      },
+      "status": "accepted",
+      "reason": "Rune has no focus-visible stroke API; the stroke stays at its rest colour.",
+      "upstream": "https://github.com/anomalyco/rune/issues/106"
+    }
+  ]
+}

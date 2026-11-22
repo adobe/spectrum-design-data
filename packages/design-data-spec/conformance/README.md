@@ -5,6 +5,8 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 * One or more JSON **fixture** files (structurally valid for Layer 1 when targeting Layer 2 rules).
 * **`expected-errors.json`** — expected diagnostics after Layer 2 validation (see `errors[].rule_id`, `severity`, optional `message_pattern`).
 
+`deviations/` holds files for `extensions/deviations/` (SPEC-109 to SPEC-111, defined and not yet enforced; see its README).
+
 **Valid** baselines live under `valid/`.
 
 | Folder             | Rule     | Intent                                                                                                                                                                                             |

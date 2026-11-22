@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/platform-deviation.schema.json",
+  "title": "Platform deviations",
+  "description": "Layer 1 schema for one platform manifest extensions/deviations/ file: the places where a platform cannot match a component's foundation recipe, one component per file. A renderer never reads it. See spec/manifest.md#extensionsdeviations.",
+  "type": "object",
+  "required": ["component", "deviations"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "component": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Name of the component (foundation or platform-local) the deviations are about. Resolves directly or through `componentAliases` (SPEC-110)."
+    },
+    "deviations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/deviation" },
+      "description": "The deviations. `id` is unique within the file (SPEC-109)."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "deviation": {
+      "type": "object",
+      "required": ["id", "status", "reason"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Slug that names the deviation in reports. Unique within the file."
+        },
+        "part": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "An anatomy part of the component. Absent means any part."
+        },
+        "property": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A visual property (stroke, fill, color, fontFamily, ...). Absent means the deviation is documentation only: tools list it but match nothing against it."
+        },
+        "when": { "$ref": "#/$defs/condition" },
+        "status": {
+          "enum": ["accepted", "planned"],
+          "description": "`accepted`: the platform will not match the recipe. `planned`: it expects to, once the blocker (see `upstream`) is gone."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Why the platform cannot match the recipe."
+        },
+        "upstream": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to the issue that blocks the platform."
+        },
+        "tolerance": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Largest difference a tool treats as the deviation (same unit as the property's comparison)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "condition": {
+      "type": "object",
+      "description": "Where the deviation applies: the recipe condition shape without `position`. An absent key means any.",
+      "properties": {
+        "options": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "boolean", "number"] },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": ["string", "boolean", "number"] }
+              }
+            ]
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "uniqueItems": true
+        },
+        "modes": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

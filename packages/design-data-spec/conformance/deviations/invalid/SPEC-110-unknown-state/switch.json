@@ -1,0 +1,12 @@
+{
+  "component": "switch",
+  "deviations": [
+    {
+      "id": "no-such-state",
+      "part": "track",
+      "when": { "states": ["no-such-state"] },
+      "status": "accepted",
+      "reason": "The state is not a state of the switch."
+    }
+  ]
+}
