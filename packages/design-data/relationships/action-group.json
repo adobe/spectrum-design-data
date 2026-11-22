@@ -8,7 +8,8 @@
       },
       "property": "space-between",
       "options": {
-        "orientation": "horizontal"
+        "density": "regular",
+        "size": "s"
       }
     },
     "context": "Spacing (action-button to action-button)",
@@ -26,7 +27,8 @@
       },
       "property": "space-between",
       "options": {
-        "orientation": "horizontal"
+        "density": "regular",
+        "size": ["m", "l", "xl"]
       }
     },
     "context": "Spacing (action-button to action-button)",
@@ -44,7 +46,6 @@
       },
       "property": "space-between",
       "options": {
-        "orientation": "horizontal",
         "density": "compact"
       }
     },
