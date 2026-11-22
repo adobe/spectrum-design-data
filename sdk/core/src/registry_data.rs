@@ -1848,6 +1848,18 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "light-tile",
+      "label": "Light tile",
+      "description": "The lighter of the two alternating tiles of an opacity checkerboard",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dark-tile",
+      "label": "Dark tile",
+      "description": "The darker of the two alternating tiles of an opacity checkerboard",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "square",
       "label": "Square",
       "description": "Square-shaped anatomy element (e.g. checkerboard tile)",
@@ -3564,6 +3576,11 @@ const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
         "section header row height",
         "height small"
       ]
+    },
+    {
+      "id": "square",
+      "label": "Square",
+      "description": "The colors of the two alternating tiles of an opacity checkerboard"
     },
     {
       "id": "size",
