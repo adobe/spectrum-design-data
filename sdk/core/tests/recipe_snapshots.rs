@@ -350,6 +350,8 @@ recipe_tests! {
     checkbox => "checkbox",
     clear_button => "clear-button",
     close_button => "close-button",
+    color_handle => "color-handle",
+    color_loupe => "color-loupe",
     combo_box => "combo-box",
     divider => "divider",
     field_label => "field-label",

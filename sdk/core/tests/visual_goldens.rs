@@ -1419,6 +1419,74 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Color handle and color loupe: the defaults carry no color, so these set one (an opaque
+    // pink and a half transparent one over the checkerboard) and draw the handle's keyboard-focus
+    // size, its disabled and no-fill looks, the dark scheme and the wireframe scheme on mobile.
+    if name == "color-handle" || name == "color-loupe" {
+        let opaque = || Value::String("#e0457b".into());
+        let clear = || Value::String("#e0457b80".into());
+        let mut cases: Vec<(&str, Vec<&str>, Vec<(&str, Value)>, &str, &str)> = vec![
+            ("color", vec![], vec![("color", opaque())], "light", "desktop"),
+            ("transparent", vec![], vec![("color", clear())], "light", "desktop"),
+            (
+                "transparent-dark-mobile",
+                vec![],
+                vec![("color", clear())],
+                "dark",
+                "mobile",
+            ),
+            (
+                "wireframe-mobile",
+                vec![],
+                vec![("color", opaque())],
+                "wireframe",
+                "mobile",
+            ),
+            (
+                "no-fill",
+                vec![],
+                vec![("color", opaque()), ("hasFill", false.into())],
+                "light",
+                "desktop",
+            ),
+        ];
+        if name == "color-handle" {
+            cases.extend([
+                (
+                    "keyboard-focus",
+                    vec!["keyboard-focus"],
+                    vec![("color", opaque())],
+                    "light",
+                    "desktop",
+                ),
+                (
+                    "keyboard-focus-transparent-dark-mobile",
+                    vec!["keyboard-focus"],
+                    vec![("color", clear())],
+                    "dark",
+                    "mobile",
+                ),
+                (
+                    "disabled",
+                    vec![],
+                    vec![("color", opaque()), ("isDisabled", true.into())],
+                    "light",
+                    "desktop",
+                ),
+            ]);
+        }
+        for (label, states, extra, scheme, scale) in cases {
+            out.push((
+                label,
+                req(
+                    states.iter().map(|s| s.to_string()).collect(),
+                    extra.into_iter().map(|(k, v)| (k.to_string(), v)).collect(),
+                    scheme,
+                    scale,
+                ),
+            ));
+        }
+    }
     // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
     // over the dark scheme, where the neutral colours would not show.
     if name == "close-button" {
