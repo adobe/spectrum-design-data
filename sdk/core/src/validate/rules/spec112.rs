@@ -63,7 +63,15 @@ impl ValidationRule for Rule {
                     .get("children")
                     .and_then(Value::as_array)
                     .is_some_and(|c| !c.is_empty());
-                let bound = |n: &str| part.pointer(&format!("/props/{n}")).is_some();
+                // A `position` length axis is the part's size along it: nothing to bind.
+                let bound = |n: &str| {
+                    let axis = if n == "width" { "x" } else { "y" };
+                    part.pointer(&format!("/props/{n}")).is_some()
+                        || part
+                            .pointer(&format!("/floating/position/{axis}/length"))
+                            .and_then(Value::as_bool)
+                            == Some(true)
+                };
                 if !hosts && (!bound("width") || !bound("height")) {
                     problems.push("does not bind both width and height");
                 }

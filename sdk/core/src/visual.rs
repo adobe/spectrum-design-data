@@ -5050,12 +5050,22 @@ fn solve_root(
         } else {
             (rp(&mut cx, part, "width"), rp(&mut cx, part, "height"))
         };
+        let is_len = |k: &str| {
+            spec.pointer(&format!("/position/{k}/length"))
+                .and_then(Value::as_bool)
+                == Some(true)
+        };
         let size = match &sub {
             Some(sc) => Some((sc.nodes[0].w, sc.nodes[0].h)),
             None => fw
                 .as_ref()
                 .and_then(Resolved::num)
-                .zip(fh.as_ref().and_then(Resolved::num)),
+                .or(is_len("x").then_some(1.0))
+                .zip(
+                    fh.as_ref()
+                        .and_then(Resolved::num)
+                        .or(is_len("y").then_some(1.0)),
+                ),
         };
         let Some((fw_n, fh_n)) = size else {
             cx.diags.push(format!(
@@ -5071,22 +5081,69 @@ fn solve_root(
             ));
             continue;
         }
-        let side = spec.get("side").and_then(Value::as_str).unwrap_or("top");
         let align = spec
             .get("align")
             .and_then(Value::as_str)
             .unwrap_or("center");
+        let (mut fw_n, mut fh_n) = (fw_n, fh_n);
+        let positioned = if let Some(pos) = spec.get("position") {
+            let of = pos.get("of").and_then(Value::as_str).unwrap_or(root_id);
+            let Some(b) = nodes.iter().find(|n| n.part == of) else {
+                cx.diags.push(format!(
+                    "floating part '{id}': position.of '{of}' is not a drawn part; skipping it"
+                ));
+                continue;
+            };
+            let parent = (b.x, b.y, b.w, b.h);
+            let x = place_axis(
+                &mut cx,
+                id,
+                "x",
+                pos.get("x"),
+                (parent.0, parent.2),
+                fw_n,
+                align,
+            );
+            let y = place_axis(
+                &mut cx,
+                id,
+                "y",
+                pos.get("y"),
+                (parent.1, parent.3),
+                fh_n,
+                align,
+            );
+            let (Some((px, pw)), Some((py, ph))) = (x, y) else {
+                continue;
+            };
+            fw_n = pw;
+            fh_n = ph;
+            Some((px, py))
+        } else {
+            None
+        };
+        if !(sane(fw_n) && sane(fh_n) && fw_n > 0.0 && fh_n > 0.0) && positioned.is_some() {
+            cx.diags.push(format!(
+                "floating part '{id}' needs a positive width and height; skipping it"
+            ));
+            continue;
+        }
+        let side = spec.get("side").and_then(Value::as_str).unwrap_or("top");
         let (rx, ry, rw, rh) = (nodes[0].x, nodes[0].y, nodes[0].w, nodes[0].h);
         let along = |start: f64, len: f64, own: f64| match align {
             "start" => start,
             "end" => start + len - own,
             _ => start + (len - own) / 2.0,
         };
-        let (fx, fy) = match side {
-            "bottom" => (along(rx, rw, fw_n) + cross, ry + rh + offset),
-            "start" => (rx - offset - fw_n, along(ry, rh, fh_n) + cross),
-            "end" => (rx + rw + offset, along(ry, rh, fh_n) + cross),
-            _ => (along(rx, rw, fw_n) + cross, ry - offset - fh_n),
+        let (fx, fy) = if let Some(p) = positioned {
+            p
+        } else {
+            match side {
+                "bottom" => (along(rx, rw, fw_n) + cross, ry + rh + offset),
+                "start" => (rx - offset - fw_n, along(ry, rh, fh_n) + cross),
+                "end" => (rx + rw + offset, along(ry, rh, fh_n) + cross),
+                _ => (along(rx, rw, fw_n) + cross, ry - offset - fh_n),
+            }
         };
         if let Some(sc) = sub {
             let (ox, oy) = (sc.nodes[0].x, sc.nodes[0].y);
@@ -5506,6 +5563,99 @@ fn solve_root(
         layout,
         diagnostics: cx.diags,
     })
+}
+
+/// A number read from a position source: `{ "option": name }` (a numeric option) or
+/// `{ "value": n }`. `None` when it is absent, unset or not a finite number.
+fn position_number(cx: &Ctx, src: Option<&Value>) -> Option<f64> {
+    let src = src?;
+    let n = match src.get("option").and_then(Value::as_str) {
+        Some(name) => cx.option(name).as_f64(),
+        None => src.get("value").and_then(Value::as_f64),
+    };
+    n.filter(|n| n.is_finite())
+}
+
+/// The fraction `(value - min) / (max - min)` of a position source, clamped to 0..=1 (with a
+/// diagnostic when it had to be), and flipped by `invert`. An unset value, a NaN or infinite
+/// number and an empty range give a diagnostic and 0.
+fn position_fraction(
+    cx: &mut Ctx,
+    id: &str,
+    axis: &str,
+    key: &str,
+    axis_spec: &Value,
+    src: &Value,
+) -> f64 {
+    let lo = position_number(cx, axis_spec.get("min")).unwrap_or(0.0);
+    let hi = position_number(cx, axis_spec.get("max")).unwrap_or(1.0);
+    let raw = position_number(cx, Some(src));
+    let f = match raw {
+        Some(v) if hi > lo => (v - lo) / (hi - lo),
+        _ => {
+            cx.diags.push(format!(
+                "floating part '{id}': position.{axis}.{key} does not resolve to a number inside a non-empty min..max range; using 0"
+            ));
+            0.0
+        }
+    };
+    let clamped = if f.is_finite() {
+        f.clamp(0.0, 1.0)
+    } else {
+        0.0
+    };
+    if clamped != f {
+        cx.diags.push(format!(
+            "floating part '{id}': position.{axis}.{key} is outside min..max; clamping to {clamped}"
+        ));
+    }
+    if axis_spec.get("invert").and_then(Value::as_bool) == Some(true) {
+        1.0 - clamped
+    } else {
+        clamped
+    }
+}
+
+/// One axis of a `floating.position`: `(start, length)` of the part along `parent`
+/// `(start, length)`. A point axis centres (or `align`s) the part's `own` size on the fraction
+/// of the parent; a `length` axis spans from the `from` fraction (default 0) to the value's,
+/// and is `None` when empty. No spec: the part is centred on the parent.
+fn place_axis(
+    cx: &mut Ctx,
+    id: &str,
+    axis: &str,
+    spec: Option<&Value>,
+    parent: (f64, f64),
+    own: f64,
+    align: &str,
+) -> Option<(f64, f64)> {
+    let Some(spec) = spec else {
+        return Some((parent.0 + (parent.1 - own) / 2.0, own));
+    };
+    let f = position_fraction(
+        cx,
+        id,
+        axis,
+        "value",
+        spec,
+        spec.get("value").unwrap_or(&Value::Null),
+    );
+    if spec.get("length").and_then(Value::as_bool) == Some(true) {
+        let from = match spec.get("from") {
+            Some(src) => position_fraction(cx, id, axis, "from", spec, src),
+            None if spec.get("invert").and_then(Value::as_bool) == Some(true) => 1.0,
+            None => 0.0,
+        };
+        let (a, b) = (from.min(f), from.max(f));
+        return (b > a).then(|| (parent.0 + a * parent.1, (b - a) * parent.1));
+    }
+    let c = parent.0 + f * parent.1;
+    let start = match align {
+        "start" => c,
+        "end" => c - own,
+        _ => c - own / 2.0,
+    };
+    Some((start, own))
 }
 
 /// The bounding box `(x0, y0, x1, y1)` of `base` (`x, y, w, h`), every floating part in
@@ -11441,5 +11591,228 @@ mod tests {
             .diagnostics
             .iter()
             .any(|d| d.contains("floating part 'tip'")));
+    }
+
+    // --- floating position at a fraction ---
+
+    /// A 100x20 track at (8, 8) with a 10x10 red handle and a 4px blue fill, both placed from
+    /// `x` (and `y`) axes over the option `value` (0..200 unless `axis` overrides it).
+    fn slider_recipe(handle_pos: Value, fill_pos: Value, align: &str) -> Value {
+        let mut handle = serde_json::json!({
+            "kind": "box",
+            "floating": { "position": handle_pos, "align": align },
+            "props": { "width": lit(10.into()), "height": lit(10.into()), "fill": lit("#ff0000".into()) }
+        });
+        handle["floating"]["position"]["of"] = "track".into();
+        let mut fill = serde_json::json!({
+            "kind": "box", "floating": { "position": fill_pos },
+            "props": { "height": lit(4.into()), "fill": lit("#0000ff".into()) }
+        });
+        fill["floating"]["position"]["of"] = "track".into();
+        let mut recipe = serde_json::json!({
+            "component": "action-button", "root": "track", "sizeScale": { "m": 100 },
+            "parts": { "track": { "kind": "box", "props": {
+                "width": lit(100.into()), "height": lit(20.into()), "fill": lit("#ffffff".into())
+            } }, "handle": handle, "fill": fill }
+        });
+        if fill_pos.as_object().is_some_and(|o| o.is_empty()) {
+            recipe["parts"].as_object_mut().unwrap().remove("fill");
+        }
+        recipe
+    }
+
+    fn axis(extra: Value) -> Value {
+        let mut a = serde_json::json!({ "value": {"option": "value"},
+            "min": {"value": 0}, "max": {"value": 200} });
+        a.as_object_mut()
+            .unwrap()
+            .extend(extra.as_object().unwrap().clone());
+        a
+    }
+
+    fn at(recipe: &Value, value: Value) -> Scene {
+        let (g, _) = load();
+        let mut r = req(&[]);
+        r.options.insert("value".into(), value);
+        build_scene(&g, recipe, &r).unwrap()
+    }
+
+    /// The box of `part` relative to the track's top-left.
+    fn rel(s: &Scene, part: &str) -> (f64, f64, f64, f64) {
+        let t = &s.nodes[0];
+        let n = s
+            .nodes
+            .iter()
+            .find(|n| n.part == part)
+            .unwrap_or_else(|| panic!("{part} not drawn: {:?}", s.diagnostics));
+        (n.x - t.x, n.y - t.y, n.w, n.h)
+    }
+
+    fn handle_x(align: &str, value: Value, extra: Value) -> f64 {
+        let r = slider_recipe(
+            serde_json::json!({ "x": axis(extra) }),
+            serde_json::json!({}),
+            align,
+        );
+        rel(&at(&r, value), "handle").0
+    }
+
+    #[test]
+    fn a_handle_is_centred_on_its_fraction_of_the_track() {
+        // 50 of 0..200 is 0.25 of 100px: centre 25, so a 10px handle starts at 20, centred on y.
+        let r = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({}),
+            "center",
+        );
+        assert_eq!(rel(&at(&r, 50.into()), "handle"), (20.0, 5.0, 10.0, 10.0));
+        assert_eq!(handle_x("start", 50.into(), serde_json::json!({})), 25.0);
+        assert_eq!(handle_x("end", 50.into(), serde_json::json!({})), 15.0);
+        // Inverted: 0.75 of the track.
+        assert_eq!(
+            handle_x("center", 50.into(), serde_json::json!({ "invert": true })),
+            70.0
+        );
+        // The handle's size does not change the track.
+        assert_eq!(rel(&at(&r, 50.into()), "track").2, 100.0);
+    }
+
+    #[test]
+    fn the_fraction_is_clamped_and_overhang_grows_the_scene() {
+        let ends = |v: Value| handle_x("center", v, serde_json::json!({}));
+        assert_eq!(ends(0.into()), -5.0);
+        assert_eq!(ends(200.into()), 95.0);
+        let r = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({}),
+            "center",
+        );
+        let s = at(&r, 200.into());
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        // Value 400 clamps to the end with a diagnostic.
+        let s = at(&r, 400.into());
+        assert_eq!(rel(&s, "handle").0, 95.0);
+        assert!(
+            s.diagnostics.iter().any(|d| d.contains("clamping")),
+            "{:?}",
+            s.diagnostics
+        );
+        assert_eq!(rel(&at(&r, (-20).into()), "handle").0, -5.0);
+        // The 5px overhang is inside the 8px ring margin: the scene is the track plus the margin.
+        assert_eq!((s.width, s.height), (116.0, 36.0));
+        // A 30px handle overhangs the margin, so the scene and nodes shift.
+        let mut big = r.clone();
+        big["parts"]["handle"]["props"]["width"] = lit(30.into());
+        let s = at(&big, 0.into());
+        // The handle starts 15px left of the track, 7px past the canvas: everything shifts by 7.
+        assert_eq!((s.width, s.nodes[0].x), (123.0, 15.0));
+    }
+
+    #[test]
+    fn a_bad_value_draws_at_zero_with_a_diagnostic_and_never_panics() {
+        let r = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({}),
+            "center",
+        );
+        for v in [
+            Value::Null,
+            "abc".into(),
+            serde_json::json!(f64::NAN),
+            serde_json::json!([1]),
+        ] {
+            let s = at(&r, v.clone());
+            assert_eq!(rel(&s, "handle").0, -5.0, "{v}");
+            assert!(
+                s.diagnostics.iter().any(|d| d.contains("position.x.value")),
+                "{v}"
+            );
+        }
+        let empty = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({ "max": {"value": 0} })) }),
+            serde_json::json!({}),
+            "center",
+        );
+        let s = at(&empty, 50.into());
+        assert_eq!(rel(&s, "handle").0, -5.0);
+        assert!(s.diagnostics.iter().any(|d| d.contains("non-empty")));
+        let gone = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})), "of": "nope" }),
+            serde_json::json!({}),
+            "center",
+        );
+        let mut gone = gone;
+        gone["parts"]["handle"]["floating"]["position"]["of"] = "nope".into();
+        let s = at(&gone, 50.into());
+        assert!(s.nodes.iter().all(|n| n.part != "handle"));
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("position.of 'nope'")));
+    }
+
+    #[test]
+    fn a_fill_is_as_long_as_its_fraction_and_a_range_starts_at_from() {
+        let r = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({ "x": axis(serde_json::json!({ "length": true })) }),
+            "center",
+        );
+        // 0.25 of 100px, from the track's start, centred on y.
+        assert_eq!(rel(&at(&r, 50.into()), "fill"), (0.0, 8.0, 25.0, 4.0));
+        // Inverted: the fill grows from the end.
+        let inv = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({ "x": axis(serde_json::json!({ "length": true, "invert": true })) }),
+            "center",
+        );
+        assert_eq!(rel(&at(&inv, 50.into()), "fill"), (75.0, 8.0, 25.0, 4.0));
+        // Range: from 0.1 to 0.25; from above the value swaps the ends.
+        let range = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({ "x": axis(serde_json::json!({ "length": true, "from": {"value": 20} })) }),
+            "center",
+        );
+        assert_eq!(rel(&at(&range, 50.into()), "fill"), (10.0, 8.0, 15.0, 4.0));
+        assert_eq!(rel(&at(&range, 10.into()), "fill"), (5.0, 8.0, 5.0, 4.0));
+        // An empty span draws nothing and is not an error.
+        let s = at(&range, 20.into());
+        assert!(s.nodes.iter().all(|n| n.part != "fill") && s.diagnostics.is_empty());
+    }
+
+    #[test]
+    fn a_two_dimensional_position_sets_x_and_y() {
+        let both = serde_json::json!({
+            "x": axis(serde_json::json!({})),
+            "y": { "value": {"value": 0.25}, "invert": true }
+        });
+        let r = slider_recipe(both, serde_json::json!({}), "center");
+        // x: 0.25 * 100 - 5; y: inverted 0.25 is 0.75 of 20 = 15, minus 5.
+        assert_eq!(rel(&at(&r, 50.into()), "handle"), (20.0, 10.0, 10.0, 10.0));
+    }
+
+    #[cfg(feature = "raster")]
+    #[test]
+    fn png_draws_the_handle_and_fill_at_their_fraction() {
+        let opts = crate::raster::RasterOptions {
+            scale: 1.0,
+            background: None,
+        };
+        let r = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({ "x": axis(serde_json::json!({ "length": true })) }),
+            "center",
+        );
+        let s = at(&r, 100.into());
+        let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
+        let px = |x: u32, y: u32| {
+            let i = ((y * img.width + x) * 4) as usize;
+            img.rgba[i..i + 4].to_vec()
+        };
+        // Track at (8, 8); the handle spans x 53..63, y 13..23; the fill 8..58 at y 16..20.
+        assert_eq!(px(58, 14), vec![255, 0, 0, 255]);
+        assert_eq!(px(30, 18), vec![0, 0, 255, 255]);
+        assert_eq!(px(70, 18), vec![255, 255, 255, 255]);
+        assert_eq!(px(30, 10), vec![255, 255, 255, 255]);
     }
 }

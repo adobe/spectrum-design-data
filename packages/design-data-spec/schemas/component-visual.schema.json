@@ -298,9 +298,19 @@
         "floating": {
           "type": "object",
           "description": "Draws this part outside the root, beside one side of the root's box, instead of as a child (spec/component-visuals.md, Floating parts).",
-          "required": ["side"],
+          "anyOf": [{ "required": ["side"] }, { "required": ["position"] }],
           "properties": {
             "side": { "enum": ["top", "bottom", "start", "end"] },
+            "position": {
+              "type": "object",
+              "description": "Places the part at a fraction of a part's box instead of beside the root (spec/component-visuals.md, Floating parts).",
+              "properties": {
+                "of": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+                "x": { "$ref": "#/$defs/positionAxis" },
+                "y": { "$ref": "#/$defs/positionAxis" }
+              },
+              "additionalProperties": false
+            },
             "align": { "enum": ["start", "center", "end"] },
             "offset": { "$ref": "#/$defs/valueSource" },
             "crossOffset": { "$ref": "#/$defs/valueSource" }
@@ -479,6 +489,36 @@
     },
     "position": {
       "enum": ["first", "middle", "last", "only"]
+    },
+    "positionSource": {
+      "description": "A number: a numeric option or a literal.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["option"],
+          "properties": { "option": { "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["value"],
+          "properties": { "value": { "type": "number" } },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "positionAxis": {
+      "type": "object",
+      "required": ["value"],
+      "properties": {
+        "value": { "$ref": "#/$defs/positionSource" },
+        "min": { "$ref": "#/$defs/positionSource" },
+        "max": { "$ref": "#/$defs/positionSource" },
+        "from": { "$ref": "#/$defs/positionSource" },
+        "invert": { "type": "boolean" },
+        "length": { "type": "boolean" }
+      },
+      "additionalProperties": false
     },
     "valueSource": {
       "type": "object",
