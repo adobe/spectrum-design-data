@@ -1,5 +1,47 @@
 # @adobe/spectrum-design-data
 
+## 3.31.1
+
+### Patch Changes
+
+- [#2030](https://github.com/adobe/spectrum-design-data/pull/2030) [`2370b99`](https://github.com/adobe/spectrum-design-data/commit/2370b994c5b72d8a51672b6310d8df77c3293b8a) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe renderer: no matching state now falls back to the default record, and a
+  relationship pinned to a `scale` applies only at that scale.
+  - Alert banner: the close button end spacing is bound, so the close button sits 8px
+    (desktop) or 16px (mobile) in from the end edge instead of flush.
+  - Dataset `layoutRevision` is now 5, since the recipe layout output changed.
+  - Dataset `requires.cli` is raised to 0.62.1 (the CLI bump in this change).
+
+- [#2029](https://github.com/adobe/spectrum-design-data/pull/2029) [`f3fa576`](https://github.com/adobe/spectrum-design-data/commit/f3fa5763b0060a71c0f9eec966078c228b38c222) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate menu relationship records to structured identity (level 2). Fused names
+  (`component-height-75`, `component-edge-to-text-100`, `font-size-100`) become real properties
+  with a part, a `between` and a size pin. The legacy `@adobe/spectrum-tokens` output is
+  byte-identical.
+  - Every live record has a part or a `between`; deprecated records and all uuids are untouched.
+  - Start/end edge-to-content records split into a start-edge and an end-edge record (new v5 uuids).
+
+- [#2031](https://github.com/adobe/spectrum-design-data/pull/2031) [`cc2bccd`](https://github.com/adobe/spectrum-design-data/commit/cc2bccd6fde88765f41ff4be282bc7dba58d8762) Thanks [@GarthDB](https://github.com/GarthDB)! - Identity migration for drop-zone, illustrated-message, coach-mark and contextual-help. All four
+  reach level 2. The legacy `@adobe/spectrum-tokens` output is byte-identical.
+  - drop-zone: fused banner and title properties (`component-height-300`,
+    `component-edge-to-text-300`, `component-bottom-to-text-300`, `font-size-300`,
+    `line-height-100`) become `height`, `padding-horizontal`, `padding-vertical`, `font-size` and
+    `line-height`, with `scale` pins. The part-less `font-family` record moves to `title`. Color
+    records split into `background` and `border` attributes. The two opacity records share the
+    context of their sibling.
+  - illustrated-message: `line-height-200` becomes `line-height`.
+  - coach-mark and contextual-help: part-less `spacing` records move to the root part `container`.
+    Color records get a `background` attribute.
+  - All record uuids are kept and deprecated records are untouched.
+
+- [#2033](https://github.com/adobe/spectrum-design-data/pull/2033) [`6f91b01`](https://github.com/adobe/spectrum-design-data/commit/6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb) Thanks [@GarthDB](https://github.com/GarthDB)! - Add type-style records to status-light, toast and alert-banner.
+
+  Each text part gets one `type-style` record that references the Component
+  composite typography token: `component-{s,m,l,xl}-regular` for status-light,
+  `component-m-regular` for toast and alert-banner.
+
+  The per-axis font records and the recipes are unchanged for now, so recipe
+  renders and the legacy token output stay byte-identical. Converting the
+  recipes to `typeStyle` changes the `data-tokens` labels in the rendered SVG,
+  so it waits for a decision on regenerating the snapshots and goldens.
+
 ## 3.31.0
 
 ### Minor Changes
