@@ -1074,8 +1074,9 @@ impl<'a> CompileCx<'a> {
             }
         };
         let position = crate::scope::selector_position(rel);
+        let scale = self.req.mode.get("scale").cloned().unwrap_or_default();
         let key = format!(
-            "{}\u{1f}{property}\u{1f}{context}\u{1f}{position}",
+            "{}\u{1f}{property}\u{1f}{context}\u{1f}{position}\u{1f}{scale}",
             self.req.component
         );
         let cached = self.lookup.relationships.borrow().get(&key).cloned();
@@ -1128,6 +1129,16 @@ impl<'a> CompileCx<'a> {
             // record with the same other pins; a record pinned to the other position is not
             // a candidate.
             matched.retain(|&i| crate::scope::position_fits(rel, &self.graph.relationships[i].raw));
+            // A record pinned to the other scale is not a candidate at this one.
+            // shortcut: only a plain string scale is a pin; an array or anyOf scale still applies
+            // at every scale, upgrade when a recipe needs it.
+            matched.retain(|&i| {
+                self.graph.relationships[i]
+                    .raw
+                    .pointer("/scope/options/scale")
+                    .and_then(Value::as_str)
+                    .is_none_or(|s| scale.is_empty() || s == scale)
+            });
             let other_pins = |raw: &Value| {
                 let mut o = raw
                     .pointer("/scope/options")
@@ -2086,15 +2097,11 @@ impl Ctx<'_> {
                     .and_then(Value::as_array)
                     .is_none_or(|s| s.is_empty())
             };
-            if disabled {
-                fit.iter()
-                    .find(|c| no_states(c))
-                    .or_else(|| fit.iter().find(|c| precedence(c).is_empty()))
-                    .or_else(|| fit.first())
-                    .copied()
-            } else {
-                fit.first().copied()
-            }
+            fit.iter()
+                .find(|c| no_states(c))
+                .or_else(|| fit.iter().find(|c| disabled && precedence(c).is_empty()))
+                .or_else(|| fit.first())
+                .copied()
         });
         if let Some(c) = chosen {
             // Candidates tied with the chosen one that name a different token are ambiguous.
@@ -5426,7 +5433,7 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 /// same change whenever a solver or layout-semantics change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`). A data-only snapshot change (same geometry and resolved
 /// values) does not bump it.
-pub const LAYOUT_REVISION: u32 = 4;
+pub const LAYOUT_REVISION: u32 = 5;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
@@ -5603,6 +5610,61 @@ mod tests {
             diags(&["hover", "down"]),
             ["x: y is ambiguous: 2 candidates remain after narrowing"]
         );
+    }
+
+    #[test]
+    fn nothing_active_falls_back_to_the_default_record() {
+        let list = serde_json::json!([
+            { "value": "a", "token": "a", "states": ["hover"], "precedence": [50] },
+            { "value": "d", "token": "d" },
+        ]);
+        let r = req(&[]);
+        let defaults = HashMap::new();
+        let mut cx = Ctx {
+            req: &r,
+            option_defaults: &defaults,
+            position: None,
+            diags: Vec::new(),
+        };
+        let got = cx
+            .resolve_candidates(&serde_json::json!({ "candidates": list, "miss": "x: no y" }))
+            .unwrap();
+        assert_eq!(got.token, "d");
+        assert!(cx.diags.is_empty(), "{:?}", cx.diags);
+    }
+
+    #[test]
+    fn a_scale_pinned_relationship_applies_only_at_its_scale() {
+        let g = any_of_graph(
+            serde_json::json!({"scale": "desktop"}),
+            serde_json::json!({"scale": "mobile"}),
+        );
+        let recipe = serde_json::json!({
+            "component": "gadget", "root": "box", "sizeScale": {"m": 100},
+            "parts": {"box": {"kind": "box", "props": {
+                "fill": {"relationship": {"property": "color", "context": "Control"}}}}}
+        });
+        let fill = |scale: &str| {
+            let r = RenderRequest {
+                component: "gadget".into(),
+                size: "m".into(),
+                mode: HashMap::from([("scale".to_string(), scale.to_string())]),
+                ..Default::default()
+            };
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+            scene.nodes[0].fill.clone().unwrap()
+        };
+        assert_eq!(fill("desktop"), "#111111");
+        assert_eq!(fill("mobile"), "#0000ff");
+        // No scale in the request: both records are kept, so they tie.
+        let r = RenderRequest {
+            component: "gadget".into(),
+            size: "m".into(),
+            ..Default::default()
+        };
+        let scene = build_scene(&g, &recipe, &r).unwrap();
+        assert!(scene.diagnostics.iter().any(|d| d.contains("ambiguous")));
     }
 
     #[test]
