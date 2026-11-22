@@ -13,7 +13,7 @@
 //!
 //! It runs the checks that already exist elsewhere and reports them together, so a platform team
 //! sees everything wrong at once and the checks cannot drift from the commands they came from:
-//! `validate-manifest` (the manifest applies, MANIFEST-001), `platform show` (the pin, MANIFEST-002),
+//! `validate-manifest` (the manifest applies, MANIFEST-001, MANIFEST-003..006), `platform show` (the pin, MANIFEST-002),
 //! the data requirements (`requires.cli`, `layoutRevision`) and the project's `cli_version`.
 //! Every finding is reported, never refused: doctor has to run when the CLI is too old for the
 //! data, which is when a platform team needs it most.
@@ -194,6 +194,39 @@ pub fn run(id: Option<String>, latest: bool, format: OutputFormat) -> miette::Re
             Status::Skipped,
             "the manifest did not apply",
         ));
+    }
+
+    // MANIFEST-003/006: the platform's relationships and componentAliases resolve.
+    // (MANIFEST-004/005 fail as "the manifest does not apply" above.)
+    match (&platform_graph, &manifest_json) {
+        (Some(graph), Some(m)) => {
+            let problems =
+                design_data_core::validate::rules::manifest_extensions::extension_problems(
+                    graph, m,
+                );
+            checks.push(if problems.is_empty() {
+                check(
+                    "extensions",
+                    Status::Ok,
+                    "the platform's relationships and component aliases resolve",
+                )
+            } else {
+                check(
+                    "extensions",
+                    Status::Error,
+                    format!(
+                        "{} relationship or component alias problem(s) (MANIFEST-003, MANIFEST-006)",
+                        problems.len()
+                    ),
+                )
+                .with(problems.iter().map(|p| p.message.clone()).collect())
+            });
+        }
+        _ => checks.push(check(
+            "extensions",
+            Status::Skipped,
+            "the manifest did not apply",
+        )),
     }
 
     // MANIFEST-002: the pin is written twice and the two must name the same release.

@@ -153,7 +153,16 @@ fn json_output_lists_every_check_with_a_status() {
         .collect();
     assert_eq!(
         ids,
-        ["manifest", "bindings", "pin", "cli", "registry", "shadows", "latest"],
+        [
+            "manifest",
+            "bindings",
+            "extensions",
+            "pin",
+            "cli",
+            "registry",
+            "shadows",
+            "latest"
+        ],
         "{report}"
     );
     let mut unique = ids.clone();

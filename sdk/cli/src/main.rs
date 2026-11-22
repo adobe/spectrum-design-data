@@ -2926,7 +2926,9 @@ fn check_project_pin(
     manifest::check_foundation_pin(manifest_pin, config.source.as_ref())
 }
 
-/// checks (include/exclude query parse, override-target resolution).
+/// checks (include/exclude query parse, override-target resolution), plus MANIFEST-001..006
+/// (recipe bindings, pin, platform relationships, override/remove targets, implementations,
+/// component aliases).
 ///
 /// Exit codes: `0` valid; `1` validation failure (schema violation, unlocatable schema,
 /// bad include/exclude query, missing override target); `2` no platform manifest
@@ -3000,6 +3002,19 @@ fn run_validate_manifest(
                 ));
             }
             messages.extend(unresolved.iter().map(|b| b.message()));
+            // MANIFEST-003/006: platform relationships and componentAliases that do not
+            // resolve. MANIFEST-004/005 (override/remove targets, implementations) fail in
+            // `apply_configured` above.
+            let extension_problems = manifest::load_configured_manifest(&resolved)
+                .into_diagnostic()?
+                .map(|m| {
+                    design_data_core::validate::rules::manifest_extensions::extension_problems(
+                        &full_graph,
+                        &m,
+                    )
+                })
+                .unwrap_or_default();
+            messages.extend(extension_problems.iter().map(|p| p.message.clone()));
             if !messages.is_empty() {
                 match format {
                     OutputFormat::Json => println!(
@@ -3010,6 +3025,7 @@ fn run_validate_manifest(
                             "error": messages.join("\n"),
                             "pin": pin,
                             "bindings": unresolved,
+                            "extensions": extension_problems,
                         })
                     ),
                     OutputFormat::Pretty => {
