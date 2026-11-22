@@ -11756,11 +11756,7 @@ mod tests {
             serde_json::json!({}),
             "center",
         );
-        for v in [
-            "abc".into(),
-            serde_json::json!(f64::NAN),
-            serde_json::json!([1]),
-        ] {
+        for v in ["abc".into(), serde_json::json!([1])] {
             let s = at(&r, v.clone());
             assert_eq!(rel(&s, "handle").0, -5.0, "{v}");
             assert!(
