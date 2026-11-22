@@ -1,0 +1,193 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "coach-indicator",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": [],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "width": {
+          "token": {
+            "property": "size",
+            "legacyKey": "size-1000"
+          }
+        },
+        "height": {
+          "token": {
+            "property": "size",
+            "legacyKey": "size-600"
+          }
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "none"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "full"
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-75"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 75
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-100"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-200"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 200
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-300"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 300
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-400"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 400
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-500"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 500
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-600"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 600
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-700"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 700
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "corner-radius-800"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "scaleIndex": 800
+            }
+          }
+        ]
+      }
+    },
+    "ring": {
+      "kind": "ring",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "ring"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "ring"
+          }
+        },
+        "strokeOpacity": {
+          "when": {
+            "states": ["expanded"]
+          },
+          "relationship": {
+            "property": "opacity",
+            "part": "ring"
+          }
+        },
+        "gapToParent": [
+          {
+            "relationship": {
+              "property": "collapsed-gap",
+              "part": "ring"
+            }
+          },
+          {
+            "when": {
+              "states": ["expanded"]
+            },
+            "relationship": {
+              "property": "expanded-gap",
+              "part": "ring"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

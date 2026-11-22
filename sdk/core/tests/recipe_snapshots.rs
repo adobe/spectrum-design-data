@@ -351,6 +351,7 @@ recipe_tests! {
     checkbox => "checkbox",
     clear_button => "clear-button",
     close_button => "close-button",
+    coach_indicator => "coach-indicator",
     color_handle => "color-handle",
     color_loupe => "color-loupe",
     combo_box => "combo-box",

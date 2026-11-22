@@ -530,6 +530,19 @@
     "isDisabled=true,staticColor=\"black\"": "b92a70cb11f46659",
     "isDisabled=true,staticColor=\"white\"": "05dba9e8ac60a33d"
   },
+  "coach-indicator": {
+    "cornerRounding=\"corner-radius-100\",staticColor=\"white\"": "c32c5704dc10c267",
+    "cornerRounding=\"corner-radius-200\",staticColor=\"white\"": "c5509831b079f1fd",
+    "cornerRounding=\"corner-radius-300\",staticColor=\"white\"": "877bc20a65f843d7",
+    "cornerRounding=\"corner-radius-400\",staticColor=\"white\"": "0925019c5ae09669",
+    "cornerRounding=\"corner-radius-500\",staticColor=\"white\"": "bd7cb434ce611d03",
+    "cornerRounding=\"corner-radius-600\",staticColor=\"white\"": "ec468bed909fd1f1",
+    "cornerRounding=\"corner-radius-700\",staticColor=\"white\"": "78f8cc6444d80e6f",
+    "cornerRounding=\"corner-radius-75\",staticColor=\"white\"": "08a8489f8eb391e9",
+    "cornerRounding=\"corner-radius-800\",staticColor=\"white\"": "71870f0a685a22d1",
+    "cornerRounding=\"full\",staticColor=\"white\"": "963a454d13f1feed",
+    "cornerRounding=\"none\",staticColor=\"white\"": "1c8605cd2a1fb787"
+  },
   "color-handle": {
     "hasFill=false,isDisabled=false": "d97437c180fc05d3",
     "hasFill=false,isDisabled=true": "5c3de8c0e203c1f9",
