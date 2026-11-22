@@ -54,6 +54,16 @@
             }
           }
         },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "end-edge",
+              "to": "close-button"
+            }
+          }
+        },
         "gap": {
           "relationship": {
             "property": "space-between",

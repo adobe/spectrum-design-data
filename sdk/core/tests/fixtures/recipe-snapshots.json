@@ -356,14 +356,14 @@
     "hasHoldIcon=true,hideLabel=true,isDisabled=true,isEmphasized=true,isPending=true,isQuiet=true,isSelected=true,staticColor=\"white\"": "b1d670e2f333e29d"
   },
   "alert-banner": {
-    "isDismissible=false,variant=\"accent\"": "b3891de8298623a5",
-    "isDismissible=false,variant=\"informative\"": "dd8a69c09a79d88b",
-    "isDismissible=false,variant=\"negative\"": "4bbdbe83761ac2b6",
-    "isDismissible=false,variant=\"neutral\"": "23b4323b2ee36159",
-    "isDismissible=true,variant=\"accent\"": "49cc1050f4ce6966",
-    "isDismissible=true,variant=\"informative\"": "c43f87b54b800500",
-    "isDismissible=true,variant=\"negative\"": "e566769d64009345",
-    "isDismissible=true,variant=\"neutral\"": "4fb5d9152c5637e0"
+    "isDismissible=false,variant=\"accent\"": "74a186b460da00f0",
+    "isDismissible=false,variant=\"informative\"": "d72121e1954a5778",
+    "isDismissible=false,variant=\"negative\"": "ad6dcf5d01a9471f",
+    "isDismissible=false,variant=\"neutral\"": "2d6d4e7726237b3c",
+    "isDismissible=true,variant=\"accent\"": "5702e95167110fc3",
+    "isDismissible=true,variant=\"informative\"": "134cfa2dda7b8c81",
+    "isDismissible=true,variant=\"negative\"": "37e07da52f9fc1f8",
+    "isDismissible=true,variant=\"neutral\"": "895714464dd36b39"
   },
   "avatar": {
     "image=\"gradient image\",isDisabled=false,showStroke=false": "4765aa0cd656d6c0",
