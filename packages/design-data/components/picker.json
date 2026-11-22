@@ -150,6 +150,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
     {
@@ -189,6 +190,7 @@
     },
     {
       "name": "in-field-progress-circle",
+      "component": "in-field-progress-circle",
       "description": "Progress circle shown before the chevron while options load."
     },
     {
@@ -198,6 +200,7 @@
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Description or error message shown below the field."
     },
     {

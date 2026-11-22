@@ -737,8 +737,8 @@ fn validate_manifest_reports_a_platform_recipe_binding_a_missing_context() {
     assert_eq!(report["bindings"][0]["component"], "action-button");
 }
 
-/// A platform recipe that nests a foundation component (a `component` part, as Rune's
-/// radio-group nests radio-button) must still be checked, not reported as uncompilable:
+/// A platform recipe that nests a foundation component (a `component` part whose anatomy part
+/// names it, as the text-field's field-label) must still be checked, not reported as uncompilable:
 /// `validate-manifest` has to load the foundation recipes the nested part resolves to.
 #[test]
 fn validate_manifest_resolves_a_nested_foundation_component_recipe() {
@@ -760,12 +760,12 @@ fn validate_manifest_resolves_a_nested_foundation_component_recipe() {
     let dir = project.path().join("extensions/visuals");
     fs::create_dir_all(&dir).unwrap();
     fs::write(
-        dir.join("radio-group.json"),
-        json!({"component": "radio-group", "root": "container", "sizeScale": {"m": 100},
+        dir.join("text-field.json"),
+        json!({"component": "text-field", "root": "container", "sizeScale": {"m": 100},
             "parts": {
-                "container": {"kind": "box", "children": ["item"], "props": {}},
-                "item": {"kind": "component", "component": "radio-button",
-                    "sizeMap": {"m": "m"}, "with": {"isSelected": true}}}})
+                "container": {"kind": "box", "children": ["field-label"], "props": {}},
+                "field-label": {"kind": "component",
+                    "sizeMap": {"m": "m"}}}})
         .to_string(),
     )
     .unwrap();
@@ -774,10 +774,10 @@ fn validate_manifest_resolves_a_nested_foundation_component_recipe() {
         .stdout(contains("is valid"));
 }
 
-/// With the foundation recipes loaded, a nested component that exists in neither the
-/// foundation nor the platform is still reported.
+/// With the foundation recipes loaded, a `component` part whose anatomy part names no
+/// component is still reported.
 #[test]
-fn validate_manifest_reports_a_nested_component_that_exists_nowhere() {
+fn validate_manifest_reports_a_nested_part_the_anatomy_does_not_link() {
     let project = tempfile::tempdir().expect("temp project dir");
     fs::write(
         project.path().join("manifest.json"),
@@ -800,7 +800,7 @@ fn validate_manifest_reports_a_nested_component_that_exists_nowhere() {
         json!({"component": "radio-group", "root": "container", "sizeScale": {"m": 100},
             "parts": {
                 "container": {"kind": "box", "children": ["item"], "props": {}},
-                "item": {"kind": "component", "component": "no-such-component",
+                "item": {"kind": "component",
                     "sizeMap": {"m": "m"}}}})
         .to_string(),
     )
@@ -808,7 +808,7 @@ fn validate_manifest_reports_a_nested_component_that_exists_nowhere() {
     design_data(project.path(), &["validate-manifest"])
         .code(1)
         .stderr(contains("MANIFEST-001 (validate-manifest)"))
-        .stderr(contains("no-such-component"));
+        .stderr(contains("has no anatomy part 'item' with a `component`"));
 }
 
 /// h890.36.7 (GH #1868): `platform impact` lists what a release range changed for a platform's

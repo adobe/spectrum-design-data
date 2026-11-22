@@ -1454,3 +1454,18 @@ rules:
     message: "A 'type-style' relationship must $ref a typography composite, but '{token}' is not one"
     spec_ref: spec/relationship-format.md#type-style-records
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-106
+    name: anatomy-part-component-valid
+    severity: error
+    layer: 2
+    category: component-contract
+    note: >
+      An anatomy part `component` says the part is another component drawn inside this one. A
+      deprecated part is skipped.
+    assert: >
+      An anatomy part's `component` MUST name a declared component that is not deprecated and is
+      not the component itself.
+    message: "Part '{part}' of '{component}' has component '{target}', which is {problem}"
+    spec_ref: spec/anatomy-format.md#another-component-as-a-part
+    introduced_in: "1.0.0-draft"

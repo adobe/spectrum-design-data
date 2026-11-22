@@ -70,6 +70,7 @@
     },
     {
       "name": "checkbox",
+      "component": "checkbox",
       "description": "Selection checkbox shown in a selection mode."
     },
     {
@@ -78,6 +79,7 @@
     },
     {
       "name": "thumbnail",
+      "component": "thumbnail",
       "description": "Thumbnail at the start of the content, used instead of the icon."
     },
     {

@@ -156,10 +156,12 @@
     { "name": "title", "description": "Panel title." },
     {
       "name": "close-button",
+      "component": "close-button",
       "description": "Button in the top corner that dismisses the panel. Shown unless hideCloseButton."
     },
     {
       "name": "divider",
+      "component": "divider",
       "description": "Line under the title area. Shown unless hideDivider."
     }
   ],

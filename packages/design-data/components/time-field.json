@@ -84,6 +84,7 @@
     },
     {
       "name": "field-label",
+      "component": "field-label",
       "description": "Text label that names the field, placed above or beside it."
     },
     {
@@ -103,6 +104,7 @@
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Description or error message shown below the field."
     },
     {

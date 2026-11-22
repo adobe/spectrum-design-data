@@ -27,6 +27,11 @@
       "uniqueItems": true,
       "description": "Declared component states in which this part is present (for example focus for a focus indicator); drawn when any is active. Absent means the part can appear in any state. Not for state-dependent styling. Each entry should match a `states[].name` declared on the component (SPEC-074)."
     },
+    "component": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Another component this part is (for example a progress circle in a button): the part is that component drawn inside this one. Names a declared, non-deprecated component other than the host (SPEC-106). A recipe `component` part reads it from here."
+    },
     "contains": {
       "type": "array",
       "items": {

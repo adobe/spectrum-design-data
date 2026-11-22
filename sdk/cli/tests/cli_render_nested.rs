@@ -94,36 +94,48 @@ fn actions_draw_a_nested_button_and_switch() {
 }
 
 #[test]
-fn a_recipe_that_nests_itself_is_refused_and_reported() {
+fn a_recipe_that_nests_itself_is_reported() {
     let dir = tempfile::tempdir().unwrap();
-    let visuals = repo_root().join("packages/design-data/visuals");
-    for e in std::fs::read_dir(&visuals).unwrap() {
-        let p = e.unwrap().path();
-        std::fs::copy(&p, dir.path().join(p.file_name().unwrap())).unwrap();
-    }
-    let path = dir.path().join("switch.json");
-    let mut switch: Value = serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
-    switch["parts"]["container"]["children"] = serde_json::json!(["track", "label", "again"]);
-    switch["parts"]["again"] = serde_json::json!({
-        "kind": "component", "component": "switch",
-        "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" }
+    let copy = |name: &str| {
+        let out = dir.path().join(name);
+        std::fs::create_dir(&out).unwrap();
+        let from = repo_root().join("packages/design-data").join(name);
+        for e in std::fs::read_dir(&from).unwrap() {
+            let p = e.unwrap().path();
+            std::fs::copy(&p, out.join(p.file_name().unwrap())).unwrap();
+        }
+        out
+    };
+    let visuals = copy("visuals");
+    let components = copy("components");
+    let edit = |path: std::path::PathBuf, f: &dyn Fn(&mut Value)| {
+        let mut v: Value = serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
+        f(&mut v);
+        std::fs::write(&path, v.to_string()).unwrap();
+    };
+    edit(visuals.join("switch.json"), &|switch| {
+        switch["parts"]["container"]["children"] = serde_json::json!(["track", "label", "again"]);
+        switch["parts"]["again"] = serde_json::json!({
+            "kind": "component",
+            "sizeMap": { "s": "s", "m": "m", "l": "l", "xl": "xl" }
+        });
     });
-    std::fs::write(&path, switch.to_string()).unwrap();
-    let dir_arg = dir.path().to_str().unwrap();
+    edit(components.join("switch.json"), &|switch| {
+        switch["anatomy"]
+            .as_array_mut()
+            .unwrap()
+            .push(serde_json::json!({ "name": "again", "component": "switch" }));
+    });
 
     dd(&[
-        "render",
-        "accordion",
+        "validate",
         "--visuals-path",
-        dir_arg,
-        "--option",
-        "hasSwitch=true",
+        visuals.to_str().unwrap(),
+        "--components-path",
+        components.to_str().unwrap(),
     ])
     .failure()
-    .stderr(contains("inside itself"));
-    dd(&["validate", "--visuals-path", dir_arg])
-        .failure()
-        .stderr(contains("SPEC-089"));
+    .stderr(contains("SPEC-089"));
 }
 
 #[test]

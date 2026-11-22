@@ -443,10 +443,19 @@ fn nested_scene(converted: bool, scale: &str) -> Scene {
         "sizeScale": {"s": 100, "m": 200, "l": 300, "xl": 400},
         "parts": {
             "r": {"kind": "box", "children": ["a"]},
-            "a": {"kind": "component", "component": "button",
+            "a": {"kind": "component",
                   "sizeMap": {"s": "s", "m": "m", "l": "l", "xl": "xl"}}
         }
     });
+    let accordion = graph
+        .components
+        .iter_mut()
+        .find(|c| c.name == "accordion")
+        .expect("accordion");
+    accordion.raw["anatomy"]
+        .as_array_mut()
+        .expect("anatomy")
+        .push(json!({"name": "a", "component": "button"}));
     let button = read_json(data_dir().join("visuals/button.json"));
     for v in graph.visuals.iter_mut() {
         if v.component == "button" && converted {

@@ -217,6 +217,7 @@
     },
     {
       "name": "help-text",
+      "component": "help-text",
       "description": "Component part: the help-text component, shown with an error message below the calendar when isError is true."
     },
     {

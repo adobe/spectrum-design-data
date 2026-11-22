@@ -89,6 +89,13 @@ pub fn write_site(
         let mut entry = serde_json::json!({
             "name": c.name, "displayName": display, "hasVisual": recipe.is_some()
         });
+        if c.raw.get("subcomponent").and_then(|v| v.as_bool()) == Some(true) {
+            entry["subcomponent"] = true.into();
+        }
+        let hosts = graph.component_hosts(&c.name);
+        if !hosts.is_empty() {
+            entry["usedIn"] = hosts.into();
+        }
         if platform.is_some() {
             let platform_owned =
                 recipe.map_or(c.layer == Layer::Platform, |r| r.layer == Layer::Platform);

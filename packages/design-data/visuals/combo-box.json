@@ -53,7 +53,6 @@
     },
     "field-label": {
       "kind": "component",
-      "component": "field-label",
       "sizeMap": {
         "s": "s",
         "m": "m",
@@ -212,7 +211,6 @@
     },
     "help-text": {
       "kind": "component",
-      "component": "help-text",
       "sizeMap": {
         "s": "s",
         "m": "m",
