@@ -1,0 +1,12 @@
+{
+  "component": "switch",
+  "deviations": [
+    {
+      "id": "unset-property",
+      "part": "track",
+      "property": "opacity",
+      "status": "accepted",
+      "reason": "The track recipe sets no opacity."
+    }
+  ]
+}

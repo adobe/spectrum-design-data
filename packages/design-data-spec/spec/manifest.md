@@ -25,7 +25,7 @@ The manifest supports a fixed, enumerated set of operations against the foundati
 | Annotate existing terminology (cannot add new ids)        | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids or modes               |
 | Upsert / remove own implementation mappings               | Yes                                                          | `extensions/implementations/`     | Component `implementations`                  |
 | Add / replace a component's visual recipe                 | Yes (loaded into the graph; `render` and `site` read it)     | `extensions/visuals/`             | Visual recipes                               |
-| Record where the platform cannot match a recipe           | Schema and spec only; the reference SDK does not load it yet | `extensions/deviations/`          | Component, part, property, state or option   |
+| Record where the platform cannot match a recipe           | Yes (loaded and validated; no renderer reads it)             | `extensions/deviations/`          | Component, part, property, state or option   |
 | Alias a foundation component name to a platform component | Field and SPEC-081 enforced; renderers apply it              | `componentAliases`                | `render`, `site`, WASM render, recipe lookup |
 | Restrict allowed mode-set values                          | Yes                                                          | `modeSetRestrictions`             | Mode sets                                    |
 | Reformat name serialization                               | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings                           |
@@ -120,7 +120,7 @@ extensions/
   platform-extensions/   <platform>-<registry>.json
   implementations/       <component>.json      one component's implementation rows
   visuals/               <component>.json      one visual recipe per file
-  deviations/            <component>.json      one component's deviations (not yet loaded by the SDK)
+  deviations/            <component>.json      one component's deviations
 ```
 
 **NORMATIVE:** Each subdirectory is discovered by a recursive glob for `*.json` files (for
@@ -278,7 +278,7 @@ a different `implementation` id are never modified or removed.
 
 #### `extensions/deviations/`
 
-> **Status:** the schema and the rules below are defined in this revision. The reference SDK does not load `extensions/deviations/` yet, so a manifest that has the directory is still rejected as an unknown subdirectory, and SPEC-109 to SPEC-111 are not enforced. Loading, the tool behaviour below and `MANIFEST-007` arrive in follow-up work ([Proposal 019](../../../docs/proposals/019-platform-deviations.md)).
+> **Status:** the reference SDK loads `extensions/deviations/` and enforces SPEC-109 to SPEC-111. `render-compare`, `validate-manifest` / `platform doctor` (`MANIFEST-007`) and `platform impact` do not read deviations yet ([Proposal 019](../../../docs/proposals/019-platform-deviations.md)).
 
 Records where the platform cannot match a component's foundation recipe, for example because its renderer has no API for a focus-visible stroke. A deviation changes no value and no scene; it is a declaration other tools read. (A token `override` changes the value; a deviation does not.) One file per component:
 
@@ -318,13 +318,13 @@ Records where the platform cannot match a component's foundation recipe, for exa
 
 **NORMATIVE:** a renderer **MUST NOT** read a deviation (see [Component visuals](component-visuals.md)). Files are processed in sorted path order; a file is a list of independent entries, so there is no merge between files.
 
-Rules ([rules.yaml](../rules/rules.yaml)). All three are defined and **not yet enforced** by the reference SDK:
+Rules ([rules.yaml](../rules/rules.yaml)), enforced by the reference SDK:
 
 * **SPEC-109** (Layer 1, error): the file validates against the schema and `id` is unique within the file.
 * **SPEC-110** (Layer 2, error): `component` resolves directly or through `componentAliases`; `part` is in the resolved anatomy; every `when.states` value is a state of the component; every `when.options` key is an option and every value one of its values; every `when.modes` key and value is a known mode set and mode (the pattern of SPEC-060 and SPEC-061).
 * **SPEC-111** (Layer 2, warning): `property`, when present with `part`, is a property the effective recipe sets for that part.
 
-**RECOMMENDED** tool behaviour, not implemented yet:
+**RECOMMENDED** tool behaviour, not implemented yet (follow-up PRs):
 
 * `render-compare` matches a difference to a deviation by `part`, `property` and `when`. A matched difference is reported as a known deviation with its `id`, `reason` and `upstream`, gets no gap suggestion and does not fail `--fail-on-diff`. A deviation whose selector was compared and produced no difference is reported as stale (a warning: the platform now matches). A deviation that was not compared in the run is not evaluated, never stale. A deviation with no `property` is listed only.
 * `validate-manifest` and `platform doctor` report `MANIFEST-007` for a deviation whose component, part, state or option no longer resolves.
