@@ -1166,7 +1166,7 @@ rules:
     assert: >
       A `component` part MUST name a declared component that has a visual recipe. Each `with`
       key MUST be an option of that component with a valid value, and a `{option}` binding MUST
-      name an option of the host of the same type. `sizeMap` MUST have an entry for every
+      name an option of the host of the same type. A `{option, map}` binding MUST name a host option, key only values of it (a boolean's as "true"/"false") and map to valid values of the nested option. `sizeMap` MUST have an entry for every
       `sizeScale` key of the host, each a `sizeScale` key of the nested recipe. A recipe MUST NOT
       nest itself, directly or through other recipes, or nest more than two levels deep. The part
       MUST NOT be the root and MUST be a child of the root or of a box with a `direction`.
