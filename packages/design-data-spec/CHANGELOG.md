@@ -1,5 +1,19 @@
 # @adobe/design-data-spec
 
+## 7.2.0
+
+### Minor Changes
+
+- [#2060](https://github.com/adobe/spectrum-design-data/pull/2060) [`07fc360`](https://github.com/adobe/spectrum-design-data/commit/07fc360003c82cfd5b277ffbf941c338465dd914) Thanks [@GarthDB](https://github.com/GarthDB)! - The reference SDK loads a platform manifest's `extensions/deviations/` and enforces SPEC-109 to 111.
+  - SPEC-109: a deviations file matches its schema; ids are unique per file.
+  - SPEC-110: component, part, states, options and modes of a deviation resolve.
+  - SPEC-111 (warning): a deviation's `property` is one its `part` sets in the recipe.
+  - `render-compare`, `validate-manifest` and `platform impact` ignore them for now.
+
+- [#2061](https://github.com/adobe/spectrum-design-data/pull/2061) [`770ee85`](https://github.com/adobe/spectrum-design-data/commit/770ee854ae3e0b477c6466da88366d6b290ba830) Thanks [@GarthDB](https://github.com/GarthDB)! - A `slot` part may sit directly under the root (row or column) and is
+  one flowed block. A component group (a box of `component` parts in a
+  row box) also accepts `direction: column`. SPEC-108 allows the root.
+
 ## 7.1.0
 
 ### Minor Changes
