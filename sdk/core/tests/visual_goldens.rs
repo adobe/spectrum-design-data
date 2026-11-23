@@ -2128,6 +2128,9 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "light",
                 "desktop",
             ));
+            let mut o = base(Some(50.0), "red");
+            o.push(("colorSpace", s("rgb")));
+            cases.push(("rgb-red", o, "light", "desktop"));
             cases.push(("dark-mobile", base(Some(50.0), "hue"), "dark", "mobile"));
             cases.push(("wireframe", base(Some(50.0), "hue"), "wireframe", "desktop"));
             let mut d = base(Some(50.0), "hue");
@@ -2194,6 +2197,12 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             cases.push((
                 "hsb-bright-sat",
                 base(Some(25.0), Some(75.0), "hsb", "brightness", "saturation"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "rgb-plain-fill",
+                base(Some(75.0), Some(25.0), "rgb", "red", "green"),
                 "light",
                 "desktop",
             ));
