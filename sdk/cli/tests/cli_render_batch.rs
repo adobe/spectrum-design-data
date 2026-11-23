@@ -289,11 +289,22 @@ fn render_works_from_the_embedded_snapshot_outside_a_checkout() {
     assert!(svg.starts_with("<svg"), "{svg}");
 }
 
-/// A cache written by an older binary with the same data version (4.4.0) must not serve its
-/// recipes to a newer one: the explorer once showed a 24px-wide combo-box from such a cache
-/// while every golden, which reads the checkout, passed.
+fn copy_dir(from: &std::path::Path, to: &std::path::Path) {
+    std::fs::create_dir_all(to).unwrap();
+    for e in std::fs::read_dir(from).unwrap().flatten() {
+        let dest = to.join(e.file_name());
+        if e.path().is_dir() {
+            copy_dir(&e.path(), &dest);
+        } else {
+            std::fs::copy(e.path(), dest).unwrap();
+        }
+    }
+}
+
+/// A cache written by an older binary under the plain data-version directory must not serve
+/// its recipes to a newer one (the data version does not change between releases).
 #[test]
-fn render_replaces_a_stale_embedded_snapshot_of_the_same_data_version() {
+fn render_ignores_an_old_embedded_snapshot_of_the_same_data_version() {
     let cwd = tempfile::tempdir().unwrap();
     let cache = tempfile::tempdir().unwrap();
     let render = || {
@@ -319,17 +330,27 @@ fn render_replaces_a_stale_embedded_snapshot_of_the_same_data_version() {
         .unwrap()
         .unwrap()
         .path();
-    let recipe = embedded.join("packages/design-data/visuals/combo-box.json");
+    let version = embedded
+        .file_name()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .split('-')
+        .next()
+        .unwrap()
+        .to_owned();
+    let old = cache.path().join("embedded").join(&version);
+    if old != embedded {
+        copy_dir(&embedded, &old);
+    }
+    let recipe = old.join("packages/design-data/visuals/combo-box.json");
     let mut v: Value = serde_json::from_str(&std::fs::read_to_string(&recipe).unwrap()).unwrap();
     v["parts"]["container"]["props"]["width"] = json!({ "dimension": "width" });
-    let stale = v.to_string();
-    std::fs::write(&recipe, stale).unwrap();
-    let version = embedded.file_name().unwrap().to_str().unwrap();
-    std::fs::write(
-        embedded.join(".complete"),
-        format!("{version}:token-schemas-v5"),
-    )
-    .unwrap();
+    std::fs::write(&recipe, v.to_string()).unwrap();
+    if old != embedded {
+        std::fs::remove_dir_all(&embedded).unwrap();
+    }
+    std::fs::write(old.join(".complete"), format!("{version}:token-schemas-v5")).unwrap();
 
     assert_eq!(width(&render()), fresh);
 }
