@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["core", "cli", "tui", "wasm", "wasm-visual", "plugins/dtcg", "plugins/figma", "plugins/site"]
+members = ["core", "cli", "tui", "wasm", "wasm-visual", "plugins/dtcg", "plugins/figma", "plugins/site", "plugins/shadcn"]
 
 [workspace.package]
 edition = "2021"
