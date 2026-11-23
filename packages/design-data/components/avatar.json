@@ -82,6 +82,7 @@
         { "value": "guest" }
       ]
     },
+    "src": { "type": "string" },
     "isDisabled": { "type": "boolean", "default": false },
     "showStroke": { "type": "boolean", "default": false }
   },
@@ -94,7 +95,8 @@
     },
     {
       "name": "image",
-      "description": "Fills the circle behind the content: the profile photo for the User image style, generated gradient artwork for the Gradient image style, and the gradient backdrop of the Initials and Guest styles."
+      "description": "The profile photo that fills the circle for the User image style (the src option).",
+      "presentWhen": { "options": { "image": "user image" } }
     },
     {
       "name": "initials",

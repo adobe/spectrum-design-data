@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "50"
@@ -15,6 +16,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "50"
@@ -28,6 +30,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "75"
@@ -41,6 +44,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "75"
@@ -54,6 +58,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "100"
@@ -67,6 +72,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "100"
@@ -80,6 +86,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "200"
@@ -93,6 +100,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "200"
@@ -106,6 +114,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "300"
@@ -119,6 +128,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "300"
@@ -132,6 +142,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "400"
@@ -145,6 +156,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "400"
@@ -158,6 +170,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "500"
@@ -171,6 +184,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "500"
@@ -184,6 +198,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "600"
@@ -197,6 +212,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "600"
@@ -210,6 +226,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "700"
@@ -223,6 +240,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "700"
@@ -236,6 +254,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "800"
@@ -249,6 +268,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "800"
@@ -262,6 +282,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "900"
@@ -275,6 +296,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "900"
@@ -288,6 +310,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1000"
@@ -301,6 +324,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1000"
@@ -314,6 +338,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1100"
@@ -327,6 +352,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1100"
@@ -340,6 +366,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1200"
@@ -353,6 +380,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1200"
@@ -366,6 +394,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1300"
@@ -379,6 +408,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1300"
@@ -392,6 +422,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1400"
@@ -405,6 +436,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1400"
@@ -418,6 +450,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1500"
@@ -431,6 +464,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "size": "1500"
@@ -647,6 +681,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -669,6 +704,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -691,6 +727,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -713,6 +750,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -735,6 +773,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -757,6 +796,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -779,6 +819,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -801,6 +842,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -823,6 +865,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -845,6 +888,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -867,6 +911,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -889,6 +934,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -911,6 +957,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -933,6 +980,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -955,6 +1003,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -977,6 +1026,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -999,6 +1049,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1021,6 +1072,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -1043,6 +1095,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1065,6 +1118,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -1087,6 +1141,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1109,6 +1164,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -1131,6 +1187,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1153,6 +1210,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -1175,6 +1233,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1197,6 +1256,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -1219,6 +1279,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1241,6 +1302,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -1263,6 +1325,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1285,6 +1348,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -1307,6 +1371,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1329,6 +1394,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",
@@ -1351,6 +1417,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop",
@@ -1373,6 +1440,7 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile",

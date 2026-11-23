@@ -2634,6 +2634,43 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         r.size = "1000".into();
         out.push(("gradient-image-large-mobile", r));
     }
+    // Image fill: a photo through the `src` option (a 16x16 gradient PNG), clipped to the
+    // avatar's circle and the thumbnail's rounded corners, over the stroke and the dim.
+    if matches!(name, "avatar" | "thumbnail") {
+        let uri = format!(
+            "data:image/png;base64,{}",
+            include_str!("../src/image_testdata.b64").trim()
+        );
+        let photo = |extra: &[(&str, Value)]| {
+            let mut o = HashMap::from([("src".to_string(), Value::String(uri.clone()))]);
+            if name == "avatar" {
+                o.insert("image".into(), Value::String("user image".into()));
+            }
+            o.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
+            o
+        };
+        let flag = |k: &'static str| [(k, Value::Bool(true))];
+        let stroke = if name == "avatar" {
+            "showStroke"
+        } else {
+            "isDisabled"
+        };
+        out.push(("photo", req(vec![], photo(&[]), "light", "desktop")));
+        out.push((
+            "photo-disabled-dark",
+            req(vec![], photo(&flag("isDisabled")), "dark", "desktop"),
+        ));
+        out.push((
+            "photo-large-mobile",
+            req(vec![], photo(&flag(stroke)), "light", "mobile"),
+        ));
+        if name == "thumbnail" {
+            out.push((
+                "photo-hidden",
+                req(vec![], photo(&flag("hideImage")), "light", "desktop"),
+            ));
+        }
+    }
     // Divider: every size, both orientations, and each static colour. The regular fill and the
     // static fills are separate relationships, so this guards which one wins.
     if name == "divider" {

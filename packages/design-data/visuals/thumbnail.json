@@ -17,7 +17,6 @@
     "900": 900,
     "1000": 1000
   },
-  "notVisual": ["hideImage"],
   "parts": {
     "container": {
       "kind": "box",
@@ -72,6 +71,9 @@
         },
         "strokeOver": {
           "value": true
+        },
+        "direction": {
+          "value": "stack"
         }
       }
     },
@@ -94,7 +96,27 @@
       "inherit": ["width", "height", "cornerRadius"]
     },
     "image": {
-      "kind": "box"
+      "kind": "box",
+      "image": {
+        "source": {
+          "option": "src"
+        },
+        "fit": "cover"
+      },
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        }
+      }
     }
   }
 }
