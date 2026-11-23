@@ -17,7 +17,7 @@ Add a visual recipe for calendar.
 - Calendar relationships pin day colors to `isSelected` (and `isError`);
   the selected text color now points at the live
   `transparent-static-white-1000` instead of the deprecated `white`.
-- Not drawn: previous and next buttons, help text, range fill band and
-  range ends, today marker, unavailable strike, focus ring.
-- SPEC-116 no longer flags a grid under a repeated part when no component catalog is loaded (validate-dataset).
+- Not drawn: previous and next buttons, help text, range band and ends,
+  today marker, unavailable strike, focus ring.
+- SPEC-116 skips its placement check when no component catalog is loaded.
 - Snapshots and goldens are regenerated. Legacy token output is unchanged.
