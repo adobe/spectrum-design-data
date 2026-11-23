@@ -20,7 +20,7 @@
     },
     {
       "type": "guideline",
-      "content": "Value placement.\n\nThe value follows the placement of the label: on top when the label is on top, and on the side when the label is on the side. The exception to this rule is when the value is editable in a text field, either standard or quiet style. In that case, the editable input is always placed on the side and should include an ARIA label for accessibility, using either aria-labelledby or aria-label."
+      "content": "Value placement.\n\nThe value follows the placement of the label: on top when the label is on top, and on the side when the label is on the side. The exception to this rule is when the value is editable in a text field, either standard or quiet style. In that case, the editable input is always placed on the side and should include an ARIA label for accessibility, using either aria-labeledby or aria-label."
     },
     {
       "type": "guideline",
@@ -40,7 +40,7 @@
     },
     {
       "type": "guideline",
-      "content": "Review label-less designs.\n\nIn rare cases where context is sufficient and a label could be absent, make sure to have the design reviewed and approved by an accessibility expert. These sliders must still include an ARIA label in HTML, using either aria-label or aria-labelledby depending on context."
+      "content": "Review label-less designs.\n\nIn rare cases where context is sufficient and a label could be absent, make sure to have the design reviewed and approved by an accessibility expert. These sliders must still include an ARIA label in HTML, using either aria-label or aria-labeledby depending on context."
     },
     {
       "type": "guideline",

@@ -21,7 +21,7 @@
 | 1c | Anatomy: Tokens table (name, type, alias?, alias of)                                                                                        | **PARTIAL** | Layout, Typography and Color blocks list token name and alias; no type column, no per-block alias flag             |
 | 2  | Usage guidelines (do/don't, content rules, if/then, can/cannot)                                                                             | **MANUAL**  | `documentBlocks` holds prose; the sheet never reads it                                                             |
 | 3  | States, interactions, responsive behavior                                                                                                   | **PARTIAL** | Hover and keyboard-focus values appear inside token blocks; no state board, interaction flow or responsive section |
-| 4  | Accessibility (role, bluelines, focus order, keyboard, voice, screen readers, reduced motion, contrast, focus indicators, accessible names) | **MANUAL**  | Only a focus-ring colour/layout block is generated; the `accessibility` block is not read                          |
+| 4  | Accessibility (role, bluelines, focus order, keyboard, voice, screen readers, reduced motion, contrast, focus indicators, accessible names) | **MANUAL**  | Only a focus-ring color/layout block is generated; the `accessibility` block is not read                           |
 | 5  | Decision log                                                                                                                                | **PARTIAL** | Changelog frame gives date, version, change class and PR; no Jira link, R\&R contacts, decision or rationale       |
 | 6  | How to use                                                                                                                                  | **MANUAL**  | Static instructional text in Figma; nothing to generate                                                            |
 | 7  | Feedback                                                                                                                                    | **MANUAL**  | Free-form human input by design                                                                                    |
@@ -100,7 +100,7 @@ Data (`components/accordion.json:220-229`): `intents: [expand]`, `focusable: tru
 
 Recorded gaps:
 
-* **(a) No `role`.** Accordion's block has no `role`. `spec/accessibility.md` defines `role` as optional (`packages/design-data-spec/spec/accessibility.md:19`); 33 of the 96 `packages/design-data/components/*.json` files set one (the brief said 97). The canonical vocabulary (`:37-61`) has no accordion/disclosure/heading/region value; the nearest are `button` (trigger), `group` and `listitem`. SWC exposes a panel `region` with `aria-labelledby` and `aria-controls`/`aria-expanded` on the header; RSP defaults the panel to `group` with `region` opt-in (DD-12). Adding `role` needs a decision on which part owns it (see Questions).
+* **(a) No `role`.** Accordion's block has no `role`. `spec/accessibility.md` defines `role` as optional (`packages/design-data-spec/spec/accessibility.md:19`); 33 of the 96 `packages/design-data/components/*.json` files set one (the brief said 97). The canonical vocabulary (`:37-61`) has no accordion/disclosure/heading/region value; the nearest are `button` (trigger), `group` and `listitem`. SWC exposes a panel `region` with `aria-labeledby` and `aria-controls`/`aria-expanded` on the header; RSP defaults the panel to `group` with `region` opt-in (DD-12). Adding `role` needs a decision on which part owns it (see Questions).
 * No heading level (SWC default 3, clamp 2-6; RSP `AccordionItemTitle.level`, default 3): DD-11.
 * No literal keys, disabled-focus behavior, focus order or focus delegation: DD-13. The template's Focus Order is chevron → switch → action button, which the data can give (anatomy order in `header.contains`: disclosure-icon, title, actions) but does not state.
 * Accessible names for icon-only action button and hidden-label switch: DD-19; `visuals/accordion.json` hides visible labels.
@@ -114,7 +114,7 @@ Template (frame `33561:14496`): date (example "Jul 10, 2026"), version, Jira lin
 
 Generated: the changelog frame (`appendChangelog`, fed by `slimChangelog`, `payloads.mjs`) lists per release: `version`, `bump`, `release`, `date`, and per commit: `date`, source (`type`, `number`, `title`, `sha`, `subject`) and entry `class`. For Accordion: baseline release 2.1.0 / version 1.0.0; release 2.7.0 / version 1.0.1, 2026-09-03, PR 1394 "fix(design-data): re-point CTR refs off deprecated tokens" (`changelog/accordion.json`).
 
-Missing: Jira link (no field in the changelog schema), R\&R contacts, decision and rationale (the commit title is the only rationale), and a mapping from the changelog's `class` and `change` (`added`, `updated`, …) to New/Fixed/Deprecated/Removed. The template wants human decisions; the changelog records data diffs. These are different artefacts, so a decision log likely stays manual with the changelog attached.
+Missing: Jira link (no field in the changelog schema), R\&R contacts, decision and rationale (the commit title is the only rationale), and a mapping from the changelog's `class` and `change` (`added`, `updated`, …) to New/Fixed/Deprecated/Removed. The template wants human decisions; the changelog records data diffs. These are different artifacts, so a decision log likely stays manual with the changelog attached.
 
 ### 6. How to use and 7. Feedback: MANUAL
 
@@ -131,7 +131,7 @@ Static workshop instructions ("Schedule a 1-1.5hr workshop") and free-text feedb
 1. **The sheet covers only token measurements.** Three of the template sections (Usage, Accessibility, API table) have data in the package that no block reads. This is a generator gap, not a data gap, for Usage and API.
 2. **Accessibility is the thinnest data and the largest template section.** No `role`, no focus order, no names, no per-platform notes; DD-11, DD-12, DD-13, DD-19 already list this, and the template needs VoiceOver, TalkBack, Narrator, React Native and TV columns that the schema cannot hold.
 3. **No variant board or multi-item specimen.** The template's anchor is the 24-variant, multi-item-open specimen. The sheet draws one-item measurement specimens (1a, (b)).
-4. **Decision log is a different artefact from the changelog.** Jira link, R\&R and rationale have no home.
+4. **Decision log is a different artifact from the changelog.** Jira link, R\&R and rationale have no home.
 5. **Platform adapter gaps (SWC vs RSP vs iOS).** The template has SWC and RSP tabs everywhere; data records one normalized API (DD-05, DD-06, DD-09, DD-25), and iOS has no Accordion.
 
 ## Proposed order for slices .2-.6

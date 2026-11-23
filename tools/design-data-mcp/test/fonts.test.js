@@ -292,7 +292,7 @@ test("a font removed after the scan is reported and the search goes on", (t) => 
   t.true(none.fonts[0].fallback);
 });
 
-test("files to exclude and reasons to report are honoured", (t) => {
+test("files to exclude and reasons to report are honored", (t) => {
   const root = tmp();
   const dir = join(root, "Fonts");
   const only = join(dir, "x.ttf");

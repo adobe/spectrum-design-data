@@ -315,7 +315,7 @@ fn index_uuid_names(arr: &[Value]) -> HashMap<String, String> {
 /// Convert a single cascade token to a legacy entry value.
 ///
 /// Accepts both object-name tokens and string-name (SPEC-017 escape-hatch) tokens.
-/// Returns `None` only when the token has no recognisable `name` field.
+/// Returns `None` only when the token has no recognizable `name` field.
 ///
 /// Used directly in tests; `convert_dir` calls this internally via `convert_array`.
 pub fn convert_token(token: &Map<String, Value>) -> Option<(String, Value)> {
@@ -344,7 +344,7 @@ pub struct VerifyDifference {
 /// the output semantically against the original source.
 ///
 /// Lifecycle hoisting (e.g. `deprecated` moving from mode entries to the outer
-/// token level) is treated as equivalent — the comparison normalises both sides
+/// token level) is treated as equivalent — the comparison normalizes both sides
 /// before diffing so these structural-but-not-semantic changes do not produce
 /// false positives.
 ///
@@ -363,7 +363,7 @@ pub fn roundtrip_verify(legacy_src: &Path) -> Result<Vec<VerifyDifference>, Core
 ///
 /// Equivalent to running `design-data migrate legacy-output` into a temp dir
 /// and then comparing the output against `reference_legacy_dir` with the same
-/// semantic normalisation as [`roundtrip_verify`].
+/// semantic normalization as [`roundtrip_verify`].
 ///
 /// Returns an empty `Vec` when the cascade and reference are in sync. Returns
 /// `Err` only on I/O or parse failures.
@@ -380,7 +380,7 @@ pub fn legacy_output_verify(
 ///
 /// For each `.json` file in `reference_dir`, finds the matching file in
 /// `output_dir` and compares token entries semantically. Lifecycle fields
-/// (`deprecated`, `deprecated_comment`, `renamed`) are normalised — a field
+/// (`deprecated`, `deprecated_comment`, `renamed`) are normalized — a field
 /// present only at the outer level in one side and only in all mode entries in
 /// the other is treated as equivalent.
 pub fn verify_against_reference(
@@ -465,7 +465,7 @@ pub fn verify_against_reference(
 /// Compare two legacy token entries semantically.
 /// Returns a list of difference descriptions (empty = equivalent).
 ///
-/// Lifecycle hoisting is normalised: fields that appear only at the outer level
+/// Lifecycle hoisting is normalized: fields that appear only at the outer level
 /// on one side but consistently in all mode entries on the other are treated as
 /// equivalent.
 fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<String> {
@@ -515,7 +515,7 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
         ));
     }
 
-    // Normalise and compare lifecycle fields, tolerating hoisting differences.
+    // Normalize and compare lifecycle fields, tolerating hoisting differences.
     // "Effective" value = outer field if present, else the consistent value
     // across all mode entries (if any).
     const LIFECYCLE: &[&str] = &[
@@ -555,11 +555,11 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
                             ));
                         }
                     }
-                    // Per-mode lifecycle fields — normalised for hoisting.
+                    // Per-mode lifecycle fields — normalized for hoisting.
                     // A field present in a reference mode but absent in the output mode is
                     // acceptable if the output token's outer level carries the same value
                     // (hoisting occurred during conversion). This mirrors the outer-level
-                    // effective_lifecycle_value normalisation.
+                    // effective_lifecycle_value normalization.
                     for field in LIFECYCLE {
                         let ref_val = ref_mode.as_object().and_then(|m| m.get(*field));
                         let out_val = out_mode.as_object().and_then(|m| m.get(*field));
@@ -591,7 +591,7 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
 }
 
 /// Return the "effective" value of a lifecycle field for a token entry,
-/// normalising hoisting: if the field is absent at the outer level but
+/// normalizing hoisting: if the field is absent at the outer level but
 /// present consistently across all mode entries, that consistent value is
 /// returned.
 fn effective_lifecycle_value<'a>(entry: &'a Map<String, Value>, field: &str) -> Option<&'a Value> {

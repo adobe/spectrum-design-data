@@ -46,7 +46,7 @@ pub enum PaletteMode {
     Command,
 }
 
-/// Severity of a status bar message; controls render colour.
+/// Severity of a status bar message; controls render color.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum StatusKind {
     Info,

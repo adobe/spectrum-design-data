@@ -639,7 +639,7 @@ pub fn contour_polygon(c: &[OutlinePoint], tol: f64) -> Vec<Pt> {
         y: (a.y + b.y) / 2.0,
         on: true,
     };
-    // Start on an on-curve point; with none, the middle of two neighbours is one.
+    // Start on an on-curve point; with none, the middle of two neighbors is one.
     let mut pts: Vec<OutlinePoint> = match c.iter().position(|p| p.on) {
         Some(i) => c[i..].iter().chain(&c[..i]).copied().collect(),
         None => std::iter::once(mid(c[c.len() - 1], c[0]))

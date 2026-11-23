@@ -26,7 +26,7 @@
 //!    precedence between those forms.
 //! 3. **CWD-relative probing** — tries `packages/design-data/…` and
 //!    `packages/design-data-spec/…` relative to `cwd`.  Preserves the original
-//!    in-monorepo behaviour when run from inside a checkout.
+//!    in-monorepo behavior when run from inside a checkout.
 //! 4. **Embedded snapshot** — baked into the binary at compile time via
 //!    `include_dir!`; materialized to the OS cache dir on first use.
 //!    This is the zero-config offline default for designers running outside the repo.
@@ -109,7 +109,7 @@ pub struct DesignDataConfig {
 
 /// Describes where to obtain or locate the design data.
 ///
-/// Serialised as `type = "npm"` / `"github"` / `"git"` / `"path"` in the TOML.
+/// Serialized as `type = "npm"` / `"github"` / `"git"` / `"path"` in the TOML.
 #[derive(Debug, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase", deny_unknown_fields)]
 pub enum SourceConfig {
@@ -241,7 +241,7 @@ pub struct CliPathOverrides {
 /// Records how the paths were determined so callers and diagnostics can report it.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Provenance {
-    /// CWD-relative probing — original in-monorepo behaviour.
+    /// CWD-relative probing — original in-monorepo behavior.
     InRepo,
     /// Resolved from a `.design-data.toml` `[source]` block.
     Config {
@@ -453,7 +453,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
         carried_manifest = platform_manifest;
     }
 
-    // Tier 3: CWD-relative probing — original in-monorepo behaviour.
+    // Tier 3: CWD-relative probing — original in-monorepo behavior.
     // If we are inside a monorepo checkout probe will find everything; return immediately.
     if is_in_repo(cwd) {
         let mut resolved = probe_cwd(cwd, overrides);
@@ -477,7 +477,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
             return Ok(resolved);
         }
         Err(e) => {
-            // Only surface the warning under debug logging — materialisation
+            // Only surface the warning under debug logging — materialization
             // failures are non-fatal and the message would be noisy in scripts.
             if std::env::var("DESIGN_DATA_LOG").as_deref() == Ok("debug") {
                 eprintln!(
@@ -626,7 +626,7 @@ fn resolve_platform_manifest(
 /// cache root the manifest (and its `extensions/` dir) should be resolved from.
 ///
 /// When the `fetch` cargo feature is disabled this always errors, matching
-/// [`fetch_source`]'s behaviour for a top-level `[source] type = "github"`.
+/// [`fetch_source`]'s behavior for a top-level `[source] type = "github"`.
 fn fetch_platform_manifest_source(
     repo: &str,
     tag: Option<&str>,
@@ -799,7 +799,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
 /// running inside a monorepo checkout, probe for the standard layout relative to
 /// the working directory. It tries `packages/…` (run from repo root) and
 /// `../packages/…` (run from one level below the root, e.g. `sdk/`) and returns
-/// `None` for any path not found — preserving the pre-resolver behaviour exactly
+/// `None` for any path not found — preserving the pre-resolver behavior exactly
 /// for every existing working directory.
 ///
 /// NOTE: `is_in_repo` uses an ancestor-walk so it returns `true` from ANY
@@ -913,7 +913,7 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
 
 /// Resolve the schema root: CLI override → `DESIGN_DATA_SCHEMA_ROOT` env → `fallback()`.
 ///
-/// The env var is honoured at this level so it works regardless of which tier
+/// The env var is honored at this level so it works regardless of which tier
 /// resolved the other paths.
 fn resolve_schema_root(
     overrides: &CliPathOverrides,

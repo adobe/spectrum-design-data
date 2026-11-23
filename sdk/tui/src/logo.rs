@@ -12,7 +12,7 @@
 //! and the command reference table shown on launch and on `Esc`.
 
 /// Spectrum block-character logo (17 lines, 44 columns wide).
-// Raw string avoids the `\<newline>` whitespace-stripping behaviour that would
+// Raw string avoids the `\<newline>` whitespace-stripping behavior that would
 // eat the leading spaces on the first line if a regular string continuation were used.
 pub const LOGO: &str = r"                ████
              ██████████

@@ -83,7 +83,7 @@ test("design-data-suggest respects limit", async (t) => {
   t.true(results.length <= 3);
 });
 
-test("design-data-suggest returns empty array for unrecognised intent", async (t) => {
+test("design-data-suggest returns empty array for unrecognized intent", async (t) => {
   const tools = Object.fromEntries(
     createDesignDataTools().map((tool) => [tool.name, tool]),
   );

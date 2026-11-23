@@ -323,7 +323,7 @@ fn ctr_only_tokens_group_by_scale_mode() {
     assert_eq!(modes, ["desktop", "mobile"]);
 }
 
-/// p6ga.8.29: an override keeps its token's colour-scheme siblings in one variable,
+/// p6ga.8.29: an override keeps its token's color-scheme siblings in one variable,
 /// whether or not its value differs from the light value.
 #[test]
 fn overridden_color_token_keeps_all_its_modes() {

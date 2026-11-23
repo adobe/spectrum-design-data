@@ -14,6 +14,7 @@
     "component-options-editor:validate",
     "root:test",
     "root:ai-check",
+    "root:check-us-spelling",
     "root:check-legacy-consumers",
     "s2-docs-to-document-blocks:test",
     "spectrum-hub-fetcher:test",

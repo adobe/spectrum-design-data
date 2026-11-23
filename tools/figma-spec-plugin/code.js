@@ -133,9 +133,9 @@ function pill(str, color, ink) {
 }
 
 // The icon as a standalone SVG: the drawing's own viewBox fitted into the part box with the
-// default xMidYMid meet, which is the centred uniform fit `scene_to_svg` computes. The fill is
-// the part's resolved colour, and a rotation turns the drawing clockwise about the box centre
-// (the viewBox centre, as the fit centres it).
+// default xMidYMid meet, which is the centerd uniform fit `scene_to_svg` computes. The fill is
+// the part's resolved color, and a rotation turns the drawing clockwise about the box center
+// (the viewBox center, as the fit centers it).
 function iconSvg(drawing, w, h, rotation, c) {
   const [vx, vy, vw, vh] = drawing.viewBox.split(/[\s,]+/).map(Number);
   const hex = (v) =>
@@ -185,7 +185,7 @@ function sceneNodes(parent, scene, view) {
       }
       parent.appendChild(r);
     } else if (n.kind === "ring") {
-      // The scene's ring box is the centre line of its stroke.
+      // The scene's ring box is the center line of its stroke.
       const r = figma.createRectangle();
       r.name = n.part;
       r.resize(Math.max(w, 0.01), Math.max(h, 0.01));
@@ -208,7 +208,7 @@ function sceneNodes(parent, scene, view) {
       t.y = y;
       if (n.underline) {
         // Same placement as the SVG and PNG renderers: the baseline is 0.35 x the font size
-        // below the centre of the line box.
+        // below the center of the line box.
         const u = n.underline;
         const c = parseColor(n.color) || { c: INK, o: 1 };
         const line = rect(

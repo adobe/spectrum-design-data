@@ -8,7 +8,7 @@
     "path": "packages/@react-spectrum/s2/s2wf-icons",
     "license": "Apache-2.0",
     "copyright": "Copyright 2024 Adobe. All rights reserved.",
-    "notice": "Path data from React Spectrum S2, licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0). Colour fills were removed; the geometry is unchanged."
+    "notice": "Path data from React Spectrum S2, licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0). Color fills were removed; the geometry is unchanged."
   },
   "icons": {
     "add": {

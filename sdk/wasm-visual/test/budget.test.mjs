@@ -73,7 +73,7 @@ it("a scene solves within its latency budget", () => {
     }),
   );
   for (let i = 0; i < 300; i++) for (const r of requests) engine.scene(r);
-  // The fastest of several batches, so a noisy CI neighbour does not fail the budget.
+  // The fastest of several batches, so a noisy CI neighbor does not fail the budget.
   const runs = Array.from({ length: 5 }, () => {
     const start = process.hrtime.bigint();
     for (let i = 0; i < 300; i++) for (const r of requests) engine.scene(r);

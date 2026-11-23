@@ -42,7 +42,7 @@ run_beats_D() {
   local beats_log="${DEMO_BEATS_DIR}/beats.log"
   local done_file="${DEMO_BEATS_DIR}/done"
 
-  # Clear any stale artefacts from a prior run.
+  # Clear any stale artifacts from a prior run.
   rm -f "$beats_log" "$done_file" 2>/dev/null || true
 
   # ── Generate per-run settings file with DEMO_BEATS_DIR embedded ──────────

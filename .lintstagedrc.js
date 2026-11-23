@@ -1,4 +1,6 @@
 export default {
+  "**/*.{md,js,mjs,ts,tsx,rs,json,yml,yaml,html,css,toml}": (files) =>
+    `node scripts/check-us-spelling.mjs ${files.map((f) => JSON.stringify(f)).join(" ")}`,
   "**/*.{js,jsx,ts,tsx,json,yml,yaml}": (files) => {
     // Exclude lockfiles: they are machine-generated and must not be reformatted
     // by prettier (doing so produces a massive, churny diff). A bare

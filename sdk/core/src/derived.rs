@@ -11,7 +11,7 @@
 //! Derived relationship contexts of a visual recipe (spec: component-visuals.md, Derived
 //! contexts). A recipe lists a context whose value follows from the solved layout instead of
 //! being bound to its token. The only formula is `(height - <part>.lineHeight) / 2` (or
-//! `<part>.height`): the space left above (or below) a part that is centred in the container.
+//! `<part>.height`): the space left above (or below) a part that is centerd in the container.
 
 use serde_json::Value;
 

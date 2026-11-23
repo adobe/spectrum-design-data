@@ -852,7 +852,7 @@ impl TokenGraph {
     ///
     /// The caller is responsible for Layer 1 schema validation of the manifest
     /// (see [`crate::schema::validate_manifest`]); this method assumes a
-    /// structurally valid document and ignores fields it does not recognise.
+    /// structurally valid document and ignores fields it does not recognize.
     pub fn apply_platform_manifest(
         &mut self,
         manifest: &Value,
@@ -4965,7 +4965,7 @@ mod tests {
     #[test]
     fn dangling_uuid_ref_returns_self_without_panic() {
         // An alias whose $ref UUID has no matching token must break the chain
-        // and return self (same behaviour as today for dangling name refs).
+        // and return self (same behavior as today for dangling name refs).
         let g = cascade_graph_from(json!([
             {
                 "name": { "property": "accent-background-color", "state": "default" },

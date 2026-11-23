@@ -18,7 +18,7 @@
  * Arguments:
  *   argv[2] — path to SKILL.md, relative to process.cwd() (e.g. skills/design-data/SKILL.md)
  *
- * Behaviour:
+ * Behavior:
  *  - Reads version from <cwd>/package.json and writes it into the SKILL.md frontmatter
  *    metadata.version field.
  *  - If the frontmatter also contains a designDataVersion field, syncs it from

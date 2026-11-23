@@ -54,7 +54,7 @@
       "expected": []
     },
     {
-      "name": "button: unrecognised option value is not excluded by a when it does not match",
+      "name": "button: unrecognized option value is not excluded by a when it does not match",
       "component": "button",
       "combo": { "style": "sparkly", "variant": "accent" },
       "expected": []

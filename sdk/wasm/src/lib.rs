@@ -33,7 +33,7 @@ pub use dataset::Dataset;
 pub use fonts::{choose_font, describe_font};
 pub use registry::{find_value, get_active_values, get_default, get_values, has_value};
 
-/// Initialise the panic hook so that Rust panics are forwarded to the browser console.
+/// Initialize the panic hook so that Rust panics are forwarded to the browser console.
 ///
 /// Call this once when the wasm module loads. Idempotent.
 #[wasm_bindgen(start)]

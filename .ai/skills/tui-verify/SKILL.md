@@ -26,7 +26,7 @@ the only one that catches visual/glyph issues.
 ```
 Tier 1  render_to_buffer / TestBackend  ← deterministic, no terminal, CI backbone
 Tier 2  rmux + capture-pane             ← real binary, live screen text
-Tier 3  asciinema + agg / Ghostty       ← pixel image for glyph/colour verification
+Tier 3  asciinema + agg / Ghostty       ← pixel image for glyph/color verification
 ```
 
 ## Prerequisites
@@ -151,7 +151,7 @@ moon run demo:tui-verify -- --dataset packages/design-data --steps my-steps.txt
 ## 3. Tier 3 — visual / pixel capture
 
 Use only when Tier 1 can't answer the question: glyph widths, wide-char alignment,
-Spectrum truecolor swatch colours, box-drawing rendering, font fallback.
+Spectrum truecolor swatch colors, box-drawing rendering, font fallback.
 
 **asciinema + agg (deterministic GIF — use this first):**
 

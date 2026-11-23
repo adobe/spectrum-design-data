@@ -2,7 +2,7 @@
 # Copyright 2026 Adobe. All rights reserved.
 # Licensed under the Apache License, Version 2.0.
 # usage: sheets.sh <shotsDir> <outDir>  (needs ImageMagick)
-# One sheet per component/variant dir, light|dark pairs labelled by state.
+# One sheet per component/variant dir, light|dark pairs labeled by state.
 # Crop assumes 1206x2622 screenshots (iPhone 17 Pro).
 S=$1; O=$2; mkdir -p $O
 FONT=/System/Library/Fonts/Supplemental/Arial.ttf

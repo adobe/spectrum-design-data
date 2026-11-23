@@ -240,7 +240,7 @@ else
   step "Verify mode — Demo $DEMO"
 
   start_session "$SESSION"
-  sleep 1  # wait for the shell to initialise before sending keystrokes
+  sleep 1  # wait for the shell to initialize before sending keystrokes
   "run_beats_${DEMO}" "$SESSION" "verify" "" "$REPO_ROOT" || true
   end_session "$SESSION" 2>/dev/null || true
 fi

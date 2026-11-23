@@ -295,7 +295,7 @@ Records where the platform cannot match a component's foundation recipe, for exa
         "options": { "isSelected": false }
       },
       "status": "accepted",
-      "reason": "No focus-visible stroke API; the stroke stays at its rest colour.",
+      "reason": "No focus-visible stroke API; the stroke stays at its rest color.",
       "upstream": "https://github.com/anomalyco/rune/issues/106"
     }
   ]
@@ -324,7 +324,7 @@ Rules ([rules.yaml](../rules/rules.yaml)), enforced by the reference SDK. Limits
 * **SPEC-110** (Layer 2, error): `component` resolves directly or through `componentAliases`; `part` is in the resolved anatomy; every `when.states` value is a state of the component; every `when.options` key is an option and every value one of its values; every `when.modes` key and value is a known mode set and mode (the pattern of SPEC-060 and SPEC-061).
 * **SPEC-111** (Layer 2, warning): `property`, when present with `part`, is a property the effective recipe sets for that part.
 
-**RECOMMENDED** tool behaviour, not implemented yet (follow-up PRs):
+**RECOMMENDED** tool behavior, not implemented yet (follow-up PRs):
 
 * `render-compare` matches a difference to a deviation by `part`, `property` and `when`. A matched difference is reported as a known deviation with its `id`, `reason` and `upstream`, gets no gap suggestion and does not fail `--fail-on-diff`. A deviation whose selector was compared and produced no difference is reported as stale (a warning: the platform now matches). A deviation that was not compared in the run is not evaluated, never stale. A deviation with no `property` is listed only.
 * `validate-manifest` and `platform doctor` report `MANIFEST-007` for a deviation whose component, part, state or option no longer resolves.

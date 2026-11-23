@@ -209,7 +209,7 @@ Custom part names are permitted. When a custom name is used, the anatomy part ob
 
 The table above is informative; the authoritative vocabulary is `@adobe/spectrum-design-data/registry/anatomy-terms.json` (140 entries). SPEC-035 fires advisory warnings when a declared anatomy part `name` is not in that registry, pointing authors at the canonical list. Custom names remain valid — SPEC-035 is advisory, not an error.
 
-**Aliases.** An entry's `aliases` record the names other implementations use (Figma, React Spectrum, Spectrum Web Components) so a reader can recognise the part. They are documentation plus a lint: an alias is **never** a valid part name in a component anatomy, a recipe or a relationship `scope.part`. SPEC-035 warns when a part is named by an alias and says which term to use (`'direct-actions' is an alias of 'actions'; use 'actions'`).
+**Aliases.** An entry's `aliases` record the names other implementations use (Figma, React Spectrum, Spectrum Web Components) so a reader can recognize the part. They are documentation plus a lint: an alias is **never** a valid part name in a component anatomy, a recipe or a relationship `scope.part`. SPEC-035 warns when a part is named by an alias and says which term to use (`'direct-actions' is an alias of 'actions'; use 'actions'`).
 
 ## Cross-reference with token name objects
 

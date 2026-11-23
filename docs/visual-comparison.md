@@ -34,7 +34,7 @@ design-data render --batch states.json --out renders/
 
 The command writes `<id>.svg` and `<id>.scene.json` per state, and `index.json` listing them with render diagnostics. A state that fails to render is recorded in `index.json` with an `error` and the command exits 1 after the rest finish. Duplicate ids are an error.
 
-A binding that does not resolve (for example a recipe naming a relationship context the data does not have) does not fail the render: the part is still drawn, without its colour or type, the diagnostic goes to stderr and `index.json`, and the exit code is 0. Pass `--strict` (single render or `--batch`) to exit 1 when any state reports a diagnostic; the output is still written. When a script drives the CLI, use `--strict`, check the exit code, keep stderr visible, and do not rely on a `jq` filter, which prints nothing when it matches nothing.
+A binding that does not resolve (for example a recipe naming a relationship context the data does not have) does not fail the render: the part is still drawn, without its color or type, the diagnostic goes to stderr and `index.json`, and the exit code is 0. Pass `--strict` (single render or `--batch`) to exit 1 when any state reports a diagnostic; the output is still written. When a script drives the CLI, use `--strict`, check the exit code, keep stderr visible, and do not rely on a `jq` filter, which prints nothing when it matches nothing.
 
 ## 2. Measured values
 
@@ -85,13 +85,13 @@ An adapter writes one JSON document, `design-data-measured/1`:
 | `cornerRadiusTopLeft`, `…TopRight`, `…BottomRight`, `…BottomLeft` | number                          | one corner (LTR); the uniform radius when the scene has no per-corner radii |
 | `gap`                                                             | number                          | the container's gap (needs two or more children in the scene)               |
 | `borderWidth` (or `strokeWidth`)                                  | number                          | the container's stroke width                                                |
-| `stroke`                                                          | colour                          | the container's stroke colour (`none` when undrawn)                         |
-| `fill`                                                            | colour                          | a box's fill                                                                |
-| `color`                                                           | colour                          | a text part's colour                                                        |
+| `stroke`                                                          | color                           | the container's stroke color (`none` when undrawn)                          |
+| `fill`                                                            | color                           | a box's fill                                                                |
+| `color`                                                           | color                           | a text part's color                                                         |
 | `fontSize`                                                        | number                          | the text part's font size                                                   |
 | `fontWeight`                                                      | number (`700`) or name (`bold`) | the text part's weight                                                      |
 
-Units match the scene: CSS pixels on the web, points on iOS. Never device pixels. Take the unscaled layout box (`getBoundingClientRect` at scale 1, or a view's frame), not a transformed one. Colours are `rgb()`, `rgba()` (comma or space syntax), `#rgb`, `#rrggbb`, `#rrggbbaa`, `transparent` or `none`. Padding is compared with the scene's solved padding on the container. A padding with no token binding is still compared, and its row is marked `unbound` (no token in the row). Padding and gap are read from the container only; on other parts they are skipped. `stroke` is compared with the part's drawn stroke, and `none` when the scene draws none (no colour or no positive width). A colour that can't be parsed is skipped, with the reason.
+Units match the scene: CSS pixels on the web, points on iOS. Never device pixels. Take the unscaled layout box (`getBoundingClientRect` at scale 1, or a view's frame), not a transformed one. Colors are `rgb()`, `rgba()` (comma or space syntax), `#rgb`, `#rrggbb`, `#rrggbbaa`, `transparent` or `none`. Padding is compared with the scene's solved padding on the container. A padding with no token binding is still compared, and its row is marked `unbound` (no token in the row). Padding and gap are read from the container only; on other parts they are skipped. `stroke` is compared with the part's drawn stroke, and `none` when the scene draws none (no color or no positive width). A color that can't be parsed is skipped, with the reason.
 
 ## 3. Compare
 
@@ -101,7 +101,7 @@ design-data render-compare --scenes renders/ --measured measured.json \
 design-data render-compare --scenes renders/ --measured measured.json -o report.json
 ```
 
-Defaults: size ±1, font size ±0.5, font weight ±0, colour ±3. Colour distance is the largest channel difference on a 0-255 scale, with alpha scaled to 0-255. Tolerances come from the defaults, then the measured file's `tolerances`, then `--tolerance` flags (`size`, `fontSize`, `fontWeight`, `color`).
+Defaults: size ±1, font size ±0.5, font weight ±0, color ±3. Color distance is the largest channel difference on a 0-255 scale, with alpha scaled to 0-255. Tolerances come from the defaults, then the measured file's `tolerances`, then `--tolerance` flags (`size`, `fontSize`, `fontWeight`, `color`).
 
 The report (`design-data-comparison/1`) holds `summary`, the tolerances used, and per state the `differences`, `skipped` values and the number `compared`. It also lists measured ids with no scene and scenes with no measurement. A difference has `part`, `property`, `expected` (design data), `measured`, `delta`, `tolerance`, the `token` the scene value came from, and a `gap` suggestion.
 

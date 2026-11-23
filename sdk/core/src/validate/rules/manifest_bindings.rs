@@ -100,7 +100,7 @@ pub fn unresolved_platform_bindings(graph: &TokenGraph) -> Vec<UnresolvedBinding
     out
 }
 
-/// Every colour scheme and scale the tokens declare, as one mode per pair. The renderer drops
+/// Every color scheme and scale the tokens declare, as one mode per pair. The renderer drops
 /// candidates that contradict the request's mode, so a token that exists only in `dark` or
 /// only on `mobile` has candidates only under that mode: checking one mode would call it
 /// missing. A binding is unresolved only when it has none under any mode the data has.

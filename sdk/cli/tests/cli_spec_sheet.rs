@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 //! `design-data spec-sheet action-button` emits a model that validates against the draft
-//! schema, with labelled token rows and a scene (with measurements) per block.
+//! schema, with labeled token rows and a scene (with measurements) per block.
 
 use std::path::PathBuf;
 
@@ -94,7 +94,7 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
 }
 
 #[test]
-fn button_icon_only_block_is_labelled_by_the_icon_only_relationship() {
+fn button_icon_only_block_is_labeled_by_the_icon_only_relationship() {
     let out = Command::cargo_bin("design-data")
         .unwrap()
         .current_dir(repo_root())
@@ -217,7 +217,7 @@ fn all_writes_full_and_table_only_sheets_and_an_index() {
         .unwrap();
     assert!(entry["version"].is_string() && entry["latestRelease"]["release"].is_string());
 
-    // A table-only sheet: no visual, no render, still labelled token rows, and schema-valid.
+    // A table-only sheet: no visual, no render, still labeled token rows, and schema-valid.
     let stub = components.iter().find(|c| c["visual"] == false).unwrap();
     let sheet = read(stub["sheet"].as_str().unwrap());
     assert_eq!(sheet["visual"], false);
@@ -493,7 +493,7 @@ fn marker_groups_in_a_block_have_distinct_labels_without_the_size_part() {
 }
 
 #[test]
-fn derived_vertical_contexts_show_a_marker_and_a_measurement_labelled_derived() {
+fn derived_vertical_contexts_show_a_marker_and_a_measurement_labeled_derived() {
     for (component, titles) in [
         (
             "button",

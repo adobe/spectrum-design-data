@@ -22,7 +22,7 @@ test("names become kebab-case ids", () => {
   assert.equal(kebab("Chevron"), "chevron");
 });
 
-test("paths keep their data and fill rule and drop the colour", () => {
+test("paths keep their data and fill rule and drop the color", () => {
   const g = parseSvg(
     svg(
       `<path d="M1 1h8" ${fill}/><path d="M0 0z" fill-rule="evenodd" ${fill} stroke-width="0"/>`,
@@ -35,7 +35,7 @@ test("paths keep their data and fill rule and drop the colour", () => {
   });
 });
 
-test("circles become two arcs, with a missing centre at 0", () => {
+test("circles become two arcs, with a missing center at 0", () => {
   const g = parseSvg(svg(`<circle cx="3" cy="9" r="1" ${fill}/>`), "x.svg");
   assert.equal(g.paths[0].d, "M2,9a1,1 0 1 0 2,0a1,1 0 1 0 -2,0Z");
   const o = parseSvg(svg(`<circle r="2" ${fill}/>`), "x.svg");

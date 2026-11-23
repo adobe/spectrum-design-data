@@ -150,7 +150,7 @@
         {
           "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
           "date": "2026-11-20",
-          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): color anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
           "entries": [
             {"id":"23810aed-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"e6851ae4-79da-57d1-8d80-4af81667294f","name":"border-width","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
             {"id":"23810aed-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"corner-radius","options":null},"record":"eaced5b4-0560-5596-9571-9113d87c9c7e","name":"corner-radius","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
