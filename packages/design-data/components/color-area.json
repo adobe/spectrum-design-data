@@ -84,6 +84,79 @@
     "isDisabled": {
       "type": "boolean",
       "default": false
+    },
+    "color": {
+      "type": "string",
+      "description": "The color whose two channels the area adjusts (S2 value). The gradient is computed from it and the channels. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
+    },
+    "colorSpace": {
+      "type": "string",
+      "description": "The color space of the two channels (S2 colorSpace). Defaults to the color's own space.",
+      "values": [
+        {
+          "value": "rgb"
+        },
+        {
+          "value": "hsl"
+        },
+        {
+          "value": "hsb"
+        }
+      ]
+    },
+    "xChannel": {
+      "type": "string",
+      "description": "The color channel on the horizontal axis (S2 xChannel). Must differ from yChannel.",
+      "values": [
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "brightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        }
+      ]
+    },
+    "yChannel": {
+      "type": "string",
+      "description": "The color channel on the vertical axis (S2 yChannel). Must differ from xChannel.",
+      "values": [
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "brightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        }
+      ]
     }
   },
   "anatomy": [

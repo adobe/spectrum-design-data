@@ -62,6 +62,9 @@
           "value": "lightness"
         },
         {
+          "value": "brightness"
+        },
+        {
           "value": "red"
         },
         {
@@ -115,6 +118,25 @@
     "label": {
       "type": "string",
       "description": "The field label text (Figma Show label, RSP label)."
+    },
+    "color": {
+      "type": "string",
+      "description": "The color whose channel the slider adjusts (S2 value). The gradient ramp is computed from it and the channel. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
+    },
+    "colorSpace": {
+      "type": "string",
+      "description": "The color space the channel belongs to (S2 colorSpace). Defaults to the color's own space.",
+      "values": [
+        {
+          "value": "rgb"
+        },
+        {
+          "value": "hsl"
+        },
+        {
+          "value": "hsb"
+        }
+      ]
     }
   },
   "anatomy": [
