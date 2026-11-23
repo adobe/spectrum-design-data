@@ -8431,6 +8431,25 @@ mod tests {
             diags.iter().any(|d| d.contains("using the fallback")),
             "{diags:?}"
         );
+        // A nested relationship fallback is compiled like any binding: it draws the token's size.
+        let (_, real) = load();
+        let expected = build_scene(&g, &real, &req(&[])).unwrap().nodes[0].h;
+        let rel = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "props": { "height": {
+                "dimension": "extent",
+                "fallback": { "relationship": { "property": "component-height-100", "context": "Height" } }
+            } } } }
+        });
+        let h = |v: Option<Value>| {
+            let mut r = req(&[]);
+            if let Some(v) = v {
+                r.options.insert("extent".into(), v);
+            }
+            build_scene(&g, &rel, &r).unwrap().nodes[0].h
+        };
+        assert_eq!(h(None), expected);
+        assert_eq!(h(Some(50.into())), 50.0);
     }
 
     #[test]
