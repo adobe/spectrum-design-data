@@ -450,6 +450,34 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "b62d1a4536b7331391f3e26f4a8661067c75329e",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2087,"title":"feat(design-data): add side-navigation and stack-item visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2087"},
+          "entries": [
+            {"id":"b62d1a45-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"scope":{"property":"color","options":{"colorScheme":"light","isSelected":false}},"record":"aa2fe383-c85e-5b0b-a094-a0fc8e934ae3","name":"color[colorScheme=light,isSelected=?]","fields":[{"path":"scope.options.isSelected","after":false}]},
+            {"id":"b62d1a45-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"scope":{"property":"color","options":{"colorScheme":"dark","isSelected":false}},"record":"c7445f9d-f283-54c7-8f42-5cfb7921223d","name":"color[colorScheme=dark,isSelected=?]","fields":[{"path":"scope.options.isSelected","after":false}]},
+            {"id":"b62d1a45-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"scope":{"property":"color","options":{"colorScheme":"wireframe","isSelected":false}},"record":"8f84343f-beeb-5e50-b078-2fdfe92f5650","name":"color[colorScheme=wireframe,isSelected=?]","fields":[{"path":"scope.options.isSelected","after":false}]},
+            {"id":"b62d1a45-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"scope":{"property":"color","options":{"colorScheme":"light","isSelected":true}},"record":"a9e86fcb-d75a-5a36-b6ab-9ded0cfdfb89","name":"color[colorScheme=light,isSelected=?]","fields":[{"path":"scope.options.isSelected","after":true}]},
+            {"id":"b62d1a45-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"scope":{"property":"color","options":{"colorScheme":"dark","isSelected":true}},"record":"0efb87aa-e498-5276-9d13-789beecb4729","name":"color[colorScheme=dark,isSelected=?]","fields":[{"path":"scope.options.isSelected","after":true}]},
+            {"id":"b62d1a45-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"scope":{"property":"color","options":{"colorScheme":"wireframe","isSelected":true}},"record":"175ccaa3-78a6-5d94-99b2-59c37dfe12c5","name":"color[colorScheme=wireframe,isSelected=?]","fields":[{"path":"scope.options.isSelected","after":true}]},
+            {"id":"b62d1a45-6","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/options/sectionTitle","name":"sectionTitle","fields":[],"after":{"type":"string","description":"Heading drawn above the items (Figma Side navigation title). Empty draws none."}},
+            {"id":"b62d1a45-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/anatomy/row","name":"row","fields":[],"after":{"name":"row","description":"Row that holds the icon and the label, inside the item's padding.","contains":["icon","label"]}},
+            {"id":"b62d1a45-8","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"side-navigation/anatomy/item","name":"item","fields":[{"path":"contains","before":["selection-indicator","icon","label","disclosure-button","trailing-accessory-area","focus-indicator"],"after":["selection-indicator","row","disclosure-button","trailing-accessory-area","focus-indicator"]}]},
+            {"id":"b62d1a45-9","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"side-navigation/anatomy/section-header","name":"section-header","fields":[{"path":"presentWhen.options.sectionTitle","after":true}]},
+            {"id":"b62d1a45-10","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"side-navigation/anatomy/selection-indicator","name":"selection-indicator","fields":[{"path":"presentWhen.options.isSelected","after":true}]},
+            {"id":"b62d1a45-11","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"side-navigation/visual","name":"side-navigation","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

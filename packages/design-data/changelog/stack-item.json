@@ -173,6 +173,43 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "b62d1a4536b7331391f3e26f4a8661067c75329e",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2087,"title":"feat(design-data): add side-navigation and stack-item visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2087"},
+          "entries": [
+            {"id":"b62d1a45-0","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (horizontal)"],"scope":{"property":"space-between","options":null},"record":"2922620d-cfe4-5adc-a340-5292e3616472","name":"space-between","fields":[],"after":"2147f873-8f42-4821-9654-9db2b1adc2f9"},
+            {"id":"b62d1a45-1","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (horizontal)"],"scope":{"property":"space-between","options":null},"record":"094a621a-c9f0-5d31-80c6-73534ec90e04","name":"space-between","fields":[],"after":"2147f873-8f42-4821-9654-9db2b1adc2f9"},
+            {"id":"b62d1a45-2","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"10c3acb1-3948-5c95-ba98-e4cfdcfce14a","name":"space-between","fields":[],"after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"},
+            {"id":"b62d1a45-3","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["default"]}},"record":"3d86a28c-f11a-5bf6-9da2-d66215b83ac9","name":"content-color[state=?]","fields":[],"after":"7a058b23-341c-4dd3-83d8-358917277836"},
+            {"id":"b62d1a45-4","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["hover"]}},"record":"503633e8-3591-559d-a69d-c2b6dfb23b3f","name":"content-color[state=?]","fields":[],"after":"a6d8a177-3e5c-4d28-a675-c21c2695d2f6"},
+            {"id":"b62d1a45-5","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["down"]}},"record":"82178de2-7c44-545b-b7c3-872d68ad5858","name":"content-color[state=?]","fields":[],"after":"8ab4accc-bd95-48e0-ae3a-539740a07cc6"},
+            {"id":"b62d1a45-6","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["keyboard-focus"]}},"record":"d016ab4e-f361-537a-9863-2b95d3464fb4","name":"content-color[state=?]","fields":[],"after":"4e79877b-254d-4226-a28f-4c80d2d8b2f3"},
+            {"id":"b62d1a45-7","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["selected","default"]}},"record":"d58cd0e1-c754-55c6-aa17-640ee80d5fc0","name":"content-color[state=?]","fields":[],"after":"43ca4c0d-7803-4e8e-b444-26fe70d5304c"},
+            {"id":"b62d1a45-8","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["selected","hover"]}},"record":"773de6f5-cf3d-52dc-87e8-eb31f131d4e8","name":"content-color[state=?]","fields":[],"after":"d236bdc5-037b-4838-8401-8a0d5136936c"},
+            {"id":"b62d1a45-9","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["selected","down"]}},"record":"934fa7b8-ec00-57d7-a21f-2961f517b7ac","name":"content-color[state=?]","fields":[],"after":"cf169d95-e427-4665-a983-c24727dbfa60"},
+            {"id":"b62d1a45-10","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["selected","keyboard-focus"]}},"record":"f9b4f661-cc87-5250-9adb-6757078c02da","name":"content-color[state=?]","fields":[],"after":"c2c538e0-6f8d-4586-953a-b98ef40c9eca"},
+            {"id":"b62d1a45-11","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"isDisabled":true}},"record":"69317a68-f0d8-5194-8b3a-05b1ecd0a341","name":"content-color[isDisabled=?]","fields":[],"after":"8bf69fd3-1462-49b9-a78a-cc2f03380823"},
+            {"id":"b62d1a45-12","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/options/isSelected","name":"isSelected","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the row is selected. Selected rows use the selected background."}},
+            {"id":"b62d1a45-13","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the row is disabled."}},
+            {"id":"b62d1a45-14","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/options/visual","name":"visual","fields":[],"after":{"type":"string","description":"The visual at the start of the content: an icon or a thumbnail. Unset draws neither.","values":[{"value":"icon"},{"value":"thumbnail"}]}},
+            {"id":"b62d1a45-15","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/options/selectionStyle","name":"selectionStyle","fields":[],"after":{"type":"string","description":"How a selected row shows selection: a checkbox or a highlight (React Spectrum S2 selectionStyle). Unset draws no selection UI. Only the checkbox is drawn.","values":[{"value":"checkbox"},{"value":"highlight"}]}},
+            {"id":"b62d1a45-16","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/checkbox","name":"checkbox","fields":[{"path":"presentWhen.options.selectionStyle","after":"checkbox"}]},
+            {"id":"b62d1a45-17","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/icon","name":"icon","fields":[{"path":"presentWhen.options.visual","after":"icon"}]},
+            {"id":"b62d1a45-18","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/thumbnail","name":"thumbnail","fields":[{"path":"presentWhen.options.visual","after":"thumbnail"}]},
+            {"id":"b62d1a45-19","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/slots/actions","name":"actions","fields":[],"after":{"name":"actions","part":"actions","accepts":["action-button"],"acceptsOnly":true,"max":3,"description":"Action buttons at the end of the row."}},
+            {"id":"b62d1a45-20","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/visual","name":"stack-item","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

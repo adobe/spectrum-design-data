@@ -262,6 +262,28 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "1501aeed0277a01d90e98f63e9a3e500af8242e8",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2078,"title":"feat(design-data): add color-slider and color-area visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2078"},
+          "entries": [
+            {"id":"1501aeed-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/container","name":"container","fields":[{"path":"contains","before":["field-label","value","track"],"after":["field-label","value","track","opacity-checkerboard","fill"]}]},
+            {"id":"1501aeed-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/field-label","name":"field-label","fields":[{"path":"presentWhen.options.label","after":true},{"path":"presentWhen.options.orientation","after":"horizontal"}]},
+            {"id":"1501aeed-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/fill","name":"fill","fields":[{"path":"presentWhen.options.color","after":true},{"path":"presentWhen.options.isDisabled","after":false}]},
+            {"id":"1501aeed-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"presentWhen.options.isDisabled","after":false}]},
+            {"id":"1501aeed-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component).","after":"A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component). R4b (interim): the checkerboard and fill are also listed under container because the recipe stacks them in the root; the engine allows stack only on a root box. Remove those two entries from container.contains once stack is allowed on a non-root box."}]},
+            {"id":"1501aeed-5","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/visual","name":"color-slider","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

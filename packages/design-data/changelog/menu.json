@@ -745,6 +745,39 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2088,"title":"feat(design-data): add menu visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2088"},
+          "entries": [
+            {"id":"7b7c3350-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Rounding"],"scope":{"property":"corner-radius","options":{"size":"s"}},"record":"aa7f791d-7b0c-5cc5-a720-90385ef0981b","name":"corner-radius[size=s]","fields":[{"path":"scope.options.size","after":"s"}]},
+            {"id":"7b7c3350-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Rounding"],"scope":{"property":"corner-radius","options":{"size":"m"}},"record":"8c7aaa2c-f5f1-5a17-bd09-f2e85f5da4b9","name":"corner-radius[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"7b7c3350-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Rounding"],"scope":{"property":"corner-radius","options":{"size":"l"}},"record":"c6db33b7-45a2-5e7e-87f5-18a2621256f7","name":"corner-radius[size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"7b7c3350-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Rounding"],"scope":{"property":"corner-radius","options":{"size":"xl"}},"record":"b2cde0bd-dd81-561a-890d-d0c9dcfbe65c","name":"corner-radius[size=xl]","fields":[{"path":"scope.options.size","after":"xl"}]},
+            {"id":"7b7c3350-4","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/options/isSelected","name":"isSelected","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered menu item is selected. Drives the check mark, the checkbox or the switch. Per-item in a data-driven menu is items[].isSelected."}},
+            {"id":"7b7c3350-5","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered menu item is disabled. Per-item in a data-driven menu is items[].isDisabled."}},
+            {"id":"7b7c3350-6","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/options/value","name":"value","fields":[],"after":{"type":"string","description":"The value text at the end of the rendered menu item. Per-item in a data-driven menu is items[].value."}},
+            {"id":"7b7c3350-7","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/options/hasIcon","name":"hasIcon","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered menu item shows a leading icon (Figma Show leading icon). Per-item in a data-driven menu is items[].hasIcon."}},
+            {"id":"7b7c3350-8","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"menu/options/hasThumbnail","name":"hasThumbnail","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered menu item shows a thumbnail (Figma Show thumbnail). Per-item in a data-driven menu is items[].hasThumbnail."}},
+            {"id":"7b7c3350-9","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"menu/options/items","name":"items","fields":[{"path":"items.properties.hasIcon.default","after":false},{"path":"items.properties.hasIcon.type","after":"boolean"},{"path":"items.properties.hasThumbnail.default","after":false},{"path":"items.properties.hasThumbnail.type","after":"boolean"},{"path":"items.properties.isSelected.default","after":false},{"path":"items.properties.isSelected.type","after":"boolean"}]},
+            {"id":"7b7c3350-10","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/checkbox","name":"checkbox","fields":[{"path":"presentWhen.options.selectionMode","after":"multiple"},{"path":"presentWhen.options.selectionStyle","after":"checkbox"}]},
+            {"id":"7b7c3350-11","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/checkmark","name":"checkmark","fields":[{"path":"presentWhen.options.isSelected","after":true},{"path":"presentWhen.options.selectionMode","after":"single"}]},
+            {"id":"7b7c3350-12","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/icon","name":"icon","fields":[{"path":"presentWhen.options.hasIcon","after":true}]},
+            {"id":"7b7c3350-13","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/switch","name":"switch","fields":[{"path":"presentWhen.options.selectionMode","after":"multiple"},{"path":"presentWhen.options.selectionStyle","after":"switch"}]},
+            {"id":"7b7c3350-14","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/thumbnail","name":"thumbnail","fields":[{"path":"presentWhen.options.hasThumbnail","after":true}]},
+            {"id":"7b7c3350-15","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"menu/anatomy/value","name":"value","fields":[{"path":"presentWhen.options.value","after":true}]},
+            {"id":"7b7c3350-16","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"menu/visual","name":"menu","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

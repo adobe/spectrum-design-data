@@ -1,5 +1,58 @@
 # @adobe/spectrum-design-data
 
+## 4.3.0
+
+### Minor Changes
+
+- [#2078](https://github.com/adobe/spectrum-design-data/pull/2078) [`1501aee`](https://github.com/adobe/spectrum-design-data/commit/1501aeed0277a01d90e98f63e9a3e500af8242e8) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for color-slider and color-area.
+  - color-slider draws the channel ramp (computed from `color`, `channel`
+    and `colorSpace`) over the opacity checkerboard, the nested color-handle
+    at the value and the nested field-label above. One recipe covers both
+    orientations; the label is hidden when vertical.
+  - color-area draws two stacked ramps for `xChannel`, `yChannel` and
+    `colorSpace` (hsl and hsb) and the nested color-handle at (x, y).
+    An rgb area draws no ramp.
+  - A disabled control has no ramp or checkerboard. With no `color` the
+    ramp is not drawn.
+  - color-handle and color-loupe `color` is a plain string, like the
+    slider's, so a host can pass one color to both.
+  - Anatomy: color-area gains `fill` and `overlay`; color-slider
+    `container.contains` also lists the checkerboard and fill (interim).
+  - Snapshots and goldens are regenerated. Legacy token output is unchanged.
+
+- [#2088](https://github.com/adobe/spectrum-design-data/pull/2088) [`7b7c335`](https://github.com/adobe/spectrum-design-data/commit/7b7c3350ac2f67ea62e2684b6c5737e7f01f344f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a visual recipe for menu.
+  - The menu draws its items as a repeat: each item has a leading check
+    mark (single selection), nested checkbox or switch (multiple), icon or
+    thumbnail, label and value, with hover and keyboard-focus fill and
+    disabled colors. Sizes s, m, l and xl bind live base tokens.
+  - Options: `isSelected`, `isDisabled`, `value`, `hasIcon` and `hasThumbnail`
+    on the component, and `isSelected`, `hasIcon` and `hasThumbnail` on
+    `items[]`. Anatomy parts checkmark, checkbox, switch, icon, thumbnail
+    and value gain `presentWhen`.
+  - The four menu-item `Rounding` records are pinned to a size (s 7px,
+    m 8px, l 9px, xl 10px) so the radius binds through the relationship.
+  - Not drawn: sections and section headers, submenus, indent, truncation,
+    description, the container surface and the focus ring.
+  - Snapshots and goldens are regenerated. Legacy token output is unchanged.
+
+- [#2085](https://github.com/adobe/spectrum-design-data/pull/2085) [`c148ebc`](https://github.com/adobe/spectrum-design-data/commit/c148ebc969a000dfcaefe717addec91b52341929) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for breadcrumbs and steplist.
+  - Both bind through the component relationships.
+  - Breadcrumbs: new `isCurrent` and `isDisabled` options.
+  - Breadcrumbs: `separator` is present only when the option is `chevron`.
+  - Breadcrumbs: size l spacing records pin `size: l`; disabled text pins `isDisabled`.
+  - Steplist: new `stepState` and `isDisabled` options and a `row` anatomy part.
+  - Steplist: text and visual colors pin `stepState` and `isDisabled`.
+  - Not drawn yet: multiline, truncation menu, hover and focus states.
+  - Not drawn yet: steplist vertical layout, check mark and step number.
+
+- [#2087](https://github.com/adobe/spectrum-design-data/pull/2087) [`b62d1a4`](https://github.com/adobe/spectrum-design-data/commit/b62d1a4536b7331391f3e26f4a8661067c75329e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for side-navigation and stack-item.
+  - Side navigation draws a heading and selected, unselected and disabled items.
+  - New `sectionTitle` option; the selection indicator shows only when `isSelected`.
+  - Selection-indicator color records now pin `isSelected` (gray-800 or gray-400).
+  - Stack item gets `isSelected`, `isDisabled`, `selectionStyle`, `visual` and an `actions` slot.
+  - Stack item nests checkbox and thumbnail; new live padding, gap and label color records.
+  - Not drawn yet: indent levels, hover bar, focus ring, description, drag handle, chevron.
+
 ## 4.2.0
 
 ### Minor Changes
