@@ -144,6 +144,32 @@
     "sectionHeader": {
       "type": "string"
     },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered menu item is selected. Drives the check mark, the checkbox or the switch. Per-item in a data-driven menu is items[].isSelected."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered menu item is disabled. Per-item in a data-driven menu is items[].isDisabled."
+    },
+    "value": {
+      "type": "string",
+      "description": "The value text at the end of the rendered menu item. Per-item in a data-driven menu is items[].value."
+    },
+    "visual": {
+      "type": "string",
+      "description": "The visual at the start of the rendered menu item: an icon or a thumbnail. Unset draws neither. Per-item in a data-driven menu is items[].visual.",
+      "values": [
+        {
+          "value": "icon"
+        },
+        {
+          "value": "thumbnail"
+        }
+      ]
+    },
     "isCollapsible": {
       "type": "boolean",
       "default": false
@@ -166,6 +192,14 @@
           },
           "value": {
             "type": "string"
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false
+          },
+          "visual": {
+            "type": "string",
+            "enum": ["icon", "thumbnail"]
           },
           "isDisabled": {
             "type": "boolean",
@@ -218,26 +252,37 @@
     },
     {
       "name": "checkmark",
-      "description": "Check mark that shows an item is selected."
+      "description": "Check mark that shows an item is selected.",
+      "presentWhen": {
+        "options": { "selectionMode": "single", "isSelected": true }
+      }
     },
     {
       "name": "checkbox",
       "component": "checkbox",
-      "description": "Checkbox control for a menu item with checkbox selection style."
+      "description": "Checkbox control for a menu item with checkbox selection style.",
+      "presentWhen": {
+        "options": { "selectionMode": "multiple", "selectionStyle": "checkbox" }
+      }
     },
     {
       "name": "switch",
       "component": "switch",
-      "description": "Switch control for a menu item with switch selection style."
+      "description": "Switch control for a menu item with switch selection style.",
+      "presentWhen": {
+        "options": { "selectionMode": "multiple", "selectionStyle": "switch" }
+      }
     },
     {
       "name": "icon",
-      "description": "Leading icon of a menu item."
+      "description": "Leading icon of a menu item.",
+      "presentWhen": { "options": { "visual": "icon" } }
     },
     {
       "name": "thumbnail",
       "component": "thumbnail",
-      "description": "Thumbnail image of a menu item."
+      "description": "Thumbnail image of a menu item.",
+      "presentWhen": { "options": { "visual": "thumbnail" } }
     },
     {
       "name": "label",
@@ -249,7 +294,8 @@
     },
     {
       "name": "value",
-      "description": "Current value display of a menu item."
+      "description": "Current value display of a menu item.",
+      "presentWhen": { "options": { "value": true } }
     },
     {
       "name": "drill-in-chevron",
