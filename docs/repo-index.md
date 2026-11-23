@@ -73,6 +73,7 @@ Repository demonstrations.
 
 | Path | Package | Lifecycle | npm | llms.txt | Summary |
 | --- | --- | --- | --- | --- | --- |
+| [`sdk/plugins/shadcn/examples/quickstart`](../sdk/plugins/shadcn/examples/quickstart/) | `spectrum-shadcn-quickstart` | active | no | no | Vite, React and Tailwind v4 example app that applies the Spectrum shadcn theme to Button and Badge. |
 | [`tools/demo`](../tools/demo/) | — | active | no | no | Terminal demo videos and presentation decks for the CLI and TUI. |
 
 ## Deprecated and one-time

@@ -26,7 +26,7 @@ When a platform manifest is selected (`--platform`, `DESIGN_DATA_PLATFORM`, or `
 ## Files
 
 * `shadcn-theme.sample.json`: output of `export --format shadcn-theme` against the embedded dataset.
-  It holds 778 color variables for each of `light` and `dark`, plus 488 scheme-independent non-color variables in `theme`.
+  It holds 778 color variables for each of `light` and `dark`, plus 648 scheme-independent non-color variables in `theme`.
 * `action-button.registry-item.sample.json`: the `action-button` item written by `shadcn registry`
   from `packages/design-data/components/action-button.json`.
 
@@ -41,6 +41,10 @@ Tokens without a legacy key, and composite tokens such as typography or shadow, 
 shadcn mirrors every `light` and `dark` key into `@theme inline` as `var(--name)`, which is a self-reference for non-color values.
 So scheme-independent non-color values (sizes, widths) go in `cssVars.theme` as literals, which shadcn writes straight into `@theme inline`.
 Only colors, and non-color values that differ by scheme, stay in `light` and `dark`.
+
+## Quick start app
+
+`quickstart/` is a Vite, React and Tailwind v4 app that applies the theme to shadcn's `Button` and `Badge`. See its README.
 
 ## Scope
 

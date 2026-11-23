@@ -1,0 +1,59 @@
+/* Copyright 2026 Adobe. All rights reserved. */
+/*
+ * Maps shadcn's semantic variables to Spectrum variables from spectrum-theme.json.
+ * The theme only defines --spectrum-*; stock shadcn components read --primary,
+ * --background and so on, so this file is what makes them look like Spectrum.
+ * The choices below are one reasonable mapping, not generated output.
+ */
+:root {
+  --background: var(--spectrum-background-base-color);
+  --foreground: var(--spectrum-neutral-content-color-default);
+  --card: var(--spectrum-background-layer-2-color);
+  --card-foreground: var(--spectrum-neutral-content-color-default);
+  --popover: var(--spectrum-background-elevated-color);
+  --popover-foreground: var(--spectrum-neutral-content-color-default);
+  --primary: var(--spectrum-accent-background-color-default);
+  --primary-foreground: var(--spectrum-white);
+  --secondary: var(--spectrum-gray-200);
+  --secondary-foreground: var(--spectrum-neutral-content-color-default);
+  --muted: var(--spectrum-gray-100);
+  --muted-foreground: var(--spectrum-neutral-subdued-content-color-default);
+  --accent: var(--spectrum-gray-200);
+  --accent-foreground: var(--spectrum-neutral-content-color-default);
+  --destructive: var(--spectrum-negative-background-color-default);
+  --border: var(--spectrum-gray-300);
+  --input: var(--spectrum-gray-300);
+  --ring: var(--spectrum-focus-indicator-color);
+  --radius: var(--spectrum-corner-radius-medium-size-medium);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
