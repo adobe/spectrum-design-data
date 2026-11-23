@@ -19,4 +19,5 @@ Add a visual recipe for calendar.
   `transparent-static-white-1000` instead of the deprecated `white`.
 - Not drawn: previous and next buttons, help text, range fill band and
   range ends, today marker, unavailable strike, focus ring.
+- SPEC-116 no longer flags a grid under a repeated part when no component catalog is loaded (validate-dataset).
 - Snapshots and goldens are regenerated. Legacy token output is unchanged.
