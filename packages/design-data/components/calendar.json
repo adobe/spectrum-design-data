@@ -87,6 +87,39 @@
         }
       ]
     },
+    "months": {
+      "type": "array",
+      "description": "The months drawn side by side, one entry per visible month (visibleMonths decides how many). Each entry is one copy of the month part.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Month and year text of the month."
+          },
+          "days": {
+            "type": "array",
+            "description": "The cells of the month's day grid, in order, same shape as the days option. A leading cell with no date and no label is a blank cell that keeps the first weekday column.",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "weekdays": {
+      "type": "array",
+      "description": "The weekday headings above each month's day grid, seven entries in the week's order (firstDayOfWeek is the data's choice).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Single-letter weekday heading."
+          }
+        }
+      }
+    },
     "isDisabled": {
       "type": "boolean",
       "default": false
@@ -157,25 +190,29 @@
   "slots": [
     {
       "name": "default",
+      "part": "month",
+      "collection": "months",
+      "description": "The visible months. Each entry of the months option is drawn as one copy of the month part, side by side."
+    },
+    {
+      "name": "weekday-label",
+      "part": "weekday-label",
+      "collection": "weekdays",
+      "description": "The weekday headings. Each entry of the weekdays option is drawn as one copy of the weekday-label part, seven to a row."
+    },
+    {
+      "name": "day",
       "part": "day",
       "collection": "days",
-      "description": "The day cells. Each entry of the days option is drawn as one copy of the day part, for every visible month."
+      "description": "The day cells of a month. Each entry of the month's days field is drawn as one copy of the day part."
     }
   ],
   "anatomy": [
     {
       "name": "container",
-      "description": "Root of the calendar: holds the header, the weekday labels and the day grid, and owns the 24 gap between the header and the grid and between months. It draws no surface of its own; the popover that holds a calendar is part of the component that opens it (date-picker nests a popover part).",
+      "description": "Root of the calendar: holds the previous and next buttons, the months and the help text, and owns the 24 gap between months. It draws no surface of its own; the popover that holds a calendar is part of the component that opens it (date-picker nests a popover part).",
       "required": true,
-      "contains": [
-        "previous-button",
-        "next-button",
-        "title",
-        "weekday-label",
-        "day",
-        "range-fill",
-        "help-text"
-      ]
+      "contains": ["previous-button", "next-button", "month", "help-text"]
     },
     {
       "name": "previous-button",
@@ -186,16 +223,31 @@
       "description": "Quiet action-button (component action-button with isQuiet true) that moves to the next month. Drawn on the last visible month."
     },
     {
+      "name": "month",
+      "description": "One visible month: its title, its weekday grid and its day grid. Repeated once per entry of the months option (visibleMonths one to three).",
+      "contains": ["title", "weekday-grid", "day-grid", "range-fill"]
+    },
+    {
       "name": "title",
-      "description": "Month and year text of a month (Figma Month + Year, RSP CalendarHeading). Repeated once per visible month."
+      "description": "Month and year text of a month (Figma Month + Year, RSP CalendarHeading)."
+    },
+    {
+      "name": "weekday-grid",
+      "description": "Seven-column grid of a month's weekday labels.",
+      "contains": ["weekday-label"]
+    },
+    {
+      "name": "day-grid",
+      "description": "Seven-column grid of a month's days, with blank leading cells so the first day lands under its weekday.",
+      "contains": ["day"]
     },
     {
       "name": "weekday-label",
-      "description": "Single-letter weekday heading above a month's day grid. Seven per month."
+      "description": "Single-letter weekday heading in a month's weekday grid. Seven per month."
     },
     {
       "name": "day",
-      "description": "One date cell, repeated for every day of every visible month (the days slot). Styled for selected, hover, error, disabled and unavailable.",
+      "description": "One date cell of a month's day grid. Styled for selected, hover, error, disabled and unavailable.",
       "required": true,
       "contains": [
         "current-day-indicator",
@@ -223,13 +275,15 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused day.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     }
   ],
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "A9 (2026-11-21), owner decisions C2, C3, C4, C8, C10 to C15. calendar is the only anatomy; single-, double- and triple-calendar are frozen legacy holders and visibleMonths 1|2|3 replaces them. It draws no popover (date-picker nests the popover). Months are a repeat of title, weekday-label and days, not a part. Nested components (action-button, help-text) are described, not declared: the anatomy component field is not built. range-fill is described as visible for selectionMode range because presentIn takes states, not options. Figma has no Calendar page (Date picker page only); RSP S2 Calendar."
+    "notes": "A9 (2026-11-21), owner decisions C2, C3, C4, C8, C10 to C15. calendar is the only anatomy; single-, double- and triple-calendar are frozen legacy holders and visibleMonths 1|2|3 replaces them. It draws no popover (date-picker nests the popover). Months are the repeated month part (months collection slot); each holds a title, a weekday-grid and a day-grid, each grid a collection slot. Nested components (action-button, help-text) are described, not declared: the anatomy component field is not built. range-fill is described as visible for selectionMode range because presentIn takes states, not options. Figma has no Calendar page (Date picker page only); RSP S2 Calendar."
   },
   "states": [
     {
