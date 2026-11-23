@@ -1264,6 +1264,14 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ("filled-l", "l", vec![], vec![], "light", "desktop"),
             ("filled-xl", "xl", vec![], vec![], "light", "desktop"),
             (
+                "width-300",
+                "m",
+                vec![],
+                vec![("width", 300.into())],
+                "light",
+                "desktop",
+            ),
+            (
                 "required-icon",
                 "m",
                 vec![],
@@ -2059,7 +2067,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         }
     }
     // Search field: the defaults draw an empty field with the search icon. These fill it in at each
-    // size (the width option stands in for the width token only the medium size has), with the
+    // size (the width relationship sizes it; `width-300` sets the width option), with the
     // placeholder, the hover and keyboard-focus borders, the disabled look and the dark mobile
     // scheme.
     if name == "search-field" {
@@ -2071,13 +2079,20 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             &'static str,
             &'static str,
         );
-        let filled: [(&str, Value); 4] = [
+        let filled: [(&str, Value); 3] = [
             ("label", "Search".into()),
             ("value", "Hello".into()),
             ("helpText", "Help text".into()),
-            ("width", 192.into()),
         ];
         let cases: Vec<Case> = vec![
+            (
+                "width-300",
+                "m",
+                vec![],
+                vec![("width", 300.into())],
+                "light",
+                "desktop",
+            ),
             ("filled-s", "s", vec![], vec![], "light", "desktop"),
             ("filled-m", "m", vec![], vec![], "light", "desktop"),
             ("filled-l", "l", vec![], vec![], "light", "desktop"),
