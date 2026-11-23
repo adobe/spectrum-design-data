@@ -679,6 +679,31 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "1.5.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "793d0af5f07fb2cbc57434b93353cdfa2fa7b6ef",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2064,"title":"feat(design-data): bind search-field width and text-area height by size","url":"https://github.com/adobe/spectrum-design-data/pull/2064"},
+          "entries": [
+            {"id":"793d0af5-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"size":"s"}},"record":"75f6cc78-45f1-514b-b2c0-05d3ecf5f2fe","name":"width[size=s]","fields":[],"after":"053da3a7-a0f8-4bf5-aa28-16ee7e8c4d68"},
+            {"id":"793d0af5-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"size":"s"}},"record":"019b82f4-f7e6-5740-a83a-34529b851832","name":"width[size=s]","fields":[],"after":"6d7d1e9c-e136-426f-be98-0402b96dacbd"},
+            {"id":"793d0af5-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"size":"m"}},"record":"7dd7665f-17f3-56b9-9c01-d8302d75a6f9","name":"width[size=m]","fields":[],"after":"3b62cbb9-c136-4cdb-958e-64648a19e633"},
+            {"id":"793d0af5-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"size":"m"}},"record":"f9194eef-17fb-5aba-bff2-b732b9cc5652","name":"width[size=m]","fields":[],"after":"b8e998e4-6a5b-4a92-a8ba-49e345d5f785"},
+            {"id":"793d0af5-4","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"size":"l"}},"record":"8a82e7dc-5237-5c0b-a3ea-ba96ab0edfa0","name":"width[size=l]","fields":[],"after":"4dd5493f-36d5-4d92-9fc8-875b3e738366"},
+            {"id":"793d0af5-5","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"size":"l"}},"record":"114b155d-6c76-5d9f-ad6a-3fb95a5f342c","name":"width[size=l]","fields":[],"after":"0155ecd7-1542-4e6b-a6aa-539355afa76c"},
+            {"id":"793d0af5-6","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"size":"xl"}},"record":"58f4ff7b-6cf3-51e3-a99b-7365645f8b37","name":"width[size=xl]","fields":[],"after":"61ba4dc9-8eb5-424e-86b3-a1cea51eda84"},
+            {"id":"793d0af5-7","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"size":"xl"}},"record":"3ea9d326-ee81-5b73-9d3a-df37e533f683","name":"width[size=xl]","fields":[],"after":"77312824-8aab-46de-97c9-6a003b0e3baf"},
+            {"id":"793d0af5-8","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"search-field/visual/parts/container","name":"container","fields":[{"path":"props.width","before":[{"dimension":"width"},{"when":{"options":{"size":"m"}},"relationship":{"property":"width","part":"container"}}],"after":[{"dimension":"width"},{"relationship":{"property":"width","part":"container"}}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

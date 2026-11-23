@@ -1,5 +1,12 @@
 # s2-tokens-viewer
 
+## 0.3.46
+
+### Patch Changes
+
+- Updated dependencies [[`87b260b`](https://github.com/adobe/spectrum-design-data/commit/87b260bbe5d94c023288877de921a06ef084fed3), [`575b3ec`](https://github.com/adobe/spectrum-design-data/commit/575b3ece28c445b5959c8806b6dc97c975c69d5f), [`793d0af`](https://github.com/adobe/spectrum-design-data/commit/793d0af5f07fb2cbc57434b93353cdfa2fa7b6ef), [`7b4561f`](https://github.com/adobe/spectrum-design-data/commit/7b4561fcae97ec7e33358c78dbd7536063017b7e), [`d7d3e96`](https://github.com/adobe/spectrum-design-data/commit/d7d3e968328070873cf228e99fdc4cd96cfda205), [`f65c726`](https://github.com/adobe/spectrum-design-data/commit/f65c726128ebd8c1b21f021d0eb1e3a47310dd44), [`feb65dc`](https://github.com/adobe/spectrum-design-data/commit/feb65dc75506e06fe04dfc143cd80ac365945c98), [`e356cda`](https://github.com/adobe/spectrum-design-data/commit/e356cda6155f3db35a4db4cabbe9f52fa59d2f83), [`4e45d4c`](https://github.com/adobe/spectrum-design-data/commit/4e45d4c97756992716e6882e3edcea2b1b52015a), [`71a0014`](https://github.com/adobe/spectrum-design-data/commit/71a0014bd670c3e6b750ded51b28fa1feee811be)]:
+  - @adobe/design-data-wasm@0.38.1
+
 ## 0.3.45
 
 ### Patch Changes

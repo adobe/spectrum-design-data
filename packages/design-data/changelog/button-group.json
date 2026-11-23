@@ -140,6 +140,30 @@
           "metadata": {"count":3,"fields":["anatomyReview.status","contextQualifier"]}
         }
       ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "d7d3e968328070873cf228e99fdc4cd96cfda205",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2067,"title":"feat(design-data): visual recipes for the group components","url":"https://github.com/adobe/spectrum-design-data/pull/2067"},
+          "entries": [
+            {"id":"d7d3e968-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (button to button)"],"scope":{"property":"space-between","options":{"size":"s"}},"record":"3351e4f9-18f7-574a-95cd-0a46385fef51","name":"space-between[size=s]","fields":[{"path":"scope.options.orientation","before":"horizontal"},{"path":"scope.options.size","after":"s"}]},
+            {"id":"d7d3e968-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (button to button)"],"scope":{"property":"space-between","options":{"size":["m","l","xl"]}},"record":"7d497d62-8aa1-5e73-859e-9ae1753c61f2","name":"space-between[size=?]","fields":[{"path":"scope.options.orientation","before":"horizontal"},{"path":"scope.options.size","after":["m","l","xl"]}]},
+            {"id":"d7d3e968-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"button-group/anatomy/buttons","name":"buttons","fields":[],"after":{"name":"buttons","description":"Row or column of buttons. It draws nothing itself: it sets the gap between buttons and the direction. It hosts the default slot.","required":true}},
+            {"id":"d7d3e968-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"button-group/anatomy/container","name":"container","fields":[{"path":"contains","after":["buttons"]}]},
+            {"id":"d7d3e968-4","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"button-group/anatomy/container","name":"container","fields":[{"path":"description","before":"Row or column that holds the buttons. It draws nothing itself: it sets the gap between buttons and the direction. It is the root and the host of the default slot.","after":"Root of the group. It draws nothing itself: it holds the `buttons` part, which hosts the default slot."}]},
+            {"id":"d7d3e968-5","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"button-group/slots/default","name":"default","fields":[{"path":"part","before":"container","after":"buttons"}]},
+            {"id":"d7d3e968-6","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"button-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web button group page (Button instances only) and React Spectrum S2 ButtonGroup (provides ButtonContext to any children). The group stays a component with an explicit container and one slot (decision A139, 2026-11-20). button is no longer a part: it is what the default slot accepts. No items option: a slot with no max holds any number of buttons (A141).","after":"Figma S2 Web button group page (Button instances only) and React Spectrum S2 ButtonGroup (provides ButtonContext to any children). The group stays a component with an explicit container and one slot, hosted by the child part `buttons`. The part is a spec choice (anatomy-format: a slot host is a declared part); the renderer only needs a slot part under the root, which it rejects on the root itself (decision A139, 2026-11-20). button is no longer a part: it is what the default slot accepts. No items option: a slot with no max holds any number of buttons (A141)."}]},
+            {"id":"d7d3e968-7","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"button-group/visual","name":"button-group","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

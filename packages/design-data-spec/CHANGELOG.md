@@ -1,5 +1,62 @@
 # @adobe/design-data-spec
 
+## 7.3.0
+
+### Minor Changes
+
+- [#2079](https://github.com/adobe/spectrum-design-data/pull/2079) [`7b4561f`](https://github.com/adobe/spectrum-design-data/commit/7b4561fcae97ec7e33358c78dbd7536063017b7e) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a nested component part float by `side`.
+  - SPEC-112 accepts a `component` part with `floating.side` (a slider's
+    field label above its track), as it already did for `position`.
+  - A nested floating component that is zero wide (a field label with no
+    text) is kept and draws nothing, with no diagnostic.
+  - Unit tests cover both; no recipe or data changes.
+
+- [#2068](https://github.com/adobe/spectrum-design-data/pull/2068) [`98214fa`](https://github.com/adobe/spectrum-design-data/commit/98214fab5b3b4e02a49bd51580a106f4af220b3e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `shadow` property to component visual recipes. A box draws one or more
+  drop shadows (`x`, `y`, `blur`, optional `spread`, `color`). Each field is a
+  value source, so a recipe binds the `drop-shadow` tokens. Blur is the Figma
+  radius (Gaussian sigma is half of it). The shadow is not drawn inside the box
+  and does not move layout.
+
+- [#2071](https://github.com/adobe/spectrum-design-data/pull/2071) [`2ccb22a`](https://github.com/adobe/spectrum-design-data/commit/2ccb22a92e6d32a2fc466f81446a084f4918885e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `floating` property to component visual recipes. A top-level part with
+  `floating` (`side`, `align`, `offset`, `crossOffset`) is drawn outside the root,
+  beside one of its edges, for overlays, tips and loupes, and is present when its
+  `visibleWhen` holds. The scene now grows to hold floating parts and the full
+  drop shadow (blur, offset, spread) instead of cutting shadows at the 8px
+  margin. Add rule SPEC-112, which checks a floating part's declaration.
+
+- [#2073](https://github.com/adobe/spectrum-design-data/pull/2073) [`34bc650`](https://github.com/adobe/spectrum-design-data/commit/34bc65088ca920813259ef1f103dbc50906f8767) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `floating.position` to component visual recipes: a part placed at a fraction
+  of a part's box along x and/or y, from a numeric option with `min`, `max`,
+  `invert` and `align`, or a part whose length on an axis is the span between two
+  fractions (`length`, `from`). It draws a slider or colour handle at a value and a
+  fill that grows with it. Out of range values are clamped with a diagnostic. Add
+  rule SPEC-114, which checks the declaration.
+
+  An unset option value draws at the start with no diagnostic. An axis can be a list
+  of entries picked by `when` (for example `orientation`), and a nested `component`
+  part (a colour handle) can be positioned. SPEC-114 checks that option names are
+  number options of the component.
+
+- [#2072](https://github.com/adobe/spectrum-design-data/pull/2072) [`37fbe10`](https://github.com/adobe/spectrum-design-data/commit/37fbe10e393858cb020b8fecd9b9483d117776c1) Thanks [@GarthDB](https://github.com/GarthDB)! - A floating part can now host `children`: it is laid out as a subtree (its size comes
+  from its own layout) anchored to the root, and the scene grows to hold the whole
+  subtree and its shadows. A box can bind `path` (`d` of SVG path data without arcs,
+  optional `viewBox` and `fillRule`) to draw as a closed shape, such as a teardrop loupe
+  or a tip with a rounded point, with fill, checker pattern, centered stroke and shadow
+  in the scene, SVG and PNG. Add rule SPEC-113 (path data the engine can draw) and relax
+  SPEC-112 for floating subtrees. A shadow layer with `x`, `y` or `spread` beyond 1000px
+  is skipped with a diagnostic, so SVG and PNG size the canvas alike; an unresolved
+  floating `offset` or `crossOffset` now reports a diagnostic; floating parts of a nested
+  recipe are dropped with a diagnostic.
+
+- [#2080](https://github.com/adobe/spectrum-design-data/pull/2080) [`9d2f343`](https://github.com/adobe/spectrum-design-data/commit/9d2f343750e012eb2d060875eee7fcae4cd02c43) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `gradient.ramp` to component visual recipes: a linear gradient whose stops the
+  engine computes from a color option and a channel (hue, saturation, lightness,
+  brightness, red, green, blue, alpha) in hsl, hsb or rgb, the way React Spectrum
+  draws a color slider's track (hue 7 stops, lightness 3, others 2). With `z` it is
+  one layer of a color area (hue, saturation, lightness or brightness layers with
+  the fixed channel held at its value). Add rule SPEC-115, which checks the
+  declaration. An unset or unreadable color draws the ramp for red with a
+  diagnostic, and a ramp that cannot be drawn (an rgb area) draws the plain fill.
+  Floating parts now draw a gradient fill.
+
 ## 7.2.0
 
 ### Minor Changes
