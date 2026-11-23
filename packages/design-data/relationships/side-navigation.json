@@ -563,7 +563,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "isSelected": false
       }
     },
     "context": "Side navigation indicator",
@@ -578,7 +579,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "isSelected": false
       }
     },
     "context": "Side navigation indicator",
@@ -593,7 +595,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "isSelected": false
       }
     },
     "context": "Side navigation indicator",
@@ -608,7 +611,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "isSelected": true
       }
     },
     "context": "Side navigation indicator",
@@ -623,7 +627,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "isSelected": true
       }
     },
     "context": "Side navigation indicator",
@@ -638,7 +643,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "isSelected": true
       }
     },
     "context": "Side navigation indicator",
