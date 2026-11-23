@@ -827,7 +827,12 @@
     <script type="module">
       import { backend } from "./backend.js";
       import { platformSwitcher } from "./platform-switcher.js";
-      import { roundedPath, cssFontWeight, iconSvg } from "./draw-helpers.js";
+      import {
+        cssFontWeight,
+        iconSvg,
+        boxSvg,
+        progressSvg,
+      } from "./draw-helpers.js";
       import {
         DEFAULT_LABEL,
         labelText,
@@ -1009,13 +1014,7 @@
           n.stroke_opacity !== undefined
             ? ` stroke-opacity="${n.stroke_opacity}"`
             : "";
-        if (n.kind === "box" && n.radii) {
-          const i = n.stroke_width / 2;
-          const r = n.radii.map((v) => Math.max(v - i, 0));
-          return `<path d="${roundedPath(n.x, n.y, n.w, n.h, n.radii)}" fill="${n.fill ?? "none"}"/>${n.stroke && n.stroke_width > 0 ? `<path d="${roundedPath(n.x + i, n.y + i, n.w - n.stroke_width, n.h - n.stroke_width, r)}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"${so}/>` : ""}`;
-        }
-        if (n.kind === "box")
-          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="${n.fill ?? "none"}" stroke="${n.stroke ?? "none"}" stroke-width="${n.stroke_width}"${so}/>`;
+        if (n.kind === "box") return boxSvg(n, so);
         if (n.kind === "ring")
           return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"${so}/>`;
         if (n.kind === "icon")
@@ -1023,12 +1022,7 @@
             iconSvg(n) ??
             `<circle cx="${n.x + n.w / 2}" cy="${n.y + n.h / 2}" r="${n.w * 0.4}" fill="none" stroke="${n.color}" stroke-width="1.5"/>`
           );
-        if (n.kind === "progress") {
-          const cx = n.x + n.w / 2,
-            cy = n.y + n.h / 2,
-            r = Math.min(n.w, n.h) / 2 - Math.min(n.w, n.h) / 18;
-          return `<g fill="none" stroke-width="${Math.max(1, Math.min(n.w, n.h) / 9)}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${n.stroke}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${n.color}" stroke-linecap="round"/></g>`;
-        }
+        if (n.kind === "progress") return progressSvg(n);
         if (n.kind === "text") {
           const u = n.underline;
           // The renderer's rule: the baseline is 0.35 x the font size below the line box center.
