@@ -200,6 +200,80 @@
             "legacyKey": "size-500"
           }
         },
+        "width": [
+          {
+            "when": {
+              "options": {
+                "isRangeStart": true
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "parent"
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeEnd": true
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "parent"
+          }
+        ],
+        "justify": [
+          {
+            "when": {
+              "options": {
+                "isRangeStart": true
+              }
+            },
+            "value": "end"
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeEnd": true
+              }
+            },
+            "value": "start"
+          }
+        ],
+        "cornerRadiusStartStart": [
+          {
+            "when": {
+              "rowPosition": ["first", "only"]
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "cornerRadiusStartEnd": [
+          {
+            "when": {
+              "rowPosition": ["last", "only"]
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "cornerRadiusEndEnd": [
+          {
+            "when": {
+              "rowPosition": ["last", "only"]
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "cornerRadiusEndStart": [
+          {
+            "when": {
+              "rowPosition": ["first", "only"]
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
         "fill": [
           {
             "relationship": {
@@ -214,6 +288,26 @@
                 "isRangeStart": true,
                 "isRangeEnd": true
               }
+            },
+            "value": "transparent",
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeStart": true
+              },
+              "rowPosition": ["last", "only"]
+            },
+            "value": "transparent",
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeEnd": true
+              },
+              "rowPosition": ["first", "only"]
             },
             "value": "transparent",
             "priority": 10

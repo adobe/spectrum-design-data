@@ -169,6 +169,10 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "grow",
             "shadow",
             "cornerRadius",
+            "cornerRadiusStartStart",
+            "cornerRadiusStartEnd",
+            "cornerRadiusEndEnd",
+            "cornerRadiusEndStart",
             "fill",
             "stroke",
             "strokeWidth",
@@ -269,6 +273,18 @@ pub fn part_role(part: &Value, is_root: bool) -> &str {
 }
 
 /// One render request: which component, at which size, in which state and mode.
+/// The request option a repeat inside a grid sets on each copy: its place in the grid row
+/// (`first`, `middle`, `last`, `only`), read by `when.rowPosition`.
+const ROW_POSITION: &str = "rowPosition";
+
+/// The per-corner radius props, in the order `[top-left, top-right, bottom-right, bottom-left]`.
+const CORNER_PROPS: [&str; 4] = [
+    "cornerRadiusStartStart",
+    "cornerRadiusStartEnd",
+    "cornerRadiusEndEnd",
+    "cornerRadiusEndStart",
+];
+
 #[derive(Debug, Clone, Default, serde::Deserialize)]
 #[serde(default)]
 pub struct RenderRequest {
@@ -2353,6 +2369,17 @@ impl Ctx<'_> {
             }
             score += 1;
         }
+        if let Some(want) = when.get("rowPosition") {
+            let have = self.req.options.get(ROW_POSITION).and_then(Value::as_str);
+            let ok = have.is_some_and(|p| match want {
+                Value::Array(any) => any.iter().any(|w| w.as_str() == Some(p)),
+                w => w.as_str() == Some(p),
+            });
+            if !ok {
+                return None;
+            }
+            score += 1;
+        }
         if let Some(modes) = when.get("modes").and_then(Value::as_object) {
             for (k, want) in modes {
                 if self.req.mode.get(k).map(String::as_str) != want.as_str() {
@@ -4023,12 +4050,7 @@ fn solve_root(
     let inner_stroke = rp(&mut cx, root, "innerStroke");
     let inner_w = rp(&mut cx, root, "innerStrokeWidth");
     let inner_o = rp(&mut cx, root, "innerStrokeOpacity");
-    let corner_names = [
-        "cornerRadiusStartStart",
-        "cornerRadiusStartEnd",
-        "cornerRadiusEndEnd",
-        "cornerRadiusEndStart",
-    ];
+    let corner_names = CORNER_PROPS;
     let corners: Vec<Option<Resolved>> =
         corner_names.iter().map(|n| rp(&mut cx, root, n)).collect();
     for (n, r) in corner_names.iter().zip(&corners) {
@@ -4176,6 +4198,13 @@ fn solve_root(
         stroke_opacity: Option<f64>,
         sweep: Option<f64>,
         radius: Option<Resolved>,
+        // Per-corner radii `[start-start, start-end, end-end, end-start]` a flowed box binds.
+        corners: [Option<Resolved>; 4],
+        // A stack child's own `justify` and `align`; unset follows the stack root's.
+        own_justify: Option<String>,
+        own_align: Option<String>,
+        // A stack child's width as a fraction of the stack's inner width (`relativeTo: parent`).
+        w_of_parent: Option<f64>,
         tokens: Vec<TokenRef>,
         row: Option<Row>,
         auto_w: bool,
@@ -4246,8 +4275,13 @@ fn solve_root(
                 id,
                 rep,
                 column,
-                inner,
-                min_w - pad_s - pad_e,
+                (inner, min_w - pad_s - pad_e),
+                grid_props
+                    .as_ref()
+                    .and_then(|g| g.0.as_ref())
+                    .and_then(Resolved::num)
+                    .filter(|c| *c >= 1.0)
+                    .map(|c| c.min(MAX_GRID_COLUMNS as f64) as usize),
             )?;
             for n in copies {
                 flow.push(Child {
@@ -4323,6 +4357,10 @@ fn solve_root(
             stroke_opacity: None,
             sweep: None,
             radius: None,
+            corners: Default::default(),
+            own_justify: None,
+            own_align: None,
+            w_of_parent: None,
             tokens,
             row: None,
             auto_w: false,
@@ -4355,12 +4393,22 @@ fn solve_root(
                 track(&mut c.tokens, "width", &w);
                 track(&mut c.tokens, "height", &bh);
                 c.w = w.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                if let Some(f) = w
+                    .as_ref()
+                    .filter(|w| w.relative_to.as_deref() == Some("parent"))
+                {
+                    (c.w, c.w_of_parent) = (0.0, f.num());
+                }
                 c.auto_w = w.is_none();
                 let g = rp(&mut cx, part, "grow");
                 c.grow = grow_share(&g);
                 c.h = bh.as_ref().and_then(Resolved::num).unwrap_or(0.0);
                 c.radius = rp(&mut cx, part, "cornerRadius");
                 track(&mut c.tokens, "cornerRadius", &c.radius);
+                for (i, name) in CORNER_PROPS.iter().enumerate() {
+                    c.corners[i] = rp(&mut cx, part, name);
+                    track(&mut c.tokens, name, &c.corners[i]);
+                }
                 // A flowed box paints itself and hosts its children, like a nested box.
                 let bfill = rp(&mut cx, part, "fill");
                 let bstroke = rp(&mut cx, part, "stroke");
@@ -4394,6 +4442,21 @@ fn solve_root(
                 if rdir.is_none() {
                     if bh.is_none() {
                         c.h = pads[2] + pads[3];
+                    }
+                    // Inside a stack root a child places itself with its own `justify` and `align`.
+                    for (name, slot) in
+                        [("justify", &mut c.own_justify), ("align", &mut c.own_align)]
+                    {
+                        let r = rp(&mut cx, part, name);
+                        track(&mut c.tokens, name, &r);
+                        if r.is_some() {
+                            *slot = Some(layout_keyword(
+                                &mut cx,
+                                name,
+                                &r,
+                                &["start", "center", "end"],
+                            ));
+                        }
                     }
                 } else {
                     layout_keyword(&mut cx, "direction", &rdir, &["row"]);
@@ -5042,6 +5105,8 @@ fn solve_root(
             g.col_w[col]
         } else if (column || stack) && c.kind == "box" && c.auto_w {
             w - pad_s - pad_e
+        } else if let Some(f) = c.w_of_parent.filter(|_| stack) {
+            f * (w - pad_s - pad_e)
         } else {
             c.w
         };
@@ -5064,8 +5129,16 @@ fn solve_root(
         } else if stack {
             // Siblings overlay: each sits in the inner box, `justify` across and `align` down.
             (
-                ox + pad_s + axis_offset(&justify, w - pad_s - pad_e - cw),
-                oy + pad_bs + axis_offset(&align, h - pad_bs - pad_be - c.h),
+                ox + pad_s
+                    + axis_offset(
+                        c.own_justify.as_deref().unwrap_or(&justify),
+                        w - pad_s - pad_e - cw,
+                    ),
+                oy + pad_bs
+                    + axis_offset(
+                        c.own_align.as_deref().unwrap_or(&align),
+                        h - pad_bs - pad_be - c.h,
+                    ),
             )
         } else if column {
             (x + axis_offset(&align, w - pad_s - pad_e - cw), y)
@@ -5170,6 +5243,28 @@ fn solve_root(
         };
         if c.kind == "box" {
             own.radius = clamp_radius(px(&c.radius, ch), cw, ch);
+            if c.corners.iter().any(Option::is_some) {
+                let base = px(&c.radius, ch);
+                let r = [0, 1, 2, 3].map(|i| {
+                    c.corners[i]
+                        .as_ref()
+                        .and_then(|r| {
+                            r.num().map(|v| {
+                                if r.relative_to.as_deref() == Some("height") {
+                                    v * ch
+                                } else {
+                                    v
+                                }
+                            })
+                        })
+                        .unwrap_or(base)
+                });
+                if r.iter().any(|v| (v - r[0]).abs() > 1e-9) {
+                    own.radii = Some(r.map(|v| clamp_radius(v, cw, ch)));
+                } else {
+                    own.radius = clamp_radius(r[0], cw, ch);
+                }
+            }
         }
         if lines.is_empty() {
             nodes.push(own);
@@ -6517,8 +6612,8 @@ fn solve_copies(
     id: &str,
     rep: &Value,
     column: bool,
-    inner: Option<f64>,
-    min_inner: f64,
+    (inner, min_inner): (Option<f64>, f64),
+    grid_cols: Option<usize>,
 ) -> Result<Vec<Nested>, String> {
     if REPEAT_DEPTH.get() >= MAX_REPEAT_DEPTH {
         cx.diags.push(format!(
@@ -6563,9 +6658,21 @@ fn solve_copies(
         items.push(&none);
     }
     let _depth = DepthGuard::enter();
-    let copy_req = |item: &Value, width: Option<f64>| {
+    let copy_req = |item: &Value, width: Option<f64>, place: (usize, usize)| {
         let mut r = base.clone();
         r.width = width;
+        if let Some(cols) = grid_cols {
+            let (n, of) = place;
+            let first = n % cols == 0;
+            let last = n % cols == cols - 1 || n + 1 == of;
+            let pos = match (first, last) {
+                (true, true) => "only",
+                (true, false) => "first",
+                (false, true) => "last",
+                _ => "middle",
+            };
+            r.options.insert(ROW_POSITION.into(), pos.into());
+        }
         if let Some(l) = rep
             .get("label")
             .and_then(Value::as_str)
@@ -6601,7 +6708,7 @@ fn solve_copies(
         .iter()
         .enumerate()
         .filter(|(n, i)| {
-            let r = copy_req(i, None);
+            let r = copy_req(i, None, (*n, total));
             let copy_cx = Ctx {
                 req: &r,
                 option_defaults: cx.option_defaults,
@@ -6623,7 +6730,14 @@ fn solve_copies(
         items
             .iter()
             .enumerate()
-            .map(|(n, i)| solve_root(variant, id, &copy_req(i, width), position(n, items.len())))
+            .map(|(n, i)| {
+                solve_root(
+                    variant,
+                    id,
+                    &copy_req(i, width, (n, items.len())),
+                    position(n, items.len()),
+                )
+            })
             .collect::<Result<Vec<_>, _>>()
     };
     let mut scenes = solve_all(if column { inner } else { None })?;
@@ -13623,5 +13737,53 @@ mod tests {
         );
         assert_eq!(pos_of(&s, "cell-1"), (8.0, 8.0));
         assert_eq!(pos_of(&s, "cell-3"), (34.0, 8.0));
+    }
+
+    #[test]
+    fn a_stack_child_places_and_rounds_itself_and_a_grid_copy_knows_its_row_place() {
+        // A 20x10 stack cell holds a band: half the cell wide, at its end, red by its place in
+        // the grid row, with only its two left corners rounded.
+        let fill = |rp: &str, color: &str| serde_json::json!({ "when": { "rowPosition": rp }, "value": color });
+        let mut band = cell(0.0, 4.0, "#000000");
+        band["props"]["width"] = serde_json::json!({ "value": 0.5, "relativeTo": "parent" });
+        band["props"]["justify"] = serde_json::json!({ "value": "end" });
+        band["props"]["align"] = serde_json::json!({ "value": "start" });
+        band["props"]["cornerRadiusStartStart"] = lit_num(1.5);
+        band["props"]["cornerRadiusEndStart"] = lit_num(1.5);
+        band["props"]["fill"] = serde_json::json!([
+            fill("first", "#aa0000"),
+            fill("middle", "#bb0000"),
+            fill("last", "#cc0000"),
+        ]);
+        let parts = serde_json::json!({
+            "root": { "kind": "box", "children": ["day"],
+                "props": { "direction": { "value": "grid" }, "columns": lit_num(3.0) },
+                "repeat": { "slot": "days" } },
+            "day": { "kind": "box", "children": ["band"],
+                "props": { "direction": { "value": "stack" }, "width": lit_num(20.0),
+                    "height": lit_num(10.0) } },
+            "band": band
+        });
+        let objs = Value::Array((0..5).map(|_| serde_json::json!({})).collect());
+        let s = subtree_scene(
+            parts,
+            serde_json::json!([{ "name": "days", "part": "day", "collection": "days" }]),
+            &[("days", objs)],
+        );
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        let band = |n: usize| part(&s, &format!("day-{n}.band")).unwrap();
+        // Column 0 is first, 1 middle, 2 last; copy 4 starts row 2 (first); the last copy
+        // (column 1 of row 2) ends the row.
+        let colors: Vec<_> = (1..=5).map(|n| band(n).fill.clone().unwrap()).collect();
+        assert_eq!(
+            colors,
+            ["#aa0000", "#bb0000", "#cc0000", "#aa0000", "#cc0000"]
+        );
+        let b = band(1);
+        assert_eq!((b.w, b.h), (10.0, 4.0));
+        // Half the cell wide, at the cell's end (x 10 of 20) and at its top.
+        let day = part(&s, "day-1").unwrap();
+        assert_eq!((b.x - day.x, b.y - day.y), (10.0, 0.0));
+        assert_eq!(b.radii, Some([1.5, 0.0, 0.0, 1.5]));
     }
 }

@@ -426,6 +426,16 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             "range-two-adjacent-days",
             range(vec![feb_range(10, 11)], "light", "desktop"),
         ));
+        // Fri 6 to Mon 9: the band is capped at the week's end and start, not drawn past it.
+        out.push((
+            "range-week-edge",
+            range(vec![feb_range(6, 9)], "light", "desktop"),
+        ));
+        // Sat 7 to Sun 8: each end is at a row edge, so only the two circles draw.
+        out.push((
+            "range-edge-ends",
+            range(vec![feb_range(7, 8)], "light", "desktop"),
+        ));
         out.push((
             "range-single-day",
             range(vec![feb_range(10, 10)], "light", "desktop"),

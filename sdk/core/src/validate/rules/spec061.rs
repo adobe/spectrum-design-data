@@ -114,8 +114,11 @@ impl ValidationRule for Rule {
                         continue;
                     };
                     let cpath = format!("{path}/{key}");
-                    if let Some(want) = cond.get("position") {
-                        let ppath = format!("{cpath}/position");
+                    for pos_key in ["position", "rowPosition"] {
+                        let Some(want) = cond.get(pos_key) else {
+                            continue;
+                        };
+                        let ppath = format!("{cpath}/{pos_key}");
                         let part = path
                             .strip_prefix("/parts/")
                             .and_then(|p| p.split('/').next());
@@ -124,7 +127,7 @@ impl ValidationRule for Rule {
                                 self.id(),
                                 v,
                                 &ppath,
-                                "Condition position is only valid on a repeated part or a part inside it".into(),
+                                format!("Condition {pos_key} is only valid on a repeated part or a part inside it"),
                             ));
                         }
                         let listed = match want {
@@ -137,7 +140,7 @@ impl ValidationRule for Rule {
                                     self.id(),
                                     v,
                                     &ppath,
-                                    format!("Condition position {p} is not one of first, middle, last, only"),
+                                    format!("Condition {pos_key} {p} is not one of first, middle, last, only"),
                                 ));
                             }
                         }
@@ -322,21 +325,25 @@ mod tests {
 
     #[test]
     fn position_is_valid_only_inside_a_repeated_part() {
-        let r = |pos: Value, on: &str| {
+        let r_key = |key: &str, pos: Value, on: &str| {
             let mut parts = json!({
                 "container": {"children": ["item", "other"], "repeat": {"slot": "default"}},
                 "item": {"children": ["label"]},
                 "label": {},
                 "other": {}
             });
-            parts[on]["props"] = json!({"fill": [{"when": {"position": pos}, "value": "red"}]});
+            parts[on]["props"] = json!({"fill": [{"when": {key: pos}, "value": "red"}]});
             run(json!({"component": "button", "root": "container", "parts": parts}))
         };
+        let r = |pos: Value, on: &str| r_key("position", pos, on);
         assert!(r(json!(["first", "middle"]), "item").is_empty());
         assert!(r(json!("only"), "label").is_empty());
         assert_eq!(r(json!(["first"]), "other").len(), 1);
         assert_eq!(r(json!(["first"]), "container").len(), 1);
         assert_eq!(r(json!(["second"]), "item").len(), 1);
+        assert!(r_key("rowPosition", json!(["first", "last"]), "item").is_empty());
+        assert_eq!(r_key("rowPosition", json!("first"), "other").len(), 1);
+        assert_eq!(r_key("rowPosition", json!("second"), "item").len(), 1);
     }
 
     #[test]
