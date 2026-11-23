@@ -390,8 +390,8 @@ fn inflate(src: &[u8], want: usize) -> Result<Vec<u8>, String> {
     Ok(out)
 }
 
-/// A PNG for tests with stored (uncompressed) deflate and filter 0, written by hand so the
-/// decoder is checked against bytes it did not produce.
+/// A valid PNG for tests (checksums included) with stored (uncompressed) deflate and filter 0,
+/// written by hand so the decoder is checked against bytes it did not produce.
 #[cfg(test)]
 pub(crate) fn test_png(w: u32, h: u32, ctype: u8, px: &dyn Fn(u32, u32) -> Vec<u8>) -> Vec<u8> {
     let mut raw = Vec::new();
@@ -409,13 +409,29 @@ pub(crate) fn test_png(w: u32, h: u32, ctype: u8, px: &dyn Fn(u32, u32) -> Vec<u
         z.extend((!(c.len() as u16)).to_le_bytes());
         z.extend(c);
     }
-    z.extend([0; 4]);
+    let (mut a, mut b) = (1u32, 0u32);
+    for &v in &raw {
+        a = (a + u32::from(v)) % 65521;
+        b = (b + a) % 65521;
+    }
+    z.extend((b << 16 | a).to_be_bytes());
     let mut out = vec![0x89, b'P', b'N', b'G', 13, 10, 26, 10];
     let mut chunk = |kind: &[u8], data: &[u8]| {
         out.extend((data.len() as u32).to_be_bytes());
         out.extend(kind);
         out.extend(data);
-        out.extend([0; 4]);
+        let mut crc = !0u32;
+        for &v in kind.iter().chain(data) {
+            crc ^= u32::from(v);
+            for _ in 0..8 {
+                crc = if crc & 1 == 1 {
+                    crc >> 1 ^ 0xEDB8_8320
+                } else {
+                    crc >> 1
+                };
+            }
+        }
+        out.extend((!crc).to_be_bytes());
     };
     let mut ihdr = Vec::new();
     ihdr.extend(w.to_be_bytes());
