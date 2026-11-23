@@ -1572,6 +1572,12 @@
     "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"horizontal\"": "c44e623c54c98f41",
     "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"vertical\"": "ef3d9c3305cb89b9"
   },
+  "side-navigation": {
+    "isDisabled=false,isSelected=false": "7266a2c5cb91516f",
+    "isDisabled=false,isSelected=true": "9e708295eed9c7e9",
+    "isDisabled=true,isSelected=false": "66460703dc7bf0db",
+    "isDisabled=true,isSelected=true": "3cd93dbbd8ef196f"
+  },
   "slider": {
     "hasFill=false,isDisabled=false,isEditable=false,isEmphasized=false,labelPosition=\"side\",trackStyle=\"ramp\"": "9e124af3ef5b95b7",
     "hasFill=false,isDisabled=false,isEditable=false,isEmphasized=false,labelPosition=\"side\",trackStyle=\"thick\"": "66f4dca5e4e96bab",
@@ -1669,6 +1675,24 @@
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"ramp\"": "1ffaad7335754b8b",
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"thick\"": "990622c79aa68b23",
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"thin\"": "dc21069c7d358d8b"
+  },
+  "stack-item": {
+    "isDisabled=false,isSelected=false,selectionStyle=\"checkbox\",visual=\"icon\"": "238030138a40022b",
+    "isDisabled=false,isSelected=false,selectionStyle=\"checkbox\",visual=\"thumbnail\"": "3b9315ce34ad68a3",
+    "isDisabled=false,isSelected=false,selectionStyle=\"highlight\",visual=\"icon\"": "f3cc1e1f8573e1fb",
+    "isDisabled=false,isSelected=false,selectionStyle=\"highlight\",visual=\"thumbnail\"": "c7d1b556cd78e895",
+    "isDisabled=false,isSelected=true,selectionStyle=\"checkbox\",visual=\"icon\"": "8ed15946d2ef5c75",
+    "isDisabled=false,isSelected=true,selectionStyle=\"checkbox\",visual=\"thumbnail\"": "ecca32a92c8942e1",
+    "isDisabled=false,isSelected=true,selectionStyle=\"highlight\",visual=\"icon\"": "9515686757315d09",
+    "isDisabled=false,isSelected=true,selectionStyle=\"highlight\",visual=\"thumbnail\"": "50cbc62c5a522d97",
+    "isDisabled=true,isSelected=false,selectionStyle=\"checkbox\",visual=\"icon\"": "aacd2d37fa9a1497",
+    "isDisabled=true,isSelected=false,selectionStyle=\"checkbox\",visual=\"thumbnail\"": "03cdc74f5cb7e7cf",
+    "isDisabled=true,isSelected=false,selectionStyle=\"highlight\",visual=\"icon\"": "48d191d6098a8fd7",
+    "isDisabled=true,isSelected=false,selectionStyle=\"highlight\",visual=\"thumbnail\"": "33ce444ec3306e43",
+    "isDisabled=true,isSelected=true,selectionStyle=\"checkbox\",visual=\"icon\"": "0da685f5a986d67d",
+    "isDisabled=true,isSelected=true,selectionStyle=\"checkbox\",visual=\"thumbnail\"": "f2eaa118ddbc07cb",
+    "isDisabled=true,isSelected=true,selectionStyle=\"highlight\",visual=\"icon\"": "5b88f953b21f32b9",
+    "isDisabled=true,isSelected=true,selectionStyle=\"highlight\",visual=\"thumbnail\"": "7e97ea97ad39c469"
   },
   "standard-dialog": {
     "(defaults)": "45235b80da8e12a9"

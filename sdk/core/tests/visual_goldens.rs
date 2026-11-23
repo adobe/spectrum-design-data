@@ -293,6 +293,124 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
+    // Side navigation: a heading, then selected, unselected and disabled items, in the
+    // default and the dark mobile modes and with a hovered row.
+    if name == "side-navigation" {
+        let items = serde_json::json!([
+            { "label": "Home", "isSelected": true },
+            { "label": "Projects" },
+            { "label": "Settings", "isDisabled": true },
+            { "label": "Archive", "isSelected": true, "isDisabled": true }
+        ]);
+        let with = |states: Vec<String>, scheme: &str, scale: &str| {
+            let mut o = HashMap::from([
+                ("items".to_string(), items.clone()),
+                ("sectionTitle".to_string(), "Navigate".into()),
+            ]);
+            o.insert("selectionMode".into(), "single".into());
+            req(states, o, scheme, scale)
+        };
+        out.push(("three-items", with(vec![], "light", "desktop")));
+        out.push(("three-items-dark-mobile", with(vec![], "dark", "mobile")));
+        out.push((
+            "three-items-wireframe",
+            with(vec![], "wireframe", "desktop"),
+        ));
+        out.push((
+            "three-items-hover",
+            with(vec!["hover".into()], "light", "desktop"),
+        ));
+    }
+    // Stack item: a row with a checkbox, a visual and two trailing action buttons (nested
+    // recipes and slot fills), selected, unselected and disabled, light and dark mobile.
+    if name == "stack-item" {
+        let actions = |n: usize| -> HashMap<String, Vec<design_data_core::visual::SlotFill>> {
+            HashMap::from([(
+                "actions".to_string(),
+                (0..n)
+                    .map(|_| design_data_core::visual::SlotFill {
+                        component: "action-button".into(),
+                        ..Default::default()
+                    })
+                    .collect(),
+            )])
+        };
+        let row =
+            |opts: &[(&str, Value)], states: &[&str], scheme: &str, scale: &str, label: &str| {
+                let mut r = req(
+                    states.iter().map(|s| s.to_string()).collect(),
+                    opts.iter()
+                        .map(|(k, v)| (k.to_string(), v.clone()))
+                        .collect(),
+                    scheme,
+                    scale,
+                );
+                r.label = label.into();
+                r.slots = actions(2);
+                r.width = Some(306.0);
+                r
+            };
+        let cb = ("selectionStyle", Value::String("checkbox".into()));
+        out.push((
+            "selected-checkbox-icon",
+            row(
+                &[
+                    cb.clone(),
+                    ("visual", "icon".into()),
+                    ("isSelected", true.into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "Selected row",
+            ),
+        ));
+        out.push((
+            "unselected-hover-thumbnail",
+            row(
+                &[cb.clone(), ("visual", "thumbnail".into())],
+                &["hover"],
+                "light",
+                "desktop",
+                "Unselected row",
+            ),
+        ));
+        out.push((
+            "disabled-icon",
+            row(
+                &[("visual", "icon".into()), ("isDisabled", true.into())],
+                &[],
+                "light",
+                "desktop",
+                "Disabled row",
+            ),
+        ));
+        out.push((
+            "selected-disabled",
+            row(
+                &[
+                    cb.clone(),
+                    ("visual", "icon".into()),
+                    ("isSelected", true.into()),
+                    ("isDisabled", true.into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "Selected disabled row",
+            ),
+        ));
+        out.push((
+            "selected-dark-mobile",
+            row(
+                &[cb, ("visual", "icon".into()), ("isSelected", true.into())],
+                &["hover"],
+                "dark",
+                "mobile",
+                "Selected row",
+            ),
+        ));
+    }
     // Slider: the handle sits at the value (0, a quarter, half, the max and unset), the fill
     // follows it (from `fillStart` for an offset slider), the sizes, the handle states and the
     // editable number field are drawn with real label and value text.
