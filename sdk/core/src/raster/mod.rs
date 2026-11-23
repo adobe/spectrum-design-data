@@ -347,6 +347,9 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                     });
                 }
             }
+            if let Some(img) = n.image.as_ref().filter(|i| !i.href.is_empty()) {
+                draw_image(cv, xf, n, img, diags);
+            }
             if n.stroke_width > 0.0 {
                 if let Some(c) = stroke_color(n, diags) {
                     // The SVG strokes the box inset by half the width, so the band is inside it.
@@ -414,6 +417,84 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
         "icon" => draw_icon(cv, xf, n, diags),
         _ => {}
     }
+}
+
+/// The box's image, sampled bilinearly (as the SVG renderers scale) from the pixels the scene
+/// builder already accepted, and clipped to the box's rounded shape and to the image's own edge.
+fn draw_image(
+    cv: &mut Canvas,
+    xf: Xf,
+    n: &SceneNode,
+    img: &crate::visual::ImageFill,
+    diags: &mut Vec<String>,
+) {
+    let px = match crate::image::decode_data_uri(&img.href) {
+        Ok(p) => p,
+        Err(e) => {
+            diags.push(format!("part '{}': image not drawn: {e}", n.part));
+            return;
+        }
+    };
+    let [dx, dy, dw, dh] = img.dest;
+    let (ix, iy) = (n.x + dx, n.y + dy);
+    let (iw, ih) = (px.width as usize, px.height as usize);
+    let r = corner_radii(n);
+    let texel = |tx: isize, ty: isize| -> [f32; 4] {
+        let (x, y) = (
+            tx.clamp(0, iw as isize - 1) as usize,
+            ty.clamp(0, ih as isize - 1) as usize,
+        );
+        let p = &px.rgba[(y * iw + x) * 4..][..4];
+        let a = f32::from(p[3]) / 255.0;
+        [
+            f32::from(p[0]) / 255.0 * a,
+            f32::from(p[1]) / 255.0 * a,
+            f32::from(p[2]) / 255.0 * a,
+            a,
+        ]
+    };
+    paint_with(
+        cv,
+        xf,
+        (n.x, n.y, n.x + n.w, n.y + n.h),
+        Paint::Fill,
+        |x, y| {
+            rrect_sdf(x, y, n.x, n.y, n.w, n.h, r).max(rrect_sdf(x, y, ix, iy, dw, dh, [0.0; 4]))
+        },
+        |x, y| {
+            let (u, v) = (
+                (x - ix) / dw * iw as f64 - 0.5,
+                (y - iy) / dh * ih as f64 - 0.5,
+            );
+            let (x0, y0) = (u.floor(), v.floor());
+            let (fx, fy) = ((u - x0) as f32, (v - y0) as f32);
+            let (x0, y0) = (x0 as isize, y0 as isize);
+            let mut m = [0f32; 4];
+            for (tx, ty, wgt) in [
+                (x0, y0, (1.0 - fx) * (1.0 - fy)),
+                (x0 + 1, y0, fx * (1.0 - fy)),
+                (x0, y0 + 1, (1.0 - fx) * fy),
+                (x0 + 1, y0 + 1, fx * fy),
+            ] {
+                let t = texel(tx, ty);
+                (0..4).for_each(|i| m[i] += t[i] * wgt);
+            }
+            match m[3] > 0.0 {
+                true => Rgba {
+                    r: m[0] / m[3],
+                    g: m[1] / m[3],
+                    b: m[2] / m[3],
+                    a: m[3],
+                },
+                false => Rgba {
+                    r: 0.0,
+                    g: 0.0,
+                    b: 0.0,
+                    a: 0.0,
+                },
+            }
+        },
+    );
 }
 
 /// A box with a `path`: the shape filled (and checkered), stroked on its outline with round
@@ -742,6 +823,7 @@ mod tests {
             underline: None,
             pattern: None,
             gradient: None,
+            image: None,
             shadow: Vec::new(),
             path: None,
             stroke_opacity: None,

@@ -26,6 +26,7 @@ pub mod diff;
 pub mod discovery;
 pub mod export;
 pub mod graph;
+pub mod image;
 pub mod legacy;
 pub mod manifest;
 pub mod migrate;
@@ -695,7 +696,7 @@ mod validation_conformance {
         // The skip below must not hide a rule that is implemented: these fail if unregistered.
         for id in [
             "SPEC-074", "SPEC-106", "SPEC-107", "SPEC-108", "SPEC-109", "SPEC-110", "SPEC-111",
-            "SPEC-112", "SPEC-113", "SPEC-114", "SPEC-115", "SPEC-116",
+            "SPEC-112", "SPEC-113", "SPEC-114", "SPEC-115", "SPEC-116", "SPEC-117",
         ] {
             assert!(registered.contains(id), "{id} is not in default_rules()");
         }

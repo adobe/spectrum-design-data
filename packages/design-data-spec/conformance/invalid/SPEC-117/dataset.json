@@ -1,0 +1,54 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "states": [
+        {
+          "name": "hover",
+          "trigger": "interaction"
+        },
+        {
+          "name": "focus",
+          "trigger": "interaction"
+        }
+      ],
+      "anatomy": [
+        {
+          "name": "container",
+          "description": "Background.",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "component": "button",
+      "root": "container",
+      "parts": {
+        "container": {
+          "kind": "box",
+          "image": {
+            "source": {
+              "value": "https://example.com/photo.png"
+            },
+            "fit": "cover"
+          }
+        },
+        "photo": {
+          "kind": "box",
+          "image": {
+            "fit": "stretch"
+          }
+        }
+      }
+    }
+  ]
+}
