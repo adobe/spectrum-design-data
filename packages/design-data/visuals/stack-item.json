@@ -115,6 +115,7 @@
         "m": "300"
       },
       "with": {
+        "showImage": true,
         "isDisabled": {
           "option": "isDisabled"
         }

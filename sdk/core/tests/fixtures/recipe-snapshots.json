@@ -2364,10 +2364,10 @@
     "hideLabel=true,isDisabled=true,isError=true,isRequired=true,labelPosition=\"top\",necessityIndicator=\"text\",showValidIcon=true": "55f0fd9a9898926c"
   },
   "thumbnail": {
-    "hideImage=false,isDisabled=false": "62abff95841e61c3",
-    "hideImage=false,isDisabled=true": "7dcd4cfd4a8f8995",
-    "hideImage=true,isDisabled=false": "26e0bf54825c8047",
-    "hideImage=true,isDisabled=true": "29f9273ce814d02d"
+    "isDisabled=false,showImage=false": "2797a643e7051899",
+    "isDisabled=false,showImage=true": "e5b928e15bbe20bf",
+    "isDisabled=true,showImage=false": "0d4b2f6936488cff",
+    "isDisabled=true,showImage=true": "6fa1e62760565661"
   },
   "toast": {
     "variant=\"informative\"": "1a14912d5a557bac",

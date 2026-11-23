@@ -2708,6 +2708,8 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             let mut o = HashMap::from([("src".to_string(), Value::String(uri.clone()))]);
             if name == "avatar" {
                 o.insert("image".into(), Value::String("user image".into()));
+            } else {
+                o.insert("showImage".into(), Value::Bool(true));
             }
             o.extend(extra.iter().map(|(k, v)| (k.to_string(), v.clone())));
             o
@@ -2742,7 +2744,12 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         if name == "thumbnail" {
             out.push((
                 "photo-hidden",
-                req(vec![], photo(&flag("hideImage")), "light", "desktop"),
+                req(
+                    vec![],
+                    photo(&[("showImage", Value::Bool(false))]),
+                    "light",
+                    "desktop",
+                ),
             ));
         }
     }
