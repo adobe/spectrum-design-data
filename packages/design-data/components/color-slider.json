@@ -122,7 +122,7 @@
     },
     "gradient": {
       "type": "string",
-      "description": "The channel gradient drawn in the track, as a CSS linear-gradient() of solid colors (the host computes it from the channel and the rest of the color). Unset draws no gradient."
+      "description": "The channel gradient drawn in the track, as a CSS linear-gradient() of solid colors. Unset draws no gradient. Interim host-supplied render input (not a component API prop): the host derives it from the channel and the color until the engine computes ramps."
     }
   },
   "anatomy": [
@@ -188,7 +188,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component)."
+    "notes": "A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component). R4b (interim): the checkerboard and fill are also listed under container because the recipe stacks them in the root; the engine allows stack only on a root box. Remove those two entries from container.contains once stack is allowed on a non-root box."
   },
   "states": [
     {

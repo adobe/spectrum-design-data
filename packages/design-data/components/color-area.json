@@ -91,11 +91,11 @@
     },
     "gradient": {
       "type": "string",
-      "description": "The first gradient of the area (the x channel), as a CSS linear-gradient() of solid colors. Unset draws no gradient."
+      "description": "The first gradient of the area (the x channel), as a CSS linear-gradient() of solid colors. Unset draws no gradient. Interim host-supplied render input (not a component API prop): the host derives it from the channel and the color until the engine computes ramps."
     },
     "overlay": {
       "type": "string",
-      "description": "The second gradient drawn over the first (the y channel), as a CSS linear-gradient() of solid colors with alpha. Unset draws none."
+      "description": "The second gradient drawn over the first (the y channel), as a CSS linear-gradient() of solid colors with alpha. Unset draws none. Interim host-supplied render input (not a component API prop): the host derives it from the channel and the color until the engine computes ramps."
     }
   },
   "anatomy": [

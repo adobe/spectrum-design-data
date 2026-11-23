@@ -1,6 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
-"@adobe/design-data-spec": patch
+"@adobe/design-data-spec": minor
 "@adobe/design-data-wasm": patch
 ---
 

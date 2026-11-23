@@ -168,7 +168,9 @@ pub fn read_props(role: &str) -> Option<&'static [&'static str]> {
 pub fn reads_prop(part: &Value, is_root: bool, name: &str) -> bool {
     let role = part_role(part, is_root);
     let has = |r: &str| read_props(r).is_some_and(|p| p.contains(&name));
-    has(role) || (matches!(role, "text" | "progress") && has("box"))
+    // A floating part with children is solved as the root of its own scene (spec: Floating parts).
+    let subtree = role == "floating" && part.get("children").is_some();
+    has(role) || (matches!(role, "text" | "progress") && has("box")) || (subtree && has("root"))
 }
 
 /// The role that selects a part's entry in `READ_PROPS`.
@@ -11946,5 +11948,33 @@ mod tests {
         let s = nest_scene(&g, &recipe, "m", &[], &[("value", 0.into())]).unwrap();
         let (r, h) = (part(&s, "r").unwrap(), part(&s, "h").unwrap());
         assert_eq!(h.x - r.x, -h.w / 2.0);
+    }
+
+    #[test]
+    fn a_nested_component_floats_by_side_and_may_be_zero_wide() {
+        let recipe = host(serde_json::json!({
+            "r": { "kind": "box", "props": lit_props(&[("width", 100.0), ("height", 20.0)]) },
+            "h": {
+                "kind": "component", "component": "switch", "sizeMap": { "m": "m" },
+                "with": { "hideLabel": true },
+                "floating": { "side": "top", "align": "start",
+                    "offset": { "value": 4 } }
+            },
+            "l": {
+                "kind": "component", "component": "field-label", "sizeMap": { "m": "m" },
+                "floating": { "side": "top", "align": "start" }
+            }
+        }));
+        let g = nest_graph(&[]);
+        let s = nest_scene(&g, &recipe, "m", &[], &[]).unwrap();
+        let (r, h) = (part(&s, "r").unwrap(), part(&s, "h").unwrap());
+        // Above the root by the 4px offset, its start edge on the root's.
+        assert_eq!(h.y + h.h + 4.0, r.y);
+        assert_eq!(h.x, r.x);
+        // A field label with no text is zero wide: kept, not skipped, and no diagnostic.
+        let l = part(&s, "l").expect("zero-wide nested label is kept");
+        assert_eq!(l.w, 0.0);
+        assert!(l.h > 0.0);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
     }
 }

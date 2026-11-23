@@ -247,16 +247,22 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
 /// A group recipe is only drawn through its slot, so its snapshots fill the default slot with
 /// three items (an empty group draws nothing and hides a gap binding).
 fn group_fills(name: &str) -> HashMap<String, Vec<design_data_core::visual::SlotFill>> {
-    let item = match name {
-        "button-group" => "button",
-        "action-group" => "action-button",
-        "swatch-group" => "swatch",
-        "checkbox-group" => "checkbox",
-        "radio-group" => "radio-button",
-        _ => return Default::default(),
+    let (slot, item) = match name {
+        "alert-dialog" | "standard-dialog" => ("button-group", "button"),
+        _ => (
+            "default",
+            match name {
+                "button-group" => "button",
+                "action-group" => "action-button",
+                "swatch-group" => "swatch",
+                "checkbox-group" => "checkbox",
+                "radio-group" => "radio-button",
+                _ => return Default::default(),
+            },
+        ),
     };
     HashMap::from([(
-        "default".to_string(),
+        slot.to_string(),
         (0..3)
             .map(|_| design_data_core::visual::SlotFill {
                 component: item.into(),
@@ -368,6 +374,7 @@ recipe_tests! {
     action_button => "action-button",
     action_group => "action-group",
     alert_banner => "alert-banner",
+    alert_dialog => "alert-dialog",
     avatar => "avatar",
     badge => "badge",
     bar_panel => "bar-panel",
@@ -378,11 +385,13 @@ recipe_tests! {
     clear_button => "clear-button",
     close_button => "close-button",
     coach_indicator => "coach-indicator",
+    coach_mark => "coach-mark",
     color_area => "color-area",
     color_handle => "color-handle",
     color_loupe => "color-loupe",
     color_slider => "color-slider",
     combo_box => "combo-box",
+    contextual_help => "contextual-help",
     divider => "divider",
     field_label => "field-label",
     help_text => "help-text",
@@ -401,6 +410,7 @@ recipe_tests! {
     radio_group => "radio-group",
     search_field => "search-field",
     segmented_control => "segmented-control",
+    standard_dialog => "standard-dialog",
     standard_panel => "standard-panel",
     status_light => "status-light",
     swatch => "swatch",

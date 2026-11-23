@@ -146,4 +146,13 @@ mod tests {
             "t": { "kind": "box", "floating": {"side": "top"}, "props": { "width": {"value": 4} } } }));
         assert!(m.iter().any(|m| m.contains("width and height")), "{m:?}");
     }
+
+    #[test]
+    fn a_nested_component_may_float_by_side_but_a_text_may_not() {
+        let comp = json!({ "kind": "component", "floating": {"side": "top"} });
+        assert!(check(json!({ "r": { "kind": "box" }, "t": comp })).is_empty());
+        let text = json!({ "kind": "text", "floating": {"side": "top"} });
+        let m = check(json!({ "r": { "kind": "box" }, "t": text }));
+        assert!(m.iter().any(|m| m.contains("is not a box")), "{m:?}");
+    }
 }

@@ -115,6 +115,17 @@
       }
     }
   },
+  "slots": [
+    {
+      "name": "button-group",
+      "part": "button-group",
+      "accepts": ["button"],
+      "acceptsOnly": true,
+      "min": 1,
+      "max": 2,
+      "description": "The footer actions. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22)."
+    }
+  ],
   "anatomy": [
     {
       "name": "container",

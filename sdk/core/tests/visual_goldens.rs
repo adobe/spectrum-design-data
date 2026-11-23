@@ -362,6 +362,73 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((id, r));
         }
     }
+    // Contextual help draws its popover only while open, so every scenario opens it with real
+    // copy; "closed" draws the button alone.
+    if name == "contextual-help" {
+        let copy = |r: &mut RenderRequest| {
+            r.options
+                .insert("title".into(), "Permission required".into());
+            r.options.insert(
+                "description".into(),
+                "Your admin must grant you permission to view this item. Ask them to update your role."
+                    .into(),
+            );
+            r.options
+                .insert("href".into(), "https://example.com/permissions".into());
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r);
+            r.states = vec!["open".into()];
+        }
+        let mut closed = req(vec![], HashMap::new(), "light", "desktop");
+        copy(&mut closed);
+        out.push(("closed", closed));
+        let mut no_link = req(vec!["open".into()], HashMap::new(), "light", "desktop");
+        copy(&mut no_link);
+        no_link.options.remove("href");
+        out.push(("no-link", no_link));
+    }
+    // Coach mark: real copy and two footer buttons in every scenario; the long copy wraps.
+    if name == "coach-mark" {
+        let fills = |skip: &str| {
+            let fill =
+                |label: &str, variant: &str, style: &str| design_data_core::visual::SlotFill {
+                    component: "button".to_string(),
+                    options: HashMap::from([
+                        ("label".to_string(), Value::from(label)),
+                        ("variant".to_string(), Value::from(variant)),
+                        ("style".to_string(), Value::from(style)),
+                    ]),
+                };
+            HashMap::from([(
+                "button-group".to_string(),
+                vec![
+                    fill(skip, "secondary", "outline"),
+                    fill("Next", "primary", "fill"),
+                ],
+            )])
+        };
+        let copy = |r: &mut RenderRequest, long: bool| {
+            r.options
+                .insert("title".into(), "Welcome to the editor".into());
+            r.options.insert(
+                "description".into(),
+                if long {
+                    "Use the toolbar to add shapes, text and images to your canvas. Drag any element to move it, and use the handles to resize it."
+                } else {
+                    "Use the toolbar to add shapes, text and images to your canvas."
+                }
+                .into(),
+            );
+            r.slots = fills(if long { "Skip" } else { "Skip tour" });
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, false);
+        }
+        let mut long = req(vec![], HashMap::new(), "dark", "mobile");
+        copy(&mut long, true);
+        out.push(("long-copy-mobile-dark", long));
+    }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
     if let Some(item) = match name {
@@ -890,6 +957,139 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             );
             r.size = size.into();
             out.push((label, r));
+        }
+    }
+    // Dialogs draw their copy and actions from the request: every golden carries a title, a
+    // description and buttons (an empty dialog hides the gap and slot bindings), then these
+    // cover each variant, size, button count, a hidden close button, mobile and a wrapped title.
+    if matches!(name, "alert-dialog" | "standard-dialog") {
+        let buttons =
+            |labels: &[&str]| -> HashMap<String, Vec<design_data_core::visual::SlotFill>> {
+                HashMap::from([(
+                    "button-group".to_string(),
+                    labels
+                        .iter()
+                        .map(|l| design_data_core::visual::SlotFill {
+                            component: "button".into(),
+                            options: {
+                                let (variant, style) = match *l {
+                                    "Cancel" => ("secondary", "outline"),
+                                    "Secondary" => ("secondary", "fill"),
+                                    _ => ("negative", "fill"),
+                                };
+                                HashMap::from([
+                                    ("label".to_string(), Value::from(*l)),
+                                    ("variant".to_string(), Value::from(variant)),
+                                    ("style".to_string(), Value::from(style)),
+                                ])
+                            },
+                        })
+                        .collect(),
+                )])
+            };
+        let copy = |r: &mut RenderRequest, title: &str| {
+            r.options.insert("title".into(), title.into());
+            r.options.insert(
+                "description".into(),
+                "Changes you made will be lost. This action cannot be undone.".into(),
+            );
+            r.slots = buttons(&["Cancel", "Delete"]);
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, "Delete project");
+        }
+        let size = out[0].1.size.clone();
+        let mut case = |label: &'static str,
+                        opts: &[(&str, Value)],
+                        size: &str,
+                        scheme: &str,
+                        scale: &str,
+                        labels: &[&str],
+                        title: &str| {
+            let mut r = req(vec![], HashMap::new(), scheme, scale);
+            for (k, v) in opts {
+                r.options.insert(k.to_string(), v.clone());
+            }
+            copy(&mut r, title);
+            r.size = size.into();
+            r.slots = buttons(labels);
+            out.push((label, r));
+        };
+        if name == "alert-dialog" {
+            for v in [
+                "confirmation",
+                "information",
+                "warning",
+                "destructive",
+                "error",
+            ] {
+                let (scheme, scale) = if v == "error" {
+                    ("dark", "mobile")
+                } else {
+                    ("light", "desktop")
+                };
+                let label: &'static str = match v {
+                    "confirmation" => "variant-confirmation",
+                    "information" => "variant-information",
+                    "warning" => "variant-warning",
+                    "destructive" => "variant-destructive",
+                    _ => "variant-error-dark-mobile",
+                };
+                case(
+                    label,
+                    &[("variant", v.into())],
+                    &size,
+                    scheme,
+                    scale,
+                    &["Cancel", "Secondary", "Delete"],
+                    "Delete project",
+                );
+            }
+            case(
+                "one-button",
+                &[("variant", "information".into())],
+                &size,
+                "light",
+                "desktop",
+                &["OK"],
+                "Update available",
+            );
+        } else {
+            for s in ["s", "m", "l"] {
+                let label: &'static str = match s {
+                    "s" => "size-s",
+                    "m" => "size-m",
+                    _ => "size-l",
+                };
+                case(
+                    label,
+                    &[],
+                    s,
+                    "light",
+                    "desktop",
+                    &["Cancel", "Secondary", "Delete"],
+                    "Delete project",
+                );
+            }
+            case(
+                "mobile-wireframe",
+                &[],
+                &size,
+                "wireframe",
+                "mobile",
+                &["Cancel", "Delete"],
+                "Delete project",
+            );
+            let mut r = req(vec![], HashMap::new(), "light", "desktop");
+            copy(&mut r, "Delete project");
+            r.slots.insert(
+                "footer-content".into(),
+                vec![design_data_core::visual::SlotFill {
+                    component: "checkbox".into(),
+                    options: HashMap::from([("label".to_string(), Value::from("Don't ask again"))]),
+                }],
+            );
+            out.push(("footer-checkbox", r));
         }
     }
     // Message family (in-line alert, alert banner, toast): the defaults draw an empty message,

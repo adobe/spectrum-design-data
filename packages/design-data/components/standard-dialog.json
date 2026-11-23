@@ -104,6 +104,15 @@
       "part": "footer-content",
       "accepts": ["checkbox"],
       "description": "Optional content at the start of the footer, such as a checkbox."
+    },
+    {
+      "name": "button-group",
+      "part": "button-group",
+      "accepts": ["button"],
+      "acceptsOnly": true,
+      "min": 1,
+      "max": 3,
+      "description": "The dialog actions, up to three buttons ordered by ascending importance. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22)."
     }
   ],
   "lifecycle": {
@@ -132,19 +141,16 @@
       "name": "container",
       "description": "Dialog surface. It is the root and carries the width, rounding, padding and background.",
       "required": true,
-      "contains": [
-        "cover-image",
-        "title",
-        "header-content",
-        "body",
-        "footer-content",
-        "button-group",
-        "close-button"
-      ]
+      "contains": ["cover-image", "header", "body", "footer", "close-button"]
     },
     {
       "name": "cover-image",
       "description": "Optional image at the top. Hidden with hideImage."
+    },
+    {
+      "name": "header",
+      "description": "Title row. Holds the title and the optional header content.",
+      "contains": ["title", "header-content"]
     },
     {
       "name": "title",
@@ -163,6 +169,11 @@
     {
       "name": "description",
       "description": "Explanatory text."
+    },
+    {
+      "name": "footer",
+      "description": "Action row under the body. Holds the footer content at the start and the button group at the end.",
+      "contains": ["footer-content", "button-group"]
     },
     {
       "name": "footer-content",
