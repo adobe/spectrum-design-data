@@ -1130,8 +1130,13 @@
         }
         rows.push(group(order.filter((n) => controlOpts[n].supported)));
         const unsupported = order.filter((n) => !controlOpts[n].supported);
-        if (unsupported.length)
-          rows.push(`<h5>Not in the recipe yet</h5>${group(unsupported)}`);
+        const behaviour = new Set(C.recipe.notVisual ?? []);
+        const notDrawn = unsupported.filter((n) => !behaviour.has(n));
+        const behaviourOnly = unsupported.filter((n) => behaviour.has(n));
+        if (notDrawn.length)
+          rows.push(`<h5>Not in the recipe yet</h5>${group(notDrawn)}`);
+        if (behaviourOnly.length)
+          rows.push(`<h5>Behaviour only</h5>${group(behaviourOnly)}`);
         const stateNames = (C.states ?? []).map((st) => st.name);
         if (stateNames.length)
           rows.push(
