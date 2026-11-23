@@ -1635,3 +1635,21 @@ rules:
     message: "Recipe of '{component}': {problem}"
     spec_ref: spec/component-visuals.md#subtrees
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-117
+    name: image-fill-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A part's `image` draws a picture in a box, or a placeholder when it has no source. The
+      source is a data: URI the engine decodes itself; nothing is fetched.
+    assert: >
+      A part with `image` MUST be a `box` without `path`. `source`, when present, MUST be exactly
+      one of `{ "option": name }` (a string option of the component when it declares options)
+      and `{ "value": uri }`, and a literal `uri` MUST be a `data:image/png;base64` URI that
+      decodes within the size limits (2 MiB of URI, 4096 pixels a side, 4 million pixels). `fit`
+      MUST be cover, contain, fill or none, and `position` two numbers from 0 through 1.
+    message: "Image part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#image-fills
+    introduced_in: "1.0.0-draft"

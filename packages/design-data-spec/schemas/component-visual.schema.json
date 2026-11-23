@@ -337,6 +337,30 @@
           },
           "additionalProperties": false
         },
+        "image": {
+          "type": "object",
+          "description": "Draws a picture in this box, clipped to its corners, or a placeholder when there is no source (spec/component-visuals.md, Image fills).",
+          "properties": {
+            "source": {
+              "type": "object",
+              "description": "`{ \"option\": name }` (a string option holding a data: URI) or `{ \"value\": \"data:image/png;base64,...\" }`. Omitted or unset: the placeholder.",
+              "properties": {
+                "option": { "type": "string" },
+                "value": { "type": "string", "maxLength": 2097152 }
+              },
+              "maxProperties": 1,
+              "additionalProperties": false
+            },
+            "fit": { "enum": ["cover", "contain", "fill", "none"] },
+            "position": {
+              "type": "array",
+              "items": { "type": "number", "minimum": 0, "maximum": 1 },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "additionalProperties": false
+        },
         "placement": {
           "type": "object",
           "required": ["anchor"],
