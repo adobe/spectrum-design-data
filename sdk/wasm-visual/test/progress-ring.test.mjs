@@ -55,3 +55,57 @@ describe("progress-circle track and fill are one ring in the explorer", () => {
         assert.equal(num(native, /<g [^>]*stroke-width="([\d.]+)"/), sw);
       });
 });
+
+// The arc's sweep: a determinate value draws value/100 of the ring, the indeterminate spinner a
+// quarter. Compared as the arc's end point against the native SVG, so a sweep fixed to a constant
+// in either drawing fails.
+const arcEnd = (svg) => {
+  const d = svg.match(
+    /<path d="M[\d.-]+ [\d.-]+A[\d.]+ [\d.]+ 0 (\d) 1 ([\d.-]+) ([\d.-]+)"/,
+  );
+  return d ? { large: Number(d[1]), x: Number(d[2]), y: Number(d[3]) } : null;
+};
+
+describe("progress-circle arc sweep matches the native SVG", () => {
+  for (const size of ["s", "m", "l"])
+    for (const [options, sweep] of [
+      [["--option", "value=25"], 0.25],
+      [["--option", "value=50"], 0.5],
+      [["--option", "value=75"], 0.75],
+      [["--option", "value=100"], 1],
+      [["--option", "isIndeterminate=true"], undefined],
+    ])
+      it(`${size} ${options[1]}`, () => {
+        const scene = JSON.parse(render(size, "scene", ...options));
+        const fill = scene.nodes.find((n) => n.part === "fill");
+        assert.equal(fill.sweep, sweep);
+        const ring = progressSvg(fill);
+        const native = render(size, "svg", ...options);
+        if (sweep === 1) {
+          // A full ring is a circle, not an arc: no path, in both drawings.
+          assert.equal(arcEnd(ring), null);
+          assert.equal(arcEnd(native), null);
+          return;
+        }
+        const want = arcEnd(native);
+        const got = arcEnd(ring);
+        assert.ok(want && got, "both drawings draw an arc");
+        assert.equal(got.large, (sweep ?? 0.25) > 0.5 ? 1 : 0);
+        assert.deepEqual(got, want);
+      });
+
+  it("different values draw different arcs", () => {
+    const ends = [25, 50, 75].map((v) =>
+      JSON.stringify(
+        arcEnd(
+          progressSvg(
+            JSON.parse(
+              render("m", "scene", "--option", `value=${v}`),
+            ).nodes.find((n) => n.part === "fill"),
+          ),
+        ),
+      ),
+    );
+    assert.equal(new Set(ends).size, 3);
+  });
+});
