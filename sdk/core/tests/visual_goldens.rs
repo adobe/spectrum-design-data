@@ -190,6 +190,33 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             req(vec![], with(), "dark", "mobile"),
         ));
     }
+    // Steplist: a completed, a hovered completed, the current, an incomplete and a disabled step,
+    // at every size, in a row wide enough to show the tracks.
+    if name == "steplist" {
+        let items = serde_json::json!([
+            { "label": "Details", "stepState": "completed default" },
+            { "label": "Select offers", "stepState": "completed hover" },
+            { "label": "Fallback offer", "stepState": "current default" },
+            { "label": "Summary", "stepState": "incomplete default" },
+            { "label": "Review", "stepState": "incomplete default", "isDisabled": true }
+        ]);
+        let wide = |size: &str, scheme: &str, scale: &str| {
+            let mut r = req(
+                vec![],
+                HashMap::from([("items".to_string(), items.clone())]),
+                scheme,
+                scale,
+            );
+            r.size = size.into();
+            r.width = Some(640.0);
+            r
+        };
+        out.push(("five-steps", wide("m", "light", "desktop")));
+        out.push(("five-steps-size-s", wide("s", "light", "desktop")));
+        out.push(("five-steps-size-l", wide("l", "light", "desktop")));
+        out.push(("five-steps-size-xl", wide("xl", "light", "desktop")));
+        out.push(("five-steps-dark-mobile", wide("m", "dark", "mobile")));
+    }
     // Collections: selected, unselected and disabled items side by side, in each layout the
     // recipe draws (tabs horizontal and vertical, segmented control with and without a track).
     if name == "tabs" || name == "segmented-control" {

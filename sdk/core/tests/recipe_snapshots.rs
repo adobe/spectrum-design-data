@@ -415,6 +415,7 @@ recipe_tests! {
     standard_dialog => "standard-dialog",
     standard_panel => "standard-panel",
     status_light => "status-light",
+    steplist => "steplist",
     swatch => "swatch",
     swatch_group => "swatch-group",
     switch => "switch",
