@@ -13,7 +13,7 @@ npm run setup                           # spectrum-theme.json, theme CSS, button
 npm run dev
 ```
 
-`setup` generates the theme and installs shadcn's stock `button` and `badge` into `src/components/` (gitignored, MIT licensed, not committed here). The theme goes into `src/index.css`. `src/spectrum-mapping.css` maps shadcn's variables to Spectrum's and is hand-written.
+`setup` generates the theme, installs shadcn's stock `button` and `badge` into `src/components/` (gitignored, MIT licensed, not committed here), and copies SWC gen 2's Button and Action button CSS from `@adobe/spectrum-wc@2.0.0-beta.7` into `src/swc/` with `--swc-` token variables renamed to `--spectrum-` (`scripts/swc-css.mjs`). Those files are gitignored too: they are Apache-2.0 with an Adobe header and generated at setup, not committed or added to registry items. The theme goes into `src/index.css`. `src/spectrum-mapping.css` maps shadcn's variables to Spectrum's and is hand-written.
 
 The `theme` script runs the CLI from a temporary directory. Inside this repository the CLI treats the current directory as a dataset and fails on the empty `spectrum-theme.json` the shell creates for the redirect. In your own app you can run `design-data export --format shadcn-theme > spectrum-theme.json` directly.
 
