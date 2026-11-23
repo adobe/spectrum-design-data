@@ -114,6 +114,31 @@ mod tests {
     }
 
     #[test]
+    fn a_floating_part_with_children_reads_the_root_props() {
+        let g = graph(
+            json!({"name": "switch"}),
+            vec![],
+            vec![],
+            vec![(
+                "switch",
+                json!({ "component": "switch", "root": "r", "parts": {
+                    "r": { "kind": "box" },
+                    "f": { "kind": "box", "floating": {"side": "bottom"}, "children": ["t"],
+                        "props": { "paddingInlineStart": {"value": 4}, "gap": {"value": 2}, "rotation": {"value": 1} } },
+                    "g": { "kind": "box", "floating": {"side": "top"},
+                        "props": { "gap": {"value": 2} } },
+                    "t": { "kind": "text" } } }),
+            )],
+        );
+        let mut paths: Vec<String> = run(&Rule, &g)
+            .iter()
+            .filter_map(|d| d.instance_path.clone())
+            .collect();
+        paths.sort();
+        assert_eq!(paths, ["/parts/f/props/rotation", "/parts/g/props/gap"]);
+    }
+
+    #[test]
     fn min_width_is_read_on_the_root_only() {
         let g = graph(
             json!({"name": "switch"}),
