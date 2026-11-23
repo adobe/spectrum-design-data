@@ -876,7 +876,8 @@
       "attribute": "background",
       "options": {
         "colorScheme": "light",
-        "variant": "emphasized"
+        "variant": "emphasized",
+        "stepState": ["completed default", "completed hover"]
       }
     },
     "context": "Steplist track",
@@ -892,7 +893,8 @@
       "attribute": "background",
       "options": {
         "colorScheme": "dark",
-        "variant": "emphasized"
+        "variant": "emphasized",
+        "stepState": ["completed default", "completed hover"]
       }
     },
     "context": "Steplist track",
@@ -908,13 +910,113 @@
       "attribute": "background",
       "options": {
         "colorScheme": "wireframe",
-        "variant": "emphasized"
+        "variant": "emphasized",
+        "stepState": ["completed default", "completed hover"]
       }
     },
     "context": "Steplist track",
     "contextRole": ["track"],
     "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190",
     "uuid": "cbe89492-1f07-58b8-9588-278fe6721fb8"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light",
+        "variant": "default",
+        "stepState": ["completed default", "completed hover"]
+      }
+    },
+    "context": "Steplist track",
+    "contextRole": ["track"],
+    "$ref": "3b09b2fd-cbf9-4933-9655-27a75d984f06",
+    "uuid": "7d739d34-b422-5be4-8da0-7103fbe6749f"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light",
+        "stepState": ["current default", "incomplete default"]
+      }
+    },
+    "context": "Steplist track",
+    "contextRole": ["track"],
+    "$ref": "0dc6ed4d-17d5-4878-8ac3-bd99549b4f42",
+    "uuid": "1011b9d6-660f-5629-aa62-82527c08b0aa"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark",
+        "variant": "default",
+        "stepState": ["completed default", "completed hover"]
+      }
+    },
+    "context": "Steplist track",
+    "contextRole": ["track"],
+    "$ref": "bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef",
+    "uuid": "f1c101a6-5fbd-5865-845b-db886185b460"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark",
+        "stepState": ["current default", "incomplete default"]
+      }
+    },
+    "context": "Steplist track",
+    "contextRole": ["track"],
+    "$ref": "35ef6675-7e66-4ef5-8c8d-e8e70939b224",
+    "uuid": "7aefae2b-ece9-5522-8b06-3fb3066bd8fc"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe",
+        "variant": "default",
+        "stepState": ["completed default", "completed hover"]
+      }
+    },
+    "context": "Steplist track",
+    "contextRole": ["track"],
+    "$ref": "fdcab585-e3a9-4026-bf40-e7fdd01bf05b",
+    "uuid": "1ccb3d54-b2f8-589f-a79a-c35b6df8044b"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "track",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe",
+        "stepState": ["current default", "incomplete default"]
+      }
+    },
+    "context": "Steplist track",
+    "contextRole": ["track"],
+    "$ref": "57233b29-bbc6-4f9e-83c1-9325fd6f964c",
+    "uuid": "3435c0c2-5d80-5caa-99d0-65353e9a1f6c"
   },
   {
     "scope": {
