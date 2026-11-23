@@ -38,7 +38,14 @@ The `.awesome/state.json` link is git-ignored and must stay in place.
 
 1. Connect the VPN, then run `adt whoami`.
 
-2. From `docs/hub-prototype`, run `adt deploy dist --publish-mode replace --wait`. Replace mode removes files from earlier deployments, such as the old root build.
+2. Build from a clean checkout of the commit you mean to ship, then run the guard. It fails unless `dist/build-info.json` names `origin/main` (or `--commit <sha>`), the tree was clean (`--allow-dirty` overrides) and the marker files show recent changes (for example `in-field-button` in the combo-box variant). Add a marker to `MARKERS` in `scripts/verify-dist.mjs` when a change must not ship stale.
+
+   ```bash
+   moon run hub-prototype:build
+   node docs/hub-prototype/scripts/verify-dist.mjs   # or: moon run hub-prototype:verify-dist (builds first)
+   ```
+
+3. From `docs/hub-prototype`, run `adt deploy dist --publish-mode replace --wait`. Replace mode removes files from earlier deployments, such as the old root build.
    If the upload fails with `Unknown CLI error` (an HTTP 413: the full `dist/`, about 30 MB in 500 files, is too large for one directory upload), zip it and upload the archive instead. Run `adt --json deploy ...` to see the real error.
 
    ```bash
@@ -48,7 +55,11 @@ The `.awesome/state.json` link is git-ignored and must stay in place.
 
    Do not use `incremental` mode: it leaves files from earlier builds in place.
 
-3. If `.awesome/` is lost, relink with `adt deploy link --deployment-id 75e47275-3a8d-43cb-8db6-26076186fa3f`.
+4. If `.awesome/` is lost, relink with `adt deploy link --deployment-id 75e47275-3a8d-43cb-8db6-26076186fa3f`.
+
+## Cache busting
+
+A replace deploy keeps file names, so every page loads its scripts, data and engine with `?v=<build id>`. `design-data site` stamps a content hash (same data, same id; JSON keys are sorted before hashing) into `index.html`: an import map versions the modules, and `backend.js` adds the id to `data.json`, `text-metrics.json`, `variants/` and the `.wasm`. `build.mjs` stamps the spec pages the same way from `dist/build-info.json` (`{commit, dirty, buildId}`, a hash of all of `dist/`). `index.html`, `platforms.json` and `build-info.json` are fetched with `cache: "no-cache"` (revalidated). So a normal refresh always loads the data that matches the deployed `index.html`.
 
 The site is at <https://design-data-visual-render.entapp.adproto.com/>.
 
@@ -72,7 +83,7 @@ How the page renders:
 * `text-metrics.json` is the table the CLI used (a `--text-metrics` file or the committed Source Sans 3 default). `backend.js` sends it as `request.textMetrics`, so labels measure as in `design-data render`. Never ship an Adobe Clean (kit) table with a hosted site.
 * A failed fetch or solve shows a red message at the top of the page.
 
-The `.wasm` is served by `serve.mjs` as `application/wasm`. Browsers need that type only for streaming compile; wasm-bindgen falls back to a plain compile with a console warning on any other type. The adt host's header is not verified yet; check it on the first redeploy (`curl -I .../rsp/engine/design_data_wasm_visual_bg.wasm`).
+The `.wasm` is served by `serve.mjs` as `application/wasm`. Browsers need that type only for streaming compile; wasm-bindgen falls back to a plain compile with a console warning on any other type. The adt host's headers are not verified (the site is behind Adobe sign-in, so `curl` gets 401); the build id makes caching behavior irrelevant for correctness.
 
 There is no JavaScript renderer: layout and text measurement run once, in Rust (`design_data_core::visual::solve`), and the page loads it as the slim WASM. The site's engine is checked against `design-data render` byte for byte in headless Chrome by `moon run sdk-wasm-visual:browser-parity` (not in CI; needs Chrome). The WASM `Dataset.renderScene` API remains for apps that need live token data.
 

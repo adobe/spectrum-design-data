@@ -4,6 +4,7 @@
 // svg (`spec-sheet --svg`) with marks drawn from its scene; this file converts scene coordinates
 // to screen space, and computes no layout of its own.
 
+import { fetchV } from "./fetch-v.js";
 import { renderSections, sectionNav } from "./sections.js";
 
 const esc = (s) =>
@@ -13,12 +14,12 @@ const esc = (s) =>
   );
 const params = new URLSearchParams(location.search);
 const component = params.get("component") ?? "action-button";
-const getJson = (u) => fetch(u).then((r) => (r.ok ? r.json() : null));
+const getJson = (u) => fetchV(u).then((r) => (r.ok ? r.json() : null));
 const FIGMA_TIP =
   "Generated Figma spec file. It is in a test folder, so only people with access can open it.";
 const figmaUrl = (e) =>
   `https://www.figma.com/design/${encodeURIComponent(e.fileKey)}`;
-const figmaFiles = await fetch("data/figma-files.json")
+const figmaFiles = await fetchV("data/figma-files.json")
   .then((r) => (r.ok ? r.json() : null))
   .catch(() => null);
 const figmaFile = (c) =>
