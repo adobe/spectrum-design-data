@@ -383,14 +383,6 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let mut closed = req(vec![], HashMap::new(), "light", "desktop");
         copy(&mut closed);
         out.push(("closed", closed));
-        let mut offset = req(
-            vec!["open".into()],
-            HashMap::from([("popoverOffset".to_string(), Value::from(16))]),
-            "dark",
-            "desktop",
-        );
-        copy(&mut offset);
-        out.push(("offset-16-dark", offset));
     }
     // Coach mark: real copy and two footer buttons in every scenario; the long copy wraps.
     if name == "coach-mark" {

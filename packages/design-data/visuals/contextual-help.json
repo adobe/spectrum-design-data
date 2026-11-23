@@ -9,6 +9,7 @@
   "notVisual": [
     "icon",
     "popoverPlacement",
+    "popoverOffset",
     "popoverCrossOffset",
     "containerPadding",
     "href"
@@ -39,7 +40,11 @@
         "side": "bottom",
         "align": "start",
         "offset": {
-          "dimension": "popoverOffset"
+          "token": {
+            "property": "gap",
+            "structure": "container",
+            "size": "xs"
+          }
         }
       },
       "children": ["title", "description", "link"],
