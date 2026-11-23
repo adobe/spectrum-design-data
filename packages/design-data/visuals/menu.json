@@ -1,0 +1,524 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "menu",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": ["container", "isCollapsible", "sectionHeader"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["menu-item"],
+      "repeat": {
+        "slot": "default",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "value": "value",
+          "hasIcon": "hasIcon",
+          "hasThumbnail": "hasThumbnail"
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "menu-item",
+              "to": "menu-item"
+            }
+          }
+        },
+        "width": {
+          "dimension": "width"
+        }
+      }
+    },
+    "menu-item": {
+      "kind": "box",
+      "children": [
+        "checkmark",
+        "checkbox",
+        "switch",
+        "icon",
+        "thumbnail",
+        "label",
+        "value"
+      ],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "minimum-height",
+            "part": "menu-item"
+          }
+        },
+        "paddingInlineStart": [
+          {
+            "relationship": {
+              "property": "space-between",
+              "part": "menu-item",
+              "between": {
+                "from": "start-edge",
+                "to": "label"
+              }
+            }
+          },
+          {
+            "relationship": {
+              "property": "space-between",
+              "part": "menu-item",
+              "between": {
+                "from": "end-edge",
+                "to": "label"
+              }
+            },
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "priority": 10
+          }
+        ],
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "menu-item",
+            "between": {
+              "from": "end-edge",
+              "to": "label"
+            }
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "menu-item",
+            "between": {
+              "from": "top-edge",
+              "to": "label"
+            }
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "menu-item",
+            "between": {
+              "from": "bottom-edge",
+              "to": "label"
+            }
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "menu-item",
+            "between": {
+              "from": "icon",
+              "to": "label"
+            }
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "menu-item"
+          }
+        },
+        "fill": [
+          {
+            "when": {
+              "states": ["hover"]
+            },
+            "relationship": {
+              "property": "color",
+              "part": "menu-item",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["down"]
+            },
+            "relationship": {
+              "property": "color",
+              "part": "menu-item",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"]
+            },
+            "relationship": {
+              "property": "color",
+              "part": "menu-item",
+              "attribute": "background"
+            }
+          }
+        ]
+      }
+    },
+    "checkmark": {
+      "kind": "icon",
+      "icon": {
+        "set": "ui",
+        "name": "checkmark"
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "checkmark"
+          }
+        },
+        "width": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "icon": "ui",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "token": {
+              "icon": "ui",
+              "property": "size",
+              "size": "m"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "icon": "ui",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "icon": "ui",
+              "property": "size",
+              "size": "xl"
+            }
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "icon": "ui",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "token": {
+              "icon": "ui",
+              "property": "size",
+              "size": "m"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "icon": "ui",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "icon": "ui",
+              "property": "size",
+              "size": "xl"
+            }
+          }
+        ]
+      }
+    },
+    "checkbox": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "isSelected": {
+          "option": "isSelected"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    },
+    "switch": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "isSelected": {
+          "option": "isSelected"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "add",
+        "content": true,
+        "optional": true
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "menu-item"
+            }
+          },
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "menu-item"
+            },
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "thumbnail": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "500",
+        "m": "500",
+        "l": "500",
+        "xl": "500"
+      },
+      "with": {
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "section-header"
+          }
+        },
+        "fontWeight": {
+          "token": {
+            "property": "font-weight",
+            "weight": "medium"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "label"
+          }
+        },
+        "lineHeight": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "line-height",
+              "part": "label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "property": "line-height",
+              "referenceScaleIndex": 75
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "property": "line-height",
+              "referenceScaleIndex": 200
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "property": "line-height",
+              "referenceScaleIndex": 300
+            }
+          }
+        ],
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "menu-item"
+            }
+          },
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "menu-item"
+            },
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10
+          }
+        ],
+        "grow": {
+          "value": true
+        }
+      }
+    },
+    "value": {
+      "kind": "text",
+      "text": {
+        "option": "value"
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "section-header"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "description"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "label"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "description"
+            }
+          },
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "menu-item"
+            },
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10
+          }
+        ]
+      }
+    }
+  }
+}

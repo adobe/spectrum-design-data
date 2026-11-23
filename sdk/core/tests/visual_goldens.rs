@@ -293,6 +293,65 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
+    // Menu: selected, unselected and disabled items with a leading icon or thumbnail and a
+    // value, under each selection style (check mark, checkbox, switch), sizes and modes. Items
+    // are drawn at the Figma width (240 less the popover padding the recipe leaves out).
+    if name == "menu" {
+        let items = serde_json::json!([
+            { "label": "Cut", "isSelected": true, "hasIcon": true, "value": "⌘X" },
+            { "label": "Copy", "hasIcon": true, "value": "⌘C" },
+            { "label": "Paste", "isDisabled": true, "hasIcon": true },
+            { "label": "Duplicate", "isSelected": true, "isDisabled": true, "hasThumbnail": true },
+            { "label": "Rename", "hasThumbnail": true }
+        ]);
+        let case = |mode: &str, style: Option<&str>, size: &str, scheme: &str, scale: &str| {
+            let mut o = HashMap::from([
+                ("items".to_string(), items.clone()),
+                ("selectionMode".to_string(), mode.into()),
+            ]);
+            if let Some(s) = style {
+                o.insert("selectionStyle".into(), s.into());
+            }
+            let mut r = req(vec![], o, scheme, scale);
+            r.size = size.into();
+            r.width = Some(224.0);
+            r
+        };
+        out.push((
+            "items-single",
+            case("single", None, "m", "light", "desktop"),
+        ));
+        out.push((
+            "items-checkbox",
+            case("multiple", Some("checkbox"), "m", "light", "desktop"),
+        ));
+        out.push((
+            "items-switch",
+            case("multiple", Some("switch"), "m", "light", "desktop"),
+        ));
+        out.push((
+            "items-no-selection",
+            case("no selection", None, "m", "light", "desktop"),
+        ));
+        out.push((
+            "items-single-size-s",
+            case("single", None, "s", "light", "desktop"),
+        ));
+        out.push((
+            "items-single-size-l",
+            case("single", None, "l", "light", "desktop"),
+        ));
+        out.push((
+            "items-checkbox-size-xl-dark-mobile",
+            case("multiple", Some("checkbox"), "xl", "dark", "mobile"),
+        ));
+        let mut hover = case("single", None, "m", "light", "desktop");
+        hover.states = vec!["hover".into()];
+        out.push(("items-single-hover", hover));
+        let mut focus = case("single", None, "m", "light", "desktop");
+        focus.states = vec!["keyboard-focus".into()];
+        out.push(("items-single-keyboard-focus", focus));
+    }
     // Side navigation: a heading, then selected, unselected and disabled items, in the
     // default and the dark mobile modes and with a hovered row.
     if name == "side-navigation" {

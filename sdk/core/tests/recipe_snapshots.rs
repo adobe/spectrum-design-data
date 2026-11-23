@@ -400,6 +400,7 @@ recipe_tests! {
     in_field_progress_circle => "in-field-progress-circle",
     in_line_alert => "in-line-alert",
     link => "link",
+    menu => "menu",
     meter => "meter",
     number_field => "number-field",
     opacity_checkerboard => "opacity-checkerboard",

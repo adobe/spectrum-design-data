@@ -151,6 +151,9 @@
     "scope": {
       "component": "menu",
       "property": "corner-radius",
+      "options": {
+        "size": "s"
+      },
       "part": "menu-item"
     },
     "context": "Rounding",
@@ -162,6 +165,9 @@
     "scope": {
       "component": "menu",
       "property": "corner-radius",
+      "options": {
+        "size": "m"
+      },
       "part": "menu-item"
     },
     "context": "Rounding",
@@ -173,6 +179,9 @@
     "scope": {
       "component": "menu",
       "property": "corner-radius",
+      "options": {
+        "size": "l"
+      },
       "part": "menu-item"
     },
     "context": "Rounding",
@@ -184,6 +193,9 @@
     "scope": {
       "component": "menu",
       "property": "corner-radius",
+      "options": {
+        "size": "xl"
+      },
       "part": "menu-item"
     },
     "context": "Rounding",
