@@ -25,10 +25,10 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["initials", "guest-icon"],
+      "children": ["image", "initials", "guest-icon"],
       "props": {
         "direction": {
-          "value": "row"
+          "value": "stack"
         },
         "align": {
           "value": "center"
@@ -39,13 +39,13 @@
         "width": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "container"
           }
         },
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "container"
           }
         },
         "cornerRadius": {
@@ -147,6 +147,27 @@
             "property": "border-width",
             "context": "Border"
           }
+        }
+      }
+    },
+    "image": {
+      "kind": "box",
+      "image": {
+        "source": {
+          "option": "src"
+        },
+        "fit": "cover"
+      },
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
         }
       }
     },
