@@ -873,15 +873,6 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 &["OK"],
                 "Update available",
             );
-            case(
-                "wrapped-title",
-                &[("variant", "warning".into())],
-                &size,
-                "light",
-                "mobile",
-                &["Cancel", "Continue"],
-                "Your changes to this project have not been saved yet",
-            );
         } else {
             for s in ["s", "m", "l"] {
                 let label: &'static str = match s {
