@@ -248,6 +248,120 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
+    // Tooltip: every placement draws its tip on the matching edge; variants and modes show the
+    // fill, text and tip colors.
+    if name == "tooltip" {
+        let with = |opts: &[(&str, Value)], scheme: &str, scale: &str| {
+            let mut r = req(
+                vec![],
+                opts.iter()
+                    .map(|(k, v)| (k.to_string(), v.clone()))
+                    .collect(),
+                scheme,
+                scale,
+            );
+            r.label = "Tooltip text".into();
+            r
+        };
+        out.push((
+            "placement-top-informative",
+            with(
+                &[
+                    ("placement", "top".into()),
+                    ("variant", "informative".into()),
+                ],
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "placement-bottom",
+            with(&[("placement", "bottom".into())], "light", "desktop"),
+        ));
+        out.push((
+            "placement-left-negative-dark",
+            with(
+                &[("placement", "left".into()), ("variant", "negative".into())],
+                "dark",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "placement-right-mobile",
+            with(&[("placement", "right".into())], "light", "mobile"),
+        ));
+    }
+    // Popover: the default slot draws real content (two buttons and a link), the tip follows the
+    // placement, and hideTip draws none.
+    if name == "popover" {
+        let fills = || {
+            let fill = |c: &str, label: &str, quiet: bool| {
+                let mut options = HashMap::from([("label".to_string(), Value::from(label))]);
+                if quiet {
+                    options.insert("isQuiet".into(), true.into());
+                }
+                if c == "action-button" {
+                    options.insert("hideLabel".into(), false.into());
+                }
+                design_data_core::visual::SlotFill {
+                    component: c.to_string(),
+                    options,
+                }
+            };
+            HashMap::from([(
+                "default".to_string(),
+                vec![
+                    fill("action-button", "Edit", false),
+                    fill("action-button", "Share", true),
+                    fill("link", "Learn more", false),
+                ],
+            )])
+        };
+        for (_, r) in out.iter_mut() {
+            r.slots = fills();
+        }
+        for (id, opts, scheme, scale) in [
+            (
+                "placement-bottom",
+                vec![("placement", Value::from("bottom"))],
+                "light",
+                "desktop",
+            ),
+            (
+                "placement-left-dark",
+                vec![("placement", "left".into())],
+                "dark",
+                "desktop",
+            ),
+            (
+                "placement-right-mobile",
+                vec![("placement", "right start".into())],
+                "light",
+                "mobile",
+            ),
+            (
+                "hide-tip",
+                vec![("hideTip", true.into())],
+                "light",
+                "desktop",
+            ),
+            (
+                "sized",
+                vec![("width", 240.into()), ("height", 120.into())],
+                "light",
+                "desktop",
+            ),
+        ] {
+            let mut r = req(
+                vec![],
+                opts.into_iter().map(|(k, v)| (k.to_string(), v)).collect(),
+                scheme,
+                scale,
+            );
+            r.slots = fills();
+            out.push((id, r));
+        }
+    }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
     if let Some(item) = match name {

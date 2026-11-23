@@ -149,7 +149,43 @@
     },
     {
       "name": "tip",
-      "description": "Small pointer on the bubble edge toward the source. A top-level sibling of the container. Absent with the no-tip placement."
+      "description": "Small pointer on the bubble edge toward the source. A top-level sibling of the container. It is drawn by the placement part that matches the placement: tip-bottom (placement top), tip-top (bottom), tip-end (left) and tip-start (right)."
+    },
+    {
+      "name": "tip-bottom",
+      "description": "Tip on the bottom edge of the container, drawn when the placement is top.",
+      "presentWhen": {
+        "options": {
+          "placement": "top"
+        }
+      }
+    },
+    {
+      "name": "tip-top",
+      "description": "Tip on the top edge of the container, drawn when the placement is bottom.",
+      "presentWhen": {
+        "options": {
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "name": "tip-end",
+      "description": "Tip on the end edge of the container, drawn when the placement is left.",
+      "presentWhen": {
+        "options": {
+          "placement": "left"
+        }
+      }
+    },
+    {
+      "name": "tip-start",
+      "description": "Tip on the start edge of the container, drawn when the placement is right.",
+      "presentWhen": {
+        "options": {
+          "placement": "right"
+        }
+      }
     }
   ],
   "anatomyReview": {
