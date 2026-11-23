@@ -5331,7 +5331,15 @@ fn solve_root(
         node.stroke_width = sw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
         node.stroke_opacity = so.as_ref().and_then(Resolved::num);
         node.radius = clamp_radius(
-            radius.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+            radius
+                .as_ref()
+                .and_then(|r| {
+                    r.num().map(|v| match r.relative_to.as_deref() {
+                        Some("height") => v * fh_n,
+                        _ => v,
+                    })
+                })
+                .unwrap_or(0.0),
             fw_n,
             fh_n,
         );
@@ -11961,6 +11969,20 @@ mod tests {
         assert_eq!(px(30, 18), vec![0, 0, 255, 255]);
         assert_eq!(px(70, 18), vec![255, 255, 255, 255]);
         assert_eq!(px(30, 10), vec![255, 255, 255, 255]);
+    }
+
+    #[test]
+    fn a_floating_leaf_reads_a_corner_radius_relative_to_its_height() {
+        let mut r = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({}),
+            "center",
+        );
+        r["parts"]["handle"]["props"]["cornerRadius"] =
+            serde_json::json!({ "value": 0.5, "relativeTo": "height" });
+        let s = at(&r, serde_json::json!(100));
+        let handle = s.nodes.iter().find(|n| n.part == "handle").unwrap();
+        assert_eq!(handle.radius, 5.0);
     }
 
     #[test]
