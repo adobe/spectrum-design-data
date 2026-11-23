@@ -199,7 +199,11 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
                             component: name.into(),
                             size: size.clone(),
                             states: state.into_iter().cloned().collect(),
-                            options: set.iter().cloned().collect::<HashMap<_, _>>(),
+                            options: set
+                                .iter()
+                                .cloned()
+                                .chain(fixed_options(name))
+                                .collect::<HashMap<_, _>>(),
                             mode: [("colorScheme", *scheme), ("scale", *scale)]
                                 .iter()
                                 .map(|(k, v)| (k.to_string(), v.to_string()))
@@ -242,6 +246,33 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
         }
     }
     run
+}
+
+/// A calendar draws its months and weekdays from collection options, and an empty nested
+/// repeat draws no cell, so its snapshots carry a month of days (a blank cell, a day that
+/// follows the request, a selected one and a disabled one) and the weekday headings.
+fn fixed_options(name: &str) -> Vec<(String, Value)> {
+    if name != "calendar" {
+        return Vec::new();
+    }
+    let weekdays: Vec<Value> = ["S", "M", "T", "W", "T", "F", "S"]
+        .iter()
+        .map(|l| serde_json::json!({ "label": l }))
+        .collect();
+    let days = serde_json::json!([
+        { "label": "" },
+        { "label": "1" },
+        { "label": "2", "isSelected": true },
+        { "label": "3", "isDisabled": true },
+        { "label": "4" }
+    ]);
+    vec![
+        (
+            "months".into(),
+            serde_json::json!([{ "title": "February 2026", "days": days }]),
+        ),
+        ("weekdays".into(), Value::Array(weekdays)),
+    ]
 }
 
 /// A group recipe is only drawn through its slot, so its snapshots fill the default slot with
@@ -381,6 +412,7 @@ recipe_tests! {
     breadcrumbs => "breadcrumbs",
     button => "button",
     button_group => "button-group",
+    calendar => "calendar",
     checkbox => "checkbox",
     checkbox_group => "checkbox-group",
     clear_button => "clear-button",

@@ -52,7 +52,10 @@
       "component": "calendar",
       "part": "day",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "isSelected": true
+      }
     },
     "context": "Day values",
     "contextRole": ["value"],
@@ -64,7 +67,10 @@
       "component": "calendar",
       "part": "day",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "isSelected": true
+      }
     },
     "context": "Day values",
     "contextRole": ["value"],
@@ -76,7 +82,10 @@
       "component": "calendar",
       "part": "day",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "isSelected": true
+      }
     },
     "context": "Day values",
     "contextRole": ["value"],
@@ -87,11 +96,15 @@
     "scope": {
       "component": "calendar",
       "part": "day",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "isDisabled": false
+      }
     },
     "context": "Day values",
     "contextRole": ["value"],
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
     "uuid": "3059fe30-b04a-5540-b1a0-4aa7b5d07dd9"
   },
   {
@@ -99,7 +112,11 @@
       "component": "calendar",
       "part": "day",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "isSelected": true,
+        "state": ["hover"]
+      }
     },
     "context": "Day values",
     "contextRole": ["value"],
@@ -111,7 +128,11 @@
       "component": "calendar",
       "part": "day",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "isSelected": true,
+        "state": ["hover"]
+      }
     },
     "context": "Day values",
     "contextRole": ["value"],
@@ -123,7 +144,11 @@
       "component": "calendar",
       "part": "day",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "isSelected": true,
+        "state": ["hover"]
+      }
     },
     "context": "Day values",
     "contextRole": ["value"],
@@ -219,7 +244,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "isError": true
+        "isError": true,
+        "isSelected": true
       }
     },
     "context": "Day values",
@@ -234,7 +260,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "isError": true
+        "isError": true,
+        "isSelected": true
       }
     },
     "context": "Day values",
@@ -249,7 +276,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "isError": true
+        "isError": true,
+        "isSelected": true
       }
     },
     "context": "Day values",
@@ -265,7 +293,8 @@
       "attribute": "background",
       "options": {
         "isError": true,
-        "state": ["hover"]
+        "state": ["hover"],
+        "isSelected": true
       }
     },
     "context": "Day values",
@@ -281,7 +310,8 @@
       "attribute": "background",
       "options": {
         "isError": true,
-        "state": ["hover"]
+        "state": ["hover"],
+        "isSelected": true
       }
     },
     "context": "Day values",
@@ -297,7 +327,8 @@
       "attribute": "background",
       "options": {
         "isError": true,
-        "state": ["hover"]
+        "state": ["hover"],
+        "isSelected": true
       }
     },
     "context": "Day values",

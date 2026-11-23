@@ -99,7 +99,7 @@
           },
           "days": {
             "type": "array",
-            "description": "The cells of the month's day grid, in order, same shape as the days option. A leading cell with no date and no label is a blank cell that keeps the first weekday column.",
+            "description": "The cells of the month's day grid, in order, same shape as the days option. A leading cell with an empty label (label \"\") and no date is a blank cell that keeps the first weekday column; a cell with no label field draws the month title as its text.",
             "items": {
               "type": "object"
             }
@@ -124,6 +124,31 @@
       "type": "boolean",
       "default": false
     },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is selected (Figma .Day Type=Selected; in a range, every day from start to end). Per-day in a data-driven calendar is days[].isSelected."
+    },
+    "isRangeStart": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is the start of the selected range (React Spectrum isSelectionStart). Per-day is days[].isRangeStart."
+    },
+    "isRangeEnd": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is the end of the selected range (React Spectrum isSelectionEnd). Per-day is days[].isRangeEnd."
+    },
+    "isUnavailable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is unavailable (Figma .Day Type=Unavailable, React Spectrum isUnavailable). Per-day is days[].isUnavailable."
+    },
+    "isToday": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is today (Figma Current day indicator). Per-day is days[].isToday."
+    },
     "isError": {
       "type": "boolean",
       "default": false
@@ -145,6 +170,10 @@
           "date": {
             "type": "string",
             "description": "The date represented by this day (ISO format string)."
+          },
+          "label": {
+            "type": "string",
+            "description": "The day number text drawn in the cell."
           },
           "isDisabled": {
             "type": "boolean",
@@ -243,29 +272,42 @@
     },
     {
       "name": "weekday-label",
-      "description": "Single-letter weekday heading in a month's weekday grid. Seven per month."
+      "description": "Single-letter weekday heading cell in a month's weekday grid. Seven per month.",
+      "contains": ["text"]
+    },
+    {
+      "name": "text",
+      "description": "Weekday letter drawn in a weekday-label cell (Figma Days of week Value)."
     },
     {
       "name": "day",
       "description": "One date cell of a month's day grid. Styled for selected, hover, error, disabled and unavailable.",
       "required": true,
       "contains": [
+        "label",
         "current-day-indicator",
         "unavailable-indicator",
         "focus-indicator"
       ]
     },
     {
+      "name": "label",
+      "description": "Day number text of a day cell (Figma .Day Value, RSP CalendarCell text)."
+    },
+    {
       "name": "current-day-indicator",
-      "description": "Marker that sets today's cell apart. Drawn inside the day when its isToday is true."
+      "description": "Marker that sets today's cell apart. Drawn inside the day when its isToday is true.",
+      "presentWhen": { "options": { "isToday": true } }
     },
     {
       "name": "unavailable-indicator",
-      "description": "Line struck through the day number of an unavailable day (Figma strikethrough). Drawn inside the day when its isUnavailable is true."
+      "description": "Line struck through the day number of an unavailable day (Figma strikethrough). Drawn inside the day when its isUnavailable is true.",
+      "presentWhen": { "options": { "isUnavailable": true } }
     },
     {
       "name": "range-fill",
-      "description": "Highlight band behind the days between the two ends of a selected range (Figma Highlight fill, selection background). Visible only when selectionMode is range."
+      "description": "Highlight band behind the days between the two ends of a selected range (Figma Highlight fill, selection background). Visible only when selectionMode is range.",
+      "presentWhen": { "options": { "selectionMode": "range" } }
     },
     {
       "name": "help-text",
