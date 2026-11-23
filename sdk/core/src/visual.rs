@@ -13242,6 +13242,26 @@ mod tests {
         );
         let root = &s.nodes[0];
         assert_eq!((root.w, root.h), (82.0, 8.0 + 4.0 + 6.0 + 4.0 + 22.0));
+        let svg = scene_to_svg(&s);
+        assert!(
+            svg.contains("data-part=\"day-8\"")
+                && svg.contains("x=\"8\" y=\"42\" width=\"10\" height=\"10\"")
+        );
+        #[cfg(feature = "raster")]
+        {
+            let opts = crate::raster::RasterOptions {
+                scale: 1.0,
+                background: None,
+            };
+            let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
+            let px = |x: u32, y: u32| {
+                let i = ((y * img.width + x) * 4) as usize;
+                img.rgba[i..i + 4].to_vec()
+            };
+            assert_eq!(px(13, 47), vec![255, 0, 0, 255], "day 8, row 2 column 0");
+            assert_eq!(px(13, 25), vec![0, 255, 0, 255], "weekday 0");
+            assert_eq!(px(19, 47)[3], 0, "the gap between day columns is empty");
+        }
     }
 
     #[test]
@@ -13310,5 +13330,24 @@ mod tests {
             assert_eq!(capped, depth > MAX_REPEAT_DEPTH as usize, "depth {depth}");
         }
         assert!(t.elapsed().as_secs() < 20);
+    }
+
+    #[test]
+    fn a_non_grid_box_that_repeats_a_child_is_its_own_subtree() {
+        let parts = serde_json::json!({
+            "root": { "kind": "box", "children": ["row"],
+                "props": { "direction": { "value": "column" }, "align": { "value": "start" } } },
+            "row": { "kind": "box", "children": ["cell"],
+                "props": { "gap": lit_num(3.0) }, "repeat": { "slot": "cells" } },
+            "cell": cell(10.0, 10.0, "#ff0000")
+        });
+        let objs = Value::Array((0..3).map(|_| serde_json::json!({})).collect());
+        let s = subtree_scene(
+            parts,
+            serde_json::json!([{ "name": "cells", "part": "cell", "collection": "cells" }]),
+            &[("cells", objs)],
+        );
+        assert_eq!(pos_of(&s, "cell-1"), (8.0, 8.0));
+        assert_eq!(pos_of(&s, "cell-3"), (34.0, 8.0));
     }
 }
