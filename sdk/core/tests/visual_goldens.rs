@@ -374,7 +374,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                     .into(),
             );
             r.options
-                .insert("linkLabel".into(), "Learn about permissions".into());
+                .insert("href".into(), "https://example.com/permissions".into());
         };
         for (_, r) in out.iter_mut() {
             copy(r);
@@ -383,6 +383,10 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let mut closed = req(vec![], HashMap::new(), "light", "desktop");
         copy(&mut closed);
         out.push(("closed", closed));
+        let mut no_link = req(vec!["open".into()], HashMap::new(), "light", "desktop");
+        copy(&mut no_link);
+        no_link.options.remove("href");
+        out.push(("no-link", no_link));
     }
     // Coach mark: real copy and two footer buttons in every scenario; the long copy wraps.
     if name == "coach-mark" {

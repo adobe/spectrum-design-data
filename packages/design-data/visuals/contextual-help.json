@@ -11,8 +11,7 @@
     "popoverPlacement",
     "popoverOffset",
     "popoverCrossOffset",
-    "containerPadding",
-    "href"
+    "containerPadding"
   ],
   "parts": {
     "container": {
@@ -255,9 +254,7 @@
         "m": "m"
       },
       "with": {
-        "label": {
-          "option": "linkLabel"
-        }
+        "label": "Learn more"
       }
     }
   }

@@ -176,28 +176,12 @@
             "part": "description"
           }
         },
-        "fontSize": [
-          {
-            "when": {
-              "modes": {
-                "scale": "desktop"
-              }
-            },
-            "token": {
-              "property": "font-size-200"
-            }
-          },
-          {
-            "when": {
-              "modes": {
-                "scale": "mobile"
-              }
-            },
-            "token": {
-              "property": "font-size-100"
-            }
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "description"
           }
-        ],
+        },
         "fontWeight": {
           "relationship": {
             "property": "font-weight",

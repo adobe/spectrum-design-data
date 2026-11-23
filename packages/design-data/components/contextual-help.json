@@ -103,10 +103,6 @@
       "type": "string",
       "description": "Description text in the popover."
     },
-    "linkLabel": {
-      "type": "string",
-      "description": "Text of the optional link at the end of the popover."
-    },
     "icon": {
       "type": "string",
       "default": "info",
@@ -241,8 +237,8 @@
     {
       "name": "link",
       "component": "link",
-      "description": "Optional link component at the end of the popover.",
-      "presentWhen": { "states": ["open"] }
+      "description": "Optional link component at the end of the popover, present when href is set.",
+      "presentWhen": { "states": ["open"], "options": { "href": true } }
     }
   ],
   "anatomyReview": {
