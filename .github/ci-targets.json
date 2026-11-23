@@ -93,6 +93,7 @@
     "viewer:prepare",
     "viewer:resolve",
     "visualizer:build",
-    "visualizer:typescript"
+    "visualizer:typescript",
+    "sdk:shadcn-registry"
   ]
 }
