@@ -362,6 +362,59 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         focus.states = vec!["keyboard-focus".into()];
         out.push(("items-single-keyboard-focus", focus));
     }
+    // Calendar: one and two months of days with a blank leading cell, a selected day, a
+    // disabled day and a hovered or error state, in the default and the dark mobile modes.
+    if name == "calendar" {
+        let weekdays: Vec<Value> = ["S", "M", "T", "W", "T", "F", "S"]
+            .iter()
+            .map(|l| serde_json::json!({ "label": l }))
+            .collect();
+        let days = |first_blank: usize, count: u32, selected: u32, disabled: u32| -> Value {
+            let mut cells: Vec<Value> = (0..first_blank)
+                .map(|_| serde_json::json!({ "label": "" }))
+                .collect();
+            cells.extend((1..=count).map(|d| {
+                serde_json::json!({
+                    "label": d.to_string(),
+                    "isSelected": d == selected,
+                    "isDisabled": d <= disabled,
+                })
+            }));
+            Value::Array(cells)
+        };
+        let case = |months: Vec<Value>, scheme: &str, scale: &str| {
+            let o = HashMap::from([
+                ("months".to_string(), Value::Array(months)),
+                ("weekdays".to_string(), Value::Array(weekdays.clone())),
+            ]);
+            req(vec![], o, scheme, scale)
+        };
+        let feb = || serde_json::json!({ "title": "February 2026", "days": days(0, 28, 11, 3) });
+        let mar = || serde_json::json!({ "title": "March 2026", "days": days(0, 31, 11, 0) });
+        out.push(("month-single", case(vec![feb()], "light", "desktop")));
+        out.push((
+            "months-double",
+            case(vec![feb(), mar()], "light", "desktop"),
+        ));
+        out.push((
+            "months-triple-dark-mobile",
+            case(
+                vec![
+                    feb(),
+                    mar(),
+                    serde_json::json!({ "title": "April 2026", "days": days(3, 30, 0, 0) }),
+                ],
+                "dark",
+                "mobile",
+            ),
+        ));
+        let mut hover = case(vec![feb()], "light", "desktop");
+        hover.states = vec!["hover".into()];
+        out.push(("month-hover", hover));
+        let mut error = case(vec![feb()], "light", "desktop");
+        error.options.insert("isError".into(), true.into());
+        out.push(("month-error", error));
+    }
     // Side navigation: a heading, then selected, unselected and disabled items, in the
     // default and the dark mobile modes and with a hovered row.
     if name == "side-navigation" {

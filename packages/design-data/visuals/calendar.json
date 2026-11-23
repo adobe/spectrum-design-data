@@ -1,0 +1,324 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "calendar",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": [
+    "currentMonth",
+    "currentYear",
+    "selectionMode",
+    "visibleMonths",
+    "isRangeStart",
+    "isRangeEnd",
+    "isUnavailable",
+    "isToday",
+    "minValue",
+    "maxValue"
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["month"],
+      "repeat": {
+        "slot": "default",
+        "label": "title",
+        "with": {
+          "days": "days"
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "start"
+        },
+        "gap": {
+          "token": {
+            "property": "spacing",
+            "scaleIndex": 400
+          }
+        }
+      }
+    },
+    "month": {
+      "kind": "box",
+      "children": ["title", "weekday-grid", "day-grid"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "weekday-label",
+              "to": "day"
+            }
+          }
+        }
+      }
+    },
+    "title": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "token": {
+            "property": "font-family",
+            "family": "sans-serif"
+          }
+        },
+        "fontSize": {
+          "token": {
+            "property": "font-size-300"
+          }
+        },
+        "fontWeight": {
+          "token": {
+            "property": "font-weight",
+            "weight": "bold"
+          }
+        },
+        "lineHeight": {
+          "token": {
+            "property": "line-height",
+            "referenceScaleIndex": 300
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "day"
+          }
+        }
+      }
+    },
+    "weekday-grid": {
+      "kind": "box",
+      "children": ["weekday-label"],
+      "repeat": {
+        "slot": "weekday-label",
+        "label": "label"
+      },
+      "props": {
+        "direction": {
+          "value": "grid"
+        },
+        "columns": {
+          "value": 7
+        },
+        "columnGap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "weekday-label",
+              "to": "weekday-label"
+            }
+          }
+        }
+      }
+    },
+    "weekday-label": {
+      "kind": "box",
+      "children": ["text"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "width": {
+          "token": {
+            "property": "size",
+            "scaleIndex": 500,
+            "legacyKey": "size-500"
+          }
+        },
+        "justify": {
+          "value": "center"
+        }
+      }
+    },
+    "day-grid": {
+      "kind": "box",
+      "children": ["day"],
+      "repeat": {
+        "slot": "day",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "isToday": "isToday"
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "grid"
+        },
+        "columns": {
+          "value": 7
+        },
+        "columnGap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "weekday-label",
+              "to": "weekday-label"
+            }
+          }
+        },
+        "rowGap": {
+          "token": {
+            "property": "spacing",
+            "scaleIndex": 75
+          }
+        }
+      }
+    },
+    "day": {
+      "kind": "box",
+      "children": ["label"],
+      "props": {
+        "direction": {
+          "value": "stack"
+        },
+        "width": {
+          "token": {
+            "property": "size",
+            "scaleIndex": 500,
+            "legacyKey": "size-500"
+          }
+        },
+        "height": {
+          "token": {
+            "property": "size",
+            "scaleIndex": 500,
+            "legacyKey": "size-500"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
+        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "day",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"]
+            },
+            "relationship": {
+              "property": "color",
+              "part": "day",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"]
+            },
+            "relationship": {
+              "property": "color",
+              "part": "day",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "value": "transparent",
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "token": {
+            "property": "font-family",
+            "family": "sans-serif"
+          }
+        },
+        "fontSize": {
+          "token": {
+            "property": "font-size-100"
+          }
+        },
+        "fontWeight": {
+          "token": {
+            "property": "font-weight",
+            "weight": "regular"
+          }
+        },
+        "lineHeight": {
+          "token": {
+            "property": "line-height",
+            "referenceScaleIndex": 100
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "day"
+          }
+        }
+      }
+    },
+    "text": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "token": {
+            "property": "font-family",
+            "family": "sans-serif"
+          }
+        },
+        "fontSize": {
+          "token": {
+            "property": "font-size-100"
+          }
+        },
+        "fontWeight": {
+          "token": {
+            "property": "font-weight",
+            "weight": "bold"
+          }
+        },
+        "lineHeight": {
+          "token": {
+            "property": "line-height",
+            "referenceScaleIndex": 100
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "day"
+          }
+        }
+      }
+    }
+  }
+}

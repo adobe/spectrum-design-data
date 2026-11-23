@@ -111,7 +111,10 @@ impl ValidationRule for Rule {
             }
             let mut problems: Vec<(String, String)> = Vec::new();
             for (id, part) in parts {
-                if part.get("repeat").is_some() && !rootlike.contains(id.as_str()) {
+                // Without the component catalog (validate-dataset) a repeated part is unknown,
+                // so whether a grid sits under one cannot be told.
+                let placed = comp.is_none() || rootlike.contains(id.as_str());
+                if part.get("repeat").is_some() && !placed {
                     problems.push((
                         format!("/parts/{id}/repeat"),
                         format!("part '{id}' repeats a child but is not laid out as a root"),
@@ -121,7 +124,7 @@ impl ValidationRule for Rule {
                     continue;
                 };
                 let is_grid = grid_part(id);
-                if is_grid && !rootlike.contains(id.as_str()) {
+                if is_grid && !placed {
                     problems.push((
                         format!("/parts/{id}/props/direction"),
                         format!(
@@ -307,5 +310,28 @@ mod tests {
         );
         let msgs: Vec<String> = run(&Rule, &g).into_iter().map(|d| d.message).collect();
         assert!(msgs.iter().any(|m| m.contains("nest deeper")), "{msgs:?}");
+    }
+
+    #[test]
+    fn a_grid_under_a_repeated_part_is_clean_with_and_without_the_catalog() {
+        // month repeats from the root; its grid child is laid out as a subtree. Without the
+        // component catalog the repeated part is unknown and the grid is not flagged.
+        let parts = json!({
+            "r": { "kind": "box", "children": ["m"], "repeat": { "slot": "a" } },
+            "m": { "kind": "box", "children": ["g"] },
+            "g": { "kind": "box", "children": [], "props": grid(json!({"value": 7})) }
+        });
+        let mut g = graph(
+            json!({ "name": "cal", "slots": [{ "name": "a", "part": "m", "collection": "months" }] }),
+            vec![],
+            vec![],
+            vec![(
+                "cal",
+                json!({ "component": "cal", "root": "r", "parts": parts }),
+            )],
+        );
+        assert!(run(&Rule, &g).is_empty());
+        g.components.clear();
+        assert!(run(&Rule, &g).is_empty());
     }
 }
