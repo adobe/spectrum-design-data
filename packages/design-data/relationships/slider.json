@@ -5,7 +5,7 @@
       "part": "container",
       "property": "width",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Width",
@@ -19,7 +19,7 @@
       "part": "container",
       "property": "width",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Width",
@@ -33,7 +33,7 @@
       "part": "container",
       "property": "width",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Width",
@@ -47,7 +47,7 @@
       "part": "container",
       "property": "width",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Width",
@@ -61,7 +61,7 @@
       "part": "container",
       "property": "width",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Width",
@@ -75,7 +75,7 @@
       "part": "container",
       "property": "width",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Width",
@@ -89,7 +89,7 @@
       "part": "container",
       "property": "width",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Width",
@@ -103,7 +103,7 @@
       "part": "container",
       "property": "width",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Width",
@@ -181,7 +181,7 @@
       "part": "control",
       "property": "height",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Height (slider control)",
@@ -196,7 +196,7 @@
       "part": "control",
       "property": "height",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Height (slider control)",
@@ -211,7 +211,7 @@
       "part": "control",
       "property": "height",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Height (slider control)",
@@ -226,7 +226,7 @@
       "part": "control",
       "property": "height",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Height (slider control)",
@@ -241,7 +241,7 @@
       "part": "control",
       "property": "height",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Height (slider control)",
@@ -256,7 +256,7 @@
       "part": "control",
       "property": "height",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Height (slider control)",
@@ -271,7 +271,7 @@
       "part": "control",
       "property": "height",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Height (slider control)",
@@ -286,7 +286,7 @@
       "part": "control",
       "property": "height",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Height (slider control)",
@@ -301,7 +301,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Handle (size)",
@@ -316,7 +316,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Handle (size)",
@@ -331,7 +331,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Handle (size)",
@@ -346,7 +346,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Handle (size)",
@@ -361,7 +361,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Handle (size)",
@@ -376,7 +376,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Handle (size)",
@@ -391,7 +391,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Handle (size)",
@@ -406,7 +406,7 @@
       "part": "handle",
       "property": "size",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Handle (size)",
@@ -421,7 +421,7 @@
       "part": "handle",
       "property": "height",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Handle (size)",
@@ -436,7 +436,7 @@
       "part": "handle",
       "property": "height",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Handle (size)",
@@ -451,7 +451,7 @@
       "part": "handle",
       "property": "height",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Handle (size)",
@@ -466,7 +466,7 @@
       "part": "handle",
       "property": "height",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Handle (size)",
@@ -481,7 +481,7 @@
       "part": "handle",
       "property": "height",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Handle (size)",
@@ -496,7 +496,7 @@
       "part": "handle",
       "property": "height",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Handle (size)",
@@ -511,7 +511,7 @@
       "part": "handle",
       "property": "height",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Handle (size)",
@@ -526,7 +526,7 @@
       "part": "handle",
       "property": "height",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Handle (size)",
@@ -1287,7 +1287,8 @@
       "property": "color",
       "options": {
         "colorScheme": "light"
-      }
+      },
+      "attribute": "border"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1301,7 +1302,8 @@
       "property": "color",
       "options": {
         "colorScheme": "dark"
-      }
+      },
+      "attribute": "border"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1315,7 +1317,8 @@
       "property": "color",
       "options": {
         "colorScheme": "wireframe"
-      }
+      },
+      "attribute": "border"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1328,8 +1331,14 @@
       "part": "handle",
       "property": "color",
       "options": {
-        "colorScheme": "light"
-      }
+        "colorScheme": "light",
+        "state": [
+          {
+            "anyOf": ["hover", "down", "keyboard-focus"]
+          }
+        ]
+      },
+      "attribute": "border"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1342,8 +1351,14 @@
       "part": "handle",
       "property": "color",
       "options": {
-        "colorScheme": "dark"
-      }
+        "colorScheme": "dark",
+        "state": [
+          {
+            "anyOf": ["hover", "down", "keyboard-focus"]
+          }
+        ]
+      },
+      "attribute": "border"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1356,8 +1371,14 @@
       "part": "handle",
       "property": "color",
       "options": {
-        "colorScheme": "wireframe"
-      }
+        "colorScheme": "wireframe",
+        "state": [
+          {
+            "anyOf": ["hover", "down", "keyboard-focus"]
+          }
+        ]
+      },
+      "attribute": "border"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1371,7 +1392,8 @@
       "property": "color",
       "options": {
         "colorScheme": "light"
-      }
+      },
+      "attribute": "background"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1385,7 +1407,8 @@
       "property": "color",
       "options": {
         "colorScheme": "dark"
-      }
+      },
+      "attribute": "background"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1399,7 +1422,8 @@
       "property": "color",
       "options": {
         "colorScheme": "wireframe"
-      }
+      },
+      "attribute": "background"
     },
     "context": "Handle",
     "contextRole": ["control"],
@@ -1500,7 +1524,7 @@
       "part": "value",
       "property": "font-size",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Label",
@@ -1514,7 +1538,7 @@
       "part": "value",
       "property": "font-size",
       "options": {
-        "size": "s"
+        "size": ["s", "small"]
       }
     },
     "context": "Label",
@@ -1528,7 +1552,7 @@
       "part": "value",
       "property": "font-size",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Label",
@@ -1542,7 +1566,7 @@
       "part": "value",
       "property": "font-size",
       "options": {
-        "size": "m"
+        "size": ["m", "medium"]
       }
     },
     "context": "Label",
@@ -1556,7 +1580,7 @@
       "part": "value",
       "property": "font-size",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Label",
@@ -1570,7 +1594,7 @@
       "part": "value",
       "property": "font-size",
       "options": {
-        "size": "l"
+        "size": ["l", "large"]
       }
     },
     "context": "Label",
@@ -1584,7 +1608,7 @@
       "part": "value",
       "property": "font-size",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Label",
@@ -1598,7 +1622,7 @@
       "part": "value",
       "property": "font-size",
       "options": {
-        "size": "xl"
+        "size": ["xl", "extra-large"]
       }
     },
     "context": "Label",

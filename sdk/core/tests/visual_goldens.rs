@@ -248,6 +248,147 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
+    // Slider: the handle sits at the value (0, a quarter, half, the max and unset), the fill
+    // follows it (from `fillStart` for an offset slider), the sizes, the handle states and the
+    // editable number field are drawn with real label and value text.
+    if name == "slider" {
+        let with =
+            |opts: &[(&str, Value)], states: &[&str], scheme: &str, scale: &str, size: &str| {
+                let mut o: HashMap<String, Value> = opts
+                    .iter()
+                    .map(|(k, v)| (k.to_string(), v.clone()))
+                    .collect();
+                o.insert("label".into(), "Brightness".into());
+                let mut r = req(
+                    states.iter().map(|s| s.to_string()).collect(),
+                    o,
+                    scheme,
+                    scale,
+                );
+                r.size = size.into();
+                r
+            };
+        let fill = ("hasFill", Value::Bool(true));
+        for (id, v) in [
+            ("value-0", 0),
+            ("value-25", 25),
+            ("value-50", 50),
+            ("value-100", 100),
+        ] {
+            out.push((
+                id,
+                with(
+                    &[("value", v.into()), fill.clone()],
+                    &[],
+                    "light",
+                    "desktop",
+                    "m",
+                ),
+            ));
+        }
+        out.push((
+            "value-unset",
+            with(&[fill.clone()], &[], "light", "desktop", "m"),
+        ));
+        for (id, size, scale) in [
+            ("size-s", "s", "desktop"),
+            ("size-l-mobile", "l", "mobile"),
+            ("size-xl", "xl", "desktop"),
+        ] {
+            out.push((
+                id,
+                with(
+                    &[("value", 50.into()), fill.clone()],
+                    &[],
+                    "light",
+                    scale,
+                    size,
+                ),
+            ));
+        }
+        for st in ["hover", "down", "keyboard-focus"] {
+            out.push((
+                match st {
+                    "hover" => "state-hover",
+                    "down" => "state-down",
+                    _ => "state-keyboard-focus",
+                },
+                with(
+                    &[("value", 40.into()), fill.clone()],
+                    &[st],
+                    "light",
+                    "desktop",
+                    "m",
+                ),
+            ));
+        }
+        out.push((
+            "emphasized-dark",
+            with(
+                &[
+                    ("value", 60.into()),
+                    fill.clone(),
+                    ("isEmphasized", true.into()),
+                ],
+                &[],
+                "dark",
+                "desktop",
+                "m",
+            ),
+        ));
+        out.push((
+            "disabled",
+            with(
+                &[
+                    ("value", 50.into()),
+                    fill.clone(),
+                    ("isDisabled", true.into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "m",
+            ),
+        ));
+        out.push((
+            "offset-fill-start-50",
+            with(
+                &[("value", 25.into()), fill.clone(), ("fillStart", 50.into())],
+                &[],
+                "light",
+                "desktop",
+                "m",
+            ),
+        ));
+        out.push((
+            "thick-track",
+            with(
+                &[
+                    ("value", 50.into()),
+                    fill.clone(),
+                    ("trackStyle", "thick".into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "l",
+            ),
+        ));
+        out.push((
+            "editable",
+            with(
+                &[
+                    ("value", 50.into()),
+                    fill.clone(),
+                    ("isEditable", true.into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "m",
+            ),
+        ));
+    }
     // Tooltip: every placement draws its tip on the matching edge; variants and modes show the
     // fill, text and tip colors.
     if name == "tooltip" {
