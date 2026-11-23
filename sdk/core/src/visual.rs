@@ -6618,7 +6618,7 @@ fn solve_subtree(
     let mut req = cx.req.clone();
     req.width = None;
     let mut s = solve_root(variant, id, &req, position)?;
-    cx.diags.extend(s.diagnostics.drain(..));
+    cx.diags.append(&mut s.diagnostics);
     let Some(root) = s.nodes.first() else {
         return Ok(None);
     };
@@ -13153,7 +13153,7 @@ mod tests {
             "{}",
             small.nodes.len()
         );
-        let small_time = t.elapsed();
+        assert!(t.elapsed().as_secs() < 5);
         let t = std::time::Instant::now();
         // 100 months of 100 days is 10,100 copies: past the budget, so it is cut and says so.
         let big = months_scene(100, 100);
