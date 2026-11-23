@@ -6,7 +6,7 @@
   "sizeScale": {
     "m": 100
   },
-  "notVisual": ["actions", "hideImage"],
+  "notVisual": ["actions", "showImage"],
   "parts": {
     "container": {
       "kind": "box",

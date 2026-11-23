@@ -47,10 +47,10 @@
     "description": {
       "type": "string"
     },
-    "hideImage": {
+    "showImage": {
       "type": "boolean",
       "default": false,
-      "description": "Optional image to display in dialog."
+      "description": "Shows the optional cover image at the top of the dialog."
     },
     "size": {
       "type": "string",
@@ -145,7 +145,7 @@
     },
     {
       "name": "cover-image",
-      "description": "Optional image at the top. Hidden with hideImage."
+      "description": "Optional image at the top. Shown with showImage."
     },
     {
       "name": "header",
