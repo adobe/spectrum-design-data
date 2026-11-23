@@ -1577,3 +1577,22 @@ rules:
     message: "Path part '{part}' of '{component}' {problem}"
     spec_ref: spec/component-visuals.md#path-shapes
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-114
+    name: floating-position-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A `floating.position` places a floating part at a fraction of a part's box along one or
+      two axes, driven by an option. It replaces `side`, and a length axis sizes the part, so
+      the part binds no size there.
+    assert: >
+      A `floating` MUST have exactly one of `side` and `position`. A `position` MUST have `x`
+      or `y`; `of` MUST name a non-floating part; each axis (or entry of an axis list) MUST have a `value`, and optional
+      `min`, `max` and `from`, each `{ "option": name }` or `{ "value": number }`; `from`
+      and a part that binds no size on the axis need `length: true`, and a `length` axis part
+      MUST NOT bind that size, have `children` or be a `component` part; an option MUST be a number option of the component when it declares options.
+    message: "Floating part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#floating-parts
+    introduced_in: "1.0.0-draft"

@@ -399,6 +399,7 @@ recipe_tests! {
     number_field => "number-field",
     opacity_checkerboard => "opacity-checkerboard",
     picker => "picker",
+    popover => "popover",
     progress_bar => "progress-bar",
     progress_circle => "progress-circle",
     radio_button => "radio-button",
@@ -417,6 +418,7 @@ recipe_tests! {
     text_field => "text-field",
     thumbnail => "thumbnail",
     toast => "toast",
+    tooltip => "tooltip",
 }
 
 #[test]

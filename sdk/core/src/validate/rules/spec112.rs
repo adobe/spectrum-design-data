@@ -23,6 +23,10 @@ use crate::validate::rules::visual_util::error;
 
 pub struct Rule;
 
+fn floating_has_position(part: &Value) -> bool {
+    part.pointer("/floating/position").is_some()
+}
+
 impl ValidationRule for Rule {
     fn id(&self) -> &'static str {
         "SPEC-112"
@@ -54,17 +58,27 @@ impl ValidationRule for Rule {
                 if is_child(id) {
                     problems.push("is a child of another part");
                 }
-                if part.get("kind").and_then(Value::as_str) != Some("box")
-                    || part.get("placement").is_some()
-                {
+                let kind = part.get("kind").and_then(Value::as_str);
+                let component_at = kind == Some("component") && floating_has_position(part);
+                if !(kind == Some("box") || component_at) || part.get("placement").is_some() {
                     problems.push("is not a box without a placement");
                 }
                 let hosts = part
                     .get("children")
                     .and_then(Value::as_array)
                     .is_some_and(|c| !c.is_empty());
-                let bound = |n: &str| part.pointer(&format!("/props/{n}")).is_some();
-                if !hosts && (!bound("width") || !bound("height")) {
+                // A `position` length axis is the part's size along it: nothing to bind.
+                let bound = |n: &str| {
+                    let axis = if n == "width" { "x" } else { "y" };
+                    let len = |a: &Value| a.get("length").and_then(Value::as_bool) == Some(true);
+                    part.pointer(&format!("/props/{n}")).is_some()
+                        || match part.pointer(&format!("/floating/position/{axis}")) {
+                            Some(Value::Array(a)) => a.iter().any(len),
+                            Some(a) => len(a),
+                            None => false,
+                        }
+                };
+                if !hosts && !component_at && (!bound("width") || !bound("height")) {
                     problems.push("does not bind both width and height");
                 }
                 for problem in problems {

@@ -1076,6 +1076,30 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "aliases": ["arrow", "popover-tip"]
     },
     {
+      "id": "tip-top",
+      "label": "Tip (top)",
+      "description": "Tip drawn on the top edge of the container, shown for the placement that faces the source from that edge",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip-bottom",
+      "label": "Tip (bottom)",
+      "description": "Tip drawn on the bottom edge of the container, shown for the placement that faces the source from that edge",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip-start",
+      "label": "Tip (start)",
+      "description": "Tip drawn on the start edge of the container, shown for the placement that faces the source from that edge",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip-end",
+      "label": "Tip (end)",
+      "description": "Tip drawn on the end edge of the container, shown for the placement that faces the source from that edge",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "selection",
       "label": "Selection",
       "description": "Region of a component that holds selection controls (the plate that holds a card's selection checkbox). The marker on a selected item is selection-indicator",
