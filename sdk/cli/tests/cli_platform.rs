@@ -457,6 +457,27 @@ fn component_platform_profiles_are_isolated_from_ios() {
     }
 }
 
+/// The hub builds one explorer per platform; every recipe must compile at every size on each.
+#[test]
+fn site_builds_for_every_configured_platform() {
+    for platform in ["ios", "react-spectrum", "web-components"] {
+        let out = tempfile::tempdir().expect("temp site dir");
+        let out_arg = out.path().to_str().expect("utf-8 temp path");
+        design_data(
+            repo_root().as_path(),
+            &[
+                "site",
+                "--platform",
+                platform,
+                "--data-only",
+                "--out",
+                out_arg,
+            ],
+        )
+        .success();
+    }
+}
+
 #[test]
 fn component_foundation_output_matches_with_platform_that_does_not_touch_it() {
     let plain = design_data(repo_root().as_path(), &["component", "accordion"]).success();
