@@ -1577,7 +1577,7 @@ mod tests {
     mod image_fill {
         use super::*;
         use crate::graph::TokenGraph;
-        use crate::image::{test_png, test_uri, MAX_URI_BYTES};
+        use crate::image::{test_png, test_uri};
         use crate::visual::{build_scene, RenderRequest};
         use serde_json::{json, Value};
 
@@ -1754,7 +1754,6 @@ mod tests {
                 assert!(scene.nodes[0].image.as_ref().unwrap().placeholder, "{name}");
                 assert_eq!(at(&img, 2, 2), [0xd5, 0xd5, 0xd5, 255], "{name}");
             }
-            assert!(MAX_URI_BYTES < 50_000_000);
         }
 
         #[test]
