@@ -33,6 +33,7 @@ pub mod naming;
 pub mod platform_impact;
 pub mod primer;
 pub mod query;
+pub mod ramp;
 #[cfg(feature = "raster")]
 pub mod raster;
 pub mod record_diff;
@@ -694,7 +695,7 @@ mod validation_conformance {
         // The skip below must not hide a rule that is implemented: these fail if unregistered.
         for id in [
             "SPEC-074", "SPEC-106", "SPEC-107", "SPEC-108", "SPEC-109", "SPEC-110", "SPEC-111",
-            "SPEC-112", "SPEC-113", "SPEC-114",
+            "SPEC-112", "SPEC-113", "SPEC-114", "SPEC-115",
         ] {
             assert!(registered.contains(id), "{id} is not in default_rules()");
         }
