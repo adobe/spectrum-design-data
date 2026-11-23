@@ -4187,6 +4187,7 @@ fn solve_root(
         lines: Vec<String>,
         // A `component` part's solved recipe.
         nested: Option<Nested>,
+        rotation: Option<f64>,
         // A `component` part that inherits a width the root does not fix: solved again once
         // the root's width is known.
         refill: bool,
@@ -4210,6 +4211,7 @@ fn solve_root(
     struct Row {
         items: Vec<RowItem>,
         align: String,
+        justify: String,
         gap: f64,
         pad_s: f64,
         pad_e: f64,
@@ -4329,6 +4331,7 @@ fn solve_root(
             line_h: 0.0,
             lines: Vec::new(),
             nested: None,
+            rotation: None,
             refill: false,
         };
         match kind {
@@ -4397,6 +4400,14 @@ fn solve_root(
                     let ralign = rp(&mut cx, part, "align");
                     let ralign =
                         layout_keyword(&mut cx, "align", &ralign, &["start", "center", "end"]);
+                    // Unlike the root, an unbound row box packs at the start.
+                    let rjustify = rp(&mut cx, part, "justify");
+                    track(&mut c.tokens, "justify", &rjustify);
+                    let rjustify = if rjustify.is_some() {
+                        layout_keyword(&mut cx, "justify", &rjustify, &["start", "center", "end"])
+                    } else {
+                        "start".into()
+                    };
                     let rgap = rp(&mut cx, part, "gap");
                     track(&mut c.tokens, "gap", &rgap);
                     let rgap = rgap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
@@ -4693,6 +4704,7 @@ fn solve_root(
                     c.row = Some(Row {
                         items,
                         align: ralign,
+                        justify: rjustify,
                         gap: rgap,
                         pad_s: pads[0],
                         pad_e: pads[1],
@@ -4716,6 +4728,10 @@ fn solve_root(
                     track(&mut c.tokens, "strokeWidth", &psw);
                     c.stroke_width = psw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
                     c.sweep = rp(&mut cx, part, "sweep").as_ref().and_then(Resolved::num);
+                } else {
+                    c.rotation = rp(&mut cx, part, "rotation")
+                        .as_ref()
+                        .and_then(Resolved::num);
                 }
             }
             "text" => {
@@ -5149,7 +5165,7 @@ fn solve_root(
             path: None,
             color: c.color,
             icon: None,
-            rotation: None,
+            rotation: c.rotation,
             tokens: c.tokens,
         };
         if c.kind == "box" {
@@ -5174,11 +5190,17 @@ fn solve_root(
         }
         if let Some(row) = row {
             let inner_h = ch - row.pad_bs - row.pad_be;
-            let mut rx = cx0 + row.pad_s;
             let used = row.items.iter().map(|i| i.ow).sum::<f64>()
                 + row.gap * row.items.len().saturating_sub(1) as f64;
             let free = (cw - row.pad_s - row.pad_e - used).max(0.0);
             let shares: f64 = row.items.iter().map(|i| i.grow).sum();
+            let mut rx = cx0
+                + row.pad_s
+                + if shares > 0.0 {
+                    0.0
+                } else {
+                    axis_offset(&row.justify, free)
+                };
             for mut it in row.items {
                 if shares > 0.0 && it.grow > 0.0 {
                     let extra = free * it.grow / shares;
@@ -7513,7 +7535,7 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 /// same change whenever a solver or layout-semantics change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`). A data-only snapshot change (same geometry and resolved
 /// values) does not bump it.
-pub const LAYOUT_REVISION: u32 = 6;
+pub const LAYOUT_REVISION: u32 = 7;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.
@@ -8808,6 +8830,48 @@ mod tests {
         );
         assert_eq!((t.x - row.x, t.y - row.y), (23.0, 2.0));
         assert_eq!((bar.w, bar.y - row.y), (row.w, 24.0));
+    }
+
+    #[test]
+    fn a_row_box_honors_justify_and_a_root_icon_keeps_its_rotation() {
+        let (g, _) = load();
+        let lit = |v: Value| serde_json::json!({ "value": v });
+        let scene = |justify: Option<&str>| {
+            let mut row = serde_json::json!({ "kind": "box", "children": ["i"], "props": {
+                "direction": lit("row".into()), "gap": lit("0".into()) } });
+            if let Some(j) = justify {
+                row["props"]["justify"] = lit(j.into());
+            }
+            let recipe = serde_json::json!({
+                "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+                "parts": {
+                    "r": { "kind": "box", "children": ["row", "root-icon"], "props": {
+                        "direction": lit("column".into()), "align": lit("start".into()),
+                        "width": lit(100.into()) } },
+                    "row": row,
+                    "i": { "kind": "icon", "icon": { "set": "ui", "name": "chevron" },
+                        "props": { "width": lit("10".into()) } },
+                    "root-icon": { "kind": "icon", "icon": { "set": "ui", "name": "chevron" },
+                        "props": { "width": lit("10".into()), "rotation": lit(90.into()) } }
+                }
+            });
+            let scene = build_scene(&g, &recipe, &req(&[])).unwrap();
+            assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+            scene
+        };
+        let off = |justify| {
+            let s = scene(justify);
+            let n = |id: &str| s.nodes.iter().find(|n| n.part == id).unwrap().clone();
+            (n("i").x - n("row").x, n("row").w - n("i").w)
+        };
+        assert_eq!(off(None).0, 0.0, "an unbound row box packs at the start");
+        assert_eq!(off(Some("start")).0, 0.0);
+        let (x, free) = off(Some("end"));
+        assert!(free > 0.0 && x == free, "end: {x} of {free}");
+        assert_eq!(off(Some("center")).0, free / 2.0);
+        let s = scene(None);
+        let icon = s.nodes.iter().find(|n| n.part == "root-icon").unwrap();
+        assert_eq!(icon.rotation, Some(90.0));
     }
 
     #[test]
