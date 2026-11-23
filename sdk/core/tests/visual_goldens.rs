@@ -423,6 +423,10 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             range(vec![feb_range(9, 12)], "dark", "mobile"),
         ));
         out.push((
+            "range-two-adjacent-days",
+            range(vec![feb_range(10, 11)], "light", "desktop"),
+        ));
+        out.push((
             "range-single-day",
             range(vec![feb_range(10, 10)], "light", "desktop"),
         ));
