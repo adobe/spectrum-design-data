@@ -190,12 +190,26 @@ impl ValidationRule for Rule {
                             }
                         }
                     }
-                    if v.raw.get("root").and_then(Value::as_str) != Some(key.as_str()) {
+                    // A repeat sits on the root, or inside a copy: on a part another repeat draws.
+                    let is_root = v.raw.get("root").and_then(Value::as_str) == Some(key.as_str());
+                    let in_copy = parts.iter().any(|(k, p)| {
+                        p.pointer("/repeat/slot")
+                            .and_then(Value::as_str)
+                            .and_then(|s| collection_slot(&comp.raw, s))
+                            .is_some_and(|(named, _)| {
+                                named == key
+                                    && k != key
+                                    && p.get("children")
+                                        .and_then(Value::as_array)
+                                        .is_some_and(|c| c.iter().any(|c| c.as_str() == Some(key)))
+                            })
+                    });
+                    if !is_root && !in_copy {
                         out.push(error(
                             self.id(),
                             v,
                             &path,
-                            format!("Part '{key}' declares repeat but is not the root; repeat is declared on the root part"),
+                            format!("Part '{key}' declares repeat but is neither the root nor a repeated part; repeat is declared on the root or inside a repeated copy"),
                         ));
                     }
                 }

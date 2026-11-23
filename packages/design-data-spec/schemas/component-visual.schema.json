@@ -240,7 +240,7 @@
         },
         "repeat": {
           "type": "object",
-          "description": "For the root (the container): draw the repeated child once per entry of a collection slot (spec/component-visuals.md, Repeated parts). The component's `collection` slot names the repeated part and the array option.",
+          "description": "For the root (the container), or a part inside a repeated copy: draw the repeated child once per entry of a collection slot (spec/component-visuals.md, Repeated parts). The component's `collection` slot names the repeated part and the array option.",
           "required": ["slot"],
           "properties": {
             "slot": {
@@ -364,6 +364,9 @@
               "align",
               "justify",
               "gap",
+              "columns",
+              "columnGap",
+              "rowGap",
               "paddingInlineStart",
               "paddingInlineEnd",
               "paddingBlockStart",
