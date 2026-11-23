@@ -2100,6 +2100,13 @@ impl<'a> CompileCx<'a> {
                 )
             })?
             .to_string();
+        // A recipe with one size (iOS switch-ios: the system control) serves every host size.
+        let size = match recipe.raw.get("sizeScale").and_then(Value::as_object) {
+            Some(scale) if scale.len() == 1 && !scale.contains_key(&size) => {
+                scale.keys().next().cloned().unwrap_or(size)
+            }
+            _ => size,
+        };
         let req = RenderRequest {
             component: canonical,
             size: size.clone(),
@@ -11551,6 +11558,29 @@ mod tests {
         ]);
         let err = nest_scene(&three, &host_of("action-button"), "m", &[], &[]).unwrap_err();
         assert!(err.contains("levels deep"), "{err}");
+    }
+
+    #[test]
+    fn a_single_size_nested_recipe_serves_every_host_size() {
+        let g0 = nest_graph(&[]);
+        let mut sw = g0.visual_recipe("switch").unwrap().raw.clone();
+        sw["sizeScale"] = serde_json::json!({ "m": 100 });
+        let g = nest_graph(&[("switch", sw)]);
+        let at_m = nest_scene(&g, &row_host(), "m", &[], &[]).unwrap();
+        for size in ["s", "l", "xl"] {
+            let s = nest_scene(&g, &row_host(), size, &[], &[]).unwrap();
+            assert_eq!(
+                part(&s, "b").unwrap().w,
+                part(&at_m, "b").unwrap().w,
+                "{size}"
+            );
+        }
+        // Two sizes with the host size missing is still an error.
+        let mut two = g0.visual_recipe("switch").unwrap().raw.clone();
+        two["sizeScale"] = serde_json::json!({ "m": 100, "l": 200 });
+        let g = nest_graph(&[("switch", two)]);
+        let err = nest_scene(&g, &row_host(), "s", &[], &[]).unwrap_err();
+        assert!(err.contains("no sizeScale entry"), "{err}");
     }
 
     #[test]
