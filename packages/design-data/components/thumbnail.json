@@ -63,7 +63,7 @@
       ]
     },
     "src": { "type": "string" },
-    "hideImage": {
+    "showImage": {
       "type": "boolean",
       "default": false
     },
@@ -86,8 +86,8 @@
     },
     {
       "name": "image",
-      "description": "The picture shown in the thumbnail (the src option); optional via Show image.",
-      "presentWhen": { "options": { "hideImage": false } }
+      "description": "The picture shown in the thumbnail (the src option); drawn only when showImage is true (default false, the Figma Show image default).",
+      "presentWhen": { "options": { "showImage": true } }
     }
   ],
   "anatomyReview": {
