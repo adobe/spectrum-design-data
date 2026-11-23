@@ -13,11 +13,11 @@
 // profile (the CLI). `s`, not `z`: `z` is 10 KB smaller but a scene takes 0.2 ms against
 // 0.125 ms, over the latency budget. wasm-opt is off (see Cargo.toml).
 import { execFileSync } from "node:child_process";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { rmSync } from "node:fs";
 
-const cwd = dirname(fileURLToPath(import.meta.url + "/.."));
+const cwd = fileURLToPath(new URL("..", import.meta.url));
 const target = process.argv[2] ?? "nodejs";
 const outDir = `pkg/${target === "nodejs" ? "node" : target}`;
 const profile = {
