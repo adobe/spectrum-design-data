@@ -50,7 +50,8 @@
     "token-naming-audit:ci",
     "root:validate-platform-recipes",
     "root:test-platform-recipes-e2e",
-    "figma-spec-plugin:test"
+    "figma-spec-plugin:test",
+    "sdk-wasm-visual:test-progress-ring"
   ],
   "excludedFromCI": [
     "sdk-wasm-visual:build",
