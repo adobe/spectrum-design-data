@@ -1616,3 +1616,22 @@ rules:
     message: "Gradient of part '{part}' of '{component}' {problem}"
     spec_ref: spec/component-visuals.md#value-sources
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-116
+    name: grid-and-nested-repeat-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A `grid` lays a root's cells out in columns; a `repeat` may sit inside a repeated copy, so
+      a tree can repeat its children level by level.
+    assert: >
+      `direction: grid` MUST be declared only on the root, a repeated part, or a `box` child of one,
+      and MUST come
+      with `columns`, a whole number from 1 through 100 (a literal) or a `dimension` option.
+      `columnGap` and `rowGap` literals MUST NOT be negative, and `columns`, `columnGap` and
+      `rowGap` MUST NOT be bound on a part whose direction is not `grid`. `repeat` MUST be
+      declared on such a part too, and repeats, grids and subtrees MUST NOT nest deeper than 6.
+    message: "Recipe of '{component}': {problem}"
+    spec_ref: spec/component-visuals.md#subtrees
+    introduced_in: "1.0.0-draft"

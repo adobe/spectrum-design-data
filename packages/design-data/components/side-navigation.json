@@ -140,6 +140,10 @@
       "type": "boolean",
       "default": false,
       "description": "Whether the item is disabled."
+    },
+    "sectionTitle": {
+      "type": "string",
+      "description": "Heading drawn above the items (Figma Side navigation title). Empty draws none."
     }
   },
   "slots": [
@@ -159,7 +163,12 @@
     },
     {
       "name": "section-header",
-      "description": "Heading above a group of items."
+      "description": "Heading above a group of items.",
+      "presentWhen": {
+        "options": {
+          "sectionTitle": true
+        }
+      }
     },
     {
       "name": "item",
@@ -167,8 +176,7 @@
       "required": true,
       "contains": [
         "selection-indicator",
-        "icon",
-        "label",
+        "row",
         "disclosure-button",
         "trailing-accessory-area",
         "focus-indicator"
@@ -176,7 +184,17 @@
     },
     {
       "name": "selection-indicator",
-      "description": "Selection bar at the edge of the item that marks the selected item. It is drawn inside the item and is present on the selected item only."
+      "description": "Selection bar at the edge of the item that marks the selected item. It is drawn inside the item and is present on the selected item only.",
+      "presentWhen": {
+        "options": {
+          "isSelected": true
+        }
+      }
+    },
+    {
+      "name": "row",
+      "description": "Row that holds the icon and the label, inside the item's padding.",
+      "contains": ["icon", "label"]
     },
     {
       "name": "icon",
@@ -197,7 +215,9 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused item.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     },
     {
       "name": "indicator",

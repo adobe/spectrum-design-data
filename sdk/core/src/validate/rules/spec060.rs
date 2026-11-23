@@ -190,14 +190,6 @@ impl ValidationRule for Rule {
                             }
                         }
                     }
-                    if v.raw.get("root").and_then(Value::as_str) != Some(key.as_str()) {
-                        out.push(error(
-                            self.id(),
-                            v,
-                            &path,
-                            format!("Part '{key}' declares repeat but is not the root; repeat is declared on the root part"),
-                        ));
-                    }
                 }
                 for field in ["around", "pressTarget"] {
                     let Some(target) = part.get(field).and_then(Value::as_str) else {
@@ -301,7 +293,8 @@ mod tests {
             .unwrap()
             .remove("repeat");
         r["parts"]["icon"]["repeat"] = json!({"slot": "default"});
-        assert_eq!(run(r).len(), 3);
+        // icon is not the anatomy parent of icon, and does not have it as a child.
+        assert_eq!(run(r).len(), 2);
     }
 
     #[test]

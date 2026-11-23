@@ -112,6 +112,30 @@
           "value": "xl"
         }
       ]
+    },
+    "stepState": {
+      "type": "string",
+      "default": "current default",
+      "description": "The state of the rendered step. Per-item in a data-driven component is items[].stepState.",
+      "values": [
+        {
+          "value": "completed default"
+        },
+        {
+          "value": "completed hover"
+        },
+        {
+          "value": "current default"
+        },
+        {
+          "value": "incomplete default"
+        }
+      ]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered step is disabled. Per-item in a data-driven component is items[].isDisabled."
     }
   },
   "slots": [
@@ -133,7 +157,12 @@
       "name": "step",
       "description": "A single step in the list; repeated once per entry of items.",
       "required": true,
-      "contains": ["visual", "label", "track"]
+      "contains": ["label", "row"]
+    },
+    {
+      "name": "row",
+      "description": "Row that holds the step's visual and its track.",
+      "contains": ["visual", "track"]
     },
     {
       "name": "visual",
@@ -151,7 +180,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web steplist page (.Step, Track 1-2, Track 2-3). There is no React Spectrum or SWC steplist. container added as the root. Decision A67 D4a: track is a child of step, absent on the last step, taking its step's completed or incomplete state; this goes against Figma's layer structure (n-1 Track instances on the container), so Design confirms through the steplist needs-decision bead. track-size deleted (a property name used as a part); step kept (the registry's step-item is removed)."
+    "notes": "Figma S2 Web steplist page (.Step, Track 1-2, Track 2-3). There is no React Spectrum or SWC steplist. container added as the root. Decision A67 D4a: track is a child of step, absent on the last step, taking its step's completed or incomplete state; this goes against Figma's layer structure (n-1 Track instances on the container), so Design confirms through the steplist needs-decision bead. track-size deleted (a property name used as a part); step kept (the registry's step-item is removed). Recipe: row added to hold the visual and the track beside each other under the label (Figma .Step)."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
