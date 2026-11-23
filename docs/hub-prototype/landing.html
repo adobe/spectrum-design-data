@@ -43,7 +43,7 @@
     <ul id="platforms"></ul>
     <p><a href="specs/">Component spec sheets and changelogs</a> (generated)</p>
     <script>
-      fetch("platforms.json")
+      fetch("platforms.json", { cache: "no-cache" })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((all) => {
           const list = document.getElementById("platforms");

@@ -24,7 +24,7 @@ const esc = (s) =>
 export async function platformSwitcher(platform, component, load = fetch) {
   if (!platform) return "";
   try {
-    const res = await load("../platforms.json");
+    const res = await load("../platforms.json", { cache: "no-cache" });
     if (!res.ok) return "";
     const all = await res.json();
     if (!Array.isArray(all)) return "";

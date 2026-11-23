@@ -28,9 +28,11 @@ small example app, and is plain about what you don't get yet.
 
 ## What you don't get
 
-- **Component styling.** shadcn's `Button` and `Badge` keep their own shapes,
-  sizes, radii and type. Only the colors come from Spectrum. A Spectrum badge is
-  a rectangle with a small radius, and shadcn's is a pill, for example.
+- **Component styling from our data.** shadcn's `Button` and `Badge` keep their
+  own shapes, sizes, radii and type. Only the colors come from Spectrum. A
+  Spectrum badge is a rectangle with a small radius, and shadcn's is a pill, for
+  example. For Button and Action button you can add Spectrum's shapes and sizes
+  with Spectrum Web Components' CSS (see below).
 - **Typography.** Composite tokens such as type styles and shadows are skipped.
   The theme includes the font family name (`Adobe Clean Spectrum VF`), but the
   font is licensed and isn't loaded for you.
@@ -111,17 +113,57 @@ If your components live in a gitignored folder, tell Tailwind to scan it with
 `@source "./components";`. Tailwind v4 skips gitignored paths when it looks for
 class names, and the buttons end up unstyled.
 
+## Spectrum shapes and sizes with Spectrum Web Components' CSS
+
+Spectrum Web Components (gen 2) publishes light-DOM stylesheets for Button and
+Action button in `@adobe/spectrum-wc`. They style native elements through BEM
+class names, with no web component involved, and read the same token variables
+as the theme, under the name `--swc-<token>`.
+
+```html
+<button type="button" class="swc-Button swc-Button--accent swc-Button--sizeL">
+  <span class="swc-Button-label">Save</span>
+</button>
+<button type="button" class="swc-ActionButton swc-ActionButton--quiet">
+  <span class="swc-ActionButton-label">Edit</span>
+</button>
+```
+
+To use them with the theme, install `@adobe/spectrum-wc` and rename the token
+variables in `dist/global-button.css` and `dist/global-action-button.css` from
+`--swc-` to `--spectrum-`, so they read the theme's variables. Keep the
+component hooks (`--swc-button-gap` and similar) as they are. The example's
+`scripts/swc-css.mjs` does this, and the stylesheets then render Button in four
+sizes (S to XL) and the primary, secondary, accent, negative and outline
+variants, in light and dark.
+
+What to know before relying on it:
+
+- **It's SWC's CSS, not generated from Spectrum design data.** The files are
+  Apache-2.0 with an Adobe copyright header, the same as this repository. The
+  example doesn't commit them. `npm run setup` copies and renames them from the
+  published package into a gitignored folder, and the package is pinned to
+  `2.0.0-beta.7`. Registry items don't include them.
+- **It's a beta.** Class names and values can change between releases.
+- **Values can differ from ours.** SWC pins an older version of
+  `@adobe/spectrum-tokens` (15.6.0, and the theme is generated from 15.9.1).
+  Comparing the two token sets, 1,597 of 1,725 shared names matched exactly,
+  and the rest are mostly small differences.
+- **Only Button and Action button.** SWC has no light-DOM Badge stylesheet yet,
+  so the example's Badge stays shadcn's.
+
 ## Try the example
 
 `sdk/plugins/shadcn/examples/quickstart` is a Vite, React and Tailwind v4 app
-with a light and dark toggle, five button variants plus a disabled one, three
-sizes and four badges. Build the CLI (`moon run sdk:build`) and put `target/debug` on your
+with a light and dark toggle: shadcn's buttons and badges in Spectrum colors,
+and Spectrum's Button and Action button from SWC's CSS in several variants and
+sizes. Build the CLI (`moon run sdk:build`) and put `target/debug` on your
 `PATH`, then:
 
 ```bash
 cd sdk/plugins/shadcn/examples/quickstart
 npm install
-npm run setup   # writes spectrum-theme.json, adds the theme, button and badge
+npm run setup   # theme, shadcn button and badge, and SWC's CSS
 npm run dev
 ```
 
@@ -144,7 +186,7 @@ adding one installs it too.
 
 ## What's next
 
-Generating component styles from Spectrum's visual recipes, so shadcn
-components match Spectrum's shapes and sizes as well as its colors, is not done.
-Until it is, treat this as a Spectrum palette for shadcn, not Spectrum
-components.
+Generating component styles from Spectrum's visual recipes, so every component
+matches Spectrum's shapes and sizes and not only Button and Action button, is
+not done. Until it is, treat this as a Spectrum palette for shadcn, plus SWC's
+Button and Action button where you want Spectrum's shapes.

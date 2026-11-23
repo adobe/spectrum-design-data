@@ -16,8 +16,17 @@
 
 import { iconRequest } from "./content-controls.js";
 
+// The build id the page stamped on this module's URL (`backend.js?v=<id>`); every fetch carries
+// it so a redeploy that keeps file names cannot serve stale data. Empty when loaded bare.
+const v = new URL(import.meta.url).searchParams.get("v");
+const url = (path) => {
+  const u = new URL(path, import.meta.url);
+  if (v) u.searchParams.set("v", v);
+  return u;
+};
+
 const json = async (path) => {
-  const r = await fetch(new URL(path, import.meta.url));
+  const r = await fetch(url(path));
   if (!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
   return r.json();
 };
@@ -33,7 +42,7 @@ const loadData = once(async () => (data = await json("./data.json")));
 // the committed default), sent with every request so labels measure the same here as in
 // `design-data render`. Kept as text: it is spliced into the request JSON, not re-serialized.
 const loadMetrics = once(async () => {
-  const r = await fetch(new URL("./text-metrics.json", import.meta.url));
+  const r = await fetch(url("./text-metrics.json"));
   if (!r.ok) throw new Error(`text-metrics.json: HTTP ${r.status}`);
   return (await r.text()).trim();
 });
@@ -41,7 +50,9 @@ const loadMetrics = once(async () => {
 const loadEngine = once(async () => {
   try {
     const m = await import("./engine/design_data_wasm_visual.js");
-    await m.default();
+    await m.default({
+      module_or_path: url("./engine/design_data_wasm_visual_bg.wasm"),
+    });
     return m.Engine;
   } catch (e) {
     throw new Error(

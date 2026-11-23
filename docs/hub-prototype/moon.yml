@@ -29,6 +29,12 @@ tasks:
       - "dist"
     options:
       runInCI: false
+  verify-dist:
+    command: node scripts/verify-dist.mjs
+    deps:
+      - build
+    options:
+      runInCI: false
   test:
     command: node --test test
     inputs:
