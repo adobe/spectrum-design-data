@@ -172,18 +172,6 @@
               "property": "content-color",
               "part": "item"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "part": "item"
-            },
-            "priority": 10
           }
         ]
       }
@@ -203,25 +191,12 @@
             "part": "label"
           }
         },
-        "fontWeight": [
-          {
-            "relationship": {
-              "property": "font-weight",
-              "part": "label"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isSelected": true
-              }
-            },
-            "relationship": {
-              "property": "font-weight",
-              "part": "label"
-            }
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "label"
           }
-        ],
+        },
         "lineHeight": {
           "relationship": {
             "property": "line-height",
@@ -234,18 +209,6 @@
               "property": "content-color",
               "part": "item"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "part": "item"
-            },
-            "priority": 10
           }
         ]
       }

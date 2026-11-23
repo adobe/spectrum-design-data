@@ -105,18 +105,6 @@
               "property": "content-color",
               "part": "label"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "part": "label"
-            },
-            "priority": 10
           }
         ]
       }
@@ -124,7 +112,7 @@
     "thumbnail": {
       "kind": "component",
       "sizeMap": {
-        "m": "500"
+        "m": "300"
       },
       "with": {
         "isDisabled": {
@@ -165,18 +153,6 @@
               "property": "content-color",
               "part": "label"
             }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "content-color",
-              "part": "label"
-            },
-            "priority": 10
           }
         ],
         "grow": {
@@ -187,13 +163,14 @@
     "actions": {
       "kind": "slot",
       "sizeMap": {
-        "m": "m"
+        "m": "s"
       },
       "with": {
         "hideLabel": true,
         "isDisabled": {
           "option": "isDisabled"
-        }
+        },
+        "isQuiet": true
       },
       "props": {
         "direction": {

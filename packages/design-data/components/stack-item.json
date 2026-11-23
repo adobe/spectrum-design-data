@@ -74,7 +74,7 @@
       "description": "Selection checkbox shown in a selection mode.",
       "presentWhen": {
         "options": {
-          "hasCheckbox": true
+          "selectionStyle": "checkbox"
         }
       }
     },
@@ -140,11 +140,6 @@
       "default": false,
       "description": "Whether the row is disabled."
     },
-    "hasCheckbox": {
-      "type": "boolean",
-      "default": false,
-      "description": "Whether the row shows its selection checkbox (Figma Selection mode: Checkbox)."
-    },
     "visual": {
       "type": "string",
       "description": "The visual at the start of the content: an icon or a thumbnail. Unset draws neither.",
@@ -154,6 +149,18 @@
         },
         {
           "value": "thumbnail"
+        }
+      ]
+    },
+    "selectionStyle": {
+      "type": "string",
+      "description": "How a selected row shows selection: a checkbox or a highlight (React Spectrum S2 selectionStyle). Unset draws no selection UI. Only the checkbox is drawn.",
+      "values": [
+        {
+          "value": "checkbox"
+        },
+        {
+          "value": "highlight"
         }
       ]
     }

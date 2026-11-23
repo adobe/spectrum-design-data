@@ -254,7 +254,8 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let items = serde_json::json!([
             { "label": "Home", "isSelected": true },
             { "label": "Projects" },
-            { "label": "Settings", "isDisabled": true }
+            { "label": "Settings", "isDisabled": true },
+            { "label": "Archive", "isSelected": true, "isDisabled": true }
         ]);
         let with = |states: Vec<String>, scheme: &str, scale: &str| {
             let mut o = HashMap::from([
@@ -304,7 +305,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 r.width = Some(306.0);
                 r
             };
-        let cb = ("hasCheckbox", Value::Bool(true));
+        let cb = ("selectionStyle", Value::String("checkbox".into()));
         out.push((
             "selected-checkbox-icon",
             row(
@@ -337,6 +338,21 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "light",
                 "desktop",
                 "Disabled row",
+            ),
+        ));
+        out.push((
+            "selected-disabled",
+            row(
+                &[
+                    cb.clone(),
+                    ("visual", "icon".into()),
+                    ("isSelected", true.into()),
+                    ("isDisabled", true.into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "Selected disabled row",
             ),
         ));
         out.push((
