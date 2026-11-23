@@ -298,6 +298,28 @@
           "metadata": {"count":10,"fields":["anatomyReview.status","context","contextPart","contextRole","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "71a0014bd670c3e6b750ded51b28fa1feee811be",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2074,"title":"feat(design-data): add tooltip and popover visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2074"},
+          "entries": [
+            {"id":"71a0014b-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip-bottom","name":"tip-bottom","fields":[],"after":{"name":"tip-bottom","description":"Tip on the bottom edge of the container, drawn when the placement is top.","presentWhen":{"options":{"placement":"top"}}}},
+            {"id":"71a0014b-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip-end","name":"tip-end","fields":[],"after":{"name":"tip-end","description":"Tip on the end edge of the container, drawn when the placement is left.","presentWhen":{"options":{"placement":"left"}}}},
+            {"id":"71a0014b-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip-start","name":"tip-start","fields":[],"after":{"name":"tip-start","description":"Tip on the start edge of the container, drawn when the placement is right.","presentWhen":{"options":{"placement":"right"}}}},
+            {"id":"71a0014b-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip-top","name":"tip-top","fields":[],"after":{"name":"tip-top","description":"Tip on the top edge of the container, drawn when the placement is bottom.","presentWhen":{"options":{"placement":"bottom"}}}},
+            {"id":"71a0014b-4","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip","name":"tip","fields":[{"path":"description","before":"Small pointer on the bubble edge toward the source. A top-level sibling of the container. Absent with the no-tip placement.","after":"Small pointer on the bubble edge toward the source. A top-level sibling of the container. It is drawn by the placement part that matches the placement: tip-bottom (placement top), tip-top (bottom), tip-end (left) and tip-start (right)."}]},
+            {"id":"71a0014b-5","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/visual","name":"tooltip","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

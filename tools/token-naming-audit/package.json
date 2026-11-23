@@ -1,6 +1,6 @@
 {
   "name": "@adobe/token-naming-audit",
-  "version": "0.1.114",
+  "version": "0.1.115",
   "private": true,
   "description": "Audit tool that reports string-name token debt and overloaded property-field values",
   "type": "module",
