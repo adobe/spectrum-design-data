@@ -412,6 +412,31 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "c148ebc969a000dfcaefe717addec91b52341929",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2085,"title":"feat(design-data): add breadcrumbs and steplist visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2085"},
+          "entries": [
+            {"id":"c148ebc9-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (breadcrumb item/title to separator icon)"],"scope":{"property":"space-between","options":{"isMultiline":false,"size":"l"}},"record":"c9d1eb2f-4e01-5416-8c29-78c7d1238172","name":"space-between[isMultiline=?,size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"c148ebc9-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start and end edge to text)"],"scope":{"property":"space-between","options":{"isMultiline":false,"size":"l"}},"record":"7be91130-4dd3-5682-8051-e44601ab43cd","name":"space-between[isMultiline=?,size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"c148ebc9-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to separator icon)"],"scope":{"property":"space-between","options":{"isMultiline":false,"size":"l"}},"record":"938e6caa-c9be-59eb-8d57-e9ee66c1ab5a","name":"space-between[isMultiline=?,size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"c148ebc9-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to separator icon)"],"scope":{"property":"space-between","options":{"isMultiline":false,"size":"l"}},"record":"2dbba339-accf-5157-9dc2-0b9268acc6d1","name":"space-between[isMultiline=?,size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"c148ebc9-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Breadcrumb item and title"],"scope":{"property":"content-color","options":{"isDisabled":true}},"record":"54f059a8-568b-5e9e-8d9b-3fc6c7fb4237","name":"content-color[isDisabled=?]","fields":[{"path":"scope.options.isDisabled","after":true}]},
+            {"id":"c148ebc9-5","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/options/isCurrent","name":"isCurrent","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered item is the current page. Per-item in a data-driven component is items[].isCurrent."}},
+            {"id":"c148ebc9-6","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered item is disabled. Per-item in a data-driven component is items[].isDisabled."}},
+            {"id":"c148ebc9-7","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"breadcrumbs/anatomy/separator","name":"separator","fields":[{"path":"presentWhen.options.separator","after":"chevron"}]},
+            {"id":"c148ebc9-8","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"breadcrumbs/visual","name":"breadcrumbs","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

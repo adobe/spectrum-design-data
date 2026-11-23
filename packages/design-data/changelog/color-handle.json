@@ -244,6 +244,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "1501aeed0277a01d90e98f63e9a3e500af8242e8",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2078,"title":"feat(design-data): add color-slider and color-area visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2078"},
+          "entries": [
+            {"id":"1501aeed-0","kind":"option","change":"updated","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-handle/options/color","name":"color","fields":[{"path":"$ref","before":"https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"},{"path":"type","after":"string"}]},
+            {"id":"1501aeed-1","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-handle/options/color","name":"color","fields":[{"path":"description","before":"The sampled color shown inside the handle: always one solid color, possibly with alpha.","after":"The sampled color shown inside the handle: always one solid color, possibly with alpha. A CSS color string the renderer reads as a solid color: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba() or transparent."}]}
+          ]
+        }
+      ]
     }
   ]
 }

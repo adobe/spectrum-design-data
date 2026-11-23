@@ -202,6 +202,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "1501aeed0277a01d90e98f63e9a3e500af8242e8",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2078,"title":"feat(design-data): add color-slider and color-area visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2078"},
+          "entries": [
+            {"id":"1501aeed-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"The lower channel layer of the area gradient, computed from the color and the channels.","presentWhen":{"options":{"isDisabled":false,"color":true}}}},
+            {"id":"1501aeed-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/anatomy/overlay","name":"overlay","fields":[],"after":{"name":"overlay","description":"The upper channel layer, drawn over the lower one.","presentWhen":{"options":{"isDisabled":false,"color":true}}}},
+            {"id":"1501aeed-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-area/anatomy/container","name":"container","fields":[{"path":"contains","before":["color-handle"],"after":["fill","overlay","color-handle"]}]},
+            {"id":"1501aeed-3","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"color-area/visual","name":"color-area","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }
