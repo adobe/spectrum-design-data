@@ -127,6 +127,29 @@ struct TuiArgs {
     snapshot_ansi: bool,
 }
 
+/// Load the relationships catalog into `graph`: the resolved directory, else a
+/// `relationships/` sibling of the tokens root (as `convert_dir` does). The shadcn
+/// theme needs them for the component-scoped legacy tokens.
+fn with_relationships_for_theme(
+    graph: TokenGraph,
+    resolved: &data_source::ResolvedData,
+) -> miette::Result<TokenGraph> {
+    let dir = resolved.relationships.clone().or_else(|| {
+        resolved
+            .tokens_root
+            .parent()
+            .map(|parent| parent.join("relationships"))
+            .filter(|dir| dir.is_dir())
+    });
+    let Some(dir) = dir else {
+        return Ok(graph);
+    };
+    let relationships = TokenGraph::load_spec_relationships(&dir)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+    Ok(graph.with_relationships(relationships))
+}
+
 // Parsed once at startup, so the size of the largest variant (`Render`) costs nothing.
 #[allow(clippy::large_enum_variant)]
 #[derive(Subcommand)]
@@ -3594,6 +3617,10 @@ fn run_export(
     .into_diagnostic()
     .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
+    if matches!(format, ExportFormat::ShadcnTheme) {
+        graph = with_relationships_for_theme(graph, &resolved)?;
+    }
+
     let restrictions = manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
@@ -4736,6 +4763,7 @@ fn run_shadcn_registry(
                     resolved.tokens_root.display()
                 )
             })?;
+            graph = with_relationships_for_theme(graph, &resolved)?;
             let mut ctx = ResolutionContext::new();
             let restrictions = manifest::apply_configured(&mut graph, &resolved)
                 .into_diagnostic()

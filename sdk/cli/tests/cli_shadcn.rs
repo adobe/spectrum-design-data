@@ -380,3 +380,40 @@ fn export_shadcn_theme_ignores_requested_color_scheme_for_keys() {
     };
     assert_eq!(run("light"), run("dark"));
 }
+
+#[test]
+fn shadcn_theme_has_component_tokens_and_css_ready_values() {
+    let output = Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "export",
+            repo_path("packages/design-data/tokens")
+                .to_str()
+                .expect("utf8 path"),
+            "--format",
+            "shadcn-theme",
+            "--mode-sets-path",
+            repo_path("packages/design-data/mode-sets")
+                .to_str()
+                .expect("utf8 path"),
+        ])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let doc: Value = serde_json::from_slice(&output).expect("valid JSON");
+    let theme = doc["cssVars"]["theme"].as_object().expect("theme vars");
+
+    // Component-scoped legacy tokens come from the relationships catalog.
+    assert_eq!(theme["spectrum-avatar-border-width"], "1px");
+    assert_eq!(theme["spectrum-action-bar-height"], "56px");
+    // Font weights are numbers, radii and gradient stops are percentages.
+    assert_eq!(theme["spectrum-medium-font-weight"], "500");
+    assert_eq!(theme["spectrum-black-font-weight"], "900");
+    assert_eq!(theme["spectrum-corner-radius-full"], "50%");
+    assert_eq!(theme["spectrum-gradient-stop-1-genai"], "0%");
+    assert!(theme["spectrum-sans-font-family-stack"]
+        .as_str()
+        .is_some_and(|stack| stack.ends_with("sans-serif")));
+}
