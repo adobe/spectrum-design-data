@@ -25,10 +25,10 @@
 
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { join } from 'node:path';
 import { rmSync } from 'node:fs';
 
-const cwd = dirname(fileURLToPath(import.meta.url + '/..'));
+const cwd = fileURLToPath(new URL('..', import.meta.url));
 const noOpt = process.env.WASM_NO_OPT === '1' ? ['--no-opt'] : [];
 
 function build(target, outDir) {
