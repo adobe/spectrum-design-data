@@ -216,6 +216,16 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         out.push(("five-steps-size-l", wide("l", "light", "desktop")));
         out.push(("five-steps-size-xl", wide("xl", "light", "desktop")));
         out.push(("five-steps-dark-mobile", wide("m", "dark", "mobile")));
+        let emphasized = |scheme: &str, scale: &str| {
+            let mut r = wide("m", scheme, scale);
+            r.options.insert("variant".into(), "emphasized".into());
+            r
+        };
+        out.push(("five-steps-emphasized", emphasized("light", "desktop")));
+        out.push((
+            "five-steps-emphasized-dark-mobile",
+            emphasized("dark", "mobile"),
+        ));
     }
     // Collections: selected, unselected and disabled items side by side, in each layout the
     // recipe draws (tabs horizontal and vertical, segmented control with and without a track).

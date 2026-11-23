@@ -410,7 +410,8 @@
       "part": "label",
       "property": "content-color",
       "options": {
-        "stepState": "current default"
+        "stepState": "current default",
+        "variant": "default"
       }
     },
     "context": "Step text",
@@ -433,7 +434,11 @@
     "scope": {
       "component": "steplist",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "variant": "emphasized",
+        "stepState": "current default"
+      }
     },
     "context": "Step text",
     "contextRole": ["label"],
@@ -459,7 +464,8 @@
       "attribute": "background",
       "options": {
         "colorScheme": "light",
-        "stepState": "completed default"
+        "stepState": "completed default",
+        "variant": "default"
       }
     },
     "context": "Step visual",
@@ -475,7 +481,8 @@
       "attribute": "background",
       "options": {
         "colorScheme": "dark",
-        "stepState": "completed default"
+        "stepState": "completed default",
+        "variant": "default"
       }
     },
     "context": "Step visual",
@@ -491,7 +498,8 @@
       "attribute": "background",
       "options": {
         "colorScheme": "wireframe",
-        "stepState": "completed default"
+        "stepState": "completed default",
+        "variant": "default"
       }
     },
     "context": "Step visual",
@@ -507,7 +515,8 @@
       "attribute": "background",
       "options": {
         "colorScheme": "light",
-        "stepState": "completed hover"
+        "stepState": "completed hover",
+        "variant": "default"
       }
     },
     "context": "Step visual",
@@ -523,7 +532,8 @@
       "attribute": "background",
       "options": {
         "colorScheme": "dark",
-        "stepState": "completed hover"
+        "stepState": "completed hover",
+        "variant": "default"
       }
     },
     "context": "Step visual",
@@ -539,7 +549,8 @@
       "attribute": "background",
       "options": {
         "colorScheme": "wireframe",
-        "stepState": "completed hover"
+        "stepState": "completed hover",
+        "variant": "default"
       }
     },
     "context": "Step visual",
@@ -599,7 +610,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "stepState": "current default"
+        "stepState": "current default",
+        "variant": "default"
       }
     },
     "context": "Step visual",
@@ -671,7 +683,9 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "variant": "emphasized",
+        "stepState": ["completed default", "current default"]
       }
     },
     "context": "Step visual",
@@ -686,7 +700,9 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "variant": "emphasized",
+        "stepState": ["completed default", "current default"]
       }
     },
     "context": "Step visual",
@@ -701,7 +717,9 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "variant": "emphasized",
+        "stepState": ["completed default", "current default"]
       }
     },
     "context": "Step visual",
@@ -761,7 +779,9 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "variant": "emphasized",
+        "stepState": "completed hover"
       }
     },
     "context": "Step visual",
@@ -776,7 +796,9 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "variant": "emphasized",
+        "stepState": "completed hover"
       }
     },
     "context": "Step visual",
@@ -791,7 +813,9 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "variant": "emphasized",
+        "stepState": "completed hover"
       }
     },
     "context": "Step visual",
@@ -859,7 +883,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "light"
+        "colorScheme": "light",
+        "variant": "emphasized"
       }
     },
     "context": "Steplist track",
@@ -874,7 +899,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "dark"
+        "colorScheme": "dark",
+        "variant": "emphasized"
       }
     },
     "context": "Steplist track",
@@ -889,7 +915,8 @@
       "property": "color",
       "attribute": "background",
       "options": {
-        "colorScheme": "wireframe"
+        "colorScheme": "wireframe",
+        "variant": "emphasized"
       }
     },
     "context": "Steplist track",
@@ -909,7 +936,8 @@
           "completed hover",
           "current default",
           "incomplete default"
-        ]
+        ],
+        "variant": ["default", "emphasized"]
       }
     },
     "context": "Step text",
@@ -930,7 +958,8 @@
           "completed hover",
           "current default",
           "incomplete default"
-        ]
+        ],
+        "variant": ["default", "emphasized"]
       }
     },
     "context": "Step visual",

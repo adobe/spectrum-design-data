@@ -60,6 +60,19 @@
         }
       ]
     },
+    "variant": {
+      "type": "string",
+      "default": "default",
+      "description": "Visual emphasis of the step list: default draws neutral colours, emphasized draws accent colours.",
+      "values": [
+        {
+          "value": "default"
+        },
+        {
+          "value": "emphasized"
+        }
+      ]
+    },
     "items": {
       "type": "array",
       "description": "An array of step items in the step list.",
