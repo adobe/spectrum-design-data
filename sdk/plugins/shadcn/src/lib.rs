@@ -27,8 +27,10 @@
 //! come from `mode_ctx`, falling back to each mode set's declared default, so unset
 //! modes never resolve arbitrarily. `colorScheme` is set to `light` or `dark`.
 //!
-//! CSS variables are emitted only for tokens with a legacy key and a scalar
-//! DTCG value that can be represented as CSS. Tokens without a legacy key and
+//! CSS variables are emitted for tokens, and for component/token relationships
+//! (`graph.relationships`), that have a legacy key and a scalar DTCG value that can
+//! be represented as CSS. The caller must load relationships into the graph, or the
+//! component-scoped legacy tokens are missing. Tokens without a legacy key and
 //! composite values such as typography or shadow objects are skipped rather
 //! than assigned an invented property name or serialized as invalid CSS.
 use std::collections::{BTreeMap, HashMap};
@@ -43,6 +45,9 @@ use serde_json::{json, Map, Value};
 
 const REGISTRY_ITEM_SCHEMA: &str = "https://ui.shadcn.com/schema/registry-item.json";
 const REGISTRY_SCHEMA: &str = "https://ui.shadcn.com/schema/registry.json";
+
+/// Same stack as Spectrum Web Components' `sans-font-family-stack`.
+const SANS_FONT_FAMILY_STACK: &str = "adobe-clean-spectrum-vf, 'Adobe Clean Spectrum VF', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Trebuchet MS', 'Lucida Grande', sans-serif";
 
 /// Exports resolved tokens as a shadcn `registry:theme` registry item.
 pub struct ShadcnThemeExporter;
@@ -93,6 +98,11 @@ impl TokenExporter for ShadcnThemeExporter {
             }
             dark_vars.remove(&key);
         }
+        // The data holds the font family name but not a fallback stack, and Adobe Clean is
+        // licensed, so components need a stack that ends in fonts every platform has.
+        theme_vars
+            .entry("spectrum-sans-font-family-stack".to_string())
+            .or_insert_with(|| Value::String(SANS_FONT_FAMILY_STACK.to_string()));
         let to_map = |vars: BTreeMap<String, (String, bool)>| -> Map<String, Value> {
             vars.into_iter()
                 .map(|(key, (value, _))| (key, Value::String(value)))
@@ -133,13 +143,74 @@ fn css_vars(
         let Some(value) = entry.get("$value") else {
             continue;
         };
-        let Some(css_value) = dtcg_value_to_css(entry.get("$type"), value) else {
+        let Some(css_value) = css_value_for_key(&legacy_key, entry.get("$type"), value) else {
             continue;
         };
         let is_color = entry.get("$type").and_then(Value::as_str) == Some("color");
         vars.insert(format!("spectrum-{legacy_key}"), (css_value, is_color));
     }
+
+    // Component/token relationships carry the legacy tokens scoped to one component
+    // (`avatar-border-width`, `action-bar-height`, ...). They are not in `graph.tokens`,
+    // so resolve each `legacyKey` through its `$ref` or inline value. Like the tokens
+    // above, deprecated records are included: consumers pinned to older names still read them.
+    for relationship in &graph.relationships {
+        let Some(legacy_key) = relationship.raw.get("legacyKey").and_then(Value::as_str) else {
+            continue;
+        };
+        let var_name = format!("spectrum-{legacy_key}");
+        if vars.contains_key(&var_name) {
+            continue;
+        }
+        let Some(leaf) = graph.resolve_relationship_ref_in_context(legacy_key, ctx) else {
+            continue;
+        };
+        let doc = design_data_dtcg::token_to_dtcg_document_in_context(graph, leaf, ctx);
+        let Some(entry) = doc
+            .as_object()
+            .and_then(|document| document.values().next())
+        else {
+            continue;
+        };
+        let Some(value) = entry.get("$value") else {
+            continue;
+        };
+        let Some(css_value) = css_value_for_key(legacy_key, entry.get("$type"), value) else {
+            continue;
+        };
+        let is_color = entry.get("$type").and_then(Value::as_str) == Some("color");
+        vars.insert(var_name, (css_value, is_color));
+    }
     vars
+}
+
+/// [`dtcg_value_to_css`], then the CSS fixes that depend on the token's name.
+///
+/// * `*-font-weight` tokens hold the words `light` to `black`, which are not valid CSS
+///   `font-weight` values; they become 300 to 900.
+/// * `corner-radius-*` and `gradient-stop-*` tokens that hold a bare number (`0.5` for a
+///   full radius) are fractions; they become percentages (`50%`), which `border-radius`
+///   and gradient positions accept.
+fn css_value_for_key(key: &str, dtcg_type: Option<&Value>, value: &Value) -> Option<String> {
+    let css = dtcg_value_to_css(dtcg_type, value)?;
+    if key.contains("font-weight") {
+        let weight = match css.as_str() {
+            "light" => "300",
+            "regular" => "400",
+            "medium" => "500",
+            "bold" => "700",
+            "extra-bold" => "800",
+            "black" => "900",
+            _ => return Some(css),
+        };
+        return Some(weight.to_string());
+    }
+    if key.contains("corner-radius") || key.contains("gradient-stop") {
+        if let Ok(fraction) = css.parse::<f64>() {
+            return Some(format!("{}%", (fraction * 100.0 * 1e4).round() / 1e4));
+        }
+    }
+    Some(css)
 }
 
 /// Render a DTCG `$value` as a CSS-ready string, keyed off its `$type`. Scalars
@@ -542,7 +613,9 @@ fn write_json(path: &Path, value: &Value) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph, TokenRecord};
+    use design_data_core::graph::{
+        Layer, ModeSetRecord, RelationshipRecord, TokenGraph, TokenRecord,
+    };
     use std::path::PathBuf;
 
     fn record(name: &str, color_scheme: &str, value: &str) -> TokenRecord {
@@ -595,6 +668,71 @@ mod tests {
             json!("#2680eb")
         );
         assert_eq!(doc["type"], json!("registry:theme"));
+    }
+
+    #[test]
+    fn css_value_converts_font_weights_and_fractions() {
+        let word = |key: &str, value: &str| css_value_for_key(key, None, &json!(value));
+        for (name, weight) in [
+            ("light", "300"),
+            ("regular", "400"),
+            ("medium", "500"),
+            ("bold", "700"),
+            ("extra-bold", "800"),
+            ("black", "900"),
+        ] {
+            assert_eq!(
+                word(&format!("{name}-font-weight"), name).as_deref(),
+                Some(weight)
+            );
+        }
+        // Numbers and unrelated names pass through.
+        assert_eq!(word("body-font-weight", "400").as_deref(), Some("400"));
+        assert_eq!(word("bold-label", "bold").as_deref(), Some("bold"));
+        // Fractions become percentages; dimensions are left alone.
+        let number = |key: &str, value: f64| css_value_for_key(key, None, &json!(value));
+        assert_eq!(number("corner-radius-full", 0.5).as_deref(), Some("50%"));
+        assert_eq!(number("gradient-stop-1-genai", 0.0).as_deref(), Some("0%"));
+        assert_eq!(
+            number("gradient-stop-2-genai", 0.33).as_deref(),
+            Some("33%")
+        );
+        assert_eq!(word("corner-radius-100", "4px").as_deref(), Some("4px"));
+        assert_eq!(number("line-height-100", 1.3).as_deref(), Some("1.3"));
+    }
+
+    #[test]
+    fn export_includes_relationship_tokens_and_the_font_stack() {
+        let accent = record("t-light", "light", "#1473e6");
+        let graph = TokenGraph::from_pairs(vec![(
+            accent.name.clone(),
+            accent.file.clone(),
+            accent.raw.clone(),
+        )])
+        .with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("avatar.json"),
+            index: 0,
+            uuid: None,
+            raw: json!({
+                "scope": {"component": "avatar", "property": "border-width"},
+                "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                "value": "2px",
+                "legacyKey": "avatar-border-width",
+            }),
+        }]);
+
+        let ctx = ResolutionContext::new();
+        let winners = resolve_dataset(&graph, &ctx);
+        let doc = ShadcnThemeExporter.export(&graph, &winners, &ctx.mode_sets);
+
+        assert_eq!(
+            doc["cssVars"]["theme"]["spectrum-avatar-border-width"],
+            json!("2px")
+        );
+        assert!(doc["cssVars"]["theme"]["spectrum-sans-font-family-stack"]
+            .as_str()
+            .is_some_and(|stack| stack.starts_with("adobe-clean-spectrum-vf,")
+                && stack.ends_with("sans-serif")));
     }
 
     #[test]

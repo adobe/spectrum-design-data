@@ -26,7 +26,7 @@ When a platform manifest is selected (`--platform`, `DESIGN_DATA_PLATFORM`, or `
 ## Files
 
 * `shadcn-theme.sample.json`: output of `export --format shadcn-theme` against the embedded dataset.
-  It holds 778 color variables for each of `light` and `dark`, plus 648 scheme-independent non-color variables in `theme`.
+  It holds 834 color variables for each of `light` and `dark`, plus 1,874 scheme-independent non-color variables in `theme`.
 * `action-button.registry-item.sample.json`: the `action-button` item written by `shadcn registry`
   from `packages/design-data/components/action-button.json`.
 
@@ -37,6 +37,9 @@ The shadcn CLI adds the prefix itself. A key that starts with `--` produces `var
 
 Both color schemes are resolved from the graph. Scale and contrast come from `--scale` and `--contrast`, or the mode set default if you leave them out.
 Tokens without a legacy key, and composite tokens such as typography or shadow, are skipped.
+Component-scoped legacy tokens (`avatar-border-width`) come from the relationships catalog; deprecated ones are included, so consumers pinned to older names still resolve.
+Values are CSS-ready: `*-font-weight` tokens are numbers (300 to 900), and `corner-radius-*` and `gradient-stop-*` fractions are percentages (`corner-radius-full` is `50%`).
+`spectrum-sans-font-family-stack` is a font stack added by the exporter; the data has only the family name.
 
 shadcn mirrors every `light` and `dark` key into `@theme inline` as `var(--name)`, which is a self-reference for non-color values.
 So scheme-independent non-color values (sizes, widths) go in `cssVars.theme` as literals, which shadcn writes straight into `@theme inline`.
