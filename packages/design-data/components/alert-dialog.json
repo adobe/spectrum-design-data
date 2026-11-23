@@ -152,7 +152,7 @@
       "acceptsOnly": true,
       "min": 1,
       "max": 3,
-      "description": "The dialog actions, up to three buttons ordered by ascending importance."
+      "description": "The dialog actions, up to three buttons ordered by ascending importance. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22)."
     }
   ],
   "anatomy": [
@@ -160,12 +160,21 @@
       "name": "container",
       "description": "Dialog surface. It is the root and carries the width, rounding, padding and background.",
       "required": true,
-      "contains": ["icon", "title", "description", "button-group"]
+      "contains": ["header", "description", "footer"]
+    },
+    {
+      "name": "header",
+      "description": "Title row. Holds the title and, for the warning and error variants, the status icon at the end.",
+      "contains": ["title", "icon"]
     },
     {
       "name": "icon",
       "description": "Status icon beside the title, shown for the warning and error variants only.",
-      "presentWhen": { "options": { "variant": ["warning", "error"] } }
+      "presentWhen": {
+        "options": {
+          "variant": ["warning", "error"]
+        }
+      }
     },
     {
       "name": "title",
@@ -175,6 +184,11 @@
     {
       "name": "description",
       "description": "Explanatory text under the title."
+    },
+    {
+      "name": "footer",
+      "description": "Action row under the description. Holds the button group.",
+      "contains": ["button-group"]
     },
     {
       "name": "button-group",

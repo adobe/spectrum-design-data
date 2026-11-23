@@ -14,7 +14,7 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["icon", "title", "description", "button-group"],
+      "children": ["header", "description", "footer"],
       "props": {
         "direction": {
           "value": "column"
@@ -55,40 +55,6 @@
             "part": "container",
             "attribute": "background"
           }
-        },
-        "shadow": {
-          "shadow": [
-            {
-              "x": {
-                "token": {
-                  "structure": "drop-shadow",
-                  "property": "x",
-                  "variant": "elevated"
-                }
-              },
-              "y": {
-                "token": {
-                  "structure": "drop-shadow",
-                  "property": "y",
-                  "variant": "elevated"
-                }
-              },
-              "blur": {
-                "token": {
-                  "structure": "drop-shadow",
-                  "property": "blur",
-                  "variant": "elevated"
-                }
-              },
-              "color": {
-                "token": {
-                  "structure": "drop-shadow",
-                  "property": "color",
-                  "variant": "elevated"
-                }
-              }
-            }
-          ]
         },
         "paddingBlockStart": {
           "relationship": {
@@ -170,6 +136,9 @@
             "property": "color",
             "part": "title"
           }
+        },
+        "grow": {
+          "value": true
         }
       }
     },
@@ -271,6 +240,39 @@
             "property": "spacing",
             "scaleIndex": 200
           }
+        }
+      }
+    },
+    "header": {
+      "kind": "box",
+      "children": ["title", "icon"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "between": {
+              "from": "title",
+              "to": "icon"
+            }
+          }
+        }
+      }
+    },
+    "footer": {
+      "kind": "box",
+      "children": ["button-group"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "justify": {
+          "value": "end"
         }
       }
     }

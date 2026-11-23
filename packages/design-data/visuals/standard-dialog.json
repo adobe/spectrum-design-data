@@ -19,7 +19,7 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["title", "description", "footer-content", "button-group"],
+      "children": ["header", "body", "footer"],
       "props": {
         "direction": {
           "value": "column"
@@ -60,40 +60,6 @@
             "part": "container",
             "attribute": "background"
           }
-        },
-        "shadow": {
-          "shadow": [
-            {
-              "x": {
-                "token": {
-                  "structure": "drop-shadow",
-                  "property": "x",
-                  "variant": "elevated"
-                }
-              },
-              "y": {
-                "token": {
-                  "structure": "drop-shadow",
-                  "property": "y",
-                  "variant": "elevated"
-                }
-              },
-              "blur": {
-                "token": {
-                  "structure": "drop-shadow",
-                  "property": "blur",
-                  "variant": "elevated"
-                }
-              },
-              "color": {
-                "token": {
-                  "structure": "drop-shadow",
-                  "property": "color",
-                  "variant": "elevated"
-                }
-              }
-            }
-          ]
         },
         "paddingBlockStart": {
           "relationship": {
@@ -157,6 +123,9 @@
             "property": "color",
             "part": "title"
           }
+        },
+        "grow": {
+          "value": true
         }
       }
     },
@@ -247,6 +216,48 @@
             "between": {
               "from": "container",
               "to": "close-button"
+            }
+          }
+        }
+      }
+    },
+    "header": {
+      "kind": "box",
+      "children": ["title"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        }
+      }
+    },
+    "body": {
+      "kind": "box",
+      "children": ["description"],
+      "props": {
+        "direction": {
+          "value": "row"
+        }
+      }
+    },
+    "footer": {
+      "kind": "box",
+      "children": ["footer-content", "button-group"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "between": {
+              "from": "title",
+              "to": "description"
             }
           }
         }
