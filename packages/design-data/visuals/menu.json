@@ -21,7 +21,8 @@
           "isSelected": "isSelected",
           "isDisabled": "isDisabled",
           "value": "value",
-          "visual": "visual"
+          "hasIcon": "hasIcon",
+          "hasThumbnail": "hasThumbnail"
         }
       },
       "props": {

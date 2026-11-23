@@ -9,8 +9,8 @@ Add a visual recipe for menu.
   mark (single selection), nested checkbox or switch (multiple), icon or
   thumbnail, label and value, with hover and keyboard-focus fill and
   disabled colors. Sizes s, m, l and xl bind live base tokens.
-- Options: `isSelected`, `isDisabled`, `value` and `visual` (icon or
-  thumbnail) on the component, and `isSelected` and `visual` on
+- Options: `isSelected`, `isDisabled`, `value`, `hasIcon` and `hasThumbnail`
+  on the component, and `isSelected`, `hasIcon` and `hasThumbnail` on
   `items[]`. Anatomy parts checkmark, checkbox, switch, icon, thumbnail
   and value gain `presentWhen`.
 - The four menu-item `Rounding` records are pinned to a size (s 7px,

@@ -158,17 +158,15 @@
       "type": "string",
       "description": "The value text at the end of the rendered menu item. Per-item in a data-driven menu is items[].value."
     },
-    "visual": {
-      "type": "string",
-      "description": "The visual at the start of the rendered menu item: an icon or a thumbnail. Unset draws neither. Per-item in a data-driven menu is items[].visual.",
-      "values": [
-        {
-          "value": "icon"
-        },
-        {
-          "value": "thumbnail"
-        }
-      ]
+    "hasIcon": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered menu item shows a leading icon (Figma Show leading icon). Per-item in a data-driven menu is items[].hasIcon."
+    },
+    "hasThumbnail": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered menu item shows a thumbnail (Figma Show thumbnail). Per-item in a data-driven menu is items[].hasThumbnail."
     },
     "isCollapsible": {
       "type": "boolean",
@@ -197,9 +195,13 @@
             "type": "boolean",
             "default": false
           },
-          "visual": {
-            "type": "string",
-            "enum": ["icon", "thumbnail"]
+          "hasIcon": {
+            "type": "boolean",
+            "default": false
+          },
+          "hasThumbnail": {
+            "type": "boolean",
+            "default": false
           },
           "isDisabled": {
             "type": "boolean",
@@ -276,13 +278,13 @@
     {
       "name": "icon",
       "description": "Leading icon of a menu item.",
-      "presentWhen": { "options": { "visual": "icon" } }
+      "presentWhen": { "options": { "hasIcon": true } }
     },
     {
       "name": "thumbnail",
       "component": "thumbnail",
       "description": "Thumbnail image of a menu item.",
-      "presentWhen": { "options": { "visual": "thumbnail" } }
+      "presentWhen": { "options": { "hasThumbnail": true } }
     },
     {
       "name": "label",

@@ -298,11 +298,11 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     // are drawn at the Figma width (240 less the popover padding the recipe leaves out).
     if name == "menu" {
         let items = serde_json::json!([
-            { "label": "Cut", "isSelected": true, "visual": "icon", "value": "⌘X" },
-            { "label": "Copy", "visual": "icon", "value": "⌘C" },
-            { "label": "Paste", "isDisabled": true, "visual": "icon" },
-            { "label": "Duplicate", "isSelected": true, "isDisabled": true, "visual": "thumbnail" },
-            { "label": "Rename", "visual": "thumbnail" }
+            { "label": "Cut", "isSelected": true, "hasIcon": true, "value": "⌘X" },
+            { "label": "Copy", "hasIcon": true, "value": "⌘C" },
+            { "label": "Paste", "isDisabled": true, "hasIcon": true },
+            { "label": "Duplicate", "isSelected": true, "isDisabled": true, "hasThumbnail": true },
+            { "label": "Rename", "hasThumbnail": true }
         ]);
         let case = |mode: &str, style: Option<&str>, size: &str, scheme: &str, scale: &str| {
             let mut o = HashMap::from([
