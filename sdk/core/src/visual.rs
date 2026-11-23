@@ -5097,7 +5097,9 @@ fn solve_root(
         };
         let sane = |v: f64| v.is_finite() && v.abs() <= MAX_FLOATING;
         let (offset, cross) = (offset.unwrap_or(0.0), cross.unwrap_or(0.0));
-        if !(sane(fw_n) && sane(fh_n) && fw_n > 0.0 && fh_n > 0.0 && sane(offset) && sane(cross)) {
+        // A nested component may be zero wide (a field label with no text): it draws nothing.
+        let wide = fw_n > 0.0 || (comp.is_some() && fw_n == 0.0);
+        if !(sane(fw_n) && sane(fh_n) && wide && fh_n > 0.0 && sane(offset) && sane(cross)) {
             cx.diags.push(format!(
                 "floating part '{id}' needs a positive width and height and an offset within {MAX_FLOATING}px; skipping it"
             ));
