@@ -144,12 +144,24 @@
       "name": "container",
       "description": "Root: owns the slider's length and minimum length.",
       "required": true,
-      "contains": ["field-label", "value", "track"]
+      "contains": [
+        "field-label",
+        "value",
+        "track",
+        "opacity-checkerboard",
+        "fill"
+      ]
     },
     {
       "name": "field-label",
       "component": "field-label",
-      "description": "The field label component above the track (Figma Field label instance, RSP FieldLabel)."
+      "description": "The field label component above the track (Figma Field label instance, RSP FieldLabel).",
+      "presentWhen": {
+        "options": {
+          "orientation": "horizontal",
+          "label": true
+        }
+      }
     },
     {
       "name": "value",
@@ -164,11 +176,22 @@
     {
       "name": "opacity-checkerboard",
       "component": "opacity-checkerboard",
-      "description": "Checkerboard behind the gradient so an opacity channel reads. Absent when disabled (Figma); sized m."
+      "description": "Checkerboard behind the gradient so an opacity channel reads. Absent when disabled (Figma); sized m.",
+      "presentWhen": {
+        "options": {
+          "isDisabled": false
+        }
+      }
     },
     {
       "name": "fill",
-      "description": "The channel gradient drawn over the checkerboard (Figma Color slider fill). Owner decision C5."
+      "description": "The channel gradient drawn over the checkerboard (Figma Color slider fill). Owner decision C5.",
+      "presentWhen": {
+        "options": {
+          "isDisabled": false,
+          "color": true
+        }
+      }
     },
     {
       "name": "color-handle",
@@ -180,7 +203,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component)."
+    "notes": "A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component). R4b (interim): the checkerboard and fill are also listed under container because the recipe stacks them in the root; the engine allows stack only on a root box. Remove those two entries from container.contains once stack is allowed on a non-root box."
   },
   "states": [
     {

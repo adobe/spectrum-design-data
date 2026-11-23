@@ -2086,6 +2086,142 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
+    // Color slider and color area: the ramps are computed from the color and the channels, so
+    // these set a color and the channels, the handle at several values (start, middle, end,
+    // unset), both orientations, disabled, dark and mobile. The options have no defaults.
+    if name == "color-slider" || name == "color-area" {
+        let s = |v: &str| Value::String(v.into());
+        type Opts = Vec<(&'static str, Value)>;
+        let mut cases: Vec<(&'static str, Opts, &str, &str)> = Vec::new();
+        if name == "color-slider" {
+            let base = |v: Option<f64>, ch: &str| -> Opts {
+                let mut o = vec![
+                    ("color", s("#e0457b")),
+                    ("channel", s(ch)),
+                    ("label", s("Hue")),
+                ];
+                if let Some(v) = v {
+                    o.push(("value", v.into()));
+                }
+                o
+            };
+            cases.push(("value-0", base(Some(0.0), "hue"), "light", "desktop"));
+            cases.push(("value-50", base(Some(50.0), "hue"), "light", "desktop"));
+            cases.push(("value-100", base(Some(100.0), "hue"), "light", "desktop"));
+            cases.push(("value-unset", base(None, "hue"), "light", "desktop"));
+            cases.push(("alpha", base(Some(50.0), "alpha"), "light", "desktop"));
+            cases.push((
+                "saturation",
+                base(Some(50.0), "saturation"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "lightness",
+                base(Some(50.0), "lightness"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "brightness",
+                base(Some(50.0), "brightness"),
+                "light",
+                "desktop",
+            ));
+            let mut o = base(Some(50.0), "red");
+            o.push(("colorSpace", s("rgb")));
+            cases.push(("rgb-red", o, "light", "desktop"));
+            cases.push(("dark-mobile", base(Some(50.0), "hue"), "dark", "mobile"));
+            cases.push(("wireframe", base(Some(50.0), "hue"), "wireframe", "desktop"));
+            let mut d = base(Some(50.0), "hue");
+            d.push(("isDisabled", true.into()));
+            cases.push(("disabled", d, "light", "desktop"));
+            for (label, v) in [
+                ("vertical-0", 0.0),
+                ("vertical-50", 50.0),
+                ("vertical-100", 100.0),
+            ] {
+                let mut o = base(Some(v), "hue");
+                o.push(("orientation", s("vertical")));
+                cases.push((label, o, "light", "desktop"));
+            }
+            let mut o = base(Some(25.0), "alpha");
+            o.push(("orientation", s("vertical")));
+            cases.push(("vertical-alpha-dark-mobile", o, "dark", "mobile"));
+        } else {
+            let base = |x: Option<f64>, y: Option<f64>, sp: &str, xc: &str, yc: &str| -> Opts {
+                let mut o = vec![
+                    ("color", s("#e0457b")),
+                    ("colorSpace", s(sp)),
+                    ("xChannel", s(xc)),
+                    ("yChannel", s(yc)),
+                ];
+                if let Some(x) = x {
+                    o.push(("x-value", x.into()));
+                }
+                if let Some(y) = y {
+                    o.push(("y-value", y.into()));
+                }
+                o
+            };
+            let hsl = |x, y| base(x, y, "hsl", "saturation", "lightness");
+            cases.push(("xy-0-0", hsl(Some(0.0), Some(0.0)), "light", "desktop"));
+            cases.push(("xy-50-50", hsl(Some(50.0), Some(50.0)), "light", "desktop"));
+            cases.push((
+                "xy-100-100",
+                hsl(Some(100.0), Some(100.0)),
+                "light",
+                "desktop",
+            ));
+            cases.push(("xy-75-25", hsl(Some(75.0), Some(25.0)), "light", "desktop"));
+            cases.push(("xy-unset", hsl(None, None), "light", "desktop"));
+            cases.push(("dark-mobile", hsl(Some(75.0), Some(25.0)), "dark", "mobile"));
+            cases.push((
+                "wireframe",
+                hsl(Some(75.0), Some(25.0)),
+                "wireframe",
+                "desktop",
+            ));
+            cases.push((
+                "hsb-sat-bright",
+                base(Some(75.0), Some(25.0), "hsb", "saturation", "brightness"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "hsl-hue-light",
+                base(Some(75.0), Some(25.0), "hsl", "hue", "lightness"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "hsb-bright-sat",
+                base(Some(25.0), Some(75.0), "hsb", "brightness", "saturation"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "rgb-plain-fill",
+                base(Some(75.0), Some(25.0), "rgb", "red", "green"),
+                "light",
+                "desktop",
+            ));
+            let mut d = hsl(Some(75.0), Some(25.0));
+            d.push(("isDisabled", true.into()));
+            cases.push(("disabled", d, "light", "desktop"));
+        }
+        for (label, extra, scheme, scale) in cases {
+            out.push((
+                label,
+                req(
+                    vec![],
+                    extra.into_iter().map(|(k, v)| (k.to_string(), v)).collect(),
+                    scheme,
+                    scale,
+                ),
+            ));
+        }
+    }
     // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
     // over the dark scheme, where the neutral colours would not show.
     if name == "close-button" {

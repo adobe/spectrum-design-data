@@ -164,7 +164,27 @@
       "name": "container",
       "description": "Two-dimensional gradient surface; border is container styling.",
       "required": true,
-      "contains": ["color-handle"]
+      "contains": ["fill", "overlay", "color-handle"]
+    },
+    {
+      "name": "fill",
+      "description": "The lower channel layer of the area gradient, computed from the color and the channels.",
+      "presentWhen": {
+        "options": {
+          "isDisabled": false,
+          "color": true
+        }
+      }
+    },
+    {
+      "name": "overlay",
+      "description": "The upper channel layer, drawn over the lower one.",
+      "presentWhen": {
+        "options": {
+          "isDisabled": false,
+          "color": true
+        }
+      }
     },
     {
       "name": "color-handle",
