@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-115",
+      "severity": "error",
+      "message_pattern": ".*Gradient of part 'container'.*both stops and ramp.*"
+    },
+    {
+      "rule_id": "SPEC-115",
+      "severity": "error",
+      "message_pattern": ".*Gradient of part 'track'.*chroma.*"
+    }
+  ]
+}

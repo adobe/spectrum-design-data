@@ -239,6 +239,12 @@ impl Color {
     }
 }
 
+/// Whether `channel` is one the ramps know: hue, saturation, lightness, brightness, red, green,
+/// blue or alpha.
+pub fn is_channel(channel: &str) -> bool {
+    Space::natural(channel).is_some()
+}
+
 /// The space and color a channel is varied in: the named `space`, else the color's own space
 /// when it has the channel, else the channel's natural space.
 fn working(color: Color, channel: &str, space: Option<Space>) -> Result<Color, String> {
