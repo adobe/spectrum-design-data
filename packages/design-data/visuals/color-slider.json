@@ -1,0 +1,291 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-slider",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["channel", "step", "length", "hover", "down", "keyboard-focus"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["opacity-checkerboard", "fill"],
+      "props": {
+        "direction": {
+          "value": "stack"
+        },
+        "width": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "length",
+              "part": "container"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "thickness",
+              "part": "track"
+            }
+          }
+        ],
+        "minWidth": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "minimum-length",
+              "part": "container"
+            }
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "thickness",
+              "part": "track"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "length",
+              "part": "container"
+            }
+          }
+        ],
+        "minHeight": [
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "minimum-length",
+              "part": "container"
+            }
+          }
+        ],
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "track"
+          }
+        },
+        "fill": {
+          "when": {
+            "options": {
+              "isDisabled": true
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "track"
+          }
+        },
+        "stroke": {
+          "when": {
+            "options": {
+              "isDisabled": false
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "track"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "track"
+          }
+        },
+        "strokeOver": {
+          "value": true
+        },
+        "strokeOpacity": {
+          "relationship": {
+            "property": "opacity",
+            "part": "track"
+          }
+        }
+      }
+    },
+    "opacity-checkerboard": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "inherit": ["width", "height", "cornerRadius"]
+    },
+    "fill": {
+      "kind": "box",
+      "props": {
+        "fill": {
+          "option": "gradient"
+        },
+        "width": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "length",
+              "part": "container"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "thickness",
+              "part": "track"
+            }
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "thickness",
+              "part": "track"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "length",
+              "part": "container"
+            }
+          }
+        ],
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "track"
+          }
+        }
+      }
+    },
+    "field-label": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "with": {
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "label": {
+          "option": "label"
+        }
+      },
+      "floating": {
+        "side": "top",
+        "align": "start",
+        "offset": {
+          "relationship": {
+            "property": "space-between",
+            "between": {
+              "from": "field-label",
+              "to": "track"
+            }
+          }
+        }
+      }
+    },
+    "color-handle": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "with": {
+        "color": {
+          "option": "color"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      },
+      "floating": {
+        "position": {
+          "x": [
+            {
+              "when": {
+                "options": {
+                  "orientation": "horizontal"
+                }
+              },
+              "min": {
+                "option": "minValue"
+              },
+              "max": {
+                "option": "maxValue"
+              },
+              "value": {
+                "option": "value"
+              }
+            }
+          ],
+          "y": [
+            {
+              "when": {
+                "options": {
+                  "orientation": "vertical"
+                }
+              },
+              "min": {
+                "option": "minValue"
+              },
+              "max": {
+                "option": "maxValue"
+              },
+              "value": {
+                "option": "value"
+              },
+              "invert": true
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-area",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["step", "hover", "down", "keyboard-focus", "width", "height"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["fill", "overlay"],
+      "props": {
+        "direction": {
+          "value": "stack"
+        },
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "minWidth": {
+          "relationship": {
+            "property": "minimum-width",
+            "part": "container"
+          }
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "minimum-height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "fill": {
+          "when": {
+            "options": {
+              "isDisabled": true
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "container"
+          }
+        },
+        "stroke": {
+          "when": {
+            "options": {
+              "isDisabled": false
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "container"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "container"
+          }
+        },
+        "strokeOver": {
+          "value": true
+        },
+        "strokeOpacity": {
+          "relationship": {
+            "property": "opacity",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "fill": {
+      "kind": "box",
+      "props": {
+        "fill": {
+          "option": "gradient"
+        },
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "color-handle": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "with": {
+        "color": {
+          "option": "color"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      },
+      "floating": {
+        "position": {
+          "x": {
+            "value": {
+              "option": "x-value"
+            },
+            "min": {
+              "option": "x-minValue"
+            },
+            "max": {
+              "option": "x-maxValue"
+            }
+          },
+          "y": {
+            "value": {
+              "option": "y-value"
+            },
+            "min": {
+              "option": "y-minValue"
+            },
+            "max": {
+              "option": "y-maxValue"
+            },
+            "invert": true
+          }
+        }
+      }
+    },
+    "overlay": {
+      "kind": "box",
+      "props": {
+        "fill": {
+          "option": "overlay"
+        },
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        }
+      }
+    }
+  }
+}

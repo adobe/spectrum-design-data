@@ -779,6 +779,10 @@
     "cornerRounding=\"full\",staticColor=\"white\"": "963a454d13f1feed",
     "cornerRounding=\"none\",staticColor=\"white\"": "1c8605cd2a1fb787"
   },
+  "color-area": {
+    "isDisabled=false": "147ffd5abddc4d7f",
+    "isDisabled=true": "ef8f989c6237b5d1"
+  },
   "color-handle": {
     "hasFill=false,isDisabled=false": "d97437c180fc05d3",
     "hasFill=false,isDisabled=true": "5c3de8c0e203c1f9",
@@ -788,6 +792,12 @@
   "color-loupe": {
     "hasFill=false": "65e597e09b80c18f",
     "hasFill=true": "409ad9501df9ebf7"
+  },
+  "color-slider": {
+    "isDisabled=false,orientation=\"horizontal\"": "974002373ae67e39",
+    "isDisabled=false,orientation=\"vertical\"": "a1012de27e9f20b9",
+    "isDisabled=true,orientation=\"horizontal\"": "68666a8c0e110e3d",
+    "isDisabled=true,orientation=\"vertical\"": "d0f29a1bfdfd3159"
   },
   "combo-box": {
     "isDisabled=false,isError=false,isRequired=false,necessityIndicator=\"icon\"": "c0fff652c5565a06",

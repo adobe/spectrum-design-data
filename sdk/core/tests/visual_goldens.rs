@@ -1745,6 +1745,105 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
+    // Color slider and color area: the host supplies the channel gradient and the selected color,
+    // so these set a hue ramp (and an alpha ramp over the checkerboard), the handle at several
+    // values (start, middle, end, unset), both orientations, disabled, dark and mobile.
+    if name == "color-slider" || name == "color-area" {
+        let s = |v: &str| Value::String(v.into());
+        let hue = "linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)";
+        let hue_v = hue.replace("to right", "to top");
+        let alpha = "linear-gradient(to right, #e0457b00, #e0457b)";
+        let sat = "linear-gradient(to right, #808080, #f00)";
+        let shade = "linear-gradient(to bottom, #00000000, #000)";
+        type Opts = Vec<(&'static str, Value)>;
+        let mut cases: Vec<(&'static str, Opts, &str, &str)> = Vec::new();
+        if name == "color-slider" {
+            let base = |v: Option<f64>, g: &str| -> Opts {
+                let mut o = vec![
+                    ("color", s("#e0457b")),
+                    ("gradient", s(g)),
+                    ("label", s("Hue")),
+                ];
+                if let Some(v) = v {
+                    o.push(("value", v.into()));
+                }
+                o
+            };
+            cases.push(("value-0", base(Some(0.0), hue), "light", "desktop"));
+            cases.push(("value-50", base(Some(50.0), hue), "light", "desktop"));
+            cases.push(("value-100", base(Some(100.0), hue), "light", "desktop"));
+            cases.push(("value-unset", base(None, hue), "light", "desktop"));
+            cases.push(("alpha", base(Some(50.0), alpha), "light", "desktop"));
+            cases.push(("dark-mobile", base(Some(50.0), hue), "dark", "mobile"));
+            cases.push(("wireframe", base(Some(50.0), hue), "wireframe", "desktop"));
+            let mut d = base(Some(50.0), hue);
+            d.push(("isDisabled", true.into()));
+            cases.push(("disabled", d, "light", "desktop"));
+            for (label, v) in [
+                ("vertical-0", 0.0),
+                ("vertical-50", 50.0),
+                ("vertical-100", 100.0),
+            ] {
+                let mut o = base(Some(v), &hue_v);
+                o.push(("orientation", s("vertical")));
+                cases.push((label, o, "light", "desktop"));
+            }
+            let mut o = base(Some(25.0), &hue_v);
+            o.push(("orientation", s("vertical")));
+            cases.push(("vertical-dark-mobile", o, "dark", "mobile"));
+        } else {
+            let base = |x: Option<f64>, y: Option<f64>| -> Opts {
+                let mut o = vec![
+                    ("color", s("#e0457b")),
+                    ("gradient", s(sat)),
+                    ("overlay", s(shade)),
+                ];
+                if let Some(x) = x {
+                    o.push(("x-value", x.into()));
+                }
+                if let Some(y) = y {
+                    o.push(("y-value", y.into()));
+                }
+                o
+            };
+            cases.push(("xy-0-0", base(Some(0.0), Some(0.0)), "light", "desktop"));
+            cases.push(("xy-50-50", base(Some(50.0), Some(50.0)), "light", "desktop"));
+            cases.push((
+                "xy-100-100",
+                base(Some(100.0), Some(100.0)),
+                "light",
+                "desktop",
+            ));
+            cases.push(("xy-75-25", base(Some(75.0), Some(25.0)), "light", "desktop"));
+            cases.push(("xy-unset", base(None, None), "light", "desktop"));
+            cases.push((
+                "dark-mobile",
+                base(Some(75.0), Some(25.0)),
+                "dark",
+                "mobile",
+            ));
+            cases.push((
+                "wireframe",
+                base(Some(75.0), Some(25.0)),
+                "wireframe",
+                "desktop",
+            ));
+            let mut d = base(Some(75.0), Some(25.0));
+            d.push(("isDisabled", true.into()));
+            cases.push(("disabled", d, "light", "desktop"));
+        }
+        for (label, extra, scheme, scale) in cases {
+            out.push((
+                label,
+                req(
+                    vec![],
+                    extra.into_iter().map(|(k, v)| (k.to_string(), v)).collect(),
+                    scheme,
+                    scale,
+                ),
+            ));
+        }
+    }
     // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
     // over the dark scheme, where the neutral colours would not show.
     if name == "close-button" {

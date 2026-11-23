@@ -84,6 +84,18 @@
     "isDisabled": {
       "type": "boolean",
       "default": false
+    },
+    "color": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
+      "description": "The selected color, shown inside the handle."
+    },
+    "gradient": {
+      "type": "string",
+      "description": "The first gradient of the area (the x channel), as a CSS linear-gradient() of solid colors. Unset draws no gradient."
+    },
+    "overlay": {
+      "type": "string",
+      "description": "The second gradient drawn over the first (the y channel), as a CSS linear-gradient() of solid colors with alpha. Unset draws none."
     }
   },
   "anatomy": [
@@ -91,7 +103,25 @@
       "name": "container",
       "description": "Two-dimensional gradient surface; border is container styling.",
       "required": true,
-      "contains": ["color-handle"]
+      "contains": ["fill", "overlay", "color-handle"]
+    },
+    {
+      "name": "fill",
+      "description": "The first gradient of the area, from the x channel, drawn over the container.",
+      "presentWhen": {
+        "options": {
+          "isDisabled": false
+        }
+      }
+    },
+    {
+      "name": "overlay",
+      "description": "The second gradient, from the y channel, drawn over the first.",
+      "presentWhen": {
+        "options": {
+          "isDisabled": false
+        }
+      }
     },
     {
       "name": "color-handle",
