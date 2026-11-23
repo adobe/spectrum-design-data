@@ -71,16 +71,31 @@
     {
       "name": "checkbox",
       "component": "checkbox",
-      "description": "Selection checkbox shown in a selection mode."
+      "description": "Selection checkbox shown in a selection mode.",
+      "presentWhen": {
+        "options": {
+          "hasCheckbox": true
+        }
+      }
     },
     {
       "name": "icon",
-      "description": "Leading icon of the item."
+      "description": "Leading icon of the item.",
+      "presentWhen": {
+        "options": {
+          "visual": "icon"
+        }
+      }
     },
     {
       "name": "thumbnail",
       "component": "thumbnail",
-      "description": "Thumbnail at the start of the content, used instead of the icon."
+      "description": "Thumbnail at the start of the content, used instead of the icon.",
+      "presentWhen": {
+        "options": {
+          "visual": "thumbnail"
+        }
+      }
     },
     {
       "name": "label",
@@ -101,7 +116,9 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused row.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     }
   ],
   "anatomyReview": {
@@ -111,5 +128,44 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "options": {
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the row is selected. Selected rows use the selected background."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the row is disabled."
+    },
+    "hasCheckbox": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the row shows its selection checkbox (Figma Selection mode: Checkbox)."
+    },
+    "visual": {
+      "type": "string",
+      "description": "The visual at the start of the content: an icon or a thumbnail. Unset draws neither.",
+      "values": [
+        {
+          "value": "icon"
+        },
+        {
+          "value": "thumbnail"
+        }
+      ]
+    }
+  },
+  "slots": [
+    {
+      "name": "actions",
+      "part": "actions",
+      "accepts": ["action-button"],
+      "acceptsOnly": true,
+      "max": 3,
+      "description": "Action buttons at the end of the row."
+    }
+  ]
 }

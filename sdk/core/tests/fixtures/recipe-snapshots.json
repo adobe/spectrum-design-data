@@ -1554,6 +1554,12 @@
     "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"horizontal\"": "c44e623c54c98f41",
     "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"vertical\"": "ef3d9c3305cb89b9"
   },
+  "side-navigation": {
+    "isDisabled=false,isSelected=false": "7266a2c5cb91516f",
+    "isDisabled=false,isSelected=true": "9e708295eed9c7e9",
+    "isDisabled=true,isSelected=false": "66460703dc7bf0db",
+    "isDisabled=true,isSelected=true": "3cd93dbbd8ef196f"
+  },
   "slider": {
     "hasFill=false,isDisabled=false,isEditable=false,isEmphasized=false,labelPosition=\"side\",trackStyle=\"ramp\"": "9e124af3ef5b95b7",
     "hasFill=false,isDisabled=false,isEditable=false,isEmphasized=false,labelPosition=\"side\",trackStyle=\"thick\"": "66f4dca5e4e96bab",
@@ -1651,6 +1657,24 @@
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"ramp\"": "1ffaad7335754b8b",
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"thick\"": "990622c79aa68b23",
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"thin\"": "dc21069c7d358d8b"
+  },
+  "stack-item": {
+    "hasCheckbox=false,isDisabled=false,isSelected=false,visual=\"icon\"": "42e5d17c5856ed7f",
+    "hasCheckbox=false,isDisabled=false,isSelected=false,visual=\"thumbnail\"": "51cd659ddeb214d3",
+    "hasCheckbox=false,isDisabled=false,isSelected=true,visual=\"icon\"": "b9aa5aa6ddca6d95",
+    "hasCheckbox=false,isDisabled=false,isSelected=true,visual=\"thumbnail\"": "363f5d9a50177beb",
+    "hasCheckbox=false,isDisabled=true,isSelected=false,visual=\"icon\"": "af5a3bf28b057dc9",
+    "hasCheckbox=false,isDisabled=true,isSelected=false,visual=\"thumbnail\"": "f971b0a11ae3a315",
+    "hasCheckbox=false,isDisabled=true,isSelected=true,visual=\"icon\"": "cddaf21f715b2541",
+    "hasCheckbox=false,isDisabled=true,isSelected=true,visual=\"thumbnail\"": "60b0e9d27ca60a45",
+    "hasCheckbox=true,isDisabled=false,isSelected=false,visual=\"icon\"": "a7f681fb4591878f",
+    "hasCheckbox=true,isDisabled=false,isSelected=false,visual=\"thumbnail\"": "f5d924da630750d9",
+    "hasCheckbox=true,isDisabled=false,isSelected=true,visual=\"icon\"": "8bacadda4eab0e49",
+    "hasCheckbox=true,isDisabled=false,isSelected=true,visual=\"thumbnail\"": "b4537049255b05db",
+    "hasCheckbox=true,isDisabled=true,isSelected=false,visual=\"icon\"": "d01178b1762ebfc5",
+    "hasCheckbox=true,isDisabled=true,isSelected=false,visual=\"thumbnail\"": "973610c6947d59b1",
+    "hasCheckbox=true,isDisabled=true,isSelected=true,visual=\"icon\"": "d5afc688cd42cc41",
+    "hasCheckbox=true,isDisabled=true,isSelected=true,visual=\"thumbnail\"": "4fb608a6ccd226ed"
   },
   "standard-dialog": {
     "(defaults)": "45235b80da8e12a9"

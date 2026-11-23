@@ -611,5 +611,191 @@
       "deprecatedComment": "Use semantic token base-gap-medium instead.",
       "replacedBy": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
     }
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (horizontal)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "horizontal",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
+    "uuid": "2922620d-cfe4-5adc-a340-5292e3616472"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "end-edge"
+      }
+    },
+    "context": "Spacing (horizontal)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "horizontal",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9",
+    "uuid": "094a621a-c9f0-5d31-80c6-73534ec90e04"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      }
+    },
+    "context": "Spacing (icon to label)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "icon to label",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "10c3acb1-3948-5c95-ba98-e4cfdcfce14a"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "state": ["default"]
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
+    "uuid": "3d86a28c-f11a-5bf6-9da2-d66215b83ac9"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "state": ["hover"]
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6",
+    "uuid": "503633e8-3591-559d-a69d-c2b6dfb23b3f"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "state": ["down"]
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "8ab4accc-bd95-48e0-ae3a-539740a07cc6",
+    "uuid": "82178de2-7c44-545b-b7c3-872d68ad5858"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "state": ["keyboard-focus"]
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3",
+    "uuid": "d016ab4e-f361-537a-9863-2b95d3464fb4"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "state": ["selected", "default"]
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "d58cd0e1-c754-55c6-aa17-640ee80d5fc0"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "state": ["selected", "hover"]
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
+    "uuid": "773de6f5-cf3d-52dc-87e8-eb31f131d4e8"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "state": ["selected", "down"]
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
+    "uuid": "934fa7b8-ec00-57d7-a21f-2961f517b7ac"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "state": ["selected", "keyboard-focus"]
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
+    "uuid": "f9b4f661-cc87-5250-9adb-6757078c02da"
+  },
+  {
+    "scope": {
+      "component": "stack-item",
+      "part": "label",
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
+    },
+    "context": "Label and icon",
+    "contextRole": ["label", "icon"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "69317a68-f0d8-5194-8b3a-05b1ecd0a341"
   }
 ]
