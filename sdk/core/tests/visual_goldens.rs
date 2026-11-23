@@ -2664,6 +2664,18 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             "photo-large-mobile",
             req(vec![], photo(&flag(stroke)), "light", "mobile"),
         ));
+        if name == "avatar" {
+            // `src` with another style is ignored: the image part is only present for User image.
+            out.push((
+                "photo-ignored-initials",
+                req(
+                    vec![],
+                    photo(&[("image", Value::String("initials".into()))]),
+                    "light",
+                    "desktop",
+                ),
+            ));
+        }
         if name == "thumbnail" {
             out.push((
                 "photo-hidden",
