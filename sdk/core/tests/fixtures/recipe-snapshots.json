@@ -327,6 +327,13 @@
     "isDismissible=true,variant=\"negative\"": "5794af0126af46a8",
     "isDismissible=true,variant=\"neutral\"": "9169e015d598c589"
   },
+  "alert-dialog": {
+    "variant=\"confirmation\"": "af4d600f4beaf597",
+    "variant=\"destructive\"": "f415cdc85302fd81",
+    "variant=\"error\"": "e805d77ea990478e",
+    "variant=\"information\"": "2ee5a5bfc4838629",
+    "variant=\"warning\"": "0fa0187803570566"
+  },
   "avatar": {
     "image=\"gradient image\",isDisabled=false,showStroke=false": "4765aa0cd656d6c0",
     "image=\"gradient image\",isDisabled=false,showStroke=true": "f505010275dd1972",
@@ -1244,6 +1251,9 @@
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"ramp\"": "1ffaad7335754b8b",
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"thick\"": "990622c79aa68b23",
     "hasFill=true,isDisabled=true,isEditable=true,isEmphasized=true,labelPosition=\"top\",trackStyle=\"thin\"": "dc21069c7d358d8b"
+  },
+  "standard-dialog": {
+    "(defaults)": "45235b80da8e12a9"
   },
   "standard-panel": {
     "density=\"compact\",hideCloseButton=false,hideDivider=false,hideDragHandle=false,style=\"primary\",type=\"anchored\"": "bc0169ebea5c5dbf",

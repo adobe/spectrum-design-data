@@ -1033,6 +1033,139 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
+    // Dialogs draw their copy and actions from the request: every golden carries a title, a
+    // description and buttons (an empty dialog hides the gap and slot bindings), then these
+    // cover each variant, size, button count, a hidden close button, mobile and a wrapped title.
+    if matches!(name, "alert-dialog" | "standard-dialog") {
+        let buttons =
+            |labels: &[&str]| -> HashMap<String, Vec<design_data_core::visual::SlotFill>> {
+                HashMap::from([(
+                    "button-group".to_string(),
+                    labels
+                        .iter()
+                        .map(|l| design_data_core::visual::SlotFill {
+                            component: "button".into(),
+                            options: {
+                                let (variant, style) = match *l {
+                                    "Cancel" => ("secondary", "outline"),
+                                    "Secondary" => ("secondary", "fill"),
+                                    _ => ("negative", "fill"),
+                                };
+                                HashMap::from([
+                                    ("label".to_string(), Value::from(*l)),
+                                    ("variant".to_string(), Value::from(variant)),
+                                    ("style".to_string(), Value::from(style)),
+                                ])
+                            },
+                        })
+                        .collect(),
+                )])
+            };
+        let copy = |r: &mut RenderRequest, title: &str| {
+            r.options.insert("title".into(), title.into());
+            r.options.insert(
+                "description".into(),
+                "Changes you made will be lost. This action cannot be undone.".into(),
+            );
+            r.slots = buttons(&["Cancel", "Delete"]);
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, "Delete project");
+        }
+        let size = out[0].1.size.clone();
+        let mut case = |label: &'static str,
+                        opts: &[(&str, Value)],
+                        size: &str,
+                        scheme: &str,
+                        scale: &str,
+                        labels: &[&str],
+                        title: &str| {
+            let mut r = req(vec![], HashMap::new(), scheme, scale);
+            for (k, v) in opts {
+                r.options.insert(k.to_string(), v.clone());
+            }
+            copy(&mut r, title);
+            r.size = size.into();
+            r.slots = buttons(labels);
+            out.push((label, r));
+        };
+        if name == "alert-dialog" {
+            for v in [
+                "confirmation",
+                "information",
+                "warning",
+                "destructive",
+                "error",
+            ] {
+                let (scheme, scale) = if v == "error" {
+                    ("dark", "mobile")
+                } else {
+                    ("light", "desktop")
+                };
+                let label: &'static str = match v {
+                    "confirmation" => "variant-confirmation",
+                    "information" => "variant-information",
+                    "warning" => "variant-warning",
+                    "destructive" => "variant-destructive",
+                    _ => "variant-error-dark-mobile",
+                };
+                case(
+                    label,
+                    &[("variant", v.into())],
+                    &size,
+                    scheme,
+                    scale,
+                    &["Cancel", "Secondary", "Delete"],
+                    "Delete project",
+                );
+            }
+            case(
+                "one-button",
+                &[("variant", "information".into())],
+                &size,
+                "light",
+                "desktop",
+                &["OK"],
+                "Update available",
+            );
+        } else {
+            for s in ["s", "m", "l"] {
+                let label: &'static str = match s {
+                    "s" => "size-s",
+                    "m" => "size-m",
+                    _ => "size-l",
+                };
+                case(
+                    label,
+                    &[],
+                    s,
+                    "light",
+                    "desktop",
+                    &["Cancel", "Secondary", "Delete"],
+                    "Delete project",
+                );
+            }
+            case(
+                "mobile-wireframe",
+                &[],
+                &size,
+                "wireframe",
+                "mobile",
+                &["Cancel", "Delete"],
+                "Delete project",
+            );
+            let mut r = req(vec![], HashMap::new(), "light", "desktop");
+            copy(&mut r, "Delete project");
+            r.slots.insert(
+                "footer-content".into(),
+                vec![design_data_core::visual::SlotFill {
+                    component: "checkbox".into(),
+                    options: HashMap::from([("label".to_string(), Value::from("Don't ask again"))]),
+                }],
+            );
+            out.push(("footer-checkbox", r));
+        }
+    }
     // Message family (in-line alert, alert banner, toast): the defaults draw an empty message,
     // so these set the copy and cover each variant, the in-line alert styles, a dismissible
     // banner, the dark and wireframe schemes, the mobile scale and a wrapped message.
