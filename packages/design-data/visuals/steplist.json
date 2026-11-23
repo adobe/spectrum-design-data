@@ -164,7 +164,12 @@
             },
             "when": {
               "options": {
-                "isDisabled": true
+                "isDisabled": true,
+                "stepState": [
+                  "completed default",
+                  "completed hover",
+                  "current default"
+                ]
               }
             },
             "priority": 10
