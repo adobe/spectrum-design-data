@@ -1,5 +1,64 @@
 # @adobe/spectrum-design-data
 
+## 4.4.0
+
+### Minor Changes
+
+- [#2094](https://github.com/adobe/spectrum-design-data/pull/2094) [`7f9260e`](https://github.com/adobe/spectrum-design-data/commit/7f9260eb9ee3c2de4829c4244ec3b4035e454e69) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `src` image option to avatar and thumbnail and draw it in their recipes.
+  - `avatar` and `thumbnail` gain a string option `src` (React Spectrum S2 `Avatar` `src`;
+    the thumbnail picture). A host passes a `data:image/png;base64` URI.
+  - The avatar `image` part draws `src` clipped to the circle for the User image style
+    (`presentWhen` image is `user image`); the thumbnail `image` part draws it over the
+    checkerboard, hidden by `hideImage`. With no `src` both draw the placeholder.
+  - Both containers now stack their parts: the thumbnail image no longer lands beside the frame.
+  - The Gradient image swirl artwork is still not drawn (qkj5.198).
+
+- [#2090](https://github.com/adobe/spectrum-design-data/pull/2090) [`a6f11f0`](https://github.com/adobe/spectrum-design-data/commit/a6f11f066167f6baff7966074daed551c1320146) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `months` collection slot to calendar.
+  - The calendar repeats a `month` part per entry of the new `months` option
+    (visibleMonths one to three). Each month holds a `title`, a `weekday-grid`
+    and a `day-grid`; the grids repeat `weekday-label` (option `weekdays`) and
+    `day` (the month's `days`).
+  - New anatomy registry terms: `month`, `weekday-grid`, `day-grid`.
+  - No recipe yet; the calendar and date-picker recipes follow.
+
+- [#2095](https://github.com/adobe/spectrum-design-data/pull/2095) [`c58d755`](https://github.com/adobe/spectrum-design-data/commit/c58d7552f51a359c06a70e0d6c54582487aa42b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a visual recipe for calendar.
+  - The calendar draws its months side by side, each a title, a weekday grid
+    and a day grid (nested repeat in the grid engine). Days draw a circle
+    that is filled when selected (accent, negative with `isError`), hover
+    fill, disabled text and the day number. Binds live tokens; day size is
+    the `size-500` token (32).
+  - Options: `isSelected`, `isRangeStart`, `isRangeEnd`, `isUnavailable` and
+    `isToday` on the component, and `label` on `days[]`. Anatomy gains a
+    `label` part in `day`, a `text` part in `weekday-label`, and
+    `presentWhen` on the current-day, unavailable and range-fill parts.
+  - Calendar relationships pin day colors to `isSelected` (and `isError`);
+    the selected text color now points at the live
+    `transparent-static-white-1000` instead of the deprecated `white`.
+  - Not drawn: previous and next buttons, help text, range band and ends,
+    today marker, unavailable strike, focus ring.
+  - SPEC-116 skips its placement check when no component catalog is loaded.
+  - Snapshots and goldens are regenerated. Legacy token output is unchanged.
+
+- [#2091](https://github.com/adobe/spectrum-design-data/pull/2091) [`bb3f543`](https://github.com/adobe/spectrum-design-data/commit/bb3f5435935c03cc4524010f8c0b8afea732e45d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `variant` option (`default`, `emphasized`) to steplist.
+  - `default` draws the neutral colours; `emphasized` draws the accent colours
+    (completed and current fills, current label, track), matching the Figma Web
+    POC step list.
+  - The accent relationship records pin `variant: emphasized` and the neutral
+    fill and label records pin `variant: default`. Disabled records pin both
+    variants so they still win.
+  - The default variant has no neutral track record, so its track is not drawn.
+  - Legacy token output is unchanged.
+
+- [#2096](https://github.com/adobe/spectrum-design-data/pull/2096) [`93cacaf`](https://github.com/adobe/spectrum-design-data/commit/93cacaf71c816a8487e0597ee731be0473434253) Thanks [@GarthDB](https://github.com/GarthDB)! - Rename the thumbnail option `hideImage` to `showImage` and default it to false.
+  - Figma Thumbnail "Show image" defaults to false, so a thumbnail draws only the
+    checkerboard until `showImage` is true. The `image` part is present when `showImage`
+    is true and draws `src`, or the placeholder when there is no `src`.
+  - Migration: replace `hideImage: false` with `showImage: true` and drop `hideImage: true`.
+    A bare thumbnail with no options no longer draws an image.
+  - `standard-dialog` and `coach-mark` keep `hideImage` (unchanged).
+  - Nested thumbnails in `menu` and `stack-item` pin `showImage: true` (Figma sets Show image
+    on those instances), so their renders are unchanged.
+
 ## 4.3.0
 
 ### Minor Changes
