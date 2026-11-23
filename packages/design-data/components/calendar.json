@@ -286,6 +286,7 @@
       "contains": [
         "range-fill",
         "day-fill",
+        "label",
         "current-day-indicator",
         "unavailable-indicator",
         "focus-indicator"
@@ -293,8 +294,7 @@
     },
     {
       "name": "day-fill",
-      "description": "Circle behind the day number: the selected, hover, keyboard-focus and error fill of a day (Figma .Day Calendar Day frame). Drawn over the range-fill band.",
-      "contains": ["label"]
+      "description": "Circle behind the day number: the selected, hover, keyboard-focus and error fill of a day (Figma .Day Calendar Day frame). Drawn over the range-fill band, under the label."
     },
     {
       "name": "label",
