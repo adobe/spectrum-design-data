@@ -12,7 +12,9 @@ layer: library
 language: rust
 # The slim solve-only visual engine (proposal 015, step 2). Not in .github/ci-targets.json: it
 # runs only when a task input changes, so PRs that do not touch the renderer hit the Moon cache.
-# It is listed in excludedFromCI (the CI guard requires every runInCI task to be listed).
+# Only test-progress-ring runs in CI (it needs the CLI, not the wasm build). The other tasks are
+# listed in excludedFromCI (the CI guard requires every runInCI task to be listed); the engine and
+# budget tests in `test` need the wasm build and do not pass on main yet (see the bead in the PR).
 # The site loads it (step 3); the build-web and browser-parity tasks are also excluded from CI.
 fileGroups:
   renderer:
@@ -98,19 +100,38 @@ tasks:
     command: bash
     args:
       - -c
-      - 'export PATH="$HOME/.cargo/bin:$PATH" && cargo build -q -p design-data-cli --manifest-path ../Cargo.toml && node --test test/'
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && cargo build -q -p design-data-cli --manifest-path ../Cargo.toml && node --test test/*.mjs'
     inputs:
       - "@globs(renderer)"
       - "test/**/*.mjs"
       - "shared/*.mjs"
       - "/sdk/cli/src/render_batch.rs"
       - "/sdk/plugins/site/src/**/*"
+      - "/sdk/plugins/site/assets/draw-helpers.js"
       - "/packages/design-data/visuals/*.json"
       - "/packages/design-data/icons/*.json"
       - "/platforms/ios/**/*"
       - "/.design-data.toml"
     deps:
       - build
+    toolchain: "system"
+
+  # The explorer draws a progress-circle's track and fill as one ring, as the native SVG does.
+  # Needs only the debug CLI (no wasm build), so it runs in the Rust CI job.
+  test-progress-ring:
+    command: bash
+    args:
+      - -c
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && cargo build -q -p design-data-cli --manifest-path ../Cargo.toml && node --test test/progress-ring.test.mjs'
+    inputs:
+      - "@globs(renderer)"
+      - "test/progress-ring.test.mjs"
+      - "shared/*.mjs"
+      - "/sdk/cli/src/**/*.rs"
+      - "/sdk/plugins/site/assets/draw-helpers.js"
+      - "/packages/design-data/visuals/*.json"
+      - "/packages/design-data/icons/*.json"
+      - "/.design-data.toml"
     toolchain: "system"
 
   # The site's engine, in headless Chrome over a built site, equals `design-data render`

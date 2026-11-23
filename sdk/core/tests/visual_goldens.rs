@@ -443,6 +443,35 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let mut range_error = range(vec![feb_range(10, 18)], "light", "desktop");
         range_error.options.insert("isError".into(), true.into());
         out.push(("range-error", range_error));
+        // Today marker: a plain day, a selected day (11, white dot), a day inside a range, an
+        // error selection, a disabled today (3) and the dark mobile mode.
+        let today = |mut month: Value, day: usize| {
+            month["days"][day - 1]["isToday"] = true.into();
+            month
+        };
+        out.push((
+            "today-plain",
+            case(vec![today(feb(), 5)], "light", "desktop"),
+        ));
+        out.push((
+            "today-selected",
+            case(vec![today(feb(), 11)], "light", "desktop"),
+        ));
+        out.push((
+            "today-disabled",
+            case(vec![today(feb(), 3)], "light", "desktop"),
+        ));
+        out.push((
+            "today-in-range",
+            range(vec![today(feb_range(10, 18), 14)], "light", "desktop"),
+        ));
+        let mut today_error = case(vec![today(feb(), 11)], "light", "desktop");
+        today_error.options.insert("isError".into(), true.into());
+        out.push(("today-error", today_error));
+        out.push((
+            "today-selected-dark-mobile",
+            case(vec![today(feb(), 11)], "dark", "mobile"),
+        ));
         out.push((
             "months-double",
             case(vec![feb(), mar()], "light", "desktop"),
