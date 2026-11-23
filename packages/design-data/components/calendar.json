@@ -254,7 +254,7 @@
     {
       "name": "month",
       "description": "One visible month: its title, its weekday grid and its day grid. Repeated once per entry of the months option.",
-      "contains": ["title", "weekday-grid", "day-grid", "range-fill"]
+      "contains": ["title", "weekday-grid", "day-grid"]
     },
     {
       "name": "title",
@@ -284,11 +284,17 @@
       "description": "One date cell of a month's day grid. Styled for selected, hover, error, disabled and unavailable.",
       "required": true,
       "contains": [
-        "label",
+        "range-fill",
+        "day-fill",
         "current-day-indicator",
         "unavailable-indicator",
         "focus-indicator"
       ]
+    },
+    {
+      "name": "day-fill",
+      "description": "Circle behind the day number: the selected, hover, keyboard-focus and error fill of a day (Figma .Day Calendar Day frame). Drawn over the range-fill band.",
+      "contains": ["label"]
     },
     {
       "name": "label",
@@ -306,8 +312,10 @@
     },
     {
       "name": "range-fill",
-      "description": "Highlight band behind the days between the two ends of a selected range (Figma Highlight fill, selection background). Visible only when selectionMode is range.",
-      "presentWhen": { "options": { "selectionMode": "range" } }
+      "description": "Highlight band behind a day inside a selected range (Figma .Range fill Highlight fill, selection background). It sits under the day circle, so the band of consecutive days reads as one band; the days at the two ends are rounded on the outer side. Drawn only when selectionMode is range and the day is selected.",
+      "presentWhen": {
+        "options": { "selectionMode": "range", "isSelected": true }
+      }
     },
     {
       "name": "help-text",

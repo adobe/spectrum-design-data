@@ -382,6 +382,22 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             }));
             Value::Array(cells)
         };
+        // A selected range from `start` through `end`: every day in it is selected, the two
+        // ends also carry isRangeStart and isRangeEnd.
+        let range_days = |first_blank: usize, count: u32, start: u32, end: u32| -> Value {
+            let mut cells: Vec<Value> = (0..first_blank)
+                .map(|_| serde_json::json!({ "label": "" }))
+                .collect();
+            cells.extend((1..=count).map(|d| {
+                serde_json::json!({
+                    "label": d.to_string(),
+                    "isSelected": (start..=end).contains(&d),
+                    "isRangeStart": d == start,
+                    "isRangeEnd": d == end,
+                })
+            }));
+            Value::Array(cells)
+        };
         let case = |months: Vec<Value>, scheme: &str, scale: &str| {
             let o = HashMap::from([
                 ("months".to_string(), Value::Array(months)),
@@ -391,7 +407,28 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         };
         let feb = || serde_json::json!({ "title": "February 2026", "days": days(0, 28, 11, 3) });
         let mar = || serde_json::json!({ "title": "March 2026", "days": days(0, 31, 11, 0) });
+        let range = |months: Vec<Value>, scheme: &str, scale: &str| {
+            let mut r = case(months, scheme, scale);
+            r.options.insert("selectionMode".into(), "range".into());
+            r
+        };
+        let feb_range = |start, end| serde_json::json!({ "title": "February 2026", "days": range_days(0, 28, start, end) });
         out.push(("month-single", case(vec![feb()], "light", "desktop")));
+        out.push((
+            "range-two-weeks",
+            range(vec![feb_range(10, 18)], "light", "desktop"),
+        ));
+        out.push((
+            "range-one-week-dark-mobile",
+            range(vec![feb_range(9, 12)], "dark", "mobile"),
+        ));
+        out.push((
+            "range-single-day",
+            range(vec![feb_range(10, 10)], "light", "desktop"),
+        ));
+        let mut range_error = range(vec![feb_range(10, 18)], "light", "desktop");
+        range_error.options.insert("isError".into(), true.into());
+        out.push(("range-error", range_error));
         out.push((
             "months-double",
             case(vec![feb(), mar()], "light", "desktop"),
