@@ -1,0 +1,11 @@
+/* Copyright 2026 Adobe. All rights reserved. */
+@import "tailwindcss";
+@import "./swc/link.css";
+@import "./swc/global-button.css";
+@import "./swc/global-action-button.css";
+@import "./swc/global-link.css";
+
+body {
+  background-color: var(--spectrum-background-base-color);
+  color: var(--spectrum-neutral-content-color-default);
+}

@@ -1,0 +1,6 @@
+spectrum-theme.json
+src/swc/
+src/theme-only.css
+public/
+node_modules/
+dist/

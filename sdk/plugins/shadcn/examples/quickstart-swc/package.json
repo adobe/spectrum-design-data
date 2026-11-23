@@ -1,0 +1,29 @@
+{
+  "name": "spectrum-shadcn-swc-spike",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "theme": "(cd \"${TMPDIR:-/tmp}\" && design-data export --format shadcn-theme) > spectrum-theme.json",
+    "swc-css": "node scripts/swc-css.mjs",
+    "setup": "npm run theme && npx shadcn@latest add ./spectrum-theme.json --yes && npm run swc-css",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build"
+  },
+  "dependencies": {
+    "cn": "^0.4.0",
+    "radix-ui": "^1.8.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@adobe/spectrum-wc": "2.0.0-beta.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0"
+  }
+}
