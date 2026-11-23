@@ -6,7 +6,7 @@
   "sizeScale": {
     "m": 100
   },
-  "notVisual": ["channel", "step", "length", "hover", "down", "keyboard-focus"],
+  "notVisual": ["step", "length", "hover", "down", "keyboard-focus"],
   "parts": {
     "container": {
       "kind": "box",
@@ -146,9 +146,184 @@
     "fill": {
       "kind": "box",
       "props": {
-        "fill": {
-          "option": "gradient"
-        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "option": "channel"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal",
+                "colorSpace": "rgb"
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "option": "channel"
+                },
+                "space": {
+                  "value": "rgb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal",
+                "colorSpace": "hsl"
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "option": "channel"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal",
+                "colorSpace": "hsb"
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "option": "channel"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "option": "channel"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical",
+                "colorSpace": "rgb"
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "option": "channel"
+                },
+                "space": {
+                  "value": "rgb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical",
+                "colorSpace": "hsl"
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "option": "channel"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical",
+                "colorSpace": "hsb"
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "option": "channel"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          }
+        ],
         "width": [
           {
             "when": {

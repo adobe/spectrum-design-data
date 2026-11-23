@@ -224,13 +224,12 @@
       "name": "container",
       "description": "Root of the slider: sets the width and the spacing between the label, the control and the editable field.",
       "required": true,
-      "contains": [
-        "field-label",
-        "value",
-        "control",
-        "number-field",
-        "focus-indicator"
-      ]
+      "contains": ["header", "control"]
+    },
+    {
+      "name": "header",
+      "description": "Row above the control that holds the label and, when the value is not editable, the value text.",
+      "contains": ["field-label", "value"]
     },
     {
       "name": "field-label",
@@ -239,13 +238,18 @@
     },
     {
       "name": "value",
-      "description": "Current value text. Drawn when isEditable is false; the Label font records live here because field-label draws its own text."
+      "description": "Current value text. Drawn when isEditable is false; the Label font records live here because field-label draws its own text.",
+      "presentWhen": {
+        "options": {
+          "isEditable": false
+        }
+      }
     },
     {
       "name": "control",
-      "description": "Row that bounds the track and the handle and owns the target height by size.",
+      "description": "Row that owns the target height by size. It holds the track and, when isEditable is true, the editable number field; the fill and the handle are drawn over the track.",
       "required": true,
-      "contains": ["track", "fill", "handle"]
+      "contains": ["track", "fill", "handle", "number-field"]
     },
     {
       "name": "track",
@@ -254,22 +258,35 @@
     },
     {
       "name": "fill",
-      "description": "Part of the rail from the start value to the handle. Drawn when hasFill is true."
+      "description": "Part of the rail from the start value to the handle. Drawn when hasFill is true.",
+      "presentWhen": {
+        "options": {
+          "hasFill": true
+        }
+      }
     },
     {
       "name": "handle",
       "description": "Draggable handle that marks the value; two handles when isRange is true.",
-      "required": true
+      "required": true,
+      "contains": ["focus-indicator"]
     },
     {
       "name": "number-field",
       "component": "number-field",
-      "description": "Editable value: a number-field component with hideStepper. Drawn when isEditable is true."
+      "description": "Editable value: a number-field component with hideStepper. Drawn when isEditable is true.",
+      "presentWhen": {
+        "options": {
+          "isEditable": true
+        }
+      }
     },
     {
       "name": "focus-indicator",
       "description": "Ring drawn around the handle for keyboard focus.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     }
   ],
   "states": [

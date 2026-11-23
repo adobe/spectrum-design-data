@@ -49,8 +49,8 @@
   ],
   "options": {
     "color": {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
-      "description": "The sampled color shown inside the handle: always one solid color, possibly with alpha."
+      "type": "string",
+      "description": "The sampled color shown inside the handle: always one solid color, possibly with alpha. A CSS color string the renderer reads as a solid color: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba() or transparent."
     },
     "hasFill": {
       "type": "boolean",
@@ -76,14 +76,24 @@
     },
     {
       "name": "opacity-checkerboard",
-      "presentWhen": { "options": { "hasFill": true, "isDisabled": false } },
+      "presentWhen": {
+        "options": {
+          "hasFill": true,
+          "isDisabled": false
+        }
+      },
       "component": "opacity-checkerboard",
       "description": "Checkerboard behind the fill so transparency reads. Drawn when hasFill is true; sized m by every host."
     },
     {
       "name": "fill",
       "description": "Selected color shown inside the handle, with its 1px inner border. Drawn when hasFill is true.",
-      "presentWhen": { "options": { "hasFill": true, "isDisabled": false } }
+      "presentWhen": {
+        "options": {
+          "hasFill": true,
+          "isDisabled": false
+        }
+      }
     },
     {
       "name": "color-loupe",

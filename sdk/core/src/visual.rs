@@ -2279,6 +2279,14 @@ impl Ctx<'_> {
                 _ => default,
             }
         };
+        if let Some(ramp) = spec.get("ramp") {
+            let stops = self.ramp_stops(ramp)?;
+            return Some(Gradient {
+                from: end("from", [0.0, 0.0]),
+                to: end("to", [1.0, 1.0]),
+                stops,
+            });
+        }
         let mut stops = Vec::new();
         for (i, stop) in spec.get("stops")?.as_array()?.iter().enumerate() {
             let color = self.eval(stop.get("color"));
@@ -2317,6 +2325,103 @@ impl Ctx<'_> {
             to: end("to", [1.0, 1.0]),
             stops,
         })
+    }
+
+    /// The stops of a `ramp` (see [`crate::ramp`]): a slider track, or with `z` one layer of a
+    /// color area. `color` is a string option (an unset one draws red with a diagnostic);
+    /// `channel`, `space` and `z` are options or literals. Anything that does not resolve
+    /// drops the gradient with a diagnostic, so the part draws its plain fill.
+    fn ramp_stops(&mut self, ramp: &Value) -> Option<Vec<GradientStop>> {
+        let text = |cx: &Self, key: &str| -> Option<String> {
+            let src = ramp.get(key)?;
+            let v = match src.get("option").and_then(Value::as_str) {
+                Some(name) => cx.option(name),
+                None => src.get("value").cloned().unwrap_or(Value::Null),
+            };
+            v.as_str().map(|s| s.trim().to_ascii_lowercase())
+        };
+        let color = match ramp.pointer("/color/option").and_then(Value::as_str) {
+            Some(name) => match self.option(name) {
+                Value::Null => None,
+                Value::String(s) => match crate::ramp::Color::parse(&s) {
+                    Some(c) => Some(c),
+                    None => {
+                        self.diags.push(format!(
+                            "ramp color option '{name}' value {s:?} is not a hex, rgb(), hsl() or hsb() color; drawing the default color"
+                        ));
+                        None
+                    }
+                },
+                v => {
+                    self.diags.push(format!(
+                        "ramp color option '{name}' value {v} is not a color string; drawing the default color"
+                    ));
+                    None
+                }
+            },
+            None => None,
+        };
+        let color = color.unwrap_or_else(|| {
+            if ramp.pointer("/color/option").is_some() {
+                self.diags.push(
+                    "ramp color is unset or invalid; drawing the ramp for hsl(0, 100%, 50%)".into(),
+                );
+            }
+            crate::ramp::Color {
+                space: crate::ramp::Space::Hsl,
+                c: [0.0, 100.0, 50.0],
+                a: 1.0,
+            }
+        });
+        let space = match text(self, "space") {
+            None if ramp.get("space").is_some() => {
+                self.diags
+                    .push("ramp space does not resolve; using the color's own".into());
+                None
+            }
+            None => None,
+            Some(s) => match crate::ramp::Space::parse(&s) {
+                Some(sp) => Some(sp),
+                None => {
+                    self.diags.push(format!(
+                        "ramp space {s:?} is not hsl, hsb or rgb; drawing the plain fill"
+                    ));
+                    return None;
+                }
+            },
+        };
+        let Some(channel) = text(self, "channel") else {
+            self.diags
+                .push("ramp channel does not resolve to a name; drawing the plain fill".into());
+            return None;
+        };
+        let stops = if ramp.get("z").is_some() {
+            let Some(z) = text(self, "z") else {
+                self.diags
+                    .push("ramp z does not resolve to a name; drawing the plain fill".into());
+                return None;
+            };
+            crate::ramp::area_layer(color, space, &channel, &z)
+        } else {
+            crate::ramp::track(color, &channel, space)
+        };
+        match stops {
+            Ok(stops) => Some(
+                stops
+                    .into_iter()
+                    .map(|(offset, color)| GradientStop {
+                        color,
+                        offset,
+                        token: String::new(),
+                    })
+                    .collect(),
+            ),
+            Err(why) => {
+                self.diags
+                    .push(format!("ramp: {why}; drawing the plain fill"));
+                None
+            }
+        }
     }
 
     /// A text part's copy: its `text.option` when that string option is set, else its
@@ -3015,7 +3120,10 @@ fn option_source_names(parts: &serde_json::Map<String, Value>) -> Vec<String> {
                         out.push(n.to_string());
                     }
                 }
-                o.values().for_each(|x| walk(x, out));
+                // A ramp reads its own options (a color string, a channel name), not solid colors.
+                o.iter()
+                    .filter(|(k, _)| k.as_str() != "ramp")
+                    .for_each(|(_, x)| walk(x, out));
             }
             _ => {}
         }
@@ -5219,12 +5327,21 @@ fn solve_root(
             track(&mut node.tokens, n, r);
         }
         (node.x, node.y, node.w, node.h) = (fx, fy, fw_n, fh_n);
+        node.gradient = fill.as_ref().and_then(|f| f.gradient.clone());
         node.fill = fill.map(|f| f.value);
         node.stroke = stroke.map(|s| s.value);
         node.stroke_width = sw.as_ref().and_then(Resolved::num).unwrap_or(0.0);
         node.stroke_opacity = so.as_ref().and_then(Resolved::num);
         node.radius = clamp_radius(
-            radius.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+            radius
+                .as_ref()
+                .and_then(|r| {
+                    r.num().map(|v| match r.relative_to.as_deref() {
+                        Some("height") => v * fh_n,
+                        _ => v,
+                    })
+                })
+                .unwrap_or(0.0),
             fw_n,
             fh_n,
         );
@@ -11857,6 +11974,20 @@ mod tests {
     }
 
     #[test]
+    fn a_floating_leaf_reads_a_corner_radius_relative_to_its_height() {
+        let mut r = slider_recipe(
+            serde_json::json!({ "x": axis(serde_json::json!({})) }),
+            serde_json::json!({}),
+            "center",
+        );
+        r["parts"]["handle"]["props"]["cornerRadius"] =
+            serde_json::json!({ "value": 0.5, "relativeTo": "height" });
+        let s = at(&r, serde_json::json!(100));
+        let handle = s.nodes.iter().find(|n| n.part == "handle").unwrap();
+        assert_eq!(handle.radius, 5.0);
+    }
+
+    #[test]
     fn an_unset_value_draws_at_the_start_without_a_diagnostic() {
         let r = slider_recipe(
             serde_json::json!({ "x": axis(serde_json::json!({})) }),
@@ -11948,6 +12079,364 @@ mod tests {
         let s = nest_scene(&g, &recipe, "m", &[], &[("value", 0.into())]).unwrap();
         let (r, h) = (part(&s, "r").unwrap(), part(&s, "h").unwrap());
         assert_eq!(h.x - r.x, -h.w / 2.0);
+    }
+
+    /// A 100x20 root with a checkerboard (white and black 10px squares) and a child, the same
+    /// size, whose fill is `fill`.
+    fn ramp_recipe(fill: Value) -> Value {
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "children": ["c"], "props": {
+                "width": lit(100.into()), "height": lit(20.into()), "fill": lit("#ffffff".into()),
+                "patternFill": lit("#000000".into()), "patternSize": lit(10.into())
+            } }, "c": { "kind": "box", "props": {
+                "width": lit(100.into()), "height": lit(20.into()), "fill": fill
+            } } }
+        })
+    }
+
+    fn ramp_fill(ramp: Value, from: [f64; 2], to: [f64; 2]) -> Value {
+        serde_json::json!({ "gradient": { "from": from, "to": to, "ramp": ramp } })
+    }
+
+    fn ramp_scene(recipe: &Value, opts: &[(&str, Value)]) -> Scene {
+        let (g, _) = load();
+        let mut r = req(&[]);
+        for (k, v) in opts {
+            r.options.insert((*k).into(), v.clone());
+        }
+        build_scene(&g, recipe, &r).unwrap()
+    }
+
+    fn ramp_stops(s: &Scene, part: &str) -> Vec<(f64, String)> {
+        let g = s
+            .nodes
+            .iter()
+            .find(|n| n.part == part)
+            .and_then(|n| n.gradient.as_ref())
+            .unwrap_or_else(|| panic!("no gradient on {part}: {:?}", s.diagnostics));
+        g.stops
+            .iter()
+            .map(|s| (s.offset, s.color.clone()))
+            .collect()
+    }
+
+    #[cfg(feature = "raster")]
+    fn pixels(s: &Scene) -> impl Fn(f64, f64) -> [u8; 4] {
+        let opts = crate::raster::RasterOptions {
+            scale: 1.0,
+            background: None,
+        };
+        let (img, _) = crate::raster::rasterize(s, &[], &opts).unwrap();
+        move |x: f64, y: f64| {
+            let i = ((y as u32 * img.width + x as u32) * 4) as usize;
+            [
+                img.rgba[i],
+                img.rgba[i + 1],
+                img.rgba[i + 2],
+                img.rgba[i + 3],
+            ]
+        }
+    }
+
+    #[cfg(feature = "raster")]
+    fn near(got: [u8; 4], want: [f64; 3]) {
+        for i in 0..3 {
+            assert!(
+                (f64::from(got[i]) - want[i]).abs() <= 2.0,
+                "{got:?} vs {want:?}"
+            );
+        }
+    }
+
+    fn hue_ramp() -> Value {
+        serde_json::json!({
+            "color": { "option": "color" }, "channel": { "value": "hue" }
+        })
+    }
+
+    #[test]
+    fn a_hue_ramp_has_the_stops_react_spectrum_computes() {
+        let r = ramp_recipe(ramp_fill(hue_ramp(), [0.0, 0.0], [1.0, 0.0]));
+        let s = ramp_scene(&r, &[("color", "hsl(0, 100%, 50%)".into())]);
+        let stops = ramp_stops(&s, "c");
+        let colors: Vec<&str> = stops.iter().map(|s| s.1.as_str()).collect();
+        assert_eq!(
+            colors,
+            ["#ff0000", "#ffff00", "#00ff00", "#00ffff", "#0000ff", "#ff00ff", "#ff0000"]
+        );
+        let offsets: Vec<f64> = stops.iter().map(|s| s.0).collect();
+        assert_eq!(
+            offsets,
+            [0.0, 1.0 / 6.0, 2.0 / 6.0, 0.5, 4.0 / 6.0, 5.0 / 6.0, 1.0]
+        );
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        let svg = scene_to_svg(&s);
+        assert_eq!(svg.matches("<stop ").count(), 7, "{svg}");
+    }
+
+    #[test]
+    fn the_channel_and_space_come_from_options_and_the_color_keeps_its_other_channels() {
+        let ramp = serde_json::json!({
+            "color": { "option": "color" }, "channel": { "option": "channel" },
+            "space": { "option": "space" }
+        });
+        let r = ramp_recipe(ramp_fill(ramp, [0.0, 0.0], [1.0, 0.0]));
+        let at = |color: &str, channel: &str, space: Option<&str>| {
+            let mut o = vec![("color", color.into()), ("channel", channel.into())];
+            if let Some(sp) = space {
+                o.push(("space", sp.into()));
+            }
+            ramp_stops(&ramp_scene(&r, &o), "c")
+                .into_iter()
+                .map(|s| s.1)
+                .collect::<Vec<_>>()
+        };
+        // lightness: three stops, the middle at 50%
+        assert_eq!(
+            at("hsl(0, 100%, 20%)", "lightness", None),
+            ["#000000", "#ff0000", "#ffffff"]
+        );
+        // saturation: grey to full at the color's hue and lightness
+        assert_eq!(
+            at("hsl(0, 30%, 50%)", "saturation", None),
+            ["#808080", "#ff0000"]
+        );
+        // brightness is hsb: a hex color converts into it
+        assert_eq!(at("#ff0000", "brightness", None), ["#000000", "#ff0000"]);
+        // hue is the full-saturation rainbow whatever the color's saturation (a grey too)
+        assert_eq!(
+            at("hsb(0, 50%, 100%)", "hue", None)[..3],
+            ["#ff0000", "#ffff00", "#00ff00"]
+        );
+        assert_eq!(at("#808080", "hue", None)[1], "#ffff00");
+        // a translucent color gives an opaque track, except for alpha
+        assert_eq!(
+            at("rgba(0, 0, 255, 0.5)", "red", None),
+            ["#0000ff", "#ff00ff"]
+        );
+        // red, green and blue vary one channel
+        assert_eq!(at("rgb(10, 20, 30)", "green", None), ["#0a001e", "#0aff1e"]);
+        // an hsl color forced into rgb space
+        assert_eq!(
+            at("hsl(0, 100%, 50%)", "blue", Some("rgb")),
+            ["#ff0000", "#ff00ff"]
+        );
+        // alpha keeps the color and ramps from clear to its own alpha
+        assert_eq!(
+            at("#336699", "alpha", None),
+            ["rgba(51, 102, 153, 0)", "#336699"]
+        );
+    }
+
+    #[cfg(feature = "raster")]
+    #[test]
+    fn png_blends_a_hue_ramp_between_its_stops() {
+        let r = ramp_recipe(ramp_fill(hue_ramp(), [0.0, 0.0], [1.0, 0.0]));
+        let s = ramp_scene(&r, &[("color", "hsl(0, 100%, 50%)".into())]);
+        let c = s.nodes.iter().find(|n| n.part == "c").unwrap();
+        let px = pixels(&s);
+        let at = |t: f64| px(c.x + (t * 100.0).floor(), c.y + 5.0);
+        // x = 50.5 of 100: offset 0.505, 3% into the cyan to blue segment: green 255 * 0.97.
+        near(at(0.50), [0.0, 255.0 * (1.0 - 0.03), 255.0]);
+        // x = 8.5: offset 0.085 in the red to yellow segment: green 255 * 0.085 / (1/6).
+        near(at(0.08), [255.0, 255.0 * 0.085 / (1.0 / 6.0), 0.0]);
+        near(
+            at(0.99),
+            [255.0, 0.0, 255.0 * (1.0 - (0.995 - 5.0 / 6.0) * 6.0)],
+        );
+    }
+
+    #[cfg(feature = "raster")]
+    #[test]
+    fn an_alpha_ramp_shows_the_checkerboard_through_its_start() {
+        let ramp = serde_json::json!({
+            "color": { "option": "color" }, "channel": { "value": "alpha" }
+        });
+        let r = ramp_recipe(ramp_fill(ramp, [0.0, 0.0], [1.0, 0.0]));
+        let s = ramp_scene(&r, &[("color", "#336699".into())]);
+        let c = s.nodes.iter().find(|n| n.part == "c").unwrap();
+        let px = pixels(&s);
+        // x = 95.5, offset 0.955: the square (9, 0) is the pattern's second color (black),
+        // the square (9, 1) at y 10..20 is white.
+        let a = 0.955;
+        let over = |back: f64| {
+            [
+                51.0 * a + back * (1.0 - a),
+                102.0 * a + back * (1.0 - a),
+                153.0 * a + back * (1.0 - a),
+            ]
+        };
+        near(px(c.x + 95.0, c.y + 5.0), over(0.0));
+        near(px(c.x + 95.0, c.y + 15.0), over(255.0));
+        // the start is almost clear: the first square is the pattern's own fill, white
+        near(px(c.x, c.y + 5.0), [254.0, 254.0, 254.0]);
+        near(
+            px(c.x + 10.0, c.y + 5.0),
+            [51.0 * 0.105, 102.0 * 0.105, 153.0 * 0.105],
+        );
+    }
+
+    #[cfg(feature = "raster")]
+    #[test]
+    fn a_vertical_track_starts_at_the_bottom_and_rtl_at_the_right() {
+        let ramp = serde_json::json!({
+            "color": { "option": "color" }, "channel": { "value": "red" }
+        });
+        let (g, _) = load();
+        let mut rq = req(&[]);
+        rq.options.insert("color".into(), "rgb(0, 0, 0)".into());
+        for (from, to, probe_min, probe_max) in [
+            ([0.0, 1.0], [0.0, 0.0], (50.0, 19.0), (50.0, 0.0)),
+            ([1.0, 0.0], [0.0, 0.0], (99.0, 10.0), (0.0, 10.0)),
+        ] {
+            let r = ramp_recipe(ramp_fill(ramp.clone(), from, to));
+            let s = build_scene(&g, &r, &rq).unwrap();
+            let c = s.nodes.iter().find(|n| n.part == "c").unwrap();
+            let px = pixels(&s);
+            let lo = px(c.x + probe_min.0, c.y + probe_min.1);
+            let hi = px(c.x + probe_max.0, c.y + probe_max.1);
+            assert!(lo[0] < 20, "{lo:?}");
+            assert!(hi[0] > 235, "{hi:?}");
+        }
+    }
+
+    /// A 100x100 hsl color area: the base (z = hue) as the root fill, the saturation layer
+    /// (left to right) and the lightness layer (bottom to top) floating over it.
+    fn area_recipe() -> Value {
+        let layer = |channel: &str, to: [f64; 2], from: [f64; 2]| {
+            let fill = ramp_fill(
+                serde_json::json!({
+                    "color": { "option": "color" }, "channel": { "value": channel },
+                    "z": { "value": "hue" }
+                }),
+                from,
+                to,
+            );
+            serde_json::json!({
+                "kind": "box",
+                "floating": { "position": {
+                    "x": { "value": { "value": 1 }, "length": true },
+                    "y": { "value": { "value": 1 }, "length": true } } },
+                "props": { "fill": fill }
+            })
+        };
+        let base = ramp_fill(
+            serde_json::json!({
+                "color": { "option": "color" }, "channel": { "value": "hue" },
+                "z": { "value": "hue" }
+            }),
+            [0.0, 0.0],
+            [1.0, 0.0],
+        );
+        serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": {
+                "r": { "kind": "box", "children": [], "props": {
+                    "width": lit(100.into()), "height": lit(100.into()), "fill": base } },
+                "a-sat": layer("saturation", [1.0, 0.0], [0.0, 0.0]),
+                "b-light": layer("lightness", [0.0, 0.0], [0.0, 1.0])
+            }
+        })
+    }
+
+    #[test]
+    fn a_color_area_stacks_its_layers_with_the_stops_react_spectrum_computes() {
+        let s = ramp_scene(&area_recipe(), &[("color", "hsl(120, 80%, 30%)".into())]);
+        let col =
+            |part: &str| -> Vec<String> { ramp_stops(&s, part).into_iter().map(|s| s.1).collect() };
+        assert_eq!(col("r"), ["#00ff00", "#00ff00"]);
+        assert_eq!(col("a-sat"), ["#808080", "rgba(128, 128, 128, 0)"]);
+        assert_eq!(
+            col("b-light"),
+            [
+                "#000000",
+                "rgba(0, 0, 0, 0)",
+                "rgba(255, 255, 255, 0)",
+                "#ffffff"
+            ]
+        );
+        let offs: Vec<f64> = ramp_stops(&s, "b-light").iter().map(|s| s.0).collect();
+        assert_eq!(offs, [0.0, 0.5, 0.5, 1.0]);
+        // the lightness layer is drawn after (over) the saturation layer
+        let order: Vec<&str> = s.nodes.iter().map(|n| n.part.as_str()).collect();
+        assert_eq!(order, ["r", "a-sat", "b-light"]);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    #[cfg(feature = "raster")]
+    #[test]
+    fn png_composites_a_color_area_like_css_stacked_gradients() {
+        let s = ramp_scene(&area_recipe(), &[("color", "hsl(120, 80%, 30%)".into())]);
+        let r = s.nodes.iter().find(|n| n.part == "r").unwrap();
+        let px = pixels(&s);
+        for (x, y) in [(80.0, 75.0), (10.0, 75.0), (50.0, 20.0), (90.0, 90.0)] {
+            // saturation grey fades out to the right over the green base, then black fades out
+            // up to the middle and white fades in above it (to top: 0 at the bottom).
+            let (tx, ty) = ((x + 0.5) / 100.0, (100.0 - y - 0.5) / 100.0);
+            let a1 = 1.0 - tx;
+            let c1 = [128.0 * a1, 128.0 * a1 + 255.0 * (1.0 - a1), 128.0 * a1];
+            let want: [f64; 3] = if ty < 0.5 {
+                let a2 = 1.0 - ty / 0.5;
+                c1.map(|v| v * (1.0 - a2))
+            } else {
+                let a2 = (ty - 0.5) / 0.5;
+                c1.map(|v| v * (1.0 - a2) + 255.0 * a2)
+            };
+            near(px(r.x + x, r.y + y), want);
+        }
+    }
+
+    #[test]
+    fn a_bad_ramp_never_panics_and_says_what_it_drew() {
+        let at = |ramp: Value, opts: &[(&str, Value)]| {
+            let r = ramp_recipe(ramp_fill(ramp, [0.0, 0.0], [1.0, 0.0]));
+            ramp_scene(&r, opts)
+        };
+        // an unset color draws the hue ramp of red, with a diagnostic
+        let s = at(hue_ramp(), &[]);
+        assert_eq!(ramp_stops(&s, "c")[1].1, "#ffff00");
+        assert!(
+            s.diagnostics.iter().any(|d| d.contains("unset or invalid")),
+            "{:?}",
+            s.diagnostics
+        );
+        // an unreadable color and a non-string color too
+        for bad in [
+            Value::from("blue-ish"),
+            Value::from(7),
+            Value::from("hsl(NaN, 1%, 1%)"),
+        ] {
+            let s = at(hue_ramp(), &[("color", bad)]);
+            assert_eq!(ramp_stops(&s, "c").len(), 7);
+            assert!(
+                s.diagnostics.iter().any(|d| d.contains("default color")),
+                "{:?}",
+                s.diagnostics
+            );
+        }
+        // an unknown channel, a channel the space lacks, an unknown space and an rgb area
+        // draw the plain fill (no gradient)
+        let cases = [
+            serde_json::json!({ "color": {"option": "color"}, "channel": {"value": "chroma"} }),
+            serde_json::json!({ "color": {"option": "color"}, "channel": {"value": "hue"},
+                "space": {"value": "rgb"} }),
+            serde_json::json!({ "color": {"option": "color"}, "channel": {"value": "hue"},
+                "space": {"value": "lab"} }),
+            serde_json::json!({ "color": {"option": "color"}, "channel": {"option": "missing"} }),
+            serde_json::json!({ "color": {"option": "color"}, "channel": {"value": "red"},
+                "z": {"value": "blue"}, "space": {"value": "rgb"} }),
+        ];
+        for ramp in cases {
+            let s = at(ramp.clone(), &[("color", "#336699".into())]);
+            let c = s.nodes.iter().find(|n| n.part == "c").unwrap();
+            assert!(c.gradient.is_none(), "{ramp}");
+            assert!(
+                s.diagnostics.iter().any(|d| d.contains("plain fill")),
+                "{ramp}: {:?}",
+                s.diagnostics
+            );
+        }
     }
 
     #[test]

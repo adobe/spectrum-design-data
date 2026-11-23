@@ -62,6 +62,9 @@
           "value": "lightness"
         },
         {
+          "value": "brightness"
+        },
+        {
           "value": "red"
         },
         {
@@ -117,12 +120,23 @@
       "description": "The field label text (Figma Show label, RSP label)."
     },
     "color": {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
-      "description": "The selected color, shown inside the handle."
-    },
-    "gradient": {
       "type": "string",
-      "description": "The channel gradient drawn in the track, as a CSS linear-gradient() of solid colors. Unset draws no gradient. Interim host-supplied render input (not a component API prop): the host derives it from the channel and the color until the engine computes ramps."
+      "description": "The color whose channel the slider adjusts (S2 value). The gradient ramp is computed from it and the channel. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
+    },
+    "colorSpace": {
+      "type": "string",
+      "description": "The color space the channel belongs to (S2 colorSpace). Defaults to the color's own space.",
+      "values": [
+        {
+          "value": "rgb"
+        },
+        {
+          "value": "hsl"
+        },
+        {
+          "value": "hsb"
+        }
+      ]
     }
   },
   "anatomy": [
@@ -174,7 +188,8 @@
       "description": "The channel gradient drawn over the checkerboard (Figma Color slider fill). Owner decision C5.",
       "presentWhen": {
         "options": {
-          "isDisabled": false
+          "isDisabled": false,
+          "color": true
         }
       }
     },

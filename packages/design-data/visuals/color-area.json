@@ -45,18 +45,136 @@
             "part": "container"
           }
         },
-        "fill": {
-          "when": {
-            "options": {
-              "isDisabled": true
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "attribute": "background",
+              "part": "container"
             }
           },
-          "relationship": {
-            "property": "color",
-            "attribute": "background",
-            "part": "container"
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "lightness",
+                "color": true,
+                "isDisabled": false
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "saturation",
+                "color": true,
+                "isDisabled": false
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "brightness",
+                "color": true,
+                "isDisabled": false
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "saturation",
+                "color": true,
+                "isDisabled": false
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
           }
-        },
+        ],
         "stroke": {
           "when": {
             "options": {
@@ -89,9 +207,344 @@
     "fill": {
       "kind": "box",
       "props": {
-        "fill": {
-          "option": "gradient"
-        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "hue",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "lightness"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "hue",
+                "yChannel": "lightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "lightness"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "lightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "hue",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "brightness"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "hue",
+                "yChannel": "brightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "brightness"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "brightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          }
+        ],
         "width": {
           "relationship": {
             "property": "width",
@@ -156,9 +609,344 @@
     "overlay": {
       "kind": "box",
       "props": {
-        "fill": {
-          "option": "overlay"
-        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "hue",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "lightness"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "hue",
+                "yChannel": "lightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "lightness"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "lightness"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "lightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "lightness"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "lightness"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "lightness"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "hue",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "brightness"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "hue",
+                "yChannel": "brightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "brightness"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "brightness"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "brightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "brightness"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "brightness"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "brightness"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          }
+        ],
         "width": {
           "relationship": {
             "property": "width",

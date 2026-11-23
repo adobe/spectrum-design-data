@@ -67,6 +67,10 @@
     "isDisabled": {
       "type": "boolean",
       "default": false
+    },
+    "color": {
+      "type": "string",
+      "description": "The color whose hue the wheel adjusts (S2 value, HSL or HSB). Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
     }
   },
   "anatomy": [

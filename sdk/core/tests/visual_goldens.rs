@@ -248,6 +248,147 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
+    // Slider: the handle sits at the value (0, a quarter, half, the max and unset), the fill
+    // follows it (from `fillStart` for an offset slider), the sizes, the handle states and the
+    // editable number field are drawn with real label and value text.
+    if name == "slider" {
+        let with =
+            |opts: &[(&str, Value)], states: &[&str], scheme: &str, scale: &str, size: &str| {
+                let mut o: HashMap<String, Value> = opts
+                    .iter()
+                    .map(|(k, v)| (k.to_string(), v.clone()))
+                    .collect();
+                o.insert("label".into(), "Brightness".into());
+                let mut r = req(
+                    states.iter().map(|s| s.to_string()).collect(),
+                    o,
+                    scheme,
+                    scale,
+                );
+                r.size = size.into();
+                r
+            };
+        let fill = ("hasFill", Value::Bool(true));
+        for (id, v) in [
+            ("value-0", 0),
+            ("value-25", 25),
+            ("value-50", 50),
+            ("value-100", 100),
+        ] {
+            out.push((
+                id,
+                with(
+                    &[("value", v.into()), fill.clone()],
+                    &[],
+                    "light",
+                    "desktop",
+                    "m",
+                ),
+            ));
+        }
+        out.push((
+            "value-unset",
+            with(&[fill.clone()], &[], "light", "desktop", "m"),
+        ));
+        for (id, size, scale) in [
+            ("size-s", "s", "desktop"),
+            ("size-l-mobile", "l", "mobile"),
+            ("size-xl", "xl", "desktop"),
+        ] {
+            out.push((
+                id,
+                with(
+                    &[("value", 50.into()), fill.clone()],
+                    &[],
+                    "light",
+                    scale,
+                    size,
+                ),
+            ));
+        }
+        for st in ["hover", "down", "keyboard-focus"] {
+            out.push((
+                match st {
+                    "hover" => "state-hover",
+                    "down" => "state-down",
+                    _ => "state-keyboard-focus",
+                },
+                with(
+                    &[("value", 40.into()), fill.clone()],
+                    &[st],
+                    "light",
+                    "desktop",
+                    "m",
+                ),
+            ));
+        }
+        out.push((
+            "emphasized-dark",
+            with(
+                &[
+                    ("value", 60.into()),
+                    fill.clone(),
+                    ("isEmphasized", true.into()),
+                ],
+                &[],
+                "dark",
+                "desktop",
+                "m",
+            ),
+        ));
+        out.push((
+            "disabled",
+            with(
+                &[
+                    ("value", 50.into()),
+                    fill.clone(),
+                    ("isDisabled", true.into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "m",
+            ),
+        ));
+        out.push((
+            "offset-fill-start-50",
+            with(
+                &[("value", 25.into()), fill.clone(), ("fillStart", 50.into())],
+                &[],
+                "light",
+                "desktop",
+                "m",
+            ),
+        ));
+        out.push((
+            "thick-track",
+            with(
+                &[
+                    ("value", 50.into()),
+                    fill.clone(),
+                    ("trackStyle", "thick".into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "l",
+            ),
+        ));
+        out.push((
+            "editable",
+            with(
+                &[
+                    ("value", 50.into()),
+                    fill.clone(),
+                    ("isEditable", true.into()),
+                ],
+                &[],
+                "light",
+                "desktop",
+                "m",
+            ),
+        ));
+    }
     // Tooltip: every placement draws its tip on the matching edge; variants and modes show the
     // fill, text and tip colors.
     if name == "tooltip" {
@@ -1945,23 +2086,18 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
-    // Color slider and color area: the host supplies the channel gradient and the selected color,
-    // so these set a hue ramp (and an alpha ramp over the checkerboard), the handle at several
-    // values (start, middle, end, unset), both orientations, disabled, dark and mobile.
+    // Color slider and color area: the ramps are computed from the color and the channels, so
+    // these set a color and the channels, the handle at several values (start, middle, end,
+    // unset), both orientations, disabled, dark and mobile. The options have no defaults.
     if name == "color-slider" || name == "color-area" {
         let s = |v: &str| Value::String(v.into());
-        let hue = "linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)";
-        let hue_v = hue.replace("to right", "to top");
-        let alpha = "linear-gradient(to right, #e0457b00, #e0457b)";
-        let sat = "linear-gradient(to right, #808080, #f00)";
-        let shade = "linear-gradient(to bottom, #00000000, #000)";
         type Opts = Vec<(&'static str, Value)>;
         let mut cases: Vec<(&'static str, Opts, &str, &str)> = Vec::new();
         if name == "color-slider" {
-            let base = |v: Option<f64>, g: &str| -> Opts {
+            let base = |v: Option<f64>, ch: &str| -> Opts {
                 let mut o = vec![
                     ("color", s("#e0457b")),
-                    ("gradient", s(g)),
+                    ("channel", s(ch)),
                     ("label", s("Hue")),
                 ];
                 if let Some(v) = v {
@@ -1969,14 +2105,32 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 }
                 o
             };
-            cases.push(("value-0", base(Some(0.0), hue), "light", "desktop"));
-            cases.push(("value-50", base(Some(50.0), hue), "light", "desktop"));
-            cases.push(("value-100", base(Some(100.0), hue), "light", "desktop"));
-            cases.push(("value-unset", base(None, hue), "light", "desktop"));
-            cases.push(("alpha", base(Some(50.0), alpha), "light", "desktop"));
-            cases.push(("dark-mobile", base(Some(50.0), hue), "dark", "mobile"));
-            cases.push(("wireframe", base(Some(50.0), hue), "wireframe", "desktop"));
-            let mut d = base(Some(50.0), hue);
+            cases.push(("value-0", base(Some(0.0), "hue"), "light", "desktop"));
+            cases.push(("value-50", base(Some(50.0), "hue"), "light", "desktop"));
+            cases.push(("value-100", base(Some(100.0), "hue"), "light", "desktop"));
+            cases.push(("value-unset", base(None, "hue"), "light", "desktop"));
+            cases.push(("alpha", base(Some(50.0), "alpha"), "light", "desktop"));
+            cases.push((
+                "saturation",
+                base(Some(50.0), "saturation"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "lightness",
+                base(Some(50.0), "lightness"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "brightness",
+                base(Some(50.0), "brightness"),
+                "light",
+                "desktop",
+            ));
+            cases.push(("dark-mobile", base(Some(50.0), "hue"), "dark", "mobile"));
+            cases.push(("wireframe", base(Some(50.0), "hue"), "wireframe", "desktop"));
+            let mut d = base(Some(50.0), "hue");
             d.push(("isDisabled", true.into()));
             cases.push(("disabled", d, "light", "desktop"));
             for (label, v) in [
@@ -1984,19 +2138,20 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 ("vertical-50", 50.0),
                 ("vertical-100", 100.0),
             ] {
-                let mut o = base(Some(v), &hue_v);
+                let mut o = base(Some(v), "hue");
                 o.push(("orientation", s("vertical")));
                 cases.push((label, o, "light", "desktop"));
             }
-            let mut o = base(Some(25.0), &hue_v);
+            let mut o = base(Some(25.0), "alpha");
             o.push(("orientation", s("vertical")));
-            cases.push(("vertical-dark-mobile", o, "dark", "mobile"));
+            cases.push(("vertical-alpha-dark-mobile", o, "dark", "mobile"));
         } else {
-            let base = |x: Option<f64>, y: Option<f64>| -> Opts {
+            let base = |x: Option<f64>, y: Option<f64>, sp: &str, xc: &str, yc: &str| -> Opts {
                 let mut o = vec![
                     ("color", s("#e0457b")),
-                    ("gradient", s(sat)),
-                    ("overlay", s(shade)),
+                    ("colorSpace", s(sp)),
+                    ("xChannel", s(xc)),
+                    ("yChannel", s(yc)),
                 ];
                 if let Some(x) = x {
                     o.push(("x-value", x.into()));
@@ -2006,29 +2161,43 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 }
                 o
             };
-            cases.push(("xy-0-0", base(Some(0.0), Some(0.0)), "light", "desktop"));
-            cases.push(("xy-50-50", base(Some(50.0), Some(50.0)), "light", "desktop"));
+            let hsl = |x, y| base(x, y, "hsl", "saturation", "lightness");
+            cases.push(("xy-0-0", hsl(Some(0.0), Some(0.0)), "light", "desktop"));
+            cases.push(("xy-50-50", hsl(Some(50.0), Some(50.0)), "light", "desktop"));
             cases.push((
                 "xy-100-100",
-                base(Some(100.0), Some(100.0)),
+                hsl(Some(100.0), Some(100.0)),
                 "light",
                 "desktop",
             ));
-            cases.push(("xy-75-25", base(Some(75.0), Some(25.0)), "light", "desktop"));
-            cases.push(("xy-unset", base(None, None), "light", "desktop"));
-            cases.push((
-                "dark-mobile",
-                base(Some(75.0), Some(25.0)),
-                "dark",
-                "mobile",
-            ));
+            cases.push(("xy-75-25", hsl(Some(75.0), Some(25.0)), "light", "desktop"));
+            cases.push(("xy-unset", hsl(None, None), "light", "desktop"));
+            cases.push(("dark-mobile", hsl(Some(75.0), Some(25.0)), "dark", "mobile"));
             cases.push((
                 "wireframe",
-                base(Some(75.0), Some(25.0)),
+                hsl(Some(75.0), Some(25.0)),
                 "wireframe",
                 "desktop",
             ));
-            let mut d = base(Some(75.0), Some(25.0));
+            cases.push((
+                "hsb-sat-bright",
+                base(Some(75.0), Some(25.0), "hsb", "saturation", "brightness"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "hsl-hue-light",
+                base(Some(75.0), Some(25.0), "hsl", "hue", "lightness"),
+                "light",
+                "desktop",
+            ));
+            cases.push((
+                "hsb-bright-sat",
+                base(Some(25.0), Some(75.0), "hsb", "brightness", "saturation"),
+                "light",
+                "desktop",
+            ));
+            let mut d = hsl(Some(75.0), Some(25.0));
             d.push(("isDisabled", true.into()));
             cases.push(("disabled", d, "light", "desktop"));
         }

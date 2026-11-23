@@ -1596,3 +1596,23 @@ rules:
     message: "Floating part '{part}' of '{component}' {problem}"
     spec_ref: spec/component-visuals.md#floating-parts
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-115
+    name: gradient-ramp-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A `gradient` draws either listed `stops` or a `ramp` the engine computes from a color
+      option and a channel (a color slider's track, or one layer of a color area).
+    assert: >
+      A `gradient` MUST have exactly one of `stops` and `ramp`. A `ramp` MUST have a `color`
+      that is `{ "option": name }` and a `channel`; `channel`, `space` and `z` are each
+      `{ "option": name }` or `{ "value": name }`. An option MUST be a string option of the
+      component when it declares options; a literal channel MUST be hue, saturation, lightness,
+      brightness, red, green, blue or alpha, and a literal space hsl, hsb or rgb. With every
+      input a literal, the ramp MUST be drawable: the channel exists in the space, and an area
+      layer (`z` present) is hsl or hsb and not for `z` itself unless it is hue.
+    message: "Gradient of part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#value-sources
+    introduced_in: "1.0.0-draft"

@@ -86,16 +86,77 @@
       "default": false
     },
     "color": {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
-      "description": "The selected color, shown inside the handle."
-    },
-    "gradient": {
       "type": "string",
-      "description": "The first gradient of the area (the x channel), as a CSS linear-gradient() of solid colors. Unset draws no gradient. Interim host-supplied render input (not a component API prop): the host derives it from the channel and the color until the engine computes ramps."
+      "description": "The color whose two channels the area adjusts (S2 value). The gradient is computed from it and the channels. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
     },
-    "overlay": {
+    "colorSpace": {
       "type": "string",
-      "description": "The second gradient drawn over the first (the y channel), as a CSS linear-gradient() of solid colors with alpha. Unset draws none. Interim host-supplied render input (not a component API prop): the host derives it from the channel and the color until the engine computes ramps."
+      "description": "The color space of the two channels (S2 colorSpace). Defaults to the color's own space.",
+      "values": [
+        {
+          "value": "rgb"
+        },
+        {
+          "value": "hsl"
+        },
+        {
+          "value": "hsb"
+        }
+      ]
+    },
+    "xChannel": {
+      "type": "string",
+      "description": "The color channel on the horizontal axis (S2 xChannel). Must differ from yChannel.",
+      "values": [
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "brightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        }
+      ]
+    },
+    "yChannel": {
+      "type": "string",
+      "description": "The color channel on the vertical axis (S2 yChannel). Must differ from xChannel.",
+      "values": [
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "brightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        }
+      ]
     }
   },
   "anatomy": [
@@ -107,19 +168,21 @@
     },
     {
       "name": "fill",
-      "description": "The first gradient of the area, from the x channel, drawn over the container.",
+      "description": "The lower channel layer of the area gradient, computed from the color and the channels.",
       "presentWhen": {
         "options": {
-          "isDisabled": false
+          "isDisabled": false,
+          "color": true
         }
       }
     },
     {
       "name": "overlay",
-      "description": "The second gradient, from the y channel, drawn over the first.",
+      "description": "The upper channel layer, drawn over the lower one.",
       "presentWhen": {
         "options": {
-          "isDisabled": false
+          "isDisabled": false,
+          "color": true
         }
       }
     },
