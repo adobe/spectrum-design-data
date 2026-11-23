@@ -37,6 +37,38 @@ pub const MAX_SHADOW_BLUR: f64 = 100.0;
 /// with a diagnostic, so SVG and PNG size the canvas the same way.
 pub const MAX_SHADOW_REACH: f64 = 1_000.0;
 
+/// The most columns a `grid` root lays out; a larger `columns` is clamped with a diagnostic.
+pub const MAX_GRID_COLUMNS: u64 = 100;
+
+/// The most copies one `repeat` draws; entries past it are dropped with a diagnostic, so a huge
+/// collection cannot make a huge scene.
+pub const MAX_REPEAT_COPIES: usize = 2_000;
+
+/// The deepest a `repeat` may nest inside a repeated copy; a deeper one is not drawn and the
+/// scene says so.
+pub const MAX_REPEAT_DEPTH: u32 = 6;
+
+thread_local! {
+    /// How many repeated copies are being solved inside one another.
+    static REPEAT_DEPTH: std::cell::Cell<u32> = const { std::cell::Cell::new(0) };
+}
+
+/// Keeps [`REPEAT_DEPTH`] one deeper for as long as it lives, also when the solve fails.
+struct DepthGuard;
+
+impl DepthGuard {
+    fn enter() -> Self {
+        REPEAT_DEPTH.set(REPEAT_DEPTH.get() + 1);
+        DepthGuard
+    }
+}
+
+impl Drop for DepthGuard {
+    fn drop(&mut self) {
+        REPEAT_DEPTH.set(REPEAT_DEPTH.get() - 1);
+    }
+}
+
 /// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
 /// (a part with a `placement`). `rp` checks every read against this table in debug builds, and
 /// SPEC-083 warns about a recipe prop missing from it (through `reads_prop`, which both use),
@@ -58,6 +90,9 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "paddingBlockStart",
             "paddingBlockEnd",
             "gap",
+            "columns",
+            "columnGap",
+            "rowGap",
             "cornerRadius",
             "cornerRadiusStartStart",
             "cornerRadiusStartEnd",
@@ -3894,9 +3929,22 @@ fn solve_root(
         &mut cx,
         "direction",
         &direction,
-        &["row", "column", "stack"],
+        &["row", "column", "stack", "grid"],
     );
-    let (column, stack) = (direction == "column", direction == "stack");
+    let (column, stack, grid) = (
+        direction == "column",
+        direction == "stack",
+        direction == "grid",
+    );
+    let grid_props = grid.then(|| {
+        let cols = rp(&mut cx, root, "columns");
+        let col_gap = rp(&mut cx, root, "columnGap");
+        let row_gap = rp(&mut cx, root, "rowGap");
+        for (n, r) in [("columnGap", &col_gap), ("rowGap", &row_gap)] {
+            track(&mut container_tokens, n, r);
+        }
+        (cols, col_gap, row_gap)
+    });
     let align = layout_keyword(&mut cx, "align", &align, &["start", "center", "end"]);
     let justify = layout_keyword(&mut cx, "justify", &justify, &["start", "center", "end"]);
     let press_diff = rp(&mut cx, root, "pressDifference");
@@ -4514,7 +4562,7 @@ fn solve_root(
     let n_wrap = flow.iter().filter(|c| c.overflow.is_some()).count();
     if let (Some(fw), true) = (fixed_w, n_wrap > 0) {
         let inner = fw.max(min_w) - pad_s - pad_e;
-        let raw = if column || stack {
+        let raw = if column || stack || grid {
             inner
         } else {
             let others: f64 = flow
@@ -4578,7 +4626,14 @@ fn solve_root(
     };
     let (tallest, tallest_one_line) = (tall(false), tall(true));
     let multi_line = flow.iter().any(|c| !c.lines.is_empty());
-    let sum_w = flow.iter().map(|c| c.w).sum::<f64>() + gaps;
+    let grid_dims = grid_props.map(|(cols, col_gap, row_gap)| {
+        let sizes: Vec<(f64, f64)> = flow.iter().map(|c| (c.w, c.h)).collect();
+        grid_tracks(&mut cx, &sizes, (&cols, &col_gap, &row_gap), gap)
+    });
+    let sum_w = match &grid_dims {
+        Some(g) => g.w,
+        None => flow.iter().map(|c| c.w).sum::<f64>() + gaps,
+    };
     let sum_h = flow.iter().map(|c| c.h).sum::<f64>() + gaps;
     let content_w = pad_s + if column || stack { widest } else { sum_w } + pad_e;
     let w = fixed_w.unwrap_or(content_w).max(min_w);
@@ -4604,7 +4659,7 @@ fn solve_root(
     // `(minHeight - one line) / 2`, the single-line padding, so a label that wraps grows the
     // container and keeps that padding.
     let (pad_bs, pad_be) = match min_h {
-        Some(m) if explicit_h.is_none() && !column && !stack && !block_padded => {
+        Some(m) if explicit_h.is_none() && !column && !stack && !grid && !block_padded => {
             let p = ((m - tallest_one_line) / 2.0).max(0.0);
             (p, p)
         }
@@ -4615,6 +4670,8 @@ fn solve_root(
     let h = explicit_h.unwrap_or_else(|| {
         let content = if column {
             sum_h + pad_bs + pad_be
+        } else if let Some(g) = &grid_dims {
+            g.h + pad_bs + pad_be
         } else {
             tallest + pad_bs + pad_be
         };
@@ -4722,7 +4779,7 @@ fn solve_root(
             .unwrap_or(0.0)
     };
     let layout = Layout {
-        gap: (flow.len() > 1 && !stack).then_some(gap),
+        gap: (flow.len() > 1 && !stack && !grid).then_some(gap),
         padding: [pad_bs, pad_e, pad_be, pad_s],
     };
     let mut y = oy
@@ -4733,7 +4790,7 @@ fn solve_root(
             0.0
         };
     let mut gap_from: Option<f64> = None;
-    let total_grow: f64 = if column || stack {
+    let total_grow: f64 = if column || stack || grid {
         0.0
     } else {
         flow.iter().map(|c| c.grow).sum()
@@ -4742,14 +4799,20 @@ fn solve_root(
     // A row with no growing part justifies its content in the space a minWidth or width leaves.
     let mut x = ox
         + pad_s
-        + if column || stack || total_grow > 0.0 {
+        + if column || stack || total_grow > 0.0 || grid {
             0.0
         } else {
             axis_offset(&justify, free_w)
         };
-    for mut c in flow {
-        // A column stretches a box that has no width of its own across its inner width.
-        let cw = if (column || stack) && c.kind == "box" && c.auto_w {
+    for (index, mut c) in flow.into_iter().enumerate() {
+        let cell = grid_dims
+            .as_ref()
+            .map(|g| (g, index / g.cols, index % g.cols));
+        // A column stretches a box that has no width of its own across its inner width; a grid
+        // cell, across its column.
+        let cw = if let Some((g, _, col)) = cell.filter(|_| c.kind == "box" && c.auto_w) {
+            g.col_w[col]
+        } else if (column || stack) && c.kind == "box" && c.auto_w {
             w - pad_s - pad_e
         } else {
             c.w
@@ -4763,7 +4826,14 @@ fn solve_root(
         };
         let adv = cw + extra;
         let cw = if c.kind == "box" { adv } else { cw };
-        let (cx0, cy0) = if stack {
+        let (cx0, cy0) = if let Some((g, row, col)) = cell {
+            // A grid cell holds its content in the cell: `justify` across the column, `align`
+            // down the row.
+            (
+                ox + pad_s + g.col_x[col] + axis_offset(&justify, g.col_w[col] - cw),
+                oy + pad_bs + g.row_y[row] + axis_offset(&align, g.row_h[row] - c.h),
+            )
+        } else if stack {
             // Siblings overlay: each sits in the inner box, `justify` across and `align` down.
             (
                 ox + pad_s + axis_offset(&justify, w - pad_s - pad_e - cw),
@@ -4784,7 +4854,7 @@ fn solve_root(
             )
         };
         let ch = c.h;
-        if let Some(from) = gap_from.filter(|_| !stack) {
+        if let Some(from) = gap_from.filter(|_| !stack && !grid) {
             if let Some(token) = m_gap.clone() {
                 let span = if column {
                     (cx0, from, cw, gap)
@@ -6206,10 +6276,15 @@ fn solve_copies(
     inner: Option<f64>,
     min_inner: f64,
 ) -> Result<Vec<Nested>, String> {
+    if REPEAT_DEPTH.get() >= MAX_REPEAT_DEPTH {
+        cx.diags.push(format!(
+            "repeat: '{id}' is nested more than {MAX_REPEAT_DEPTH} repeats deep; it is not drawn"
+        ));
+        return Ok(Vec::new());
+    }
     let req = cx.req;
-    let entries = rep
-        .get("option")
-        .and_then(Value::as_str)
+    let option = rep.get("option").and_then(Value::as_str);
+    let entries = option
         .and_then(|o| req.options.get(o))
         .and_then(Value::as_array);
     let mut items: Vec<&Value> = entries
@@ -6221,14 +6296,30 @@ fn solve_copies(
             a.len() - items.len()
         ));
     }
+    if items.len() > MAX_REPEAT_COPIES {
+        cx.diags.push(format!(
+            "repeat: {} entries are past the limit of {MAX_REPEAT_COPIES}; they are not drawn",
+            items.len() - MAX_REPEAT_COPIES
+        ));
+        items.truncate(MAX_REPEAT_COPIES);
+    }
+    // Every copy starts from this request, so a huge array option is cloned once, not per copy.
+    let mut base = req.clone();
+    if let Some(Value::Array(a)) = option.and_then(|o| base.options.get_mut(o)) {
+        a.truncate(MAX_REPEAT_COPIES);
+    }
     let none = Value::Null;
     if items.is_empty() {
+        // A repeat inside a copy draws nothing for an entry with no children (a tree leaf); the
+        // outermost one draws one copy with the request's own options.
+        if REPEAT_DEPTH.get() > 0 {
+            return Ok(Vec::new());
+        }
         items.push(&none);
     }
-    // shortcut: copy_req clones the options (the whole items array) per copy, quadratic for a
-    // very long list; borrow the array if a collection ever has hundreds of entries.
+    let _depth = DepthGuard::enter();
     let copy_req = |item: &Value, width: Option<f64>| {
-        let mut r = req.clone();
+        let mut r = base.clone();
         r.width = width;
         if let Some(l) = rep
             .get("label")
@@ -6346,6 +6437,89 @@ fn solve_copies(
         });
     }
     Ok(out)
+}
+
+struct GridTracks {
+    cols: usize,
+    col_w: Vec<f64>,
+    row_h: Vec<f64>,
+    col_x: Vec<f64>,
+    row_y: Vec<f64>,
+    w: f64,
+    h: f64,
+}
+
+/// A grid root's tracks: `columns` (a whole number from 1 through [`MAX_GRID_COLUMNS`]; any
+/// other value is clamped with a diagnostic) cells per row, filled row-major. A column is as
+/// wide as its widest cell and a row as tall as its tallest. `column_gap` and `row_gap` fall
+/// back to `gap`.
+fn grid_tracks(
+    cx: &mut Ctx,
+    cells: &[(f64, f64)],
+    (cols, col_gap, row_gap): (&Option<Resolved>, &Option<Resolved>, &Option<Resolved>),
+    gap: f64,
+) -> GridTracks {
+    let max = MAX_GRID_COLUMNS as f64;
+    let n = match cols.as_ref().and_then(Resolved::num) {
+        Some(v) if v.fract() == 0.0 && (1.0..=max).contains(&v) => v as usize,
+        Some(v) if v >= 1.0 => {
+            cx.diags.push(format!(
+                "columns {v} is not a whole number up to {MAX_GRID_COLUMNS}; using {}",
+                v.floor().min(max)
+            ));
+            v.floor().min(max) as usize
+        }
+        _ => {
+            cx.diags.push(format!(
+                "columns {} is not a number of at least 1; using 1",
+                cols.as_ref()
+                    .map_or("is not set".into(), |c| format!("'{}'", c.value))
+            ));
+            1
+        }
+    };
+    let mut gap_of = |name: &str, r: &Option<Resolved>| match r.as_ref().and_then(Resolved::num) {
+        Some(v) if v >= 0.0 => v,
+        Some(v) => {
+            cx.diags.push(format!("{name} {v} is negative; using 0"));
+            0.0
+        }
+        None => gap,
+    };
+    let (col_gap, row_gap) = (gap_of("columnGap", col_gap), gap_of("rowGap", row_gap));
+    if cells.is_empty() {
+        cx.diags.push("grid has no cells".into());
+    }
+    let used = n.min(cells.len());
+    let rows = cells.len().div_ceil(n);
+    let mut col_w = vec![0.0f64; used];
+    let mut row_h = vec![0.0f64; rows];
+    for (i, (w, h)) in cells.iter().enumerate() {
+        col_w[i % n] = col_w[i % n].max(*w);
+        row_h[i / n] = row_h[i / n].max(*h);
+    }
+    let starts = |sizes: &[f64], gap: f64| -> Vec<f64> {
+        sizes
+            .iter()
+            .scan(0.0, |at, s| {
+                let start = *at;
+                *at += s + gap;
+                Some(start)
+            })
+            .collect()
+    };
+    let extent = |sizes: &[f64], gap: f64| {
+        sizes.iter().sum::<f64>() + gap * sizes.len().saturating_sub(1) as f64
+    };
+    GridTracks {
+        cols: n,
+        col_x: starts(&col_w, col_gap),
+        row_y: starts(&row_h, row_gap),
+        w: extent(&col_w, col_gap),
+        h: extent(&row_h, row_gap),
+        col_w,
+        row_h,
+    }
 }
 
 /// Append a nested part's nodes with its top-left corner at `(x, y)`.
@@ -12465,5 +12639,347 @@ mod tests {
         assert_eq!(l.w, 0.0);
         assert!(l.h > 0.0);
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+    }
+
+    // --- grid and nested repeat ---
+
+    fn cell(w: f64, h: f64, fill: &str) -> Value {
+        let mut props = lit_props(&[("width", w), ("height", h)]);
+        props["fill"] = serde_json::json!({ "value": fill });
+        serde_json::json!({ "kind": "box", "props": props })
+    }
+
+    /// A grid root over `cells` (`a`, `b`, ...) with these props merged over `direction: grid`.
+    fn grid_recipe(cells: &[(f64, f64)], props: Value) -> Value {
+        let ids: Vec<String> = (0..cells.len()).map(|i| format!("c{i}")).collect();
+        let mut root_props = serde_json::json!({ "direction": { "value": "grid" } });
+        root_props
+            .as_object_mut()
+            .unwrap()
+            .extend(props.as_object().unwrap().clone());
+        let mut parts = serde_json::Map::new();
+        parts.insert(
+            "r".into(),
+            serde_json::json!({ "kind": "box", "children": ids, "props": root_props }),
+        );
+        for (i, (w, h)) in cells.iter().enumerate() {
+            parts.insert(format!("c{i}"), cell(*w, *h, "#ff0000"));
+        }
+        host(Value::Object(parts))
+    }
+
+    fn grid_scene(cells: &[(f64, f64)], props: Value) -> Scene {
+        nest_scene(&nest_graph(&[]), &grid_recipe(cells, props), "m", &[], &[]).unwrap()
+    }
+
+    fn lit_num(v: f64) -> Value {
+        serde_json::json!({ "value": v })
+    }
+
+    #[test]
+    fn a_grid_fills_cells_row_major_with_the_column_count_and_gaps() {
+        let s = grid_scene(
+            &[(20.0, 10.0); 7],
+            serde_json::json!({ "columns": lit_num(3.0), "gap": lit_num(4.0) }),
+        );
+        let at = |i: usize| {
+            let n = part(&s, &format!("c{i}")).unwrap();
+            (n.x, n.y)
+        };
+        // The root starts at the 8px ring margin; a cell is 20x10 with a 4px gap each way.
+        assert_eq!(at(0), (8.0, 8.0));
+        assert_eq!(at(1), (32.0, 8.0));
+        assert_eq!(at(2), (56.0, 8.0));
+        assert_eq!(
+            at(3),
+            (8.0, 22.0),
+            "the fourth cell wraps to the second row"
+        );
+        assert_eq!(at(6), (8.0, 36.0), "the last row is short");
+        let root = &s.nodes[0];
+        assert_eq!((root.w, root.h), (68.0, 38.0));
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        // The gap token is not measured between cells of a grid.
+        assert!(s.measurements.iter().all(|m| m.kind != "gap"));
+    }
+
+    #[test]
+    fn grid_column_gap_and_row_gap_override_gap() {
+        let s = grid_scene(
+            &[(20.0, 10.0); 4],
+            serde_json::json!({ "columns": lit_num(2.0), "gap": lit_num(4.0),
+                "columnGap": lit_num(10.0), "rowGap": lit_num(0.0) }),
+        );
+        let at = |i: usize| {
+            let n = part(&s, &format!("c{i}")).unwrap();
+            (n.x, n.y)
+        };
+        assert_eq!(at(1), (38.0, 8.0));
+        assert_eq!(at(2), (8.0, 18.0));
+        assert_eq!((s.nodes[0].w, s.nodes[0].h), (50.0, 20.0));
+    }
+
+    #[test]
+    fn grid_columns_take_the_widest_cell_and_rows_the_tallest_and_cells_align() {
+        let cells = [(30.0, 10.0), (10.0, 20.0), (10.0, 10.0), (20.0, 10.0)];
+        let at = |props: Value| {
+            let s = grid_scene(&cells, props);
+            let n = |i: usize| {
+                let n = part(&s, &format!("c{i}")).unwrap();
+                (n.x, n.y)
+            };
+            (n(0), n(1), n(2), n(3), (s.nodes[0].w, s.nodes[0].h))
+        };
+        let base = |extra: Value| {
+            let mut p = serde_json::json!({ "columns": lit_num(2.0), "gap": lit_num(2.0) });
+            p.as_object_mut()
+                .unwrap()
+                .extend(extra.as_object().unwrap().clone());
+            p
+        };
+        let (a, b, c, d, root) = at(base(serde_json::json!({
+            "justify": { "value": "start" }, "align": { "value": "start" } })));
+        // Column 0 is 30 wide, column 1 is 20 wide; row 0 is 20 tall, row 1 is 10 tall.
+        assert_eq!(root, (52.0, 32.0));
+        assert_eq!((a, b), ((8.0, 8.0), (40.0, 8.0)));
+        assert_eq!((c, d), ((8.0, 30.0), (40.0, 30.0)));
+        let (a, b, c, d, _) = at(base(serde_json::json!({
+            "justify": { "value": "end" }, "align": { "value": "end" } })));
+        assert_eq!(
+            (a, b),
+            ((8.0, 18.0), (50.0, 8.0)),
+            "end: right and bottom of the cell"
+        );
+        assert_eq!((c, d), ((28.0, 30.0), (40.0, 30.0)));
+        let (a, b, ..) = at(base(serde_json::json!({
+            "justify": { "value": "center" }, "align": { "value": "center" } })));
+        assert_eq!((a, b), ((8.0, 13.0), (45.0, 8.0)));
+    }
+
+    #[test]
+    fn a_grid_is_drawn_by_svg_and_png_at_the_same_cells() {
+        let s = grid_scene(
+            &[(20.0, 10.0); 4],
+            serde_json::json!({ "columns": lit_num(2.0), "gap": lit_num(4.0) }),
+        );
+        let svg = scene_to_svg(&s);
+        for i in 0..4 {
+            assert!(svg.contains(&format!("data-part=\"c{i}\"")));
+        }
+        assert!(
+            svg.contains("x=\"32\" y=\"22\" width=\"20\" height=\"10\""),
+            "{svg}"
+        );
+        #[cfg(feature = "raster")]
+        {
+            let opts = crate::raster::RasterOptions {
+                scale: 1.0,
+                background: None,
+            };
+            let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
+            let px = |x: u32, y: u32| {
+                let i = ((y * img.width + x) * 4) as usize;
+                img.rgba[i..i + 4].to_vec()
+            };
+            assert_eq!(
+                px(42, 27),
+                vec![255, 0, 0, 255],
+                "the cell at column 1, row 1"
+            );
+            assert_eq!(px(28, 27)[3], 0, "the gap between columns is empty");
+            assert_eq!(px(42, 20)[3], 0, "the gap between rows is empty");
+        }
+    }
+
+    #[test]
+    fn a_grid_clamps_a_bad_column_count_with_a_diagnostic() {
+        let run = |cols: Option<Value>| {
+            let mut p = serde_json::json!({});
+            if let Some(c) = cols {
+                p["columns"] = c;
+            }
+            let s = grid_scene(&[(10.0, 10.0); 4], p);
+            (s.nodes[0].w, s.diagnostics.join("|"))
+        };
+        for bad in [0.0, -3.0, f64::NAN] {
+            let (w, d) = run(Some(serde_json::json!({ "value": bad.to_string() })));
+            assert_eq!(w, 10.0, "{bad}: one column");
+            assert!(d.contains("columns"), "{bad}: {d}");
+        }
+        let (w, d) = run(None);
+        assert_eq!(w, 10.0);
+        assert!(d.contains("columns"), "{d}");
+        let (w, d) = run(Some(serde_json::json!({ "value": 2.5 })));
+        assert_eq!(w, 20.0, "2.5 floors to 2");
+        assert!(d.contains("whole number"), "{d}");
+        let (w, d) = run(Some(lit_num(1.0e9)));
+        assert_eq!(
+            w, 40.0,
+            "four cells in one row, clamped to the cells there are"
+        );
+        assert!(d.contains("up to 100"), "{d}");
+    }
+
+    #[test]
+    fn a_grid_with_no_cells_is_empty_with_a_diagnostic() {
+        let s = grid_scene(&[], serde_json::json!({ "columns": lit_num(3.0) }));
+        assert_eq!((s.nodes[0].w, s.nodes[0].h), (0.0, 0.0));
+        assert!(s.diagnostics.iter().any(|d| d.contains("no cells")));
+    }
+
+    #[test]
+    fn a_grid_of_a_huge_column_and_cell_count_is_clamped_and_fast() {
+        let t = std::time::Instant::now();
+        let entries: Vec<Value> = (0..1_000_000)
+            .map(|_| serde_json::json!({ "label": "x" }))
+            .collect();
+        let s = collection_part(
+            serde_json::json!({ "direction": { "value": "grid" }, "columns": lit_num(1.0e9) }),
+            serde_json::json!({ "props": lit_props(&[("width", 4.0), ("height", 4.0)]) }),
+            serde_json::json!({}),
+            serde_json::json!({}),
+            |_| {},
+            Value::Array(entries),
+        );
+        let copies = s
+            .nodes
+            .iter()
+            .filter(|n| n.part.starts_with("item-") && !n.part.contains('.'))
+            .count();
+        assert_eq!(copies, MAX_REPEAT_COPIES);
+        assert_eq!(s.nodes[0].w, 4.0 * MAX_GRID_COLUMNS as f64);
+        assert!(s.diagnostics.iter().any(|d| d.contains("past the limit")));
+        assert!(s.diagnostics.iter().any(|d| d.contains("up to 100")));
+        assert!(t.elapsed().as_secs() < 20, "{:?}", t.elapsed());
+    }
+
+    /// A tree: `tree` repeats `level1` (entries of `items`), whose `children` entries repeat
+    /// `level2`, whose `children` repeat `level3`. Each level indents by its own padding.
+    fn tree_scene(items: Value) -> Scene {
+        let (mut g, _) = load();
+        let comp = g
+            .components
+            .iter_mut()
+            .find(|c| c.name == "action-button")
+            .unwrap();
+        comp.raw["slots"] = serde_json::json!([
+            { "name": "default", "part": "level1", "collection": "items" },
+            { "name": "second", "part": "level2", "collection": "second" },
+            { "name": "third", "part": "level3", "collection": "third" }
+        ]);
+        let level = |kids: &[&str], indent: f64, repeat: Value| {
+            let mut p = serde_json::json!({
+                "kind": "box", "children": kids,
+                "props": { "direction": { "value": "column" },
+                    "align": { "value": "start" },
+                    "paddingInlineStart": { "value": indent } },
+            });
+            if !repeat.is_null() {
+                p["repeat"] = repeat;
+            }
+            p
+        };
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "tree", "sizeScale": { "m": 100 },
+            "parts": {
+                "tree": level(&["level1"], 0.0, serde_json::json!(
+                    { "slot": "default", "with": { "second": "children" } })),
+                "level1": level(&["row1", "level2"], 0.0, serde_json::json!(
+                    { "slot": "second", "with": { "third": "children" } })),
+                "level2": level(&["row2", "level3"], 10.0, serde_json::json!(
+                    { "slot": "third" })),
+                "level3": level(&["row3"], 20.0, Value::Null),
+                "row1": cell(30.0, 10.0, "#00ff00"),
+                "row2": cell(30.0, 10.0, "#00ff00"),
+                "row3": cell(30.0, 10.0, "#00ff00")
+            }
+        });
+        let mut r = req(&[]);
+        r.options.insert("items".into(), items);
+        build_scene(&g, &recipe, &r).unwrap()
+    }
+
+    #[test]
+    fn a_repeat_inside_a_repeat_draws_each_level_indented() {
+        let s = tree_scene(serde_json::json!([
+            { "children": [ { "children": [ {}, {} ] } ] },
+            {}
+        ]));
+        let at = |id: &str| {
+            let n = part(&s, id).unwrap_or_else(|| {
+                panic!(
+                    "no {id}: {:?}",
+                    s.nodes.iter().map(|n| &n.part).collect::<Vec<_>>()
+                )
+            });
+            (n.x, n.y)
+        };
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        // Each level indents by its own padding: 0, then 10, then 10 + 20.
+        assert_eq!(at("level1-1.row1"), (8.0, 8.0));
+        assert_eq!(at("level1-1.row2"), (18.0, 18.0));
+        assert_eq!(at("level1-1.level3-1.row3"), (38.0, 28.0));
+        assert_eq!(at("level1-1.level3-2.row3"), (38.0, 38.0));
+        // A leaf entry has no children, so it draws no phantom copy of the level below.
+        assert_eq!(at("level1-2.row1"), (8.0, 48.0));
+        assert!(part(&s, "level1-2.row2").is_none());
+    }
+
+    /// A recipe with `depth` levels, each repeating the next over `children`.
+    fn deep_tree(depth: usize) -> (TokenGraph, Value) {
+        let (mut g, _) = load();
+        let comp = g
+            .components
+            .iter_mut()
+            .find(|c| c.name == "action-button")
+            .unwrap();
+        let slots: Vec<Value> = (0..=depth)
+            .map(|i| {
+                serde_json::json!({ "name": format!("s{i}"), "part": format!("l{}", i + 1),
+                "collection": format!("o{i}") })
+            })
+            .collect();
+        comp.raw["slots"] = Value::Array(slots);
+        let mut parts = serde_json::Map::new();
+        for i in 0..depth {
+            parts.insert(
+                format!("l{i}"),
+                serde_json::json!({
+                "kind": "box", "children": [format!("l{}", i + 1)],
+                "repeat": { "slot": format!("s{i}"), "with": { format!("o{}", i + 1): "c" } } }),
+            );
+        }
+        parts.insert(format!("l{depth}"), cell(4.0, 4.0, "#ff0000"));
+        let recipe = serde_json::json!({ "component": "action-button", "root": "l0",
+            "sizeScale": { "m": 100 }, "parts": parts });
+        (g, recipe)
+    }
+
+    #[test]
+    fn a_repeat_nested_too_deep_stops_with_a_diagnostic() {
+        let t = std::time::Instant::now();
+        for depth in [
+            MAX_REPEAT_DEPTH as usize,
+            MAX_REPEAT_DEPTH as usize + 1,
+            1000,
+        ] {
+            let (g, recipe) = deep_tree(depth);
+            let mut entry = serde_json::json!({});
+            // The data is as deep as JSON parsing allows (128); the recipe is the deep part.
+            for _ in 0..depth.min(100) {
+                entry = serde_json::json!({ "c": [entry] });
+            }
+            let mut r = req(&[]);
+            r.options.insert("o0".into(), serde_json::json!([entry]));
+            let s = build_scene(&g, &recipe, &r).unwrap();
+            let capped = s.diagnostics.iter().any(|d| d.contains("repeats deep"));
+            assert_eq!(
+                capped,
+                depth > MAX_REPEAT_DEPTH as usize,
+                "depth {depth}: {:?}",
+                s.diagnostics
+            );
+        }
+        assert!(t.elapsed().as_secs() < 20, "{:?}", t.elapsed());
     }
 }
