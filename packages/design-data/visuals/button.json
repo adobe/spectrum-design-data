@@ -181,6 +181,20 @@
               "property": "color",
               "context": "Background"
             }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": false,
+                "style": "outline",
+                "variant": ["primary", "secondary"]
+              },
+              "states": ["keyboard-focus"]
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
           }
         ],
         "stroke": [
