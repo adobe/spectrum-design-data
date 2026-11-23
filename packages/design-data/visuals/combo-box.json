@@ -11,6 +11,7 @@
   },
   "notVisual": [
     "labelPosition",
+    "width",
     "hasAutocomplete",
     "menuTrigger",
     "isReadOnly",
@@ -47,7 +48,10 @@
           "value": 0
         },
         "width": {
-          "dimension": "width"
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
         }
       }
     },
@@ -76,10 +80,13 @@
     },
     "field": {
       "kind": "box",
-      "children": ["value"],
+      "children": ["value", "error-icon", "in-field-button"],
       "props": {
         "direction": {
           "value": "row"
+        },
+        "justify": {
+          "value": "end"
         },
         "align": {
           "value": "center"
@@ -176,6 +183,35 @@
       },
       "text": {
         "option": "value"
+      }
+    },
+    "error-icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "alert-triangle"
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "error-icon"
+          }
+        }
+      }
+    },
+    "in-field-button": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "isDisabled": {
+          "option": "isDisabled"
+        }
       }
     },
     "focus-indicator": {

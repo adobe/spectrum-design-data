@@ -1,4 +1,4 @@
-# @adobe/design-data
+# [**@adobe/design-data**](https://github.com/adobe/design-data)
 
 Node.js helpers over `@adobe/design-data-wasm`: filesystem dataset loading,
 validation, and guideline and component lookups.

@@ -9,7 +9,7 @@
     "l": 300
   },
   "notVisual": [
-    "hideImage",
+    "showImage",
     "footerContent",
     "primaryActionLabel",
     "secondaryActionLabel",

@@ -82,10 +82,10 @@
     "description": {
       "type": "string"
     },
-    "hideImage": {
+    "showImage": {
       "type": "boolean",
-      "default": false,
-      "description": "Optional image to display in dialog."
+      "default": true,
+      "description": "Shows the optional cover image at the top of the coach mark."
     },
     "actions": {
       "type": "object",
@@ -143,7 +143,7 @@
     },
     {
       "name": "cover-image",
-      "description": "Optional image at the top, 16:9 or 4:3. Hidden with hideImage."
+      "description": "Optional image at the top, 16:9 or 4:3. Shown with showImage."
     },
     {
       "name": "title",
