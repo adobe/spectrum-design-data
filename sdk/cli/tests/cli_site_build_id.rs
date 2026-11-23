@@ -49,3 +49,25 @@ fn index_html_carries_a_deterministic_content_hash() {
     let other = build(&dir.path().join("c"), "action-button");
     assert_ne!(id(&other), ida);
 }
+
+/// The page builds a text box for a string option with no listed values and a number box for a
+/// number option, so data.json must keep those shapes and the page must carry the builders.
+#[test]
+fn data_json_carries_string_and_number_options_the_page_builds_inputs_for() {
+    let dir = tempfile::tempdir().unwrap();
+    let html = build(dir.path(), "combo-box");
+    assert!(html.contains("isTextOption") && html.contains("isNumberOption"));
+    let data: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(dir.path().join("data.json")).unwrap())
+            .unwrap();
+    let c = &data["byName"]["combo-box"];
+    assert_eq!(c["options"]["value"]["type"], "string");
+    assert!(c["options"]["value"].get("values").is_none());
+    assert!(c["recipe"]["used"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|u| u == "value"));
+    let content = std::fs::read_to_string(dir.path().join("content-controls.js")).unwrap();
+    assert!(content.contains("export const isTextOption"));
+}

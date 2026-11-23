@@ -112,7 +112,12 @@ export const backend = {
       if (!k.startsWith("opt.") || v === "" || v === false || v === "false")
         continue;
       const opt = k.slice(4);
-      if (opt in (data.byName[q.name].options ?? {})) options[opt] = parse(v);
+      const def = data.byName[q.name].options?.[opt];
+      if (!def) continue;
+      // Number boxes hand over text; the engine wants a number, and junk is unset.
+      if (def.type === "number") {
+        if (Number.isFinite(Number(v))) options[opt] = Number(v);
+      } else options[opt] = parse(v);
     }
     const size = q.size ?? "m";
     const scheme = q.scheme ?? "light";

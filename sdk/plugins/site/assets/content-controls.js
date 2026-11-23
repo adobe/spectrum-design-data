@@ -14,6 +14,15 @@
 export const DEFAULT_LABEL = "Label";
 export const NO_ICON = "none";
 
+// A free-text option gets a text box: a string with no listed values. Label text has its own
+// control and `$ref` options are icon presence toggles.
+export const isTextOption = (name, def) =>
+  name !== "label" && !def.$ref && def.type === "string" && !def.values;
+
+// A number option with no listed values gets a number box; `width` has its own control.
+export const isNumberOption = (name, def) =>
+  name !== "width" && !def.$ref && def.type === "number" && !def.values;
+
 // Picker choices as [value, text]; the empty value keeps the recipe's own icon.
 export function iconChoices(icons, optional) {
   const names = Object.keys(icons ?? {}).sort();
