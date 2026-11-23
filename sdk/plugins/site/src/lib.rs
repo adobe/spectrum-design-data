@@ -125,6 +125,7 @@ pub fn write_site(
             "sizeScale": recipe.get("sizeScale"),
             "used": used,
             "structural": structural,
+            "notVisual": recipe.get("notVisual"),
         });
         by_name.insert(c.name.clone(), def);
         compiled.insert(
