@@ -148,6 +148,23 @@
           "metadata": {"count":10,"fields":["anatomyReview.status","context","contextQualifier","contextRole","scope.options.qualifier","scope.options.state","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "e356cda6155f3db35a4db4cabbe9f52fa59d2f83",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2069,"title":"feat(design-data): add in-field-button, coach-indicator, standard-panel and bar-panel recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2069"},
+          "entries": [
+            {"id":"e356cda6-0","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"coach-indicator/visual","name":"coach-indicator","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

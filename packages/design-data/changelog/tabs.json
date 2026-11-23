@@ -442,6 +442,48 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "3.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "4e45d4c97756992716e6882e3edcea2b1b52015a",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2065,"title":"feat(design-data): add tabs and segmented-control visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2065"},
+          "entries": [
+            {"id":"4e45d4c9-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing"],"scope":{"property":"spacing","options":null},"record":"5eedefa8-cec9-577b-8933-41b116a014c4","name":"spacing","fields":[{"path":"context","before":"Spacing (selected)","after":"Spacing"}]},
+            {"id":"4e45d4c9-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing"],"scope":{"property":"spacing","options":{"orientation":"vertical"}},"record":"3466354b-9829-53db-9e65-23d9803e8e7f","name":"spacing[orientation=vertical]","fields":[{"path":"scope.options.orientation","after":"vertical"}]},
+            {"id":"4e45d4c9-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing"],"scope":{"property":"spacing","options":{"orientation":"vertical"}},"record":"3466354b-9829-53db-9e65-23d9803e8e7f","name":"spacing[orientation=vertical]","fields":[{"path":"context","before":"Spacing (selected)","after":"Spacing"}]},
+            {"id":"4e45d4c9-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tab items and selection indicator"],"scope":{"property":"content-color","options":{"isSelected":true}},"record":"76b15bd5-4183-5a55-acbf-6c71f80e5d3f","name":"content-color[isSelected=?]","fields":[{"path":"scope.options.isSelected","after":true}]},
+            {"id":"4e45d4c9-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tab items and selection indicator"],"scope":{"property":"content-color","options":{"isSelected":true}},"record":"d2271af6-b916-544b-8cd8-f1ccc708fc01","name":"content-color[isSelected=?]","fields":[{"path":"scope.options.isSelected","after":true}]},
+            {"id":"4e45d4c9-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tab items and selection indicator"],"scope":{"property":"content-color","options":{"isSelected":true}},"record":"d3c80b59-7234-54d6-a47f-8338d18bcd7a","name":"content-color[isSelected=?]","fields":[{"path":"scope.options.isSelected","after":true}]},
+            {"id":"4e45d4c9-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tab items and selection indicator"],"scope":{"property":"content-color","options":{"isSelected":false}},"record":"3a4febc0-051a-557e-acf3-4766d9e3b0b8","name":"content-color[isSelected=?]","fields":[{"path":"scope.options.isSelected","after":false}]},
+            {"id":"4e45d4c9-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tab items and selection indicator"],"scope":{"property":"content-color","options":{"isSelected":false}},"record":"3a8622f5-c4b7-5166-af51-3e2bd25b7e86","name":"content-color[isSelected=?]","fields":[{"path":"scope.options.isSelected","after":false}]},
+            {"id":"4e45d4c9-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tab items and selection indicator"],"scope":{"property":"content-color","options":{"isSelected":false}},"record":"db2235db-d618-5841-8ec4-9c8503641c75","name":"content-color[isSelected=?]","fields":[{"path":"scope.options.isSelected","after":false}]},
+            {"id":"4e45d4c9-9","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"s","density":"regular"}},"record":"04966a17-6a69-5387-93d3-250494ad9998","name":"height[density=regular,size=s]","fields":[],"after":"865f1ee3-4e60-433f-9685-1bf0ea9403de"},
+            {"id":"4e45d4c9-10","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"m","density":"regular"}},"record":"9b094f82-20f6-5e7e-93ee-2140ff7036af","name":"height[density=regular,size=m]","fields":[],"after":"7b41adba-a18a-41c8-841f-b199f807e0a9"},
+            {"id":"4e45d4c9-11","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"l","density":"regular"}},"record":"8edc9cc9-bd02-58ae-8331-597a7c1ce6ae","name":"height[density=regular,size=l]","fields":[],"after":"2f79ea86-7400-464a-a04e-af2a156c87c3"},
+            {"id":"4e45d4c9-12","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"xl","density":"regular"}},"record":"d7d555cc-16ce-53aa-9110-0a3ea7d8ce4c","name":"height[density=regular,size=xl]","fields":[],"after":"a3c39fe1-9f46-4e76-9176-c589f28aa39f"},
+            {"id":"4e45d4c9-13","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"s","density":"regular","scale":"mobile"}},"record":"5737c61d-9922-5b95-bb3c-d1e9a957b349","name":"height[density=regular,scale=mobile,size=s]","fields":[],"after":"7b98b58f-4270-5191-81ce-a4f7a6917d40"},
+            {"id":"4e45d4c9-14","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"m","density":"regular","scale":"mobile"}},"record":"a70227f2-7e03-5684-8680-d5bab5cbdaf7","name":"height[density=regular,scale=mobile,size=m]","fields":[],"after":"9b0fc8da-fc8a-5694-b5d5-b51775c8fb19"},
+            {"id":"4e45d4c9-15","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"l","density":"regular","scale":"mobile"}},"record":"148c451b-8149-5534-8b91-bcc5a311efb2","name":"height[density=regular,scale=mobile,size=l]","fields":[],"after":"a768028d-cd86-5360-8b8b-4636aadccab3"},
+            {"id":"4e45d4c9-16","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"xl","density":"regular","scale":"mobile"}},"record":"bb21f51b-11af-5d08-9990-06d780ba9828","name":"height[density=regular,scale=mobile,size=xl]","fields":[],"after":"4d741e1d-0e54-5554-a119-764ebd3dea57"},
+            {"id":"4e45d4c9-17","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/options/isSelected","name":"isSelected","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered item is the selected one. Drives the selection indicator and the item colors. Per-item in a data-driven component is items[].isSelected."}},
+            {"id":"4e45d4c9-18","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the rendered item is disabled. Per-item in a data-driven component is items[].isDisabled."}},
+            {"id":"4e45d4c9-19","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tabs/options/items","name":"items","fields":[{"path":"items.properties.isSelected.default","after":false},{"path":"items.properties.isSelected.type","after":"boolean"}]},
+            {"id":"4e45d4c9-20","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tabs/options/items","name":"items","fields":[{"path":"items.properties.isSelected.description","after":"Whether this item is the selected one."}]},
+            {"id":"4e45d4c9-21","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tabs/anatomy/row","name":"row","fields":[],"after":{"name":"row","description":"Row that holds the icon and the label, inside the item's padding.","contains":["icon","label"]}},
+            {"id":"4e45d4c9-22","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tabs/anatomy/selection-indicator","name":"selection-indicator","fields":[{"path":"presentWhen.options.isSelected","after":true}]},
+            {"id":"4e45d4c9-23","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tabs/anatomy/tab-item","name":"tab-item","fields":[{"path":"contains","before":["icon","label","selection-indicator","focus-indicator"],"after":["row","selection-indicator","focus-indicator"]}]},
+            {"id":"4e45d4c9-24","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"tabs/visual","name":"tabs","fields":[]}
+          ],
+          "metadata": {"count":2,"fields":["contextQualifier"]}
+        }
+      ]
     }
   ]
 }

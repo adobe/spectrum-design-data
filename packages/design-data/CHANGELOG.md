@@ -1,5 +1,116 @@
 # @adobe/spectrum-design-data
 
+## 4.2.0
+
+### Minor Changes
+
+- [#2081](https://github.com/adobe/spectrum-design-data/pull/2081) [`87b260b`](https://github.com/adobe/spectrum-design-data/commit/87b260bbe5d94c023288877de921a06ef084fed3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the React Spectrum S2 channel options to the color components.
+  - color-slider and color-area: `color` and `colorSpace`.
+  - color-area: `xChannel` and `yChannel`.
+  - color-wheel: `color`.
+  - color-slider `channel`: add `brightness`.
+
+- [#2075](https://github.com/adobe/spectrum-design-data/pull/2075) [`575b3ec`](https://github.com/adobe/spectrum-design-data/commit/575b3ece28c445b5959c8806b6dc97c975c69d5f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for alert-dialog and standard-dialog.
+  - The dialog surface binds width, minimum width, rounding, padding and
+    background through relationships. Dialogs have no shadow in Figma or S2.
+  - Title and description bind type, color and the title-to-description gap.
+  - Both dialogs gain `header` and `footer` anatomy parts (terms already in the
+    registry). alert-dialog draws the status icon at the end of the title row for
+    the warning and error variants.
+  - The actions are a slot that takes up to three buttons; both dialogs gain an
+    `button-group` slot (a temporary stand-in for a nested button-group, bead
+    5m92.32.22). standard-dialog draws the
+    footer-content slot (a checkbox) beside the actions in the footer.
+  - Not drawn yet: the overlay scrim, the standard-dialog cover image, header
+    content and close button. Long titles do not wrap in the header row.
+  - Render snapshots and goldens are regenerated. Legacy token output is unchanged.
+
+- [#2064](https://github.com/adobe/spectrum-design-data/pull/2064) [`793d0af`](https://github.com/adobe/spectrum-design-data/commit/793d0af5f07fb2cbc57434b93353cdfa2fa7b6ef) Thanks [@GarthDB](https://github.com/GarthDB)! - Bind search-field width and text-area field height through relationships for every size.
+  - Adds live field width tokens `width-field-{desktop,mobile}-{75,100,200,300}` (no legacy key).
+  - search-field width binds them for s, m, l and xl.
+    Desktop 192, 208, 224, 240; mobile 240, 256, 272, 288.
+    Size m now draws 208 instead of 192.
+  - text-area `minimum-height` binds `base-height-*` for s, m, l and xl.
+    Desktop 24, 32, 40, 48; mobile 30, 40, 50, 60.
+    Size l now draws 40 instead of 56.
+  - text-area size s gains top and bottom edge to text spacing (4px).
+  - Render snapshots and goldens are regenerated. Legacy token output is unchanged.
+
+- [#2067](https://github.com/adobe/spectrum-design-data/pull/2067) [`d7d3e96`](https://github.com/adobe/spectrum-design-data/commit/d7d3e968328070873cf228e99fdc4cd96cfda205) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for button-group, action-group, swatch-group,
+  checkbox-group and radio-group, drawn from their default slot.
+  Button, action and swatch groups get a host part for the slot
+  (`buttons`, `action-buttons`, `swatches`). The gap records of
+  button-group and action-group now pin `size` and `density`, and
+  swatch-group gains the missing regular-density gap record.
+
+- [#2077](https://github.com/adobe/spectrum-design-data/pull/2077) [`f65c726`](https://github.com/adobe/spectrum-design-data/commit/f65c726128ebd8c1b21f021d0eb1e3a47310dd44) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a visual recipe for slider.
+  - Draws the label, value text, track, fill and a handle at the value.
+  - The handle and fill use `floating.position` on the track; `fillStart` offsets the fill.
+  - Sizes s to xl, `trackStyle` thin and thick, `isEmphasized`, `hasFill`, disabled, hover, down
+    and keyboard focus.
+  - The editable field is the nested `number-field` recipe, placed beside the track.
+  - Handle colours bind through relationships that now pin `attribute` and the hover, down and
+    focus states. Live size pins also accept the deprecated size names.
+  - A floating leaf part reads a `cornerRadius` relative to its height (a round handle).
+  - Not drawn yet: range, vertical, ramp track, precise handle, focus ring, side label.
+
+- [#2076](https://github.com/adobe/spectrum-design-data/pull/2076) [`feb65dc`](https://github.com/adobe/spectrum-design-data/commit/feb65dc75506e06fe04dfc143cd80ac365945c98) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for contextual-help and coach-mark.
+  - contextual-help: nested action button and, while open, a popover with title,
+    description and a nested link.
+  - The popover surface is a box of the recipe, not the nested popover: a nested
+    popover gets no slot fills yet (bead 5m92.32.22). The anatomy still says
+    `component: popover`; they differ on purpose until then.
+  - coach-mark: card (width, padding, radius, fill, elevated shadow), title,
+    description and a `button-group` slot of buttons (temporary, bead 5m92.32.22).
+  - contextual-help gains `title` and `description` options; the link shows when `href` is set.
+  - SPEC-083 accepts root props on a floating part with children.
+  - Not drawn yet: coach-mark cover image (its height tokens are deprecated),
+    action button and pagination; popover border and three-layer shadow; the
+    nested button draws `+`, not the info/help icon; the mobile coach-mark footer
+    overflows the card.
+
+- [#2069](https://github.com/adobe/spectrum-design-data/pull/2069) [`e356cda`](https://github.com/adobe/spectrum-design-data/commit/e356cda6155f3db35a4db4cabbe9f52fa59d2f83) Thanks [@GarthDB](https://github.com/GarthDB)! - In-field button, coach indicator, standard panel and bar panel: first visual recipes.
+  - In-field button draws a square (16, 20, 24 or 32 px) with a gray-100 fill, a gray-200 hover
+    fill, a disabled look and a content icon.
+    The component gains `size`, `isDisabled` and the `hover` state.
+    Its four stacked-width records now use the sizes `s`, `m`, `l` and `xl`.
+  - Coach indicator draws a static frame of the ring: 4 px and full strength collapsed, 8 px and 20%
+    expanded, white or the default color, around a target with any `cornerRounding`.
+  - Standard panel draws the gripper, title, nested close button and divider, and an accordion in
+    its slot, in primary and secondary style, three densities and the anchored, floating and dragged
+    types.
+    The anatomy gains `header-area` and `content`, and the content slot accepts an accordion. The
+    dragged gripper record is pinned to `type: dragged`.
+  - Bar panel draws the gripper, action buttons and divider, vertical or horizontal, in five
+    densities. The component gains `style`, `density`, `orientation`, `isFloating`, `hideDragHandle`
+    and `hideDivider`.
+  - Not drawn yet: panel drop shadows, the back button, the second ring of the expanded coach
+    indicator, the stacked and quiet in-field button, the gripper as an icon (a plain box).
+
+- [#2065](https://github.com/adobe/spectrum-design-data/pull/2065) [`4e45d4c`](https://github.com/adobe/spectrum-design-data/commit/4e45d4c97756992716e6882e3edcea2b1b52015a) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for tabs and segmented-control.
+  - Both bind through the component relationships; all sizes draw from design-data tokens.
+  - New `isSelected` and `isDisabled` options and `items[].isSelected` on both components.
+  - `selection-indicator` is present only when `isSelected` is true.
+  - Tab text colors pin `isSelected`; segmented gap pins `hideTracker`.
+  - New live `Height` relationships for tabs `regular` density.
+  - The 12px tabs `Spacing` record is pinned to vertical orientation.
+  - Not drawn yet: overflow, truncation, vertical selection bar, focus ring and per-item states.
+
+- [#2074](https://github.com/adobe/spectrum-design-data/pull/2074) [`71a0014`](https://github.com/adobe/spectrum-design-data/commit/71a0014bd670c3e6b750ded51b28fa1feee811be) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for tooltip and popover.
+  - Both bind through the component relationships.
+  - The popover shadow binds the elevated drop-shadow tokens.
+  - The tip is a floating path part on the edge that faces the source.
+  - Each edge is its own anatomy part: `tip-top`, `tip-bottom`, `tip-start`, `tip-end`.
+  - `placement` picks the edge; popover `hideTip` draws no tip.
+  - The popover `default` slot moves to a new `content` part and lists `accepts`.
+  - Not drawn yet: popover border, tip shadow, tip radius, tooltip max width.
+  - Registers the `tip-top`, `tip-bottom`, `tip-start` and `tip-end` anatomy terms.
+
+- [#2066](https://github.com/adobe/spectrum-design-data/pull/2066) [`93d07ba`](https://github.com/adobe/spectrum-design-data/commit/93d07ba3f9b8b7f531e131614c1d1e5a35d018a7) Thanks [@GarthDB](https://github.com/GarthDB)! - Bind the status light label line height per size to the px line-height tokens instead of the 1.3
+  ratio: 16, 18, 20 and 22 px on desktop, 20, 22, 24 and 26 px on mobile (S, M, L, XL). This matches
+  the Figma Web POC, React Spectrum S2 and SWC. Rendered label heights change by +0.4, -0.2, -0.8
+  and -1.4 px on desktop and by +0.5, -0.1, -0.7 and -2.6 px on mobile. Fixes #1756.
+
 ## 4.1.0
 
 ### Minor Changes
