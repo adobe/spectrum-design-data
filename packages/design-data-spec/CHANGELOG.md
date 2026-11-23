@@ -1,5 +1,27 @@
 # @adobe/design-data-spec
 
+## 7.5.0
+
+### Minor Changes
+
+- [#2092](https://github.com/adobe/spectrum-design-data/pull/2092) [`9bea19e`](https://github.com/adobe/spectrum-design-data/commit/9bea19ee4aa4671ccff1f1fdbe5d94a5350256b8) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an `image` fill to component visual recipes.
+
+  A `box` with `image` draws a picture from a `source` (a string option or a literal) with
+  `fit` (`cover`, `contain`, `fill`, `none`) and `position`, clipped to the box's corners. The
+  engine reads only `data:image/png;base64` URIs (2 MiB, 4096 px a side, 4 million pixels):
+  it never fetches a URL or reads a file. A part with no source draws a neutral checkerboard
+  placeholder; a source that cannot be drawn draws it with a diagnostic.
+
+  New rule SPEC-117 checks the declaration. The scene node carries `image` (`href`, `fit`,
+  `position`, `dest`, `size`, `placeholder`).
+
+### Patch Changes
+
+- [#2097](https://github.com/adobe/spectrum-design-data/pull/2097) [`59a4867`](https://github.com/adobe/spectrum-design-data/commit/59a4867312b2ddb6032f3888f714bde22f4958fd) Thanks [@GarthDB](https://github.com/GarthDB)! - Clarify that a single-size platform recipe serves every host size when nested.
+  - **spec/component-visuals.md**: a nested platform recipe with one `sizeScale` entry
+    (such as `switch-ios`) is used at every host size; a multi-size recipe that lacks
+    the size still fails to compile.
+
 ## 7.4.0
 
 ### Minor Changes
