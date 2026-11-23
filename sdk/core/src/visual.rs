@@ -168,7 +168,9 @@ pub fn read_props(role: &str) -> Option<&'static [&'static str]> {
 pub fn reads_prop(part: &Value, is_root: bool, name: &str) -> bool {
     let role = part_role(part, is_root);
     let has = |r: &str| read_props(r).is_some_and(|p| p.contains(&name));
-    has(role) || (matches!(role, "text" | "progress") && has("box"))
+    // A floating part with children is solved as the root of its own scene (spec: Floating parts).
+    let subtree = role == "floating" && part.get("children").is_some();
+    has(role) || (matches!(role, "text" | "progress") && has("box")) || (subtree && has("root"))
 }
 
 /// The role that selects a part's entry in `READ_PROPS`.
