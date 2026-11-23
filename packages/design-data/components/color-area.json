@@ -86,8 +86,8 @@
       "default": false
     },
     "color": {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
-      "description": "The color whose two channels the area adjusts (S2 value). The gradient is computed from it and the channels."
+      "type": "string",
+      "description": "The color whose two channels the area adjusts (S2 value). The gradient is computed from it and the channels. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
     },
     "colorSpace": {
       "type": "string",

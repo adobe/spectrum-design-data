@@ -120,8 +120,8 @@
       "description": "The field label text (Figma Show label, RSP label)."
     },
     "color": {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json",
-      "description": "The color whose channel the slider adjusts (S2 value). The gradient ramp is computed from it and the channel."
+      "type": "string",
+      "description": "The color whose channel the slider adjusts (S2 value). The gradient ramp is computed from it and the channel. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
     },
     "colorSpace": {
       "type": "string",
