@@ -105,6 +105,7 @@ tasks:
       - "shared/*.mjs"
       - "/sdk/cli/src/render_batch.rs"
       - "/sdk/plugins/site/src/**/*"
+      - "/sdk/plugins/site/assets/draw-helpers.js"
       - "/packages/design-data/visuals/*.json"
       - "/packages/design-data/icons/*.json"
       - "/platforms/ios/**/*"

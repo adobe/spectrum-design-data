@@ -19,5 +19,5 @@ Draw range selection in the calendar recipe.
   neutral day number inside a range (it is not white like the end circles).
 - Day and weekday cells are 40 wide with no column gap (32 plus the 8
   weekday gap), so the band is continuous within a week row.
-- Not drawn: band stroke, today marker, unavailable strike.
+- Not drawn: band stroke, unavailable strike.
 - Snapshots and goldens are regenerated. Legacy token output is unchanged.
