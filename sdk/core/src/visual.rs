@@ -12204,10 +12204,16 @@ mod tests {
         );
         // brightness is hsb: a hex color converts into it
         assert_eq!(at("#ff0000", "brightness", None), ["#000000", "#ff0000"]);
-        // hue in hsb keeps saturation and brightness: hsb(*, 50%, 100%)
+        // hue is the full-saturation rainbow whatever the color's saturation (a grey too)
         assert_eq!(
             at("hsb(0, 50%, 100%)", "hue", None)[..3],
-            ["#ff8080", "#ffff80", "#80ff80"]
+            ["#ff0000", "#ffff00", "#00ff00"]
+        );
+        assert_eq!(at("#808080", "hue", None)[1], "#ffff00");
+        // a translucent color gives an opaque track, except for alpha
+        assert_eq!(
+            at("rgba(0, 0, 255, 0.5)", "red", None),
+            ["#0000ff", "#ff00ff"]
         );
         // red, green and blue vary one channel
         assert_eq!(at("rgb(10, 20, 30)", "green", None), ["#0a001e", "#0aff1e"]);

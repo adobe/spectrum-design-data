@@ -273,15 +273,27 @@ fn range(channel: &str) -> (f64, f64) {
 }
 
 /// The stops of a color slider track for `channel`, offsets 0 to 1 along the track. As React
-/// Spectrum: hue is seven stops 60 degrees apart, lightness three (the middle at half the
-/// range, or the hue would never show), any other channel two (its minimum and maximum); the
-/// other channels and the alpha stay those of `color`.
+/// Spectrum: hue is seven stops 60 degrees apart (always at saturation 100% and lightness
+/// 50%, whatever `color` is), lightness three (the middle at half the range, or the hue would
+/// never show), any other channel two (its minimum and maximum), with the other channels those
+/// of `color` and the alpha 1. Only the alpha track keeps the color's own alpha.
 pub fn track(
     color: Color,
     channel: &str,
     space: Option<Space>,
 ) -> Result<Vec<(f64, String)>, String> {
-    let base = working(color, channel, space)?;
+    let mut base = working(color, channel, space)?;
+    // As React Spectrum's `getDisplayColor`: the hue track is always the full-saturation
+    // rainbow, and every track but alpha's is opaque.
+    if channel == "hue" {
+        base = Color {
+            space: Space::Hsl,
+            c: [0.0, 100.0, 50.0],
+            a: 1.0,
+        };
+    } else if channel != "alpha" {
+        base.a = 1.0;
+    }
     let (min, max) = range(channel);
     let values: Vec<f64> = match channel {
         "hue" => (0..=6).map(|i| f64::from(i) * 60.0).collect(),
@@ -396,11 +408,33 @@ mod tests {
     }
 
     #[test]
-    fn a_hue_track_keeps_saturation_and_lightness() {
-        let c = Color::parse("hsl(200, 50%, 40%)").unwrap();
-        let s = track(c, "hue", None).unwrap();
-        assert_eq!(css(&s)[0], "#993333");
-        assert_eq!(css(&s)[2], "#339933");
+    fn a_hue_track_is_always_the_full_saturation_rainbow() {
+        let rainbow = [
+            "#ff0000", "#ffff00", "#00ff00", "#00ffff", "#0000ff", "#ff00ff", "#ff0000",
+        ];
+        for color in [
+            "hsl(200, 50%, 40%)",
+            "#808080",
+            "#000000",
+            "#ffffff",
+            "hsb(30, 20%, 90%)",
+        ] {
+            let c = Color::parse(color).unwrap();
+            assert_eq!(css(&track(c, "hue", None).unwrap()), rainbow, "{color}");
+        }
+    }
+
+    #[test]
+    fn a_track_other_than_alpha_is_opaque() {
+        let c = Color::parse("rgba(0, 0, 255, 0.5)").unwrap();
+        assert_eq!(css(&track(c, "red", None).unwrap()), ["#0000ff", "#ff00ff"]);
+        assert_eq!(css(&track(c, "hue", None).unwrap())[0], "#ff0000");
+        assert_eq!(css(&track(c, "lightness", None).unwrap())[1], "#0000ff");
+        // the alpha track keeps the color's RGB and ramps its alpha from 0 to 1
+        assert_eq!(
+            css(&track(c, "alpha", None).unwrap()),
+            ["rgba(0, 0, 255, 0)", "#0000ff"]
+        );
     }
 
     #[test]
