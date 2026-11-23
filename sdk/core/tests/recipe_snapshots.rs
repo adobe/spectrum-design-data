@@ -408,6 +408,7 @@ recipe_tests! {
     radio_group => "radio-group",
     search_field => "search-field",
     segmented_control => "segmented-control",
+    slider => "slider",
     standard_dialog => "standard-dialog",
     standard_panel => "standard-panel",
     status_light => "status-light",

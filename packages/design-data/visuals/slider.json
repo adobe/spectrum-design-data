@@ -1,0 +1,372 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "slider",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300,
+    "small": 75,
+    "medium": 100,
+    "large": 200,
+    "extra-large": 300
+  },
+  "notVisual": [
+    "labelPosition",
+    "isRange",
+    "step",
+    "valueFormat",
+    "handleStyle",
+    "width"
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["header", "control"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "header": {
+      "kind": "box",
+      "children": ["field-label", "value"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        }
+      }
+    },
+    "field-label": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl",
+        "small": "s",
+        "medium": "m",
+        "large": "l",
+        "extra-large": "xl"
+      },
+      "with": {
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "label": {
+          "option": "label"
+        }
+      }
+    },
+    "value": {
+      "kind": "text",
+      "text": {
+        "fraction": {
+          "value": "value",
+          "min": "minValue",
+          "max": "maxValue"
+        }
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "value"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "value"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "value"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "value"
+          }
+        },
+        "grow": {
+          "value": true
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "value"
+            }
+          },
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "value"
+            },
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "control": {
+      "kind": "box",
+      "children": ["track"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "control"
+          }
+        }
+      }
+    },
+    "track": {
+      "kind": "box",
+      "props": {
+        "height": [
+          {
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 75
+            }
+          },
+          {
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 300
+            },
+            "when": {
+              "options": {
+                "trackStyle": "thick"
+              }
+            }
+          }
+        ],
+        "cornerRadius": {
+          "token": {
+            "property": "corner-radius",
+            "shape": "full"
+          },
+          "relativeTo": "height"
+        },
+        "fill": [
+          {
+            "token": {
+              "property": "color",
+              "colorFamily": "gray",
+              "scaleIndex": 300
+            }
+          },
+          {
+            "relationship": {
+              "property": "color",
+              "part": "track"
+            },
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10
+          }
+        ],
+        "grow": {
+          "value": true
+        }
+      }
+    },
+    "fill": {
+      "kind": "box",
+      "floating": {
+        "position": {
+          "of": "track",
+          "x": {
+            "value": {
+              "option": "value"
+            },
+            "min": {
+              "option": "minValue"
+            },
+            "max": {
+              "option": "maxValue"
+            },
+            "length": true,
+            "from": {
+              "option": "fillStart"
+            }
+          }
+        }
+      },
+      "props": {
+        "height": [
+          {
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 75
+            }
+          },
+          {
+            "token": {
+              "property": "spacing",
+              "scaleIndex": 300
+            },
+            "when": {
+              "options": {
+                "trackStyle": "thick"
+              }
+            }
+          }
+        ],
+        "fill": [
+          {
+            "relationship": {
+              "property": "color",
+              "part": "track"
+            }
+          },
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "fill"
+            },
+            "when": {
+              "options": {
+                "isEmphasized": true
+              }
+            }
+          }
+        ],
+        "cornerRadius": {
+          "token": {
+            "property": "corner-radius",
+            "shape": "full"
+          },
+          "relativeTo": "height"
+        }
+      }
+    },
+    "handle": {
+      "kind": "box",
+      "floating": {
+        "position": {
+          "of": "track",
+          "x": {
+            "value": {
+              "option": "value"
+            },
+            "min": {
+              "option": "minValue"
+            },
+            "max": {
+              "option": "maxValue"
+            }
+          }
+        }
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "part": "handle"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "handle"
+          }
+        },
+        "cornerRadius": {
+          "token": {
+            "property": "corner-radius",
+            "shape": "full"
+          },
+          "relativeTo": "height"
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "handle",
+            "attribute": "background"
+          }
+        },
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "handle",
+            "attribute": "border"
+          }
+        },
+        "strokeWidth": [
+          {
+            "relationship": {
+              "property": "border-width",
+              "part": "handle"
+            }
+          }
+        ]
+      }
+    },
+    "number-field": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl",
+        "small": "s",
+        "medium": "m",
+        "large": "l",
+        "extra-large": "xl"
+      },
+      "with": {
+        "hideStepper": true,
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "hideLabel": true
+      },
+      "floating": {
+        "position": {
+          "of": "control",
+          "x": {
+            "value": {
+              "value": 1
+            }
+          }
+        },
+        "align": "start"
+      }
+    }
+  }
+}
