@@ -95,6 +95,14 @@
     }
   ],
   "options": {
+    "title": {
+      "type": "string",
+      "description": "Heading of the popover."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description text in the popover."
+    },
     "icon": {
       "type": "string",
       "default": "info",
@@ -229,8 +237,8 @@
     {
       "name": "link",
       "component": "link",
-      "description": "Optional link component at the end of the popover.",
-      "presentWhen": { "states": ["open"] }
+      "description": "Optional link component at the end of the popover, present when href is set.",
+      "presentWhen": { "states": ["open"], "options": { "href": true } }
     }
   ],
   "anatomyReview": {
