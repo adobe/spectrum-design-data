@@ -8,9 +8,8 @@
         "size": "s"
       }
     },
-    "context": "Width small (default)",
+    "context": "Width",
     "contextRole": ["width"],
-    "contextQualifier": "default",
     "$ref": "5fe717d5-b262-46d8-8386-5a94070337c2",
     "uuid": "a7ae1f79-4ea9-546c-bd77-f0c111a83022"
   },
@@ -23,9 +22,8 @@
         "size": "m"
       }
     },
-    "context": "Width small (default)",
+    "context": "Width",
     "contextRole": ["width"],
-    "contextQualifier": "default",
     "$ref": "8606a7f5-fa38-4081-b0a6-4633e7442bd1",
     "uuid": "bd97b289-f410-5d37-9188-44f7923ac708"
   },
@@ -38,9 +36,8 @@
         "size": "l"
       }
     },
-    "context": "Width small (default)",
+    "context": "Width",
     "contextRole": ["width"],
-    "contextQualifier": "default",
     "$ref": "f4bae4c5-208e-45d7-94ac-6c9355087224",
     "uuid": "d654ed1f-d159-508f-8113-8e6c1102d6bc"
   },
@@ -53,9 +50,8 @@
         "size": "xl"
       }
     },
-    "context": "Width small (default)",
+    "context": "Width",
     "contextRole": ["width"],
-    "contextQualifier": "default",
     "$ref": "0b435546-8368-4fb1-a8a1-c50b14b26ae2",
     "uuid": "78509672-0aed-506d-9dfe-453b4b57df37"
   },
@@ -68,9 +64,8 @@
         "size": "s"
       }
     },
-    "context": "Height small (default)",
+    "context": "Height",
     "contextRole": ["height"],
-    "contextQualifier": "default",
     "$ref": "205e9849-ecb4-4df6-8f59-a6d9b1458a72",
     "uuid": "3db0dfaf-6fde-53da-a271-011a191c1d19"
   },
@@ -83,9 +78,8 @@
         "size": "m"
       }
     },
-    "context": "Height small (default)",
+    "context": "Height",
     "contextRole": ["height"],
-    "contextQualifier": "default",
     "$ref": "732ea53c-5929-4d31-beef-4ffd60f79c0e",
     "uuid": "89e45677-a87d-5981-8a53-a54a66559f59"
   },
@@ -98,9 +92,8 @@
         "size": "l"
       }
     },
-    "context": "Height small (default)",
+    "context": "Height",
     "contextRole": ["height"],
-    "contextQualifier": "default",
     "$ref": "912f3b78-d09e-4700-a637-5fefc71960c2",
     "uuid": "a5513a14-8d84-5f9e-a4fe-6917d58263d0"
   },
@@ -113,9 +106,8 @@
         "size": "xl"
       }
     },
-    "context": "Height small (default)",
+    "context": "Height",
     "contextRole": ["height"],
-    "contextQualifier": "default",
     "$ref": "201dc21b-a416-443c-afca-6801cabf31a5",
     "uuid": "855fb7c2-d61b-5d5f-8f3b-6dbd653ab2f6"
   },
