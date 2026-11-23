@@ -69,6 +69,50 @@ impl Drop for DepthGuard {
     }
 }
 
+/// The most repeated copies and subtrees one scene solves in all, however they nest: the per
+/// repeat limit multiplies when repeats nest, so a scene has its own budget.
+pub const MAX_SCENE_COPIES: usize = 5_000;
+
+thread_local! {
+    /// Copies and subtrees the scene being solved may still draw.
+    static SCENE_BUDGET: std::cell::Cell<usize> = const { std::cell::Cell::new(MAX_SCENE_COPIES) };
+    /// How many `solve` calls are running inside one another (a nested component is one).
+    static SOLVE_NEST: std::cell::Cell<u32> = const { std::cell::Cell::new(0) };
+}
+
+/// Starts a scene's budget at the outermost `solve`; a nested recipe shares its host's.
+struct SceneGuard;
+
+impl SceneGuard {
+    fn enter() -> Self {
+        if SOLVE_NEST.get() == 0 {
+            SCENE_BUDGET.set(MAX_SCENE_COPIES);
+        }
+        SOLVE_NEST.set(SOLVE_NEST.get() + 1);
+        SceneGuard
+    }
+}
+
+impl Drop for SceneGuard {
+    fn drop(&mut self) {
+        SOLVE_NEST.set(SOLVE_NEST.get() - 1);
+    }
+}
+
+/// Take `items.len()` from the scene's budget; items past it are dropped with a diagnostic.
+fn take_budget<'a>(cx: &mut Ctx, id: &str, mut items: Vec<&'a Value>) -> Vec<&'a Value> {
+    let left = SCENE_BUDGET.get();
+    if items.len() > left {
+        cx.diags.push(format!(
+            "repeat: '{id}' has {} copies past the scene's limit of {MAX_SCENE_COPIES}; they are not drawn",
+            items.len() - left
+        ));
+        items.truncate(left);
+    }
+    SCENE_BUDGET.set(left - items.len());
+    items
+}
+
 /// The props the solver reads, by part role: `root` (the root box), a part `kind`, or `placed`
 /// (a part with a `placement`). `rp` checks every read against this table in debug builds, and
 /// SPEC-083 warns about a recipe prop missing from it (through `reads_prop`, which both use),
@@ -135,6 +179,9 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "direction",
             "align",
             "gap",
+            "columns",
+            "columnGap",
+            "rowGap",
             "paddingInlineStart",
             "paddingInlineEnd",
             "paddingBlockStart",
@@ -3634,6 +3681,7 @@ pub fn build_scene_cached(
 /// `req` must have the size and mode the variant was compiled for. A container whose
 /// `repeat` names a child draws that child once per entry (see [`solve_copies`]).
 pub fn solve(variant: &CompiledVariant, req: &RenderRequest) -> Result<Scene, String> {
+    let _scene = SceneGuard::enter();
     let mut scene = solve_root(variant, &variant.root, req, None)?;
     scene.diagnostics.extend(unmatched_slot_keys(variant, req));
     Ok(scene)
@@ -4074,6 +4122,23 @@ fn solve_root(
             continue;
         }
         let kind = part.get("kind").and_then(Value::as_str).unwrap_or("box");
+        // A box that is a grid or repeats a child lays out as the root of its own scene.
+        if kind == "box"
+            && (part.get("repeat").is_some()
+                || rp(&mut cx, part, "direction").is_some_and(|d| d.value.trim() == "grid"))
+        {
+            if let Some(n) = solve_subtree(&mut cx, variant, id, position)? {
+                flow.push(Child {
+                    id: id.clone(),
+                    kind: "component".into(),
+                    w: n.w,
+                    h: n.h,
+                    nested: Some(n),
+                    ..Default::default()
+                });
+            }
+            continue;
+        }
         if kind == "slot" {
             if let Some(n) = slot_nested(&mut cx, id, part, (&rp, &track)) {
                 flow.push(Child {
@@ -6303,10 +6368,11 @@ fn solve_copies(
         ));
         items.truncate(MAX_REPEAT_COPIES);
     }
-    // Every copy starts from this request, so a huge array option is cloned once, not per copy.
+    // Every copy starts from this request without the collection itself: a copy is one entry,
+    // and a copy that carried the whole array made every nested repeat quadratic.
     let mut base = req.clone();
-    if let Some(Value::Array(a)) = option.and_then(|o| base.options.get_mut(o)) {
-        a.truncate(MAX_REPEAT_COPIES);
+    if let Some(o) = option {
+        base.options.remove(o);
     }
     let none = Value::Null;
     if items.is_empty() {
@@ -6367,6 +6433,10 @@ fn solve_copies(
         })
         .map(|(_, i)| *i)
         .collect();
+    if items.is_empty() {
+        return Ok(Vec::new());
+    }
+    let items = take_budget(cx, id, items);
     if items.is_empty() {
         return Ok(Vec::new());
     }
@@ -6520,6 +6590,62 @@ fn grid_tracks(
         col_w,
         row_h,
     }
+}
+
+/// Solve a flowed box that is a grid or repeats a child as the root of its own scene (the
+/// request, states and options are the host's), and return it as one block with its own ids.
+fn solve_subtree(
+    cx: &mut Ctx,
+    variant: &CompiledVariant,
+    id: &str,
+    position: Option<&'static str>,
+) -> Result<Option<Nested>, String> {
+    if REPEAT_DEPTH.get() >= MAX_REPEAT_DEPTH {
+        cx.diags.push(format!(
+            "part '{id}' is nested more than {MAX_REPEAT_DEPTH} grids or repeats deep; it is not drawn"
+        ));
+        return Ok(None);
+    }
+    let left = SCENE_BUDGET.get();
+    if left == 0 {
+        cx.diags.push(format!(
+            "part '{id}' is past the scene's limit of {MAX_SCENE_COPIES} copies; it is not drawn"
+        ));
+        return Ok(None);
+    }
+    SCENE_BUDGET.set(left - 1);
+    let _depth = DepthGuard::enter();
+    let mut req = cx.req.clone();
+    req.width = None;
+    let mut s = solve_root(variant, id, &req, position)?;
+    cx.diags.extend(s.diagnostics.drain(..));
+    let Some(root) = s.nodes.first() else {
+        return Ok(None);
+    };
+    let (ox, oy, w, h) = (root.x, root.y, root.w, root.h);
+    let nodes = std::mem::take(&mut s.nodes)
+        .into_iter()
+        .map(|mut n| {
+            n.x -= ox;
+            n.y -= oy;
+            n
+        })
+        .collect();
+    let measurements = std::mem::take(&mut s.measurements)
+        .into_iter()
+        .map(|mut m| {
+            m.x -= ox;
+            m.y -= oy;
+            m
+        })
+        .collect();
+    Ok(Some(Nested {
+        w,
+        h,
+        nodes,
+        measurements,
+        opacity: s.opacity,
+    }))
 }
 
 /// Append a nested part's nodes with its top-left corner at `(x, y)`.
@@ -12981,5 +13107,208 @@ mod tests {
             );
         }
         assert!(t.elapsed().as_secs() < 20, "{:?}", t.elapsed());
+    }
+
+    /// A grid of `months` month grids, each a 7-column grid of `days` day cells.
+    fn months_scene(months: usize, days: usize) -> Scene {
+        let (mut g, _) = load();
+        let comp = g
+            .components
+            .iter_mut()
+            .find(|c| c.name == "action-button")
+            .unwrap();
+        comp.raw["slots"] = serde_json::json!([
+            { "name": "default", "part": "month", "collection": "months" },
+            { "name": "days", "part": "day", "collection": "days" }
+        ]);
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "cal", "sizeScale": { "m": 100 },
+            "parts": {
+                "cal": { "kind": "box", "children": ["month"],
+                    "props": { "direction": { "value": "grid" }, "columns": lit_num(2.0),
+                        "gap": lit_num(2.0) },
+                    "repeat": { "slot": "default", "with": { "days": "days" } } },
+                "month": { "kind": "box", "children": ["day"],
+                    "props": { "direction": { "value": "grid" }, "columns": lit_num(7.0) },
+                    "repeat": { "slot": "days" } },
+                "day": cell(4.0, 4.0, "#ff0000")
+            }
+        });
+        let day_entries: Vec<Value> = (0..days).map(|_| serde_json::json!({})).collect();
+        let entries: Vec<Value> = (0..months)
+            .map(|_| serde_json::json!({ "days": day_entries }))
+            .collect();
+        let mut r = req(&[]);
+        r.options.insert("months".into(), Value::Array(entries));
+        build_scene(&g, &recipe, &r).unwrap()
+    }
+
+    #[test]
+    fn nested_repeats_share_one_scene_budget_and_stay_fast() {
+        let t = std::time::Instant::now();
+        let small = months_scene(10, 10);
+        assert_eq!(
+            small.nodes.len(),
+            1 + 10 * (1 + 10),
+            "{}",
+            small.nodes.len()
+        );
+        let small_time = t.elapsed();
+        let t = std::time::Instant::now();
+        // 100 months of 100 days is 10,100 copies: past the budget, so it is cut and says so.
+        let big = months_scene(100, 100);
+        let big_time = t.elapsed();
+        assert!(
+            big.diagnostics.iter().any(|d| d.contains("scene's limit")),
+            "{:?}",
+            big.diagnostics.first()
+        );
+        assert!(
+            big.nodes.len() <= 1 + 2 * MAX_SCENE_COPIES,
+            "{}",
+            big.nodes.len()
+        );
+        // 70 months of 70 days stays under the budget; time grows with the copies, not their square.
+        let t = std::time::Instant::now();
+        let mid = months_scene(70, 70);
+        assert_eq!(mid.nodes.len(), 1 + 70 * 71);
+        assert!(t.elapsed().as_secs() < 5, "{:?}", t.elapsed());
+        assert!(big_time.as_secs() < 5, "{big_time:?}");
+    }
+
+    /// A column root of grids and repeating boxes, built from `parts` and these `slots`.
+    fn subtree_scene(parts: Value, slots: Value, opts: &[(&str, Value)]) -> Scene {
+        let (mut g, _) = load();
+        let comp = g
+            .components
+            .iter_mut()
+            .find(|c| c.name == "action-button")
+            .unwrap();
+        comp.raw["slots"] = slots;
+        let recipe = serde_json::json!({ "component": "action-button", "root": "root",
+            "sizeScale": { "m": 100 }, "parts": parts });
+        let mut r = req(&[]);
+        for (k, v) in opts {
+            r.options.insert(k.to_string(), v.clone());
+        }
+        build_scene(&g, &recipe, &r).unwrap()
+    }
+
+    fn pos_of(s: &Scene, id: &str) -> (f64, f64) {
+        let n = part(s, id).unwrap_or_else(|| {
+            panic!(
+                "no {id}: {:?}",
+                s.nodes.iter().map(|n| &n.part).collect::<Vec<_>>()
+            )
+        });
+        (n.x, n.y)
+    }
+
+    #[test]
+    fn a_calendar_is_a_title_a_weekday_grid_and_a_day_grid_in_one_tree() {
+        let mut parts = serde_json::json!({
+            "root": { "kind": "box", "children": ["title", "weekdays", "days"],
+                "props": { "direction": { "value": "column" }, "align": { "value": "start" },
+                    "gap": lit_num(4.0) } },
+            "title": cell(70.0, 8.0, "#0000ff"),
+            "weekdays": { "kind": "box", "children": (0..7).map(|i| format!("wd{i}")).collect::<Vec<_>>(),
+                "props": { "direction": { "value": "grid" }, "columns": lit_num(7.0),
+                    "gap": lit_num(2.0), "justify": { "value": "start" } } },
+            "days": { "kind": "box", "children": ["day"],
+                "props": { "direction": { "value": "grid" }, "columns": lit_num(7.0),
+                    "gap": lit_num(2.0) },
+                "repeat": { "slot": "days" } },
+            "day": cell(10.0, 10.0, "#ff0000")
+        });
+        for i in 0..7 {
+            parts[format!("wd{i}")] = cell(10.0, 6.0, "#00ff00");
+        }
+        let days: Vec<Value> = (0..10).map(|_| serde_json::json!({})).collect();
+        let s = subtree_scene(
+            parts,
+            serde_json::json!([{ "name": "days", "part": "day", "collection": "days" }]),
+            &[("days", Value::Array(days))],
+        );
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        assert_eq!(pos_of(&s, "title"), (8.0, 8.0));
+        assert_eq!(pos_of(&s, "wd0"), (8.0, 20.0));
+        assert_eq!(pos_of(&s, "wd6"), (8.0 + 6.0 * 12.0, 20.0));
+        assert_eq!(pos_of(&s, "day-1"), (8.0, 30.0));
+        assert_eq!(pos_of(&s, "day-3"), (32.0, 30.0));
+        assert_eq!(
+            pos_of(&s, "day-8"),
+            (8.0, 42.0),
+            "the eighth day wraps to the second row"
+        );
+        let root = &s.nodes[0];
+        assert_eq!((root.w, root.h), (82.0, 8.0 + 4.0 + 6.0 + 4.0 + 22.0));
+    }
+
+    #[test]
+    fn a_table_header_row_and_body_are_two_repeats_in_one_tree() {
+        let parts = serde_json::json!({
+            "root": { "kind": "box", "children": ["head", "body"],
+                "props": { "direction": { "value": "column" }, "align": { "value": "start" },
+                    "gap": lit_num(4.0) } },
+            "head": { "kind": "box", "children": ["hcell"],
+                "props": { "direction": { "value": "grid" }, "columns": lit_num(3.0),
+                    "gap": lit_num(2.0) },
+                "repeat": { "slot": "headers" } },
+            "body": { "kind": "box", "children": ["cell"],
+                "props": { "direction": { "value": "grid" }, "columns": lit_num(3.0),
+                    "gap": lit_num(2.0) },
+                "repeat": { "slot": "cells" } },
+            "hcell": cell(20.0, 8.0, "#0000ff"),
+            "cell": cell(20.0, 10.0, "#ff0000")
+        });
+        let objs = |n: usize| Value::Array((0..n).map(|_| serde_json::json!({})).collect());
+        let s = subtree_scene(
+            parts,
+            serde_json::json!([
+                { "name": "headers", "part": "hcell", "collection": "headers" },
+                { "name": "cells", "part": "cell", "collection": "cells" }
+            ]),
+            &[("headers", objs(3)), ("cells", objs(6))],
+        );
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        assert_eq!(pos_of(&s, "hcell-1"), (8.0, 8.0));
+        assert_eq!(pos_of(&s, "hcell-3"), (52.0, 8.0));
+        assert_eq!(pos_of(&s, "cell-1"), (8.0, 20.0));
+        assert_eq!(pos_of(&s, "cell-2"), (30.0, 20.0));
+        assert_eq!(pos_of(&s, "cell-4"), (8.0, 32.0));
+    }
+
+    #[test]
+    fn grid_boxes_nested_too_deep_stop_with_a_diagnostic() {
+        let t = std::time::Instant::now();
+        for depth in [
+            MAX_REPEAT_DEPTH as usize,
+            MAX_REPEAT_DEPTH as usize + 1,
+            50,
+            1000,
+        ] {
+            let mut parts = serde_json::Map::new();
+            parts.insert(
+                "root".into(),
+                serde_json::json!({ "kind": "box", "children": ["g0"] }),
+            );
+            for i in 0..depth {
+                let kids = if i + 1 < depth {
+                    vec![format!("g{}", i + 1)]
+                } else {
+                    vec!["leaf".to_string()]
+                };
+                parts.insert(
+                    format!("g{i}"),
+                    serde_json::json!({ "kind": "box", "children": kids,
+                    "props": { "direction": { "value": "grid" }, "columns": lit_num(1.0) } }),
+                );
+            }
+            parts.insert("leaf".into(), cell(4.0, 4.0, "#ff0000"));
+            let s = subtree_scene(Value::Object(parts), serde_json::json!([]), &[]);
+            let capped = s.diagnostics.iter().any(|d| d.contains("deep"));
+            assert_eq!(capped, depth > MAX_REPEAT_DEPTH as usize, "depth {depth}");
+        }
+        assert!(t.elapsed().as_secs() < 20);
     }
 }

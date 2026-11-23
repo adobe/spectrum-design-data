@@ -68,20 +68,64 @@ impl ValidationRule for Rule {
             };
             let repeated_parts: HashSet<String> =
                 parts.keys().filter_map(|id| repeated(id)).collect();
+            let grid_part = |id: &str| {
+                parts
+                    .get(id)
+                    .and_then(|p| p.get("props"))
+                    .is_some_and(|props| {
+                        sources(props, "direction")
+                            .iter()
+                            .any(|s| s.get("value").and_then(Value::as_str) == Some("grid"))
+                    })
+            };
+            // The parts the engine solves as the root of their own scene: the root, repeated
+            // parts, floating subtrees, and a grid or repeating box that is a child of one.
+            let mut rootlike: HashSet<&str> = root.into_iter().collect();
+            rootlike.extend(repeated_parts.iter().map(String::as_str));
+            rootlike.extend(
+                parts
+                    .iter()
+                    .filter(|(_, p)| p.get("floating").is_some() && p.get("children").is_some())
+                    .map(|(k, _)| k.as_str()),
+            );
+            loop {
+                let more: Vec<&str> = parts
+                    .iter()
+                    .filter(|(k, p)| {
+                        !rootlike.contains(k.as_str())
+                            && (grid_part(k) || p.get("repeat").is_some())
+                            && parts.iter().any(|(pk, pp)| {
+                                rootlike.contains(pk.as_str())
+                                    && pp
+                                        .get("children")
+                                        .and_then(Value::as_array)
+                                        .is_some_and(|c| c.iter().any(|c| c.as_str() == Some(k)))
+                            })
+                    })
+                    .map(|(k, _)| k.as_str())
+                    .collect();
+                if more.is_empty() {
+                    break;
+                }
+                rootlike.extend(more);
+            }
             let mut problems: Vec<(String, String)> = Vec::new();
             for (id, part) in parts {
+                if part.get("repeat").is_some() && !rootlike.contains(id.as_str()) {
+                    problems.push((
+                        format!("/parts/{id}/repeat"),
+                        format!("part '{id}' repeats a child but is not laid out as a root"),
+                    ));
+                }
                 let Some(props) = part.get("props") else {
                     continue;
                 };
-                let is_grid = sources(props, "direction")
-                    .iter()
-                    .any(|s| s.get("value").and_then(Value::as_str) == Some("grid"));
-                let solved_as_root = root == Some(id.as_str()) || repeated_parts.contains(id);
-                if is_grid && !solved_as_root {
+                let is_grid = grid_part(id);
+                if is_grid && !rootlike.contains(id.as_str()) {
                     problems.push((
                         format!("/parts/{id}/props/direction"),
                         format!(
-                            "part '{id}' is a grid but is neither the root nor a repeated part"
+                            "part '{id}' is a grid but is not laid out as a root: it must be the root, a repeated part, or a direct child of one"
                         ),
                     ));
                 }
@@ -134,7 +178,6 @@ impl ValidationRule for Rule {
                 if !seen.insert(id) {
                     continue;
                 }
-                let own = repeated(id);
                 for kid in parts
                     .get(id)
                     .and_then(|p| p.get("children"))
@@ -143,7 +186,7 @@ impl ValidationRule for Rule {
                     .flatten()
                     .filter_map(Value::as_str)
                 {
-                    let d = depth + u32::from(own.as_deref() == Some(kid));
+                    let d = depth + u32::from(rootlike.contains(kid));
                     if d > MAX_REPEAT_DEPTH {
                         problems.push((
                             format!("/parts/{kid}"),
@@ -219,8 +262,15 @@ mod tests {
         p["columnGap"] = json!({"value": -1});
         assert!(m(p, json!({})).contains("columnGap is not"));
         assert!(m(json!({ "columns": {"value": 2} }), json!({})).contains("not grid"));
-        let loose = json!({ "kind": "box", "props": grid(json!({"value": 2})) });
-        assert!(m(json!({}), json!({ "c": loose })).contains("neither the root"));
+        // A grid under a plain box is not laid out as a root; under the root it is.
+        let deep = json!({ "c": { "kind": "box", "children": ["e"] },
+            "e": { "kind": "box", "props": grid(json!({"value": 2})) } });
+        assert!(m(json!({}), deep).contains("not laid out as a root"));
+        let direct = json!({ "c": { "kind": "box", "props": grid(json!({"value": 2})) } });
+        assert!(check(json!({}), direct).is_empty());
+        let deep_repeat = json!({ "c": { "kind": "box", "children": ["e"] },
+            "e": { "kind": "box", "children": [], "repeat": {"slot": "b"} } });
+        assert!(m(json!({}), deep_repeat).contains("repeats a child but is not laid out"));
         // A repeated part may be a grid.
         let mut r = json!({ "repeat": {"slot": "a"} });
         r["kind"] = json!("box");
