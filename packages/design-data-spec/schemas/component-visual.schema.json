@@ -659,9 +659,22 @@
       },
       "description": "Drop shadow layers on a box, first layer on top. Each field is a value source: `x`, `y`, `blur` (Figma radius, Gaussian sigma is half of it) and optional `spread` resolve to pixels, `color` to a color (alpha included)."
     },
+    "rampInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "option": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A string option of the request."
+        },
+        "value": { "type": "string", "description": "A literal name." }
+      },
+      "oneOf": [{ "required": ["option"] }, { "required": ["value"] }]
+    },
     "gradient": {
       "type": "object",
-      "required": ["stops"],
+      "oneOf": [{ "required": ["stops"] }, { "required": ["ramp"] }],
       "additionalProperties": false,
       "properties": {
         "from": {
@@ -691,6 +704,38 @@
             }
           },
           "description": "Color stops in ascending offset order. Each `color` resolves to a color and each `offset` to a number from 0 to 1."
+        },
+        "ramp": {
+          "type": "object",
+          "required": ["color", "channel"],
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "type": "object",
+              "required": ["option"],
+              "additionalProperties": false,
+              "properties": {
+                "option": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+                  "description": "The string option holding the current color (hex, rgb(), hsl() or hsb())."
+                }
+              }
+            },
+            "channel": {
+              "$ref": "#/$defs/rampInput",
+              "description": "The channel the ramp varies: hue, saturation, lightness, brightness, red, green, blue or alpha."
+            },
+            "space": {
+              "$ref": "#/$defs/rampInput",
+              "description": "The color space (hsl, hsb or rgb) the channel is varied in. Defaults to the color's own space when it has the channel, else the channel's (hsl for hue, saturation, lightness and alpha; hsb for brightness; rgb for red, green and blue)."
+            },
+            "z": {
+              "$ref": "#/$defs/rampInput",
+              "description": "Makes the ramp one layer of a color area whose fixed channel is `z`: `channel` is the layer's channel, `z` is held at its value in the color."
+            }
+          },
+          "description": "Stops computed from a color and a channel as React Spectrum draws them, instead of listed `stops`."
         }
       },
       "description": "A linear gradient across a box."
