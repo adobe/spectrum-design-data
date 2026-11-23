@@ -500,6 +500,18 @@
               "items": { "$ref": "#/$defs/position" }
             }
           ]
+        },
+        "rowPosition": {
+          "description": "Allowed places of a repeated copy in its grid row: first, middle, last, only (spec/component-visuals.md, Position conditions). Only valid on the repeated part and the parts inside it, and only a repeat inside a grid sets it (SPEC-061).",
+          "oneOf": [
+            { "$ref": "#/$defs/position" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/position" }
+            }
+          ]
         }
       },
       "additionalProperties": false

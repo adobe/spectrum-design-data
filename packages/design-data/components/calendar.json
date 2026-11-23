@@ -312,7 +312,7 @@
     },
     {
       "name": "range-fill",
-      "description": "Highlight band behind a day inside a selected range (Figma .Range fill Highlight fill, selection background). It fills the whole day cell (40 wide) under the day circle, so the bands of consecutive days join into one band. Every selected day draws it, the two ends too: under an end circle (32) it shows as a 4px stub on each side, and its corners are square (the engine has no per-corner radius below the root or per-child alignment, so it is not rounded or flush at the circle edge). A one-day range draws no band. Drawn only when selectionMode is range and the day is selected.",
+      "description": "Highlight band behind a day inside a selected range (Figma .Range fill Highlight fill, selection background). It fills the whole day cell (40 wide) under the day circle of a day inside the range, so the bands of consecutive days join into one band. The two ends draw half a cell, from the circle's center to the cell edge, so the band is flush with the circle. The band has pill ends at the ends of a week row. A one-day range draws no band, and neither does an end at a week row edge. Drawn only when selectionMode is range and the day is selected.",
       "presentWhen": {
         "options": { "selectionMode": "range", "isSelected": true }
       }
