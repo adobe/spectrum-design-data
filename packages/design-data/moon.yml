@@ -178,6 +178,8 @@ tasks:
     inputs:
       - "@globs(tokens)"
       - "@globs(relationships)"
+      - "registry/**/*.json"
+      - "fields/**/*.json"
     outputs:
       - "/packages/tokens/src/**/*.json"
 
