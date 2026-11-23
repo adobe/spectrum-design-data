@@ -1518,6 +1518,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "aliases": ["highlight-fill", "selection-background"]
     },
     {
+      "id": "day-fill",
+      "label": "Day Fill",
+      "description": "Circle behind the day number of a calendar day: the selected, hover, keyboard-focus and error fill",
+      "usedIn": ["s2-docs"],
+      "aliases": ["day-circle", "day-background"]
+    },
+    {
       "id": "current-day-indicator",
       "label": "Current Day Indicator",
       "description": "Marker that sets today's cell apart in a calendar",

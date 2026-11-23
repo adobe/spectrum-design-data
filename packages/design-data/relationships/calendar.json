@@ -241,6 +241,23 @@
     "scope": {
       "component": "calendar",
       "part": "day",
+      "property": "content-color",
+      "options": {
+        "isSelected": true,
+        "selectionMode": "range",
+        "isRangeStart": false,
+        "isRangeEnd": false
+      }
+    },
+    "context": "Day values",
+    "contextRole": ["value"],
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "5d8dc94e-c4c4-51f9-800f-90e0e1a374ce"
+  },
+  {
+    "scope": {
+      "component": "calendar",
+      "part": "day",
       "property": "color",
       "attribute": "background",
       "options": {
@@ -382,6 +399,51 @@
     "contextRole": ["track"],
     "$ref": "93563495-60af-4a84-b811-9672fc46a1cc",
     "uuid": "092a11ef-b0e4-56fd-9c45-c4ed88d48363"
+  },
+  {
+    "scope": {
+      "component": "calendar",
+      "part": "range-fill",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "isError": true
+      }
+    },
+    "context": "Range fill color",
+    "contextRole": ["track"],
+    "$ref": "5d7cd7c1-66fa-49d4-923b-8cca2dcb4726",
+    "uuid": "151b568d-78e2-5d80-8c1e-d2e4f0e68e96"
+  },
+  {
+    "scope": {
+      "component": "calendar",
+      "part": "range-fill",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "isError": true
+      }
+    },
+    "context": "Range fill color",
+    "contextRole": ["track"],
+    "$ref": "c098c385-7fce-4f16-b1d1-54a86c608e64",
+    "uuid": "249952a3-db92-5108-9cd3-a7ffc8663984"
+  },
+  {
+    "scope": {
+      "component": "calendar",
+      "part": "range-fill",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "isError": true
+      }
+    },
+    "context": "Range fill color",
+    "contextRole": ["track"],
+    "$ref": "8a6b560b-50b2-4dbf-900b-0ed63233df8b",
+    "uuid": "5f2f1bcb-f302-59e1-9a6b-32663b49b13a"
   },
   {
     "scope": {

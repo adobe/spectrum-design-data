@@ -9,10 +9,7 @@
   "notVisual": [
     "currentMonth",
     "currentYear",
-    "selectionMode",
     "visibleMonths",
-    "isRangeStart",
-    "isRangeEnd",
     "isUnavailable",
     "isToday",
     "minValue",
@@ -115,14 +112,7 @@
           "value": 7
         },
         "columnGap": {
-          "relationship": {
-            "property": "space-between",
-            "part": "container",
-            "between": {
-              "from": "weekday-label",
-              "to": "weekday-label"
-            }
-          }
+          "value": 0
         }
       }
     },
@@ -136,8 +126,8 @@
         "width": {
           "token": {
             "property": "size",
-            "scaleIndex": 500,
-            "legacyKey": "size-500"
+            "scaleIndex": 600,
+            "legacyKey": "size-600"
           }
         },
         "justify": {
@@ -153,6 +143,8 @@
         "label": "label",
         "with": {
           "isSelected": "isSelected",
+          "isRangeStart": "isRangeStart",
+          "isRangeEnd": "isRangeEnd",
           "isDisabled": "isDisabled",
           "isToday": "isToday"
         }
@@ -165,14 +157,7 @@
           "value": 7
         },
         "columnGap": {
-          "relationship": {
-            "property": "space-between",
-            "part": "container",
-            "between": {
-              "from": "weekday-label",
-              "to": "weekday-label"
-            }
-          }
+          "value": 0
         },
         "rowGap": {
           "token": {
@@ -184,11 +169,61 @@
     },
     "day": {
       "kind": "box",
-      "children": ["label"],
+      "children": ["range-fill", "day-fill", "label"],
       "props": {
         "direction": {
           "value": "stack"
         },
+        "width": {
+          "token": {
+            "property": "size",
+            "scaleIndex": 600,
+            "legacyKey": "size-600"
+          }
+        },
+        "height": {
+          "token": {
+            "property": "size",
+            "scaleIndex": 500,
+            "legacyKey": "size-500"
+          }
+        }
+      }
+    },
+    "range-fill": {
+      "kind": "box",
+      "props": {
+        "height": {
+          "token": {
+            "property": "size",
+            "scaleIndex": 500,
+            "legacyKey": "size-500"
+          }
+        },
+        "fill": [
+          {
+            "relationship": {
+              "property": "color",
+              "part": "range-fill",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeStart": true,
+                "isRangeEnd": true
+              }
+            },
+            "value": "transparent",
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "day-fill": {
+      "kind": "box",
+      "props": {
         "width": {
           "token": {
             "property": "size",
@@ -211,7 +246,32 @@
           {
             "when": {
               "options": {
-                "isSelected": true
+                "isSelected": true,
+                "selectionMode": "single"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "day",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeStart": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "day",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeEnd": true
               }
             },
             "relationship": {

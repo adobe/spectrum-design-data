@@ -254,7 +254,7 @@
     {
       "name": "month",
       "description": "One visible month: its title, its weekday grid and its day grid. Repeated once per entry of the months option.",
-      "contains": ["title", "weekday-grid", "day-grid", "range-fill"]
+      "contains": ["title", "weekday-grid", "day-grid"]
     },
     {
       "name": "title",
@@ -284,11 +284,17 @@
       "description": "One date cell of a month's day grid. Styled for selected, hover, error, disabled and unavailable.",
       "required": true,
       "contains": [
+        "range-fill",
+        "day-fill",
         "label",
         "current-day-indicator",
         "unavailable-indicator",
         "focus-indicator"
       ]
+    },
+    {
+      "name": "day-fill",
+      "description": "Circle behind the day number: the selected, hover, keyboard-focus and error fill of a day (Figma .Day Calendar Day frame). Drawn over the range-fill band, under the label."
     },
     {
       "name": "label",
@@ -306,8 +312,10 @@
     },
     {
       "name": "range-fill",
-      "description": "Highlight band behind the days between the two ends of a selected range (Figma Highlight fill, selection background). Visible only when selectionMode is range.",
-      "presentWhen": { "options": { "selectionMode": "range" } }
+      "description": "Highlight band behind a day inside a selected range (Figma .Range fill Highlight fill, selection background). It fills the whole day cell (40 wide) under the day circle, so the bands of consecutive days join into one band. Every selected day draws it, the two ends too: under an end circle (32) it shows as a 4px stub on each side, and its corners are square (the engine has no per-corner radius below the root or per-child alignment, so it is not rounded or flush at the circle edge). A one-day range draws no band. Drawn only when selectionMode is range and the day is selected.",
+      "presentWhen": {
+        "options": { "selectionMode": "range", "isSelected": true }
+      }
     },
     {
       "name": "help-text",

@@ -250,7 +250,8 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
 
 /// A calendar draws its months and weekdays from collection options, and an empty nested
 /// repeat draws no cell, so its snapshots carry a month of days (a blank cell, a day that
-/// follows the request, a selected one and a disabled one) and the weekday headings.
+/// follows the request, a selected one, a disabled one and a range with its two ends and a
+/// day between them) and the weekday headings.
 fn fixed_options(name: &str) -> Vec<(String, Value)> {
     if name != "calendar" {
         return Vec::new();
@@ -264,7 +265,10 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
         { "label": "1" },
         { "label": "2", "isSelected": true },
         { "label": "3", "isDisabled": true },
-        { "label": "4" }
+        { "label": "4" },
+        { "label": "5", "isSelected": true, "isRangeStart": true },
+        { "label": "6", "isSelected": true },
+        { "label": "7", "isSelected": true, "isRangeEnd": true }
     ]);
     vec![
         (
