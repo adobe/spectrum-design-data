@@ -1,0 +1,244 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "coach-mark",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["actions", "hideImage"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["title", "description", "button-group"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "padding",
+            "part": "container"
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "padding",
+            "part": "container"
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "padding",
+            "part": "container"
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "padding",
+            "part": "container"
+          }
+        },
+        "gap": {
+          "token": {
+            "property": "gap",
+            "structure": "container",
+            "size": "s"
+          }
+        },
+        "fill": {
+          "token": {
+            "property": "color",
+            "object": "background",
+            "variant": "layer",
+            "scaleIndex": 2
+          }
+        },
+        "cornerRadius": {
+          "token": {
+            "property": "corner-radius",
+            "state": "default",
+            "size": "l"
+          }
+        },
+        "shadow": {
+          "shadow": [
+            {
+              "x": {
+                "token": {
+                  "structure": "drop-shadow",
+                  "variant": "elevated",
+                  "property": "x"
+                }
+              },
+              "y": {
+                "token": {
+                  "structure": "drop-shadow",
+                  "variant": "elevated",
+                  "property": "y"
+                }
+              },
+              "blur": {
+                "token": {
+                  "structure": "drop-shadow",
+                  "variant": "elevated",
+                  "property": "blur"
+                }
+              },
+              "color": {
+                "token": {
+                  "structure": "drop-shadow",
+                  "variant": "elevated",
+                  "property": "color"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "title": {
+      "kind": "text",
+      "text": {
+        "option": "title"
+      },
+      "props": {
+        "fontFamily": {
+          "token": {
+            "property": "font-family",
+            "family": "sans-serif"
+          }
+        },
+        "fontSize": [
+          {
+            "when": {
+              "modes": {
+                "scale": "desktop"
+              }
+            },
+            "token": {
+              "property": "font-size-200"
+            }
+          },
+          {
+            "when": {
+              "modes": {
+                "scale": "mobile"
+              }
+            },
+            "token": {
+              "property": "font-size-100"
+            }
+          }
+        ],
+        "fontWeight": {
+          "token": {
+            "property": "font-weight",
+            "weight": "bold"
+          }
+        },
+        "lineHeight": {
+          "token": {
+            "property": "line-height",
+            "referenceScaleIndex": 100
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "title",
+            "attribute": "background"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        }
+      }
+    },
+    "description": {
+      "kind": "text",
+      "text": {
+        "option": "description"
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "description"
+          }
+        },
+        "fontSize": [
+          {
+            "when": {
+              "modes": {
+                "scale": "desktop"
+              }
+            },
+            "token": {
+              "property": "font-size-200"
+            }
+          },
+          {
+            "when": {
+              "modes": {
+                "scale": "mobile"
+              }
+            },
+            "token": {
+              "property": "font-size-100"
+            }
+          }
+        ],
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "description"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "description"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "description",
+            "attribute": "background"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        }
+      }
+    },
+    "button-group": {
+      "kind": "slot",
+      "sizeMap": {
+        "m": "m"
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "gap": {
+          "token": {
+            "property": "gap",
+            "structure": "container",
+            "size": "s"
+          }
+        }
+      }
+    }
+  }
+}

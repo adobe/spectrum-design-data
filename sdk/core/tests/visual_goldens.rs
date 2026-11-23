@@ -362,6 +362,77 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((id, r));
         }
     }
+    // Contextual help draws its popover only while open, so every scenario opens it with real
+    // copy; "closed" draws the button alone.
+    if name == "contextual-help" {
+        let copy = |r: &mut RenderRequest| {
+            r.options
+                .insert("title".into(), "Permission required".into());
+            r.options.insert(
+                "description".into(),
+                "Your admin must grant you permission to view this item. Ask them to update your role."
+                    .into(),
+            );
+            r.options
+                .insert("linkLabel".into(), "Learn about permissions".into());
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r);
+            r.states = vec!["open".into()];
+        }
+        let mut closed = req(vec![], HashMap::new(), "light", "desktop");
+        copy(&mut closed);
+        out.push(("closed", closed));
+        let mut offset = req(
+            vec!["open".into()],
+            HashMap::from([("popoverOffset".to_string(), Value::from(16))]),
+            "dark",
+            "desktop",
+        );
+        copy(&mut offset);
+        out.push(("offset-16-dark", offset));
+    }
+    // Coach mark: real copy and two footer buttons in every scenario; the long copy wraps.
+    if name == "coach-mark" {
+        let fills = |skip: &str| {
+            let fill =
+                |label: &str, variant: &str, style: &str| design_data_core::visual::SlotFill {
+                    component: "button".to_string(),
+                    options: HashMap::from([
+                        ("label".to_string(), Value::from(label)),
+                        ("variant".to_string(), Value::from(variant)),
+                        ("style".to_string(), Value::from(style)),
+                    ]),
+                };
+            HashMap::from([(
+                "button-group".to_string(),
+                vec![
+                    fill(skip, "secondary", "outline"),
+                    fill("Next", "primary", "fill"),
+                ],
+            )])
+        };
+        let copy = |r: &mut RenderRequest, long: bool| {
+            r.options
+                .insert("title".into(), "Welcome to the editor".into());
+            r.options.insert(
+                "description".into(),
+                if long {
+                    "Use the toolbar to add shapes, text and images to your canvas. Drag any element to move it, and use the handles to resize it."
+                } else {
+                    "Use the toolbar to add shapes, text and images to your canvas."
+                }
+                .into(),
+            );
+            r.slots = fills(if long { "Skip" } else { "Skip tour" });
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, false);
+        }
+        let mut long = req(vec![], HashMap::new(), "dark", "mobile");
+        copy(&mut long, true);
+        out.push(("long-copy-mobile-dark", long));
+    }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
     if let Some(item) = match name {

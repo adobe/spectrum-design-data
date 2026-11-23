@@ -779,6 +779,9 @@
     "cornerRounding=\"full\",staticColor=\"white\"": "963a454d13f1feed",
     "cornerRounding=\"none\",staticColor=\"white\"": "1c8605cd2a1fb787"
   },
+  "coach-mark": {
+    "(defaults)": "9268f86528d046d2"
+  },
   "color-handle": {
     "hasFill=false,isDisabled=false": "d97437c180fc05d3",
     "hasFill=false,isDisabled=true": "5c3de8c0e203c1f9",
@@ -806,6 +809,9 @@
     "isDisabled=true,isError=true,isRequired=false,necessityIndicator=\"text\"": "f7557fe42ad2c622",
     "isDisabled=true,isError=true,isRequired=true,necessityIndicator=\"icon\"": "cd905b1335b37688",
     "isDisabled=true,isError=true,isRequired=true,necessityIndicator=\"text\"": "9ed696c69a16d710"
+  },
+  "contextual-help": {
+    "(defaults)": "b83d755a08fa0d60"
   },
   "divider": {
     "orientation=\"horizontal\",staticColor=\"black\"": "d0974b4d62da2fc5",
