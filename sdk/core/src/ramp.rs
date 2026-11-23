@@ -158,14 +158,14 @@ impl Color {
                 let a = s * x.min(1.0 - x);
                 let f = |n: f64| {
                     let k = (n + h / 30.0) % 12.0;
-                    (x - a * (k - 3.0).min(9.0 - k).min(1.0).max(-1.0)) * 255.0
+                    (x - a * (k - 3.0).min(9.0 - k).clamp(-1.0, 1.0)) * 255.0
                 };
                 [f(0.0), f(8.0), f(4.0)]
             }
             Space::Hsb => {
                 let f = |n: f64| {
                     let k = (n + h / 60.0) % 6.0;
-                    (x - s * x * k.min(4.0 - k).min(1.0).max(0.0)) * 255.0
+                    (x - s * x * k.min(4.0 - k).clamp(0.0, 1.0)) * 255.0
                 };
                 [f(5.0), f(3.0), f(1.0)]
             }

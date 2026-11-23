@@ -12148,7 +12148,7 @@ mod tests {
         );
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
         let svg = scene_to_svg(&s);
-        assert_eq!(svg.matches("<stop ").count(), 7 * 1, "{svg}");
+        assert_eq!(svg.matches("<stop ").count(), 7, "{svg}");
     }
 
     #[test]

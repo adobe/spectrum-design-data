@@ -43,7 +43,7 @@ fn gradients<'a>(v: &'a Value, out: &mut Vec<&'a Value>) {
     }
 }
 
-fn literal<'a>(src: &'a Value) -> Option<&'a str> {
+fn literal(src: &Value) -> Option<&str> {
     src.get("value").and_then(Value::as_str)
 }
 
