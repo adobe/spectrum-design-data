@@ -284,11 +284,14 @@ fn the_embedded_dataset_is_checked() {
             .assert()
     };
     run().success();
-    let dataset_json = cache
-        .path()
-        .join("embedded")
-        .join(design_data_core::data_source::EMBEDDED_DATA_VERSION)
-        .join("packages/design-data/dataset.json");
+    let prefix = format!("{}-", design_data_core::data_source::EMBEDDED_DATA_VERSION);
+    let snapshot = std::fs::read_dir(cache.path().join("embedded"))
+        .unwrap()
+        .flatten()
+        .find(|e| e.file_name().to_string_lossy().starts_with(&prefix))
+        .expect("embedded snapshot dir")
+        .path();
+    let dataset_json = snapshot.join("packages/design-data/dataset.json");
     assert!(
         dataset_json.is_file(),
         "embedded snapshot not at {}",
