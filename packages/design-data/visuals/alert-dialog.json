@@ -245,7 +245,7 @@
     },
     "header": {
       "kind": "box",
-      "children": ["title", "icon"],
+      "children": ["icon", "title"],
       "props": {
         "direction": {
           "value": "row"

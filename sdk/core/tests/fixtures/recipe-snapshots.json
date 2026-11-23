@@ -330,9 +330,9 @@
   "alert-dialog": {
     "variant=\"confirmation\"": "af4d600f4beaf597",
     "variant=\"destructive\"": "f415cdc85302fd81",
-    "variant=\"error\"": "395203770297ec37",
+    "variant=\"error\"": "e805d77ea990478e",
     "variant=\"information\"": "2ee5a5bfc4838629",
-    "variant=\"warning\"": "0206e8d001befc19"
+    "variant=\"warning\"": "0fa0187803570566"
   },
   "avatar": {
     "image=\"gradient image\",isDisabled=false,showStroke=false": "4765aa0cd656d6c0",
@@ -1155,7 +1155,7 @@
     "hideTracker=true,isDisabled=true,isSelected=true,orientation=\"vertical\"": "ef3d9c3305cb89b9"
   },
   "standard-dialog": {
-    "(defaults)": "af4bed3cc1885011"
+    "(defaults)": "45235b80da8e12a9"
   },
   "standard-panel": {
     "density=\"compact\",hideCloseButton=false,hideDivider=false,hideDragHandle=false,style=\"primary\",type=\"anchored\"": "bc0169ebea5c5dbf",

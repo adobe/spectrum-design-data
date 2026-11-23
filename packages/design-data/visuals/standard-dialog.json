@@ -211,12 +211,9 @@
           "value": "row"
         },
         "gap": {
-          "relationship": {
-            "property": "space-between",
-            "between": {
-              "from": "container",
-              "to": "close-button"
-            }
+          "token": {
+            "property": "spacing",
+            "scaleIndex": 200
           }
         }
       }
@@ -253,12 +250,9 @@
           "value": "center"
         },
         "gap": {
-          "relationship": {
-            "property": "space-between",
-            "between": {
-              "from": "title",
-              "to": "description"
-            }
+          "token": {
+            "property": "spacing",
+            "scaleIndex": 400
           }
         }
       }
