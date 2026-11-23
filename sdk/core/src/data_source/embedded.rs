@@ -109,7 +109,44 @@ static SPEC_SCHEMAS: Dir<'_> =
 /// Derived at compile time from `packages/design-data/package.json` via `build.rs`.
 pub const EMBEDDED_DATA_VERSION: &str = env!("DESIGN_DATA_VERSION");
 
-const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v5");
+const SNAPSHOT_LAYOUT: &str = "token-schemas-v5";
+
+/// Sentinel written last by [`materialize_to`]: data version, snapshot layout and a hash of
+/// every embedded file. The version alone is not enough: it does not move between releases, so a
+/// cache written by an older binary would serve stale recipes to every newer one.
+fn snapshot_marker() -> String {
+    fn mix(h: &mut u64, bytes: &[u8]) {
+        for b in bytes {
+            *h = (*h ^ u64::from(*b)).wrapping_mul(0x0100_0000_01b3);
+        }
+    }
+    fn walk(h: &mut u64, dir: &Dir<'_>) {
+        for f in dir.files() {
+            mix(h, f.path().to_string_lossy().as_bytes());
+            mix(h, f.contents());
+        }
+        for d in dir.dirs() {
+            walk(h, d);
+        }
+    }
+    let mut h: u64 = 0xcbf2_9ce4_8422_2325;
+    for dir in [
+        &TOKENS_SRC,
+        &MODE_SETS,
+        &COMPONENTS,
+        &FIELDS,
+        &GUIDELINES,
+        &RELATIONSHIPS,
+        &ICONS,
+        &VISUALS,
+        &SPEC_SCHEMAS,
+    ] {
+        walk(&mut h, dir);
+    }
+    mix(&mut h, DATASET_JSON.as_bytes());
+    mix(&mut h, NAMING_EXCEPTIONS.as_bytes());
+    format!("{EMBEDDED_DATA_VERSION}:{SNAPSHOT_LAYOUT}:{h:016x}")
+}
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -203,8 +240,9 @@ fn evict_stale_versions(current: &Path) {
 /// Returns an `io::Error` if the cache dir cannot be created or any write fails.
 pub fn materialize_to(root: &Path) -> io::Result<()> {
     let sentinel = root.join(".complete");
+    let expected = snapshot_marker();
     match std::fs::read_to_string(&sentinel) {
-        Ok(marker) if marker == SNAPSHOT_MARKER => return Ok(()),
+        Ok(marker) if marker == expected => return Ok(()),
         Ok(_) => {}
         Err(error) if error.kind() == io::ErrorKind::NotFound => {}
         Err(error) => return Err(error),
@@ -264,7 +302,7 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     std::fs::rename(&tmp, root)?;
 
     // Write sentinel last.
-    std::fs::write(&sentinel, SNAPSHOT_MARKER.as_bytes())?;
+    std::fs::write(&sentinel, expected.as_bytes())?;
 
     Ok(())
 }
@@ -367,7 +405,7 @@ mod tests {
         );
         assert_eq!(
             fs::read_to_string(root.join(".complete")).unwrap(),
-            SNAPSHOT_MARKER
+            snapshot_marker()
         );
     }
 
@@ -384,7 +422,7 @@ mod tests {
 
         assert_eq!(
             fs::read_to_string(root.join(".complete")).unwrap(),
-            SNAPSHOT_MARKER
+            snapshot_marker()
         );
         assert!(schemas.join("implementation-mapping.schema.json").is_file());
         assert!(schemas.join("component.schema.json").is_file());
@@ -394,6 +432,21 @@ mod tests {
         )
         .unwrap();
         assert_eq!(schema["type"], "object");
+    }
+
+    #[test]
+    fn materialize_refreshes_stale_content_with_same_version() {
+        let (_tmp, root) = temp_root();
+        let recipe = root.join("packages/design-data/visuals/combo-box.json");
+        fs::write(&recipe, "stale").unwrap();
+        let marker = fs::read_to_string(root.join(".complete")).unwrap();
+        // An older binary with the same data version but different content wrote this marker.
+        let stale = format!("{}:0000000000000000", marker.rsplit_once(':').unwrap().0);
+        fs::write(root.join(".complete"), stale).unwrap();
+
+        materialize_to(&root).unwrap();
+
+        assert_ne!(fs::read_to_string(&recipe).unwrap(), "stale");
     }
 
     #[test]

@@ -21,7 +21,16 @@ fn main() {
             .join("../../packages/design-data/dataset.json")
             .display()
     );
-    for dir in ["guidelines", "relationships", "icons", "visuals"] {
+    for dir in [
+        "tokens",
+        "mode-sets",
+        "components",
+        "fields",
+        "guidelines",
+        "relationships",
+        "icons",
+        "visuals",
+    ] {
         println!(
             "cargo:rerun-if-changed={}",
             Path::new(env!("CARGO_MANIFEST_DIR"))

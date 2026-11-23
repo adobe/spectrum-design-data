@@ -289,6 +289,51 @@ fn render_works_from_the_embedded_snapshot_outside_a_checkout() {
     assert!(svg.starts_with("<svg"), "{svg}");
 }
 
+/// A cache written by an older binary with the same data version (4.4.0) must not serve its
+/// recipes to a newer one: the explorer once showed a 24px-wide combo-box from such a cache
+/// while every golden, which reads the checkout, passed.
+#[test]
+fn render_replaces_a_stale_embedded_snapshot_of_the_same_data_version() {
+    let cwd = tempfile::tempdir().unwrap();
+    let cache = tempfile::tempdir().unwrap();
+    let render = || {
+        let out = Command::cargo_bin("design-data")
+            .unwrap()
+            .current_dir(cwd.path())
+            .env("DESIGN_DATA_CACHE_DIR", cache.path())
+            .args(["render", "combo-box"])
+            .assert()
+            .success();
+        String::from_utf8(out.get_output().stdout.clone()).unwrap()
+    };
+    let width = |svg: &str| -> f64 {
+        let rest = &svg[svg.find("width=\"").unwrap() + 7..];
+        rest[..rest.find('"').unwrap()].parse().unwrap()
+    };
+    let fresh = width(&render());
+    assert!(fresh > 100.0, "combo-box renders sized, got {fresh}");
+
+    let embedded = std::fs::read_dir(cache.path().join("embedded"))
+        .unwrap()
+        .next()
+        .unwrap()
+        .unwrap()
+        .path();
+    let recipe = embedded.join("packages/design-data/visuals/combo-box.json");
+    let mut v: Value = serde_json::from_str(&std::fs::read_to_string(&recipe).unwrap()).unwrap();
+    v["parts"]["container"]["props"]["width"] = json!({ "dimension": "width" });
+    let stale = v.to_string();
+    std::fs::write(&recipe, stale).unwrap();
+    let version = embedded.file_name().unwrap().to_str().unwrap();
+    std::fs::write(
+        embedded.join(".complete"),
+        format!("{version}:token-schemas-v5"),
+    )
+    .unwrap();
+
+    assert_eq!(width(&render()), fresh);
+}
+
 /// h890.36.5: with `--strict`, a batch state whose scene reports a diagnostic makes the run
 /// exit 1 (every output is still written); without it the same batch exits 0.
 #[test]
