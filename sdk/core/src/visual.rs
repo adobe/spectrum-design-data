@@ -4281,7 +4281,7 @@ fn solve_root(
                     .and_then(|g| g.0.as_ref())
                     .and_then(Resolved::num)
                     .filter(|c| *c >= 1.0)
-                    .map(|c| c as usize),
+                    .map(|c| c.min(MAX_GRID_COLUMNS as f64) as usize),
             )?;
             for n in copies {
                 flow.push(Child {
@@ -6661,7 +6661,6 @@ fn solve_copies(
     let copy_req = |item: &Value, width: Option<f64>, place: (usize, usize)| {
         let mut r = base.clone();
         r.width = width;
-        r.options.remove(ROW_POSITION);
         if let Some(cols) = grid_cols {
             let (n, of) = place;
             let first = n % cols == 0;
