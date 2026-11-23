@@ -377,6 +377,7 @@
         "xl": "500"
       },
       "with": {
+        "showImage": true,
         "isDisabled": {
           "option": "isDisabled"
         }

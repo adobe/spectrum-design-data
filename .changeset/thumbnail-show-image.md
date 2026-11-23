@@ -11,3 +11,5 @@ Rename the thumbnail option `hideImage` to `showImage` and default it to false.
 - Migration: replace `hideImage: false` with `showImage: true` and drop `hideImage: true`.
   A bare thumbnail with no options no longer draws an image.
 - `standard-dialog` and `coach-mark` keep `hideImage` (unchanged).
+- Nested thumbnails in `menu` and `stack-item` pin `showImage: true` (Figma sets Show image
+  on those instances), so their renders are unchanged.
