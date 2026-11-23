@@ -1599,12 +1599,26 @@ mod tests {
         /// A 40x40 white box with `image` (and a corner radius), at scale 1; the pixel
         /// (0, 0) of the returned image is the box's top-left corner.
         fn draw(image: Value, src: Option<Value>, radius: u32) -> (Image, Vec<String>, Scene) {
+            draw_with(image, src, radius, json!({}))
+        }
+
+        fn draw_with(
+            image: Value,
+            src: Option<Value>,
+            radius: u32,
+            extra: Value,
+        ) -> (Image, Vec<String>, Scene) {
             let lit = |v: Value| json!({ "value": v });
+            let mut props = json!({
+                "width": lit(40.into()), "height": lit(40.into()),
+                "fill": lit("#ffffff".into()), "cornerRadius": lit(radius.into()) });
+            props
+                .as_object_mut()
+                .unwrap()
+                .extend(extra.as_object().unwrap().clone());
             let recipe = json!({
                 "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
-                "parts": { "r": { "kind": "box", "image": image, "props": {
-                    "width": lit(40.into()), "height": lit(40.into()),
-                    "fill": lit("#ffffff".into()), "cornerRadius": lit(radius.into()) } } }
+                "parts": { "r": { "kind": "box", "image": image, "props": props } }
             });
             let mut req = RenderRequest {
                 component: "action-button".into(),
@@ -1708,6 +1722,11 @@ mod tests {
                 assert_eq!(at(&img, 2, 2), [0xd5, 0xd5, 0xd5, 255]);
                 assert_eq!(at(&img, 10, 2), [0xeb, 0xeb, 0xeb, 255]);
                 assert_eq!(at(&img, 10, 10), [0xd5, 0xd5, 0xd5, 255]);
+                // The squares are 8 px: the second begins at x = 8 and the third at 16.
+                assert_eq!(at(&img, 7, 2), [0xd5, 0xd5, 0xd5, 255]);
+                assert_eq!(at(&img, 8, 2), [0xeb, 0xeb, 0xeb, 255]);
+                assert_eq!(at(&img, 15, 2), [0xeb, 0xeb, 0xeb, 255]);
+                assert_eq!(at(&img, 16, 2), [0xd5, 0xd5, 0xd5, 255]);
             }
         }
 
@@ -1754,6 +1773,48 @@ mod tests {
                 assert!(scene.nodes[0].image.as_ref().unwrap().placeholder, "{name}");
                 assert_eq!(at(&img, 2, 2), [0xd5, 0xd5, 0xd5, 255], "{name}");
             }
+        }
+
+        #[test]
+        fn the_picture_draws_over_the_gradient_and_the_pattern() {
+            // Left half opaque red, right half transparent, stretched over the box, which has
+            // a green-to-blue gradient fill and a black checkerboard of 8 px squares.
+            let half = test_uri(&test_png(2, 1, 6, &|x, _| {
+                if x == 0 {
+                    RED.to_vec()
+                } else {
+                    vec![0, 0, 0, 0]
+                }
+            }));
+            let lit = |v: Value| json!({ "value": v });
+            let extra = json!({
+                "patternFill": lit("#000000".into()), "patternSize": lit(8.into()),
+                "fill": { "gradient": { "from": [0, 0], "to": [1, 0], "stops": [
+                    { "color": lit("#00ff00".into()), "offset": lit(0.into()) },
+                    { "color": lit("#0000ff".into()), "offset": lit(1.into()) } ] } }
+            });
+            let (img, d, scene) =
+                draw_with(with(json!({ "fit": "fill" })), Some(half.into()), 0, extra);
+            assert!(
+                d.is_empty() && scene.diagnostics.is_empty(),
+                "{d:?} {:?}",
+                scene.diagnostics
+            );
+            assert!(scene.nodes[0].gradient.is_some() && scene.nodes[0].pattern.is_some());
+            // Over the opaque half: the picture hides both (x = 9 is a pattern square).
+            assert_eq!((at(&img, 4, 4), at(&img, 9, 4)), (RED, RED));
+            // Through the transparent half: the pattern square (x = 30) over the gradient,
+            // and the gradient alone where there is no square (x = 38, near the blue end).
+            assert_eq!(at(&img, 30, 4), [0, 0, 0, 255]);
+            let g = at(&img, 38, 4);
+            assert!(
+                g[0] == 0 && g[1] <= 14 && g[2] >= 240 && g[3] == 255,
+                "{g:?}"
+            );
+            // Without the picture the same pixels are the pattern and the gradient: the
+            // picture, not the fill, made (9, 4) red.
+            let (bare, _, _) = draw_with(json!({ "source": { "value": "" } }), None, 0, json!({}));
+            assert_ne!(at(&bare, 9, 4), RED);
         }
 
         #[test]

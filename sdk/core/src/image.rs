@@ -527,4 +527,20 @@ mod tests {
         png[16..24].fill(0);
         assert!(decode_data_uri(&test_uri(&png)).is_err());
     }
+
+    #[test]
+    fn the_side_and_pixel_limits_hold_exactly() {
+        // A header of the given size on a valid 1x1 file: past the limits the error names the
+        // size; within them the decoder goes on and fails later on the missing pixels.
+        let refused = |w: u32, h: u32| {
+            let mut png = test_png(1, 1, 6, &|_, _| vec![0; 4]);
+            png[16..20].copy_from_slice(&w.to_be_bytes());
+            png[20..24].copy_from_slice(&h.to_be_bytes());
+            decode_data_uri(&test_uri(&png)).is_err_and(|e| e.contains("pixels are read"))
+        };
+        assert!(!refused(4096, 1) && refused(4097, 1));
+        assert!(!refused(1, 4096) && refused(1, 4097));
+        assert!(!refused(4000, 1000) && refused(4000, 1001));
+        assert!(!refused(2000, 2000) && refused(2001, 2000));
+    }
 }
