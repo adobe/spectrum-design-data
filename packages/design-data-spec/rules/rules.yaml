@@ -1555,7 +1555,7 @@ rules:
       It is sized by its own `width` and `height`, or by its layout when it hosts `children`.
     assert: >
       A part with `floating` MUST NOT be the root or a child of another part, MUST be a `box`
-      with no `placement`, and MUST either have `children` or bind both `width` and `height`.
+      (or a `component` placed by `side` or `position`) with no `placement`, and MUST either have `children` or bind both `width` and `height`.
     message: "Floating part '{part}' of '{component}' {problem}"
     spec_ref: spec/component-visuals.md#floating-parts
     introduced_in: "1.0.0-draft"
