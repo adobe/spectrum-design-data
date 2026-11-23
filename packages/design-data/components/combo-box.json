@@ -226,7 +226,8 @@
     },
     {
       "name": "error-icon",
-      "description": "Alert icon shown when the field is invalid."
+      "description": "Alert icon shown when the field is invalid.",
+      "presentWhen": { "options": { "isError": true } }
     },
     {
       "name": "in-field-progress-circle",
