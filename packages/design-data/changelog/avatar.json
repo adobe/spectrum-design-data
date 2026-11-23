@@ -359,6 +359,28 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.4.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "ad6e4152b1e096227c4bfdfcc678bc3f77a33660",
+      "commits": [
+        {
+          "commit": "7f9260eb9ee3c2de4829c4244ec3b4035e454e69",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2094,"title":"feat(design-data): add src image option to avatar and thumbnail","url":"https://github.com/adobe/spectrum-design-data/pull/2094"},
+          "entries": [
+            {"id":"7f9260eb-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar/options/src","name":"src","fields":[],"after":{"type":"string"}},
+            {"id":"7f9260eb-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"avatar/anatomy/image","name":"image","fields":[{"path":"presentWhen.options.image","after":"user image"}]},
+            {"id":"7f9260eb-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar/anatomy/image","name":"image","fields":[{"path":"description","before":"Fills the circle behind the content: the profile photo for the User image style, generated gradient artwork for the Gradient image style, and the gradient backdrop of the Initials and Guest styles.","after":"The profile photo that fills the circle for the User image style (the src option)."}]},
+            {"id":"7f9260eb-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"avatar/visual/parts/container","name":"container","fields":[{"path":"children","before":["initials","guest-icon"],"after":["image","initials","guest-icon"]},{"path":"props.direction.value","before":"row","after":"stack"},{"path":"props.height.relationship.context","before":"Size"},{"path":"props.height.relationship.part","after":"container"},{"path":"props.width.relationship.context","before":"Size"},{"path":"props.width.relationship.part","after":"container"}]},
+            {"id":"7f9260eb-4","kind":"visual-part","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"avatar/visual/parts/image","name":"image","fields":[]}
+          ],
+          "metadata": {"count":34,"fields":["scope.part"]}
+        }
+      ]
     }
   ]
 }
