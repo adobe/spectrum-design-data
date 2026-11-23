@@ -5207,7 +5207,9 @@ fn solve_root(
         };
         let sane = |v: f64| v.is_finite() && v.abs() <= MAX_FLOATING;
         let (offset, cross) = (offset.unwrap_or(0.0), cross.unwrap_or(0.0));
-        if !(sane(fw_n) && sane(fh_n) && fw_n > 0.0 && fh_n > 0.0 && sane(offset) && sane(cross)) {
+        // A nested component may be zero wide (a field label with no text): it draws nothing.
+        let wide = fw_n > 0.0 || (comp.is_some() && fw_n == 0.0);
+        if !(sane(fw_n) && sane(fh_n) && wide && fh_n > 0.0 && sane(offset) && sane(cross)) {
             cx.diags.push(format!(
                 "floating part '{id}' needs a positive width and height and an offset within {MAX_FLOATING}px; skipping it"
             ));
@@ -12429,5 +12431,33 @@ mod tests {
                 s.diagnostics
             );
         }
+    }
+
+    #[test]
+    fn a_nested_component_floats_by_side_and_may_be_zero_wide() {
+        let recipe = host(serde_json::json!({
+            "r": { "kind": "box", "props": lit_props(&[("width", 100.0), ("height", 20.0)]) },
+            "h": {
+                "kind": "component", "component": "switch", "sizeMap": { "m": "m" },
+                "with": { "hideLabel": true },
+                "floating": { "side": "top", "align": "start",
+                    "offset": { "value": 4 } }
+            },
+            "l": {
+                "kind": "component", "component": "field-label", "sizeMap": { "m": "m" },
+                "floating": { "side": "top", "align": "start" }
+            }
+        }));
+        let g = nest_graph(&[]);
+        let s = nest_scene(&g, &recipe, "m", &[], &[]).unwrap();
+        let (r, h) = (part(&s, "r").unwrap(), part(&s, "h").unwrap());
+        // Above the root by the 4px offset, its start edge on the root's.
+        assert_eq!(h.y + h.h + 4.0, r.y);
+        assert_eq!(h.x, r.x);
+        // A field label with no text is zero wide: kept, not skipped, and no diagnostic.
+        let l = part(&s, "l").expect("zero-wide nested label is kept");
+        assert_eq!(l.w, 0.0);
+        assert!(l.h > 0.0);
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
     }
 }

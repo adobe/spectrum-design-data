@@ -23,8 +23,8 @@ use crate::validate::rules::visual_util::error;
 
 pub struct Rule;
 
-fn floating_has_position(part: &Value) -> bool {
-    part.pointer("/floating/position").is_some()
+fn floating_is_placed(part: &Value) -> bool {
+    part.pointer("/floating/position").is_some() || part.pointer("/floating/side").is_some()
 }
 
 impl ValidationRule for Rule {
@@ -59,7 +59,7 @@ impl ValidationRule for Rule {
                     problems.push("is a child of another part");
                 }
                 let kind = part.get("kind").and_then(Value::as_str);
-                let component_at = kind == Some("component") && floating_has_position(part);
+                let component_at = kind == Some("component") && floating_is_placed(part);
                 if !(kind == Some("box") || component_at) || part.get("placement").is_some() {
                     problems.push("is not a box without a placement");
                 }
@@ -145,5 +145,14 @@ mod tests {
         let m = check(json!({ "r": { "kind": "box" },
             "t": { "kind": "box", "floating": {"side": "top"}, "props": { "width": {"value": 4} } } }));
         assert!(m.iter().any(|m| m.contains("width and height")), "{m:?}");
+    }
+
+    #[test]
+    fn a_nested_component_may_float_by_side_but_a_text_may_not() {
+        let comp = json!({ "kind": "component", "floating": {"side": "top"} });
+        assert!(check(json!({ "r": { "kind": "box" }, "t": comp })).is_empty());
+        let text = json!({ "kind": "text", "floating": {"side": "top"} });
+        let m = check(json!({ "r": { "kind": "box" }, "t": text }));
+        assert!(m.iter().any(|m| m.contains("is not a box")), "{m:?}");
     }
 }
