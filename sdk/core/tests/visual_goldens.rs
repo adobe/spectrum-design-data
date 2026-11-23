@@ -1190,7 +1190,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
-    // Combo box: the defaults draw an empty hugging field (no value, label, description or width set). These
+    // Combo box: the defaults draw an empty field (no value, label or description set). These
     // fill it in: a label, a value and help text at each size, the hover and keyboard-focus
     // borders, the invalid and disabled borders and the dark mobile scheme.
     if name == "combo-box" {
@@ -1202,11 +1202,10 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             &'static str,
             &'static str,
         );
-        let filled: [(&str, Value); 4] = [
+        let filled: [(&str, Value); 3] = [
             ("label", "Name".into()),
             ("value", "Hello".into()),
             ("description", "Help text".into()),
-            ("width", 240.into()),
         ];
         let cases: Vec<Case> = vec![
             ("filled-s", "s", vec![], vec![], "light", "desktop"),
