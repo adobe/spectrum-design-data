@@ -451,6 +451,9 @@ pub struct SceneNode {
     /// consumer that draws solid fills only.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub gradient: Option<Gradient>,
+    /// A picture drawn over `fill`, clipped to the box and its corners (see [`ImageFill`]).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub image: Option<ImageFill>,
     /// Drop shadows drawn under the node, outside its box, first layer on top (CSS order).
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub shadow: Vec<Shadow>,
@@ -735,6 +738,50 @@ pub struct GradientStop {
     pub offset: f64,
     #[serde(skip_serializing_if = "String::is_empty")]
     pub token: String,
+}
+
+/// An image fill on a box. A real image carries its `data:image/png;base64` URI in `href` and
+/// `dest`, the rectangle the whole image covers as `[x, y, w, h]` relative to the box's top-left
+/// (larger than the box for `cover`, clipped to it), computed from `fit` and `position`; every
+/// consumer draws the image stretched into `dest`. A placeholder (no source, or one that could
+/// not be drawn) has no `href` and `dest` is the box: the node itself then carries the neutral
+/// checkerboard in `fill` and `pattern`, so a consumer that draws no images still shows it.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct ImageFill {
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub href: String,
+    pub fit: String,
+    pub position: [f64; 2],
+    pub dest: [f64; 4],
+    /// The image's own size in pixels (0 for a placeholder).
+    pub size: [u32; 2],
+    pub placeholder: bool,
+}
+
+/// The colors of the placeholder checkerboard and the size of its squares.
+pub const IMAGE_PLACEHOLDER: (&str, &str, f64) = ("#d5d5d5", "#ebebeb", 8.0);
+
+/// Where the image of `iw` by `ih` pixels lands in a `w` by `h` box for `fit` (`cover`,
+/// `contain`, `fill` or `none`) aligned by `position` (`[0, 0]` start, `[1, 1]` end).
+pub fn image_dest(
+    fit: &str,
+    position: [f64; 2],
+    (iw, ih): (f64, f64),
+    (w, h): (f64, f64),
+) -> [f64; 4] {
+    let (dw, dh) = match fit {
+        "fill" => (w, h),
+        "contain" => {
+            let s = (w / iw).min(h / ih);
+            (iw * s, ih * s)
+        }
+        "none" => (iw, ih),
+        _ => {
+            let s = (w / iw).max(h / ih);
+            (iw * s, ih * s)
+        }
+    };
+    [(w - dw) * position[0], (h - dh) * position[1], dw, dh]
 }
 
 /// Alternating squares of `size` in `fill` and `alt`, starting with `fill` at the top-left of
@@ -2346,6 +2393,97 @@ impl Ctx<'_> {
         } else {
             0.0
         }
+    }
+
+    /// Draw the part's `image` on a box: the picture its `source` names (an option or a
+    /// literal), laid out by `fit` and `position`. Without a source, or with one that cannot
+    /// be drawn (not a PNG data: URI, over a limit, corrupt), the box gets the placeholder;
+    /// only the second case reports a diagnostic. A path box ignores `image`.
+    fn apply_image(&mut self, n: &mut SceneNode, spec: &Value) {
+        let source = match spec.pointer("/source/option").and_then(Value::as_str) {
+            Some(name) => self.option(name),
+            None => spec
+                .pointer("/source/value")
+                .cloned()
+                .unwrap_or(Value::Null),
+        };
+        let uri = source.as_str().map(str::trim).filter(|s| !s.is_empty());
+        let fit = match spec.get("fit").and_then(Value::as_str) {
+            None => "cover",
+            Some(f @ ("cover" | "contain" | "fill" | "none")) => f,
+            Some(f) => {
+                self.diags.push(format!(
+                    "part '{}': image fit '{f}' is not cover, contain, fill or none; using cover",
+                    n.part
+                ));
+                "cover"
+            }
+        };
+        let position = match spec
+            .get("position")
+            .and_then(Value::as_array)
+            .map(Vec::as_slice)
+        {
+            Some([x, y]) => match (x.as_f64(), y.as_f64()) {
+                (Some(x), Some(y)) if x.is_finite() && y.is_finite() => {
+                    [x.clamp(0.0, 1.0), y.clamp(0.0, 1.0)]
+                }
+                _ => {
+                    self.diags.push(format!(
+                        "part '{}': image position must be two numbers; using the center",
+                        n.part
+                    ));
+                    [0.5, 0.5]
+                }
+            },
+            _ => [0.5, 0.5],
+        };
+        let mut why = None;
+        if let Some(uri) = uri {
+            match crate::image::decode_data_uri(uri) {
+                Ok(img) => {
+                    let dest = image_dest(
+                        fit,
+                        position,
+                        (f64::from(img.width), f64::from(img.height)),
+                        (n.w, n.h),
+                    );
+                    n.image = Some(ImageFill {
+                        href: uri.to_string(),
+                        fit: fit.into(),
+                        position,
+                        dest,
+                        size: [img.width, img.height],
+                        placeholder: false,
+                    });
+                    return;
+                }
+                Err(e) => why = Some(e),
+            }
+        } else if !source.is_null() && !source.is_string() {
+            why = Some("the source is not a string".to_string());
+        }
+        if let Some(e) = why {
+            self.diags.push(format!(
+                "part '{}': image not drawn: {e}; drawing the placeholder",
+                n.part
+            ));
+        }
+        let (fill, alt, size) = IMAGE_PLACEHOLDER;
+        n.gradient = None;
+        n.fill = Some(fill.into());
+        n.pattern = Some(Pattern {
+            alt: alt.into(),
+            size,
+        });
+        n.image = Some(ImageFill {
+            href: String::new(),
+            fit: fit.into(),
+            position,
+            dest: [0.0, 0.0, n.w, n.h],
+            size: [0, 0],
+            placeholder: true,
+        });
     }
 
     /// The gradient a `gradient` value source describes. Every stop must resolve to a color
@@ -4364,6 +4502,7 @@ fn solve_root(
                             underline: None,
                             pattern: None,
                             gradient: None,
+                            image: None,
                             shadow: Vec::new(),
                             path: None,
                             stroke_opacity: None,
@@ -4796,6 +4935,7 @@ fn solve_root(
         rotation: None,
         underline: None,
         pattern: root_pattern,
+        image: None,
         gradient: root_gradient,
         shadow: Vec::new(),
         path: None,
@@ -4996,6 +5136,7 @@ fn solve_root(
             font_family: c.font_family,
             underline: c.underline,
             pattern: c.pattern,
+            image: None,
             gradient: c.gradient,
             shadow: Vec::new(),
             path: None,
@@ -5124,6 +5265,7 @@ fn solve_root(
                     underline: None,
                     pattern: None,
                     gradient: None,
+                    image: None,
                     shadow: Vec::new(),
                     path: None,
                     stroke_opacity: None,
@@ -5191,6 +5333,7 @@ fn solve_root(
                 rotation: None,
                 underline: None,
                 pattern: None,
+                image: None,
                 gradient: nfill.as_ref().and_then(|f| f.gradient.clone()),
                 shadow: Vec::new(),
                 path: None,
@@ -5231,6 +5374,7 @@ fn solve_root(
             underline: None,
             pattern: None,
             gradient: None,
+            image: None,
             shadow: Vec::new(),
             path: None,
             stroke_opacity: None,
@@ -5618,6 +5762,7 @@ fn solve_root(
             underline: None,
             pattern: None,
             gradient: None,
+            image: None,
             shadow: Vec::new(),
             path: None,
             tokens,
@@ -5727,6 +5872,11 @@ fn solve_root(
             })
             .collect();
         n.tokens.extend(tokens);
+    }
+    for n in nodes.iter_mut().filter(|n| n.kind == "box") {
+        if let Some(spec) = parts.get(&n.part).and_then(|p| p.get("image")) {
+            cx.apply_image(n, spec);
+        }
     }
     for n in nodes.iter_mut().filter(|n| n.kind == "box") {
         let Some(spec) = parts.get(&n.part).and_then(|p| p.get("path")) else {
@@ -6682,6 +6832,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         underline: None,
         pattern: None,
         gradient: None,
+        image: None,
         shadow: Vec::new(),
         path: None,
         stroke_opacity: None,
@@ -6738,6 +6889,34 @@ fn clamp_radius(r: f64, w: f64, h: f64) -> f64 {
 }
 
 /// Closed outline of a rect with independent corner radii `[tl, tr, br, bl]`.
+/// The `<image>` of a box with a real image fill, stretched into its `dest` and clipped to the
+/// box's rounded shape. The id names the clip's whole definition, so SVGs inlined in one page
+/// share an id only when the clips are identical.
+fn write_image(s: &mut String, n: &SceneNode) {
+    let Some(img) = n.image.as_ref().filter(|i| !i.href.is_empty()) else {
+        return;
+    };
+    let shape = match n.radii {
+        Some(r) => format!("<path d=\"{}\"/>", rounded_path(n.x, n.y, n.w, n.h, r)),
+        None => format!(
+            "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\"/>",
+            n.x, n.y, n.w, n.h, n.radius
+        ),
+    };
+    let key = shape.bytes().fold(0xcbf2_9ce4_8422_2325u64, |h, b| {
+        (h ^ u64::from(b)).wrapping_mul(0x0100_0000_01b3)
+    });
+    let id = format!("image-clip-{key:016x}");
+    let [dx, dy, dw, dh] = img.dest;
+    let _ = write!(
+        s,
+        "<defs><clipPath id=\"{id}\">{shape}</clipPath></defs><image x=\"{}\" y=\"{}\" width=\"{dw}\" height=\"{dh}\" preserveAspectRatio=\"none\" clip-path=\"url(#{id})\" href=\"{}\"/>",
+        n.x + dx,
+        n.y + dy,
+        esc(&img.href)
+    );
+}
+
 fn rounded_path(x: f64, y: f64, w: f64, h: f64, r: [f64; 4]) -> String {
     let [tl, tr, br, bl] = r;
     format!(
@@ -7199,6 +7378,7 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                         );
                     }
                 }
+                write_image(&mut s, n);
                 if let (Some(c), true) = (n.stroke.as_deref(), n.stroke_width > 0.0) {
                     let i = n.stroke_width / 2.0;
                     if let Some(r) = n.radii {

@@ -347,6 +347,9 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                     });
                 }
             }
+            if let Some(img) = n.image.as_ref().filter(|i| !i.href.is_empty()) {
+                draw_image(cv, xf, n, img, diags);
+            }
             if n.stroke_width > 0.0 {
                 if let Some(c) = stroke_color(n, diags) {
                     // The SVG strokes the box inset by half the width, so the band is inside it.
@@ -414,6 +417,84 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
         "icon" => draw_icon(cv, xf, n, diags),
         _ => {}
     }
+}
+
+/// The box's image, sampled bilinearly (as the SVG renderers scale) from the pixels the scene
+/// builder already accepted, and clipped to the box's rounded shape and to the image's own edge.
+fn draw_image(
+    cv: &mut Canvas,
+    xf: Xf,
+    n: &SceneNode,
+    img: &crate::visual::ImageFill,
+    diags: &mut Vec<String>,
+) {
+    let px = match crate::image::decode_data_uri(&img.href) {
+        Ok(p) => p,
+        Err(e) => {
+            diags.push(format!("part '{}': image not drawn: {e}", n.part));
+            return;
+        }
+    };
+    let [dx, dy, dw, dh] = img.dest;
+    let (ix, iy) = (n.x + dx, n.y + dy);
+    let (iw, ih) = (px.width as usize, px.height as usize);
+    let r = corner_radii(n);
+    let texel = |tx: isize, ty: isize| -> [f32; 4] {
+        let (x, y) = (
+            tx.clamp(0, iw as isize - 1) as usize,
+            ty.clamp(0, ih as isize - 1) as usize,
+        );
+        let p = &px.rgba[(y * iw + x) * 4..][..4];
+        let a = f32::from(p[3]) / 255.0;
+        [
+            f32::from(p[0]) / 255.0 * a,
+            f32::from(p[1]) / 255.0 * a,
+            f32::from(p[2]) / 255.0 * a,
+            a,
+        ]
+    };
+    paint_with(
+        cv,
+        xf,
+        (n.x, n.y, n.x + n.w, n.y + n.h),
+        Paint::Fill,
+        |x, y| {
+            rrect_sdf(x, y, n.x, n.y, n.w, n.h, r).max(rrect_sdf(x, y, ix, iy, dw, dh, [0.0; 4]))
+        },
+        |x, y| {
+            let (u, v) = (
+                (x - ix) / dw * iw as f64 - 0.5,
+                (y - iy) / dh * ih as f64 - 0.5,
+            );
+            let (x0, y0) = (u.floor(), v.floor());
+            let (fx, fy) = ((u - x0) as f32, (v - y0) as f32);
+            let (x0, y0) = (x0 as isize, y0 as isize);
+            let mut m = [0f32; 4];
+            for (tx, ty, wgt) in [
+                (x0, y0, (1.0 - fx) * (1.0 - fy)),
+                (x0 + 1, y0, fx * (1.0 - fy)),
+                (x0, y0 + 1, (1.0 - fx) * fy),
+                (x0 + 1, y0 + 1, fx * fy),
+            ] {
+                let t = texel(tx, ty);
+                (0..4).for_each(|i| m[i] += t[i] * wgt);
+            }
+            match m[3] > 0.0 {
+                true => Rgba {
+                    r: m[0] / m[3],
+                    g: m[1] / m[3],
+                    b: m[2] / m[3],
+                    a: m[3],
+                },
+                false => Rgba {
+                    r: 0.0,
+                    g: 0.0,
+                    b: 0.0,
+                    a: 0.0,
+                },
+            }
+        },
+    );
 }
 
 /// A box with a `path`: the shape filled (and checkered), stroked on its outline with round
@@ -742,6 +823,7 @@ mod tests {
             underline: None,
             pattern: None,
             gradient: None,
+            image: None,
             shadow: Vec::new(),
             path: None,
             stroke_opacity: None,
@@ -1489,6 +1571,351 @@ mod tests {
             let (img, diags) = render(&scene(40.0, 40.0, vec![n]), 1.0);
             assert_eq!((img.width, img.height), (40, 40));
             assert!(!diags.is_empty(), "{d}");
+        }
+    }
+
+    mod image_fill {
+        use super::*;
+        use crate::graph::TokenGraph;
+        use crate::image::{test_png, test_uri};
+        use crate::visual::{build_scene, RenderRequest};
+        use serde_json::{json, Value};
+
+        const RED: [u8; 4] = [255, 0, 0, 255];
+        const BLUE: [u8; 4] = [0, 0, 255, 255];
+        const WHITE: [u8; 4] = [255, 255, 255, 255];
+
+        /// 4x2 pixels: red in the two left columns, blue in the two right.
+        fn photo() -> String {
+            test_uri(&test_png(4, 2, 6, &|x, _| {
+                if x < 2 {
+                    RED.to_vec()
+                } else {
+                    BLUE.to_vec()
+                }
+            }))
+        }
+
+        /// A 40x40 white box with `image` (and a corner radius), at scale 1; the pixel
+        /// (0, 0) of the returned image is the box's top-left corner.
+        fn draw(image: Value, src: Option<Value>, radius: u32) -> (Image, Vec<String>, Scene) {
+            draw_with(image, src, radius, json!({}))
+        }
+
+        fn draw_with(
+            image: Value,
+            src: Option<Value>,
+            radius: u32,
+            extra: Value,
+        ) -> (Image, Vec<String>, Scene) {
+            let lit = |v: Value| json!({ "value": v });
+            let mut props = json!({
+                "width": lit(40.into()), "height": lit(40.into()),
+                "fill": lit("#ffffff".into()), "cornerRadius": lit(radius.into()) });
+            props
+                .as_object_mut()
+                .unwrap()
+                .extend(extra.as_object().unwrap().clone());
+            let recipe = json!({
+                "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+                "parts": { "r": { "kind": "box", "image": image, "props": props } }
+            });
+            let mut req = RenderRequest {
+                component: "action-button".into(),
+                size: "m".into(),
+                ..Default::default()
+            };
+            if let Some(v) = src {
+                req.options.insert("src".into(), v);
+            }
+            let mut scene = build_scene(&TokenGraph::default(), &recipe, &req).unwrap();
+            let (dx, dy) = (scene.nodes[0].x, scene.nodes[0].y);
+            for n in scene.nodes.iter_mut() {
+                n.x -= dx;
+                n.y -= dy;
+            }
+            scene.width = 40.0;
+            scene.height = 40.0;
+            let (img, d) = render(&scene, 1.0);
+            (img, d, scene)
+        }
+
+        fn src() -> Value {
+            json!({ "source": { "option": "src" } })
+        }
+
+        fn with(extra: Value) -> Value {
+            let mut v = src();
+            v.as_object_mut()
+                .unwrap()
+                .extend(extra.as_object().unwrap().clone());
+            v
+        }
+
+        #[test]
+        fn cover_fills_the_box_and_crops_the_overflow() {
+            // 4x2 scaled to 80x40: the box shows the middle two columns (red then blue).
+            let (img, d, scene) = draw(src(), Some(photo().into()), 0);
+            assert!(d.is_empty(), "{d:?}");
+            let im = scene.nodes[0].image.as_ref().unwrap();
+            assert_eq!(im.dest, [-20.0, 0.0, 80.0, 40.0]);
+            assert_eq!(at(&img, 5, 20), RED);
+            assert_eq!(at(&img, 35, 20), BLUE);
+            // Aligned to the start the box shows only the red columns.
+            let (img, _, _) = draw(with(json!({ "position": [0, 0] })), Some(photo().into()), 0);
+            assert_eq!((at(&img, 5, 20), at(&img, 25, 20)), (RED, RED));
+        }
+
+        #[test]
+        fn contain_letterboxes_over_the_box_fill_and_position_moves_it() {
+            let (img, _, scene) = draw(with(json!({ "fit": "contain" })), Some(photo().into()), 0);
+            assert_eq!(
+                scene.nodes[0].image.as_ref().unwrap().dest,
+                [0.0, 10.0, 40.0, 20.0]
+            );
+            assert_eq!(at(&img, 5, 20), RED);
+            assert_eq!(at(&img, 35, 20), BLUE);
+            assert_eq!(at(&img, 5, 5), WHITE);
+            assert_eq!(at(&img, 5, 35), WHITE);
+            let (img, _, _) = draw(
+                with(json!({ "fit": "contain", "position": [0.5, 0] })),
+                Some(photo().into()),
+                0,
+            );
+            assert_eq!((at(&img, 5, 10), at(&img, 5, 30)), (RED, WHITE));
+        }
+
+        #[test]
+        fn fill_stretches_and_none_keeps_the_natural_size() {
+            let (img, _, scene) = draw(with(json!({ "fit": "fill" })), Some(photo().into()), 0);
+            assert_eq!(
+                scene.nodes[0].image.as_ref().unwrap().dest,
+                [0.0, 0.0, 40.0, 40.0]
+            );
+            assert_eq!((at(&img, 5, 2), at(&img, 35, 38)), (RED, BLUE));
+            let (img, _, scene) = draw(with(json!({ "fit": "none" })), Some(photo().into()), 0);
+            assert_eq!(
+                scene.nodes[0].image.as_ref().unwrap().dest,
+                [18.0, 19.0, 4.0, 2.0]
+            );
+            assert_eq!(at(&img, 18, 19), RED);
+            assert_eq!(at(&img, 21, 20), BLUE);
+            assert_eq!(at(&img, 5, 5), WHITE);
+        }
+
+        #[test]
+        fn the_picture_follows_the_corner_radius() {
+            let (img, _, _) = draw(src(), Some(photo().into()), 20);
+            // The corner is outside the rounded box, so neither fill nor picture reach it.
+            assert_eq!(at(&img, 0, 0)[3], 0);
+            assert_eq!(at(&img, 20, 20)[3], 255);
+            let (img, _, _) = draw(src(), Some(photo().into()), 0);
+            assert_eq!(at(&img, 0, 0), RED);
+        }
+
+        #[test]
+        fn no_source_draws_the_checkerboard_placeholder_without_a_diagnostic() {
+            for source in [None, Some(Value::Null), Some(json!(""))] {
+                let (img, d, scene) = draw(src(), source, 0);
+                assert!(d.is_empty(), "{d:?}");
+                assert!(scene.nodes[0].image.as_ref().unwrap().placeholder);
+                assert_eq!(at(&img, 2, 2), [0xd5, 0xd5, 0xd5, 255]);
+                assert_eq!(at(&img, 10, 2), [0xeb, 0xeb, 0xeb, 255]);
+                assert_eq!(at(&img, 10, 10), [0xd5, 0xd5, 0xd5, 255]);
+                // The squares are 8 px: the second begins at x = 8 and the third at 16.
+                assert_eq!(at(&img, 7, 2), [0xd5, 0xd5, 0xd5, 255]);
+                assert_eq!(at(&img, 8, 2), [0xeb, 0xeb, 0xeb, 255]);
+                assert_eq!(at(&img, 15, 2), [0xeb, 0xeb, 0xeb, 255]);
+                assert_eq!(at(&img, 16, 2), [0xd5, 0xd5, 0xd5, 255]);
+            }
+        }
+
+        #[test]
+        fn a_source_that_cannot_be_drawn_gets_the_placeholder_and_a_diagnostic_fast() {
+            let ok = photo();
+            let mut huge = test_png(1, 1, 6, &|_, _| vec![0; 4]);
+            huge[16..24].copy_from_slice(&[0, 0, 0x4e, 0x20, 0, 0, 0x4e, 0x20]);
+            let cases: Vec<(&str, Value, &str)> = vec![
+                ("https", json!("https://example.com/a.png"), "data: URI"),
+                ("path", json!("/tmp/a.png"), "data: URI"),
+                (
+                    "jpeg",
+                    json!("data:image/jpeg;base64,/9j/4AAQ"),
+                    "image/png",
+                ),
+                ("gif", json!("data:image/gif;base64,R0lGODlh"), "image/png"),
+                (
+                    "svg",
+                    json!("data:image/svg+xml;base64,PHN2Zz48L3N2Zz4="),
+                    "image/png",
+                ),
+                ("base64", json!("data:image/png;base64,%%%%"), "malformed"),
+                ("truncated", json!(ok[..ok.len() - 24]), "truncated"),
+                ("20000x20000", json!(test_uri(&huge)), "20000x20000"),
+                (
+                    "50 MB",
+                    json!(format!("data:image/png;base64,{}", "A".repeat(50_000_000))),
+                    "over the limit",
+                ),
+                ("number", json!(7), "not a string"),
+                ("bool", json!(true), "not a string"),
+            ];
+            for (name, v, why) in cases {
+                let t = std::time::Instant::now();
+                let (img, d, scene) = draw(src(), Some(v), 0);
+                assert!(t.elapsed().as_secs() < 5, "{name} took {:?}", t.elapsed());
+                assert!(
+                    d.iter().any(|m| m.contains(why))
+                        || scene.diagnostics.iter().any(|m| m.contains(why)),
+                    "{name}: {d:?} {:?}",
+                    scene.diagnostics
+                );
+                assert!(scene.nodes[0].image.as_ref().unwrap().placeholder, "{name}");
+                assert_eq!(at(&img, 2, 2), [0xd5, 0xd5, 0xd5, 255], "{name}");
+            }
+        }
+
+        #[test]
+        fn the_picture_draws_over_the_gradient_and_the_pattern() {
+            // Left half opaque red, right half transparent, stretched over the box, which has
+            // a green-to-blue gradient fill and a black checkerboard of 8 px squares.
+            let half = test_uri(&test_png(2, 1, 6, &|x, _| {
+                if x == 0 {
+                    RED.to_vec()
+                } else {
+                    vec![0, 0, 0, 0]
+                }
+            }));
+            let lit = |v: Value| json!({ "value": v });
+            let extra = json!({
+                "patternFill": lit("#000000".into()), "patternSize": lit(8.into()),
+                "fill": { "gradient": { "from": [0, 0], "to": [1, 0], "stops": [
+                    { "color": lit("#00ff00".into()), "offset": lit(0.into()) },
+                    { "color": lit("#0000ff".into()), "offset": lit(1.into()) } ] } }
+            });
+            let (img, d, scene) =
+                draw_with(with(json!({ "fit": "fill" })), Some(half.into()), 0, extra);
+            assert!(
+                d.is_empty() && scene.diagnostics.is_empty(),
+                "{d:?} {:?}",
+                scene.diagnostics
+            );
+            assert!(scene.nodes[0].gradient.is_some() && scene.nodes[0].pattern.is_some());
+            // Over the opaque half: the picture hides both (x = 9 is a pattern square).
+            assert_eq!((at(&img, 4, 4), at(&img, 9, 4)), (RED, RED));
+            // Through the transparent half: the pattern square (x = 30) over the gradient,
+            // and the gradient alone where there is no square (x = 38, near the blue end).
+            assert_eq!(at(&img, 30, 4), [0, 0, 0, 255]);
+            let g = at(&img, 38, 4);
+            assert!(
+                g[0] == 0 && g[1] <= 14 && g[2] >= 240 && g[3] == 255,
+                "{g:?}"
+            );
+            // Without the picture the same pixels are the pattern and the gradient: the
+            // picture, not the fill, made (9, 4) red.
+            let (bare, _, _) = draw_with(json!({ "source": { "value": "" } }), None, 0, json!({}));
+            assert_ne!(at(&bare, 9, 4), RED);
+        }
+
+        #[test]
+        fn a_one_pixel_image_fills_the_box() {
+            let one = test_uri(&test_png(1, 1, 6, &|_, _| vec![0, 255, 0, 255]));
+            let (img, d, _) = draw(src(), Some(one.into()), 0);
+            assert!(d.is_empty(), "{d:?}");
+            assert_eq!(
+                (at(&img, 1, 1), at(&img, 38, 20)),
+                ([0, 255, 0, 255], [0, 255, 0, 255])
+            );
+        }
+
+        #[test]
+        fn a_bad_fit_or_position_falls_back_with_a_diagnostic() {
+            let (_, _, scene) = draw(with(json!({ "fit": "stretch" })), Some(photo().into()), 0);
+            assert_eq!(scene.nodes[0].image.as_ref().unwrap().fit, "cover");
+            assert!(
+                scene.diagnostics.iter().any(|d| d.contains("stretch")),
+                "{:?}",
+                scene.diagnostics
+            );
+            let (_, _, scene) = draw(
+                with(json!({ "position": [null, 1] })),
+                Some(photo().into()),
+                0,
+            );
+            assert_eq!(scene.nodes[0].image.as_ref().unwrap().position, [0.5, 0.5]);
+            assert!(scene.diagnostics.iter().any(|d| d.contains("position")));
+        }
+
+        #[test]
+        fn the_svg_clips_the_image_to_the_rounded_box() {
+            let (_, _, scene) = draw(src(), Some(photo().into()), 12);
+            let svg = crate::visual::scene_to_svg(&scene);
+            assert_eq!(svg.matches("<image ").count(), 1, "{svg}");
+            assert!(svg.contains("preserveAspectRatio=\"none\""));
+            assert!(svg.contains("<clipPath id=\"image-clip-") && svg.contains("rx=\"12\""));
+            assert!(
+                svg.contains("x=\"-20\"") && svg.contains("width=\"80\""),
+                "{svg}"
+            );
+        }
+
+        /// SVG and PNG draw the same picture: rasterize the SVG with resvg (when installed)
+        /// and compare to the rasterizer within a small RMSE.
+        #[test]
+        fn png_and_svg_agree_within_a_small_rmse() {
+            let Ok(out) = std::process::Command::new("resvg")
+                .arg("--version")
+                .output()
+            else {
+                eprintln!("resvg not installed; parity not checked");
+                return;
+            };
+            assert!(out.status.success());
+            let dir = std::env::temp_dir().join(format!("image-parity-{}", std::process::id()));
+            std::fs::create_dir_all(&dir).unwrap();
+            let gradient = test_uri(&test_png(16, 16, 6, &|x, y| {
+                vec![(x * 16) as u8, (y * 16) as u8, 90, 255]
+            }));
+            for (fit, radius) in [("cover", 0), ("contain", 12), ("fill", 20), ("none", 6)] {
+                let (img, _, scene) = draw(
+                    with(json!({ "fit": fit })),
+                    Some(gradient.clone().into()),
+                    radius,
+                );
+                let svg = dir.join("a.svg");
+                let png = dir.join("a.png");
+                std::fs::write(&svg, crate::visual::scene_to_svg(&scene)).unwrap();
+                let st = std::process::Command::new("resvg")
+                    .args([svg.to_str().unwrap(), png.to_str().unwrap()])
+                    .status()
+                    .unwrap();
+                assert!(st.success());
+                let theirs =
+                    crate::image::decode_data_uri(&test_uri(&std::fs::read(&png).unwrap()))
+                        .unwrap();
+                assert_eq!((theirs.width, theirs.height), (img.width, img.height));
+                // Edge pixels of a rounded box differ by each renderer's anti-aliasing, so the
+                // interior (opaque in both) is held to a tighter bound than the whole image.
+                let (mut sq, mut isq, mut inner) = (0.0f64, 0.0f64, 0usize);
+                for (a, b) in img.rgba.chunks(4).zip(theirs.rgba.chunks(4)) {
+                    let d: f64 = (0..4)
+                        .map(|i| (f64::from(a[i]) - f64::from(b[i])).powi(2))
+                        .sum();
+                    sq += d;
+                    if a[3] == 255 && b[3] == 255 {
+                        isq += d;
+                        inner += 1;
+                    }
+                }
+                let rmse = (sq / img.rgba.len() as f64).sqrt();
+                let irmse = (isq / (inner * 4) as f64).sqrt();
+                eprintln!("{fit} radius {radius}: rmse {rmse:.2}, interior {irmse:.2} of 255");
+                assert!(
+                    rmse < 10.0 && irmse < 3.0,
+                    "{fit}: rmse {rmse}, interior {irmse}"
+                );
+            }
+            let _ = std::fs::remove_dir_all(&dir);
         }
     }
 }
