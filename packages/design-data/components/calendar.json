@@ -74,7 +74,7 @@
     "visibleMonths": {
       "type": "number",
       "default": 1,
-      "description": "How many months are shown side by side: one, two or three.",
+      "description": "How many months the calendar shows side by side: one, two or three. The engine draws one month per entry of the months option, so a request supplies that many entries.",
       "values": [
         {
           "value": 1
@@ -89,7 +89,7 @@
     },
     "months": {
       "type": "array",
-      "description": "The months drawn side by side, one entry per visible month (visibleMonths decides how many). Each entry is one copy of the month part.",
+      "description": "The months drawn side by side. Each entry is one copy of the month part, so the number of entries is the number of months drawn; visibleMonths names the intended count (one to three) but does not set it.",
       "items": {
         "type": "object",
         "properties": {
@@ -224,7 +224,7 @@
     },
     {
       "name": "month",
-      "description": "One visible month: its title, its weekday grid and its day grid. Repeated once per entry of the months option (visibleMonths one to three).",
+      "description": "One visible month: its title, its weekday grid and its day grid. Repeated once per entry of the months option.",
       "contains": ["title", "weekday-grid", "day-grid", "range-fill"]
     },
     {

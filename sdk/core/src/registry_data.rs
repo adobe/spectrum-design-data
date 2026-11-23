@@ -1487,19 +1487,22 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "month",
       "label": "Month",
       "description": "One month of a calendar: its title, weekday grid and day grid",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["calendar-grid"]
     },
     {
       "id": "weekday-grid",
       "label": "Weekday Grid",
       "description": "Grid of the weekday labels above a calendar month's day grid",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["calendar-grid-header"]
     },
     {
       "id": "day-grid",
       "label": "Day Grid",
       "description": "Grid of the day cells of one calendar month",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["calendar-grid-body"]
     },
     {
       "id": "weekday-label",
