@@ -210,6 +210,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.4.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-23",
+      "commit": "ad6e4152b1e096227c4bfdfcc678bc3f77a33660",
+      "commits": [
+        {
+          "commit": "93cacaf71c816a8487e0597ee731be0473434253",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2096,"title":"feat(design-data): rename thumbnail hideImage to showImage, default false","url":"https://github.com/adobe/spectrum-design-data/pull/2096"},
+          "entries": [
+            {"id":"93cacaf7-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/visual/parts/thumbnail","name":"thumbnail","fields":[{"path":"with.showImage","after":true}]}
+          ]
+        }
+      ]
     }
   ]
 }

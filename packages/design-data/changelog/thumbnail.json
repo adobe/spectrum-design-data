@@ -260,6 +260,38 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.4.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-23",
+      "commit": "ad6e4152b1e096227c4bfdfcc678bc3f77a33660",
+      "commits": [
+        {
+          "commit": "7f9260eb9ee3c2de4829c4244ec3b4035e454e69",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2094,"title":"feat(design-data): add src image option to avatar and thumbnail","url":"https://github.com/adobe/spectrum-design-data/pull/2094"},
+          "entries": [
+            {"id":"7f9260eb-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"thumbnail/options/src","name":"src","fields":[],"after":{"type":"string"}},
+            {"id":"7f9260eb-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"thumbnail/anatomy/image","name":"image","fields":[{"path":"presentWhen.options.hideImage","after":false}]},
+            {"id":"7f9260eb-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"thumbnail/anatomy/image","name":"image","fields":[{"path":"description","before":"The picture shown in the thumbnail; optional via Show image.","after":"The picture shown in the thumbnail (the src option); optional via Show image."}]},
+            {"id":"7f9260eb-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"thumbnail/visual/parts/container","name":"container","fields":[{"path":"props.direction.value","after":"stack"}]},
+            {"id":"7f9260eb-4","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"thumbnail/visual/parts/image","name":"image","fields":[{"path":"image.fit","after":"cover"},{"path":"image.source.option","after":"src"},{"path":"props.cornerRadius.relationship.part","after":"container"},{"path":"props.cornerRadius.relationship.property","after":"corner-radius"},{"path":"props.height.relationship.part","after":"container"},{"path":"props.height.relationship.property","after":"size"}]},
+            {"id":"7f9260eb-5","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"thumbnail/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["hideImage"]}]}
+          ]
+        },
+        {
+          "commit": "93cacaf71c816a8487e0597ee731be0473434253",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2096,"title":"feat(design-data): rename thumbnail hideImage to showImage, default false","url":"https://github.com/adobe/spectrum-design-data/pull/2096"},
+          "entries": [
+            {"id":"93cacaf7-0","kind":"option","change":"renamed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"thumbnail/options/showImage","name":"showImage","fields":[],"before":"hideImage"},
+            {"id":"93cacaf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"thumbnail/anatomy/image","name":"image","fields":[{"path":"presentWhen.options.hideImage","before":false},{"path":"presentWhen.options.showImage","after":true}]},
+            {"id":"93cacaf7-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"thumbnail/anatomy/image","name":"image","fields":[{"path":"description","before":"The picture shown in the thumbnail (the src option); optional via Show image.","after":"The picture shown in the thumbnail (the src option); drawn only when showImage is true (default false, the Figma Show image default)."}]}
+          ]
+        }
+      ]
     }
   ]
 }
