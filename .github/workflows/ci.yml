@@ -123,7 +123,7 @@ jobs:
           if [ -n "$(git status --porcelain -- packages/tokens/src)" ]; then
             git status --short -- packages/tokens/src
             git diff --stat -- packages/tokens/src
-            echo "::error::design-data changes altered the legacy @adobe/spectrum-tokens output. Add \"excludeFromLegacy\": true to new tokens (or fix the change) so 'design-data migrate legacy-output' leaves packages/tokens/src unchanged."
+            echo "::error::design-data changes altered the legacy token output. Add \"excludeFromLegacy\": true to new tokens (or fix the change) so 'design-data migrate legacy-output' leaves packages/tokens/src unchanged."
             exit 1
           fi
       - uses: moonrepo/run-report-action@v1
