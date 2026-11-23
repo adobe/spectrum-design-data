@@ -4,11 +4,13 @@
   "type": "module",
   "scripts": {
     "theme": "(cd \"${TMPDIR:-/tmp}\" && design-data export --format shadcn-theme) > spectrum-theme.json",
-    "setup": "npm run theme && npx shadcn@latest add ./spectrum-theme.json button badge --yes",
+    "setup": "npm run theme && npx shadcn@latest add ./spectrum-theme.json button badge --yes && npm run swc-css",
     "dev": "vite",
-    "build": "tsc --noEmit && vite build"
+    "build": "tsc --noEmit && vite build",
+    "swc-css": "node scripts/swc-css.mjs"
   },
   "dependencies": {
+    "@adobe/spectrum-wc": "2.0.0-beta.7",
     "@radix-ui/react-slot": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
