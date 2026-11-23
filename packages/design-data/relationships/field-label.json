@@ -2,514 +2,460 @@
   {
     "scope": {
       "component": "field-label",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "minimum-height",
+      "options": { "size": "s" }
     },
     "context": "Minimum height",
-    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+    "contextRole": ["height"],
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "uuid": "7de2065c-64e7-5965-924b-5b355cc19019"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "minimum-height",
+      "options": { "size": "s" }
     },
     "context": "Minimum height",
-    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+    "contextRole": ["height"],
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
+    "uuid": "a2b38de7-9cc4-5134-84a0-740a484622bd"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "minimum-height",
+      "options": { "size": "m" }
     },
     "context": "Minimum height",
-    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+    "contextRole": ["height"],
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "uuid": "46e302f9-7c2f-53d6-954d-68418769fd17"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "minimum-height",
+      "options": { "size": "m" }
     },
     "context": "Minimum height",
-    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+    "contextRole": ["height"],
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
+    "uuid": "42594e91-e27c-52f5-b9fa-0daf1a1d245a"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "minimum-height",
+      "options": { "size": "l" }
     },
     "context": "Minimum height",
-    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+    "contextRole": ["height"],
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "uuid": "9e601399-89b1-500c-a011-5c71cace8911"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "minimum-height",
+      "options": { "size": "l" }
     },
     "context": "Minimum height",
-    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+    "contextRole": ["height"],
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
+    "uuid": "2637b71d-d0f9-5cd3-ad40-669f5bdd5996"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "minimum-height",
+      "options": { "size": "xl" }
     },
     "context": "Minimum height",
-    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+    "contextRole": ["height"],
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "uuid": "dce066c3-2c70-51c2-a7a4-c0777fdbe4bb"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "minimum-height",
+      "options": { "size": "xl" }
     },
     "context": "Minimum height",
-    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+    "contextRole": ["height"],
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
+    "uuid": "d2552b98-f365-5197-a98b-948409ec906b"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "text-to-asterisk-small"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "label", "to": "necessity-indicator" },
+      "options": { "size": "s" }
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to asterisk icon",
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "5866d000-c6a2-5948-8631-fd5b804cff30"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "text-to-asterisk-small"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "label", "to": "necessity-indicator" },
+      "options": { "size": "m" }
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to asterisk icon",
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "2f27b408-3eb2-5872-9915-799eb0c2f72b"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "text-to-asterisk-medium"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "label", "to": "necessity-indicator" },
+      "options": { "size": "l" }
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to asterisk icon",
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "bd1b4315-d727-592c-a399-21823e57cbaa"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "text-to-asterisk-medium"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "label", "to": "necessity-indicator" },
+      "options": { "size": "xl" }
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to asterisk icon",
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "be5f7c68-f149-5757-8b41-881ef7639f32"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "text-to-asterisk-large"
-    },
-    "context": "Spacing (label to asterisk icon)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "text-to-asterisk-large"
-    },
-    "context": "Spacing (label to asterisk icon)",
-    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "text-to-asterisk-extra-large"
-    },
-    "context": "Spacing (label to asterisk icon)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "text-to-asterisk-extra-large"
-    },
-    "context": "Spacing (label to asterisk icon)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "top-to-asterisk-small"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "necessity-indicator" },
+      "options": { "size": "s" }
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to asterisk icon",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "7466e420-ae42-5579-9836-23f673a563b4"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "top-to-asterisk-small"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "necessity-indicator" },
+      "options": { "size": "m" }
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to asterisk icon",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "81858609-42a4-5f11-b210-2ea4899e87c9"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "top-to-asterisk-medium"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "necessity-indicator" },
+      "options": { "size": "l" }
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to asterisk icon",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "06952374-d76e-53f4-a25b-266034f31006"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "top-to-asterisk-medium"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "necessity-indicator" },
+      "options": { "size": "xl" }
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to asterisk icon",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "5ed37c40-0da1-57e8-9159-23c43e9f312e"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "top-to-asterisk-large"
-    },
-    "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "top-to-asterisk-large"
-    },
-    "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "top-to-asterisk-extra-large"
-    },
-    "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "top-to-asterisk-extra-large"
-    },
-    "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "component-top-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "label" },
+      "options": { "size": "s" }
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "c33c2a1e-1ccd-5127-bb91-fe1f7efd7778"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-top-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "label" },
+      "options": { "size": "m" }
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "f645c690-ea8d-5027-957c-9ba75e7f3b27"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-top-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "label" },
+      "options": { "size": "l" }
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "fdd507e2-b3ae-55b0-ad4c-a757cad2cb12"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-top-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "top-edge", "to": "label" },
+      "options": { "size": "xl" }
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "09420c18-fe1a-57f2-b605-6e8da2a5cdf7"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-top-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "label", "to": "bottom-edge" },
+      "options": { "size": "s" }
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "1596a023-839e-5d13-b70d-700ec4f0276b"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-top-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "label", "to": "bottom-edge" },
+      "options": { "size": "m" }
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "e560e77a-5984-5604-9dab-fd24f576dded"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-top-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "label", "to": "bottom-edge" },
+      "options": { "size": "l" }
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "2337f601-2e7d-5e5b-a0a3-04d762fe3f10"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-top-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": { "from": "label", "to": "bottom-edge" },
+      "options": { "size": "xl" }
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top/bottom edge to label",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "0579d5cc-e376-581a-a4c6-aad65b67e8b8"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "component-bottom-to-text-75"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "component-bottom-to-text-100"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "component-bottom-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "component-bottom-to-text-200"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "component-bottom-to-text-300"
-    },
-    "context": "Spacing (top/bottom edge to label)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "size"
+      "part": "necessity-indicator",
+      "property": "size",
+      "options": { "size": ["s", "m"] }
     },
     "context": "Asterisk UI icon asset",
-    "$ref": "d04b37cc-2c35-49af-9e92-9993264e405a"
+    "$ref": "d04b37cc-2c35-49af-9e92-9993264e405a",
+    "uuid": "1b5395d0-065e-55f7-ab1a-bf1a6d5bb816"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "part": "necessity-indicator",
+      "property": "size",
+      "options": { "size": ["s", "m"] }
     },
     "context": "Asterisk UI icon asset",
-    "$ref": "f6f11ca3-b78b-4207-868f-f834c19e8d3d"
+    "$ref": "f6f11ca3-b78b-4207-868f-f834c19e8d3d",
+    "uuid": "94c51a7d-1038-55e5-801b-96fe0e73b1c0"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "part": "necessity-indicator",
+      "property": "size",
+      "options": { "size": "l" }
     },
     "context": "Asterisk UI icon asset",
-    "$ref": "49892fb4-a9df-4882-a656-7f9ffb9558bc"
+    "$ref": "49892fb4-a9df-4882-a656-7f9ffb9558bc",
+    "uuid": "612979aa-314a-52ba-9fd8-13c18b109a03"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "part": "necessity-indicator",
+      "property": "size",
+      "options": { "size": "l" }
     },
     "context": "Asterisk UI icon asset",
-    "$ref": "3f1b200b-d341-41e4-ae7b-c981ccb492f7"
+    "$ref": "3f1b200b-d341-41e4-ae7b-c981ccb492f7",
+    "uuid": "0beae0cb-d952-5a30-9b52-f997d4b24c99"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "part": "necessity-indicator",
+      "property": "size",
+      "options": { "size": "xl" }
     },
     "context": "Asterisk UI icon asset",
-    "$ref": "93506e7b-f388-4cf8-bd73-e7d96da935d5"
+    "$ref": "93506e7b-f388-4cf8-bd73-e7d96da935d5",
+    "uuid": "c7a40407-3a65-5794-8ad9-28920a471ae8"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "size"
+      "part": "necessity-indicator",
+      "property": "size",
+      "options": { "size": "xl" }
     },
     "context": "Asterisk UI icon asset",
-    "$ref": "a1cdad1f-6537-4c35-a87b-45d8e161ee46"
+    "$ref": "a1cdad1f-6537-4c35-a87b-45d8e161ee46",
+    "uuid": "761a63a5-941a-57ca-98d7-a1de4c60b81f"
   },
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "content-color"
     },
     "context": "Label and asterisk icon",
-    "$ref": "7a058b23-341c-4dd3-83d8-358917277836"
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
+    "uuid": "ae6e16af-713c-5721-8ad9-f89201283537"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "content-color"
+      "part": "container",
+      "property": "content-color",
+      "options": { "isDisabled": true }
     },
-    "context": "Label and asterisk icon (disabled)",
-    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+    "context": "Label and asterisk icon",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "f929df3a-fcfc-5e73-b7d7-aea32fe08f4a"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": { "staticColor": "white" }
     },
-    "context": "Label and asterisk icon (white)",
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+    "context": "Label and asterisk icon",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "uuid": "e686bf3e-019a-5e6f-bded-3682cec385e0"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "options": { "staticColor": "black" }
     },
-    "context": "Label and asterisk icon (black)",
-    "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783"
+    "context": "Label and asterisk icon",
+    "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
+    "uuid": "2c96c59c-d7e0-5078-a80e-086be8626cfd"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "font-family"
-    },
-    "context": "Label",
-    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "font-weight"
-    },
-    "context": "Label",
-    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "font-style"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
-    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+    "contextRole": ["label"],
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
+    "uuid": "6b4528e9-0d3a-540f-80a4-f2883ad2bb10"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
-    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+    "contextRole": ["label"],
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
+    "uuid": "96364ea0-9779-5735-b2b6-30161d33dbec"
   },
   {
     "scope": {
       "component": "field-label",
-      "property": "font-size-75"
-    },
-    "context": "Label",
-    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "font-size-100"
-    },
-    "context": "Label",
-    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "font-size-100"
-    },
-    "context": "Label",
-    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "font-size-200"
-    },
-    "context": "Label",
-    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "font-size-200"
-    },
-    "context": "Label",
-    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "font-size-300"
-    },
-    "context": "Label",
-    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "font-size-300"
-    },
-    "context": "Label",
-    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "line-height-100"
-    },
-    "context": "Label",
-    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
-  },
-  {
-    "scope": {
-      "component": "field-label",
-      "property": "line-height-100"
-    },
-    "context": "Label",
-    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
-  },
-  {
-    "scope": {
-      "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-extra-large",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -526,10 +472,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-extra-large",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -546,10 +491,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-large",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -566,10 +510,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-large",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -586,10 +529,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-medium",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -606,10 +548,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-medium",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -626,10 +567,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-small",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -646,10 +586,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "text-to-asterisk-small",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -664,10 +603,7 @@
     }
   },
   {
-    "scope": {
-      "component": "field-label",
-      "property": "to-component"
-    },
+    "scope": { "component": "field-label", "property": "to-component" },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
     "uuid": "4738ec46-a43c-48f9-aeca-87863275dc4d",
@@ -681,9 +617,7 @@
     "scope": {
       "component": "field-label",
       "property": "to-component-quiet-extra-large",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-15px",
@@ -691,17 +625,13 @@
     "legacyKey": "field-label-to-component-quiet-extra-large",
     "setUuid": "af6de4b2-6fee-48fe-9222-c62caa55f212",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "13.0.0"
-    }
+    "lifecycle": { "deprecatedIn": "13.0.0" }
   },
   {
     "scope": {
       "component": "field-label",
       "property": "to-component-quiet-extra-large",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-19px",
@@ -709,17 +639,13 @@
     "legacyKey": "field-label-to-component-quiet-extra-large",
     "setUuid": "af6de4b2-6fee-48fe-9222-c62caa55f212",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "13.0.0"
-    }
+    "lifecycle": { "deprecatedIn": "13.0.0" }
   },
   {
     "scope": {
       "component": "field-label",
       "property": "to-component-quiet-large",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-12px",
@@ -727,17 +653,13 @@
     "legacyKey": "field-label-to-component-quiet-large",
     "setUuid": "79363184-cff7-42ae-8087-c68213bfaa8a",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "13.0.0"
-    }
+    "lifecycle": { "deprecatedIn": "13.0.0" }
   },
   {
     "scope": {
       "component": "field-label",
       "property": "to-component-quiet-large",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-15px",
@@ -745,17 +667,13 @@
     "legacyKey": "field-label-to-component-quiet-large",
     "setUuid": "79363184-cff7-42ae-8087-c68213bfaa8a",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "13.0.0"
-    }
+    "lifecycle": { "deprecatedIn": "13.0.0" }
   },
   {
     "scope": {
       "component": "field-label",
       "property": "to-component-quiet-medium",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-8px",
@@ -763,17 +681,13 @@
     "legacyKey": "field-label-to-component-quiet-medium",
     "setUuid": "445b1198-2df9-4c34-ae7e-790b846071e0",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "13.0.0"
-    }
+    "lifecycle": { "deprecatedIn": "13.0.0" }
   },
   {
     "scope": {
       "component": "field-label",
       "property": "to-component-quiet-medium",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-10px",
@@ -781,17 +695,13 @@
     "legacyKey": "field-label-to-component-quiet-medium",
     "setUuid": "445b1198-2df9-4c34-ae7e-790b846071e0",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "13.0.0"
-    }
+    "lifecycle": { "deprecatedIn": "13.0.0" }
   },
   {
     "scope": {
       "component": "field-label",
       "property": "to-component-quiet-small",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-8px",
@@ -799,17 +709,13 @@
     "legacyKey": "field-label-to-component-quiet-small",
     "setUuid": "e4372c7c-3f59-4b2d-8862-61453adcd800",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "13.0.0"
-    }
+    "lifecycle": { "deprecatedIn": "13.0.0" }
   },
   {
     "scope": {
       "component": "field-label",
       "property": "to-component-quiet-small",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-10px",
@@ -817,13 +723,12 @@
     "legacyKey": "field-label-to-component-quiet-small",
     "setUuid": "e4372c7c-3f59-4b2d-8862-61453adcd800",
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "lifecycle": {
-      "deprecatedIn": "13.0.0"
-    }
+    "lifecycle": { "deprecatedIn": "13.0.0" }
   },
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "top-margin-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -838,6 +743,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "top-margin-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -852,6 +758,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "top-margin-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -866,6 +773,7 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "container",
       "property": "top-margin-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -880,10 +788,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-extra-large",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -900,10 +807,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-extra-large",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -920,10 +826,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-large",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -940,10 +845,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-large",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -960,10 +864,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-medium",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -980,10 +883,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-medium",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -1000,10 +902,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-small",
-      "options": {
-        "scale": "desktop"
-      }
+      "options": { "scale": "desktop" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -1020,10 +921,9 @@
   {
     "scope": {
       "component": "field-label",
+      "part": "necessity-indicator",
       "property": "top-to-asterisk-small",
-      "options": {
-        "scale": "mobile"
-      }
+      "options": { "scale": "mobile" }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -1036,5 +936,49 @@
       "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
       "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
     }
+  },
+  {
+    "scope": {
+      "component": "field-label",
+      "part": "label",
+      "property": "type-style"
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "cde5212c-520d-4657-8184-f07739ffed07",
+    "uuid": "73e7294f-6c74-508f-826a-a79692ab95bd"
+  },
+  {
+    "scope": {
+      "component": "field-label",
+      "part": "label",
+      "property": "type-style"
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "cfc165fc-c4ab-5595-aa2e-8b21a6bdacd2"
+  },
+  {
+    "scope": {
+      "component": "field-label",
+      "part": "label",
+      "property": "type-style"
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "5a58a097-2235-4302-a6ed-6c1fa854c523",
+    "uuid": "7e8c5385-4637-5cc8-8102-44a40603e5ee"
+  },
+  {
+    "scope": {
+      "component": "field-label",
+      "part": "label",
+      "property": "type-style"
+    },
+    "context": "Label",
+    "contextRole": ["label"],
+    "$ref": "5096f188-f728-4db4-8cd9-cc23b08956e1",
+    "uuid": "a9184117-afb4-5ff0-b1ee-c228e31c52d1"
   }
 ]

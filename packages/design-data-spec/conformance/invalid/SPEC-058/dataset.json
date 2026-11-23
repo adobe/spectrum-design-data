@@ -13,7 +13,9 @@
       }
     },
     {
-      "name": { "property": "base-padding-vertical-medium" },
+      "name": {
+        "property": "base-padding-vertical-medium"
+      },
       "value": "5px",
       "uuid": "aaaaaaaa-0058-4000-8000-000000000002"
     }
@@ -24,7 +26,8 @@
         "component": "accordion",
         "property": "top-to-text-compact-medium"
       },
-      "$ref": "aaaaaaaa-0058-4000-8000-000000000001"
+      "$ref": "aaaaaaaa-0058-4000-8000-000000000001",
+      "uuid": "06de4978-71d2-500c-ba12-e903156a487f"
     }
   ],
   "components": [
@@ -32,7 +35,9 @@
       "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
       "name": "accordion",
       "displayName": "Accordion",
-      "meta": { "category": "actions" }
+      "meta": {
+        "category": "actions"
+      }
     }
   ]
 }

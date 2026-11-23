@@ -1,0 +1,270 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "avatar-group",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-50","options":null},"record":"to-avatar-50#Spacing (avatar to avatar)","name":"to-avatar-50","fields":[{"path":"$ref","before":"4328bc86-01d4-4467-b99a-33099effe781","after":"2fca8c2d-dad0-4441-8e52-e623d76ef701"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-50","options":null},"record":"to-avatar-50#Spacing (avatar to avatar)","name":"to-avatar-50","fields":[{"path":"$ref","before":"b395e912-9061-44bd-ab77-840cde0f3e80","after":"2fca8c2d-dad0-4441-8e52-e623d76ef701"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-75","options":null},"record":"to-avatar-75#Spacing (avatar to avatar)","name":"to-avatar-75","fields":[{"path":"$ref","before":"4970f7de-506d-4e2c-9412-8ebd268c5da3","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-75","options":null},"record":"to-avatar-75#Spacing (avatar to avatar)","name":"to-avatar-75","fields":[{"path":"$ref","before":"889a7ebb-86b7-4615-87ee-e75aa4b48d60","after":"1247c1ab-9e31-482a-832c-d32911a1e698"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-100","options":null},"record":"to-avatar-100#Spacing (avatar to avatar)","name":"to-avatar-100","fields":[{"path":"$ref","before":"273888c7-abc9-4af8-802a-e8ecf864f2fa","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-100","options":null},"record":"to-avatar-100#Spacing (avatar to avatar)","name":"to-avatar-100","fields":[{"path":"$ref","before":"bacd5b38-1eed-49d6-9513-f363315f2a23","after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-200","options":null},"record":"to-avatar-200#Spacing (avatar to avatar)","name":"to-avatar-200","fields":[{"path":"$ref","before":"629d5ce9-487d-4ee9-be0d-5ff24c66d174","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-200","options":null},"record":"to-avatar-200#Spacing (avatar to avatar)","name":"to-avatar-200","fields":[{"path":"$ref","before":"7815e63c-1d4f-4ee0-a656-a6053595ad59","after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"}]},
+            {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-300","options":null},"record":"to-avatar-300#Spacing (avatar to avatar)","name":"to-avatar-300","fields":[{"path":"$ref","before":"e345324b-640f-4f45-88c6-4765ca97ea22","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
+            {"id":"5e22a7a1-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-300","options":null},"record":"to-avatar-300#Spacing (avatar to avatar)","name":"to-avatar-300","fields":[{"path":"$ref","before":"04481b80-1c05-416a-95cf-c0c85147ce2e","after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"}]},
+            {"id":"5e22a7a1-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-400","options":null},"record":"to-avatar-400#Spacing (avatar to avatar)","name":"to-avatar-400","fields":[{"path":"$ref","before":"63c5deff-94da-4981-ba9a-fd46b4372830","after":"f3078f76-5c45-4b40-8d3c-523afcc4d2af"}]},
+            {"id":"5e22a7a1-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-400","options":null},"record":"to-avatar-400#Spacing (avatar to avatar)","name":"to-avatar-400","fields":[{"path":"$ref","before":"5c733ac6-d7b9-44f0-8827-1d8232ca5332","after":"f3078f76-5c45-4b40-8d3c-523afcc4d2af"}]},
+            {"id":"5e22a7a1-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-500","options":null},"record":"to-avatar-500#Spacing (avatar to avatar)","name":"to-avatar-500","fields":[{"path":"$ref","before":"8b6b74b4-e7c3-4f7c-a2b6-f410fcc17a83","after":"dae4ef22-9423-4ef2-a0d2-cc08ed9c0cd7"}]},
+            {"id":"5e22a7a1-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"to-avatar-500","options":null},"record":"to-avatar-500#Spacing (avatar to avatar)","name":"to-avatar-500","fields":[{"path":"$ref","before":"c980c4f4-f2c5-4963-873e-de275f3353d1","after":"dae4ef22-9423-4ef2-a0d2-cc08ed9c0cd7"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":29,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/documentBlocks/0","name":"guideline: Keyboard focus.\n\nIndividual avatars inside Avata","fields":[{"path":"content","before":"An avatar group displays a set of related avatars together. It’s typically used to represent a collection of people or entities.","after":"Keyboard focus.\n\nIndividual avatars inside Avatar group can be navigated using a keyboard. The keyboard focus state adds a focus ring around the avatar."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/documentBlocks/1","name":"guideline: Adjusting stroke color to match neutral backgrou","fields":[{"path":"content","before":"Avatar sizes scale exponentially, based on the Spectrum type scale. Avatar has preset sizes to flex across all surfaces and can also be customized to fit appropriately for your context.","after":"Adjusting stroke color to match neutral backgrounds.\n\nEach individual avatar has a stroke applied to better show distinction between individual users in the group. By default, the outline color is a neutral gray, but the stroke color should be adjusted manually to match the background where the avatar group is placed."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/documentBlocks/2","name":"guideline: An Avatar group can have an optional text label ","fields":[],"before":{"type":"guideline","content":"An Avatar group can have an optional text label that clearly describes the group or number of users that it represents."}},
+            {"id":"ec3376fa-3","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/documentBlocks/3","name":"guideline: Individual avatars inside Avatar group can be na","fields":[],"before":{"type":"guideline","content":"Individual avatars inside Avatar group can be navigated using a keyboard. The keyboard focus state adds a focus ring around the avatar."}},
+            {"id":"ec3376fa-4","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/documentBlocks/4","name":"guideline: Each individual avatar has a stroke applied to b","fields":[],"before":{"type":"guideline","content":"Each individual avatar has a stroke applied to better show distinction between individual users in the group. By default, the outline color is a neutral gray, but the stroke color should be adjusted manually to match the background where the avatar group is placed."}},
+            {"id":"ec3376fa-5","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/documentBlocks/5","name":"guideline: When using a colored background the avatar strok","fields":[],"before":{"type":"guideline","content":"When using a colored background the avatar stroke color should remain set as default for both light and dark themes."}},
+            {"id":"ec3376fa-6","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"avatar-group/documentBlocks/6","name":"do-dont: Do not adjust stroke color on a colored backgrou","fields":[],"after":{"type":"do-dont","content":"Do not adjust stroke color on a colored background","dont":"When using a colored background the avatar stroke color should remain set as default for both light and dark themes."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":7,"fields":["relationship removed"]}
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":36,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar-group/anatomy/avatar","name":"avatar","fields":[],"after":{"name":"avatar","description":"One avatar in the overlapping stack.","required":true}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar-group/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Text label such as the member count; optional via Show label."}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web avatar group page (Stack of Avatar instances plus Label text). Relationship contexts mention a layout and a group-to-label spacing that were not made parts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":100}},"record":"1c869018-8c56-4c10-acea-7fc6e838aa09","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"cae804bb-ebef-480b-a98f-15452dff5650"}],"rationale":"Deprecated via refine-from-sheets from row 26 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":100}},"record":"1c869018-8c56-4c10-acea-7fc6e838aa09","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\""},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 26 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 26 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":200}},"record":"590ef940-55ea-4690-a403-e4b47a185a64","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"4d2469cf-d4e2-44ac-9056-6982e2f9ac55"}],"rationale":"Deprecated via refine-from-sheets from row 27 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":200}},"record":"590ef940-55ea-4690-a403-e4b47a185a64","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\""},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 27 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 27 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":300}},"record":"5e60d980-21db-4bbd-b321-a20808571411","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"9d50a6bc-7194-47f5-aef0-7b37446618ff"}],"rationale":"Deprecated via refine-from-sheets from row 28 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":300}},"record":"5e60d980-21db-4bbd-b321-a20808571411","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\""},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 28 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 28 of the mapping sheet."},
+            {"id":"0b8924f1-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":400}},"record":"80e446ee-0091-4c6e-9158-e15fbc6207a4","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"ffb3bc44-3c2a-410c-b69f-1267eab1be8a"}],"rationale":"Deprecated via refine-from-sheets from row 29 of the mapping sheet."},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":400}},"record":"80e446ee-0091-4c6e-9158-e15fbc6207a4","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\""},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 29 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 29 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":50}},"record":"d55ab204-ee6c-47e3-a21b-25543c8fc36b","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"c95dc6f0-3784-4367-86ea-bcccd6123a88"}],"rationale":"Deprecated via refine-from-sheets from row 30 of the mapping sheet."},
+            {"id":"0b8924f1-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":50}},"record":"d55ab204-ee6c-47e3-a21b-25543c8fc36b","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\""},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 30 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 30 of the mapping sheet."},
+            {"id":"0b8924f1-10","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":500}},"record":"4bf63b03-931b-47ce-bb1a-4bd4e2cd82c1","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"d2b6af19-0151-4203-89da-6f61f88358ae"}],"rationale":"Deprecated via refine-from-sheets from row 31 of the mapping sheet."},
+            {"id":"0b8924f1-11","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":500}},"record":"4bf63b03-931b-47ce-bb1a-4bd4e2cd82c1","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\""},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 31 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 31 of the mapping sheet."},
+            {"id":"0b8924f1-12","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":75}},"record":"420c8327-fa41-4919-9e01-4d58178d739b","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306"}],"rationale":"Deprecated via refine-from-sheets from row 32 of the mapping sheet."},
+            {"id":"0b8924f1-13","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scaleIndex":75}},"record":"420c8327-fa41-4919-9e01-4d58178d739b","name":"size[scaleIndex=?]","fields":[{"path":"lifecycle.deprecatedComment","after":"avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\""},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 32 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 32 of the mapping sheet."}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "a07d7812b11f8a319a3b240b09b05af3998ea86d",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1988,"title":"feat(design-data): anatomy review of the groups family (A6)","url":"https://github.com/adobe/spectrum-design-data/pull/1988"},
+          "entries": [
+            {"id":"a07d7812-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (avatar group to label)"],"scope":{"property":"space-between","options":null},"record":"5f5eba64-5446-50a7-a597-8f8bc203a673","name":"space-between","fields":[{"path":"scope.between.from","after":"avatars"},{"path":"scope.between.to","after":"label"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"50"}},"record":"b2b7068c-9ec9-51fd-a4ed-1f3c6c683636","name":"space-between[size=50]","fields":[{"path":"scope.options.size","after":"50"}]},
+            {"id":"a07d7812-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"50"}},"record":"b2b7068c-9ec9-51fd-a4ed-1f3c6c683636","name":"space-between[size=50]","fields":[{"path":"scope.between.from","after":"avatar"},{"path":"scope.between.to","after":"avatar"},{"path":"scope.property","before":"to-avatar-50","after":"space-between"}]},
+            {"id":"a07d7812-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"75"}},"record":"e6c783ca-4dce-536b-a27f-17d562b47f6a","name":"space-between[size=75]","fields":[{"path":"scope.options.size","after":"75"}]},
+            {"id":"a07d7812-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"75"}},"record":"e6c783ca-4dce-536b-a27f-17d562b47f6a","name":"space-between[size=75]","fields":[{"path":"scope.between.from","after":"avatar"},{"path":"scope.between.to","after":"avatar"},{"path":"scope.property","before":"to-avatar-75","after":"space-between"}]},
+            {"id":"a07d7812-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"100"}},"record":"3ee540e9-b580-55d9-a7b0-e63f6ad1fa2a","name":"space-between[size=100]","fields":[{"path":"scope.options.size","after":"100"}]},
+            {"id":"a07d7812-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"100"}},"record":"3ee540e9-b580-55d9-a7b0-e63f6ad1fa2a","name":"space-between[size=100]","fields":[{"path":"scope.between.from","after":"avatar"},{"path":"scope.between.to","after":"avatar"},{"path":"scope.property","before":"to-avatar-100","after":"space-between"}]},
+            {"id":"a07d7812-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"200"}},"record":"05feb8e0-3db2-574b-bf36-cc8b5fcc8b88","name":"space-between[size=200]","fields":[{"path":"scope.options.size","after":"200"}]},
+            {"id":"a07d7812-8","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"200"}},"record":"05feb8e0-3db2-574b-bf36-cc8b5fcc8b88","name":"space-between[size=200]","fields":[{"path":"scope.between.from","after":"avatar"},{"path":"scope.between.to","after":"avatar"},{"path":"scope.property","before":"to-avatar-200","after":"space-between"}]},
+            {"id":"a07d7812-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"300"}},"record":"bb412551-9003-5727-9f8a-14d0df921487","name":"space-between[size=300]","fields":[{"path":"scope.options.size","after":"300"}]},
+            {"id":"a07d7812-10","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"300"}},"record":"bb412551-9003-5727-9f8a-14d0df921487","name":"space-between[size=300]","fields":[{"path":"scope.between.from","after":"avatar"},{"path":"scope.between.to","after":"avatar"},{"path":"scope.property","before":"to-avatar-300","after":"space-between"}]},
+            {"id":"a07d7812-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"400"}},"record":"c65926f7-fad2-5374-8aca-68e3f8497a87","name":"space-between[size=400]","fields":[{"path":"scope.options.size","after":"400"}]},
+            {"id":"a07d7812-12","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"400"}},"record":"c65926f7-fad2-5374-8aca-68e3f8497a87","name":"space-between[size=400]","fields":[{"path":"scope.between.from","after":"avatar"},{"path":"scope.between.to","after":"avatar"},{"path":"scope.property","before":"to-avatar-400","after":"space-between"}]},
+            {"id":"a07d7812-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"500"}},"record":"b1722b35-b986-5c15-89e7-7b9274f5745a","name":"space-between[size=500]","fields":[{"path":"scope.options.size","after":"500"}]},
+            {"id":"a07d7812-14","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (avatar to avatar)"],"scope":{"property":"space-between","options":{"size":"500"}},"record":"b1722b35-b986-5c15-89e7-7b9274f5745a","name":"space-between[size=500]","fields":[{"path":"scope.between.from","after":"avatar"},{"path":"scope.between.to","after":"avatar"},{"path":"scope.property","before":"to-avatar-500","after":"space-between"}]},
+            {"id":"a07d7812-15","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"50"}},"record":"ce1db0a0-c3ad-5c24-a6e8-2535a8bd764b","name":"font-size[size=50]","fields":[{"path":"scope.options.size","after":"50"}]},
+            {"id":"a07d7812-16","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"50"}},"record":"ce1db0a0-c3ad-5c24-a6e8-2535a8bd764b","name":"font-size[size=50]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-50","after":"font-size"}]},
+            {"id":"a07d7812-17","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"50"}},"record":"1d7faab9-d770-59c9-99b4-592a4adde182","name":"font-size[size=50]","fields":[{"path":"scope.options.size","after":"50"}]},
+            {"id":"a07d7812-18","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"50"}},"record":"1d7faab9-d770-59c9-99b4-592a4adde182","name":"font-size[size=50]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-50","after":"font-size"}]},
+            {"id":"a07d7812-19","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"75"}},"record":"88feadad-9ce6-5ac7-912b-b414d23a168f","name":"font-size[size=75]","fields":[{"path":"scope.options.size","after":"75"}]},
+            {"id":"a07d7812-20","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"75"}},"record":"88feadad-9ce6-5ac7-912b-b414d23a168f","name":"font-size[size=75]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-75","after":"font-size"}]},
+            {"id":"a07d7812-21","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"75"}},"record":"f0138f29-44b0-598f-acde-f00ca5c163f9","name":"font-size[size=75]","fields":[{"path":"scope.options.size","after":"75"}]},
+            {"id":"a07d7812-22","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"75"}},"record":"f0138f29-44b0-598f-acde-f00ca5c163f9","name":"font-size[size=75]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-75","after":"font-size"}]},
+            {"id":"a07d7812-23","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"100"}},"record":"b29ed421-5f02-57b2-b40c-7be3eb6f67d2","name":"font-size[size=100]","fields":[{"path":"scope.options.size","after":"100"}]},
+            {"id":"a07d7812-24","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"100"}},"record":"b29ed421-5f02-57b2-b40c-7be3eb6f67d2","name":"font-size[size=100]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"a07d7812-25","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"100"}},"record":"aba91655-56b0-59e4-a2e7-512ca0b09f64","name":"font-size[size=100]","fields":[{"path":"scope.options.size","after":"100"}]},
+            {"id":"a07d7812-26","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"100"}},"record":"aba91655-56b0-59e4-a2e7-512ca0b09f64","name":"font-size[size=100]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"a07d7812-27","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"200"}},"record":"0e8ecfa9-6149-5edd-b28f-37e6feafc2cb","name":"font-size[size=200]","fields":[{"path":"scope.options.size","after":"200"}]},
+            {"id":"a07d7812-28","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"200"}},"record":"0e8ecfa9-6149-5edd-b28f-37e6feafc2cb","name":"font-size[size=200]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-200","after":"font-size"}]},
+            {"id":"a07d7812-29","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"200"}},"record":"ae4bc8fd-113f-5550-a5e5-ae5c7fe520da","name":"font-size[size=200]","fields":[{"path":"scope.options.size","after":"200"}]},
+            {"id":"a07d7812-30","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"200"}},"record":"ae4bc8fd-113f-5550-a5e5-ae5c7fe520da","name":"font-size[size=200]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-200","after":"font-size"}]},
+            {"id":"a07d7812-31","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"300"}},"record":"7ea659bc-aac0-5a67-a8ef-be2a85478abd","name":"font-size[size=300]","fields":[{"path":"scope.options.size","after":"300"}]},
+            {"id":"a07d7812-32","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"300"}},"record":"7ea659bc-aac0-5a67-a8ef-be2a85478abd","name":"font-size[size=300]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-300","after":"font-size"}]},
+            {"id":"a07d7812-33","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"300"}},"record":"cf1b2915-189d-5850-9b8e-be5abf5c1187","name":"font-size[size=300]","fields":[{"path":"scope.options.size","after":"300"}]},
+            {"id":"a07d7812-34","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"300"}},"record":"cf1b2915-189d-5850-9b8e-be5abf5c1187","name":"font-size[size=300]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-300","after":"font-size"}]},
+            {"id":"a07d7812-35","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"400"}},"record":"51be7256-32de-5f85-aaf6-72b35e7e1599","name":"font-size[size=400]","fields":[{"path":"scope.options.size","after":"400"}]},
+            {"id":"a07d7812-36","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"400"}},"record":"51be7256-32de-5f85-aaf6-72b35e7e1599","name":"font-size[size=400]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-400","after":"font-size"}]},
+            {"id":"a07d7812-37","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"400"}},"record":"5fb7b886-1a95-53c7-a181-dfc24cdaa3d6","name":"font-size[size=400]","fields":[{"path":"scope.options.size","after":"400"}]},
+            {"id":"a07d7812-38","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"400"}},"record":"5fb7b886-1a95-53c7-a181-dfc24cdaa3d6","name":"font-size[size=400]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-400","after":"font-size"}]},
+            {"id":"a07d7812-39","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"500"}},"record":"61d243bd-edf3-5f5a-964f-14fd7c5cf321","name":"font-size[size=500]","fields":[{"path":"scope.options.size","after":"500"}]},
+            {"id":"a07d7812-40","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"500"}},"record":"61d243bd-edf3-5f5a-964f-14fd7c5cf321","name":"font-size[size=500]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-500","after":"font-size"}]},
+            {"id":"a07d7812-41","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"500"}},"record":"b9122858-f3b7-53bf-a357-868d9bfc5d24","name":"font-size[size=500]","fields":[{"path":"scope.options.size","after":"500"}]},
+            {"id":"a07d7812-42","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":{"size":"500"}},"record":"b9122858-f3b7-53bf-a357-868d9bfc5d24","name":"font-size[size=500]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-500","after":"font-size"}]},
+            {"id":"a07d7812-43","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"avatar-group/anatomy/avatar","name":"avatar","fields":[],"before":{"name":"avatar","description":"One avatar in the overlapping stack.","required":true}},
+            {"id":"a07d7812-44","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar-group/anatomy/avatars","name":"avatars","fields":[],"after":{"name":"avatars","description":"Overlapping stack of avatars. It hosts the default slot; each avatar is one fill, drawn overlapping the previous one.","required":true}},
+            {"id":"a07d7812-45","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar-group/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Row holding the overlapping avatars and the optional label. It is the root.","required":true,"contains":["avatars","label"]}},
+            {"id":"a07d7812-46","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/anatomy/label","name":"label","fields":[{"path":"description","before":"Text label such as the member count; optional via Show label.","after":"Text label next to the stack, such as the member count; optional via the label option."}]},
+            {"id":"a07d7812-47","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"avatar-group/slots/default","name":"default","fields":[],"after":{"name":"default","part":"avatars","accepts":["avatar"],"min":1,"description":"The avatars in the stack."}},
+            {"id":"a07d7812-48","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"avatar-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web avatar group page (Stack of Avatar instances plus Label text). Relationship contexts mention a layout and a group-to-label spacing that were not made parts.","after":"Figma S2 Web avatar group page (all 7 size variants: a frame named Stack holding the Avatar instances, plus a Label, which matches the avatars host) and React Spectrum S2 AvatarGroup. The repeated avatars sit in one host part, avatars (A142); the avatar is what the default slot accepts, so avatar is no longer a part. An explicit container is the root. The avatar to avatar and avatar group to label spacings are now spacings between these parts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.status"]}
+        },
+        {
+          "commit": "beeb84b48b539a25c67383b9a66ada585488a91c",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1991,"title":"feat(design-data): identity migration of avatar-group, swatch-group and action-bar","url":"https://github.com/adobe/spectrum-design-data/pull/1991"},
+          "entries": [
+            {"id":"beeb84b4-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"50"}},"record":"d308f071-dca4-5cb2-af6d-a0c0c32643e4","name":"size[size=50]","fields":[{"path":"scope.options.size","after":"50"}]},
+            {"id":"beeb84b4-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"50"}},"record":"d308f071-dca4-5cb2-af6d-a0c0c32643e4","name":"size[size=50]","fields":[{"path":"scope.part","after":"avatars"}]},
+            {"id":"beeb84b4-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"75"}},"record":"0f40d954-322b-5204-88d2-23d515b000e6","name":"size[size=75]","fields":[{"path":"scope.options.size","after":"75"}]},
+            {"id":"beeb84b4-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"75"}},"record":"0f40d954-322b-5204-88d2-23d515b000e6","name":"size[size=75]","fields":[{"path":"scope.part","after":"avatars"}]},
+            {"id":"beeb84b4-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"100"}},"record":"6ae46eef-b8e1-5fb0-aa3a-d82190e3c0ef","name":"size[size=100]","fields":[{"path":"scope.options.size","after":"100"}]},
+            {"id":"beeb84b4-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"100"}},"record":"6ae46eef-b8e1-5fb0-aa3a-d82190e3c0ef","name":"size[size=100]","fields":[{"path":"scope.part","after":"avatars"}]},
+            {"id":"beeb84b4-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"200"}},"record":"08115d30-77b5-5736-a663-748ee7fafed5","name":"size[size=200]","fields":[{"path":"scope.options.size","after":"200"}]},
+            {"id":"beeb84b4-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"200"}},"record":"08115d30-77b5-5736-a663-748ee7fafed5","name":"size[size=200]","fields":[{"path":"scope.part","after":"avatars"}]},
+            {"id":"beeb84b4-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"300"}},"record":"946ffbc7-4342-532f-b1f0-14805de4194e","name":"size[size=300]","fields":[{"path":"scope.options.size","after":"300"}]},
+            {"id":"beeb84b4-9","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"300"}},"record":"946ffbc7-4342-532f-b1f0-14805de4194e","name":"size[size=300]","fields":[{"path":"scope.part","after":"avatars"}]},
+            {"id":"beeb84b4-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"400"}},"record":"eb7adce1-4efe-5e17-9fc7-f5b8cfbdb192","name":"size[size=400]","fields":[{"path":"scope.options.size","after":"400"}]},
+            {"id":"beeb84b4-11","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"400"}},"record":"eb7adce1-4efe-5e17-9fc7-f5b8cfbdb192","name":"size[size=400]","fields":[{"path":"scope.part","after":"avatars"}]},
+            {"id":"beeb84b4-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"500"}},"record":"96f5e42c-f1b0-5245-9fd7-5166d3839dbc","name":"size[size=500]","fields":[{"path":"scope.options.size","after":"500"}]},
+            {"id":"beeb84b4-13","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"size":"500"}},"record":"96f5e42c-f1b0-5245-9fd7-5166d3839dbc","name":"size[size=500]","fields":[{"path":"scope.part","after":"avatars"}]},
+            {"id":"beeb84b4-14","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-family","options":null},"record":"194c04c5-dff3-5187-8449-50b342af7f16","name":"font-family","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"beeb84b4-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-weight","options":null},"record":"ad76a3ca-2049-5d17-aa0d-9e56cc8d1480","name":"font-weight","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"beeb84b4-16","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-style","options":null},"record":"10403320-5a3a-556d-9133-89600c617768","name":"font-style","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"beeb84b4-17","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":null},"record":"758f33e1-a353-586f-b59a-71c049cd6bee","name":"font-size","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-600","after":"font-size"}]},
+            {"id":"beeb84b4-18","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"font-size","options":null},"record":"4cd03287-f93e-5360-b687-357333f1d6b9","name":"font-size","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-600","after":"font-size"}]},
+            {"id":"beeb84b4-19","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"line-height","options":null},"record":"8f88be69-674f-52da-b591-698f9e209148","name":"line-height","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"beeb84b4-20","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"line-height","options":{"script":"cjk"}},"record":"880ffb9c-be0a-59b0-b63e-c3b4c8e23812","name":"line-height[script=cjk]","fields":[{"path":"scope.options.script","after":"cjk"}]},
+            {"id":"beeb84b4-21","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Layout"],"scope":{"property":"line-height","options":{"script":"cjk"}},"record":"880ffb9c-be0a-59b0-b63e-c3b4c8e23812","name":"line-height[script=cjk]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"line-height-100","after":"line-height"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

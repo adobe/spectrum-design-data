@@ -346,6 +346,28 @@ h1 {
   margin-bottom: 20px;
 }
 
+.search-container {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.copy-link-button {
+  flex: none;
+  height: var(--spectrum-component-height-200);
+  padding: 0 var(--spectrum-component-pill-edge-to-text-200);
+  font-size: var(--spectrum-font-size-200);
+  color: var(--spectrum-neutral-content-color-default);
+  background-color: var(--spectrum-gray-25);
+  border: 2px solid var(--spectrum-gray-300);
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.copy-link-button:hover {
+  border-color: var(--spectrum-neutral-content-color-focus);
+}
+
 .search-input {
   color: var(--spectrum-neutral-content-color-default);
   height: var(--spectrum-component-height-200);

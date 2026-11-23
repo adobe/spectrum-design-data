@@ -62,6 +62,15 @@
     },
     "isQuiet": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false },
+    "isOpen": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered accordion item is expanded. Drives the chevron direction and the content area. Per-item expansion in a data-driven accordion is items[].isExpanded."
+    },
+    "content": {
+      "type": "string",
+      "description": "The text shown in the content area of the rendered accordion item while it is expanded. Per-item in a data-driven accordion is items[].content."
+    },
     "density": {
       "type": "string",
       "default": "regular",
@@ -90,25 +99,109 @@
             "default": false,
             "description": "Whether the accordion item is expanded by default."
           },
-          "hasSwitch": {
+          "isDisabled": {
             "type": "boolean",
             "default": false,
-            "description": "If true, the accordion item includes a switch."
-          },
-          "hasActionButton": {
-            "type": "boolean",
-            "default": false,
-            "description": "If true, the accordion item includes an action button."
+            "description": "Whether the accordion item is disabled."
           }
         },
         "required": ["label"]
       }
+    },
+    "headingLevel": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6,
+      "default": 3,
+      "description": "Heading level (aria-level) of the element that wraps each item's header button. An accessibility value only: it does not change how the accordion renders. Matches the level of AccordionItemTitle in React Spectrum S2 (default 3)."
     },
     "isMultiple": {
       "type": "boolean",
       "default": false,
       "description": "If true, multiple accordion items can be expanded at the same time."
     }
+  },
+  "slots": [
+    {
+      "name": "default",
+      "part": "accordion-item",
+      "collection": "items",
+      "description": "The accordion items. Each entry of the items option is drawn as one copy of the accordion-item part."
+    },
+    {
+      "name": "actions",
+      "part": "actions",
+      "accepts": ["action-button", "switch"],
+      "acceptsOnly": true,
+      "max": 2,
+      "description": "Direct actions on the trailing edge of the item header."
+    },
+    {
+      "name": "content",
+      "part": "content",
+      "description": "Content shown below the header while the item is open."
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "The accordion itself: a column of accordion items. It is the root and sets the width and minimum width; the items fill it.",
+      "required": true,
+      "contains": ["container-divider", "accordion-item"]
+    },
+    {
+      "name": "container-divider",
+      "presentWhen": { "options": { "isQuiet": false } },
+      "component": "divider",
+      "description": "One-pixel line that opens the list, above the first item. It belongs to the container, not to an item, and fills the container's width. Absent when the accordion is quiet (isQuiet)."
+    },
+    {
+      "name": "accordion-item",
+      "description": "One accordion item: a header, the content area while open, and the divider below. It repeats once per entry of the items option and fills the container's width.",
+      "required": true,
+      "contains": ["header", "content", "divider", "focus-indicator"]
+    },
+    {
+      "name": "header",
+      "description": "Row holding the disclosure icon, the title and the optional actions. It is the interactive heading.",
+      "required": true,
+      "contains": ["disclosure-icon", "title", "actions"]
+    },
+    {
+      "name": "disclosure-icon",
+      "description": "Chevron at the start of the header. It points to the end while the item is closed and down while it is open.",
+      "required": true
+    },
+    {
+      "name": "title",
+      "description": "Text label of the item. It wraps when it exceeds the available width.",
+      "required": true
+    },
+    {
+      "name": "actions",
+      "description": "Row on the trailing edge of the header that holds the direct actions, the components a request puts in the actions slot. Absent when the slot has no fills."
+    },
+    {
+      "name": "content",
+      "description": "Area below the header holding the item's content. Shown only while the item is open (isOpen).",
+      "presentWhen": { "options": { "isOpen": true, "content": true } }
+    },
+    {
+      "name": "divider",
+      "presentWhen": { "options": { "isQuiet": false } },
+      "component": "divider",
+      "description": "One-pixel line below the item. Absent when the accordion is quiet (isQuiet)."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline for keyboard focus on the header.",
+      "presentWhen": { "states": ["keyboard-focus"] }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web accordion page, React Spectrum S2 Accordion and SWC gen2 swc-accordion. item renamed accordion-item (all three sources and the registry). The container part is the recipe root and repeats accordion-item once per entry; it owns the Width (default) and minimum-width records and the items fill it (React Spectrum puts minWidth on the item and has no styled container, so that is a Figma-frame reading). direct-actions renamed actions (registry term; SWC slot actions); it stays a part because the recipe lays it out as a row. No trigger-button part: the button React Spectrum and SWC wrap around chevron and title is not a layer in Figma, so rounding and background sit on accordion-item. disclosure-icon kept (picker uses it). focus-indicator is state-only. Divider kept as a part (Figma Divider instance); small-divider removed from the registry. container-divider is the divider that opens the list: Figma's Accordion has one Divider instance above the item slot (no gap or padding between it and the first item), and each item keeps its own end divider, so it follows Figma; React Spectrum S2 draws the top line as a per-item border instead. actions group kept as a layout/slot part (row with its own gap); relies on the anatomy-format amendment tracked in spectrum-design-data-5m92.8."
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },

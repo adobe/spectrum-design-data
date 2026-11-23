@@ -16,5 +16,113 @@
       "package": "@react-spectrum/s2"
     }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "options": {
+    "granularity": {
+      "type": "string",
+      "default": "day",
+      "description": "Smallest unit the field edits; hour, minute and second add time segments (Figma date-and-time).",
+      "values": [
+        {
+          "value": "day"
+        },
+        {
+          "value": "hour"
+        },
+        {
+          "value": "minute"
+        },
+        {
+          "value": "second"
+        }
+      ]
+    },
+    "hourCycle": {
+      "type": "string",
+      "values": [
+        {
+          "value": "12"
+        },
+        {
+          "value": "24"
+        }
+      ]
+    },
+    "hideTimeZone": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows the field in its error state: the error icon appears at the end of the field."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "focus-+-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "focus-+-not-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
+      "name": "field-label",
+      "component": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "field",
+      "description": "Bordered box that frames the segments.",
+      "required": true,
+      "contains": ["segment", "error-icon", "focus-indicator"]
+    },
+    {
+      "name": "segment",
+      "description": "One editable unit of the date (month, day, year), drawn as its own rounded cell and showing a placeholder when empty.",
+      "required": true
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon in the end container of the field, shown when isError is true."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentWhen": { "states": ["keyboard-focus"] }
+    },
+    {
+      "name": "help-text",
+      "component": "help-text",
+      "description": "Description or error message shown below the field."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web Date and time field page (label, field with value cells, End container with AlertTriangle when invalid); RSP DateField InvalidIndicator and DateSegment. Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text. Owner decisions A9 (2026-11-20): error-icon and focus-indicator are added; the options granularity (covers Figma date-and-time), hourCycle and hideTimeZone follow RSP; the state set matches text-field. date-picker keeps its own per-host field copy. Literal separators are not a part."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
 }

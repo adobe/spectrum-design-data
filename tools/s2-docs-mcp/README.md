@@ -1,5 +1,9 @@
 # S2 Docs MCP Server
 
+> **Deprecated.** Use [`@adobe/design-data-mcp`](../design-data-mcp/) instead:
+> `search-s2-docs` and `find-s2-component-by-use-case` → `design-data-component-search`;
+> `get-s2-component` → `design-data-component`; `list-s2-components` and `get-s2-stats` → `design-data-primer`.
+
 A Model Context Protocol server that provides AI tools with access to Spectrum 2 documentation. Part of the [Spectrum Design Data](https://github.com/adobe/spectrum-design-data) monorepo.
 
 ## Features

@@ -21,7 +21,7 @@ use crate::color::{format_color, parse_color};
 use crate::mapping::figma_opacity_to_fraction;
 use crate::mapping::{FONT_STYLE, FONT_WEIGHT, OPACITY};
 use crate::types::{FigmaColor, FigmaVariable, VariablesMeta};
-use design_data_core::graph::TokenGraph;
+use design_data_core::graph::{TokenGraph, TokenRecord};
 
 /// Whether `leaf`'s (already alias-resolved) schema is the opacity schema.
 pub(super) fn record_is_opacity(leaf: &design_data_core::graph::TokenRecord) -> bool {
@@ -158,6 +158,37 @@ pub(super) fn resolve_set_member_in_context(
     })?
 }
 
+/// The value `record` resolves to for one mode, following its `$ref` chain
+/// hop by hop. A hop into a mode set must land on the member for this mode:
+/// [`TokenGraph::resolve_alias_in_context`] returns the lowest-uuid child when
+/// no child matches the context, so a set that lacks this mode would otherwise
+/// lend an arbitrary sibling's value. Returns `None` when a hop is missing,
+/// cyclic, or lands on a different mode's member.
+pub(super) fn resolve_ref_chain_in_context(
+    graph: &TokenGraph,
+    record: &TokenRecord,
+    field: &str,
+    mode_key: &str,
+) -> Option<Value> {
+    let ctx = HashMap::from([(field.to_string(), mode_key.to_string())]);
+    let mut current = record;
+    let mut seen: Vec<&str> = vec![&record.name];
+    while let Some(target) = current.alias_target.as_deref() {
+        let next = graph.resolve_alias_in_context(target, &ctx)?;
+        let member_mode = next
+            .raw
+            .get("name")
+            .and_then(|n| n.get(field))
+            .and_then(Value::as_str);
+        if member_mode.is_some_and(|m| m != mode_key) || seen.contains(&next.name.as_str()) {
+            return None;
+        }
+        seen.push(&next.name);
+        current = next;
+    }
+    current.raw.get("value").cloned()
+}
+
 /// The `name` field a genuinely multi-mode variable's design-data set is
 /// discriminated by, keyed by the lowercased Figma mode name it corresponds
 /// to. Looked up from `graph.mode_sets` (e.g. `colorScheme` for
@@ -227,6 +258,9 @@ pub(super) fn resolve_figma_value(
     depth: usize,
     mode_name: Option<&str>,
 ) -> Option<Value> {
+    if let Some((color, opacity)) = color_with_opacity(value) {
+        return resolve_color_with_opacity(meta, color, opacity, depth, mode_name);
+    }
     if !is_alias(value) {
         return Some(value.clone());
     }
@@ -248,6 +282,34 @@ pub(super) fn resolve_figma_value(
         .map_or(&collection.default_mode_id, |m| &m.mode_id);
     let next = target.values_by_mode.get(mode_id)?;
     resolve_figma_value(meta, next, depth + 1, mode_name)
+}
+
+/// A color paired with an opacity, the shape Figma stores for a transparency
+/// variable: `{ "color": {r, g, b, a}, "opacity": <alias to an opacity variable> }`.
+fn color_with_opacity(value: &Value) -> Option<(&Value, &Value)> {
+    if is_alias(value) {
+        return None;
+    }
+    Some((value.get("color")?, value.get("opacity")?))
+}
+
+/// Fold the opacity into the color's alpha. The opacity must be an alias to an
+/// opacity variable (a FLOAT on Figma's 0 to 100 scale); a literal opacity has
+/// no known scale here, so it stays unconvertible instead of guessing.
+fn resolve_color_with_opacity(
+    meta: &VariablesMeta,
+    color: &Value,
+    opacity: &Value,
+    depth: usize,
+    mode_name: Option<&str>,
+) -> Option<Value> {
+    if depth >= MAX_ALIAS_DEPTH || !is_alias(opacity) {
+        return None;
+    }
+    let scale = resolve_figma_value(meta, opacity, depth + 1, mode_name)?.as_f64()?;
+    let mut base = color_from(&resolve_figma_value(meta, color, depth + 1, mode_name)?)?;
+    base.a *= figma_opacity_to_fraction(scale);
+    serde_json::to_value(base).ok()
 }
 
 fn values_agree(a: &Value, b: &Value) -> bool {

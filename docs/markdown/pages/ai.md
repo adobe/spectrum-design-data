@@ -9,9 +9,10 @@ source_url: https://opensource.adobe.com/spectrum-design-data/pages/ai/
 
 **Spectrum Design Data** puts the official Spectrum dataset (design tokens, component
 schemas, and Spectrum documentation and usage guidelines) directly in your AI assistant, so
-it answers from real data instead of guessing. It ships as an Agent Skill and an MCP server,
-both zero-config: they carry an embedded snapshot of Spectrum, docs included, so there's no
-dataset to point at and nothing to run yourself.
+it answers from real data instead of guessing. It ships as an MCP server, and as a plugin
+that bundles that server with a skill. Both carry an embedded snapshot of Spectrum, docs
+included, so there's no dataset to point at. They need Node.js 20.12 or later, and the first
+run downloads the package with `npx`; after that, lookups use the embedded snapshot.
 
 It's for anyone building with Spectrum: engineers, designers, PMs prototyping a screen,
 reviewing a PR, or wiring up a component who want to know "which token is this" or "what
@@ -24,17 +25,20 @@ of guessing.
 
 **Look things up**
 
-- **Find a token:** "what's the token for the default row background?"
+- **Find a token:** "what's the token for the default row background?" (the query tool filters by property, component, state, variant, and mode)
 - **Suggest a token from a description:** "I need a background for a selected, hovered
   row." It ranks existing tokens by confidence and surfaces real ones first, so you reuse
   before you invent.
 - **Inspect a component's options:** "what sizes and variants does Button support?" You get
   the actual schema: variants, sizes, states, and boolean props.
 - **Resolve a value in context:** "what's this token's hex in dark mode at high contrast?"
+  Resolve takes a property name, optional color scheme, scale, and contrast, and can
+  narrow by component, variant, or state. If several tokens still match, the result is
+  marked `ambiguous` with a top pick plus the alternatives.
 - **Read a guideline:** "pull up the Colors guideline" or "what does the background layers
   guidance say?"
-- **Get oriented:** a primer with token counts, the mode-sets (color scheme, scale, and
-  contrast), the component list, the registry vocabulary, and where the data came from.
+- **Get oriented:** a primer with token counts, the component list, the registry
+  vocabulary, and where the data came from.
 
 **Use the shared vocabulary (the registry)**
 
@@ -61,17 +65,19 @@ foundations:
 It answers from the data. It does not generate component code or plug into Spectrum Web
 Components or React Spectrum.
 
-## Skill vs. MCP server
+## Plugin vs. MCP server
 
-Same data, same tools, two ways to load them:
+Same data, same read-only tools, two ways to install them:
 
-| | Agent Skill | MCP Server |
+| | `spectrum-design-data` plugin | MCP server only |
 |---|---|---|
-| **Context cost** | Description only, until invoked | All tools loaded every session |
-| **Best for** | Prototyping, on-demand lookups | Always-available access, agent pipelines |
-| **Setup** | Install once per tool below | Add to your MCP config, restart |
+| **Includes** | The MCP server (pinned version) and a skill that teaches the assistant when and how to use it | The MCP server |
+| **Context cost** | Registers an MCP server, so the client may load all tool definitions every session | Same: all tools loaded every session |
+| **Best for** | Quick setup with usage guidance | Always-available access, agent pipelines, clients without plugins |
+| **Setup** | Install once per tool below; no MCP config | Add to your MCP config, restart |
 
-Both can run together, though most people only need one.
+The plugin is not a lighter, skill-only install. A skill alone (for example a Cursor rule)
+costs only its description until used, but it has no tools until you add the MCP server.
 
 ## Install the MCP server
 
@@ -89,7 +95,8 @@ tool: just `npx`, no environment variables.
 }
 ```
 
-(`@latest` avoids `npx` reusing a cached, older build.) Where that block goes:
+(`@latest` avoids `npx` reusing a cached, older build. The plugin instead pins an exact
+version, so its data changes only when the pin is bumped.) Where that block goes:
 
 | Tool | Config location |
 |---|---|
@@ -101,38 +108,93 @@ tool: just `npx`, no environment variables.
 
 Restart the tool after changing its MCP config.
 
-## Install the skill
+## Install the plugin
 
-The skill is lighter-weight than the MCP server: it loads only when relevant.
+The plugin bundles the MCP server and the skill, so there is no separate MCP setup.
+
+Install it once, from one place. The plugin is published in the Design AI Marketplace and in
+this repository's marketplace; use one. Each copy registers a server and a skill named
+`design-data`, so a second copy, or a `design-data` entry in a repo's `mcp.json`, gives the
+client duplicates and it may expose none of them. If the assistant reports no design-data
+tools, look for extra copies, remove them and start a new session. If you install the
+plugin, remove any `design-data` entry you added by hand from an MCP config.
 
 **Claude Code:**
 
 ```
 /plugin marketplace add adobe/spectrum-design-data
-/plugin install design-data@spectrum-design-data
+/plugin install spectrum-design-data@spectrum-design-data
 ```
 
-**GitHub Copilot** (CLI and desktop app): Copilot CLI reads the same `marketplace.json`
-Claude Code plugins use (it checks `.claude-plugin/` alongside its own `.github/plugin/`),
-so this repo is already a Copilot plugin marketplace. No separate Copilot config is needed:
+**GitHub Copilot app** (desktop): two links, two clicks each. The app asks you to confirm
+before it changes anything.
+
+1. [**Add the marketplace to the GitHub Copilot app**](https://github.com/copilot/app/launch?open=ghapp%3A%2F%2Fplugins%2Fmarketplace%2Fadd%3Fsource%3Dadobe%252Fspectrum-design-data)
+   (once). This lets the app find plugins from this repository.
+2. [**Install the plugin in the GitHub Copilot app**](https://github.com/copilot/app/launch?open=ghapp%3A%2F%2Fplugins%2Finstall%3Fsource%3Dspectrum-design-data%2540spectrum-design-data).
+   Click **Allow** when the app asks, then confirm the install under **Customize**.
+3. **Start a new session.** A session that was already open does not pick up the plugin's
+   tools. In the new session, ask the assistant to use the design-data tools (for example, "use
+   the design-data primer").
+
+Didn't work?
+
+- **The link opened a web page and not the app.** The app has to be installed. If the browser
+  can't hand off to it, the link shows a fallback page; open the app yourself and use the manual
+  steps below.
+- **The app says the marketplace isn't found.** Finish step 1, then try step 2 again.
+- **The plugin is installed but the assistant says it has no design-data tool.** Start a new
+  session, check that **Customize → Installed → spectrum-design-data** is switched on, and
+  make sure Node.js 20.12 or later is available to the app (the plugin starts its server with
+  `npx`).
+
+To do the same by hand: **Customize**, use the marketplace settings next to the marketplace
+dropdown to add `adobe/spectrum-design-data`, then find **spectrum-design-data** on the
+Browse page and click **Install**. See
+[Customizing the GitHub Copilot app](https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app).
+
+**GitHub Copilot CLI**: it reads the same `marketplace.json` Claude Code plugins use (it
+checks `.claude-plugin/` alongside its own `.github/plugin/`), so this repo is already a
+Copilot plugin marketplace. No separate Copilot config is needed:
 
 ```
 copilot plugin marketplace add adobe/spectrum-design-data
-copilot plugin install design-data@spectrum-design-data
+copilot plugin install spectrum-design-data@spectrum-design-data
 ```
 
-Installing the plugin adds its skill. Skills configured for a repo or via Copilot CLI are
-automatically available in the GitHub Copilot app; manage them there under Customize →
-Skills. (Plugin installs themselves are tracked per client, so if you also want it listed
-under Customize → Plugins in the desktop app, install it there too. You can also skip the
-marketplace and copy `tools/design-data-skill/skills/design-data/` directly into
-`~/.copilot/skills/` or a repo's `.github/skills/`. Copilot also reads `.claude/skills/`.)
+Installing the plugin adds its skill and registers its MCP server. Skills configured for a
+repo or via Copilot CLI are also available in the GitHub Copilot app; manage them there under
+Customize → Skills. You can also skip the marketplace and copy
+`tools/design-data-skill/skills/design-data/` directly into `~/.copilot/skills/` or a repo's
+`.github/skills/`. Copilot also reads `.claude/skills/`.
 
-**Cursor**: Settings → Rules → **Add Rule** → **Remote Rule (GitHub)**:
+**Cursor** (skill only, no bundled MCP server; add the MCP config above as well): Settings →
+Rules → **Add Rule** → **Remote Rule (GitHub)**:
 
 ```
 https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-skill/skills/design-data
 ```
+
+## Update the plugin
+
+Plugins do not update themselves. After a new release, update by hand and start a new session
+(Claude Code needs a restart):
+
+- **Copilot app:** Customize → Installed → the plugin's menu → Update, or **Update all**.
+- **Copilot CLI:** `copilot plugin marketplace update spectrum-design-data`, then
+  `copilot plugin update spectrum-design-data@spectrum-design-data`. A copy installed from the
+  Design AI Marketplace uses `@design-marketplace` instead.
+- **Claude Code:** `claude plugin marketplace update spectrum-design-data`, then
+  `claude plugin update spectrum-design-data@spectrum-design-data`.
+
+## Data and limits
+
+The tools are read-only. The data is the public `@adobe/spectrum-design-data` snapshot
+embedded in the installed MCP release; the primer's `provenance.designDataVersion` shows
+which. It updates when you install a newer release, not automatically, and the primer makes
+a best-effort check for a newer one when online. Guidelines are an imported copy of public
+Spectrum site content and may lag it. Validating, diffing, and authoring custom datasets are
+handled by `design-data-agent`, not this plugin.
 
 ## Other AI resources
 

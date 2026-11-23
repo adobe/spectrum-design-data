@@ -83,20 +83,36 @@
     }
   ],
   "options": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "confirmation",
       "values": [
-        { "value": "confirmation" },
-        { "value": "information" },
-        { "value": "warning" },
-        { "value": "destructive" },
-        { "value": "error" }
+        {
+          "value": "confirmation"
+        },
+        {
+          "value": "information"
+        },
+        {
+          "value": "warning"
+        },
+        {
+          "value": "destructive"
+        },
+        {
+          "value": "error"
+        }
       ]
     },
-    "primaryActionLabel": { "type": "string" },
+    "primaryActionLabel": {
+      "type": "string"
+    },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -107,15 +123,86 @@
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
+  },
+  "slots": [
+    {
+      "name": "button-group",
+      "part": "button-group",
+      "accepts": ["button"],
+      "acceptsOnly": true,
+      "min": 1,
+      "max": 3,
+      "description": "The dialog actions, up to three buttons ordered by ascending importance. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22)."
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Dialog surface. It is the root and carries the width, rounding, padding and background.",
+      "required": true,
+      "contains": ["header", "description", "footer"]
+    },
+    {
+      "name": "header",
+      "description": "Title row. Holds the title and, for the warning and error variants, the status icon at the end.",
+      "contains": ["title", "icon"]
+    },
+    {
+      "name": "icon",
+      "description": "Status icon beside the title, shown for the warning and error variants only.",
+      "presentWhen": {
+        "options": {
+          "variant": ["warning", "error"]
+        }
+      }
+    },
+    {
+      "name": "title",
+      "description": "Dialog title.",
+      "required": true
+    },
+    {
+      "name": "description",
+      "description": "Explanatory text under the title."
+    },
+    {
+      "name": "footer",
+      "description": "Action row under the description. Holds the button group.",
+      "contains": ["button-group"]
+    },
+    {
+      "name": "button-group",
+      "component": "button-group",
+      "description": "The button-group component that holds the dialog actions. Its buttons are slot fills; the action label options map to them."
+    },
+    {
+      "name": "overlay",
+      "description": "Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its colour and opacity."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web alert dialog (header, body, Button group instance; the warning and error icon IS in the Figma tree, correcting the earlier note), React Spectrum S2 AlertDialog (icon for error and warning only; ButtonGroup of cancel, secondary, primary) and 1st-gen alert-dialog. Decisions (Garth, 2026-11-20): C3 top-level overlay part; C4 one button-group component part replaces primary-action, secondary-action and cancel-action; C5 description."
   }
 }

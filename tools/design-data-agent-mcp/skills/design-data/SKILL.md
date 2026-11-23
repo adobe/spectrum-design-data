@@ -6,7 +6,7 @@ description: >
   system, token lookup, spec-conformance, drift detection, or token authoring on custom data.
 metadata:
   author: adobe
-  version: "1.15.3"
+  version: "1.16.16"
 when_to_use: >
   Trigger on: design system, design tokens, spec-conformant, drift, validate tokens, token
   authoring, custom dataset, DESIGN_DATA_PATH, design-data validate, design-data diff,
@@ -118,7 +118,7 @@ text. Use this when the user describes what they need rather than knowing a toke
 Required: `id` (string) — kebab-case component ID, e.g. `button`, `action-button`
 
 Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`,
-and `tokenBindings`.
+and `relationships` (the component's token bindings).
 
 ***
 
@@ -177,6 +177,34 @@ for Layer-1 JSON-Schema validation before writing.
 > session-state-aware ranking within an authoring flow.
 
 ***
+
+## Component previews and fonts (CLI)
+
+The `design-data` CLI draws a component's visual recipe. SVG needs no setup; PNG text uses
+Adobe Clean Spectrum VF when it is installed.
+
+```bash
+design-data render button --format svg > button.svg
+design-data render button --format png --output button.png   # --pixel-ratio N, default 2
+design-data fonts          # exit 0: Spectrum VF found; exit 1: a fallback (Adobe Clean VF, else bundled) is used
+design-data fonts --json   # { found, fallback, using, family, installed, rejected, related, searched, help }
+```
+
+* The font is found by itself (font folders and Creative Cloud's font cache), or chosen
+  with `--font <file.ttf>` (repeatable) or `DESIGN_DATA_FONT=<file.ttf>`. A chosen font also
+  sets the layout text widths, so SVG output changes when `--font` is passed.
+* Fallback order: Adobe Clean Spectrum VF Roman `.ttf`, Adobe Clean VF Roman `.ttf`, bundled
+  Source Sans 3. When `render --format png` uses either fallback it prints a warning naming
+  the font and the install steps. Relay it: metrics, spacing and wrapping may differ from
+  Adobe Clean Spectrum VF and the image is not exact. Do not tell the user to download anything when
+  `design-data fonts` exits 0.
+* Adobe employees get the font from the Brand Center
+  (<https://inside.corp.adobe.com/content/inside/en/brand-center/font.html>, employees
+  only): install the `.ttf` (not the `.otf`, which uses PostScript outlines and cannot be
+  read). Creative Cloud's "Adobe Clean" is a different font and is not used. Someone
+  outside Adobe cannot get it, so the fallback is the best result; say so.
+* If the user says the font is installed but `design-data fonts` says it is not, ask for
+  the file's path and use `--font` or `DESIGN_DATA_FONT`. Never offer or attach the font file.
 
 ## Gotchas
 

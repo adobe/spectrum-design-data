@@ -1,0 +1,273 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "swatch",
+  "root": "container",
+  "sizeScale": {
+    "xs": 50,
+    "s": 75,
+    "m": 100,
+    "l": 200
+  },
+  "notVisual": ["hover", "down", "value"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["opacity-checkerboard", "fill"],
+      "props": {
+        "direction": {
+          "value": "stack"
+        },
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "minWidth": [
+          {
+            "when": {
+              "options": {
+                "shape": "rectangle"
+              }
+            },
+            "relationship": {
+              "property": "width-multiplier",
+              "context": "Width"
+            },
+            "relativeTo": "height"
+          }
+        ],
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "none"
+              }
+            },
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "partial"
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "context": "Rounding"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "full"
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Border"
+          }
+        },
+        "strokeOpacity": [
+          {
+            "relationship": {
+              "property": "opacity",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "value": 1
+          }
+        ],
+        "strokeWidth": [
+          {
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "context": "Border"
+            }
+          }
+        ],
+        "strokeOver": {
+          "value": true
+        },
+        "innerStroke": {
+          "when": {
+            "options": {
+              "isSelected": true
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "container",
+            "position": "inner"
+          }
+        },
+        "innerStrokeWidth": {
+          "when": {
+            "options": {
+              "isSelected": true
+            }
+          },
+          "relationship": {
+            "property": "border-width",
+            "attribute": "border",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "opacity-checkerboard": {
+      "kind": "component",
+      "sizeMap": {
+        "xs": "m",
+        "s": "m",
+        "m": "m",
+        "l": "m"
+      },
+      "inherit": ["width", "height", "cornerRadius"]
+    },
+    "fill": {
+      "kind": "box",
+      "children": ["slash", "icon"],
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "partial"
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "context": "Rounding"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "cornerRounding": "full"
+              }
+            },
+            "value": 0.5,
+            "relativeTo": "height"
+          }
+        ],
+        "fill": {
+          "option": "preview"
+        }
+      }
+    },
+    "slash": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "slash"
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Slash"
+          }
+        },
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "cancel"
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Disabled icon"
+          }
+        },
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Disabled icon asset"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Disabled icon asset"
+          }
+        }
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Focus ring"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Focus ring"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "context": "Focus ring"
+          }
+        }
+      }
+    }
+  }
+}

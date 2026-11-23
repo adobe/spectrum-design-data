@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "cards",
+  "baseline": {"release":"3.26.0","version":"1.0.0","commit":"e55c4b465524badb54586714e91668058d9fe2b6"},
+  "releases": [
+    {
+      "release": "3.27.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "ff813ddb3add6a16fdee77edd527dae8ae280d05",
+      "commits": [
+        {
+          "commit": "ff813ddb3add6a16fdee77edd527dae8ae280d05",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1974,"title":"feat(design-data): review card anatomy and merge cards into card (A4)","url":"https://github.com/adobe/spectrum-design-data/pull/1974"},
+          "entries": [
+            {"id":"ff813ddb-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":null},"record":"192b842c-e015-583c-a893-5c0ffaed9a37","name":"minimum-width","fields":[],"before":"549fbfad-78b7-430d-8fac-7d23084f2bea"},
+            {"id":"ff813ddb-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Well"],"scope":{"property":"color","options":null},"record":"e938dd4f-334a-5c83-8245-28ab293aa1e0","name":"color","fields":[],"before":"c9c0e684-6b6c-4314-9b5b-7ba5e3333071"},
+            {"id":"ff813ddb-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Loading"],"scope":{"property":"color","options":null},"record":"75cfd7a0-4891-5a1a-b811-650410f26c10","name":"color","fields":[],"before":"6022f845-b182-493f-bdae-f86f6336efaa"},
+            {"id":"ff813ddb-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Selection checkbox"],"scope":{"property":"size","options":null},"record":"0504c19b-4e91-5721-b11a-ed4d6015d994","name":"size","fields":[],"before":"b9268c45-50c7-4209-9f73-99293e15b7fd"},
+            {"id":"ff813ddb-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Selection checkbox"],"scope":{"property":"size","options":null},"record":"358e39af-9457-546a-a726-b5991e64e3a0","name":"size","fields":[],"before":"d169a0a3-9bda-41b4-9e58-897652c95627"},
+            {"id":"ff813ddb-5","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Selection checkbox"],"scope":{"property":"size","options":null},"record":"8d663087-0cd2-5367-9ad0-6a3c55d50728","name":"size","fields":[],"before":"f8e58ca1-5087-4c4a-95dc-2f145f63fbc5"},
+            {"id":"ff813ddb-6","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Selection checkbox"],"scope":{"property":"size","options":null},"record":"0abfb794-c3f4-53da-b4d9-ccfcca6080eb","name":"size","fields":[],"before":"89dca1bf-84e5-436e-9e86-35f37f739812"},
+            {"id":"ff813ddb-7","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Selection checkbox"],"scope":{"property":"color","options":null},"record":"003dbb4f-be07-5274-af1e-ddea6f515bb2","name":"color","fields":[],"before":"622c6e86-dea6-416d-9f13-bb6ef112d3cb"},
+            {"id":"ff813ddb-8","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Selection checkbox"],"scope":{"property":"color","options":null},"record":"2201c18e-f14f-5e13-8680-554c3b2f7c1c","name":"color","fields":[],"before":"81c0608b-c977-490e-b8d7-830d0676fdad"},
+            {"id":"ff813ddb-9","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Selection checkbox"],"scope":{"property":"color","options":null},"record":"0263bce2-7073-5d55-aa1a-e16be5db6935","name":"color","fields":[],"before":"5dd9406f-9b36-43f1-8b35-b1bb7f2a4c8d"},
+            {"id":"ff813ddb-10","kind":"component","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"cards/","name":"cards","fields":[]}
+          ],
+          "metadata": {"count":10,"fields":["context","contextQualifier","contextRole","scope.part"]}
+        }
+      ]
+    }
+  ]
+}

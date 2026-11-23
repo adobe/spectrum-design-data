@@ -1,0 +1,313 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "meter",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top edge to text)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"477d659b-6489-4e90-84db-75a93174559a","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top edge to text)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top edge to text)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"15bf492b-3a65-4577-8a3b-df09026b96a7","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top edge to text)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"bed358a2-0559-4501-a147-b375887f25af","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-200","options":null},"record":"component-top-to-text-200#Spacing (top edge to text)","name":"component-top-to-text-200","fields":[{"path":"$ref","before":"c7914376-3769-4172-8467-fb811b3c155f","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-200","options":null},"record":"component-top-to-text-200#Spacing (top edge to text)","name":"component-top-to-text-200","fields":[{"path":"$ref","before":"621c9cf1-02e2-478b-9f47-0804f0183531","after":"cc707192-e70f-4965-8582-55fa97d02184"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-300","options":null},"record":"component-top-to-text-300#Spacing (top edge to text)","name":"component-top-to-text-300","fields":[{"path":"$ref","before":"9bf3970e-eb76-4be5-82c4-0df2538df753","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"scope":{"property":"component-top-to-text-300","options":null},"record":"component-top-to-text-300#Spacing (top edge to text)","name":"component-top-to-text-300","fields":[{"path":"$ref","before":"e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a","after":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":26,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/0","name":"guideline: Text overflow.\n\nWhen the label is too long for t","fields":[{"path":"content","before":"A meter can include help text below it to explain what the value means and how to reach the target. This text may include units, value ranges, thresholds like targets or warnings, and actions that affect the meter.","after":"Text overflow.\n\nWhen the label is too long for the available horizontal space, it wraps to form another line. The value is always shown in full and never wraps or truncates."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/1","name":"guideline: Progress bar vs. meter.\n\nA progress bar fills au","fields":[{"path":"content","before":"The value represents a user-driven quantity or achievement, such as tutorials completed or storage used. Unlike a progress bar, it reflects user actions, not system activity.","after":"Progress bar vs. meter.\n\nA progress bar fills automatically as the system loads either determinately or indeterminately. A user's actions do not affect the progress bar; it just indicates how long they must wait for the process to finish. A meter indicates how much the user has completed or how far they are in a continuum."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/2","name":"guideline: Labels.\n\nUse the built-in style for showing a la","fields":[{"path":"content","before":"Meters come in four different sizes: small, medium, large, and extra-large. By default, meters use medium size. Use the small size when there are multiple meters shown at the same time in a more confined space, such as in tables or cards.","after":"Labels.\n\nUse the built-in style for showing a label associated with the meter. By default, the label is start-aligned and an optional value is end-aligned above the track. (In left-to-right languages, this means the label appears on the left and the value on the right; in right-to-left languages, this flips.) The label should be written in sentence case. When meters appear in a table, you may use the column header as the label. In this case, set labelPosition=\"side\" or use hideLabel if the column header fully describes what each meter represents."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/3","name":"guideline: Representing semantic values.\n\nMeter variants ca","fields":[{"path":"content","before":"Meters can include a value label to show details like “60%” or “2 of 8.” It should only appear if the main label is shown and is always placed above the track.","after":"Representing semantic values.\n\nMeter variants can be used to represent semantic values by switching variants as the value changes, from positive, to notice, and then to negative. This kind of variant switching should be handled appropriately within the context of your product so that you're setting accurate expectations for your users about the semantic meaning."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/4","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the lay","fields":[{"path":"content","before":"Meters should always have a label placed above the track. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the label could be undefined. These meters without a visible label should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”).","after":"RTL.\n\nFor RTL (right-to-left) languages, the layout of the meter is mirrored. The label is right-aligned, the value is left-aligned, and the fill progresses from right to left. Beware that the placement of the percent sign differs depending on the locale."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/5","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"Meter has four variants: informative, positive, notice, and negative.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the button. Space or Enter Executes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/6","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer Use the","fields":[{"path":"content","before":"When the label is too long for the available horizontal space, it wraps to form another line. The value is always shown in full and never wraps or truncates.","after":"Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for all interactive components."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/7","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"Use the built-in style for showing a label associated with the meter. By default, the label is start-aligned and an optional value is end-aligned above the track. (In left-to-right languages, this means the label appears on the left and the value on the right; in right-to-left languages, this flips.) The label should be written in sentence case.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Buttons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Buttons should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/documentBlocks/8","name":"guideline: Meter variants can be used to represent semantic","fields":[],"before":{"type":"guideline","content":"Meter variants can be used to represent semantic values by switching variants as the value changes, from positive, to notice, and then to negative. This kind of variant switching should be handled appropriately within the context of your product so that you’re setting accurate expectations for your users about the semantic meaning."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":4,"fields":["relationship removed"]}
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.6",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "ea86c6d75726d6d9b1ba24c209328a4d386cc274",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1766,"title":"feat(design-data): add relationship contexts to stack-item, card, popover and seven more components","url":"https://github.com/adobe/spectrum-design-data/pull/1766"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["context","contextQualifier","contextRole"]}
+        },
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":36,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Whole meter: header row, track and optional help text.","required":true,"contains":["label","value","track","help-text"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"Filled portion of the track, colored by variant.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Optional supporting text below the track."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Field label above or beside the track. Hidden by hideLabel."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/track","name":"track","fields":[],"after":{"name":"track","description":"Rounded bar behind the fill.","required":true,"contains":["fill"]}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Percentage or value text at the end of the header. Hidden when no value label."}},
+            {"id":"12ddd7e7-6","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web Meter (Show help text prop, Header with Field label and value, Track, .Meter fill); help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.19.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-17",
+      "commit": "3ed6e984292bbcb3a5193cf474148290138fef4a",
+      "commits": [
+        {
+          "commit": "0f4550df695bd0386595d7df6c8d8ee1427fd343",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1904,"title":"feat(design-data): meter visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/1904"},
+          "entries": [
+            {"id":"0f4550df-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"84879e68-36b6-5a7f-bc6e-56c51cc1d6fb","name":"color[staticColor=black]","fields":[{"path":"context","before":"Track and indicator (black)","after":"Track and indicator"}]},
+            {"id":"0f4550df-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"6847ebc2-2a44-5dbd-85e6-f0655e27cee9","name":"color[staticColor=white]","fields":[{"path":"context","before":"Track and indicator (white)","after":"Track and indicator"}]},
+            {"id":"0f4550df-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"content-color","options":null},"record":"4e24bf35-1be0-516c-8fcc-07d8d9c02914","name":"content-color","fields":[],"before":"b14c876e-2930-413b-8688-1e0cf2358185"},
+            {"id":"0f4550df-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Text (black)"],"scope":{"property":"color","options":null},"record":"10499b7b-90ea-566b-b734-b73b364f0aa9","name":"color","fields":[],"before":"9b7919b5-764c-4f93-b4c7-39d8bf7f2b51"},
+            {"id":"0f4550df-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Track and indicator (black)"],"scope":{"property":"color","options":null},"record":"04cbd0ed-b73d-5a4c-a8aa-b9e8a97ba7da","name":"color","fields":[],"before":"0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9"},
+            {"id":"0f4550df-5","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Text (white)"],"scope":{"property":"color","options":null},"record":"4453b5e1-b718-582b-9874-5af9f4d06846","name":"color","fields":[],"before":"13ee65f0-4bb9-4213-905d-92c1b788a702"},
+            {"id":"0f4550df-6","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Track and indicator (white)"],"scope":{"property":"color","options":null},"record":"aa44e42d-4979-5a08-95d3-a309a2f6d5eb","name":"color","fields":[],"before":"a1cbc282-1376-48d1-b8bb-92f10aef7c6f"},
+            {"id":"0f4550df-7","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"staticColor":"black"}},"record":"18982f28-2e9d-5b18-9aaf-afeb1c7b96e1","name":"content-color[staticColor=black]","fields":[],"after":"9b7919b5-764c-4f93-b4c7-39d8bf7f2b51"},
+            {"id":"0f4550df-8","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"content-color","options":{"staticColor":"black"}},"record":"735baec9-cb2d-554a-b3b7-3c613671814c","name":"content-color[staticColor=black]","fields":[],"after":"0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9"},
+            {"id":"0f4550df-9","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"staticColor":"white"}},"record":"165efbcb-9d6f-5633-b2d9-42f00e39a214","name":"content-color[staticColor=white]","fields":[],"after":"13ee65f0-4bb9-4213-905d-92c1b788a702"},
+            {"id":"0f4550df-10","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Track and indicator"],"scope":{"property":"content-color","options":{"staticColor":"white"}},"record":"428576e3-2e68-54f2-99f5-5a2696b87f15","name":"content-color[staticColor=white]","fields":[],"after":"a1cbc282-1376-48d1-b8bb-92f10aef7c6f"},
+            {"id":"0f4550df-11","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Text"],"scope":{"property":"font-family","options":null},"record":"d254668c-009d-536b-99ee-d33730dbf12b","name":"font-family","fields":[],"after":"45d43d4e-a4e4-4c5f-94ec-644a81300eb0"},
+            {"id":"0f4550df-12","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Text"],"scope":{"property":"font-weight","options":null},"record":"6ddaad3d-e8ca-5460-8fd3-8d21c76f7c6f","name":"font-weight","fields":[],"after":"02a94ddf-1007-4c86-8863-905874e40f95"},
+            {"id":"0f4550df-13","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Text"],"scope":{"property":"font-style","options":null},"record":"1e6dee54-af68-56c4-aa51-528563ca6c5a","name":"font-style","fields":[],"after":"25668698-bf78-46f4-bc6c-8fea068ddb34"},
+            {"id":"0f4550df-14","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"informative"}},"record":"aa1129a2-2b65-5af5-b1d2-edbb31013df5","name":"content-color[variant=informative]","fields":[],"after":"cd900a8d-1852-4592-9031-9edab2f9721f"},
+            {"id":"0f4550df-15","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"informative"}},"record":"d6f11ab7-5984-5314-98d4-1696cc6dbbda","name":"content-color[variant=informative]","fields":[],"after":"fd64c9ca-6ad7-415c-b0b8-2579399e33a5"},
+            {"id":"0f4550df-16","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"informative"}},"record":"c04f1127-96dd-54b0-a1b8-e600b5747737","name":"content-color[variant=informative]","fields":[],"after":"556d02fd-fecb-4772-92cb-921ac509bcae"},
+            {"id":"0f4550df-17","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"positive"}},"record":"e05df132-36b4-5687-be50-7fcf9b3d52c8","name":"content-color[variant=positive]","fields":[],"after":"455acfc0-1997-4fee-b1dc-3c91bbd9fca2"},
+            {"id":"0f4550df-18","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"positive"}},"record":"703a9e32-7547-5227-bc99-d52ec201beef","name":"content-color[variant=positive]","fields":[],"after":"25e8289f-6c82-4485-8920-a187f790cd47"},
+            {"id":"0f4550df-19","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"positive"}},"record":"8430cb9d-a6d3-50b4-abc4-d5387eab7ab0","name":"content-color[variant=positive]","fields":[],"after":"96075e1a-6739-41c8-985b-af30b09be6c3"},
+            {"id":"0f4550df-20","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"notice"}},"record":"73039150-b30d-58d3-b1b6-ac041f9f6465","name":"content-color[variant=notice]","fields":[],"after":"b8b38df6-aac5-49fc-99bb-d64a543c5bf8"},
+            {"id":"0f4550df-21","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"notice"}},"record":"ef95e338-1f0d-530d-b28f-c3c3fce23046","name":"content-color[variant=notice]","fields":[],"after":"2759c912-6385-40e4-9ed9-ff2e11815b4d"},
+            {"id":"0f4550df-22","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"notice"}},"record":"9f8ebb36-ecdc-53a1-8e5c-a09ecbaa2df6","name":"content-color[variant=notice]","fields":[],"after":"e6e779ea-6015-467f-8df7-9027280bdea2"},
+            {"id":"0f4550df-23","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"negative"}},"record":"c4c6bacc-673d-5362-ae2a-8cebee5480fb","name":"content-color[variant=negative]","fields":[],"after":"d1beeda3-a00d-4f8c-8553-0a0f84093b1f"},
+            {"id":"0f4550df-24","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"negative"}},"record":"2c734bf7-acc0-59f5-9617-e2e439012907","name":"content-color[variant=negative]","fields":[],"after":"70cb0316-5b7a-416c-bf93-7d8885c4fce6"},
+            {"id":"0f4550df-25","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Control"],"scope":{"property":"content-color","options":{"variant":"negative"}},"record":"da4f1c8a-4dcb-5805-bb60-203188cda63e","name":"content-color[variant=negative]","fields":[],"after":"9211e320-de05-4097-8350-fef2293be6a0"},
+            {"id":"0f4550df-26","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/options/staticColor","name":"staticColor","fields":[],"after":{"type":"string","description":"Static color for use on colored backgrounds. White draws a light bar, black a dark one. Unset is the regular bar.","values":[{"value":"white"},{"value":"black"}]}},
+            {"id":"0f4550df-27","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/options/labelPosition","name":"labelPosition","fields":[],"after":{"type":"string","default":"top","values":[{"value":"top"},{"value":"side"}]}},
+            {"id":"0f4550df-28","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/options/minValue","name":"minValue","fields":[],"after":{"type":"number","default":0}},
+            {"id":"0f4550df-29","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/options/maxValue","name":"maxValue","fields":[],"after":{"type":"number","default":1}},
+            {"id":"0f4550df-30","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"meter/options/value","name":"value","fields":[{"path":"maximum","before":1},{"path":"minimum","before":0}]},
+            {"id":"0f4550df-31","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"meter/anatomy/header","name":"header","fields":[],"after":{"name":"header","description":"Row that holds the label and the value text above the track. Not drawn when the label is hidden.","contains":["label","value"]}},
+            {"id":"0f4550df-32","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"meter/anatomy/container","name":"container","fields":[{"path":"contains","before":["label","value","track","help-text"],"after":["header","track","help-text"]}]},
+            {"id":"0f4550df-33","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web Meter (Show help text prop, Header with Field label and value, Track, .Meter fill); help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts.","after":"Matches Figma S2 Web (Meter): its Header frame is the header part, Track and '.Meter fill' are track and fill. help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts. With labelPosition side the label and value flank the track; the parts are the same."}]},
+            {"id":"0f4550df-34","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"meter/visual","name":"meter","fields":[]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.status","contextQualifier","scope.options.staticColor","uuid"]}
+        },
+        {
+          "commit": "08621b798e778b097d0384b13fa15ce10c25f111",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1906,"title":"fix(design-data): meter and progress-bar gap from base-gap tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1906"},
+          "entries": [
+            {"id":"08621b79-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"spacing","options":null},"record":"954dd515-3904-5f7d-8ee3-bc8b5f42f3b5","name":"spacing","fields":[],"before":"576a60a3-ca80-46c5-a066-ba7b6197decd"},
+            {"id":"08621b79-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"gap","options":{"size":"s"}},"record":"8012d8c3-154c-542a-84da-9d4ef974c3a6","name":"gap[size=s]","fields":[],"after":"1247c1ab-9e31-482a-832c-d32911a1e698"},
+            {"id":"08621b79-2","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"gap","options":{"size":"m"}},"record":"57c4c469-e77a-518c-ae95-35501fd58132","name":"gap[size=m]","fields":[],"after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"},
+            {"id":"08621b79-3","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"gap","options":{"size":"l"}},"record":"3dfee251-ab2f-5405-9926-2150052b7bd9","name":"gap[size=l]","fields":[],"after":"2f10fab2-66e0-4007-9c01-9643d472ba3b"},
+            {"id":"08621b79-4","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (field label to progress bar)"],"scope":{"property":"gap","options":{"size":"xl"}},"record":"26f1c276-493d-59ee-b7f3-c75f3a2dde92","name":"gap[size=xl]","fields":[],"after":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"},
+            {"id":"08621b79-5","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"meter/options/labelPosition","name":"labelPosition","fields":[],"before":{"type":"string","default":"top","values":[{"value":"top"},{"value":"side"}]}},
+            {"id":"08621b79-6","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"meter/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Matches Figma S2 Web (Meter): its Header frame is the header part, Track and '.Meter fill' are track and fill. help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts. With labelPosition side the label and value flank the track; the parts are the same.","after":"Matches Figma S2 Web (Meter): its Header frame is the header part, Track and '.Meter fill' are track and fill. help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts."}]},
+            {"id":"08621b79-7","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"meter/visual/parts/container","name":"container","fields":[{"path":"props.gap.relationship.property","before":"spacing","after":"gap"}]},
+            {"id":"08621b79-8","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"meter/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["width","labelPosition"],"after":["width"]}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.21.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "c54ad0fcdb3450559eb80c46d5748384fa95485c",
+      "commits": [
+        {
+          "commit": "581dcb7dde593787893c6a905164f487cececff1",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1924,"title":"feat(design-data): progress-circle visual recipe; progress sweep and strokeWidth","url":"https://github.com/adobe/spectrum-design-data/pull/1924"},
+          "entries": [
+            {"id":"581dcb7d-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"meter/options/maxValue","name":"maxValue","fields":[{"path":"default","before":1,"after":100}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":null},"record":"d24f32e2-edc1-5317-a4c5-1877bfbdfe7c","name":"minimum-width","fields":[{"path":"$ref","before":"fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295","after":"3f50af14-ea93-4819-a04f-49b17139b0a0"}]},
+            {"id":"0b8924f1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":null},"record":"f7a06eab-bf35-5e9b-af2e-a3456bab128d","name":"thickness","fields":[{"path":"$ref","before":"0013e354-3f26-41a5-8486-2577045872f6","after":"5952b589-51da-4733-8606-6a8a93738df1"}]},
+            {"id":"0b8924f1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":null},"record":"04a87b33-c888-59ad-aeb9-8dfc9a0496af","name":"thickness","fields":[{"path":"$ref","before":"eb9c3cff-5a1a-4832-a623-6ab258b81d37","after":"2680a852-162b-527c-a292-35a053f8bd54"}]},
+            {"id":"0b8924f1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":null},"record":"9cf30d96-3d4f-540e-ab77-1db78e42ede1","name":"thickness","fields":[{"path":"$ref","before":"6e404f16-900e-4dd2-8705-3c9077f52240","after":"11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"}]},
+            {"id":"0b8924f1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":null},"record":"6305e900-9698-5668-a9b9-3e53326655dd","name":"thickness","fields":[{"path":"$ref","before":"f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca","after":"c426f1ca-5b7f-560a-9a83-d6fbba88e8bf"}]},
+            {"id":"0b8924f1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":null},"record":"d834820b-dbc4-54f5-a335-8ba10b63e3cf","name":"thickness","fields":[{"path":"$ref","before":"06751674-2222-433d-9dc6-40f14b2add6c","after":"46d32810-88b6-4c89-9536-965e85455bb0"}]},
+            {"id":"0b8924f1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":null},"record":"69b67d27-8dc7-5d8f-b87e-162208629ac6","name":"thickness","fields":[{"path":"$ref","before":"c9052808-918e-4368-b113-28f928104eda","after":"1167f6f4-6069-5158-af7e-4486c1abff3c"}]},
+            {"id":"0b8924f1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":null},"record":"6f9b1c9f-c077-5e39-925d-d75d3c279ce8","name":"thickness","fields":[{"path":"$ref","before":"e5ac2b35-da1d-4936-baa8-498705c9529c","after":"7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"}]},
+            {"id":"0b8924f1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":null},"record":"14f3c314-b390-5a38-a50a-962f248ecef7","name":"thickness","fields":[{"path":"$ref","before":"272738b2-a274-4e2e-8582-9c2cc7962a85","after":"20a5f904-581b-5438-ace0-a0f9bfa76018"}]},
+            {"id":"0b8924f1-9","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"scope":{"property":"meter-default-width","options":null},"record":"2633d29d-8a14-48e8-977c-bdb9a53b3bd5","name":"meter-default-width","fields":[{"path":"$ref","before":"ceeda4da-026b-496c-8abd-7081aceae262","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}]},
+            {"id":"0b8924f1-10","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":null},"record":"fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295","name":"minimum-width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"3f50af14-ea93-4819-a04f-49b17139b0a0"}],"rationale":"Deprecated via refine-from-sheets from row 214 of the mapping sheet."},
+            {"id":"0b8924f1-11","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":null},"record":"fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295","name":"minimum-width","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared bar-minimum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 214 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 214 of the mapping sheet."},
+            {"id":"0b8924f1-12","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"desktop","size":"xl"}},"record":"e5ac2b35-da1d-4936-baa8-498705c9529c","name":"thickness[scale=desktop,size=xl]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"}],"rationale":"Deprecated via refine-from-sheets from row 215 of the mapping sheet."},
+            {"id":"0b8924f1-13","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"desktop","size":"xl"}},"record":"e5ac2b35-da1d-4936-baa8-498705c9529c","name":"thickness[scale=desktop,size=xl]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared thickness-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 215 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 215 of the mapping sheet."},
+            {"id":"0b8924f1-14","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"mobile","size":"xl"}},"record":"272738b2-a274-4e2e-8582-9c2cc7962a85","name":"thickness[scale=mobile,size=xl]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"}],"rationale":"Deprecated via refine-from-sheets from row 215 of the mapping sheet."},
+            {"id":"0b8924f1-15","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"mobile","size":"xl"}},"record":"272738b2-a274-4e2e-8582-9c2cc7962a85","name":"thickness[scale=mobile,size=xl]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared thickness-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 215 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 215 of the mapping sheet."},
+            {"id":"0b8924f1-16","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"desktop","size":"l"}},"record":"06751674-2222-433d-9dc6-40f14b2add6c","name":"thickness[scale=desktop,size=l]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"46d32810-88b6-4c89-9536-965e85455bb0"}],"rationale":"Deprecated via refine-from-sheets from row 216 of the mapping sheet."},
+            {"id":"0b8924f1-17","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"desktop","size":"l"}},"record":"06751674-2222-433d-9dc6-40f14b2add6c","name":"thickness[scale=desktop,size=l]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared thickness-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 216 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 216 of the mapping sheet."},
+            {"id":"0b8924f1-18","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"mobile","size":"l"}},"record":"c9052808-918e-4368-b113-28f928104eda","name":"thickness[scale=mobile,size=l]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"46d32810-88b6-4c89-9536-965e85455bb0"}],"rationale":"Deprecated via refine-from-sheets from row 216 of the mapping sheet."},
+            {"id":"0b8924f1-19","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"mobile","size":"l"}},"record":"c9052808-918e-4368-b113-28f928104eda","name":"thickness[scale=mobile,size=l]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared thickness-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 216 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 216 of the mapping sheet."},
+            {"id":"0b8924f1-20","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"desktop","size":"m"}},"record":"6e404f16-900e-4dd2-8705-3c9077f52240","name":"thickness[scale=desktop,size=m]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"}],"rationale":"Deprecated via refine-from-sheets from row 217 of the mapping sheet."},
+            {"id":"0b8924f1-21","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"desktop","size":"m"}},"record":"6e404f16-900e-4dd2-8705-3c9077f52240","name":"thickness[scale=desktop,size=m]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared thickness-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 217 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 217 of the mapping sheet."},
+            {"id":"0b8924f1-22","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"mobile","size":"m"}},"record":"f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca","name":"thickness[scale=mobile,size=m]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"}],"rationale":"Deprecated via refine-from-sheets from row 217 of the mapping sheet."},
+            {"id":"0b8924f1-23","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"mobile","size":"m"}},"record":"f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca","name":"thickness[scale=mobile,size=m]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared thickness-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 217 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 217 of the mapping sheet."},
+            {"id":"0b8924f1-24","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"desktop","size":"s"}},"record":"0013e354-3f26-41a5-8486-2577045872f6","name":"thickness[scale=desktop,size=s]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"5952b589-51da-4733-8606-6a8a93738df1"}],"rationale":"Deprecated via refine-from-sheets from row 218 of the mapping sheet."},
+            {"id":"0b8924f1-25","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"desktop","size":"s"}},"record":"0013e354-3f26-41a5-8486-2577045872f6","name":"thickness[scale=desktop,size=s]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared thickness-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 218 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 218 of the mapping sheet."},
+            {"id":"0b8924f1-26","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"mobile","size":"s"}},"record":"eb9c3cff-5a1a-4832-a623-6ab258b81d37","name":"thickness[scale=mobile,size=s]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"5952b589-51da-4733-8606-6a8a93738df1"}],"rationale":"Deprecated via refine-from-sheets from row 218 of the mapping sheet."},
+            {"id":"0b8924f1-27","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Meter (thickness)"],"scope":{"property":"thickness","options":{"scale":"mobile","size":"s"}},"record":"eb9c3cff-5a1a-4832-a623-6ab258b81d37","name":"thickness[scale=mobile,size=s]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared thickness-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 218 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 218 of the mapping sheet."},
+            {"id":"0b8924f1-28","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"ceeda4da-026b-496c-8abd-7081aceae262","name":"width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}],"rationale":"Deprecated via refine-from-sheets from row 219 of the mapping sheet."},
+            {"id":"0b8924f1-29","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"ceeda4da-026b-496c-8abd-7081aceae262","name":"width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared bar-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 219 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 219 of the mapping sheet."},
+            {"id":"0b8924f1-30","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"dc5f4966-4ddd-4e9a-a748-370d8eaae568","name":"width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}],"rationale":"Deprecated via refine-from-sheets from row 219 of the mapping sheet."},
+            {"id":"0b8924f1-31","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (default)"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"dc5f4966-4ddd-4e9a-a748-370d8eaae568","name":"width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared bar-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 219 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 219 of the mapping sheet."}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.3",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"meter/anatomy/help-text","name":"help-text","fields":[{"path":"component","after":"help-text"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"meter/anatomy/header","name":"header","fields":[{"path":"presentWhen.options.hideLabel","after":false},{"path":"presentWhen.options.label","after":true}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"meter/anatomy/help-text","name":"help-text","fields":[{"path":"presentWhen.options.helpText","after":true}]},
+            {"id":"1951adf7-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"meter/visual/parts/header","name":"header","fields":[{"path":"visibleWhen.options.hideLabel","before":false},{"path":"visibleWhen.options.label","before":true}]},
+            {"id":"1951adf7-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"meter/visual/parts/help-text","name":"help-text","fields":[{"path":"visibleWhen.options.helpText","before":true}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

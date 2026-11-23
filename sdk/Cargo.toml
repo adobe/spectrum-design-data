@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["core", "cli", "tui", "wasm", "plugins/dtcg", "plugins/figma", "plugins/shadcn"]
+members = ["core", "cli", "tui", "wasm", "wasm-visual", "plugins/dtcg", "plugins/figma", "plugins/site", "plugins/shadcn"]
 
 [workspace.package]
 edition = "2021"
@@ -19,3 +19,12 @@ split-debuginfo = "unpacked"
 [profile.test]
 debug = "line-tables-only"
 split-debuginfo = "unpacked"
+
+# Optimize third-party crates (not workspace members) in dev and test builds. The CLI
+# integration tests spawn the debug binary, and unoptimized dependencies dominated their run
+# time: summed test time dropped 45% (312s to 172s) across the workspace. Optimizing only
+# design-data-core made no difference, so the cost is in the dependencies.
+# Dependencies rebuild only when Cargo.lock changes, and CI restores them from the Cargo cache.
+# Workspace crates stay at opt-level 0 so incremental builds stay fast.
+[profile.dev.package."*"]
+opt-level = 2

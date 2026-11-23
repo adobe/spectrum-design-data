@@ -79,20 +79,23 @@
     }
   ],
   "options": {
-    "label": { "type": "string" },
+    "label": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "neutral",
       "values": [
-        { "value": "neutral" },
-        { "value": "informative" },
-        { "value": "negative" }
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "informative"
+        },
+        {
+          "value": "negative"
+        }
       ]
-    },
-    "hasIcon": {
-      "type": "boolean",
-      "description": "If the neutral variant, there is never an icon.",
-      "default": false
     },
     "maxWidth": {
       "type": "number",
@@ -103,13 +106,24 @@
       "type": "string",
       "default": "top",
       "values": [
-        { "value": "top" },
-        { "value": "bottom" },
-        { "value": "left" },
-        { "value": "right" }
+        {
+          "value": "top"
+        },
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "left"
+        },
+        {
+          "value": "right"
+        }
       ]
     },
-    "shouldFlip": { "type": "boolean", "default": false },
+    "shouldFlip": {
+      "type": "boolean",
+      "default": false
+    },
     "offset": {
       "type": "number",
       "default": 4,
@@ -121,7 +135,67 @@
       "description": "units: pixels"
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded bubble holding the label. It is the root and carries the rounding, padding, background and size limits.",
+      "required": true,
+      "contains": ["label"]
+    },
+    {
+      "name": "label",
+      "description": "Tooltip message text.",
+      "required": true
+    },
+    {
+      "name": "tip",
+      "description": "Small pointer on the bubble edge toward the source. A top-level sibling of the container. It is drawn by the placement part that matches the placement: tip-bottom (placement top), tip-top (bottom), tip-end (left) and tip-start (right)."
+    },
+    {
+      "name": "tip-bottom",
+      "description": "Tip on the bottom edge of the container, drawn when the placement is top.",
+      "presentWhen": {
+        "options": {
+          "placement": "top"
+        }
+      }
+    },
+    {
+      "name": "tip-top",
+      "description": "Tip on the top edge of the container, drawn when the placement is bottom.",
+      "presentWhen": {
+        "options": {
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "name": "tip-end",
+      "description": "Tip on the end edge of the container, drawn when the placement is left.",
+      "presentWhen": {
+        "options": {
+          "placement": "left"
+        }
+      }
+    },
+    {
+      "name": "tip-start",
+      "description": "Tip on the start edge of the container, drawn when the placement is right.",
+      "presentWhen": {
+        "options": {
+          "placement": "right"
+        }
+      }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tooltip (bubble, label and a sibling Tip vector; no icon), React Spectrum S2 Tooltip (neutral only, no icon) and SWC gen2 (variant, no icon). Decision C2 (Garth, 2026-11-20): tip is a top-level sibling of container. icon and the hasIcon option are deleted: no source draws them and no record is scoped to them (no-spectrum1-only-options). Tip size differs by source (8x4 data, 10x5 Figma and RSP): tracked as a gap bead."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "tooltip",
     "focusable": false,
@@ -131,7 +205,11 @@
         "level": "AA",
         "title": "Content on Hover or Focus"
       },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

@@ -1,0 +1,971 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-area",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["step", "hover", "down", "keyboard-focus", "width", "height"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["fill", "overlay"],
+      "props": {
+        "direction": {
+          "value": "stack"
+        },
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "minWidth": {
+          "relationship": {
+            "property": "minimum-width",
+            "part": "container"
+          }
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "minimum-height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "attribute": "background",
+              "part": "container"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "lightness",
+                "color": true,
+                "isDisabled": false
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "saturation",
+                "color": true,
+                "isDisabled": false
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "brightness",
+                "color": true,
+                "isDisabled": false
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "saturation",
+                "color": true,
+                "isDisabled": false
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          }
+        ],
+        "stroke": {
+          "when": {
+            "options": {
+              "isDisabled": false
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "container"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "container"
+          }
+        },
+        "strokeOver": {
+          "value": true
+        },
+        "strokeOpacity": {
+          "relationship": {
+            "property": "opacity",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "fill": {
+      "kind": "box",
+      "props": {
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "hue",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "lightness"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "hue",
+                "yChannel": "lightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "lightness"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "lightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "hue",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "brightness"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "hue",
+                "yChannel": "brightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "brightness"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "brightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "hue"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          }
+        ],
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "color-handle": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "with": {
+        "color": {
+          "option": "color"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      },
+      "floating": {
+        "position": {
+          "x": {
+            "value": {
+              "option": "x-value"
+            },
+            "min": {
+              "option": "x-minValue"
+            },
+            "max": {
+              "option": "x-maxValue"
+            }
+          },
+          "y": {
+            "value": {
+              "option": "y-value"
+            },
+            "min": {
+              "option": "y-minValue"
+            },
+            "max": {
+              "option": "y-maxValue"
+            },
+            "invert": true
+          }
+        }
+      }
+    },
+    "overlay": {
+      "kind": "box",
+      "props": {
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "hue",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "lightness"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "hue",
+                "yChannel": "lightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "lightness"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "lightness"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "saturation",
+                "yChannel": "lightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "lightness"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "lightness"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsl",
+                "xChannel": "lightness",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "lightness"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsl"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "hue",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "brightness"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "hue",
+                "yChannel": "brightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "brightness"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "saturation"
+                },
+                "z": {
+                  "value": "brightness"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "saturation",
+                "yChannel": "brightness",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 1],
+              "to": [0, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "brightness"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "hue",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "brightness"
+                },
+                "z": {
+                  "value": "saturation"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "colorSpace": "hsb",
+                "xChannel": "brightness",
+                "yChannel": "saturation",
+                "color": true
+              }
+            },
+            "gradient": {
+              "from": [0, 0],
+              "to": [1, 0],
+              "ramp": {
+                "color": {
+                  "option": "color"
+                },
+                "channel": {
+                  "value": "brightness"
+                },
+                "z": {
+                  "value": "hue"
+                },
+                "space": {
+                  "value": "hsb"
+                }
+              }
+            }
+          }
+        ],
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        }
+      }
+    }
+  }
+}

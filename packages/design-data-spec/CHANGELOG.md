@@ -1,5 +1,1266 @@
 # @adobe/design-data-spec
 
+## 7.4.0
+
+### Minor Changes
+
+- [#2086](https://github.com/adobe/spectrum-design-data/pull/2086) [`5195966`](https://github.com/adobe/spectrum-design-data/commit/5195966693d7d5a579d3bf890b740d4932178de5) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `grid` layout, subtrees and nested repeats to component visual recipes.
+
+  `direction: "grid"` lays cells out in `columns` per row, with `columnGap` and `rowGap`,
+  filling row by row from flowed children or repeated copies (calendar months, tables).
+  A `box` child that is a grid or declares `repeat` is laid out as its own subtree, so a
+  calendar's title, weekday row and day grid, or a table's header and body, share one tree.
+  A `repeat` may sit on a part another `repeat` draws (a tree's levels); a nested repeat
+  with no entries draws nothing.
+
+  New rule SPEC-116 checks the declaration. The engine clamps a bad column count, draws at
+  most 5000 repeated copies and subtrees per scene, and nests at most 6 deep.
+
+## 7.3.0
+
+### Minor Changes
+
+- [#2079](https://github.com/adobe/spectrum-design-data/pull/2079) [`7b4561f`](https://github.com/adobe/spectrum-design-data/commit/7b4561fcae97ec7e33358c78dbd7536063017b7e) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a nested component part float by `side`.
+  - SPEC-112 accepts a `component` part with `floating.side` (a slider's
+    field label above its track), as it already did for `position`.
+  - A nested floating component that is zero wide (a field label with no
+    text) is kept and draws nothing, with no diagnostic.
+  - Unit tests cover both; no recipe or data changes.
+
+- [#2068](https://github.com/adobe/spectrum-design-data/pull/2068) [`98214fa`](https://github.com/adobe/spectrum-design-data/commit/98214fab5b3b4e02a49bd51580a106f4af220b3e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `shadow` property to component visual recipes. A box draws one or more
+  drop shadows (`x`, `y`, `blur`, optional `spread`, `color`). Each field is a
+  value source, so a recipe binds the `drop-shadow` tokens. Blur is the Figma
+  radius (Gaussian sigma is half of it). The shadow is not drawn inside the box
+  and does not move layout.
+
+- [#2071](https://github.com/adobe/spectrum-design-data/pull/2071) [`2ccb22a`](https://github.com/adobe/spectrum-design-data/commit/2ccb22a92e6d32a2fc466f81446a084f4918885e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `floating` property to component visual recipes. A top-level part with
+  `floating` (`side`, `align`, `offset`, `crossOffset`) is drawn outside the root,
+  beside one of its edges, for overlays, tips and loupes, and is present when its
+  `visibleWhen` holds. The scene now grows to hold floating parts and the full
+  drop shadow (blur, offset, spread) instead of cutting shadows at the 8px
+  margin. Add rule SPEC-112, which checks a floating part's declaration.
+
+- [#2073](https://github.com/adobe/spectrum-design-data/pull/2073) [`34bc650`](https://github.com/adobe/spectrum-design-data/commit/34bc65088ca920813259ef1f103dbc50906f8767) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `floating.position` to component visual recipes: a part placed at a fraction
+  of a part's box along x and/or y, from a numeric option with `min`, `max`,
+  `invert` and `align`, or a part whose length on an axis is the span between two
+  fractions (`length`, `from`). It draws a slider or colour handle at a value and a
+  fill that grows with it. Out of range values are clamped with a diagnostic. Add
+  rule SPEC-114, which checks the declaration.
+
+  An unset option value draws at the start with no diagnostic. An axis can be a list
+  of entries picked by `when` (for example `orientation`), and a nested `component`
+  part (a colour handle) can be positioned. SPEC-114 checks that option names are
+  number options of the component.
+
+- [#2072](https://github.com/adobe/spectrum-design-data/pull/2072) [`37fbe10`](https://github.com/adobe/spectrum-design-data/commit/37fbe10e393858cb020b8fecd9b9483d117776c1) Thanks [@GarthDB](https://github.com/GarthDB)! - A floating part can now host `children`: it is laid out as a subtree (its size comes
+  from its own layout) anchored to the root, and the scene grows to hold the whole
+  subtree and its shadows. A box can bind `path` (`d` of SVG path data without arcs,
+  optional `viewBox` and `fillRule`) to draw as a closed shape, such as a teardrop loupe
+  or a tip with a rounded point, with fill, checker pattern, centered stroke and shadow
+  in the scene, SVG and PNG. Add rule SPEC-113 (path data the engine can draw) and relax
+  SPEC-112 for floating subtrees. A shadow layer with `x`, `y` or `spread` beyond 1000px
+  is skipped with a diagnostic, so SVG and PNG size the canvas alike; an unresolved
+  floating `offset` or `crossOffset` now reports a diagnostic; floating parts of a nested
+  recipe are dropped with a diagnostic.
+
+- [#2080](https://github.com/adobe/spectrum-design-data/pull/2080) [`9d2f343`](https://github.com/adobe/spectrum-design-data/commit/9d2f343750e012eb2d060875eee7fcae4cd02c43) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `gradient.ramp` to component visual recipes: a linear gradient whose stops the
+  engine computes from a color option and a channel (hue, saturation, lightness,
+  brightness, red, green, blue, alpha) in hsl, hsb or rgb, the way React Spectrum
+  draws a color slider's track (hue 7 stops, lightness 3, others 2). With `z` it is
+  one layer of a color area (hue, saturation, lightness or brightness layers with
+  the fixed channel held at its value). Add rule SPEC-115, which checks the
+  declaration. An unset or unreadable color draws the ramp for red with a
+  diagnostic, and a ramp that cannot be drawn (an rgb area) draws the plain fill.
+  Floating parts now draw a gradient fill.
+
+## 7.2.0
+
+### Minor Changes
+
+- [#2060](https://github.com/adobe/spectrum-design-data/pull/2060) [`07fc360`](https://github.com/adobe/spectrum-design-data/commit/07fc360003c82cfd5b277ffbf941c338465dd914) Thanks [@GarthDB](https://github.com/GarthDB)! - The reference SDK loads a platform manifest's `extensions/deviations/` and enforces SPEC-109 to 111.
+  - SPEC-109: a deviations file matches its schema; ids are unique per file.
+  - SPEC-110: component, part, states, options and modes of a deviation resolve.
+  - SPEC-111 (warning): a deviation's `property` is one its `part` sets in the recipe.
+  - `render-compare`, `validate-manifest` and `platform impact` ignore them for now.
+
+- [#2061](https://github.com/adobe/spectrum-design-data/pull/2061) [`770ee85`](https://github.com/adobe/spectrum-design-data/commit/770ee854ae3e0b477c6466da88366d6b290ba830) Thanks [@GarthDB](https://github.com/GarthDB)! - A `slot` part may sit directly under the root (row or column) and is
+  one flowed block. A component group (a box of `component` parts in a
+  row box) also accepts `direction: column`. SPEC-108 allows the root.
+
+## 7.1.0
+
+### Minor Changes
+
+- [#2050](https://github.com/adobe/spectrum-design-data/pull/2050) [`1509d43`](https://github.com/adobe/spectrum-design-data/commit/1509d43992dbf9564e9074dce79318821e937947) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `snake_case` as an explicit platform manifest `formatting.casing` value.
+  Lowercase words joined by `_` (the default delimiter for it). Same output as
+  `kebab-case` with delimiter `_`, which remains valid.
+
+- [#2051](https://github.com/adobe/spectrum-design-data/pull/2051) [`df4012b`](https://github.com/adobe/spectrum-design-data/commit/df4012b1d5b92bce207592e807483a734bf9255b) Thanks [@GarthDB](https://github.com/GarthDB)! - A nested component part's `with.label` sets the nested request's label text.
+  - `with.label` is a string literal or `{"option": name}` naming a string host option. It is
+    the nested component's text, not an option; SPEC-089 checks that it is a string.
+  - A slot fill's `options.label` works the same way.
+  - A group of labelled radios can now be expressed: each nested item carries its own text.
+  - Without `with.label` the nested label stays empty, as before.
+
+- [#2057](https://github.com/adobe/spectrum-design-data/pull/2057) [`a0564ae`](https://github.com/adobe/spectrum-design-data/commit/a0564ae218c819939d7b6a65fb606b4109ebe24d) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests can declare `deviations`: where a platform cannot match a component's recipe.
+  - New schema `platform-deviation.schema.json`; `manifest.md` gains `extensions/deviations/`.
+  - SPEC-109 to SPEC-111 are defined in `rules.yaml`. The SDK does not load the directory yet,
+    so none is enforced. Loading and tool behaviour follow.
+  - `component-visuals.md`: a renderer MUST NOT read deviations.
+  - Proposal 019 records the design.
+
+- [#2052](https://github.com/adobe/spectrum-design-data/pull/2052) [`ebe9f5e`](https://github.com/adobe/spectrum-design-data/commit/ebe9f5e8d29bf732208bf0b9de660a49c75e0613) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the `MANIFEST-001` to `MANIFEST-006` diagnostics that `validate-manifest` and
+  `platform doctor` report, including the new checks for a platform's relationships,
+  implementations and component aliases.
+
+- [#2058](https://github.com/adobe/spectrum-design-data/pull/2058) [`7d30326`](https://github.com/adobe/spectrum-design-data/commit/7d30326545c8252f1b2e0d5bedb0fd28fa5dd758) Thanks [@GarthDB](https://github.com/GarthDB)! - A `slot` part accepts `direction: column`: fills stack vertically,
+  with `gap` and `align` on the cross axis.
+
+### Patch Changes
+
+- [#2059](https://github.com/adobe/spectrum-design-data/pull/2059) [`d919378`](https://github.com/adobe/spectrum-design-data/commit/d9193786f28838841f2e9db3601103e2c352d24d) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the rune issue links in proposal 019.
+  - `platform-deviation.schema.json` now notes that `when` mirrors the recipe condition.
+
+- [#2056](https://github.com/adobe/spectrum-design-data/pull/2056) [`d11b4ae`](https://github.com/adobe/spectrum-design-data/commit/d11b4ae1ee5254d29a3b59981c522485898fc472) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(design-data): warn when a request slot key matches no slot
+  - A render request `slots` key that is no slot name of a slot part now adds a
+    scene warning. It lists the slots that have a part, and says so when the key
+    is the part id (radio-group: `default`, not `options`). The render succeeds.
+  - Document that `--slots` keys are slot names, not part ids.
+
+## 7.0.0
+
+### Major Changes
+
+- [#2044](https://github.com/adobe/spectrum-design-data/pull/2044) [`1951adf`](https://github.com/adobe/spectrum-design-data/commit/1951adf71da6c4b0d9e5419d91134dfe522e1b69) Thanks [@GarthDB](https://github.com/GarthDB)! - BREAKING: `presentWhen` replaces `presentIn` on anatomy parts (spec 7.0.0).
+  - **Migrate** `presentIn: ["keyboard-focus"]` to `presentWhen: {"states": ["keyboard-focus"]}`.
+    A part shown while an option is set takes `presentWhen: {"options": {"isSelected": true}}`. The
+    key holds only `states` and `options`; `position` and `modes` fail the schema.
+  - **ANY-of became ALL-of**: `presentIn` drew a part when any listed state was active, `states` needs
+    every listed state. Do not copy a multi-state `presentIn` over: `selected-keyboard-focus`
+    implies `keyboard-focus`, so stack-item takes `states: ["keyboard-focus"]`.
+  - **Recipes**: `visibleWhen` keeps only `position`. Its `states` and `options` move to the anatomy
+    part of the same name, and the renderer applies both (anatomy `presentWhen` and recipe position).
+  - **Rules**: SPEC-075 is removed. SPEC-074 (`anatomy-present-when-declared`) now covers the whole
+    condition: declared states, declared options, allowed values.
+  - **@adobe/spectrum-design-data**: 42 `presentIn` keys became `presentWhen`, and 62 recipe
+    conditions on 78 parts moved into 47 components. Renders are unchanged.
+  - **CLI 0.63.0**: older CLIs read no presence condition and draw every part, so the dataset
+    `requires.cli` is raised to 0.63.0. `presentIn` and recipe `states` and `options` are not read.
+
+### Minor Changes
+
+- [#2037](https://github.com/adobe/spectrum-design-data/pull/2037) [`5d6bd00`](https://github.com/adobe/spectrum-design-data/commit/5d6bd008a946579c54356ac519cfb220dd07b3de) Thanks [@GarthDB](https://github.com/GarthDB)! - Anatomy parts can be another component; recipes read that link. Part of the 7.0.0 bundle.
+  - **anatomy-format.md**: new "What is a part" rule replaces "What is not anatomy"; new `component`
+    field on a part, checked by SPEC-106.
+  - **component-format.md**: new `subcomponent: boolean`; hosts are derived ("Used in"), not stored.
+  - **component-visuals.md and schemas**: BREAKING. A recipe `kind: component` part drops its
+    `component` and reads the host's anatomy part of the same key (SPEC-089 reports a missing link).
+  - **@adobe/spectrum-design-data**: BREAKING data shape. `component` on 95 anatomy parts in 46
+    components, removed from 21 recipe parts in 12 recipes, 5 components marked `subcomponent`.
+  - **@adobe/design-data-wasm**: the engine reads the nested component from anatomy; spec sheets
+    and the site list gain `subcomponent` and `usedIn`. CLI is 0.62.2.
+  - **@adobe/design-data, @adobe/design-data-mcp**: component search results gain `subcomponent`
+    and `usedIn`.
+  - Dataset `requires.cli` is raised to 0.62.2: older CLIs cannot read a part `component`.
+
+- [#2041](https://github.com/adobe/spectrum-design-data/pull/2041) [`2ee32ce`](https://github.com/adobe/spectrum-design-data/commit/2ee32ce2e9c4de2a1542b0deb60ceb5c7de927c9) Thanks [@GarthDB](https://github.com/GarthDB)! - Relationships can scope to the place of a repeated item. Part of the 7.0.0 bundle.
+  - **relationship-format.md, relationship.schema.json**: new `scope.itemPosition` (`first`,
+    `middle`, `last`, `only`), counted over the drawn copies like a recipe `when.position`.
+    `scope.position` (sides and corners) is unchanged.
+  - **SPEC-107** (error): `itemPosition` needs a `scope.part` that is the repeated part of a
+    collection slot, or a part inside it.
+  - **@adobe/spectrum-design-data**: list-view's two "Item rounding" records move from
+    `options.position` top/bottom to `itemPosition` first/last. Their `legacyKey` pins stay, so the
+    legacy tokens are unchanged.
+  - **@adobe/design-data-wasm**: the engine resolves a record per drawn copy by `itemPosition`
+    (one satisfied condition) and refuses `itemPosition` values it does not know. CLI is 0.62.2.
+  - Dataset `requires.cli` is unchanged: 0.62.2 is untagged and carries this.
+
+- [#2042](https://github.com/adobe/spectrum-design-data/pull/2042) [`55328cc`](https://github.com/adobe/spectrum-design-data/commit/55328ccb343be47b437ec1d56b40d76cfc9f19f1) Thanks [@GarthDB](https://github.com/GarthDB)! - A nested recipe part's `with` entry can map a host option value to a nested value.
+  Part of the 7.0.0 bundle.
+  - **component-visuals.md, component-visual.schema.json**: a third `with` form,
+    `{"option": "<host option>", "map": {"<host value as string>": "<nested value>"}}`, next to the
+    literal and `{option}` forms. Booleans key as `"true"`/`"false"`.
+  - **SPEC-089** (error) now checks the form: the host option exists, every key is a value of it,
+    every mapped value is valid for the nested option. No new rule.
+  - **@adobe/spectrum-design-data**: text-field, text-area, combo-box and picker draw their help text
+    from `isError` (`true` is `negative`, `false` is `neutral`).
+  - **@adobe/design-data-wasm**: the engine resolves the map. A host value with no key keeps the
+    nested option's default and adds a scene diagnostic (a warning, not an error). CLI is 0.62.2.
+  - Dataset `requires.cli` is unchanged: 0.62.2 is untagged and carries this.
+
+- [#2045](https://github.com/adobe/spectrum-design-data/pull/2045) [`84a3a3a`](https://github.com/adobe/spectrum-design-data/commit/84a3a3a25b832fed1b94bd2edae8141c1013dd49) Thanks [@GarthDB](https://github.com/GarthDB)! - BREAKING: accordion drops the `hasActionButton` and `hasSwitch` options; slot fills replace them.
+  - **Migrate** a consumer that passed `hasActionButton` or `hasSwitch` (or the same keys on
+    `items[]`) to fill the `actions` slot: a render request `slots: {"actions": [{"component":
+"action-button"}, {"component": "switch"}]}`. The CLI takes `--slots <json>`, a batch state takes
+    `slots`. Fills are the same for every item of the accordion.
+  - **Spec**: a new `slot` recipe part kind draws a request's fills through the nested-component path.
+    Fills past the slot's `max`, or outside its `accepts`, are scene diagnostics, never a failure. An
+    optional `placeholder` literal (with a required `reason`) draws an empty slot. New rule SPEC-108.
+  - **Data**: accordion loses the two options, their `items[]` copies and the `action-button` and
+    `switch` parts; its `actions` part draws the slot. The "section title to action area" spacing
+    record is scoped by `between` (title, actions) instead of `part: header`.
+  - **Layout revision 6**: the accordion snapshot option sets changed. Renders with fills are
+    unchanged apart from the part ids (`actions-1`, `actions-2`, replacing `action-button`, `switch`).
+  - **Engine**: `RenderRequest` gains `slots`; older engines ignore it and draw no fills.
+
+- [#2034](https://github.com/adobe/spectrum-design-data/pull/2034) [`c37b680`](https://github.com/adobe/spectrum-design-data/commit/c37b6809884cac367c148b2f1f9e3d72c81ad407) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the optional `excludeFromLegacy` token field. When `true`, legacy
+  output generation omits the token. A token with no legacy counterpart
+  can then be authored without changing `@adobe/spectrum-tokens`.
+
+### Patch Changes
+
+- [#1975](https://github.com/adobe/spectrum-design-data/pull/1975) [`80c3999`](https://github.com/adobe/spectrum-design-data/commit/80c399955eba3e1eeb484348b51a8c6dc1c26450) Thanks [@GarthDB](https://github.com/GarthDB)! - Document that SPEC-073 skips deprecated components (`lifecycle.deprecatedIn`).
+
+## 6.4.0
+
+### Minor Changes
+
+- [#2006](https://github.com/adobe/spectrum-design-data/pull/2006) [`f6285d8`](https://github.com/adobe/spectrum-design-data/commit/f6285d8d380fa73810b4d63c5c25b560be0b7335) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can draw a second stroke, stack parts and pick a stroke by position.
+  - Root props `innerStroke`, `innerStrokeWidth` and `innerStrokeOpacity` draw a second border
+    just inside the first, over the children, as the ring node `<root>.inner-border`.
+  - A root with `direction: "stack"` overlays its children in declaration order.
+  - A relationship selector can add `position: "inner"` or `"outer"` (default outer). A record
+    pinned to one position serves only that selector, so two strokes no longer collide.
+  - A nested component now inherits a corner radius given as a ratio of the host height.
+  - The swatch draws its checkerboard behind the fill and its inner band when selected.
+
+### Patch Changes
+
+- [#2003](https://github.com/adobe/spectrum-design-data/pull/2003) [`15f49f2`](https://github.com/adobe/spectrum-design-data/commit/15f49f2c55f494739e463b2029d9e91498d7f687) Thanks [@GarthDB](https://github.com/GarthDB)! - Document that a repeat `with` mapping can target a string option read by a text part
+  (`text.option`), so a repeated entry can carry copy beyond its label.
+
+## 6.3.0
+
+### Minor Changes
+
+- [#1997](https://github.com/adobe/spectrum-design-data/pull/1997) [`212a1cd`](https://github.com/adobe/spectrum-design-data/commit/212a1cd467dbc4a72be91c7307730f9465523a24) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `gallery` section block to the component spec sheet schema.
+  - A grid of small scene renders, each titled, with a caption, a column count and a cell size.
+  - The generator fills Accordion's anatomy with a multi-item specimen (several items
+    expanded) and a variants board (size x density x quiet).
+
+- [#1997](https://github.com/adobe/spectrum-design-data/pull/1997) [`212a1cd`](https://github.com/adobe/spectrum-design-data/commit/212a1cd467dbc4a72be91c7307730f9465523a24) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an optional `sections` array to the component spec sheet schema.
+  - Prose, table and placeholder blocks for the non-measurement template sections.
+  - Sections: anatomy, usage, states, accessibility, decision log, how to use, feedback.
+
+## 6.2.0
+
+### Minor Changes
+
+- [#1982](https://github.com/adobe/spectrum-design-data/pull/1982) [`8707903`](https://github.com/adobe/spectrum-design-data/commit/8707903e328dc037810aa9b1568ff513ebe4f479) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `typeStyle` recipe prop (type styles, renderer half; 5m92.25.1).
+  - A `text` part can bind `typeStyle` to a `type-style` relationship record. The renderer
+    unpacks the composite it `$ref`s for the request's scale into `fontFamily`, `fontSize`,
+    `fontWeight` and `lineHeight`. A font prop the part binds itself wins for its axis.
+  - Diagnostics: `typeStyle: '<label>' is not a typography composite` and
+    `typeStyle: <composite>.<axis> '{<alias>}' not found`.
+  - Spec text for the prop and its precedence in component-visuals.md; the component-visual
+    schema lists `typeStyle`.
+  - Diagnostic also: `typeStyle: composite has no such axis`.
+  - CLI 0.60.0 (0.59.0 is released); `requires.cli` is unchanged.
+  - No recipe uses it yet, so no rendered output changes. `layoutRevision` is unchanged:
+    nothing in the solver or layout semantics moves for existing recipes.
+  - Core: `cascade::resolve_reference_in` and `typography::unpack_in` take a prebuilt alias
+    index, so unpacking many composites does not rescan the tokens.
+
+## 6.1.0
+
+### Minor Changes
+
+- [#1981](https://github.com/adobe/spectrum-design-data/pull/1981) [`3f4978c`](https://github.com/adobe/spectrum-design-data/commit/3f4978c0bb6300e7b81cbbed898fad973b4c71e6) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `type-style` property and rule SPEC-105 (type styles, data half; 5m92.25.1).
+  - New property term `type-style`. The 44 records that used `typography` to `$ref` a
+    typography composite (text-field, text-area, search-field, number-field, combo-box,
+    picker) now use it; uuids, `$ref`s and values are unchanged, and the composite tokens
+    keep `name.property: typography`.
+  - SPEC-105 (warning): a `type-style` record must `$ref` a typography composite and a
+    typography `$ref` must have that property; the size must be a declared size; every
+    inner alias must resolve in every `scale` mode. No existing record warns.
+  - Spec text: type-style records, inner aliases resolve by mode, and `layoutRevision` bumps
+    only for solver or layout changes, not for a data-only snapshot change.
+  - Core: `typography::unpack` resolves a composite's sub-values per mode.
+  - `design-data-component-tokens` returns a composite as `style` (resolved `fontFamily`,
+    `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`, by `scale` where they differ)
+    instead of the raw `{font-size-100}` strings.
+  - Spec sheets show a type style's resolved values on the Typography page.
+  - The fused-property codemod treats a `$ref` to a typography composite as `type-style`.
+
+## 6.0.0
+
+### Major Changes
+
+- [#1967](https://github.com/adobe/spectrum-design-data/pull/1967) [`8390384`](https://github.com/adobe/spectrum-design-data/commit/83903848b0136b8b710154411d0719071903890b) Thanks [@GarthDB](https://github.com/GarthDB)! - A component's `slots` now own every fact about a slot (RFC #1801). Breaking for readers of the
+  component and recipe formats.
+  - `slotDeclaration` gains `part` (the anatomy part), `accepts` (component names), `acceptsOnly`,
+    `min`, `max` and `collection` (the array option whose entries repeat `part`). `required` is
+    removed: `min` of 1 or more replaces it.
+  - New rule SPEC-104 checks the part, the `accepts` components, the collection option, its
+    anatomy parent, `min` and `max`, unique names, and warns when a slot is not named `default` or
+    after its part. It replaces SPEC-021 (the canonical slot vocabulary), which is retired.
+  - A recipe's `repeat` loses `part` and `option`; it keeps `slot`, `label` and `with`. The
+    collection slot gives the repeated part and the option. SPEC-060 checks the slot and that the
+    declaring part is the repeated part's anatomy parent; SPEC-066 reads the option through it.
+    Compiled recipe data (`data.json`) is unchanged, so the solver, WASM and the browser engine
+    read the same shape and renders are byte-identical.
+  - Button declares its two slots with a `part`; accordion declares `default` (the `items`
+    collection), `actions` (accepts `action-button` and `switch`) and `content`. Migrate a recipe's
+    `repeat: {part, option}` to a collection slot plus `repeat: {slot}`.
+
+## 5.2.0
+
+### Minor Changes
+
+- [#1966](https://github.com/adobe/spectrum-design-data/pull/1966) [`a673ead`](https://github.com/adobe/spectrum-design-data/commit/a673ead72a74ff6d91001b077fe68037e2aec854) Thanks [@GarthDB](https://github.com/GarthDB)! - Component changelogs now list a change to a relationship's `scope.part`,
+  `scope.between`, `scope.property` or `scope.attribute` as an `api` entry, because a
+  recipe selector that named the old identity stops resolving. Moves that keep the
+  identity stay metadata: `scope.options.from`/`to` to `scope.between`, `contextPart` to
+  `scope.part`, the root part added to a record, and `contextRole`/`contextQualifier`
+  changes. Option pins (`state`, `variant`) stay visual. Existing changelogs are not
+  rewritten.
+
+## 5.1.0
+
+### Minor Changes
+
+- [#1960](https://github.com/adobe/spectrum-design-data/pull/1960) [`e1b3e4a`](https://github.com/adobe/spectrum-design-data/commit/e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a visual recipe name a relationship by its structured identity, and add `scope.attribute`
+  (proposal 018).
+  - **Spec:** a relationship's identity is `(scope.property, scope.attribute, scope.part,
+scope.between)`. `scope.attribute` is new and optional: a sub-quality of the property
+    (`border`, `background`, `dash`, `shadow`, `corner`, `overlay`, `gradient`). It is checked
+    against `registry/attributes.json` as a warning (SPEC-101).
+  - **Spec:** a recipe `relationship` selector may use `attribute`, `part` and `between` instead
+    of `context`. It must name `part` or `between`, matches every record whose given fields are
+    equal, and SPEC-062 rejects a selector that names more than one identity. Mixing `context`
+    with them is invalid.
+  - **Rules:** SPEC-062's one-identity check is an error where a component has no identity
+    collisions, a baselined warning elsewhere. `context` selectors per recipe cannot rise.
+  - **Data:** the switch and checkbox recipes bind by identity, and 190 relationship records gain
+    `scope.part` (158) or `scope.between` (32); no other field changes.
+    Renders and spec sheets are byte-identical. `@adobe/spectrum-tokens` is not affected.
+  - **Engine:** the renderer, SPEC-062/066/071/090, the status report and the spec-sheet generator
+    read both forms. A CLI or WASM build older than this one cannot resolve the new recipes.
+  - **Release:** the dataset requires CLI 0.57.0; 0.56.0 cannot resolve selectors without `context`.
+
+## 5.0.0
+
+### Major Changes
+
+- [#1948](https://github.com/adobe/spectrum-design-data/pull/1948) [`53e922b`](https://github.com/adobe/spectrum-design-data/commit/53e922b0293f2b5c2be0e66c99e89b62afa6d605) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove the component `tokenBindings` field. Relationships carry that data.
+  - **Spec (breaking):** `tokenBindings` is gone from `component.schema.json` and rule SPEC-027
+    is retired. A component that still has the field now fails schema validation. Use
+    `relationships/<component>.json`; SPEC-055 checks each `$ref`. To migrate, turn each
+    `{ token, context }` entry into a relationship with the token's uuid as `$ref`.
+  - **Button:** adds `corner-radius-button-small` (12px), `corner-radius-button-large` (20px)
+    and `corner-radius-button-extra-large` (24px) for wrapping labels. The 16px wrapping
+    relationship is now scoped to size `m`; `s`, `l` and `xl` have their own. The three names
+    were referenced but never defined.
+  - **Tabs, date picker:** four bindings with no relationship now have one.
+  - **Component data:** declares anatomy parts, sizes and states that relationships already
+    used (steplist, menu, table, tag-field, card, stack-item, body, heading, detail). List-view
+    and radio-button relationships now name their existing parts. Illustrated message uses a
+    `script: cjk` option instead of `-cjk` sizes.
+  - **Validation:** `design-data:validate` no longer downgrades component-rule errors to warnings.
+    Table declares the `xl` size its relationships use.
+  - **Agent MCP:** `describe_component` returns `relationships`; docs drop `tokenBindings`.
+
+### Minor Changes
+
+- [#1953](https://github.com/adobe/spectrum-design-data/pull/1953) [`9f95e99`](https://github.com/adobe/spectrum-design-data/commit/9f95e992a2723198f52a06eb9bae4ac0d1133dac) Thanks [@GarthDB](https://github.com/GarthDB)! - Declare a collection on its container part, and add position conditions. Layout revision is 4.
+  - `repeat` moves from the recipe to the root part (the container). It gains `part`, the direct
+    child that repeats; the item does not know it is repeated. The recipe-level `repeat` is removed
+    (draft spec; only the accordion used it).
+  - Each copy is solved as its own root and placed as a flowed child of the container, so the
+    container's `direction`, `gap` and padding apply. A container with a fixed width makes copies
+    fill it; a container with no width hugs them (widest copy in a column, sum in a row).
+  - A single copy (one entry or none) keeps plain node ids; several are `<part>-<n>`.
+  - `when.position` and `visibleWhen.position` take `first`, `middle`, `last` or `only`, evaluated
+    per copy. SPEC-061 checks the values and that `position` sits inside a repeated part; SPEC-060
+    checks `repeat.part` is a child of the root.
+  - Accordion gains a `container` root that owns the width records; its goldens gain the container
+    node, and the width token moves to it.
+
+- [#1947](https://github.com/adobe/spectrum-design-data/pull/1947) [`b62f6a5`](https://github.com/adobe/spectrum-design-data/commit/b62f6a51d96e8748bf1417e7d7eb945f4f3e4243) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw linear gradients in visual recipes. The avatar and the swatch use it.
+  - A new `gradient` value source on a box `fill`: `from` and `to` ends in the box's unit space and
+    stops whose colors and offsets bind through relationships, so the `gradient-stop` tokens drive
+    it. A scene node carries `gradient`; its `fill` keeps the first stop for solid-only consumers.
+  - An option read by an `option` source may hold a CSS `linear-gradient()` (a `deg` angle or a
+    `to` side or corner, and `<color> [<percentage>]` stops). The swatch `preview` takes one.
+  - SVG and PNG output draw gradients. Images are still not drawn.
+  - Avatar: the Gradient image, Initials and Guest styles draw Figma's turquoise gradient (400, 600
+    and 800 at the 0, 66 and 100 percent stops, from the top-left to the bottom-right). New
+    `Background (gradient stop N)` relationships bind the stop colors.
+  - Dataset `requires.cli` is 0.56.0, which reads the new source.
+
+- [#1952](https://github.com/adobe/spectrum-design-data/pull/1952) [`7afe677`](https://github.com/adobe/spectrum-design-data/commit/7afe677da514a49326fdd4e6b124cf61bd29afae) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a nested recipe fill its host, and draw a root border over its children. Layout revision is 3.
+  - A `component` part can list `inherit`: `width`, `height` and `cornerRadius` of the host root. A
+    width the host does not fix yet (a hugging root) is filled once the other parts are laid out.
+  - A root can bind `strokeOver: true`. Its border is then a `ring` node `<root>.border` drawn last,
+    and the root node's own `stroke` is unset.
+  - Anatomy aliases are no longer valid part names. They document other implementations' names, and
+    SPEC-035 warns when a part uses one. `small-divider`, `required-asterisk`, `required-text` and
+    `direct-actions` are aliases of `divider`, `necessity-indicator` and `actions`.
+  - The accordion draws its divider with the divider recipe. Thumbnail draws its checkerboard with
+    the opacity-checkerboard recipe, so its mobile tile is 5px, not 4px, and its border is drawn on
+    the container over the checkerboard. Thumbnail gains an empty `image` part.
+
+- [#1932](https://github.com/adobe/spectrum-design-data/pull/1932) [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Fields can now declare which token tiers they apply to.
+  - **field.schema.json**: adds optional `allowedTokenTiers` (primitive, semantic, component).
+  - **fields/scaleIndex.json**: limits `scaleIndex` to primitive and semantic tokens.
+  - **token.schema.json**: adds optional `tokenTier`, an override of the derived tier.
+  - **field.schema.json**: adds `impliesTokenTier`, which drives the derived tier.
+  - **SPEC-102** warns when a field is used on a tier it excludes; **SPEC-103** reports overrides.
+  - **spec/taxonomy.md**: defines the tiers and the derivation; foundation is a group, not a tier.
+  - **conformance/manifest-extensions**: rejects an empty list and an unknown tier.
+
+- [#1946](https://github.com/adobe/spectrum-design-data/pull/1946) [`90fa890`](https://github.com/adobe/spectrum-design-data/commit/90fa8906b5f45d81d4a36c8099575f6257a544a7) Thanks [@GarthDB](https://github.com/GarthDB)! - Tokens now report semantic specificity, so people and agents can pick among tokens.
+  - **Specificity:** derived from the name, never stored: tier rank, then the count of purpose fields.
+    It orders tokens; it does not say one fits a use.
+  - **Neighbors:** same-property tokens that add or drop purpose fields, each `drop-in` (same value
+    in every mode) or `consider`. CLI `design-data refinements`, WASM `Dataset.refinements`, MCP
+    `design-data-refinements` and agent MCP `token_refinements`.
+  - **Results:** WASM `TokenResult` has `purposeFields` and `purposeCount`; MCP query shows
+    `purposeFields`; CLI `query` and `resolve` print `Purpose`; MCP query takes `sort: "specificity"`.
+  - **Query:** `object`, `anatomy` and `colorRole` are filter keys.
+  - **Component tokens:** MCP `design-data-component-tokens` (WASM `componentRelationships`) returns
+    what a component uses for each part and state, with values, in one call.
+  - **Primer and docs:** `semanticSpecificity` in the primer; taxonomy, query and agent-surface
+    chapters and the skill (with a custom-component recipe).
+
+- [#1932](https://github.com/adobe/spectrum-design-data/pull/1932) [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - The token tier is now visible to people and tools.
+  - **Query:** `tier=<primitive|semantic|component>` is a filter key; spec `query.md` lists it.
+  - **Results:** WASM `TokenResult` has `tier` and `tierSource`; the MCP query tool shows `tier`; CLI
+    `query` and `resolve` print it.
+  - **Primer:** fields list `allowedTokenTiers` and `impliesTokenTier`; `tokenTiers` explains the
+    derivation. The MCP primer returns `tokenTiers` and `fieldTiers`.
+  - **Docs:** token-format, taxonomy, authoring-workflow and agent-surface chapters and the
+    design-data skill describe tiers.
+
+## 4.26.0
+
+### Minor Changes
+
+- [#1933](https://github.com/adobe/spectrum-design-data/pull/1933) [`61399b3`](https://github.com/adobe/spectrum-design-data/commit/61399b3fa6f9c57e57db3f9cdc848cf2f01ef3e3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the opacity-checkerboard visual recipe, with the renderer features it needs.
+  - New box props `patternFill` and `patternSize`: a box draws a checkerboard of squares of
+    `patternSize` in its `fill` and `patternFill`, `fill` at the top-left, clipped to its corners.
+    SVG uses a `<pattern>`, PNG draws the squares. Scene nodes carry a `pattern` field.
+  - New value source `{"dimension": "<name>"}`: a size in pixels the request carries in a numeric
+    option, for an extent no token holds. An invalid value is dropped with a diagnostic.
+  - Relationship-owned alias tokens (a `$ref` and no `context`) now resolve, so a relationship
+    can bind the checkerboard colors, which alias palette tokens.
+  - opacity-checkerboard declares a `size` option (`s`, `m`, default `m`) that its square size
+    relationships already pinned, and defaults for `verticalSize` (16) and `horizontalSize` (24).
+    Anatomy is still draft until reviewed.
+
+## 4.25.0
+
+### Minor Changes
+
+- [#1927](https://github.com/adobe/spectrum-design-data/pull/1927) [`e26c2a5`](https://github.com/adobe/spectrum-design-data/commit/e26c2a5c2689502c2bb598635473076666904ec0) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the link visual recipe, and `textDecoration` so a `text` part can draw an underline.
+  - New `text` props: `textDecoration` (`underline` or `none`), `underlineThickness` and
+    `underlineOffset`. A scene text node carries `underline: {thickness, offset}`. SVG and PNG draw
+    the line under the label in the text color, with the baseline 0.35 x the font size below the
+    center of the line box.
+  - Link draws primary and secondary, standalone and inline, quiet, and white and black static
+    colors, with hover, down and keyboard-focus. A quiet standalone link underlines on hover and
+    keyboard focus, as React Spectrum does. Anatomy is reviewed: `text` and `focus-indicator`.
+  - New `isStandalone` option (Figma Placement, React Spectrum `isStandalone`). The `icon` part is
+    removed: only Figma has it, hidden in every variant.
+  - Relationships pin `isStandalone` for font weight, use the `Text` context, and bind the static
+    colors to `transparent-static-white-1000` and `transparent-static-black-1000`.
+
+- [#1924](https://github.com/adobe/spectrum-design-data/pull/1924) [`581dcb7`](https://github.com/adobe/spectrum-design-data/commit/581dcb7dde593787893c6a905164f487cececff1) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a progress-circle visual recipe, and a `sweep` prop so a `progress` part draws an arc.
+  - New `progress` props: `strokeWidth` (ring thickness, a ninth of the diameter when unbound) and
+    `sweep` (share of the ring, 0 to 1, usually a `fraction`). The arc starts at 12 o'clock and runs
+    clockwise. No `sweep` still draws the fixed quarter-arc frame, so button spinners are unchanged.
+  - Progress circle renders size, value, indeterminate (one fixed frame) and white and black static
+    colors, all bound through relationships. Anatomy is reviewed.
+  - Removed the `variant` option ("over background"), which is Spectrum 1 only. Added `staticColor`
+    (white, black); its static records pin it and the indicator ones now use `content-color`.
+
+- [#1928](https://github.com/adobe/spectrum-design-data/pull/1928) [`c54ad0f`](https://github.com/adobe/spectrum-design-data/commit/c54ad0fcdb3450559eb80c46d5748384fa95485c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the swatch visual recipe, with the renderer features it needs.
+  - New value source `{"option": "<name>"}`: a solid CSS color the request carries in a string option
+    (the swatch `preview`). A gradient, an image or an unparseable value draws the unset look with a
+    diagnostic; an unset or fully transparent value draws it quietly.
+  - New `strokeOpacity` prop on boxes and rings (alpha of the stroke), and `inside` on a ring (drawn
+    within the outlined part). SPEC-070 now compares only rings named `focus*`.
+  - The workflow icon set gains `slash` and `cancel`.
+  - Swatch draws size, square and rectangle, none, partial and full rounding, selected (border and
+    inner band), disabled and keyboard focus. Size relationships pin `size`; the selection colors
+    became `Border` and `Inner border`; the disabled icon rebinds to the static white replacement.
+    Anatomy is proposed and still marked draft until reviewed.
+
+## 4.24.0
+
+### Minor Changes
+
+- [#1901](https://github.com/adobe/spectrum-design-data/pull/1901) [`5030209`](https://github.com/adobe/spectrum-design-data/commit/5030209fdc50f8161684368b8d0c65f2537e9620) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a progress-bar visual recipe, and recipe support for a fill amount and option text.
+  - New value source `fraction` (`value`, `min`, `max` option names) and `relativeTo: "parent"` size a
+    nested box as a share of its parent. A text part's new `text` field reads a string option or shows
+    the fraction as a percentage.
+  - Progress bar renders size, value, indeterminate (one fixed frame), hideLabel, and white and black
+    static colors. `labelPosition: side` is not drawn yet.
+  - Progress bar anatomy is reviewed and gains a `header` part. The `variant` option (Spectrum 1 only)
+    is removed, and `staticColor` gains `black` with its three relationships.
+
+## 4.23.0
+
+### Minor Changes
+
+- [#1896](https://github.com/adobe/spectrum-design-data/pull/1896) [`12ddd7e`](https://github.com/adobe/spectrum-design-data/commit/12ddd7e78e685a853d7a1afb4ba837ab13a9660b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added draft anatomy (`anatomyReview.status: draft`) to the 63 components that had relationships
+  but no anatomy. Parts follow the S2 Web Figma file, with relationship contexts, React Spectrum
+  and Spectrum Web Components as fallbacks. Shadows, borders and strokes are styling on a part,
+  not parts (new line in the anatomy format chapter). Added the `prefix` and `opacity-checkerboard`
+  anatomy terms. The required-field indicator is declared only on `field-label`. `tabs` and
+  `segmented-control` declare a `keyboard-focus` state, and `segmented-control` a `disabled`
+  state. A reviewer still has to confirm each component before a visual recipe depends on it.
+
+## 4.22.0
+
+### Minor Changes
+
+- [#1881](https://github.com/adobe/spectrum-design-data/pull/1881) [`fd1c1c3`](https://github.com/adobe/spectrum-design-data/commit/fd1c1c3662fefbf6d6f0a84c010d707c8db2f4ba) Thanks [@GarthDB](https://github.com/GarthDB)! - `dataset.json` can declare `requires.cli`, the oldest design-data CLI that can read the dataset
+  correctly, as an exact version (not a range; a dataset says what it needs, not what future CLIs
+  will do). This dataset declares `0.40.0`: CLI 0.37.0 refuses its `anyOf` state pins ("the data
+  is newer than this engine") and 0.40.0 reads them.
+
+  `dataset.schema.json` and `spec/dataset-layout.md` gain the field. A CLI older than
+  `requires.cli`, or older than a declared `layoutRevision`, now exits with an error instead of
+  reading the data wrongly; `--ignore-data-requirements` reads it anyway and warns on every run
+  (command line only, never a config file). Datasets released before this one have no `requires`
+  and are not checked. CI renders a smoke set with the released minimum CLI and the current one
+  and fails if the scenes differ.
+
+- [#1893](https://github.com/adobe/spectrum-design-data/pull/1893) [`20035e0`](https://github.com/adobe/spectrum-design-data/commit/20035e0e291e73d48509f255c52c0d2daafbceb3) Thanks [@GarthDB](https://github.com/GarthDB)! - A relationship `scope` may carry `between` (`{ from, to }`, the endpoints of a gap or padding) and
+  the descriptive fields `object`, `position`, `structure`, `qualifier` and `icon`, each a registry
+  term. New rule SPEC-101 (warning) checks each value against the vocabulary of the same-named
+  name-object field; `between` ends resolve like a space-between endpoint (SPEC-047). An engine
+  **MUST** refuse a `between` or descriptive value that is not the shape given. No data uses the
+  fields yet.
+
+## 4.21.1
+
+### Patch Changes
+
+- [#1865](https://github.com/adobe/spectrum-design-data/pull/1865) [`1b01d40`](https://github.com/adobe/spectrum-design-data/commit/1b01d40baf3edafef26ca9e3a2d96c288e86cf31) Thanks [@GarthDB](https://github.com/GarthDB)! - SVG label text now uses the font stack `'Adobe Clean Spectrum VF', adobe-clean-spectrum-vf,
+'Adobe Clean', 'Source Sans 3', sans-serif`. Browsers match family names exactly, so the old
+  lead name `adobe-clean-spectrum-vf` missed an installed Adobe Clean Spectrum VF and the label
+  fell to the generic sans-serif, about 18 % wider: "Save changes" (700, 16 px) measured
+  106.73 px against about 90 px and overran the button's right padding.
+
+  `renderComponentSvg(request, fonts?)` takes the same font list as `renderComponentPng` and
+  sizes the layout with the first non-fallback font. `design-data-render` passes the installed
+  Adobe Clean Spectrum VF when it finds one, so SVG boxes fit the text a viewer with that font
+  draws. Without it the Source Sans 3 table is used, as before.
+
+## 4.21.0
+
+### Minor Changes
+
+- [#1857](https://github.com/adobe/spectrum-design-data/pull/1857) [`2a1e521`](https://github.com/adobe/spectrum-design-data/commit/2a1e521b6f62f5e65f5b3db15379a7888c929392) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-100 (warning): relationship records of one component that share `property`, `context`
+  and `$ref` and differ only in the value of one declared option SHOULD be one record that pins
+  an array. Records with a `legacyKey` and records that use an any-of are skipped. It has a
+  conformance case.
+
+- [#1848](https://github.com/adobe/spectrum-design-data/pull/1848) [`da44b61`](https://github.com/adobe/spectrum-design-data/commit/da44b61596c59dfdd3434fca196e7f48f3ff95b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Add rules SPEC-094 to SPEC-099 for any-of in relationship scopes (proposal 017): a state repeated
+  across elements of one state array (SPEC-094), a component option named `anyOf` (SPEC-095, error),
+  an `anyOf` over one option (SPEC-096), a redundant alternative (SPEC-097), an alternative that
+  pins no declared option (SPEC-098), and a record with a `legacyKey` that uses an any-of
+  (SPEC-099, error). Each has a conformance case.
+
+- [#1847](https://github.com/adobe/spectrum-design-data/pull/1847) [`d12b8bc`](https://github.com/adobe/spectrum-design-data/commit/d12b8bce115b3c2f494de0b9d3739191b4ed8287) Thanks [@GarthDB](https://github.com/GarthDB)! - Add any-of to relationship scopes (proposal 017). `scope.options.anyOf` is an array of option
+  conditions: the record applies when its other pins match and at least one alternative matches, so
+  "selected or indeterminate" is one record. An element of `scope.options.state` may be
+  `{ "anyOf": [state, ...] }`. A record with an any-of is equivalent to one record per alternative
+  with the same `$ref`. `anyOf` is reserved as an option name, an any-of cannot be used on a record
+  that carries its own `value` or a `legacyKey`, and SPEC-053 and SPEC-054 check each alternative
+  and member. `relationship.schema.json` accepts both forms.
+  `relationship.schema.json` also allows numeric option pins (for example `scaleIndex`), which the
+  data already uses.
+
+- [#1863](https://github.com/adobe/spectrum-design-data/pull/1863) [`8d25409`](https://github.com/adobe/spectrum-design-data/commit/8d2540928d4618fe4340b570a33eb4f8f22cb680) Thanks [@GarthDB](https://github.com/GarthDB)! - An engine MUST refuse a relationship record whose `scope` has a field it does not know
+  (`component`, `part`, `property` and `options` are the known ones), and MUST NOT ignore it. This
+  is the gate that ships before new scope fields (`between`, bead p6ga.21.24) are allowed in data,
+  so an engine built before them fails loudly instead of treating two records that differ only by
+  such a field as identical.
+
+- [#1856](https://github.com/adobe/spectrum-design-data/pull/1856) [`7a5a511`](https://github.com/adobe/spectrum-design-data/commit/7a5a51166a61074fd9435d415f1f7ee2248fcb2e) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-093 is now an error: a relationship `context` MUST NOT name a value of an option the
+  component declares, a boolean option name or its negation (proposal 017, bead p6ga.21.9). A
+  `size` value counts in its spelled form (`m` is `medium`). The data in this repository has no
+  violation left, so the baseline entry is gone.
+
+## 4.20.0
+
+### Minor Changes
+
+- [#1846](https://github.com/adobe/spectrum-design-data/pull/1846) [`254adf1`](https://github.com/adobe/spectrum-design-data/commit/254adf11b565f4768a69340a5ccadc1e72303dbe) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the rule that an engine must refuse a relationship record whose `scope.options` holds a value
+  shape it does not understand, instead of ignoring the key. The understood shapes are an array of
+  strings for `state`, and a string, number or boolean (or an array of those) for every other
+  option. This lets a later version add a shape, such as an any-of across options, without an older
+  engine silently applying the record to every request.
+
+## 4.19.0
+
+### Minor Changes
+
+- [#1822](https://github.com/adobe/spectrum-design-data/pull/1822) [`5574cc4`](https://github.com/adobe/spectrum-design-data/commit/5574cc4b6835105742025f482c3305f5642dc6e3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add rule SPEC-093 (`relationship-context-names-option`, warning). A relationship `context` that
+  names a component option value, such as `Control (selected, non emphasized)`, should pin that
+  option in `scope.options` instead. A record that pins no option is the default, so the default
+  value needs no label in the context. Existing data is held at a baseline until it is migrated.
+
+## 4.18.0
+
+### Minor Changes
+
+- [#1804](https://github.com/adobe/spectrum-design-data/pull/1804) [`039914f`](https://github.com/adobe/spectrum-design-data/commit/039914f80477d12846434c8024daa6defcf2b3e8) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `layoutRevision` to `dataset.json` and publish `dataset.json` with the data package. The
+  renderer has its own layout revision and the CLI warns when it differs from the data's, so a
+  CLI newer than the data (the #1799 case) is reported instead of silently rendering differently.
+
+- [#1796](https://github.com/adobe/spectrum-design-data/pull/1796) [`331dc43`](https://github.com/adobe/spectrum-design-data/commit/331dc43983087cfd807dd364240b234fc4ef0dab) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `repeat` to visual recipes: a recipe can draw its root once per entry of an
+  array option, stacked in a column. The accordion recipe repeats its item over
+  `items`, so a render can show several items with their own titles and open state
+  (`isExpanded`, `hasSwitch`, `hasActionButton`). A request without `items` renders
+  exactly as before.
+
+- [#1805](https://github.com/adobe/spectrum-design-data/pull/1805) [`0276017`](https://github.com/adobe/spectrum-design-data/commit/027601793b6ea70dc113669d3037b0797761930f) Thanks [@GarthDB](https://github.com/GarthDB)! - A row recipe that binds no `minHeight` and no block padding now hugs its content instead of
+  being 32px high (layout revision 2). A row with no flowed children is now 0 high, not 32.
+  Recipes outside this repository that relied on the 32 must bind `minHeight` or block padding.
+  No shipped recipe changes: the render snapshots and the iOS recipes are identical. Fixes #1800.
+
+## 4.17.1
+
+### Patch Changes
+
+- [#1765](https://github.com/adobe/spectrum-design-data/pull/1765) [`599afd2`](https://github.com/adobe/spectrum-design-data/commit/599afd2ef8a2c22d0d7041bcd833732b683c99d6) Thanks [@GarthDB](https://github.com/GarthDB)! - Clarify `artifact-moves.md`: a platform in its own repo keeps replacing the
+  foundation record until its pin bump deletes the copy; a recipe or relationship
+  move is recorded on the component's `lifecycle.moves`; and a foundation-owned
+  component that gains a recipe is a file move plus ordinary data edits.
+
+## 4.17.0
+
+### Minor Changes
+
+- [#1724](https://github.com/adobe/spectrum-design-data/pull/1724) [`4387ec1`](https://github.com/adobe/spectrum-design-data/commit/4387ec187851d5ffd554b437f53beb8ae72b513d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add eleven relationship-context terms: `gripper`, `section-header`, `selection`,
+  `preview` and the item types `tab-item`, `breadcrumb-item`, `navigation-item`,
+  `menu-item`, `list-view-item`, `tree-view-item` and `segmented-control-item`
+  (category `item`). Each links to its nearest term with `relatedTerms`.
+  `breadcrumb item` and `navigation item` move from `pagination` and `navigation`
+  to their own terms. Plural strings such as `Tab items` stay aliases of the
+  container term.
+
+  SPEC-090 now accepts a `context` string whose main word is a registry alias of
+  the same term(s) as `contextRole` (`Text` with `[label]`, `Drop shadow` with
+  `[shadow]`). A case variant or an alias of a different term still warns. No
+  relationship data changes.
+
+- [#1720](https://github.com/adobe/spectrum-design-data/pull/1720) [`d4b0bc3`](https://github.com/adobe/spectrum-design-data/commit/d4b0bc38e51641a48cfac06328a73a9d18934b47) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a relationship-context vocabulary and optional structured context fields.
+  - New registry `registry/relationship-contexts.json`: 23 main words with aliases
+    for today's head words.
+  - `relationship.schema.json` gains optional `contextRole` (registry term ids),
+    `contextPart` and `contextQualifier`. The `context` string stays the identity
+    key that recipes bind on.
+  - `relationship-format.md` states that a recipe binds on `context`, the string
+    grammar, and when a live record may omit it.
+  - New warning rules: SPEC-090 (fields agree with the string), SPEC-091 (main
+    word is registered) and SPEC-092 (live record with no context that no
+    contexted record reaches). SPEC-091 and SPEC-092 are held at a baseline in
+    `recipe-lint-baseline.json`.
+
+## 4.16.0
+
+### Minor Changes
+
+- [#1708](https://github.com/adobe/spectrum-design-data/pull/1708) [`2e6bc57`](https://github.com/adobe/spectrum-design-data/commit/2e6bc5767d35ad32418b800f98b2162733eda879) Thanks [@GarthDB](https://github.com/GarthDB)! - State model: combined interaction states now resolve per property, with
+  `keyboard-focus` as a non-layered state between `hover` (50) and `down` (70), so
+  pressed beats focus beats hover. `prop` states pick the token set and a token
+  that matches more active states wins before precedence is compared.
+  `layered` is deprecated: schemas still accept it and resolvers ignore it. The
+  state registry now carries default precedence (hover 50, focus and
+  keyboard-focus 60, down and active 70), so components declare precedence only
+  to deviate. The renderer does not read precedence yet (follow-up work).
+
+  Button no longer declares explicit precedence or `layered`; it uses the registry defaults.
+
+### Patch Changes
+
+- [#1704](https://github.com/adobe/spectrum-design-data/pull/1704) [`f7cf8f0`](https://github.com/adobe/spectrum-design-data/commit/f7cf8f02df71ee69d116cbd1b929305ea5eb03c7) Thanks [@GarthDB](https://github.com/GarthDB)! - Button: the `variant` default is now `primary`, matching Figma, React Spectrum S2
+  and SWC Gen2 (it was `accent`). The visual recipe binds
+  "Minimum height" as `minHeight`, the label sets `overflow: wrap`, and the root
+  `minWidth` reads the `minimum-width-multiplier` token (2.25 times the height) when
+  a label shows. The `focus` state is renamed `keyboard-focus`, as in the other recipes and in the
+  relationship scopes, and the focus fill now takes the hover look (the key-focus
+  tokens for accent, negative and primary, gray-200 for secondary), as React
+  Spectrum S2 and SWC Gen2 do.
+  The renderer reads `relativeTo: "height"` on a root `minWidth`.
+
+## 4.15.0
+
+### Minor Changes
+
+- [#1703](https://github.com/adobe/spectrum-design-data/pull/1703) [`5f38c0a`](https://github.com/adobe/spectrum-design-data/commit/5f38c0a00507a59c5c575dfd8efedf9ca9d92251) Thanks [@GarthDB](https://github.com/GarthDB)! - Component visuals: a part of kind `component` draws another component's recipe
+  inside the host (nested recipes).
+
+  The part names the `component`, a `sizeMap` from each host size to a nested size,
+  and `with` options that are literals or `{"option": name}` read from the host's
+  request. The nested recipe is solved on its own and its nodes join the scene: the
+  root node keeps the host part id and the others are `<part>.<inner>`, so anatomy
+  views and spec-sheet markers still see one part. Host states do not reach it.
+  A row box can group `component` parts and drops out when none is visible. Nesting
+  is limited to two levels and may not cycle. New rule SPEC-089
+  (`visual-nested-component-valid`); `component-visual.schema.json` accepts the new
+  kind and its `component`, `sizeMap` and `with` fields. Compiled recipes gain
+  `nested` and `nestedSize` on `component` parts only.
+
+- [#1700](https://github.com/adobe/spectrum-design-data/pull/1700) [`2a6ccd3`](https://github.com/adobe/spectrum-design-data/commit/2a6ccd3796290fa0e4de081072d8d28556524ce7) Thanks [@GarthDB](https://github.com/GarthDB)! - Component visuals: a root can bind `width` and `minWidth`, and a part can
+  `grow` to fill the rest of a row.
+
+  The root's outer width is `max(minWidth, width)`, padding inside it; a root
+  with neither still hugs its content. `grow` (`true` or a positive share) on a
+  `box` or `text` in a row splits the space left after the other parts, gaps and
+  padding. A render request gains an optional `width` (px), the demo width, which
+  overrides the recipe's `width` but not its `minWidth`. A fixed width narrower
+  than the content overflows without clipping and adds a scene diagnostic.
+  `component-visual.schema.json` accepts `grow`. A flowed row box with no `width`
+  now fills a column root. SPEC-083's fixture uses `rotation` on a box, since
+  `minWidth` is now read.
+
+- [#1701](https://github.com/adobe/spectrum-design-data/pull/1701) [`6ee52bc`](https://github.com/adobe/spectrum-design-data/commit/6ee52bc9f0e03eca4bbb063a175171b6f4e886a1) Thanks [@GarthDB](https://github.com/GarthDB)! - Component visuals: a `text` part can wrap or truncate its label, and a root can
+  bind `minHeight`.
+
+  A text part that is a direct child of the root binds `overflow` (`wrap` or
+  `truncate`, after React Spectrum's `overflowMode`). With a fixed width (a request
+  `width` or a root `width`) it breaks greedily after spaces and hyphens against
+  the width the root leaves it, measured with the text table; without one, or
+  without `overflow`, it hugs on one line as before. A word wider than the width
+  is never split: it overflows and adds a scene diagnostic. A wrapped label is one
+  scene text node per line. `minHeight` makes the root a minimum: a row root with
+  no block padding pads by `(minHeight - one line) / 2` and grows by a line height
+  per extra line. `component-visual.schema.json` accepts `minHeight` and
+  `overflow`.
+
+- [#1692](https://github.com/adobe/spectrum-design-data/pull/1692) [`cc4a279`](https://github.com/adobe/spectrum-design-data/commit/cc4a279782ea922938fdf8f6f43706a341f60447) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an optional `render.svg` string to the component spec-sheet schema.
+
+  `design-data spec-sheet --svg` writes each block's visual as SVG (the same
+  renderer as `design-data render`) next to its scene, so a view can draw the
+  visual without a renderer of its own. Sheets written without `--svg` are
+  unchanged.
+
+### Patch Changes
+
+- [#1698](https://github.com/adobe/spectrum-design-data/pull/1698) [`9590728`](https://github.com/adobe/spectrum-design-data/commit/95907289353fb320b85b66d7602ea8b19d591e2d) Thanks [@GarthDB](https://github.com/GarthDB)! - Component visuals: layout and text measurement now exist once, in Rust.
+  The spec no longer describes a JavaScript runtime that mirrors the
+  reference renderer. Browsers load the same solver as WASM and only draw
+  the scene.
+
+## 4.14.1
+
+### Patch Changes
+
+- [#1690](https://github.com/adobe/spectrum-design-data/pull/1690) [`c33212a`](https://github.com/adobe/spectrum-design-data/commit/c33212a8996e883625598123e95fec48ed7cd319) Thanks [@GarthDB](https://github.com/GarthDB)! - Compiled recipes describe `iconChoices` for content icons.
+
+  A compiled recipe no longer depends on the request `icon`. Each content icon part lists the
+  drawing key of every catalog icon in `iconChoices`, so a renderer with one precompiled variant
+  and no catalog can apply the request icon. Existing `drawing`, `drawingMiss` and `drawings`
+  fields are unchanged.
+
+## 4.14.0
+
+### Minor Changes
+
+- [#1678](https://github.com/adobe/spectrum-design-data/pull/1678) [`c223628`](https://github.com/adobe/spectrum-design-data/commit/c2236288e5cfa47bfe9f4099abb24d03f7c10acf) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-088 (relationship-duplicate-record), a warning for exact duplicate relationship records.
+
+  Two records in the same file with equal scope, context and `$ref` or value are reported, so
+  `Dataset.validate()` in the WASM package can now return it. Spec sheets also resolve a `$ref`
+  that names a mode-set group (`setUuid`), showing one value per member scale instead of
+  skipping the record.
+
+## 4.13.0
+
+### Minor Changes
+
+- [#1667](https://github.com/adobe/spectrum-design-data/pull/1667) [`160dcb0`](https://github.com/adobe/spectrum-design-data/commit/160dcb099128afc1574ec9c7fdab5df28526eb53) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe icon parts reference icons from the `icons/` catalog instead of the `glyph` enum.
+  - **spec**: `"icon": {"set": "ui" | "workflow", "name": "<id>"}` is required on every `icon` part,
+    and `glyph` is removed from the draft recipe schema with no alias. `content` and `optional` mark
+    an icon a render request may replace or remove. `component-visuals.md` adds an Icons section that
+    defines how a drawing is chosen from the size token (`scaleIndex`, else `size` key, else
+    `sizeScale`, nearest scale on a miss). New rules: SPEC-085 (error, the icon exists) and SPEC-086
+    (warning, a UI icon has a drawing at its scale). `icons/` joins the dataset discovery list.
+  - **design-data**: accordion and checkbox reference `ui` chevron, checkmark and dash. Button,
+    badge and action-button icons default to `workflow:add`, and the action-button hold icon is
+    `ui:corner-triangle`.
+  - **wasm**: scene icon nodes carry `icon` (`set`, `name`) instead of `glyph`. Drawings are
+    unchanged.
+
+- [#1668](https://github.com/adobe/spectrum-design-data/pull/1668) [`4887473`](https://github.com/adobe/spectrum-design-data/commit/4887473689907243213225da695cc7944f9f0dfc) Thanks [@GarthDB](https://github.com/GarthDB)! - Renderers draw the real Spectrum 2 icon paths from the `icons/` catalog.
+  - **wasm**: `renderScene`/`renderSvg` draw each icon part's catalog drawing, fitted to the part
+    box, rotated about its center and filled with the part colour. Scene icon nodes carry
+    `icon.drawing` (`viewBox`, `paths`). An icon with no drawing draws a placeholder plus and adds
+    a diagnostic. Buttons, badges and action buttons now show `workflow:add`, the hold icon the
+    corner triangle, and the accordion chevron and checkbox marks the S2 UI paths.
+  - **spec**: the drawing is chosen once per size and mode, a non-square part box leaves the icon
+    at its smaller side, and a missing drawing must draw a placeholder with a diagnostic.
+  - **design-data**: the checkbox dash part box is the icon size (8/10/10/12, like the
+    checkmark) instead of the bar size, so the S2 dash drawing fits it.
+
+- [#1661](https://github.com/adobe/spectrum-design-data/pull/1661) [`6080645`](https://github.com/adobe/spectrum-design-data/commit/608064534fc01696964d3dae7f09d61bd7dac29e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an `icons/` catalog with Spectrum 2 icon path data from React Spectrum.
+  - `icons/ui.json` holds the 11 S2 UI icons with every size drawing (for example
+    `chevron` at 50, 75, 100, 200, 300 and 400). `icons/workflow.json` holds five demo
+    workflow icons: add, edit, delete, settings and search.
+  - Paths carry no colour. Each set records the source commit, file names, licence
+    (Apache-2.0) and copyright.
+  - The spec adds `icon-set.schema.json` and registers `icons/` as an optional dataset
+    directory, so `validate-dataset` checks it.
+  - The WASM package embeds both sets in its dataset (about 38 KB raw, 12 KB gzip).
+    Recipes do not use them yet.
+
+- [#1673](https://github.com/adobe/spectrum-design-data/pull/1673) [`dd30d97`](https://github.com/adobe/spectrum-design-data/commit/dd30d97159cb02c9efe6cdd916c2faf5795fb9c1) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can declare a relationship context as derived instead of bound.
+
+  The recipe schema gains a `derived` array (`context`, `property`, `part`, optional `edge`, and
+  `from`). The only formula is `(height - <part>.lineHeight) / 2` (or `.height`). New rule SPEC-087
+  warns when the token of a derived context disagrees with its formula for any size and scale, so
+  `Dataset.validate()` in the WASM package now reports those warnings. The spec sheet schema gains
+  `derived` on markers and measurements.
+
+## 4.12.1
+
+### Patch Changes
+
+- [#1650](https://github.com/adobe/spectrum-design-data/pull/1650) [`25df278`](https://github.com/adobe/spectrum-design-data/commit/25df2787641f42fbc3f845c09d36645e7846b1ac) Thanks [@GarthDB](https://github.com/GarthDB)! - Renderer SVG text uses a valid CSS `font-family` list.
+  - The default stack quotes `'Source Sans 3'`. The unquoted name made browsers drop the
+    whole list and render serif.
+  - A family bound by a recipe token (such as `Adobe Clean Spectrum VF`) is quoted unless it
+    is a generic keyword. The Rust renderer and the JS runtime produce the same list.
+  - Spec R2 shows the quoted stack and requires quoting for names that are not CSS
+    identifiers.
+
+## 4.12.0
+
+### Minor Changes
+
+- [#1647](https://github.com/adobe/spectrum-design-data/pull/1647) [`37dbdb6`](https://github.com/adobe/spectrum-design-data/commit/37dbdb6d3676295c36e1d979fb66392119a7671f) Thanks [@GarthDB](https://github.com/GarthDB)! - Spec sheet markers say whether the visual draws them.
+  - Each `render.markers[]` entry has a required `drawn` boolean. An undrawn marker keeps
+    its number on the rows.
+  - A measurement's `label` is the bound token's name, the name the token rows show.
+  - A marker's `label` is its group's relationship property without the size part, so groups
+    with identical rows are told apart.
+
+## 4.11.1
+
+### Patch Changes
+
+- [#1644](https://github.com/adobe/spectrum-design-data/pull/1644) [`13f4851`](https://github.com/adobe/spectrum-design-data/commit/13f4851adab6c4e01ef3299cafb8c156bcfdfa19) Thanks [@GarthDB](https://github.com/GarthDB)! - Stop the component changelog from reading re-scoped records as removals.
+  - Relationship records that match on component, property, context and target pair
+    as an update when `scope.options` differ.
+  - A context rename on the same target is a documentation update. Trailing
+    whitespace in a context is not a change.
+  - Removing a relationship whose exact twin survives is metadata, not major.
+  - Changelogs are regenerated: button and accordion leave 2.0.0 (1.2.0), combo-box
+    and text-area leave 2.0.0 (1.1.2).
+
+## 4.11.0
+
+### Minor Changes
+
+- [#1630](https://github.com/adobe/spectrum-design-data/pull/1630) [`9e9a6fa`](https://github.com/adobe/spectrum-design-data/commit/9e9a6fa618b8e65a3d6ba19d83e9e6f00ec6ec46) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(sdk): changelog attributes tokens a component reaches through tokenBindings (hzje.31)
+  - **design-data changelog**: a token change reaches a component that names the token in
+    `tokenBindings` (resolved by token name to every token uuid with that name), not only through
+    relationships. Such entries carry `reachedBy: "tokenBinding"`; a token reached both ways is
+    attributed once, unmarked.
+  - **component-changelog.schema.json**: entries gain an optional `reachedBy`.
+
+- [#1628](https://github.com/adobe/spectrum-design-data/pull/1628) [`b0fcd0a`](https://github.com/adobe/spectrum-design-data/commit/b0fcd0a4bfb3c1c7dd28290436413db866131379) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(sdk): scene measurements for nested parts, border, focus ring and press ratio (qkj5.93)
+  - **core::visual**: the scene adds `width`, `height`, `radius` and `padding` measurements for
+    nested parts, `border` for stroke widths, `focus-thickness` and `focus-gap` for the ring, and
+    `press` for the press ratio. Each carries its token and relationship. Existing measurements
+    and the SVG output are unchanged.
+  - **design-data spec-sheet**: Layout blocks render in the states and options their bindings need
+    (a focus ring in `keyboard-focus`, a pressed scale in `down`), so the scene shows the part
+    the block documents. Measurements show on the Layout page only.
+  - **component-spec-sheet.schema.json**: the `measurements` description lists the new kinds.
+
+- [#1627](https://github.com/adobe/spectrum-design-data/pull/1627) [`1b331ec`](https://github.com/adobe/spectrum-design-data/commit/1b331ecf575ea170fbec2b402d5835c2822de939) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(sdk): spec sheets show relationship records that have no context (qkj5.106, qkj5.107)
+  - **design-data spec-sheet**: records without a `context` form one block per relationship
+    property, titled from the property and marked `titleSource: "property"`. Inline-value
+    records are rows with `source: "inline"`, the value and no token. Every component with
+    relationships now has at least one block.
+  - **design-data spec-sheet**: scales of one token merge into a row; color schemes (`light`,
+    `dark`, `wireframe`) get their own value key, so they no longer overwrite each other.
+  - **component-spec-sheet.schema.json**: blocks gain required `titleSource` and `records`;
+    items gain required `source`. Regenerate any sheet made before this change.
+
+### Patch Changes
+
+- [#1629](https://github.com/adobe/spectrum-design-data/pull/1629) [`435d06b`](https://github.com/adobe/spectrum-design-data/commit/435d06b705453297fbf0cb7337e3b1781c36f9a2) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(sdk): spec sheet token names come from the token's structured name (qkj5.105, qkj5.85)
+  - **design-data spec-sheet**: the token column shows the name the SDK serializes from the
+    token's structured name (or its pinned `legacyKey`), not the relationship property. A focus
+    ring thickness reads `focus-indicator-thickness`, a switch track width
+    `switch-control-width-small`. Rows that use one token for two relationship properties stay
+    separate rows.
+
+## 4.10.0
+
+### Minor Changes
+
+- [#1621](https://github.com/adobe/spectrum-design-data/pull/1621) [`1ce36f6`](https://github.com/adobe/spectrum-design-data/commit/1ce36f66d777cd699034a2b87842a97e17315565) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(sdk): spec sheets for every component with relationships (`design-data spec-sheet --all`)
+
+  `design-data spec-sheet --all -o <dir> [--changelog-dir <dir>]` writes one sheet per component
+  with relationships plus `index.json` (visual flag, page and block counts, version and latest
+  release). A component with a visual recipe gets a full sheet; any other gets a table-only
+  sheet: `visual: false`, blocks with token rows and `render: null`, so views can say "No visual
+  recipe yet". The same stub is the starting point for a new component.
+  `component-spec-sheet.schema.json` gains a required `visual` and a nullable block `render`;
+  regenerate any sheet made before this change.
+
+  Line-height and font-family relationships now sit on the Typography page, not Layout.
+
+## 4.9.0
+
+### Minor Changes
+
+- [#1604](https://github.com/adobe/spectrum-design-data/pull/1604) [`21c4d24`](https://github.com/adobe/spectrum-design-data/commit/21c4d240453333a8830c68a2e0afc4b18e9403b0) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(design-data): accordion item visual recipe and row boxes in the renderer
+
+  Adds the accordion item recipe (sizes s to xl, density, quiet, open, hover, disabled).
+  It needs three renderer features, in both the Rust solver and the JS runtime:
+  - A flowed box that binds `direction: "row"` lays out icon, text and box children in a row.
+  - A column root stretches a box with no width across its width.
+  - An icon can bind `rotation`, and the `chevron` glyph is new.
+
+  A relationship that pins `size`, or binds a single token, no longer loses that token to the
+  token's own size name. A templated numeric selector field (`{sizeIndex}`) now matches a number.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Define what an anatomy part is; review button, action-button and badge
+  (`flowed-box-paints`: checkbox, switch).
+
+  **Spec:**
+  - `anatomy-format.md` says what counts as a part, how to name and nest parts, when a part
+    is required, and what is not anatomy. It adds a review checklist.
+  - New optional `presentIn` lists the states a part is present in. Not allowed on a required part.
+  - New optional `anatomyReview` on a component records `draft` or `reviewed`.
+  - New info rule SPEC-073 lists components with relationships but no anatomy, or draft anatomy.
+  - New error SPEC-074: a part's `presentIn` states must be declared on the component.
+  - New error SPEC-075: a recipe's `visibleWhen.states` must agree with the part's `presentIn`.
+
+  **Data:**
+  - Button, action-button and badge anatomy are reviewed.
+  - Button `label` is now optional. The focus indicator is state-only on all four.
+
+  **WASM:** the validator includes SPEC-073 to SPEC-075.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the artifact-moves chapter: promoting and demoting one artifact between a platform
+  and the foundation.
+  - **spec/artifact-moves.md**: what can move, who decides, promotion criteria, the six steps,
+    the demotion notice period (same as deprecation), and proposed `lifecycle.moves` provenance.
+  - **Proposed, not implemented**: rule SPEC-077 `artifact-single-owner` for half-finished moves.
+  - **spec/index.md, spec/manifest.md**: link to the new chapter.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe lints and fixes for checkbox, switch and others; pressed scale includes nested parts.
+  - **relationships**: strip the stray "S2 " prefix from contexts; add checkbox `Control`,
+    disabled and error contexts; scope selected switch and radio-button records with
+    `isSelected: true` (the schema allows boolean option values, the renderer maps them).
+  - **visuals**: pressed parts scale nested children; checkbox `pressTarget`; `notVisual` option list.
+  - **validate**: SPEC-066 to SPEC-070 warn on uncovered options and states, token selectors a
+    relationship covers, literals, deprecated tokens and focus ring names; SPEC-071 is info.
+    `recipe_lint_baseline` holds each recipe at its current warning count.
+  - **spec**: authoring conventions in `component-visuals.md`; `notVisual` recipe field.
+  - **sdk/core**: render snapshot test for every recipe; `SceneCache` speeds matrix renders.
+  - **relationships**: `scope.options` pick a default or the most specific override (arrays allowed);
+    badge colors, padding and fonts bind that way, shrinking its recipe by 1,600 lines.
+    `scope.options.state` adds states to the bound token.
+  - **switch**: `isReadOnly` has no distinct visual (hover and press only).
+  - **button, action-button**: colors, press perspective, hold-icon inset bind via relationships.
+  - **focus-indicator**: the `focus-ring` anatomy, gap token and recipe parts are now
+    `focus-indicator` (legacy key `focus-ring-gap` kept).
+
+- [#1616](https://github.com/adobe/spectrum-design-data/pull/1616) [`19318d9`](https://github.com/adobe/spectrum-design-data/commit/19318d96723c39526f9f909fa44734f1e49874d6) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(core): component changelog entries, classes and derived semver (hzje.4-6)
+
+  New `component-changelog.schema.json` and `spec/component-changelog.md` define
+  `changelog/<component>.json`: releases (append only) of entries, each with the component,
+  relationship context, class (`visual`, `api`, `documentation`, `metadata`), bump, direct or
+  indirect, field changes, `rationale` where the record has one, and its source (the PR from the
+  squash subject, otherwise the commit). `core::changelog` builds the entries from a record diff
+  and derives the component semver from them: major for a removed option, option value, state,
+  anatomy part, slot or relationship, a renamed option, or a deprecated component; minor for
+  additions; patch otherwise. A component's first release is `1.0.0`.
+
+  Metadata-class changes (legacy keys, ids, implementations) are summarized per commit as
+  `metadata: {count, fields}` rather than listed, each entry is one line in the committed file, and
+  the pending `unreleased` release is taken over by the next real release.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
+  - **spec/component-visuals.md**: draft RFC and schema; `design-data:validate` checks recipes.
+  - **action-button**: pilot recipe `visuals/action-button.json`; adds `progress`, `isPending`.
+  - **sdk (core, cli)**: `render` makes SVG; `compile_recipe` pre-binds tokens.
+  - **sdk/wasm**: `Dataset.renderScene` and `Dataset.renderSvg` render recipes in the browser.
+  - **button**: `visuals/button.json` recipe (variant, style, state, static color); `down` state.
+  - **spec and renderers**: container `stroke`, `relativeTo: "height"` radius, pressed scale-down.
+  - **badge**: recipe and anatomy.
+  - **Removed**: badge option `isDisabled`, published in 3.7.1; the design has no disabled badge.
+  - **renderers and site**: per-corner radius props, font weight names to numbers, label presence.
+  - **sdk/plugins/site**: `design-data site --out <dir>` writes a static explorer (no WASM).
+  - **sdk/plugins/figma**: `variable_names` maps tokens to Figma variable names offline.
+  - **sdk/core**: scene token refs carry alias `chain`; press tokens are tracked.
+  - **switch**: `visuals/switch.json` recipe, anatomy, `hideLabel`, and 15 color relationships.
+  - **sdk/core, site**: nested box layout, `around` ring, `pressTarget`, component-scoped sizes.
+  - **spec rules**: SPEC-060..063 check recipes against components (`validate --visuals-path`).
+  - **checkbox**: `visuals/checkbox.json` recipe, anatomy, `box`/`dash` terms; `glyph` draws marks.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Validate option constraints in the Rust SDK.
+  - **SPEC-064** (error, Layer 2): every option name and value in a constraint's `when` / `require`
+    must be declared in the component's `options`. Silent when an option has no `values` list.
+  - **SPEC-065** (warning, Layer 2): a visual recipe rule or relationship `scope.options` that
+    matches only combinations excluded by an `error` constraint.
+  - **sdk/core**: new `constraints` module reads `component.constraints` into a typed model.
+  - Conformance fixtures for both rules under `conformance/{valid,invalid}`.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `constraints` to the component format: if-then rules that limit valid option combinations.
+  - **spec/option-constraints.md**: `when` / `require` / `severity` (`error` or `advisory`).
+  - **component.schema.json**: optional `constraints` array. Layer 1 checks shape only; Layer 2
+    checks names and values.
+  - **button, action-button, checkbox**: first constraints, taken from react-spectrum S2.
+
+- [#1592](https://github.com/adobe/spectrum-design-data/pull/1592) [`0e42d28`](https://github.com/adobe/spectrum-design-data/commit/0e42d28bc2e6411bb950e3c4209d0c462e7ac43e) Thanks [@GarthDB](https://github.com/GarthDB)! - `validate --platform` now reports a platform manifest that cannot apply (SPEC-082).
+
+  **Spec:** new rule SPEC-082 `platform-manifest-applies` (error). A platform manifest MUST apply
+  to the foundation dataset; a validator that cannot apply it MUST report an error, not skip the
+  platform rules silently. It stays silent when an `include`/`exclude` entry does not parse
+  (SPEC-039 reports that).
+
+  **CLI:** SPEC-076, SPEC-079 and the platform recipe checks returned nothing when the manifest
+  failed to apply, so `validate --platform <id>` exited 0. It now reports SPEC-082 and **exits 1
+  when the manifest cannot apply**. `validate --platform ios` without `--mode-sets-path` (the iOS
+  manifest extends `contrast`) now fails instead of passing. Manifests that apply are unchanged.
+
+  **WASM:** the rule is in the core set; WASM validate passes no manifest, so nothing changes.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Check that visual recipes still resolve under a platform manifest.
+
+  **Spec:**
+  - New warning SPEC-076: every token or relationship binding a recipe resolves on the foundation
+    must also resolve once the platform manifest's cascade is applied.
+  - New conformance fixture `invalid/SPEC-076`.
+
+  **CLI:**
+  - `design-data validate --platform <id> --visuals-path <dir>` runs SPEC-076 and names each binding
+    the platform drops. It reuses the render scene diagnostics.
+
+  **Platforms:**
+  - The iOS manifest no longer carries an `include` whitelist. It shipped only a few properties,
+    which dropped the height, padding, font-size and icon-size tokens recipes bind.
+
+- [#1585](https://github.com/adobe/spectrum-design-data/pull/1585) [`8934646`](https://github.com/adobe/spectrum-design-data/commit/89346465f929583bd76494270e4454df5af22381) Thanks [@GarthDB](https://github.com/GarthDB)! - Validate platform-owned visual recipes. SPEC-079 and SPEC-080 are now enforced.
+
+  **Spec:**
+  - SPEC-079 (warning): a recipe in a platform's `extensions/visuals/` must render over the
+    request grid without a scene diagnostic. It is planned to become an error in a later minor
+    release.
+  - SPEC-080 (info): a platform recipe that replaces a foundation recipe reports the pair.
+  - Conformance fixtures `invalid/SPEC-079`, `invalid/SPEC-080` and `valid/SPEC-079`.
+
+  **CLI:**
+  - `design-data validate --platform <id>` runs the recipe rules SPEC-060 to 063, 066 to 071 and 075
+    over platform-owned recipes. SPEC-076 skips a foundation recipe the platform replaces. Output
+    is unchanged when the manifest ships no `extensions/visuals/`.
+
+  **WASM:** the core change is compiled in; `Dataset.validate()` passes no manifest, so its
+  output is unchanged.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Load platform-owned visual recipes and add `componentAliases`.
+
+  **Spec:**
+  - `manifest.schema.json` accepts `componentAliases` (string to string).
+  - New error SPEC-081: an alias key must be a foundation component, its target must be declared in
+    the platform's `extensions/components/`, aliases must not chain or cycle, and a key must not
+    also be replaced there. New conformance fixture `invalid/SPEC-081`.
+
+  **SDK core:**
+  - A platform's `extensions/visuals/<component>.json` loads into `graph.visuals` with
+    `layer: Platform` and replaces the foundation recipe of the same name. A bad fragment or a
+    file name that differs from `component` is an error naming the file.
+  - `TokenGraph::canonical_component` returns the alias target under the active platform.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Spec text for platform-owned visual recipes. SPEC-079 and SPEC-080 are planned, not yet enforced.
+  - `component-visuals.md`: platform recipes in `extensions/visuals/` replace the
+    foundation recipe whole; SPEC-079 and SPEC-080.
+  - `manifest.md`: capability-matrix rows, the `extensions/visuals/` entry and the
+    `componentAliases` field (SPEC-081, enforced; see `platform-recipes-core`).
+  - `artifact-moves.md`: a platform recipe moves with its component and alias.
+  - `rules.yaml`: adds SPEC-079 (warning, an error one minor version later) and
+    SPEC-080 (info), both marked planned, and SPEC-081 (error). SPEC-077 and 078
+    stay reserved by `artifact-moves.md`.
+
+- [#1586](https://github.com/adobe/spectrum-design-data/pull/1586) [`706b12e`](https://github.com/adobe/spectrum-design-data/commit/706b12e542d49218571e4b9f2b478481a926c852) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipe selectors can use `{<option>}` placeholders, such as `{style}`, for any option.
+
+  **Spec:**
+  - `component-visuals.md`: `{<option>}` expands to each value the option declares. A candidate
+    found for one value applies only when the request's option equals it.
+  - A brace pair whose content is not a plain identifier stays literal text. `{size}` and
+    `{sizeIndex}` are unchanged.
+  - SPEC-061 also reports a `{name}` placeholder in a `token` or `relationship` selector that is
+    not `size`, `sizeIndex` or a declared option that lists its values.
+  - SPEC-062, 066, 067, 069 and 071 expand option placeholders before resolving.
+  - The `invalid/SPEC-061` conformance fixture covers the new check.
+
+  **WASM:** `compile_recipe` and `render` expand option placeholders. A recipe that uses none
+  compiles to exactly the same output as before.
+
+  **CLI:** `design-data render`, `site` and `validate` use the same expansion. The native binary
+  is versioned by `@adobe/design-data-tui`.
+
+- [#1596](https://github.com/adobe/spectrum-design-data/pull/1596) [`6d42e98`](https://github.com/adobe/spectrum-design-data/commit/6d42e98631aa1dd640fd244689ebb029f0f44f07) Thanks [@GarthDB](https://github.com/GarthDB)! - New rule SPEC-083 warns when a visual recipe binds a prop the renderer does not read.
+
+  **Spec:**
+  - `rules.yaml` and `component-visuals.md`: SPEC-083 (warning) flags a part prop the renderer
+    ignores for that part, such as `opacity`, `direction` or `fill` on a text part. A conformance
+    fixture covers it.
+
+  **WASM and CLI:** `validate` runs SPEC-083 on foundation and platform recipes. The list of read
+  props is the renderer's own table (`READ_PROPS` in `visual.rs`). The solver checks every prop it
+  reads against that table in debug builds, through the same function the rule uses, so the two
+  cannot drift. Rendering is unchanged. The five foundation recipes bind root `direction`, `align`
+  and `justify`, which the solver never reads. They are in the recipe lint baseline and tracked as
+  their own issues.
+
+  Bump levels: all three are minor because validation gains a rule and no output changes.
+
+- [#1610](https://github.com/adobe/spectrum-design-data/pull/1610) [`2ec8e9e`](https://github.com/adobe/spectrum-design-data/commit/2ec8e9ed217a01bb81eefe8b1950be79e81cf98d) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(spec): relationship `uuid` is required (SPEC-084)
+
+  `relationship.schema.json` now requires `uuid`, and the new rule SPEC-084
+  (`ctr-uuid-required`) also covers platform manifest adds. SPEC-056 still enforces
+  uniqueness. A `uuid` no longer marks a value-owning relationship, so SPEC-058 and
+  SPEC-072 identify those by `legacyKey`. Conformance fixtures now carry uuids.
+
+- [#1589](https://github.com/adobe/spectrum-design-data/pull/1589) [`5770c02`](https://github.com/adobe/spectrum-design-data/commit/5770c0285f7c7d6a005752c7e37b8d89129a4e9a) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can bind `paddingBlockStart` and `paddingBlockEnd`, and the renderer now draws them.
+
+  **Spec:**
+  - `component-visuals.md`: a root `box` with no `height` is 32 high, unless the recipe binds block
+    padding. Then its height is the tallest flowed child plus the block padding, and the children
+    sit between the paddings. An explicit `height` always wins.
+
+  **WASM and CLI:** `render`, `site` and the JS runtime apply block padding the same way. A recipe
+  that binds no block padding renders exactly as before; no foundation recipe binds it today.
+  The native binary is versioned by `@adobe/design-data-tui`.
+
+  Bump levels: all three are minor because the renderer gains a capability (a new normative rule
+  for the spec) and no output changes for existing recipes.
+
+- [#1590](https://github.com/adobe/spectrum-design-data/pull/1590) [`f3d8058`](https://github.com/adobe/spectrum-design-data/commit/f3d8058832f9932aebf6732aaf176da58e0cde77) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix corner rounding when a recipe's radius is larger than half the box.
+
+  **Spec:** `component-visuals.md` gains a normative rule: a uniform `cornerRadius` larger than half
+  the shorter side of its box is clamped to that value, so the corner stays circular.
+
+  The renderer clamps a uniform corner radius to `min(radius, width/2, height/2)`, like CSS
+  `border-radius`. Before, an SVG `rx` larger than half the height drew an ellipse.
+
+  **Rendered output changes for existing recipes.** Foundation Button icon-only and pending
+  variants at the mobile scale (a box narrower than tall) go from elliptical to round corners
+  (for example 38x40 with a 20 radius now draws 19). The focus ring and the outline stroke
+  follow. 72 of the 96 Button option sets in `recipe-snapshots.json` change; the other
+  components are unchanged. Desktop output is unchanged.
+
+  Bump levels: patch for wasm and tui, because this fixes wrong output and adds no API. The spec
+  is minor because a new normative rule applies to every renderer. The native binary is versioned
+  by `@adobe/design-data-tui`.
+
+- [#1595](https://github.com/adobe/spectrum-design-data/pull/1595) [`76edc46`](https://github.com/adobe/spectrum-design-data/commit/76edc466c835b4afa6f0368f959e2b08a39c24bc) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can bind `lineHeight` and `fontFamily` on text parts, and the renderer honors them.
+
+  **Spec:**
+  - `component-visuals.md`: a `text` part is as high as its line box. A `lineHeight` ending in
+    `px` is that height, a unitless one multiplies `fontSize`, and with none it stays 1.3 times
+    `fontSize`. A bound `fontFamily` leads the SVG font stack.
+
+  **WASM and CLI:** `render`, `site` and the JS runtime apply both the same way. A recipe that
+  binds neither renders exactly as before; foundation snapshots and goldens are unchanged. A scene
+  node gains `font_family` only when the recipe binds it. `button-ios` now binds both, so its
+  Medium height is 39.04 against Figma's 39. The native binary is versioned by
+  `@adobe/design-data-tui`.
+
+  Bump levels: all three are minor because the renderer gains a capability and no output changes
+  for existing foundation recipes.
+
+- [#1598](https://github.com/adobe/spectrum-design-data/pull/1598) [`63c60e0`](https://github.com/adobe/spectrum-design-data/commit/63c60e09e16045552cb4b62c6b4d6e6d0b193dfb) Thanks [@GarthDB](https://github.com/GarthDB)! - Visual recipes can bind `opacity` on the root part, and the renderer honors it.
+
+  **Spec:** `component-visuals.md` says renderers read `opacity` only on the root part and
+  dim the whole component as one group, the way iOS dims a disabled control.
+
+  **WASM and CLI:** `render`, `site` and the JS runtime wrap the drawing in one
+  `<g opacity>` when the root binds `opacity`. A scene gains `opacity` only when it is bound,
+  so existing scene JSON and SVG are unchanged. SPEC-083 no longer flags `opacity` on a root
+  part. The native binary is versioned by `@adobe/design-data-tui`.
+
+- [#1600](https://github.com/adobe/spectrum-design-data/pull/1600) [`8dbea28`](https://github.com/adobe/spectrum-design-data/commit/8dbea2863b11a7dbfc1aee58314ad8a5ca040475) Thanks [@GarthDB](https://github.com/GarthDB)! - The visual renderer reads the root part's `direction`, `align` and `justify`.
+  - **direction**: `row` (default) or `column`. A column is as wide as its widest child.
+  - **align**: `start`, `center` (default) or `end`, across the layout direction.
+  - **justify**: `start`, `center` (default) or `end`, along a column with a set height.
+    A row is as wide as its content, so `justify` does nothing there.
+  - Any other value is a render diagnostic and keeps the default.
+  - SPEC-083 no longer warns about these props; existing recipes render unchanged.
+
+- [#1607](https://github.com/adobe/spectrum-design-data/pull/1607) [`130285e`](https://github.com/adobe/spectrum-design-data/commit/130285e72a847e6ce15b73457d1813bed30cb94e) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(spec): draft JSON Schema for the component spec-sheet model
+
+  Adds `component-spec-sheet.schema.json`: pages of blocks, one block per relationship context.
+  A block holds a render request with its scene, token rows with option labels, notes and
+  change markers. `design-data spec-sheet <component>` generates the model from the recipe,
+  relationships and scene output.
+
+- [#1598](https://github.com/adobe/spectrum-design-data/pull/1598) [`63c60e0`](https://github.com/adobe/spectrum-design-data/commit/63c60e09e16045552cb4b62c6b4d6e6d0b193dfb) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-063 lets a component with no `size` option declare a one-entry `sizeScale`, the single
+  size renderers draw (for example the fixed-size iOS switch). Zero or several entries on such a
+  component are an error. `component-visuals.md` and `rules.yaml` say so. The native binary
+  is versioned by `@adobe/design-data-tui`.
+
+### Patch Changes
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - A box placed directly in a row now paints itself, so checkbox and switch no longer need a
+  render-only `control` part.
+  - Renderer and JS runtime read `fill`, `stroke` and `strokeWidth` on a flowed box.
+  - Checkbox and switch drop `control`. The box and the track carry the size and hold the marks
+    and the handle. Rendered geometry, colors and press scale are unchanged.
+  - Relationships that named `control` now name `box` (checkbox) or `track` (switch).
+  - Checkbox and switch anatomy are now reviewed.
+
+- [#1612](https://github.com/adobe/spectrum-design-data/pull/1612) [`17f8c31`](https://github.com/adobe/spectrum-design-data/commit/17f8c318d0eba50640d4892bdd07f18ea3cd6920) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(spec): spec-sheet markers per token group, Bindings changed badge, dataset revision
+
+  In the draft `component-spec-sheet.schema.json`, `render.markers` number 1..n per group of
+  token rows and each token item carries its `marker` (rows no longer do). Blocks can show a
+  "Bindings changed" badge, and the sheet carries `datasetRevision`, the same revision the
+  changelog records.
+
+- [#1611](https://github.com/adobe/spectrum-design-data/pull/1611) [`6b25821`](https://github.com/adobe/spectrum-design-data/commit/6b25821dfde7fc9d0f6401f7cb8ab436cbd34cab) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(core): scene token refs carry the relationship that bound them
+
+  `TokenRef` gains `relationship` (`uuid`, `context`, `property`) when a value came through a
+  relationship binding, so overlays name the relationship property, not the token's legacy key.
+  The spec-sheet `render.measurements` now lists the scene measurements whose relationship
+  context is the block title, each labelled with the relationship property.
+
+- [#1582](https://github.com/adobe/spectrum-design-data/pull/1582) [`9b4ad35`](https://github.com/adobe/spectrum-design-data/commit/9b4ad35c29fb00193e5847625699afb04fa0c560) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe `when.options` conditions now accept an array of values, as the spec already described.
+  - **sdk/core, site runtime**: an array matches when any value matches and counts as one condition.
+  - **SPEC-061**: checks each element of an array condition against the option's declared values.
+  - **spec**: component-visuals states that an array counts as one condition.
+  - **button**: static color rules for primary and secondary share one entry with `variant: [...]`.
+
+## 4.8.1
+
+### Patch Changes
+
+- [#1573](https://github.com/adobe/spectrum-design-data/pull/1573) [`6c59c1f`](https://github.com/adobe/spectrum-design-data/commit/6c59c1ffc26ee80e11b1354c8e97d1479023af30) Thanks [@GarthDB](https://github.com/GarthDB)! - A platform manifest override now keeps every field of the record it replaces.
+
+  **Spec:**
+  - `manifest.md` `overrides` now says what the code already did: the override replaces the
+    foundation record for that platform's graph (same key and uuid).
+  - `query` returns one record per token.
+  - Defines the in-memory markers `overriddenBy` and `overriddenFrom`. Legacy output omits them.
+
+  **Core and WASM:**
+  - An override no longer drops `$schema`, `$valueType`, `lifecycle`, `description` or
+    `conceptId`. It changes only `value` or `$ref`.
+  - A replaced record carries `overriddenBy` (`{platform}` or `{manifest}`) and
+    `overriddenFrom` (the foundation value, kept even after several overrides).
+  - Output with no platform is unchanged. With the iOS manifest, the three teal overrides
+    now keep their `$schema`, `uuid` and `private` fields.
+
+- [#1572](https://github.com/adobe/spectrum-design-data/pull/1572) [`a60aeea`](https://github.com/adobe/spectrum-design-data/commit/a60aeea243b2ac4e812d46bbd9f7140c9f62f398) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-072, a warning for a relationship that duplicates another record's `$ref`.
+
+  Two relationship records with the same scope, context and `$ref` leave the token's other scale
+  unreachable when the token has a scale counterpart. Validation now reports the second record and
+  names the counterpart. A repeated record on a token with no scale counterpart is not reported.
+  The current data has no such duplicates after the repoint in this PR.
+
 ## 4.8.0
 
 ### Minor Changes

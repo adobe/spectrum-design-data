@@ -136,10 +136,92 @@
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
     { "name": "focus-+-hover", "trigger": "prop" },
     { "name": "focus-+-not-hover", "trigger": "prop" },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
+      "name": "field-label",
+      "presentWhen": { "options": { "label": true } },
+      "component": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "field",
+      "description": "Box that frames the value and the disclosure icon. Filled, with a border only when invalid.",
+      "required": true,
+      "contains": [
+        "leading-icon",
+        "prefix",
+        "value",
+        "placeholder",
+        "error-icon",
+        "in-field-progress-circle",
+        "disclosure-icon",
+        "focus-indicator"
+      ]
+    },
+    {
+      "name": "leading-icon",
+      "description": "Icon at the start of the field."
+    },
+    {
+      "name": "prefix",
+      "description": "Short fixed text shown before the value or placeholder."
+    },
+    {
+      "name": "value",
+      "description": "Currently selected item.",
+      "presentWhen": { "options": { "value": true } }
+    },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown when nothing is selected.",
+      "presentWhen": { "options": { "value": false, "placeholder": true } }
+    },
+    {
+      "name": "error-icon",
+      "description": "Alert icon shown when the field is invalid."
+    },
+    {
+      "name": "in-field-progress-circle",
+      "component": "in-field-progress-circle",
+      "description": "Progress circle shown before the chevron while options load."
+    },
+    {
+      "name": "disclosure-icon",
+      "description": "Chevron at the end of the field that shows the picker opens a menu.",
+      "required": true
+    },
+    {
+      "name": "help-text",
+      "presentWhen": { "options": { "description": true } },
+      "component": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "menu-container",
+      "description": "Floating popover that opens from the field and holds the list of options, offset from the field by the popover gap."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentWhen": { "states": ["keyboard-focus"] }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). RSP Picker.tsx:287,736-739 (loading progress circle before the chevron; chevron is a plain disclosure icon); asterisk inside field-label (Field.tsx:118-166); border is styling on container (Field.tsx:201-241). Owner decision A117 (2026-11-19): the menu-container part is the floating popover holding the options; it sits outside the root container (RSP Popover with offset 6/6/7/8 from the field, ComboBox.tsx:582-590,752, Picker.tsx:337-345,447) and has no open state to key presentIn on. The menu contents stay their own component."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "combobox",

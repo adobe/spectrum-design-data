@@ -24,12 +24,12 @@
     "precedence": {
       "type": "integer",
       "minimum": 0,
-      "description": "Resolution precedence. Higher value wins when multiple non-layered states are active simultaneously. Defaults to 0 when omitted."
+      "description": "Resolution precedence among active interaction states; higher value wins. Defaults to the canonical value for the state name (registry/states.json), else 0."
     },
     "layered": {
       "type": "boolean",
       "default": false,
-      "description": "When true, this state composes on top of the winning non-layered state rather than competing with it. Use for focus rings, selection overlays, and similar compositing states."
+      "description": "Deprecated and ignored by resolvers: resolution is per property, so no state needs to be layered. Accepted so existing data validates."
     },
     "lifecycle": {
       "$ref": "component.schema.json#/$defs/lifecycle",

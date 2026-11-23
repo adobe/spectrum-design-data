@@ -11,7 +11,13 @@
  */
 
 import test from "ava";
-import { writeFileSync, mkdirSync, mkdtempSync, rmSync } from "fs";
+import {
+  writeFileSync,
+  readFileSync,
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+} from "fs";
 import { execFileSync } from "child_process";
 import { join } from "path";
 import { tmpdir } from "os";
@@ -29,13 +35,44 @@ import {
 // behavior, not just the pure functions it feeds.
 function initScratchRepo(dir) {
   mkdirSync(join(dir, ".changeset"), { recursive: true });
+  // Inherited GIT_DIR/GIT_WORK_TREE/GIT_INDEX_FILE (hooks, rebase --exec) would
+  // redirect these writes into the outer repo.
+  const env = Object.fromEntries(
+    Object.entries(process.env).filter(([k]) => !k.startsWith("GIT_")),
+  );
   const git = (...args) =>
-    execFileSync("git", args, { cwd: dir, encoding: "utf8" });
+    execFileSync("git", args, { cwd: dir, encoding: "utf8", env });
   git("init", "-q");
   git("config", "user.email", "test@test.com");
   git("config", "user.name", "test");
   return git;
 }
+
+test("initScratchRepo - ignores inherited GIT_DIR", (t) => {
+  const root = mkdtempSync(join(tmpdir(), "scratch-env-"));
+  const decoy = join(root, "decoy");
+  const scratch = join(root, "scratch");
+  mkdirSync(decoy);
+  mkdirSync(scratch);
+  const run = (cwd, ...args) =>
+    execFileSync("git", args, { cwd, encoding: "utf8" });
+  const saved = process.env.GIT_DIR;
+  try {
+    run(decoy, "init", "-q");
+    const before = readFileSync(join(decoy, ".git", "config"), "utf8");
+    process.env.GIT_DIR = join(decoy, ".git");
+    initScratchRepo(scratch);
+    t.is(readFileSync(join(decoy, ".git", "config"), "utf8"), before);
+    t.regex(
+      readFileSync(join(scratch, ".git", "config"), "utf8"),
+      /name = test/,
+    );
+  } finally {
+    if (saved === undefined) delete process.env.GIT_DIR;
+    else process.env.GIT_DIR = saved;
+    rmSync(root, { recursive: true, force: true });
+  }
+});
 
 // Test directory setup
 const testDir = "./test-changesets";

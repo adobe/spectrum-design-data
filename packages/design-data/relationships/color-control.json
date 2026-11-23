@@ -3,7 +3,7 @@
     "scope": {
       "component": "color-control",
       "part": "track",
-      "property": "width",
+      "property": "thickness",
       "options": {
         "scale": "desktop"
       }
@@ -13,13 +13,14 @@
     "uuid": "424db2a9-5795-400b-a98a-58081d311bff",
     "legacyKey": "color-control-track-width",
     "setUuid": "03a7d531-c294-4a41-bd51-38c77a20317e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."
   },
   {
     "scope": {
       "component": "color-control",
       "part": "track",
-      "property": "width",
+      "property": "thickness",
       "options": {
         "scale": "mobile"
       }
@@ -29,6 +30,7 @@
     "uuid": "07e3ac46-3f96-4c00-aa6a-09840ee04bdd",
     "legacyKey": "color-control-track-width",
     "setUuid": "03a7d531-c294-4a41-bd51-38c77a20317e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."
   }
 ]

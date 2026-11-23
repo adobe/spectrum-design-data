@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "rule_id": "SPEC-082",
+      "file": "manifest.json",
+      "message": "Platform 'ios' failed to apply"
+    }
+  ],
+  "warnings": []
+}

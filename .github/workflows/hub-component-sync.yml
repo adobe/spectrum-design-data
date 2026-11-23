@@ -53,8 +53,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.base.outputs.base }}
-          # Shallow clone is sufficient: the only history-sensitive check downstream is
-          # `git status --porcelain`, and peter-evans/create-pull-request creates its own
+          # Shallow clone is sufficient: the only history-sensitive check downstream compares
+          # working-tree components with HEAD, and peter-evans/create-pull-request creates its own
           # branch from the working tree rather than needing prior history.
           fetch-depth: 1
           # GH_TOKEN (a PAT/app token, same secret release.yml and hub-guideline-sync.yml use
@@ -140,30 +140,19 @@ jobs:
         env:
           DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          paths=(docs/s2-docs/web packages/design-data/components)
-          status="$(git status --porcelain -- "${paths[@]}")"
+          # A component counts as changed only when its parsed JSON differs from HEAD (sorted keys,
+          # whitespace normalized); formatting-only rewrites are reverted. Staged Markdown counts
+          # only through the component JSON it changes. Writes has_changes to GITHUB_OUTPUT.
+          node .github/scripts/component-content-changes.mjs --out changed-components.json
           if [ "$DRY_RUN" = "true" ]; then
-            # Report the diff, then report no changes so the count bump, changeset, and PR steps stay skipped.
             {
               echo "### Dry run: component content changes"
-              if [ -n "$status" ]; then
-                echo '```'
-                echo "$status"
-                git add -N -- "${paths[@]}"
-                git diff --stat -- "${paths[@]}"
-                echo '```'
-              else
-                echo "No content changes."
-              fi
+              echo '```'
+              cat changed-components.json
+              echo '```'
             } >> "$GITHUB_STEP_SUMMARY"
-            echo "$status"
+            # Report no changes so the count bump, changeset, and PR steps stay skipped.
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
-          elif [ -n "$status" ]; then
-            echo "has_changes=true" >> "$GITHUB_OUTPUT"
-            echo "$status"
-          else
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
-            echo "No content changes detected under docs/s2-docs/web or packages/design-data/components."
           fi
 
       - name: Skip when content is unchanged
@@ -227,7 +216,6 @@ jobs:
       - name: Write component sync changeset
         if: steps.content.outputs.has_changes == 'true'
         env:
-          PREV_COUNT: ${{ steps.count.outputs.component_count_previous }}
           NEW_COUNT: ${{ steps.count.outputs.component_count_new }}
           COUNT_CHANGED: ${{ steps.count.outputs.component_count_changed }}
         run: |
@@ -244,7 +232,7 @@ jobs:
             echo ''
             echo 'Sync component content from Spectrum Hub (automated).'
             echo ''
-            echo "- **packages/design-data/components**: ${NEW_COUNT} component schemas refreshed (was ${PREV_COUNT})."
+            echo "- **packages/design-data/components**: content changed in $(node -p "require('./changed-components.json').changed.join(', ')")."
             if [ -n "$guard_line" ]; then
               echo "$guard_line"
             fi

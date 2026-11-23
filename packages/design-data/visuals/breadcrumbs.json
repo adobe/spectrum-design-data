@@ -1,0 +1,181 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "breadcrumbs",
+  "root": "container",
+  "sizeScale": {
+    "m": 100,
+    "l": 200
+  },
+  "notVisual": [
+    "sizeOverride",
+    "isTruncated",
+    "hover",
+    "down",
+    "keyboard-focus",
+    "drag-and-drop"
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["breadcrumb-item"],
+      "repeat": {
+        "slot": "default",
+        "label": "label",
+        "with": {
+          "isCurrent": "isCurrent",
+          "isDisabled": "isDisabled"
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "breadcrumb-item": {
+      "kind": "box",
+      "children": ["breadcrumb-title", "separator"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "breadcrumb-item",
+            "between": {
+              "from": "text",
+              "to": "separator"
+            }
+          },
+          "when": {
+            "options": {
+              "isMultiline": false
+            }
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "breadcrumb-item",
+            "between": {
+              "from": "start-edge",
+              "to": "text"
+            }
+          },
+          "when": {
+            "options": {
+              "isMultiline": false
+            }
+          }
+        }
+      }
+    },
+    "breadcrumb-title": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "breadcrumb-item"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "breadcrumb-item"
+          }
+        },
+        "fontWeight": [
+          {
+            "relationship": {
+              "property": "font-weight",
+              "part": "breadcrumb-item"
+            }
+          },
+          {
+            "relationship": {
+              "property": "font-weight",
+              "part": "breadcrumb-title"
+            },
+            "when": {
+              "options": {
+                "isCurrent": true
+              }
+            },
+            "priority": 10
+          }
+        ],
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "breadcrumb-item"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "breadcrumb-item"
+            }
+          },
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "breadcrumb-title"
+            },
+            "when": {
+              "options": {
+                "isCurrent": true
+              }
+            },
+            "priority": 10
+          },
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "breadcrumb-item"
+            },
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 20
+          }
+        ]
+      }
+    },
+    "separator": {
+      "kind": "icon",
+      "icon": {
+        "set": "ui",
+        "name": "chevron"
+      },
+      "visibleWhen": {
+        "position": ["first", "middle"]
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "breadcrumb-item"
+          }
+        }
+      }
+    }
+  }
+}

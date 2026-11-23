@@ -109,6 +109,67 @@
     { "name": "focus-+-not-hover", "trigger": "prop" },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
+      "name": "field-label",
+      "presentWhen": { "options": { "hideLabel": false, "label": true } },
+      "component": "field-label",
+      "description": "Text label that names the field; hidden with hideLabel."
+    },
+    {
+      "name": "field",
+      "description": "Rounded box that frames the search icon, value and clear button.",
+      "required": true,
+      "contains": [
+        "leading-icon",
+        "value",
+        "placeholder",
+        "in-field-button",
+        "focus-indicator"
+      ]
+    },
+    {
+      "name": "leading-icon",
+      "description": "Magnifying-glass search icon at the start of the field."
+    },
+    {
+      "name": "value",
+      "description": "Text the user entered.",
+      "presentWhen": { "options": { "value": true } }
+    },
+    {
+      "name": "placeholder",
+      "description": "Hint text shown while the field is empty.",
+      "presentWhen": { "options": { "value": false, "placeholder": true } }
+    },
+    {
+      "name": "in-field-button",
+      "component": "in-field-button",
+      "description": "Clear button at the end of the field, shown when there is a value."
+    },
+    {
+      "name": "help-text",
+      "presentWhen": { "options": { "helpText": true } },
+      "component": "help-text",
+      "description": "Description or error message shown below the field."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the field for keyboard focus.",
+      "presentWhen": { "states": ["keyboard-focus"] }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). RSP SearchField.tsx:178 (shared ClearButton = in-field-button); registry leading-icon is the search icon in search-field; label is the embedded field-label; border is styling on container (Field.tsx:201-241)."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "textbox",

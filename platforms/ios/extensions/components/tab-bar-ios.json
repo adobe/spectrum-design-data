@@ -3,7 +3,7 @@
   "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tab-bar-ios.json",
   "specVersion": "1.0.0-draft",
   "name": "tab-bar-ios",
-  "displayName": "Tab bar (iOS)",
+  "displayName": "Tab bar",
   "description": "Tab bar is a top-level navigation control for iOS apps.",
   "meta": {
     "category": "navigation",

@@ -16,6 +16,7 @@
   {
     "scope": {
       "component": "segmented-text-field",
+      "part": "segment",
       "property": "corner-radius"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

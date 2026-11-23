@@ -1,7 +1,7 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
   "values": [
     {
       "id": "color",
@@ -44,11 +44,6 @@
       "description": "Drop shadow color component"
     },
     {
-      "id": "overlay-color",
-      "label": "Overlay Color",
-      "description": "Overlay or scrim tint color"
-    },
-    {
       "id": "outline-color",
       "label": "Outline Color",
       "description": "CSS outline color"
@@ -72,11 +67,6 @@
       "id": "border-opacity",
       "label": "Border Opacity",
       "description": "Border transparency level"
-    },
-    {
-      "id": "overlay-opacity",
-      "label": "Overlay Opacity",
-      "description": "Overlay or scrim transparency level"
     },
     {
       "id": "width",
@@ -207,6 +197,11 @@
       "id": "typography",
       "label": "Typography",
       "description": "Composite type style bundling font family, size, weight, letter-spacing, and line-height in one value"
+    },
+    {
+      "id": "type-style",
+      "label": "Type Style",
+      "description": "A component's type style: the property of a relationship record whose $ref is a typography composite token"
     },
     {
       "id": "text-align",
@@ -347,6 +342,11 @@
       "id": "component-size-width-ratio",
       "label": "Component Size Width Ratio",
       "description": "Width ratio used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "aspect-ratio",
+      "label": "Aspect Ratio",
+      "description": "Unitless width-to-height ratio (for example 4:3 as 1.333), used to derive a width from a height"
     }
   ]
 }

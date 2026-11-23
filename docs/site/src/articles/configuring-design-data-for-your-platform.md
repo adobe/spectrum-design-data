@@ -45,6 +45,14 @@ to `.design-data.toml`. See the [CLI README](https://github.com/adobe/spectrum-d
 The catalog commands in this guide (`catalog export`, and `component` with a
 platform selected) need a CLI newer than 0.12.1.
 
+A data release can also say which CLI it needs. If a dataset's `dataset.json` has
+`requires.cli` (for example `"0.40.0"`), or a `layoutRevision` newer than your
+CLI's, the CLI stops with an error that names the version to install, instead
+of reading the data wrongly. Pin an older data release, or update the CLI.
+`--ignore-data-requirements` reads it anyway and warns on every run; it is only
+a flag, not a config setting. Data released before this field existed isn't
+checked.
+
 ## Describe your platform
 
 A platform manifest is a directory shaped like this:
@@ -68,6 +76,51 @@ category. Validate yours with:
 design-data validate-manifest --platform <id>
 ```
 
+It also checks your own recipes in `extensions/visuals/`. A binding that names a
+relationship property and context, or a token, that the foundation data does not
+have fails with `MANIFEST-001`. This is how a context the foundation renamed in
+a newer release shows up when you bump the pin. A binding passes when it
+resolves for at least one option combination (a placeholder like `{style}`
+expands over the declared values, and a record pinned to `isSelected: true`
+counts), so this check does not ask that every combination resolve; `design-data
+render --strict` does. `design-data validate` does not run `MANIFEST-001`.
+
+`validate-manifest` also checks your `extensions/relationships/`, `extensions/implementations/`
+and `componentAliases`:
+
+- `MANIFEST-003`: a relationship you add or override names a component, option value, state or
+  `$ref` that does not exist (the SPEC-051 to SPEC-055 checks, on your records only).
+- `MANIFEST-004`: a relationship `override` or `remove` targets a uuid that does not exist.
+- `MANIFEST-005`: an implementations file names a component that does not exist, or a `remove`
+  matches none of your rows.
+- `MANIFEST-006`: a component alias is invalid (SPEC-081) or targets a deprecated component.
+
+`validate-manifest` also checks that the pin agrees with itself. You state the
+foundation release twice: the manifest's `foundationVersion` and the `[source]`
+`tag` (or npm `version`) in `.design-data.toml`. If they name different
+releases, it fails with `MANIFEST-002`. The package prefix doesn't count:
+`@adobe/spectrum-design-data@3.15.1` and `3.15.1` are the same release. A `sha`
+or `branch` source, or a version that isn't exact, can't be compared, so it only
+warns. A `path` source, or no `[source]`, is skipped. `design-data platform show`
+reports the same result.
+
+Before you move the `foundationVersion` pin, see what the new release changes for
+you:
+
+```sh
+design-data platform impact --from 3.13.0 --to 3.15.1
+```
+
+`--from` defaults to the manifest's `foundationVersion`. The command reads the
+component changelogs of the `--to` release and lists the entries that touch what
+your recipes bind: relationship contexts and tokens, the options they read, and
+relationships your manifest overrides or removes. **BREAKS** means a binding
+names something that was renamed or removed (a context rename shows both names),
+and the command exits 1. **CHANGES** means a binding still resolves, to a
+different token or value. It does not yet cover the manifest's token
+`overrides`, or changes to a foundation recipe you did not replace. Pass
+`--changelog-dir` to read a local `changelog/` instead of fetching the release.
+
 Register the manifest in a `.design-data.toml` at the root of your project:
 
 ```toml
@@ -82,12 +135,55 @@ Each entry is a local path, relative to the file, or a `github` pin to a manifes
 in another repository. A repo with exactly one manifest can keep using the older
 top-level `manifest = "path/to/manifest.json"` key. It still works.
 
+If you commit what the CLI generates (fixtures, exports, renders), pin the CLI
+that makes it. A different CLI can draw the same data differently, and a
+contributor with another version otherwise gets different files without a word.
+Add a semver range at the top of `.design-data.toml`:
+
+```toml
+cli_version = ">=0.36.5, <0.38.0"   # or "=0.40.1" for one exact version
+```
+
+A bare `"0.40.1"` is a caret range (`>=0.40.1, <0.41.0`), as in Cargo. Outside
+the range, the commands whose output you commit or ship (`render`,
+`render-compare`, `export`, `catalog export`, `spec-sheet`, `site`,
+`figma export`) stop with an error, and every other command warns.
+`--ignore-data-requirements` runs anyway and warns each time; it is a flag only,
+never a config setting. This is your project's setting, separate from a
+dataset's own `requires.cli`. A CLI older than the release that added
+`cli_version` rejects the file with `unknown field`, so everyone on the project
+needs a CLI that has it.
+
 List what's configured. A `*` marks the default:
 
 ```sh
 design-data platform list
 design-data platform show react-spectrum
 ```
+
+### Check the whole setup
+
+`design-data platform doctor` runs every check from this section and reports
+them together, so you see everything wrong at once:
+
+```sh
+design-data platform doctor            # the default platform
+design-data platform doctor --latest   # also asks GitHub for the newest release
+```
+
+It checks that the manifest applies to the foundation and that every binding in
+your recipes resolves (`MANIFEST-001`), that your relationships and component aliases
+resolve (`MANIFEST-003`, `MANIFEST-006`), that `foundationVersion` and `[source]`
+name the same release (`MANIFEST-002`), that this CLI meets what the dataset
+(`requires.cli`) and your project (`cli_version`) ask of it, that the platform
+is in `platform-implementations.json`, and which of your extensions replace a
+foundation artifact of the same name. Those are allowed, and each is a candidate
+to promote, so doctor lists them as notes. With `--latest`, a pin behind the
+newest release gets a warning that includes the `platform impact` command to run.
+
+Doctor reports every finding and never refuses to run, including when the CLI is
+too old for the data. It exits 1 if any check fails, so it works as a CI step.
+Warnings and notes don't change the exit code.
 
 ## Choose a platform
 
@@ -127,9 +223,16 @@ To write the merged catalogs to disk, use `catalog export`:
 design-data catalog export --out ./catalog --platform react-spectrum
 ```
 
-It writes `components/`, `guidelines/`, and `guidelines/manifest.json` under
-`--out`, creates the directory if needed, and removes stale `.json` files from
-`components/` and `guidelines/` first. Without a platform it exports the
+It writes `components/`, `guidelines/`, `guidelines/manifest.json`, and the
+foundation icon sets under `icons/` (copied as-is) under `--out`. It also writes
+the visual recipes under `visuals/`, one per component with its `sizeScale`,
+with the platform's recipes replacing or joining the foundation ones. Like
+`components/`, `visuals/` is keyed by real component names: a component the
+platform manifest aliases (`componentAliases`, such as `button` → `button-ios`)
+stays the foundation recipe under its own name, and the platform recipe is the
+separate `button-ios.json`, so apply the alias yourself. It creates
+the directory if needed and removes stale `.json` files from `components/`,
+`guidelines/`, `icons/`, and `visuals/` first. Without a platform it exports the
 foundation catalogs. Relationships aren't part of the export.
 
 ## Use a platform from the MCP server

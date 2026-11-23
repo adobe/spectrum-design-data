@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-spec",
-  "version": "4.8.0",
+  "version": "7.4.0",
   "description": "Design Data Specification — prose, JSON Schemas, rule catalog, and conformance fixtures for the design data format",
   "type": "module",
   "repository": {
@@ -30,6 +30,7 @@
     "./schemas/value-types/color.schema.json": "./schemas/value-types/color.schema.json",
     "./schemas/component.schema.json": "./schemas/component.schema.json",
     "./schemas/implementation-mapping.schema.json": "./schemas/implementation-mapping.schema.json",
+    "./schemas/platform-deviation.schema.json": "./schemas/platform-deviation.schema.json",
     "./schemas/anatomy-part.schema.json": "./schemas/anatomy-part.schema.json",
     "./schemas/state-declaration.schema.json": "./schemas/state-declaration.schema.json",
     "./rules/rules.yaml": "./rules/rules.yaml",

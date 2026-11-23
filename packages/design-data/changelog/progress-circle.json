@@ -1,0 +1,179 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "progress-circle",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":7,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/documentBlocks/0","name":"guideline: Use progress circles for loading views.\n\nMedium ","fields":[{"path":"content","before":"Progress circles can be determinate or indeterminate. Use determinate when progress can be measured against a goal, such as downloading a file. Use indeterminate when the duration or effort is unknown, like reconnecting to a server.","after":"Use progress circles for loading views.\n\nMedium and large progress circles are optimized for large areas with no space constraints. Use them for loading content into views (e.g., web pages, panels, etc.)"}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/documentBlocks/1","name":"guideline: Use small progress circle when space is limited.","fields":[{"path":"content","before":"Progress circles come in 3 sizes: small, medium (default), or large. These are available to fit various contexts. For example, the small progress circle can be used in place of an icon or in tight spaces, while the large one can be used for full-page loading.","after":"Use small progress circle when space is limited.\n\nSmall progress circles are well suited when space is limited both vertically and horizontally, such as in buttons, menu items, and input fields."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/documentBlocks/2","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the fil","fields":[{"path":"content","before":"The value represents progress within the circle’s range, from minimum to maximum. These defaults are 0 and 100 but can be customized. Min and max values don’t apply to indeterminate progress circles.","after":"RTL.\n\nFor RTL (right-to-left) languages, the fill of both the determinate and indeterminate progress circle continues to spin clockwise."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/documentBlocks/3","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"When a progress circle needs to be placed on top of a colored background, use the over background variant. This progress circle uses a static white color regardless of the color theme. Make sure the background offers enough contrast for the progress circle to be legible.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the button. Space or Enter Executes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/documentBlocks/4","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer Use the","fields":[{"path":"content","before":"Medium and large progress circles are optimized for large areas with no space constraints. Use them for loading content into views (e.g., web pages, panels, etc.)","after":"Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for all interactive components."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/documentBlocks/5","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"Small progress circles are well suited when space is limited both vertically and horizontally, such as in buttons, menu items, and input fields.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Buttons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Buttons should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":19,"fields":["contextPart","contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-circle/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"Arc showing progress; spins when indeterminate. Not drawn at 0%."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-circle/anatomy/track","name":"track","fields":[],"after":{"name":"track","description":"Circular ring behind the progress arc.","required":true,"contains":["fill"]}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Progress circle page shared with in-field-progress-circle). No container: the track is the outermost drawn element. fill left optional because it is absent at 0%."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.21.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-18",
+      "commit": "c54ad0fcdb3450559eb80c46d5748384fa95485c",
+      "commits": [
+        {
+          "commit": "581dcb7dde593787893c6a905164f487cececff1",
+          "date": "2026-11-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1924,"title":"feat(design-data): progress-circle visual recipe; progress sweep and strokeWidth","url":"https://github.com/adobe/spectrum-design-data/pull/1924"},
+          "entries": [
+            {"id":"581dcb7d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"a788986d-f5c8-5a42-b302-15358ed74859","name":"color[staticColor=white]","fields":[{"path":"context","before":"Track and fill (white)","after":"Track and fill"}]},
+            {"id":"581dcb7d-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":{"staticColor":"white"}},"record":"a256c2a6-6d0f-51ed-9af8-00d03f163c32","name":"content-color[staticColor=white]","fields":[{"path":"context","before":"Track and fill (white)","after":"Track and fill"}]},
+            {"id":"581dcb7d-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"784b960b-9b78-596b-b43a-15546999eee7","name":"color[staticColor=black]","fields":[{"path":"context","before":"Track and fill (black)","after":"Track and fill"}]},
+            {"id":"581dcb7d-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":{"staticColor":"black"}},"record":"8fec7f0f-3acf-559d-bb52-881d8d5d65a9","name":"content-color[staticColor=black]","fields":[{"path":"context","before":"Track and fill (black)","after":"Track and fill"}]},
+            {"id":"581dcb7d-4","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"progress-circle/options/variant","name":"variant","fields":[],"before":{"type":"string","default":"default","values":[{"value":"default"},{"value":"over background"}]}},
+            {"id":"581dcb7d-5","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"progress-circle/options/staticColor","name":"staticColor","fields":[],"after":{"type":"string","description":"Static color for use on colored backgrounds. White draws a light ring, black a dark one. Unset is the regular ring.","values":[{"value":"white"},{"value":"black"}]}},
+            {"id":"581dcb7d-6","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/options/maxValue","name":"maxValue","fields":[{"path":"default","before":1,"after":100}]},
+            {"id":"581dcb7d-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"progress-circle/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web (Progress circle page shared with in-field-progress-circle). No container: the track is the outermost drawn element. fill left optional because it is absent at 0%.","after":"Matches Figma S2 Web (Progress circle): its Track ellipse is the track and its Fill is the fill. No container: the track is the outermost drawn element. fill is optional because it is absent at 0%, and a full ring at 100%."}]},
+            {"id":"581dcb7d-8","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"progress-circle/visual","name":"progress-circle","fields":[]}
+          ],
+          "metadata": {"count":5,"fields":["anatomyReview.status","contextQualifier","scope.options.staticColor","scope.property"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"s"}},"record":"94ee9b15-821f-528e-833f-9532afc28a73","name":"size[scale=desktop,size=s]","fields":[{"path":"$ref","before":"2b9f6096-84e7-4430-a3a9-a9daadcd1225","after":"c95dc6f0-3784-4367-86ea-bcccd6123a88"}]},
+            {"id":"0b8924f1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"s"}},"record":"1744fa93-bede-573e-993b-8238f849da7c","name":"size[scale=mobile,size=s]","fields":[{"path":"$ref","before":"a7fafd60-dc38-425a-b6b6-952a06d30ab4","after":"486839c8-66f0-58f8-a9c7-f2ca0272620d"}]},
+            {"id":"0b8924f1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"m"}},"record":"b9035308-88ee-5c0e-ae1e-be9be707f14a","name":"size[scale=desktop,size=m]","fields":[{"path":"$ref","before":"2b9efe78-8384-4994-a4ab-82046f109d20","after":"9d50a6bc-7194-47f5-aef0-7b37446618ff"}]},
+            {"id":"0b8924f1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"m"}},"record":"61fd2f10-7fa6-5927-9957-e2784b9b3b09","name":"size[scale=mobile,size=m]","fields":[{"path":"$ref","before":"c380cf9b-cb59-465c-9b56-41654d3239f1","after":"cb2dbb62-9fe3-57b8-8497-c7b238154919"}]},
+            {"id":"0b8924f1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"l"}},"record":"c6ef5d7c-1950-5721-ab41-7135ea6e7163","name":"size[scale=desktop,size=l]","fields":[{"path":"$ref","before":"a91ff845-aeb8-4a1b-9e4a-d34c77bb8253","after":"cbd0511f-c73d-40fa-9dfa-619ee5a38472"}]},
+            {"id":"0b8924f1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"l"}},"record":"99f22c9e-d61d-54d1-9b5b-4fecbca30322","name":"size[scale=mobile,size=l]","fields":[{"path":"$ref","before":"c7719369-7d3d-4446-ade2-08abb472a985","after":"7d55cf1b-1f33-5549-9f3b-45f61f913d78"}]},
+            {"id":"0b8924f1-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"l"}},"record":"a91ff845-aeb8-4a1b-9e4a-d34c77bb8253","name":"size[scale=desktop,size=l]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"cbd0511f-c73d-40fa-9dfa-619ee5a38472"}],"rationale":"Deprecated via refine-from-sheets from row 235 of the mapping sheet."},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"l"}},"record":"a91ff845-aeb8-4a1b-9e4a-d34c77bb8253","name":"size[scale=desktop,size=l]","fields":[{"path":"lifecycle.deprecatedComment","after":"remapped to visual sizing for visual elements (avatar, thumbnails, etc)"},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 235 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 235 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"l"}},"record":"c7719369-7d3d-4446-ade2-08abb472a985","name":"size[scale=mobile,size=l]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"cbd0511f-c73d-40fa-9dfa-619ee5a38472"}],"rationale":"Deprecated via refine-from-sheets from row 235 of the mapping sheet."},
+            {"id":"0b8924f1-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"l"}},"record":"c7719369-7d3d-4446-ade2-08abb472a985","name":"size[scale=mobile,size=l]","fields":[{"path":"lifecycle.deprecatedComment","after":"remapped to visual sizing for visual elements (avatar, thumbnails, etc)"},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 235 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 235 of the mapping sheet."},
+            {"id":"0b8924f1-10","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"m"}},"record":"2b9efe78-8384-4994-a4ab-82046f109d20","name":"size[scale=desktop,size=m]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"9d50a6bc-7194-47f5-aef0-7b37446618ff"}],"rationale":"Deprecated via refine-from-sheets from row 236 of the mapping sheet."},
+            {"id":"0b8924f1-11","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"m"}},"record":"2b9efe78-8384-4994-a4ab-82046f109d20","name":"size[scale=desktop,size=m]","fields":[{"path":"lifecycle.deprecatedComment","after":"remapped to visual sizing for visual elements (avatar, thumbnails, etc)"},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 236 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 236 of the mapping sheet."},
+            {"id":"0b8924f1-12","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"m"}},"record":"c380cf9b-cb59-465c-9b56-41654d3239f1","name":"size[scale=mobile,size=m]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"9d50a6bc-7194-47f5-aef0-7b37446618ff"}],"rationale":"Deprecated via refine-from-sheets from row 236 of the mapping sheet."},
+            {"id":"0b8924f1-13","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"m"}},"record":"c380cf9b-cb59-465c-9b56-41654d3239f1","name":"size[scale=mobile,size=m]","fields":[{"path":"lifecycle.deprecatedComment","after":"remapped to visual sizing for visual elements (avatar, thumbnails, etc)"},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 236 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 236 of the mapping sheet."},
+            {"id":"0b8924f1-14","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"s"}},"record":"2b9f6096-84e7-4430-a3a9-a9daadcd1225","name":"size[scale=desktop,size=s]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"c95dc6f0-3784-4367-86ea-bcccd6123a88"}],"rationale":"Deprecated via refine-from-sheets from row 237 of the mapping sheet."},
+            {"id":"0b8924f1-15","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"desktop","size":"s"}},"record":"2b9f6096-84e7-4430-a3a9-a9daadcd1225","name":"size[scale=desktop,size=s]","fields":[{"path":"lifecycle.deprecatedComment","after":"remapped to visual sizing for visual elements (avatar, thumbnails, etc)"},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 237 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 237 of the mapping sheet."},
+            {"id":"0b8924f1-16","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"s"}},"record":"a7fafd60-dc38-425a-b6b6-952a06d30ab4","name":"size[scale=mobile,size=s]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"c95dc6f0-3784-4367-86ea-bcccd6123a88"}],"rationale":"Deprecated via refine-from-sheets from row 237 of the mapping sheet."},
+            {"id":"0b8924f1-17","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"scale":"mobile","size":"s"}},"record":"a7fafd60-dc38-425a-b6b6-952a06d30ab4","name":"size[scale=mobile,size=s]","fields":[{"path":"lifecycle.deprecatedComment","after":"remapped to visual sizing for visual elements (avatar, thumbnails, etc)"},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 237 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 237 of the mapping sheet."}
+          ],
+          "metadata": {"count":6,"fields":["scope.options.scale","scope.options.size"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "b836045680bb838600769ba506e72bbdbb529c53",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2040,"title":"feat(design-data): migrate clear-button, close-button, link and 3 more to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/2040"},
+          "entries": [
+            {"id":"b8360456-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":null},"record":"74b68a93-8600-51cf-89d7-b5fab8fbeb6e","name":"content-color","fields":[{"path":"scope.part","after":"fill"}]},
+            {"id":"b8360456-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":{"staticColor":"white"}},"record":"a256c2a6-6d0f-51ed-9af8-00d03f163c32","name":"content-color[staticColor=white]","fields":[{"path":"scope.part","after":"fill"}]},
+            {"id":"b8360456-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track and fill"],"scope":{"property":"content-color","options":{"staticColor":"black"}},"record":"8fec7f0f-3acf-559d-bb52-881d8d5d65a9","name":"content-color[staticColor=black]","fields":[{"path":"scope.part","after":"fill"}]}
+          ],
+          "metadata": {"count":22,"fields":["context","contextRole","scope.part"]}
+        }
+      ]
+    }
+  ]
+}

@@ -66,6 +66,11 @@
           "type": "boolean",
           "description": "Whether this value is deprecated"
         },
+        "precedence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "State registry only: default resolution precedence among interaction states when a component does not declare one. Higher wins."
+        },
         "standaloneScope": {
           "type": "boolean",
           "description": "Anatomy-term only: whether this term may scope a token's name object on its own, without an accompanying component or structure field (e.g. cross-cutting parts like focus-ring/focus-indicator that have no single owner)"

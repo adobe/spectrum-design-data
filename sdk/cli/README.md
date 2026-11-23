@@ -29,6 +29,9 @@ design-data query "property=color*"
 # Get AI-powered token suggestions for a given intent
 design-data suggest "primary background color"
 
+# Show a token's specificity and its narrower/broader same-property tokens
+design-data refinements neutral-subdued-content-color-hover
+
 # Resolve a token's value for a given mode-set context
 design-data resolve color-background-layer-1 --color-scheme light
 
@@ -37,6 +40,11 @@ design-data component button
 
 # Validate a design-data directory
 design-data validate ./my-tokens
+
+# Propose contexts for live relationship records that have none (SPEC-092), into a
+# review file. Never writes the dataset; prints how well each tier matches the
+# existing human contexts.
+design-data suggest-context --out /tmp/context-review.json [--exclude-typography] [COMPONENT...]
 ```
 
 ## Configuration
@@ -55,7 +63,9 @@ Without configuration, the embedded Spectrum snapshot is used automatically (off
 To apply a platform manifest, register it under `[platforms]` and select it with
 `--platform <id>` (after the subcommand), `DESIGN_DATA_PLATFORM`, or
 `default_platform`. `design-data catalog export --out DIR` writes the
-platform-merged component and guideline catalogs. See
+platform-merged component and guideline catalogs. A project that commits generated
+output can pin the CLI with a top-level `cli_version = ">=0.36.5, <0.38.0"`.
+`design-data platform doctor` checks a platform repo's whole setup in one go. See
 [Configuring design-data for your platform](https://opensource.adobe.com/spectrum-design-data/articles/configuring-design-data-for-your-platform/).
 
 ## License

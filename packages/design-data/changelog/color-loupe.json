@@ -1,0 +1,254 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-loupe",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["S1 Shadows"],"scope":{"property":"color","options":null},"record":"color#S1 Shadows","name":"color","fields":[{"path":"$ref","before":"918b8089-d89f-45d2-8c9c-f3f13f81b0b9","after":"e475981f-97af-479c-859b-7619dd87c448"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":5,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/documentBlocks/0","name":"guideline: Handle behavior.\n\nIn the color area and color sl","fields":[{"path":"content","before":"Transparent colors.\n\nWhen using transparent colors, the loupe displays an opacity checkerboard background to clearly show the level of transparency.","after":"Handle behavior.\n\nIn the color area and color slider, the handle can slide all the way to the edge of the component. It always displays the selected color inside the handle and never gets cut off by the border or any container."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/documentBlocks/1","name":"guideline: Transparent colors.\n\nWhen using transparent colo","fields":[{"path":"content","before":"Keyboard focus.\n\nThe loupe is a visual-only element and should not receive focus since it does not provide interactive functionality.","after":"Transparent colors.\n\nWhen using transparent colors, the handle and loupe display an opacity checkerboard background to clearly show the level of transparency."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/documentBlocks/2","name":"guideline: Keyboard focus.\n\nThe keyboard focus state enlarg","fields":[{"path":"content","before":"Display combined values.\n\nColor selection usually happens using a variety of input methods (color area, color slider, color wheel). The color loupe should display the final output color: the combined values from multiple color inputs.\n\nThe number of input methods is determined by the color space (or \"mode\"), for example:\n\n* 2 controls: HSL using color wheel (hue) and color area (saturation and lightness)\n* 3 controls: RGB using unique color sliders for Red, Green, and Blue\n* 4 controls: RGBa using unique color sliders for Red, Green, Blue, and Alpha","after":"Keyboard focus.\n\nThe keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/documentBlocks/3","name":"guideline: Display combined values.\n\nColor selection usuall","fields":[],"after":{"type":"guideline","content":"Display combined values.\n\nColor selection usually happens using a variety of input methods (color area, color slider, color wheel). The color loupe should display the final output color: the combined values from multiple color inputs. The number of input methods is determined by the color space (or \"mode\"), for example: 2 controls: HSL using color wheel (hue) and color area (saturation and lightness) 3 controls: RGB using unique color sliders for Red, Green, and Blue 4 controls: RGBa using unique color sliders for Red, Green, Blue, and Alpha"}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "ea86c6d75726d6d9b1ba24c209328a4d386cc274",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1766,"title":"feat(design-data): add relationship contexts to stack-item, card, popover and seven more components","url":"https://github.com/adobe/spectrum-design-data/pull/1766"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["context","contextRole"]}
+        },
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":9,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Teardrop magnifier shape filled with the sampled color; borders and shadow are container styling.","required":true,"contains":["opacity-checkerboard"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[],"after":{"name":"opacity-checkerboard","description":"Checkerboard behind the sampled color so transparency reads."}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP ColorHandle.tsx:82-84,174-182 (loupe shadow on the container, checkerboard behind the fill)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"height","options":null},"record":"a372ba95-bf02-5ba6-ab23-51230cf10bf7","name":"height","fields":[{"path":"$ref","before":"0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51","after":"67cafee2-a871-4689-a2d7-985eabe8c0b3"}]},
+            {"id":"0b8924f1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"width","options":null},"record":"bcf49c03-5000-5f19-8574-c69bfbd1cbe5","name":"width","fields":[{"path":"$ref","before":"889e2495-b882-4aa3-8a5b-1a71d44edde4","after":"03042116-4c2d-4a29-b17f-47da76f5e103"}]},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"height","options":null},"record":"0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51","name":"height","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"67cafee2-a871-4689-a2d7-985eabe8c0b3"}],"rationale":"Deprecated via refine-from-sheets from row 437 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"height","options":null},"record":"0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51","name":"height","fields":[{"path":"lifecycle.deprecatedComment","after":"Referenced primitive size-800 (64px); component-specific to Color loupe, not a shared category."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 437 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 437 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"width","options":null},"record":"889e2495-b882-4aa3-8a5b-1a71d44edde4","name":"width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"03042116-4c2d-4a29-b17f-47da76f5e103"}],"rationale":"Deprecated via refine-from-sheets from row 438 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"width","options":null},"record":"889e2495-b882-4aa3-8a5b-1a71d44edde4","name":"width","fields":[{"path":"lifecycle.deprecatedComment","after":"Referenced primitive size-700 (48px); component-specific to Color loupe, not a shared category."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 438 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 438 of the mapping sheet."}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.2.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":null},"record":"a372ba95-bf02-5ba6-ab23-51230cf10bf7","name":"height","fields":[{"path":"context","before":"Size","after":"Height"}]},
+            {"id":"3530b31f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":null},"record":"bcf49c03-5000-5f19-8574-c69bfbd1cbe5","name":"width","fields":[{"path":"context","before":"Size","after":"Width"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"outer"}},"record":"ee5a2569-aa3c-5a32-8408-a20135c41170","name":"border-width[position=outer]","fields":[{"path":"scope.options.position","after":"outer"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"inner"}},"record":"dfc2b4db-8554-53ca-8463-d6f818381692","name":"border-width[position=inner]","fields":[{"path":"scope.options.position","after":"inner"}]},
+            {"id":"23810aed-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"inner"}},"record":"dfc2b4db-8554-53ca-8463-d6f818381692","name":"border-width[position=inner]","fields":[{"path":"scope.part","after":"fill"}]},
+            {"id":"23810aed-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"position":"outer"}},"record":"6eec5a64-6ad2-56d7-81d3-2ee26cd26599","name":"color[position=outer]","fields":[{"path":"scope.options.position","after":"outer"}]},
+            {"id":"23810aed-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"position":"outer"}},"record":"6eec5a64-6ad2-56d7-81d3-2ee26cd26599","name":"color[position=outer]","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]},
+            {"id":"23810aed-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Shadows"],"scope":{"property":"color","options":null},"record":"53eff591-e021-5919-905d-a3ce0c3f1326","name":"color","fields":[{"path":"scope.attribute","after":"shadow"},{"path":"scope.part","after":"container"}]},
+            {"id":"23810aed-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Shadows"],"scope":{"property":"color","options":null},"record":"53eff591-e021-5919-905d-a3ce0c3f1326","name":"color","fields":[{"path":"context","before":"S1 Shadows","after":"Shadows"}]},
+            {"id":"23810aed-7","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["S1 Shadows"],"scope":{"property":"x","options":null},"record":"9abcbd82-7cac-504e-89ad-cb629b5c3d11","name":"x","fields":[],"before":"81415747-aa3f-4ef3-b0bc-7c33f07a4316"},
+            {"id":"23810aed-8","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["S1 Shadows"],"scope":{"property":"y","options":null},"record":"ce6629c2-2e2c-59ce-b732-9780555cb98d","name":"y","fields":[],"before":"c9af5d60-11b1-4fc3-972e-6a607120657b"},
+            {"id":"23810aed-9","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["S1 Shadows"],"scope":{"property":"blur","options":null},"record":"9d2357d2-8dda-57d1-9f03-33ad51ab49a3","name":"blur","fields":[],"before":"86caa027-9e9e-4a5f-aa38-058f0a96bc9d"},
+            {"id":"23810aed-10","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-loupe/options/value","name":"value","fields":[],"before":{"$ref":"https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"}},
+            {"id":"23810aed-11","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/options/color","name":"color","fields":[],"after":{"$ref":"https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json","description":"The sampled color: always one solid color, possibly with alpha."}},
+            {"id":"23810aed-12","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/options/hasFill","name":"hasFill","fields":[],"after":{"type":"boolean","default":true,"description":"Whether the loupe shows its fill (Figma Show fill)."}},
+            {"id":"23810aed-13","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"The sampled color, with its 1px inner border. Drawn when hasFill is true."}},
+            {"id":"23810aed-14","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/container","name":"container","fields":[{"path":"contains","before":["opacity-checkerboard"],"after":["opacity-checkerboard","fill"]}]},
+            {"id":"23810aed-15","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/container","name":"container","fields":[{"path":"description","before":"Teardrop magnifier shape filled with the sampled color; borders and shadow are container styling.","after":"Teardrop magnifier shape; its 2px white outer border and elevated shadow are container styling."}]},
+            {"id":"23810aed-16","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"description","before":"Checkerboard behind the sampled color so transparency reads.","after":"Checkerboard behind the sampled color so transparency reads. Drawn when hasFill is true; sized m."}]},
+            {"id":"23810aed-17","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP ColorHandle.tsx:82-84,174-182 (loupe shadow on the container, checkerboard behind the fill).","after":"A7 (2026-11-20). RSP ColorHandle.tsx:82-84,174-182 (loupe shadow on the container, checkerboard behind the fill); Figma .Color loupe (Inner fill, Inner border 1px, Outer border 2px, elevated shadow). The loupe is placed by the color handle (space-between {container, color-loupe} on color-handle), not by its own records."}]}
+          ],
+          "metadata": {"count":12,"fields":["anatomyReview.status","context","contextRole","scope.attribute","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"component","after":"opacity-checkerboard"}]},
+            {"id":"5d6bd008-1","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/subcomponent","name":"subcomponent","fields":[{"path":"subcomponent","after":true}]}
+          ]
+        },
+        {
+          "commit": "f563f96ff5aef38caa8c892263495bd6efbd76c2",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2039,"title":"feat(design-data): add color handle and color loupe visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2039"},
+          "entries": [
+            {"id":"f563f96f-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"outer"}},"record":"ee5a2569-aa3c-5a32-8408-a20135c41170","name":"border-width[position=outer]","fields":[{"path":"scope.attribute","after":"border"}]},
+            {"id":"f563f96f-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"inner"}},"record":"dfc2b4db-8554-53ca-8463-d6f818381692","name":"border-width[position=inner]","fields":[{"path":"scope.attribute","after":"border"}]},
+            {"id":"f563f96f-2","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"color-loupe/visual","name":"color-loupe","fields":[]}
+          ],
+          "metadata": {"count":2,"fields":["scope.attribute"]}
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/fill","name":"fill","fields":[{"path":"presentWhen.options.hasFill","after":true}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"presentWhen.options.hasFill","after":true}]},
+            {"id":"1951adf7-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/visual/parts/fill","name":"fill","fields":[{"path":"visibleWhen.options.hasFill","before":true}]},
+            {"id":"1951adf7-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/visual/parts/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"visibleWhen.options.hasFill","before":true}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "1501aeed0277a01d90e98f63e9a3e500af8242e8",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2078,"title":"feat(design-data): add color-slider and color-area visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2078"},
+          "entries": [
+            {"id":"1501aeed-0","kind":"option","change":"updated","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-loupe/options/color","name":"color","fields":[{"path":"$ref","before":"https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"},{"path":"type","after":"string"}]},
+            {"id":"1501aeed-1","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-loupe/options/color","name":"color","fields":[{"path":"description","before":"The sampled color: always one solid color, possibly with alpha.","after":"The sampled color: always one solid color, possibly with alpha. A CSS color string the renderer reads as a solid color: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba() or transparent."}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

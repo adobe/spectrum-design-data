@@ -28,13 +28,11 @@ mod spec017;
 mod spec018;
 mod spec019;
 mod spec020;
-mod spec021;
 mod spec022;
 mod spec023;
 mod spec024;
 mod spec025;
 mod spec026;
-mod spec027;
 mod spec028;
 mod spec029;
 mod spec030;
@@ -55,6 +53,9 @@ mod spec043;
 // SPEC-044 (dataset-structure) is a filesystem pre-pass, not a graph rule — it
 // inspects the on-disk directory layout before the graph is built. See
 // `crate::validate::dataset_structure` and `validate::validate_dataset`.
+mod deviation_util;
+pub mod manifest_bindings;
+pub mod manifest_extensions;
 mod spec045;
 mod spec046;
 mod spec047;
@@ -70,6 +71,62 @@ mod spec056;
 mod spec057;
 mod spec058;
 mod spec059;
+mod spec060;
+mod spec061;
+mod spec062;
+mod spec063;
+mod spec064;
+mod spec065;
+mod spec066;
+mod spec067;
+mod spec068;
+mod spec069;
+mod spec070;
+mod spec071;
+mod spec072;
+mod spec073;
+mod spec074;
+mod spec076;
+mod spec079;
+mod spec080;
+mod spec081;
+mod spec082;
+mod spec083;
+mod spec084;
+mod spec085;
+mod spec086;
+mod spec087;
+mod spec088;
+mod spec089;
+mod spec090;
+mod spec091;
+pub mod spec092;
+mod spec093;
+mod spec094;
+mod spec095;
+mod spec096;
+mod spec097;
+mod spec098;
+mod spec099;
+mod spec100;
+mod spec101;
+mod spec102;
+mod spec103;
+mod spec104;
+mod spec105;
+mod spec106;
+mod spec107;
+mod spec108;
+mod spec109;
+mod spec110;
+mod spec111;
+mod spec112;
+mod spec113;
+mod spec114;
+mod spec115;
+mod spec116;
+mod spec117;
+mod visual_util;
 
 use std::collections::HashSet;
 
@@ -165,8 +222,8 @@ fn embedded_registry() -> &'static RegistryData {
 /// to warnings under `--components-report-only` during backlog burn-down; see
 /// `ValidationReport::downgrade_rules` and bead spectrum-design-data-0jm.
 pub const COMPONENT_RULE_IDS: &[&str] = &[
-    "SPEC-018", "SPEC-020", "SPEC-022", "SPEC-026", "SPEC-027", "SPEC-031", "SPEC-035", "SPEC-040",
-    "SPEC-051", "SPEC-052", "SPEC-053", "SPEC-054",
+    "SPEC-018", "SPEC-020", "SPEC-022", "SPEC-026", "SPEC-031", "SPEC-035", "SPEC-040", "SPEC-051",
+    "SPEC-052", "SPEC-053", "SPEC-054", "SPEC-064",
 ];
 
 /// All default catalog rules. See packages/design-data-spec/rules/rules.yaml for the full catalog.
@@ -192,13 +249,11 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec018::Rule),
         Box::new(spec019::Rule),
         Box::new(spec020::Rule),
-        Box::new(spec021::Rule),
         Box::new(spec022::Rule),
         Box::new(spec023::Rule),
         Box::new(spec024::Rule),
         Box::new(spec025::Rule),
         Box::new(spec026::Rule),
-        Box::new(spec027::Rule),
         Box::new(spec028::Rule),
         Box::new(spec029::Rule),
         Box::new(spec030::Rule),
@@ -229,6 +284,61 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec057::Rule),
         Box::new(spec058::Rule),
         Box::new(spec059::Rule),
+        Box::new(spec060::Rule),
+        Box::new(spec061::Rule),
+        Box::new(spec062::Rule),
+        Box::new(spec063::Rule),
+        Box::new(spec064::Rule),
+        Box::new(spec065::Rule),
+        Box::new(spec066::Rule),
+        Box::new(spec067::Rule),
+        Box::new(spec068::Rule),
+        Box::new(spec069::Rule),
+        Box::new(spec070::Rule),
+        Box::new(spec071::Rule),
+        Box::new(spec072::Rule),
+        Box::new(spec073::Rule),
+        Box::new(spec074::Rule),
+        Box::new(spec076::Rule),
+        Box::new(spec079::Rule),
+        Box::new(spec080::Rule),
+        Box::new(spec081::Rule),
+        Box::new(spec082::Rule),
+        Box::new(spec083::Rule),
+        Box::new(spec084::Rule),
+        Box::new(spec085::Rule),
+        Box::new(spec086::Rule),
+        Box::new(spec087::Rule),
+        Box::new(spec088::Rule),
+        Box::new(spec089::Rule),
+        Box::new(spec090::Rule),
+        Box::new(spec091::Rule),
+        Box::new(spec092::Rule),
+        Box::new(spec093::Rule),
+        Box::new(spec094::Rule),
+        Box::new(spec095::Rule),
+        Box::new(spec096::Rule),
+        Box::new(spec097::Rule),
+        Box::new(spec098::Rule),
+        Box::new(spec099::Rule),
+        Box::new(spec100::Rule),
+        Box::new(spec101::Rule),
+        Box::new(spec102::Rule),
+        Box::new(spec103::Rule),
+        Box::new(spec104::Rule),
+        Box::new(spec105::Rule),
+        Box::new(spec106::Rule),
+        Box::new(spec107::Rule),
+        Box::new(spec108::Rule),
+        Box::new(spec109::Rule),
+        Box::new(spec110::Rule),
+        Box::new(spec111::Rule),
+        Box::new(spec112::Rule),
+        Box::new(spec113::Rule),
+        Box::new(spec114::Rule),
+        Box::new(spec115::Rule),
+        Box::new(spec116::Rule),
+        Box::new(spec117::Rule),
     ]
 }
 
@@ -252,5 +362,121 @@ pub fn run_rules(
     for r in default_rules() {
         out.extend(r.validate(&ctx));
     }
+    out.extend(platform_recipe_pass(
+        graph,
+        naming_exceptions,
+        registry,
+        manifest,
+    ));
     out
+}
+
+/// Recipe rules that read `graph.visuals`; the second pass runs them over platform-owned recipes.
+const RECIPE_RULE_IDS: &[&str] = &[
+    "SPEC-060", "SPEC-061", "SPEC-062", "SPEC-063", "SPEC-066", "SPEC-067", "SPEC-068", "SPEC-069",
+    "SPEC-070", "SPEC-071", "SPEC-083",
+];
+
+/// Runs the recipe rules over the platform-owned recipes against the platform-merged graph.
+/// Foundation recipes were checked in the first pass, so only `Layer::Platform` records remain.
+/// A no-op unless the manifest ships `extensions.visuals`.
+fn platform_recipe_pass(
+    graph: &TokenGraph,
+    naming_exceptions: &HashSet<String>,
+    registry: &RegistryData,
+    manifest: Option<&serde_json::Value>,
+) -> Vec<Diagnostic> {
+    let Some(manifest) = manifest else {
+        return vec![];
+    };
+    let Some(mut platform) = visual_util::platform_graph(graph, manifest) else {
+        return vec![];
+    };
+    platform
+        .visuals
+        .retain(|v| v.layer == crate::graph::Layer::Platform);
+    let ctx = ValidationContext {
+        graph: &platform,
+        naming_exceptions,
+        registry,
+        manifest: None,
+    };
+    default_rules()
+        .into_iter()
+        .filter(|r| RECIPE_RULE_IDS.contains(&r.id()))
+        .flat_map(|r| r.validate(&ctx))
+        .collect()
+}
+
+#[cfg(test)]
+mod platform_recipe_pass_tests {
+    use std::collections::HashSet;
+
+    use serde_json::{json, Value};
+
+    use super::{
+        run_rules,
+        visual_util::test_util::{graph, token},
+    };
+    use crate::graph::TokenGraph;
+
+    fn recipe(component: &str, part: &str) -> Value {
+        json!({ "component": component, "root": part, "sizeScale": { "m": 100 },
+            "parts": { part: { "kind": "box", "props": {
+                "height": { "token": { "property": "component-height-100" } } } } } })
+    }
+
+    fn fixture() -> TokenGraph {
+        graph(
+            json!({ "name": "button", "anatomy": [{ "name": "container" }],
+                "options": { "size": { "type": "string", "default": "m",
+                    "values": [{ "value": "m" }] } } }),
+            vec![],
+            vec![token(
+                "h",
+                json!({ "property": "component-height-100" }),
+                None,
+            )],
+            vec![("button", recipe("button", "container"))],
+        )
+    }
+
+    fn ids(manifest: Option<&Value>) -> Vec<String> {
+        run_rules(&fixture(), &HashSet::new(), manifest)
+            .into_iter()
+            .filter_map(|d| d.rule_id)
+            .filter(|id| matches!(id.as_str(), "SPEC-060" | "SPEC-079" | "SPEC-080"))
+            .collect()
+    }
+
+    fn manifest(recipe: Value) -> Value {
+        json!({ "platform": "fixture", "extensions": { "visuals": [
+            { "file": "extensions/visuals/button.json", "recipe": recipe } ] } })
+    }
+
+    #[test]
+    fn a_run_with_no_platform_recipe_reports_none_of_the_new_rules() {
+        assert!(ids(None).is_empty());
+        assert!(ids(Some(&json!({ "platform": "fixture" }))).is_empty());
+    }
+
+    #[test]
+    fn a_replacing_recipe_is_reported_once_per_recipe() {
+        assert_eq!(
+            ids(Some(&manifest(recipe("button", "container")))),
+            vec!["SPEC-080"]
+        );
+        // The foundation recipe is fine, so only the platform recipe is reported. A flaw shared by
+        // both recipes is reported once per recipe (two files), which is intended.
+        // A bad root and part give two distinct SPEC-060 messages, each reported once.
+        let m = manifest(recipe("button", "missing"));
+        let msgs: Vec<String> = run_rules(&fixture(), &HashSet::new(), Some(&m))
+            .into_iter()
+            .filter(|d| d.rule_id.as_deref() == Some("SPEC-060"))
+            .map(|d| d.message)
+            .collect();
+        let unique: HashSet<&String> = msgs.iter().collect();
+        assert_eq!(msgs.len(), 2, "{msgs:?}");
+        assert_eq!(unique.len(), 2, "{msgs:?}");
+    }
 }

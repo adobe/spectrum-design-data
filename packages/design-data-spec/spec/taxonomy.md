@@ -50,11 +50,61 @@ The taxonomy is designed with three guiding principles:
 
 ## Token-type taxonomies
 
-Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, default serialization position, and an optional **scope** that restricts the field to a specific token type.
+Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, default serialization position, and an optional **scope** that restricts the field to a specific token type. It can also declare `allowedTokenTiers` (the tiers the field may be used on) and `impliesTokenTier` (the tier a token takes from having the field); see [Token tiers](#token-tiers).
 
 **NORMATIVE:** The field catalog is the authoritative source for what fields exist on the name object. Tools, validators, and serializers **SHOULD** read the catalog rather than hardcoding field knowledge.
 
 **NORMATIVE:** A field with a non-null `scope` declaration **MUST** only appear on tokens of that type. Using a scoped field on a mismatched token type triggers rule SPEC-042 (`field-scope-violation`, warning).
+
+### Token tiers
+
+Every token has a tier. A token **MAY** declare it with `tokenTier` ([`token.schema.json`](../schemas/token.schema.json)): `primitive`, `semantic` or `component`.
+
+* `primitive` — raw values. The name says what the value is (a property with a scale, family or weight), not what it is for.
+* `semantic` — shared purposes or structural roles. The name says what the value is for (a role, object, structure, state, and so on).
+* `component` — tokens defined for a specific component.
+
+**Foundation** is not a tier. It is the canonical dataset layer (see [Cascade](cascade.md)), which holds tokens of all three tiers and is what platforms build on. Use "primitive" only for the primitive tier.
+
+#### Derived tier
+
+**NORMATIVE:** A token without `tokenTier` has the tier derived from the token. The first rule that matches applies:
+
+1. The name has a field whose declaration sets `impliesTokenTier: "component"` → `component`.
+2. The token's value is an alias → `semantic`. A primitive is a terminal value.
+3. The name has a field whose declaration sets `impliesTokenTier: "semantic"` → `semantic`.
+4. Otherwise → `primitive`.
+
+Each field declaration in the foundation catalog sets `impliesTokenTier` to `component`, `semantic` or `none` (the field says nothing about the tier). A token's **effective tier** is its `tokenTier` when declared, otherwise the derived tier. In the foundation dataset, component-specific data lives in [relationship records](relationship-format.md), not in tokens, so the `component` tier is expected to be nearly or entirely empty there; it applies to datasets that do define component-named tokens. The reference implementation reads `impliesTokenTier` and `allowedTokenTiers` from the foundation field catalog, so a dataset's own `fields/` directory does not change derivation or SPEC-102 yet.
+
+**NORMATIVE:** A declared `tokenTier` overrides the derived tier. When it differs, rule SPEC-103 (`token-tier-override`, info) reports it so exceptions stay visible.
+
+#### Fields and tiers
+
+A field declaration **MAY** declare `allowedTokenTiers`, a non-empty list of unique tiers. When present, the field applies only to tokens of those tiers; when absent, it applies to every tier. `allowedTokenTiers` is independent of `scope`: a field that declares both applies only where both allow it.
+
+**NORMATIVE:** A token whose effective tier is not in a used field's `allowedTokenTiers` triggers rule SPEC-102 (`field-token-tier-violation`, warning).
+
+### Semantic specificity
+
+Semantic specificity is how much a token's name says about what the token is for. It is derived from the token, never stored, and is a pair compared left to right:
+
+1. **Tier rank:** `primitive` < `semantic` < `component`, using the token's effective tier.
+2. **Purpose-field count:** the number of name fields whose declaration sets `impliesTokenTier: "semantic"`. A field's value counts once however many values it has.
+
+For example, `blue-100` is `(primitive, 0)`, `background-color` is `(semantic, 1)` and `accent-background-color-default` is `(semantic, 3)`. A pair is compared as a whole, so a higher tier always outranks a higher count. Alias depth is not part of it: it separates tokens poorly and is a refactoring detail.
+
+**NORMATIVE:** Implementations that report specificity **MUST** derive it from the token's name and effective tier, and **MUST NOT** store it on the token or in an index or cache, because it depends on the field catalog of the implementation.
+
+**NORMATIVE:** Derivation reads the implementation's embedded foundation field catalog, not a dataset's own `fields/`, in the same way as the derived tier.
+
+Specificity orders tokens; it does not say that one token fits a use. Two tokens can have the same value in every mode and still mean different things. For a token T, a token C is a **narrower neighbor** when all of these hold:
+
+* C has the same `property` as T.
+* C's name has every field of T with the same values, ignoring mode-set fields and `legacyKey`.
+* C's name adds at least one field that implies a semantic or component tier.
+
+A **broader neighbor** is the reverse: its name has only fields of T, and T has at least one such field it lacks. Neighbors can be classified by value: **drop-in** when C resolves to the same value as T in every combination of the declared mode sets, **consider** when it differs in at least one. A consumer **MUST NOT** treat a neighbor as a replacement because it is drop-in; whether the added fields (for example `variant: subtle`) fit the use is a judgment for the caller. Fields that do not imply a tier, such as `size`, do not make a token narrower.
 
 ### Semantic / layout token taxonomy
 

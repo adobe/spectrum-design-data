@@ -1,0 +1,53 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/toggle-button-ios.json",
+  "specVersion": "1.0.0-draft",
+  "name": "toggle-button-ios",
+  "displayName": "Toggle button",
+  "description": "A button that toggles between on and off, with a different appearance for each state (SPToggleButton). The label can be the same in both states, or differ (onText/offText, onIcon/offIcon).",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://www.figma.com/design/OQExiy8bX0pRqee71eAWX6/S2---iOS?node-id=7778-13242"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string",
+      "description": "SF Symbol or Spectrum icon (SPIconResource)."
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "On state (the Swift isOn binding)."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Button background; its style changes between the off and on states.",
+      "required": true,
+      "contains": ["icon", "label"]
+    },
+    {
+      "name": "icon",
+      "description": "Optional leading icon; may differ between states."
+    },
+    {
+      "name": "label",
+      "description": "Button text; may differ between states.",
+      "required": true
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "role": "button"
+  }
+}

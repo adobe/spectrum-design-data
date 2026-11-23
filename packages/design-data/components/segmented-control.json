@@ -79,7 +79,14 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "isFluid": {
       "type": "boolean",
@@ -89,7 +96,14 @@
     "alignment": {
       "type": "string",
       "default": "start",
-      "values": [{ "value": "start" }, { "value": "center" }]
+      "values": [
+        {
+          "value": "start"
+        },
+        {
+          "value": "center"
+        }
+      ]
     },
     "hideTracker": {
       "type": "boolean",
@@ -103,7 +117,14 @@
     "keyboardActivation": {
       "type": "string",
       "default": "manual",
-      "values": [{ "value": "manual" }, { "value": "automatic" }]
+      "values": [
+        {
+          "value": "manual"
+        },
+        {
+          "value": "automatic"
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -122,7 +143,7 @@
           },
           "state": {
             "type": "string",
-            "enum": ["default", "hover", "keyboard focus"],
+            "enum": ["default", "hover", "keyboard-focus"],
             "default": "default",
             "description": "The interaction state of the segmented control item."
           },
@@ -131,19 +152,124 @@
             "enum": ["label-only", "icon-only", "icon-label"],
             "default": "icon-label",
             "description": "Controls whether the segmented control item displays a label, an icon, or both."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this item is the selected one."
           }
         }
       }
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "description": "The size of the segmented control.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered item is the selected one. Drives the selection indicator and the item colors. Per-item in a data-driven component is items[].isSelected."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered item is disabled. Per-item in a data-driven component is items[].isDisabled."
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "slots": [
+    {
+      "name": "default",
+      "part": "item",
+      "collection": "items",
+      "description": "The segments. Each entry of the items option is drawn as one copy of the item part."
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Track background behind the items. It is the root.",
+      "required": true,
+      "contains": ["item"]
+    },
+    {
+      "name": "item",
+      "description": "One segment with an icon, a label or both; repeated once per entry of items.",
+      "required": true,
+      "contains": ["icon", "label", "selection-indicator", "focus-indicator"]
+    },
+    {
+      "name": "icon",
+      "description": "Icon in a segment; optional."
+    },
+    {
+      "name": "label",
+      "description": "Text in a segment; optional."
+    },
+    {
+      "name": "selection-indicator",
+      "description": "Fill and border that mark the selected segment. It is drawn inside the item and is present on the selected segment only.",
+      "presentWhen": {
+        "options": {
+          "isSelected": true
+        }
+      }
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused segment.",
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web segmented control page (the selected segment's own fill and stroke) and React Spectrum SegmentedControl.tsx:116-121,255 (<SelectionIndicator> in SegmentedControlItem). Decision A64 D1c: the marker is the new term selection-indicator, drawn inside the item (it was selection, a sibling inside the track). Decision A72 D9a: no item suffix is added; item keeps its name (the planned rename to segmented-control-item is dropped); the name is a question for Garth. keyboard-focus and disabled states."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
-  }
+  },
+  "states": [
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
+  ]
 }

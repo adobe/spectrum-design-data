@@ -41,6 +41,7 @@ pub(crate) mod embedded;
 pub use embedded::EMBEDDED_DATA_VERSION;
 #[cfg(feature = "fetch")]
 pub(crate) mod fetch;
+pub mod requirements;
 #[cfg(test)]
 pub(crate) mod test_support;
 
@@ -93,6 +94,17 @@ pub struct DesignDataConfig {
     /// `DESIGN_DATA_PLATFORM` env var is given. Has no effect unless `platforms`
     /// is also set.
     pub default_platform: Option<String>,
+    /// The design-data CLI versions this project's generated files (fixtures, exports, renders)
+    /// were made with, as a semver range: `">=0.36.5, <0.38.0"`, or `"=0.40.1"` for one exact
+    /// version. A bare `"0.40.1"` is a caret range (`>=0.40.1, <0.41.0`), as in Cargo.
+    ///
+    /// A different CLI can draw the same data differently, so a project that commits its output
+    /// pins the CLI. The CLI refuses to run a command whose output a project commits or ships
+    /// (`render`, `render-compare`, `export`, `catalog export`, `spec-sheet`, `site`,
+    /// `figma export`) outside this range, and warns for the others. Parsed when the config is
+    /// loaded, so a malformed range is an error for every command. See
+    /// [`requirements::cli_range_mismatch`].
+    pub cli_version: Option<String>,
 }
 
 /// Describes where to obtain or locate the design data.
@@ -106,7 +118,8 @@ pub enum SourceConfig {
     ///
     /// The `root` is resolved relative to the directory containing
     /// `.design-data.toml`. To apply a platform manifest cascade over this
-    /// source, set the top-level `manifest` key (see [`DesignDataConfig`]).
+    /// source, use a `[platforms.<id>]` entry (or the legacy top-level `manifest`
+    /// key; see [`DesignDataConfig`]).
     Path {
         /// Path to the local design-data repo root (absolute, or relative to
         /// the directory containing `.design-data.toml`).
@@ -127,8 +140,8 @@ pub enum SourceConfig {
     ///
     /// Pin to **exactly one** of `tag`, `branch`, or `sha`. A `branch` pin is
     /// mutable and is refetched on every run; `tag`/`sha` are immutable and
-    /// served from cache. Apply a platform manifest via the top-level `manifest`
-    /// key (see [`DesignDataConfig`]).
+    /// served from cache. Apply a platform manifest via a `[platforms.<id>]`
+    /// entry (or the legacy top-level `manifest` key; see [`DesignDataConfig`]).
     Github {
         /// `owner/repo` slug, e.g. `adobe/spectrum-design-data`.
         repo: String,
@@ -211,6 +224,8 @@ pub struct CliPathOverrides {
     pub fields: Option<PathBuf>,
     /// `--relationships-path`.
     pub relationships: Option<PathBuf>,
+    /// `--icons-path`.
+    pub icons: Option<PathBuf>,
     /// Naming-exceptions file (`--exceptions-path`).
     pub exceptions: Option<PathBuf>,
     /// Explicit platform manifest.json (`--manifest`), overriding the
@@ -267,6 +282,8 @@ pub struct ResolvedData {
     pub guidelines: Option<PathBuf>,
     /// Directory containing Component/Token Relationship (CTR) array files.
     pub relationships: Option<PathBuf>,
+    /// Directory containing icon sets (`icons/`, `icon-set.schema.json`).
+    pub icons: Option<PathBuf>,
     /// `naming-exceptions.json` path.
     pub exceptions: Option<PathBuf>,
     /// Layer 2 **platform** `manifest.json` path from the top-level `manifest` key, if any.
@@ -303,6 +320,9 @@ pub enum DataSourceError {
         #[source]
         source: toml::de::Error,
     },
+    /// The `.design-data.toml` parses but a value is not usable (for example `cli_version`).
+    #[error("`.design-data.toml` at {path} is invalid: {message}")]
+    ConfigInvalid { path: PathBuf, message: String },
     /// `source.type = "path"` but the `root` directory does not exist.
     #[error("source.root '{root}' in `.design-data.toml` does not exist or is not a directory")]
     PathNotFound {
@@ -684,6 +704,14 @@ pub fn find_config(start: &Path) -> Result<Option<(PathBuf, DesignDataConfig)>, 
                     path: candidate.clone(),
                     source: e,
                 })?;
+            if let Some(range) = &config.cli_version {
+                requirements::parse_cli_range(range).map_err(|message| {
+                    DataSourceError::ConfigInvalid {
+                        path: candidate.clone(),
+                        message,
+                    }
+                })?;
+            }
             return Ok(Some((candidate, config)));
         }
     }
@@ -736,6 +764,11 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         c.is_dir().then_some(c)
     });
 
+    let icons = overrides.icons.clone().or_else(|| {
+        let c = root.join("packages/design-data/icons");
+        c.is_dir().then_some(c)
+    });
+
     let exceptions = overrides.exceptions.clone().or_else(|| {
         // Older tags keep the file under packages/tokens/.
         ["packages/design-data", "packages/tokens"]
@@ -752,6 +785,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         fields,
         guidelines,
         relationships,
+        icons,
         exceptions,
         platform_manifest: None,
         provenance,
@@ -842,6 +876,15 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         candidates.into_iter().find(|c| c.is_dir())
     });
 
+    // icons
+    let icons = overrides.icons.clone().or_else(|| {
+        let candidates = [
+            cwd.join("packages/design-data/icons"),
+            cwd.join("../packages/design-data/icons"),
+        ];
+        candidates.into_iter().find(|c| c.is_dir())
+    });
+
     // exceptions
     let exceptions = overrides.exceptions.clone().or_else(|| {
         let candidates = [
@@ -861,6 +904,7 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         fields,
         guidelines,
         relationships,
+        icons,
         exceptions,
         platform_manifest: None,
         provenance: Provenance::InRepo,
@@ -884,6 +928,62 @@ fn resolve_schema_root(
                 .map(PathBuf::from)
         })
         .unwrap_or_else(fallback)
+}
+
+/// The newest `@adobe/spectrum-design-data@x.y.z` release in a GitHub `releases` response
+/// (a JSON array of objects with a `tag_name`). Prereleases and drafts are ignored.
+pub fn latest_release_version(releases: &serde_json::Value) -> Option<semver::Version> {
+    releases
+        .as_array()?
+        .iter()
+        .filter(|r| r.get("draft").and_then(serde_json::Value::as_bool) != Some(true))
+        .filter_map(|r| {
+            let tag = r.get("tag_name")?.as_str()?;
+            let version = tag.strip_prefix("@adobe/spectrum-design-data@")?;
+            semver::Version::parse(version).ok()
+        })
+        .filter(|v| v.pre.is_empty())
+        .max()
+}
+
+/// The newest published foundation release on `repo`, from the GitHub API (60 unauthenticated
+/// requests an hour). `platform doctor --latest` compares the platform's pin with it.
+pub fn latest_foundation_version(repo: &str) -> Result<semver::Version, DataSourceError> {
+    #[cfg(feature = "fetch")]
+    {
+        let version = fetch::latest_release(repo, latest_release_version)?;
+        Ok(version)
+    }
+    #[cfg(not(feature = "fetch"))]
+    {
+        let _ = repo;
+        Err(DataSourceError::NotYetImplemented {
+            source_type: "fetch feature not enabled in this build".into(),
+        })
+    }
+}
+
+/// The `packages/design-data` directory of the foundation published as
+/// `@adobe/spectrum-design-data@<version>` on `repo`, fetched into the cache on first use.
+/// `platform impact` reads that release's `changelog/`.
+pub fn foundation_dataset_dir(
+    repo: &str,
+    version: &str,
+    cache_dir_override: Option<&Path>,
+) -> Result<PathBuf, DataSourceError> {
+    #[cfg(feature = "fetch")]
+    {
+        let tag = format!("@adobe/spectrum-design-data@{version}");
+        let root = fetch::ensure_cached_keeping_others(repo, &tag, cache_dir_override)?;
+        Ok(root.join("packages/design-data"))
+    }
+    #[cfg(not(feature = "fetch"))]
+    {
+        let _ = (repo, version, cache_dir_override);
+        Err(DataSourceError::NotYetImplemented {
+            source_type: "fetch feature not enabled in this build".into(),
+        })
+    }
 }
 
 /// Dispatch a remote-fetch source through the fetch module (tier 2, config-driven).
@@ -938,6 +1038,7 @@ mod tests {
         fs::create_dir_all(dir.join("packages/design-data/mode-sets")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data/components")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data/fields")).unwrap();
+        fs::create_dir_all(dir.join("packages/design-data/icons")).unwrap();
         fs::write(
             dir.join("packages/design-data/naming-exceptions.json"),
             b"{}",
@@ -960,6 +1061,7 @@ mod tests {
         assert!(resolved.mode_sets.is_some());
         assert!(resolved.components.is_some());
         assert!(resolved.fields.is_some());
+        assert!(resolved.icons.is_some());
         assert!(resolved.exceptions.is_some());
     }
 
@@ -1005,6 +1107,7 @@ mod tests {
         assert!(resolved.mode_sets.is_none());
         assert!(resolved.components.is_none());
         assert!(resolved.fields.is_none());
+        assert!(resolved.icons.is_none());
         assert!(resolved.exceptions.is_none());
     }
 
@@ -1069,6 +1172,10 @@ mod tests {
         );
         assert!(resolved.schemas_root.starts_with(&canon_root));
         assert!(resolved.components.is_some());
+        assert_eq!(
+            resolved.icons,
+            Some(canon_root.join("packages/design-data/icons"))
+        );
     }
 
     #[test]
@@ -1671,6 +1778,29 @@ mod tests {
                 .schemas_root
                 .ends_with("packages/design-data-spec/schemas"),
             "schema override must not fall through to the embedded/in-repo default"
+        );
+    }
+
+    #[test]
+    fn the_latest_release_is_the_newest_stable_foundation_tag() {
+        let releases = serde_json::json!([
+            { "tag_name": "design-data-cli@0.99.0" },
+            { "tag_name": "@adobe/design-data-wasm@9.0.0" },
+            { "tag_name": "@adobe/spectrum-design-data@3.15.1" },
+            { "tag_name": "@adobe/spectrum-design-data@3.17.0" },
+            { "tag_name": "@adobe/spectrum-design-data@3.18.0-beta.1" },
+            { "tag_name": "@adobe/spectrum-design-data@4.0.0", "draft": true },
+            { "tag_name": "@adobe/spectrum-design-data@3.9.0" },
+            { "tag_name": "@adobe/spectrum-design-data@not-a-version" }
+        ]);
+        assert_eq!(
+            latest_release_version(&releases),
+            Some(semver::Version::new(3, 17, 0))
+        );
+        assert_eq!(latest_release_version(&serde_json::json!([])), None);
+        assert_eq!(
+            latest_release_version(&serde_json::json!({ "message": "rate limited" })),
+            None
         );
     }
 }

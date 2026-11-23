@@ -1,0 +1,20 @@
+{
+  "accordion": 17,
+  "action-button": 33,
+  "avatar": 16,
+  "badge": 18,
+  "button": 34,
+  "clear-button": 16,
+  "close-button": 30,
+  "divider": 5,
+  "field-label": 4,
+  "help-text": 5,
+  "in-field-progress-circle": 8,
+  "link": 15,
+  "meter": 21,
+  "progress-bar": 16,
+  "progress-circle": 9,
+  "radio-button": 24,
+  "swatch": 19,
+  "thumbnail": 7
+}

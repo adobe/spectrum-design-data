@@ -1,0 +1,289 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-slider",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (field label value to track)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (field label value to track)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"477d659b-6489-4e90-84db-75a93174559a","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (field label value to track)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (field label value to track)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":3,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/0","name":"guideline: Keyboard focus.\n\nThe keyboard focus state enlarg","fields":[{"path":"content","before":"Color sliders adjust a single channel of a color. They’re often used in combination with other color controls to provide fine-tuned visual selection.","after":"Keyboard focus.\n\nThe keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/1","name":"guideline: Handle behavior.\n\nUnlike the slider itself, the ","fields":[{"path":"content","before":"A color slider in a disabled state shows that an input exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that a slider may become available later.","after":"Handle behavior.\n\nUnlike the slider itself, the color slider's handle can slide all the way to the edge of the track. It always displays the selected color inside the handle and never gets cut off by the track or any container."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/2","name":"guideline: Minimum length.\n\nA color slider's minimum length","fields":[{"path":"content","before":"The slider’s length can be customized based on its context, while its thickness stays fixed for consistency and usability.","after":"Minimum length.\n\nA color slider's minimum length is 80 px on desktop, 100 px on mobile."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/3","name":"guideline: Include labels.\n\nColor sliders should be labeled","fields":[{"path":"content","before":"Color sliders can be either in horizontal or vertical orientation. By default, a color slider is horizontal and should be used when vertical space is more limited. The vertical orientation is used when horizontal space is more limited.","after":"Include labels.\n\nColor sliders should be labeled and, when applicable, paired with text fields. If labeling each individual slider is redundant, label the group of sliders instead (for example, \"RGB\" or \"HSB\")."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/4","name":"guideline: Display color selection.\n\nWhen using color slide","fields":[{"path":"content","before":"The step refers to the increment by which these values increase or decrease. A step value of 1 (default) allows a user to only select whole numbers within the min and max range.","after":"Display color selection.\n\nWhen using color sliders, it's important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/5","name":"guideline: Color loupe on down/touch state.\n\nThe color loup","fields":[{"path":"content","before":"The min and max values also can be customized appropriately for what the color slider is being used for (such as 0 to 360 for hue). By default, the min value starts at 0 and max value is set to 100.","after":"Color loupe on down/touch state.\n\nThe color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/6","name":"guideline: The value is the number selected within the colo","fields":[],"before":{"type":"guideline","content":"The value is the number selected within the color slider’s range, from the min value to max value."}},
+            {"id":"ec3376fa-7","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/7","name":"guideline: Controls a single color channel — such as hue, l","fields":[],"before":{"type":"guideline","content":"Controls a single color channel — such as hue, lightness, or alpha—at a time. The track’s gradient visualizes the full range of values for that channel."}},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/8","name":"guideline: The background of the color slider is a visual r","fields":[],"before":{"type":"guideline","content":"The background of the color slider is a visual representation of the range of values a user can select from. This can represent color properties such as hues, color channel values (such as RGB or CMYK levels), or opacity. The exact format this background property takes will depend on what implementation you are working with. Some examples of the format include image, canvas, and gradient."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/9","name":"guideline: The keyboard focus state enlarges the handle to ","fields":[],"before":{"type":"guideline","content":"The keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/10","name":"guideline: Unlike the slider itself, the color slider’s han","fields":[],"before":{"type":"guideline","content":"Unlike the slider itself, the color slider’s handle can slide all the way to the edge of the track. It always displays the selected color inside the handle and never gets cut off by the track or any container."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/11","name":"guideline: A color slider’s minimum length is 80 px on desk","fields":[],"before":{"type":"guideline","content":"A color slider’s minimum length is 80 px on desktop, 100 px on mobile."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/12","name":"guideline: Color sliders should be labeled and, when applic","fields":[],"before":{"type":"guideline","content":"Color sliders should be labeled and, when applicable, paired with text fields. If labeling each individual slider is redundant, label the group of sliders instead (for example, “RGB” or “HSB”)."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/13","name":"guideline: When using color sliders, it’s important to clea","fields":[],"before":{"type":"guideline","content":"When using color sliders, it’s important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/documentBlocks/14","name":"guideline: The color loupe component can be used above the ","fields":[],"before":{"type":"guideline","content":"The color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["relationship removed"]}
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.6",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":13,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/color-handle","name":"color-handle","fields":[],"after":{"name":"color-handle","description":"Handle marking the selected channel value.","required":true}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Field label above the track."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[],"after":{"name":"opacity-checkerboard","description":"Checkerboard behind the track for opacity channels."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/track","name":"track","fields":[],"after":{"name":"track","description":"Gradient track holding the handle and checkerboard.","required":true,"contains":["color-handle","opacity-checkerboard"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Current channel value shown beside the label."}},
+            {"id":"12ddd7e7-5","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring); container and focus-indicator dropped, no relationship scope.part names them."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"424db2a9-5795-400b-a98a-58081d311bff","name":"width[scale=desktop]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"07e3ac46-3f96-4c00-aa6a-09840ee04bdd","name":"width[scale=mobile]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":null},"record":"3300c749-5daf-5c83-9ee1-8298311c1db5","name":"length","fields":[{"path":"$ref","before":"11442823-3e61-425a-a24b-a4a0747a06c4","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}]},
+            {"id":"0b8924f1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":null},"record":"98bcc125-1ac7-5730-8546-ce2a0fa3782f","name":"length","fields":[{"path":"$ref","before":"c42de1ce-088a-4918-a7dc-36507c8acedf","after":"ec422181-d393-5f76-83c9-fc6a1a354262"}]},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"desktop"}},"record":"11442823-3e61-425a-a24b-a4a0747a06c4","name":"length[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}],"rationale":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"desktop"}},"record":"11442823-3e61-425a-a24b-a4a0747a06c4","name":"length[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared bar-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."},
+            {"id":"0b8924f1-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"mobile"}},"record":"c42de1ce-088a-4918-a7dc-36507c8acedf","name":"length[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"f7cb09c8-a44c-4455-bffd-199b76fd1c25"}],"rationale":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"mobile"}},"record":"c42de1ce-088a-4918-a7dc-36507c8acedf","name":"length[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared bar-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 439 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"minimum-length","options":{"scale":"desktop"}},"record":"54aad7a1-df6a-414a-82b4-7976c912a8e5","name":"minimum-length[scale=desktop]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"minimum-length","options":{"scale":"mobile"}},"record":"120308f7-4220-420e-b836-20176a8184b7","name":"minimum-length[scale=mobile]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}
+          ],
+          "metadata": {"count":4,"fields":["scope.options.scale","uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Corner radius"],"scope":{"property":"corner-radius","options":null},"record":"83194afa-d453-51d5-9d7a-92973d22f444","name":"corner-radius","fields":[{"path":"context","before":"Border","after":"Corner radius"}]}
+          ],
+          "metadata": {"count":1,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"desktop"}},"record":"3300c749-5daf-5c83-9ee1-8298311c1db5","name":"length[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Length"],"scope":{"property":"length","options":{"scale":"mobile"}},"record":"98bcc125-1ac7-5730-8546-ce2a0fa3782f","name":"length[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"23810aed-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"thickness","options":{"scale":"desktop"}},"record":"0a01a2fb-63fc-574e-b263-c0d0d823a510","name":"thickness[scale=desktop]","fields":[{"path":"scope.part","after":"track"},{"path":"scope.property","before":"width","after":"thickness"}]},
+            {"id":"23810aed-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"thickness","options":{"scale":"mobile"}},"record":"9586e4f1-5740-5769-9165-25470f0ed81c","name":"thickness[scale=mobile]","fields":[{"path":"scope.part","after":"track"},{"path":"scope.property","before":"width","after":"thickness"}]},
+            {"id":"23810aed-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"34cccae2-3528-5886-ad2a-701c3a3fae65","name":"border-width","fields":[{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Corner radius"],"scope":{"property":"corner-radius","options":null},"record":"83194afa-d453-51d5-9d7a-92973d22f444","name":"corner-radius","fields":[{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label value to track)"],"scope":{"property":"space-between","options":null},"record":"6603195d-fd43-5038-ae24-ea9d82174848","name":"space-between","fields":[{"path":"scope.between.from","after":"field-label"},{"path":"scope.between.to","after":"track"},{"path":"scope.property","before":"component-top-to-text-75","after":"space-between"}]},
+            {"id":"23810aed-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"69ec2540-3586-505b-aac7-b9cd075165b6","name":"color","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-8","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"opacity","options":null},"record":"1eee140d-1416-55c2-9785-3c4c937ae5c0","name":"opacity","fields":[{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"content-color","options":{"isDisabled":true}},"record":"4e4c352b-26da-5381-bba4-eab892406434","name":"content-color[isDisabled=?]","fields":[{"path":"scope.options.isDisabled","after":true}]},
+            {"id":"23810aed-10","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"content-color","options":{"isDisabled":true}},"record":"4e4c352b-26da-5381-bba4-eab892406434","name":"content-color[isDisabled=?]","fields":[{"path":"scope.part","after":"value"}]},
+            {"id":"23810aed-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"3a32a61b-b5da-526b-b8d1-bd3f10d37b00","name":"color[isDisabled=?]","fields":[{"path":"scope.options.isDisabled","after":true}]},
+            {"id":"23810aed-12","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"3a32a61b-b5da-526b-b8d1-bd3f10d37b00","name":"color[isDisabled=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-13","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-slider/options/background","name":"background","fields":[],"before":{"type":"string","description":"This will vary depending on implementation."}},
+            {"id":"23810aed-14","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/options/label","name":"label","fields":[],"after":{"type":"string","description":"The field label text (Figma Show label, RSP label)."}},
+            {"id":"23810aed-15","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-slider/anatomy/label","name":"label","fields":[],"before":{"name":"label","description":"Field label above the track."}},
+            {"id":"23810aed-16","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Root: owns the slider's length and minimum length.","required":true,"contains":["field-label","value","track"]}},
+            {"id":"23810aed-17","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"The field label component above the track (Figma Field label instance, RSP FieldLabel)."}},
+            {"id":"23810aed-18","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"The channel gradient drawn over the checkerboard (Figma Color slider fill). Owner decision C5."}},
+            {"id":"23810aed-19","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"description","before":"Checkerboard behind the track for opacity channels.","after":"Checkerboard behind the gradient so an opacity channel reads. Absent when disabled (Figma); sized m."}]},
+            {"id":"23810aed-20","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/track","name":"track","fields":[{"path":"contains","before":["color-handle","opacity-checkerboard"],"after":["opacity-checkerboard","fill","color-handle"]}]},
+            {"id":"23810aed-21","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/track","name":"track","fields":[{"path":"description","before":"Gradient track holding the handle and checkerboard.","after":"Track holding the checkerboard, the gradient and the handle; owns thickness, border, radius and the disabled background."}]},
+            {"id":"23810aed-22","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring); container and focus-indicator dropped, no relationship scope.part names them.","after":"A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component)."}]}
+          ],
+          "metadata": {"count":13,"fields":["anatomyReview.status","context","contextRole","scope.attribute","scope.part","scope.property"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/color-handle","name":"color-handle","fields":[{"path":"component","after":"color-handle"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/field-label","name":"field-label","fields":[{"path":"component","after":"field-label"}]},
+            {"id":"5d6bd008-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"component","after":"opacity-checkerboard"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2081,"title":"feat(design-data): add S2 channel options to color slider, area and wheel","url":"https://github.com/adobe/spectrum-design-data/pull/2081"},
+          "entries": [
+            {"id":"87b260bb-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/options/color","name":"color","fields":[],"after":{"type":"string","description":"The color whose channel the slider adjusts (S2 value). The gradient ramp is computed from it and the channel. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."}},
+            {"id":"87b260bb-1","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/options/colorSpace","name":"colorSpace","fields":[],"after":{"type":"string","description":"The color space the channel belongs to (S2 colorSpace). Defaults to the color's own space.","values":[{"value":"rgb"},{"value":"hsl"},{"value":"hsb"}]}},
+            {"id":"87b260bb-2","kind":"option-value","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/options/channel/values/brightness","name":"brightness","fields":[],"after":{"value":"brightness"}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "1501aeed0277a01d90e98f63e9a3e500af8242e8",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2078,"title":"feat(design-data): add color-slider and color-area visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2078"},
+          "entries": [
+            {"id":"1501aeed-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/container","name":"container","fields":[{"path":"contains","before":["field-label","value","track"],"after":["field-label","value","track","opacity-checkerboard","fill"]}]},
+            {"id":"1501aeed-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/field-label","name":"field-label","fields":[{"path":"presentWhen.options.label","after":true},{"path":"presentWhen.options.orientation","after":"horizontal"}]},
+            {"id":"1501aeed-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/fill","name":"fill","fields":[{"path":"presentWhen.options.color","after":true},{"path":"presentWhen.options.isDisabled","after":false}]},
+            {"id":"1501aeed-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomy/opacity-checkerboard","name":"opacity-checkerboard","fields":[{"path":"presentWhen.options.isDisabled","after":false}]},
+            {"id":"1501aeed-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component).","after":"A7 (2026-11-20). RSP ColorSlider.tsx:89-156 (handle grows on focus, track draws no ring; label and output over the track); Figma Color slider (Field label, Value, Opacity checkerboard, Color slider fill, border, .Color slider track holding a Color handle). Explicit container added. Owner decision C5: the gradient is a fill part inside track. Option background dropped (no source has it). Owner decision C6: the label part is field-label (the nested field-label component). R4b (interim): the checkerboard and fill are also listed under container because the recipe stacks them in the root; the engine allows stack only on a root box. Remove those two entries from container.contains once stack is allowed on a non-root box."}]},
+            {"id":"1501aeed-5","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"color-slider/visual","name":"color-slider","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -52,8 +52,9 @@ decreases only when staging actually removes superseded JSON files.
 
 ## Decisions requiring review
 
-1. **60 exact 1:1 matches** (`COMPONENT_SLUG_MAP`) — hub slug equals an existing
-   local filename exactly. Low risk, mechanical.
+1. **59 exact 1:1 matches** (`COMPONENT_SLUG_MAP`) — hub slug equals an existing
+   local filename exactly. Low risk, mechanical. The Hub's `cards` page is the
+   one rename: `COMPONENT_SLUG_FANOUT` routes it onto the local `card`.
 
 2. **1 curated fan-out** (`COMPONENT_SLUG_FANOUT`): the Hub's single
    `color-handle-and-loupe` page must route into _two_ local components,
@@ -65,11 +66,11 @@ decreases only when staging actually removes superseded JSON files.
    duplication (vs. e.g. picking one target, or waiting for the Hub to split the
    page itself) is the right call.
 
-3. **35 local-only components** (`COMPONENTS_WITHOUT_HUB_PAGE`) with no Hub page
+3. **34 local-only components** (`COMPONENTS_WITHOUT_HUB_PAGE`) with no Hub page
    yet — informational only, unaffected by this pipeline until the Hub publishes
    something. Two names in this bucket are easy to mistake for fan-out targets of
-   an _existing_ mapped slug but are not: `cards` (hub, 1:1) vs. `card` /
-   `card-horizontal` / `collection-card` (local-only, unrelated); `calendar` (hub,
+   an _existing_ mapped slug but are not: `cards` (hub, routed to the local
+   `card`) vs. `card-horizontal` / `collection-card` (local-only, archive-only); `calendar` (hub,
    1:1) vs. `single-calendar` / `double-calendar` / `triple-calendar` (local-only,
    unrelated). An earlier manual spot-check in this investigation briefly
    mis-flagged these as splits; the automated cross-reference in
@@ -111,7 +112,7 @@ converter retains section introductions when subsections follow them.
 `test/component-map.test.js` asserts: no duplicate/overlapping slugs across the
 three tables, every mapped/fan-out/no-hub-page slug corresponds to a real file
 under `packages/design-data/components/`, and — the strongest invariant — the union
-of all three tables exactly accounts for all 97 local component files with none
+of all three tables exactly accounts for all 96 local component files with none
 left unaccounted for.
 
 ---

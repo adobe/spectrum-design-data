@@ -28,14 +28,27 @@
     }
   ],
   "options": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "dialog",
-      "values": [{ "value": "dialog" }, { "value": "full screen" }]
+      "values": [
+        {
+          "value": "dialog"
+        },
+        {
+          "value": "full screen"
+        }
+      ]
     },
-    "primaryActionLabel": { "type": "string" },
+    "primaryActionLabel": {
+      "type": "string"
+    },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -44,35 +57,74 @@
       "type": "string",
       "default": "cancel",
       "description": "If undefined, this button does not appear."
-    },
-    "slots": {
-      "type": "array",
-      "description": "Areas where other components can be inserted (e.g. Side navigation, Steplist, Forms).",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Identifier for the slot (e.g. 'sidebar', 'content', 'footer')."
-          },
-          "component": {
-            "type": "string",
-            "description": "The type of component placed in this slot (e.g. side-navigation, steplist, form)."
-          }
-        },
-        "required": ["name", "component"]
-      }
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "slots": [
+    {
+      "name": "header-content",
+      "part": "header-content",
+      "description": "Optional custom content in the header."
+    },
+    {
+      "name": "default",
+      "part": "body",
+      "description": "The dialog content: other components such as side navigation, a steplist or forms."
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Large dialog surface. It is the root and carries the rounding, margin, background and, for the full-screen variant, fills the frame.",
+      "required": true,
+      "contains": ["title", "header-content", "button-group", "body"]
+    },
+    {
+      "name": "title",
+      "description": "Dialog title.",
+      "required": true
+    },
+    {
+      "name": "header-content",
+      "description": "Optional custom content in the header. Hosts the header-content slot."
+    },
+    {
+      "name": "button-group",
+      "component": "button-group",
+      "description": "The button-group component that holds the dialog actions. Its buttons are slot fills; the action label options map to them."
+    },
+    {
+      "name": "body",
+      "description": "Region under the header. It hosts the default slot (for example side navigation, a steplist or a form)."
+    },
+    {
+      "name": "overlay",
+      "description": "Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its colour and opacity."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web takeover dialog: the Dialog variant root is the overlay (black at 44%) around the surface, and the full-screen variant has no overlay and no radius. React Spectrum S2 FullscreenDialog and Modal. Decisions (Garth, 2026-11-20): C3 top-level overlay part, and the takeover margin is margin on container pinned variant dialog; C4 button-group replaces the action parts; C5 body kept as the slot host. The slots array option is replaced by the slots declared on the component (slots memo step 5)."
   }
 }

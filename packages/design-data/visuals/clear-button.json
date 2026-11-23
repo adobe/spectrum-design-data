@@ -1,0 +1,200 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "clear-button",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "width": {
+          "relationship": {
+            "property": "height",
+            "context": "Button size"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "context": "Button size"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "ui",
+        "name": "cross"
+      },
+      "props": {
+        "width": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "context": "Cross icon size"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "context": "Cross icon size"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "context": "Cross icon size"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "context": "Cross icon size"
+            }
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "context": "Cross icon size"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "context": "Cross icon size"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "context": "Cross icon size"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "context": "Cross icon size"
+            }
+          }
+        ],
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "context": "Cross icon"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Cross icon"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Cross icon"
+            }
+          }
+        ]
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Focus ring"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Focus ring"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "context": "Focus ring"
+          }
+        }
+      }
+    }
+  }
+}

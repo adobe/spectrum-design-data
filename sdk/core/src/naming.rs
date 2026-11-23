@@ -524,6 +524,8 @@ pub struct FormattingConfig {
 pub enum Casing {
     #[serde(rename = "kebab-case")]
     KebabCase,
+    #[serde(rename = "snake_case")]
+    SnakeCase,
     #[serde(rename = "camelCase")]
     CamelCase,
     #[serde(rename = "PascalCase")]
@@ -611,8 +613,13 @@ fn general_domain_key(
     match config {
         None => Some(segments.join("-")),
         Some(cfg) => {
-            let delimiter = cfg.delimiter.as_deref().unwrap_or("-");
             let casing = cfg.casing.unwrap_or(Casing::KebabCase);
+            let default_delimiter = if casing == Casing::SnakeCase {
+                "_"
+            } else {
+                "-"
+            };
+            let delimiter = cfg.delimiter.as_deref().unwrap_or(default_delimiter);
             // Abbreviations and registry expansions can themselves be multi-word
             // (e.g. "extra-large"); flatten to individual words before casing so
             // camelCase/PascalCase capitalize every word, not just each segment.
@@ -680,7 +687,7 @@ fn ordered_field_names(
 /// Apply a casing style to an already-tokenized word list.
 fn apply_casing(words: &[String], casing: Casing, delimiter: &str) -> String {
     match casing {
-        Casing::KebabCase => words.join(delimiter),
+        Casing::KebabCase | Casing::SnakeCase => words.join(delimiter),
         Casing::ScreamingSnakeCase => words
             .iter()
             .map(|w| w.to_uppercase())
@@ -1009,6 +1016,36 @@ mod tests {
             format_name(&name, &config).as_deref(),
             Some("--spectrum-button-background-color")
         );
+    }
+
+    #[test]
+    fn format_name_snake_case_matches_kebab_with_underscore_delimiter() {
+        let names = [
+            json!({"component": "button", "property": "background-color"}),
+            json!({"component": "avatar-group", "property": "size", "scaleIndex": 100}),
+            json!({"component": "button", "property": "border-width", "state": ["hover"]}),
+            json!({"component": "text-field", "property": "min-width-2x"}),
+            json!({"component": "url-input", "property": "rgb-value"}),
+        ];
+        for name in &names {
+            let snake = FormattingConfig {
+                casing: Some(Casing::SnakeCase),
+                ..Default::default()
+            };
+            let snake_explicit = FormattingConfig {
+                delimiter: Some("_".to_string()),
+                ..snake.clone()
+            };
+            let kebab = FormattingConfig {
+                casing: Some(Casing::KebabCase),
+                delimiter: Some("_".to_string()),
+                ..Default::default()
+            };
+            let expected = format_name(name, &kebab);
+            assert!(expected.as_deref().is_some_and(|s| !s.contains('-')));
+            assert_eq!(format_name(name, &snake), expected);
+            assert_eq!(format_name(name, &snake_explicit), expected);
+        }
     }
 
     #[test]

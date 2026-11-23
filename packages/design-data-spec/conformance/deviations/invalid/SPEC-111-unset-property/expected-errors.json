@@ -1,0 +1,9 @@
+{
+  "errors": [
+    {
+      "rule_id": "SPEC-111",
+      "severity": "warning",
+      "message_pattern": "cornerRadius"
+    }
+  ]
+}

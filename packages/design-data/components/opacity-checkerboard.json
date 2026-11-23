@@ -9,9 +9,23 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
   },
+  "subcomponent": true,
   "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        }
+      ]
+    },
     "verticalSize": {
       "type": "number",
+      "default": 16,
       "values": [
         {
           "value": 16
@@ -32,6 +46,7 @@
     },
     "horizontalSize": {
       "type": "number",
+      "default": 24,
       "values": [
         {
           "value": 24
@@ -41,6 +56,35 @@
         }
       ]
     }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "The patterned surface. It holds the squares and sets no values of its own.",
+      "required": true,
+      "contains": ["square"]
+    },
+    {
+      "name": "square",
+      "description": "Single square of the checkerboard pattern. It sets the square size and holds the light and dark tiles the pattern alternates between.",
+      "required": true,
+      "contains": ["light-tile", "dark-tile"]
+    },
+    {
+      "name": "light-tile",
+      "description": "The lighter of the two alternating tiles; it sets the lighter tile color.",
+      "required": true
+    },
+    {
+      "name": "dark-tile",
+      "description": "The darker of the two alternating tiles; it sets the darker tile color.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma page; it appears only as the Checkerboard layer inside other components. React Spectrum S2 draws an inline repeating-conic-gradient and SWC gen2 a CSS fragment with tokens opacity-checkerboard-square-{size,dark,light}. container is the explicit root; square carries the size; light-tile and dark-tile are two parts, each carrying one tile color (owner decision A293 b), so no tone option is needed. The square-light value conflict stays with bead 5m92.5.10."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"

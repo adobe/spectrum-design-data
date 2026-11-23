@@ -16,6 +16,7 @@ pub mod audit;
 pub mod color;
 pub mod import;
 pub mod mapping;
+pub mod public_names;
 pub mod types;
 pub mod write_guard;
 

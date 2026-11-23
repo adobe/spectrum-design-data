@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "toast",
+  "implementations": [
+    {
+      "platform": "ios",
+      "componentName": "SPToast",
+      "package": "spectrum-ios",
+      "notes": "SwiftUI; shown through SPToastHost and SPToastManager. Source: OneAdobe/spectrum-ios main 3f6e7c0."
+    }
+  ]
+}

@@ -185,12 +185,13 @@ test("getAdvisoryFields returns a non-empty string array", (t) => {
   t.true(fields.every((f) => typeof f === "string"));
 });
 
-test("getIndexedFields returns all 8 indexed filter keys", (t) => {
+test("getIndexedFields returns all 9 indexed filter keys", (t) => {
   const fields = wasm.getIndexedFields();
   t.true(Array.isArray(fields));
   t.true(fields.every((f) => typeof f === "string"));
   const expected = [
     "property",
+    "component",
     "variant",
     "state",
     "colorScheme",
@@ -365,6 +366,25 @@ test("query result tokens have expected shape", (t) => {
   t.is(typeof first.name, "string");
   t.is(typeof first.layer, "string");
   t.truthy(first.raw);
+  t.true(["primitive", "semantic", "component"].includes(first.tier));
+  t.true(["declared", "derived"].includes(first.tierSource));
+  t.true(Array.isArray(first.purposeFields));
+  t.is(first.purposeCount, first.purposeFields.length);
+});
+
+test("refinements: specificity and same-property neighbors", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const r = ds.refinements("neutral-subdued-content-color-hover", 5);
+  t.is(r.specificity.tier, "semantic");
+  t.deepEqual([...r.specificity.purposeFields].sort(), [
+    "colorRole",
+    "state",
+    "variant",
+  ]);
+  t.is(r.broader[0].name, "neutral-content-color-hover");
+  t.deepEqual(r.broader[0].fields, { variant: "subdued" });
+  t.true(["drop-in", "consider"].includes(r.broader[0].valueMatch));
+  t.is(ds.refinements("no-such-token"), undefined);
 });
 
 // ---------------------------------------------------------------------------

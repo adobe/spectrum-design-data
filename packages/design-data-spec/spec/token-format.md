@@ -169,18 +169,20 @@ implements the token lifecycle model described in
 [Evolution](evolution.md). Inspired by Swift's `@available` attribute, Kotlin's `@Deprecated`, and
 OpenAPI 3.3's deprecation model.
 
-| Field                         | Type                                    | Description                                                                                                                    |
-| ----------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `uuid`                        | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                                |
-| `lifecycle.introduced`        | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                                  |
-| `lifecycle.deprecatedIn`      | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                              |
-| `lifecycle.deprecatedComment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                                 |
-| `lifecycle.replacedBy`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
-| `lifecycle.plannedRemoval`    | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecatedIn`.              |
-| `private`                     | boolean                                 | Not part of public API surface.                                                                                                |
-| `rationale`                   | string                                  | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
+| Field                         | Type                                           | Description                                                                                                                    |
+| ----------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `uuid`                        | string (UUID)                                  | Stable unique id for rename tracking and diffs.                                                                                |
+| `lifecycle.introduced`        | string (version)                               | Spec version when the token was first added (e.g. `"1.0.0"`).                                                                  |
+| `lifecycle.deprecatedIn`      | string (version)                               | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                              |
+| `lifecycle.deprecatedComment` | string                                         | Human-readable deprecation explanation and migration guidance.                                                                 |
+| `lifecycle.replacedBy`        | string (UUID) or array of string (UUID)        | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
+| `lifecycle.plannedRemoval`    | string (version)                               | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecatedIn`.              |
+| `private`                     | boolean                                        | Not part of public API surface.                                                                                                |
+| `excludeFromLegacy`           | boolean                                        | When `true`, legacy output generation **MUST** omit the token. Default `false`. Use for tokens with no legacy counterpart.     |
+| `tokenTier`                   | `"primitive"` \| `"semantic"` \| `"component"` | Overrides the tier derived from the token. Usually omitted; see [Taxonomy: Token tiers](taxonomy.md#token-tiers).              |
+| `rationale`                   | string                                         | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
 
-`private` and `rationale` stay flat (not version-lifecycle concepts).
+`private`, `excludeFromLegacy` and `rationale` stay flat (not version-lifecycle concepts).
 
 #### Lifecycle example
 
@@ -338,11 +340,13 @@ Within a composite value, a string sub-value **MAY** be an **inline alias**: a r
 
 **NORMATIVE:** In legacy format, inline aliases use the syntax `{token-name}` (curly-brace-wrapped token property name). In cascade format, top-level `$ref` aliases use a UUID (canonical, rename-proof); inline composite aliases within `value` objects remain `{token-name}` for backward compatibility. UUID-based inline composite aliases are reserved for a future spec version.
 
+**NORMATIVE:** An inline alias is a legacy name, and a legacy name can name several tokens that differ by mode (`font-size-100` has a `desktop` and a `mobile` row). A reader **MUST** resolve an inner alias in the requested mode context, picking the row that matches each declared mode set and the default row for a mode set the request leaves out. Resolving it once, to the default row, and reusing that for every mode is wrong. A typography composite used by a [type-style record](relationship-format.md#type-style-records) is read this way.
+
 **NORMATIVE:** Inline aliases within composite values are subject to alias resolution rules. Validators **MUST** resolve inline aliases and report errors for missing targets (SPEC-014), type mismatches (SPEC-015), and circular references (SPEC-003, extended).
 
 ## Component bindings
 
-The optional `componentBindings` array on a token is the **reverse index** of `tokenBindings` on a component declaration (Phase 6.7). It declares which components reference this token in their `tokenBindings` list.
+The optional `componentBindings` array on a token is the **reverse index** of the component relationships in `relationships/`. It declares which components reference this token.
 
 ```json
 "componentBindings": [
@@ -356,7 +360,7 @@ The optional `componentBindings` array on a token is the **reverse index** of `t
 | `component` | yes      | string | Component name (kebab-case). MUST match a declared component `name`. |
 | `context`   | no       | string | Human-readable label for how this token is used in the component.    |
 
-`componentBindings` is **informative and optional**. It is fully derivable from the `tokenBindings` arrays on component declarations and does not need to be hand-maintained. Tooling that generates component files may populate `componentBindings` as a convenience for consumers that query token files directly.
+`componentBindings` is **informative and optional**. It is fully derivable from relationships and does not need to be hand-maintained. Tooling that generates component files may populate `componentBindings` as a convenience for consumers that query token files directly.
 
 ## Relationship to legacy Spectrum tokens
 

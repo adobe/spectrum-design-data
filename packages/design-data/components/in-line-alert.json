@@ -59,7 +59,46 @@
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Bordered or filled surface holding the alert content.",
+      "required": true,
+      "contains": ["icon", "title", "description", "button", "link"]
+    },
+    {
+      "name": "icon",
+      "description": "Status icon chosen by variant."
+    },
+    {
+      "name": "title",
+      "description": "Alert heading. Hidden when no heading.",
+      "presentWhen": { "options": { "heading": true } }
+    },
+    {
+      "name": "description",
+      "description": "Alert body text.",
+      "required": true
+    },
+    {
+      "name": "button",
+      "component": "button",
+      "description": "Optional action button, shown with actionLabel."
+    },
+    {
+      "name": "link",
+      "component": "link",
+      "description": "Optional link, shown with href."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Owner decisions (A137, 2026-11-20): explicit root part container; text parts are title and description (Figma Heading and Content); link and button are separate parts. The style option picks the container fill (Figma 'Border fill' is the outline value, 'Subtle fill' subtle, 'Bold fill' bold). The 27 combined 'X and Icon' colour records are split into a container record and an icon record sharing one $ref; the icon is absent for the neutral variant (presentWhen is not built yet, so the part carries no condition). Edge padding uses axis endpoints (start-edge, end-edge, top-edge, bottom-edge) to content. Figma S2 Web In-line alert."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "focusable": false,
     "wcag": [

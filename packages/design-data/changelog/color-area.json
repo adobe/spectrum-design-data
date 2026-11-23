@@ -1,0 +1,227 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-area",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/0","name":"guideline: Keyboard focus.\n\nA color area can be navigated u","fields":[{"path":"content","before":"A color area enables visual selection of two color properties at once. It's often paired with a color slider or color wheel.","after":"Keyboard focus.\n\nA color area can be navigated using a keyboard. The keyboard focus state enlarges the handle to become twice as large."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/1","name":"guideline: Handle behavior.\n\nThe color area's handle can sl","fields":[{"path":"content","before":"A color area in a disabled state shows that an input exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that the area may become available later.","after":"Handle behavior.\n\nThe color area's handle can slide all the way over the edge of the area. It always displays the selected color inside the handle and never gets cut off by the border or any container."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/2","name":"guideline: Minimum width and height.\n\nMinimum sizing ensure","fields":[{"path":"content","before":"A color area’s height and width can be customized appropriately for its context.","after":"Minimum width and height.\n\nMinimum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/3","name":"guideline: Display color selection.\n\nWhen using color areas","fields":[{"path":"content","before":"The step refers to the increment by which these values increase or decrease. A step value of 1 (default) allows a user to only select whole numbers within the min and max range.","after":"Display color selection.\n\nWhen using color areas, it's important to clearly display the color selection in real time. This can be in a color swatch, directly on the canvas, or both."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/4","name":"guideline: Color loupe on down/touch states.\n\nThe color lou","fields":[{"path":"content","before":"The x and y values are the numbers selected within the color area’s horizontal and vertical axes, respectively.","after":"Color loupe on down/touch states.\n\nThe color loupe component can be used above the handle to show the selected color that would otherwise be covered by a mouse, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/5","name":"guideline: The x/y min and max values also can be customize","fields":[],"before":{"type":"guideline","content":"The x/y min and max values also can be customized appropriately for what the color area is being used for. By default, the min value starts at 0 and max value is set to 100."}},
+            {"id":"ec3376fa-6","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/6","name":"guideline: A color area can be navigated using a keyboard. ","fields":[],"before":{"type":"guideline","content":"A color area can be navigated using a keyboard. The keyboard focus state enlarges the handle to become twice as large."}},
+            {"id":"ec3376fa-7","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/7","name":"guideline: The color area’s handle can slide all the way ov","fields":[],"before":{"type":"guideline","content":"The color area’s handle can slide all the way over the edge of the area. It always displays the selected color inside the handle and never gets cut off by the border or any container."}},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/8","name":"guideline: Minimum sizing ensures that the component remain","fields":[],"before":{"type":"guideline","content":"Minimum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/9","name":"guideline: When using color areas, it’s important to clearl","fields":[],"before":{"type":"guideline","content":"When using color areas, it’s important to clearly display the color selection in real time. This can be in a color swatch, directly on the canvas, or both."}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/documentBlocks/10","name":"guideline: The color loupe component can be used above the ","fields":[],"before":{"type":"guideline","content":"The color loupe component can be used above the handle to show the selected color that would otherwise be covered by a mouse, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":9,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/anatomy/color-handle","name":"color-handle","fields":[],"after":{"name":"color-handle","description":"Circular handle marking the selected color position.","required":true}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Two-dimensional gradient surface; border is container styling.","required":true,"contains":["color-handle"]}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP ColorArea.tsx:69-79 (border on the area), ColorHandle.tsx:37-40 and gen2 color-handle.css:85-95 (handle grows on focus, no separate ring); focus-indicator dropped."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [],
+          "metadata": {"count":8,"fields":["scope.options.scale"]}
+        }
+      ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"ba920b3d-eb8e-572b-8316-d781acdecbfb","name":"width[scale=desktop]","fields":[{"path":"context","before":"Size","after":"Width"}]},
+            {"id":"3530b31f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"4aacb145-8172-5dd4-b779-2554034278f5","name":"width[scale=mobile]","fields":[{"path":"context","before":"Size","after":"Width"}]},
+            {"id":"3530b31f-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":{"scale":"desktop"}},"record":"48e8e946-d978-5fc1-84bd-e183bed32a97","name":"minimum-width[scale=desktop]","fields":[{"path":"context","before":"Size","after":"Minimum width"}]},
+            {"id":"3530b31f-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum width"],"scope":{"property":"minimum-width","options":{"scale":"mobile"}},"record":"80c0c35e-810d-5e0c-aee2-3875711d9ae8","name":"minimum-width[scale=mobile]","fields":[{"path":"context","before":"Size","after":"Minimum width"}]},
+            {"id":"3530b31f-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"6d8bd6c7-a136-5387-bf0d-dba532f5dd9f","name":"height[scale=desktop]","fields":[{"path":"context","before":"Size","after":"Height"}]},
+            {"id":"3530b31f-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"3f690677-821d-5501-b255-a0ba9493fe54","name":"height[scale=mobile]","fields":[{"path":"context","before":"Size","after":"Height"}]},
+            {"id":"3530b31f-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"37b2f3ad-88bc-52db-bd32-5ebdf1719e89","name":"minimum-height[scale=desktop]","fields":[{"path":"context","before":"Size","after":"Minimum height"}]},
+            {"id":"3530b31f-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"bcb52afd-d909-5cb7-b855-117fbffca359","name":"minimum-height[scale=mobile]","fields":[{"path":"context","before":"Size","after":"Minimum height"}]}
+          ],
+          "metadata": {"count":8,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"e6851ae4-79da-57d1-8d80-4af81667294f","name":"border-width","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"corner-radius","options":null},"record":"eaced5b4-0560-5596-9571-9113d87c9c7e","name":"corner-radius","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
+            {"id":"23810aed-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"edcd5ae0-c7dd-55c0-8075-a666f3cf0944","name":"color","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]},
+            {"id":"23810aed-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"edcd5ae0-c7dd-55c0-8075-a666f3cf0944","name":"color","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
+            {"id":"23810aed-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"opacity","options":null},"record":"5b4f11a1-0cf9-5ab0-b696-34d67268b066","name":"opacity","fields":[{"path":"context","before":"Color area border","after":"Border"}]},
+            {"id":"23810aed-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"65c76c10-f058-5967-bf64-72b338ada0a8","name":"color[isDisabled=?]","fields":[{"path":"scope.options.isDisabled","after":true}]},
+            {"id":"23810aed-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"65c76c10-f058-5967-bf64-72b338ada0a8","name":"color[isDisabled=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"23810aed-7","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-area/options/background","name":"background","fields":[],"before":{"type":"string","description":"This will vary depending on implementation."}},
+            {"id":"23810aed-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP ColorArea.tsx:69-79 (border on the area), ColorHandle.tsx:37-40 and gen2 color-handle.css:85-95 (handle grows on focus, no separate ring); focus-indicator dropped.","after":"RSP ColorArea.tsx:69-79 (border on the area), ColorHandle.tsx:37-40 and gen2 color-handle.css:85-95 (handle grows on focus, no separate ring); focus-indicator dropped. A7 (2026-11-20): option background dropped (no source has it); every record is on container."}]}
+          ],
+          "metadata": {"count":25,"fields":["anatomyReview.status","context","contextRole","scope.attribute","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-area/anatomy/color-handle","name":"color-handle","fields":[{"path":"component","after":"color-handle"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2081,"title":"feat(design-data): add S2 channel options to color slider, area and wheel","url":"https://github.com/adobe/spectrum-design-data/pull/2081"},
+          "entries": [
+            {"id":"87b260bb-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/options/color","name":"color","fields":[],"after":{"type":"string","description":"The color whose two channels the area adjusts (S2 value). The gradient is computed from it and the channels. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."}},
+            {"id":"87b260bb-1","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/options/colorSpace","name":"colorSpace","fields":[],"after":{"type":"string","description":"The color space of the two channels (S2 colorSpace). Defaults to the color's own space.","values":[{"value":"rgb"},{"value":"hsl"},{"value":"hsb"}]}},
+            {"id":"87b260bb-2","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/options/xChannel","name":"xChannel","fields":[],"after":{"type":"string","description":"The color channel on the horizontal axis (S2 xChannel). Must differ from yChannel.","values":[{"value":"hue"},{"value":"saturation"},{"value":"lightness"},{"value":"brightness"},{"value":"red"},{"value":"green"},{"value":"blue"}]}},
+            {"id":"87b260bb-3","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/options/yChannel","name":"yChannel","fields":[],"after":{"type":"string","description":"The color channel on the vertical axis (S2 yChannel). Must differ from xChannel.","values":[{"value":"hue"},{"value":"saturation"},{"value":"lightness"},{"value":"brightness"},{"value":"red"},{"value":"green"},{"value":"blue"}]}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "1501aeed0277a01d90e98f63e9a3e500af8242e8",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2078,"title":"feat(design-data): add color-slider and color-area visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2078"},
+          "entries": [
+            {"id":"1501aeed-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/anatomy/fill","name":"fill","fields":[],"after":{"name":"fill","description":"The lower channel layer of the area gradient, computed from the color and the channels.","presentWhen":{"options":{"isDisabled":false,"color":true}}}},
+            {"id":"1501aeed-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-area/anatomy/overlay","name":"overlay","fields":[],"after":{"name":"overlay","description":"The upper channel layer, drawn over the lower one.","presentWhen":{"options":{"isDisabled":false,"color":true}}}},
+            {"id":"1501aeed-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-area/anatomy/container","name":"container","fields":[{"path":"contains","before":["color-handle"],"after":["fill","overlay","color-handle"]}]},
+            {"id":"1501aeed-3","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"color-area/visual","name":"color-area","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

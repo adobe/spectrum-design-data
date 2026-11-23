@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-067",
+      "severity": "warning",
+      "message_pattern": ".*'color' / 'Control'.*"
+    }
+  ]
+}

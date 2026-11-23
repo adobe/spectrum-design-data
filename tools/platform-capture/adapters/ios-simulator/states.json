@@ -1,0 +1,820 @@
+{
+  "button": {
+    "SwiftUI": {
+      "default": {
+        "dark": "button/SwiftUI/default.dark.png",
+        "light": "button/SwiftUI/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "button/SwiftUI/enabled-0-toggled.dark.png",
+        "light": "button/SwiftUI/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "button/SwiftUI/enabled-1-toggled.dark.png",
+        "light": "button/SwiftUI/enabled-1-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "button/SwiftUI/hover-effect-highlight.dark.png",
+        "light": "button/SwiftUI/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "button/SwiftUI/hover-effect-lift.dark.png",
+        "light": "button/SwiftUI/hover-effect-lift.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "button/SwiftUI/label-style-icon-only.dark.png",
+        "light": "button/SwiftUI/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "button/SwiftUI/label-style-text-only.dark.png",
+        "light": "button/SwiftUI/label-style-text-only.light.png"
+      },
+      "size-large": {
+        "dark": "button/SwiftUI/size-large.dark.png",
+        "light": "button/SwiftUI/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "button/SwiftUI/size-small.dark.png",
+        "light": "button/SwiftUI/size-small.light.png"
+      },
+      "style-action-quiet": {
+        "dark": "button/SwiftUI/style-action-quiet.dark.png",
+        "light": "button/SwiftUI/style-action-quiet.light.png"
+      },
+      "style-action": {
+        "dark": "button/SwiftUI/style-action.dark.png",
+        "light": "button/SwiftUI/style-action.light.png"
+      },
+      "style-genai": {
+        "dark": "button/SwiftUI/style-genai.dark.png",
+        "light": "button/SwiftUI/style-genai.light.png"
+      },
+      "style-premium": {
+        "dark": "button/SwiftUI/style-premium.dark.png",
+        "light": "button/SwiftUI/style-premium.light.png"
+      },
+      "style-secondary-outline": {
+        "dark": "button/SwiftUI/style-secondary-outline.dark.png",
+        "light": "button/SwiftUI/style-secondary-outline.light.png"
+      },
+      "type-add": {
+        "dark": "button/SwiftUI/type-add.dark.png",
+        "light": "button/SwiftUI/type-add.light.png"
+      },
+      "type-ai-assistant": {
+        "dark": "button/SwiftUI/type-ai-assistant.dark.png",
+        "light": "button/SwiftUI/type-ai-assistant.light.png"
+      },
+      "type-cancel": {
+        "dark": "button/SwiftUI/type-cancel.dark.png",
+        "light": "button/SwiftUI/type-cancel.light.png"
+      },
+      "type-close": {
+        "dark": "button/SwiftUI/type-close.dark.png",
+        "light": "button/SwiftUI/type-close.light.png"
+      },
+      "type-done": {
+        "dark": "button/SwiftUI/type-done.dark.png",
+        "light": "button/SwiftUI/type-done.light.png"
+      },
+      "type-help": {
+        "dark": "button/SwiftUI/type-help.dark.png",
+        "light": "button/SwiftUI/type-help.light.png"
+      },
+      "type-info": {
+        "dark": "button/SwiftUI/type-info.dark.png",
+        "light": "button/SwiftUI/type-info.light.png"
+      },
+      "type-more": {
+        "dark": "button/SwiftUI/type-more.dark.png",
+        "light": "button/SwiftUI/type-more.light.png"
+      },
+      "width-fill-container": {
+        "dark": "button/SwiftUI/width-fill-container.dark.png",
+        "light": "button/SwiftUI/width-fill-container.light.png"
+      }
+    },
+    "UIKit": {
+      "default": {
+        "dark": "button/UIKit/default.dark.png",
+        "light": "button/UIKit/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "button/UIKit/enabled-0-toggled.dark.png",
+        "light": "button/UIKit/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "button/UIKit/enabled-1-toggled.dark.png",
+        "light": "button/UIKit/enabled-1-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "button/UIKit/hover-effect-highlight.dark.png",
+        "light": "button/UIKit/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "button/UIKit/hover-effect-lift.dark.png",
+        "light": "button/UIKit/hover-effect-lift.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "button/UIKit/label-style-icon-only.dark.png",
+        "light": "button/UIKit/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "button/UIKit/label-style-text-only.dark.png",
+        "light": "button/UIKit/label-style-text-only.light.png"
+      },
+      "size-large": {
+        "dark": "button/UIKit/size-large.dark.png",
+        "light": "button/UIKit/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "button/UIKit/size-small.dark.png",
+        "light": "button/UIKit/size-small.light.png"
+      },
+      "style-action-quiet": {
+        "dark": "button/UIKit/style-action-quiet.dark.png",
+        "light": "button/UIKit/style-action-quiet.light.png"
+      },
+      "style-action": {
+        "dark": "button/UIKit/style-action.dark.png",
+        "light": "button/UIKit/style-action.light.png"
+      },
+      "style-genai": {
+        "dark": "button/UIKit/style-genai.dark.png",
+        "light": "button/UIKit/style-genai.light.png"
+      },
+      "style-premium": {
+        "dark": "button/UIKit/style-premium.dark.png",
+        "light": "button/UIKit/style-premium.light.png"
+      },
+      "style-secondary-outline": {
+        "dark": "button/UIKit/style-secondary-outline.dark.png",
+        "light": "button/UIKit/style-secondary-outline.light.png"
+      },
+      "type-add": {
+        "dark": "button/UIKit/type-add.dark.png",
+        "light": "button/UIKit/type-add.light.png"
+      },
+      "type-ai-assistant": {
+        "dark": "button/UIKit/type-ai-assistant.dark.png",
+        "light": "button/UIKit/type-ai-assistant.light.png"
+      },
+      "type-cancel": {
+        "dark": "button/UIKit/type-cancel.dark.png",
+        "light": "button/UIKit/type-cancel.light.png"
+      },
+      "type-close": {
+        "dark": "button/UIKit/type-close.dark.png",
+        "light": "button/UIKit/type-close.light.png"
+      },
+      "type-done": {
+        "dark": "button/UIKit/type-done.dark.png",
+        "light": "button/UIKit/type-done.light.png"
+      },
+      "type-help": {
+        "dark": "button/UIKit/type-help.dark.png",
+        "light": "button/UIKit/type-help.light.png"
+      },
+      "type-info": {
+        "dark": "button/UIKit/type-info.dark.png",
+        "light": "button/UIKit/type-info.light.png"
+      },
+      "type-more": {
+        "dark": "button/UIKit/type-more.dark.png",
+        "light": "button/UIKit/type-more.light.png"
+      },
+      "width-fill-container": {
+        "dark": "button/UIKit/width-fill-container.dark.png",
+        "light": "button/UIKit/width-fill-container.light.png"
+      }
+    }
+  },
+  "menu": {
+    "SwiftUI": {
+      "default": {
+        "dark": "menu/SwiftUI/default.dark.png",
+        "light": "menu/SwiftUI/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "menu/SwiftUI/enabled-0-toggled.dark.png",
+        "light": "menu/SwiftUI/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "menu/SwiftUI/enabled-1-toggled.dark.png",
+        "light": "menu/SwiftUI/enabled-1-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "menu/SwiftUI/hover-effect-highlight.dark.png",
+        "light": "menu/SwiftUI/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "menu/SwiftUI/hover-effect-lift.dark.png",
+        "light": "menu/SwiftUI/hover-effect-lift.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "menu/SwiftUI/label-style-icon-only.dark.png",
+        "light": "menu/SwiftUI/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "menu/SwiftUI/label-style-text-only.dark.png",
+        "light": "menu/SwiftUI/label-style-text-only.light.png"
+      },
+      "size-large": {
+        "dark": "menu/SwiftUI/size-large.dark.png",
+        "light": "menu/SwiftUI/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "menu/SwiftUI/size-small.dark.png",
+        "light": "menu/SwiftUI/size-small.light.png"
+      },
+      "style-action-quiet": {
+        "dark": "menu/SwiftUI/style-action-quiet.dark.png",
+        "light": "menu/SwiftUI/style-action-quiet.light.png"
+      },
+      "style-action": {
+        "dark": "menu/SwiftUI/style-action.dark.png",
+        "light": "menu/SwiftUI/style-action.light.png"
+      },
+      "style-genai": {
+        "dark": "menu/SwiftUI/style-genai.dark.png",
+        "light": "menu/SwiftUI/style-genai.light.png"
+      },
+      "style-premium": {
+        "dark": "menu/SwiftUI/style-premium.dark.png",
+        "light": "menu/SwiftUI/style-premium.light.png"
+      },
+      "style-secondary-outline": {
+        "dark": "menu/SwiftUI/style-secondary-outline.dark.png",
+        "light": "menu/SwiftUI/style-secondary-outline.light.png"
+      },
+      "type-add": {
+        "dark": "menu/SwiftUI/type-add.dark.png",
+        "light": "menu/SwiftUI/type-add.light.png"
+      },
+      "type-more": {
+        "dark": "menu/SwiftUI/type-more.dark.png",
+        "light": "menu/SwiftUI/type-more.light.png"
+      },
+      "width-fill-container": {
+        "dark": "menu/SwiftUI/width-fill-container.dark.png",
+        "light": "menu/SwiftUI/width-fill-container.light.png"
+      }
+    },
+    "UIKit": {
+      "default": {
+        "dark": "menu/UIKit/default.dark.png",
+        "light": "menu/UIKit/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "menu/UIKit/enabled-0-toggled.dark.png",
+        "light": "menu/UIKit/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "menu/UIKit/enabled-1-toggled.dark.png",
+        "light": "menu/UIKit/enabled-1-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "menu/UIKit/hover-effect-highlight.dark.png",
+        "light": "menu/UIKit/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "menu/UIKit/hover-effect-lift.dark.png",
+        "light": "menu/UIKit/hover-effect-lift.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "menu/UIKit/label-style-icon-only.dark.png",
+        "light": "menu/UIKit/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "menu/UIKit/label-style-text-only.dark.png",
+        "light": "menu/UIKit/label-style-text-only.light.png"
+      },
+      "size-large": {
+        "dark": "menu/UIKit/size-large.dark.png",
+        "light": "menu/UIKit/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "menu/UIKit/size-small.dark.png",
+        "light": "menu/UIKit/size-small.light.png"
+      },
+      "style-action-quiet": {
+        "dark": "menu/UIKit/style-action-quiet.dark.png",
+        "light": "menu/UIKit/style-action-quiet.light.png"
+      },
+      "style-action": {
+        "dark": "menu/UIKit/style-action.dark.png",
+        "light": "menu/UIKit/style-action.light.png"
+      },
+      "style-genai": {
+        "dark": "menu/UIKit/style-genai.dark.png",
+        "light": "menu/UIKit/style-genai.light.png"
+      },
+      "style-premium": {
+        "dark": "menu/UIKit/style-premium.dark.png",
+        "light": "menu/UIKit/style-premium.light.png"
+      },
+      "style-secondary-outline": {
+        "dark": "menu/UIKit/style-secondary-outline.dark.png",
+        "light": "menu/UIKit/style-secondary-outline.light.png"
+      },
+      "type-add": {
+        "dark": "menu/UIKit/type-add.dark.png",
+        "light": "menu/UIKit/type-add.light.png"
+      },
+      "type-more": {
+        "dark": "menu/UIKit/type-more.dark.png",
+        "light": "menu/UIKit/type-more.light.png"
+      },
+      "width-fill-container": {
+        "dark": "menu/UIKit/width-fill-container.dark.png",
+        "light": "menu/UIKit/width-fill-container.light.png"
+      }
+    }
+  },
+  "picker": {
+    "swiftui-sppicker": {
+      "default": {
+        "dark": "picker/swiftui-sppicker/default.dark.png",
+        "light": "picker/swiftui-sppicker/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "picker/swiftui-sppicker/enabled-0-toggled.dark.png",
+        "light": "picker/swiftui-sppicker/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "picker/swiftui-sppicker/enabled-1-toggled.dark.png",
+        "light": "picker/swiftui-sppicker/enabled-1-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "picker/swiftui-sppicker/hover-effect-highlight.dark.png",
+        "light": "picker/swiftui-sppicker/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "picker/swiftui-sppicker/hover-effect-lift.dark.png",
+        "light": "picker/swiftui-sppicker/hover-effect-lift.light.png"
+      },
+      "size-large": {
+        "dark": "picker/swiftui-sppicker/size-large.dark.png",
+        "light": "picker/swiftui-sppicker/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "picker/swiftui-sppicker/size-small.dark.png",
+        "light": "picker/swiftui-sppicker/size-small.light.png"
+      },
+      "style-2-action": {
+        "dark": "picker/swiftui-sppicker/style-2-action.dark.png",
+        "light": "picker/swiftui-sppicker/style-2-action.light.png"
+      },
+      "style-large": {
+        "dark": "picker/swiftui-sppicker/style-large.dark.png",
+        "light": "picker/swiftui-sppicker/style-large.light.png"
+      },
+      "style-medium": {
+        "dark": "picker/swiftui-sppicker/style-medium.dark.png",
+        "light": "picker/swiftui-sppicker/style-medium.light.png"
+      },
+      "style-small": {
+        "dark": "picker/swiftui-sppicker/style-small.dark.png",
+        "light": "picker/swiftui-sppicker/style-small.light.png"
+      },
+      "width-fill-container": {
+        "dark": "picker/swiftui-sppicker/width-fill-container.dark.png",
+        "light": "picker/swiftui-sppicker/width-fill-container.light.png"
+      }
+    },
+    "uikit-spuipicker": {
+      "default": {
+        "dark": "picker/uikit-spuipicker/default.dark.png",
+        "light": "picker/uikit-spuipicker/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "picker/uikit-spuipicker/enabled-0-toggled.dark.png",
+        "light": "picker/uikit-spuipicker/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "picker/uikit-spuipicker/enabled-1-toggled.dark.png",
+        "light": "picker/uikit-spuipicker/enabled-1-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "picker/uikit-spuipicker/hover-effect-highlight.dark.png",
+        "light": "picker/uikit-spuipicker/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "picker/uikit-spuipicker/hover-effect-lift.dark.png",
+        "light": "picker/uikit-spuipicker/hover-effect-lift.light.png"
+      },
+      "size-large": {
+        "dark": "picker/uikit-spuipicker/size-large.dark.png",
+        "light": "picker/uikit-spuipicker/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "picker/uikit-spuipicker/size-small.dark.png",
+        "light": "picker/uikit-spuipicker/size-small.light.png"
+      },
+      "style-2-action": {
+        "dark": "picker/uikit-spuipicker/style-2-action.dark.png",
+        "light": "picker/uikit-spuipicker/style-2-action.light.png"
+      },
+      "style-inline-showing-label": {
+        "dark": "picker/uikit-spuipicker/style-inline-showing-label.dark.png",
+        "light": "picker/uikit-spuipicker/style-inline-showing-label.light.png"
+      },
+      "width-fill-container": {
+        "dark": "picker/uikit-spuipicker/width-fill-container.dark.png",
+        "light": "picker/uikit-spuipicker/width-fill-container.light.png"
+      }
+    },
+    "uikit-uicollectionview": {
+      "default": {
+        "dark": "picker/uikit-uicollectionview/default.dark.png",
+        "light": "picker/uikit-uicollectionview/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "picker/uikit-uicollectionview/enabled-0-toggled.dark.png",
+        "light": "picker/uikit-uicollectionview/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "picker/uikit-uicollectionview/enabled-1-toggled.dark.png",
+        "light": "picker/uikit-uicollectionview/enabled-1-toggled.light.png"
+      },
+      "haptics-2-toggled": {
+        "dark": "picker/uikit-uicollectionview/haptics-2-toggled.dark.png",
+        "light": "picker/uikit-uicollectionview/haptics-2-toggled.light.png"
+      },
+      "haptics-3-toggled": {
+        "dark": "picker/uikit-uicollectionview/haptics-3-toggled.dark.png",
+        "light": "picker/uikit-uicollectionview/haptics-3-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "picker/uikit-uicollectionview/hover-effect-highlight.dark.png",
+        "light": "picker/uikit-uicollectionview/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "picker/uikit-uicollectionview/hover-effect-lift.dark.png",
+        "light": "picker/uikit-uicollectionview/hover-effect-lift.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "picker/uikit-uicollectionview/label-style-icon-only.dark.png",
+        "light": "picker/uikit-uicollectionview/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "picker/uikit-uicollectionview/label-style-text-only.dark.png",
+        "light": "picker/uikit-uicollectionview/label-style-text-only.light.png"
+      },
+      "size-large": {
+        "dark": "picker/uikit-uicollectionview/size-large.dark.png",
+        "light": "picker/uikit-uicollectionview/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "picker/uikit-uicollectionview/size-small.dark.png",
+        "light": "picker/uikit-uicollectionview/size-small.light.png"
+      },
+      "style-action": {
+        "dark": "picker/uikit-uicollectionview/style-action.dark.png",
+        "light": "picker/uikit-uicollectionview/style-action.light.png"
+      },
+      "width-fill-container": {
+        "dark": "picker/uikit-uicollectionview/width-fill-container.dark.png",
+        "light": "picker/uikit-uicollectionview/width-fill-container.light.png"
+      }
+    },
+    "uikit-uitableview": {
+      "default": {
+        "dark": "picker/uikit-uitableview/default.dark.png",
+        "light": "picker/uikit-uitableview/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "picker/uikit-uitableview/enabled-0-toggled.dark.png",
+        "light": "picker/uikit-uitableview/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "picker/uikit-uitableview/enabled-1-toggled.dark.png",
+        "light": "picker/uikit-uitableview/enabled-1-toggled.light.png"
+      },
+      "haptics-2-toggled": {
+        "dark": "picker/uikit-uitableview/haptics-2-toggled.dark.png",
+        "light": "picker/uikit-uitableview/haptics-2-toggled.light.png"
+      },
+      "haptics-3-toggled": {
+        "dark": "picker/uikit-uitableview/haptics-3-toggled.dark.png",
+        "light": "picker/uikit-uitableview/haptics-3-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "picker/uikit-uitableview/hover-effect-highlight.dark.png",
+        "light": "picker/uikit-uitableview/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "picker/uikit-uitableview/hover-effect-lift.dark.png",
+        "light": "picker/uikit-uitableview/hover-effect-lift.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "picker/uikit-uitableview/label-style-icon-only.dark.png",
+        "light": "picker/uikit-uitableview/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "picker/uikit-uitableview/label-style-text-only.dark.png",
+        "light": "picker/uikit-uitableview/label-style-text-only.light.png"
+      },
+      "size-large": {
+        "dark": "picker/uikit-uitableview/size-large.dark.png",
+        "light": "picker/uikit-uitableview/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "picker/uikit-uitableview/size-small.dark.png",
+        "light": "picker/uikit-uitableview/size-small.light.png"
+      },
+      "style-action": {
+        "dark": "picker/uikit-uitableview/style-action.dark.png",
+        "light": "picker/uikit-uitableview/style-action.light.png"
+      },
+      "width-fill-container": {
+        "dark": "picker/uikit-uitableview/width-fill-container.dark.png",
+        "light": "picker/uikit-uitableview/width-fill-container.light.png"
+      }
+    }
+  },
+  "pop-up-button": {
+    "SwiftUI": {
+      "default": {
+        "dark": "pop-up-button/SwiftUI/default.dark.png",
+        "light": "pop-up-button/SwiftUI/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "pop-up-button/SwiftUI/enabled-0-toggled.dark.png",
+        "light": "pop-up-button/SwiftUI/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "pop-up-button/SwiftUI/enabled-1-toggled.dark.png",
+        "light": "pop-up-button/SwiftUI/enabled-1-toggled.light.png"
+      },
+      "haptics-2-toggled": {
+        "dark": "pop-up-button/SwiftUI/haptics-2-toggled.dark.png",
+        "light": "pop-up-button/SwiftUI/haptics-2-toggled.light.png"
+      },
+      "haptics-3-toggled": {
+        "dark": "pop-up-button/SwiftUI/haptics-3-toggled.dark.png",
+        "light": "pop-up-button/SwiftUI/haptics-3-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "pop-up-button/SwiftUI/hover-effect-highlight.dark.png",
+        "light": "pop-up-button/SwiftUI/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "pop-up-button/SwiftUI/hover-effect-lift.dark.png",
+        "light": "pop-up-button/SwiftUI/hover-effect-lift.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "pop-up-button/SwiftUI/label-style-icon-only.dark.png",
+        "light": "pop-up-button/SwiftUI/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "pop-up-button/SwiftUI/label-style-text-only.dark.png",
+        "light": "pop-up-button/SwiftUI/label-style-text-only.light.png"
+      },
+      "size-large": {
+        "dark": "pop-up-button/SwiftUI/size-large.dark.png",
+        "light": "pop-up-button/SwiftUI/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "pop-up-button/SwiftUI/size-small.dark.png",
+        "light": "pop-up-button/SwiftUI/size-small.light.png"
+      },
+      "style-accent": {
+        "dark": "pop-up-button/SwiftUI/style-accent.dark.png",
+        "light": "pop-up-button/SwiftUI/style-accent.light.png"
+      },
+      "style-action": {
+        "dark": "pop-up-button/SwiftUI/style-action.dark.png",
+        "light": "pop-up-button/SwiftUI/style-action.light.png"
+      },
+      "style-genai": {
+        "dark": "pop-up-button/SwiftUI/style-genai.dark.png",
+        "light": "pop-up-button/SwiftUI/style-genai.light.png"
+      },
+      "style-premium": {
+        "dark": "pop-up-button/SwiftUI/style-premium.dark.png",
+        "light": "pop-up-button/SwiftUI/style-premium.light.png"
+      },
+      "style-secondary-outline": {
+        "dark": "pop-up-button/SwiftUI/style-secondary-outline.dark.png",
+        "light": "pop-up-button/SwiftUI/style-secondary-outline.light.png"
+      },
+      "width-fill-container": {
+        "dark": "pop-up-button/SwiftUI/width-fill-container.dark.png",
+        "light": "pop-up-button/SwiftUI/width-fill-container.light.png"
+      }
+    },
+    "UIKit": {
+      "default": {
+        "dark": "pop-up-button/UIKit/default.dark.png",
+        "light": "pop-up-button/UIKit/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "pop-up-button/UIKit/enabled-0-toggled.dark.png",
+        "light": "pop-up-button/UIKit/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "pop-up-button/UIKit/enabled-1-toggled.dark.png",
+        "light": "pop-up-button/UIKit/enabled-1-toggled.light.png"
+      },
+      "haptics-2-toggled": {
+        "dark": "pop-up-button/UIKit/haptics-2-toggled.dark.png",
+        "light": "pop-up-button/UIKit/haptics-2-toggled.light.png"
+      },
+      "haptics-3-toggled": {
+        "dark": "pop-up-button/UIKit/haptics-3-toggled.dark.png",
+        "light": "pop-up-button/UIKit/haptics-3-toggled.light.png"
+      },
+      "hover-effect-highlight": {
+        "dark": "pop-up-button/UIKit/hover-effect-highlight.dark.png",
+        "light": "pop-up-button/UIKit/hover-effect-highlight.light.png"
+      },
+      "hover-effect-lift": {
+        "dark": "pop-up-button/UIKit/hover-effect-lift.dark.png",
+        "light": "pop-up-button/UIKit/hover-effect-lift.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "pop-up-button/UIKit/label-style-icon-only.dark.png",
+        "light": "pop-up-button/UIKit/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "pop-up-button/UIKit/label-style-text-only.dark.png",
+        "light": "pop-up-button/UIKit/label-style-text-only.light.png"
+      },
+      "size-large": {
+        "dark": "pop-up-button/UIKit/size-large.dark.png",
+        "light": "pop-up-button/UIKit/size-large.light.png"
+      },
+      "size-small": {
+        "dark": "pop-up-button/UIKit/size-small.dark.png",
+        "light": "pop-up-button/UIKit/size-small.light.png"
+      },
+      "style-accent": {
+        "dark": "pop-up-button/UIKit/style-accent.dark.png",
+        "light": "pop-up-button/UIKit/style-accent.light.png"
+      },
+      "style-action": {
+        "dark": "pop-up-button/UIKit/style-action.dark.png",
+        "light": "pop-up-button/UIKit/style-action.light.png"
+      },
+      "style-genai": {
+        "dark": "pop-up-button/UIKit/style-genai.dark.png",
+        "light": "pop-up-button/UIKit/style-genai.light.png"
+      },
+      "style-premium": {
+        "dark": "pop-up-button/UIKit/style-premium.dark.png",
+        "light": "pop-up-button/UIKit/style-premium.light.png"
+      },
+      "style-secondary-outline": {
+        "dark": "pop-up-button/UIKit/style-secondary-outline.dark.png",
+        "light": "pop-up-button/UIKit/style-secondary-outline.light.png"
+      },
+      "width-fill-container": {
+        "dark": "pop-up-button/UIKit/width-fill-container.dark.png",
+        "light": "pop-up-button/UIKit/width-fill-container.light.png"
+      }
+    }
+  },
+  "pop-up-label": {
+    "default": {
+      "default": {
+        "dark": "pop-up-label/default/default.dark.png",
+        "light": "pop-up-label/default/default.light.png"
+      },
+      "enabled-0-toggled": {
+        "dark": "pop-up-label/default/enabled-0-toggled.dark.png",
+        "light": "pop-up-label/default/enabled-0-toggled.light.png"
+      },
+      "enabled-1-toggled": {
+        "dark": "pop-up-label/default/enabled-1-toggled.dark.png",
+        "light": "pop-up-label/default/enabled-1-toggled.light.png"
+      },
+      "icon-accessibility": {
+        "dark": "pop-up-label/default/icon-accessibility.dark.png",
+        "light": "pop-up-label/default/icon-accessibility.light.png"
+      },
+      "icon-ai-gen-effects": {
+        "dark": "pop-up-label/default/icon-ai-gen-effects.dark.png",
+        "light": "pop-up-label/default/icon-ai-gen-effects.light.png"
+      },
+      "icon-cloud-state-error": {
+        "dark": "pop-up-label/default/icon-cloud-state-error.dark.png",
+        "light": "pop-up-label/default/icon-cloud-state-error.light.png"
+      },
+      "icon-color-lookup-table": {
+        "dark": "pop-up-label/default/icon-color-lookup-table.dark.png",
+        "light": "pop-up-label/default/icon-color-lookup-table.light.png"
+      },
+      "icon-none": {
+        "dark": "pop-up-label/default/icon-none.dark.png",
+        "light": "pop-up-label/default/icon-none.light.png"
+      },
+      "icon-premium-feature": {
+        "dark": "pop-up-label/default/icon-premium-feature.dark.png",
+        "light": "pop-up-label/default/icon-premium-feature.light.png"
+      },
+      "icon-raster-image": {
+        "dark": "pop-up-label/default/icon-raster-image.dark.png",
+        "light": "pop-up-label/default/icon-raster-image.light.png"
+      },
+      "icon-sf-symbol": {
+        "dark": "pop-up-label/default/icon-sf-symbol.dark.png",
+        "light": "pop-up-label/default/icon-sf-symbol.light.png"
+      },
+      "style-icon": {
+        "dark": "pop-up-label/default/style-icon.dark.png",
+        "light": "pop-up-label/default/style-icon.light.png"
+      },
+      "style-label": {
+        "dark": "pop-up-label/default/style-label.dark.png",
+        "light": "pop-up-label/default/style-label.light.png"
+      }
+    }
+  },
+  "toggle-button": {
+    "SwiftUI": {
+      "default": {
+        "dark": "toggle-button/SwiftUI/default.dark.png",
+        "light": "toggle-button/SwiftUI/default.light.png"
+      },
+      "enabled-3-toggled": {
+        "dark": "toggle-button/SwiftUI/enabled-3-toggled.dark.png",
+        "light": "toggle-button/SwiftUI/enabled-3-toggled.light.png"
+      },
+      "enabled-4-toggled": {
+        "dark": "toggle-button/SwiftUI/enabled-4-toggled.dark.png",
+        "light": "toggle-button/SwiftUI/enabled-4-toggled.light.png"
+      },
+      "haptics-5-toggled": {
+        "dark": "toggle-button/SwiftUI/haptics-5-toggled.dark.png",
+        "light": "toggle-button/SwiftUI/haptics-5-toggled.light.png"
+      },
+      "label-content-on-off": {
+        "dark": "toggle-button/SwiftUI/label-content-on-off.dark.png",
+        "light": "toggle-button/SwiftUI/label-content-on-off.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "toggle-button/SwiftUI/label-style-icon-only.dark.png",
+        "light": "toggle-button/SwiftUI/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "toggle-button/SwiftUI/label-style-text-only.dark.png",
+        "light": "toggle-button/SwiftUI/label-style-text-only.light.png"
+      },
+      "on-1-toggled": {
+        "dark": "toggle-button/SwiftUI/on-1-toggled.dark.png",
+        "light": "toggle-button/SwiftUI/on-1-toggled.light.png"
+      },
+      "on-2-toggled": {
+        "dark": "toggle-button/SwiftUI/on-2-toggled.dark.png",
+        "light": "toggle-button/SwiftUI/on-2-toggled.light.png"
+      },
+      "switch0-0-toggled": {
+        "dark": "toggle-button/SwiftUI/switch0-0-toggled.dark.png",
+        "light": "toggle-button/SwiftUI/switch0-0-toggled.light.png"
+      }
+    },
+    "UIKit": {
+      "default": {
+        "dark": "toggle-button/UIKit/default.dark.png",
+        "light": "toggle-button/UIKit/default.light.png"
+      },
+      "enabled-3-toggled": {
+        "dark": "toggle-button/UIKit/enabled-3-toggled.dark.png",
+        "light": "toggle-button/UIKit/enabled-3-toggled.light.png"
+      },
+      "enabled-4-toggled": {
+        "dark": "toggle-button/UIKit/enabled-4-toggled.dark.png",
+        "light": "toggle-button/UIKit/enabled-4-toggled.light.png"
+      },
+      "haptics-5-toggled": {
+        "dark": "toggle-button/UIKit/haptics-5-toggled.dark.png",
+        "light": "toggle-button/UIKit/haptics-5-toggled.light.png"
+      },
+      "label-content-on-off": {
+        "dark": "toggle-button/UIKit/label-content-on-off.dark.png",
+        "light": "toggle-button/UIKit/label-content-on-off.light.png"
+      },
+      "label-style-icon-only": {
+        "dark": "toggle-button/UIKit/label-style-icon-only.dark.png",
+        "light": "toggle-button/UIKit/label-style-icon-only.light.png"
+      },
+      "label-style-text-only": {
+        "dark": "toggle-button/UIKit/label-style-text-only.dark.png",
+        "light": "toggle-button/UIKit/label-style-text-only.light.png"
+      },
+      "on-1-toggled": {
+        "dark": "toggle-button/UIKit/on-1-toggled.dark.png",
+        "light": "toggle-button/UIKit/on-1-toggled.light.png"
+      },
+      "on-2-toggled": {
+        "dark": "toggle-button/UIKit/on-2-toggled.dark.png",
+        "light": "toggle-button/UIKit/on-2-toggled.light.png"
+      },
+      "switch0-0-toggled": {
+        "dark": "toggle-button/UIKit/switch0-0-toggled.dark.png",
+        "light": "toggle-button/UIKit/switch0-0-toggled.light.png"
+      }
+    }
+  }
+}

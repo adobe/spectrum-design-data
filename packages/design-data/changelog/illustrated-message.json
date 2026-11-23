@@ -1,0 +1,297 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "illustrated-message",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":6,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/0","name":"guideline: Motion in illustrated message.\n\nMotion is an opt","fields":[{"path":"content","before":"Illustrated messages pair text with imagery to communicate a message with visual emphasis. They’re commonly used in empty states, feedback states, and error messaging.","after":"Motion in illustrated message.\n\nMotion is an optional feature of illustrations, but it is not a requirement. When used, they should feel natural, intentional, and aligned with the emotional and functional goals of the message."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/1","name":"guideline: Buttons in illustrated message.\n\nButtons in an i","fields":[{"path":"content","before":"The secondary button provides a less prominent action that supports the overall message but is not the primary goal. It offers users an alternative path that’s relevant but lower priority.","after":"Buttons in illustrated message.\n\nButtons in an illustrated message are designed to guide users toward a clear next step by translating the message's intent into direct, actionable choices. They help users understand what will happen next and support decision-making within the context of the message."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/2","name":"guideline: Horizontal vs. vertical illustrations.\n\nHorizont","fields":[{"path":"content","before":"The primary button serves as the main call to action. It’s the clearest, most direct path forward for the user, and it should align with the purpose of the message. In an illustrated message—where visuals and copy work together to guide attention—the primary button anchors the experience.","after":"Horizontal vs. vertical illustrations.\n\nHorizontal orientation works best when there's ample screen space, such as on desktop or wide containers, and when the message needs to sit alongside related content. It allows for a balanced layout where the illustration and text can appear side by side, supporting quick scanning and visual clarity. Vertical orientation is suited for constrained spaces like mobile screens or narrow containers. It supports a linear, top-to-bottom flow that guides the user through the illustration, description, and action in sequence."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/3","name":"guideline: Illustrations and attention hierarchy.\n\nThe diff","fields":[{"path":"content","before":"The description supports the illustration and buttons by delivering the core message in plain language. It helps users quickly grasp the purpose of the message and decide what to do next.","after":"Illustrations and attention hierarchy.\n\nThe different styles of illustrations are connected to the Spectrum 2 concept of attention hierarchy. Linear illustrations are elements that communicate lower attention, as they blend in well with the rest of the UI. They can be used multiple times in a layout without drawing too much attention. Gradient illustrations are high attention elements that should be used sparingly and selectively. Only one illustration, element, or group of elements should have high attention on a page. Learn more about this with the Spectrum 2 attention hierarchy guidelines."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/4","name":"guideline: Use linear style when showing several illustrati","fields":[{"path":"content","before":"A clear title for the description section in an illustrated message","after":"Use linear style when showing several illustrations together.\n\nThe linear illustration style works well for layouts that feature a number of illustrations together (such as a collection of cards). Linear illustrations draw a lower level of attention and blend in well with the UI, so it's appropriate to use them in a collection of elements. Gradient illustrations draw a lot of attention in multiples, so they need to be used sparingly and sparsely."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/5","name":"guideline: Use gradient illustrations thoughtfully.\n\nGradie","fields":[{"path":"content","before":"Orientation affects how users perceive and interact with content. Illustrated message layout can be horizontal or vertical.","after":"Use gradient illustrations thoughtfully.\n\nGradient illustrations are high attention elements in the layout. Use them strategically and thoughtfully to draw the user's attention and to provoke a delightful moment. Gradient illustrations draw more attention because they're very colorful. Using more than one in a given view will make the UI too busy and too loud. Use gradient illustrations sparingly to guide a user's attention to engaging, high-value actions such as uploads, starting projects, or commenting."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/6","name":"guideline: Motion in illustrated messages can be used optio","fields":[{"path":"content","before":"Illustrated messages come in three different sizes: small, medium, and large. The medium size is the default and most frequently used option.","after":"Motion in illustrated messages can be used optionally to enhance engagement and reinforce meaning without overwhelming the user. When applied thoughtfully, they add subtle motion to the illustration—such as a gentle bounce, fade, or loop—that draws attention and supports the tone of the message. These animations should be purposeful: they can signal success, soften interruptions, or guide the eye toward the primary action. However, they should never distract from the content or slow down the experience. Use them sparingly, especially in system messages or time-sensitive flows, and ensure they perform well across devices."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/7","name":"guideline: Use linear illustrations for errors or critical ","fields":[{"path":"content","before":"The illustration sets the tone and draws attention. It visually reinforces the message’s purpose and helps users quickly understand the context before reading any text or taking action.","after":"Use linear illustrations for errors or critical messages.\n\nErrors or critical messages should only use linear illustrations. Gradient illustrations use colors that can be misunderstood as semantic colors (e.g., green for positive, red for negative). They also have an upbeat and inspirational tone, which isn't appropriate in situations where a user may be frustrated by something that's an inconvenience or is disruptive to them in accomplishing their work."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/8","name":"guideline: Offer an actionable solution when possible.\n\nLin","fields":[{"path":"content","before":"Motion is an optional feature of illustrations, but it is not a requirement. When used, they should feel natural, intentional, and aligned with the emotional and functional goals of the message.","after":"Offer an actionable solution when possible.\n\nLinks and buttons can be included in an illustrated message's description to offer an actionable solution (e.g., when there is a need to upload files or contact product support). Compared to links, buttons add more visibility to actions, helping to direct a user to what to do next. Respect button ordering when using buttons in an illustrated message."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/9","name":"guideline: Drag and drop vs. illustrated message.\n\nUse drag","fields":[{"path":"content","before":"Buttons in an illustrated message are designed to guide users toward a clear next step by translating the message’s intent into direct, actionable choices. They help users understand what will happen next and support decision-making within the context of the message.","after":"Drag and drop vs. illustrated message.\n\nUse drag and drop when the user needs to complete a hands-on task—like uploading files, rearranging items, or customizing content. It's an interaction pattern that supports direct manipulation, giving users a sense of control and immediacy. Drag and drop is ideal when the goal is action-oriented and the interface benefits from tactile engagement. Use an illustrated message when the goal is to communicate a state, guide a decision, or prompt an action. Illustrated messages are best for moments of transition—empty states, confirmations, errors, or onboarding—where visual context and clear messaging help orient the user. They're not interactive themselves, but they support interaction by setting expectations and offering clear next steps."}]},
+            {"id":"ec3376fa-10","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/10","name":"guideline: Show value.\n\nAn illustrated message can be inter","fields":[{"path":"content","before":"Horizontal orientation works best when there’s ample screen space, such as on desktop or wide containers, and when the message needs to sit alongside related content. It allows for a balanced layout where the illustration and text can appear side by side, supporting quick scanning and visual clarity.","after":"Show value.\n\nAn illustrated message can be interruptive, so make it readily apparent that it's adding value to a user's experience or is putting the user on the right path to accomplish their goals. Don't use an illustrated message for purely promotional purposes or for upsells of unrelated actions."}]},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/11","name":"guideline: Vertical orientation is suited for constrained s","fields":[],"before":{"type":"guideline","content":"Vertical orientation is suited for constrained spaces like mobile screens or narrow containers. It supports a linear, top-to-bottom flow that guides the user through the illustration, description, and action in sequence."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/12","name":"guideline: The linear illustration style works well for lay","fields":[],"before":{"type":"guideline","content":"The linear illustration style works well for layouts that feature a number of illustrations together (such as a collection of cards). Linear illustrations draw a lower level of attention and blend in well with the UI, so it’s appropriate to use them in a collection of elements. Gradient illustrations draw a lot of attention in multiples, so they need to be used sparingly and sparsely."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/13","name":"guideline: Gradient illustrations draw more attention becau","fields":[],"before":{"type":"guideline","content":"Gradient illustrations draw more attention because they’re very colorful. Using more then one in a given view will make the UI too busy and too loud. Use gradient illustrations sparingly to guide a user’s attention to engaging, high-value actions such as uploads, starting projects, or commenting."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/14","name":"guideline: Don’t scale or resize linear illustrations. The ","fields":[],"before":{"type":"guideline","content":"Don’t scale or resize linear illustrations. The stroke weight and the corner radii are already set to work best in the given canvas sizes."}},
+            {"id":"ec3376fa-15","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/15","name":"guideline: Motion in illustrated messages can be used optio","fields":[],"before":{"type":"guideline","content":"Motion in illustrated messages can be used optionally to enhance engagement and reinforce meaning without overwhelming the user. When applied thoughtfully, they add subtle motion to the illustration—such as a gentle bounce, fade, or loop—that draws attention and supports the tone of the message."}},
+            {"id":"ec3376fa-16","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/16","name":"guideline: These animations should be purposeful: they can ","fields":[],"before":{"type":"guideline","content":"These animations should be purposeful: they can signal success, soften interruptions, or guide the eye toward the primary action. However, they should never distract from the content or slow down the experience. Use them sparingly, especially in system messages or time-sensitive flows, and ensure they perform well across devices."}},
+            {"id":"ec3376fa-17","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/17","name":"guideline: Errors or critical messages should only use line","fields":[],"before":{"type":"guideline","content":"Errors or critical messages should only use linear illustrations. Gradient illustrations use colors that can be misunderstood as semantic colors (e.g., green for positive, red for negative). They also have an upbeat and inspirational tone, which isn’t appropriate in situations where a user may be frustrated by something that’s an inconvenience or is disruptive to them in accomplishing their work."}},
+            {"id":"ec3376fa-18","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/18","name":"guideline: Use drag and drop when the user needs to complet","fields":[],"before":{"type":"guideline","content":"Use drag and drop when the user needs to complete a hands-on task—like uploading files, rearranging items, or customizing content. It’s an interaction pattern that supports direct manipulation, giving users a sense of control and immediacy. Drag and drop is ideal when the goal is action-oriented and the interface benefits from tactile engagement."}},
+            {"id":"ec3376fa-19","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/19","name":"guideline: Use an illustrated message when the goal is to c","fields":[],"before":{"type":"guideline","content":"Use an illustrated message when the goal is to communicate a state, guide a decision, or prompt an action. Illustrated messages are best for moments of transition—empty states, confirmations, errors, or onboarding—where visual context and clear messaging help orient the user. They’re not interactive themselves, but they support interaction by setting expectations and offering clear next steps."}},
+            {"id":"ec3376fa-20","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/20","name":"guideline: An illustrated message can be interruptive, so m","fields":[],"before":{"type":"guideline","content":"An illustrated message can be interruptive, so make it readily apparent that it’s adding value to a user’s experience or is putting the user on the right path to accomplish their goals. Don’t use an illustrated message for purely promotional purposes or for upsells of unrelated actions."}},
+            {"id":"ec3376fa-21","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/21","name":"do-dont: Don't resize illustrations","fields":[],"after":{"type":"do-dont","content":"Don't resize illustrations","dont":"Don't scale or resize linear illustrations. The stroke weight and the corner radii are already set to work best in the given canvas sizes."}},
+            {"id":"ec3376fa-22","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/documentBlocks/22","name":"do-dont: Don't create your own linear illustrations","fields":[],"after":{"type":"do-dont","content":"Don't create your own linear illustrations","dont":"It's essential to have consistency in tone and metaphors across all Adobe products. Don't create your own linear illustrations or alter existing ones. If you need a new linear illustration, make a request using Workfront."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":34,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "46c51e6dc5d7a729f8836cf0a53434f428333fcd",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1845,"title":"fix(design-data): pin options in ten small components' relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1845"},
+          "entries": [
+            {"id":"46c51e6d-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"vertical-maximum-width","options":{"orientation":"vertical"}},"record":"7625ce65-6d91-5f36-a57c-906f8699eff9","name":"vertical-maximum-width[orientation=vertical]","fields":[{"path":"context","before":"Maximum width (Vertical variant)","after":"Maximum width"}]},
+            {"id":"46c51e6d-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"horizontal-maximum-width","options":{"orientation":"horizontal"}},"record":"71eac12b-9ce5-59df-8499-b9431b91be85","name":"horizontal-maximum-width[orientation=horizontal]","fields":[{"path":"context","before":"Maximum width (Horizontal variant)","after":"Maximum width"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextQualifier","scope.options.orientation"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/actions","name":"actions","fields":[],"after":{"name":"actions","description":"Button group below the description."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/body","name":"body","fields":[],"after":{"name":"body","description":"Description text.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/illustration","name":"illustration","fields":[],"after":{"name":"illustration","description":"Illustration or icon above or beside the text.","required":true}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/title","name":"title","fields":[],"after":{"name":"title","description":"Title text.","required":true}},
+            {"id":"12ddd7e7-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Icon, Content, Button group). No container: the component has no surface of its own. Wrapper frames not parts."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"horizontal-maximum-width","options":{"orientation":"horizontal"}},"record":"71eac12b-9ce5-59df-8499-b9431b91be85","name":"horizontal-maximum-width[orientation=horizontal]","fields":[{"path":"$ref","before":"4413ee4d-86b1-4d88-b2ee-64c0939698b9","after":"b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"}]},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"horizontal-maximum-width","options":null},"record":"4413ee4d-86b1-4d88-b2ee-64c0939698b9","name":"horizontal-maximum-width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"}],"rationale":"Deprecated via refine-from-sheets from row 194 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"horizontal-maximum-width","options":null},"record":"4413ee4d-86b1-4d88-b2ee-64c0939698b9","name":"horizontal-maximum-width","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 194 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 194 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"vertical-maximum-width","options":null},"record":"95c055b0-f688-4405-8426-1b2302e32ebd","name":"vertical-maximum-width","fields":[{"path":"value","before":"380px","after":"352px"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/options/script","name":"script","fields":[],"after":{"$ref":"https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"}}
+          ],
+          "metadata": {"count":12,"fields":["scope.options.script","scope.options.size"]}
+        }
+      ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "1.3.1",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "676b08d9d3ed808075c931240c3a1ba438efdda4",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1964,"title":"feat(design-data): review anatomy of body, heading, detail, title, code (A1)","url":"https://github.com/adobe/spectrum-design-data/pull/1964"},
+          "entries": [],
+          "metadata": {"count":9,"fields":["context","contextRole","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "bc0958652fa2b1ad9cf8559f556d174be92c26cd",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2001,"title":"feat(design-data): review anatomy of panels and empty states (A8 2/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2001"},
+          "entries": [
+            {"id":"bc095865-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (Illustration to heading)"],"scope":{"property":"space-between","options":null},"record":"cd986ab9-f49e-5463-811a-290c795d2360","name":"space-between","fields":[{"path":"scope.between.from","after":"illustration"},{"path":"scope.between.to","after":"title"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"bc095865-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (Illustration to heading)"],"scope":{"property":"space-between","options":null},"record":"05566ca1-92d1-5d0c-b403-4593788a59df","name":"space-between","fields":[{"path":"scope.between.from","after":"illustration"},{"path":"scope.between.to","after":"title"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"bc095865-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (Heading to description - vertical)"],"scope":{"property":"space-between","options":null},"record":"20f383be-54a8-55d9-8111-27f56d74f692","name":"space-between","fields":[{"path":"scope.between.from","after":"title"},{"path":"scope.between.to","after":"description"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"bc095865-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (Description to action - vertical)"],"scope":{"property":"space-between","options":null},"record":"d91dcb47-9a1d-57fa-9366-86995d5c4d08","name":"space-between","fields":[{"path":"scope.between.from","after":"description"},{"path":"scope.between.to","after":"button-group"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"bc095865-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-family","options":null},"record":"dceb4084-86e9-511b-a774-47094daf5688","name":"font-family","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-weight","options":null},"record":"30638025-c983-524e-b993-abe68526fa20","name":"font-weight","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-style","options":null},"record":"2992c915-32ef-5ea4-ae62-9fddb497f2c9","name":"font-style","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"line-height","options":null},"record":"d9a9f033-e446-5773-a7d4-b2356797340b","name":"line-height","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"s"}},"record":"5f5955aa-68c8-569a-9d80-fe2ea6b348e2","name":"font-size[scale=desktop,size=s]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"s"}]},
+            {"id":"bc095865-9","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"s"}},"record":"5f5955aa-68c8-569a-9d80-fe2ea6b348e2","name":"font-size[scale=desktop,size=s]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"s"}},"record":"8c8f3639-4d01-559d-9880-538dc5fccbf8","name":"font-size[scale=mobile,size=s]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"s"}]},
+            {"id":"bc095865-11","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"s"}},"record":"8c8f3639-4d01-559d-9880-538dc5fccbf8","name":"font-size[scale=mobile,size=s]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"desktop","size":"s"}},"record":"5f45a171-b05b-5196-9906-ff0279bd7780","name":"font-size[scale=desktop,script=cjk,size=s]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"s"}]},
+            {"id":"bc095865-13","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"desktop","size":"s"}},"record":"5f45a171-b05b-5196-9906-ff0279bd7780","name":"font-size[scale=desktop,script=cjk,size=s]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"mobile","size":"s"}},"record":"fba5f6dd-c824-550a-944b-cee06db4bada","name":"font-size[scale=mobile,script=cjk,size=s]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"s"}]},
+            {"id":"bc095865-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"mobile","size":"s"}},"record":"fba5f6dd-c824-550a-944b-cee06db4bada","name":"font-size[scale=mobile,script=cjk,size=s]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-16","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"m"}},"record":"19fc5d56-d35b-5a98-80e0-f094d7f7fb05","name":"font-size[scale=desktop,size=m]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"bc095865-17","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"m"}},"record":"19fc5d56-d35b-5a98-80e0-f094d7f7fb05","name":"font-size[scale=desktop,size=m]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-18","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"m"}},"record":"b2c0dd55-473f-53de-abf2-2d8e895ad480","name":"font-size[scale=mobile,size=m]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"bc095865-19","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"m"}},"record":"b2c0dd55-473f-53de-abf2-2d8e895ad480","name":"font-size[scale=mobile,size=m]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-20","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"desktop","size":"m"}},"record":"157847c9-16d8-5d7c-b761-4ec4f00b0dd5","name":"font-size[scale=desktop,script=cjk,size=m]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"bc095865-21","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"desktop","size":"m"}},"record":"157847c9-16d8-5d7c-b761-4ec4f00b0dd5","name":"font-size[scale=desktop,script=cjk,size=m]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-22","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"mobile","size":"m"}},"record":"13f96739-b4af-5a8d-8ea9-7cf5f1af9dfa","name":"font-size[scale=mobile,script=cjk,size=m]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"bc095865-23","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"mobile","size":"m"}},"record":"13f96739-b4af-5a8d-8ea9-7cf5f1af9dfa","name":"font-size[scale=mobile,script=cjk,size=m]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-24","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"l"}},"record":"42d2c9f2-69e6-5f5c-b51e-822721cb7de3","name":"font-size[scale=desktop,size=l]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"l"}]},
+            {"id":"bc095865-25","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"l"}},"record":"42d2c9f2-69e6-5f5c-b51e-822721cb7de3","name":"font-size[scale=desktop,size=l]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-26","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"l"}},"record":"88270f2b-2f81-516f-b9e2-7751defcd507","name":"font-size[scale=mobile,size=l]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"l"}]},
+            {"id":"bc095865-27","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"l"}},"record":"88270f2b-2f81-516f-b9e2-7751defcd507","name":"font-size[scale=mobile,size=l]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-28","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"desktop","size":"l"}},"record":"2cd8a7e5-a378-5edf-b10f-87f7121c790b","name":"font-size[scale=desktop,script=cjk,size=l]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"l"}]},
+            {"id":"bc095865-29","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"desktop","size":"l"}},"record":"2cd8a7e5-a378-5edf-b10f-87f7121c790b","name":"font-size[scale=desktop,script=cjk,size=l]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-30","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"mobile","size":"l"}},"record":"779bbee0-d18a-5ed6-a45b-bbad220fb270","name":"font-size[scale=mobile,script=cjk,size=l]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"l"}]},
+            {"id":"bc095865-31","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"script":"cjk","scale":"mobile","size":"l"}},"record":"779bbee0-d18a-5ed6-a45b-bbad220fb270","name":"font-size[scale=mobile,script=cjk,size=l]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-32","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-family","options":null},"record":"e126b951-2c49-5305-babf-ddaf9423b0b0","name":"font-family","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-33","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-weight","options":null},"record":"0d1a0922-ae88-5ce1-b129-5f7a51dac293","name":"font-weight","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-34","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-style","options":null},"record":"7793f794-4b51-5ec3-ab0f-7b5fa7264dec","name":"font-style","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-35","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"line-height-200","options":null},"record":"31ab8639-600c-5ce7-98b5-d7464d8381b7","name":"line-height-200","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-36","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"size":"s"}},"record":"981dcb4e-928b-5ed6-b213-62409491da0a","name":"font-size[size=s]","fields":[{"path":"scope.options.size","after":"s"}]},
+            {"id":"bc095865-37","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"size":"s"}},"record":"981dcb4e-928b-5ed6-b213-62409491da0a","name":"font-size[size=s]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-38","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"m"}},"record":"d58ebdc7-e859-513c-8638-b1d570ae918e","name":"font-size[scale=desktop,size=m]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"bc095865-39","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"m"}},"record":"d58ebdc7-e859-513c-8638-b1d570ae918e","name":"font-size[scale=desktop,size=m]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-40","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"m"}},"record":"9f711de6-1cb5-5f6e-ba35-a7939c4a2199","name":"font-size[scale=mobile,size=m]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"bc095865-41","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"m"}},"record":"9f711de6-1cb5-5f6e-ba35-a7939c4a2199","name":"font-size[scale=mobile,size=m]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-42","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"l"}},"record":"0a749c5b-14d9-5bf5-aacf-37b98d912cf0","name":"font-size[scale=desktop,size=l]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"l"}]},
+            {"id":"bc095865-43","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"desktop","size":"l"}},"record":"0a749c5b-14d9-5bf5-aacf-37b98d912cf0","name":"font-size[scale=desktop,size=l]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-44","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"l"}},"record":"c7a60a61-9b7e-543c-8fc8-6d38fe801bda","name":"font-size[scale=mobile,size=l]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"l"}]},
+            {"id":"bc095865-45","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"mobile","size":"l"}},"record":"c7a60a61-9b7e-543c-8fc8-6d38fe801bda","name":"font-size[scale=mobile,size=l]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-46","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Illustration color"],"scope":{"property":"content-color","options":null},"record":"cd1cc305-82df-58e6-b627-482c1d053310","name":"content-color","fields":[{"path":"scope.part","after":"illustration"}]},
+            {"id":"bc095865-47","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Heading color"],"scope":{"property":"color","options":null},"record":"54d06e7a-21d1-5dc9-8983-6ec4242d1116","name":"color","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"bc095865-48","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description color"],"scope":{"property":"color","options":null},"record":"630b9f18-b08c-59c5-a186-47c503ca5c5c","name":"color","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"bc095865-49","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/actions","name":"actions","fields":[],"before":{"name":"actions","description":"Button group below the description."}},
+            {"id":"bc095865-50","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/button-group","name":"button-group","fields":[],"after":{"name":"button-group","description":"Optional button group below the description, shown with the action labels."}},
+            {"id":"bc095865-51","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Root of the component: draws no surface, but owns the maximum width and holds the message.","required":true,"contains":["illustration","title","description","button-group"]}},
+            {"id":"bc095865-52","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Description text.","required":true}},
+            {"id":"bc095865-53","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/body","name":"body","fields":[{"path":"lifecycle.deprecatedIn","after":"1.0.0-draft"},{"path":"required","before":true}]},
+            {"id":"bc095865-54","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/body","name":"body","fields":[{"path":"description","before":"Description text.","after":"Renamed description. Kept only so one archived Spectrum 1 size record still resolves."}]},
+            {"id":"bc095865-55","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web (Icon, Content, Button group). No container: the component has no surface of its own. Wrapper frames not parts.","after":"Owner decisions (A8, 2026-11-20): explicit root part container although the component has no surface; the secondary text part is description (Figma property, RSP slot; legacy records said body and moved to the new part name, legacy output unchanged); the actions part is a button-group component part, renamed from actions. Figma S2 Web (Icon, Content, Button group); RSP IllustratedMessage grid areas illustration, heading, content, buttonGroup. Wrapper frames are not parts. The button-group is not a slot host yet: slot fills are not built."}]}
+          ],
+          "metadata": {"count":21,"fields":["anatomyReview.status","context","contextRole","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.1",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+      "commits": [
+        {
+          "commit": "cc2bccd6fde88765f41ff4be282bc7dba58d8762",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2031,"title":"feat(design-data): migrate drop-zone, illustrated-message, coach-mark and contextual-help to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/2031"},
+          "entries": [
+            {"id":"cc2bccd6-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"line-height","options":null},"record":"31ab8639-600c-5ce7-98b5-d7464d8381b7","name":"line-height","fields":[{"path":"scope.property","before":"line-height-200","after":"line-height"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"illustrated-message/anatomy/button-group","name":"button-group","fields":[{"path":"component","after":"button-group"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

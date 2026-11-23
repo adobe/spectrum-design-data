@@ -71,9 +71,31 @@
     },
     "isDisabled": {
       "type": "boolean",
-      "default": false,
-      "description": "Help text cannot be both disabled and negative variant."
+      "default": false
     }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row that holds the status icon and the text.",
+      "required": true,
+      "contains": ["icon", "text"]
+    },
+    {
+      "name": "icon",
+      "description": "Alert icon shown for the negative variant. Hidden by hideIcon.",
+      "presentWhen": { "options": { "variant": "negative", "hideIcon": false } }
+    },
+    {
+      "name": "text",
+      "description": "Help or error message text.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Matches Figma S2 Web (Help text): a row with an optional AlertTriangle instance and the text. React Spectrum has no separate container (Field.tsx:374 styles the row itself); container is kept as the recipe root. Icon shown only for the negative variant (Field.tsx:446-448). Renamed error-icon to icon."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }

@@ -12,5 +12,6 @@
   "scope": null,
   "required": false,
   "valueType": "integer",
-  "excludeFromLegacyKey": true
+  "excludeFromLegacyKey": true,
+  "impliesTokenTier": "none"
 }

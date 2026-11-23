@@ -42,7 +42,7 @@ use crate::validate::rule::{ValidationContext, ValidationRule};
 /// True if `endpoint` matches a position, a generic anatomy term, a declared
 /// anatomy part, or — failing that — is a registered position glued to one of
 /// those via a single hyphen-bounded prefix/suffix strip.
-fn endpoint_resolves(
+pub(super) fn endpoint_resolves(
     endpoint: &str,
     position_vocab: Option<&HashSet<String>>,
     anatomy_vocab: Option<&HashSet<String>>,

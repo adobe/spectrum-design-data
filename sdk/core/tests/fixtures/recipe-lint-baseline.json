@@ -1,0 +1,41 @@
+{
+  "SPEC-067": {
+    "accordion": 2,
+    "bar-panel": 1,
+    "standard-dialog": 2
+  },
+  "SPEC-068": {
+    "checkbox": 16
+  },
+  "SPEC-069": {
+    "accordion": 8,
+    "clear-button": 8,
+    "close-button": 10,
+    "field-label": 2
+  },
+  "SPEC-086": {
+    "action-button": 1
+  },
+  "SPEC-087": {
+    "action-button": 2,
+    "badge": 3,
+    "button": 3,
+    "checkbox": 3,
+    "radio-button": 3,
+    "switch": 3
+  },
+  "SPEC-091": {
+    "avatar": 3,
+    "date-picker": 7,
+    "drop-zone": 7,
+    "field-label": 4,
+    "list-view": 1,
+    "radio-button": 2,
+    "select-box": 2,
+    "table": 19,
+    "toast": 2
+  },
+  "SPEC-092": {
+    "thumbnail": 1
+  }
+}

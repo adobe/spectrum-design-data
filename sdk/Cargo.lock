@@ -644,7 +644,7 @@ dependencies = [
 
 [[package]]
 name = "design-data-cli"
-version = "0.13.0"
+version = "0.63.4"
 dependencies = [
  "assert_cmd",
  "chrono",
@@ -653,13 +653,16 @@ dependencies = [
  "design-data-dtcg",
  "design-data-figma",
  "design-data-shadcn",
+ "design-data-site",
  "design-data-tui",
+ "jsonschema",
  "miette",
  "predicates",
  "serde",
  "serde_json",
  "serde_norway",
  "sha2",
+ "tar",
  "tempfile",
  "tokio",
  "toml",
@@ -723,8 +726,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "design-data-site"
+version = "0.1.0"
+dependencies = [
+ "design-data-core",
+ "design-data-figma",
+ "serde_json",
+]
+
+[[package]]
 name = "design-data-tui"
-version = "0.20.1"
+version = "0.22.1"
 dependencies = [
  "clap",
  "crossterm",
@@ -758,6 +770,15 @@ dependencies = [
  "tsify-next",
  "wasm-bindgen",
  "wasm-bindgen-test",
+]
+
+[[package]]
+name = "design-data-wasm-visual"
+version = "0.0.0"
+dependencies = [
+ "design-data-core",
+ "serde_json",
+ "wasm-bindgen",
 ]
 
 [[package]]

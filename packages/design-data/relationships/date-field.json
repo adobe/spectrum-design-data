@@ -2,8 +2,12 @@
   {
     "scope": {
       "component": "date-field",
+      "part": "container",
       "property": "minimum-width"
     },
+    "context": "Width (minimum)",
+    "contextRole": ["width"],
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "152px",
     "uuid": "ebc4d09b-03c8-475a-af01-9bfcd590d92b",

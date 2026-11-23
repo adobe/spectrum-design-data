@@ -57,6 +57,11 @@ target that actually exist:
   subcommands (`figma export`/`import`/`audit`/`diff`/`pair`) and function API
   instead.
 
+* **Multi-file generators** — `design-data-site` writes a whole static
+  explorer from the graph and the `visuals/` recipes. It takes the graph
+  directly and has its own `design-data site` subcommand, so it doesn't
+  implement `TokenExporter`.
+
 **Adding a new in-monorepo plugin**: create `sdk/plugins/<name>/`, depend on
 `design-data-core` by path, implement `TokenExporter` if it accepts resolved
 token graph inputs (register it in the CLI's `exporters()`), or add a

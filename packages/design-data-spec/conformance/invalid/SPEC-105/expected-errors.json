@@ -1,0 +1,25 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-105",
+      "severity": "warning",
+      "message_pattern": "must \\$ref a typography composite"
+    },
+    {
+      "rule_id": "SPEC-105",
+      "severity": "warning",
+      "message_pattern": "must have property 'type-style'"
+    },
+    {
+      "rule_id": "SPEC-105",
+      "severity": "warning",
+      "message_pattern": "can never be chosen"
+    },
+    {
+      "rule_id": "SPEC-105",
+      "severity": "warning",
+      "message_pattern": "pins size 'xl'"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-079",
+      "severity": "warning",
+      "message_pattern": ".*button-fixture.*fixture-unresolved.*component-missing-100.*"
+    }
+  ]
+}

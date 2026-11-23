@@ -9,5 +9,9 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/collection-card/"
   },
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "lifecycle": {
+    "introduced": "1.0.0-draft",
+    "deprecatedIn": "1.0.0-draft",
+    "deprecatedComment": "Archive-only: this card kind is not modelled in card yet (Patterns candidate, 5m92.30). Its archived records stay frozen and keep their legacy keys."
+  }
 }

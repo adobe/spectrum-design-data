@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-control",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.22.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"424db2a9-5795-400b-a98a-58081d311bff","name":"width[scale=desktop]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"07e3ac46-3f96-4c00-aa6a-09840ee04bdd","name":"width[scale=mobile]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-control/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"A7 (2026-11-20), owner decision C11: a shared base. Its two track-thickness records are pinned to color-control.json by their legacy keys and are referenced by color-slider and color-wheel, so they cannot move. No container and no recipe; no Figma, RSP or SWC source draws it on its own."}]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.property"]}
+        }
+      ]
+    }
+  ]
+}

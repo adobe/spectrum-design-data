@@ -20,6 +20,7 @@ pub(crate) mod logo;
 pub mod message;
 pub mod model;
 pub mod naming;
+pub mod preview;
 pub mod runtime;
 pub mod subscription;
 pub mod task;

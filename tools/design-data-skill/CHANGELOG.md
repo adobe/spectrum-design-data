@@ -1,5 +1,347 @@
 # @adobe/design-data-skill
 
+## 2.2.31
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.17.4
+
+## 2.2.30
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.17.3
+
+## 2.2.29
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.17.2
+
+## 2.2.28
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.17.1
+
+## 2.2.27
+
+### Patch Changes
+
+- Updated dependencies [[`5d6bd00`](https://github.com/adobe/spectrum-design-data/commit/5d6bd008a946579c54356ac519cfb220dd07b3de)]:
+  - @adobe/design-data-mcp@1.17.0
+
+## 2.2.26
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.16.6
+
+## 2.2.25
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.16.5
+
+## 2.2.24
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.16.4
+
+## 2.2.23
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.16.3
+
+## 2.2.22
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.16.2
+
+## 2.2.21
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.16.1
+
+## 2.2.20
+
+### Patch Changes
+
+- Updated dependencies [[`3f4978c`](https://github.com/adobe/spectrum-design-data/commit/3f4978c0bb6300e7b81cbbed898fad973b4c71e6)]:
+  - @adobe/design-data-mcp@1.16.0
+
+## 2.2.19
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.15.4
+
+## 2.2.18
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.15.3
+
+## 2.2.17
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.15.2
+
+## 2.2.16
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.15.1
+
+## 2.2.15
+
+### Patch Changes
+
+- [#1946](https://github.com/adobe/spectrum-design-data/pull/1946) [`90fa890`](https://github.com/adobe/spectrum-design-data/commit/90fa8906b5f45d81d4a36c8099575f6257a544a7) Thanks [@GarthDB](https://github.com/GarthDB)! - Tokens now report semantic specificity, so people and agents can pick among tokens.
+  - **Specificity:** derived from the name, never stored: tier rank, then the count of purpose fields.
+    It orders tokens; it does not say one fits a use.
+  - **Neighbors:** same-property tokens that add or drop purpose fields, each `drop-in` (same value
+    in every mode) or `consider`. CLI `design-data refinements`, WASM `Dataset.refinements`, MCP
+    `design-data-refinements` and agent MCP `token_refinements`.
+  - **Results:** WASM `TokenResult` has `purposeFields` and `purposeCount`; MCP query shows
+    `purposeFields`; CLI `query` and `resolve` print `Purpose`; MCP query takes `sort: "specificity"`.
+  - **Query:** `object`, `anatomy` and `colorRole` are filter keys.
+  - **Component tokens:** MCP `design-data-component-tokens` (WASM `componentRelationships`) returns
+    what a component uses for each part and state, with values, in one call.
+  - **Primer and docs:** `semanticSpecificity` in the primer; taxonomy, query and agent-surface
+    chapters and the skill (with a custom-component recipe).
+
+- [#1932](https://github.com/adobe/spectrum-design-data/pull/1932) [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - The token tier is now visible to people and tools.
+  - **Query:** `tier=<primitive|semantic|component>` is a filter key; spec `query.md` lists it.
+  - **Results:** WASM `TokenResult` has `tier` and `tierSource`; the MCP query tool shows `tier`; CLI
+    `query` and `resolve` print it.
+  - **Primer:** fields list `allowedTokenTiers` and `impliesTokenTier`; `tokenTiers` explains the
+    derivation. The MCP primer returns `tokenTiers` and `fieldTiers`.
+  - **Docs:** token-format, taxonomy, authoring-workflow and agent-surface chapters and the
+    design-data skill describe tiers.
+
+- Updated dependencies [[`90fa890`](https://github.com/adobe/spectrum-design-data/commit/90fa8906b5f45d81d4a36c8099575f6257a544a7), [`d3e7593`](https://github.com/adobe/spectrum-design-data/commit/d3e7593bc4d72a4440cc070de38378bf23b49bbd)]:
+  - @adobe/design-data-mcp@1.15.0
+
+## 2.2.14
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.14.5
+
+## 2.2.13
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.14.4
+
+## 2.2.12
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.14.3
+
+## 2.2.11
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.14.2
+
+## 2.2.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.14.1
+
+## 2.2.9
+
+### Patch Changes
+
+- [#1891](https://github.com/adobe/spectrum-design-data/pull/1891) [`7f9c0ed`](https://github.com/adobe/spectrum-design-data/commit/7f9c0ed0b64d8105e72c6d2638b878af80d982ef) Thanks [@GarthDB](https://github.com/GarthDB)! - `design-data-query` and `design-data-suggest` now return compact, bounded output with final
+  values. An agent run against these tools spent most of its tokens on tool output: `query
+component=button` returned about 108,000 characters (146 full token objects, each named by a CI
+  file path) and `property=*color*` about 1.3 million.
+
+  `design-data-query` returns `{ total, shown, tokens }`, at most 25 tokens by default (`limit`,
+  max 200), active before deprecated, with a hint to narrow the filter when more match. Each token
+  has `name`, `value`, `layer`, `uuid` and its modes. `value` is the end of the alias chain, so
+  `container-padding-small` shows `12px` and nothing needs a follow-up `uuid=` query. When the
+  value differs by a mode the name does not pin (`accent-content-color-default` is a different
+  colour in dark), the token has `values` by mode instead of `value`. `detail:
+"full"` returns the old complete token objects. `design-data-suggest` returns the same compact
+  shape plus `confidence`, with no `file` path.
+
+  Breaking for callers that read the old array: `query` now returns an object, and `suggest`
+  returns `name` instead of `tokenName`. The two sizes above become about 4,000 characters.
+
+- [#1887](https://github.com/adobe/spectrum-design-data/pull/1887) [`92e77eb`](https://github.com/adobe/spectrum-design-data/commit/92e77eb81d9388f4f8cadafcde8d45a5bc1ee747) Thanks [@GarthDB](https://github.com/GarthDB)! - The plugin README and AI docs now say to install the plugin once, from one marketplace, and how
+  to update it. A second copy (the Design AI Marketplace and this repository's marketplace both
+  publish one) or a repo `mcp.json` entry registers a second `design-data` server and skill, and
+  the client may expose none of them. They also list the Copilot app, Copilot CLI and Claude Code
+  update steps; plugins do not update themselves.
+- Updated dependencies [[`7e03e89`](https://github.com/adobe/spectrum-design-data/commit/7e03e8989899c867205be26e7beb74796d2a50fd), [`7f9c0ed`](https://github.com/adobe/spectrum-design-data/commit/7f9c0ed0b64d8105e72c6d2638b878af80d982ef)]:
+  - @adobe/design-data-mcp@1.14.0
+
+## 2.2.8
+
+### Patch Changes
+
+- Updated dependencies [[`1b01d40`](https://github.com/adobe/spectrum-design-data/commit/1b01d40baf3edafef26ca9e3a2d96c288e86cf31), [`374bbd8`](https://github.com/adobe/spectrum-design-data/commit/374bbd844ae6c08d2869730f6cd96d0f16741aeb)]:
+  - @adobe/design-data-mcp@1.13.6
+
+## 2.2.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.5
+
+## 2.2.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.4
+
+## 2.2.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.3
+
+## 2.2.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.2
+
+## 2.2.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.13.1
+
+## 2.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`0e290c0`](https://github.com/adobe/spectrum-design-data/commit/0e290c08a5542f0bf107d76c1e4a4e1d34284ba1)]:
+  - @adobe/design-data-mcp@1.13.0
+
+## 2.2.1
+
+### Patch Changes
+
+- [#1787](https://github.com/adobe/spectrum-design-data/pull/1787) [`46f7b73`](https://github.com/adobe/spectrum-design-data/commit/46f7b738f868b164aa5781c627687a08620ad07b) Thanks [@GarthDB](https://github.com/GarthDB)! - Document installing the plugin in the GitHub Copilot app, and that a new session is needed.
+  - **`README.md`**: adds the Copilot app steps (Customize, marketplace, Install) and says to
+    start a new session after installing, because an already-open session does not load the
+    plugin's tools. Also says "all of them" instead of "all eight" for the read-only tools.
+
+- Updated dependencies [[`544047f`](https://github.com/adobe/spectrum-design-data/commit/544047fe07b51c40928d23785f97147377fa948e)]:
+  - @adobe/design-data-mcp@1.12.1
+
+## 2.2.0
+
+### Minor Changes
+
+- [#1780](https://github.com/adobe/spectrum-design-data/pull/1780) [`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e) Thanks [@GarthDB](https://github.com/GarthDB)! - Tell agents how PNG text gets its font.
+  - **`skills/design-data/SKILL.md`**: documents `format: "png"`, `design-data-font-status` and
+    a Fonts section: relay `font.fallback` and `font.help`, point Adobe employees to the Brand
+    Center `.ttf`, ask for a path when the user says it is installed, and never say to download
+    what was found.
+  - **Plugin and marketplace descriptions**: mention SVG and PNG renders.
+
+### Patch Changes
+
+- Updated dependencies [[`bc6caa2`](https://github.com/adobe/spectrum-design-data/commit/bc6caa297e546eb5b26b0613d0d5e50a9f52b83e)]:
+  - @adobe/design-data-mcp@1.12.0
+
+## 2.1.0
+
+### Minor Changes
+
+- [#1775](https://github.com/adobe/spectrum-design-data/pull/1775) [`36b9c3d`](https://github.com/adobe/spectrum-design-data/commit/36b9c3d00a761a27cd9b50ad60da11b31a3de895) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the new `design-data-visual-recipe` and `design-data-render` MCP tools in the skill.
+
+### Patch Changes
+
+- Updated dependencies [[`36b9c3d`](https://github.com/adobe/spectrum-design-data/commit/36b9c3d00a761a27cd9b50ad60da11b31a3de895)]:
+  - @adobe/design-data-mcp@1.11.0
+
+## 2.0.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.10.4
+
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.10.3
+
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.10.2
+
+## 2.0.0
+
+### Major Changes
+
+- [#1725](https://github.com/adobe/spectrum-design-data/pull/1725) [`34b4ad7`](https://github.com/adobe/spectrum-design-data/commit/34b4ad7670e311437fdcd7e4eb7c51a0bcbcd5bf) Thanks [@GarthDB](https://github.com/GarthDB)! - Rename the plugin to `spectrum-design-data` (install with
+  `spectrum-design-data@spectrum-design-data`; the old `design-data@…` id no longer exists)
+  and make it self-contained for distribution, including the
+  Adobe Design AI Marketplace.
+  - Bundle `.mcp.json`, which runs `@adobe/design-data-mcp` pinned to an exact
+    version, so installing the plugin gives working tools with no manual MCP setup.
+    `moon run :version` syncs the pin and the `plugin.json` version.
+  - Fix `SKILL.md` tool names (plugin tools are
+    `mcp__plugin_spectrum-design-data_design-data__*`), add the component-search and
+    guideline tools, and drop the CLI and custom-dataset claims it never supported.
+  - Replace relative links to sibling packages with absolute URLs.
+  - Align the README, marketplace description, and AI docs page on Node.js
+    > =20.12.0, the first-run download, snapshot freshness, and the context cost of
+    > a bundled MCP server.
+  - Depend on `@adobe/design-data-mcp` (`workspace:*`) so every MCP release also
+    bumps and republishes the skill with the new pin.
+  - Add packaging tests for the pin, manifest, tool names, and packed contents.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@1.10.1
+
 ## 1.3.2
 
 ### Patch Changes

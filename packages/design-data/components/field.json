@@ -9,5 +9,38 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/field/"
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the component: sets the width and the spacing between the label, the field and the help text.",
+      "required": true,
+      "contains": ["field-label", "field", "help-text"]
+    },
+    {
+      "name": "field-label",
+      "component": "field-label",
+      "description": "Text label that names the field, placed above or beside it."
+    },
+    {
+      "name": "field",
+      "description": "Bordered box that frames the field content.",
+      "required": true,
+      "contains": ["value"]
+    },
+    {
+      "name": "value",
+      "description": "Content shown inside the field."
+    },
+    {
+      "name": "help-text",
+      "component": "help-text",
+      "description": "Description or error message shown below the field."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text; the bordered box is the field part (Figma Field, RSP FieldGroup). Shared primitive; Figma has no separate page and no source styles it. It has no relationship records yet; the input fields keep their own copies (decision D1a, a shared chrome component is bead 5m92.5.3.2)."
+  },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

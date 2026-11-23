@@ -1,0 +1,62 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "property": "component-height-100"
+      },
+      "uuid": "76000000-0000-4000-8000-000000000001",
+      "value": "32px"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "anatomy": [
+        {
+          "name": "container",
+          "description": "Background.",
+          "required": true
+        }
+      ],
+      "options": {
+        "size": {
+          "type": "string",
+          "default": "m",
+          "values": [
+            {
+              "value": "m"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "relationships": [],
+  "visuals": [
+    {
+      "component": "button",
+      "root": "container",
+      "sizeScale": {
+        "m": 100
+      },
+      "parts": {
+        "container": {
+          "kind": "box",
+          "props": {
+            "height": {
+              "token": {
+                "property": "component-height-100"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

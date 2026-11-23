@@ -1,0 +1,566 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "date-picker",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.2.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-08-24",
+      "commit": "efa7a6bab4219eab3fa6cc1cbb991f09461bcc80",
+      "commits": [
+        {
+          "commit": "9c697cfcee3820ddc7bc3688ea000552de708641",
+          "date": "2026-08-17",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1336,"title":"fix(design-data): resolve SPEC-027 dangling tokenBindings for vpk.1","url":"https://github.com/adobe/spectrum-design-data/pull/1336"},
+          "entries": [
+            {"id":"9c697cfc-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"range-border-dash-length","context":"Range fill stroke padding"},{"token":"range-border-dash-gap","context":"Range fill stroke padding"},{"token":"range-border-dash-thickness","context":"Range fill stroke padding"},{"token":"strikethrough-day-thickness","context":"Strikethrough day "},{"token":"strikethrough-day-orientation","context":"Strikethrough day "},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}],"after":[{"token":"strikethrough-day-thickness","context":"Strikethrough day "},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}]}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "2.7.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start edge to value) ","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"0c0d6d38-6734-4312-9be5-dd48dd571841","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start edge to value) ","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top/bottom edge to label)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"15bf492b-3a65-4577-8a3b-df09026b96a7","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-top-to-text-100","options":null},"record":"component-top-to-text-100#Spacing (top/bottom edge to label)","name":"component-top-to-text-100","fields":[{"path":"$ref","before":"bed358a2-0559-4501-a147-b375887f25af","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-bottom-to-text-100","options":null},"record":"component-bottom-to-text-100#Spacing (top/bottom edge to label)","name":"component-bottom-to-text-100","fields":[{"path":"$ref","before":"24def269-4582-46f6-a00c-8b5a28410917","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"component-bottom-to-text-100","options":null},"record":"component-bottom-to-text-100#Spacing (top/bottom edge to label)","name":"component-bottom-to-text-100","fields":[{"path":"$ref","before":"c8590269-dcaa-44f6-9c2d-d33274c3fe5e","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Keyboard focus indicator"],"scope":{"property":"gap","options":null},"record":"gap#Keyboard focus indicator ","name":"gap","fields":[{"path":"$ref","before":"693651ef-71c7-4096-91a5-1c84cb861021","after":"fb035d45-e63b-4cd4-b220-675a52e99399"}]},
+            {"id":"5e22a7a1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (value to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"4725710f-67b2-4000-b4e8-e67a68cd75f5","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (value to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"9953fcd9-ac62-49bd-beb2-926dc9fbb8c8","after":"52a75511-eb1b-4de2-a1bb-959365d8dc1a"}]},
+            {"id":"5e22a7a1-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"component-top-to-workflow-icon-100","options":null},"record":"component-top-to-workflow-icon-100#Spacing (top/bottom edge to alert icon)","name":"component-top-to-workflow-icon-100","fields":[{"path":"$ref","before":"c3a280b0-bc84-4a7c-8048-c689f8deef86","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]},
+            {"id":"5e22a7a1-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"component-top-to-workflow-icon-100","options":null},"record":"component-top-to-workflow-icon-100#Spacing (top/bottom edge to alert icon)","name":"component-top-to-workflow-icon-100","fields":[{"path":"$ref","before":"a3d3f9e9-a784-445a-a052-22f84b832512","after":"5741f832-f012-45bc-9e87-6e07ab2cb87f"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":65,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/0","name":"guideline: Displaying the popover calendar.\n\nThe calendar p","fields":[{"path":"content","before":"Date pickers allow selection of a single date or a date range. They include a calendar within a popover, with optional manual entry. Date range variants support selecting a start and end date in one field.","after":"Displaying the popover calendar.\n\nThe calendar popover is displayed or hidden when the user selects the in-field button (the calendar icon)."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/1","name":"guideline: Range selection.\n\nIf a user selects a day preced","fields":[{"path":"content","before":"Calendar popover displays a grid of days spanning one, two, or three months, enabling users to select a single date or a range.","after":"Range selection.\n\nIf a user selects a day preceding the first selection, that earlier day becomes the start of the range. For example: First selection: Jan 3. This is the start of the range. Second selection: Jan 1. This is the new start of the range. The range is now Jan 1–3 in the calendar popover and date field. A third selection resets the range. For example: Third selection: Jan 4. This is the start of a new range. Current state: Jan 4 (no end of range). The calendar popover displays Jan 4 as the start of the range but with no defined end. The date field remains populated by the user's last complete input (Jan 1-3) until they indicate the end of their new range."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/2","name":"guideline: Individual segments for date field.\n\nDate picker","fields":[{"path":"content","before":"Date field allows users to enter and edit date values. Users can edit each part of a date value, such as the day, month, and year, by interacting with individual segments. A date field includes a label, segments for each value of the date, and an in-field button to allow the user to open the calendar popover.","after":"Individual segments for date field.\n\nDate pickers display placeholder values in individual segments by default. This is to makes it easier for users to focus and edit specific values like the day, month, or year without re-entering the entire date. This approach reduces input errors, improves accessibility, and supports faster, more precise interactions. It also adapts well to different regional formats, enhancing clarity across locales."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/3","name":"guideline: Single date or date range.\n\nDate pickers can be ","fields":[{"path":"content","before":"The range of days the user has selected (a start date and an end date).","after":"Single date or date range.\n\nDate pickers can be used to select a single date or a date range (a start date and an end date)."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/4","name":"guideline: Date range selection.\n\nWhen a date picker is for","fields":[{"path":"content","before":"The selected date allows a user to see which date they have selected within the calendar popover.","after":"Date range selection.\n\nWhen a date picker is formatted to allow a range, it displays a placeholder by default. When the user first interacts with the date field, the first value of the placeholder is in focus. This is to allow the user to edit the individual segments. When the user opens the popover without interacting, it displays the current day along with the month and year based on their locale. However, the date field will continue to show the placeholder until the user either completes the range in the field or within the calendar popover. If the user inputs a date range within the date field that spans more than the maximum of three months that the calendar popover allows, the calendar popover will only show the first three consecutive months within that range."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/5","name":"guideline: Granularity.\n\nThe date field can also capture ti","fields":[{"path":"content","before":"A single date picker only displays a single date within the date field as well as a single month within the calendar popover.","after":"Granularity.\n\nThe date field can also capture time values with precision down to the second, and may include time zone information. The calendar popover can also include time-specific fields, allowing users to specify start and end times."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/6","name":"guideline: Required or optional.\n\nDate pickers can be marke","fields":[{"path":"content","before":"A double date picker displays a date range within the date field as well as two consecutive months within the calendar popover.","after":"Required or optional.\n\nDate pickers can be marked as optional or required, depending on the situation. For required date pickers, there are two styling options: a \"(required)\" label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means. Optional date pickers are either denoted with text added to the end of the label — \"(optional)\" — or have no indication at all. The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/7","name":"guideline: Read-only states vs. disabled states.\n\nA read-on","fields":[{"path":"content","before":"A triple date picker displays a date range within the date field as well as three consecutive months within the calendar popover.","after":"Read-only states vs. disabled states.\n\nA read-only state of date picker means that the user cannot interact with the field, and they can only read what the field is displaying. Therefore, the in-field button is not clickable. In the disabled state, the read-only state of date picker allows the user to focus on a value—even though they cannot change the value. A disabled date picker means that the user cannot interact with the field, but not for the same reasons as a read-only scenario. For example, a date picker may be temporarily disabled because the user needs to complete a dependent task (such as filling out another field) somewhere within their experience. A disabled date picker does not allow for the ability to focus on a value, or to change its value."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/8","name":"guideline: Error.\n\nA date picker can be marked as having an","fields":[{"path":"content","before":"The calendar popover is displayed or hidden when the user selects the in-field button (the calendar icon).","after":"Error.\n\nA date picker can be marked as having an error to show that a value needs to be entered in order to move forward, or that an entered value is invalid. In this scenario, displaying error text beneath the date field can aid the user in understanding how to resolve it. Error text within the calendar popover may also be helpful to aid the user in understanding what the error is signaling."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/9","name":"guideline: If a user selects a day preceding the first sele","fields":[],"before":{"type":"guideline","content":"If a user selects a day preceding the first selection, that earlier day becomes the start of the range. For example:"}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/10","name":"guideline: A third selection resets the range. For example:","fields":[],"before":{"type":"guideline","content":"A third selection resets the range. For example:"}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/11","name":"guideline: Date pickers display placeholder values in indiv","fields":[],"before":{"type":"guideline","content":"Date pickers display placeholder values in individual segments by default. This is to makes it easier for users to focus and edit specific values like the day, month, or year without re-entering the entire date."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/12","name":"guideline: This approach reduces input errors, improves acc","fields":[],"before":{"type":"guideline","content":"This approach reduces input errors, improves accessibility, and supports faster, more precise interactions. It also adapts well to different regional formats, enhancing clarity across locales."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/13","name":"guideline: Date pickers can be used to select a single date","fields":[],"before":{"type":"guideline","content":"Date pickers can be used to select a single date or a date range (a start date and an end date)."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/14","name":"guideline: When a date picker is formatted to allow a range","fields":[],"before":{"type":"guideline","content":"When a date picker is formatted to allow a range, it displays a placeholder by default. When the user first interacts with the date field, the first value of the placeholder is in focus. This is to allow the user to edit the individual segments. When the user opens the popover without interacting, it displays the current day along with the month and year based on their locale. However, the date field will continue to show the placeholder until the user either completes the range in the field or within the calendar popover."}},
+            {"id":"ec3376fa-15","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/15","name":"guideline: If the user inputs a date range within the date ","fields":[],"before":{"type":"guideline","content":"If the user inputs a date range within the date field that spans more than the maximum of three months that the calendar popover allows, the calendar popover will only show the first three consecutive months within that range."}},
+            {"id":"ec3376fa-16","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/16","name":"guideline: The date field can also capture time values with","fields":[],"before":{"type":"guideline","content":"The date field can also capture time values with precision down to the second, and may include time zone information. The calendar popover can also include time-specific fields, allowing users to specify start and end times."}},
+            {"id":"ec3376fa-17","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/17","name":"guideline: Date pickers can be marked as optional or requir","fields":[],"before":{"type":"guideline","content":"Date pickers can be marked as optional or required, depending on the situation. For required date pickers, there are two styling options: a “(required)” label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means. Optional date pickers are either denoted with text added to the end of the label — “(optional)” — or have no indication at all."}},
+            {"id":"ec3376fa-18","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/18","name":"guideline: The asterisk used in this component is an icon t","fields":[],"before":{"type":"guideline","content":"The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."}},
+            {"id":"ec3376fa-19","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/19","name":"guideline: A read-only state of date picker means that the ","fields":[],"before":{"type":"guideline","content":"A read-only state of date picker means that the user cannot interact with the field, and they can only read what the field is displaying. Therefore, the in-field button is not clickable. In the disabled state, the read-only state of date picker allows the user to focus on a value—even though they cannot change the value."}},
+            {"id":"ec3376fa-20","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/20","name":"guideline: A disabled date picker means that the user canno","fields":[],"before":{"type":"guideline","content":"A disabled date picker means that the user cannot interact with the field, but not for the same reasons as a read-only scenario. For example, a date picker may be temporarily disabled because the user needs to complete a dependent task (such as filling out another field) somewhere within their experience. A disabled date picker does not allow for the ability to focus on a value, or to change its value."}},
+            {"id":"ec3376fa-21","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/documentBlocks/21","name":"guideline: A date picker can be marked as having an error t","fields":[],"before":{"type":"guideline","content":"A date picker can be marked as having an error to show that a value needs to be entered in order to move forward, or that an entered value is invalid. In this scenario, displaying error text beneath the date field can aid the user in understanding how to resolve it. Error text within the calendar popover may also be helpful to aid the user in understanding what the error is signaling."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.0.6",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Day values"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-1000"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.7.1",
+      "version": "1.0.7",
+      "bump": "patch",
+      "date": "2026-10-31",
+      "commit": "6c59c1ffc26ee80e11b1354c8e97d1479023af30",
+      "commits": [
+        {
+          "commit": "a60aeea243b2ac4e812d46bbd9f7140c9f62f398",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1572,"title":"fix(design-data): point the second duplicate relationship at the mobile token","url":"https://github.com/adobe/spectrum-design-data/pull/1572"},
+          "entries": [
+            {"id":"a60aeea2-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"component-edge-to-text-100","options":null},"record":"component-edge-to-text-100#Spacing (start edge to value) ","name":"component-edge-to-text-100","fields":[{"path":"$ref","before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","after":"71731484-e759-4a5f-89ed-9fe04ac19aed"}]},
+            {"id":"a60aeea2-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (value to alert icon)","name":"space-between","fields":[{"path":"$ref","before":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","after":"71731484-e759-4a5f-89ed-9fe04ac19aed"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.8.0",
+      "version": "1.0.8",
+      "bump": "patch",
+      "date": "2026-11-03",
+      "commit": "7b38617df24442d22724fb890cef69aa198b9e3a",
+      "commits": [
+        {
+          "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1582,"title":"feat: component visual recipes, renderer, explorer site and platform-aware rendering","url":"https://github.com/adobe/spectrum-design-data/pull/1582"},
+          "entries": [
+            {"id":"9b4ad35c-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Keyboard focus indicator"],"record":"fb035d45-e63b-4cd4-b220-675a52e99399","name":"gap[anatomy=focus-indicator,legacyKey=focus-ring-gap]","fields":[{"path":"name.anatomy","before":"focus-ring","after":"focus-indicator"},{"path":"name.legacyKey","after":"focus-ring-gap"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.0.9",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":3,"fields":["relationship removed"]}
+        }
+      ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "1.0.10",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "e0df9f51102037f1d0799bf8083de923e00795cd",
+          "date": "2026-11-10",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1719,"title":"feat(design-data): set replacedBy on workflow-icon-size tokens and repoint relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1719"},
+          "entries": [
+            {"id":"e0df9f51-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon size"],"record":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","name":"workflow-icon-size-100[scale=desktop]","fields":[{"path":"lifecycle.replacedBy","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"e0df9f51-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Alert icon size"],"record":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","name":"workflow-icon-size-100[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon size"],"record":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","name":"workflow-icon-size-100[scale=mobile]","fields":[{"path":"lifecycle.replacedBy","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]},
+            {"id":"e0df9f51-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Alert icon size"],"record":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","name":"workflow-icon-size-100[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Use workflow-icon-medium instead. The desktop size changes from 20px to 18px (mobile is unchanged)."}]},
+            {"id":"e0df9f51-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon size"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"982ea936-c307-55b0-81dc-903a2e52e102","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"40abc60f-ab65-41ef-b724-a0f0bdd94d14","after":"54a8eb69-a730-4871-b1eb-2958a2d9a8c5"}]},
+            {"id":"e0df9f51-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon size"],"scope":{"property":"workflow-icon-size-100","options":null},"record":"c99da327-63f8-597d-a9a0-9b7580e1724b","name":"workflow-icon-size-100","fields":[{"path":"$ref","before":"9e882a20-b8e1-4e9b-89f9-26f21db3cd78","after":"f272e08b-f6e6-4681-8dc0-abe071b8977a"}]}
+          ]
+        },
+        {
+          "commit": "7515f705b68e050efce9a88ae6fa811540a99c29",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1722,"title":"chore(design-data): normalize relationship context whitespace and case","url":"https://github.com/adobe/spectrum-design-data/pull/1722"},
+          "entries": [
+            {"id":"7515f705-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"strikethrough-day-thickness","context":"Strikethrough day "},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}],"after":[{"token":"strikethrough-day-thickness","context":"Strikethrough day"},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}]}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.11",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":71,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/calendar","name":"calendar","fields":[],"after":{"name":"calendar","description":"Calendar shown in the popover.","contains":["day"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/day","name":"day","fields":[],"after":{"name":"day","description":"One date cell in the calendar. Styled for selected, error, unavailable and current-day."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/field","name":"field","fields":[],"after":{"name":"field","description":"Bordered input box that holds the date value and calendar button.","contains":["value","in-field-button"]}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Label for the field."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/in-field-button","name":"in-field-button","fields":[],"after":{"name":"in-field-button","description":"Calendar icon button that opens the popover."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/popover","name":"popover","fields":[],"after":{"name":"popover","description":"Popover that opens from the field.","contains":["calendar"]}},
+            {"id":"12ddd7e7-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/value","name":"value","fields":[],"after":{"name":"value","description":"Date or date range segments."}},
+            {"id":"12ddd7e7-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web date picker. Placeholder cells treated as part of value; focus indicator and error icon omitted (no states declared). Day added because tokens reference date-picker day (SPEC-020)."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"3d7afc6a-f66b-4033-9ed4-e60cde661a18","name":"component-height-100[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"61de58a3-53ed-4dd8-8937-08920b00968c"}],"rationale":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"record":"3d7afc6a-f66b-4033-9ed4-e60cde661a18","name":"component-height-100[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"5c31197d-0412-469d-a2dd-684efbd4b7e6","name":"component-height-100[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"61de58a3-53ed-4dd8-8937-08920b00968c"}],"rationale":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"record":"5c31197d-0412-469d-a2dd-684efbd4b7e6","name":"component-height-100[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 128 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Strikethrough day"],"reachedBy":"tokenBinding","record":"c4e4695b-3838-4bd4-b045-8219c77f6786","name":"thickness[anatomy=day,component=date-picker,legacyKey=strikethrough-day-thickness,qualifier=strikethrough]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"3766d95f-33c6-4b9d-84c8-1a546ee98d32"}],"rationale":"Deprecated via refine-from-sheets from row 447 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Strikethrough day"],"reachedBy":"tokenBinding","record":"c4e4695b-3838-4bd4-b045-8219c77f6786","name":"thickness[anatomy=day,component=date-picker,legacyKey=strikethrough-day-thickness,qualifier=strikethrough]","fields":[{"path":"rationale","after":"Deprecated via refine-from-sheets from row 447 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 447 of the mapping sheet."},
+            {"id":"0b8924f1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-100","options":null},"record":"a82cfdb0-2209-59d9-b9d7-d84df8f90b14","name":"component-height-100","fields":[{"path":"$ref","before":"3d7afc6a-f66b-4033-9ed4-e60cde661a18","after":"61de58a3-53ed-4dd8-8937-08920b00968c"}]},
+            {"id":"0b8924f1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"component-height-100","options":null},"record":"548afa9a-4724-577c-bf3a-16ebe0e50353","name":"component-height-100","fields":[{"path":"$ref","before":"5c31197d-0412-469d-a2dd-684efbd4b7e6","after":"e770bf1c-435f-5480-962d-c4cac4480ee7"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Thickness (strikethrough day)"],"scope":{"property":"thickness","options":null},"record":"48db65be-3fe3-5cd5-8016-2285c16de6f5","name":"thickness","fields":[],"after":"3766d95f-33c6-4b9d-84c8-1a546ee98d32"},
+            {"id":"53e922b0-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (value to in-field button)"],"scope":{"property":"space-between","options":null},"record":"c3f349b5-9928-5c9c-9a2c-50f971267a89","name":"space-between","fields":[],"after":"19864654-c28c-4ad9-b35d-c669b33c5b9c"},
+            {"id":"53e922b0-2","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/tokenBindings","name":"tokenBindings","fields":[{"path":"tokenBindings","before":[{"token":"strikethrough-day-thickness","context":"Strikethrough day"},{"token":"date-picker-text-to-in-field-button","context":"Spacing (value to in-field button)"}]}]}
+          ]
+        },
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Popover minimum height"],"scope":{"property":"minimum-height","options":null},"record":"e6423304-5971-553f-8156-7f476d8fb0dc","name":"minimum-height","fields":[{"path":"context","before":"Popover minimum width","after":"Popover minimum height"}]}
+          ],
+          "metadata": {"count":1,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "226f89bc6154fe99e20d90eac19f6d9a851de882",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1958,"title":"fix(design-data): drop date-picker width spacing record, repoint select-box border","url":"https://github.com/adobe/spectrum-design-data/pull/1958"},
+          "entries": [
+            {"id":"226f89bc-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Popover minimum width"],"scope":{"property":"spacing","options":null},"record":"5e17a7f7-00b3-50ec-b353-c28ec608d1f8","name":"spacing","fields":[],"before":"490b4010-1561-4b12-8cbb-cdb4b650ba74"}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.26.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "f53a93e1a0a57c6f4b666d572fd03b5530662796",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1971,"title":"feat(design-data): review in-field-button and date-field, remove in-field-progress-button (A2-2)","url":"https://github.com/adobe/spectrum-design-data/pull/1971"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "de570f2598546e75f64ec6ae4322771c26569e89",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2000,"title":"feat(design-data): anatomy review and identity migration of anchored overlays and modal dialogs","url":"https://github.com/adobe/spectrum-design-data/pull/2000"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["scope.part","scope.property"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2011,"title":"feat(design-data): anatomy review of calendar and its holders (A9 2/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2011"},
+          "entries": [],
+          "metadata": {"count":6,"fields":["scope.part"]}
+        },
+        {
+          "commit": "325fad1ff8a05ec6fe349ab5773bc1a2f8c9b85e",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2013,"title":"feat(design-data): anatomy review of date-field, time-field and segmented-text-field (A9 1/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2013"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["scope.part"]}
+        },
+        {
+          "commit": "1712d5161d085f81ca157cdf6b3fb4cef30b5b38",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2018,"title":"feat(design-data): anatomy review and level 2 for date-picker (A9 3/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2018"},
+          "entries": [
+            {"id":"1712d516-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (open)"],"scope":{"property":"margin","options":null},"record":"1dbe58ed-f7ed-5f7a-aa12-14a4c67402b0","name":"margin","fields":[{"path":"scope.part","after":"popover"},{"path":"scope.property","before":"gap","after":"margin"}]},
+            {"id":"1712d516-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":{"visibleMonths":1}},"record":"2983c1e9-90f7-5d88-98dc-06ea6868154a","name":"minimum-width[visibleMonths=?]","fields":[{"path":"scope.options.visibleMonths","after":1}]},
+            {"id":"1712d516-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":{"visibleMonths":2}},"record":"404b9b8c-2602-5a41-a411-84c8c1d8c2e8","name":"minimum-width[visibleMonths=?]","fields":[{"path":"scope.options.visibleMonths","after":2}]},
+            {"id":"1712d516-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"scope":{"property":"minimum-height","options":{"visibleMonths":1}},"record":"c7f18f0c-cd03-5672-a407-8fe18566872b","name":"minimum-height[visibleMonths=?]","fields":[{"path":"scope.options.visibleMonths","after":1}]},
+            {"id":"1712d516-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"scope":{"property":"minimum-height","options":{"visibleMonths":2}},"record":"741ef911-340d-5ad3-9b39-901ca5d9e402","name":"minimum-height[visibleMonths=?]","fields":[{"path":"scope.options.visibleMonths","after":2}]},
+            {"id":"1712d516-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start/end edge to days)"],"scope":{"property":"padding-horizontal","options":null},"record":"fe7eb91c-6478-5991-8793-9bea10d99b53","name":"padding-horizontal","fields":[{"path":"scope.part","after":"popover"},{"path":"scope.property","before":"spacing","after":"padding-horizontal"}]},
+            {"id":"1712d516-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to days)"],"scope":{"property":"padding-vertical","options":null},"record":"239257c3-8357-5396-8d8b-93bdaefffafa","name":"padding-vertical","fields":[{"path":"scope.part","after":"popover"},{"path":"scope.property","before":"spacing","after":"padding-vertical"}]},
+            {"id":"1712d516-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"e90312a0-c68e-5c9e-a9fa-05f9353f327c","name":"color[colorScheme=light]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"1712d516-8","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"e90312a0-c68e-5c9e-a9fa-05f9353f327c","name":"color[colorScheme=light]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"174f38ae-740d-5054-a296-46033618fcf6","name":"color[colorScheme=dark]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"1712d516-10","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"174f38ae-740d-5054-a296-46033618fcf6","name":"color[colorScheme=dark]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"6b5283b4-bbd4-5cd9-8915-d4da3089d388","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"1712d516-12","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"6b5283b4-bbd4-5cd9-8915-d4da3089d388","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"content-color","options":{"state":["focus-+-hover"]}},"record":"c667cfef-fb8e-584d-8923-bd2dccfc7bdc","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-hover"]}]},
+            {"id":"1712d516-14","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"content-color","options":{"state":["focus-+-hover"]}},"record":"c667cfef-fb8e-584d-8923-bd2dccfc7bdc","name":"content-color[state=?]","fields":[{"path":"scope.part","after":"in-field-button"}]},
+            {"id":"1712d516-15","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"content-color","options":{"state":["focus-+-not-hover"]}},"record":"4b829786-ed0b-5da5-8b65-cc877bc0232d","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["focus-+-not-hover"]}]},
+            {"id":"1712d516-16","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"content-color","options":{"state":["focus-+-not-hover"]}},"record":"4b829786-ed0b-5da5-8b65-cc877bc0232d","name":"content-color[state=?]","fields":[{"path":"scope.part","after":"in-field-button"}]},
+            {"id":"1712d516-17","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"content-color","options":{"state":["keyboard-focus"]}},"record":"0449c585-9b3c-5cc8-9868-d7ac9565fa9f","name":"content-color[state=?]","fields":[{"path":"scope.options.state","after":["keyboard-focus"]}]},
+            {"id":"1712d516-18","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"content-color","options":{"state":["keyboard-focus"]}},"record":"0449c585-9b3c-5cc8-9868-d7ac9565fa9f","name":"content-color[state=?]","fields":[{"path":"scope.part","after":"in-field-button"}]},
+            {"id":"1712d516-19","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"color","options":{"state":["open"],"colorScheme":"light"}},"record":"bd6f2af5-2b63-5ce1-b021-bc41acc64c17","name":"color[colorScheme=light,state=?]","fields":[{"path":"scope.options.colorScheme","after":"light"},{"path":"scope.options.state","after":["open"]}]},
+            {"id":"1712d516-20","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"color","options":{"state":["open"],"colorScheme":"light"}},"record":"bd6f2af5-2b63-5ce1-b021-bc41acc64c17","name":"color[colorScheme=light,state=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"in-field-button"}]},
+            {"id":"1712d516-21","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"color","options":{"state":["open"],"colorScheme":"dark"}},"record":"c54a97f1-ff73-5166-aa01-8946b42aa17b","name":"color[colorScheme=dark,state=?]","fields":[{"path":"scope.options.colorScheme","after":"dark"},{"path":"scope.options.state","after":["open"]}]},
+            {"id":"1712d516-22","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"color","options":{"state":["open"],"colorScheme":"dark"}},"record":"c54a97f1-ff73-5166-aa01-8946b42aa17b","name":"color[colorScheme=dark,state=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"in-field-button"}]},
+            {"id":"1712d516-23","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"color","options":{"state":["open"],"colorScheme":"wireframe"}},"record":"1d5f3aee-9ad5-5f59-8359-791d65caa258","name":"color[colorScheme=wireframe,state=?]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"},{"path":"scope.options.state","after":["open"]}]},
+            {"id":"1712d516-24","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"color","options":{"state":["open"],"colorScheme":"wireframe"}},"record":"1d5f3aee-9ad5-5f59-8359-791d65caa258","name":"color[colorScheme=wireframe,state=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"in-field-button"}]},
+            {"id":"1712d516-25","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"81d666f7-f37d-57f2-a71a-ec4f0483d3df","name":"color[isDisabled=?]","fields":[{"path":"scope.options.isDisabled","after":true}]},
+            {"id":"1712d516-26","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["In field button colors"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"81d666f7-f37d-57f2-a71a-ec4f0483d3df","name":"color[isDisabled=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"in-field-button"}]},
+            {"id":"1712d516-27","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"font-family","options":null},"record":"f13efbed-700d-55d3-b827-a796c56f4203","name":"font-family","fields":[{"path":"scope.part","after":"segment"}]},
+            {"id":"1712d516-28","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"font-weight","options":null},"record":"302a6ec6-e174-5352-a458-c991cd80877e","name":"font-weight","fields":[{"path":"scope.part","after":"segment"}]},
+            {"id":"1712d516-29","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"font-style","options":null},"record":"5995d7f7-36e6-554b-a1f8-497a170d66fd","name":"font-style","fields":[{"path":"scope.part","after":"segment"}]},
+            {"id":"1712d516-30","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"font-size","options":{"size":"m","scale":"desktop"}},"record":"4a261ebe-5f20-5e7e-8268-d2c1fcdfea36","name":"font-size[scale=desktop,size=m]","fields":[{"path":"scope.options.scale","after":"desktop"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-31","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"font-size","options":{"size":"m","scale":"desktop"}},"record":"4a261ebe-5f20-5e7e-8268-d2c1fcdfea36","name":"font-size[scale=desktop,size=m]","fields":[{"path":"scope.part","after":"segment"},{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"1712d516-32","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"font-size","options":{"size":"m","scale":"mobile"}},"record":"432f4f62-2310-50d3-8ed2-4c12a10f3d3d","name":"font-size[scale=mobile,size=m]","fields":[{"path":"scope.options.scale","after":"mobile"},{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-33","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"font-size","options":{"size":"m","scale":"mobile"}},"record":"432f4f62-2310-50d3-8ed2-4c12a10f3d3d","name":"font-size[scale=mobile,size=m]","fields":[{"path":"scope.part","after":"segment"},{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"1712d516-34","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"line-height","options":null},"record":"81ef4525-44ec-5531-a57d-c17a40b96469","name":"line-height","fields":[{"path":"scope.part","after":"segment"},{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"1712d516-35","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"line-height","options":{"script":"cjk"}},"record":"ba79426a-b22c-51ac-a2ac-72c213dbffa9","name":"line-height[script=cjk]","fields":[{"path":"scope.options.script","after":"cjk"}]},
+            {"id":"1712d516-36","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label, value, help text, and error message"],"scope":{"property":"line-height","options":{"script":"cjk"}},"record":"ba79426a-b22c-51ac-a2ac-72c213dbffa9","name":"line-height[script=cjk]","fields":[{"path":"scope.part","after":"segment"},{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"1712d516-37","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"m"}},"record":"a82cfdb0-2209-59d9-b9d7-d84df8f90b14","name":"height[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-38","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"m"}},"record":"a82cfdb0-2209-59d9-b9d7-d84df8f90b14","name":"height[size=m]","fields":[{"path":"scope.part","after":"field"},{"path":"scope.property","before":"component-height-100","after":"height"}]},
+            {"id":"1712d516-39","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"m"}},"record":"548afa9a-4724-577c-bf3a-16ebe0e50353","name":"height[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-40","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":{"size":"m"}},"record":"548afa9a-4724-577c-bf3a-16ebe0e50353","name":"height[size=m]","fields":[{"path":"scope.part","after":"field"},{"path":"scope.property","before":"component-height-100","after":"height"}]},
+            {"id":"1712d516-41","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Corner rounding"],"scope":{"property":"corner-radius","options":{"size":"m"}},"record":"f5ec2f42-7618-5386-9503-763a44f82b9c","name":"corner-radius[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-42","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Corner rounding"],"scope":{"property":"corner-radius","options":{"size":"m"}},"record":"f5ec2f42-7618-5386-9503-763a44f82b9c","name":"corner-radius[size=m]","fields":[{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-43","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"c8242791-5043-598b-b634-2407184fd54a","name":"space-between[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-44","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"c8242791-5043-598b-b634-2407184fd54a","name":"space-between[size=m]","fields":[{"path":"scope.between.from","after":"start-edge"},{"path":"scope.between.to","after":"segment"},{"path":"scope.part","after":"field"},{"path":"scope.property","before":"component-edge-to-text-100","after":"space-between"}]},
+            {"id":"1712d516-45","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"b7d51bab-8460-5fe5-ab47-6e791d34568e","name":"space-between[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-46","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"b7d51bab-8460-5fe5-ab47-6e791d34568e","name":"space-between[size=m]","fields":[{"path":"scope.between.from","after":"start-edge"},{"path":"scope.between.to","after":"segment"},{"path":"scope.part","after":"field"},{"path":"scope.property","before":"component-edge-to-text-100","after":"space-between"}]},
+            {"id":"1712d516-47","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"80b032bf-6449-5b60-82d1-639876defeb5","name":"space-between[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-48","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"80b032bf-6449-5b60-82d1-639876defeb5","name":"space-between[size=m]","fields":[{"path":"scope.between.from","after":"top-edge"},{"path":"scope.between.to","after":"segment"},{"path":"scope.part","after":"field"},{"path":"scope.property","before":"component-top-to-text-100","after":"space-between"}]},
+            {"id":"1712d516-49","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"f59c42b5-38cd-5a74-88ad-c610909c8ae9","name":"space-between[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-50","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to label)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"f59c42b5-38cd-5a74-88ad-c610909c8ae9","name":"space-between[size=m]","fields":[{"path":"scope.between.from","after":"segment"},{"path":"scope.between.to","after":"bottom-edge"},{"path":"scope.part","after":"field"},{"path":"scope.property","before":"component-bottom-to-text-100","after":"space-between"}]},
+            {"id":"1712d516-51","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"813fcbb8-506b-511f-9ba6-5b62cf4e8ddb","name":"border-width","fields":[{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-52","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Keyboard focus indicator"],"scope":{"property":"thickness","options":null},"record":"5912d8be-e33c-516b-b36e-7b5322410d71","name":"thickness","fields":[{"path":"scope.part","after":"focus-indicator"}]},
+            {"id":"1712d516-53","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Keyboard focus indicator"],"scope":{"property":"gap","options":null},"record":"e38fc86f-3101-535a-88bc-0eebd0954c67","name":"gap","fields":[{"path":"scope.part","after":"focus-indicator"}]},
+            {"id":"1712d516-54","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Individual value spacing"],"scope":{"property":"padding-horizontal","options":null},"record":"40cdca6c-75f6-5692-8b29-fa912c77b2a5","name":"padding-horizontal","fields":[{"path":"scope.part","after":"segment"},{"path":"scope.property","before":"spacing","after":"padding-horizontal"}]},
+            {"id":"1712d516-55","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing between values"],"scope":{"property":"gap","options":null},"record":"bdc569fd-4f98-567e-b910-d29c5027294a","name":"gap","fields":[{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-56","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Focused value rounding"],"scope":{"property":"corner-radius","options":null},"record":"043cd392-9f6c-5cc1-a75c-ea140ee55f9c","name":"corner-radius","fields":[{"path":"scope.part","after":"segment"}]},
+            {"id":"1712d516-57","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (alert icon to in-field button)"],"scope":{"property":"space-between","options":{"isError":true}},"record":"261827d4-c7a9-5833-8451-bd3a48d12c89","name":"space-between[isError=?]","fields":[{"path":"scope.options.isError","after":true}]},
+            {"id":"1712d516-58","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (alert icon to in-field button)"],"scope":{"property":"space-between","options":{"isError":true}},"record":"261827d4-c7a9-5833-8451-bd3a48d12c89","name":"space-between[isError=?]","fields":[{"path":"scope.between.from","after":"error-icon"},{"path":"scope.between.to","after":"in-field-button"},{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-59","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (alert icon to in-field button)"],"scope":{"property":"space-between","options":{"isError":true}},"record":"261827d4-c7a9-5833-8451-bd3a48d12c89","name":"space-between[isError=?]","fields":[{"path":"context","before":"Icon spacing (error)","after":"Spacing (alert icon to in-field button)"}]},
+            {"id":"1712d516-60","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon size"],"scope":{"property":"size","options":{"size":"m"}},"record":"982ea936-c307-55b0-81dc-903a2e52e102","name":"size[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-61","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon size"],"scope":{"property":"size","options":{"size":"m"}},"record":"982ea936-c307-55b0-81dc-903a2e52e102","name":"size[size=m]","fields":[{"path":"scope.part","after":"error-icon"},{"path":"scope.property","before":"workflow-icon-size-100","after":"size"}]},
+            {"id":"1712d516-62","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon size"],"scope":{"property":"size","options":{"size":"m"}},"record":"c99da327-63f8-597d-a9a0-9b7580e1724b","name":"size[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-63","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon size"],"scope":{"property":"size","options":{"size":"m"}},"record":"c99da327-63f8-597d-a9a0-9b7580e1724b","name":"size[size=m]","fields":[{"path":"scope.part","after":"error-icon"},{"path":"scope.property","before":"workflow-icon-size-100","after":"size"}]},
+            {"id":"1712d516-64","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"28a61f5e-3a8e-5012-8378-7b63f728b513","name":"space-between[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-65","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"28a61f5e-3a8e-5012-8378-7b63f728b513","name":"space-between[size=m]","fields":[{"path":"scope.between.from","after":"segment"},{"path":"scope.between.to","after":"error-icon"},{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-66","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"c4caf4be-ce9a-5a93-90a1-91a7c7b4f68f","name":"space-between[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-67","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"c4caf4be-ce9a-5a93-90a1-91a7c7b4f68f","name":"space-between[size=m]","fields":[{"path":"scope.between.from","after":"segment"},{"path":"scope.between.to","after":"error-icon"},{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-68","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"87d965e5-25c0-55ae-a2d1-7ece841f84fe","name":"space-between[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"1712d516-69","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)"],"scope":{"property":"space-between","options":{"size":"m"}},"record":"87d965e5-25c0-55ae-a2d1-7ece841f84fe","name":"space-between[size=m]","fields":[{"path":"scope.between.from","after":"top-edge"},{"path":"scope.between.to","after":"error-icon"},{"path":"scope.part","after":"field"},{"path":"scope.property","before":"component-top-to-workflow-icon-100","after":"space-between"}]},
+            {"id":"1712d516-70","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (value to alert icon)"],"scope":{"property":"space-between","options":null},"record":"db7a548e-95fc-532b-bbb5-c9b4f6eb14dc","name":"space-between","fields":[{"path":"scope.between.from","after":"segment"},{"path":"scope.between.to","after":"error-icon"},{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-71","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon (error) color"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"388c2a51-6e19-54de-8f68-70f9eaedf3ea","name":"color[colorScheme=light]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"1712d516-72","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon (error) color"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"388c2a51-6e19-54de-8f68-70f9eaedf3ea","name":"color[colorScheme=light]","fields":[{"path":"scope.part","after":"error-icon"}]},
+            {"id":"1712d516-73","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon (error) color"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"0e3c7d0d-9afc-509f-a978-e1a65f7fb7f6","name":"color[colorScheme=dark]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"1712d516-74","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon (error) color"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"0e3c7d0d-9afc-509f-a978-e1a65f7fb7f6","name":"color[colorScheme=dark]","fields":[{"path":"scope.part","after":"error-icon"}]},
+            {"id":"1712d516-75","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Alert icon (error) color"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"3aeae239-b3dc-563d-b457-f964378b8b72","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"1712d516-76","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Alert icon (error) color"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"3aeae239-b3dc-563d-b457-f964378b8b72","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.part","after":"error-icon"}]},
+            {"id":"1712d516-77","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":{"visibleMonths":3}},"record":"a1187857-b9a1-5ccb-99f2-7d39f7f7657c","name":"minimum-width[visibleMonths=?]","fields":[{"path":"scope.options.visibleMonths","after":3}]},
+            {"id":"1712d516-78","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":{"visibleMonths":3}},"record":"a1187857-b9a1-5ccb-99f2-7d39f7f7657c","name":"minimum-width[visibleMonths=?]","fields":[{"path":"context","before":"Popover minimum width","after":"Width (minimum)"}]},
+            {"id":"1712d516-79","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"scope":{"property":"minimum-height","options":{"visibleMonths":3}},"record":"e6423304-5971-553f-8156-7f476d8fb0dc","name":"minimum-height[visibleMonths=?]","fields":[{"path":"scope.options.visibleMonths","after":3}]},
+            {"id":"1712d516-80","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"scope":{"property":"minimum-height","options":{"visibleMonths":3}},"record":"e6423304-5971-553f-8156-7f476d8fb0dc","name":"minimum-height[visibleMonths=?]","fields":[{"path":"context","before":"Popover minimum height","after":"Height (minimum)"}]},
+            {"id":"1712d516-81","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (value to in-field button)"],"scope":{"property":"space-between","options":null},"record":"c3f349b5-9928-5c9c-9a2c-50f971267a89","name":"space-between","fields":[{"path":"scope.between.from","after":"segment"},{"path":"scope.between.to","after":"in-field-button"},{"path":"scope.part","after":"field"}]},
+            {"id":"1712d516-82","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Corner rounding"],"scope":{"property":"corner-radius","options":null},"record":"d7ca01d2-e009-5abc-866f-44b866edddd0","name":"corner-radius","fields":[],"before":"cb6b72ed-a9a1-4113-b147-1ef369fe6269"},
+            {"id":"1712d516-83","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":null},"record":"ef7cb27c-4aab-5413-a1c1-7acbe1146d21","name":"minimum-width","fields":[],"before":"69c201ab-f9d3-4a02-8fc9-ff96ff38eed4"},
+            {"id":"1712d516-84","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":null},"record":"d39aeb9a-3f66-5a56-99af-f86695385b29","name":"minimum-width","fields":[],"before":"ebc4d09b-03c8-475a-af01-9bfcd590d92b"},
+            {"id":"1712d516-85","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":null},"record":"49c364ca-dc96-505f-8737-231a004c8233","name":"minimum-width","fields":[],"before":"21bb1275-44e7-49be-926a-66966e969a6f"},
+            {"id":"1712d516-86","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Error message (error) color"],"scope":{"property":"content-color","options":null},"record":"2ed7c7c2-2d2d-58a4-9018-b0ce9d414f66","name":"content-color","fields":[],"before":"2a1b0c71-c3a4-4f4c-a625-346e026853e5"},
+            {"id":"1712d516-87","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Help text color"],"scope":{"property":"content-color","options":null},"record":"90419a2c-5a29-5054-97b6-499fc6ed2c36","name":"content-color","fields":[],"before":"7a058b23-341c-4dd3-83d8-358917277836"},
+            {"id":"1712d516-88","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"6169d2f2-2df6-556f-9923-d2e702e5578d","name":"color[colorScheme=light]","fields":[],"after":"a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"},
+            {"id":"1712d516-89","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"9c004f65-3c3e-50a1-be27-faa2b164f8e1","name":"color[colorScheme=dark]","fields":[],"after":"ac61b090-d356-4f7f-ac6d-b4f20617c9e3"},
+            {"id":"1712d516-90","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Background and border"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"4024df57-9504-5208-b68b-5ca8b1cff4b3","name":"color[colorScheme=wireframe]","fields":[],"after":"0906f3b2-74a9-4012-9e26-4d8f68f0eba9"},
+            {"id":"1712d516-91","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"date-picker/options/variant","name":"variant","fields":[],"before":{"type":"string","default":"single","description":"Controls the number of months displayed in the calendar popover.","values":[{"value":"single"},{"value":"double"},{"value":"triple"}]}},
+            {"id":"1712d516-92","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"date-picker/options/dateField","name":"dateField","fields":[],"before":{"type":"object","description":"Configuration for the date input field.","properties":{"label":{"type":"string","description":"Optional text label displayed with the date field."},"labelPosition":{"type":"string","enum":["top","side"],"default":"top"},"hideLabel":{"type":"boolean","default":false},"isDisabled":{"type":"boolean","default":false},"isReadOnly":{"type":"boolean","default":false},"isRequired":{"type":"boolean","default":false},"isError":{"type":"boolean","default":false,"description":"If there is an error, this property overrides show valid icon."},"state":{"type":"string","enum":["default","hover","hover (in-field button)","focus + hover","focus + open","focus + not hover","keyboard focus"],"default":"default"}}}},
+            {"id":"1712d516-93","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"date-picker/options/calendarPopover","name":"calendarPopover","fields":[],"before":{"type":"object","description":"Configuration for the calendar popover.","properties":{"isDisabled":{"type":"boolean","default":false},"minValue":{"type":"string","description":"The minimum allowed date that a user may select."},"maxValue":{"type":"string","description":"The maximum allowed date that a user may select (ISO format string)."},"currentMonth":{"type":"number","minimum":1,"maximum":12,"description":"The month currently displayed in the calendar (1 = January, 12 = December)."},"currentYear":{"type":"number","description":"The year currently displayed in the calendar (Gregorian year number)."},"selectionMode":{"type":"string","enum":["single","range"],"default":"single","description":"Controls whether the calendar allows selecting a single date or a date range."},"showTimeZone":{"type":"boolean","default":false,"description":"Whether to show a time zone indicator in the popover."},"isError":{"type":"boolean","default":false,"description":"If the calendar popover is in an error state."},"timeFields":{"type":"object","description":"Optional start and end time fields displayed within the calendar popover.","properties":{"showStartTime":{"type":"boolean","default":false,"description":"If true, displays a start time field."},"showEndTime":{"type":"boolean","default":false,"description":"If true, displays an end time field."},"granularity":{"type":"string","enum":["hour","minute","second"],"default":"minute","description":"The level of time granularity for the time fields."},"is24Hour":{"type":"boolean","default":false,"description":"If true, displays time in 24-hour format instead of AM/PM."}}}}}},
+            {"id":"1712d516-94","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/label","name":"label","fields":[],"after":{"type":"string"}},
+            {"id":"1712d516-95","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/labelPosition","name":"labelPosition","fields":[],"after":{"type":"string","default":"top","values":[{"value":"top"},{"value":"side"}]}},
+            {"id":"1712d516-96","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/hideLabel","name":"hideLabel","fields":[],"after":{"type":"boolean","default":false}},
+            {"id":"1712d516-97","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/size","name":"size","fields":[],"after":{"type":"string","default":"m","values":[{"value":"s"},{"value":"m"},{"value":"l"},{"value":"xl"}]}},
+            {"id":"1712d516-98","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false}},
+            {"id":"1712d516-99","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/isReadOnly","name":"isReadOnly","fields":[],"after":{"type":"boolean","default":false}},
+            {"id":"1712d516-100","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/isRequired","name":"isRequired","fields":[],"after":{"type":"boolean","default":false}},
+            {"id":"1712d516-101","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/necessityIndicator","name":"necessityIndicator","fields":[],"after":{"type":"string","default":"icon","values":[{"value":"text"},{"value":"icon"}]}},
+            {"id":"1712d516-102","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/isError","name":"isError","fields":[],"after":{"type":"boolean","default":false,"description":"Shows the field in its error state: the error icon appears at the end of the field."}},
+            {"id":"1712d516-103","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/description","name":"description","fields":[],"after":{"type":"string","default":null}},
+            {"id":"1712d516-104","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/errorMessage","name":"errorMessage","fields":[],"after":{"type":"string","default":null}},
+            {"id":"1712d516-105","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/selectionMode","name":"selectionMode","fields":[],"after":{"type":"string","default":"single","description":"Single date or date range. A range shows a second set of segments in the field and the range-fill band in the calendar.","values":[{"value":"single"},{"value":"range"}]}},
+            {"id":"1712d516-106","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/visibleMonths","name":"visibleMonths","fields":[],"after":{"type":"number","default":1,"description":"How many months the calendar in the popover shows side by side: one, two or three.","values":[{"value":1},{"value":2},{"value":3}]}},
+            {"id":"1712d516-107","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/granularity","name":"granularity","fields":[],"after":{"type":"string","default":"day","description":"Smallest unit the field edits; hour, minute and second add time segments and a time-field in the popover.","values":[{"value":"day"},{"value":"hour"},{"value":"minute"},{"value":"second"}]}},
+            {"id":"1712d516-108","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/hourCycle","name":"hourCycle","fields":[],"after":{"type":"string","values":[{"value":"12"},{"value":"24"}]}},
+            {"id":"1712d516-109","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/hideTimeZone","name":"hideTimeZone","fields":[],"after":{"type":"boolean","default":false}},
+            {"id":"1712d516-110","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/minValue","name":"minValue","fields":[],"after":{"type":"string","description":"The minimum allowed date that a user may select."}},
+            {"id":"1712d516-111","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/maxValue","name":"maxValue","fields":[],"after":{"type":"string","description":"The maximum allowed date that a user may select (ISO format string)."}},
+            {"id":"1712d516-112","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/currentMonth","name":"currentMonth","fields":[],"after":{"type":"number","minimum":1,"maximum":12,"description":"The month currently displayed in the calendar (1 = January, 12 = December)."}},
+            {"id":"1712d516-113","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/options/currentYear","name":"currentYear","fields":[],"after":{"type":"number","description":"The year currently displayed in the calendar (Gregorian year number)."}},
+            {"id":"1712d516-114","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"date-picker/anatomy/value","name":"value","fields":[],"before":{"name":"value","description":"Date or date range segments."}},
+            {"id":"1712d516-115","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Root of the component: sets the width and the spacing between the label, the field and the help text. The popover opens from it but is not drawn inside it.","required":true,"contains":["field-label","field","help-text"]}},
+            {"id":"1712d516-116","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/error-icon","name":"error-icon","fields":[],"after":{"name":"error-icon","description":"Alert icon in the end container of the field, shown when isError is true."}},
+            {"id":"1712d516-117","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the field for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"1712d516-118","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/segment","name":"segment","fields":[],"after":{"name":"segment","description":"One editable unit of the date (month, day, year, and hour, minute or period when granularity includes time), drawn as its own rounded cell and showing a placeholder when empty. Repeated for every unit; a range (selectionMode range) shows a second set. Literal separators and the time zone are segment text.","required":true}},
+            {"id":"1712d516-119","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/anatomy/time-field","name":"time-field","fields":[],"after":{"name":"time-field","description":"The time-field component inside the popover, present when granularity includes time. One for a single date, two (start and end) for a range.","presentIn":["open"]}},
+            {"id":"1712d516-120","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/calendar","name":"calendar","fields":[{"path":"contains","before":["day"]},{"path":"presentIn","after":["open"]}]},
+            {"id":"1712d516-121","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/calendar","name":"calendar","fields":[{"path":"description","before":"Calendar shown in the popover.","after":"The calendar component inside the popover. It draws no surface; the popover provides it."}]},
+            {"id":"1712d516-122","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/day","name":"day","fields":[{"path":"lifecycle.deprecatedIn","after":"1.0.0-draft"}]},
+            {"id":"1712d516-123","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/day","name":"day","fields":[{"path":"description","before":"One date cell in the calendar. Styled for selected, error, unavailable and current-day.","after":"Replaced by the day part of calendar. Kept declared only because deprecated and legacy tokens (strikethrough-day-thickness, strikethrough-day-orientation) still name it."}]},
+            {"id":"1712d516-124","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/field","name":"field","fields":[{"path":"contains","before":["value","in-field-button"],"after":["segment","error-icon","in-field-button","focus-indicator"]},{"path":"required","after":true}]},
+            {"id":"1712d516-125","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/field","name":"field","fields":[{"path":"description","before":"Bordered input box that holds the date value and calendar button.","after":"Bordered box that frames the date segments and the in-field button. This is date-picker's own copy of the field: it holds its border, background, height, rounding and padding."}]},
+            {"id":"1712d516-126","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/field-label","name":"field-label","fields":[{"path":"description","before":"Label for the field.","after":"The field-label component: text label that names the field, placed above or beside it."}]},
+            {"id":"1712d516-127","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/help-text","name":"help-text","fields":[{"path":"description","before":"Description or error message.","after":"The help-text component: description or error message shown below the field."}]},
+            {"id":"1712d516-128","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/in-field-button","name":"in-field-button","fields":[{"path":"required","after":true}]},
+            {"id":"1712d516-129","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/in-field-button","name":"in-field-button","fields":[{"path":"description","before":"Calendar icon button that opens the popover.","after":"The in-field-button component with its icon set to calendar: it sits at the end of the field and opens the popover."}]},
+            {"id":"1712d516-130","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/popover","name":"popover","fields":[{"path":"contains","before":["calendar"],"after":["calendar","time-field"]},{"path":"presentIn","after":["open"]}]},
+            {"id":"1712d516-131","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/popover","name":"popover","fields":[{"path":"description","before":"Popover that opens from the field.","after":"The popover component, a top-level part present only while open, with hideTip set so it draws no tip. Its content is the calendar and, when granularity includes time, a time-field (two for a range). date-picker overrides the popover margin, minimum width and height (set by visibleMonths) and padding."}]},
+            {"id":"1712d516-132","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/states/focus-+-hover","name":"focus-+-hover","fields":[],"after":{"name":"focus-+-hover","trigger":"prop","description":"The field is focused and the pointer is over it."}},
+            {"id":"1712d516-133","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/states/focus-+-not-hover","name":"focus-+-not-hover","fields":[],"after":{"name":"focus-+-not-hover","trigger":"prop","description":"The field is focused and the pointer is not over it."}},
+            {"id":"1712d516-134","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/states/hover","name":"hover","fields":[],"after":{"name":"hover","trigger":"interaction"}},
+            {"id":"1712d516-135","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/states/keyboard-focus","name":"keyboard-focus","fields":[],"after":{"name":"keyboard-focus","trigger":"interaction"}},
+            {"id":"1712d516-136","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-picker/states/open","name":"open","fields":[],"after":{"name":"open","trigger":"prop","description":"The popover is open."}},
+            {"id":"1712d516-137","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web date picker. Placeholder cells treated as part of value; focus indicator and error icon omitted (no states declared). Day added because tokens reference date-picker day (SPEC-020).","after":"A9 (2026-11-21), owner decisions C2, C3, C5, C6, C8 to C10 and C16. Figma S2 Web Date picker page; RSP S2 DatePicker and DateRangePicker. date-picker keeps its own per-host copy of the field (field, segment, error-icon, in-field-button, focus-indicator), as picker and combo-box do. The popover is a top-level part like contextual-help: it draws the surface and holds the calendar (visibleMonths 1 to 3) and, with time granularity, a time-field. One repeated segment part; the renderer derives the count. Nested components are described in text: the anatomy component field and presentWhen are not built, so a part tied to an option (time-field, the second segment set) is described, not gated. Deleted: variant (replaced by visibleMonths), the nested dateField and calendarPopover option objects (flattened), the nested state enum, showTimeZone, is24Hour, timeFields (replaced by granularity, hourCycle, hideTimeZone), the draft parts value (now segment) and day (belongs to calendar; a bare legacy anchor part is kept because the frozen deprecated token strikethrough-day-thickness names it, SPEC-020), and the restated date-field and time-field minimum widths."}]}
+          ],
+          "metadata": {"count":11,"fields":["anatomyReview.status","context","contextQualifier","contextRole","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "3.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/calendar","name":"calendar","fields":[{"path":"component","after":"calendar"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/field-label","name":"field-label","fields":[{"path":"component","after":"field-label"}]},
+            {"id":"5d6bd008-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/help-text","name":"help-text","fields":[{"path":"component","after":"help-text"}]},
+            {"id":"5d6bd008-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/in-field-button","name":"in-field-button","fields":[{"path":"component","after":"in-field-button"}]},
+            {"id":"5d6bd008-4","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/popover","name":"popover","fields":[{"path":"component","after":"popover"}]},
+            {"id":"5d6bd008-5","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/time-field","name":"time-field","fields":[{"path":"component","after":"time-field"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/calendar","name":"calendar","fields":[{"path":"presentIn","before":["open"]},{"path":"presentWhen.states","after":["open"]}]},
+            {"id":"1951adf7-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]},
+            {"id":"1951adf7-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/popover","name":"popover","fields":[{"path":"presentIn","before":["open"]},{"path":"presentWhen.states","after":["open"]}]},
+            {"id":"1951adf7-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-picker/anatomy/time-field","name":"time-field","fields":[{"path":"presentIn","before":["open"]},{"path":"presentWhen.states","after":["open"]}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -6,7 +6,7 @@ This document defines the **design system registry**: the set of named value col
 
 ## What a registry is
 
-A **registry** is a JSON file in `@adobe/spectrum-design-data` (under `registry/`) that declares an ordered list of named values. Each value has at minimum an `id` (the canonical string used in token names and component files) and a `label` (a human-readable display name). Values **MAY** carry additional fields such as `description`, `aliases`, `deprecated`, and `usedIn`.
+A **registry** is a JSON file in `@adobe/spectrum-design-data` (under `registry/`) that declares an ordered list of named values. Each value has at minimum an `id` (the canonical string used in token names and component files) and a `label` (a human-readable display name). Values **MAY** carry additional fields such as `description`, `aliases`, `deprecated`, and `usedIn`. For most registries an alias is an accepted spelling of the value. In `anatomy-terms.json` it is not: an anatomy alias names the same part in another implementation, is documentation plus a lint (SPEC-035), and is never a valid part name.
 
 Registries are the authoritative source of truth for vocabulary validation. A validator SHOULD flag token field values that are not present in the corresponding registry (typically as a warning, not an error — see field declarations in the field catalog).
 

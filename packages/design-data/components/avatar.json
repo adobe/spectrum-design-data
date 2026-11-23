@@ -78,19 +78,43 @@
       "values": [
         { "value": "user image" },
         { "value": "gradient image" },
-        { "value": "gradient" },
-        { "value": "guest image" },
-        { "value": "initials" }
+        { "value": "initials" },
+        { "value": "guest" }
       ]
     },
+    "src": { "type": "string" },
     "isDisabled": { "type": "boolean", "default": false },
     "showStroke": { "type": "boolean", "default": false }
   },
-  "states": [
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "disabled", "trigger": "prop" }
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Circular frame of the avatar.",
+      "required": true,
+      "contains": ["image", "initials", "guest-icon"]
+    },
+    {
+      "name": "image",
+      "description": "The profile photo that fills the circle for the User image style (the src option).",
+      "presentWhen": { "options": { "image": "user image" } }
+    },
+    {
+      "name": "initials",
+      "description": "Text initials shown for the Initials style.",
+      "presentWhen": { "options": { "image": "initials" } }
+    },
+    {
+      "name": "guest-icon",
+      "description": "Guest glyph shown for the Guest style.",
+      "presentWhen": { "options": { "image": "guest" } }
+    }
   ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Matches Figma S2 Web (Avatar): Style User image, Gradient image, Initials, Guest, each on a white Background with a Show stroke layer. user-image and image are one part (registry: a photo or gradient filling the same area is the same part). Stroke is container styling (RSP Avatar.tsx outline on isOverBackground, SWC outline). focus-indicator, down and keyboard-focus removed: Figma draws only Default and Disabled, RSP Avatar is not focusable and SWC is static."
+  },
+  "states": [{ "name": "disabled", "trigger": "prop" }],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }

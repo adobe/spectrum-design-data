@@ -123,60 +123,194 @@
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
-    "isDetached": { "type": "boolean", "default": false },
-    "isEmphasized": { "type": "boolean", "default": false },
-    "showDragIcon": { "type": "boolean", "default": false },
+    "isDetached": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "showDragIcon": {
+      "type": "boolean",
+      "default": false
+    },
     "selectionMode": {
       "type": "string",
       "default": "multiple",
-      "values": [{ "value": "single" }, { "value": "multiple" }]
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     },
     "selectionStyle": {
       "type": "string",
       "default": "checkbox",
-      "values": [{ "value": "checkbox" }, { "value": "highlight" }]
+      "values": [
+        {
+          "value": "checkbox"
+        },
+        {
+          "value": "highlight"
+        }
+      ]
     },
     "selectionBehavior": {
       "type": "string",
       "default": "toggle",
-      "values": [{ "value": "toggle" }, { "value": "replace" }]
+      "values": [
+        {
+          "value": "toggle"
+        },
+        {
+          "value": "replace"
+        }
+      ]
     }
   },
-  "anatomy": [
+  "slots": [
     {
-      "name": "action-area",
-      "description": "Trailing area containing item actions."
-    },
-    { "name": "row" },
-    {
-      "name": "disclosure-indicator",
-      "description": "Visual affordance showing a tree view item's expand/collapse state."
+      "name": "actions",
+      "part": "actions",
+      "accepts": ["action-button"],
+      "max": 2,
+      "description": "Actions at the end of an item."
     }
   ],
-  "states": [
-    { "name": "default", "description": "Resting base state." },
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "selected", "trigger": "interaction" },
-    { "name": "selected-default", "trigger": "interaction" },
-    { "name": "selected-hover", "trigger": "interaction" }
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "The tree view. It is the root.",
+      "required": true,
+      "contains": ["section-header", "row"]
+    },
+    {
+      "name": "section-header",
+      "description": "Heading above a group of items."
+    },
+    {
+      "name": "row",
+      "description": "One tree view item (Figma Tree view item).",
+      "required": true,
+      "contains": [
+        "drag-handle",
+        "checkbox",
+        "disclosure-button",
+        "icon",
+        "thumbnail",
+        "label",
+        "actions",
+        "focus-indicator"
+      ]
+    },
+    {
+      "name": "drag-handle",
+      "description": "Grip for reordering the item; shown by showDragIcon."
+    },
+    {
+      "name": "checkbox",
+      "component": "checkbox",
+      "description": "Selection checkbox, shown in the checkbox selection style."
+    },
+    {
+      "name": "disclosure-button",
+      "description": "Button that expands or collapses the item's children. It is interactive and has its own states; present on items that have children."
+    },
+    {
+      "name": "icon",
+      "description": "Leading icon of an item."
+    },
+    {
+      "name": "thumbnail",
+      "component": "thumbnail",
+      "description": "Thumbnail of an item, used instead of the icon (the thumbnail component)."
+    },
+    {
+      "name": "label",
+      "description": "Text label of an item."
+    },
+    {
+      "name": "actions",
+      "description": "Row of action buttons at the end of an item; hosts the actions slot."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused item.",
+      "presentWhen": { "states": ["keyboard-focus"] }
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tree view page (Tree view item, .Tree view (collapse and expand button), Level 0-6) and React Spectrum S2 TreeView (expandButton). container added as the root. Decision A71 D8 a2: disclosure-indicator becomes disclosure-button, the interactive expand and collapse control; action-area renamed actions (registry term). Decision A69 D6a: anatomy only for now, no items option and no recursion; indentation by a per-entry level is a later step. Decision A72 D9a: row keeps its name (the planned rename to tree-view-item is dropped); the name is a question for Garth. Decision A68 D5a: tree-view keeps its own records; stack-item holds the shared row chrome. Restated opacity-checkerboard records are identity work, not done here."
+  },
+  "states": [
+    {
+      "name": "default",
+      "description": "Resting base state."
+    },
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected",
+      "trigger": "prop"
+    },
+    {
+      "name": "selected-default",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-hover",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "tree",
     "intents": ["navigate", "select", "expand"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "expand", "collapse", "activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

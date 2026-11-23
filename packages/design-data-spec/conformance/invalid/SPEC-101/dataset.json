@@ -1,0 +1,45 @@
+{
+  "tokens": [],
+  "relationships": [
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap",
+        "between": {
+          "from": "top",
+          "to": "not-an-endpoint"
+        }
+      },
+      "context": "Control",
+      "$ref": "aaaaaaaa-0101-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0101-4000-8000-000000000002"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
+      "name": "accordion",
+      "displayName": "Accordion",
+      "meta": {
+        "category": "navigation"
+      },
+      "options": {
+        "size": {
+          "type": "string",
+          "default": "m",
+          "values": [
+            {
+              "value": "s"
+            },
+            {
+              "value": "m"
+            },
+            {
+              "value": "l"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

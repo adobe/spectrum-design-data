@@ -18,9 +18,12 @@
     },
     "size": {
       "type": "string",
-      "pattern": "^(x?s|m|x{0,3}l)$",
+      "pattern": "^(x{0,2}s|m|x{0,3}l)$",
       "default": "m",
       "values": [
+        {
+          "value": "xxs"
+        },
         {
           "value": "xs"
         },
@@ -44,6 +47,18 @@
         }
       ]
     }
+  },
+  "anatomy": [
+    {
+      "name": "text",
+      "description": "Text run styled by the typography token set.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "No Figma component; the style exists only as text styles (Figma), a font macro value (React Spectrum) and one Typography stylesheet (SWC). One explicit root part, text; margins are properties of it. Owner decision D1 (2026-11-19): keep five components."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"

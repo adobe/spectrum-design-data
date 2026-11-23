@@ -1,0 +1,169 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tag-group",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/0","name":"guideline: Tag group overflow.\n\nWhen horizontal space is li","fields":[{"path":"content","before":"Tag groups organize multiple tags into a single visual group. They’re used to categorize content like keywords or names that describe an item or search query. Tags within the group can be added, removed, or styled to reflect different types of content.","after":"Tag group overflow.\n\nWhen horizontal space is limited in a tag group, the individual tags wrap to form another line."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/1","name":"guideline: Focus between tags.\n\nIf the order of tags within","fields":[{"path":"content","before":"Tag groups come in three different sizes: small, medium, and large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page.","after":"Focus between tags.\n\nIf the order of tags within the group matters, the user must be able to click or use keyboard focus between tags to add more."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/2","name":"guideline: Allow bulk actions.\n\nIn some instances, it's pos","fields":[{"path":"content","before":"Labels can be placed either on top or on the side of a group of tags. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited.","after":"Allow bulk actions.\n\nIn some instances, it's possible to add an action next to a group of tags to provide a way to easily act on the entire group at once. Reveal the action only when more than one tag is displayed."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/3","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the gro","fields":[{"path":"content","before":"The label of the tag group can be hidden if the context for the tags is sufficient without the title — for example, when the page title or section title applies to the group of tags.","after":"RTL.\n\nFor RTL (right-to-left) languages, the group of tags is mirrored. The first tag will appear on the left instead of the right and flow from there."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/4","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Tabb","fields":[{"path":"content","before":"Define an action label to include a link-style button to perform an action on the entire group of tags. This button always appears at the end of the tag group.","after":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of tags places the focus on the first tag (only one tag receives the keyboard focus at a time). Arrow keys Moves focus through the group of tags. Page Up or Page Down Moves focus to the previous or next tag in the group (last becomes first, and first becomes last). Home or End Moves focus to the first or last tag in the group. Backspace or Delete Removes the tag in focus from the group. Space If the tag is selectable, the space bar will toggle selection. Ctrl / Cmd + A Selects all tags."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/5","name":"guideline: Cursor guidelines.\n\nCursor Description Default (","fields":[{"path":"content","before":"When horizontal space is limited in a tag group, the individual tags wrap to form another line.","after":"Cursor guidelines.\n\nCursor Description Default (Arrow) Use the default cursor for non-interactive tags. Pointer Use the pointer cursor for interactive tags, such as tags that are removable or can be used to filter content. Grab hand Use the grab hand cursor when the order of tags can be rearranged. Grab fist Use the grab fist cursor when holding a tag."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/6","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"If the order of tags within the group matters, the user must be able to click or use keyboard focus between tags to add more.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in tags—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Tags should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized. Text contrast 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Tag groups should be built in such a way that they can be resized without assistive technology up to 200%. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size when wrapped. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/7","name":"guideline: In some instances, it's possible to add an actio","fields":[],"before":{"type":"guideline","content":"In some instances, it's possible to add an action next to a group of tags to provide a way to easily act on the entire group at once. Reveal the action only when more than one tag is displayed."}},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/8","name":"guideline: In cases where users cannot interact with a larg","fields":[],"before":{"type":"guideline","content":"In cases where users cannot interact with a large group of tags, consider hiding the group and its broader construct rather than disabling all the individual tags."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/documentBlocks/9","name":"do-dont: Avoid disabling a large group of tags","fields":[],"after":{"type":"do-dont","content":"Avoid disabling a large group of tags","dont":"In cases where users cannot interact with a large group of tags, consider hiding the group and its broader construct rather than disabling all the individual tags."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-11",
+      "commit": "43850b0c1cdd7eef736289cd6f3febc73afe4cb8",
+      "commits": [
+        {
+          "commit": "7515f705b68e050efce9a88ae6fa811540a99c29",
+          "date": "2026-11-11",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1722,"title":"chore(design-data): normalize relationship context whitespace and case","url":"https://github.com/adobe/spectrum-design-data/pull/1722"},
+          "entries": [
+            {"id":"7515f705-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (text area to help text)"],"scope":{"property":"to-component","options":null},"record":"a5e1ed44-3aa9-5723-8934-47d01107e606","name":"to-component","fields":[{"path":"context","before":"Spacing (Text area to Help text)","after":"Spacing (text area to help text)"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":4,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/action-button","name":"action-button","fields":[],"after":{"name":"action-button","description":"Show all / collapse button after the tags."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Label above or beside the tags."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message under the tags."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/tag","name":"tag","fields":[],"after":{"name":"tag","description":"One removable tag; repeated."}},
+            {"id":"12ddd7e7-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web tag group page (Field label, Tag wrapper of Tags, Action button, Help text). Wrapper omitted as layout; no container drawn."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "a07d7812b11f8a319a3b240b09b05af3998ea86d",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1988,"title":"feat(design-data): anatomy review of the groups family (A6)","url":"https://github.com/adobe/spectrum-design-data/pull/1988"},
+          "entries": [
+            {"id":"a07d7812-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (vertical)"],"scope":{"property":"space-between","options":null},"record":"af20f2bb-df1c-5320-9218-f8aa39ab1d9a","name":"space-between","fields":[{"path":"scope.between.from","after":"tag"},{"path":"scope.between.to","after":"tag"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (vertical)"],"scope":{"property":"space-between","options":null},"record":"e6a160ad-5af5-5b83-8017-d3f4f134982d","name":"space-between","fields":[{"path":"scope.between.from","after":"tag"},{"path":"scope.between.to","after":"tag"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"a07d7812-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (Field label to Tags)"],"scope":{"property":"space-between","options":null},"record":"f610b299-2bad-5f32-9113-91b1a4f76014","name":"space-between","fields":[{"path":"scope.between.from","after":"field-label"},{"path":"scope.between.to","after":"tags"},{"path":"scope.property","before":"to-component","after":"space-between"}]},
+            {"id":"a07d7812-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field to help text)"],"scope":{"property":"space-between","options":null},"record":"a5e1ed44-3aa9-5723-8934-47d01107e606","name":"space-between","fields":[{"path":"scope.between.from","after":"tags"},{"path":"scope.between.to","after":"help-text"},{"path":"scope.property","before":"to-component","after":"space-between"}]},
+            {"id":"a07d7812-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Spacing (field to help text)"],"scope":{"property":"space-between","options":null},"record":"a5e1ed44-3aa9-5723-8934-47d01107e606","name":"space-between","fields":[{"path":"context","before":"Spacing (text area to help text)","after":"Spacing (field to help text)"}]},
+            {"id":"a07d7812-5","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tag-group/anatomy/tag","name":"tag","fields":[],"before":{"name":"tag","description":"One removable tag; repeated."}},
+            {"id":"a07d7812-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Column holding the field label, the tags, the action button and the help text. It is the root.","required":true,"contains":["field-label","tags","action-button","help-text"]}},
+            {"id":"a07d7812-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/anatomy/tags","name":"tags","fields":[],"after":{"name":"tags","description":"Wrapping row of tags. It hosts the default slot; each tag is one fill.","required":true}},
+            {"id":"a07d7812-8","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/action-button","name":"action-button","fields":[{"path":"description","before":"Show all / collapse button after the tags.","after":"Group-level button after the tags, such as show all or collapse. Drawn only when the actionLabel option is set. A sibling of the tags host, not one of the tags (A138)."}]},
+            {"id":"a07d7812-9","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/field-label","name":"field-label","fields":[{"path":"description","before":"Label above or beside the tags.","after":"Label above or beside the tags. Hidden with hideLabel."}]},
+            {"id":"a07d7812-10","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tag-group/slots/default","name":"default","fields":[],"after":{"name":"default","part":"tags","accepts":["tag"],"min":1,"description":"The tags in the group."}},
+            {"id":"a07d7812-11","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web tag group page (Field label, Tag wrapper of Tags, Action button, Help text). Wrapper omitted as layout; no container drawn.","after":"Figma S2 Web tag group page and React Spectrum S2 TagGroup. The tags sit in one host part, tags (A142). tag is what the default slot accepts, so it is no longer a part. action-button is a separate part, a sibling of the tags host, shown through the actionLabel option (A138; Design to confirm in 5m92.5.7.1: the Figma Top-label variants put it inside the Tag wrapper next to the tags, React Spectrum renders it in its own actions container). container is explicit and the root."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.status","contextQualifier"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/action-button","name":"action-button","fields":[{"path":"component","after":"action-button"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/field-label","name":"field-label","fields":[{"path":"component","after":"field-label"}]},
+            {"id":"5d6bd008-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tag-group/anatomy/help-text","name":"help-text","fields":[{"path":"component","after":"help-text"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

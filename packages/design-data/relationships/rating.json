@@ -2,210 +2,315 @@
   {
     "scope": {
       "component": "rating",
-      "property": "workflow-icon-size-75"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Layout",
-    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7"
+    "contextRole": ["layout"],
+    "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
+    "uuid": "d1f97ecd-e7ad-538a-bb67-406456499ac2"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "workflow-icon-size-75"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Layout",
-    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622"
+    "contextRole": ["layout"],
+    "$ref": "a659c66d-1e77-4818-95ea-501e65162841",
+    "uuid": "6c1bc549-4a67-5c2d-9bf8-385085d390b1"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Layout",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+    "contextRole": ["layout"],
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
+    "uuid": "bb3c8cd0-60e0-53aa-9569-d1096919fc52"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Layout",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+    "contextRole": ["layout"],
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
+    "uuid": "1ea942fb-8269-523b-ba21-b086c0800c83"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "width"
+      "part": "container",
+      "property": "width",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Width",
-    "$ref": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2"
+    "contextRole": ["width"],
+    "$ref": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2",
+    "uuid": "d6360280-8f6c-5ecb-809a-27d3a5b8e225"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "width"
+      "part": "container",
+      "property": "width",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Width",
-    "$ref": "91a0e740-8f77-4d4a-b34c-d673afc1093b"
+    "contextRole": ["width"],
+    "$ref": "91a0e740-8f77-4d4a-b34c-d673afc1093b",
+    "uuid": "6401005e-dbf0-5ec9-ad4f-e7b5fbcb9ce2"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "height"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height",
-    "$ref": "7e0c3f30-31f5-4fa2-b353-a739c904d796"
+    "contextRole": ["height"],
+    "$ref": "7e0c3f30-31f5-4fa2-b353-a739c904d796",
+    "uuid": "cdaac6e9-6c93-595c-a008-310221618008"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "height"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
-    "$ref": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964"
+    "contextRole": ["height"],
+    "$ref": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964",
+    "uuid": "5a1d31e8-2bd2-5b8c-b702-c1b55f7c4dc0"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "corner-radius"
+      "part": "container",
+      "property": "corner-radius",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Rounding",
-    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14"
+    "contextRole": ["rounding"],
+    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
+    "uuid": "f02abfa3-ac1f-5891-bebd-e954090e0de8"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "corner-radius"
+      "part": "container",
+      "property": "corner-radius",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Rounding",
-    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84"
+    "contextRole": ["rounding"],
+    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84",
+    "uuid": "0d8addbb-07a6-59dd-bb7e-505491835072"
   },
   {
     "scope": {
       "component": "rating",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus ring",
-    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+    "contextRole": ["focus"],
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
+    "uuid": "440d90e8-3560-5073-aa79-0a101a14517d"
   },
   {
     "scope": {
       "component": "rating",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus ring",
-    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399"
+    "contextRole": ["focus"],
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399",
+    "uuid": "7b18d436-cb2b-5c25-8c5b-dfa828f6f6ec"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "space-between"
+      "part": "container",
+      "property": "padding-vertical",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (padding)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "contextRole": ["spacing"],
+    "contextQualifier": "padding",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "eb6f9ad3-d7e2-5b0a-b142-d8174b180625"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "space-between"
+      "part": "container",
+      "property": "padding-vertical",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (padding)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "contextRole": ["spacing"],
+    "contextQualifier": "padding",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "e10458a6-2298-593f-8752-211159f33d49"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "icon"
+      }
     },
-    "context": "Spacing (padding)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "context": "Spacing (icon to icon)",
+    "contextRole": ["spacing"],
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "a52ba960-78ad-5b2b-9c60-2b4813e13e38",
+    "contextQualifier": "icon to icon"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "space-between"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "isDisabled": false
+      }
     },
-    "context": "Spacing (padding)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "context": "Icon",
+    "contextRole": ["icon"],
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "24c45187-3be8-56dd-8448-209f9cc3f83c"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "space-between"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "isEmphasized": true,
+        "isDisabled": false
+      }
     },
-    "context": "Spacing (padding)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "context": "Icon",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
+    "uuid": "2d945169-0e46-5af9-8c4c-4a7dd211b23a",
+    "contextRole": ["icon"]
   },
   {
     "scope": {
       "component": "rating",
-      "property": "space-between"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "state": ["hover"],
+        "isEmphasized": true,
+        "isDisabled": false
+      }
     },
-    "context": "Spacing (padding)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "context": "Icon",
+    "contextRole": ["icon"],
+    "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe",
+    "uuid": "ec31724c-5008-5fad-80e9-2af326399aaa"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "spacing"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "state": ["hover"],
+        "isDisabled": false
+      }
     },
-    "context": "Spacing",
-    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+    "context": "Icon",
+    "contextRole": ["icon"],
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
+    "uuid": "647c01b0-3feb-5e93-8a83-e2f2d81da942"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "content-color"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "state": ["down"],
+        "isDisabled": false
+      }
     },
-    "context": "Default",
-    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+    "context": "Icon",
+    "contextRole": ["icon"],
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
+    "uuid": "62e8acfb-87b7-5bfd-8abb-90b0bfeffd4a"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "content-color"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "state": ["down"],
+        "isEmphasized": true,
+        "isDisabled": false
+      }
     },
-    "context": "Emphasized",
-    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+    "context": "Icon",
+    "contextRole": ["icon"],
+    "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1",
+    "uuid": "98e3b3e1-a12e-57e7-91f5-5bb243855666"
   },
   {
     "scope": {
       "component": "rating",
-      "property": "content-color"
+      "part": "icon",
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Hover",
-    "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe"
-  },
-  {
-    "scope": {
-      "component": "rating",
-      "property": "content-color"
-    },
-    "context": "Hover",
-    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
-  },
-  {
-    "scope": {
-      "component": "rating",
-      "property": "content-color"
-    },
-    "context": "Down",
-    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
-  },
-  {
-    "scope": {
-      "component": "rating",
-      "property": "content-color"
-    },
-    "context": "Down",
-    "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1"
-  },
-  {
-    "scope": {
-      "component": "rating",
-      "property": "content-color"
-    },
-    "context": "Disabled",
-    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+    "context": "Icon",
+    "contextRole": ["icon"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "59d7097e-114f-5690-a796-4f4c5ed2fe08"
   },
   {
     "scope": {
@@ -298,7 +403,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
     "uuid": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964",
-    "legacyKey": "rating-height-medium"
+    "legacyKey": "rating-height-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "61de58a3-53ed-4dd8-8937-08920b00968c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 246 of the mapping sheet."
   },
   {
     "scope": {
@@ -311,7 +422,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fbdf2291-b332-4436-9e57-430c0a81d526",
     "uuid": "7e0c3f30-31f5-4fa2-b353-a739c904d796",
-    "legacyKey": "rating-height-small"
+    "legacyKey": "rating-height-small",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 247 of the mapping sheet."
   },
   {
     "scope": {
@@ -434,6 +551,7 @@
   {
     "scope": {
       "component": "rating",
+      "part": "container",
       "property": "width",
       "options": {
         "size": "m"
@@ -442,11 +560,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "128px",
     "uuid": "91a0e740-8f77-4d4a-b34c-d673afc1093b",
-    "legacyKey": "rating-width-medium"
+    "legacyKey": "rating-width-medium",
+    "context": "Width",
+    "contextRole": ["width"]
   },
   {
     "scope": {
       "component": "rating",
+      "part": "container",
       "property": "width",
       "options": {
         "size": "s"
@@ -455,6 +576,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "104px",
     "uuid": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2",
-    "legacyKey": "rating-width-small"
+    "legacyKey": "rating-width-small",
+    "context": "Width",
+    "contextRole": ["width"]
   }
 ]

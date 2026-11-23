@@ -1,0 +1,224 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "takeover-dialog",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Margins (dialog option)"],"scope":{"property":"window-to-edge","options":null},"record":"window-to-edge#Margins (dialog option)","name":"window-to-edge","fields":[{"path":"$ref","before":"a3e53161-c38a-4ee0-88c2-4a36fd530e51","after":"e595caf6-37f9-4f84-b81b-dd44ed0d6431"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":9,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/0","name":"guideline: Title text overflow.\n\nWhen the title is too long","fields":[{"path":"content","before":"Takeover dialogs are full-screen modals used for complex or immersive workflows. They block access to the rest of the interface and are typically used when multiple steps or tools need focused attention. Use when the task requires the entire screen and shouldn’t be interrupted.","after":"Title text overflow.\n\nWhen the title is too long for the available horizontal space, it wraps to form another line."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/1","name":"guideline: Header content overflow.\n\nTakeover dialogs can o","fields":[{"path":"content","before":"The takeover dialog supports two slots—one in the header and one in the body—where other components can be inserted.","after":"Header content overflow.\n\nTakeover dialogs can optionally include additional elements in the header custom content area. When horizontal space is limited, the header custom content will be displayed underneath the title."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/2","name":"guideline: Use similar language for dialog titles and actio","fields":[{"path":"content","before":"Takeover dialogs support two layout variants: dialog and full-screen.","after":"Use similar language for dialog titles and actions.\n\nMost dialog titles should communicate the primary action of the dialog. When possible, the button label should use the same language as the action mentioned in the title. For example, if the title is \"Delete conversation,\" the primary action button label should be \"Delete."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/3","name":"guideline: All takeover dialogs must include a title. The t","fields":[],"before":{"type":"guideline","content":"All takeover dialogs must include a title. The title appears at the top of the dialog and should briefly describe the expected outcome if the user proceeds with the primary action."}},
+            {"id":"ec3376fa-4","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/4","name":"guideline: A takeover dialog must include at least one butt","fields":[],"before":{"type":"guideline","content":"A takeover dialog must include at least one button. The primary action label refers to the rightmost button in the dialog footer for languages that read left to right. It should use a short, actionable phrase that clearly communicates the result of selecting the action—whether that means taking action, progressing through a workflow, or dismissing the dialog."}},
+            {"id":"ec3376fa-5","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/5","name":"guideline: Takeover dialogs can include up to three buttons","fields":[],"before":{"type":"guideline","content":"Takeover dialogs can include up to three buttons if a secondary outline button label is defined. If no label is defined, the button won’t appear. The secondary outline button should use a short, actionable phrase that clearly communicates the result of selecting the action—typically describing the previous step or an alternative choice."}},
+            {"id":"ec3376fa-6","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/6","name":"guideline: By default, a takeover dialog that includes a bu","fields":[],"before":{"type":"guideline","content":"By default, a takeover dialog that includes a button to cancel or go back will be labeled “Cancel.”"}},
+            {"id":"ec3376fa-7","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/7","name":"guideline: When the title is too long for the available hor","fields":[],"before":{"type":"guideline","content":"When the title is too long for the available horizontal space, it wraps to form another line."}},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/8","name":"guideline: Takeover dialogs can optionally include addition","fields":[],"before":{"type":"guideline","content":"Takeover dialogs can optionally include additional elements in the header custom content area. When horizontal space is limited, the header custom content will be displayed underneath the title."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/documentBlocks/9","name":"guideline: Most dialog titles should communicate the primar","fields":[],"before":{"type":"guideline","content":"Most dialog titles should communicate the primary action of the dialog. When possible, the button label should use the same language as the action mentioned in the title. For example, if the title is “Delete conversation,” the primary action button label should be “Delete.”"}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":12,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Large dialog surface.","required":true,"contains":["title","header-content","primary-action","secondary-action"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/header-content","name":"header-content","fields":[],"after":{"name":"header-content","description":"Optional custom content in the header."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/primary-action","name":"primary-action","fields":[],"after":{"name":"primary-action","description":"Main action button in the header."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/secondary-action","name":"secondary-action","fields":[],"after":{"name":"secondary-action","description":"Secondary action button in the header."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/title","name":"title","fields":[],"after":{"name":"title","description":"Dialog title.","required":true}},
+            {"id":"12ddd7e7-5","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web takeover dialog. Body slot left out (no own styling); unsure whether overlay and cancel action apply to the Dialog variant."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height & width"],"scope":{"property":"height","options":null},"record":"be327284-79fe-40b7-b996-8ad176d40d8e","name":"height","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"}],"rationale":"Deprecated via refine-from-sheets from row 361 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height & width"],"scope":{"property":"height","options":null},"record":"be327284-79fe-40b7-b996-8ad176d40d8e","name":"height","fields":[{"path":"lifecycle.deprecatedComment","after":"Full-screen behavior (100% of viewport), not a fixed size; not appropriate for a foundational token."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 361 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 361 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Height & width"],"scope":{"property":"width","options":null},"record":"bb70e39d-c686-4cd2-a991-6b51fa16d9df","name":"width","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"}],"rationale":"Deprecated via refine-from-sheets from row 362 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height & width"],"scope":{"property":"width","options":null},"record":"bb70e39d-c686-4cd2-a991-6b51fa16d9df","name":"width","fields":[{"path":"lifecycle.deprecatedComment","after":"Full-screen behavior (100% of viewport), not a fixed size; not appropriate for a foundational token."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 362 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 362 of the mapping sheet."}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "3530b31faf929d7712bcfa632c68821778190654",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1955,"title":"fix(design-data): align relationship context roles with their property","url":"https://github.com/adobe/spectrum-design-data/pull/1955"},
+          "entries": [
+            {"id":"3530b31f-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":null},"record":"1d3fb710-b459-5db8-8b43-bbb9ed6f188e","name":"width","fields":[{"path":"context","before":"Height & width","after":"Width"}]},
+            {"id":"3530b31f-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Height"],"scope":{"property":"height","options":null},"record":"87044282-6810-5b30-8083-55738ad4cc9e","name":"height","fields":[{"path":"context","before":"Height & width","after":"Height"}]}
+          ],
+          "metadata": {"count":2,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "1.1.3",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "676b08d9d3ed808075c931240c3a1ba438efdda4",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1964,"title":"feat(design-data): review anatomy of body, heading, detail, title, code (A1)","url":"https://github.com/adobe/spectrum-design-data/pull/1964"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "de570f2598546e75f64ec6ae4322771c26569e89",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2000,"title":"feat(design-data): anatomy review and identity migration of anchored overlays and modal dialogs","url":"https://github.com/adobe/spectrum-design-data/pull/2000"},
+          "entries": [
+            {"id":"de570f25-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Margins (dialog option)"],"scope":{"property":"margin","options":{"variant":"dialog"}},"record":"bc6b0498-ea7e-5c20-a545-3da4a9346468","name":"margin[variant=dialog]","fields":[{"path":"scope.options.variant","after":"dialog"}]},
+            {"id":"de570f25-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Margins (dialog option)"],"scope":{"property":"margin","options":{"variant":"dialog"}},"record":"bc6b0498-ea7e-5c20-a545-3da4a9346468","name":"margin[variant=dialog]","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"window-to-edge","after":"margin"}]},
+            {"id":"de570f25-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Rounding (dialog option)"],"scope":{"property":"corner-radius","options":{"variant":"dialog"}},"record":"2d2cf941-77a6-5b40-bb19-06e144090be8","name":"corner-radius[variant=dialog]","fields":[{"path":"scope.options.variant","after":"dialog"}]},
+            {"id":"de570f25-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"light","variant":"dialog"}},"record":"429f07e9-9372-503b-914d-0f212c04268d","name":"color[colorScheme=light,variant=dialog]","fields":[{"path":"scope.options.colorScheme","after":"light"},{"path":"scope.options.variant","after":"dialog"}]},
+            {"id":"de570f25-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"light","variant":"dialog"}},"record":"429f07e9-9372-503b-914d-0f212c04268d","name":"color[colorScheme=light,variant=dialog]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"dark","variant":"dialog"}},"record":"81f47685-c92e-5df3-9b4d-47d8a6132e21","name":"color[colorScheme=dark,variant=dialog]","fields":[{"path":"scope.options.colorScheme","after":"dark"},{"path":"scope.options.variant","after":"dialog"}]},
+            {"id":"de570f25-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"dark","variant":"dialog"}},"record":"81f47685-c92e-5df3-9b4d-47d8a6132e21","name":"color[colorScheme=dark,variant=dialog]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"wireframe","variant":"dialog"}},"record":"983b4b23-823b-56f8-964b-e870cd811f8c","name":"color[colorScheme=wireframe,variant=dialog]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"},{"path":"scope.options.variant","after":"dialog"}]},
+            {"id":"de570f25-8","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"wireframe","variant":"dialog"}},"record":"983b4b23-823b-56f8-964b-e870cd811f8c","name":"color[colorScheme=wireframe,variant=dialog]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-9","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"color","options":null},"record":"3ea128a5-c15b-56e6-9f6e-b0d1020597c1","name":"color","fields":[{"path":"scope.part","after":"overlay"}]},
+            {"id":"de570f25-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"light"}},"record":"998c0eac-b15c-500d-8ec9-e46e8b7205ff","name":"opacity[colorScheme=light]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"de570f25-11","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"light"}},"record":"998c0eac-b15c-500d-8ec9-e46e8b7205ff","name":"opacity[colorScheme=light]","fields":[{"path":"scope.part","after":"overlay"}]},
+            {"id":"de570f25-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"dark"}},"record":"750fab00-15a0-575f-9b8f-1596db934756","name":"opacity[colorScheme=dark]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"de570f25-13","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"dark"}},"record":"750fab00-15a0-575f-9b8f-1596db934756","name":"opacity[colorScheme=dark]","fields":[{"path":"scope.part","after":"overlay"}]},
+            {"id":"de570f25-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"wireframe"}},"record":"16318184-4483-587d-8da1-0820f59c07f3","name":"opacity[colorScheme=wireframe]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"de570f25-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"wireframe"}},"record":"16318184-4483-587d-8da1-0820f59c07f3","name":"opacity[colorScheme=wireframe]","fields":[{"path":"scope.part","after":"overlay"}]},
+            {"id":"de570f25-16","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"color","options":null},"record":"b6a02924-0ce5-5404-90fe-fdc4bf97e3ed","name":"color","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-17","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"takeover-dialog/options/slots","name":"slots","fields":[],"before":{"type":"array","description":"Areas where other components can be inserted (e.g. Side navigation, Steplist, Forms).","items":{"type":"object","properties":{"name":{"type":"string","description":"Identifier for the slot (e.g. 'sidebar', 'content', 'footer')."},"component":{"type":"string","description":"The type of component placed in this slot (e.g. side-navigation, steplist, form)."}},"required":["name","component"]}}},
+            {"id":"de570f25-18","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/primary-action","name":"primary-action","fields":[],"before":{"name":"primary-action","description":"Main action button in the header."}},
+            {"id":"de570f25-19","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/secondary-action","name":"secondary-action","fields":[],"before":{"name":"secondary-action","description":"Secondary action button in the header."}},
+            {"id":"de570f25-20","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/body","name":"body","fields":[],"after":{"name":"body","description":"Region under the header. It hosts the default slot (for example side navigation, a steplist or a form)."}},
+            {"id":"de570f25-21","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/button-group","name":"button-group","fields":[],"after":{"name":"button-group","description":"The button-group component that holds the dialog actions. Its buttons are slot fills; the action label options map to them."}},
+            {"id":"de570f25-22","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/overlay","name":"overlay","fields":[],"after":{"name":"overlay","description":"Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its colour and opacity."}},
+            {"id":"de570f25-23","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/container","name":"container","fields":[{"path":"contains","before":["title","header-content","primary-action","secondary-action"],"after":["title","header-content","button-group","body"]}]},
+            {"id":"de570f25-24","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/container","name":"container","fields":[{"path":"description","before":"Large dialog surface.","after":"Large dialog surface. It is the root and carries the rounding, margin, background and, for the full-screen variant, fills the frame."}]},
+            {"id":"de570f25-25","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/header-content","name":"header-content","fields":[{"path":"description","before":"Optional custom content in the header.","after":"Optional custom content in the header. Hosts the header-content slot."}]},
+            {"id":"de570f25-26","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/slots/default","name":"default","fields":[],"after":{"name":"default","part":"body","description":"The dialog content: other components such as side navigation, a steplist or forms."}},
+            {"id":"de570f25-27","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/slots/header-content","name":"header-content","fields":[],"after":{"name":"header-content","part":"header-content","description":"Optional custom content in the header."}},
+            {"id":"de570f25-28","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web takeover dialog. Body slot left out (no own styling); unsure whether overlay and cancel action apply to the Dialog variant.","after":"Figma S2 Web takeover dialog: the Dialog variant root is the overlay (black at 44%) around the surface, and the full-screen variant has no overlay and no radius. React Spectrum S2 FullscreenDialog and Modal. Decisions (Garth, 2026-11-20): C3 top-level overlay part, and the takeover margin is margin on container pinned variant dialog; C4 button-group replaces the action parts; C5 body kept as the slot host. The slots array option is replaced by the slots declared on the component (slots memo step 5)."}]}
+          ],
+          "metadata": {"count":4,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/button-group","name":"button-group","fields":[{"path":"component","after":"button-group"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

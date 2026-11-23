@@ -56,6 +56,20 @@ test("insertDocumentBlocks replaces existing documentBlocks without duplicating"
   t.is(Object.keys(result).filter((k) => k === "documentBlocks").length, 1);
 });
 
+test("insertDocumentBlocks keeps an existing documentBlocks position (#1561 reordered keys)", (t) => {
+  const component = {
+    name: "action-bar",
+    meta: { category: "actions" },
+    implementations: [],
+    documentBlocks: [{ type: "purpose", content: "Old." }],
+    options: {},
+  };
+  const result = insertDocumentBlocks(component, [
+    { type: "purpose", content: "New." },
+  ]);
+  t.deepEqual(Object.keys(result), Object.keys(component));
+});
+
 test("insertDocumentBlocks falls back to after description when meta absent", (t) => {
   const component = {
     name: "button",

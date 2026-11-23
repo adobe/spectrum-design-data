@@ -1,16 +1,15 @@
 {
   "name": "@adobe/design-data",
-  "version": "3.2.9",
-  "description": "Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management",
+  "version": "3.4.4",
+  "description": "Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, validation, and guideline and component lookups",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
     "./load": "./src/load.js",
-    "./write": "./src/write.js",
-    "./session": "./src/session.js",
     "./validate": "./src/validate.js",
-    "./guideline": "./src/guideline.js"
+    "./guideline": "./src/guideline.js",
+    "./component": "./src/component.js"
   },
   "files": [
     "src/",

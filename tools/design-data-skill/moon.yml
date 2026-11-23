@@ -14,11 +14,37 @@ tasks:
     command: [pnpm, ava]
     inputs:
       - "skills/**/*"
+      - "README.md"
+      - ".mcp.json"
+      - ".claude-plugin/plugin.json"
+      - "/.claude-plugin/marketplace.json"
+      - "/tools/design-data-mcp/package.json"
+      - "/tools/design-data-mcp/src/tools/design-data.js"
       - "test/**/*.js"
       - "ava.config.js"
       - "package.json"
 
+  sync-pin:
+    command: node
+    args:
+      - "scripts/sync-mcp-pin.mjs"
+    inputs:
+      - "package.json"
+      - "/tools/design-data-mcp/package.json"
+      - "scripts/sync-mcp-pin.mjs"
+      - ".mcp.json"
+      - ".claude-plugin/plugin.json"
+      - "skills/design-data/SKILL.md"
+      - "README.md"
+    outputs:
+      - ".mcp.json"
+      - ".claude-plugin/plugin.json"
+      - "skills/design-data/SKILL.md"
+      - "README.md"
+
   version:
+    deps:
+      - sync-pin
     command: node
     args:
       - "$workspaceRoot/scripts/sync-skill-version.mjs"

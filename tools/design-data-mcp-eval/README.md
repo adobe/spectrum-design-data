@@ -16,9 +16,9 @@ moon run design-data-mcp-eval:test
 The AVA suite builds private Desktop MCP bundles and uses them over stdio with a clean
 server environment and import guards against workspace fallback. It compares the
 catalog to the canonical manifest and checks the facts
-needed by 13 scenarios: error copy, voice and tone, containers, typography exceptions,
-button progress, unsupported requests, conflicting cursor guidance, and guideline/token
-lookup. The normal PR CI Rust lane runs these checks without a model or API key.
+needed by 15 scenarios: error copy, voice and tone, containers, typography exceptions,
+button progress, unsupported requests, conflicting cursor guidance, guideline/token lookup,
+component token bindings by state, and token specificity. The normal PR CI Rust lane runs these checks without a model or API key.
 
 These tests prove retrieval and grounding contracts. They do **not** prove an agent can
 choose the right guideline, detect every unsupported question, or produce a good answer.

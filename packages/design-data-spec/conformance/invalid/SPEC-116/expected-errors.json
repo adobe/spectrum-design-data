@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-116",
+      "severity": "error",
+      "message_pattern": ".*columns is not a whole number from 1 through 100.*"
+    },
+    {
+      "rule_id": "SPEC-116",
+      "severity": "error",
+      "message_pattern": ".*part 'cell' binds columns but its direction is not grid.*"
+    }
+  ]
+}

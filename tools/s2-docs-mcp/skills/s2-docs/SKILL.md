@@ -9,7 +9,7 @@ description: >
   decisions during prototyping.
 metadata:
   author: adobe
-  version: "1.3.0"
+  version: "1.3.1"
 when_to_use: >
   Trigger on: "which Spectrum component", "React Spectrum", "Spectrum Web
   Components", "@adobe/react-spectrum", "@spectrum-web-components", component
@@ -19,6 +19,11 @@ allowed-tools: Bash(node ${CLAUDE_SKILL_DIR}/scripts/lookup.js *)
 ---
 
 # Spectrum 2 Docs
+
+> **Deprecated.** This skill and `@adobe/s2-docs-mcp` are superseded by
+> `@adobe/design-data-mcp`. If that server is available, prefer its
+> `design-data-component-search` and `design-data-component` tools. The commands
+> below still work and use current data.
 
 Fetch canonical S2 docs before suggesting any Spectrum component or pattern.
 This prevents common vibe-coding mistakes: wrong variant, hard-coded sizes,

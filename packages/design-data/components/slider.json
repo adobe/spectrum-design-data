@@ -79,58 +79,259 @@
     }
   ],
   "options": {
-    "label": { "type": "string" },
+    "label": {
+      "type": "string"
+    },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [{ "value": "top" }, { "value": "side" }]
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
-    "value": { "type": "number", "description": "from minValue to maxValue" },
-    "minValue": { "type": "number", "default": 0 },
-    "maxValue": { "type": "number", "default": 100 },
+    "value": {
+      "type": "number",
+      "description": "from minValue to maxValue"
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 100
+    },
     "isRange": {
       "type": "boolean",
       "default": false,
       "description": "If true, the slider will allow selection of a range of values by displaying two handles."
     },
-    "step": { "type": "number", "default": 1 },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
     "valueFormat": {
       "type": "string",
       "description": "This will vary depending on implementation."
     },
-    "progressionScale": {
-      "type": "string",
-      "default": "linear",
-      "values": [{ "value": "linear" }, { "value": "log" }]
+    "width": {
+      "type": "number"
     },
-    "width": { "type": "number" },
-    "hasFill": { "type": "boolean", "default": false },
-    "fillStart": { "type": "number", "default": 0 },
-    "hasGradient": { "type": "boolean", "default": false },
-    "isEditable": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false }
+    "hasFill": {
+      "type": "boolean",
+      "default": false
+    },
+    "fillStart": {
+      "type": "number",
+      "default": 0,
+      "description": "Value the fill starts from; the fill runs from here to the handle (an offset slider). Applies when hasFill is true."
+    },
+    "isEditable": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        },
+        {
+          "value": "small",
+          "lifecycle": {
+            "deprecatedIn": "1.0.0-draft",
+            "replacedBy": "s"
+          }
+        },
+        {
+          "value": "medium",
+          "lifecycle": {
+            "deprecatedIn": "1.0.0-draft",
+            "replacedBy": "m"
+          }
+        },
+        {
+          "value": "large",
+          "lifecycle": {
+            "deprecatedIn": "1.0.0-draft",
+            "replacedBy": "l"
+          }
+        },
+        {
+          "value": "extra-large",
+          "lifecycle": {
+            "deprecatedIn": "1.0.0-draft",
+            "replacedBy": "xl"
+          }
+        }
+      ]
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "trackStyle": {
+      "type": "string",
+      "default": "thin",
+      "values": [
+        {
+          "value": "thin"
+        },
+        {
+          "value": "thick"
+        },
+        {
+          "value": "ramp"
+        }
+      ],
+      "description": "Rail style: thin, thick, or a ramp that widens toward the maximum."
+    },
+    "handleStyle": {
+      "type": "string",
+      "default": "default",
+      "values": [
+        {
+          "value": "default"
+        },
+        {
+          "value": "precise"
+        }
+      ],
+      "description": "Precise draws the smaller handle for fine adjustment."
+    }
   },
   "anatomy": [
-    { "name": "text-field", "description": "Editable numeric value field." },
-    { "name": "handle" },
-    { "name": "track" },
-    { "name": "control" }
+    {
+      "name": "container",
+      "description": "Root of the slider: sets the width and the spacing between the label, the control and the editable field.",
+      "required": true,
+      "contains": ["header", "control"]
+    },
+    {
+      "name": "header",
+      "description": "Row above the control that holds the label and, when the value is not editable, the value text.",
+      "contains": ["field-label", "value"]
+    },
+    {
+      "name": "field-label",
+      "component": "field-label",
+      "description": "Text label that names the slider, above or beside the control."
+    },
+    {
+      "name": "value",
+      "description": "Current value text. Drawn when isEditable is false; the Label font records live here because field-label draws its own text.",
+      "presentWhen": {
+        "options": {
+          "isEditable": false
+        }
+      }
+    },
+    {
+      "name": "control",
+      "description": "Row that owns the target height by size. It holds the track and, when isEditable is true, the editable number field; the fill and the handle are drawn over the track.",
+      "required": true,
+      "contains": ["track", "fill", "handle", "number-field"]
+    },
+    {
+      "name": "track",
+      "description": "Rail the handle moves along. Thickness follows trackStyle.",
+      "required": true
+    },
+    {
+      "name": "fill",
+      "description": "Part of the rail from the start value to the handle. Drawn when hasFill is true.",
+      "presentWhen": {
+        "options": {
+          "hasFill": true
+        }
+      }
+    },
+    {
+      "name": "handle",
+      "description": "Draggable handle that marks the value; two handles when isRange is true.",
+      "required": true,
+      "contains": ["focus-indicator"]
+    },
+    {
+      "name": "number-field",
+      "component": "number-field",
+      "description": "Editable value: a number-field component with hideStepper. Drawn when isEditable is true.",
+      "presentWhen": {
+        "options": {
+          "isEditable": true
+        }
+      }
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Ring drawn around the handle for keyboard focus.",
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
+    }
   ],
   "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "slider",
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
+  },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Owner decisions (A8 C8-C10, 2026-11-20): control stays as the row part that owns the target height by size (Figma Slider container, RSP SliderTrack 24/32/40/48); the editable field is a nested number-field component (hideStepper) and text-field is removed; one slider with isRange, fillStart and trackStyle thin|thick|ramp (Figma Slider, Offset, Ramp and Range sets); the label is the field-label component (A7 C6). Added size, isEmphasized, trackStyle and handleStyle; dropped hasGradient and progressionScale (no S2 source). The anatomy component field and presentWhen are not built, so the conditions on value, fill and number-field are in the descriptions. Sources: Figma Web POC rNdFQYqXO2Nd3zMWnQD5U4 (Slider sets, .Slider track, .Slider handle, .Slider number field), React Spectrum S2 Slider.tsx, SWC 1st-gen sp-slider (editable sp-number-field hide-stepper). The Label font records move to value by judgement."
   }
 }

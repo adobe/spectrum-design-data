@@ -29,6 +29,18 @@ For a manifest-only overlay repo (foundation pinned remotely via
 `skip-dataset-validation: true` — `validate-dataset`'s SPEC-044 structure
 check requires a local `tokens/` dir and fails unconditionally without one.
 
+### Pinning the action
+
+`@main` moves on every merge. Use a tag from [`publish-validate-action.yml`](../../workflows/publish-validate-action.yml) instead. The `design-data-cli@x.y.z` tags cannot be used: GitHub rejects a second `@` in a `uses:` ref.
+
+| Ref                                                                           | Moves?                       | Pins                                                            |
+| ----------------------------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------- |
+| `adobe/spectrum-design-data/.github/actions/validate@validate-action/v1`      | Yes, to each new CLI release | The action files at the latest `design-data-cli` release commit |
+| `adobe/spectrum-design-data/.github/actions/validate@validate-action/v0.63.0` | Never                        | The action files at the `design-data-cli@0.63.0` release commit |
+| `adobe/spectrum-design-data/.github/actions/validate@<commit sha>`            | Never                        | Exactly that commit                                             |
+
+A tag pins the action's files and scripts only. The CLI it installs is still chosen by `cli-version` (default `latest`), so set `cli-version: 0.63.0` to pin the CLI too. `v1` only moves forward within the `v1` contract; a breaking input or output change will ship under a new `validate-action/v2`. The tags are created when a `design-data-cli@x.y.z` GitHub Release is published; CLI releases with no action changes still get a tag.
+
 ## Inputs
 
 | Input                     | Default                        | Description                                                                                                                           |

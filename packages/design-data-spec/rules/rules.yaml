@@ -183,14 +183,9 @@ rules:
     spec_ref: spec/component-format.md#anatomy-stub
     introduced_in: "1.0.0-draft"
 
-  - id: SPEC-021
-    name: component-slot-vocabulary
-    severity: warning
-    category: component-contract
-    assert: Component slot declarations with a 'name' outside the canonical slot vocabulary SHOULD include a 'description' field documenting the custom slot's purpose.
-    message: "Component '{component}' has custom slot '{slot}' with no description — add a description or use a canonical slot name"
-    spec_ref: spec/component-format.md#canonical-slot-vocabulary
-    introduced_in: "1.0.0-draft"
+  # SPEC-021 (component-slot-vocabulary) is retired: its canonical slot list overlapped the
+  # anatomy vocabulary. SPEC-104 replaces it (a slot is named `default` or after its part).
+  # The ID is not reused.
 
   - id: SPEC-022
     name: component-state-valid
@@ -241,14 +236,8 @@ rules:
     spec_ref: spec/state-model.md#canonical-state-vocabulary
     introduced_in: "1.0.0-draft"
 
-  - id: SPEC-027
-    name: token-binding-token-exists
-    severity: error
-    category: reference-integrity
-    assert: Each tokenBindings[].token value in a component declaration MUST match the name of a declared token in the dataset.
-    message: "Component '{component}' tokenBindings references unknown token '{token}'"
-    spec_ref: spec/component-format.md#token-bindings
-    introduced_in: "1.0.0-draft"
+  # SPEC-027 (token-binding-token-exists) is retired with the component `tokenBindings` field;
+  # relationships carry that data and SPEC-055 checks their `$ref`. The ID is not reused.
 
   - id: SPEC-028
     name: document-block-agents-equals-content
@@ -632,7 +621,8 @@ rules:
       Combines the intent of SPEC-019 (component-variant-valid, error) and SPEC-040
       (component-option-field-valid, warning) into a single error-severity rule for
       CTRs, since a CTR's options are the whole of its scope rather than one field
-      among many name-object keys.
+      among many name-object keys. The pins inside each alternative of a `scope.options.anyOf`
+      (proposal 017) are checked the same way.
     message: "Relationship '{relationship}' has {key} '{value}' which is not declared on component '{component}'"
     spec_ref: spec/relationship-format.md#scope-fields
     introduced_in: "1.0.0-draft"
@@ -645,7 +635,8 @@ rules:
     assert: >
       Each element of a CTR's `scope.options.state` array MUST match the `name` of a
       declared state on the referenced component, when state declarations are present.
-      Mirrors SPEC-022 (component-state-valid) for the CTR scope object.
+      Mirrors SPEC-022 (component-state-valid) for the CTR scope object. The members of an
+      `{ "anyOf": [...] }` element (proposal 017) are checked the same way.
     message: "Relationship '{relationship}' references undeclared state '{state}' on component '{component}'"
     spec_ref: spec/relationship-format.md#scope-fields
     introduced_in: "1.0.0-draft"
@@ -657,8 +648,8 @@ rules:
     category: reference-integrity
     assert: >
       A CTR's `$ref` value MUST resolve to a declared token or relationship `uuid` in
-      the dataset. Mirrors SPEC-001 (alias-target-exists) and SPEC-027
-      (token-binding-token-exists) for the CTR alias direction.
+      the dataset. Mirrors SPEC-001 (alias-target-exists) for the CTR
+      alias direction.
     message: "Relationship alias target not found for $ref: {target}"
     spec_ref: spec/relationship-format.md#value-owning-vs-relationship-only
     introduced_in: "1.0.0-draft"
@@ -723,4 +714,945 @@ rules:
       different value. Tokens whose name object omits the field (mode-agnostic) are exempt.
     message: "Alias {token} sets {field}={ownValue} but its $ref chain resolves to a token with {field}={leafValue}"
     spec_ref: spec/cascade.md#alias-resolution
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-060
+    name: visual-anatomy-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Cross-file sibling of SPEC-020 for visual recipes (`visuals/*.json`). A JSON Schema
+      cannot read the component file, so this is not a Layer 1 check. Skipped when no
+      component catalog is loaded.
+    assert: >
+      A visual recipe's `component` MUST name a declared component. Every key of `parts` MUST
+      be a declared anatomy part. `root` MUST be a recipe part and a top-level anatomy part
+      (listed in no other part's `contains`). Each part's `children` MUST be recipe parts and
+      appear in that anatomy part's `contains`. `around` MUST name a declared anatomy part;
+      `pressTarget` MUST name a declared anatomy part that is also a recipe part. A part's
+      `repeat.slot` MUST name a component slot with `part` and `collection`; that slot's part
+      MUST be one of the part's `children` and listed in its anatomy `contains`, and only the
+      root declares `repeat`.
+    message: "Recipe part '{part}' is not a declared anatomy part of '{component}'"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-061
+    name: visual-conditions-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      Every `when.options` key in a visual recipe MUST be an
+      option of the component, with a value in that option's `values` (a boolean option
+      requires a boolean). Every `when.states` entry MUST be the `name`
+      of a state declared by the component. Every `{name}` placeholder in a `token` or
+      `relationship` selector MUST be `size`, `sizeIndex` or an option of the component that
+      declares `values`. A `position` condition MUST list only `first`, `middle`, `last` or `only`,
+      and MUST appear only on a part a root's `repeat` names or a part inside it.
+    message: "Option '{option}' of '{component}' has no value {value}"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-062
+    name: visual-selectors-resolve
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      `{sizeIndex}` expands over the `sizeScale` values, `{size}` over its keys and `{option}`
+      over the option's declared values before resolving. Relationship `context` is compared trimmed. Token selectors match name-object
+      fields the way the visual runtime does, including the property + `scaleIndex` fallback.
+    assert: >
+      Every `{relationship: {property, context}}` selector in a visual recipe MUST resolve to
+      a relationship record whose `scope.component` is the recipe's component and whose
+      `scope.property` and `context` match. Every `{token: {...}}` selector MUST match at
+      least one token.
+    message: "No relationship for '{component}' with property '{property}' and context '{context}'"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-063
+    name: visual-size-scale-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      The keys of a visual recipe's `sizeScale` MUST equal the values of the component's
+      `size` option. A component without a `size` option MAY declare a one-entry `sizeScale`,
+      the single size renderers draw (for example the fixed-size iOS switch).
+    message: "sizeScale key '{size}' is not a 'size' value of '{component}'"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+  - id: SPEC-064
+    name: constraint-options-declared
+    severity: error
+    layer: 2
+    category: component
+    assert: >
+      Every option name used in a component constraint's `when` or `require` MUST be declared in
+      the component's `options`. Every value used there MUST appear in that option's `values`
+      list. Value checks are silent when the option declares no `values` list.
+    message: "Constraint option '{option}' is not declared on component '{component}'"
+    spec_ref: spec/option-constraints.md#rules
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-065
+    name: recipe-targets-excluded-combination
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Only `error` constraints count. Unpinned options range over their declared values (booleans
+      over true and false); an option with no known domain is never proven excluded. A rule that
+      also matches a valid combination is not reported.
+    assert: >
+      A visual recipe rule (`when.options`) or relationship `scope.options` SHOULD NOT match only
+      combinations excluded by an `error` constraint on the component.
+    message: "Recipe rule for '{component}' matches only combinations excluded by an error constraint"
+    spec_ref: spec/option-constraints.md#rules
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-066
+    name: visual-covers-component
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      A name counts as used when a `when` condition or the `presentWhen` of an anatomy part the recipe draws names it, when a token the
+      recipe binds carries the state, or when it is implied: `size` by `sizeScale`, `label` by a
+      text part, and `isDisabled` or `isSelected` by the `disabled` or `selected` states (and the
+      reverse). New recipes MUST be free of this warning; existing recipes are held at a baseline.
+    assert: >
+      Every option and state a component declares SHOULD either affect its visual recipe or be
+      listed in the recipe's `notVisual` array. A `notVisual` name MUST be declared by the
+      component and SHOULD NOT also be used by the recipe.
+    message: "Option '{option}' of '{component}' does not affect the recipe; use it in a condition or list it in notVisual"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-067
+    name: visual-prefers-relationship
+    severity: warning
+    layer: 2
+    category: reference-integrity
+    note: >
+      Relationships carry the component scope and the design-token group label, so a recipe
+      binds through them by default. Use a `token` selector only when no relationship covers the
+      value.
+    assert: >
+      A `token` selector in a visual recipe SHOULD NOT bind a token that one of the component's
+      relationships already binds.
+    message: "Token selector {selector} is also bound by relationship {relationship}; bind it through the relationship"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-068
+    name: visual-literal-discouraged
+    severity: warning
+    layer: 2
+    category: tech-debt
+    note: >
+      Layout keywords (`direction`, `align`, `justify`), `transparent` and `none` colors, zero
+      widths and ratio radii (`relativeTo`) are fine as literals.
+    assert: >
+      A literal (`{"value": ...}`) in a visual recipe SHOULD NOT supply a color or a non-zero
+      size; a token or relationship describes it, or one should be added.
+    message: "Literal {value} for '{prop}' on part '{part}'; bind a token or relationship instead"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-069
+    name: visual-token-not-deprecated
+    severity: warning
+    layer: 2
+    category: reference-integrity
+    note: >
+      Extends SPEC-058, which checks relationship `$ref` values, to the bindings a recipe draws
+      with.
+    assert: >
+      A `token` or `relationship` selector in a visual recipe SHOULD NOT resolve only to
+      deprecated tokens (those with `lifecycle.deprecatedIn`).
+    message: "{selector} resolves only to deprecated tokens (for example '{token}', deprecated in {version})"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-070
+    name: visual-ring-names-agree
+    severity: warning
+    layer: 2
+    category: naming-consistency
+    note: >
+      A shared name lets tools, relationships and docs treat the focus ring alike across
+      components. The rule reports the disagreement, not which name wins.
+    assert: >
+      Visual recipes SHOULD give the focus ring part (`kind: "ring"`, a name containing `focus`)
+      the same name. Other rings, such as a selection band, are not compared.
+    message: "Focus ring part is named '{name}' here but '{other}' in other recipes; recipes should name it alike"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-071
+    name: visual-relationship-contexts-used
+    severity: info
+    layer: 2
+    category: component
+    note: >
+      Unused contexts are not errors: relationships describe the component beyond its recipe.
+      The count shows how much of the component's token data a recipe still has to cover.
+    assert: >
+      A visual recipe reports how many of its component's relationship contexts the recipe
+      never binds.
+    message: "{n} of {total} relationship contexts of '{component}' have no binding in this recipe, for example {sample}"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-072
+    name: relationship-duplicate-ref-scale-counterpart
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      Typically a desktop and a mobile record where the second was copied without repointing it,
+      so the other scale's token is never reachable through the relationship. A repeated record
+      on a token with no scale counterpart is not reported.
+    assert: >
+      Two relationship records with the same scope, context and `$ref` SHOULD NOT both point at
+      a token that has a scale counterpart (the same name with another `scale` value).
+    message: "Relationship {scope} references {ref} twice, but the token has a {scale} counterpart ({counterpart}); point one record at it"
+    spec_ref: spec/relationship-format.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-073
+    name: component-anatomy-reviewed
+    severity: info
+    layer: 2
+    category: component
+    note: >
+      One diagnostic for the whole dataset, so the gap stays visible without a line per
+      component. Skips deprecated components (`lifecycle.deprecatedIn`). Never an error: anatomy is authored as recipes are built. A component with
+      anatomy and no `anatomyReview` counts as draft.
+    assert: >
+      A component that has relationship records SHOULD declare anatomy, and a component's
+      anatomy SHOULD have `anatomyReview.status` of `reviewed`.
+    message: "Components without reviewed anatomy: {n} with relationships but no anatomy ({names}); {m} with draft anatomy ({names})"
+    spec_ref: spec/anatomy-format.md#review-checklist
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-074
+    name: anatomy-present-when-declared
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      The anatomy version of SPEC-054 and SPEC-064. State names are compared after normalization,
+      so `focus`, `key-focus` and `keyboard-focus` are one state. A part that lists
+      `presentWhen.states` on a component that declares no states is also reported. Option
+      names and values are checked as SPEC-064 checks them (an enum value is a listed value; a
+      boolean option takes a boolean).
+    assert: >
+      Every `presentWhen.states` entry of an anatomy part MUST match a state declared on the
+      same component, every `presentWhen.options` key MUST be an option the component declares,
+      and every value MUST be one that option allows.
+    message: "Anatomy part '{part}' on component '{component}' is present in state '{state}', but it is not a declared state"
+    spec_ref: spec/anatomy-format.md#presentwhen
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-076
+    name: visual-bindings-resolve-on-platform
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Runs only when a platform manifest is in scope (for example `design-data validate
+      --platform ios --visuals-path ...`). Renders each recipe on the foundation and with the
+      manifest's cascade applied, over every size, light and dark, desktop and mobile, each
+      interaction state and each option value, and reports the unresolved bindings that appear
+      only under the platform. A gap the foundation also has is not reported.
+    assert: >
+      Every token or relationship binding a visual recipe resolves on the foundation SHOULD also
+      resolve once the platform manifest's include, exclude, overrides and extensions are applied.
+    message: "Recipe for '{component}' binds something that resolves on the foundation but not under platform '{platform}': {binding}"
+    spec_ref: spec/manifest.md
+    introduced_in: "1.0.0-draft"
+
+  # SPEC-077 (artifact-single-owner) and SPEC-078 (promoted-mode-fallback) are reserved by
+  # spec/artifact-moves.md and are not in this catalog until they are implemented.
+
+  - id: SPEC-079
+    name: platform-recipe-resolves
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Runs only when a platform manifest with `extensions/visuals/` is in scope. A warning for
+      now; a follow-up promotes it to an error once this release is published (needs a changeset).
+      Renders each platform-owned recipe over the request grid with no foundation comparison.
+      The request grid is `light`/`dark` by `desktop`/`mobile`, as in SPEC-076. The CI guard
+      `.github/scripts/validate-platform-recipes.mjs` fails on it even while it is a warning.
+    assert: >
+      A platform-owned visual recipe MUST render over the request grid without a scene
+      diagnostic once the platform manifest is applied.
+    message: "Platform recipe for '{component}' does not render under platform '{platform}': {diagnostic}"
+    spec_ref: spec/component-visuals.md#platform-owned-recipes
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-080
+    name: platform-recipe-replaces-foundation
+    severity: info
+    layer: 2
+    category: component
+    note: >
+      Runs only when a platform manifest with `extensions/visuals/` is in scope. Shows a reviewer
+      which foundation recipe a platform recipe replaced, so a copy that may drift is visible.
+    assert: >
+      A platform recipe that has the same component name as a foundation recipe replaces it
+      for that platform; validation reports the pair.
+    message: "Recipe for '{component}' in platform '{platform}' replaces the foundation recipe"
+    spec_ref: spec/component-visuals.md#platform-owned-recipes
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-081
+    name: component-alias-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Runs only when a platform manifest is in scope. Reads the manifest's merged
+      `extensions.components` names and the foundation component catalog.
+    assert: >
+      Each `componentAliases` key MUST be a foundation component, its target MUST be a component
+      the platform declares in `extensions/components/`, aliases MUST NOT chain or form a cycle,
+      and a key MUST NOT also be replaced by `extensions/components/<key>.json`.
+    message: "Invalid component alias '{alias}' in platform '{platform}': {reason}"
+    spec_ref: spec/manifest.md#componentaliases
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-082
+    name: platform-manifest-applies
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Runs only when a platform manifest is in scope. SPEC-076, SPEC-079 and the platform recipe
+      checks apply the manifest themselves and report nothing when it fails, so this rule is what
+      makes a manifest that cannot apply (for example one that extends a mode set that was not
+      loaded, as when `validate --platform` runs without `--mode-sets-path`) fail instead of look
+      like a pass. The CI guard `.github/scripts/validate-platform-recipes.mjs` fails on it.
+    assert: >
+      A platform manifest MUST apply to the foundation graph.
+    message: "Platform '{platform}' failed to apply, so the platform rules (SPEC-076, SPEC-079 and the platform recipe checks) did not run: {error}"
+    spec_ref: spec/manifest.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-083
+    name: visual-props-read-by-renderer
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      The recipe schema accepts props the renderer does not read (`direction`,
+      `align`, `rotation`, and others on a part kind that has no use for them). The renderer
+      ignores them without a diagnostic. The list of read props is the renderer's own table,
+      not a copy kept in the rule. A recipe binding an ignored prop looks complete and draws
+      differently from what it says.
+    assert: >
+      Every prop in a recipe part's `props` MUST be one the renderer reads for that part: the
+      root part, a part of its `kind`, or a part with a `placement`.
+    message: "Part '{part}' ({role}) of '{component}' binds '{prop}', which the renderer does not read for that part"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-084
+    name: ctr-uuid-required
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Changelogs, platform overrides and `$ref` all need a stable identity for a
+      relationship. The schema requires `uuid` in `relationships/*.json`; this rule also
+      covers records the schema does not see (a platform manifest's inline relationship
+      adds). Uniqueness is SPEC-056.
+    assert: >
+      Every relationship record MUST have a `uuid`.
+    message: "Relationship #{index} has no uuid (component '{component}', property '{property}')"
+    spec_ref: spec/relationship-format.md#identity
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-085
+    name: visual-icon-exists
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      Runs only when the `icons/` catalog is loaded (`validate --icons-path`, the probed
+      `packages/design-data/icons`, or `validate-dataset`). The recipe schema requires the
+      reference on every `icon` part; this rule checks it against the catalog.
+    assert: >
+      The `icon` an icon part references (`set` and `name`) MUST exist in the `icons/` catalog.
+    message: "Part '{part}' of '{component}' references icon {set}:{name}, but {reason}"
+    spec_ref: spec/component-visuals.md#icons
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-086
+    name: visual-icon-scale
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      UI icons have one drawing per scale index. The renderer picks the scale from the part's
+      size binding and falls back to the nearest drawing, which is usually a different design
+      (stroke weight and proportions change between sizes). Checked over the request grid,
+      like SPEC-079. Workflow icons have one drawing and are not checked. Runs only when the
+      `icons/` catalog is loaded.
+    assert: >
+      Every `ui` icon a recipe draws SHOULD have a drawing at the scale its size binding gives:
+      the bound size token's `scaleIndex` or `size` key, else the recipe's `sizeScale` entry
+      for the request's size.
+    message: "Part '{part}' of '{component}' draws ui:{name} at scale {scale} ({source}), which has no drawing; the nearest of {available} is drawn instead"
+    spec_ref: spec/component-visuals.md#icons
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-087
+    name: visual-derived-context-matches-token
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      A recipe's `derived` entry declares a relationship context whose value follows from the
+      solved layout (`(height - label.lineHeight) / 2`) instead of being bound. The context's
+      token is still the documented value, so it must agree with the formula. The check binds
+      the context to the root's padding in a scratch copy of the recipe, solves each size at
+      each scale (`desktop`, `mobile`) and compares. A context whose relationship resolves no
+      token is reported once per entry. A token with a desktop value only is not missing: it
+      resolves for mobile too, so it shows as a mobile mismatch. A disagreement is one warning per
+      scale, so a desktop one is told apart from mobile. Mobile values that the tokens do not
+      carry yet show up here until the token data is fixed.
+    assert: >
+      For every size and scale, the token a `derived` context's relationship gives SHOULD equal
+      the value of its formula over the solved scene.
+    message: "Derived context '{context}' of '{component}' ({from}): the token value differs from the formula at {scale} for {sizes}"
+    spec_ref: spec/component-visuals.md#derived-contexts
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-088
+    name: relationship-duplicate-record
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      An exact duplicate adds nothing to resolution, and a changelog that pairs records by
+      identity cannot tell the copies apart. Records with different `setUuid` are not duplicates.
+      SPEC-072 may also report a pair whose token has a scale counterpart, so the two rules can
+      overlap.
+    assert: >
+      Two relationship records in the same file SHOULD NOT have equal scope, context,
+      `$ref` (or inline value) and `setUuid`.
+    message: "Relationship {scope} (context '{context}') repeats an earlier record with the same {ref_or_value}; remove the duplicate"
+    spec_ref: spec/relationship-format.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-089
+    name: visual-nested-component-valid
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      Checks the `component` part kind (spec/component-visuals.md, Nested recipes) against the
+      recipes and components the graph holds; the recipe is looked up through the component
+      alias, as the renderer does. It runs over the loaded graph only, so a platform recipe that
+      nests a component is checked when the platform graph is loaded.
+    assert: >
+      A `component` part MUST name a declared component that has a visual recipe. Each `with`
+      key MUST be an option of that component with a valid value, and a `{option}` binding MUST
+      name an option of the host of the same type. A `{option, map}` binding MUST name a host option, key only values of it (a boolean's as "true"/"false") and map to valid values of the nested option. `sizeMap` MUST have an entry for every
+      `sizeScale` key of the host, each a `sizeScale` key of the nested recipe. A recipe MUST NOT
+      nest itself, directly or through other recipes, or nest more than two levels deep. The part
+      MUST NOT be the root and MUST be a child of the root or of a box with a `direction`.
+    message: "Component part '{part}' of '{component}': {reason}"
+    spec_ref: spec/component-visuals.md#nested-recipes
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-090
+    name: relationship-context-fields-agree
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      `contextRole`, `contextPart` and `contextQualifier` are generated from, and checked
+      against, the `context` string, which stays the identity key a recipe binds on. The derived
+      label is the role labels joined (`A`, `A and b`, `A, b, and c`) plus an optional
+      parenthesised detail. A record with `context` and no structured fields is not checked.
+    assert: >
+      When a relationship carries `contextRole`, `contextPart` or `contextQualifier`: every
+      `contextRole` id MUST be in registry/relationship-contexts.json, a part or qualifier MUST
+      come with a role, a record MUST NOT carry both a part and a qualifier, and when `context`
+      is also present it MUST equal the label derived from the fields, or its main word MUST
+      resolve through the registry aliases to the same term ids as `contextRole` (and its
+      parenthesised detail MUST equal the part or qualifier).
+    message: "Relationship {scope}: {problem}"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-091
+    name: relationship-context-main-word-registered
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      The main word is the text before the first parenthesis. A compound is split at `and` and
+      commas. Matching ignores case and stray whitespace. Existing data is held at a baseline
+      (sdk/core/tests/fixtures/recipe-lint-baseline.json) until the vocabulary is cleaned up.
+    assert: >
+      The main word of a relationship `context` SHOULD be a label or alias in
+      registry/relationship-contexts.json.
+    message: "Relationship context '{context}': main word '{word}' is not in the relationship-contexts registry"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-092
+    name: relationship-live-record-has-context
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      A recipe binds on `(property, context)`, so a context-less record is only reachable through
+      an alias chain from a contexted record. Deprecated records are exempt. Existing data is
+      held at a baseline until the contexts are applied.
+    assert: >
+      A live relationship with no `context` SHOULD be referenced, directly or through other
+      relationships' `$ref` uuids, by a relationship that has a `context`.
+    message: "Relationship {scope} has no context and no contexted record references it; add a context so a recipe can bind it"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-093
+    name: relationship-context-names-option
+    severity: error
+    layer: 2
+    category: relationship
+    note: >
+      A condition on a component option belongs in `scope.options`: a record that pins no option
+      is the default for its `(property, context)`, and a recipe picks the record that pins the
+      most options matching its request. A parenthesised part of `context` that equals a declared
+      option value, a boolean option name (`emphasized`) or its negation (`non emphasized`)
+      repeats the option inside the string. `default` is flagged only when a sibling record with
+      the same main word names an option value; `Width (default)` beside `Width (minimum)` names a
+      measurement. Interaction states are not checked.
+    assert: >
+      A relationship `context` MUST NOT name a value of an option the component declares; pin
+      it in `scope.options` instead.
+    message: "Relationship context '{context}' names {options}; pin scope.options instead (a record that pins no option is the default), or says default beside records that name an option value; leave the default record unpinned and drop the word"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-094
+    name: relationship-state-repeated
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      `scope.options.state` is an AND of its elements, and an element may be an any-of
+      (proposal 017). A state that appears in more than one element, as in
+      `["down", { "anyOf": ["down", "hover"] }]`, counts once in the expansion but is almost
+      always a mistake.
+    assert: >
+      A state SHOULD appear in at most one element of a `scope.options.state` array.
+    message: "Relationship scope lists state '{state}' in {n} elements of its state array; list it once"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-095
+    name: component-option-name-reserved
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      `anyOf` is a reserved key of `scope.options` (proposal 017), so a relationship could not
+      pin a component option with that name.
+    assert: >
+      A component MUST NOT declare an option named `anyOf`.
+    message: "Component '{component}' declares an option named 'anyOf', which is reserved in relationship scopes"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-096
+    name: relationship-any-of-single-option
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      An `anyOf` whose alternatives all pin the same single option is an any-of over one option's
+      values, which an array value says directly.
+    assert: >
+      An `anyOf` SHOULD NOT pin the same single option in every alternative; use an array value
+      (`size: ["s", "m"]`).
+    message: "Relationship anyOf pins only '{option}' in every alternative; use an array value for '{option}' instead"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-097
+    name: relationship-any-of-redundant
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      An alternative is an AND and the `anyOf` is an OR, so an alternative that contains another
+      alternative adds nothing. An alternative that repeats a pin the record already has is
+      redundant too, and one that contradicts a pin of the record can never match.
+    assert: >
+      An `anyOf` alternative SHOULD NOT repeat or contradict a pin of the record, and SHOULD NOT
+      equal or contain another alternative.
+    message: "Relationship anyOf alternative {i} is covered by alternative {j}; remove it"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-098
+    name: relationship-any-of-undeclared
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      The solver keeps only declared options, so an alternative whose keys are all undeclared
+      becomes empty and always matches. Skipped for a component that declares no options.
+    assert: >
+      Each `anyOf` alternative SHOULD pin at least one option the component declares.
+    message: "Relationship anyOf alternative {i} pins no option the component declares, so it would always match"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-099
+    name: relationship-any-of-legacy-key
+    severity: error
+    layer: 2
+    category: relationship
+    note: >
+      A relationship with a `legacyKey` has a legacy token counterpart, and a legacy token name
+      cannot express an any-of. The legacy conversion skips such a record, so its token would
+      vanish from the legacy output.
+    assert: >
+      A relationship that uses an any-of MUST NOT carry a `legacyKey`.
+    message: "Relationship with legacyKey '{legacyKey}' uses an anyOf; a legacy token cannot express it, so remove the legacyKey or the anyOf"
+    spec_ref: spec/relationship-format.md#any-of
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-100
+    name: relationship-options-mergeable
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      Relationship records of one component that share `property`, `context` and `$ref` and have
+      the same pins except for one declared option say the same thing twice. One record that pins
+      an array (`size: ["m", "l"]`) says it once. Records with a `legacyKey` are skipped, because
+      each names a legacy token, as are records that use an any-of.
+    assert: >
+      Relationship records that differ only in one declared option's value SHOULD be merged into
+      one record that pins an array.
+    message: "{n} relationship records for '{property}' / '{context}' differ only in option '{option}' ({values}); merge them into one record that pins an array, or drop a record whose values another one covers"
+    spec_ref: spec/relationship-format.md#context
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-101
+    name: relationship-scope-vocabulary
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      The descriptive fields of a relationship `scope` take their values from the registries behind
+      the same-named name-object fields: `object` (token-objects), `position`, `structure`,
+      `qualifier` and `icon`. `between.from` and `between.to` resolve like a space-between
+      endpoint (SPEC-047): a position, a generic anatomy term, or an anatomy part the component
+      declares. Without a component catalog an endpoint that fails the registry check is deferred.
+    assert: >
+      Each of scope.between.from, scope.between.to, scope.object, scope.position, scope.structure,
+      scope.qualifier and scope.icon SHOULD exist in its registry vocabulary.
+    message: "Relationship record {index} has {field} '{value}', which is not in the vocabulary for that field"
+    spec_ref: spec/relationship-format.md#scope-fields
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-102
+    name: field-token-tier-violation
+    severity: warning
+    layer: 2
+    category: taxonomy
+    note: >
+      A field declaration can list `allowedTokenTiers` (primitive, semantic, component). A token's
+      tier is its explicit `tokenTier` or, without one, the tier derived from its name fields and
+      value (spec/taxonomy.md#token-tiers).
+    assert: >
+      A token's name object MUST NOT contain a field whose `allowedTokenTiers` excludes the token's
+      effective tier.
+    message: "name.{field} applies only to {tiers} tokens but this token's tier is '{tier}'"
+    spec_ref: spec/taxonomy.md#token-tiers
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-103
+    name: token-tier-override
+    severity: info
+    layer: 2
+    category: taxonomy
+    note: >
+      An explicit `tokenTier` overrides the derived tier. The override is allowed; this rule keeps
+      exceptions visible by reporting each one that differs from the derived tier.
+    assert: >
+      A token's explicit `tokenTier` SHOULD equal the tier derived from its name fields and value.
+    message: "tokenTier '{declared}' overrides the derived tier '{derived}'"
+    spec_ref: spec/taxonomy.md#token-tiers
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-104
+    name: component-slot-valid
+    severity: error
+    layer: 2
+    category: component-contract
+    note: >
+      Check 8 (the slot name) is a warning; the others are errors. Replaces SPEC-021, whose
+      canonical slot vocabulary overlapped the anatomy vocabulary.
+    assert: >
+      A component's slots MUST agree with its anatomy, options and the component catalog: (1)
+      `part` names a declared anatomy part; (2) every `accepts` entry names a declared,
+      non-deprecated component other than the component itself; (3) `collection` names a declared
+      array option; (4) a `collection` slot has a `part` with an anatomy parent (a part listing it
+      in `contains`), and that parent hosts at most one collection slot; (5) `min` <= `max` and
+      `max` >= 1; (6) `acceptsOnly` requires `accepts`; (7) slot names are unique (several slots
+      may share one part). (8) A slot SHOULD be named `default` or after its part.
+    message: "Slot '{slot}' of '{component}' names part '{part}', which is not a declared anatomy part"
+    spec_ref: spec/component-format.md#slots
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-105
+    name: type-style-ref-composite
+    severity: warning
+    layer: 2
+    category: relationship
+    note: >
+      A type-style record is a relationship with `property: type-style` whose `$ref` is a typography
+      composite. Deprecated records are skipped. The inner-alias check runs once per composite a
+      type-style record references.
+    assert: >
+      A relationship with `scope.property` `type-style` MUST `$ref`, through its alias chain, a token
+      whose `$schema` is `token-types/typography.json`, and a relationship whose `$ref` is such a
+      composite MUST have that property. A pinned `scope.options.size` MUST be a size the component
+      declares; without a pin the composite's `name.size` MUST be a declared size, or the record can
+      never be chosen. Every inner `{alias}` of the composite MUST resolve in every `scale` mode.
+    message: "A 'type-style' relationship must $ref a typography composite, but '{token}' is not one"
+    spec_ref: spec/relationship-format.md#type-style-records
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-106
+    name: anatomy-part-component-valid
+    severity: error
+    layer: 2
+    category: component-contract
+    note: >
+      An anatomy part `component` says the part is another component drawn inside this one. A
+      deprecated part is skipped.
+    assert: >
+      An anatomy part's `component` MUST name a declared component that is not deprecated and is
+      not the component itself.
+    message: "Part '{part}' of '{component}' has component '{target}', which is {problem}"
+    spec_ref: spec/anatomy-format.md#another-component-as-a-part
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-107
+    name: relationship-item-position-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      `scope.itemPosition` is the place of one drawn copy of a collection slot's repeated part.
+      It has no meaning on any other part.
+    assert: >
+      A relationship's `scope.itemPosition` MUST be `first`, `middle`, `last` or `only`, and its
+      `scope.part` MUST be the part of a collection slot of the component, or a part inside it.
+    message: "scope.part {part} is not the repeated part of a collection slot of '{component}' or a part inside it"
+    spec_ref: spec/relationship-format.md#derived-item-position
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-108
+    name: visual-slot-part-valid
+    severity: error
+    layer: 2
+    category: component-contract
+    note: >
+      A recipe part of kind `slot` draws the components a render request puts in one slot of the
+      component. The compiler embeds the recipe of every accepted component, so the slot has to
+      list them.
+    assert: >
+      A `slot` part MUST be the `part` of exactly one non-collection slot of the component, and
+      that slot MUST declare `accepts`. Every accepted component MUST be declared, have a recipe
+      and not nest the host. The part's `with` options MUST be options of at least one accepted
+      component and valid for every one that declares them, `sizeMap` MUST cover every host size
+      and map into each accepted recipe's `sizeScale`, and the part MUST sit in the root or a row box.
+    message: "Slot part '{part}' of '{component}': {problem}"
+    spec_ref: spec/component-visuals.md#slot-parts
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-109
+    name: platform-deviation-file-valid
+    severity: error
+    layer: 1
+    category: manifest
+    note: >
+      The schema half is checked when the manifest loads (a file that fails it rejects the
+      load); the uniqueness half is this rule. Conformance fixtures are in
+      `conformance/deviations/`.
+    assert: >
+      A platform manifest `extensions/deviations/` file MUST validate against
+      `platform-deviation.schema.json`, and each deviation `id` MUST be unique within the file.
+    message: "Deviations file '{file}': {problem}"
+    spec_ref: spec/manifest.md#extensionsdeviations
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-110
+    name: platform-deviation-selector-resolves
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Follows the pattern of SPEC-060 and SPEC-061 for recipes. Skipped when no component
+      catalog is loaded. The reference SDK resolves against the platform's view: the manifest
+      is applied first, so `componentAliases`, platform-declared components and platform
+      anatomy are in effect (a file for an alias key checks against its target).
+    assert: >
+      A deviation's `component` MUST resolve to a declared component, directly or through
+      `componentAliases`. Its `part` MUST be a part of the resolved component's anatomy. Every
+      `when.states` value MUST be a state of the component, every `when.options` key MUST be an
+      option of the component with every value one of its values, and every `when.modes` key and
+      value MUST be a known mode set and mode.
+    message: "Deviation '{id}' of '{component}': {problem}"
+    spec_ref: spec/manifest.md#extensionsdeviations
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-111
+    name: platform-deviation-property-set
+    severity: warning
+    layer: 2
+    category: component-contract
+    note: >
+      A deviation with no `property` or no `part` is documentation and is not checked, and so
+      is a property `render-compare` does not compare yet (`fontFamily`, `opacity`). A
+      component with no recipe is skipped. The CLI `validate` loads foundation recipes only with
+      `--visuals-path` (a platform's own recipes are always in effect), so a foundation
+      recipe is checked only then.
+    assert: >
+      A deviation's `property`, when present together with `part`, SHOULD be a property the
+      effective recipe sets for that part.
+    message: "Deviation '{id}' of '{component}': part '{part}' has no '{property}' in the recipe"
+    spec_ref: spec/manifest.md#extensionsdeviations
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-112
+    name: floating-part-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A part with `floating` is drawn outside the root, beside one of its sides. It takes no
+      part in the root's layout, so it cannot also be the root, a child or a `placement` part.
+      It is sized by its own `width` and `height`, or by its layout when it hosts `children`.
+    assert: >
+      A part with `floating` MUST NOT be the root or a child of another part, MUST be a `box`
+      (or a `component` placed by `side` or `position`) with no `placement`, and MUST either have `children` or bind both `width` and `height`.
+    message: "Floating part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#floating-parts
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-113
+    name: path-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A part with `path` is drawn as a closed vector shape in its box. The engine reads a
+      small SVG path subset and refuses data it cannot draw (arcs, malformed or oversized
+      data), so a recipe that passes validation draws.
+    assert: >
+      A part with `path` MUST be a `box` that binds `width` and `height`, and its `path` MUST
+      have a string `d` of `M L H V C S Q T Z` commands within 4096 bytes, 1024 numbers and
+      coordinates of at most 1000000 (100000 after scaling to the box), an optional `viewBox` of two positive numbers, and an
+      optional `fillRule` of `nonzero` or `evenodd`.
+    message: "Path part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#path-shapes
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-114
+    name: floating-position-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A `floating.position` places a floating part at a fraction of a part's box along one or
+      two axes, driven by an option. It replaces `side`, and a length axis sizes the part, so
+      the part binds no size there.
+    assert: >
+      A `floating` MUST have exactly one of `side` and `position`. A `position` MUST have `x`
+      or `y`; `of` MUST name a non-floating part; each axis (or entry of an axis list) MUST have a `value`, and optional
+      `min`, `max` and `from`, each `{ "option": name }` or `{ "value": number }`; `from`
+      and a part that binds no size on the axis need `length: true`, and a `length` axis part
+      MUST NOT bind that size, have `children` or be a `component` part; an option MUST be a number option of the component when it declares options.
+    message: "Floating part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#floating-parts
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-115
+    name: gradient-ramp-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A `gradient` draws either listed `stops` or a `ramp` the engine computes from a color
+      option and a channel (a color slider's track, or one layer of a color area).
+    assert: >
+      A `gradient` MUST have exactly one of `stops` and `ramp`. A `ramp` MUST have a `color`
+      that is `{ "option": name }` and a `channel`; `channel`, `space` and `z` are each
+      `{ "option": name }` or `{ "value": name }`. An option MUST be a string option of the
+      component when it declares options; a literal channel MUST be hue, saturation, lightness,
+      brightness, red, green, blue or alpha, and a literal space hsl, hsb or rgb. With every
+      input a literal, the ramp MUST be drawable: the channel exists in the space, and an area
+      layer (`z` present) is hsl or hsb and not for `z` itself unless it is hue.
+    message: "Gradient of part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#value-sources
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-116
+    name: grid-and-nested-repeat-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A `grid` lays a root's cells out in columns; a `repeat` may sit inside a repeated copy, so
+      a tree can repeat its children level by level.
+    assert: >
+      `direction: grid` MUST be declared only on the root, a repeated part, or a `box` child of one,
+      and MUST come
+      with `columns`, a whole number from 1 through 100 (a literal) or a `dimension` option.
+      `columnGap` and `rowGap` literals MUST NOT be negative, and `columns`, `columnGap` and
+      `rowGap` MUST NOT be bound on a part whose direction is not `grid`. `repeat` MUST be
+      declared on such a part too, and repeats, grids and subtrees MUST NOT nest deeper than 6.
+      The placement checks (a `repeat` or `grid` sits where the engine lays it out as a root) are
+      skipped when no component catalog is loaded, as in `validate-dataset`, because a repeated
+      part is known only from the component's slots.
+    message: "Recipe of '{component}': {problem}"
+    spec_ref: spec/component-visuals.md#subtrees
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-117
+    name: image-fill-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A part's `image` draws a picture in a box, or a placeholder when it has no source. The
+      source is a data: URI the engine decodes itself; nothing is fetched.
+    assert: >
+      A part with `image` MUST be a `box` without `path`. `source`, when present, MUST be exactly
+      one of `{ "option": name }` (a string option of the component when it declares options)
+      and `{ "value": uri }`, and a literal `uri` MUST be a `data:image/png;base64` URI that
+      decodes within the size limits (2 MiB of URI, 4096 pixels a side, 4 million pixels). `fit`
+      MUST be cover, contain, fill or none, and `position` two numbers from 0 through 1.
+    message: "Image part '{part}' of '{component}' {problem}"
+    spec_ref: spec/component-visuals.md#image-fills
     introduced_in: "1.0.0-draft"

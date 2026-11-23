@@ -121,7 +121,7 @@
   "options": {
     "variant": {
       "type": "string",
-      "default": "accent",
+      "default": "primary",
       "description": "Visual emphasis level.",
       "values": [
         { "value": "accent" },
@@ -158,43 +158,82 @@
       "values": [{ "value": "white" }, { "value": "black" }]
     }
   },
+  "constraints": [
+    {
+      "when": { "style": "outline" },
+      "require": { "variant": ["primary", "secondary"] },
+      "severity": "error",
+      "description": "Outline style is only defined for primary and secondary.",
+      "source": "react-spectrum S2 Button.tsx"
+    },
+    {
+      "when": { "staticColor": ["white", "black"] },
+      "require": { "variant": ["primary", "secondary"] },
+      "severity": "advisory",
+      "description": "Static color only restyles primary and secondary; accent and negative render unchanged.",
+      "source": "react-spectrum S2 Button.tsx"
+    },
+    {
+      "when": { "isLabelHidden": true },
+      "require": { "icon": { "present": true } },
+      "severity": "error",
+      "description": "An icon-only button needs an icon."
+    }
+  ],
   "slots": [
     {
       "name": "default",
-      "description": "Text label of the button.",
-      "required": false
-    },
-    { "name": "icon", "description": "Icon placed at the start of the button." }
-  ],
-  "anatomy": [
-    { "name": "icon", "description": "Leading icon." },
-    { "name": "label", "description": "Button text.", "required": true }
-  ],
-  "states": [
-    { "name": "hover", "trigger": "interaction", "precedence": 50 },
-    {
-      "name": "focus",
-      "trigger": "interaction",
-      "precedence": 60,
-      "layered": true
-    },
-    { "name": "disabled", "trigger": "prop", "precedence": 100 }
-  ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    {
-      "token": "corner-radius-button-small",
-      "context": "Rounding (with wrapping)"
+      "part": "label",
+      "description": "Text label of the button."
     },
     {
-      "token": "corner-radius-button-large",
-      "context": "Rounding (with wrapping)"
-    },
-    {
-      "token": "corner-radius-button-extra-large",
-      "context": "Rounding (with wrapping)"
+      "name": "icon",
+      "part": "icon",
+      "description": "Icon placed at the start of the button."
     }
   ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Pill-shaped background that holds the icon and label.",
+      "required": true,
+      "contains": ["icon", "progress", "label"]
+    },
+    {
+      "name": "icon",
+      "description": "Leading icon.",
+      "presentWhen": { "options": { "isPending": false } }
+    },
+    {
+      "name": "progress",
+      "description": "Progress indicator shown in place of the icon and label while an action is pending.",
+      "presentWhen": { "options": { "isPending": true } }
+    },
+    {
+      "name": "label",
+      "description": "Button text. Hidden when the label is hidden or the button is pending.",
+      "presentWhen": {
+        "options": { "isLabelHidden": false, "isPending": false }
+      }
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn outside the container for keyboard focus.",
+      "presentWhen": { "states": ["keyboard-focus"] }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "label is optional (isLabelHidden); focus-indicator is state-only; progress kept (styled by button, option-driven)."
+  },
+  "states": [
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "disabled", "trigger": "prop" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "button",
     "intents": ["trigger"],

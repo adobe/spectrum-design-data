@@ -59,27 +59,99 @@
     "size": {
       "type": "string",
       "default": "m",
-      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [{ "value": "top" }, { "value": "side" }]
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
-    "hideLabel": { "type": "boolean", "default": false },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
     "actionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Column holding the field label, the tags, the action button and the help text. It is the root.",
+      "required": true,
+      "contains": ["field-label", "tags", "action-button", "help-text"]
+    },
+    {
+      "name": "field-label",
+      "component": "field-label",
+      "description": "Label above or beside the tags. Hidden with hideLabel."
+    },
+    {
+      "name": "tags",
+      "description": "Wrapping row of tags. It hosts the default slot; each tag is one fill.",
+      "required": true
+    },
+    {
+      "name": "action-button",
+      "component": "action-button",
+      "description": "Group-level button after the tags, such as show all or collapse. Drawn only when the actionLabel option is set. A sibling of the tags host, not one of the tags (A138)."
+    },
+    {
+      "name": "help-text",
+      "component": "help-text",
+      "description": "Description or error message under the tags."
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "tags",
+      "accepts": ["tag"],
+      "min": 1,
+      "description": "The tags in the group."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web tag group page and React Spectrum S2 TagGroup. The tags sit in one host part, tags (A142). tag is what the default slot accepts, so it is no longer a part. action-button is a separate part, a sibling of the tags host, shown through the actionLabel option (A138; Design to confirm in 5m92.5.7.1: the Figma Top-label variants put it inside the Tag wrapper next to the tags, React Spectrum renders it in its own actions container). container is explicit and the root."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["select"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

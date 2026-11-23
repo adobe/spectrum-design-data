@@ -1,5 +1,12 @@
 # @adobe/s2-docs-mcp
 
+## 1.3.1
+
+### Patch Changes
+
+- [#1638](https://github.com/adobe/spectrum-design-data/pull/1638) [`6423904`](https://github.com/adobe/spectrum-design-data/commit/6423904b5a2413313445e05fe8700cec3d338f7e) Thanks [@GarthDB](https://github.com/GarthDB)! - Deprecate in favor of `@adobe/design-data-mcp`. The README and startup message point to
+  `design-data-component-search` and `design-data-component`. The bundled data stays current.
+
 ## 1.3.0
 
 ### Minor Changes

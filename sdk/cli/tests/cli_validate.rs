@@ -33,10 +33,9 @@ fn tokens_src_and_schemas() -> (PathBuf, PathBuf) {
 fn validate_spectrum_tokens_json_success() {
     let (src, schemas) = tokens_src_and_schemas();
 
-    // Pass an empty temp dir as --components-path so no component-binding rules
-    // (SPEC-027, etc.) fire on this partial dataset.  The embedded snapshot would
-    // otherwise auto-load components, causing SPEC-027 failures on `tokens/src`
-    // because component schemas reference the full token corpus, not just `src/`.
+    // Pass an empty temp dir as --components-path so no component rules fire on
+    // this partial dataset.  The embedded snapshot would otherwise auto-load
+    // components, which reference the full token corpus, not just `src/`.
     let empty_components = tempfile::tempdir().expect("temp dir for empty components");
 
     Command::cargo_bin("design-data")
@@ -377,10 +376,6 @@ fn component_button_returns_json() {
         serde_json::from_slice(&output).expect("component output must be valid JSON");
 
     assert_eq!(doc["name"], "button");
-    assert!(
-        doc["tokenBindings"].is_array(),
-        "tokenBindings must be present"
-    );
     assert!(doc["anatomy"].is_array(), "anatomy must be present");
 }
 

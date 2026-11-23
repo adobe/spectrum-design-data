@@ -4,7 +4,7 @@
   "specVersion": "1.0.0-draft",
   "name": "calendar",
   "displayName": "Calendar",
-  "description": "Calendars display days, weeks, and months, allowing users to select dates or ranges.",
+  "description": "Calendars display days, weeks, and months, allowing users to select dates or ranges. One to three months are shown side by side (option visibleMonths). Also called RangeCalendar when selectionMode is range.",
   "meta": {
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
@@ -12,7 +12,7 @@
   "documentBlocks": [
     {
       "type": "purpose",
-      "content": "Calendars display days, weeks, and months, allowing users to select dates or ranges."
+      "content": "Calendars display days, weeks, and months, allowing users to select dates or ranges. One to three months are shown side by side (option visibleMonths). Also called RangeCalendar when selectionMode is range."
     },
     {
       "type": "guideline",
@@ -61,11 +61,98 @@
     "selectionMode": {
       "type": "string",
       "default": "single",
-      "description": "Controls whether the calendar allows selecting a single date or a date range.",
-      "values": [{ "value": "single" }, { "value": "range" }]
+      "description": "Controls whether the calendar allows selecting a single date or a date range. A range adds the range-fill band behind the days between the two selected dates.",
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "range"
+        }
+      ]
     },
-    "isDisabled": { "type": "boolean", "default": false },
-    "isError": { "type": "boolean", "default": false },
+    "visibleMonths": {
+      "type": "number",
+      "default": 1,
+      "description": "How many months the calendar shows side by side: one, two or three. The engine draws one month per entry of the months option, so a request supplies that many entries.",
+      "values": [
+        {
+          "value": 1
+        },
+        {
+          "value": 2
+        },
+        {
+          "value": 3
+        }
+      ]
+    },
+    "months": {
+      "type": "array",
+      "description": "The months drawn side by side. Each entry is one copy of the month part, so the number of entries is the number of months drawn; visibleMonths names the intended count (one to three) but does not set it.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Month and year text of the month."
+          },
+          "days": {
+            "type": "array",
+            "description": "The cells of the month's day grid, in order, same shape as the days option. A leading cell with an empty label (label \"\") and no date is a blank cell that keeps the first weekday column; a cell with no label field draws the month title as its text.",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "weekdays": {
+      "type": "array",
+      "description": "The weekday headings above each month's day grid, seven entries in the week's order (firstDayOfWeek is the data's choice).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Single-letter weekday heading."
+          }
+        }
+      }
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is selected (Figma .Day Type=Selected; in a range, every day from start to end). Per-day in a data-driven calendar is days[].isSelected."
+    },
+    "isRangeStart": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is the start of the selected range (React Spectrum isSelectionStart). Per-day is days[].isRangeStart."
+    },
+    "isRangeEnd": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is the end of the selected range (React Spectrum isSelectionEnd). Per-day is days[].isRangeEnd."
+    },
+    "isUnavailable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is unavailable (Figma .Day Type=Unavailable, React Spectrum isUnavailable). Per-day is days[].isUnavailable."
+    },
+    "isToday": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered day is today (Figma Current day indicator). Per-day is days[].isToday."
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
     "minValue": {
       "type": "string",
       "description": "The minimum allowed date that a user may select (ISO format string)."
@@ -73,11 +160,6 @@
     "maxValue": {
       "type": "string",
       "description": "The maximum allowed date that a user may select (ISO format string)."
-    },
-    "showTimeZone": {
-      "type": "boolean",
-      "default": false,
-      "description": "Whether to show a time zone indicator in the calendar."
     },
     "days": {
       "type": "array",
@@ -88,6 +170,10 @@
           "date": {
             "type": "string",
             "description": "The date represented by this day (ISO format string)."
+          },
+          "label": {
+            "type": "string",
+            "description": "The day number text drawn in the cell."
           },
           "isDisabled": {
             "type": "boolean",
@@ -121,7 +207,7 @@
           },
           "state": {
             "type": "string",
-            "enum": ["default", "hover", "keyboard focus"],
+            "enum": ["default", "hover", "keyboard-focus"],
             "default": "default",
             "description": "The interaction state of the day cell."
           }
@@ -130,15 +216,150 @@
       }
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "slots": [
+    {
+      "name": "default",
+      "part": "month",
+      "collection": "months",
+      "description": "The visible months. Each entry of the months option is drawn as one copy of the month part, side by side."
+    },
+    {
+      "name": "weekday-label",
+      "part": "weekday-label",
+      "collection": "weekdays",
+      "description": "The weekday headings. Each entry of the weekdays option is drawn as one copy of the weekday-label part, seven to a row."
+    },
+    {
+      "name": "day",
+      "part": "day",
+      "collection": "days",
+      "description": "The day cells of a month. Each entry of the month's days field is drawn as one copy of the day part."
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the calendar: holds the previous and next buttons, the months and the help text, and owns the 24 gap between months. It draws no surface of its own; the popover that holds a calendar is part of the component that opens it (date-picker nests a popover part).",
+      "required": true,
+      "contains": ["previous-button", "next-button", "month", "help-text"]
+    },
+    {
+      "name": "previous-button",
+      "description": "Quiet action-button (component action-button with isQuiet true) that moves to the previous month. Drawn on the first visible month."
+    },
+    {
+      "name": "next-button",
+      "description": "Quiet action-button (component action-button with isQuiet true) that moves to the next month. Drawn on the last visible month."
+    },
+    {
+      "name": "month",
+      "description": "One visible month: its title, its weekday grid and its day grid. Repeated once per entry of the months option.",
+      "contains": ["title", "weekday-grid", "day-grid", "range-fill"]
+    },
+    {
+      "name": "title",
+      "description": "Month and year text of a month (Figma Month + Year, RSP CalendarHeading)."
+    },
+    {
+      "name": "weekday-grid",
+      "description": "Seven-column grid of a month's weekday labels.",
+      "contains": ["weekday-label"]
+    },
+    {
+      "name": "day-grid",
+      "description": "Seven-column grid of a month's days, with blank leading cells so the first day lands under its weekday.",
+      "contains": ["day"]
+    },
+    {
+      "name": "weekday-label",
+      "description": "Single-letter weekday heading cell in a month's weekday grid. Seven per month.",
+      "contains": ["text"]
+    },
+    {
+      "name": "text",
+      "description": "Weekday letter drawn in a weekday-label cell (Figma Days of week Value)."
+    },
+    {
+      "name": "day",
+      "description": "One date cell of a month's day grid. Styled for selected, hover, error, disabled and unavailable.",
+      "required": true,
+      "contains": [
+        "label",
+        "current-day-indicator",
+        "unavailable-indicator",
+        "focus-indicator"
+      ]
+    },
+    {
+      "name": "label",
+      "description": "Day number text of a day cell (Figma .Day Value, RSP CalendarCell text)."
+    },
+    {
+      "name": "current-day-indicator",
+      "description": "Marker that sets today's cell apart. Drawn inside the day when its isToday is true.",
+      "presentWhen": { "options": { "isToday": true } }
+    },
+    {
+      "name": "unavailable-indicator",
+      "description": "Line struck through the day number of an unavailable day (Figma strikethrough). Drawn inside the day when its isUnavailable is true.",
+      "presentWhen": { "options": { "isUnavailable": true } }
+    },
+    {
+      "name": "range-fill",
+      "description": "Highlight band behind the days between the two ends of a selected range (Figma Highlight fill, selection background). Visible only when selectionMode is range.",
+      "presentWhen": { "options": { "selectionMode": "range" } }
+    },
+    {
+      "name": "help-text",
+      "component": "help-text",
+      "description": "Component part: the help-text component, shown with an error message below the calendar when isError is true."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused day.",
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "A9 (2026-11-21), owner decisions C2, C3, C4, C8, C10 to C15. calendar is the only anatomy; single-, double- and triple-calendar are frozen legacy holders and visibleMonths 1|2|3 replaces them. It draws no popover (date-picker nests the popover). Months are the repeated month part (months collection slot); each holds a title, a weekday-grid and a day-grid, each grid a collection slot. Nested components (action-button, help-text) are described, not declared: the anatomy component field is not built. range-fill is described as visible for selectionMode range because presentIn takes states, not options. Figma has no Calendar page (Date picker page only); RSP S2 Calendar."
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["input", "choose"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

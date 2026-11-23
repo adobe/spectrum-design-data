@@ -47,6 +47,7 @@ COMMANDS
   name [<intent>]         Open the token naming wizard
   find                    Open the fuzzy-find token explorer
   authoring               Open the token lifecycle action-picker
+  preview <component>     Draw a component  e.g. preview button size=l scheme=dark
   quit                    Quit the TUI";
 
 const SEC_QUERY: &str = "\

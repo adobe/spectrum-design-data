@@ -1,0 +1,130 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "date-field",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.3.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Bordered box that frames the segments.","required":true,"contains":["segment"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/anatomy/field-label","name":"field-label","fields":[],"after":{"name":"field-label","description":"Text label that names the field, placed above or beside it."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Description or error message shown below the field."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/anatomy/segment","name":"segment","fields":[],"after":{"name":"segment","description":"One editable piece of the date (month, day, year), showing a placeholder when empty.","required":true}},
+            {"id":"12ddd7e7-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web Date and time field page (shared with time-field): label, field with value cells. No states declared so no focus-indicator. Unsure whether the literal separators need their own part."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.26.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "f53a93e1a0a57c6f4b666d572fd03b5530662796",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1971,"title":"feat(design-data): review in-field-button and date-field, remove in-field-progress-button (A2-2)","url":"https://github.com/adobe/spectrum-design-data/pull/1971"},
+          "entries": [
+            {"id":"f53a93e1-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/anatomy/field","name":"field","fields":[],"after":{"name":"field","description":"Bordered box that frames the segments.","required":true,"contains":["segment"]}},
+            {"id":"f53a93e1-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/container","name":"container","fields":[{"path":"contains","before":["segment"],"after":["field-label","field","help-text"]}]},
+            {"id":"f53a93e1-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/container","name":"container","fields":[{"path":"description","before":"Bordered box that frames the segments.","after":"Root of the component: sets the width and the spacing between the label, the field and the help text."}]},
+            {"id":"f53a93e1-3","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/segment","name":"segment","fields":[{"path":"description","before":"One editable piece of the date (month, day, year), showing a placeholder when empty.","after":"One editable unit of the date (month, day, year), drawn as its own rounded cell and showing a placeholder when empty."}]},
+            {"id":"f53a93e1-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web Date and time field page (shared with time-field): label, field with value cells. No states declared so no focus-indicator. Unsure whether the literal separators need their own part.","after":"Figma S2 Web Date and time field page (label, field with value cells). The root part container holds field-label, field and help-text (D2a). The merge with time-field and segmented-text-field (D5a) waits on a decision about the legacy token files (see the A2-2 pull request). Literal separators are not a part."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "325fad1ff8a05ec6fe349ab5773bc1a2f8c9b85e",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2013,"title":"feat(design-data): anatomy review of date-field, time-field and segmented-text-field (A9 1/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2013"},
+          "entries": [
+            {"id":"325fad1f-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/options/granularity","name":"granularity","fields":[],"after":{"type":"string","default":"day","description":"Smallest unit the field edits; hour, minute and second add time segments (Figma date-and-time).","values":[{"value":"day"},{"value":"hour"},{"value":"minute"},{"value":"second"}]}},
+            {"id":"325fad1f-1","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/options/hourCycle","name":"hourCycle","fields":[],"after":{"type":"string","values":[{"value":"12"},{"value":"24"}]}},
+            {"id":"325fad1f-2","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/options/hideTimeZone","name":"hideTimeZone","fields":[],"after":{"type":"boolean","default":false}},
+            {"id":"325fad1f-3","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/options/isError","name":"isError","fields":[],"after":{"type":"boolean","default":false,"description":"Shows the field in its error state: the error icon appears at the end of the field."}},
+            {"id":"325fad1f-4","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false}},
+            {"id":"325fad1f-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/anatomy/error-icon","name":"error-icon","fields":[],"after":{"name":"error-icon","description":"Alert icon in the end container of the field, shown when isError is true."}},
+            {"id":"325fad1f-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the field for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"325fad1f-7","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/field","name":"field","fields":[{"path":"contains","before":["segment"],"after":["segment","error-icon","focus-indicator"]}]},
+            {"id":"325fad1f-8","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/states/focus-+-hover","name":"focus-+-hover","fields":[],"after":{"name":"focus-+-hover","trigger":"prop"}},
+            {"id":"325fad1f-9","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/states/focus-+-not-hover","name":"focus-+-not-hover","fields":[],"after":{"name":"focus-+-not-hover","trigger":"prop"}},
+            {"id":"325fad1f-10","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/states/hover","name":"hover","fields":[],"after":{"name":"hover","trigger":"interaction"}},
+            {"id":"325fad1f-11","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"date-field/states/keyboard-focus","name":"keyboard-focus","fields":[],"after":{"name":"keyboard-focus","trigger":"interaction"}},
+            {"id":"325fad1f-12","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web Date and time field page (label, field with value cells). The root part container holds field-label, field and help-text (D2a). The merge with time-field and segmented-text-field (D5a) waits on a decision about the legacy token files (see the A2-2 pull request). Literal separators are not a part.","after":"Figma S2 Web Date and time field page (label, field with value cells, End container with AlertTriangle when invalid); RSP DateField InvalidIndicator and DateSegment. Owner decision D2 (2026-11-19): the root part container holds field-label, field and help-text. Owner decisions A9 (2026-11-20): error-icon and focus-indicator are added; the options granularity (covers Figma date-and-time), hourCycle and hideTimeZone follow RSP; the state set matches text-field. date-picker keeps its own per-host field copy. Literal separators are not a part."}]}
+          ]
+        },
+        {
+          "commit": "1712d5161d085f81ca157cdf6b3fb4cef30b5b38",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2018,"title":"feat(design-data): anatomy review and level 2 for date-picker (A9 3/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2018"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["context","contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "1.3.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/field-label","name":"field-label","fields":[{"path":"component","after":"field-label"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/help-text","name":"help-text","fields":[{"path":"component","after":"help-text"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"date-field/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -25,7 +25,7 @@ Packages under `tools/` in the repo. For the MCP servers and Agent Skills (S2 do
 * **[@adobe/design-data](https://www.npmjs.com/package/%40adobe%2Fdesign-data)** — Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management
 * **[@adobe/design-data-agent-mcp](https://www.npmjs.com/package/%40adobe%2Fdesign-data-agent-mcp)** — MCP server and Claude Code skill for the design-data agent surface — read tools run in-process via wasm
 * **[@adobe/design-data-mcp](https://www.npmjs.com/package/%40adobe%2Fdesign-data-mcp)** — MCP server for Spectrum design tokens, component schemas, and design guidelines (embedded, offline)
-* **[@adobe/design-data-skill](https://www.npmjs.com/package/%40adobe%2Fdesign-data-skill)** — Claude Code skill for Spectrum design tokens and component schemas via the design-data CLI
+* **[@adobe/design-data-skill](https://www.npmjs.com/package/%40adobe%2Fdesign-data-skill)** — Read-only Spectrum lookup plugin: a skill plus the bundled @adobe/design-data-mcp server
 * **[@adobe/optimized-diff](https://www.npmjs.com/package/%40adobe%2Foptimized-diff)** — High-performance deep object diff algorithm with significant performance improvements over generic libraries
 * **[@adobe/s2-docs-mcp](https://www.npmjs.com/package/%40adobe%2Fs2-docs-mcp)** — MCP server for Spectrum 2 documentation
 * **[@adobe/s2-docs-to-document-blocks](https://github.com/adobe/spectrum-design-data/tree/main/tools/s2-docs-to-document-blocks)** — Transform s2-docs Markdown component pages into documentBlocks for packages/design-data

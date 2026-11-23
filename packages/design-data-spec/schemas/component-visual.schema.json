@@ -1,0 +1,828 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "title": "Component visual recipe",
+  "description": "Layer 1 structural schema for a renderer-neutral component visual recipe (spec/component-visuals.md). Semantic rules (component exists, parts are declared anatomy, relationship selectors resolve) are Layer 2.",
+  "type": "object",
+  "required": ["component", "root", "parts"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "$id": {
+      "type": "string"
+    },
+    "specVersion": {
+      "type": "string",
+      "const": "1.0.0-draft"
+    },
+    "component": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Name of the component declaration this recipe draws."
+    },
+    "root": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Key of the root part in `parts`."
+    },
+    "notVisual": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$" },
+      "uniqueItems": true,
+      "description": "Options and states the component declares that deliberately have no visual in this recipe (SPEC-066). Each name MUST be a declared option or state of the component."
+    },
+    "sizeScale": {
+      "type": "object",
+      "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors. Selectors may also use {size} and {<option>} for any declared option.",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "derived": {
+      "type": "array",
+      "description": "Relationship contexts the recipe does not bind because their value follows from the solved layout (spec/component-visuals.md, Derived contexts). SPEC-087 checks each against its token.",
+      "items": {
+        "type": "object",
+        "required": ["context", "property", "part", "from"],
+        "properties": {
+          "context": {
+            "type": "string",
+            "description": "The relationship `context` this entry derives."
+          },
+          "property": {
+            "type": "string",
+            "description": "The relationship `scope.property`, as in a `relationship` selector; may use {sizeIndex}, {size}."
+          },
+          "part": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "description": "The part the spacing leads to. Spec sheets put the marker there."
+          },
+          "edge": {
+            "enum": ["top", "bottom"],
+            "default": "top",
+            "description": "The container edge the spacing starts from."
+          },
+          "from": {
+            "type": "string",
+            "pattern": "^\\(height - [a-z][a-z0-9-]*\\.(lineHeight|height)\\) / 2$",
+            "description": "The only formula: `(height - <part>.lineHeight) / 2` or `(height - <part>.height) / 2`. `height` is the container's solved height."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "parts": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/part"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "iconRef": {
+      "type": "object",
+      "description": "The icon an icon part draws, from the icons/ catalog (icon-set.schema.json). SPEC-085 checks it exists.",
+      "required": ["set", "name"],
+      "properties": {
+        "set": { "enum": ["ui", "workflow"] },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+        },
+        "content": {
+          "type": "boolean",
+          "description": "The icon is content, like a label: this is the recipe's default and a render request may replace it. Default false."
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "A render request may remove this content icon (icon none). Requires content. Default false."
+        }
+      },
+      "if": {
+        "properties": { "optional": { "const": true } },
+        "required": ["optional"]
+      },
+      "then": {
+        "properties": { "content": { "const": true } },
+        "required": ["content"]
+      },
+      "additionalProperties": false
+    },
+    "part": {
+      "type": "object",
+      "required": ["kind"],
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "icon" } } },
+          "then": { "required": ["icon"] },
+          "else": { "not": { "required": ["icon"] } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "text" } } },
+          "else": { "not": { "required": ["text"] } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "component" } } },
+          "then": {
+            "required": ["sizeMap"],
+            "not": {
+              "anyOf": [{ "required": ["props"] }, { "required": ["children"] }]
+            }
+          },
+          "else": {
+            "if": { "properties": { "kind": { "const": "slot" } } },
+            "then": {
+              "required": ["sizeMap"],
+              "not": {
+                "anyOf": [
+                  { "required": ["children"] },
+                  { "required": ["inherit"] }
+                ]
+              }
+            },
+            "else": {
+              "not": {
+                "anyOf": [
+                  { "required": ["sizeMap"] },
+                  { "required": ["with"] },
+                  { "required": ["inherit"] }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "slot" } } },
+          "else": { "not": { "required": ["placeholder"] } }
+        }
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "box",
+            "text",
+            "icon",
+            "ring",
+            "progress",
+            "component",
+            "slot"
+          ]
+        },
+        "sizeMap": {
+          "type": "object",
+          "description": "For a component part: maps each size of the host's sizeScale to a size of the nested recipe's sizeScale.",
+          "additionalProperties": { "type": "string" }
+        },
+        "placeholder": {
+          "type": "object",
+          "description": "For a slot part: the empty frame drawn when the request fills the slot with nothing. A recipe literal, so `reason` says why the size is not a token. Without it an empty slot draws nothing.",
+          "required": ["height", "reason"],
+          "properties": {
+            "width": { "type": "number", "minimum": 0 },
+            "height": { "type": "number", "exclusiveMinimum": 0 },
+            "reason": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
+        "inherit": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["width", "height", "cornerRadius"] },
+          "description": "For a component part that is a flowed child of the root: which of the host root's own values the nested root takes: its inner width or height (outer size less padding) or its corner radius. A value the root does not fix is reported and the nested recipe keeps its own."
+        },
+        "with": {
+          "type": "object",
+          "description": "For a component part, or a slot part (for every accepted component that declares the option): options of the nested component, each a literal, {\"option\": name} (read from the host's request), or {\"option\": name, \"map\": {...}} (the host's value, as a string, picked through the map). The key `label` is the nested request's text, not an option (a string literal or a string host option). Not `options`: that key means a condition elsewhere in a recipe.",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "boolean", "number"] },
+              {
+                "type": "object",
+                "required": ["option"],
+                "properties": {
+                  "option": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+                  },
+                  "map": {
+                    "type": "object",
+                    "minProperties": 1,
+                    "description": "Host option value (as a string: \"true\"/\"false\" for a boolean) to the nested option's value.",
+                    "additionalProperties": {
+                      "type": ["string", "boolean", "number"]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "visibleWhen": {
+          "$ref": "#/$defs/visibleWhen"
+        },
+        "repeat": {
+          "type": "object",
+          "description": "For the root (the container), or a part inside a repeated copy: draw the repeated child once per entry of a collection slot (spec/component-visuals.md, Repeated parts). The component's `collection` slot names the repeated part and the array option.",
+          "required": ["slot"],
+          "properties": {
+            "slot": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Name of a slot of the component that declares `collection`. Its `part` is the direct child of this part that repeats (never the root); its `collection` is the array option."
+            },
+            "label": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+              "description": "Field of each entry that holds the copy's label."
+            },
+            "with": {
+              "type": "object",
+              "propertyNames": { "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" },
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+              },
+              "description": "Maps a component option (boolean, or a string option a text part reads with `text.option`) to the entry field that sets it for that copy."
+            }
+          },
+          "additionalProperties": false
+        },
+        "around": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "For a ring: the part it outlines. Defaults to the root."
+        },
+        "inside": {
+          "type": "boolean",
+          "description": "For a ring: draw it inside the outlined part's box, with `gapToParent` measured inward. Default false (outside)."
+        },
+        "icon": {
+          "$ref": "#/$defs/iconRef"
+        },
+        "text": {
+          "type": "object",
+          "minProperties": 1,
+          "description": "For a text part: where its copy comes from instead of the request label. `option` names a string option (used when set); `fraction` shows the fraction as a rounded percentage.",
+          "properties": {
+            "option": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+            },
+            "fraction": { "$ref": "#/$defs/fraction" }
+          },
+          "additionalProperties": false
+        },
+        "pressTarget": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "For the root: the part the press scale applies to, together with the parts nested inside it. Defaults to the whole scene."
+        },
+        "floating": {
+          "type": "object",
+          "description": "Draws this part outside the root, beside one side of the root's box (`side`) or at a fraction of a part's box (`position`), instead of as a child (spec/component-visuals.md, Floating parts).",
+          "anyOf": [{ "required": ["side"] }, { "required": ["position"] }],
+          "properties": {
+            "side": { "enum": ["top", "bottom", "start", "end"] },
+            "position": {
+              "type": "object",
+              "description": "Places the part at a fraction of a part's box instead of beside the root (spec/component-visuals.md, Floating parts).",
+              "properties": {
+                "of": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+                "x": { "$ref": "#/$defs/positionAxes" },
+                "y": { "$ref": "#/$defs/positionAxes" }
+              },
+              "additionalProperties": false
+            },
+            "align": { "enum": ["start", "center", "end"] },
+            "offset": { "$ref": "#/$defs/valueSource" },
+            "crossOffset": { "$ref": "#/$defs/valueSource" }
+          },
+          "additionalProperties": false
+        },
+        "path": {
+          "type": "object",
+          "description": "Draws this box as a closed vector shape instead of a rounded rectangle (spec/component-visuals.md, Path shapes).",
+          "required": ["d"],
+          "properties": {
+            "d": {
+              "type": "string",
+              "maxLength": 4096,
+              "description": "SVG path data of M L H V C S Q T Z commands; no arcs."
+            },
+            "viewBox": {
+              "type": "array",
+              "items": { "type": "number", "exclusiveMinimum": 0 },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "fillRule": { "enum": ["nonzero", "evenodd"] }
+          },
+          "additionalProperties": false
+        },
+        "image": {
+          "type": "object",
+          "description": "Draws a picture in this box, clipped to its corners, or a placeholder when there is no source (spec/component-visuals.md, Image fills).",
+          "properties": {
+            "source": {
+              "type": "object",
+              "description": "`{ \"option\": name }` (a string option holding a data: URI) or `{ \"value\": \"data:image/png;base64,...\" }`. Omitted or unset: the placeholder.",
+              "properties": {
+                "option": { "type": "string" },
+                "value": { "type": "string", "maxLength": 2097152 }
+              },
+              "maxProperties": 1,
+              "additionalProperties": false
+            },
+            "fit": { "enum": ["cover", "contain", "fill", "none"] },
+            "position": {
+              "type": "array",
+              "items": { "type": "number", "minimum": 0, "maximum": 1 },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "additionalProperties": false
+        },
+        "placement": {
+          "type": "object",
+          "required": ["anchor"],
+          "properties": {
+            "anchor": {
+              "enum": [
+                "top-start",
+                "top-end",
+                "bottom-start",
+                "bottom-end",
+                "center"
+              ]
+            },
+            "inset": {
+              "$ref": "#/$defs/valueSource"
+            }
+          },
+          "additionalProperties": false
+        },
+        "props": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "direction",
+              "align",
+              "justify",
+              "gap",
+              "columns",
+              "columnGap",
+              "rowGap",
+              "paddingInlineStart",
+              "paddingInlineEnd",
+              "paddingBlockStart",
+              "paddingBlockEnd",
+              "height",
+              "minHeight",
+              "minWidth",
+              "width",
+              "grow",
+              "cornerRadius",
+              "cornerRadiusStartStart",
+              "cornerRadiusStartEnd",
+              "cornerRadiusEndStart",
+              "cornerRadiusEndEnd",
+              "fill",
+              "stroke",
+              "strokeWidth",
+              "opacity",
+              "shadow",
+              "color",
+              "trackColor",
+              "sweep",
+              "typeStyle",
+              "fontFamily",
+              "fontSize",
+              "fontWeight",
+              "lineHeight",
+              "overflow",
+              "strokeOpacity",
+              "strokeOver",
+              "innerStroke",
+              "innerStrokeWidth",
+              "innerStrokeOpacity",
+              "patternFill",
+              "patternSize",
+              "textDecoration",
+              "underlineThickness",
+              "underlineOffset",
+              "gapToParent",
+              "rotation",
+              "pressDifference",
+              "pressWidthRatio",
+              "pressMinPerspective",
+              "pressMaxPerspective"
+            ]
+          },
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/conditionalValueSource"
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/$defs/conditionalValueSource"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "condition": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": ["string", "boolean", "number"]
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": ["string", "boolean", "number"]
+                }
+              }
+            ]
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "modes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "position": {
+          "description": "Allowed positions of a repeated copy: first, middle, last, only (spec/component-visuals.md, Position conditions). Only valid on the repeated part and the parts inside it (SPEC-061).",
+          "oneOf": [
+            { "$ref": "#/$defs/position" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/position" }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "visibleWhen": {
+      "type": "object",
+      "description": "Whether a recipe part is drawn for a repeated copy. Only `position`: whether the part exists at all (a state or option condition) is the anatomy part's `presentWhen` (spec/anatomy-format.md).",
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/condition/properties/position"
+        }
+      },
+      "additionalProperties": false
+    },
+    "position": {
+      "enum": ["first", "middle", "last", "only"]
+    },
+    "positionSource": {
+      "description": "A number: a numeric option or a literal.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["option"],
+          "properties": { "option": { "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["value"],
+          "properties": { "value": { "type": "number" } },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "positionAxes": {
+      "description": "An axis, or a list of axes picked by `when` (an option such as orientation).",
+      "oneOf": [
+        { "$ref": "#/$defs/positionAxis" },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/positionAxis" }
+        }
+      ]
+    },
+    "positionAxis": {
+      "type": "object",
+      "required": ["value"],
+      "properties": {
+        "value": { "$ref": "#/$defs/positionSource" },
+        "min": { "$ref": "#/$defs/positionSource" },
+        "max": { "$ref": "#/$defs/positionSource" },
+        "from": { "$ref": "#/$defs/positionSource" },
+        "invert": { "type": "boolean" },
+        "length": { "type": "boolean" },
+        "when": { "type": "object" },
+        "priority": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "valueSource": {
+      "type": "object",
+      "oneOf": [
+        {
+          "required": ["value"],
+          "properties": {
+            "value": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["token"],
+          "properties": {
+            "token": {
+              "$ref": "#/$defs/tokenSelector"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["relationship"],
+          "properties": {
+            "relationship": {
+              "$ref": "#/$defs/relationshipSelector"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "fraction": {
+      "type": "object",
+      "required": ["value"],
+      "description": "A share of a range read from numeric options: (value - min) / (max - min), clamped to 0..1. `min` defaults to 0 and `max` to 1 when the option is unset or absent.",
+      "properties": {
+        "value": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" },
+        "min": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" },
+        "max": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9]*$" }
+      },
+      "additionalProperties": false
+    },
+    "conditionalValueSource": {
+      "type": "object",
+      "properties": {
+        "when": {
+          "$ref": "#/$defs/condition"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "relativeTo": {
+          "enum": ["height", "parent"]
+        },
+        "value": {},
+        "fraction": {
+          "$ref": "#/$defs/fraction"
+        },
+        "option": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A color the request carries in this string option (hex, rgb() or rgba()), or a CSS linear-gradient() of such colors. An unset, transparent or invalid value draws the part's unset look."
+        },
+        "gradient": {
+          "$ref": "#/$defs/gradient"
+        },
+        "shadow": {
+          "$ref": "#/$defs/shadow"
+        },
+        "dimension": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A size in pixels the request carries in this numeric option, for an extent no token holds. An unset option uses the component's declared default; a value that is not a positive number is dropped with a diagnostic."
+        },
+        "token": {
+          "$ref": "#/$defs/tokenSelector"
+        },
+        "relationship": {
+          "$ref": "#/$defs/relationshipSelector"
+        }
+      },
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": ["value"]
+        },
+        {
+          "required": ["token"]
+        },
+        {
+          "required": ["relationship"]
+        },
+        {
+          "required": ["fraction"]
+        },
+        {
+          "required": ["option"]
+        },
+        {
+          "required": ["dimension"]
+        },
+        {
+          "required": ["gradient"]
+        },
+        {
+          "required": ["shadow"]
+        }
+      ],
+      "description": "A value source with optional `when`, `priority` and `relativeTo`. Used alone or in an ordered list."
+    },
+    "shadow": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["x", "y", "blur", "color"],
+        "additionalProperties": false,
+        "properties": {
+          "x": { "$ref": "#/$defs/valueSource" },
+          "y": { "$ref": "#/$defs/valueSource" },
+          "blur": { "$ref": "#/$defs/valueSource" },
+          "spread": { "$ref": "#/$defs/valueSource" },
+          "color": { "$ref": "#/$defs/valueSource" }
+        }
+      },
+      "description": "Drop shadow layers on a box, first layer on top. Each field is a value source: `x`, `y`, `blur` (Figma radius, Gaussian sigma is half of it) and optional `spread` resolve to pixels, `color` to a color (alpha included)."
+    },
+    "rampInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "option": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "A string option of the request."
+        },
+        "value": { "type": "string", "description": "A literal name." }
+      },
+      "oneOf": [{ "required": ["option"] }, { "required": ["value"] }]
+    },
+    "gradient": {
+      "type": "object",
+      "oneOf": [{ "required": ["stops"] }, { "required": ["ramp"] }],
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" },
+          "description": "Start of the gradient line in the box's unit space: [0, 0] is its top-left corner and [1, 1] the bottom-right. Defaults to [0, 0]."
+        },
+        "to": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" },
+          "description": "End of the gradient line, in the same space. Defaults to [1, 1]."
+        },
+        "stops": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["color", "offset"],
+            "additionalProperties": false,
+            "properties": {
+              "color": { "$ref": "#/$defs/valueSource" },
+              "offset": { "$ref": "#/$defs/valueSource" }
+            }
+          },
+          "description": "Color stops in ascending offset order. Each `color` resolves to a color and each `offset` to a number from 0 to 1."
+        },
+        "ramp": {
+          "type": "object",
+          "required": ["color", "channel"],
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "type": "object",
+              "required": ["option"],
+              "additionalProperties": false,
+              "properties": {
+                "option": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+                  "description": "The string option holding the current color (hex, rgb(), hsl() or hsb())."
+                }
+              }
+            },
+            "channel": {
+              "$ref": "#/$defs/rampInput",
+              "description": "The channel the ramp varies: hue, saturation, lightness, brightness, red, green, blue or alpha."
+            },
+            "space": {
+              "$ref": "#/$defs/rampInput",
+              "description": "The color space (hsl, hsb or rgb) the channel is varied in. Defaults to the color's own space when it has the channel, else the channel's (hsl for hue, saturation, lightness and alpha; hsb for brightness; rgb for red, green and blue)."
+            },
+            "z": {
+              "$ref": "#/$defs/rampInput",
+              "description": "Makes the ramp one layer of a color area whose fixed channel is `z`: `channel` is the layer's channel, `z` is held at its value in the color."
+            }
+          },
+          "description": "Stops computed from a color and a channel as React Spectrum draws them, instead of listed `stops`."
+        }
+      },
+      "description": "A linear gradient across a box."
+    },
+    "tokenSelector": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": ["string", "number", "boolean"]
+      }
+    },
+    "relationshipSelector": {
+      "type": "object",
+      "required": ["property"],
+      "properties": {
+        "property": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attribute": {
+          "type": "string",
+          "minLength": 1
+        },
+        "part": {
+          "type": "string",
+          "minLength": 1
+        },
+        "between": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "from": { "type": "string", "minLength": 1 },
+            "to": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
+        "position": {
+          "enum": ["inner", "outer"],
+          "description": "Which stroke the selector is for: a record pinned `scope.options.position` to this value, or one with no such pin, matches. Default `outer`."
+        }
+      },
+      "additionalProperties": false,
+      "if": { "required": ["context"] },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["attribute"] },
+            { "required": ["part"] },
+            { "required": ["between"] }
+          ]
+        }
+      },
+      "else": {
+        "anyOf": [{ "required": ["part"] }, { "required": ["between"] }]
+      },
+      "description": "Names a relationship by `property` and either its `context` label or its structured identity: `attribute` (the record's `scope.attribute`), `part` (its `scope.part`) and `between` (its `scope.between`). A structured selector names at least one of `part` and `between`, matches every record whose given fields are equal, and a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity. `context` cannot be combined with them, except `position`."
+    }
+  }
+}

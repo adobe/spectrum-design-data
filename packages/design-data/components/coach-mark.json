@@ -76,8 +76,12 @@
     }
   ],
   "options": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "hideImage": {
       "type": "boolean",
       "default": false,
@@ -111,23 +115,86 @@
       }
     }
   },
+  "slots": [
+    {
+      "name": "button-group",
+      "part": "button-group",
+      "accepts": ["button"],
+      "acceptsOnly": true,
+      "min": 1,
+      "max": 2,
+      "description": "The footer actions. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22)."
+    }
+  ],
   "anatomy": [
     {
-      "name": "pagination-text",
-      "description": "Text indicating step position (e.g. '2 of 5')."
+      "name": "container",
+      "description": "Card surface. It is the root and carries the width limits, padding, rounding, background and drop shadow.",
+      "required": true,
+      "contains": [
+        "cover-image",
+        "title",
+        "keyboard-shortcut",
+        "action-button",
+        "description",
+        "pagination",
+        "button-group"
+      ]
     },
-    { "name": "body" },
-    { "name": "media" },
-    { "name": "pagination" },
-    { "name": "title" }
+    {
+      "name": "cover-image",
+      "description": "Optional image at the top, 16:9 or 4:3. Hidden with hideImage."
+    },
+    {
+      "name": "title",
+      "description": "Coach mark title.",
+      "required": true
+    },
+    {
+      "name": "keyboard-shortcut",
+      "description": "Optional keyboard shortcut hint next to the title. A plain part until a keyboard-shortcut component exists."
+    },
+    {
+      "name": "action-button",
+      "component": "action-button",
+      "description": "The action-button component at the top, usually opening a menu. Drawn with topActionLabel."
+    },
+    {
+      "name": "description",
+      "description": "Explanatory text."
+    },
+    {
+      "name": "pagination",
+      "description": "Step count text such as \"2 of 5\"."
+    },
+    {
+      "name": "button-group",
+      "component": "button-group",
+      "description": "The button-group component in the footer. Its buttons are slot fills; the action label options map to them."
+    },
+    {
+      "name": "menu-container",
+      "description": "Floating menu that opens from the action button. A top-level part, as in picker and combo-box."
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["dismiss"],
     "focusable": true,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
+  },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web coach mark (cover image, card content with header, description and footer; the elevated shadow on the root) and React Spectrum S2 CoachMark (popover surface, image, title, keyboard, description, menu, steps, footer buttons). Decisions (Garth, 2026-11-20 and defaults): C5 description; C6 cover-image (renamed from media); C4 button-group. pagination-text is deleted: it duplicates pagination and the legacy records use pagination. No tip: Figma draws none (RSP has an arrow when anchored). The container is now explicit. keyboard-shortcut is a plain part (no component yet)."
   }
 }

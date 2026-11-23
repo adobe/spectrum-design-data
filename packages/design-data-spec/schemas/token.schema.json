@@ -13,6 +13,11 @@
     }
   ],
   "$defs": {
+    "tokenTier": {
+      "type": "string",
+      "enum": ["primitive", "semantic", "component"],
+      "description": "The tier this token belongs to: 'primitive' (raw values), 'semantic' (shared purposes or structural roles) or 'component' (defined for a specific component). Optional while the dataset is being tagged; fields limit the tiers they apply to with allowedTokenTiers (SPEC-102)."
+    },
     "nameObject": {
       "type": "object",
       "description": "Structured token identity. Semantic fields describe identity and structure; mode-set fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional mode-set keys MUST be strings.",
@@ -200,11 +205,18 @@
           "type": "string",
           "format": "uuid"
         },
+        "tokenTier": {
+          "$ref": "#/$defs/tokenTier"
+        },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"
         },
         "private": {
           "type": "boolean"
+        },
+        "excludeFromLegacy": {
+          "type": "boolean",
+          "description": "When true, this token is omitted from the generated packages/tokens/src legacy output."
         },
         "description": {
           "type": "string",
@@ -217,7 +229,7 @@
         "componentBindings": {
           "type": "array",
           "items": { "$ref": "#/$defs/componentBinding" },
-          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+          "description": "Reverse index: components that bind this token through a relationship. Optional and derivable from relationships."
         },
         "documentBlocks": {
           "type": "array",
@@ -262,11 +274,18 @@
           "type": "string",
           "format": "uuid"
         },
+        "tokenTier": {
+          "$ref": "#/$defs/tokenTier"
+        },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"
         },
         "private": {
           "type": "boolean"
+        },
+        "excludeFromLegacy": {
+          "type": "boolean",
+          "description": "When true, this token is omitted from the generated packages/tokens/src legacy output."
         },
         "description": {
           "type": "string",
@@ -279,7 +298,7 @@
         "componentBindings": {
           "type": "array",
           "items": { "$ref": "#/$defs/componentBinding" },
-          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+          "description": "Reverse index: components that bind this token through a relationship. Optional and derivable from relationships."
         },
         "documentBlocks": {
           "type": "array",
@@ -293,7 +312,7 @@
     "componentBinding": {
       "type": "object",
       "required": ["component"],
-      "description": "A single component usage binding on a token — the reverse of tokenBindings on the component.",
+      "description": "A single component usage binding on a token — the reverse of a component relationship.",
       "properties": {
         "component": {
           "type": "string",

@@ -20,6 +20,8 @@
 //! multi-purpose scope fields, so a wrong option value is always an error,
 //! not an advisory warning.
 
+use serde_json::Value;
+
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
@@ -60,25 +62,42 @@ impl ValidationRule for Rule {
 
             let mut invalid: Vec<(&str, &str)> = Vec::new();
 
-            for (key, val) in options {
-                if RESERVED.contains(&key.as_str()) {
-                    continue;
-                }
-                let Some(field_val) = val.as_str() else {
-                    continue; // Layer 1 catches non-string option values
-                };
+            // The base pins, then the pins of each alternative of an any-of (proposal 017):
+            // they name options and values the same way.
+            let mut groups: Vec<&serde_json::Map<String, Value>> = vec![options];
+            groups.extend(
+                options
+                    .get(crate::scope::ANY_OF)
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                    .filter_map(Value::as_object),
+            );
+            for pins in groups {
+                for (key, val) in pins {
+                    if RESERVED.contains(&key.as_str()) || key == crate::scope::ANY_OF {
+                        continue;
+                    }
+                    let values: Vec<&str> = match val {
+                        Value::String(s) => vec![s.as_str()],
+                        Value::Array(a) => a.iter().filter_map(Value::as_str).collect(),
+                        _ => continue, // boolean option values have no values[] to match
+                    };
 
-                let Some(declared) = crate::validate::rules::component_option_values(comp, key)
-                else {
-                    continue; // option not declared, or no values[] — any value allowed
-                };
+                    let Some(declared) = crate::validate::rules::component_option_values(comp, key)
+                    else {
+                        continue; // option not declared, or no values[] — any value allowed
+                    };
 
-                if declared.is_empty() {
-                    continue;
-                }
+                    if declared.is_empty() {
+                        continue;
+                    }
 
-                if !declared.contains(field_val) {
-                    invalid.push((key.as_str(), field_val));
+                    for field_val in values {
+                        if !declared.contains(field_val) {
+                            invalid.push((key.as_str(), field_val));
+                        }
+                    }
                 }
             }
 
@@ -185,6 +204,31 @@ mod tests {
     }
 
     #[test]
+    fn boolean_option_value_skipped() {
+        let diags = run(
+            json!({"scope": {"component": "switch", "property": "size", "options": {"isSelected": true}}, "value": "10px"}),
+            json!({"name": "switch", "options": {"isSelected": {"type": "boolean"}}}),
+        );
+        assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn array_values_are_each_checked() {
+        let comp = json!({"name": "button", "options": {"style": {"values": [{"value": "fill"}, {"value": "outline"}]}}});
+        let ok = run(
+            json!({"scope": {"component": "button", "property": "color", "options": {"style": ["fill", "outline"]}}, "value": "#fff"}),
+            comp.clone(),
+        );
+        assert!(ok.is_empty());
+        let bad = run(
+            json!({"scope": {"component": "button", "property": "color", "options": {"style": ["fill", "ghost"]}}, "value": "#fff"}),
+            comp,
+        );
+        assert_eq!(bad.len(), 1);
+        assert!(bad[0].message.contains("ghost"));
+    }
+
+    #[test]
     fn state_key_skipped_owned_by_spec054() {
         let diags = run(
             json!({"scope": {"component": "button", "property": "color", "options": {"state": ["hover"]}}, "value": "#fff"}),
@@ -200,5 +244,25 @@ mod tests {
             json!({"name": "button", "options": {"style": {"values": [{"value": "fill"}]}}}),
         );
         assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn an_alternative_of_an_any_of_is_checked_like_a_base_pin() {
+        let comp = json!({"name": "button", "options": {
+            "style": {"values": [{"value": "fill"}, {"value": "outline"}]},
+            "isSelected": {"type": "boolean"}}});
+        let ok = run(
+            json!({"scope": {"component": "button", "property": "color", "options": {
+                "anyOf": [{"style": "fill"}, {"isSelected": true}]}}, "value": "#fff"}),
+            comp.clone(),
+        );
+        assert!(ok.is_empty(), "{ok:?}");
+        let bad = run(
+            json!({"scope": {"component": "button", "property": "color", "options": {
+                "anyOf": [{"style": "fill"}, {"style": ["outline", "ghost"]}]}}, "value": "#fff"}),
+            comp,
+        );
+        assert_eq!(bad.len(), 1);
+        assert!(bad[0].message.contains("ghost"));
     }
 }

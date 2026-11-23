@@ -732,6 +732,39 @@ fn mock_meta() -> VariablesMeta {
 }
 
 #[test]
+fn update_of_hidden_variable_never_sends_hidden_from_publishing() {
+    let mut meta = mock_meta();
+    meta.variables.insert(
+        "hidden-1".into(),
+        serde_json::from_value(json!({
+            "id": "hidden-1",
+            "key": "spacing-100",
+            "name": "platformScale/spacing-100",
+            "variableCollectionId": "col-2",
+            "resolvedType": "FLOAT",
+            "valuesByMode": { "m-desktop": 4 },
+            "hiddenFromPublishing": true,
+        }))
+        .unwrap(),
+    );
+    let tokens = vec![(
+        "spacing-100".to_string(),
+        PathBuf::from("layout.json"),
+        json!({ "$schema": "https://example.com/dimension.json", "value": "8px" }),
+    )];
+    let (body, _) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    let variable = body
+        .variables
+        .iter()
+        .find(|v| v.id.as_deref() == Some("hidden-1"))
+        .unwrap();
+    assert_eq!(variable.action, "UPDATE");
+    assert_eq!(variable.hidden_from_publishing, None);
+    let sent = serde_json::to_string(&body).unwrap();
+    assert!(!sent.contains("hiddenFromPublishing"), "{sent}");
+}
+
+#[test]
 fn color_set_produces_three_mode_values() {
     use std::io::Write;
     let dir = tempfile::tempdir().unwrap();

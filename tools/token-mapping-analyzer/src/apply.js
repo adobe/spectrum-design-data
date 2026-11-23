@@ -24,7 +24,7 @@ import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "./registry-index.js";
-import { decompose, serialize } from "./decomposer.js";
+import { decompose, serialize, isDeprecated } from "./decomposer.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "../../..");
@@ -71,7 +71,7 @@ export function applyField(tokens, field, registry, filename) {
     const result = decompose(
       legacyKey,
       {
-        deprecated: !!token.deprecated,
+        deprecated: isDeprecated(token),
         component: token.name?.component,
         icon: token.name?.icon,
       },
@@ -179,7 +179,7 @@ export function applySpaceBetween(tokens, registry, filename) {
     const result = decompose(
       legacyKey,
       {
-        deprecated: !!token.deprecated,
+        deprecated: isDeprecated(token),
         component: token.name?.component,
         icon: token.name?.icon,
       },
@@ -244,7 +244,7 @@ export function applyScaleIndex(tokens, registry, filename) {
     const result = decompose(
       legacyKey,
       {
-        deprecated: !!token.deprecated,
+        deprecated: isDeprecated(token),
         component: token.name?.component,
         icon: token.name?.icon,
       },

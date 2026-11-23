@@ -203,6 +203,17 @@ pub fn convert_graph_by_file(
 
 type LegacyFiles = Vec<(std::path::PathBuf, Map<String, Value>)>;
 
+/// Drop the in-memory `overriddenBy` / `overriddenFrom` markers a platform override
+/// adds; legacy output never carries them.
+fn strip_override_provenance(raw: &Value) -> Value {
+    let mut v = raw.clone();
+    if let Some(m) = v.as_object_mut() {
+        m.remove("overriddenBy");
+        m.remove("overriddenFrom");
+    }
+    v
+}
+
 fn convert_graph_files(
     graph: &crate::graph::TokenGraph,
 ) -> Result<(LegacyFiles, LegacySummary), CoreError> {
@@ -219,7 +230,7 @@ fn convert_graph_files(
         by_file
             .entry(t.file.clone())
             .or_default()
-            .push((t.index, t.raw.clone()));
+            .push((t.index, strip_override_provenance(&t.raw)));
     }
     for r in &graph.relationships {
         by_file
@@ -647,6 +658,9 @@ fn convert_array(
     let mut groups: BTreeMap<String, Vec<&Map<String, Value>>> = BTreeMap::new();
 
     for tok in candidates {
+        if tok.get("excludeFromLegacy").and_then(Value::as_bool) == Some(true) {
+            continue;
+        }
         // extract_legacy_key handles both object names (decomposed or thin) and
         // string names (SPEC-017 escape hatch).
         let Some(key) = tok.get("name").and_then(extract_legacy_key) else {
@@ -713,13 +727,20 @@ fn ctr_to_legacy_token(rel: &Map<String, Value>) -> Option<Map<String, Value>> {
 
     let scope = rel.get("scope").and_then(|v| v.as_object());
 
-    let mut name = Map::new();
-    if let Some(options) = scope
+    // The legacy token name cannot express an any-of (proposal 017): a record that uses one
+    // has no legacy counterpart and must not carry a `legacyKey`.
+    if scope
         .and_then(|s| s.get("options"))
-        .and_then(|v| v.as_object())
+        .and_then(Value::as_object)
+        .is_some_and(|o| crate::scope::variants(o).len() > 1)
     {
-        for (k, v) in options {
-            name.insert(k.clone(), v.clone());
+        return None;
+    }
+
+    let mut name = Map::new();
+    if let Some(scope) = scope {
+        for (k, v) in crate::scope::options_with_descriptive(scope) {
+            name.insert(k, v);
         }
     }
     if let Some(component) = scope.and_then(|s| s.get("component")) {
@@ -1303,6 +1324,44 @@ mod tests {
     }
 
     #[test]
+    fn a_relationship_with_an_any_of_has_no_legacy_counterpart() {
+        let rel = obj(json!({
+            "scope": {"component": "button", "property": "color",
+                "options": {"anyOf": [{"isSelected": true}, {"isIndeterminate": true}]}},
+            "legacyKey": "button-color",
+            "$ref": "some-uuid"
+        }));
+        assert!(ctr_to_legacy_token(&rel).is_none());
+        let plain = obj(json!({
+            "scope": {"component": "button", "property": "color", "options": {"size": "m"}},
+            "legacyKey": "button-color",
+            "$ref": "some-uuid"
+        }));
+        assert!(ctr_to_legacy_token(&plain).is_some());
+    }
+
+    #[test]
+    fn descriptive_scope_fields_give_the_same_legacy_name_as_options() {
+        let old = obj(json!({
+            "scope": {"component": "tabs", "property": "gap",
+                "options": {"from": "edge", "to": "text", "object": "o", "size": "m"}},
+            "legacyKey": "k", "$ref": "u"
+        }));
+        let new = obj(json!({
+            "scope": {"component": "tabs", "property": "gap",
+                "between": {"from": "edge", "to": "text"}, "object": "o",
+                "options": {"size": "m"}},
+            "legacyKey": "k", "$ref": "u"
+        }));
+        let (old, new) = (
+            ctr_to_legacy_token(&old).unwrap(),
+            ctr_to_legacy_token(&new).unwrap(),
+        );
+        assert_eq!(old, new);
+        assert_eq!(old["name"]["from"], "edge");
+    }
+
+    #[test]
     fn ctr_without_legacy_key_adapts_to_none() {
         let rel = obj(json!({
             "scope": {"component": "button", "property": "color"},
@@ -1327,6 +1386,20 @@ mod tests {
         assert_eq!(tok["set_schema"], "color-set");
         assert!(tok.get("setUuid").is_none());
         assert!(tok.get("setSchema").is_none());
+    }
+
+    #[test]
+    fn exclude_from_legacy_flag_skips_token() {
+        let arr = json!([
+            {"name": {"property": "spacing-100"}, "value": "8px", "uuid": "excl-0001"},
+            {"name": {"property": "typography", "variant": "title", "size": "s"},
+             "value": "x", "uuid": "excl-0002", "excludeFromLegacy": true},
+            {"name": {"property": "spacing-200"}, "value": "9px", "uuid": "excl-0003", "excludeFromLegacy": false}
+        ]);
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
+        assert_eq!(out.len(), 2);
+        assert!(out.contains_key("spacing-100") && out.contains_key("spacing-200"));
     }
 
     #[test]

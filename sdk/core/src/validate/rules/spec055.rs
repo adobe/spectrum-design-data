@@ -11,8 +11,8 @@
 //! SPEC-055: ctr-ref-resolves
 //!
 //! A CTR's `$ref` value MUST resolve to a declared token or relationship
-//! `uuid` in the dataset. Mirrors SPEC-001 (alias-target-exists) and SPEC-027
-//! (token-binding-token-exists) for the CTR alias direction — a CTR may alias
+//! `uuid` in the dataset. Mirrors SPEC-001 (alias-target-exists) for the CTR
+//! alias direction — a CTR may alias
 //! either a token (existing corpus) or another CTR (relationship-to-relationship
 //! aliasing).
 
@@ -37,14 +37,15 @@ impl ValidationRule for Rule {
             let Some(target) = rel.raw.get("$ref").and_then(|v| v.as_str()) else {
                 continue;
             };
-            let resolves_to_token = ctx.graph.resolve_alias_key(target).is_some();
             // A sibling relationship's own `uuid` or `setUuid` is a valid $ref
             // target too — once every member of a mode-set group has been
             // migrated to CTRs, the group id only survives as `setUuid` on
             // sibling CTRs (see graph.rs's concept_id_index for the equivalent
-            // token-side precedent).
-            let resolves_to_relationship = ctx.graph.relationship_target_exists(target);
-            if !resolves_to_token && !resolves_to_relationship {
+            // token-side precedent). Checked only when no token matches: it scans
+            // every relationship.
+            let resolves = ctx.graph.resolve_alias_key(target).is_some()
+                || ctx.graph.relationship_target_exists(target);
+            if !resolves {
                 out.push(Diagnostic {
                     file: rel.file.clone(),
                     token: None,

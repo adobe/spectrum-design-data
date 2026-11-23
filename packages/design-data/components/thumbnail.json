@@ -46,6 +46,7 @@
   "options": {
     "size": {
       "type": "number",
+      "default": 500,
       "values": [
         { "value": 50 },
         { "value": 75 },
@@ -60,7 +61,39 @@
         { "value": 900 },
         { "value": 1000 }
       ]
+    },
+    "src": { "type": "string" },
+    "showImage": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
     }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded frame that clips the thumbnail.",
+      "required": true,
+      "contains": ["opacity-checkerboard", "image"]
+    },
+    {
+      "name": "opacity-checkerboard",
+      "component": "opacity-checkerboard",
+      "description": "Checkerboard tile pattern shown behind transparent image areas."
+    },
+    {
+      "name": "image",
+      "description": "The picture shown in the thumbnail (the src option); drawn only when showImage is true (default false, the Figma Show image default).",
+      "presentWhen": { "options": { "showImage": true } }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web thumbnail page; SWC gen2 Thumbnail.ts:16 and thumbnail.css:24 draw the checkerboard behind transparent images. No anatomy change. border is container styling (thumbnail.css:37-42), not a part: the recipe draws it on container, over the children. opacity-checkerboard is a nested recipe at size s that fills the container; its colors and tile size come from the opacity-checkerboard component. The Figma checkerboard tile is 4px; on mobile the nested tile is 5px (see the source-conflict bead under spectrum-design-data-5m92.5.1)."
   },
   "states": [{ "name": "disabled", "trigger": "prop" }],
   "lifecycle": { "introduced": "1.0.0-draft" },

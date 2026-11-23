@@ -62,11 +62,16 @@ tasks:
       - "/sdk/core/src/**/*.rs"
       - "/sdk/core/Cargo.toml"
       - "/sdk/core/build.rs"
+      - "/sdk/core/src/text-metrics/*"
       - "/sdk/core/src/registry_data.rs"
       - "/packages/design-data/guidelines/*.json"
       - "/packages/design-data/relationships/*.json"
+      - "/packages/design-data/icons/*.json"
+      - "/packages/design-data/visuals/*.json"
       - "src/embedded_cache.redb"
       - "scripts/build.mjs"
+      # Changes the output (wasm-opt skipped), so it must change the task hash.
+      - "$WASM_NO_OPT"
     outputs:
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm.d.ts"
@@ -92,12 +97,17 @@ tasks:
     command: [pnpm, ava, test]
     inputs:
       - "test/**/*.test.js"
+      - "test/helpers/*.js"
+      - "/sdk/core/src/text-metrics/*"
       - "ava.config.js"
       - "scripts/verify-package.mjs"
       - "package.json"
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm_bg.wasm"
       - "/packages/design-data-spec/conformance/**/*"
+      - "/packages/design-data/components/*.json"
+      - "/sdk/plugins/site/assets/*.js"
+      - "/sdk/core/tests/fixtures/*.json"
       - "pkg/web/**/*"
     deps:
       - build

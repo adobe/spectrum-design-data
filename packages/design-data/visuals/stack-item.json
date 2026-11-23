@@ -1,0 +1,186 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "stack-item",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": [
+    "selected-default",
+    "selected-down",
+    "selected-hover",
+    "selected-keyboard-focus"
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["checkbox", "icon", "thumbnail", "label", "actions"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "fill": [
+          {
+            "relationship": {
+              "property": "color",
+              "part": "container",
+              "attribute": "background"
+            }
+          }
+        ],
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "start-edge",
+              "to": "label"
+            }
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "label",
+              "to": "end-edge"
+            }
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "icon",
+              "to": "label"
+            }
+          }
+        }
+      }
+    },
+    "checkbox": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "with": {
+        "isSelected": {
+          "option": "isSelected"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "add"
+      },
+      "props": {
+        "width": {
+          "token": {
+            "anatomy": "workflow-icon",
+            "property": "size",
+            "size": "m"
+          }
+        },
+        "height": {
+          "token": {
+            "anatomy": "workflow-icon",
+            "property": "size",
+            "size": "m"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            }
+          }
+        ]
+      }
+    },
+    "thumbnail": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "300"
+      },
+      "with": {
+        "showImage": true,
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "token": {
+            "property": "font-family",
+            "legacyKey": "default-font-family"
+          }
+        },
+        "fontSize": {
+          "token": {
+            "property": "font-size-100",
+            "scaleIndex": 100
+          }
+        },
+        "fontWeight": {
+          "token": {
+            "property": "font-weight",
+            "weight": "regular"
+          }
+        },
+        "lineHeight": {
+          "token": {
+            "property": "line-height-100",
+            "scaleIndex": 100
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            }
+          }
+        ],
+        "grow": {
+          "value": true
+        }
+      }
+    },
+    "actions": {
+      "kind": "slot",
+      "sizeMap": {
+        "m": "s"
+      },
+      "with": {
+        "hideLabel": true,
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "isQuiet": true
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        }
+      }
+    }
+  }
+}

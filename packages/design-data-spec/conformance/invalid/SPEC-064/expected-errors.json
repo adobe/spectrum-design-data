@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-064",
+      "severity": "error",
+      "message_pattern": ".*option 'shape' is not declared.*"
+    },
+    {
+      "rule_id": "SPEC-064",
+      "severity": "error",
+      "message_pattern": ".*\"electric\".*variant.*not declared.*"
+    }
+  ]
+}

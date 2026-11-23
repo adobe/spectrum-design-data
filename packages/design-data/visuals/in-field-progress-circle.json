@@ -1,0 +1,77 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "in-field-progress-circle",
+  "root": "track",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "track": {
+      "kind": "box",
+      "children": ["fill"],
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
+        },
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Track and fill"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Thickness"
+          }
+        }
+      }
+    },
+    "fill": {
+      "kind": "progress",
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Thickness"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "context": "Track and fill"
+          }
+        }
+      }
+    }
+  }
+}

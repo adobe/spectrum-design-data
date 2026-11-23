@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-085",
+      "severity": "error",
+      "message_pattern": ".*checkmark.*checkbox.*ui:tick.*set 'ui' has no icon 'tick'.*"
+    }
+  ]
+}

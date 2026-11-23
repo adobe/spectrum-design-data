@@ -1,0 +1,285 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "link",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Standalone variant, Default style"],"scope":{"property":"text-underline-gap","options":null},"record":"text-underline-gap#Standalone variant, Default style","name":"text-underline-gap","fields":[{"path":"$ref","before":"d9d51235-f3fe-4e2a-bdca-b6a104d9a9e5","after":"62e8853d-9c4f-4e9d-be75-0020344d13ee"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"gap","options":null},"record":"gap#Focus ring","name":"gap","fields":[{"path":"$ref","before":"693651ef-71c7-4096-91a5-1c84cb861021","after":"fb035d45-e63b-4cd4-b220-675a52e99399"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":23,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/0","name":"guideline: Use links in body copy.\n\nLinks are for usage in ","fields":[{"path":"content","before":"Links provide navigation to a different location. They can appear within a paragraph or as standalone text.","after":"Use links in body copy.\n\nLinks are for usage in body copy and are not appropriate in titles. Consider using a different component if you're looking for a larger or more prominent call to action, such as a button."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/1","name":"guideline: Support screen readers.\n\nBe mindful of link plac","fields":[{"path":"content","before":"Use the static color option when a link needs to be placed on top of a color background or visual. Static color links are available in black or white, regardless of color theme. They can also be placed on top of a custom background that isn’t part of a Spectrum color theme.","after":"Support screen readers.\n\nBe mindful of link placement and language, and create experiences that are inclusive of users navigating with screen readers. Screen readers pull a list of links — only the link text, and not including other surrounding language — to determine the content of the page. People using screen readers may tab between links without getting the text in between, so very generic link wording like \"learn more\" or \"click here\" doesn't communicate any context from elsewhere in the experience. Identify the target of each link directly in the link text to communicate context and set clear expectations about where the link will go."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/2","name":"guideline: When to use quiet links.\n\nQuiet links are less a","fields":[{"path":"content","before":"Use static black on light color or image backgrounds, and static white on dark color or image backgrounds, regardless of color theme. Make sure that the background and the link color meet the minimum color contrast ratio.","after":"When to use quiet links.\n\nQuiet links are less accessible, so don't use them for links that are critical to an experience. Quiet links are commonly used in website footers, where there are several lists of links that are shortcuts to other pages."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/3","name":"guideline: Standalone links are not full sentences, and do ","fields":[{"path":"content","before":"All links can have a quiet style, without an underline. This style should only be used when the placement and context of the link is explicit enough that a visible underline isn’t necessary.","after":"Standalone links are not full sentences, and do not have punctuation at the end. Treat these like calls-to-action by writing them as short verb phrases. Since standalone links are at the end of a sentence or paragraph, they're often perceived by users as optional or supplementary to surrounding content."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/4","name":"guideline: Links within sentences.\n\nLinks within — or as — ","fields":[{"path":"content","before":"The variant property defines the visual style of a link and includes two options: primary and secondary.","after":"Links within sentences.\n\nLinks within — or as — sentences are written just like they're part of a paragraph. Make sure you include enough context in the link text to communicate the value and expectation of the landing experience. This approach can draw a user's focus to the linked text, such as for need-to-know updates or high-signal information. If the link leads to more content, it can be helpful to write it as a descriptive noun (e.g., \"survey feedback\"). If the link launches a task or action, start it with a verb (e.g., \"Share your feedback\"). Keep in mind that it's easier to localize links that are entire sentences, rather than sentence fragments. This is because, depending on which part of a sentence is included as a link, the word and link order may be re-arranged when translated."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/5","name":"guideline: Avoid generic language.\n\nAvoid overly generic li","fields":[{"path":"content","before":"The primary variant is the default style and displays the link in Spectrum blue. It is intended to draw attention to the link and is suitable when the blue color complements the surrounding content without being overwhelming.","after":"Avoid generic language.\n\nAvoid overly generic link language like \"learn more,\" \"click here,\" \"more information,\" or \"continue reading.\" It's more accessible and inclusive to write link text as unique descriptions of the navigational target or function. Links need to be descriptive enough that they make sense without any other context. Generic links don't make sense out of context, and don't communicate where they go or what happens if a user interacts with them. Unique link language is essential for screen reader and magnification users who may not have the supplementary language around a link, or may not follow the content order of an experience. Try to avoid using a series of generic, standalone links that say \"learn more\" at the end of multiple sentences or paragraphs as a truncation strategy."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/6","name":"guideline: Write specific and descriptive link text.\n\nLinks","fields":[{"path":"content","before":"The secondary variant uses the same gray color as the surrounding paragraph text. Its subdued appearance is ideal for scenarios where multiple links are present in a block of text and the primary variant would be too visually dominant.","after":"Write specific and descriptive link text.\n\nLinks act as wayfinding tools that offer contextual clues about how to navigate an experience. Write link text so that, even if someone were not able to view any surrounding context, they could still understand a link's purpose and what they should expect by interacting with it. Try to front load the link with the most important word(s)."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/7","name":"guideline: Be conscious about repetition.\n\nDon't use the sa","fields":[{"path":"content","before":"Links are for usage in body copy and are not appropriate in titles. Consider using a different component if you're looking for a larger or more prominent call to action, such as a button.","after":"Be conscious about repetition.\n\nDon't use the same link text to link to different information in the same view. If link text needs to be duplicated within a single page or view, find ways to make each link unique, such as using accessibility labels or other text alternatives. It's OK to incorporate multiple links into the same sentence as long as the links are contextual and relevant. Do not overload sentences and pages with links purely for SEO purposes."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/8","name":"guideline: Create intuitive landing experiences.\n\nDon't pla","fields":[{"path":"content","before":"Be mindful of link placement and language, and create experiences that are inclusive of users navigating with screen readers. Screen readers pull a list of links — only the link text, and not including other surrounding language — to determine the content of the page.","after":"Create intuitive landing experiences.\n\nDon't place a generic \"Learn more\" link in design specs without thinking through what happens when a user interacts with that link. The landing experience needs to work in partnership with how the link text is written. Identify exactly where that link will go or what it will do, then ensure the link text reflects that. Use anchor links whenever possible to ensure that users can quickly find the most helpful next steps after interacting with a link. Collaborate with help content writers or customer service representatives to determine the most natural and intuitive content to supplement your experience."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/9","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"People using screen readers may tab between links without getting the text in between, so very generic link wording like “learn more” or “click here” doesn’t communicate any context from elsewhere in the experience. Identify the target of each link directly in the link text to communicate context and set clear expectations about where the link will go.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the link component. Enter Executes the link and moves the focus to the link target."}]},
+            {"id":"ec3376fa-10","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/documentBlocks/10","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer Use the","fields":[{"path":"content","before":"Quiet links are less accessible, so don't use them for links that are critical to an experience. Quiet links are commonly used in website footers, where there are several lists of links that are shortcuts to other pages.","after":"Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for interactive components like links."}]},
+            {"id":"ec3376fa-11","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"link/documentBlocks/11","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[],"after":{"type":"guideline","content":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Links should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey that text is a link. Links are paired with an additional visual indicator, such as an underline, so the link purpose is communicated without relying on color alone. Text contrast 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of link states has a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.6.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-16",
+      "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+      "commits": [
+        {
+          "commit": "15f371e50e2ce95a624a93152e408e1bbe8844dc",
+          "date": "2026-10-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1382,"title":"feat(tokens): add static + theme-aware transparency tokens, deprecate legacy","url":"https://github.com/adobe/spectrum-design-data/pull/1382"},
+          "entries": [
+            {"id":"15f371e5-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text (black)"],"record":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","name":"color[colorFamily=black]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"86a162cc-9e91-494c-9fee-207721eb4e88"}]},
+            {"id":"15f371e5-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (black)"],"record":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","name":"color[colorFamily=black]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-black-1000"}]},
+            {"id":"15f371e5-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text (white)"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.6.0"},{"path":"lifecycle.replacedBy","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"15f371e5-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (white)"],"record":"9b799da8-2130-417e-b7ee-5e1154a89837","name":"color[colorFamily=white]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced with transparent-static-white-1000"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.8.0",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-03",
+      "commit": "7b38617df24442d22724fb890cef69aa198b9e3a",
+      "commits": [
+        {
+          "commit": "9b4ad35c29fb00193e5847625699afb04fa0c560",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1582,"title":"feat: component visual recipes, renderer, explorer site and platform-aware rendering","url":"https://github.com/adobe/spectrum-design-data/pull/1582"},
+          "entries": [
+            {"id":"9b4ad35c-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fb035d45-e63b-4cd4-b220-675a52e99399","name":"gap[anatomy=focus-indicator,legacyKey=focus-ring-gap]","fields":[{"path":"name.anatomy","before":"focus-ring","after":"focus-indicator"},{"path":"name.legacyKey","after":"focus-ring-gap"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.1.3",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":13,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.4",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "897182b53d1a8f814881f27d1cc05771b40fdb02",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1839,"title":"fix(design-data): pin variant and staticColor in link relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1839"},
+          "entries": [
+            {"id":"897182b5-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"8c3ab299-e6fb-5eb7-b46e-75a190854c72","name":"content-color","fields":[{"path":"context","before":"Text (primary)","after":"Text"}]},
+            {"id":"897182b5-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"23a4b93f-3011-55c0-9c6d-d2ccb65d6450","name":"content-color","fields":[{"path":"context","before":"Text (primary)","after":"Text"}]},
+            {"id":"897182b5-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"f832683f-d75c-5c7d-891f-7fc18fbb550f","name":"content-color","fields":[{"path":"context","before":"Text (primary)","after":"Text"}]},
+            {"id":"897182b5-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"b49a4e0c-4a0b-55c4-b286-31f24703e5cd","name":"content-color","fields":[{"path":"context","before":"Text (primary)","after":"Text"}]},
+            {"id":"897182b5-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"640cbe74-685b-519e-8b0c-6f13ac74191c","name":"content-color[variant=secondary]","fields":[{"path":"context","before":"Text (secondary)","after":"Text"}]},
+            {"id":"897182b5-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"08fbc0f3-b812-5e2e-9d00-2b86677917fb","name":"content-color[variant=secondary]","fields":[{"path":"context","before":"Text (secondary)","after":"Text"}]},
+            {"id":"897182b5-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"44523a87-0a64-5955-92fc-a54ce98f1952","name":"content-color[variant=secondary]","fields":[{"path":"context","before":"Text (secondary)","after":"Text"}]},
+            {"id":"897182b5-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"6d62c862-f102-5157-acae-566ad3c44e13","name":"content-color[variant=secondary]","fields":[{"path":"context","before":"Text (secondary)","after":"Text"}]},
+            {"id":"897182b5-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"930a3dc6-7c29-5256-9a56-2cff79c0e8d1","name":"color[staticColor=white]","fields":[{"path":"context","before":"Text (white)","after":"Text"}]},
+            {"id":"897182b5-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"0d29a9e4-59af-5e44-868e-273d9c601505","name":"color[staticColor=black]","fields":[{"path":"context","before":"Text (black)","after":"Text"}]}
+          ],
+          "metadata": {"count":10,"fields":["contextQualifier","scope.options.staticColor","scope.options.variant"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"link/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Ring drawn around the link for keyboard focus.","presentIn":["keyboard-focus"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"link/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Optional icon shown with the link."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"link/anatomy/text","name":"text","fields":[],"after":{"name":"text","description":"Link text, underlined according to quiet and placement.","required":true}},
+            {"id":"12ddd7e7-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Link; Show icon prop). Figma has no focus state; focus-indicator from the Focus ring contexts and states. Icon is in Figma but not in the options list."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.21.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-18",
+      "commit": "c54ad0fcdb3450559eb80c46d5748384fa95485c",
+      "commits": [
+        {
+          "commit": "e26c2a5c2689502c2bb598635473076666904ec0",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1927,"title":"feat(design-data): link visual recipe; text underline in the renderer","url":"https://github.com/adobe/spectrum-design-data/pull/1927"},
+          "entries": [
+            {"id":"e26c2a5c-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text (static white)"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"930a3dc6-7c29-5256-9a56-2cff79c0e8d1","name":"color[staticColor=white]","fields":[{"path":"$ref","before":"9b799da8-2130-417e-b7ee-5e1154a89837","after":"2b2717e1-3479-4dab-9609-0d694993a1af"}]},
+            {"id":"e26c2a5c-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (static white)"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"930a3dc6-7c29-5256-9a56-2cff79c0e8d1","name":"color[staticColor=white]","fields":[{"path":"context","before":"Text","after":"Text (static white)"}]},
+            {"id":"e26c2a5c-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text (static black)"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"0d29a9e4-59af-5e44-868e-273d9c601505","name":"color[staticColor=black]","fields":[{"path":"$ref","before":"28dea8b0-4e9a-46f9-babb-c8910e6ae783","after":"86a162cc-9e91-494c-9fee-207721eb4e88"}]},
+            {"id":"e26c2a5c-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text (static black)"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"0d29a9e4-59af-5e44-868e-273d9c601505","name":"color[staticColor=black]","fields":[{"path":"context","before":"Text","after":"Text (static black)"}]},
+            {"id":"e26c2a5c-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-family","options":null},"record":"a2d12a2d-b9b5-58a2-abc3-e612fa7e64ff","name":"font-family","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-weight","options":{"isStandalone":true}},"record":"55002166-0ced-5265-aedd-0a83f00b7390","name":"font-weight[isStandalone=?]","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-style","options":null},"record":"0b6494e0-a497-5b66-ac60-23eee17d3cae","name":"font-style","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size-100","options":null},"record":"7ab67b6e-2bec-5dd6-a8aa-adcb625554e6","name":"font-size-100","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-8","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size-100","options":null},"record":"d40866ca-1b6b-52e6-97c9-82ce662993a5","name":"font-size-100","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height-100","options":null},"record":"3fcab670-7365-5d81-bf59-41807da32fd4","name":"line-height-100","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-10","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height-100","options":null},"record":"c8a148b0-8bce-55ea-bd64-561be894a86c","name":"line-height-100","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-11","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"text-underline-gap","options":null},"record":"f79caeb9-e395-5971-a984-858c027ec54c","name":"text-underline-gap","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-12","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"underline-thickness","options":null},"record":"e70bd5ec-28ff-5f5b-9caf-d4849ecf468b","name":"underline-thickness","fields":[{"path":"context","before":"Standalone variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-13","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-weight","options":{"isStandalone":false}},"record":"1a7ad5b0-01ac-5365-85fc-95e6faf55af2","name":"font-weight[isStandalone=?]","fields":[{"path":"context","before":"Inline variant, Default style","after":"Text"}]},
+            {"id":"e26c2a5c-14","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Focus ring"],"scope":{"property":"corner-radius","options":null},"record":"8b0d01ea-a442-5ed0-9c9c-e01fc19e498d","name":"corner-radius","fields":[],"after":"bf24d15e-ad86-4b6a-a9e0-e8fd49a5ae30"},
+            {"id":"e26c2a5c-15","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Focus ring (static white)"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"eae738c4-7236-5bd9-ba94-8e63affa588c","name":"color[staticColor=white]","fields":[],"after":"1dd6dc5b-47a2-41eb-80fc-f06293ae8e13"},
+            {"id":"e26c2a5c-16","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Focus ring (static black)"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"955df4be-a044-5e00-a8dd-18b2533aea32","name":"color[staticColor=black]","fields":[],"after":"c6b8275b-f44e-43b4-b763-82dda94d963c"},
+            {"id":"e26c2a5c-17","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"link/options/isStandalone","name":"isStandalone","fields":[],"after":{"type":"boolean","default":true}},
+            {"id":"e26c2a5c-18","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"link/anatomy/icon","name":"icon","fields":[],"before":{"name":"icon","description":"Optional icon shown with the link."}},
+            {"id":"e26c2a5c-19","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"link/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Frame of the link: the box that holds the text and that the focus ring surrounds.","required":true,"contains":["text"]}},
+            {"id":"e26c2a5c-20","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/anatomy/text","name":"text","fields":[{"path":"description","before":"Link text, underlined according to quiet and placement.","after":"Link text. Underlined, except in a standalone quiet link at rest."}]},
+            {"id":"e26c2a5c-21","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"link/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web (Link; Show icon prop). Figma has no focus state; focus-indicator from the Focus ring contexts and states. Icon is in Figma but not in the options list.","after":"Matches React Spectrum Link.tsx and SWC gen2 link.css: a text label with a keyboard focus ring. Figma S2 Web (Link) has Show icon (hidden in every variant) but React Spectrum and SWC have no icon, so the icon part is removed. Figma has Default and Hover only; focus-indicator follows React Spectrum and SWC. Figma Placement (Standalone, Inline) is React Spectrum isStandalone. Figma Size (S, M, L, XL) is not declared: React Spectrum and SWC links take the surrounding font size."}]},
+            {"id":"e26c2a5c-22","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"link/visual","name":"link","fields":[]}
+          ],
+          "metadata": {"count":13,"fields":["anatomyReview.status","contextQualifier","contextRole","scope.options.isStandalone"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "b836045680bb838600769ba506e72bbdbb529c53",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2040,"title":"feat(design-data): migrate clear-button, close-button, link and 3 more to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/2040"},
+          "entries": [
+            {"id":"b8360456-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"8c3ab299-e6fb-5eb7-b46e-75a190854c72","name":"content-color","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"23a4b93f-3011-55c0-9c6d-d2ccb65d6450","name":"content-color","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"f832683f-d75c-5c7d-891f-7fc18fbb550f","name":"content-color","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":null},"record":"b49a4e0c-4a0b-55c4-b286-31f24703e5cd","name":"content-color","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"640cbe74-685b-519e-8b0c-6f13ac74191c","name":"content-color[variant=secondary]","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"08fbc0f3-b812-5e2e-9d00-2b86677917fb","name":"content-color[variant=secondary]","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"44523a87-0a64-5955-92fc-a54ce98f1952","name":"content-color[variant=secondary]","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"content-color","options":{"variant":"secondary"}},"record":"6d62c862-f102-5157-acae-566ad3c44e13","name":"content-color[variant=secondary]","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-8","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"930a3dc6-7c29-5256-9a56-2cff79c0e8d1","name":"color[staticColor=white]","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-9","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"930a3dc6-7c29-5256-9a56-2cff79c0e8d1","name":"color[staticColor=white]","fields":[{"path":"context","before":"Text (static white)","after":"Text"}]},
+            {"id":"b8360456-10","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"0d29a9e4-59af-5e44-868e-273d9c601505","name":"color[staticColor=black]","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-11","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"0d29a9e4-59af-5e44-868e-273d9c601505","name":"color[staticColor=black]","fields":[{"path":"context","before":"Text (static black)","after":"Text"}]},
+            {"id":"b8360456-12","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-family","options":null},"record":"a2d12a2d-b9b5-58a2-abc3-e612fa7e64ff","name":"font-family","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-13","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-weight","options":{"isStandalone":true}},"record":"55002166-0ced-5265-aedd-0a83f00b7390","name":"font-weight[isStandalone=?]","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-14","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-style","options":null},"record":"0b6494e0-a497-5b66-ac60-23eee17d3cae","name":"font-style","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size","options":null},"record":"7ab67b6e-2bec-5dd6-a8aa-adcb625554e6","name":"font-size","fields":[{"path":"scope.part","after":"text"},{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"b8360456-16","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size","options":null},"record":"d40866ca-1b6b-52e6-97c9-82ce662993a5","name":"font-size","fields":[{"path":"scope.part","after":"text"},{"path":"scope.property","before":"font-size-100","after":"font-size"}]},
+            {"id":"b8360456-17","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height","options":null},"record":"3fcab670-7365-5d81-bf59-41807da32fd4","name":"line-height","fields":[{"path":"scope.part","after":"text"},{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"b8360456-18","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height","options":{"script":"cjk"}},"record":"c8a148b0-8bce-55ea-bd64-561be894a86c","name":"line-height[script=cjk]","fields":[{"path":"scope.options.script","after":"cjk"}]},
+            {"id":"b8360456-19","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height","options":{"script":"cjk"}},"record":"c8a148b0-8bce-55ea-bd64-561be894a86c","name":"line-height[script=cjk]","fields":[{"path":"scope.part","after":"text"},{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"b8360456-20","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"gap","options":null},"record":"f79caeb9-e395-5971-a984-858c027ec54c","name":"gap","fields":[{"path":"scope.part","after":"text"},{"path":"scope.property","before":"text-underline-gap","after":"gap"}]},
+            {"id":"b8360456-21","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"underline-thickness","options":null},"record":"e70bd5ec-28ff-5f5b-9caf-d4849ecf468b","name":"underline-thickness","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-22","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-weight","options":{"isStandalone":false}},"record":"1a7ad5b0-01ac-5365-85fc-95e6faf55af2","name":"font-weight[isStandalone=?]","fields":[{"path":"scope.part","after":"text"}]},
+            {"id":"b8360456-23","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"color","options":null},"record":"f1857445-3e5e-5fb1-8e4b-4e831ab85abf","name":"color","fields":[{"path":"scope.part","after":"focus-indicator"}]},
+            {"id":"b8360456-24","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"thickness","options":null},"record":"29e7d4c4-8caf-587d-b810-07ec6a5de48a","name":"thickness","fields":[{"path":"scope.part","after":"focus-indicator"}]},
+            {"id":"b8360456-25","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"gap","options":null},"record":"e6f5ba25-1386-5387-9010-72a74748f7c8","name":"gap","fields":[{"path":"scope.part","after":"focus-indicator"}]},
+            {"id":"b8360456-26","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"eae738c4-7236-5bd9-ba94-8e63affa588c","name":"color[staticColor=white]","fields":[{"path":"scope.part","after":"focus-indicator"}]},
+            {"id":"b8360456-27","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"color","options":{"staticColor":"white"}},"record":"eae738c4-7236-5bd9-ba94-8e63affa588c","name":"color[staticColor=white]","fields":[{"path":"context","before":"Focus ring (static white)","after":"Focus ring"}]},
+            {"id":"b8360456-28","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"955df4be-a044-5e00-a8dd-18b2533aea32","name":"color[staticColor=black]","fields":[{"path":"scope.part","after":"focus-indicator"}]},
+            {"id":"b8360456-29","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Focus ring"],"scope":{"property":"color","options":{"staticColor":"black"}},"record":"955df4be-a044-5e00-a8dd-18b2533aea32","name":"color[staticColor=black]","fields":[{"path":"context","before":"Focus ring (static black)","after":"Focus ring"}]},
+            {"id":"b8360456-30","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"link/visual/parts/focus-indicator","name":"focus-indicator","fields":[{"path":"props.stroke","before":[{"relationship":{"property":"color","context":"Focus ring"}},{"when":{"options":{"staticColor":"white"}},"relationship":{"property":"color","context":"Focus ring (static white)"}},{"when":{"options":{"staticColor":"black"}},"relationship":{"property":"color","context":"Focus ring (static black)"}}],"after":[{"relationship":{"property":"color","context":"Focus ring"}},{"when":{"options":{"staticColor":"white"}},"relationship":{"property":"color","context":"Focus ring"}},{"when":{"options":{"staticColor":"black"}},"relationship":{"property":"color","context":"Focus ring"}}]}]},
+            {"id":"b8360456-31","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"link/visual/parts/text","name":"text","fields":[{"path":"props.color","before":[{"relationship":{"property":"content-color","context":"Text"}},{"when":{"options":{"staticColor":"white"}},"relationship":{"property":"color","context":"Text (static white)"}},{"when":{"options":{"staticColor":"black"}},"relationship":{"property":"color","context":"Text (static black)"}}],"after":[{"relationship":{"property":"content-color","context":"Text"}},{"when":{"options":{"staticColor":"white"}},"relationship":{"property":"color","context":"Text"}},{"when":{"options":{"staticColor":"black"}},"relationship":{"property":"color","context":"Text"}}]},{"path":"props.fontSize.relationship.property","before":"font-size-100","after":"font-size"},{"path":"props.lineHeight.relationship.property","before":"line-height-100","after":"line-height"},{"path":"props.underlineOffset.relationship.property","before":"text-underline-gap","after":"gap"}]}
+          ],
+          "metadata": {"count":5,"fields":["contextQualifier","scope.part"]}
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"link/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]},
+            {"id":"1951adf7-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"link/visual/parts/focus-indicator","name":"focus-indicator","fields":[{"path":"visibleWhen.states","before":["keyboard-focus"]}]}
+          ]
+        }
+      ]
+    }
+  ]
+}

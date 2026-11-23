@@ -1,5 +1,13 @@
 # token-mapping-analyzer
 
+## 0.0.21
+
+### Patch Changes
+
+- [#1715](https://github.com/adobe/spectrum-design-data/pull/1715) [`1caa114`](https://github.com/adobe/spectrum-design-data/commit/1caa114a768c578e4e0ad0c19575a9a2edbd5269) Thanks [@GarthDB](https://github.com/GarthDB)! - Read canonical `lifecycle.deprecatedIn` when deciding whether a token is
+  deprecated, so deprecated canonical tokens no longer count as active in
+  reports. Legacy top-level `deprecated` is still honored.
+
 ## 0.0.20
 
 ### Patch Changes

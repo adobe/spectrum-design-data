@@ -4,9 +4,12 @@
       "scope": {
         "component": "button",
         "property": "background-color",
-        "options": { "style": "ghost" }
+        "options": {
+          "style": "ghost"
+        }
       },
-      "value": "#ff0000"
+      "value": "#ff0000",
+      "uuid": "b981f911-fd4d-5d36-b27e-818dae817c7d"
     }
   ],
   "components": [
@@ -14,11 +17,20 @@
       "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
       "name": "button",
       "displayName": "Button",
-      "meta": { "category": "actions" },
+      "meta": {
+        "category": "actions"
+      },
       "options": {
         "style": {
           "type": "enum",
-          "values": [{ "value": "fill" }, { "value": "outline" }]
+          "values": [
+            {
+              "value": "fill"
+            },
+            {
+              "value": "outline"
+            }
+          ]
         }
       }
     }

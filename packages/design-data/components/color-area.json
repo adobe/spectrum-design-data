@@ -43,42 +43,199 @@
     }
   ],
   "options": {
-    "background": {
-      "type": "string",
-      "description": "This will vary depending on implementation."
-    },
     "x-value": {
       "type": "number",
       "description": "Number (from x-minValue to x-maxValue)"
     },
-    "x-minValue": { "type": "number", "default": 0 },
-    "x-maxValue": { "type": "number", "default": 100 },
+    "x-minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "x-maxValue": {
+      "type": "number",
+      "default": 100
+    },
     "y-value": {
       "type": "number",
       "description": "Number (from y-minValue to y-maxValue)"
     },
-    "y-minValue": { "type": "number", "default": 0 },
-    "y-maxValue": { "type": "number", "default": 100 },
-    "step": { "type": "number", "default": 1 },
-    "width": { "type": "number", "default": 192, "description": "units: px" },
-    "height": { "type": "number", "default": 192, "description": "units: px" },
-    "isDisabled": { "type": "boolean", "default": false }
+    "y-minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "y-maxValue": {
+      "type": "number",
+      "default": 100
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
+    "width": {
+      "type": "number",
+      "default": 192,
+      "description": "units: px"
+    },
+    "height": {
+      "type": "number",
+      "default": 192,
+      "description": "units: px"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "color": {
+      "type": "string",
+      "description": "The color whose two channels the area adjusts (S2 value). The gradient is computed from it and the channels. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
+    },
+    "colorSpace": {
+      "type": "string",
+      "description": "The color space of the two channels (S2 colorSpace). Defaults to the color's own space.",
+      "values": [
+        {
+          "value": "rgb"
+        },
+        {
+          "value": "hsl"
+        },
+        {
+          "value": "hsb"
+        }
+      ]
+    },
+    "xChannel": {
+      "type": "string",
+      "description": "The color channel on the horizontal axis (S2 xChannel). Must differ from yChannel.",
+      "values": [
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "brightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        }
+      ]
+    },
+    "yChannel": {
+      "type": "string",
+      "description": "The color channel on the vertical axis (S2 yChannel). Must differ from xChannel.",
+      "values": [
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "brightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        }
+      ]
+    }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Two-dimensional gradient surface; border is container styling.",
+      "required": true,
+      "contains": ["fill", "overlay", "color-handle"]
+    },
+    {
+      "name": "fill",
+      "description": "The lower channel layer of the area gradient, computed from the color and the channels.",
+      "presentWhen": {
+        "options": {
+          "isDisabled": false,
+          "color": true
+        }
+      }
+    },
+    {
+      "name": "overlay",
+      "description": "The upper channel layer, drawn over the lower one.",
+      "presentWhen": {
+        "options": {
+          "isDisabled": false,
+          "color": true
+        }
+      }
+    },
+    {
+      "name": "color-handle",
+      "component": "color-handle",
+      "description": "Circular handle marking the selected color position.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "RSP ColorArea.tsx:69-79 (border on the area), ColorHandle.tsx:37-40 and gen2 color-handle.css:85-95 (handle grows on focus, no separate ring); focus-indicator dropped. A7 (2026-11-20): option background dropped (no source has it); every record is on container."
   },
   "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "slider",
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

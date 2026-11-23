@@ -1,5 +1,83 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 15.9.1
+
+### Patch Changes
+
+- [#2053](https://github.com/adobe/spectrum-design-data/pull/2053) [`9d4a10c`](https://github.com/adobe/spectrum-design-data/commit/9d4a10c0ceb37513db3985e24a23022004fd7204) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the status light label wrap and dot size.
+  - The label now wraps like the switch, checkbox and radio button (#2047).
+  - The dot binds the `ui-icon` size tokens on both scales (#2046). Small is 8px
+    desktop and 10px mobile again.
+  - The Extra-large dot is 16px desktop and 18px mobile (`ui-icon-2x-large`), up
+    from 14px and 16px (#1798).
+  - The deprecated `status-light-dot-size-small` now points to
+    `ui-icon-extra-small` (`renamed` in `@adobe/spectrum-tokens`).
+
+## 15.9.0
+
+### Minor Changes
+
+- [#1948](https://github.com/adobe/spectrum-design-data/pull/1948) [`53e922b`](https://github.com/adobe/spectrum-design-data/commit/53e922b0293f2b5c2be0e66c99e89b62afa6d605) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove the component `tokenBindings` field. Relationships carry that data.
+  - **Spec (breaking):** `tokenBindings` is gone from `component.schema.json` and rule SPEC-027
+    is retired. A component that still has the field now fails schema validation. Use
+    `relationships/<component>.json`; SPEC-055 checks each `$ref`. To migrate, turn each
+    `{ token, context }` entry into a relationship with the token's uuid as `$ref`.
+  - **Button:** adds `corner-radius-button-small` (12px), `corner-radius-button-large` (20px)
+    and `corner-radius-button-extra-large` (24px) for wrapping labels. The 16px wrapping
+    relationship is now scoped to size `m`; `s`, `l` and `xl` have their own. The three names
+    were referenced but never defined.
+  - **Tabs, date picker:** four bindings with no relationship now have one.
+  - **Component data:** declares anatomy parts, sizes and states that relationships already
+    used (steplist, menu, table, tag-field, card, stack-item, body, heading, detail). List-view
+    and radio-button relationships now name their existing parts. Illustrated message uses a
+    `script: cjk` option instead of `-cjk` sizes.
+  - **Validation:** `design-data:validate` no longer downgrades component-rule errors to warnings.
+    Table declares the `xl` size its relationships use.
+  - **Agent MCP:** `describe_component` returns `relationships`; docs drop `tokenBindings`.
+
+## 15.8.0
+
+### Minor Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`0b8924f`](https://github.com/adobe/spectrum-design-data/commit/0b8924f15646d42b4787537648f079eb86d0c9c3) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Refine size tokens per the Size semantic tokens RFC (SDS-16264, SDS-16083).
+  - **New shared tokens**: 149 added (`banner-*`, `base-*`, `container-*`, `size-*`, `field-width-*`).
+  - **Deprecations**: 231 deprecated, 17 with no replacement; 45 computed or platform tokens stay.
+  - **Calculated sizing**: 6 replacements are calculated (input height x 4, media width / ratio).
+  - **Mobile**: 59 shared tokens get a mobile value (x 1.25, half up); 4 widths keep their S2
+    mobile values. 11 component tokens stay active at their S2 sizes: 3 color controls, 7 color
+    area, wheel and handle sizes (x 1.25 on mobile), and the thumbnail checkerboard (4px).
+  - **Width exceptions**: `illustrated-message-vertical-maximum-width` is 352px,
+    `card-minimum-width-large` is 288px, and both dialog minimum widths stay 288px,
+    on desktop and mobile.
+  - **Divider and tooltip tip**: divider L is 4px desktop, 5px mobile; tooltip tip is 4x8px, 5x10px.
+  - **Value changes**: `field-width-*` return at 144/192/240/288px; divider minimum length is 16px.
+  - **Relationships**: 499 repointed to shared tokens, 24 duplicates removed.
+  - **visuals/accordion.json**: size M preview width uses `field-width-large`.
+  - **design-data-wasm**: rebuilt so the embedded dataset has these changes.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+
+## 15.7.0
+
+### Minor Changes
+
+- [#1719](https://github.com/adobe/spectrum-design-data/pull/1719) [`e0df9f5`](https://github.com/adobe/spectrum-design-data/commit/e0df9f51102037f1d0799bf8083de923e00795cd) Thanks [@GarthDB](https://github.com/GarthDB)! - Set `lifecycle.replacedBy` on the deprecated `workflow-icon-size-*` tokens.
+
+  Replacements go by t-shirt position:
+  - 50 → `workflow-icon-extra-small`
+  - 75 → `workflow-icon-small`
+  - 100 → `workflow-icon-medium`
+  - 200 → `workflow-icon-large`
+  - 300 → `workflow-icon-extra-large`
+
+  Relationships that bound the old tokens now point at the replacements.
+  Desktop medium, large and extra-large sizes shrink on purpose
+  (20/22/26 → 18/20/22px) to align icons with line height.
+  This is a visible change for consumers of the new tokens,
+  and the deprecation comments say so.
+  Mobile values and sizes 50 and 75 are unchanged.
+  The legacy `layout.json` gains `renamed` and `deprecated_comment`.
+
 ## 15.6.0
 
 ### Minor Changes

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "thumbnail",
+  "root": "container",
+  "sizeScale": {
+    "50": 50,
+    "75": 75,
+    "100": 100,
+    "200": 200,
+    "300": 300,
+    "400": 400,
+    "500": 500,
+    "600": 600,
+    "700": 700,
+    "800": 800,
+    "900": 900,
+    "1000": 1000
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["opacity-checkerboard", "image"],
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "Size"
+          }
+        },
+        "opacity": {
+          "when": {
+            "options": {
+              "isDisabled": true
+            }
+          },
+          "relationship": {
+            "property": "opacity",
+            "context": "Disabled"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Rounding"
+          }
+        },
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Border"
+          }
+        },
+        "strokeOpacity": {
+          "relationship": {
+            "property": "opacity",
+            "context": "Border"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "context": "Border"
+          }
+        },
+        "strokeOver": {
+          "value": true
+        },
+        "direction": {
+          "value": "stack"
+        }
+      }
+    },
+    "opacity-checkerboard": {
+      "kind": "component",
+      "sizeMap": {
+        "50": "s",
+        "75": "s",
+        "100": "s",
+        "200": "s",
+        "300": "s",
+        "400": "s",
+        "500": "s",
+        "600": "s",
+        "700": "s",
+        "800": "s",
+        "900": "s",
+        "1000": "s"
+      },
+      "inherit": ["width", "height", "cornerRadius"]
+    },
+    "image": {
+      "kind": "box",
+      "image": {
+        "source": {
+          "option": "src"
+        },
+        "fit": "cover"
+      },
+      "props": {
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        }
+      }
+    }
+  }
+}

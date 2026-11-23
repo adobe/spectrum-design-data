@@ -1,0 +1,257 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "standard-dialog",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":13,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/0","name":"guideline: Placement.\n\nStandard dialogs appear in the cente","fields":[{"path":"content","before":"Standard dialogs are containers that appear over the interface to present contextual information, tasks, or workflows. They’re centered on the screen and used for moderately complex actions that require focused attention. Interactions outside the dialog are blocked until it's dismissed or completed.","after":"Placement.\n\nStandard dialogs appear in the center of the screen."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/1","name":"guideline: Text overflow.\n\nWhen the title and description t","fields":[{"path":"content","before":"By default, an alert dialog that includes a button to cancel or go back will be labeled “Cancel.”","after":"Text overflow.\n\nWhen the title and description text are too long for the available horizontal space, they wrap to form another line."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/2","name":"guideline: Button group overflow.\n\nStandard dialogs can inc","fields":[{"path":"content","before":"Standard dialogs can include up to three buttons if a secondary outline button label is defined. If no label is defined, the button won’t appear. The secondary outline button should use a short, actionable phrase that clearly communicates the result of selecting the action—typically describing the previous step or an alternative choice.","after":"Button group overflow.\n\nStandard dialogs can include up to three buttons. When horizontal space is limited, the buttons stack vertically. Buttons should be ordered by ascending importance, with the most critical action placed at the end or bottom of the stack."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/3","name":"guideline: Dismissible or not?\n\nWhether a dialog is dismiss","fields":[{"path":"content","before":"The primary action label refers to the rightmost button in the dialog footer for languages that read left to right. It should use a short, actionable phrase that clearly communicates the result of selecting the action—whether that means moving forward or dismissing the dialog.","after":"Dismissible or not?\n\nWhether a dialog is dismissible is controlled by the hideCloseButton prop. A dialog with a close button can be dismissed by clicking the button or the background overlay. Avoid using a dismissible dialog when the user needs to confirm an action or make a decision. Instead, use a dismissible dialog for information that is optional or nice to know—content that can be quickly dismissed without requiring user action."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/4","name":"guideline: Use similar language for dialog titles and actio","fields":[{"path":"content","before":"The presence of a close button determines whether a dialog is dismissible.","after":"Use similar language for dialog titles and actions.\n\nMost dialog titles should communicate the primary action of the dialog. When possible, the button label should use the same language as the action mentioned in the title. For example, if the title is \"Delete conversation,\" the primary action button label should be \"Delete."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/5","name":"guideline: In both cases, pressing the Escape key should cl","fields":[],"before":{"type":"guideline","content":"In both cases, pressing the Escape key should close the dialog and return the page to its previous state. This action should behave the same as clicking a close or cancel button."}},
+            {"id":"ec3376fa-6","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/6","name":"guideline: Standard dialogs are available in three widths:","fields":[],"before":{"type":"guideline","content":"Standard dialogs are available in three widths:"}},
+            {"id":"ec3376fa-7","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/7","name":"guideline: Dialogs automatically scale down to 90% of the s","fields":[],"before":{"type":"guideline","content":"Dialogs automatically scale down to 90% of the screen width on smaller viewports. Height is flexible and adjusts to fit the content."}},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/8","name":"guideline: Standard dialogs can include a full-bleed cover ","fields":[],"before":{"type":"guideline","content":"Standard dialogs can include a full-bleed cover image at the top. Dialogs with a cover image should not be dismissible and rely on buttons in the footer area to close the dialog."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/9","name":"guideline: Standard dialogs can include an optional descrip","fields":[],"before":{"type":"guideline","content":"Standard dialogs can include an optional description. Use the description to briefly provide additional context or information that helps users make an informed decision based on the available actions."}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/10","name":"guideline: All standard dialogs must include a title. The t","fields":[],"before":{"type":"guideline","content":"All standard dialogs must include a title. The title appears at the top of the dialog and should briefly describe the expected outcome if the user proceeds with the primary action. If a cover image is shown, the title will appear below it."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/11","name":"guideline: Standard dialogs appear in the center of the scr","fields":[],"before":{"type":"guideline","content":"Standard dialogs appear in the center of the screen."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/12","name":"guideline: When the title and description text are too long","fields":[],"before":{"type":"guideline","content":"When the title and description text are too long for the available horizontal space, they wrap to form another line."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/13","name":"guideline: Standard dialogs can include up to three buttons","fields":[],"before":{"type":"guideline","content":"Standard dialogs can include up to three buttons. When horizontal space is limited, the buttons stack vertically. Buttons should be ordered by ascending importance, with the most critical action placed at the end or bottom of the stack."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/14","name":"guideline: Avoid using a dismissible dialog when the user n","fields":[],"before":{"type":"guideline","content":"Avoid using a dismissible dialog when the user needs to confirm an action or make a decision. Instead, use a dismissible dialog for information that is optional or nice to know—content that can be quickly dismissed without requiring user action."}},
+            {"id":"ec3376fa-15","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/15","name":"guideline: A dismissible dialog should not include buttons ","fields":[],"before":{"type":"guideline","content":"A dismissible dialog should not include buttons in the footer. Instead, the dialog is dismissed by clicking the close button or the background overlay."}},
+            {"id":"ec3376fa-16","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/16","name":"guideline: Most dialog titles should communicate the primar","fields":[],"before":{"type":"guideline","content":"Most dialog titles should communicate the primary action of the dialog. When possible, the button label should use the same language as the action mentioned in the title. For example, if the title is “Delete conversation,” the primary action button label should be “Delete.”"}},
+            {"id":"ec3376fa-17","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/documentBlocks/17","name":"do-dont: Don't include buttons when dismissible","fields":[],"after":{"type":"do-dont","content":"Don't include buttons when dismissible","dont":"A dismissible dialog should not include buttons in the footer. Instead, the dialog is dismissed by clicking the close button or the background overlay."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":30,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/body","name":"body","fields":[],"after":{"name":"body","description":"Description text."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/cancel-action","name":"cancel-action","fields":[],"after":{"name":"cancel-action","description":"Button that dismisses without acting."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/close-button","name":"close-button","fields":[],"after":{"name":"close-button","description":"Button in the top corner that dismisses the dialog."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Dialog surface.","required":true,"contains":["cover-image","title","header-content","body","footer-content","primary-action","secondary-action","cancel-action","close-button"]}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/cover-image","name":"cover-image","fields":[],"after":{"name":"cover-image","description":"Optional image at the top."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/footer-content","name":"footer-content","fields":[],"after":{"name":"footer-content","description":"Optional content at the start of the footer, such as a checkbox."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/header-content","name":"header-content","fields":[],"after":{"name":"header-content","description":"Optional content beside or below the title."}},
+            {"id":"12ddd7e7-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/primary-action","name":"primary-action","fields":[],"after":{"name":"primary-action","description":"Main confirmation button."}},
+            {"id":"12ddd7e7-8","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/secondary-action","name":"secondary-action","fields":[],"after":{"name":"secondary-action","description":"Alternative action button."}},
+            {"id":"12ddd7e7-9","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/title","name":"title","fields":[],"after":{"name":"title","description":"Dialog title.","required":true}},
+            {"id":"12ddd7e7-10","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web standard dialog and relationships (body, title). Unsure: overlay backdrop is not in the Figma tree, so left out."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"1e312963-150d-53d7-8867-c0f7af0df4bb","name":"maximum-width","fields":[{"path":"$ref","before":"c00d9b06-f198-4cd5-9b69-ed3796314dab","after":"0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"}]},
+            {"id":"0b8924f1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"02cff0f3-b914-51ba-aeba-f677d3d12f30","name":"maximum-width","fields":[{"path":"$ref","before":"1c886eb9-f651-42ce-baff-9b3996077f92","after":"b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"}]},
+            {"id":"0b8924f1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"519772cb-3122-524d-8edf-81a0328330b3","name":"maximum-width","fields":[{"path":"$ref","before":"5ec703d4-19d9-4be5-976f-e4c1966c0d3d","after":"59f1835d-dd9f-4ff1-aad6-ba9c7dcc272a"}]},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"l"}},"record":"5ec703d4-19d9-4be5-976f-e4c1966c0d3d","name":"maximum-width[size=l]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"59f1835d-dd9f-4ff1-aad6-ba9c7dcc272a"}],"rationale":"Deprecated via refine-from-sheets from row 272 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"l"}},"record":"5ec703d4-19d9-4be5-976f-e4c1966c0d3d","name":"maximum-width[size=l]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 272 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 272 of the mapping sheet."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"m"}},"record":"1c886eb9-f651-42ce-baff-9b3996077f92","name":"maximum-width[size=m]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"}],"rationale":"Deprecated via refine-from-sheets from row 273 of the mapping sheet."},
+            {"id":"0b8924f1-6","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"m"}},"record":"1c886eb9-f651-42ce-baff-9b3996077f92","name":"maximum-width[size=m]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 273 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 273 of the mapping sheet."},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"s"}},"record":"c00d9b06-f198-4cd5-9b69-ed3796314dab","name":"maximum-width[size=s]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"}],"rationale":"Deprecated via refine-from-sheets from row 274 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"s"}},"record":"c00d9b06-f198-4cd5-9b69-ed3796314dab","name":"maximum-width[size=s]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 274 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 274 of the mapping sheet."}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "1.2.2",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "676b08d9d3ed808075c931240c3a1ba438efdda4",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1964,"title":"feat(design-data): review anatomy of body, heading, detail, title, code (A1)","url":"https://github.com/adobe/spectrum-design-data/pull/1964"},
+          "entries": [],
+          "metadata": {"count":9,"fields":["context","contextRole","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "de570f2598546e75f64ec6ae4322771c26569e89",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2000,"title":"feat(design-data): anatomy review and identity migration of anchored overlays and modal dialogs","url":"https://github.com/adobe/spectrum-design-data/pull/2000"},
+          "entries": [
+            {"id":"de570f25-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"s"}},"record":"1e312963-150d-53d7-8867-c0f7af0df4bb","name":"maximum-width[size=s]","fields":[{"path":"scope.options.size","after":"s"}]},
+            {"id":"de570f25-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"m"}},"record":"02cff0f3-b914-51ba-aeba-f677d3d12f30","name":"maximum-width[size=m]","fields":[{"path":"scope.options.size","after":"m"}]},
+            {"id":"de570f25-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"size":"l"}},"record":"519772cb-3122-524d-8edf-81a0328330b3","name":"maximum-width[size=l]","fields":[{"path":"scope.options.size","after":"l"}]},
+            {"id":"de570f25-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to content)"],"scope":{"property":"padding","options":{"scale":"desktop"}},"record":"c8fbfa9c-4b0e-5ead-8513-07f80dc320f3","name":"padding[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to content)"],"scope":{"property":"padding","options":{"scale":"desktop"}},"record":"c8fbfa9c-4b0e-5ead-8513-07f80dc320f3","name":"padding[scale=desktop]","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"spacing","after":"padding"}]},
+            {"id":"de570f25-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (edge to content)"],"scope":{"property":"padding","options":{"scale":"mobile"}},"record":"6afc2d8b-1a7b-5d0c-b4bf-36992ddffc64","name":"padding[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to content)"],"scope":{"property":"padding","options":{"scale":"mobile"}},"record":"6afc2d8b-1a7b-5d0c-b4bf-36992ddffc64","name":"padding[scale=mobile]","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"spacing","after":"padding"}]},
+            {"id":"de570f25-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (title to description)"],"scope":{"property":"space-between","options":null},"record":"44094b55-21a2-5802-b3da-26608a7ba252","name":"space-between","fields":[{"path":"scope.between.from","after":"title"},{"path":"scope.between.to","after":"description"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"de570f25-8","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to close button)"],"scope":{"property":"space-between","options":null},"record":"796aca09-e091-523b-86a4-7720ab796f6d","name":"space-between","fields":[{"path":"scope.between.from","after":"container"},{"path":"scope.between.to","after":"close-button"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"de570f25-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"591fc0ab-5621-543d-b5b3-a8ba527f9a05","name":"color[colorScheme=light]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"de570f25-10","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"591fc0ab-5621-543d-b5b3-a8ba527f9a05","name":"color[colorScheme=light]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"83a75df5-35db-5098-8a49-03f3f4be3dbf","name":"color[colorScheme=dark]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"de570f25-12","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"83a75df5-35db-5098-8a49-03f3f4be3dbf","name":"color[colorScheme=dark]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-13","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"21204ff9-fc04-5616-aa92-38a12801d2f5","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"de570f25-14","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"21204ff9-fc04-5616-aa92-38a12801d2f5","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"color","options":null},"record":"3c9e251c-3241-5814-ada7-9c2585104ef0","name":"color","fields":[{"path":"scope.part","after":"overlay"}]},
+            {"id":"de570f25-16","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"light"}},"record":"1689fe6d-9b9d-541c-8608-6ff68abe2f27","name":"opacity[colorScheme=light]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"de570f25-17","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"light"}},"record":"1689fe6d-9b9d-541c-8608-6ff68abe2f27","name":"opacity[colorScheme=light]","fields":[{"path":"scope.part","after":"overlay"}]},
+            {"id":"de570f25-18","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"dark"}},"record":"0faba5db-717b-5c4f-9e18-cde524159db4","name":"opacity[colorScheme=dark]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"de570f25-19","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"dark"}},"record":"0faba5db-717b-5c4f-9e18-cde524159db4","name":"opacity[colorScheme=dark]","fields":[{"path":"scope.part","after":"overlay"}]},
+            {"id":"de570f25-20","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"wireframe"}},"record":"02ae0bfc-ee3c-50a0-bb0d-c927b4b34e1e","name":"opacity[colorScheme=wireframe]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"de570f25-21","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Overlay"],"scope":{"property":"opacity","options":{"colorScheme":"wireframe"}},"record":"02ae0bfc-ee3c-50a0-bb0d-c927b4b34e1e","name":"opacity[colorScheme=wireframe]","fields":[{"path":"scope.part","after":"overlay"}]},
+            {"id":"de570f25-22","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-family","options":null},"record":"aad6d232-7b82-51fa-9a76-30f4ad352c1e","name":"font-family","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-23","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-weight","options":null},"record":"f32deb85-9d03-5aad-be43-c4a3141c4b5d","name":"font-weight","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-24","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-style","options":null},"record":"89175f3f-9d13-5cf2-b70f-21b9bd577d7f","name":"font-style","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-25","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"f84f9e0e-c890-525e-a5ca-c098684e1950","name":"font-size[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-26","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"f84f9e0e-c890-525e-a5ca-c098684e1950","name":"font-size[scale=desktop]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-27","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"76c50ef6-fe81-58dd-aea3-6f9876428a31","name":"font-size[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-28","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"76c50ef6-fe81-58dd-aea3-6f9876428a31","name":"font-size[scale=mobile]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-29","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"line-height","options":null},"record":"de2a552f-db40-504f-b63a-49921563f993","name":"line-height","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-30","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"color","options":null},"record":"28cc3319-5b60-5098-a716-58e941d13788","name":"color","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-31","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-family","options":null},"record":"37321929-641a-510d-a17d-3fea9ad174fa","name":"font-family","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-32","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-weight","options":null},"record":"3d6bb661-c3c9-5013-be2c-1f716c331374","name":"font-weight","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-33","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-style","options":null},"record":"2975ed0f-f88b-5ed2-976c-96e2bdb5bbf0","name":"font-style","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-34","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"819d113b-5345-512f-862f-537d520d12b1","name":"font-size[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-35","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"819d113b-5345-512f-862f-537d520d12b1","name":"font-size[scale=desktop]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-36","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"02578632-a5a2-5ed1-8a90-b96524d0bc11","name":"font-size[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-37","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"02578632-a5a2-5ed1-8a90-b96524d0bc11","name":"font-size[scale=mobile]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-38","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"line-height","options":null},"record":"74dc9b96-0b13-50c4-96ec-12642af2fd36","name":"line-height","fields":[{"path":"scope.part","after":"description"},{"path":"scope.property","before":"line-height-200","after":"line-height"}]},
+            {"id":"de570f25-39","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Description"],"scope":{"property":"color","options":null},"record":"e9b72e79-f240-581e-a515-f9d8a601d182","name":"color","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-40","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/cancel-action","name":"cancel-action","fields":[],"before":{"name":"cancel-action","description":"Button that dismisses without acting."}},
+            {"id":"de570f25-41","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/primary-action","name":"primary-action","fields":[],"before":{"name":"primary-action","description":"Main confirmation button."}},
+            {"id":"de570f25-42","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/secondary-action","name":"secondary-action","fields":[],"before":{"name":"secondary-action","description":"Alternative action button."}},
+            {"id":"de570f25-43","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/button-group","name":"button-group","fields":[],"after":{"name":"button-group","description":"The button-group component that holds the dialog actions. Its buttons are slot fills; the action label options map to them."}},
+            {"id":"de570f25-44","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Explanatory text."}},
+            {"id":"de570f25-45","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/overlay","name":"overlay","fields":[],"after":{"name":"overlay","description":"Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its colour and opacity."}},
+            {"id":"de570f25-46","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/body","name":"body","fields":[{"path":"contains","after":["description"]}]},
+            {"id":"de570f25-47","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/body","name":"body","fields":[{"path":"description","before":"Description text.","after":"Region between the header and the footer. It hosts the default slot and holds the description."}]},
+            {"id":"de570f25-48","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/close-button","name":"close-button","fields":[{"path":"description","before":"Button in the top corner that dismisses the dialog.","after":"Button in the top corner that dismisses the dialog. Hidden with hideCloseButton."}]},
+            {"id":"de570f25-49","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/container","name":"container","fields":[{"path":"contains","before":["cover-image","title","header-content","body","footer-content","primary-action","secondary-action","cancel-action","close-button"],"after":["cover-image","title","header-content","body","footer-content","button-group","close-button"]}]},
+            {"id":"de570f25-50","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/container","name":"container","fields":[{"path":"description","before":"Dialog surface.","after":"Dialog surface. It is the root and carries the width, rounding, padding and background."}]},
+            {"id":"de570f25-51","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/cover-image","name":"cover-image","fields":[{"path":"description","before":"Optional image at the top.","after":"Optional image at the top. Hidden with hideImage."}]},
+            {"id":"de570f25-52","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/footer-content","name":"footer-content","fields":[{"path":"description","before":"Optional content at the start of the footer, such as a checkbox.","after":"Optional content at the start of the footer, such as a checkbox. Hosts the footer-content slot."}]},
+            {"id":"de570f25-53","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/header-content","name":"header-content","fields":[{"path":"description","before":"Optional content beside or below the title.","after":"Optional content beside or below the title. Hosts the header-content slot."}]},
+            {"id":"de570f25-54","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/slots/default","name":"default","fields":[],"after":{"name":"default","part":"body","description":"The dialog content under the header."}},
+            {"id":"de570f25-55","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/slots/footer-content","name":"footer-content","fields":[],"after":{"name":"footer-content","part":"footer-content","accepts":["checkbox"],"description":"Optional content at the start of the footer, such as a checkbox."}},
+            {"id":"de570f25-56","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/slots/header-content","name":"header-content","fields":[],"after":{"name":"header-content","part":"header-content","description":"Optional content in the header, next to the title."}},
+            {"id":"de570f25-57","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web standard dialog and relationships (body, title). Unsure: overlay backdrop is not in the Figma tree, so left out.","after":"Figma S2 Web standard dialog (image, header, body slot plus Description text, footer content and Button group instance, close button), React Spectrum S2 Dialog and AlertDialog slot contexts. Decisions (Garth, 2026-11-20): C3 the backdrop is a top-level overlay part (colour, opacity); C4 the three action parts are one button-group component part; C5 the secondary text is description, with body kept only as the region that hosts the default slot; C6 (default) cover image is cover-image. The Figma standard and alert sets do not draw the overlay; RSP has the Modal underlay. Max widths conflict across sources (gap bead)."}]}
+          ],
+          "metadata": {"count":11,"fields":["anatomyReview.status","context","contextRole","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/button-group","name":"button-group","fields":[{"path":"component","after":"button-group"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/close-button","name":"close-button","fields":[{"path":"component","after":"close-button"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "575b3ece28c445b5959c8806b6dc97c975c69d5f",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2075,"title":"feat(design-data): add alert-dialog and standard-dialog visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2075"},
+          "entries": [
+            {"id":"575b3ece-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/footer","name":"footer","fields":[],"after":{"name":"footer","description":"Action row under the body. Holds the footer content at the start and the button group at the end.","contains":["footer-content","button-group"]}},
+            {"id":"575b3ece-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/header","name":"header","fields":[],"after":{"name":"header","description":"Title row. Holds the title and the optional header content.","contains":["title","header-content"]}},
+            {"id":"575b3ece-2","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/container","name":"container","fields":[{"path":"contains","before":["cover-image","title","header-content","body","footer-content","button-group","close-button"],"after":["cover-image","header","body","footer","close-button"]}]},
+            {"id":"575b3ece-3","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/slots/button-group","name":"button-group","fields":[],"after":{"name":"button-group","part":"button-group","accepts":["button"],"acceptsOnly":true,"min":1,"max":3,"description":"The dialog actions, up to three buttons ordered by ascending importance. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22)."}},
+            {"id":"575b3ece-4","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/visual","name":"standard-dialog","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

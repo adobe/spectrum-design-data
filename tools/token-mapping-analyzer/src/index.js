@@ -12,7 +12,7 @@ import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "./registry-index.js";
-import { decompose, serialize } from "./decomposer.js";
+import { decompose, serialize, isDeprecated } from "./decomposer.js";
 import { generateReport } from "./report.js";
 import { analyzeProperty } from "./property-atomicity.js";
 
@@ -78,7 +78,7 @@ async function main() {
       const result = decompose(
         legacyKey,
         {
-          deprecated: !!token.deprecated,
+          deprecated: isDeprecated(token),
           private: !!token.private,
           component: token.name.component,
           icon: token.name.icon,
@@ -98,7 +98,7 @@ async function main() {
             property: fusion.property,
             fields: fusion.fields,
             bucket: fusion.bucket,
-            deprecated: !!token.deprecated,
+            deprecated: isDeprecated(token),
             private: !!token.private,
           });
         }

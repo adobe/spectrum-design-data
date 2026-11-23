@@ -92,10 +92,16 @@ jobs:
       # Persist the Cargo build cache (sdk/target/) across PR runs.
       # On a warm hit this turns a full 455-crate recompile into an incremental
       # build — the single biggest CI speedup in this repo.
+      # Only main saves the cache (rust-cache-warm.yml); PRs restore it.
+      # The key hashes sdk/Cargo.toml: rust-cache ignores the workspace root manifest, so a
+      # profile change there (opt-level) would otherwise reuse a cache built with the old one.
+      # The workspace is sdk/, so its target dir is "target" relative to it.
       - name: Cache Cargo build
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: "sdk -> sdk/target"
+          workspaces: sdk
+          shared-key: rust-ci-${{ hashFiles('sdk/Cargo.toml') }}
+          save-if: false
       # wasm-pack is pinned in .prototools and installed by setup-toolchain below.
       - uses: moonrepo/setup-toolchain@v0
         with:
@@ -104,8 +110,22 @@ jobs:
         uses: ./.github/actions/cache-pnpm-store
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      # PRs only test the wasm output, so skip wasm-opt (about 2 minutes). Releases still run it.
       - name: Run Rust CI tasks
+        env:
+          WASM_NO_OPT: "1"
         run: moon ci $(jq -r '.rust[]' .github/ci-targets.json | tr '\n' ' ')
+      # design-data:legacy-output rewrites packages/tokens/src in place, so the
+      # in-run legacy-verify/roundtrip tasks compare the output with itself and
+      # always pass. A dirty tree here means the committed legacy output drifted.
+      - name: Legacy output must match the committed packages/tokens/src
+        run: |
+          if [ -n "$(git status --porcelain -- packages/tokens/src)" ]; then
+            git status --short -- packages/tokens/src
+            git diff --stat -- packages/tokens/src
+            echo "::error::design-data changes altered the legacy token output. Add \"excludeFromLegacy\": true to new tokens (or fix the change) so 'design-data migrate legacy-output' leaves packages/tokens/src unchanged."
+            exit 1
+          fi
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()
         with:

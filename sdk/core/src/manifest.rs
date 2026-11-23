@@ -20,7 +20,7 @@ use std::path::{Component, Path, PathBuf};
 
 use serde_json::{Map, Value};
 
-use crate::data_source::ResolvedData;
+use crate::data_source::{ResolvedData, SourceConfig};
 use crate::discovery::discover_json_files;
 use crate::graph::TokenGraph;
 use crate::schema::SchemaRegistry;
@@ -68,6 +68,65 @@ fn locate_platform_implementations_registry(schemas_root: &Path) -> Option<PathB
         let candidate = p.join("packages/design-data/registry/platform-implementations.json");
         candidate.is_file().then_some(candidate)
     })
+}
+
+/// Who a configured platform manifest is: its `platform` id and a display name
+/// (registry label, else `platformVersion`, else the id).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PlatformIdentity {
+    pub id: String,
+    pub name: String,
+}
+
+/// The identity of the configured platform manifest, or `None` when no manifest is
+/// configured. A manifest without a `platform` field is identified by its directory name.
+pub fn platform_identity(resolved: &ResolvedData) -> Result<Option<PlatformIdentity>, CoreError> {
+    let Some(path) = resolved.platform_manifest.as_ref() else {
+        return Ok(None);
+    };
+    let manifest: Value = serde_json::from_str(&std::fs::read_to_string(path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform manifest {}: {e}",
+            path.display()
+        ))
+    })?)
+    .map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform manifest {}: {e}",
+            path.display()
+        ))
+    })?;
+    let id = manifest
+        .get("platform")
+        .and_then(Value::as_str)
+        .map(str::to_string)
+        .or_else(|| {
+            path.parent()
+                .and_then(Path::file_name)
+                .map(|n| n.to_string_lossy().into_owned())
+        })
+        .unwrap_or_else(|| "platform".to_string());
+    let label = locate_platform_implementations_registry(&resolved.schemas_root)
+        .and_then(|p| std::fs::read_to_string(p).ok())
+        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
+        .and_then(|r| {
+            r.get("values")?
+                .as_array()?
+                .iter()
+                .find(|v| v.get("id").and_then(Value::as_str) == Some(id.as_str()))?
+                .get("label")?
+                .as_str()
+                .map(str::to_string)
+        });
+    let name = label
+        .or_else(|| {
+            manifest
+                .get("platformVersion")
+                .and_then(Value::as_str)
+                .map(str::to_string)
+        })
+        .unwrap_or_else(|| id.clone());
+    Ok(Some(PlatformIdentity { id, name }))
 }
 
 /// Check a manifest's optional `platform` field against the
@@ -157,19 +216,12 @@ pub fn load_formatting_config(
     Ok(Some(config))
 }
 
-/// Apply the Layer 2 platform manifest declared in `.design-data.toml`
-/// (top-level `manifest` key) to `graph`, returning mode-set restrictions to feed
-/// into a [`ResolutionContext`](crate::cascade::ResolutionContext).
-///
-/// A no-op (empty map) when no manifest is configured. When the spec's
-/// `manifest.schema.json` is locatable, the manifest is first validated (Layer 1);
-/// schema violations return an error.
-pub fn apply_configured(
-    graph: &mut TokenGraph,
-    resolved: &ResolvedData,
-) -> Result<HashMap<String, Vec<String>>, CoreError> {
+/// Load the platform manifest declared in `.design-data.toml`, Layer 1 validated, with its
+/// `extensions/` directory merged in under `extensions` (the document
+/// [`TokenGraph::apply_platform_manifest`] expects). `None` when no manifest is configured.
+pub fn load_configured_manifest(resolved: &ResolvedData) -> Result<Option<Value>, CoreError> {
     let Some(manifest_path) = resolved.platform_manifest.as_ref() else {
-        return Ok(HashMap::new());
+        return Ok(None);
     };
     let text = std::fs::read_to_string(manifest_path).map_err(|e| {
         CoreError::ParseError(format!(
@@ -218,8 +270,61 @@ pub fn apply_configured(
             .insert("extensions".to_string(), ext);
     }
 
+    Ok(Some(manifest))
+}
+
+/// Apply the Layer 2 platform manifest declared in `.design-data.toml`
+/// (top-level `manifest` key) to `graph`, returning mode-set restrictions to feed
+/// into a [`ResolutionContext`](crate::cascade::ResolutionContext).
+///
+/// A no-op (empty map) when no manifest is configured. When the spec's
+/// `manifest.schema.json` is locatable, the manifest is first validated (Layer 1);
+/// schema violations return an error.
+pub fn apply_configured(
+    graph: &mut TokenGraph,
+    resolved: &ResolvedData,
+) -> Result<HashMap<String, Vec<String>>, CoreError> {
+    let Some(manifest) = load_configured_manifest(resolved)? else {
+        return Ok(HashMap::new());
+    };
+    // Platform relationship `override`/`remove` target foundation records by uuid, so
+    // the foundation set must be loaded first. Callers that already loaded it are skipped.
+    if graph.relationships.is_empty() {
+        if let Some(dir) = resolved.relationships.as_deref() {
+            let rels = TokenGraph::load_spec_relationships(dir)?;
+            *graph = std::mem::take(graph).with_relationships(rels);
+        }
+    }
+    // The manifest file is known here and not inside `apply_platform_manifest`, so name it
+    // when a relationship the manifest adds or overrides has a shape this engine refuses.
+    if let Some(why) = unsupported_manifest_relationship(&manifest) {
+        let file = resolved
+            .platform_manifest
+            .as_ref()
+            .map_or_else(String::new, |p| format!(" {}", p.display()));
+        return Err(CoreError::ParseError(format!(
+            "platform manifest{file}: {why}"
+        )));
+    }
     let outcome = graph.apply_platform_manifest(&manifest)?;
     Ok(outcome.mode_set_restrictions)
+}
+
+/// The first relationship a manifest adds or overrides whose `scope.options` this engine
+/// cannot read, as a message that names the entry. A `remove` entry has no scope.
+fn unsupported_manifest_relationship(manifest: &Value) -> Option<String> {
+    let entries = manifest
+        .pointer("/extensions/relationships")
+        .and_then(Value::as_array)?;
+    entries.iter().enumerate().find_map(|(index, entry)| {
+        let raw = match entry.get("op").and_then(Value::as_str) {
+            None => Some(entry),
+            Some("override") => entry.get("value"),
+            _ => None,
+        }?;
+        crate::graph::unsupported_scope_shape(raw)
+            .map(|why| format!("extensions.relationships entry {index}: {why}"))
+    })
 }
 
 /// Glob+merge the Layer 2 manifest's `extensions/` directory (default name
@@ -266,6 +371,8 @@ fn build_extensions_value(
         .chain(CONCAT_CATEGORIES.iter().map(|(dir_name, _, _)| *dir_name))
         .chain(std::iter::once("relationships"))
         .chain(std::iter::once("mode-sets"))
+        .chain(std::iter::once("visuals"))
+        .chain(std::iter::once("deviations"))
         .collect();
     for entry in std::fs::read_dir(&ext_root)? {
         let entry = entry?;
@@ -357,6 +464,69 @@ fn build_extensions_value(
                 items.into_iter().partition(|v| v.get("op").is_none());
             adds.extend(ops);
             out.insert("modeSets".to_string(), Value::Array(adds));
+        }
+    }
+
+    // visuals/ — one recipe per file, named <component>.json. Each entry keeps its
+    // fragment path so `VisualRecord.file` can point at it.
+    let visuals_dir = ext_root.join("visuals");
+    if visuals_dir.is_dir() {
+        let schema = schema_dir.join("component-visual.schema.json");
+        let mut items = Vec::new();
+        for f in discover_json_files(&visuals_dir)? {
+            let text = std::fs::read_to_string(&f).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to read extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            let recipe: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to parse extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            check_fragment(&f, &recipe, &schema)?;
+            let stem = f.file_stem().and_then(|s| s.to_str()).unwrap_or_default();
+            if recipe.get("component").and_then(|v| v.as_str()) != Some(stem) {
+                return Err(CoreError::ParseError(format!(
+                    "extension fragment {} has component {} but its file name must be \
+                     <component>.json",
+                    f.display(),
+                    recipe.get("component").unwrap_or(&Value::Null)
+                )));
+            }
+            items.push(serde_json::json!({ "file": f.to_string_lossy(), "recipe": recipe }));
+        }
+        if !items.is_empty() {
+            out.insert("visuals".to_string(), Value::Array(items));
+        }
+    }
+
+    // deviations/ — one component per file; each entry keeps its fragment path so
+    // SPEC-109 and SPEC-110 can name the file. No renderer reads it.
+    let deviations_dir = ext_root.join("deviations");
+    if deviations_dir.is_dir() {
+        let schema = schema_dir.join("platform-deviation.schema.json");
+        let mut items = Vec::new();
+        for f in discover_json_files(&deviations_dir)? {
+            let text = std::fs::read_to_string(&f).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to read extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            let doc: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!(
+                    "failed to parse extension fragment {}: {e}",
+                    f.display()
+                ))
+            })?;
+            check_fragment(&f, &doc, &schema)?;
+            items.push(serde_json::json!({ "file": f.to_string_lossy(), "deviations": doc }));
+        }
+        if !items.is_empty() {
+            out.insert("deviations".to_string(), Value::Array(items));
         }
     }
 
@@ -524,13 +694,311 @@ pub fn load_merged_catalogs(resolved: &ResolvedData) -> Result<MergedCatalogs, C
     })
 }
 
+/// Whether a manifest's `foundationVersion` and the project's `[source]` pin name the same
+/// release (the pin is written twice: GH #1741).
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+#[serde(tag = "status", rename_all = "kebab-case")]
+pub enum PinCheck {
+    /// Both name this release.
+    Agree { version: String },
+    /// They name different releases.
+    Mismatch { manifest: String, source: String },
+    /// The source cannot be compared (a sha, branch or git ref, or a version that is not exact).
+    Unverifiable { reason: String },
+    /// Nothing to compare: no manifest pin, or a `path` or embedded dataset.
+    Skipped { reason: String },
+}
+
+/// `@adobe/spectrum-design-data@3.15.1` and `3.15.1` both name release `3.15.1`.
+pub fn bare_version(pin: &str) -> &str {
+    pin.rsplit_once('@').map_or(pin, |(_, v)| v).trim()
+}
+
+/// The exact version a pin names (`@adobe/spectrum-design-data@3.15.1` or `3.15.1`), if it is one.
+pub fn exact_version(pin: &str) -> Option<semver::Version> {
+    semver::Version::parse(bare_version(pin)).ok()
+}
+
+/// The package a pin names, if it says: `@adobe/spectrum-design-data` for
+/// `@adobe/spectrum-design-data@3.15.1`, nothing for `3.15.1`.
+fn pin_package(pin: &str) -> Option<&str> {
+    pin.rsplit_once('@')
+        .map(|(pkg, _)| pkg.trim())
+        .filter(|pkg| !pkg.is_empty())
+}
+
+/// Compare the manifest's `foundationVersion` with the `[source]` the project resolves.
+///
+/// A github `tag` and an npm `version` are compared once the package prefix is stripped from both.
+pub fn check_foundation_pin(manifest_pin: Option<&str>, source: Option<&SourceConfig>) -> PinCheck {
+    let skipped = |reason: &str| PinCheck::Skipped {
+        reason: reason.to_string(),
+    };
+    let Some(manifest_pin) = manifest_pin else {
+        return skipped("the manifest declares no `foundationVersion`");
+    };
+    let source_pin = match source {
+        None => return skipped("no `[source]` pin: the project uses the embedded dataset"),
+        Some(SourceConfig::Path { .. }) => {
+            return skipped("the `[source]` is a local path, not a release pin")
+        }
+        Some(SourceConfig::Github { tag: Some(tag), .. }) => tag.as_str(),
+        Some(SourceConfig::Npm { version, .. }) => version.as_str(),
+        Some(SourceConfig::Github { .. } | SourceConfig::Git { .. }) => {
+            return PinCheck::Unverifiable {
+                reason: "the `[source]` is pinned by sha, branch or git ref, not a release".into(),
+            }
+        }
+    };
+    let (manifest, source) = (bare_version(manifest_pin), bare_version(source_pin));
+    if semver::Version::parse(manifest).is_err() || semver::Version::parse(source).is_err() {
+        return PinCheck::Unverifiable {
+            reason: format!(
+                "`foundationVersion` '{manifest_pin}' or the `[source]` pin '{source_pin}' is not an exact version"
+            ),
+        };
+    }
+    // Two pins that name different packages are not the same release even at one version.
+    if let (Some(a), Some(b)) = (pin_package(manifest_pin), pin_package(source_pin)) {
+        if a != b {
+            return PinCheck::Mismatch {
+                manifest: manifest_pin.trim().to_string(),
+                source: source_pin.trim().to_string(),
+            };
+        }
+    }
+    // Build metadata (`3.15.1+meta`) does not make a different release: compare by precedence.
+    let same = match (
+        semver::Version::parse(manifest),
+        semver::Version::parse(source),
+    ) {
+        (Ok(a), Ok(b)) => a.cmp_precedence(&b) == std::cmp::Ordering::Equal,
+        _ => manifest == source,
+    };
+    if same {
+        PinCheck::Agree {
+            version: manifest.to_string(),
+        }
+    } else {
+        PinCheck::Mismatch {
+            manifest: manifest.to_string(),
+            source: source.to_string(),
+        }
+    }
+}
+
+/// A manifest extension that replaces a foundation artifact of the same name, instead of adding
+/// one. Replacing is allowed (it is how a platform owns a recipe), but it is also the sign of
+/// something the foundation might adopt, so `platform doctor` lists them.
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+pub struct Shadow {
+    /// `components`, `visuals`, `fields` or `guidelines`: the extension categories that
+    /// add-or-replace by name.
+    pub category: &'static str,
+    pub name: String,
+}
+
+/// The extension entries in `manifest` whose name is already in `foundation` (the graph loaded
+/// without the manifest applied).
+pub fn shadowed_artifacts(foundation: &TokenGraph, manifest: &Value) -> Vec<Shadow> {
+    fn entries<'a>(manifest: &'a Value, category: &str) -> impl Iterator<Item = &'a Value> {
+        manifest
+            .get("extensions")
+            .and_then(|e| e.get(category))
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+    }
+    let mut out = Vec::new();
+    let mut check = |category: &'static str, name: Option<&str>, known: &[&String]| {
+        if let Some(name) = name.filter(|n| known.iter().any(|k| k.as_str() == *n)) {
+            out.push(Shadow {
+                category,
+                name: name.to_string(),
+            });
+        }
+    };
+    let components: Vec<&String> = foundation.components.iter().map(|c| &c.name).collect();
+    let visuals: Vec<&String> = foundation.visuals.iter().map(|v| &v.component).collect();
+    let fields: Vec<&String> = foundation.fields.iter().map(|f| &f.name).collect();
+    let guidelines: Vec<&String> = foundation.guidelines.iter().map(|g| &g.name).collect();
+    for e in entries(manifest, "components") {
+        check(
+            "components",
+            e.get("name").and_then(Value::as_str),
+            &components,
+        );
+    }
+    for e in entries(manifest, "visuals") {
+        check(
+            "visuals",
+            e.pointer("/recipe/component").and_then(Value::as_str),
+            &visuals,
+        );
+    }
+    for e in entries(manifest, "fields") {
+        check("fields", e.get("name").and_then(Value::as_str), &fields);
+    }
+    for e in entries(manifest, "guidelines") {
+        check(
+            "guidelines",
+            e.get("name").and_then(Value::as_str),
+            &guidelines,
+        );
+    }
+    out
+}
+
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn pins_agree_with_or_without_the_package_prefix() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1"));
+        for manifest in ["@adobe/spectrum-design-data@3.15.1", "3.15.1"] {
+            assert_eq!(
+                check_foundation_pin(Some(manifest), Some(&tag)),
+                PinCheck::Agree {
+                    version: "3.15.1".into()
+                },
+                "{manifest}"
+            );
+        }
+        assert_eq!(
+            check_foundation_pin(
+                Some("@adobe/spectrum-design-data@3.15.1"),
+                Some(&gh(Some("3.15.1")))
+            ),
+            PinCheck::Agree {
+                version: "3.15.1".into()
+            }
+        );
+    }
+
+    #[test]
+    fn different_pins_are_a_mismatch() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.10.0"));
+        assert_eq!(
+            check_foundation_pin(Some("@adobe/spectrum-design-data@3.9.0"), Some(&tag)),
+            PinCheck::Mismatch {
+                manifest: "3.9.0".into(),
+                source: "3.10.0".into()
+            }
+        );
+    }
+
+    #[test]
+    fn a_source_that_is_not_a_release_pin_is_not_compared() {
+        let manifest = Some("@adobe/spectrum-design-data@3.9.0");
+        assert!(matches!(
+            check_foundation_pin(manifest, None),
+            PinCheck::Skipped { .. }
+        ));
+        let path = SourceConfig::Path {
+            root: "../x".into(),
+        };
+        assert!(matches!(
+            check_foundation_pin(manifest, Some(&path)),
+            PinCheck::Skipped { .. }
+        ));
+        assert!(matches!(
+            check_foundation_pin(manifest, Some(&gh(None))),
+            PinCheck::Unverifiable { .. }
+        ));
+        assert!(matches!(
+            check_foundation_pin(None, Some(&gh(Some("3.9.0")))),
+            PinCheck::Skipped { .. }
+        ));
+    }
+
+    #[test]
+    fn a_version_that_is_not_exact_is_unverifiable() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1"));
+        assert!(matches!(
+            check_foundation_pin(Some("^3.15.0"), Some(&tag)),
+            PinCheck::Unverifiable { .. }
+        ));
+        assert!(matches!(
+            check_foundation_pin(Some("latest"), Some(&tag)),
+            PinCheck::Unverifiable { .. }
+        ));
+    }
+
+    #[test]
+    fn pins_for_different_packages_never_agree() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1"));
+        assert!(matches!(
+            check_foundation_pin(Some("@other/pkg@3.15.1"), Some(&tag)),
+            PinCheck::Mismatch { .. }
+        ));
+    }
+
+    #[test]
+    fn build_metadata_does_not_make_a_different_release() {
+        let tag = gh(Some("@adobe/spectrum-design-data@3.15.1+abc"));
+        assert_eq!(
+            check_foundation_pin(Some("3.15.1"), Some(&tag)),
+            PinCheck::Agree {
+                version: "3.15.1".into()
+            }
+        );
+    }
+
+    #[test]
+    fn an_npm_version_is_compared() {
+        let npm = SourceConfig::Npm {
+            package: None,
+            version: "3.15.1".into(),
+        };
+        assert_eq!(
+            check_foundation_pin(Some("@adobe/spectrum-design-data@3.15.1"), Some(&npm)),
+            PinCheck::Agree {
+                version: "3.15.1".into()
+            }
+        );
+    }
+
     use super::*;
+
+    #[test]
+    fn a_manifest_relationship_the_engine_cannot_read_is_named_by_entry() {
+        let bad = serde_json::json!({"scope": {"component": "x", "property": "y",
+            "options": {"future": {"min": 1}}}, "uuid": "u", "$ref": "t"});
+        let ok = serde_json::json!({"scope": {"component": "x", "property": "y",
+            "options": {"size": "m"}}, "uuid": "v", "$ref": "t"});
+        let manifest = serde_json::json!({"extensions": {"relationships": [
+            ok.clone(),
+            {"op": "remove", "uuid": "gone"},
+            {"op": "override", "uuid": "v", "value": bad.clone()},
+            bad,
+        ]}});
+        let why = unsupported_manifest_relationship(&manifest).unwrap();
+        assert!(
+            why.starts_with("extensions.relationships entry 2:"),
+            "{why}"
+        );
+        assert!(why.contains("upgrade the CLI"), "{why}");
+        let fine = serde_json::json!({"extensions": {"relationships": [
+            ok, {"op": "remove", "uuid": "gone"}
+        ]}});
+        assert_eq!(unsupported_manifest_relationship(&fine), None);
+        assert_eq!(
+            unsupported_manifest_relationship(&serde_json::json!({})),
+            None
+        );
+    }
     use crate::data_source::{Provenance, ResolvedData};
     use crate::graph::TokenGraph;
     use serde_json::json;
     use std::path::PathBuf;
+
+    fn gh(tag: Option<&str>) -> SourceConfig {
+        SourceConfig::Github {
+            repo: "adobe/spectrum-design-data".into(),
+            tag: tag.map(String::from),
+            branch: tag.is_none().then(|| "main".to_string()),
+            sha: None,
+        }
+    }
 
     /// The real `packages/design-data-spec/schemas` dir, whose ancestry contains
     /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors the
@@ -548,6 +1016,7 @@ mod tests {
             fields: None,
             guidelines: None,
             relationships: None,
+            icons: None,
             exceptions: None,
             platform_manifest: Some(manifest_path),
             provenance: Provenance::InRepo,
@@ -625,6 +1094,7 @@ mod tests {
             fields: None,
             guidelines: None,
             relationships: None,
+            icons: None,
             exceptions: None,
             platform_manifest: None,
             provenance: Provenance::InRepo,
@@ -826,6 +1296,48 @@ mod tests {
         std::fs::set_permissions(&bogus, std::fs::Permissions::from_mode(0o644)).unwrap();
 
         assert!(err.to_string().contains("unreadable.json"));
+    }
+
+    /// #1759: override/remove target foundation relationships, so `apply_configured`
+    /// must load them itself when the caller has not.
+    #[test]
+    fn relationship_override_and_remove_find_foundation_records() {
+        let dir = tempfile::tempdir().unwrap();
+        let rel_dir = dir.path().join("relationships");
+        std::fs::create_dir_all(&rel_dir).unwrap();
+        let rel = |uuid: &str| {
+            json!({"scope": {"component": "button", "property": "x"},
+                   "context": "c", "$ref": "btn-bg", "uuid": uuid})
+        };
+        std::fs::write(
+            rel_dir.join("button.json"),
+            json!([
+                rel("aaaaaaaa-0000-4000-8000-000000000001"),
+                rel("aaaaaaaa-0000-4000-8000-000000000002")
+            ])
+            .to_string(),
+        )
+        .unwrap();
+        let mut over = rel("aaaaaaaa-0000-4000-8000-000000000001");
+        over["context"] = json!("overridden");
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[(
+                "relationships",
+                "ops.json",
+                json!([
+                    {"op": "override", "uuid": "aaaaaaaa-0000-4000-8000-000000000001", "value": over},
+                    {"op": "remove", "uuid": "aaaaaaaa-0000-4000-8000-000000000002"}
+                ]),
+            )],
+        );
+        let mut graph = make_graph();
+        let mut resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        resolved.relationships = Some(rel_dir);
+        apply_configured(&mut graph, &resolved).unwrap();
+        assert_eq!(graph.relationships.len(), 1);
+        assert_eq!(graph.relationships[0].raw["context"], "overridden");
     }
 
     #[test]
@@ -1113,5 +1625,42 @@ mod tests {
         );
         assert!(error.contains("failed schema validation"), "{error}");
         assert!(error.contains("componentName"), "{error}");
+    }
+
+    #[test]
+    fn an_extension_with_a_foundation_namesake_is_a_shadow() {
+        use crate::graph::{ComponentRecord, Layer, VisualRecord};
+        let mut g = TokenGraph::default();
+        g.components.push(ComponentRecord {
+            name: "button".into(),
+            file: "button.json".into(),
+            raw: json!({ "name": "button" }),
+            layer: Layer::Foundation,
+        });
+        g.visuals.push(VisualRecord {
+            component: "badge".into(),
+            file: "badge.json".into(),
+            raw: json!({}),
+            layer: Layer::Foundation,
+        });
+        let manifest = json!({ "extensions": {
+            "components": [{ "name": "button" }, { "name": "tab-bar-ios" }],
+            "visuals": [{ "file": "x.json", "recipe": { "component": "badge" } },
+                        { "file": "y.json", "recipe": { "component": "status-light" } }]
+        } });
+        assert_eq!(
+            shadowed_artifacts(&g, &manifest),
+            vec![
+                Shadow {
+                    category: "components",
+                    name: "button".into()
+                },
+                Shadow {
+                    category: "visuals",
+                    name: "badge".into()
+                },
+            ]
+        );
+        assert!(shadowed_artifacts(&g, &json!({})).is_empty());
     }
 }

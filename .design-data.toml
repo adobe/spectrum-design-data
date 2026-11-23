@@ -14,3 +14,11 @@
 ios = "platforms/ios/manifest.json"
 react-spectrum = "platforms/react-spectrum/manifest.json"
 web-components = "platforms/web-components/manifest.json"
+
+# A platform whose manifest lives in its own repo needs no entry here: that repo pins this dataset from its own
+# `.design-data.toml`, and this dataset does not follow its releases. To try one from this checkout, add a remote entry
+# locally (not committed):
+#   [platforms.<id>]
+#   repo = "<owner>/<repo>"
+#   tag = "<release tag>"
+#   manifest_path = "platforms/<id>/manifest.json"

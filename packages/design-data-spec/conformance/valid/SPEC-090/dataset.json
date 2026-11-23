@@ -1,0 +1,94 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "property": "component-height-100"
+      },
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000001",
+      "value": "32px"
+    }
+  ],
+  "relationships": [
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Padding",
+      "contextRole": ["spacing"],
+      "$ref": "aaaaaaaa-0090-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000200"
+    },
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Text",
+      "contextRole": ["label"],
+      "$ref": "aaaaaaaa-0090-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000201"
+    },
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Drop shadow",
+      "contextRole": ["shadow"],
+      "$ref": "aaaaaaaa-0090-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000202"
+    },
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Tab items",
+      "contextRole": ["navigation"],
+      "$ref": "aaaaaaaa-0090-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000203"
+    },
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Tab item",
+      "contextRole": ["tab-item"],
+      "$ref": "aaaaaaaa-0090-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000204"
+    },
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Background and border",
+      "contextRole": ["background", "border"],
+      "$ref": "aaaaaaaa-0090-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000205"
+    },
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "gap"
+      },
+      "context": "Text (hover)",
+      "contextRole": ["label"],
+      "contextQualifier": "hover",
+      "$ref": "aaaaaaaa-0090-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0090-4000-8000-000000000206"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
+      "name": "accordion",
+      "displayName": "Accordion",
+      "meta": {
+        "category": "actions"
+      }
+    }
+  ]
+}

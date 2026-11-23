@@ -1,0 +1,92 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-loupe",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["opacity-checkerboard", "fill"],
+      "props": {
+        "direction": {
+          "value": "stack"
+        },
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.375,
+          "relativeTo": "height"
+        },
+        "stroke": {
+          "token": {
+            "property": "color",
+            "colorFamily": "transparent-static-white",
+            "scaleIndex": 1000
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "container",
+            "position": "outer"
+          }
+        },
+        "strokeOver": {
+          "value": true
+        },
+        "innerStroke": {
+          "token": {
+            "property": "color",
+            "colorFamily": "transparent-static-black",
+            "scaleIndex": 200
+          }
+        },
+        "innerStrokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "fill",
+            "position": "inner"
+          }
+        }
+      }
+    },
+    "opacity-checkerboard": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "inherit": ["width", "height", "cornerRadius"]
+    },
+    "fill": {
+      "kind": "box",
+      "props": {
+        "fill": {
+          "option": "color"
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.375,
+          "relativeTo": "height"
+        }
+      }
+    }
+  }
+}

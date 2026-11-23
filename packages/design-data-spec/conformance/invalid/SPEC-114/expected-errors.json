@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-114",
+      "severity": "error",
+      "message_pattern": ".*Floating part 'tip'.*both side and position.*"
+    }
+  ]
+}

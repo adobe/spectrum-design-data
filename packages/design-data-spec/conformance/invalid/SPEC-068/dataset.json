@@ -1,0 +1,37 @@
+{
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/switch.json",
+      "name": "switch",
+      "displayName": "Switch",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/switch/"
+      },
+      "anatomy": [
+        {
+          "name": "track",
+          "description": "Background.",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "component": "switch",
+      "root": "track",
+      "parts": {
+        "track": {
+          "kind": "box",
+          "props": {
+            "width": {
+              "value": 10
+            }
+          }
+        }
+      }
+    }
+  ],
+  "tokens": []
+}

@@ -273,7 +273,7 @@ export function createReadTools() {
             description:
               'Filter expression, e.g. "property=background-color". Valid keys: ' +
               "property, component, variant, state, colorScheme, scale, contrast, " +
-              'uuid, $schema. Note: "component" is not currently populated on ' +
+              'uuid, $schema, tier (primitive, semantic or component), object, anatomy, colorRole. Results include purposeFields. Note: "component" is not currently populated on ' +
               "tokens — component=<id> always returns []; use describe_component instead.",
           },
         },
@@ -314,6 +314,43 @@ export function createReadTools() {
       async handler({ intent, limit = 5 }) {
         const ds = await getDataset();
         return ds.suggest(intent, undefined, limit);
+      },
+    },
+
+    {
+      name: "token_refinements",
+      description:
+        "Show a token's semantic specificity (tier, then purpose-field count, derived from its " +
+        "name) and the same-property tokens that are narrower (add purpose fields) or broader " +
+        "(drop them). Each neighbor lists `fields` it adds or lacks and a `valueMatch`: " +
+        '"drop-in" (same value in every mode) or "consider" (differs; see `differingModes`). ' +
+        "Specificity only orders tokens; check the added fields fit the use before swapping.",
+      inputSchema: {
+        type: "object",
+        required: ["token"],
+        properties: {
+          token: {
+            type: "string",
+            description:
+              "Token name (e.g. neutral-content-color-hover), uuid or conceptId. A token without a name shown by query as `property=corner-radius scaleIndex=500` can be passed as that text.",
+          },
+          limit: {
+            type: "number",
+            description:
+              "Maximum narrower and broader tokens, each (default: 10)",
+            default: 10,
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ token, limit = 10 }) {
+        const ds = await getDataset();
+        const result = ds.refinements(token, limit);
+        if (!result)
+          throw new Error(
+            `No token found for "${token}". Use a token name, uuid or conceptId, or the name shown by query_tokens.`,
+          );
+        return result;
       },
     },
 
@@ -360,10 +397,8 @@ export function createReadTools() {
         }
         const component = JSON.parse(readFileSync(componentFile, "utf-8"));
 
-        // Component/Token Relationships (CTRs) migrated most tokenBindings out
-        // of the component file into relationships/<id>.json — merge them back
-        // in so callers relying on this tool for a component's token bindings
-        // still see them (see spectrum-design-data-x29.4).
+        // A component's token bindings live in relationships/<id>.json
+        // (Component/Token Relationships), not in the component file.
         const relationshipsDir = getCascadeAwareDir(
           config.relationshipsDir,
           "relationships",

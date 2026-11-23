@@ -16,10 +16,13 @@ import { buildBlocks } from "./blocks-builder.js";
 import { writeJson } from "./write-json.js";
 
 /**
- * Insert (or replace) a `documentBlocks` key after `meta` in a component object,
- * preserving all other key order.
+ * Replace `documentBlocks` in place when present (so unchanged content rewrites
+ * byte-identical), otherwise insert it after `meta`. All other key order is preserved.
  */
 export function insertDocumentBlocks(component, blocks) {
+  if ("documentBlocks" in component) {
+    return { ...component, documentBlocks: blocks };
+  }
   const entries = Object.entries(component);
   const metaIndex = entries.findIndex(([k]) => k === "meta");
 

@@ -43,6 +43,9 @@
           placeholder="Search tokens, values, or components..."
           id="searchInput"
         />
+        <button type="button" class="copy-link-button" id="copyLinkButton">
+          Copy link
+        </button>
       </search>
       <div class="tabs">
         <div class="tab-buttons">
@@ -1150,27 +1153,79 @@
         };
       })();
 
+      // Shareable URL state: ?q=<search>&tab=<tab id>
+      const UrlState = {
+        validTabs() {
+          return Array.from(document.querySelectorAll(".tab-button")).map(
+            (btn) => btn.dataset.tab
+          );
+        },
+        read() {
+          const params = new URLSearchParams(location.search);
+          const tab = params.get("tab");
+          return {
+            q: params.get("q") || "",
+            tab: this.validTabs().includes(tab) ? tab : null,
+          };
+        },
+        update(changes) {
+          const params = new URLSearchParams(location.search);
+          Object.entries(changes).forEach(([key, value]) => {
+            if (value) params.set(key, value);
+            else params.delete(key);
+          });
+          const query = params.toString();
+          history.replaceState(
+            null,
+            "",
+            `${location.pathname}${query ? `?${query}` : ""}${location.hash}`
+          );
+        },
+      };
+
+      function activateTab(tabId) {
+        document
+          .querySelectorAll(".tab-button")
+          .forEach((btn) => btn.classList.toggle("active", btn.dataset.tab === tabId));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((content) => content.classList.toggle("active", content.id === tabId));
+        const tabSelect = document.getElementById("tabSelect");
+        if (tabSelect) tabSelect.value = tabId;
+
+        // Remove body ID for normal content
+        document.body.id = "";
+        UrlState.update({ tab: tabId });
+      }
+
       // Unified tab handler function
       function setupTabHandlers() {
-        const tabButtons = document.querySelectorAll(".tab-button");
-        tabButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const tabId = button.dataset.tab;
-
-            // Remove active class from all buttons and content
-            tabButtons.forEach((btn) => btn.classList.remove("active"));
-            document
-              .querySelectorAll(".tab-content")
-              .forEach((content) => content.classList.remove("active"));
-
-            // Add active class to clicked button and corresponding content
-            button.classList.add("active");
-            document.getElementById(tabId).classList.add("active");
-
-            // Remove body ID for normal content
-            document.body.id = "";
-          });
+        document.querySelectorAll(".tab-button").forEach((button) => {
+          button.addEventListener("click", () => activateTab(button.dataset.tab));
         });
+      }
+
+      function setupCopyLink() {
+        const button = document.getElementById("copyLinkButton");
+        button.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(location.href);
+            button.textContent = "Copied";
+            setTimeout(() => (button.textContent = "Copy link"), 1500);
+          } catch {
+            window.prompt("Copy this link:", location.href);
+          }
+        });
+      }
+
+      function applyUrlState() {
+        const { q, tab } = UrlState.read();
+        if (tab) activateTab(tab);
+        if (q) {
+          const searchInput = document.getElementById("searchInput");
+          searchInput.value = q;
+          searchInput.dispatchEvent(new Event("input"));
+        }
       }
 
       // Update search functionality
@@ -1211,6 +1266,7 @@
 
         searchInput.addEventListener("input", (e) => {
           const rawInput = e.target.value;
+          UrlState.update({ q: rawInput.trim() });
           const searchTerm = SecurityUtils.sanitizeInput(
             rawInput.toLowerCase()
           );
@@ -1376,6 +1432,7 @@
           // Initialize UI components
           initializeGrids(validData, resolvers);
           initializeEventListeners();
+          applyUrlState();
 
           // Initialize additional features
           ThemeManager.initTheme();
@@ -1553,6 +1610,7 @@
 
         // Set up search functionality
         setupSearch();
+        setupCopyLink();
       }
 
       // Helper function to handle init errors
@@ -2746,23 +2804,7 @@
         tabSelect.value = activeTab;
 
         // Add change event listener
-        tabSelect.addEventListener("change", (e) => {
-          const selectedTabId = e.target.value;
-
-          // Hide all tab content
-          tabContents.forEach((content) => content.classList.remove("active"));
-
-          // Show selected content
-          document.getElementById(selectedTabId).classList.add("active");
-
-          // Update tab buttons state (for larger screens when they become visible again)
-          tabButtons.forEach((btn) => {
-            btn.classList.toggle("active", btn.dataset.tab === selectedTabId);
-          });
-
-          // Remove body ID for normal content
-          document.body.id = "";
-        });
+        tabSelect.addEventListener("change", (e) => activateTab(e.target.value));
       }
 
       // Start the application when the page loads

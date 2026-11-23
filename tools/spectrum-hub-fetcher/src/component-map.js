@@ -15,7 +15,7 @@
  * table, for bead spectrum-design-data-085.2.2.
  *
  * This is a **data-only** module: it records the curated decisions made while
- * cross-referencing the live Hub against today's 97 local component files. It does
+ * cross-referencing the live Hub against today's 96 local component files. It does
  * not fetch, stage, or transform anything, and nothing in the pipeline consults it
  * yet — that wiring is deliberately deferred to spectrum-design-data-085.2.2's Phase
  * B/C (RSP/SWC per-section merge, `hub-component-sync.yml`). Landing the table on
@@ -47,8 +47,10 @@
  *   pairs actually found (including a correction of an earlier claim, made while
  *   planning this table, that `button`'s content diverges between platforms —
  *   re-verified live for Phase B, it does not).
- * - Local: 97 component JSON files.
- * - 60 RSP slugs match an existing local filename exactly (`COMPONENT_SLUG_MAP`).
+ * - Local: 96 component JSON files.
+ * - 59 RSP slugs match an existing local filename exactly (`COMPONENT_SLUG_MAP`).
+ * - 1 RSP slug (`cards`) is a curated one-to-one rename onto `card`
+ *   (`COMPONENT_SLUG_FANOUT`).
  * - 1 RSP slug needs curated fan-out (`COMPONENT_SLUG_FANOUT`): the Hub only
  *   publishes a single combined `color-handle-and-loupe` page, but the local data
  *   models `color-handle` and `color-loupe` as two separate components. The Hub
@@ -58,14 +60,14 @@
  *   content into both targets and flag it for human review in the PR, rather than
  *   inventing a heuristic split. (This mirrors how `hub-map.js` handles cases the
  *   generic rules can't settle: a small, justified, explicit override.)
- * - 35 local components have no corresponding Hub page at all yet
+ * - 34 local components have no corresponding Hub page at all yet
  *   (`COMPONENTS_WITHOUT_HUB_PAGE`) and stay on their existing frozen source until
  *   the Hub publishes one. Two names in this bucket deserve a callout because they
  *   are easy to mistake for 1:many splits of an *existing* mapped slug, but are
- *   not: the Hub's `cards` page maps 1:1 to local `cards.json` (the umbrella
- *   component), while `card`, `card-horizontal`, and `collection-card` are
- *   distinct local components with no Hub page of their own — not fragments of
- *   `cards` needing fan-out. The same pattern holds for `calendar` (1:1 hub match)
+ *   not: the Hub's `cards` page maps to the one local `card.json` (the
+ *   `cards` umbrella component was merged into `card`), while `card-horizontal`
+ *   and `collection-card` are archive-only local components with no Hub page of
+ *   their own — not fragments of `cards` needing fan-out. The same pattern holds for `calendar` (1:1 hub match)
  *   versus `single-calendar` / `double-calendar` / `triple-calendar` (local-only,
  *   no fan-out).
  *
@@ -90,7 +92,7 @@ export const COMPONENT_SLUG_MAP = {
     "link",
     "menu",
   ],
-  containers: ["cards", "divider", "popover"],
+  containers: ["divider", "popover"],
   "data-visualization": ["table"],
   feedback: [
     "alert-dialog",
@@ -150,6 +152,8 @@ export const COMPONENT_SLUG_MAP = {
  */
 export const COMPONENT_SLUG_FANOUT = {
   "color-handle-and-loupe": ["color-handle", "color-loupe"],
+  // The Hub's `cards` page documents the one local `card` component.
+  cards: ["card"],
 };
 
 /**
@@ -164,8 +168,8 @@ export const COMPONENTS_WITHOUT_HUB_PAGE = [
   "bar-panel",
   "body",
   "bottom-navigation-android",
-  "card",
   "card-horizontal",
+  "clear-button",
   "coach-indicator",
   "coach-mark",
   "code",
@@ -179,7 +183,6 @@ export const COMPONENTS_WITHOUT_HUB_PAGE = [
   "form-item",
   "heading",
   "in-field-button",
-  "in-field-progress-button",
   "in-field-progress-circle",
   "opacity-checkerboard",
   "rating",

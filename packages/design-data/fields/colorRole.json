@@ -12,5 +12,6 @@
   "scope": "color",
   "required": false,
   "valueType": "string",
-  "excludeFromLegacyKey": true
+  "excludeFromLegacyKey": true,
+  "impliesTokenTier": "semantic"
 }

@@ -44,8 +44,20 @@
       },
       "description": "Known platform implementations of this component. Foundation data carries canonical default mappings; a platform manifest refines its own rows through extensions/implementations/. See spec/component-format.md#implementations."
     },
+    "subcomponent": {
+      "type": "boolean",
+      "default": false,
+      "description": "True when the component exists only inside another component and has no stand-alone use. The hosts are derived from the anatomy parts and recipes that name it, never stored. See spec/component-format.md#sub-components."
+    },
     "options": {
       "$ref": "#/$defs/optionsMap"
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/optionConstraint"
+      },
+      "description": "Rules restricting which option value combinations are valid. See spec/option-constraints.md."
     },
     "slots": {
       "type": "array",
@@ -61,6 +73,20 @@
       },
       "description": "Named visible parts of the component. Full spec in spec/anatomy-format.md (Phase 6.2)."
     },
+    "anatomyReview": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["draft", "reviewed"] },
+        "reviewedIn": {
+          "type": "string",
+          "description": "Version in which the anatomy was last reviewed against the anatomy definition."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "description": "Review status of this component's anatomy. Absent means draft. See spec/anatomy-format.md#review-checklist."
+    },
     "states": {
       "type": "array",
       "items": {
@@ -70,11 +96,6 @@
     },
     "lifecycle": {
       "$ref": "#/$defs/lifecycle"
-    },
-    "tokenBindings": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/tokenBinding" },
-      "description": "Tokens this component uses, including foundation/structure tokens not scoped to the component in their name-object. See spec/component-format.md#token-bindings (Phase 6.7)."
     },
     "documentBlocks": {
       "type": "array",
@@ -156,6 +177,54 @@
       "additionalProperties": {
         "$ref": "#/$defs/optionDescriptor"
       }
+    },
+    "optionConstraint": {
+      "type": "object",
+      "description": "If-then rule over option values. Layer 1 checks shape only; that names and values are declared in `options` is Layer 2.",
+      "required": ["when", "require", "severity"],
+      "properties": {
+        "when": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "number", "boolean"] },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": ["string", "number", "boolean"] }
+              }
+            ]
+          },
+          "description": "Option conditions (ANDed). A literal matches that value; an array matches any of its values."
+        },
+        "require": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": ["string", "number", "boolean"] }
+              },
+              {
+                "type": "object",
+                "required": ["present"],
+                "properties": { "present": { "type": "boolean" } },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "description": "What matching combinations must satisfy: permitted values, or { present } for presence."
+        },
+        "severity": {
+          "enum": ["error", "advisory"]
+        },
+        "description": { "type": "string" },
+        "source": { "type": "string" }
+      },
+      "additionalProperties": false
     },
     "optionDescriptor": {
       "type": "object",
@@ -242,16 +311,46 @@
         "name": {
           "type": "string",
           "minLength": 1,
-          "description": "Slot identifier. Should come from the canonical slot vocabulary."
+          "description": "Slot identifier, unique within the component. `default`, or the name of the slot's part (SPEC-104)."
         },
         "description": {
           "type": "string",
           "description": "What content belongs in this slot."
         },
-        "required": {
+        "part": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "The anatomy part this slot attaches to. Without `collection` it is the part that hosts the slot's content; with `collection` it is the component's own part that repeats, once per entry (its host is its anatomy parent). Must be a declared anatomy part (SPEC-104)."
+        },
+        "accepts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true,
+          "minItems": 1,
+          "description": "Components that may fill the slot. Component names only; free content is a slot with no `accepts`."
+        },
+        "acceptsOnly": {
           "type": "boolean",
           "default": false,
-          "description": "Whether consumers must populate this slot."
+          "description": "Only the components in `accepts` may fill the slot. When false, `accepts` is a preferred list. Requires `accepts` (SPEC-104)."
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Fewest fills (or collection entries). 1 or more makes the slot required."
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Most fills (or collection entries). Absent means no limit."
+        },
+        "collection": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+          "description": "The array option whose entries are drawn as copies of `part`. Must be a declared array option (SPEC-104)."
         }
       },
       "additionalProperties": false
@@ -273,6 +372,14 @@
           "type": "boolean",
           "default": false
         },
+        "presentWhen": {
+          "$ref": "#/$defs/presentWhen"
+        },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Another component this part is (for example a progress circle in a button): the part is that component drawn inside this one. Names a declared, non-deprecated component other than the host (SPEC-106). A recipe `component` part reads it from here."
+        },
         "contains": {
           "type": "array",
           "items": { "type": "string" },
@@ -286,6 +393,44 @@
         "lifecycle": {
           "$ref": "#/$defs/lifecycle",
           "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecatedIn to signal that tokens referencing this part should migrate."
+        }
+      },
+      "if": {
+        "required": ["required"],
+        "properties": { "required": { "const": true } }
+      },
+      "then": { "not": { "required": ["presentWhen"] } },
+      "additionalProperties": false
+    },
+    "presentWhen": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "When an anatomy part is present: every listed state is active (all of) and every listed option has one of its values. Absent means the part is present in any configuration. Not for state-dependent styling. See spec/anatomy-format.md (presentWhen).",
+      "properties": {
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "description": "Declared component states that must all be active (SPEC-074)."
+        },
+        "options": {
+          "type": "object",
+          "minProperties": 1,
+          "description": "Declared options and the value each must have; an array lists alternatives (any of). Option names and values are checked by SPEC-074 (as SPEC-064).",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "boolean", "number"] },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": ["string", "boolean", "number"] }
+              }
+            ]
+          }
         }
       },
       "additionalProperties": false
@@ -311,12 +456,12 @@
         "precedence": {
           "type": "integer",
           "minimum": 0,
-          "description": "Resolution precedence; higher integer wins when multiple states are active simultaneously."
+          "description": "Resolution precedence among active interaction states; higher integer wins. Defaults to the canonical value for the state name, else 0."
         },
         "layered": {
           "type": "boolean",
           "default": false,
-          "description": "true for states that compose with others (e.g. focus ring layered over hover)."
+          "description": "Deprecated and ignored by resolvers; see the state model."
         },
         "announce": {
           "type": "string",
@@ -336,23 +481,6 @@
         "lifecycle": {
           "$ref": "#/$defs/lifecycle",
           "description": "Version lifecycle metadata for this state. Set lifecycle.deprecatedIn to signal that tokens referencing this state should migrate."
-        }
-      },
-      "additionalProperties": false
-    },
-    "tokenBinding": {
-      "type": "object",
-      "required": ["token"],
-      "description": "A single token usage binding on a component declaration.",
-      "properties": {
-        "token": {
-          "type": "string",
-          "minLength": 1,
-          "description": "Token name string. MUST resolve to a known token in the dataset (rule SPEC-027)."
-        },
-        "context": {
-          "type": "string",
-          "description": "Human-readable label for how this token is used in the component (maps to Figma Token Group label)."
         }
       },
       "additionalProperties": false

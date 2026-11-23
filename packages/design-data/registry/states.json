@@ -42,6 +42,7 @@
       "id": "hover",
       "label": "Hover",
       "description": "Mouse hover state",
+      "precedence": 50,
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {
         "superordinate": "interaction state",
@@ -89,6 +90,7 @@
       "label": "Active",
       "aliases": ["pressed"],
       "description": "Active or pressed state",
+      "precedence": 70,
       "usedIn": ["component-options", "component-schemas"],
       "relatedTerms": ["down"]
     },
@@ -96,6 +98,7 @@
       "id": "focus",
       "label": "Focus",
       "description": "Focused state (generic)",
+      "precedence": 60,
       "usedIn": ["component-options", "component-schemas"]
     },
     {
@@ -103,6 +106,7 @@
       "label": "Keyboard Focus",
       "aliases": ["keyboard focus", "key-focus"],
       "description": "Focused via keyboard navigation",
+      "precedence": 60,
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {
         "superordinate": "interaction state",
@@ -161,6 +165,7 @@
       "id": "down",
       "label": "Down",
       "description": "Pressed or down state (mouse button down)",
+      "precedence": 70,
       "usedIn": ["tokens", "component-schemas"],
       "relatedTerms": ["active"]
     },
@@ -181,6 +186,18 @@
       "label": "Drag and Drop",
       "aliases": ["drag and drop"],
       "description": "Being dragged or drag target state",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "collapsed",
+      "label": "Collapsed",
+      "description": "Resting, smaller size of an animated indicator (coach-indicator pulse)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded",
+      "description": "Peak, larger size of an animated indicator (coach-indicator pulse)",
       "usedIn": ["component-schemas"]
     }
   ]

@@ -1,0 +1,23 @@
+{
+  "tokens": [
+    {
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+      "tokenTier": "component",
+      "name": {
+        "property": "size",
+        "scaleIndex": 100
+      },
+      "value": "16px"
+    },
+    {
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+      "name": {
+        "component": "tabs",
+        "property": "size",
+        "scaleIndex": 200
+      },
+      "value": "16px"
+    }
+  ],
+  "components": []
+}

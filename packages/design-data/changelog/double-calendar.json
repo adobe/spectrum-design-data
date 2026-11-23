@@ -1,0 +1,59 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "double-calendar",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"double-calendar/anatomy/day","name":"day","fields":[],"after":{"name":"day","description":"One date cell. Styled for selected, error, unavailable and current-day."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"double-calendar/anatomy/help-text","name":"help-text","fields":[],"after":{"name":"help-text","description":"Error message shown below the calendar when the selection is invalid."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"double-calendar/anatomy/month-button","name":"month-button","fields":[],"after":{"name":"month-button","description":"Chevron button that moves to the previous or next month."}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"double-calendar/anatomy/month-label","name":"month-label","fields":[],"after":{"name":"month-label","description":"Month and year text."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"double-calendar/anatomy/popover","name":"popover","fields":[],"after":{"name":"popover","description":"Surface that holds the month navigation, weekday labels and day grid.","required":true,"contains":["month-button","month-label","weekday-label","day","range-fill","help-text"]}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"double-calendar/anatomy/range-fill","name":"range-fill","fields":[],"after":{"name":"range-fill","description":"Highlight band behind the days of a selected range."}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"double-calendar/anatomy/weekday-label","name":"weekday-label","fields":[],"after":{"name":"weekday-label","description":"Single-letter weekday heading above the day grid."}},
+            {"id":"12ddd7e7-7","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"double-calendar/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web .Calendar popover (Type=Double), same parts as single; relationship part popover."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "dbedcc0084584e4cf75d6fcfd6d32aabd6dd548b",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2011,"title":"feat(design-data): anatomy review of calendar and its holders (A9 2/3)","url":"https://github.com/adobe/spectrum-design-data/pull/2011"},
+          "entries": [
+            {"id":"dbedcc00-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"double-calendar/anatomy/day","name":"day","fields":[],"before":{"name":"day","description":"One date cell. Styled for selected, error, unavailable and current-day."}},
+            {"id":"dbedcc00-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"double-calendar/anatomy/help-text","name":"help-text","fields":[],"before":{"name":"help-text","description":"Error message shown below the calendar when the selection is invalid."}},
+            {"id":"dbedcc00-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"double-calendar/anatomy/month-button","name":"month-button","fields":[],"before":{"name":"month-button","description":"Chevron button that moves to the previous or next month."}},
+            {"id":"dbedcc00-3","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"double-calendar/anatomy/month-label","name":"month-label","fields":[],"before":{"name":"month-label","description":"Month and year text."}},
+            {"id":"dbedcc00-4","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"double-calendar/anatomy/popover","name":"popover","fields":[],"before":{"name":"popover","description":"Surface that holds the month navigation, weekday labels and day grid.","required":true,"contains":["month-button","month-label","weekday-label","day","range-fill","help-text"]}},
+            {"id":"dbedcc00-5","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"double-calendar/anatomy/range-fill","name":"range-fill","fields":[],"before":{"name":"range-fill","description":"Highlight band behind the days of a selected range."}},
+            {"id":"dbedcc00-6","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"double-calendar/anatomy/weekday-label","name":"weekday-label","fields":[],"before":{"name":"weekday-label","description":"Single-letter weekday heading above the day grid."}},
+            {"id":"dbedcc00-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"double-calendar/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Root of the legacy holder. Its minimum width and minimum height records are pinned to this file by their legacy keys; the calendar parts live on calendar.","required":true}},
+            {"id":"dbedcc00-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"double-calendar/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web .Calendar popover (Type=Double), same parts as single; relationship part popover.","after":"A9 (2026-11-21), owner decision C2: a frozen legacy holder (two months), not deprecated. calendar is the only anatomy (option visibleMonths). The two legacy records keep their keys and move from part popover to container; no Figma, RSP or SWC source draws this component on its own. Same precedent as color-control."}]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
+    }
+  ]
+}

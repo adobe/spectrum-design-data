@@ -1,0 +1,397 @@
+// Copyright 2026 Adobe. All rights reserved.
+// This file is licensed to you under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License. You may obtain a copy
+// of the License at http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under
+// the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+// OF ANY KIND, either express or implied. See the License for the specific language
+// governing permissions and limitations under the License.
+
+//! SPEC-061: visual-conditions-valid
+//!
+//! `when` / `visibleWhen` conditions in a visual recipe MUST only name options
+//! and states the component declares, with values the option allows. A `{name}`
+//! placeholder in a `token` or `relationship` selector MUST name `size`, `sizeIndex`
+//! or a declared option that lists its values.
+
+use std::collections::HashSet;
+
+use serde_json::Value;
+
+use crate::report::Diagnostic;
+use crate::validate::rule::{ValidationContext, ValidationRule};
+use crate::validate::rules::visual_util::{component_of, error, option_values, walk_objects};
+use crate::visual::{collection_slot, declared_option_values, option_template_names};
+
+pub struct Rule;
+
+const POSITIONS: [&str; 4] = ["first", "middle", "last", "only"];
+
+/// The parts a `position` condition may appear on: the part a root's `repeat` names and the
+/// parts inside it, at any depth.
+fn repeated_parts<'a>(recipe: &'a Value, component: &'a Value) -> HashSet<&'a str> {
+    let parts = recipe.get("parts");
+    let mut out = HashSet::new();
+    let mut todo: Vec<&str> = recipe
+        .get("root")
+        .and_then(Value::as_str)
+        .and_then(|r| {
+            let slot = parts?.get(r)?.pointer("/repeat/slot")?.as_str()?;
+            Some(collection_slot(component, slot)?.0)
+        })
+        .into_iter()
+        .collect();
+    while let Some(p) = todo.pop() {
+        if out.insert(p) {
+            let kids = parts.and_then(|ps| ps.get(p)?.get("children")?.as_array());
+            todo.extend(kids.into_iter().flatten().filter_map(Value::as_str));
+        }
+    }
+    out
+}
+
+impl ValidationRule for Rule {
+    fn id(&self) -> &'static str {
+        "SPEC-061"
+    }
+
+    fn name(&self) -> &'static str {
+        "visual-conditions-valid"
+    }
+
+    fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
+        if ctx.graph.components.is_empty() {
+            return vec![];
+        }
+        let mut out = Vec::new();
+        for v in &ctx.graph.visuals {
+            let Some(comp) = component_of(ctx.graph, v) else {
+                continue; // SPEC-060 covers undeclared component
+            };
+            let options = comp.raw.get("options").and_then(Value::as_object);
+            let states: Vec<&str> = comp
+                .raw
+                .get("states")
+                .and_then(Value::as_array)
+                .map(|s| {
+                    s.iter()
+                        .filter_map(|s| s.get("name").and_then(Value::as_str))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let comp_name = &v.component;
+            let Some(parts) = v.raw.get("parts") else {
+                continue;
+            };
+            let repeated = repeated_parts(&v.raw, &comp.raw);
+            walk_objects(parts, "/parts", &mut |path, node| {
+                for key in ["token", "relationship"] {
+                    let Some(sel) = node.get(key).filter(|s| s.is_object()) else {
+                        continue;
+                    };
+                    for name in option_template_names(sel) {
+                        let spath = format!("{path}/{key}");
+                        if options.and_then(|o| o.get(&name)).is_none() {
+                            out.push(error(
+                                self.id(),
+                                v,
+                                &spath,
+                                format!("Selector template '{{{name}}}' is not an option of '{comp_name}'"),
+                            ));
+                        } else if declared_option_values(&comp.raw, &name).is_empty() {
+                            out.push(error(
+                                self.id(),
+                                v,
+                                &spath,
+                                format!("Selector template '{{{name}}}': option '{name}' of '{comp_name}' declares no values to expand"),
+                            ));
+                        }
+                    }
+                }
+                for key in ["when", "visibleWhen"] {
+                    let Some(cond) = node.get(key).filter(|c| c.is_object()) else {
+                        continue;
+                    };
+                    let cpath = format!("{path}/{key}");
+                    if let Some(want) = cond.get("position") {
+                        let ppath = format!("{cpath}/position");
+                        let part = path
+                            .strip_prefix("/parts/")
+                            .and_then(|p| p.split('/').next());
+                        if !part.is_some_and(|p| repeated.contains(p)) {
+                            out.push(error(
+                                self.id(),
+                                v,
+                                &ppath,
+                                "Condition position is only valid on a repeated part or a part inside it".into(),
+                            ));
+                        }
+                        let listed = match want {
+                            Value::Array(a) => a.iter().collect::<Vec<_>>(),
+                            one => vec![one],
+                        };
+                        for p in listed {
+                            if !p.as_str().is_some_and(|p| POSITIONS.contains(&p)) {
+                                out.push(error(
+                                    self.id(),
+                                    v,
+                                    &ppath,
+                                    format!("Condition position {p} is not one of first, middle, last, only"),
+                                ));
+                            }
+                        }
+                    }
+                    for (name, want) in cond
+                        .get("options")
+                        .and_then(Value::as_object)
+                        .into_iter()
+                        .flatten()
+                    {
+                        let opath = format!("{cpath}/options/{name}");
+                        let Some(def) = options.and_then(|o| o.get(name)) else {
+                            out.push(error(
+                                self.id(),
+                                v,
+                                &opath,
+                                format!(
+                                    "Condition option '{name}' is not an option of '{comp_name}'"
+                                ),
+                            ));
+                            continue;
+                        };
+                        let is_bool = def.get("type").and_then(Value::as_str) == Some("boolean");
+                        let allowed = option_values(def);
+                        // An array means "any of"; check every element.
+                        let wanted = match want {
+                            Value::Array(any) => any.iter().collect::<Vec<_>>(),
+                            one => vec![one],
+                        };
+                        for want in wanted {
+                            if is_bool && !want.is_boolean() {
+                                out.push(error(
+                                    self.id(),
+                                    v,
+                                    &opath,
+                                    format!("Option '{name}' of '{comp_name}' is boolean but the condition uses {want}"),
+                                ));
+                            } else if let Some(allowed) = allowed.as_ref().filter(|_| !is_bool) {
+                                if !allowed.contains(want) {
+                                    out.push(error(
+                                        self.id(),
+                                        v,
+                                        &opath,
+                                        format!(
+                                            "Option '{name}' of '{comp_name}' has no value {want}"
+                                        ),
+                                    ));
+                                }
+                            }
+                        }
+                    }
+                    for (i, s) in cond
+                        .get("states")
+                        .and_then(Value::as_array)
+                        .into_iter()
+                        .flatten()
+                        .enumerate()
+                    {
+                        if !s.as_str().is_some_and(|s| states.contains(&s)) {
+                            out.push(error(
+                                self.id(),
+                                v,
+                                &format!("{cpath}/states/{i}"),
+                                format!("Condition state {s} is not a state of '{comp_name}'"),
+                            ));
+                        }
+                    }
+                }
+            });
+        }
+        out
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::path::PathBuf;
+
+    use serde_json::{json, Value};
+
+    use crate::graph::{ComponentRecord, Layer, TokenGraph, VisualRecord};
+    use crate::registry::RegistryData;
+    use crate::validate::rule::{ValidationContext, ValidationRule};
+    use crate::validate::rules::spec061::Rule;
+
+    fn run(recipe: Value) -> Vec<crate::report::Diagnostic> {
+        let mut g = TokenGraph::default();
+        g.components.push(ComponentRecord {
+            name: "button".into(),
+            file: PathBuf::from("components/button.json"),
+            raw: json!({"name": "button",
+                "options": {
+                    "variant": {"type": "string", "values": [{"value": "accent"}, {"value": "primary"}]},
+                    "isDisabled": {"type": "boolean"}
+                },
+                "slots": [{"name": "default", "part": "item", "collection": "items"}],
+                "states": [{"name": "hover"}, {"name": "down"}]}),
+            layer: Layer::Foundation,
+        });
+        g.visuals.push(VisualRecord {
+            component: "button".into(),
+            file: PathBuf::from("visuals/button.json"),
+            raw: recipe,
+            layer: crate::graph::Layer::Foundation,
+        });
+        let exceptions = std::collections::HashSet::new();
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: RegistryData::embedded(),
+            manifest: None,
+        };
+        Rule.validate(&ctx)
+    }
+
+    fn recipe(when: Value, visible_when: Value) -> Value {
+        json!({"component": "button", "parts": {"container": {
+            "visibleWhen": visible_when,
+            "props": {"fill": [{"when": when, "value": "red"}]}
+        }}})
+    }
+
+    #[test]
+    fn declared_conditions_pass() {
+        let r = recipe(
+            json!({"options": {"variant": "primary", "isDisabled": true}, "states": ["hover"]}),
+            json!({"options": {"isDisabled": false}}),
+        );
+        assert!(run(r).is_empty());
+    }
+
+    #[test]
+    fn unknown_option_errors() {
+        let d = run(recipe(json!({"options": {"tone": "x"}}), json!({})));
+        assert_eq!(d.len(), 1);
+        assert_eq!(d[0].rule_id.as_deref(), Some("SPEC-061"));
+        assert!(d[0].message.contains("tone"));
+    }
+
+    #[test]
+    fn value_outside_values_errors() {
+        let d = run(recipe(json!({"options": {"variant": "neon"}}), json!({})));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("neon"));
+    }
+
+    #[test]
+    fn array_of_declared_values_passes() {
+        let r = recipe(
+            json!({"options": {"variant": ["accent", "primary"], "isDisabled": [true, false]}}),
+            json!({}),
+        );
+        assert!(run(r).is_empty());
+    }
+
+    #[test]
+    fn array_with_an_undeclared_value_errors() {
+        let d = run(recipe(
+            json!({"options": {"variant": ["primary", "neon"]}}),
+            json!({}),
+        ));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("neon"));
+    }
+
+    #[test]
+    fn array_with_a_non_boolean_for_a_boolean_option_errors() {
+        let d = run(recipe(
+            json!({"options": {"isDisabled": [true, "yes"]}}),
+            json!({}),
+        ));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("boolean"));
+    }
+
+    #[test]
+    fn boolean_option_requires_boolean() {
+        let d = run(recipe(json!({"options": {"isDisabled": "yes"}}), json!({})));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("boolean"));
+    }
+
+    #[test]
+    fn position_is_valid_only_inside_a_repeated_part() {
+        let r = |pos: Value, on: &str| {
+            let mut parts = json!({
+                "container": {"children": ["item", "other"], "repeat": {"slot": "default"}},
+                "item": {"children": ["label"]},
+                "label": {},
+                "other": {}
+            });
+            parts[on]["props"] = json!({"fill": [{"when": {"position": pos}, "value": "red"}]});
+            run(json!({"component": "button", "root": "container", "parts": parts}))
+        };
+        assert!(r(json!(["first", "middle"]), "item").is_empty());
+        assert!(r(json!("only"), "label").is_empty());
+        assert_eq!(r(json!(["first"]), "other").len(), 1);
+        assert_eq!(r(json!(["first"]), "container").len(), 1);
+        assert_eq!(r(json!(["second"]), "item").len(), 1);
+    }
+
+    #[test]
+    fn unknown_state_errors() {
+        let d = run(recipe(json!({"states": ["focus"]}), json!({})));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("focus"));
+    }
+
+    #[test]
+    fn visible_when_is_checked() {
+        let d = run(recipe(json!({}), json!({"options": {"tone": true}})));
+        assert_eq!(d.len(), 1);
+        assert!(d[0]
+            .instance_path
+            .as_deref()
+            .unwrap()
+            .contains("visibleWhen"));
+    }
+
+    fn token_recipe(selector: Value) -> Value {
+        json!({"component": "button", "parts": {"container": {
+            "props": {"fill": {"token": selector}}
+        }}})
+    }
+
+    #[test]
+    fn selector_template_naming_a_declared_option_passes() {
+        let r = token_recipe(json!({"variant": "{variant}", "property": "background-color"}));
+        assert!(run(r).is_empty());
+    }
+
+    #[test]
+    fn selector_template_naming_an_unknown_option_errors() {
+        let d = run(token_recipe(json!({"variant": "{style}"})));
+        assert_eq!(d.len(), 1);
+        assert_eq!(d[0].rule_id.as_deref(), Some("SPEC-061"));
+        assert!(d[0].message.contains("{style}"));
+        assert_eq!(
+            d[0].instance_path.as_deref(),
+            Some("/parts/container/props/fill/token")
+        );
+    }
+
+    #[test]
+    fn selector_template_naming_an_option_without_values_errors() {
+        let d = run(token_recipe(json!({"variant": "{isDisabled}"})));
+        assert_eq!(d.len(), 1);
+        assert!(d[0].message.contains("no values"));
+    }
+
+    #[test]
+    fn size_templates_and_non_identifier_braces_are_not_option_templates() {
+        let r =
+            token_recipe(json!({"size": "{size}", "property": "gap-{sizeIndex}", "x": "{a b}"}));
+        assert!(run(r).is_empty());
+    }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "opacity-checkerboard",
+  "root": "container",
+  "sizeScale": {
+    "s": 1,
+    "m": 2
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "props": {
+        "width": {
+          "dimension": "horizontalSize"
+        },
+        "height": {
+          "dimension": "verticalSize"
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "light-tile",
+            "attribute": "background"
+          }
+        },
+        "patternFill": {
+          "relationship": {
+            "property": "color",
+            "part": "dark-tile",
+            "attribute": "background"
+          }
+        },
+        "patternSize": {
+          "relationship": {
+            "property": "size",
+            "part": "square"
+          }
+        }
+      }
+    }
+  }
+}

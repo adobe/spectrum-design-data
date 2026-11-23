@@ -163,11 +163,11 @@ const SCENARIOS = [
     verify: (r, threw) => !threw && Array.isArray(r.options?.variant?.values),
   },
   {
-    name: "describe_component: button tokenBindings are all dangling (see bead spectrum-design-data-vpk.2)",
+    name: "describe_component: button relationships bind real tokens",
     tool: "describe_component",
     args: { id: "button" },
-    status: "known-bug",
-    verify: (r, threw) => !threw && (r.tokenBindings ?? []).length === 3,
+    status: "green",
+    verify: (r, threw) => !threw && (r.relationships ?? []).length > 0,
   },
   {
     name: "list_guidelines: catalog",

@@ -21,6 +21,14 @@
       "default": false,
       "description": "Whether this part is always rendered regardless of component configuration."
     },
+    "presentWhen": {
+      "$ref": "component.schema.json#/$defs/presentWhen"
+    },
+    "component": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Another component this part is (for example a progress circle in a button): the part is that component drawn inside this one. Names a declared, non-deprecated component other than the host (SPEC-106). A recipe `component` part reads it from here."
+    },
     "contains": {
       "type": "array",
       "items": {
@@ -41,5 +49,10 @@
       "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecated to signal that tokens referencing this part should migrate."
     }
   },
+  "if": {
+    "required": ["required"],
+    "properties": { "required": { "const": true } }
+  },
+  "then": { "not": { "required": ["presentWhen"] } },
   "additionalProperties": false
 }

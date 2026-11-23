@@ -8,26 +8,29 @@ This document defines the **platform manifest**: how a platform implementation r
 
 The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; translations and schemas have no manifest-level override mechanism at all.
 
-| Operation                                           | Supported?                                                   | Field                             | Applies to                     |
-| --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | ------------------------------ |
-| Remove / exclude                                    | Yes                                                          | `exclude`                         | Tokens only                    |
-| Include / whitelist                                 | Yes                                                          | `include`                         | Tokens only                    |
-| Override value (type-preserving)                    | Yes                                                          | `overrides[].value`               | Tokens only                    |
-| Override → re-alias                                 | Yes                                                          | `overrides[].$ref`                | Tokens only                    |
-| Add new tokens (may alias via `$ref`)               | Yes                                                          | `extensions/tokens/`              | Tokens                         |
-| Add / replace components                            | Yes                                                          | `extensions/components/`          | Components                     |
-| Add / replace field declarations                    | Yes                                                          | `extensions/fields/`              | Fields                         |
-| Add / replace guideline documents                   | Yes                                                          | `extensions/guidelines/`          | Guidelines                     |
-| Declare / replace platform-local mode set           | Yes                                                          | `extensions/mode-sets/`           | Mode sets                      |
-| Add / remove / retarget a single mode; remove a set | Yes                                                          | `extensions/mode-sets/` (`op`)    | Mode sets                      |
-| Add relationships/CTRs; override/remove by `uuid`   | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)           |
-| Add / remove naming exceptions                      | Yes                                                          | `namingExceptions`                | Naming validation              |
-| Annotate existing terminology (cannot add new ids)  | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids or modes |
-| Upsert / remove own implementation mappings         | Yes                                                          | `extensions/implementations/`     | Component `implementations`    |
-| Restrict allowed mode-set values                    | Yes                                                          | `modeSetRestrictions`             | Mode sets                      |
-| Reformat name serialization                         | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings             |
-| Override/remove/alias translations                  | No                                                           | —                                 | —                              |
-| Override Layer-1 schemas                            | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                              |
+| Operation                                                 | Supported?                                                   | Field                             | Applies to                                   |
+| --------------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | -------------------------------------------- |
+| Remove / exclude                                          | Yes                                                          | `exclude`                         | Tokens only                                  |
+| Include / whitelist                                       | Yes                                                          | `include`                         | Tokens only                                  |
+| Override value (type-preserving)                          | Yes                                                          | `overrides[].value`               | Tokens only                                  |
+| Override → re-alias                                       | Yes                                                          | `overrides[].$ref`                | Tokens only                                  |
+| Add new tokens (may alias via `$ref`)                     | Yes                                                          | `extensions/tokens/`              | Tokens                                       |
+| Add / replace components                                  | Yes                                                          | `extensions/components/`          | Components                                   |
+| Add / replace field declarations                          | Yes                                                          | `extensions/fields/`              | Fields                                       |
+| Add / replace guideline documents                         | Yes                                                          | `extensions/guidelines/`          | Guidelines                                   |
+| Declare / replace platform-local mode set                 | Yes                                                          | `extensions/mode-sets/`           | Mode sets                                    |
+| Add / remove / retarget a single mode; remove a set       | Yes                                                          | `extensions/mode-sets/` (`op`)    | Mode sets                                    |
+| Add relationships/CTRs; override/remove by `uuid`         | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)                         |
+| Add / remove naming exceptions                            | Yes                                                          | `namingExceptions`                | Naming validation                            |
+| Annotate existing terminology (cannot add new ids)        | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids or modes               |
+| Upsert / remove own implementation mappings               | Yes                                                          | `extensions/implementations/`     | Component `implementations`                  |
+| Add / replace a component's visual recipe                 | Yes (loaded into the graph; `render` and `site` read it)     | `extensions/visuals/`             | Visual recipes                               |
+| Record where the platform cannot match a recipe           | Yes (loaded and validated; no renderer reads it)             | `extensions/deviations/`          | Component, part, property, state or option   |
+| Alias a foundation component name to a platform component | Field and SPEC-081 enforced; renderers apply it              | `componentAliases`                | `render`, `site`, WASM render, recipe lookup |
+| Restrict allowed mode-set values                          | Yes                                                          | `modeSetRestrictions`             | Mode sets                                    |
+| Reformat name serialization                               | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings                           |
+| Override/remove/alias translations                        | No                                                           | —                                 | —                                            |
+| Override Layer-1 schemas                                  | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                                            |
 
 ## Manifest document
 
@@ -53,6 +56,7 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 | `extensionsDir`       | string          | Path (relative to the manifest) to the platform's `extensions/` directory. Default: `"extensions"`. See [`extensions/` directory](#extensions-directory) below.                                             |
 | `namingExceptions`    | object          | Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.                                                                                 |
 | `formatting`          | object          | Rules for serializing structured name objects into platform-specific token name strings.                                                                                                                    |
+| `componentAliases`    | object          | Maps a foundation component name to a component the platform declares. See [`componentAliases`](#componentaliases).                                                                                         |
 | `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                                                                       |
 
 ### `include` / `exclude`
@@ -69,15 +73,16 @@ Each override object **MUST** include enough information to identify a target to
 
 **NORMATIVE:** Overrides **MUST NOT** change the resolved type of the token (aligns with [Cascade — type safety](cascade.md)).
 
-An override is applied as a new **platform-layer** record, not an in-place edit of the
-foundation record it targets — the original foundation record is left untouched.
-[Query](query.md) reports records across all cascade layers, so a query over an overridden
-token's selector returns both the untouched foundation record and the new platform-layer
-record (e.g. an override on a `state=disabled` token increases the matching count by one,
-rather than replacing an existing match). Only [`resolve` / `resolve_property`](cascade.md)
-apply `Foundation < Platform < Product` precedence to select a single winner. Tooling that
-counts "tokens a platform ships" from `query` output should resolve first, or it will
-double-count overridden tokens.
+An override **replaces** the foundation record for that platform's graph: the replacement keeps the target's key and `uuid`, sits at the **platform** layer, and keeps every other field of the original record (`$schema`, `$valueType`, `lifecycle`, `description`, `conceptId`, and so on). Only `value` or `$ref` changes; an override that supplies `$ref` removes `value`, and one that supplies `value` removes `$ref`. The foundation package on disk is untouched. [Query](query.md) returns one record per token, and [`resolve` / `resolve_property`](cascade.md) still apply `Foundation < Platform < Product` precedence, so a platform override beats the foundation value and a product override beats both.
+
+**Provenance.** A replaced record carries two in-memory markers so tooling can tell where it came from:
+
+| Field            | Value                                                                                                                                                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `overriddenBy`   | `{ "platform": "<manifest platform>" }` when the manifest sets `platform`; otherwise `{ "manifest": "manifest.json" }` (the literal file name; the manifest's real path is not recorded).                                                |
+| `overriddenFrom` | `{ "value": <foundation value> }` or `{ "$ref": <foundation $ref> }`. The first override's history is kept, so it is always the foundation value, even when a token is overridden more than once (the last override wins for the value). |
+
+These markers exist only on the platform's in-memory records. They are not written to token files and are **not** serialized in legacy output.
 
 ### Identity fields
 
@@ -114,6 +119,8 @@ extensions/
   guidelines/             <topic>.json         one guideline per file
   platform-extensions/   <platform>-<registry>.json
   implementations/       <component>.json      one component's implementation rows
+  visuals/               <component>.json      one visual recipe per file
+  deviations/            <component>.json      one component's deviations
 ```
 
 **NORMATIVE:** Each subdirectory is discovered by a recursive glob for `*.json` files (for
@@ -150,6 +157,8 @@ load time — this is enforced reference-SDK behavior, not an aspirational goal:
 * **`implementations/`** → `implementation-mapping.schema.json` (see
   [`extensions/implementations/`](#extensionsimplementations) below)
 * **`tokens/`** → `cascade-file.schema.json` (see above)
+* **`deviations/`** → `platform-deviation.schema.json` (see
+  [`extensions/deviations/`](#extensionsdeviations) below)
 
 A fragment that fails validation against its category schema is a manifest error — the
 reference SDK rejects the load rather than silently skipping the malformed file.
@@ -267,6 +276,69 @@ a different `implementation` id are never modified or removed.
   `implementation`, `package`, `importPath`. It deletes every owned row whose values equal every
   selector field given. A remove that matches no owned row is a manifest error.
 
+#### `extensions/deviations/`
+
+> **Status:** the reference SDK loads `extensions/deviations/` and enforces SPEC-109 to SPEC-111. `render-compare`, `validate-manifest` / `platform doctor` (`MANIFEST-007`) and `platform impact` do not read deviations yet ([Proposal 019](../../../docs/proposals/019-platform-deviations.md)).
+
+Records where the platform cannot match a component's foundation recipe, for example because its renderer has no API for a focus-visible stroke. A deviation changes no value and no scene; it is a declaration other tools read. (A token `override` changes the value; a deviation does not.) One file per component:
+
+```json
+{
+  "component": "switch",
+  "deviations": [
+    {
+      "id": "track-focus-stroke",
+      "part": "track",
+      "property": "stroke",
+      "when": {
+        "states": ["keyboard-focus"],
+        "options": { "isSelected": false }
+      },
+      "status": "accepted",
+      "reason": "No focus-visible stroke API; the stroke stays at its rest colour.",
+      "upstream": "https://github.com/anomalyco/rune/issues/106"
+    }
+  ]
+}
+```
+
+**NORMATIVE:** each file **MUST** validate against `platform-deviation.schema.json`. As for every other category, the reference SDK rejects the manifest load on a file that fails it (a manifest error, with no rule id) rather than reporting a diagnostic.
+
+| Field                    | Required | Description                                                                                                                               |
+| ------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `component`              | yes      | The component. A foundation name, a platform-local name, or a key of `componentAliases`. No wildcard: repeat an entry for each component. |
+| `deviations[].id`        | yes      | Slug, unique within the file.                                                                                                             |
+| `deviations[].status`    | yes      | `accepted` (the platform will not match) or `planned` (it expects to).                                                                    |
+| `deviations[].reason`    | yes      | Why.                                                                                                                                      |
+| `deviations[].part`      | no       | An anatomy part. Absent means any part.                                                                                                   |
+| `deviations[].property`  | no       | A visual property. Absent means documentation only: nothing is matched against it.                                                        |
+| `deviations[].when`      | no       | `states`, `options`, `modes`, the shape of a recipe condition without `position`. Absent keys mean any.                                   |
+| `deviations[].upstream`  | no       | URI of the blocking issue.                                                                                                                |
+| `deviations[].tolerance` | no       | Largest difference a tool treats as the deviation.                                                                                        |
+
+**NORMATIVE:** a renderer **MUST NOT** read a deviation (see [Component visuals](component-visuals.md)). Files are processed in sorted path order; a file is a list of independent entries, so there is no merge between files.
+
+Rules ([rules.yaml](../rules/rules.yaml)), enforced by the reference SDK. Limits today: the SDK applies the platform manifest before checking, so `component` may be a foundation name, an alias key or a platform-declared component, and SPEC-110 and SPEC-111 read the platform's anatomy and recipe; SPEC-111 reads a foundation recipe only when recipes are loaded (`--visuals-path`) and skips properties `render-compare` does not compare yet:
+
+* **SPEC-109** (Layer 1, error): the file validates against the schema and `id` is unique within the file.
+* **SPEC-110** (Layer 2, error): `component` resolves directly or through `componentAliases`; `part` is in the resolved anatomy; every `when.states` value is a state of the component; every `when.options` key is an option and every value one of its values; every `when.modes` key and value is a known mode set and mode (the pattern of SPEC-060 and SPEC-061).
+* **SPEC-111** (Layer 2, warning): `property`, when present with `part`, is a property the effective recipe sets for that part.
+
+**RECOMMENDED** tool behaviour, not implemented yet (follow-up PRs):
+
+* `render-compare` matches a difference to a deviation by `part`, `property` and `when`. A matched difference is reported as a known deviation with its `id`, `reason` and `upstream`, gets no gap suggestion and does not fail `--fail-on-diff`. A deviation whose selector was compared and produced no difference is reported as stale (a warning: the platform now matches). A deviation that was not compared in the run is not evaluated, never stale. A deviation with no `property` is listed only.
+* `validate-manifest` and `platform doctor` report `MANIFEST-007` for a deviation whose component, part, state or option no longer resolves.
+* `platform impact` reports a deviation whose selector names something the change removed (`deviation-dangling`), and one whose part or property the change touched (`deviation-review`).
+
+### `componentAliases`
+
+The field, `TokenGraph::canonical_component` and SPEC-081 are implemented; `render`, `site`, WASM render and recipe lookup call it, so a request for the alias key draws the target's recipe ([Proposal 014](../../../docs/proposals/014-platform-owned-visual-recipes.md)). A map from a foundation component name to a component the platform declares in `extensions/components/`, for example `{ "button": "button-ios" }`.
+
+* **Applies to** commands that show a component by its user-facing name: `render`, `site`, WASM render and recipe lookup. The name resolves to the target.
+* **Does not apply to** `query`, `validate`, `diff` and `export`, which inspect data under real names. `query` prints a one-line hint when it names an aliased component.
+* **Never rewrites** a token, a relationship scope, a recipe file name or a diagnostic. Both components stay in the graph; diagnostics name the target.
+* SPEC-081 (error): the key **MUST** be a foundation component; the target **MUST** be declared by the platform; aliases **MUST NOT** chain or form a cycle; a key **MUST NOT** also be replaced by `extensions/components/<key>.json`.
+
 ### `namingExceptions`
 
 Platform-local overlay on the base naming-exceptions set used by naming validation.
@@ -286,8 +358,8 @@ A platform **MAY** declare formatting rules that control how structured name obj
 | Field           | Type            | Description                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | --------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `conceptOrder`  | array of string | Ordered list of name object field names for serialization. Each entry **MUST** be a declared field name from the design system's [field catalog](../fields/) (see [Token format — Name object](token-format.md#name-object)). Omitted fields are appended in the default order defined by each field declaration's `serialization.position` (see [Taxonomy — Default serialization](taxonomy.md#default-serialization-legacy-format)). |
-| `casing`        | string          | One of: `kebab-case`, `camelCase`, `PascalCase`, `SCREAMING_SNAKE_CASE`. Default: `kebab-case`.                                                                                                                                                                                                                                                                                                                                        |
-| `delimiter`     | string          | Character(s) separating concepts in the serialized string (e.g. `-`, `_`, `.`, `/`). Default: `-`.                                                                                                                                                                                                                                                                                                                                     |
+| `casing`        | string          | One of: `kebab-case`, `snake_case`, `camelCase`, `PascalCase`, `SCREAMING_SNAKE_CASE`. Default: `kebab-case`. `snake_case` is lowercase words joined by `_`; it equals `kebab-case` with delimiter `_`, which stays valid.                                                                                                                                                                                                             |
+| `delimiter`     | string          | Character(s) separating concepts in the serialized string (e.g. `-`, `_`, `.`, `/`). Default: `-` (`_` when `casing` is `snake_case`).                                                                                                                                                                                                                                                                                                 |
 | `abbreviations` | object          | Map of full term → abbreviated form (e.g. `{ "background": "bg" }`). Abbreviations are applied after concept ordering and before casing.                                                                                                                                                                                                                                                                                               |
 | `prefix`        | string          | Literal string prepended to the fully-formatted token name, applied after `casing`/`delimiter` and unaffected by either — for platform naming conventions that wrap the token name rather than reshape it (e.g. CSS custom properties like `--spectrum-`).                                                                                                                                                                             |
 
@@ -299,12 +371,26 @@ A platform **MAY** declare formatting rules that control how structured name obj
 
 **NORMATIVE:** Manifests **MUST** pass Layer 1 JSON Schema validation.
 
+**NORMATIVE:** A manifest **MUST** apply to the foundation dataset. A validator that cannot apply it, for example because it extends a mode set that was not loaded, **MUST** report an error (SPEC-082 `platform-manifest-applies`) and not skip the platform rules silently.
+
 **RECOMMENDED:** Validators resolve `foundationVersion` against a registry or lockfile and report mismatches as errors or warnings per product policy.
 
 **RECOMMENDED:** Validators confirm the resolved `foundationVersion` provides a cascade-format
 dataset (`packages/design-data/*`), not a pre-cascade legacy release predating the structured
 `name` object, mode sets, and UUIDs — a manifest cascaded against a pre-cascade pin is not
 meaningful. Report a pre-cascade pin as an error per product policy.
+
+**RECOMMENDED:** The reference CLI's `validate-manifest` and `platform doctor` also report these manifest diagnostics. They are not registry rules, so `validate` does not run them.
+
+| Id             | Reports                                                                                                                                                               |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `MANIFEST-001` | A platform recipe binding a token or relationship the data does not have.                                                                                             |
+| `MANIFEST-002` | `foundationVersion` and the project's `[source]` pin naming different releases.                                                                                       |
+| `MANIFEST-003` | A relationship the platform adds or overrides whose component, option value, state or `$ref` does not resolve (SPEC-051 to SPEC-055, on the platform's records only). |
+| `MANIFEST-004` | An `extensions/relationships` `override` or `remove` whose `uuid` targets no record.                                                                                  |
+| `MANIFEST-005` | An `extensions/implementations` entry naming a component that does not exist, or an `op: "remove"` that matches none of the platform's rows.                          |
+| `MANIFEST-006` | A `componentAliases` entry SPEC-081 rejects, or whose target component is deprecated.                                                                                 |
+| `MANIFEST-007` | A deviation whose component, part, state or option no longer resolves (not yet implemented; see [`extensions/deviations/`](#extensionsdeviations)).                   |
 
 ## Automated upgrades
 
@@ -318,4 +404,5 @@ The platform manifest is the Layer 2 context document. For Layer 3 (product-laye
 
 * [#715 — Distributed Design Data Architecture](https://github.com/adobe/spectrum-design-data/discussions/715)
 * [#625 — Token Authoring Workflow](https://github.com/adobe/spectrum-design-data/discussions/625)
+* [Artifact moves](artifact-moves.md) — promoting and demoting one artifact between a platform and the foundation
 * [Schema-override spike](manifest-schema-override-spike.md) — why the manifest cascade does not allow platform overrides of Layer-1 schemas

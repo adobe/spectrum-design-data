@@ -1,0 +1,28 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "property": "accent-color",
+        "colorScheme": "light"
+      },
+      "value": "#ffffff",
+      "uuid": "aaaaaaaa-0059-4000-8000-000000000001"
+    },
+    {
+      "name": {
+        "property": "background-color",
+        "colorScheme": "dark"
+      },
+      "$ref": "aaaaaaaa-0059-4000-8000-000000000001",
+      "uuid": "aaaaaaaa-0059-4000-8000-000000000002"
+    }
+  ],
+  "components": [],
+  "modeSets": [
+    {
+      "name": "colorScheme",
+      "modes": ["light", "dark"],
+      "default": "light"
+    }
+  ]
+}

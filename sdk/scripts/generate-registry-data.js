@@ -87,6 +87,25 @@ const categoriesPath = join(
 );
 generated += `const CATEGORIES_JSON: &str = r##"${readFileSync(categoriesPath, "utf-8")}"##;\n`;
 
+// Embed relationship-contexts.json for SPEC-090/SPEC-091. Not a name-object field either.
+const relationshipContextsPath = join(
+  repoRoot,
+  "packages/design-data/registry/relationship-contexts.json",
+);
+generated += `const RELATIONSHIP_CONTEXTS_JSON: &str = r##"${readFileSync(relationshipContextsPath, "utf-8")}"##;\n`;
+
+// Embed attributes.json for the relationship `scope.attribute` check (SPEC-101). Until a field
+// declaration in fields/ names this registry (RFC 1453 adds one), it is embedded here; once one
+// does, the field loop above already embeds it and this block is skipped.
+const attributesEmbedded = uniqueRegistries.has("ATTRIBUTES_JSON");
+if (!attributesEmbedded) {
+  const attributesPath = join(
+    repoRoot,
+    "packages/design-data/registry/attributes.json",
+  );
+  generated += `const ATTRIBUTES_JSON: &str = r##"${readFileSync(attributesPath, "utf-8")}"##;\n`;
+}
+
 // Generate FIELD_ADVISORY_FIELDS — the list of semantic fields that SPEC-009 checks
 const advisoryFieldNames = advisoryFields.map((d) => `"${d.name}"`).join(", ");
 generated += `\npub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &[${advisoryFieldNames}];\n`;
@@ -113,6 +132,10 @@ for (const decl of registryFields) {
   }
 }
 generated += `    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));\n`;
+generated += `    map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));\n`;
+if (!attributesEmbedded) {
+  generated += `    map.insert("attribute".to_string(), parse_registry(ATTRIBUTES_JSON));\n`;
+}
 generated += `    map\n}\n`;
 
 // Generate build_token_name_map() — id → tokenName per field, for legacy key expansion.
@@ -158,7 +181,17 @@ for (const d of allFieldsSorted) {
   const scope = d.scope ? `Some("${d.scope}")` : "None";
   const valueType = d.valueType || "string";
   const pos = d.serialization?.position ?? 9999;
-  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry != null}, value_type: "${valueType}", exclude_from_legacy_key: ${d.excludeFromLegacyKey === true} },\n`;
+  if (!["component", "semantic", "none"].includes(d.impliesTokenTier)) {
+    throw new Error(
+      `fields/${d.name}.json must declare impliesTokenTier (component, semantic or none)`,
+    );
+  }
+  const implies =
+    d.impliesTokenTier === "none" ? "None" : `Some("${d.impliesTokenTier}")`;
+  const tiers = d.allowedTokenTiers
+    ? `Some(&[${d.allowedTokenTiers.map((t) => `"${t}"`).join(", ")}])`
+    : "None";
+  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry != null}, value_type: "${valueType}", exclude_from_legacy_key: ${d.excludeFromLegacyKey === true}, allowed_token_tiers: ${tiers}, implies_token_tier: ${implies} },\n`;
 }
 generated += `    ]\n}\n`;
 

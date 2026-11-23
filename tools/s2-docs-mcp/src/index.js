@@ -107,7 +107,9 @@ export async function startServer() {
   await server.connect(transport);
 
   // Log server start for debugging (this goes to stderr, not stdout which is used for MCP)
-  console.error("S2 Docs MCP server started");
+  console.error(
+    "S2 Docs MCP server started. DEPRECATED: use @adobe/design-data-mcp (design-data-component-search).",
+  );
 }
 
 // Export for testing

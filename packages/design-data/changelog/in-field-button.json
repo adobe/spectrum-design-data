@@ -1,0 +1,100 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "in-field-button",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.11.4",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "f31644653d65c700a5c603472656ec1e18d49633",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1768,"title":"feat(design-data): add relationship contexts to bar-panel, standard-panel, in-field-button and form-item","url":"https://github.com/adobe/spectrum-design-data/pull/1768"},
+          "entries": [],
+          "metadata": {"count":5,"fields":["context","contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.26.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-19",
+      "commit": "83903848b0136b8b710154411d0719071903890b",
+      "commits": [
+        {
+          "commit": "f53a93e1a0a57c6f4b666d572fd03b5530662796",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1971,"title":"feat(design-data): review in-field-button and date-field, remove in-field-progress-button (A2-2)","url":"https://github.com/adobe/spectrum-design-data/pull/1971"},
+          "entries": [
+            {"id":"f53a93e1-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"in-field-button/anatomy/fill","name":"fill","fields":[],"before":{"name":"fill"}},
+            {"id":"f53a93e1-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"in-field-button/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Filled, rounded square that holds the icon and receives the pointer and focus.","required":true,"contains":["icon"]}},
+            {"id":"f53a93e1-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"in-field-button/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Glyph that says what the button does (clear, add, dash, chevron, calendar).","required":true}},
+            {"id":"f53a93e1-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-field-button/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Owner decision D3 (2026-11-19): a component that hosts nest as the part in-field-button. Figma Subcomponents page (.In-field button: Type, Quiet, size, state), RSP inputButton style, SWC swc-infield-button. The five stacked S1 records stay active with no part (decision D4b, bead 5m92.5.3.3). Options and states are not modelled yet."}]}
+          ],
+          "metadata": {"count":2,"fields":["anatomyReview.reviewedIn","anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.27.1",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-20",
+      "commit": "3f4978c0bb6300e7b81cbbed898fad973b4c71e6",
+      "commits": [
+        {
+          "commit": "65094d9bad1b3b029869f634ce66e35721f0ab7f",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1979,"title":"feat(design-data): migrate field hosts to structured identity (level 2)","url":"https://github.com/adobe/spectrum-design-data/pull/1979"},
+          "entries": [],
+          "metadata": {"count":4,"fields":["scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"in-field-button/subcomponent","name":"subcomponent","fields":[{"path":"subcomponent","after":true}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "e356cda6155f3db35a4db4cabbe9f52fa59d2f83",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2069,"title":"feat(design-data): add in-field-button, coach-indicator, standard-panel and bar-panel recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2069"},
+          "entries": [
+            {"id":"e356cda6-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"in-field-button/options/size","name":"size","fields":[],"after":{"type":"string","default":"m","values":[{"value":"s"},{"value":"m"},{"value":"l"},{"value":"xl"}]}},
+            {"id":"e356cda6-1","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"in-field-button/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false}},
+            {"id":"e356cda6-2","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"in-field-button/states/hover","name":"hover","fields":[],"after":{"name":"hover","trigger":"interaction"}},
+            {"id":"e356cda6-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"in-field-button/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Owner decision D3 (2026-11-19): a component that hosts nest as the part in-field-button. Figma Subcomponents page (.In-field button: Type, Quiet, size, state), RSP inputButton style, SWC swc-infield-button. The five stacked S1 records stay active with no part (decision D4b, bead 5m92.5.3.3). Options and states are not modelled yet.","after":"Owner decision D3 (2026-11-19): a component that hosts nest as the part in-field-button. Figma Subcomponents page (.In-field button: Type, Quiet, size, state), RSP inputButton style, SWC swc-infield-button. The five stacked S1 records stay active with no part (decision D4b, bead 5m92.5.3.3). Options and states are not modelled yet. Options pass (recipe wave R1): size and isDisabled and the hover state come from Figma (.In-field button: Size, State) and RSP inputButton (size S, M, L, XL; gray-100 fill; disabled). Type (the glyph) is the content icon of a render request; Quiet is not modelled."}]},
+            {"id":"e356cda6-4","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"in-field-button/visual","name":"in-field-button","fields":[]}
+          ],
+          "metadata": {"count":4,"fields":["scope.options.size"]}
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "swatch",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorSwatch",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

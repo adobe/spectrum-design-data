@@ -59,6 +59,7 @@
       "default": "informative",
       "values": [
         { "value": "informative" },
+        { "value": "accent" },
         { "value": "neutral" },
         { "value": "positive" },
         { "value": "notice" },
@@ -80,7 +81,8 @@
         { "value": "red" },
         { "value": "orange" },
         { "value": "green" },
-        { "value": "cyan" }
+        { "value": "cyan" },
+        { "value": "blue" }
       ]
     },
     "size": {
@@ -95,12 +97,30 @@
     }
   },
   "anatomy": [
-    { "name": "visual-75", "description": "Severity dot, 75 size variant." },
-    { "name": "visual-100", "description": "Severity dot, 100 size variant." },
-    { "name": "visual-200", "description": "Severity dot, 200 size variant." },
-    { "name": "visual-300", "description": "Severity dot, 300 size variant." },
-    { "name": "dot" }
+    {
+      "name": "container",
+      "description": "Root of the component: a row holding the dot and the label. It sets the spacing between them.",
+      "required": true,
+      "contains": ["dot", "label"]
+    },
+    {
+      "name": "dot",
+      "description": "Colored dot that carries the status. Its size follows the size option.",
+      "required": true
+    },
+    {
+      "name": "label",
+      "description": "Text that names the status.",
+      "required": true
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Owner decisions (A137, 2026-11-20): explicit root part container; the visual-75..300 pseudo parts are removed because the dot size is carried by the size option (the archived dot-to-label records that name them stay frozen); the dot part is dot (registry alias light, the Figma name). Figma POC not re-read; React Spectrum S2 StatusLight and SWC gen2 swc-status-light draw a dot and a label."
+  },
   "accessibility": { "focusable": false }
 }

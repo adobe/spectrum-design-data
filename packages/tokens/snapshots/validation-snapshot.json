@@ -822,6 +822,27 @@
     },
     {
       "file": "./src/layout.json",
+      "token": "corner-radius-button-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'corner-radius-button-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "corner-radius-button-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'corner-radius-button-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "corner-radius-button-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'corner-radius-button-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
       "token": "drop-shadow-emphasized-default-blur",
       "rule_id": "SPEC-007",
       "severity": "info",

@@ -1,0 +1,13 @@
+[
+  {
+    "name": {
+      "property": "color",
+      "colorFamily": "fixture",
+      "scaleIndex": "100",
+      "colorScheme": "light"
+    },
+    "value": "rgb(7, 7, 7)",
+    "uuid": "00000000-0000-4000-8000-0000000000e1",
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json"
+  }
+]

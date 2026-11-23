@@ -1,0 +1,6 @@
+{
+  "errors": [
+    { "message_pattern": "broken\\.json" },
+    { "message_pattern": "field\\.schema\\.json" }
+  ]
+}

@@ -22,6 +22,12 @@
       "repository": "https://github.com/adobe/spectrum-design-data/tree/main/platforms/ios"
     },
     {
+      "id": "rune",
+      "label": "Spectrum Rune",
+      "description": "Spectrum implementation for Rust. Its platform manifest lives in the implementation's own repo (platforms/rune/), not incubated in this monorepo.",
+      "repository": "https://github.com/GarthDB/spectrum-rune"
+    },
+    {
       "id": "android",
       "label": "Spectrum Android",
       "description": "Adobe's Android implementation of Spectrum. No platform manifest exists yet (see epic h890.22.6, follow-up to the iOS work)."

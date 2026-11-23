@@ -1,0 +1,141 @@
+// Copyright 2026 Adobe. All rights reserved.
+// Licensed under the Apache License, Version 2.0.
+
+// Functions run inside the page through `handle.evaluate(fn, arg)`, so each is
+// self-contained: no imports or outer references.
+
+// Reads what `design-data render-compare` understands, in CSS px, from the
+// unscaled layout box. `role` is container (a box), label (text) or icon.
+// `details` carries extras the comparison ignores (font family).
+export function measureElement(el, role) {
+  const cs = getComputedStyle(el);
+  const rect = el.getBoundingClientRect();
+  const px = (v) => Math.round(parseFloat(v) * 1000) / 1000;
+  const props = { width: px(rect.width), height: px(rect.height) };
+  const details = {};
+  if (role === "container") {
+    props.paddingTop = px(cs.paddingTop);
+    props.paddingRight = px(cs.paddingRight);
+    props.paddingBottom = px(cs.paddingBottom);
+    props.paddingLeft = px(cs.paddingLeft);
+    // Capsules compute to huge or percentage radii; the drawn radius is capped at half the short side.
+    const short = Math.min(rect.width, rect.height);
+    const radius = (v) => {
+      const r = v.split(" ")[0];
+      return px(r.endsWith("%") ? (parseFloat(r) / 100) * short : Math.min(parseFloat(r), short / 2));
+    };
+    props.cornerRadius = radius(cs.borderTopLeftRadius);
+    props.cornerRadiusTopLeft = props.cornerRadius;
+    props.cornerRadiusTopRight = radius(cs.borderTopRightRadius);
+    props.cornerRadiusBottomRight = radius(cs.borderBottomRightRadius);
+    props.cornerRadiusBottomLeft = radius(cs.borderBottomLeftRadius);
+    // `gap` is "normal" (0) unless set; a column stacks along row-gap. A border with width 0 or style none is not drawn.
+    props.gap = px(cs.flexDirection.startsWith("column") ? cs.rowGap : cs.columnGap) || 0;
+    const sides = ["Top", "Right", "Bottom", "Left"].map((e) => ({ w: parseFloat(cs[`border${e}Width`]) || 0, c: cs[`border${e}Color`], s: cs[`border${e}Style`] }));
+    const drawn = sides.find((e) => e.w > 0 && e.s !== "none");
+    props.borderWidth = drawn ? px(drawn.w) : 0;
+    props.stroke = drawn ? drawn.c : "none";
+    props.fill = cs.backgroundColor;
+  } else if (role === "label") {
+    // Union of the text boxes; slotted text is read through the slot's assigned nodes.
+    const texts = [];
+    const gather = (n) => {
+      if (n.nodeType === 3) {
+        if (n.textContent.trim()) texts.push(n);
+      } else if (n.localName === "slot") {
+        n.assignedNodes({ flatten: true }).forEach(gather);
+      } else {
+        n.childNodes.forEach(gather);
+      }
+    };
+    gather(el);
+    const boxes = texts.map((t) => {
+      const range = document.createRange();
+      range.selectNodeContents(t);
+      return range.getBoundingClientRect();
+    });
+    const left = Math.min(...boxes.map((b) => b.left));
+    const right = Math.max(...boxes.map((b) => b.right));
+    props.width = boxes.length ? px(right - left) : 0;
+    // Height is one line height, which is what the scene models. The element's own box can stretch
+    // (flex align) and the text range is only the glyph box, so the range is used only when the
+    // line height is `normal` or the label wraps (range taller than 1.5 lines). Applies to every
+    // Storybook source, not just the S2 pilot.
+    const lh = parseFloat(cs.lineHeight);
+    const rangeH = boxes.length ? Math.max(...boxes.map((b) => b.bottom)) - Math.min(...boxes.map((b) => b.top)) : 0;
+    props.height = px(Number.isFinite(lh) && rangeH <= lh * 1.5 ? lh : rangeH);
+    props.fontSize = px(cs.fontSize);
+    props.fontWeight = Number(cs.fontWeight);
+    props.color = cs.color;
+    details.fontFamily = cs.fontFamily;
+  } else if (role === "icon") {
+    props.color = cs.color;
+  }
+  return { props, details };
+}
+
+// Finds a part inside the component when the state gives no selector: the label is
+// the first element holding its own text, the icon the first svg. Pierces open shadow roots.
+export function findDefaultPart(root, role) {
+  const walk = (node) => {
+    const out = [];
+    for (const child of node.children ?? []) {
+      out.push(child);
+      out.push(...walk(child));
+      if (child.shadowRoot) out.push(...walk(child.shadowRoot));
+    }
+    return out;
+  };
+  const all = [...walk(root), ...(root.shadowRoot ? walk(root.shadowRoot) : [])];
+  if (role === "icon") return all.find((e) => e.localName === "svg") ?? null;
+  return all.find((e) => [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) ?? null;
+}
+
+// Which design-token custom properties (prefixes `--spectrum-` and `--swc-` by default; the
+// deployed SWC gen2 Storybook uses `--swc-*`) the stylesheets apply to this element, with their
+// resolved values. Walks the document and shadow-root sheets; it lists every matching
+// declaration and does not resolve the cascade, so overridden declarations also appear.
+export function collectTokenProperties(el, prefixes = ["--spectrum-", "--swc-"]) {
+  const root = el.getRootNode();
+  const cs = getComputedStyle(el);
+  const sources = [document, root, el.shadowRoot].filter(Boolean);
+  const seen = new Set();
+  const found = [];
+  const matches = (selector) => {
+    const s = selector.replace(/:host(\(([^)]*)\))?/g, (_, p, inner) => (inner ? inner : "*"));
+    try {
+      return el.matches(s);
+    } catch {
+      return false;
+    }
+  };
+  const visit = (rules) => {
+    for (const rule of rules) {
+      if (rule.selectorText && rule.style && matches(rule.selectorText)) {
+        // cssText keeps shorthands with var() intact; iterating the style yields empty longhands.
+        for (const [, prop, value] of rule.style.cssText.matchAll(/([\w-]+)\s*:\s*([^;]+);/g)) {
+          const vars = [...value.matchAll(/var\(\s*(--[\w-]+)/g)].map((m) => m[1]).filter((v) => prefixes.some((p) => v.startsWith(p)));
+          if (!vars.length) continue;
+          const key = `${rule.selectorText}|${prop}|${value}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          found.push({
+            selector: rule.selectorText,
+            property: prop,
+            value: value.trim(),
+            resolved: Object.fromEntries(vars.map((v) => [v, cs.getPropertyValue(v).trim()])),
+          });
+        }
+      }
+      if (rule.cssRules) visit(rule.cssRules);
+    }
+  };
+  for (const src of new Set(sources)) {
+    for (const sheet of [...(src.styleSheets ?? []), ...(src.adoptedStyleSheets ?? [])]) {
+      try {
+        visit(sheet.cssRules);
+      } catch {} // cross-origin sheet
+    }
+  }
+  return found;
+}

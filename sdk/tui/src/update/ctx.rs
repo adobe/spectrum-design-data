@@ -21,6 +21,7 @@ use design_data_core::graph::TokenGraph;
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 
+use crate::preview::PreviewSource;
 use crate::wizard::WizardCtx;
 
 // ── External context ──────────────────────────────────────────────────────────
@@ -40,6 +41,9 @@ pub struct UpdateCtx<'a> {
     pub token_index: TokenIndex,
     pub mode_set_restrictions: HashMap<String, Vec<String>>,
     pub allow_write: bool,
+    /// Where `:preview` gets recipes and fonts, loaded on first use. `None` in tests that
+    /// do not preview.
+    pub preview: Option<Arc<PreviewSource>>,
 }
 
 impl<'a> UpdateCtx<'a> {
@@ -57,6 +61,7 @@ impl<'a> UpdateCtx<'a> {
             token_index: TokenIndex::build(graph),
             mode_set_restrictions: HashMap::new(),
             allow_write: false,
+            preview: None,
         }
     }
 
@@ -102,6 +107,7 @@ pub struct UpdateCtxBuilder<'a> {
     mode_sets_dir: Option<&'a Path>,
     mode_set_restrictions: HashMap<String, Vec<String>>,
     allow_write: bool,
+    preview: Option<Arc<PreviewSource>>,
 }
 
 impl<'a> UpdateCtxBuilder<'a> {
@@ -114,6 +120,7 @@ impl<'a> UpdateCtxBuilder<'a> {
             mode_sets_dir: None,
             mode_set_restrictions: HashMap::new(),
             allow_write: false,
+            preview: None,
         }
     }
 
@@ -148,6 +155,11 @@ impl<'a> UpdateCtxBuilder<'a> {
         self
     }
 
+    pub fn preview(mut self, source: Arc<PreviewSource>) -> Self {
+        self.preview = Some(source);
+        self
+    }
+
     /// Consume the builder and produce an [`UpdateCtx`].
     ///
     /// `token_index` is derived from `graph` automatically.
@@ -161,6 +173,7 @@ impl<'a> UpdateCtxBuilder<'a> {
             mode_sets_dir: self.mode_sets_dir,
             mode_set_restrictions: self.mode_set_restrictions,
             allow_write: self.allow_write,
+            preview: self.preview,
         }
     }
 }

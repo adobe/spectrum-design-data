@@ -2,9 +2,11 @@
   {
     "scope": {
       "component": "bar-panel",
-      "part": "gripper",
+      "part": "drag-handle",
       "property": "color"
     },
+    "context": "Gripper",
+    "contextRole": ["gripper"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
     "uuid": "5a46c025-32b4-4bda-bab0-5ab0fb69ca8e",
@@ -13,12 +15,14 @@
   {
     "scope": {
       "component": "bar-panel",
-      "part": "gripper",
+      "part": "drag-handle",
       "property": "color",
       "options": {
         "qualifier": "drag"
       }
     },
+    "context": "Gripper",
+    "contextRole": ["gripper"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
     "uuid": "16431c28-23e4-4077-bcfa-138f90583282",
@@ -27,8 +31,12 @@
   {
     "scope": {
       "component": "bar-panel",
+      "part": "container",
       "property": "maximum-width"
     },
+    "context": "Width (maximum)",
+    "contextRole": ["width"],
+    "contextQualifier": "maximum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "72px",
     "uuid": "00c313bf-61be-4f5a-9d26-3e9f1ea0e950",
@@ -37,8 +45,12 @@
   {
     "scope": {
       "component": "bar-panel",
+      "part": "container",
       "property": "minimum-width"
     },
+    "context": "Width (minimum)",
+    "contextRole": ["width"],
+    "contextQualifier": "minimum",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "db0862a7-3a92-4c24-a06a-d20acfd94e1b",
@@ -62,8 +74,12 @@
   {
     "scope": {
       "component": "bar-panel",
+      "part": "container",
       "property": "width"
     },
+    "context": "Width (default)",
+    "contextRole": ["width"],
+    "contextQualifier": "default",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
     "uuid": "c0e0d08b-e22f-44d3-b547-6bd173d00e1b",

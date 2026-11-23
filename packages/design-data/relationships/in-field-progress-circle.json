@@ -2,178 +2,240 @@
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "part": "track",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
-    "context": "Height",
-    "$ref": "dbb4f6bf-ddfb-4184-babe-63815cad7202"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "f7d9ca4c-6d3f-4053-962a-152a19531389",
+    "uuid": "06b5b87b-bd20-5d4a-827c-71373877a7ba"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "part": "track",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
-    "context": "Height",
-    "$ref": "c43c89a6-2ae5-4d29-99ab-2c64e153d4e7"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "c43c89a6-2ae5-4d29-99ab-2c64e153d4e7",
+    "uuid": "083dcc84-8df9-54ee-a75a-277b09b4a478"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "part": "track",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
-    "context": "Height",
-    "$ref": "ef5f40e8-d6e9-45a7-b8cf-1689e44e713c"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
+    "uuid": "f4f6ec30-fccd-5964-9f87-e0cdb58a3e82"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "part": "track",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
-    "context": "Height",
-    "$ref": "c522b33c-93b8-491f-b4df-c241f5b5ade8"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "c522b33c-93b8-491f-b4df-c241f5b5ade8",
+    "uuid": "975db74a-4a19-5ce4-b446-ea482e04a482"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "part": "track",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
-    "context": "Height",
-    "$ref": "86567889-978e-4dfe-8412-42c8f33c3f44"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0",
+    "uuid": "f3bac3b4-0b91-59c5-8c5d-46e48e8952db"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "part": "track",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
-    "context": "Height",
-    "$ref": "85377238-7488-42e0-99ce-f4fd73316d24"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "85377238-7488-42e0-99ce-f4fd73316d24",
+    "uuid": "c393386d-fabd-5ba6-a93e-f089d315bc96"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "part": "track",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
     },
-    "context": "Height",
-    "$ref": "32d0a47d-c4bb-4955-aef0-28e07f429b92"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4",
+    "uuid": "74055ce9-02a9-522a-8457-ca0fd356f84e"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "size"
+      "part": "track",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
     },
-    "context": "Height",
-    "$ref": "9e740bd1-b98a-416a-be82-20e222cab3b1"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "9e740bd1-b98a-416a-be82-20e222cab3b1",
+    "uuid": "de23841d-722d-5474-9bf2-22e1527b5fea"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "color"
     },
     "context": "Track and fill",
-    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+    "contextRole": ["track", "track"],
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
+    "uuid": "04e7530d-711f-5944-b730-2b52a6f8008b"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "color"
     },
     "context": "Track and fill",
-    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+    "contextRole": ["track", "track"],
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
+    "uuid": "5a3b8ec5-5d5a-51f0-8807-48cc664394dd"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "track",
       "property": "color"
     },
     "context": "Track and fill",
-    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+    "contextRole": ["track", "track"],
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
+    "uuid": "6a1ace26-5c8d-5118-a33c-b03ff72cf37d"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
+      "part": "fill",
       "property": "content-color"
     },
     "context": "Track and fill",
-    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+    "contextRole": ["track", "track"],
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
+    "uuid": "38238a36-7cf4-50a4-816b-0e8cf16e8d2c"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "color"
+      "part": "track",
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and fill (static white)",
-    "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c"
+    "context": "Track and fill",
+    "contextRole": ["track", "track"],
+    "$ref": "c459ce5a-1d40-490f-bde6-c409bd334487",
+    "uuid": "5352ddca-7b3a-56ca-995e-83afd589b7dd"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "color"
+      "part": "fill",
+      "property": "content-color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and fill (static white)",
-    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+    "context": "Track and fill",
+    "contextRole": ["track", "track"],
+    "$ref": "d6186e0c-3507-4699-8b83-e8e3f3aa56f0",
+    "uuid": "8819d728-cc9f-5119-b2bf-09047ee6fc4b"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "color"
+      "part": "track",
+      "property": "color",
+      "options": {
+        "staticColor": "black"
+      }
     },
-    "context": "Track and fill (static black)",
-    "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e"
+    "context": "Track and fill",
+    "contextRole": ["track", "track"],
+    "$ref": "f1e65a2b-16bb-4981-bd89-29b77c55aad0",
+    "uuid": "d3f33ca6-6123-5f8e-8ef2-2a3f56f7a1e9"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "color"
+      "part": "fill",
+      "property": "content-color",
+      "options": {
+        "staticColor": "black"
+      }
     },
-    "context": "Track and fill (static black)",
-    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+    "context": "Track and fill",
+    "contextRole": ["track", "track"],
+    "$ref": "0e7dfba0-a81a-427f-9fa5-b0e381e8b295",
+    "uuid": "6365fdd6-8f51-5ed8-86c3-c033ecbe1367"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "thickness"
+      "part": "track",
+      "property": "thickness",
+      "options": {
+        "size": ["s", "m", "l", "xl"]
+      }
     },
-    "context": "S1 Thickness",
-    "$ref": "becddd13-6ef9-4abc-9468-25885b2b4b84"
+    "context": "Thickness",
+    "$ref": "becddd13-6ef9-4abc-9468-25885b2b4b84",
+    "uuid": "d916b923-107b-5a96-8a05-29263de80ec6"
   },
   {
     "scope": {
       "component": "in-field-progress-circle",
-      "property": "thickness"
+      "part": "track",
+      "property": "thickness",
+      "options": {
+        "size": ["s", "m", "l", "xl"]
+      }
     },
-    "context": "S1 Thickness",
-    "$ref": "a37ef752-662b-4152-b247-0ce9fcd624e4"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "thickness"
-    },
-    "context": "S1 Thickness",
-    "$ref": "a3adff4d-e69e-4aa0-95ec-2019328b7d08"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "thickness"
-    },
-    "context": "S1 Thickness",
-    "$ref": "aa930d94-7874-44d7-80f1-dc431d40c4a4"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "thickness"
-    },
-    "context": "S1 Thickness",
-    "$ref": "6331ae2c-ddf9-4de4-8df4-82b5581cf2ea"
-  },
-  {
-    "scope": {
-      "component": "in-field-progress-circle",
-      "property": "thickness"
-    },
-    "context": "S1 Thickness",
-    "$ref": "076b031f-5980-4112-bf0b-2cec47f54c6b"
+    "context": "Thickness",
+    "$ref": "a37ef752-662b-4152-b247-0ce9fcd624e4",
+    "uuid": "c85458be-cafb-5496-8ccd-60c593a90550"
   },
   {
     "scope": {
@@ -231,7 +293,13 @@
     "uuid": "ef5f40e8-d6e9-45a7-b8cf-1689e44e713c",
     "legacyKey": "in-field-progress-circle-size-100",
     "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 200 of the mapping sheet."
   },
   {
     "scope": {
@@ -247,7 +315,13 @@
     "uuid": "c522b33c-93b8-491f-b4df-c241f5b5ade8",
     "legacyKey": "in-field-progress-circle-size-100",
     "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 200 of the mapping sheet."
   },
   {
     "scope": {
@@ -263,7 +337,13 @@
     "uuid": "86567889-978e-4dfe-8412-42c8f33c3f44",
     "legacyKey": "in-field-progress-circle-size-200",
     "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 201 of the mapping sheet."
   },
   {
     "scope": {
@@ -279,7 +359,13 @@
     "uuid": "85377238-7488-42e0-99ce-f4fd73316d24",
     "legacyKey": "in-field-progress-circle-size-200",
     "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 201 of the mapping sheet."
   },
   {
     "scope": {
@@ -295,7 +381,13 @@
     "uuid": "32d0a47d-c4bb-4955-aef0-28e07f429b92",
     "legacyKey": "in-field-progress-circle-size-300",
     "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 202 of the mapping sheet."
   },
   {
     "scope": {
@@ -311,7 +403,13 @@
     "uuid": "9e740bd1-b98a-416a-be82-20e222cab3b1",
     "legacyKey": "in-field-progress-circle-size-300",
     "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 202 of the mapping sheet."
   },
   {
     "scope": {
@@ -327,7 +425,13 @@
     "uuid": "dbb4f6bf-ddfb-4184-babe-63815cad7202",
     "legacyKey": "in-field-progress-circle-size-75",
     "setUuid": "a25ad27d-24c6-4332-838b-5c0605ec38bb",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "f7d9ca4c-6d3f-4053-962a-152a19531389"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 203 of the mapping sheet."
   },
   {
     "scope": {
@@ -343,6 +447,12 @@
     "uuid": "c43c89a6-2ae5-4d29-99ab-2c64e153d4e7",
     "legacyKey": "in-field-progress-circle-size-75",
     "setUuid": "a25ad27d-24c6-4332-838b-5c0605ec38bb",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "f7d9ca4c-6d3f-4053-962a-152a19531389"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 203 of the mapping sheet."
   }
 ]

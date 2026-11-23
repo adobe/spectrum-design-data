@@ -18,9 +18,18 @@ fn main() {
     println!(
         "cargo:rerun-if-changed={}",
         Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../packages/design-data/guidelines")
+            .join("../../packages/design-data/dataset.json")
             .display()
     );
+    for dir in ["guidelines", "relationships", "icons", "visuals"] {
+        println!(
+            "cargo:rerun-if-changed={}",
+            Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../../packages/design-data")
+                .join(dir)
+                .display()
+        );
+    }
     println!(
         "cargo:rerun-if-changed={}",
         Path::new(env!("CARGO_MANIFEST_DIR"))

@@ -89,6 +89,11 @@ pub enum FetchError {
         #[source]
         source: io::Error,
     },
+    /// The releases asked for held no `@adobe/spectrum-design-data` release.
+    #[error(
+        "no @adobe/spectrum-design-data release found in the newest {checked} releases of {repo}"
+    )]
+    NoRelease { repo: String, checked: usize },
     /// A local filesystem operation failed.
     #[error("cache I/O error: {0}")]
     Io(#[from] io::Error),
@@ -157,7 +162,7 @@ pub fn ensure_cached(
         } => {
             let git_ref =
                 GithubRef::from_fields(tag.as_deref(), branch.as_deref(), sha.as_deref())?;
-            fetch_github(&base, repo, &git_ref)
+            fetch_github(&base, repo, &git_ref, true)
         }
         SourceConfig::Npm { .. } => Err(FetchError::NotYetSupported {
             source_type: "npm",
@@ -176,6 +181,19 @@ pub fn ensure_cached(
         // `Path` is handled by the resolver directly and never reaches fetch.
         SourceConfig::Path { .. } => unreachable!("path source does not go through fetch"),
     }
+}
+
+/// Fetch (or find cached) the foundation published at `tag` on `repo`, **keeping** every other
+/// cached version. For a release fetched only to read (`platform impact --to`): the project's own
+/// pinned version is another cache entry, and must survive.
+pub fn ensure_cached_keeping_others(
+    repo: &str,
+    tag: &str,
+    cache_dir_override: Option<&Path>,
+) -> Result<PathBuf, FetchError> {
+    let base = resolve_cache_base(cache_dir_override)?;
+    let git_ref = GithubRef::from_fields(Some(tag), None, None)?;
+    fetch_github(&base, repo, &git_ref, false)
 }
 
 /// Ensure a **platform-manifest** repo is fetched/cached (h890.27.5), and return
@@ -307,19 +325,26 @@ fn fetch_platform_repo(
     Ok(root)
 }
 
-fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf, FetchError> {
+/// `evict`: after a download, delete this repo's other cached refs. The project's own source does
+/// (the cache stays one version deep); fetching a release only to read it must not, or it deletes
+/// the version the project is pinned to.
+fn fetch_github(
+    base: &Path,
+    repo: &str,
+    git_ref: &GithubRef,
+    evict: bool,
+) -> Result<PathBuf, FetchError> {
     // Sanitize repo for use as a filesystem path component. Keep an `@` separator
     // between the repo slug and the kind-prefixed ref segment so that distinct
     // refs (and repos) never collide after sanitization.
     let safe_repo = repo.replace('/', "-");
     let key = format!("github/{safe_repo}@{}", git_ref.cache_segment());
     let root = base.join(&key);
-    let sentinel = root.join(".complete");
 
     // ponytail: immutable refs (tag/sha) served from cache; branch tips move, so
     // always refetch (~2MB). Upgrade path: ETag/If-None-Match conditional GET if
     // the per-run refetch cost ever matters.
-    if sentinel.exists() && !git_ref.is_mutable() {
+    if cache_is_current(&root) && !git_ref.is_mutable() {
         return Ok(root);
     }
 
@@ -330,12 +355,75 @@ fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf,
 
     let bytes = download_bytes(&url)?;
     extract_github_tarball(&bytes, &url, &root, should_extract)?;
-    // Entries are flat under `github/` as `{safe_repo}@{segment}`, so scan that dir
-    // and prune only *this repo's* other refs — the `{safe_repo}@` prefix keeps a
-    // fetch of one repo from evicting another repo's cache.
-    evict_stale_versions(&root, &base.join("github"), &format!("{safe_repo}@"));
+    prune_after_fetch(&root, base, &safe_repo, evict);
 
     Ok(root)
+}
+
+/// Ask GitHub for `repo`'s recent releases and pick the newest with `pick`. The API rejects a
+/// request without a `User-Agent`, which the archive downloads do not need.
+///
+/// The repo releases a dozen packages together, so a page of 100 holds only a handful of
+/// foundation releases and a few waves without one would push the newest off the first page:
+/// look through up to [`RELEASE_PAGES`] pages, newest first, and stop at the first page that has
+/// one (or the first short page, the end of the list).
+const RELEASE_PAGES: usize = 5;
+
+pub(crate) fn latest_release(
+    repo: &str,
+    pick: fn(&serde_json::Value) -> Option<semver::Version>,
+) -> Result<semver::Version, FetchError> {
+    let rt = tokio::runtime::Runtime::new().map_err(FetchError::Io)?;
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(30))
+        .user_agent(concat!("design-data-cli/", env!("CARGO_PKG_VERSION")))
+        .build()
+        .map_err(|e| FetchError::Network {
+            url: repo.to_string(),
+            source: e,
+        })?;
+    let mut checked = 0;
+    for page in 1..=RELEASE_PAGES {
+        let url = format!("https://api.github.com/repos/{repo}/releases?per_page=100&page={page}");
+        let releases: serde_json::Value = rt.block_on(async {
+            let net = |e| FetchError::Network {
+                url: url.clone(),
+                source: e,
+            };
+            client
+                .get(&url)
+                .header("Accept", "application/vnd.github+json")
+                .send()
+                .await
+                .map_err(net)?
+                .error_for_status()
+                .map_err(net)?
+                .json()
+                .await
+                .map_err(net)
+        })?;
+        if let Some(version) = pick(&releases) {
+            return Ok(version);
+        }
+        let on_page = releases.as_array().map_or(0, Vec::len);
+        checked += on_page;
+        if on_page < 100 {
+            break;
+        }
+    }
+    Err(FetchError::NoRelease {
+        repo: repo.to_string(),
+        checked,
+    })
+}
+
+/// Entries are flat under `github/` as `{safe_repo}@{segment}`, so scan that dir and prune only
+/// *this repo's* other refs: the `{safe_repo}@` prefix keeps a fetch of one repo from evicting
+/// another repo's cache. Not at all when `evict` is false.
+fn prune_after_fetch(root: &Path, base: &Path, safe_repo: &str, evict: bool) {
+    if evict {
+        evict_stale_versions(root, &base.join("github"), &format!("{safe_repo}@"));
+    }
 }
 
 /// Download `url` and return the response body as bytes.
@@ -440,7 +528,7 @@ fn extract_github_tarball(
         std::fs::remove_dir_all(dest).map_err(FetchError::Io)?;
     }
     std::fs::rename(&tmp, dest).map_err(FetchError::Io)?;
-    std::fs::write(dest.join(".complete"), "").map_err(FetchError::Io)?;
+    std::fs::write(dest.join(".complete"), EXTRACT_LAYOUT).map_err(FetchError::Io)?;
 
     Ok(())
 }
@@ -594,6 +682,16 @@ fn extract_tarball_inner_with_limits(
     Ok(())
 }
 
+/// Version of the extraction filter, stored in `.complete`. Bump it whenever
+/// [`should_extract`] changes so immutable (tag/sha) caches built by older
+/// binaries are refetched instead of served incomplete.
+const EXTRACT_LAYOUT: &str = "3";
+
+/// True when `root` was extracted by the current [`EXTRACT_LAYOUT`].
+fn cache_is_current(root: &Path) -> bool {
+    std::fs::read_to_string(root.join(".complete")).is_ok_and(|v| v.trim() == EXTRACT_LAYOUT)
+}
+
 /// Returns true for paths we want to extract from the GitHub tarball.
 fn should_extract(rel: &Path) -> bool {
     let mut components = rel.components();
@@ -610,20 +708,9 @@ fn should_extract(rel: &Path) -> bool {
         // data itself now lives under packages/design-data/tokens (arm below), but
         // schemas and metadata still live here — so the whole parent is kept by design.
         (Some("packages"), Some("tokens")) => true,
-        (Some("packages"), Some("design-data")) => {
-            // tokens/ — cascade-format token data; components/, fields/, mode-sets/ — Spectrum catalog.
-            let third = components
-                .next()
-                .map(|c| c.as_os_str().to_string_lossy().into_owned());
-            matches!(
-                third.as_deref(),
-                Some("tokens")
-                    | Some("components")
-                    | Some("fields")
-                    | Some("mode-sets")
-                    | Some("naming-exceptions.json")
-            )
-        }
+        // The whole dataset (8.7 MB): a hand-kept subfolder list dropped `dataset.json`, so a
+        // fetched dataset read as layout revision 0.
+        (Some("packages"), Some("design-data")) => true,
         (Some("packages"), Some("design-data-spec")) => {
             // schemas/ — Layer-1 spec schemas (manifest.schema.json et al.) used to
             // validate a fetched foundation. Other subdirs (docs, audits, scripts…) are not needed.
@@ -705,10 +792,9 @@ mod tests {
         assert!(should_extract(Path::new(
             "packages/design-data/tokens/layout.tokens.json"
         )));
-        // Other design-data paths are NOT extracted.
-        assert!(!should_extract(Path::new("packages/design-data/README.md")));
-        assert!(!should_extract(Path::new(
-            "packages/design-data/package.json"
+        // The whole dataset is extracted, including the root `dataset.json` (layoutRevision).
+        assert!(should_extract(Path::new(
+            "packages/design-data/dataset.json"
         )));
     }
 
@@ -723,6 +809,30 @@ mod tests {
         assert!(should_extract(Path::new(
             "packages/design-data/fields/variant.json"
         )));
+    }
+
+    #[test]
+    fn should_extract_render_inputs() {
+        for p in [
+            "packages/design-data/relationships/button.json",
+            "packages/design-data/visuals/radio-button.json",
+            "packages/design-data/icons/ui.json",
+            "packages/design-data/registry/platform-implementations.json",
+            "packages/design-data/guidelines/manifest.json",
+            "packages/design-data/changelog/action-button.json",
+        ] {
+            assert!(should_extract(Path::new(p)), "{p}");
+        }
+    }
+
+    #[test]
+    fn stale_cache_layout_is_refetched() {
+        let tmp = tempfile::TempDir::new().unwrap();
+        assert!(!cache_is_current(tmp.path()));
+        std::fs::write(tmp.path().join(".complete"), "").unwrap();
+        assert!(!cache_is_current(tmp.path()));
+        std::fs::write(tmp.path().join(".complete"), EXTRACT_LAYOUT).unwrap();
+        assert!(cache_is_current(tmp.path()));
     }
 
     #[test]
@@ -809,6 +919,32 @@ mod tests {
         assert!(current.is_dir(), "current ref must be kept");
         assert!(!stale.is_dir(), "same-repo stale ref must be pruned");
         assert!(other.is_dir(), "another repo's cache must be untouched");
+    }
+
+    /// `platform impact --to` fetches a release only to read it. Pruning after that fetch deleted
+    /// the version the project is pinned to, so the command could not load the project.
+    #[test]
+    fn a_fetch_that_does_not_evict_keeps_the_pinned_version() {
+        let tmp = tempfile::TempDir::new().unwrap();
+        let gh = tmp.path().join("github");
+        let pinned = gh.join("adobe-spectrum-design-data@tag-pinned");
+        let fetched = gh.join("adobe-spectrum-design-data@tag-fetched");
+        for d in [&pinned, &fetched] {
+            std::fs::create_dir_all(d).unwrap();
+        }
+
+        prune_after_fetch(&fetched, tmp.path(), "adobe-spectrum-design-data", false);
+        assert!(
+            pinned.is_dir(),
+            "a fetch that does not evict keeps the pinned version"
+        );
+
+        prune_after_fetch(&fetched, tmp.path(), "adobe-spectrum-design-data", true);
+        assert!(
+            !pinned.is_dir(),
+            "the project's own fetch still prunes older versions"
+        );
+        assert!(fetched.is_dir());
     }
 
     #[test]
@@ -1038,6 +1174,7 @@ mod tests {
             "components missing"
         );
         assert!(root.join(".complete").is_file(), "sentinel missing");
+        assert!(cache_is_current(&root), "layout marker missing");
 
         // Second call — cache hit, sentinel still present.
         let root2 = ensure_cached(&source, None).expect("cache hit failed");

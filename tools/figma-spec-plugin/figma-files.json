@@ -1,0 +1,93 @@
+{
+  "plan": "organization::1177024566520626109",
+  "project": "657068416",
+  "poc": {
+    "fileKey": "rNdFQYqXO2Nd3zMWnQD5U4"
+  },
+  "files": {
+    "accordion": {
+      "fileKey": "4ODFvP7T7X7TMevsYBQXPP",
+      "hash": "ae5ff5d2a230ab3c",
+      "generatedAt": "2026-11-20",
+      "textMetrics": {
+        "family": "adobe-clean-spectrum-vf",
+        "test700At14px": 23.673,
+        "fingerprint": "584378d3822d25fd",
+        "generated": "2026-11-14",
+        "platform": "darwin-arm64"
+      }
+    },
+    "action-button": {
+      "fileKey": "9H1WQmy95QtBbJsEvk2GD2",
+      "hash": "dd0f508daa5ffaba",
+      "generatedAt": "2026-11-16",
+      "textMetrics": {
+        "family": "adobe-clean-spectrum-vf",
+        "test700At14px": 23.673,
+        "fingerprint": "584378d3822d25fd",
+        "generated": "2026-11-16",
+        "platform": "darwin-arm64"
+      }
+    },
+    "badge": {
+      "fileKey": "CmShSAYnbD6JY8kP006PmQ",
+      "hash": "5073019b6f6fc592",
+      "generatedAt": "2026-11-16",
+      "textMetrics": {
+        "family": "adobe-clean-spectrum-vf",
+        "test700At14px": 23.673,
+        "fingerprint": "584378d3822d25fd",
+        "generated": "2026-11-16",
+        "platform": "darwin-arm64"
+      }
+    },
+    "button": {
+      "fileKey": "4O1TvzaFre6RZ9GOwkCTf5",
+      "hash": "2fa478f6515a89cc",
+      "generatedAt": "2026-11-16",
+      "textMetrics": {
+        "family": "adobe-clean-spectrum-vf",
+        "test700At14px": 23.673,
+        "fingerprint": "584378d3822d25fd",
+        "generated": "2026-11-16",
+        "platform": "darwin-arm64"
+      }
+    },
+    "checkbox": {
+      "fileKey": "mGCsOtiSAlyxMIm8jnDi6n",
+      "hash": "3154556d52790bb6",
+      "generatedAt": "2026-11-16",
+      "textMetrics": {
+        "family": "adobe-clean-spectrum-vf",
+        "test700At14px": 23.673,
+        "fingerprint": "584378d3822d25fd",
+        "generated": "2026-11-16",
+        "platform": "darwin-arm64"
+      }
+    },
+    "radio-button": {
+      "fileKey": "meA4TF7VCGd51tIFMWNkUr",
+      "hash": "2dfe89d050c41d73",
+      "generatedAt": "2026-11-16",
+      "textMetrics": {
+        "family": "adobe-clean-spectrum-vf",
+        "test700At14px": 23.673,
+        "fingerprint": "584378d3822d25fd",
+        "generated": "2026-11-16",
+        "platform": "darwin-arm64"
+      }
+    },
+    "switch": {
+      "fileKey": "v0sEpWnNVT1RCnATMqZZHt",
+      "hash": "88d030e094622a82",
+      "generatedAt": "2026-11-16",
+      "textMetrics": {
+        "family": "adobe-clean-spectrum-vf",
+        "test700At14px": 23.673,
+        "fingerprint": "584378d3822d25fd",
+        "generated": "2026-11-16",
+        "platform": "darwin-arm64"
+      }
+    }
+  }
+}

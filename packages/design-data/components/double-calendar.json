@@ -9,5 +9,19 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/double-calendar/"
   },
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the legacy holder. Its minimum width and minimum height records are pinned to this file by their legacy keys; the calendar parts live on calendar.",
+      "required": true
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "A9 (2026-11-21), owner decision C2: a frozen legacy holder (two months), not deprecated. calendar is the only anatomy (option visibleMonths). The two legacy records keep their keys and move from part popover to container; no Figma, RSP or SWC source draws this component on its own. Same precedent as color-control."
+  }
 }

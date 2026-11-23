@@ -14,6 +14,10 @@ fileGroups:
     - "tokens/**/*.tokens.json"
   relationships:
     - "relationships/**/*.json"
+  visuals:
+    - "visuals/**/*.json"
+  icons:
+    - "icons/**/*.json"
   registry:
     - "registry/**/*.json"
   catalogs:
@@ -57,6 +61,31 @@ tasks:
       - "scripts/spec009-report.js"
       - "/packages/design-data/naming-exceptions.json"
 
+  # Validate visual recipes against component-visual.schema.json (AJV).
+  validate-visuals:
+    command: node
+    args:
+      - scripts/validate-visuals.js
+    inputs:
+      - "visuals/**/*.json"
+      - "scripts/validate-visuals.js"
+      - "/packages/design-data-spec/schemas/component-visual.schema.json"
+
+  # Self-tests of the icon importer and the fused-property codemod, plus invariants of the committed icons/ files. Regenerate with: node scripts/import-icons.mjs <react-spectrum checkout> <sha>
+  test:
+    command: node
+    args:
+      - --test
+      - scripts/import-icons.test.mjs
+      - scripts/decompose-fused-properties.test.mjs
+    inputs:
+      - "@globs(icons)"
+      - "scripts/import-icons.mjs"
+      - "scripts/import-icons.test.mjs"
+      - "scripts/decompose-fused-properties.mjs"
+      - "scripts/decompose-fused-properties.test.mjs"
+      - "scripts/backfill-relationship-uuid.mjs"
+
   # Validate guideline JSON files against guideline.schema.json (AJV + document-block $ref).
   validate-guidelines:
     command: node
@@ -87,6 +116,8 @@ tasks:
       - "@globs(tokens)"
       - "@globs(catalogs)"
       - "@globs(relationships)"
+      - "@globs(visuals)"
+      - "@globs(icons)"
       - "@globs(registry)"
       - "/packages/design-data/naming-exceptions.json"
       - "/packages/design-data-spec/schemas/**/*.json"
@@ -99,16 +130,8 @@ tasks:
   # These are different subcommands with different flag names.
   #
   # --components-path loads packages/design-data/components/*.json so
-  # component-aware rules (SPEC-018/020/022/026/027/031/035/040) actually run
-  # instead of silently no-op'ing (see bead spectrum-design-data-0jm).
-  # --components-report-only downgrades their findings to warnings: SPEC-018/
-  # 020/022 are clean (downgrade is a no-op for them). SPEC-027's backlog of
-  # 134 dangling tokenBindings was triaged in bead spectrum-design-data-vpk:
-  # 84 were confident typo/word-order renames or garbage removals (now fixed),
-  # and the CTR migration plus further vpk.1 cleanup resolved all but 3 of the
-  # remaining 50 (see GitHub issue #1269) — only the button corner-radius
-  # bindings still need design-owner sign-off. Remove this flag once that's
-  # resolved and the SPEC-027 count reaches 0.
+  # component-aware rules (SPEC-018/020/022/026/031/035/040/051-054/064) actually
+  # run instead of silently no-op'ing (see bead spectrum-design-data-0jm).
   validate:
     command: ../../sdk/target/debug/design-data
     args:
@@ -118,7 +141,10 @@ tasks:
       - ./components
       - --relationships-path
       - ./relationships
-      - --components-report-only
+      - --visuals-path
+      - ./visuals
+      - --icons-path
+      - ./icons
       - --exceptions-path
       - ./naming-exceptions.json
     toolchain: "system"
@@ -126,10 +152,13 @@ tasks:
       - sdk:build
       - ~:validate-dataset
       - ~:validate-registry
+      - ~:validate-visuals
     inputs:
       - "@globs(tokens)"
       - "@globs(catalogs)"
       - "@globs(relationships)"
+      - "@globs(visuals)"
+      - "@globs(icons)"
       - "/packages/design-data/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.
@@ -149,6 +178,8 @@ tasks:
     inputs:
       - "@globs(tokens)"
       - "@globs(relationships)"
+      - "registry/**/*.json"
+      - "fields/**/*.json"
     outputs:
       - "/packages/tokens/src/**/*.json"
 
@@ -203,3 +234,16 @@ tasks:
       - "/packages/design-data/naming-exceptions.json"
     # No `outputs:` — prevents moon from auto-running this task as part of
     # dependency graphs and silently clobbering hand-edited cascade tokens.
+
+  # Appends the release being versioned to changelog/<component>.json. Run by the root
+  # `version` script (changeset version && moon run :version), so the new entries and component
+  # versions land in the Version Packages PR. Needs git history and tags.
+  version:
+    command: node
+    args:
+      - scripts/version-changelog.mjs
+    inputs:
+      - package.json
+      - scripts/version-changelog.mjs
+    options:
+      cache: false

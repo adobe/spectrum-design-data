@@ -79,14 +79,14 @@ The following table defines the **target token-authoring contract**: the complet
 
 The following per-category contracts specify what the authoring surface authors in each registered directory and which validation rules gate the output. Detailed authoring workflows per category are specified in separate subsections of this document as Phase A work progresses.
 
-| Category   | Directory     | Authoring status                                                                                                                                                       | Validation gate                            |
-| ---------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| Tokens     | `tokens/`     | Shipped — create, edit, deprecate, rename, alias-rewire, remove (Phase B, epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122)) | SPEC-001–017, SPEC-041, SPEC-042, SPEC-043 |
-| Components | `components/` | Not yet shipped (`write_component` deferred — [Agent surface](agent-surface.md))                                                                                       | SPEC-018–040                               |
-| Fields     | `fields/`     | Not yet shipped                                                                                                                                                        | SPEC-042, SPEC-043                         |
-| Mode sets  | `mode-sets/`  | Shipped — add/rename/remove-mode, create/remove-mode-set (Phase B, epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122))        | SPEC-005, SPEC-008, SPEC-041               |
-| Guidelines | `guidelines/` | Not yet shipped as a manual authoring surface; generated via extended transformer (Phase 10, beads `ek4`)                                                              | SPEC-045, SPEC-046                         |
-| Registry   | `registry/`   | Not yet shipped (vocabulary is hand-maintained)                                                                                                                        | SPEC-033, SPEC-034, SPEC-035               |
+| Category   | Directory     | Authoring status                                                                                                                                                       | Validation gate                                                |
+| ---------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Tokens     | `tokens/`     | Shipped — create, edit, deprecate, rename, alias-rewire, remove (Phase B, epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122)) | SPEC-001–017, SPEC-041, SPEC-042, SPEC-043, SPEC-102, SPEC-103 |
+| Components | `components/` | Not yet shipped (`write_component` deferred — [Agent surface](agent-surface.md))                                                                                       | SPEC-018–040                                                   |
+| Fields     | `fields/`     | Not yet shipped                                                                                                                                                        | SPEC-042, SPEC-043, SPEC-102                                   |
+| Mode sets  | `mode-sets/`  | Shipped — add/rename/remove-mode, create/remove-mode-set (Phase B, epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122))        | SPEC-005, SPEC-008, SPEC-041                                   |
+| Guidelines | `guidelines/` | Not yet shipped as a manual authoring surface; generated via extended transformer (Phase 10, beads `ek4`)                                                              | SPEC-045, SPEC-046                                             |
+| Registry   | `registry/`   | Not yet shipped (vocabulary is hand-maintained)                                                                                                                        | SPEC-033, SPEC-034, SPEC-035                                   |
 
 ### Token authoring contract
 
@@ -131,8 +131,7 @@ be named with the component's `name` field value (e.g. `button.json` for `name: 
 **Recommended at creation:** `options` (component API), `anatomy` (anatomy parts array),
 `states` (state declarations array).
 
-**Validation gate:** SPEC-018–022 (anatomy/state/slot structure), SPEC-024–027 (tokenBindings,
-cross-references), SPEC-034 (category registry sync), SPEC-035 (anatomy-term registry sync),
+**Validation gate:** SPEC-018–022 (anatomy/state/slot structure), SPEC-024–026 (cross-references), SPEC-034 (category registry sync), SPEC-035 (anatomy-term registry sync),
 SPEC-038–040 (lifecycle, display name, schema).
 
 **Authoring status:** Not yet shipped — `write_component` was out of scope for Phase B (tokens and

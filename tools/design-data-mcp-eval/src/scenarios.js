@@ -233,14 +233,56 @@ export const scenarios = [
       ]),
       {
         tool: "design-data-query",
-        arguments: { filter: "property=spacing" },
-        facts: ['"value":"16px"', '"scaleindex":300'],
+        arguments: { filter: "property=spacing", limit: 200 },
+        facts: ['"value":"16px"', "scaleindex=300"],
       },
     ],
     answerFacts: ["spacing-300", "16", "(example|medium)"],
     citations: [`${layout}containers`],
     review:
-      "Actually queries spacing tokens and selects raw.name.scaleIndex=300; cites the card example and avoids a universal padding rule. Neither property-only resolve nor the query filter supports the legacy spacing-300 name or scaleIndex filtering.",
+      "Actually queries spacing tokens and selects the token named property=spacing scaleIndex=300; cites the card example and avoids a universal padding rule. Neither property-only resolve nor the query filter supports the legacy spacing-300 name or scaleIndex filtering.",
+  },
+  {
+    id: "component-token-by-state",
+    question:
+      "Which token does Spectrum's action-button use for its background when it is selected and emphasized and the pointer is over it? Look it up; do not guess from the token names.",
+    grounding: [
+      {
+        tool: "design-data-component-tokens",
+        arguments: {
+          component: "action-button",
+          context: "background",
+          state: "hover",
+          limit: 200,
+        },
+        facts: ["accent-background-color-hover", '"isselected":true'],
+      },
+    ],
+    answerFacts: ["accent-background-color-hover", "(selected|emphasi)"],
+    review:
+      "Reads the hover binding for the selected, emphasized option set from the component's relationships, not the unselected one.",
+  },
+  {
+    id: "token-specificity-sibling",
+    question:
+      "Is there a more specific token than neutral-content-color-hover that I could use for subdued text? Say whether swapping is safe.",
+    grounding: [
+      {
+        tool: "design-data-refinements",
+        arguments: { token: "neutral-content-color-hover" },
+        facts: [
+          "neutral-subdued-content-color-hover",
+          '"valuematch":"consider"',
+        ],
+      },
+    ],
+    answerFacts: [
+      "neutral-subdued-content-color-hover",
+      "(differs|different|not (a )?drop-in|consider|design)",
+    ],
+    forbiddenClaims: ["(is|are) (a )?safe drop-in"],
+    review:
+      "Names the subdued sibling but does not present it as a safe swap: the value differs, so it is a design decision.",
   },
 ];
 

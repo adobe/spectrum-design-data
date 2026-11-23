@@ -240,6 +240,20 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "title",
+      "label": "Title",
+      "description": "Page-level title typography role",
+      "category": "typography-role",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "description": "Page-level body typography role",
+      "category": "typography-role",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",
@@ -422,7 +436,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "bar-panel",
       "label": "Bar Panel",
-      "description": "A cross-cutting anatomy sub-part shared by multiple components (e.g. color area, color wheel) rather than a standalone top-level component."
+      "description": "A panel anchored to an edge that holds a bar of actions and a drag handle; also called a toolbar.",
+      "aliases": ["toolbar"]
     },
     {
       "id": "body",
@@ -542,7 +557,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "date-picker",
       "label": "Date Picker",
-      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
+      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/",
+      "aliases": ["date-range-picker"]
     },
     {
       "id": "detail",
@@ -601,8 +617,7 @@ const COMPONENTS_JSON: &str = r##"{
     },
     {
       "id": "in-field-button",
-      "label": "In-Field Button",
-      "description": "A cross-cutting anatomy sub-part shared by multiple field-adjacent components rather than a standalone top-level component."
+      "label": "In-Field Button"
     },
     {
       "id": "in-field-progress-circle",
@@ -692,7 +707,8 @@ const COMPONENTS_JSON: &str = r##"{
     {
       "id": "segmented-text-field",
       "label": "Segmented Text Field",
-      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/",
+      "description": "The shared segment base: a row of editable segments that date-field, time-field and date-picker copy."
     },
     {
       "id": "select-box",
@@ -888,16 +904,6 @@ const STRUCTURES_JSON: &str = r##"{
       "description": "Body text typography scale — used for standard paragraph and UI text"
     },
     {
-      "id": "detail",
-      "label": "Detail",
-      "description": "Detail text typography scale — used for captions, labels, and supporting text"
-    },
-    {
-      "id": "heading",
-      "label": "Heading",
-      "description": "Heading text typography scale — used for section and page headings"
-    },
-    {
       "id": "drop-shadow",
       "label": "Drop Shadow",
       "description": "Elevated shadow effect applied to components and containers"
@@ -939,14 +945,16 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "control",
       "label": "Control",
       "description": "Interactive control elements like checkboxes or radio buttons",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "icon",
       "label": "Icon",
       "description": "Icon elements",
       "usedIn": ["tokens", "component-schemas"],
-      "standaloneScope": true
+      "standaloneScope": true,
+      "aliases": ["alert-icon"]
     },
     {
       "id": "label",
@@ -976,6 +984,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "divider",
       "label": "Divider",
       "description": "Dividing line or separator",
+      "aliases": ["small-divider"],
       "usedIn": ["tokens"]
     },
     {
@@ -1025,8 +1034,9 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "title",
       "label": "Title",
-      "description": "Title text element within a component",
-      "usedIn": ["tokens"]
+      "description": "Title text element within a component. In a calendar it is the month and year text of each month.",
+      "usedIn": ["tokens"],
+      "aliases": ["month-and-year", "calendar-heading"]
     },
     {
       "id": "description",
@@ -1062,13 +1072,45 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "tip",
       "label": "Tip",
       "description": "Tooltip tip or arrow element",
+      "usedIn": ["tokens"],
+      "aliases": ["arrow", "popover-tip"]
+    },
+    {
+      "id": "tip-top",
+      "label": "Tip (top)",
+      "description": "Tip drawn on the top edge of the container, shown for the placement that faces the source from that edge",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip-bottom",
+      "label": "Tip (bottom)",
+      "description": "Tip drawn on the bottom edge of the container, shown for the placement that faces the source from that edge",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip-start",
+      "label": "Tip (start)",
+      "description": "Tip drawn on the start edge of the container, shown for the placement that faces the source from that edge",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip-end",
+      "label": "Tip (end)",
+      "description": "Tip drawn on the end edge of the container, shown for the placement that faces the source from that edge",
       "usedIn": ["tokens"]
     },
     {
       "id": "selection",
       "label": "Selection",
-      "description": "Selection indicator or highlight element",
+      "description": "Region of a component that holds selection controls (the plate that holds a card's selection checkbox). The marker on a selected item is selection-indicator",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "selection-indicator",
+      "label": "Selection indicator",
+      "description": "Marker drawn inside an item to show it is selected: the underline of a tab, the selection bar of a side navigation item, the fill and border of a selected segment",
+      "aliases": ["underline", "selection-bar", "indicator", "selection"],
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "media",
@@ -1085,13 +1127,14 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "field",
       "label": "Field",
-      "description": "Input container element in form components (text-field, number-field, combo-box, picker, etc.)",
-      "usedIn": ["tokens", "s2-docs"]
+      "description": "The box of an input component: the bordered or filled area that holds the value and its in-field icons and buttons (text-field, number-field, combo-box, picker, etc.). The labelled whole is the container.",
+      "usedIn": ["tokens", "s2-docs"],
+      "standaloneScope": true
     },
     {
       "id": "fill",
       "label": "Fill",
-      "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle)",
+      "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle), or the color a color control or preview shows (color handle, color loupe, color slider gradient, swatch)",
       "usedIn": ["tokens", "s2-docs"]
     },
     {
@@ -1104,7 +1147,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "container",
       "label": "Container",
       "description": "Outer wrapper element of a component (cards, swatch, thumbnail, avatar)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "aliases": ["popover-content"]
     },
     {
       "id": "chevron",
@@ -1113,16 +1157,23 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "loupe",
-      "label": "Loupe",
-      "description": "Magnified color preview element in color components (color-area, color-slider, color-wheel)",
+      "id": "color-loupe",
+      "label": "Color Loupe",
+      "description": "The color-loupe component when used as an anatomy part of the color handle: a floating magnified preview of the sampled color",
       "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "tooltip",
+      "label": "Tooltip",
+      "description": "The tooltip component when used as an anatomy part of another component (swatch): a floating label shown on hover",
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "dot",
       "label": "Dot",
       "description": "Small circular indicator element (status-light)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "aliases": ["light"]
     },
     {
       "id": "separator",
@@ -1131,27 +1182,34 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
+      "id": "line",
+      "label": "Line",
+      "description": "A one-dimensional mark that divides adjacent content (divider)",
+      "usedIn": ["tokens"],
+      "standaloneScope": true
+    },
+    {
       "id": "checkmark",
       "label": "Checkmark",
       "description": "Check or confirmation icon element within a component",
       "usedIn": ["tokens"]
     },
     {
-      "id": "stepper",
-      "label": "Stepper",
-      "description": "Increment/decrement control in number-field",
-      "usedIn": ["tokens", "s2-docs"]
+      "id": "box",
+      "label": "Box",
+      "description": "Rounded square that holds a mark (e.g., a checkbox)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "dash",
+      "label": "Dash",
+      "description": "Short horizontal bar icon element, e.g. the indeterminate mark of a checkbox",
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "area",
       "label": "Area",
       "description": "Interactive surface region (color-area gradient surface)",
-      "usedIn": ["tokens", "s2-docs"]
-    },
-    {
-      "id": "gripper",
-      "label": "Gripper",
-      "description": "Draggable resize handle element (standard-panel)",
       "usedIn": ["tokens", "s2-docs"]
     },
     {
@@ -1167,16 +1225,9 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "focus-ring",
-      "label": "Focus Ring",
-      "description": "Visible ring drawn around a focused component for accessibility",
-      "usedIn": ["tokens"],
-      "standaloneScope": true
-    },
-    {
       "id": "focus-indicator",
       "label": "Focus Indicator",
-      "description": "Visual indicator showing keyboard focus state on a component",
+      "description": "Visual indicator showing keyboard focus state on a component. Named for its intent, not its shape: it may be a ring or a side indicator. Its tokens are focus-indicator color, gap and thickness.",
       "usedIn": ["tokens"],
       "standaloneScope": true
     },
@@ -1215,6 +1266,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "button-group",
       "label": "Button Group",
       "description": "A grouped set of action buttons, typically in dialog footers or coach-mark controls",
+      "usedIn": ["s2-docs"],
+      "aliases": ["actions"]
+    },
+    {
+      "id": "clear-button",
+      "label": "Clear Button",
+      "description": "Button that removes or clears a value inside a component (the remove control on a tag, the clear control in a search field). React Spectrum ClearButton; an in-field button.",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1239,13 +1297,15 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "actions",
       "label": "Actions",
       "description": "Group of action controls within a list item or tree node (action buttons, icon buttons)",
+      "aliases": ["direct-actions"],
       "usedIn": ["s2-docs"]
     },
     {
       "id": "list-item",
       "label": "List Item",
       "description": "Individual row within a list-view component",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "standaloneScope": true
     },
     {
       "id": "menu-item",
@@ -1284,12 +1344,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "trailing-icon",
-      "label": "Trailing Icon",
-      "description": "Icon placed at the trailing (end) edge of a list item or row",
-      "usedIn": ["s2-docs"]
-    },
-    {
       "id": "thumbnail",
       "label": "Thumbnail",
       "description": "Small image preview element used as a named part within list, menu, or card components",
@@ -1310,7 +1364,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "popover",
       "label": "Popover",
-      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help)",
+      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help, date-picker)",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1329,25 +1383,15 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "necessity-indicator",
       "label": "Necessity Indicator",
       "description": "Label or asterisk indicating whether a field is required or optional (field-label, combo-box)",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "required-asterisk",
-      "label": "Required Asterisk",
-      "description": "Asterisk symbol denoting a required form field (text-field, picker, number-field)",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "required-text",
-      "label": "Required Text",
-      "description": "Text label (e.g. 'Required') denoting a required form field",
+      "aliases": ["required-asterisk", "required-text"],
       "usedIn": ["s2-docs"]
     },
     {
       "id": "validation-marker",
       "label": "Validation Marker",
       "description": "Icon or mark indicating valid input state on a form field",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "aliases": ["validation-icon"]
     },
     {
       "id": "error-icon",
@@ -1379,9 +1423,27 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
+      "id": "opacity-checkerboard",
+      "label": "Opacity checkerboard",
+      "description": "Checkerboard pattern drawn behind transparent content (a color handle fill, a color slider track, a thumbnail image). Also a component of its own",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "prefix",
+      "label": "Prefix",
+      "description": "Non-interactive text placed before the value inside a field (e.g. a currency symbol or protocol)",
+      "usedIn": ["s2-docs"]
+    },
+    {
       "id": "field-label",
       "label": "Field Label",
       "description": "Field label component used as a named anatomy part within a group component (checkbox-group, radio-group, tag-field)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "number-field",
+      "label": "Number Field",
+      "description": "Number field component used as a named anatomy part (slider editable value)",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1399,19 +1461,85 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "date-field",
       "label": "Date Field",
-      "description": "Date input component used as an anatomy part within a date-picker",
+      "description": "Date input component. date-picker keeps its own copy of the field parts rather than embedding a date-field",
       "usedIn": ["s2-docs"]
     },
     {
       "id": "time-field",
       "label": "Time Field",
-      "description": "Time input component used as an anatomy part within a date-picker",
+      "description": "Time input component. date-picker keeps its own copy of the field parts rather than embedding a time-field",
       "usedIn": ["s2-docs"]
     },
     {
       "id": "calendar",
       "label": "Calendar",
-      "description": "Calendar component used as an anatomy part within a date-picker",
+      "description": "Calendar component used as an anatomy part within a date-picker (nested in its popover). Also called RangeCalendar when it selects a range, or the calendar popover when it sits in a date-picker's popover.",
+      "usedIn": ["s2-docs"],
+      "aliases": ["range-calendar", "calendar-popover"]
+    },
+    {
+      "id": "day",
+      "label": "Day",
+      "description": "One date cell of a calendar",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "month",
+      "label": "Month",
+      "description": "One month of a calendar: its title, weekday grid and day grid",
+      "usedIn": ["s2-docs"],
+      "aliases": ["calendar-grid"]
+    },
+    {
+      "id": "weekday-grid",
+      "label": "Weekday Grid",
+      "description": "Grid of the weekday labels above a calendar month's day grid",
+      "usedIn": ["s2-docs"],
+      "aliases": ["calendar-grid-header"]
+    },
+    {
+      "id": "day-grid",
+      "label": "Day Grid",
+      "description": "Grid of the day cells of one calendar month",
+      "usedIn": ["s2-docs"],
+      "aliases": ["calendar-grid-body"]
+    },
+    {
+      "id": "weekday-label",
+      "label": "Weekday Label",
+      "description": "Single-letter weekday heading above a calendar's day grid",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "range-fill",
+      "label": "Range Fill",
+      "description": "Highlight band behind the days between the two ends of a selected date range",
+      "usedIn": ["s2-docs"],
+      "aliases": ["highlight-fill", "selection-background"]
+    },
+    {
+      "id": "current-day-indicator",
+      "label": "Current Day Indicator",
+      "description": "Marker that sets today's cell apart in a calendar",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "unavailable-indicator",
+      "label": "Unavailable Indicator",
+      "description": "Line struck through the day number of an unavailable calendar day",
+      "usedIn": ["s2-docs"],
+      "aliases": ["strikethrough"]
+    },
+    {
+      "id": "previous-button",
+      "label": "Previous Button",
+      "description": "Quiet action button that moves a calendar to the previous month",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "next-button",
+      "label": "Next Button",
+      "description": "Quiet action button that moves a calendar to the next month",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1453,7 +1581,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "image",
       "label": "Image",
-      "description": "Image element used as a named anatomy part within thumbnail, avatar, or dialog components",
+      "description": "Image element used as a named anatomy part within thumbnail, avatar, or dialog components. A gradient or photo that fills the same area is the same part",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1465,9 +1593,10 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "overlay",
       "label": "Overlay",
-      "description": "Semi-transparent backdrop element behind modal dialogs (alert-dialog, standard-dialog, takeover-dialog)",
+      "description": "Semi-transparent backdrop behind a modal dialog (alert-dialog, standard-dialog, takeover-dialog); a top-level part that owns the overlay colour and opacity",
       "usedIn": ["s2-docs"],
-      "standaloneScope": true
+      "standaloneScope": true,
+      "aliases": ["underlay", "modal-overlay"]
     },
     {
       "id": "header-area",
@@ -1502,7 +1631,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "cover-image",
       "label": "Cover Image",
-      "description": "Large decorative image at the top of a standard dialog",
+      "description": "Large decorative image at the top of a standard dialog or coach mark",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "keyboard-shortcut",
+      "label": "Keyboard Shortcut",
+      "description": "Hint that shows the keyboard shortcut of an action (coach-mark)",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1597,15 +1732,15 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "accordion-item",
-      "label": "Accordion Item",
-      "description": "Individual collapsible section within an accordion component",
+      "id": "container-divider",
+      "label": "Container Divider",
+      "description": "Divider that opens a list of items, drawn once on the container above the first item (distinct from the divider each item draws at its own end)",
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "small-divider",
-      "label": "Small Divider",
-      "description": "Thin divider line between accordion items",
+      "id": "accordion-item",
+      "label": "Accordion Item",
+      "description": "Individual collapsible section within an accordion component",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1623,25 +1758,13 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "disclosure-button",
       "label": "Disclosure Button",
-      "description": "Collapse/expand toggle button on a tree-view item or accordion item",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "drag-icon",
-      "label": "Drag Icon",
-      "description": "Drag handle icon on a reorderable tree-view item",
+      "description": "Interactive collapse/expand button on a tree-view or side-navigation item, with its own states",
       "usedIn": ["s2-docs"]
     },
     {
       "id": "context-area",
       "label": "Context Area",
       "description": "Optional icon or thumbnail context slot on the leading edge of a tree-view item",
-      "usedIn": ["s2-docs"]
-    },
-    {
-      "id": "step-item",
-      "label": "Step Item",
-      "description": "Individual step node within a steplist component",
       "usedIn": ["s2-docs"]
     },
     {
@@ -1690,7 +1813,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "visual",
       "label": "Visual",
       "description": "A leading visual element such as an icon or thumbnail",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "action",
@@ -1729,33 +1853,55 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
-      "id": "drag-handle",
-      "label": "Drag handle",
-      "description": "A grip affordance for reordering an item via drag",
-      "usedIn": ["tokens"]
+      "id": "segment",
+      "label": "Segment",
+      "description": "One editable unit of a segmented field (the day, month or year of a date; the hour or minute of a time)",
+      "usedIn": ["s2-docs"],
+      "aliases": ["Placeholder cell", "DateSegment"]
     },
     {
-      "id": "field-button",
-      "label": "Field button",
-      "description": "A trigger button embedded within a text field or picker",
-      "usedIn": ["tokens"]
+      "id": "drag-handle",
+      "label": "Drag handle",
+      "description": "A grip affordance for dragging: moves a panel or bar (standard-panel, bar-panel) or reorders an item in a list",
+      "aliases": ["gripper"],
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "in-field-stepper",
       "label": "In-field stepper",
       "description": "A stepper control embedded within a field element (e.g. number-field)",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "aliases": ["stepper"]
+    },
+    {
+      "id": "banner",
+      "label": "Banner",
+      "description": "A pill or strip of text drawn over a component to announce a state (drop-zone replace message); not the alert-banner component",
+      "aliases": ["Drop info", "replace message"],
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "pagination",
       "label": "Pagination",
-      "description": "Paged-navigation indicator element (e.g. coach-mark step dots)",
+      "description": "Paged-navigation indicator element (e.g. step dots, step count text or a page indicator)",
       "usedIn": ["tokens"]
     },
     {
       "id": "slash",
       "label": "Slash",
       "description": "Diagonal line element indicating an unavailable or crossed-out state (e.g. swatch)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "light-tile",
+      "label": "Light tile",
+      "description": "The lighter of the two alternating tiles of an opacity checkerboard",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dark-tile",
+      "label": "Dark tile",
+      "description": "The darker of the two alternating tiles of an opacity checkerboard",
       "usedIn": ["tokens"]
     },
     {
@@ -1769,6 +1915,67 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Well",
       "description": "Recessed background area within a component (e.g. card)",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "bar",
+      "label": "Bar",
+      "description": "Linear anatomy element used to represent a value or range",
+      "usedIn": ["tokens"],
+      "standaloneScope": true
+    },
+    {
+      "id": "action-group",
+      "label": "Action Group",
+      "description": "Group of action buttons as a named part of a larger component (action-bar)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "avatars",
+      "label": "Avatars",
+      "description": "Host of the overlapping avatars in an avatar-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "item-counter",
+      "label": "Item Counter",
+      "description": "Text showing how many items are selected (action-bar)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "options",
+      "label": "Options",
+      "description": "Host of the repeated checkbox or radio button options in checkbox-group and radio-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "tags",
+      "label": "Tags",
+      "description": "Host of the wrapping row of tags in a tag-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "column-header-row",
+      "label": "Column Header Row",
+      "description": "Header row of a table that holds the column headers",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "row-checkbox",
+      "label": "Row Checkbox",
+      "description": "Selection checkbox within a table row",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "header-row-checkbox",
+      "label": "Header Row Checkbox",
+      "description": "Select-all checkbox within the header row of a table",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "trailing-accessory-area",
+      "label": "Trailing Accessory Area",
+      "description": "Trailing area of an item for accessory content such as counts or actions",
+      "usedIn": ["s2-docs"]
     }
   ]
 }
@@ -1878,7 +2085,7 @@ const TYPOGRAPHY_EMPHASIS_JSON: &str = r##"{
 const PROPERTY_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
   "values": [
     {
       "id": "color",
@@ -1921,11 +2128,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Drop shadow color component"
     },
     {
-      "id": "overlay-color",
-      "label": "Overlay Color",
-      "description": "Overlay or scrim tint color"
-    },
-    {
       "id": "outline-color",
       "label": "Outline Color",
       "description": "CSS outline color"
@@ -1949,11 +2151,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "border-opacity",
       "label": "Border Opacity",
       "description": "Border transparency level"
-    },
-    {
-      "id": "overlay-opacity",
-      "label": "Overlay Opacity",
-      "description": "Overlay or scrim transparency level"
     },
     {
       "id": "width",
@@ -2084,6 +2281,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "typography",
       "label": "Typography",
       "description": "Composite type style bundling font family, size, weight, letter-spacing, and line-height in one value"
+    },
+    {
+      "id": "type-style",
+      "label": "Type Style",
+      "description": "A component's type style: the property of a relationship record whose $ref is a typography composite token"
     },
     {
       "id": "text-align",
@@ -2224,6 +2426,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "component-size-width-ratio",
       "label": "Component Size Width Ratio",
       "description": "Width ratio used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "aspect-ratio",
+      "label": "Aspect Ratio",
+      "description": "Unitless width-to-height ratio (for example 4:3 as 1.333), used to derive a width from a height"
     }
   ]
 }
@@ -2290,6 +2497,11 @@ const POSITIONS_JSON: &str = r##"{
       "id": "end-edge",
       "label": "End edge",
       "description": "Outer boundary at the end (right in LTR, left in RTL)"
+    },
+    {
+      "id": "top-edge",
+      "label": "Top edge",
+      "description": "Outer boundary at the top"
     },
     {
       "id": "bottom-edge",
@@ -2486,6 +2698,7 @@ const STATES_JSON: &str = r##"{
       "id": "hover",
       "label": "Hover",
       "description": "Mouse hover state",
+      "precedence": 50,
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {
         "superordinate": "interaction state",
@@ -2533,6 +2746,7 @@ const STATES_JSON: &str = r##"{
       "label": "Active",
       "aliases": ["pressed"],
       "description": "Active or pressed state",
+      "precedence": 70,
       "usedIn": ["component-options", "component-schemas"],
       "relatedTerms": ["down"]
     },
@@ -2540,6 +2754,7 @@ const STATES_JSON: &str = r##"{
       "id": "focus",
       "label": "Focus",
       "description": "Focused state (generic)",
+      "precedence": 60,
       "usedIn": ["component-options", "component-schemas"]
     },
     {
@@ -2547,6 +2762,7 @@ const STATES_JSON: &str = r##"{
       "label": "Keyboard Focus",
       "aliases": ["keyboard focus", "key-focus"],
       "description": "Focused via keyboard navigation",
+      "precedence": 60,
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {
         "superordinate": "interaction state",
@@ -2605,6 +2821,7 @@ const STATES_JSON: &str = r##"{
       "id": "down",
       "label": "Down",
       "description": "Pressed or down state (mouse button down)",
+      "precedence": 70,
       "usedIn": ["tokens", "component-schemas"],
       "relatedTerms": ["active"]
     },
@@ -2625,6 +2842,18 @@ const STATES_JSON: &str = r##"{
       "label": "Drag and Drop",
       "aliases": ["drag and drop"],
       "description": "Being dragged or drag target state",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "collapsed",
+      "label": "Collapsed",
+      "description": "Resting, smaller size of an animated indicator (coach-indicator pulse)",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded",
+      "description": "Peak, larger size of an animated indicator (coach-indicator pulse)",
       "usedIn": ["component-schemas"]
     }
   ]
@@ -3263,6 +3492,425 @@ const CATEGORIES_JSON: &str = r##"{
   ]
 }
 "##;
+const RELATIONSHIP_CONTEXTS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "relationship-context",
+  "description": "Main words of a relationship `context` string (the text before an optional parenthesis). A compound main word joins several terms (for example `Background and border`); a term's `aliases` are other head words that map onto it. Matched case-insensitively. Used by SPEC-091 and by the `contextRole` field.",
+  "values": [
+    {
+      "id": "spacing",
+      "label": "Spacing",
+      "description": "Distance between parts or from an edge to a part",
+      "aliases": [
+        "padding",
+        "paddings",
+        "margins",
+        "minimum spacing",
+        "icon spacing",
+        "radio group spacing",
+        "checkbox group spacing",
+        "container padding",
+        "individual value spacing",
+        "spacing between values",
+        "margin to color area",
+        "s1 spacing"
+      ]
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Fill behind a part",
+      "aliases": [
+        "color",
+        "non-semantic",
+        "semantic",
+        "add “button” background"
+      ]
+    },
+    {
+      "id": "border",
+      "label": "Border",
+      "description": "Outline or stroke around a part",
+      "aliases": [
+        "border color",
+        "border width",
+        "inner border",
+        "border and inner border",
+        "visual border",
+        "selection border",
+        "outline",
+        "stroke width"
+      ]
+    },
+    {
+      "id": "label",
+      "label": "Label",
+      "description": "Text content of a part",
+      "aliases": [
+        "text",
+        "body",
+        "title",
+        "description",
+        "descriptions",
+        "heading color",
+        "description color",
+        "help text color",
+        "error message",
+        "help text",
+        "title area",
+        "body area",
+        "step text",
+        "text area",
+        "text adjustment",
+        "section header title",
+        "side navigation title"
+      ]
+    },
+    {
+      "id": "icon",
+      "label": "Icon",
+      "description": "Icon glyph or asset",
+      "aliases": [
+        "leading icon",
+        "alert icon",
+        "cross icon",
+        "positive icon",
+        "hold icon",
+        "clear icon",
+        "header icons",
+        "icon asset",
+        "disabled icon",
+        "disabled icon asset",
+        "checkmark icon",
+        "checkmark ui icon asset",
+        "asterisk ui icon asset",
+        "dash ui icon",
+        "sort ui icon asset",
+        "chevron/disclosure icon",
+        "chevron",
+        "validation icon"
+      ]
+    },
+    {
+      "id": "width",
+      "label": "Width",
+      "description": "Width, including minimum and maximum width",
+      "aliases": [
+        "minimum width",
+        "maximum width",
+        "component width",
+        "component minimum width",
+        "content width",
+        "popover minimum width",
+        "track width",
+        "prefix min-width",
+        "width small"
+      ]
+    },
+    {
+      "id": "height",
+      "label": "Height",
+      "description": "Height, including minimum height",
+      "aliases": [
+        "minimum height",
+        "popover minimum height",
+        "component height",
+        "row height",
+        "minimum title area height",
+        "column header row height",
+        "section header row height",
+        "height small"
+      ]
+    },
+    {
+      "id": "square",
+      "label": "Square",
+      "description": "The colors of the two alternating tiles of an opacity checkerboard"
+    },
+    {
+      "id": "size",
+      "label": "Size",
+      "description": "Overall or part size",
+      "aliases": [
+        "component size",
+        "button size",
+        "icon size",
+        "visual size",
+        "square size",
+        "dot size",
+        "cross icon size",
+        "alert icon size",
+        "font size",
+        "length",
+        "component height and width",
+        "height & width"
+      ]
+    },
+    {
+      "id": "rounding",
+      "label": "Rounding",
+      "description": "Corner radius",
+      "aliases": [
+        "corner radius",
+        "corner rounding",
+        "border radius",
+        "item rounding",
+        "focused value rounding"
+      ]
+    },
+    {
+      "id": "thickness",
+      "label": "Thickness",
+      "description": "Stroke or track thickness",
+      "aliases": ["s1 thickness", "slash thickness", "steplist track thickness"]
+    },
+    {
+      "id": "value",
+      "label": "Value",
+      "description": "A displayed or selected value",
+      "aliases": ["counter", "day values", "current day"]
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "description": "Interactive control and its handle",
+      "aliases": [
+        "handle",
+        "segmented control items",
+        "selection checkbox",
+        "selection indicator",
+        "indicator",
+        "thumbnail",
+        "thumb"
+      ]
+    },
+    {
+      "id": "track",
+      "label": "Track",
+      "description": "Track, fill and progress visuals",
+      "aliases": [
+        "fill",
+        "range fill color",
+        "meter",
+        "progress",
+        "progress track",
+        "steplist track"
+      ]
+    },
+    {
+      "id": "focus",
+      "label": "Focus",
+      "description": "Focus ring or indicator",
+      "aliases": [
+        "focus ring",
+        "focus indicator",
+        "keyboard focus indicator",
+        "ring",
+        "static white – focus indicator",
+        "static black – focus indicator"
+      ]
+    },
+    {
+      "id": "shadow",
+      "label": "Shadow",
+      "description": "Drop shadow",
+      "aliases": ["drop shadow", "dragged shadow", "shadows", "s1 shadows"]
+    },
+    {
+      "id": "state",
+      "label": "State",
+      "description": "A named interaction state",
+      "aliases": [
+        "disabled",
+        "hover",
+        "down",
+        "down state",
+        "expanded",
+        "default",
+        "loading"
+      ]
+    },
+    {
+      "id": "layout",
+      "label": "Layout",
+      "description": "Container and row structure",
+      "aliases": [
+        "components",
+        "row",
+        "column header",
+        "summary row",
+        "s1 row",
+        "horizontal",
+        "vertical",
+        "content",
+        "media",
+        "header",
+        "tip",
+        "well",
+        "overlay"
+      ]
+    },
+    {
+      "id": "prefix",
+      "label": "Prefix",
+      "description": "Prefix part"
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Step visual and step text",
+      "aliases": ["step visual", "step visual text"]
+    },
+    {
+      "id": "illustration",
+      "label": "Illustration",
+      "description": "Illustrative color or pattern",
+      "aliases": [
+        "illustration color",
+        "checkerboard colors",
+        "opacity checkerboard"
+      ]
+    },
+    {
+      "id": "slash",
+      "label": "Slash",
+      "description": "Slash glyph"
+    },
+    {
+      "id": "pagination",
+      "label": "Pagination",
+      "description": "Pagination and breadcrumb items",
+      "aliases": ["breadcrumb items"]
+    },
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "description": "Navigation items and indicators",
+      "aliases": [
+        "side navigation indicator",
+        "tab items",
+        "section title and chevron"
+      ]
+    },
+    {
+      "id": "gripper",
+      "label": "Gripper",
+      "description": "Drag handle used to move or resize a panel or item",
+      "relatedTerms": ["control"]
+    },
+    {
+      "id": "section-header",
+      "label": "Section header",
+      "description": "Heading row that introduces a group of items in a list or menu",
+      "relatedTerms": ["label", "layout"]
+    },
+    {
+      "id": "selection",
+      "label": "Selection",
+      "description": "Indicator or highlight showing that something is chosen",
+      "relatedTerms": ["control", "state"]
+    },
+    {
+      "id": "preview",
+      "label": "Preview",
+      "description": "Thumbnail or sample of content shown inside a component",
+      "relatedTerms": ["illustration"]
+    },
+    {
+      "id": "tab-item",
+      "label": "Tab item",
+      "description": "One tab in a tab strip",
+      "category": "item",
+      "relatedTerms": ["navigation", "control"]
+    },
+    {
+      "id": "breadcrumb-item",
+      "label": "Breadcrumb item",
+      "description": "One crumb in a breadcrumb trail",
+      "category": "item",
+      "relatedTerms": ["pagination"]
+    },
+    {
+      "id": "navigation-item",
+      "label": "Navigation item",
+      "description": "One entry in a navigation list",
+      "category": "item",
+      "relatedTerms": ["navigation"]
+    },
+    {
+      "id": "menu-item",
+      "label": "Menu item",
+      "description": "One entry in a menu",
+      "category": "item",
+      "relatedTerms": ["control"]
+    },
+    {
+      "id": "list-view-item",
+      "label": "List view item",
+      "description": "One row in a list view",
+      "category": "item",
+      "relatedTerms": ["control"]
+    },
+    {
+      "id": "tree-view-item",
+      "label": "Tree view item",
+      "description": "One node in a tree view",
+      "category": "item",
+      "relatedTerms": ["control"]
+    },
+    {
+      "id": "segmented-control-item",
+      "label": "Segmented control item",
+      "description": "One segment in a segmented control",
+      "category": "item",
+      "relatedTerms": ["control"]
+    }
+  ]
+}
+"##;
+const ATTRIBUTES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "attribute",
+  "description": "Sub-qualities of a property, used in combination with the `property` field to express compound style concepts (e.g. property=color + attribute=background).",
+  "values": [
+    {
+      "id": "border",
+      "label": "Border",
+      "description": "Border or outline of an element"
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background surface or fill"
+    },
+    {
+      "id": "dash",
+      "label": "Dash",
+      "description": "Dashed-line styling attribute"
+    },
+    {
+      "id": "shadow",
+      "label": "Shadow",
+      "description": "Drop or box shadow attribute"
+    },
+    {
+      "id": "corner",
+      "label": "Corner",
+      "description": "Corner rounding attribute"
+    },
+    {
+      "id": "overlay",
+      "label": "Overlay",
+      "description": "Overlay or scrim tint attribute"
+    },
+    {
+      "id": "gradient",
+      "label": "Gradient",
+      "description": "Gradient styling attribute"
+    }
+  ]
+}
+"##;
 
 pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "role", "icon"];
 
@@ -3322,6 +3970,8 @@ pub(crate) fn build_registry_map(
     map.insert("icon".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("icon-terms".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
+    map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));
+    map.insert("attribute".to_string(), parse_registry(ATTRIBUTES_JSON));
     map
 }
 
@@ -3359,38 +4009,38 @@ pub(crate) fn build_token_name_map(
 
 pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
     vec![
-        FieldCatalogEntry { name: "variant", position: 0, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "component", position: 1, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "structure", position: 2, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "substructure", position: 3, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "anatomy", position: 4, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "object", position: 5, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "script", position: 6, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "family", position: 7, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "emphasis", position: 8, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "property", position: 9, validation: FieldValidation::Advisory, scope: None, required: true, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "orientation", position: 10, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "position", position: 11, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "size", position: 12, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "density", position: 13, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "shape", position: 14, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "state", position: 15, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "array", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "colorScheme", position: 16, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "scale", position: 17, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "contrast", position: 18, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "colorRole", position: 19, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "colorFamily", position: 20, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "weight", position: 21, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "style", position: 22, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "motionRole", position: 23, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "easing", position: 24, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "from", position: 25, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "to", position: 26, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "alignment", position: 27, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "qualifier", position: 28, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "role", position: 29, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "referenceScaleIndex", position: 98, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "icon", position: 100, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "variant", position: 0, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "component", position: 1, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("component") },
+        FieldCatalogEntry { name: "structure", position: 2, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "substructure", position: 3, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "anatomy", position: 4, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "object", position: 5, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "script", position: 6, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "family", position: 7, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "emphasis", position: 8, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "property", position: 9, validation: FieldValidation::Advisory, scope: None, required: true, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "orientation", position: 10, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "position", position: 11, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "size", position: 12, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "density", position: 13, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "shape", position: 14, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "state", position: 15, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "array", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "colorScheme", position: 16, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "scale", position: 17, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "contrast", position: 18, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "colorRole", position: 19, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "colorFamily", position: 20, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "weight", position: 21, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "style", position: 22, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "motionRole", position: 23, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "easing", position: 24, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "from", position: 25, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "to", position: 26, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "alignment", position: 27, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "qualifier", position: 28, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "role", position: 29, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
+        FieldCatalogEntry { name: "referenceScaleIndex", position: 98, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true, allowed_token_tiers: None, implies_token_tier: None },
+        FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true, allowed_token_tiers: Some(&["primitive", "semantic"]), implies_token_tier: None },
+        FieldCatalogEntry { name: "icon", position: 100, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false, allowed_token_tiers: None, implies_token_tier: Some("semantic") },
     ]
 }

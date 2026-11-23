@@ -1,6 +1,14 @@
 # @adobe/design-data
 
-> Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management
+> Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, validation, and guideline and component lookups
+
+Node.js helpers over `@adobe/design-data-wasm`: filesystem dataset loading,
+validation, and guideline and component lookups.
+
+Entry points: `.`, `./load`, `./validate`, `./guideline`, `./component`.
+
+Token writes and authoring sessions were removed in 3.0.0. Use the
+`design-data write` and `design-data authoring-session` CLI commands instead.
 
 ## Install
 
@@ -8,6 +16,7 @@
 
 ## Documentation
 
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data/README.md): usage and API overview
 - [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
 
 ## Optional

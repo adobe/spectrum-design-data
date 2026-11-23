@@ -2,17 +2,37 @@
   {
     "scope": {
       "component": "button-group",
-      "property": "spacing"
+      "between": {
+        "from": "button",
+        "to": "button"
+      },
+      "property": "space-between",
+      "options": {
+        "size": "s"
+      }
     },
-    "context": "Spacing (horizontal)",
-    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+    "context": "Spacing (button to button)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "button to button",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "3351e4f9-18f7-574a-95cd-0a46385fef51"
   },
   {
     "scope": {
       "component": "button-group",
-      "property": "spacing"
+      "between": {
+        "from": "button",
+        "to": "button"
+      },
+      "property": "space-between",
+      "options": {
+        "size": ["m", "l", "xl"]
+      }
     },
-    "context": "Spacing (horizontal)",
-    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+    "context": "Spacing (button to button)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "button to button",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "7d497d62-8aa1-5e73-859e-9ae1753c61f2"
   }
 ]

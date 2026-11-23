@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-086",
+      "severity": "warning",
+      "message_pattern": ".*checkmark.*checkbox.*ui:checkmark at scale 100 \\(sizeScale for size 'm'\\).*no drawing.*75, 200.*"
+    }
+  ]
+}

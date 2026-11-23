@@ -40,27 +40,51 @@
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "xs" },
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" }
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
       ]
     },
     "density": {
       "type": "string",
       "default": "regular",
       "values": [
-        { "value": "compact" },
-        { "value": "regular" },
-        { "value": "spacious" }
+        {
+          "value": "compact"
+        },
+        {
+          "value": "regular"
+        },
+        {
+          "value": "spacious"
+        }
       ]
     },
-    "enableSelection": { "type": "boolean", "default": false },
+    "enableSelection": {
+      "type": "boolean",
+      "default": false
+    },
     "selectionMode": {
       "type": "string",
       "description": "Only applicable if selection is enabled.",
       "default": "single",
-      "values": [{ "value": "single" }, { "value": "multiple" }]
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     },
     "allowsEmptySelection": {
       "type": "boolean",
@@ -72,19 +96,58 @@
       "default": "none",
       "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75.",
       "values": [
-        { "value": "none" },
-        { "value": "full" },
-        { "value": "partial" }
+        {
+          "value": "none"
+        },
+        {
+          "value": "full"
+        },
+        {
+          "value": "partial"
+        }
       ]
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the group. It draws nothing itself: it holds the `swatches` part, which hosts the default slot.",
+      "required": true,
+      "contains": ["swatches"]
+    },
+    {
+      "name": "swatches",
+      "description": "Grid of swatches. It draws nothing itself: it sets the gap between swatches and wraps rows. It hosts the default slot.",
+      "required": true
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "swatches",
+      "accepts": ["swatch"],
+      "min": 1,
+      "description": "The swatch in the group. Any number of swatches, at least one."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Figma S2 Web swatch group page (Swatch instances in rows). The group stays a component with an explicit container and one slot, hosted by the child part `swatches`. The part is a spec choice (anatomy-format: a slot host is a declared part); the renderer only needs a slot part under the root, which it rejects on the root itself (A139). swatch is no longer a part: it is what the default slot accepts. Selection options stay options (A144)."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "group",
     "intents": ["choose"],
     "focusable": false,
     "wcag": [
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

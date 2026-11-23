@@ -1,0 +1,216 @@
+[
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "track",
+      "property": "width",
+      "legacyKey": "switch-track-width"
+    },
+    "value": "51px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma .Switch 11368:7090 width; UISwitch system size, no Figma variable.",
+    "uuid": "419f6017-f4cd-470c-a65c-6df62cdc886e"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "track",
+      "property": "height",
+      "legacyKey": "switch-track-height"
+    },
+    "value": "31px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma .Switch 11368:7090 height; UISwitch system size, no Figma variable.",
+    "uuid": "ba263d6b-74c7-47e3-99ee-578ad24311fd"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "track",
+      "property": "corner-radius",
+      "legacyKey": "switch-track-corner-radius"
+    },
+    "value": "100px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma .Switch 11368:7090 corner radius 100 (a capsule; renderers clamp it to half the height), no variable.",
+    "uuid": "ee21c20c-1612-4bbd-b92d-7467d0e40ce7"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "handle",
+      "property": "size",
+      "legacyKey": "switch-handle-size"
+    },
+    "value": "27px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Knob 11368:7091; UISwitch system size, no Figma variable. The 2px inset is the centered cross-axis gap.",
+    "uuid": "0fef4803-0217-4c18-bc6f-b1c7c97caf20"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "handle",
+      "property": "corner-radius",
+      "legacyKey": "switch-handle-corner-radius"
+    },
+    "value": "100px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Knob 11368:7091 is a circle; no variable.",
+    "uuid": "269c41d8-76ec-4ec6-88fd-f74886f74dc3"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "track",
+      "property": "background-color",
+      "colorScheme": "light",
+      "legacyKey": "switch-track-background-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(0, 0, 0, 0.09)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma SpiOS Alias/fill/secondary, light mode; the off track of .Switch 11368:7090.",
+    "uuid": "2eee85b3-508a-4739-8115-9487ae93b091"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "track",
+      "property": "background-color",
+      "colorScheme": "dark",
+      "legacyKey": "switch-track-background-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 0.14)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma SpiOS Alias/fill/secondary, dark mode; the off track of .Switch 11368:7090.",
+    "uuid": "a835b0f2-be48-4037-803a-b00e60a2f02a"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "handle",
+      "property": "background-color",
+      "colorScheme": "light",
+      "legacyKey": "switch-handle-background-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 1)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma SpiOS Palette/white, light mode, VariableID:2113:5481.",
+    "uuid": "66165a0d-5afa-4061-9337-ac841698ae6e"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "handle",
+      "property": "background-color",
+      "colorScheme": "dark",
+      "legacyKey": "switch-handle-background-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 1)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma SpiOS Palette/white, dark mode, VariableID:2113:5481.",
+    "uuid": "f0449064-6603-4540-bd77-f77213d1a138"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "label",
+      "property": "content-color",
+      "colorScheme": "light",
+      "legacyKey": "switch-label-content-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(0, 0, 0, 1)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma SpiOS Alias/content/neutral/default, light mode, VariableID:2113:5619 (iOS label color; p6ga.8.27).",
+    "uuid": "a8489833-9d39-488e-9523-29cd5be06f7a"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "anatomy": "label",
+      "property": "content-color",
+      "colorScheme": "dark",
+      "legacyKey": "switch-label-content-color"
+    },
+    "$valueType": "https://opensource.adobe.com/spectrum-design-data/schemas/value-types/color.schema.json",
+    "value": "rgba(255, 255, 255, 1)",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma SpiOS Alias/content/neutral/default, dark mode, VariableID:2113:5619 (iOS label color; p6ga.8.27).",
+    "uuid": "e3ac167d-a409-462f-a4ae-905eaa53c23d"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "property": "h-padding",
+      "legacyKey": "switch-row-h-padding"
+    },
+    "value": "16px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout list-row/h-padding, VariableID:2832:6961.",
+    "uuid": "f29b0de4-7b12-4840-b805-e6b924c0ed56"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "property": "height",
+      "legacyKey": "switch-row-height"
+    },
+    "value": "45px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Switch (list) row height 45: Title padding list-row/v-padding 11 (VariableID:2832:6960) + 23.04 title line + 11; the track is centered. The renderer pads only the root, so the row height is bound directly.",
+    "uuid": "7181df39-6b1c-4b6f-a765-4823b1bbca4a"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "property": "h-gap",
+      "legacyKey": "switch-row-h-gap"
+    },
+    "value": "16px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Layout list-row/h-gap, VariableID:3086:3526.",
+    "uuid": "28c362b5-345d-4b10-bf70-8825d3be04b7"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "property": "font-size",
+      "legacyKey": "switch-font-size"
+    },
+    "value": "18px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/size/300, bound to the Title text of Switch (list).",
+    "uuid": "41e8429e-3523-4bc6-8c53-3f52a0bcc026"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "property": "font-weight",
+      "legacyKey": "switch-font-weight"
+    },
+    "value": "400",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/weight/regular, bound to the Title text of Switch (list).",
+    "uuid": "92d78533-8d4f-4867-89ab-aeac6f0f74ba"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "property": "line-height",
+      "legacyKey": "switch-line-height"
+    },
+    "value": "23.04px",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Title text of Switch (list): 128% of 18px, no variable.",
+    "uuid": "82d4020a-f22f-48fe-be07-e80545b1c865"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "property": "font-family",
+      "legacyKey": "switch-font-family"
+    },
+    "value": "Adobe Clean Spectrum VF",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma Typography font/family/default, VariableID:3:963.",
+    "uuid": "2d596241-8c26-43b3-b11a-f93adba923ba"
+  },
+  {
+    "name": {
+      "component": "switch-ios",
+      "property": "opacity",
+      "state": ["disabled"],
+      "legacyKey": "switch-opacity-disabled"
+    },
+    "value": "0.6",
+    "description": "Stopgap for p6ga.8.7, delete this file in the same change as the real import (m2xm.5). Figma .Switch Disabled=True variants 11368:7092 and 11368:7096: opacity 0.6 on the whole component, no variable.",
+    "uuid": "e8847629-5a64-43a7-b199-b3b9b6c47bbd"
+  }
+]

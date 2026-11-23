@@ -1,0 +1,114 @@
+{
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/toolbar.json",
+      "name": "toolbar",
+      "displayName": "Toolbar",
+      "meta": {
+        "category": "actions"
+      },
+      "anatomy": [
+        {
+          "name": "container",
+          "required": true,
+          "contains": ["actions", "extras", "tail"]
+        },
+        {
+          "name": "actions"
+        },
+        {
+          "name": "extras"
+        },
+        {
+          "name": "tail"
+        }
+      ],
+      "slots": [
+        {
+          "name": "actions",
+          "part": "actions",
+          "accepts": ["chip"],
+          "acceptsOnly": true
+        },
+        {
+          "name": "extras",
+          "part": "extras"
+        }
+      ]
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/chip.json",
+      "name": "chip",
+      "displayName": "Chip",
+      "meta": {
+        "category": "actions"
+      },
+      "options": {
+        "isQuiet": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "anatomy": [
+        {
+          "name": "container",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "component": "toolbar",
+      "root": "container",
+      "sizeScale": {
+        "m": 100
+      },
+      "parts": {
+        "container": {
+          "kind": "box",
+          "children": ["actions", "extras", "tail"],
+          "props": {
+            "direction": {
+              "value": "row"
+            }
+          }
+        },
+        "actions": {
+          "kind": "slot",
+          "sizeMap": {
+            "m": "m"
+          },
+          "with": {
+            "nope": true
+          }
+        },
+        "extras": {
+          "kind": "slot",
+          "sizeMap": {
+            "m": "m"
+          }
+        },
+        "tail": {
+          "kind": "slot",
+          "sizeMap": {
+            "m": "m"
+          }
+        }
+      }
+    },
+    {
+      "component": "chip",
+      "root": "container",
+      "sizeScale": {
+        "m": 100
+      },
+      "parts": {
+        "container": {
+          "kind": "box"
+        }
+      }
+    }
+  ],
+  "tokens": []
+}

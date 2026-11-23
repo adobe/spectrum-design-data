@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-092",
+      "severity": "warning",
+      "message_pattern": ".*no context and no contexted record references it.*"
+    }
+  ]
+}

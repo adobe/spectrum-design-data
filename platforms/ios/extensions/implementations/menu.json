@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "menu",
+  "implementations": [
+    {
+      "platform": "ios",
+      "componentName": "SPMenu",
+      "package": "spectrum-ios",
+      "notes": "SwiftUI. Source: OneAdobe/spectrum-ios main 3f6e7c0."
+    }
+  ]
+}

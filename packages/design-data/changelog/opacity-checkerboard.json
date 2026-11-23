@@ -1,0 +1,121 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "opacity-checkerboard",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.11.4",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":4,"fields":["contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/square","name":"square","fields":[],"after":{"name":"square","description":"Single alternating square of the checkerboard pattern.","required":true}},
+            {"id":"12ddd7e7-1","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"No Figma page; parts from relationship contexts. Helper component; one minimal part."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "61399b3fa6f9c57e57db3f9cdc848cf2f01ef3e3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1933,"title":"feat(design-data): opacity-checkerboard visual recipe; checkerboard pattern, dimension source","url":"https://github.com/adobe/spectrum-design-data/pull/1933"},
+          "entries": [
+            {"id":"61399b3f-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/options/size","name":"size","fields":[],"after":{"type":"string","default":"m","values":[{"value":"s"},{"value":"m"}]}},
+            {"id":"61399b3f-1","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/options/verticalSize","name":"verticalSize","fields":[{"path":"default","after":16}]},
+            {"id":"61399b3f-2","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/options/horizontalSize","name":"horizontalSize","fields":[{"path":"default","after":24}]},
+            {"id":"61399b3f-3","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual","name":"opacity-checkerboard","fields":[]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "7afe677da514a49326fdd4e6b124cf61bd29afae",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1952,"title":"feat(design-data): anatomy review A0 for accordion, field-label, thumbnail and opacity-checkerboard","url":"https://github.com/adobe/spectrum-design-data/pull/1952"},
+          "entries": [
+            {"id":"7afe677d-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"The patterned surface. It holds the squares and sets no values of its own.","required":true,"contains":["square"]}},
+            {"id":"7afe677d-1","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/square","name":"square","fields":[{"path":"description","before":"Single alternating square of the checkerboard pattern.","after":"Single square of the checkerboard pattern; the pattern alternates two colors, both set on the square."}]},
+            {"id":"7afe677d-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"No Figma page; parts from relationship contexts. Helper component; one minimal part.","after":"No Figma page; it appears only as the Checkerboard layer inside other components. React Spectrum S2 draws an inline repeating-conic-gradient and SWC gen2 a CSS fragment with tokens opacity-checkerboard-square-{size,dark,light}. container is the explicit root; square is the tile and carries the size and both colors. How dark and light are told apart is left to the data migration (5m92.6); the square-light value conflict stays with bead 5m92.5.10."}]},
+            {"id":"7afe677d-3","kind":"visual-part","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual/parts/container","name":"container","fields":[]},
+            {"id":"7afe677d-4","kind":"visual-part","change":"removed","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual/parts/square","name":"square","fields":[]},
+            {"id":"7afe677d-5","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual/root","name":"root","fields":[{"path":"root","before":"square","after":"container"}]}
+          ],
+          "metadata": {"count":15,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "1.4.0",
+      "bump": "minor",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/subcomponent","name":"subcomponent","fields":[{"path":"subcomponent","after":true}]}
+          ]
+        },
+        {
+          "commit": "d6236ca9bf616fa4a9933517061f0d3db386a895",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2043,"title":"feat(design-data): migrate opacity-checkerboard to level 2 with light and dark tile parts","url":"https://github.com/adobe/spectrum-design-data/pull/2043"},
+          "entries": [
+            {"id":"d6236ca9-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Square"],"scope":{"property":"color","options":null},"record":"e6178f1e-e118-53cd-8f98-dc3430e15ead","name":"color","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","before":"square","after":"light-tile"},{"path":"scope.property","before":"square-light","after":"color"}]},
+            {"id":"d6236ca9-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Square"],"scope":{"property":"color","options":null},"record":"ce233193-1515-55b1-8a35-ba67970d83ac","name":"color","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","before":"square","after":"dark-tile"},{"path":"scope.property","before":"square-dark","after":"color"}]},
+            {"id":"d6236ca9-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Square"],"scope":{"property":"color","options":null},"record":"2803f571-c915-5399-8846-c81b606eb335","name":"color","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","before":"square","after":"dark-tile"},{"path":"scope.property","before":"square-dark","after":"color"}]},
+            {"id":"d6236ca9-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Square"],"scope":{"property":"color","options":null},"record":"36337b80-3ba4-5f72-96ee-449ab46d0152","name":"color","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","before":"square","after":"dark-tile"},{"path":"scope.property","before":"square-dark","after":"color"}]},
+            {"id":"d6236ca9-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/dark-tile","name":"dark-tile","fields":[],"after":{"name":"dark-tile","description":"The darker of the two alternating tiles; it sets the darker tile color.","required":true}},
+            {"id":"d6236ca9-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/light-tile","name":"light-tile","fields":[],"after":{"name":"light-tile","description":"The lighter of the two alternating tiles; it sets the lighter tile color.","required":true}},
+            {"id":"d6236ca9-6","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/square","name":"square","fields":[{"path":"contains","after":["light-tile","dark-tile"]}]},
+            {"id":"d6236ca9-7","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomy/square","name":"square","fields":[{"path":"description","before":"Single square of the checkerboard pattern; the pattern alternates two colors, both set on the square.","after":"Single square of the checkerboard pattern. It sets the square size and holds the light and dark tiles the pattern alternates between."}]},
+            {"id":"d6236ca9-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"No Figma page; it appears only as the Checkerboard layer inside other components. React Spectrum S2 draws an inline repeating-conic-gradient and SWC gen2 a CSS fragment with tokens opacity-checkerboard-square-{size,dark,light}. container is the explicit root; square is the tile and carries the size and both colors. How dark and light are told apart is left to the data migration (5m92.6); the square-light value conflict stays with bead 5m92.5.10.","after":"No Figma page; it appears only as the Checkerboard layer inside other components. React Spectrum S2 draws an inline repeating-conic-gradient and SWC gen2 a CSS fragment with tokens opacity-checkerboard-square-{size,dark,light}. container is the explicit root; square carries the size; light-tile and dark-tile are two parts, each carrying one tile color (owner decision A293 b), so no tone option is needed. The square-light value conflict stays with bead 5m92.5.10."}]},
+            {"id":"d6236ca9-9","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"opacity-checkerboard/visual/parts/container","name":"container","fields":[{"path":"props.fill.relationship.attribute","after":"background"},{"path":"props.fill.relationship.context","before":"Square"},{"path":"props.fill.relationship.part","after":"light-tile"},{"path":"props.fill.relationship.property","before":"square-light","after":"color"},{"path":"props.patternFill.relationship.attribute","after":"background"},{"path":"props.patternFill.relationship.context","before":"Square"},{"path":"props.patternFill.relationship.part","after":"dark-tile"},{"path":"props.patternFill.relationship.property","before":"square-dark","after":"color"},{"path":"props.patternSize.relationship.context","before":"Square size"},{"path":"props.patternSize.relationship.part","after":"square"}]}
+          ],
+          "metadata": {"count":8,"fields":["context","contextRole","scope.part","scope.property"]}
+        }
+      ]
+    }
+  ]
+}

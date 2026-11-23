@@ -1,0 +1,34 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/list.json",
+      "name": "list",
+      "displayName": "List",
+      "meta": {
+        "category": "navigation",
+        "documentationUrl": "https://spectrum.adobe.com/page/list/"
+      },
+      "options": {
+        "size": { "type": "string" },
+        "items": { "type": "array", "items": { "type": "object" } }
+      },
+      "anatomy": [
+        { "name": "container", "contains": ["row"] },
+        { "name": "row" },
+        { "name": "actions" }
+      ],
+      "slots": [
+        { "name": "default", "part": "row", "collection": "size" },
+        { "name": "actions", "part": "toolbar" },
+        {
+          "name": "badge",
+          "part": "actions",
+          "accepts": ["ghost"],
+          "min": 3,
+          "max": 2
+        }
+      ]
+    }
+  ]
+}

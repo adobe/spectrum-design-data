@@ -1,0 +1,192 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-wheel",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.0.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/0","name":"guideline: Keyboard focus.\n\nA color wheel can be navigated ","fields":[{"path":"content","before":"Color wheels adjust a single color channel using a circular track. They offer a visual, radial interface often paired with other color selection tools for more precise control.","after":"Keyboard focus.\n\nA color wheel can be navigated using a keyboard. The keyboard focus state enlarges the handle to become twice as large."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/1","name":"guideline: Minimum size.\n\nMinimum sizing ensures that the c","fields":[{"path":"content","before":"A color wheel in a disabled state shows that an input exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that the wheel may become available later.","after":"Minimum size.\n\nMinimum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/2","name":"guideline: Placing a color area inside a color wheel.\n\nThe ","fields":[{"path":"content","before":"A color wheel’s size can be customized appropriately for its context.","after":"Placing a color area inside a color wheel.\n\nThe color wheel is often used together with the color area component for color selection. When placing the color area inside the color wheel, make sure to leave enough of a margin between the two components to ensure there's enough space for the both the handles."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/3","name":"guideline: Display color selection.\n\nWhen using color areas","fields":[{"path":"content","before":"The step refers to the increment by which these values increase or decrease. A step value of 1 (default) allows a user to only select whole numbers within the min and max range.","after":"Display color selection.\n\nWhen using color areas, it's important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/4","name":"guideline: Color loupe on down/touch state.\n\nThe color loup","fields":[{"path":"content","before":"The min and max values can also be customized appropriately for what the color wheel is being used for. By default, the min value starts at 0 and max value is set to 360.","after":"Color loupe on down/touch state.\n\nThe color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/5","name":"guideline: The value is the number selected within the colo","fields":[],"before":{"type":"guideline","content":"The value is the number selected within the color wheel’s range, from the minimum value to the maximum value."}},
+            {"id":"ec3376fa-6","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/6","name":"guideline: The background of the color wheel is a visual re","fields":[],"before":{"type":"guideline","content":"The background of the color wheel is a visual representation of the range of values that a user can select from. It can represent color properties such as hues or color channel values (such as RGB or CMYK levels). The exact format this background property takes will depend on what implementation you are working with. Some examples of the format include image, canvas, and gradient."}},
+            {"id":"ec3376fa-7","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/7","name":"guideline: A color wheel can be navigated using a keyboard.","fields":[],"before":{"type":"guideline","content":"A color wheel can be navigated using a keyboard. The keyboard focus state enlarges the handle to become twice as large."}},
+            {"id":"ec3376fa-8","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/8","name":"guideline: Minimum sizing ensures that the component remain","fields":[],"before":{"type":"guideline","content":"Minimum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."}},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/9","name":"guideline: The color wheel is often used together with the ","fields":[],"before":{"type":"guideline","content":"The color wheel is often used together with the color area component for color selection. When placing the color area inside the color wheel, make sure to leave enough of a margin between the two components to ensure there’s enough space for the both the handles."}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/10","name":"guideline: When using color areas, it’s important to clearl","fields":[],"before":{"type":"guideline","content":"When using color areas, it’s important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/documentBlocks/11","name":"guideline: The color loupe component can be used above the ","fields":[],"before":{"type":"guideline","content":"The color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":11,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-wheel/anatomy/color-area","name":"color-area","fields":[],"after":{"name":"color-area","description":"Optional nested color area inside the ring."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-wheel/anatomy/color-handle","name":"color-handle","fields":[],"after":{"name":"color-handle","description":"Handle marking the selected hue.","required":true}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-wheel/anatomy/track","name":"track","fields":[],"after":{"name":"track","description":"Circular hue ring; border is track styling.","required":true,"contains":["color-handle"]}},
+            {"id":"12ddd7e7-3","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP ColorWheel.tsx:75-115 (ColorWheelTrack); relationship part color-area (Margin to color area) is the nested color area, ring is track; focus-indicator dropped."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"424db2a9-5795-400b-a98a-58081d311bff","name":"width[scale=desktop]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Track width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"07e3ac46-3f96-4c00-aa6a-09840ee04bdd","name":"width[scale=mobile]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread)."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":{"scale":"desktop"}},"record":"647244c3-b071-45c1-94f7-3be32cfebabe","name":"minimum-width[scale=desktop]","fields":[{"path":"value","before":"175px","after":"144px"}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread). Desktop is 144px (size-1200), smaller than the old 175px, and mobile follows that base."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":{"scale":"desktop"}},"record":"647244c3-b071-45c1-94f7-3be32cfebabe","name":"minimum-width[scale=desktop]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread). Desktop is 144px (size-1200), smaller than the old 175px, and mobile follows that base."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread). Desktop is 144px (size-1200), smaller than the old 175px, and mobile follows that base."},
+            {"id":"0b8924f1-4","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":{"scale":"mobile"}},"record":"6733cd28-a949-40f7-bd36-034af9c0261f","name":"minimum-width[scale=mobile]","fields":[{"path":"value","before":"219px","after":"180px"}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread). Desktop is 144px (size-1200), smaller than the old 175px, and mobile follows that base."},
+            {"id":"0b8924f1-5","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"scope":{"property":"minimum-width","options":{"scale":"mobile"}},"record":"6733cd28-a949-40f7-bd36-034af9c0261f","name":"minimum-width[scale=mobile]","fields":[{"path":"rationale","after":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread). Desktop is 144px (size-1200), smaller than the old 175px, and mobile follows that base."}],"rationale":"Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread). Desktop is 144px (size-1200), smaller than the old 175px, and mobile follows that base."}
+          ],
+          "metadata": {"count":6,"fields":["scope.options.scale","uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "entries": [
+            {"id":"23810aed-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"ceca0d86-45d5-5f8b-bd4c-7181ec2b8352","name":"border-width","fields":[{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track width"],"scope":{"property":"thickness","options":{"scale":"desktop"}},"record":"d26c357d-d4d4-5f4e-90c8-cb1e3d79ba83","name":"thickness[scale=desktop]","fields":[{"path":"scope.part","after":"track"},{"path":"scope.property","before":"width","after":"thickness"}]},
+            {"id":"23810aed-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Track width"],"scope":{"property":"thickness","options":{"scale":"mobile"}},"record":"c09f6258-9e4f-57c1-9251-202220c53be2","name":"thickness[scale=mobile]","fields":[{"path":"scope.part","after":"track"},{"path":"scope.property","before":"width","after":"thickness"}]},
+            {"id":"23810aed-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Margin to color area"],"scope":{"property":"padding","options":null},"record":"32826202-98a3-5ce0-aea6-9c04311a338b","name":"padding","fields":[{"path":"scope.part","after":"track"},{"path":"scope.property","before":"margin","after":"padding"}]},
+            {"id":"23810aed-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":null},"record":"5ec56f1b-ebdf-5cbd-95ef-cf2604dc245c","name":"color","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-5","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"opacity","options":null},"record":"78b60015-cc8d-5951-9759-465622b60037","name":"opacity","fields":[{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"e6a32af0-eed9-5070-8368-110377dca4cd","name":"color[isDisabled=?]","fields":[{"path":"scope.options.isDisabled","after":true}]},
+            {"id":"23810aed-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Disabled"],"scope":{"property":"color","options":{"isDisabled":true}},"record":"e6a32af0-eed9-5070-8368-110377dca4cd","name":"color[isDisabled=?]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"track"}]},
+            {"id":"23810aed-8","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-wheel/options/background","name":"background","fields":[],"before":{"type":"string","description":"This will vary depending on implementation."}},
+            {"id":"23810aed-9","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"color-wheel/anatomy/color-area","name":"color-area","fields":[],"before":{"name":"color-area","description":"Optional nested color area inside the ring."}},
+            {"id":"23810aed-10","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-wheel/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Root: owns the wheel's width and minimum width.","required":true,"contains":["track"]}},
+            {"id":"23810aed-11","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/anatomy/track","name":"track","fields":[{"path":"description","before":"Circular hue ring; border is track styling.","after":"Circular hue ring; owns thickness, border styling on both edges, the gradient and the disabled background."}]},
+            {"id":"23810aed-12","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP ColorWheel.tsx:75-115 (ColorWheelTrack); relationship part color-area (Margin to color area) is the nested color area, ring is track; focus-indicator dropped.","after":"A7 (2026-11-20). RSP ColorWheel.tsx:75-115 (ColorWheelTrack, thickness 24); Figma Color wheel (fill image, inner and outer border vectors, a Color handle). Explicit container added. Option background dropped (no source has it). Owner decision C10: the color-area part is dropped (neither Figma nor RSP nests an area in the wheel); the 12px margin to it is track padding, the space inside the ring. A wheel plus an area is a future Pattern."}]}
+          ],
+          "metadata": {"count":14,"fields":["anatomyReview.status","context","contextQualifier","contextRole","scope.attribute","scope.part","scope.property"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-wheel/anatomy/color-handle","name":"color-handle","fields":[{"path":"component","after":"color-handle"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2081,"title":"feat(design-data): add S2 channel options to color slider, area and wheel","url":"https://github.com/adobe/spectrum-design-data/pull/2081"},
+          "entries": [
+            {"id":"87b260bb-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"color-wheel/options/color","name":"color","fields":[],"after":{"type":"string","description":"The color whose hue the wheel adjusts (S2 value, HSL or HSB). Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."}}
+          ]
+        }
+      ]
+    }
+  ]
+}

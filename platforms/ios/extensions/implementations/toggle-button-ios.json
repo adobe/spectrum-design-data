@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "toggle-button-ios",
+  "implementations": [
+    {
+      "platform": "ios",
+      "componentName": "SPToggleButton",
+      "package": "spectrum-ios",
+      "notes": "UIKit: SPUIToggleButton. Same-label styles: SPSingleLabelToggleButtonStyle; distinct labels: SPOnOffLabelToggleButtonStyle. Source: OneAdobe/spectrum-ios main 3f6e7c0."
+    }
+  ]
+}

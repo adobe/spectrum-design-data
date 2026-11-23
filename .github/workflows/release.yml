@@ -52,9 +52,13 @@ jobs:
       hasChangesets: ${{ steps.cs.outputs.hasChangesets }}
       cliReleaseNeeded: ${{ steps.cli.outputs.cliReleaseNeeded }}
     steps:
+      # The checkout token is git's push credential. The default GITHUB_TOKEN is a GitHub App
+      # and cannot push workflow files, so a version-branch or tag push is rejected whenever
+      # main's .github/workflows changed since that commit. GH_TOKEN is a PAT with `workflow` scope.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Detect CLI release
         id: cli
@@ -89,6 +93,39 @@ jobs:
           node tasks/buildSpectrumTokens.js
           node tasks/buildManifest.js
 
+      # `design-data:version` (run by `pnpm run version`) builds and runs the CLI to append
+      # the release to each component's changelog, so the Version Packages PR carries the new
+      # entries and component versions. It needs the full history and tags, which the
+      # checkout above fetches (fetch-depth: 0), and the Rust toolchain below (lld is
+      # required by sdk/.cargo/config.toml; see build-wasm). The version step only runs when
+      # changesets are pending, so the Rust setup is skipped on every other push.
+      - name: Detect pending changesets
+        id: pending
+        shell: bash
+        run: |
+          if compgen -G ".changeset/*.md" | grep -qv '^.changeset/README.md$'; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Rust toolchain
+        if: steps.pending.outputs.present == 'true'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.88.0"
+
+      - name: Install lld
+        if: steps.pending.outputs.present == 'true'
+        run: sudo apt-get update && sudo apt-get install -y lld
+
+      - name: Cache Cargo build
+        if: steps.pending.outputs.present == 'true'
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
+          key: changelog
+
       # Use the official changesets/action here — NOT the GarthDB fork.
       # The GarthDB fork only supports `publish:` and silently ignores `version:`,
       # so it never creates the Version Packages PR. The official action supports
@@ -98,9 +135,9 @@ jobs:
       # `pnpm run version` runs the package.json "version" script
       # (`changeset version && moon run :version`). The explicit `run` is
       # required — bare `pnpm version` collides with pnpm's built-in npm-style
-      # version command and would NOT execute the script. The Moon step
-      # (sync-cargo-version.mjs) mirrors the bumped npm version into the
-      # tui/Cargo.toml file.
+      # version command and would NOT execute the script. The Moon steps
+      # mirror the bumped npm version into tui/Cargo.toml (sync-cargo-version.mjs)
+      # and append the release to the component changelogs (design-data:version).
       - name: Create or update Version Packages PR
         id: cs
         uses: changesets/action@v1
@@ -137,11 +174,13 @@ jobs:
       - name: Install lld
         run: sudo apt-get update && sudo apt-get install -y lld
 
+      # Restore-only: rust-cache-warm.yml saves this cache on main. The key hashes sdk/Cargo.toml.
       - name: Cache Cargo build
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: "sdk -> sdk/target"
-          key: wasm
+          workspaces: sdk
+          shared-key: rust-ci-${{ hashFiles('sdk/Cargo.toml') }}
+          save-if: false
 
       - uses: actions/setup-node@v4
         with:
@@ -172,6 +211,21 @@ jobs:
         with:
           name: wasm-pkg-build
           path: sdk/wasm/pkg
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Build visual engine package
+        run: moon run sdk-wasm-visual:build-package
+
+      - name: Upload visual engine package build
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-pkg-build
+          path: |
+            sdk/wasm-visual/pkg
+            sdk/wasm-visual/variants
+            sdk/wasm-visual/catalog.json
+            sdk/wasm-visual/OFL-SourceSans3.txt
           retention-days: 1
           if-no-files-found: error
 
@@ -293,9 +347,11 @@ jobs:
       contents: write
       id-token: write # Required for npm trusted publishing (OIDC)
     steps:
+      # Pushes the package tags, so it needs the PAT with `workflow` scope too (see the changesets job).
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
@@ -330,8 +386,17 @@ jobs:
           name: wasm-pkg-build
           path: sdk/wasm/pkg
 
+      - name: Download visual engine package build
+        uses: actions/download-artifact@v4
+        with:
+          name: visual-pkg-build
+          path: sdk/wasm-visual
+
       - name: Verify wasm package tarball
         run: node sdk/wasm/scripts/verify-package.mjs
+
+      - name: Verify visual engine package tarball
+        run: node sdk/wasm-visual/scripts/verify-package.mjs
 
       - name: Publish packages
         id: cs
@@ -403,7 +468,10 @@ jobs:
           # Create the release if it doesn't exist yet; --notes-file requires a
           # file so we inline a brief message. || true so a pre-existing release
           # doesn't abort the workflow.
+          # --target pins a new tag to the built commit; without it GitHub tags
+          # the current main head, which may be a later merge (0.40.1).
           gh release create "${TAG}" \
+            --target "${GITHUB_SHA}" \
             --title "design-data CLI ${CLI_VERSION}" \
             --notes "Native CLI binary for \`design-data\` v${CLI_VERSION}. Install via \`cargo install design-data-cli\` or download below." \
             || true
@@ -473,4 +541,17 @@ jobs:
             --base main --head "${BRANCH}"
           gh pr merge "${BRANCH}" --squash --delete-branch
         env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Build the Claude Desktop extension and attach it to GitHub Releases (the package's own
+      # release and a rolling `design-data-mcpb` one that README links). Last in the job on
+      # purpose: a failure here must never hold back the CLI binaries or the Homebrew bump,
+      # and npm is already published by now. `!cancelled()` keeps a failed binaries or Homebrew
+      # step from skipping it. Skipped when the MCP package was not published.
+      - name: Attach Claude Desktop extension (.mcpb)
+        if: ${{ !cancelled() && steps.cs.outputs.published == 'true' && github.ref == 'refs/heads/main' }}
+        shell: bash
+        run: tools/design-data-mcp/scripts/publish-mcpb.sh
+        env:
+          PUBLISHED: ${{ steps.cs.outputs.publishedPackages }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

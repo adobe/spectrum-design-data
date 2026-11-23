@@ -1,0 +1,82 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/action-bar.json",
+  "specVersion": "1.0.0-draft",
+  "name": "action-bar",
+  "displayName": "Action bar",
+  "description": "Action bars are used for single and bulk selection patterns, when a user needs to perform actions on either a single or multiple items at the same time.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
+  },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ActionBar",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Action bars are used for single and bulk selection patterns, when a user needs to perform actions on either a single or multiple items at the same time."
+    },
+    {
+      "type": "guideline",
+      "content": "Action bar in Dark theme.\n\nAction bar is split into a separate component for each color theme — light and dark. Since each is set to either light or dark mode in Figma, they do not switch automatically like the rest of the UI when placed in frames that are set to “auto” mode. In dark theme, the action bar also includes a 1px inner border to help it stand out against the background colors."
+    },
+    {
+      "type": "guideline",
+      "content": "Action group variants (Icon-only, Label-only, Icon + label).\n\nAt larger screen or section sizes, use an action group that shows a label and icon. For smaller screen or section sizes, use an icon-only action group. Place any overflow actions into a action menu at the end of the bar."
+    },
+    {
+      "type": "guideline",
+      "content": "Action disabled behavior.\n\nIndividual actions can be disabled in an action bar which follow the isDisabled property of the action group. This disabled state shows that the action buttons within the group exist, but are not available in that circumstance. This state can be used to maintain layout continuity and to communicate that an action group may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "Placement.\n\nWhen a user selects items with relevant actions, an action bar appears at the bottom of the viewport. The bar should have margins of spacing-200 (12 pixels on desktop scale) on the sides and bottom."
+    },
+    {
+      "type": "guideline",
+      "content": "Safe zone.\n\nInclude a safe zone of at least spacing-400 (24 pixels on desktop scale) between the item counter and the action group."
+    },
+    {
+      "type": "guideline",
+      "content": "Motion and stickiness.\n\nAction bars slide and fade in from the bottom of the page or section. They remain or \"stick\" there until a user either deselects the items or navigates away."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't add a drag bar",
+      "dont": "An action bar appears when items in a list or grid view are selected, and it remains in place until items are deselected or a user navigates away. Action bars can not be moved or dragged."
+    },
+    {
+      "type": "guideline",
+      "content": "Allow scrolling to view underlying content.\n\nAction bars appear on top of content. Allow space for a user to still be able to view the content underneath, especially if they're taking actions on a table or a list of items and need to be able to scroll."
+    },
+    {
+      "type": "guideline",
+      "content": "Don’t use quick actions.\n\nInstead of quick actions, use an action bar for both single and bulk selection patterns. An action bar is useful for when a user needs to perform actions on either a single or multiple items at the same time. It can be used on either a grid view or a table view. Don’t use quick actions — a deprecated component — because it presents conflicting nested actions (for example, a whole asset card could open a detailed view). This makes targeting specific actions very difficult, especially on smaller screens or with the keyboard."
+    }
+  ],
+  "options": { "isEmphasized": { "type": "boolean", "default": false } },
+  "anatomy": [
+    {
+      "name": "action-group-area",
+      "description": "Group of secondary action controls."
+    },
+    {
+      "name": "item-counter",
+      "description": "Badge showing a count of items or actions."
+    },
+    { "name": "counter" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": {
+    "intents": ["trigger"],
+    "focusable": false,
+    "wcag": [
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  }
+}

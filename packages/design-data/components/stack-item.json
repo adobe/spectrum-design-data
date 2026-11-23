@@ -10,14 +10,169 @@
     "documentationUrl": "https://spectrum.adobe.com/page/stack-item/"
   },
   "states": [
-    { "name": "down", "trigger": "interaction" },
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" },
-    { "name": "selected", "trigger": "interaction" },
-    { "name": "selected-default", "trigger": "interaction" },
-    { "name": "selected-down", "trigger": "interaction" },
-    { "name": "selected-hover", "trigger": "interaction" },
-    { "name": "selected-keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "default",
+      "description": "Resting base state."
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected",
+      "trigger": "prop"
+    },
+    {
+      "name": "selected-default",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-keyboard-focus",
+      "trigger": "interaction"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" }
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "The row: background that fills when the item is selected or highlighted. It carries the shared row chrome of list-view and tree-view.",
+      "required": true,
+      "contains": [
+        "drag-handle",
+        "checkbox",
+        "icon",
+        "thumbnail",
+        "label",
+        "description",
+        "actions",
+        "drill-in-chevron",
+        "focus-indicator"
+      ]
+    },
+    {
+      "name": "drag-handle",
+      "description": "Grip for reordering the item."
+    },
+    {
+      "name": "checkbox",
+      "component": "checkbox",
+      "description": "Selection checkbox shown in a selection mode.",
+      "presentWhen": {
+        "options": {
+          "selectionStyle": "checkbox"
+        }
+      }
+    },
+    {
+      "name": "icon",
+      "description": "Leading icon of the item.",
+      "presentWhen": {
+        "options": {
+          "visual": "icon"
+        }
+      }
+    },
+    {
+      "name": "thumbnail",
+      "component": "thumbnail",
+      "description": "Thumbnail at the start of the content, used instead of the icon.",
+      "presentWhen": {
+        "options": {
+          "visual": "thumbnail"
+        }
+      }
+    },
+    {
+      "name": "label",
+      "description": "Text of the item; the relationships set its minimum width."
+    },
+    {
+      "name": "description",
+      "description": "Secondary text under the label."
+    },
+    {
+      "name": "actions",
+      "description": "Row of action buttons at the end of the item."
+    },
+    {
+      "name": "drill-in-chevron",
+      "description": "Non-interactive chevron that shows the item navigates to another level."
+    },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn around the focused row.",
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Decision A68 D5a: stack-item stays the shared row-chrome component (Slack #spectrum-tokens-talk Jan 2026: Design made list-view and tree-view use the stack-item tokens); it takes list-item's anatomy. list-view and tree-view keep their own records; a follow-up proposal covers nesting and sharing. Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). Renames: header -> label (the sources say label; two records follow), visual -> icon and thumbnail, disclosure-indicator -> drill-in-chevron (decision A71 D8 a2). description added from list-item."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "options": {
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the row is selected. Selected rows use the selected background."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the row is disabled."
+    },
+    "visual": {
+      "type": "string",
+      "description": "The visual at the start of the content: an icon or a thumbnail. Unset draws neither.",
+      "values": [
+        {
+          "value": "icon"
+        },
+        {
+          "value": "thumbnail"
+        }
+      ]
+    },
+    "selectionStyle": {
+      "type": "string",
+      "description": "How a selected row shows selection: a checkbox or a highlight (React Spectrum S2 selectionStyle). Unset draws no selection UI. Only the checkbox is drawn.",
+      "values": [
+        {
+          "value": "checkbox"
+        },
+        {
+          "value": "highlight"
+        }
+      ]
+    }
+  },
+  "slots": [
+    {
+      "name": "actions",
+      "part": "actions",
+      "accepts": ["action-button"],
+      "acceptsOnly": true,
+      "max": 3,
+      "description": "Action buttons at the end of the row."
+    }
+  ]
 }

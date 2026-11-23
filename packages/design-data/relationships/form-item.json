@@ -7,6 +7,9 @@
         "size": "xl"
       }
     },
+    "context": "Spacing (label to field, field to help text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to field, field to help text",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
     "uuid": "a70d4855-0c3f-4b59-9f63-16334cd06134",
@@ -20,6 +23,9 @@
         "size": "l"
       }
     },
+    "context": "Spacing (label to field, field to help text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to field, field to help text",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
     "uuid": "61cc3354-d256-482f-91d7-e4361cc4da9d",
@@ -33,6 +39,9 @@
         "size": "m"
       }
     },
+    "context": "Spacing (label to field, field to help text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to field, field to help text",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
     "uuid": "56c23cee-9c0b-4851-ae72-a7287151b2fb",
@@ -46,6 +55,9 @@
         "size": "s"
       }
     },
+    "context": "Spacing (label to field, field to help text)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "label to field, field to help text",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
     "uuid": "33bbbb47-23c6-4390-9577-42be709ceb98",

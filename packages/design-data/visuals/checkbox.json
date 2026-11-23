@@ -1,0 +1,353 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "checkbox",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "derived": [
+    {
+      "context": "Spacing (top edge to control)",
+      "property": "space-between",
+      "part": "box",
+      "from": "(height - label.lineHeight) / 2"
+    },
+    {
+      "context": "Spacing (top/bottom edge to label)",
+      "property": "component-top-to-text-{sizeIndex}",
+      "part": "label",
+      "from": "(height - label.lineHeight) / 2"
+    },
+    {
+      "context": "Spacing (top/bottom edge to label)",
+      "property": "component-bottom-to-text-{sizeIndex}",
+      "part": "label",
+      "edge": "bottom",
+      "from": "(height - label.lineHeight) / 2"
+    }
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["box", "label"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "start"
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "part": "container"
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "between": { "from": "control", "to": "label" }
+          }
+        },
+        "pressDifference": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-difference",
+            "part": "container"
+          }
+        },
+        "pressWidthRatio": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "part": "container"
+          }
+        },
+        "pressMinPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "part": "container"
+          }
+        }
+      },
+      "pressTarget": "box"
+    },
+    "box": {
+      "kind": "box",
+      "children": ["checkmark", "dash"],
+      "props": {
+        "width": {
+          "relationship": { "property": "size", "part": "box" }
+        },
+        "height": {
+          "relationship": { "property": "size", "part": "box" }
+        },
+        "cornerRadius": {
+          "relationship": { "property": "corner-radius", "part": "box" }
+        },
+        "strokeWidth": [
+          {
+            "relationship": { "property": "border-width", "part": "box" }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "value": 0,
+            "priority": 1
+          },
+          {
+            "when": {
+              "options": {
+                "isIndeterminate": true
+              }
+            },
+            "value": 0,
+            "priority": 1
+          }
+        ],
+        "fill": [
+          {
+            "relationship": { "property": "color", "part": "box" }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": { "property": "background-color", "part": "box" }
+          },
+          {
+            "when": {
+              "options": {
+                "isIndeterminate": true
+              }
+            },
+            "relationship": { "property": "background-color", "part": "box" }
+          }
+        ],
+        "stroke": {
+          "relationship": { "property": "content-color", "part": "box" }
+        }
+      }
+    },
+    "checkmark": {
+      "kind": "icon",
+      "icon": {
+        "set": "ui",
+        "name": "checkmark"
+      },
+      "props": {
+        "width": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "value": 8
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "value": 12
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "value": 8
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "value": 12
+          }
+        ],
+        "color": {
+          "relationship": { "property": "color", "part": "box" }
+        }
+      }
+    },
+    "dash": {
+      "kind": "icon",
+      "icon": {
+        "set": "ui",
+        "name": "dash"
+      },
+      "props": {
+        "width": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "value": 8
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "value": 12
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "value": 8
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "value": 12
+          }
+        ],
+        "color": {
+          "relationship": { "property": "color", "part": "box" }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "overflow": {
+          "value": "wrap"
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "part": "label"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height-font-size-{sizeIndex}",
+            "part": "label"
+          }
+        },
+        "fontWeight": {
+          "relationship": { "property": "font-weight", "part": "label" }
+        },
+        "color": {
+          "relationship": { "property": "content-color", "part": "label" }
+        }
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "around": "box",
+      "props": {
+        "stroke": {
+          "relationship": { "property": "color", "part": "focus-indicator" }
+        },
+        "strokeWidth": {
+          "relationship": { "property": "thickness", "part": "focus-indicator" }
+        },
+        "gapToParent": {
+          "relationship": { "property": "gap", "part": "focus-indicator" }
+        }
+      }
+    }
+  }
+}

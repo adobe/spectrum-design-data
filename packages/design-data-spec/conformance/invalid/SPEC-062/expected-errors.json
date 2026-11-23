@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-062",
+      "severity": "error",
+      "message_pattern": "^No relationship for 'button' with property 'component-height-100' and context 'Minimum height'$"
+    }
+  ]
+}

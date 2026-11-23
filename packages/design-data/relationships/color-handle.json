@@ -2,114 +2,202 @@
   {
     "scope": {
       "component": "color-handle",
-      "property": "size"
+      "part": "container",
+      "property": "size",
+      "options": {
+        "scale": "desktop"
+      }
     },
-    "context": "Size (keyboard focus)",
-    "$ref": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444",
+    "uuid": "71ffdb80-5555-501f-821e-2efb410ed43c"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "size"
+      "part": "container",
+      "property": "size",
+      "options": {
+        "scale": "mobile"
+      }
     },
-    "context": "Size (keyboard focus)",
-    "$ref": "b81cc6a6-390f-43dc-a6c8-dd335c177da3"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "b81cc6a6-390f-43dc-a6c8-dd335c177da3",
+    "uuid": "fd872767-bdd5-5132-b522-cf5787d61620"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "size"
+      "part": "container",
+      "property": "size",
+      "options": {
+        "state": ["keyboard-focus"],
+        "scale": "desktop"
+      }
     },
-    "context": "Size (keyboard focus)",
-    "$ref": "de9cc5ca-81cf-4bde-bd21-be2402e460c5"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "de9cc5ca-81cf-4bde-bd21-be2402e460c5",
+    "uuid": "d31ec6a9-6706-52e2-832a-e8a9cec70827"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "size"
+      "part": "container",
+      "property": "size",
+      "options": {
+        "state": ["keyboard-focus"],
+        "scale": "mobile"
+      }
     },
-    "context": "Size (keyboard focus)",
-    "$ref": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385"
+    "context": "Size",
+    "contextRole": ["size"],
+    "$ref": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385",
+    "uuid": "e5a2b468-d872-5164-b453-c5619dd2187f"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "border-width"
+      "part": "container",
+      "property": "border-width",
+      "attribute": "border"
     },
     "context": "Border",
-    "$ref": "8ec9adae-0093-42f4-bd1b-6f3b2279996b"
+    "contextRole": ["border"],
+    "$ref": "8ec9adae-0093-42f4-bd1b-6f3b2279996b",
+    "uuid": "e376788b-70df-53fe-8b09-f1ff19673c93"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "border-width"
+      "part": "fill",
+      "property": "border-width",
+      "attribute": "border",
+      "options": {
+        "position": "inner"
+      }
     },
     "context": "Border",
-    "$ref": "945e0167-6893-49dd-ab21-886f93f70b92"
+    "contextRole": ["border"],
+    "$ref": "945e0167-6893-49dd-ab21-886f93f70b92",
+    "uuid": "5dc8cd69-35c1-5b54-9191-bcd1bf67c4f2"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "border-width"
+      "part": "container",
+      "property": "border-width",
+      "attribute": "border",
+      "options": {
+        "position": "outer"
+      }
     },
     "context": "Border",
-    "$ref": "fbf27473-7c97-4d94-968d-c3e68e0cd242"
+    "contextRole": ["border"],
+    "$ref": "fbf27473-7c97-4d94-968d-c3e68e0cd242",
+    "uuid": "69750493-2f85-5a56-970b-50dc1f2fe809"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+    "contextRole": ["border"],
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "uuid": "33e8370b-77c0-5a13-971c-c66be037914a"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "color"
+      "part": "fill",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "position": "inner"
+      }
     },
     "context": "Border",
-    "$ref": "0c93f310-d7c6-474b-8f07-0e8e76e2756e"
+    "contextRole": ["border"],
+    "$ref": "0c93f310-d7c6-474b-8f07-0e8e76e2756e",
+    "uuid": "c95a720d-a6f3-5427-9ab6-3683427fd8bd"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "opacity"
+      "part": "fill",
+      "property": "opacity",
+      "options": {
+        "position": "inner"
+      }
     },
     "context": "Border",
-    "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8"
+    "contextRole": ["border"],
+    "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
+    "uuid": "3c2d7d35-243f-5556-9a2d-2b2bc05ef6a3"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "position": "outer"
+      }
     },
     "context": "Border",
-    "$ref": "e4733356-090e-4bb7-b32d-ab9df30fb785"
+    "contextRole": ["border"],
+    "$ref": "e4733356-090e-4bb7-b32d-ab9df30fb785",
+    "uuid": "3d6976d2-987c-5ee1-b028-2a7eb3bc29e1"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "opacity"
+      "part": "container",
+      "property": "opacity",
+      "options": {
+        "position": "outer"
+      }
     },
     "context": "Border",
-    "$ref": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a"
+    "contextRole": ["border"],
+    "$ref": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a",
+    "uuid": "f9edf98b-f2ef-5547-8977-2529b7c3e000"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "content-color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Border (disabled)",
-    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "50fc6fdf-dd00-5f34-8a43-8a520cc06352"
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "isDisabled": true
+      }
     },
-    "context": "Border (disabled)",
-    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+    "context": "Disabled",
+    "contextRole": ["state"],
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
+    "uuid": "fc9a651b-7f49-5f3c-81aa-da578b69385e"
   },
   {
     "scope": {
@@ -132,7 +220,9 @@
   {
     "scope": {
       "component": "color-handle",
+      "part": "fill",
       "property": "color",
+      "attribute": "border",
       "options": {
         "position": "inner",
         "object": "border"
@@ -141,11 +231,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
     "uuid": "0c93f310-d7c6-474b-8f07-0e8e76e2756e",
-    "legacyKey": "color-handle-inner-border-color"
+    "legacyKey": "color-handle-inner-border-color",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "fill",
       "property": "opacity",
       "options": {
         "position": "inner",
@@ -155,12 +248,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.42",
     "uuid": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
-    "legacyKey": "color-handle-inner-border-opacity"
+    "legacyKey": "color-handle-inner-border-opacity",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "position": "outer",
         "object": "border"
@@ -169,11 +266,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
     "uuid": "e4733356-090e-4bb7-b32d-ab9df30fb785",
-    "legacyKey": "color-handle-outer-border-color"
+    "legacyKey": "color-handle-outer-border-color",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "opacity",
       "options": {
         "position": "outer",
@@ -183,26 +283,35 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
     "uuid": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a",
-    "legacyKey": "color-handle-outer-border-opacity"
+    "legacyKey": "color-handle-outer-border-opacity",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-handle",
-      "property": "border-width"
+      "part": "container",
+      "property": "border-width",
+      "attribute": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
     "uuid": "8ec9adae-0093-42f4-bd1b-6f3b2279996b",
-    "legacyKey": "color-handle-border-width"
+    "legacyKey": "color-handle-border-width",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "blur",
       "options": {
         "structure": "drop-shadow"
       }
     },
+    "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0",
     "uuid": "29e4a8c8-33ba-44b3-952d-26f3fd6ae4f0",
@@ -211,11 +320,14 @@
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "x",
       "options": {
         "structure": "drop-shadow"
       }
     },
+    "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0",
     "uuid": "49499527-3fdb-4a91-a832-0ae0631ba3bb",
@@ -224,11 +336,14 @@
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "y",
       "options": {
         "structure": "drop-shadow"
       }
     },
+    "context": "Drop shadow",
+    "contextRole": ["shadow"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0",
     "uuid": "05b11927-d0cd-46a6-ae30-6f268f143d4e",
@@ -237,7 +352,9 @@
   {
     "scope": {
       "component": "color-handle",
+      "part": "fill",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "inner"
       }
@@ -245,12 +362,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "945e0167-6893-49dd-ab21-886f93f70b92",
-    "legacyKey": "color-handle-inner-border-width"
+    "legacyKey": "color-handle-inner-border-width",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "border-width",
+      "attribute": "border",
       "options": {
         "position": "outer"
       }
@@ -258,11 +379,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "fbf27473-7c97-4d94-968d-c3e68e0cd242",
-    "legacyKey": "color-handle-outer-border-width"
+    "legacyKey": "color-handle-outer-border-width",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "desktop"
@@ -273,11 +397,14 @@
     "uuid": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444",
     "legacyKey": "color-handle-size",
     "setUuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Size",
+    "contextRole": ["size"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "size",
       "options": {
         "scale": "mobile"
@@ -288,11 +415,14 @@
     "uuid": "b81cc6a6-390f-43dc-a6c8-dd335c177da3",
     "legacyKey": "color-handle-size",
     "setUuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Size",
+    "contextRole": ["size"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "size",
       "options": {
         "state": ["keyboard-focus"],
@@ -304,11 +434,14 @@
     "uuid": "de9cc5ca-81cf-4bde-bd21-be2402e460c5",
     "legacyKey": "color-handle-size-key-focus",
     "setUuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Size",
+    "contextRole": ["size"]
   },
   {
     "scope": {
       "component": "color-handle",
+      "part": "container",
       "property": "size",
       "options": {
         "state": ["keyboard-focus"],
@@ -320,6 +453,24 @@
     "uuid": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385",
     "legacyKey": "color-handle-size-key-focus",
     "setUuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Size",
+    "contextRole": ["size"]
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "part": "container",
+      "between": {
+        "from": "container",
+        "to": "color-loupe"
+      },
+      "property": "space-between"
+    },
+    "context": "Spacing (container to color-loupe)",
+    "contextRole": ["spacing"],
+    "$ref": "92beba60-f61d-426a-a864-203dca7244a0",
+    "uuid": "836ba9d4-48c8-5769-b8df-fbad86c055f2",
+    "contextQualifier": "container to color-loupe"
   }
 ]

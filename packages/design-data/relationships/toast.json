@@ -2,322 +2,439 @@
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "height"
     },
     "context": "Height",
-    "$ref": "a6267318-c8b1-43d4-99b6-ca2a55e9dff4"
+    "contextRole": ["height"],
+    "$ref": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d",
+    "uuid": "d34b3972-f51d-5eb2-b532-b83e208e6545"
   },
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "height"
     },
     "context": "Height",
-    "$ref": "12c8ae92-16b9-48ec-801c-bf07785da4b3"
+    "contextRole": ["height"],
+    "$ref": "29848bbc-2cd1-5ca9-a0ee-238b841b1a28",
+    "uuid": "45d3224b-8df9-5ad2-bd51-f6dbbe232468"
   },
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "maximum-width"
     },
     "context": "Width (maximum)",
-    "$ref": "9ac252c8-06dd-48a9-a3d3-ca8ccfb355dd"
+    "contextRole": ["width"],
+    "contextQualifier": "maximum",
+    "$ref": "b377dd74-b519-4a29-bba1-870b1861915a",
+    "uuid": "8f1899e9-aa73-5f76-b4b8-ed3641fc946b"
   },
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "maximum-width"
     },
     "context": "Width (maximum)",
-    "$ref": "a4de5997-1eb1-430f-9a9f-cf2637d02d34"
+    "contextRole": ["width"],
+    "contextQualifier": "maximum",
+    "$ref": "61fd56ca-7da4-5336-bc33-8f0df04b8b46",
+    "uuid": "a9e232cb-84a5-5e40-86cd-33bf3fda9ed3"
   },
   {
     "scope": {
       "component": "toast",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
-    "$ref": "8fc023ca-8aec-40fe-9130-087aa035bac7"
+    "contextRole": ["rounding"],
+    "$ref": "8fc023ca-8aec-40fe-9130-087aa035bac7",
+    "uuid": "83fd26f4-d83d-575b-9ad0-83c34b6cb12c"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size"
     },
     "context": "Icon",
-    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+    "contextRole": ["icon"],
+    "$ref": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5",
+    "uuid": "b437db88-e6f5-579a-b9f9-4294d9c32370"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size"
     },
     "context": "Icon",
-    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+    "contextRole": ["icon"],
+    "$ref": "f272e08b-f6e6-4681-8dc0-abe071b8977a",
+    "uuid": "9bbad538-8028-5eb9-97c4-c9705610791f"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "text"
+      }
     },
     "context": "Spacing (icon to text)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
+    "contextRole": ["spacing"],
+    "contextQualifier": "icon to text",
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "ea74a7d6-9814-57c5-a8cf-41cc655cc0a0"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
-    },
-    "context": "Spacing (icon to text)",
-    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "text",
+        "to": "button"
+      }
     },
     "context": "Spacing (text to button, horizontal)",
-    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5"
+    "contextRole": ["spacing"],
+    "contextQualifier": "text to button, horizontal",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "uuid": "32531f17-e2e8-583a-a971-f501ab7cbf4e"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      }
     },
     "context": "Spacing (start edge to text and icon)",
-    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+    "contextRole": ["spacing"],
+    "contextQualifier": "start edge to text and icon",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
+    "uuid": "4963789c-53af-544c-bad1-49ced3b47e87"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "button",
+        "to": "close-button"
+      }
     },
     "context": "Spacing (button to close button, horizontal)",
-    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+    "contextRole": ["spacing"],
+    "contextQualifier": "button to close button, horizontal",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "8cf995c0-4030-548b-b4ce-b971070e383d"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "spacing"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "close-button"
+      }
     },
     "context": "Spacing (close button to end edge)",
-    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+    "contextRole": ["spacing"],
+    "contextQualifier": "close button to end edge",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "c38a05cc-2798-5e0c-bb5e-cbdeaca03e8d"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "18px (desktop), 20px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
+    "uuid": "0bff066d-b4b6-5175-8fd4-7a98b782e940"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
-    },
-    "context": "18px (desktop), 20px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "space-between"
-    },
-    "context": "18px (desktop), 20px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "space-between"
-    },
-    "context": "18px (desktop), 20px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      }
     },
     "context": "20px (desktop), 22px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
+    "uuid": "4b43756a-1aa3-563a-89c5-28175758e8b7"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "space-between"
-    },
-    "context": "20px (desktop), 22px (mobile)",
-    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
-    "$ref": "3b09b2fd-cbf9-4933-9655-27a75d984f06"
+    "contextRole": ["background"],
+    "$ref": "3b09b2fd-cbf9-4933-9655-27a75d984f06",
+    "uuid": "b5ef3830-4405-5bb7-b3d9-a156e058d3d8"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
-    "$ref": "bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef"
+    "contextRole": ["background"],
+    "$ref": "bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef",
+    "uuid": "3d08e31d-963e-541a-aa80-6d17ff45216f"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
     },
     "context": "Background",
-    "$ref": "fdcab585-e3a9-4026-bf40-e7fdd01bf05b"
+    "contextRole": ["background"],
+    "$ref": "fdcab585-e3a9-4026-bf40-e7fdd01bf05b",
+    "uuid": "f2575941-4302-53ac-b764-0185934f50d3"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
-    "$ref": "3acd52f0-d19c-4174-9ad5-42885ec9d49d"
+    "contextRole": ["background"],
+    "$ref": "3acd52f0-d19c-4174-9ad5-42885ec9d49d",
+    "uuid": "92ba7d0d-f1b7-57cd-afd6-2f3474bcb3e7"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
-    "$ref": "da3a7c08-7f54-4486-bb66-146db21f0627"
+    "contextRole": ["background"],
+    "$ref": "da3a7c08-7f54-4486-bb66-146db21f0627",
+    "uuid": "b091a686-4a96-52e8-a5c7-0edf0e0b7816"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "informative"
+      }
     },
     "context": "Background",
-    "$ref": "02e7121e-71eb-4228-a61a-963d7f2a531b"
+    "contextRole": ["background"],
+    "$ref": "02e7121e-71eb-4228-a61a-963d7f2a531b",
+    "uuid": "abcca3fb-75bc-5272-b49c-9f8d6812c3a9"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Background",
-    "$ref": "d878d795-2292-4d90-a9e2-37af1d97a532"
+    "contextRole": ["background"],
+    "$ref": "d878d795-2292-4d90-a9e2-37af1d97a532",
+    "uuid": "477a4a28-bf23-5572-a971-9688401409bc"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Background",
-    "$ref": "82b54f71-7c9e-4388-9e3b-4d13f12fad60"
+    "contextRole": ["background"],
+    "$ref": "82b54f71-7c9e-4388-9e3b-4d13f12fad60",
+    "uuid": "76faf7fa-5ff1-5034-a449-d6f964d8c1ba"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "positive"
+      }
     },
     "context": "Background",
-    "$ref": "27688f39-6b46-4b40-a3c5-67694a0ff672"
+    "contextRole": ["background"],
+    "$ref": "27688f39-6b46-4b40-a3c5-67694a0ff672",
+    "uuid": "b3049504-1bb0-503c-8fbb-66f0982d76f1"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
-    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc"
+    "contextRole": ["background"],
+    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc",
+    "uuid": "a4c48986-f584-5810-bfba-1d919c151f18"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
-    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb"
+    "contextRole": ["background"],
+    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb",
+    "uuid": "8c4b577b-6895-5771-bfcd-0f5a57411578"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "negative"
+      }
     },
     "context": "Background",
-    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5"
+    "contextRole": ["background"],
+    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5",
+    "uuid": "b6376d4d-dd20-522d-9672-20d3679c9a95"
   },
   {
     "scope": {
       "component": "toast",
+      "part": "text",
       "property": "color"
     },
     "context": "Text and icon",
-    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+    "contextRole": ["label", "icon"],
+    "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
+    "uuid": "99b84917-3395-5795-a62f-7a1fda121a29"
   },
   {
     "scope": {
       "component": "toast",
-      "property": "font-family"
-    },
-    "context": "Value",
-    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "font-weight"
-    },
-    "context": "Value",
-    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "font-style"
-    },
-    "context": "Value",
-    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "font-size-100"
-    },
-    "context": "Value",
-    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "font-size-100"
-    },
-    "context": "Value",
-    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "line-height-100"
-    },
-    "context": "Value",
-    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
-  },
-  {
-    "scope": {
-      "component": "toast",
-      "property": "line-height-100"
-    },
-    "context": "Value",
-    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
-  },
-  {
-    "scope": {
-      "component": "toast",
+      "part": "icon",
       "property": "color"
     },
-    "context": "Toast token changes (Jan 2025)",
-    "$ref": "95cf1481-f476-47ce-a45a-54da64b44255"
+    "context": "Text and icon",
+    "contextRole": ["label", "icon"],
+    "$ref": "2b2717e1-3479-4dab-9609-0d694993a1af",
+    "uuid": "1544f5d1-c9f6-5a72-82fa-6b2263ab10bc"
+  },
+  {
+    "scope": {
+      "component": "toast",
+      "part": "text",
+      "property": "line-height"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
+    "uuid": "77cb0b9f-8654-59ca-b86b-19ff4cc26d56"
+  },
+  {
+    "scope": {
+      "component": "toast",
+      "part": "text",
+      "property": "line-height"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
+    "uuid": "d2a0bd68-c8ba-5b72-ac1d-f1640acbc1b5"
+  },
+  {
+    "scope": {
+      "component": "toast",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "876ed969-e1eb-54bd-bad6-19b87411a327"
+  },
+  {
+    "scope": {
+      "component": "toast",
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "variant": "neutral"
+      }
+    },
+    "context": "Background",
+    "$ref": "95cf1481-f476-47ce-a45a-54da64b44255",
+    "uuid": "7f343eb3-37f6-5e3d-9e1a-2a320d9182b9",
+    "contextRole": ["background"]
   },
   {
     "scope": {
@@ -376,7 +493,13 @@
     "uuid": "a6267318-c8b1-43d4-99b6-ca2a55e9dff4",
     "legacyKey": "toast-height",
     "setUuid": "28138e79-4a91-4446-a07e-7c8bac379b18",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Content + padding derived; matches banner-height exactly.",
+      "replacedBy": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 396 of the mapping sheet."
   },
   {
     "scope": {
@@ -391,7 +514,13 @@
     "uuid": "12c8ae92-16b9-48ec-801c-bf07785da4b3",
     "legacyKey": "toast-height",
     "setUuid": "28138e79-4a91-4446-a07e-7c8bac379b18",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Content + padding derived; matches banner-height exactly.",
+      "replacedBy": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 396 of the mapping sheet."
   },
   {
     "scope": {
@@ -406,7 +535,13 @@
     "uuid": "9ac252c8-06dd-48a9-a3d3-ca8ccfb355dd",
     "legacyKey": "toast-maximum-width",
     "setUuid": "e8dc3919-27bb-4fec-9c7c-7842ca1e6946",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared banner-maximum-width token.",
+      "replacedBy": "b377dd74-b519-4a29-bba1-870b1861915a"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 397 of the mapping sheet."
   },
   {
     "scope": {
@@ -421,7 +556,13 @@
     "uuid": "a4de5997-1eb1-430f-9a9f-cf2637d02d34",
     "legacyKey": "toast-maximum-width",
     "setUuid": "e8dc3919-27bb-4fec-9c7c-7842ca1e6946",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared banner-maximum-width token.",
+      "replacedBy": "b377dd74-b519-4a29-bba1-870b1861915a"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 397 of the mapping sheet."
   },
   {
     "scope": {

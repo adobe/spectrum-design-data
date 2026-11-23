@@ -4,9 +4,12 @@
       "scope": {
         "component": "button",
         "property": "background-color",
-        "options": { "state": ["jello"] }
+        "options": {
+          "state": ["jello"]
+        }
       },
-      "value": "#ff0000"
+      "value": "#ff0000",
+      "uuid": "086517d9-47ec-5a21-b65e-d169985c77b1"
     }
   ],
   "components": [
@@ -14,10 +17,20 @@
       "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
       "name": "button",
       "displayName": "Button",
-      "meta": { "category": "actions" },
+      "meta": {
+        "category": "actions"
+      },
       "states": [
-        { "name": "hover", "trigger": "interaction", "precedence": 50 },
-        { "name": "disabled", "trigger": "prop", "precedence": 100 }
+        {
+          "name": "hover",
+          "trigger": "interaction",
+          "precedence": 50
+        },
+        {
+          "name": "disabled",
+          "trigger": "prop",
+          "precedence": 100
+        }
       ]
     }
   ]

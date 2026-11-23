@@ -1,0 +1,260 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "coach-mark",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom/start/end edge to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom/start/end edge to text)","name":"space-between","fields":[{"path":"$ref","before":"d5a3e2c7-f717-4436-91a3-3ab34aebd48e","after":"2e855806-0f65-4df0-9d8f-74428daa358d"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom/start/end edge to text)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (top/bottom/start/end edge to text)","name":"space-between","fields":[{"path":"$ref","before":"11fb0ab2-d6a0-4da8-9c83-c1f6b918406a","after":"2e855806-0f65-4df0-9d8f-74428daa358d"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (pagination to bottom)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (pagination to bottom)","name":"space-between","fields":[{"path":"$ref","before":"d2ff2d4f-058e-412b-9e16-1725d6d29e25","after":"2e855806-0f65-4df0-9d8f-74428daa358d"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (pagination to bottom)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (pagination to bottom)","name":"space-between","fields":[{"path":"$ref","before":"cd48e6b7-a4d8-4a22-8d65-531d770a9898","after":"2e855806-0f65-4df0-9d8f-74428daa358d"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":6,"fields":["conceptId"]}
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["relationship removed"]}
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":33,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":null},"record":"0cb6ac3e-df42-5768-9bcd-bbece9ab65d6","name":"width","fields":[{"path":"$ref","before":"49d1e2be-3aa2-4515-ba54-7f6cf3ab007c","after":"bf7f7ce5-d007-4a0b-991a-9df8ee692d49"}]},
+            {"id":"0b8924f1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":null},"record":"e7a86e86-a669-59b1-aec0-515f659ac9a8","name":"width","fields":[{"path":"$ref","before":"b3f14387-44fd-43d3-a152-c8e691ef87df","after":"88275409-4b27-5174-93c3-fcd00ed110ef"}]},
+            {"id":"0b8924f1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"minimum-width","options":null},"record":"dc4baf04-5315-5bc9-be04-83ae1d01f441","name":"minimum-width","fields":[{"path":"$ref","before":"9f413341-5ed5-4cd0-8348-1c7141dcab8d","after":"bf7f7ce5-d007-4a0b-991a-9df8ee692d49"}]},
+            {"id":"0b8924f1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"minimum-width","options":null},"record":"ef7764b0-6d41-5489-ae48-27ec8ad5bd9c","name":"minimum-width","fields":[{"path":"$ref","before":"9004d69e-5726-42f5-a4d0-de09db2de784","after":"88275409-4b27-5174-93c3-fcd00ed110ef"}]},
+            {"id":"0b8924f1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"maximum-width","options":null},"record":"05828929-40a3-5685-ac12-7b7610f93562","name":"maximum-width","fields":[{"path":"$ref","before":"07cdeb95-d368-4ed1-ba29-6b9ddeae1396","after":"0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa"}]},
+            {"id":"0b8924f1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"maximum-width","options":null},"record":"21e347ee-28d6-599c-b649-e3d8489ce04a","name":"maximum-width","fields":[{"path":"$ref","before":"7f8346b2-f8bf-441d-8412-2a2a28cf4b90","after":"a44e6674-a29c-50a6-aacf-189e380d87e2"}]},
+            {"id":"0b8924f1-6","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"maximum-width","options":{"scale":"desktop"}},"record":"07cdeb95-d368-4ed1-ba29-6b9ddeae1396","name":"maximum-width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa"}],"rationale":"Deprecated via refine-from-sheets from row 107 of the mapping sheet."},
+            {"id":"0b8924f1-7","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"maximum-width","options":{"scale":"desktop"}},"record":"07cdeb95-d368-4ed1-ba29-6b9ddeae1396","name":"maximum-width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 107 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 107 of the mapping sheet."},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"maximum-width","options":{"scale":"mobile"}},"record":"7f8346b2-f8bf-441d-8412-2a2a28cf4b90","name":"maximum-width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa"}],"rationale":"Deprecated via refine-from-sheets from row 107 of the mapping sheet."},
+            {"id":"0b8924f1-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"maximum-width","options":{"scale":"mobile"}},"record":"7f8346b2-f8bf-441d-8412-2a2a28cf4b90","name":"maximum-width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 107 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 107 of the mapping sheet."},
+            {"id":"0b8924f1-10","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Media (4:3)"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"f6381a33-ac4e-4ff9-86a3-183c857772ad","name":"height[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"0f95b804-e429-45ca-a809-a386bdfc463d"}]},
+            {"id":"0b8924f1-11","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Media (4:3)"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"f6381a33-ac4e-4ff9-86a3-183c857772ad","name":"height[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced by calculated sizing: the media width divided by the aspect ratio (aspect-ratio-200), not a fixed height."}]},
+            {"id":"0b8924f1-12","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Media (4:3)"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"45b31e46-b878-40a2-a28a-91c480f45253","name":"height[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"0f95b804-e429-45ca-a809-a386bdfc463d"}]},
+            {"id":"0b8924f1-13","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Media (4:3)"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"45b31e46-b878-40a2-a28a-91c480f45253","name":"height[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced by calculated sizing: the media width divided by the aspect ratio (aspect-ratio-200), not a fixed height."}]},
+            {"id":"0b8924f1-14","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Media (16:9)"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"e62c5a76-685c-4b48-98bb-746d6dd4b10e","name":"minimum-height[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"d9a794f7-9127-4c24-8627-d97fdfdf0b03"}]},
+            {"id":"0b8924f1-15","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Media (16:9)"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"e62c5a76-685c-4b48-98bb-746d6dd4b10e","name":"minimum-height[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced by calculated sizing: the media width divided by the aspect ratio (aspect-ratio-400), not a fixed height."}]},
+            {"id":"0b8924f1-16","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Media (16:9)"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"53703e12-f837-4573-bd44-e4727ed2aeaa","name":"minimum-height[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"d9a794f7-9127-4c24-8627-d97fdfdf0b03"}]},
+            {"id":"0b8924f1-17","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Media (16:9)"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"53703e12-f837-4573-bd44-e4727ed2aeaa","name":"minimum-height[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Replaced by calculated sizing: the media width divided by the aspect ratio (aspect-ratio-400), not a fixed height."}]},
+            {"id":"0b8924f1-18","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"minimum-width","options":{"scale":"desktop"}},"record":"9f413341-5ed5-4cd0-8348-1c7141dcab8d","name":"minimum-width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"bf7f7ce5-d007-4a0b-991a-9df8ee692d49"}],"rationale":"Deprecated via refine-from-sheets from row 110 of the mapping sheet."},
+            {"id":"0b8924f1-19","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"minimum-width","options":{"scale":"desktop"}},"record":"9f413341-5ed5-4cd0-8348-1c7141dcab8d","name":"minimum-width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-minimum-width-* scale; grow-only floor, no independent minimum below the default."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 110 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 110 of the mapping sheet."},
+            {"id":"0b8924f1-20","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"minimum-width","options":{"scale":"mobile"}},"record":"9004d69e-5726-42f5-a4d0-de09db2de784","name":"minimum-width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"bf7f7ce5-d007-4a0b-991a-9df8ee692d49"}],"rationale":"Deprecated via refine-from-sheets from row 110 of the mapping sheet."},
+            {"id":"0b8924f1-21","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"minimum-width","options":{"scale":"mobile"}},"record":"9004d69e-5726-42f5-a4d0-de09db2de784","name":"minimum-width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-minimum-width-* scale; grow-only floor, no independent minimum below the default."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 110 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 110 of the mapping sheet."},
+            {"id":"0b8924f1-22","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"49d1e2be-3aa2-4515-ba54-7f6cf3ab007c","name":"width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"bf7f7ce5-d007-4a0b-991a-9df8ee692d49"}],"rationale":"Deprecated via refine-from-sheets from row 111 of the mapping sheet."},
+            {"id":"0b8924f1-23","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"49d1e2be-3aa2-4515-ba54-7f6cf3ab007c","name":"width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-minimum-width-* scale; renders at this size by default and grows to the maximum, no smaller floor of its own."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 111 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 111 of the mapping sheet."},
+            {"id":"0b8924f1-24","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"b3f14387-44fd-43d3-a152-c8e691ef87df","name":"width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"bf7f7ce5-d007-4a0b-991a-9df8ee692d49"}],"rationale":"Deprecated via refine-from-sheets from row 111 of the mapping sheet."},
+            {"id":"0b8924f1-25","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"b3f14387-44fd-43d3-a152-c8e691ef87df","name":"width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-minimum-width-* scale; renders at this size by default and grows to the maximum, no smaller floor of its own."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 111 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 111 of the mapping sheet."}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.24.0",
+      "version": "1.0.6",
+      "bump": "patch",
+      "date": "2026-11-19",
+      "commit": "e1b3e4ac83eddfbc6056b5fa247d7ae7f23583ac",
+      "commits": [
+        {
+          "commit": "676b08d9d3ed808075c931240c3a1ba438efdda4",
+          "date": "2026-11-19",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1964,"title":"feat(design-data): review anatomy of body, heading, detail, title, code (A1)","url":"https://github.com/adobe/spectrum-design-data/pull/1964"},
+          "entries": [],
+          "metadata": {"count":9,"fields":["context","contextRole","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "de570f2598546e75f64ec6ae4322771c26569e89",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2000,"title":"feat(design-data): anatomy review and identity migration of anchored overlays and modal dialogs","url":"https://github.com/adobe/spectrum-design-data/pull/2000"},
+          "entries": [
+            {"id":"de570f25-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"0cb6ac3e-df42-5768-9bcd-bbece9ab65d6","name":"width[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"e7a86e86-a669-59b1-aec0-515f659ac9a8","name":"width[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"minimum-width","options":{"scale":"desktop"}},"record":"dc4baf04-5315-5bc9-be04-83ae1d01f441","name":"minimum-width[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"minimum-width","options":{"scale":"mobile"}},"record":"ef7764b0-6d41-5489-ae48-27ec8ad5bd9c","name":"minimum-width[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"maximum-width","options":{"scale":"desktop"}},"record":"05828929-40a3-5685-ac12-7b7610f93562","name":"maximum-width[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Width"],"scope":{"property":"maximum-width","options":{"scale":"mobile"}},"record":"21e347ee-28d6-599c-b649-e3d8489ce04a","name":"maximum-width[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom/start/end edge to text)"],"scope":{"property":"padding","options":null},"record":"9c7f021b-4567-5c6e-9ae1-3eb77bd6c855","name":"padding","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"space-between","after":"padding"}]},
+            {"id":"de570f25-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (pagination to bottom)"],"scope":{"property":"space-between","options":null},"record":"d4fcb4b4-049d-5102-9e2b-9840e0ead5f1","name":"space-between","fields":[{"path":"scope.between.from","after":"pagination"},{"path":"scope.between.to","after":"container"}]},
+            {"id":"de570f25-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Media (16:9)"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"85e83e0f-f2f6-5dc6-b06a-c632f1502af6","name":"minimum-height[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-9","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Media (16:9)"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"85e83e0f-f2f6-5dc6-b06a-c632f1502af6","name":"minimum-height[scale=desktop]","fields":[{"path":"scope.part","after":"cover-image"}]},
+            {"id":"de570f25-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Media (16:9)"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"5d92d7b9-6e09-5878-84cb-e744af5fdb2c","name":"minimum-height[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-11","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Media (16:9)"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"5d92d7b9-6e09-5878-84cb-e744af5fdb2c","name":"minimum-height[scale=mobile]","fields":[{"path":"scope.part","after":"cover-image"}]},
+            {"id":"de570f25-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Media (4:3)"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"a7c080be-0510-5c85-b357-900051cd0ca1","name":"height[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-13","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Media (4:3)"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"a7c080be-0510-5c85-b357-900051cd0ca1","name":"height[scale=desktop]","fields":[{"path":"scope.part","after":"cover-image"}]},
+            {"id":"de570f25-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Media (4:3)"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"e6ad01fa-1b5b-54af-a0b1-72d9d51dd8b5","name":"height[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Media (4:3)"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"e6ad01fa-1b5b-54af-a0b1-72d9d51dd8b5","name":"height[scale=mobile]","fields":[{"path":"scope.part","after":"cover-image"}]},
+            {"id":"de570f25-16","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (action button to menu)"],"scope":{"property":"space-between","options":null},"record":"7188921e-5386-5a95-98e0-b51296686045","name":"space-between","fields":[{"path":"scope.between.from","after":"action-button"},{"path":"scope.between.to","after":"menu-container"},{"path":"scope.property","before":"spacing","after":"space-between"}]},
+            {"id":"de570f25-17","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-family","options":null},"record":"6d532503-e6cc-5eac-b0e8-1eb5ddb53012","name":"font-family","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-18","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-weight","options":null},"record":"340a70b4-00c7-561a-b0e8-c0d1e0be0aa2","name":"font-weight","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-19","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-style","options":null},"record":"e6df8e20-8f4c-558a-aba8-febd1f844318","name":"font-style","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-20","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"f1d98ddd-e812-5dab-b9d7-11de7ac78b08","name":"font-size[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-21","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"f1d98ddd-e812-5dab-b9d7-11de7ac78b08","name":"font-size[scale=desktop]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-22","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"5e4d3179-2e2b-5949-82e0-5876120ce7f4","name":"font-size[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-23","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"5e4d3179-2e2b-5949-82e0-5876120ce7f4","name":"font-size[scale=mobile]","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-24","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Title"],"scope":{"property":"line-height","options":null},"record":"43d592a1-4634-58bf-ad3d-2145ff818875","name":"line-height","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-25","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-family","options":null},"record":"8e2f2586-b455-5a7b-aee4-381a91120b23","name":"font-family","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-26","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-weight","options":null},"record":"038b7393-f5ca-54ef-9b09-69a4ba4628cc","name":"font-weight","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-27","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-style","options":null},"record":"14a6ff10-448d-5195-837f-b829fe97a76f","name":"font-style","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-28","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"5f9a090a-54b8-5ae6-84a6-2b1b54d5e473","name":"font-size[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-29","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"5f9a090a-54b8-5ae6-84a6-2b1b54d5e473","name":"font-size[scale=desktop]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-30","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"c797942b-2a80-5a38-9d56-dc27d2f759f6","name":"font-size[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-31","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"c797942b-2a80-5a38-9d56-dc27d2f759f6","name":"font-size[scale=mobile]","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-32","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Body"],"scope":{"property":"line-height","options":null},"record":"20dda3b7-d889-5dfc-877d-0389d97b8545","name":"line-height","fields":[{"path":"scope.part","after":"description"},{"path":"scope.property","before":"line-height-200","after":"line-height"}]},
+            {"id":"de570f25-33","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Pagination"],"scope":{"property":"font-weight","options":null},"record":"cf612470-9ca9-527c-84e0-ef0bd0fa2401","name":"font-weight","fields":[{"path":"scope.part","after":"pagination"}]},
+            {"id":"de570f25-34","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Pagination"],"scope":{"property":"font-size","options":null},"record":"31999b20-7615-5c2e-a8a0-e6f7d84e9851","name":"font-size","fields":[{"path":"scope.part","after":"pagination"}]},
+            {"id":"de570f25-35","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Pagination"],"scope":{"property":"font-size","options":null},"record":"98dab4a6-7c2f-59d7-9088-73cb271ebb91","name":"font-size","fields":[{"path":"scope.part","after":"pagination"}]},
+            {"id":"de570f25-36","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"9217690b-1582-56c8-bb16-1bd862bbdd20","name":"color","fields":[{"path":"scope.part","after":"title"}]},
+            {"id":"de570f25-37","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"acd03366-c68b-5bf5-a98d-4dfabb580223","name":"color","fields":[{"path":"scope.part","after":"description"}]},
+            {"id":"de570f25-38","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"41510f6d-d0c1-502d-b2c0-e373af8e14ff","name":"color","fields":[{"path":"scope.part","after":"pagination"}]},
+            {"id":"de570f25-39","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"coach-mark/anatomy/body","name":"body","fields":[],"before":{"name":"body"}},
+            {"id":"de570f25-40","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"coach-mark/anatomy/media","name":"media","fields":[],"before":{"name":"media"}},
+            {"id":"de570f25-41","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"coach-mark/anatomy/pagination-text","name":"pagination-text","fields":[],"before":{"name":"pagination-text","description":"Text indicating step position (e.g. '2 of 5')."}},
+            {"id":"de570f25-42","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/anatomy/action-button","name":"action-button","fields":[],"after":{"name":"action-button","description":"The action-button component at the top, usually opening a menu. Drawn with topActionLabel."}},
+            {"id":"de570f25-43","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/anatomy/button-group","name":"button-group","fields":[],"after":{"name":"button-group","description":"The button-group component in the footer. Its buttons are slot fills; the action label options map to them."}},
+            {"id":"de570f25-44","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Card surface. It is the root and carries the width limits, padding, rounding, background and drop shadow.","required":true,"contains":["cover-image","title","keyboard-shortcut","action-button","description","pagination","button-group"]}},
+            {"id":"de570f25-45","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/anatomy/cover-image","name":"cover-image","fields":[],"after":{"name":"cover-image","description":"Optional image at the top, 16:9 or 4:3. Hidden with hideImage."}},
+            {"id":"de570f25-46","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Explanatory text."}},
+            {"id":"de570f25-47","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/anatomy/keyboard-shortcut","name":"keyboard-shortcut","fields":[],"after":{"name":"keyboard-shortcut","description":"Optional keyboard shortcut hint next to the title. A plain part until a keyboard-shortcut component exists."}},
+            {"id":"de570f25-48","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/anatomy/menu-container","name":"menu-container","fields":[],"after":{"name":"menu-container","description":"Floating menu that opens from the action button. A top-level part, as in picker and combo-box."}},
+            {"id":"de570f25-49","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"coach-mark/anatomy/pagination","name":"pagination","fields":[{"path":"description","after":"Step count text such as \"2 of 5\"."}]},
+            {"id":"de570f25-50","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"coach-mark/anatomy/title","name":"title","fields":[{"path":"required","after":true}]},
+            {"id":"de570f25-51","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"coach-mark/anatomy/title","name":"title","fields":[{"path":"description","after":"Coach mark title."}]},
+            {"id":"de570f25-52","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"coach-mark/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web coach mark (cover image, card content with header, description and footer; the elevated shadow on the root) and React Spectrum S2 CoachMark (popover surface, image, title, keyboard, description, menu, steps, footer buttons). Decisions (Garth, 2026-11-20 and defaults): C5 description; C6 cover-image (renamed from media); C4 button-group. pagination-text is deleted: it duplicates pagination and the legacy records use pagination. No tip: Figma draws none (RSP has an arrow when anchored). The container is now explicit. keyboard-shortcut is a plain part (no component yet)."}]}
+          ],
+          "metadata": {"count":19,"fields":["anatomyReview.reviewedIn","anatomyReview.status","context","contextRole","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.1",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "6f91b0186b2b8907ab6ece55b4c0a5984dcc4fdb",
+      "commits": [
+        {
+          "commit": "cc2bccd6fde88765f41ff4be282bc7dba58d8762",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2031,"title":"feat(design-data): migrate drop-zone, illustrated-message, coach-mark and contextual-help to level 2","url":"https://github.com/adobe/spectrum-design-data/pull/2031"},
+          "entries": [
+            {"id":"cc2bccd6-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"9217690b-1582-56c8-bb16-1bd862bbdd20","name":"color","fields":[{"path":"scope.attribute","after":"background"}]},
+            {"id":"cc2bccd6-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"acd03366-c68b-5bf5-a98d-4dfabb580223","name":"color","fields":[{"path":"scope.attribute","after":"background"}]},
+            {"id":"cc2bccd6-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"scope":{"property":"color","options":null},"record":"41510f6d-d0c1-502d-b2c0-e373af8e14ff","name":"color","fields":[{"path":"scope.attribute","after":"background"}]}
+          ],
+          "metadata": {"count":2,"fields":["scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"coach-mark/anatomy/action-button","name":"action-button","fields":[{"path":"component","after":"action-button"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"coach-mark/anatomy/button-group","name":"button-group","fields":[{"path":"component","after":"button-group"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "feb65dc75506e06fe04dfc143cd80ac365945c98",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2076,"title":"feat(design-data): add contextual-help and coach-mark visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2076"},
+          "entries": [
+            {"id":"feb65dc7-0","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/slots/button-group","name":"button-group","fields":[],"after":{"name":"button-group","part":"button-group","accepts":["button"],"acceptsOnly":true,"min":1,"max":2,"description":"The footer actions. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22)."}},
+            {"id":"feb65dc7-1","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/visual","name":"coach-mark","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

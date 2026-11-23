@@ -1,0 +1,14 @@
+{
+  "specVersion": "1.0.0-draft",
+  "platform": "fixture-apply",
+  "foundationVersion": "3.7.0",
+  "extensions": {
+    "platformExtensions": [
+      {
+        "platform": "fixture-apply",
+        "extends": "no-such-mode-set",
+        "termId": "x"
+      }
+    ]
+  }
+}

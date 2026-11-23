@@ -1,0 +1,205 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "popover",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (left/right edge to content area)"],"scope":{"property":"space-between","options":null},"record":"space-between#Spacing (left/right edge to content area)","name":"space-between","fields":[{"path":"$ref","before":"2a3bd47e-fde5-41d3-a585-f970bdefaf07","after":"c872da51-317e-44cf-aef8-2f5f9fb77ae8"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":10,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.0.4",
+      "bump": "patch",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/0","name":"guideline: Source.\n\nPopovers stem off of action buttons tha","fields":[{"path":"content","before":"Popovers are containers for transient content like menus, options, or additional actions. They float above the interface and stand out visually using stroke and drop shadow.","after":"Source.\n\nPopovers stem off of action buttons that act as a source to open up transient content."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/1","name":"guideline: Animation.\n\nWhen displaying a popover, it should","fields":[{"path":"content","before":"To keep a popover within certain boundaries, such as a browser window, define a container and a container padding value.","after":"Animation.\n\nWhen displaying a popover, it should animate from its source to reinforce the connection between popover and source. It should fade in and slide with subtle motion from the source."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/2","name":"guideline: Dismissing a popover.\n\nA popover can be dismisse","fields":[{"path":"content","before":"The cross offset is the placement offset on the cross axis: the x-axis for top and bottom positions, and the y-axis for left and right positions.","after":"Dismissing a popover.\n\nA popover can be dismissed by clicking or tapping anywhere outside it, including the source, or by selecting an option or taking an action inside the popover."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/3","name":"guideline: Popovers vs. trays.\n\nTrays can be used as altern","fields":[{"path":"content","before":"The offset is the space between the source and the popover (or tip, if present). Adjust it as needed to align visually with the source’s perceived bounds and maintain a balanced relationship between the two elements.","after":"Popovers vs. trays.\n\nTrays can be used as alternatives to popovers on small screens. Use a tray when the amount of content is too large or overwhelming for a popover."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/4","name":"guideline: Show tip when source is ambiguous.\n\nWhen the sou","fields":[{"path":"content","before":"A popover is positioned in relation to its source.","after":"Show tip when source is ambiguous.\n\nWhen the source that triggers the popover does not have a visually distinct down state, use a popover with a tip to clearly indicate the connection to its source."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/5","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the lay","fields":[{"path":"content","before":"Popovers usually appear without a tip and rely on a distinct down state in the source to show their origin. When the source lacks that visual cue, add a tip to reinforce the connection between the popover and its source.","after":"RTL.\n\nFor RTL (right-to-left) languages, the layout of the popover is mirrored. Text is right-aligned and buttons are left-aligned."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/6","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"A popover’s height can be customized appropriately for its context.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus onto or off of the button. Space or Enter Executes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/7","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer Use the","fields":[{"path":"content","before":"A popover’s width can be customized appropriately for its context.","after":"Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for all interactive components."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/8","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"Popovers stem off of action buttons that act as a source to open up transient content.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Buttons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Buttons should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/9","name":"guideline: When displaying a popover, it should animate fro","fields":[],"before":{"type":"guideline","content":"When displaying a popover, it should animate from its source to reinforce the connection between popover and source. It should fade in and slide with subtle motion from the source."}},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/10","name":"guideline: A popover can be dismissed by clicking or tappin","fields":[],"before":{"type":"guideline","content":"A popover can be dismissed by clicking or tapping anywhere outside it, including the source, or by selecting an option or taking an action inside the popover."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/11","name":"guideline: Trays can be used as alternatives to popovers on","fields":[],"before":{"type":"guideline","content":"Trays can be used as alternatives to popovers on small screens. Use a tray when the amount of content is too large or overwhelming for a popover."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/documentBlocks/12","name":"guideline: When the source that triggers the popover does n","fields":[],"before":{"type":"guideline","content":"When the source that triggers the popover does not have a visually distinct down state, use a popover with a tip to clearly indicate the connection to its source."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.5",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "ea86c6d75726d6d9b1ba24c209328a4d386cc274",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1766,"title":"feat(design-data): add relationship contexts to stack-item, card, popover and seven more components","url":"https://github.com/adobe/spectrum-design-data/pull/1766"},
+          "entries": [],
+          "metadata": {"count":3,"fields":["context","contextRole"]}
+        },
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":16,"fields":["contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Surface holding the content; border and drop shadow are container styling.","required":true,"contains":["tip"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/tip","name":"tip","fields":[],"after":{"name":"tip","description":"Arrow pointing at the source; shares the surface fill and border; hidden when the tip is off."}},
+            {"id":"12ddd7e7-2","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"RSP Popover.tsx:165-271 and gen2 popover.css:183-200 (tip shares surface fill/border, shadow on container); content dropped (no own style); relationship part tip kept."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "de570f2598546e75f64ec6ae4322771c26569e89",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2000,"title":"feat(design-data): anatomy review and identity migration of anchored overlays and modal dialogs","url":"https://github.com/adobe/spectrum-design-data/pull/2000"},
+          "entries": [
+            {"id":"de570f25-0","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":null},"record":"1e63da8d-d557-56fb-bf33-826f814cefbd","name":"width","fields":[{"path":"scope.part","after":"tip"}]},
+            {"id":"de570f25-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":null},"record":"4359f741-10e0-5a01-b85b-8c49a6c01f5d","name":"height","fields":[{"path":"scope.part","after":"tip"}]},
+            {"id":"de570f25-2","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (left/right edge to content area)"],"scope":{"property":"padding","options":null},"record":"eb9395f9-48d4-50ca-9425-4a1742accea2","name":"padding","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"space-between","after":"padding"}]},
+            {"id":"de570f25-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (tip to source)"],"scope":{"property":"margin","options":null},"record":"cfc223bc-a1c0-53c5-b5d0-bafe6e9dfbd1","name":"margin","fields":[{"path":"scope.part","after":"tip"},{"path":"scope.property","before":"spacing","after":"margin"}]},
+            {"id":"de570f25-4","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":null},"record":"19b75dc9-263a-58f3-9723-b25f29f66149","name":"border-width","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"ea498e14-e368-5fd5-8488-7c950e4bcc3b","name":"color[colorScheme=light]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"de570f25-6","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"ea498e14-e368-5fd5-8488-7c950e4bcc3b","name":"color[colorScheme=light]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-7","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"ea498e14-e368-5fd5-8488-7c950e4bcc3b","name":"color[colorScheme=light]","fields":[{"path":"context","before":"Background and border","after":"Background"}]},
+            {"id":"de570f25-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"b8715743-2b23-5e1c-a4a7-db0163742a54","name":"color[colorScheme=dark]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"de570f25-9","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"b8715743-2b23-5e1c-a4a7-db0163742a54","name":"color[colorScheme=dark]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-10","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"b8715743-2b23-5e1c-a4a7-db0163742a54","name":"color[colorScheme=dark]","fields":[{"path":"context","before":"Background and border","after":"Background"}]},
+            {"id":"de570f25-11","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"476e144e-30f8-5426-b561-f030d5d21d89","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"de570f25-12","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"476e144e-30f8-5426-b561-f030d5d21d89","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-13","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"476e144e-30f8-5426-b561-f030d5d21d89","name":"color[colorScheme=wireframe]","fields":[{"path":"context","before":"Background and border","after":"Background"}]},
+            {"id":"de570f25-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"f73191eb-7222-58b2-98ab-4cb3e1912bd8","name":"color[colorScheme=light]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"de570f25-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"f73191eb-7222-58b2-98ab-4cb3e1912bd8","name":"color[colorScheme=light]","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-16","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"f73191eb-7222-58b2-98ab-4cb3e1912bd8","name":"color[colorScheme=light]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"de570f25-17","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"605f047c-ee8a-56f9-bae3-4990ffba0d78","name":"color[colorScheme=dark]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"de570f25-18","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"605f047c-ee8a-56f9-bae3-4990ffba0d78","name":"color[colorScheme=dark]","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-19","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"605f047c-ee8a-56f9-bae3-4990ffba0d78","name":"color[colorScheme=dark]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"de570f25-20","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"f005b469-723f-56eb-91a1-ea3b314244db","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"de570f25-21","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"f005b469-723f-56eb-91a1-ea3b314244db","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.attribute","after":"border"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-22","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"f005b469-723f-56eb-91a1-ea3b314244db","name":"color[colorScheme=wireframe]","fields":[{"path":"context","before":"Background and border","after":"Border"}]},
+            {"id":"de570f25-23","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Drop shadow"],"scope":{"property":"color","options":null},"record":"537381a4-48f7-55d0-afa7-13e8e1bac362","name":"color","fields":[{"path":"scope.attribute","after":"shadow"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-24","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Drop shadow"],"scope":{"property":"x","options":null},"record":"468649d5-60c9-547e-a46c-4463013e3fab","name":"x","fields":[{"path":"scope.attribute","after":"shadow"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-25","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Drop shadow"],"scope":{"property":"y","options":null},"record":"9c26f24f-92dd-595a-8f3d-738f1be77967","name":"y","fields":[{"path":"scope.attribute","after":"shadow"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-26","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Drop shadow"],"scope":{"property":"blur","options":null},"record":"9240b18a-182c-5891-ae8a-7ee8166a39d6","name":"blur","fields":[{"path":"scope.attribute","after":"shadow"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-27","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomy/container","name":"container","fields":[{"path":"contains","before":["tip"]}]},
+            {"id":"de570f25-28","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomy/container","name":"container","fields":[{"path":"description","before":"Surface holding the content; border and drop shadow are container styling.","after":"Surface holding the content. It is the root and carries the background, border, rounding, padding and drop shadow. It hosts the default slot."}]},
+            {"id":"de570f25-29","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomy/tip","name":"tip","fields":[{"path":"description","before":"Arrow pointing at the source; shares the surface fill and border; hidden when the tip is off.","after":"Arrow pointing at the source. A top-level sibling of the container (it is drawn outside the surface), sharing the surface fill and border. Drawn unless hideTip is set."}]},
+            {"id":"de570f25-30","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/slots/default","name":"default","fields":[],"after":{"name":"default","part":"container","description":"The popover content. Free content, no restriction on what goes in."}},
+            {"id":"de570f25-31","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"RSP Popover.tsx:165-271 and gen2 popover.css:183-200 (tip shares surface fill/border, shadow on container); content dropped (no own style); relationship part tip kept.","after":"Figma S2 Web popover (12 placements: Popover content frame plus a sibling Popover tip vector), React Spectrum S2 Popover.tsx (surface and a sibling OverlayArrow) and SWC gen2 swc-popover (-content, -tip). Decision C2 (Garth, 2026-11-20): tip is a top-level sibling of container, not a child. Explicit container root; the content slot sits on it. Tip size differs by source (16x8 data and Figma, 18x9 RSP): tracked as a gap bead."}]}
+          ],
+          "metadata": {"count":18,"fields":["anatomyReview.status","context","contextQualifier","contextRole","scope.attribute","scope.part","scope.property"]}
+        }
+      ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "71a0014bd670c3e6b750ded51b28fa1feee811be",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2074,"title":"feat(design-data): add tooltip and popover visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2074"},
+          "entries": [
+            {"id":"71a0014b-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/content","name":"content","fields":[],"after":{"name":"content","description":"Area inside the padding that hosts the default slot."}},
+            {"id":"71a0014b-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/tip-bottom","name":"tip-bottom","fields":[],"after":{"name":"tip-bottom","description":"Tip on the bottom edge of the container, drawn when the placement starts with top and hideTip is not set.","presentWhen":{"options":{"placement":["top","top left","top right","top start","top end"],"hideTip":false}}}},
+            {"id":"71a0014b-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/tip-end","name":"tip-end","fields":[],"after":{"name":"tip-end","description":"Tip on the end edge of the container, drawn when the placement starts with left/start and hideTip is not set.","presentWhen":{"options":{"placement":["left","left top","left bottom","start","start top","start bottom"],"hideTip":false}}}},
+            {"id":"71a0014b-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/tip-start","name":"tip-start","fields":[],"after":{"name":"tip-start","description":"Tip on the start edge of the container, drawn when the placement starts with right/end and hideTip is not set.","presentWhen":{"options":{"placement":["right","right top","right bottom","end","end top","end bottom"],"hideTip":false}}}},
+            {"id":"71a0014b-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"popover/anatomy/tip-top","name":"tip-top","fields":[],"after":{"name":"tip-top","description":"Tip on the top edge of the container, drawn when the placement starts with bottom and hideTip is not set.","presentWhen":{"options":{"placement":["bottom","bottom left","bottom right","bottom start","bottom end"],"hideTip":false}}}},
+            {"id":"71a0014b-5","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomy/container","name":"container","fields":[{"path":"contains","after":["content"]}]},
+            {"id":"71a0014b-6","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomy/container","name":"container","fields":[{"path":"description","before":"Surface holding the content. It is the root and carries the background, border, rounding, padding and drop shadow. It hosts the default slot.","after":"Surface holding the content. It is the root and carries the background, border, rounding, padding and drop shadow."}]},
+            {"id":"71a0014b-7","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/anatomy/tip","name":"tip","fields":[{"path":"description","before":"Arrow pointing at the source. A top-level sibling of the container (it is drawn outside the surface), sharing the surface fill and border. Drawn unless hideTip is set.","after":"Arrow pointing at the source. A top-level sibling of the container (it is drawn outside the surface), sharing the surface fill and border. Drawn unless hideTip is set. It is drawn by the placement part that matches the placement: tip-bottom (placement top), tip-top (bottom), tip-end (left, start) and tip-start (right, end)."}]},
+            {"id":"71a0014b-8","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"popover/slots/default","name":"default","fields":[{"path":"accepts","after":["action-button","link"]},{"path":"part","before":"container","after":"content"}]},
+            {"id":"71a0014b-9","kind":"slot","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"popover/slots/default","name":"default","fields":[{"path":"description","before":"The popover content. Free content, no restriction on what goes in.","after":"The popover content. Free content, no restriction on what goes in; accepts lists what a recipe draws today (acceptsOnly stays false)."}]},
+            {"id":"71a0014b-10","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"popover/visual","name":"popover","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

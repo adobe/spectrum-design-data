@@ -2,119 +2,182 @@
   {
     "scope": {
       "component": "color-slider",
-      "property": "length"
+      "part": "container",
+      "property": "length",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Length",
-    "$ref": "11442823-3e61-425a-a24b-a4a0747a06c4"
+    "contextRole": ["size"],
+    "$ref": "f7cb09c8-a44c-4455-bffd-199b76fd1c25",
+    "uuid": "3300c749-5daf-5c83-9ee1-8298311c1db5"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "length"
+      "part": "container",
+      "property": "length",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Length",
-    "$ref": "c42de1ce-088a-4918-a7dc-36507c8acedf"
+    "contextRole": ["size"],
+    "$ref": "ec422181-d393-5f76-83c9-fc6a1a354262",
+    "uuid": "98bcc125-1ac7-5730-8546-ce2a0fa3782f"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "minimum-length"
+      "part": "container",
+      "property": "minimum-length",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Length",
-    "$ref": "54aad7a1-df6a-414a-82b4-7976c912a8e5"
+    "contextRole": ["size"],
+    "$ref": "54aad7a1-df6a-414a-82b4-7976c912a8e5",
+    "uuid": "dda65889-6e69-570e-b780-3a8db88675ef"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "minimum-length"
+      "part": "container",
+      "property": "minimum-length",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Length",
-    "$ref": "120308f7-4220-420e-b836-20176a8184b7"
+    "contextRole": ["size"],
+    "$ref": "120308f7-4220-420e-b836-20176a8184b7",
+    "uuid": "04788dec-8ea8-5536-9747-d8ec2bcb6352"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "width"
+      "part": "track",
+      "property": "thickness",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Width",
-    "$ref": "424db2a9-5795-400b-a98a-58081d311bff"
+    "contextRole": ["width"],
+    "$ref": "424db2a9-5795-400b-a98a-58081d311bff",
+    "uuid": "0a01a2fb-63fc-574e-b263-c0d0d823a510"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "width"
+      "part": "track",
+      "property": "thickness",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Width",
-    "$ref": "07e3ac46-3f96-4c00-aa6a-09840ee04bdd"
+    "contextRole": ["width"],
+    "$ref": "07e3ac46-3f96-4c00-aa6a-09840ee04bdd",
+    "uuid": "9586e4f1-5740-5769-9165-25470f0ed81c"
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "border-width"
     },
     "context": "Border",
-    "$ref": "2b907cad-7534-411b-b3bf-ab89a3712ad8"
+    "contextRole": ["border"],
+    "$ref": "2b907cad-7534-411b-b3bf-ab89a3712ad8",
+    "uuid": "34cccae2-3528-5886-ad2a-701c3a3fae65"
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "corner-radius"
     },
-    "context": "Border",
-    "$ref": "991541a2-df44-4f32-90a5-de698adf5db3"
+    "context": "Corner radius",
+    "contextRole": ["rounding"],
+    "$ref": "991541a2-df44-4f32-90a5-de698adf5db3",
+    "uuid": "83194afa-d453-51d5-9d7a-92973d22f444"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "component-top-to-text-75"
+      "between": {
+        "from": "field-label",
+        "to": "track"
+      },
+      "property": "space-between"
     },
     "context": "Spacing (field label value to track)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label value to track",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "6603195d-fd43-5038-ae24-ea9d82174848"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (field label value to track)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
-  },
-  {
-    "scope": {
-      "component": "color-slider",
-      "property": "color"
+      "part": "track",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
-    "$ref": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e"
+    "contextRole": ["border"],
+    "$ref": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e",
+    "uuid": "69ec2540-3586-505b-aac7-b9cd075165b6"
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "opacity"
     },
     "context": "Border",
-    "$ref": "8271b69e-6542-4b17-b0f0-72567e16c41b"
+    "contextRole": ["border"],
+    "$ref": "8271b69e-6542-4b17-b0f0-72567e16c41b",
+    "uuid": "1eee140d-1416-55c2-9785-3c4c937ae5c0"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "content-color"
+      "part": "value",
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Disabled",
-    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+    "contextRole": ["state"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "4e4c352b-26da-5381-bba4-eab892406434"
   },
   {
     "scope": {
       "component": "color-slider",
-      "property": "color"
-    },
-    "context": "Disabled",
-    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
-  },
-  {
-    "scope": {
-      "component": "color-slider",
+      "part": "track",
       "property": "color",
+      "attribute": "background",
+      "options": {
+        "isDisabled": true
+      }
+    },
+    "context": "Disabled",
+    "contextRole": ["state"],
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
+    "uuid": "3a32a61b-b5da-526b-b8d1-bd3f10d37b00"
+  },
+  {
+    "scope": {
+      "component": "color-slider",
+      "part": "track",
+      "property": "color",
+      "attribute": "border",
       "options": {
         "object": "border"
       }
@@ -122,11 +185,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
     "uuid": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e",
-    "legacyKey": "color-slider-border-color"
+    "legacyKey": "color-slider-border-color",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "opacity",
       "options": {
         "object": "border"
@@ -135,27 +201,35 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "8271b69e-6542-4b17-b0f0-72567e16c41b",
-    "legacyKey": "color-slider-border-opacity"
+    "legacyKey": "color-slider-border-opacity",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "corner-radius"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
     "uuid": "991541a2-df44-4f32-90a5-de698adf5db3",
-    "legacyKey": "color-slider-border-rounding"
+    "legacyKey": "color-slider-border-rounding",
+    "context": "Corner radius",
+    "contextRole": ["rounding"]
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "track",
       "property": "border-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "2b907cad-7534-411b-b3bf-ab89a3712ad8",
-    "legacyKey": "color-slider-border-width"
+    "legacyKey": "color-slider-border-width",
+    "context": "Border",
+    "contextRole": ["border"]
   },
   {
     "scope": {
@@ -170,7 +244,13 @@
     "uuid": "11442823-3e61-425a-a24b-a4a0747a06c4",
     "legacyKey": "color-slider-length",
     "setUuid": "eac87a1b-2b93-4501-8d9f-90eae1cce3bd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared bar-width-* scale.",
+      "replacedBy": "f7cb09c8-a44c-4455-bffd-199b76fd1c25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 439 of the mapping sheet."
   },
   {
     "scope": {
@@ -185,11 +265,18 @@
     "uuid": "c42de1ce-088a-4918-a7dc-36507c8acedf",
     "legacyKey": "color-slider-length",
     "setUuid": "eac87a1b-2b93-4501-8d9f-90eae1cce3bd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared bar-width-* scale.",
+      "replacedBy": "f7cb09c8-a44c-4455-bffd-199b76fd1c25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 439 of the mapping sheet."
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "container",
       "property": "minimum-length",
       "options": {
         "scale": "desktop"
@@ -200,11 +287,15 @@
     "uuid": "54aad7a1-df6a-414a-82b4-7976c912a8e5",
     "legacyKey": "color-slider-minimum-length",
     "setUuid": "8b687fbe-e7dd-449a-8356-6bbaf0537d18",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread).",
+    "context": "Length",
+    "contextRole": ["size"]
   },
   {
     "scope": {
       "component": "color-slider",
+      "part": "container",
       "property": "minimum-length",
       "options": {
         "scale": "mobile"
@@ -215,6 +306,9 @@
     "uuid": "120308f7-4220-420e-b836-20176a8184b7",
     "legacyKey": "color-slider-minimum-length",
     "setUuid": "8b687fbe-e7dd-449a-8356-6bbaf0537d18",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "rationale": "Kept active instead of renamed to a size primitive: mobile scales 1.25x as in S2 (Matt Davey, size tokens thread).",
+    "context": "Length",
+    "contextRole": ["size"]
   }
 ]

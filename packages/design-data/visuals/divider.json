@@ -1,0 +1,72 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "divider",
+  "root": "line",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200
+  },
+  "parts": {
+    "line": {
+      "kind": "box",
+      "props": {
+        "height": {
+          "when": {
+            "options": {
+              "orientation": "horizontal"
+            }
+          },
+          "relationship": {
+            "property": "thickness",
+            "context": "Thickness"
+          }
+        },
+        "width": {
+          "when": {
+            "options": {
+              "orientation": "vertical"
+            }
+          },
+          "relationship": {
+            "property": "thickness",
+            "context": "Thickness"
+          }
+        },
+        "minWidth": {
+          "when": {
+            "options": {
+              "orientation": "horizontal"
+            }
+          },
+          "relationship": {
+            "property": "minimum-width",
+            "context": "Horizontal"
+          }
+        },
+        "minHeight": {
+          "when": {
+            "options": {
+              "orientation": "vertical"
+            }
+          },
+          "relationship": {
+            "property": "minimum-height",
+            "context": "Vertical"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "context": "Fill"
+          }
+        }
+      }
+    }
+  }
+}

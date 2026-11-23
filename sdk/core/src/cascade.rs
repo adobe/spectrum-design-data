@@ -20,7 +20,7 @@
 use std::collections::HashMap;
 
 use crate::graph::{ModeSetRecord, TokenGraph, TokenRecord};
-use crate::query::matches_name_field;
+use crate::query::{matches_name_field, ComponentBindings};
 
 // ── Resolution context ────────────────────────────────────────────────────────
 
@@ -217,9 +217,13 @@ pub struct PropertyNarrowing {
 }
 
 impl PropertyNarrowing {
-    fn matches(&self, record: &TokenRecord) -> bool {
+    fn matches(&self, record: &TokenRecord, bindings: &ComponentBindings) -> bool {
+        if let Some(component) = self.component.as_deref() {
+            if !bindings.matches(&record.raw, component) {
+                return false;
+            }
+        }
         let fields = [
-            ("component", self.component.as_deref()),
             ("variant", self.variant.as_deref()),
             ("state", self.state.as_deref()),
             ("colorRole", self.color_role.as_deref()),
@@ -252,6 +256,11 @@ pub fn resolve_property_narrowed(
     ctx: &ResolutionContext,
     narrowing: &PropertyNarrowing,
 ) -> Vec<ResolvedCandidate> {
+    let bindings = if narrowing.component.is_some() {
+        ComponentBindings::build(graph)
+    } else {
+        ComponentBindings::default()
+    };
     let candidates: Vec<TokenRecord> = graph
         .tokens
         .values()
@@ -263,7 +272,7 @@ pub fn resolve_property_narrowed(
                 .and_then(|v| v.as_str())
                 == Some(property)
         })
-        .filter(|t| narrowing.matches(t))
+        .filter(|t| narrowing.matches(t, &bindings))
         .filter(|t| {
             !narrowing.exclude_deprecated
                 || t.raw
@@ -303,7 +312,29 @@ pub fn resolve_property_narrowed(
             .then_with(|| a.index.cmp(&b.index))
     });
 
-    let winner = resolve(&filtered_graph, ctx);
+    let is_deprecated = |t: &TokenRecord| {
+        t.raw
+            .get("lifecycle")
+            .and_then(|v| v.get("deprecatedIn"))
+            .is_some()
+    };
+    // A deprecated token only wins when no active token matches the context.
+    let winner = resolve(&filtered_graph, ctx)
+        .filter(|w| !is_deprecated(w))
+        .or_else(|| {
+            let active: Vec<TokenRecord> = filtered_graph
+                .tokens
+                .values()
+                .filter(|t| !is_deprecated(t))
+                .cloned()
+                .collect();
+            let active_graph =
+                TokenGraph::from_records(active).with_mode_sets(graph.mode_sets.clone());
+            resolve(&active_graph, ctx)
+                .map(|w| w.name.clone())
+                .and_then(|name| filtered_graph.tokens.get(&name))
+                .or_else(|| resolve(&filtered_graph, ctx))
+        });
 
     with_spec
         .into_iter()
@@ -461,6 +492,37 @@ pub fn resolve_reference(
     slug: &str,
     ctx: &std::collections::HashMap<String, String>,
 ) -> Option<ReferenceChainResult> {
+    resolve_reference_in(graph, slug, ctx, None)
+}
+
+/// Legacy name (or direct graph key) → keys into `TokenGraph::tokens`, for
+/// [`resolve_reference_in`].
+pub type LegacyKeys = std::collections::HashMap<String, Vec<String>>;
+
+/// Build the [`LegacyKeys`] index of `graph`: one pass instead of one per reference.
+pub fn legacy_keys(graph: &TokenGraph) -> LegacyKeys {
+    use crate::naming::extract_legacy_key;
+    let mut index = LegacyKeys::new();
+    for (key, t) in &graph.tokens {
+        let legacy = t.raw.get("name").and_then(extract_legacy_key);
+        if let Some(k) = &legacy {
+            index.entry(k.clone()).or_default().push(key.clone());
+        }
+        if legacy.as_deref() != Some(t.name.as_str()) {
+            index.entry(t.name.clone()).or_default().push(key.clone());
+        }
+    }
+    index
+}
+
+/// [`resolve_reference`] that finds the candidates in a prebuilt `index` ([`legacy_keys`]) when
+/// one is given, instead of scanning every token.
+pub fn resolve_reference_in(
+    graph: &TokenGraph,
+    slug: &str,
+    ctx: &std::collections::HashMap<String, String>,
+    index: Option<&LegacyKeys>,
+) -> Option<ReferenceChainResult> {
     use crate::naming::extract_legacy_key;
 
     // Strip optional `{…}` wrapper.
@@ -468,19 +530,27 @@ pub fn resolve_reference(
 
     // Collect all cascade tokens whose computed legacy key equals `name`,
     // or whose direct graph key equals `name` (object-format legacy tokens).
-    let candidates: Vec<&crate::graph::TokenRecord> = graph
-        .tokens
-        .values()
-        .filter(|t| {
-            let legacy_match = t
-                .raw
-                .get("name")
-                .and_then(extract_legacy_key)
-                .is_some_and(|k| k == name);
-            let direct_match = t.name == name;
-            legacy_match || direct_match
-        })
-        .collect();
+    let candidates: Vec<&crate::graph::TokenRecord> = match index {
+        Some(i) => i
+            .get(name)
+            .into_iter()
+            .flatten()
+            .filter_map(|k| graph.tokens.get(k))
+            .collect(),
+        None => graph
+            .tokens
+            .values()
+            .filter(|t| {
+                let legacy_match = t
+                    .raw
+                    .get("name")
+                    .and_then(extract_legacy_key)
+                    .is_some_and(|k| k == name);
+                let direct_match = t.name == name;
+                legacy_match || direct_match
+            })
+            .collect(),
+    };
 
     if candidates.is_empty() {
         return None;
@@ -874,6 +944,64 @@ mod tests {
         let results = resolve_property_narrowed(&g, "background-color", &ctx, &narrowing);
         assert_eq!(results.len(), 1);
         assert_eq!(results[0].record.name, "subdued");
+    }
+
+    #[test]
+    fn resolve_property_narrowed_matches_component_via_ctr_binding() {
+        use crate::graph::RelationshipRecord;
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "btn".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "background-color"}, "value": "#aaa", "uuid": "u-btn"}),
+            ),
+            (
+                "other".into(),
+                PathBuf::from("b.json"),
+                json!({"name": {"property": "background-color"}, "value": "#bbb", "uuid": "u-other"}),
+            ),
+        ])
+        .with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/button.json"),
+            index: 0,
+            uuid: None,
+            raw: json!({"scope": {"component": "button"}, "$ref": "u-btn"}),
+        }]);
+        let results = resolve_property_narrowed(
+            &g,
+            "background-color",
+            &ResolutionContext::new(),
+            &PropertyNarrowing {
+                component: Some("button".into()),
+                ..Default::default()
+            },
+        );
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].record.name, "btn");
+    }
+
+    #[test]
+    fn resolve_property_narrowed_prefers_active_winner_over_deprecated() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "old".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg", "variant": "negative"}, "value": "#aaa", "lifecycle": {"deprecatedIn": "1.0.0"}}),
+            ),
+            (
+                "new".into(),
+                PathBuf::from("b.json"),
+                json!({"name": {"property": "bg"}, "value": "#bbb"}),
+            ),
+        ]);
+        let results = resolve_property_narrowed(
+            &g,
+            "bg",
+            &ResolutionContext::new(),
+            &PropertyNarrowing::default(),
+        );
+        let winner = results.iter().find(|c| c.is_winner).unwrap();
+        assert_eq!(winner.record.name, "new");
     }
 
     #[test]

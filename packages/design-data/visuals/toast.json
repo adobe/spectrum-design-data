@@ -1,0 +1,158 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "toast",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["isAutoDismissible", "actionLabel"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon", "text", "close-button"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "top-edge",
+              "to": "text"
+            }
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "bottom-edge",
+              "to": "text"
+            }
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "start-edge",
+              "to": "icon"
+            }
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "end-edge",
+              "to": "close-button"
+            }
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "icon",
+              "to": "text"
+            }
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "alert-triangle"
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "icon"
+          }
+        }
+      }
+    },
+    "text": {
+      "kind": "text",
+      "text": {
+        "option": "text"
+      },
+      "props": {
+        "grow": {
+          "value": true
+        },
+        "overflow": {
+          "value": "wrap"
+        },
+        "typeStyle": {
+          "relationship": { "property": "type-style", "part": "text" }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "text"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "text"
+          }
+        }
+      }
+    },
+    "close-button": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "with": {
+        "staticColor": "white"
+      }
+    }
+  }
+}

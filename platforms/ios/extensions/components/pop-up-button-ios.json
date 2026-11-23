@@ -1,0 +1,53 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/pop-up-button-ios.json",
+  "specVersion": "1.0.0-draft",
+  "name": "pop-up-button-ios",
+  "displayName": "Pop-up button",
+  "description": "A button that starts a single-choice selection but does not present the options itself (SPPopUpButton). It looks like a picker; use it when the selection UI is custom, such as a sheet. For the native menu, use a picker.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://www.figma.com/design/OQExiy8bX0pRqee71eAWX6/S2---iOS?node-id=7773-23565"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string",
+      "description": "SF Symbol or Spectrum icon (SPIconResource)."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Button background.",
+      "required": true,
+      "contains": ["icon", "label", "chevron"]
+    },
+    {
+      "name": "icon",
+      "description": "Optional leading icon."
+    },
+    {
+      "name": "label",
+      "description": "Current value or prompt.",
+      "required": true
+    },
+    {
+      "name": "chevron",
+      "description": "Trailing up-down chevron that marks a pop-up.",
+      "required": true
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "role": "button"
+  }
+}

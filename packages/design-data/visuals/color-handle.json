@@ -1,0 +1,114 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "color-handle",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["isOpen"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["opacity-checkerboard", "fill"],
+      "props": {
+        "direction": {
+          "value": "stack"
+        },
+        "width": {
+          "relationship": {
+            "property": "size",
+            "part": "container"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
+        },
+        "fill": {
+          "when": {
+            "options": {
+              "isDisabled": true
+            }
+          },
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "container"
+          }
+        },
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "container",
+            "position": "outer"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "container",
+            "position": "outer"
+          }
+        },
+        "strokeOver": {
+          "value": true
+        },
+        "innerStroke": {
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "container",
+            "position": "inner"
+          }
+        },
+        "innerStrokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "container",
+            "position": "inner"
+          }
+        },
+        "strokeOpacity": {
+          "relationship": {
+            "property": "opacity",
+            "part": "container",
+            "position": "outer"
+          }
+        }
+      }
+    },
+    "opacity-checkerboard": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "inherit": ["width", "height", "cornerRadius"]
+    },
+    "fill": {
+      "kind": "box",
+      "props": {
+        "fill": {
+          "option": "color"
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "value": 0.5,
+          "relativeTo": "height"
+        }
+      }
+    }
+  }
+}

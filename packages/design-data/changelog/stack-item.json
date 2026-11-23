@@ -1,0 +1,215 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "stack-item",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "3.2.3",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-14",
+      "commit": "d88be4e0204abb31d9f02ce680acd0fe478057a7",
+      "commits": [
+        {
+          "commit": "d88be4e0204abb31d9f02ce680acd0fe478057a7",
+          "date": "2026-09-14",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1452,"title":"fix(tokens): stack-item selected-down background gray-300 → gray-200","url":"https://github.com/adobe/spectrum-design-data/pull/1452"},
+          "entries": [
+            {"id":"d88be4e0-0","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"scope":{"property":"color","options":{"state":["selected","down"],"object":"background"}},"record":"1ad58d16-66da-44ae-829e-9ee1ff56a857","name":"color[object=background,state=?]","fields":[{"path":"$ref","before":"dac01571-b26a-4aef-ace7-d0e34e917570","after":"8a182a6b-149b-41a6-b608-fc247bcc298f"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "ea86c6d75726d6d9b1ba24c209328a4d386cc274",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1766,"title":"feat(design-data): add relationship contexts to stack-item, card, popover and seven more components","url":"https://github.com/adobe/spectrum-design-data/pull/1766"},
+          "entries": [],
+          "metadata": {"count":6,"fields":["context","contextQualifier","contextRole"]}
+        },
+        {
+          "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1772,"title":"fix(design-data): align selected-row contexts with highlight selection and fix avatar text context","url":"https://github.com/adobe/spectrum-design-data/pull/1772"},
+          "entries": [],
+          "metadata": {"count":5,"fields":["context","contextQualifier"]}
+        }
+      ]
+    },
+    {
+      "release": "3.13.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-11-13",
+      "commit": "bf03145172d55980e7bc23c22c622a31ff2a0256",
+      "commits": [
+        {
+          "commit": "5b20b303e2eb2a24942f208bdc405beb99bd4a45",
+          "date": "2026-11-13",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1807,"title":"fix(design-data): declare selected as a prop-driven state on three components","url":"https://github.com/adobe/spectrum-design-data/pull/1807"},
+          "entries": [
+            {"id":"5b20b303-0","kind":"state","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/states/selected","name":"selected","fields":[{"path":"trigger","before":"interaction","after":"prop"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/actions","name":"actions","fields":[],"after":{"name":"actions","description":"Row of action buttons at the end of the item."}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/checkbox","name":"checkbox","fields":[],"after":{"name":"checkbox","description":"Selection checkbox shown in a selection mode."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Row background; fills when the item is selected or highlighted.","required":true,"contains":["drag-handle","checkbox","visual","header","actions","disclosure-indicator"]}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/disclosure-indicator","name":"disclosure-indicator","fields":[],"after":{"name":"disclosure-indicator","description":"Chevron that marks the item as navigable."}},
+            {"id":"12ddd7e7-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/drag-handle","name":"drag-handle","fields":[],"after":{"name":"drag-handle","description":"Grip for reordering the item."}},
+            {"id":"12ddd7e7-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/focus-indicator","name":"focus-indicator","fields":[],"after":{"name":"focus-indicator","description":"Outline drawn around the row for keyboard focus.","presentIn":["keyboard-focus","selected-keyboard-focus"]}},
+            {"id":"12ddd7e7-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/header","name":"header","fields":[],"after":{"name":"header","description":"Text of the item; the relationships set its minimum width."}},
+            {"id":"12ddd7e7-7","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/visual","name":"visual","fields":[],"after":{"name":"visual","description":"Icon or thumbnail at the start of the content."}},
+            {"id":"12ddd7e7-8","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). The part name header comes from the relationship scope; Figma calls it Visual + Text. Selection checkbox inferred from Selection mode."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.23.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-19",
+      "commit": "527173e35e91574fa263aa92b7e5ce3b0cba3af5",
+      "commits": [
+        {
+          "commit": "53e922b0293f2b5c2be0e66c99e89b62afa6d605",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1948,"title":"feat(design-data-spec)!: remove component tokenBindings; add button wrapping corner-radius tokens","url":"https://github.com/adobe/spectrum-design-data/pull/1948"},
+          "entries": [
+            {"id":"53e922b0-0","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/states/default","name":"default","fields":[],"after":{"name":"default","description":"Resting base state."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.29.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+      "commits": [
+        {
+          "commit": "5168ad1aa4398ec0e9d67a6740537a7dfc90f8bf",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1994,"title":"feat(design-data): anatomy review of the collections family (A3)","url":"https://github.com/adobe/spectrum-design-data/pull/1994"},
+          "entries": [
+            {"id":"5168ad1a-0","kind":"anatomy-part","change":"renamed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"stack-item/anatomy/label","name":"label","fields":[],"before":"header"},
+            {"id":"5168ad1a-1","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"stack-item/anatomy/disclosure-indicator","name":"disclosure-indicator","fields":[],"before":{"name":"disclosure-indicator","description":"Chevron that marks the item as navigable."}},
+            {"id":"5168ad1a-2","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"stack-item/anatomy/visual","name":"visual","fields":[],"before":{"name":"visual","description":"Icon or thumbnail at the start of the content."}},
+            {"id":"5168ad1a-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/description","name":"description","fields":[],"after":{"name":"description","description":"Secondary text under the label."}},
+            {"id":"5168ad1a-4","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/drill-in-chevron","name":"drill-in-chevron","fields":[],"after":{"name":"drill-in-chevron","description":"Non-interactive chevron that shows the item navigates to another level."}},
+            {"id":"5168ad1a-5","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Leading icon of the item."}},
+            {"id":"5168ad1a-6","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/anatomy/thumbnail","name":"thumbnail","fields":[],"after":{"name":"thumbnail","description":"Thumbnail at the start of the content, used instead of the icon."}},
+            {"id":"5168ad1a-7","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/container","name":"container","fields":[{"path":"contains","before":["drag-handle","checkbox","visual","header","actions","disclosure-indicator"],"after":["drag-handle","checkbox","icon","thumbnail","label","description","actions","drill-in-chevron","focus-indicator"]}]},
+            {"id":"5168ad1a-8","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/container","name":"container","fields":[{"path":"description","before":"Row background; fills when the item is selected or highlighted.","after":"The row: background that fills when the item is selected or highlighted. It carries the shared row chrome of list-view and tree-view."}]},
+            {"id":"5168ad1a-9","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"description","before":"Outline drawn around the row for keyboard focus.","after":"Outline drawn around the focused row."}]},
+            {"id":"5168ad1a-10","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). The part name header comes from the relationship scope; Figma calls it Visual + Text. Selection checkbox inferred from Selection mode.","after":"Decision A68 D5a: stack-item stays the shared row-chrome component (Slack #spectrum-tokens-talk Jan 2026: Design made list-view and tree-view use the stack-item tokens); it takes list-item's anatomy. list-view and tree-view keep their own records; a follow-up proposal covers nesting and sharing. Figma S2 Web List view item (Drag handle, Content: visual + text + actions, Navigation indicator). Renames: header -> label (the sources say label; two records follow), visual -> icon and thumbnail, disclosure-indicator -> drill-in-chevron (decision A71 D8 a2). description added from list-item."}]}
+          ],
+          "metadata": {"count":3,"fields":["anatomyReview.status","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "3.31.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "1aae2d73e9b2f2b5ba227881a8aaed230ddadc76",
+      "commits": [
+        {
+          "commit": "500a4e00ffce7eceabf26a826987fac54e2318e2",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2014,"title":"feat(design-data): migrate side-navigation, stack-item and tree-view to level 2 identity","url":"https://github.com/adobe/spectrum-design-data/pull/2014"},
+          "entries": [],
+          "metadata": {"count":16,"fields":["context","contextQualifier","contextRole","scope.attribute","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.0.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-21",
+      "commit": "84a3a3a25b832fed1b94bd2edae8141c1013dd49",
+      "commits": [
+        {
+          "commit": "5d6bd008a946579c54356ac519cfb220dd07b3de",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2037,"title":"feat(design-data)!: anatomy component field and subcomponent flag; recipes read component from anatomy","url":"https://github.com/adobe/spectrum-design-data/pull/2037"},
+          "entries": [
+            {"id":"5d6bd008-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/checkbox","name":"checkbox","fields":[{"path":"component","after":"checkbox"}]},
+            {"id":"5d6bd008-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/thumbnail","name":"thumbnail","fields":[{"path":"component","after":"thumbnail"}]}
+          ]
+        },
+        {
+          "commit": "1951adf71da6c4b0d9e5419d91134dfe522e1b69",
+          "date": "2026-11-21",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2044,"title":"feat(design-data)!: presentWhen replaces presentIn on anatomy parts (spec 7.0.0)","url":"https://github.com/adobe/spectrum-design-data/pull/2044"},
+          "entries": [
+            {"id":"1951adf7-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentIn","before":["keyboard-focus","selected-keyboard-focus"]},{"path":"presentWhen.states","after":["keyboard-focus"]}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "4.3.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "7b7c3350ac2f67ea62e2684b6c5737e7f01f344f",
+      "commits": [
+        {
+          "commit": "b62d1a4536b7331391f3e26f4a8661067c75329e",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2087,"title":"feat(design-data): add side-navigation and stack-item visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2087"},
+          "entries": [
+            {"id":"b62d1a45-0","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (horizontal)"],"scope":{"property":"space-between","options":null},"record":"2922620d-cfe4-5adc-a340-5292e3616472","name":"space-between","fields":[],"after":"2147f873-8f42-4821-9654-9db2b1adc2f9"},
+            {"id":"b62d1a45-1","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (horizontal)"],"scope":{"property":"space-between","options":null},"record":"094a621a-c9f0-5d31-80c6-73534ec90e04","name":"space-between","fields":[],"after":"2147f873-8f42-4821-9654-9db2b1adc2f9"},
+            {"id":"b62d1a45-2","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Spacing (icon to label)"],"scope":{"property":"space-between","options":null},"record":"10c3acb1-3948-5c95-ba98-e4cfdcfce14a","name":"space-between","fields":[],"after":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c"},
+            {"id":"b62d1a45-3","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["default"]}},"record":"3d86a28c-f11a-5bf6-9da2-d66215b83ac9","name":"content-color[state=?]","fields":[],"after":"7a058b23-341c-4dd3-83d8-358917277836"},
+            {"id":"b62d1a45-4","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["hover"]}},"record":"503633e8-3591-559d-a69d-c2b6dfb23b3f","name":"content-color[state=?]","fields":[],"after":"a6d8a177-3e5c-4d28-a675-c21c2695d2f6"},
+            {"id":"b62d1a45-5","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["down"]}},"record":"82178de2-7c44-545b-b7c3-872d68ad5858","name":"content-color[state=?]","fields":[],"after":"8ab4accc-bd95-48e0-ae3a-539740a07cc6"},
+            {"id":"b62d1a45-6","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["keyboard-focus"]}},"record":"d016ab4e-f361-537a-9863-2b95d3464fb4","name":"content-color[state=?]","fields":[],"after":"4e79877b-254d-4226-a28f-4c80d2d8b2f3"},
+            {"id":"b62d1a45-7","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["selected","default"]}},"record":"d58cd0e1-c754-55c6-aa17-640ee80d5fc0","name":"content-color[state=?]","fields":[],"after":"43ca4c0d-7803-4e8e-b444-26fe70d5304c"},
+            {"id":"b62d1a45-8","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["selected","hover"]}},"record":"773de6f5-cf3d-52dc-87e8-eb31f131d4e8","name":"content-color[state=?]","fields":[],"after":"d236bdc5-037b-4838-8401-8a0d5136936c"},
+            {"id":"b62d1a45-9","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["selected","down"]}},"record":"934fa7b8-ec00-57d7-a21f-2961f517b7ac","name":"content-color[state=?]","fields":[],"after":"cf169d95-e427-4665-a983-c24727dbfa60"},
+            {"id":"b62d1a45-10","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"state":["selected","keyboard-focus"]}},"record":"f9b4f661-cc87-5250-9adb-6757078c02da","name":"content-color[state=?]","fields":[],"after":"c2c538e0-6f8d-4586-953a-b98ef40c9eca"},
+            {"id":"b62d1a45-11","kind":"token","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Label and icon"],"scope":{"property":"content-color","options":{"isDisabled":true}},"record":"69317a68-f0d8-5194-8b3a-05b1ecd0a341","name":"content-color[isDisabled=?]","fields":[],"after":"8bf69fd3-1462-49b9-a78a-cc2f03380823"},
+            {"id":"b62d1a45-12","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/options/isSelected","name":"isSelected","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the row is selected. Selected rows use the selected background."}},
+            {"id":"b62d1a45-13","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the row is disabled."}},
+            {"id":"b62d1a45-14","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/options/visual","name":"visual","fields":[],"after":{"type":"string","description":"The visual at the start of the content: an icon or a thumbnail. Unset draws neither.","values":[{"value":"icon"},{"value":"thumbnail"}]}},
+            {"id":"b62d1a45-15","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/options/selectionStyle","name":"selectionStyle","fields":[],"after":{"type":"string","description":"How a selected row shows selection: a checkbox or a highlight (React Spectrum S2 selectionStyle). Unset draws no selection UI. Only the checkbox is drawn.","values":[{"value":"checkbox"},{"value":"highlight"}]}},
+            {"id":"b62d1a45-16","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/checkbox","name":"checkbox","fields":[{"path":"presentWhen.options.selectionStyle","after":"checkbox"}]},
+            {"id":"b62d1a45-17","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/icon","name":"icon","fields":[{"path":"presentWhen.options.visual","after":"icon"}]},
+            {"id":"b62d1a45-18","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"stack-item/anatomy/thumbnail","name":"thumbnail","fields":[{"path":"presentWhen.options.visual","after":"thumbnail"}]},
+            {"id":"b62d1a45-19","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/slots/actions","name":"actions","fields":[],"after":{"name":"actions","part":"actions","accepts":["action-button"],"acceptsOnly":true,"max":3,"description":"Action buttons at the end of the row."}},
+            {"id":"b62d1a45-20","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"stack-item/visual","name":"stack-item","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

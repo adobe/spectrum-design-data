@@ -96,7 +96,7 @@ mod tests {
         let g = TokenGraph::from_pairs(vec![(
             "focus-ring-gap".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "gap", "anatomy": "focus-ring"}, "value": "2px"}),
+            json!({"name": {"property": "gap", "anatomy": "focus-indicator"}, "value": "2px"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-049").is_empty());
     }

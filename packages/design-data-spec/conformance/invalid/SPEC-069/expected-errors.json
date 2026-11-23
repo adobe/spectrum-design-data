@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-069",
+      "severity": "warning",
+      "message_pattern": ".*14\\.5\\.0.*"
+    }
+  ]
+}

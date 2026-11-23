@@ -18,6 +18,7 @@ A dataset is rooted at a single **dataset root** directory. The following table 
 | `mode-sets/`  | Optional (registered) | Mode set declarations, one per `*.json` file.                        | [`mode-set.schema.json`](../schemas/mode-set.schema.json)         |
 | `registry/`   | Optional (registered) | Registry value collections (vocabulary), one or more `*.json` files. | [`registry-value.json`](../schemas/registry-value.json)           |
 | `guidelines/` | Optional (registered) | One guideline document per `*.json` file.                            | [`guideline.schema.json`](../schemas/guideline.schema.json)       |
+| `icons/`      | Optional (registered) | One icon set (path geometry keyed by icon id) per `*.json` file.     | [`icon-set.schema.json`](../schemas/icon-set.schema.json)         |
 
 **NORMATIVE:** A conformant dataset **MUST** contain a `tokens/` directory holding at least one `*.tokens.json` file. A dataset with no `tokens/` directory, or a `tokens/` directory containing no `*.tokens.json` file, is **not** conformant.
 
@@ -37,6 +38,7 @@ A dataset is rooted at a single **dataset root** directory. The following table 
 | `mode-sets/`  | `*.json`           | One declaration per file.                                                      |
 | `registry/`   | `*.json`           | One value collection per file.                                                 |
 | `guidelines/` | `*.json`           | One declaration per file.                                                      |
+| `icons/`      | `*.json`           | One set per file; by convention named after its `set` (`ui.json`).             |
 
 ## Dataset discovery
 
@@ -47,7 +49,7 @@ Tooling that operates on "the current dataset" (rather than an explicit path) **
 3. **In-repo probing** — when running inside a monorepo checkout, probe for the standard layout relative to the working directory (`packages/design-data/tokens` and one level up). This preserves the in-repo workflow with zero configuration.
 4. **Embedded snapshot** — when no dataset is found on disk, tooling MAY fall back to a snapshot of the foundation dataset embedded in the binary, materialized to a local cache directory.
 
-**NORMATIVE:** The required directory (`tokens/`) and registered optional directories are resolved **relative to the dataset root** determined above. A discovery tier that resolves a dataset root **MUST** look for `tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`, and `guidelines/` directly under that root.
+**NORMATIVE:** The required directory (`tokens/`) and registered optional directories are resolved **relative to the dataset root** determined above. A discovery tier that resolves a dataset root **MUST** look for `tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`, `guidelines/`, and `icons/` directly under that root.
 
 The reference implementation of this algorithm lives in the SDK at `sdk/core/src/data_source/mod.rs` (`resolve`, `from_root`, and `probe_cwd`).
 
@@ -57,6 +59,10 @@ A dataset **MAY** carry a root **descriptor** to make its structure and target s
 
 * **`.design-data.toml`** — a project-level config (TOML) that primarily declares where the dataset lives (`[source]`) and cache overrides. It is consumed during [discovery](#dataset-discovery) tier 2.
 * **`dataset.json`** — an OPTIONAL JSON descriptor placed at the dataset root that **MAY** declare which optional directories are present, pin the spec version the dataset targets, and override default discovery paths. It **MUST** conform to [`dataset.schema.json`](../schemas/dataset.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/dataset.schema.json`).
+
+A `dataset.json` **MAY** carry `layoutRevision`, an integer naming the visual layout revision its recipes were authored against (see [Component visuals](component-visuals.md)). A renderer whose own revision differs **SHOULD** warn, because the same recipe can lay out differently. A dataset without the field is revision 0.
+
+A `dataset.json` **MAY** carry `requires.cli`, the oldest design-data CLI that can read the dataset correctly, as an exact version (`"0.40.0"`), not a range. A dataset can say what it needs, not what future CLIs will do, so there is no maximum; a layout change that breaks older engines is covered by `layoutRevision`. The CLI is 0.x, where a minor release can break, so "this CLI or newer" is a promise about the floor only. A CLI older than `requires.cli`, or whose layout revision is older than `layoutRevision`, **MUST NOT** read the dataset without being told to: the `design-data` CLI exits with an error, and `--ignore-data-requirements` (command line only, never a config file) reads it anyway and warns on every run. A dataset without `requires` asks for nothing, so data released before the field existed is not checked.
 
 **NORMATIVE:** Neither descriptor is required. A dataset with a conformant `tokens/` directory and no descriptor is fully conformant. When a `dataset.json` is present it **MUST** validate against `dataset.schema.json`, but its absence **MUST NOT** be treated as an error.
 

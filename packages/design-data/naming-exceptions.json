@@ -1633,6 +1633,24 @@
       "file": "layout.json",
       "category": "legacy-preserved",
       "reason": "legacyKey pinned to the original dangling tokenBindings name (SPEC-027 vpk.1 fix); does not roundtrip through field-order generation"
+    },
+    {
+      "token": "corner-radius-button-small",
+      "file": "layout.json",
+      "category": "legacy-preserved",
+      "reason": "legacyKey pinned to the published Figma token name for the wrapping Button corner radius; does not roundtrip through field-order generation"
+    },
+    {
+      "token": "corner-radius-button-large",
+      "file": "layout.json",
+      "category": "legacy-preserved",
+      "reason": "legacyKey pinned to the published Figma token name for the wrapping Button corner radius; does not roundtrip through field-order generation"
+    },
+    {
+      "token": "corner-radius-button-extra-large",
+      "file": "layout.json",
+      "category": "legacy-preserved",
+      "reason": "legacyKey pinned to the published Figma token name for the wrapping Button corner radius; does not roundtrip through field-order generation"
     }
   ]
 }

@@ -118,6 +118,33 @@
       "summary": "shadcn theme and component registry export plugin."
     },
     {
+      "path": "sdk/plugins/site",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Static component explorer site generator."
+    },
+    {
+      "path": "sdk/plugins/site/assets",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Browser assets (HTML and visual runtime) embedded by the site generator."
+    },
+    {
+      "path": "sdk/plugins/site/controls",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Build script and pinned lockfile for the Spectrum Web Components bundle in assets/."
+    },
+    {
       "path": "sdk/tui",
       "kind": "package",
       "audience": "consumer",
@@ -134,6 +161,15 @@
       "published": true,
       "llms": true,
       "summary": "WebAssembly bindings for design-data-core."
+    },
+    {
+      "path": "sdk/wasm-visual",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "incubating",
+      "published": true,
+      "llms": false,
+      "summary": "Slim WebAssembly renderer for component visual recipes, with precompiled variants."
     },
     {
       "path": "platforms",
@@ -224,7 +260,7 @@
       "lifecycle": "active",
       "published": true,
       "llms": true,
-      "summary": "Claude Code skill for querying Spectrum design data through the CLI."
+      "summary": "Read-only Spectrum lookup plugin: a skill plus the bundled design-data MCP server."
     },
     {
       "path": "tools/diff-generator",
@@ -234,6 +270,15 @@
       "published": true,
       "llms": true,
       "summary": "Token diff CLI and library with CLI, JSON, and Markdown output."
+    },
+    {
+      "path": "tools/figma-spec-plugin",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "incubating",
+      "published": false,
+      "llms": false,
+      "summary": "Figma plugin that renders a component spec sheet and changelog onto a canvas."
     },
     {
       "path": "tools/ios-override-importer",
@@ -263,6 +308,15 @@
       "summary": "High-performance deep object diff library."
     },
     {
+      "path": "tools/platform-capture",
+      "kind": "area",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Captures platform reference renderings (iOS simulator, Storybook) for comparison with renderer output. Images stay out of the repo."
+    },
+    {
       "path": "tools/release-analyzer",
       "kind": "package",
       "audience": "maintainer",
@@ -275,10 +329,10 @@
       "path": "tools/s2-docs-mcp",
       "kind": "package",
       "audience": "consumer",
-      "lifecycle": "active",
+      "lifecycle": "deprecated",
       "published": true,
-      "llms": true,
-      "summary": "MCP server for Spectrum 2 documentation."
+      "llms": false,
+      "summary": "MCP server for Spectrum 2 documentation. Superseded by `@adobe/design-data-mcp`."
     },
     {
       "path": "tools/s2-docs-to-document-blocks",

@@ -5,7 +5,9 @@
       "property": "minimum-width"
     },
     "context": "Minimum width",
-    "$ref": "8dfd4f94-93cc-47dd-92d2-87d1696f4ab7"
+    "contextRole": ["width"],
+    "$ref": "3f50af14-ea93-4819-a04f-49b17139b0a0",
+    "uuid": "0455d2b4-d0a0-5b8e-aef0-fb5b8c9a337f"
   },
   {
     "scope": {
@@ -13,15 +15,65 @@
       "property": "maximum-width"
     },
     "context": "Maximum width",
-    "$ref": "7ba00389-a6ba-4d18-9d88-8704427ad784"
+    "contextRole": ["width"],
+    "$ref": "7ba00389-a6ba-4d18-9d88-8704427ad784",
+    "uuid": "b49723d4-e523-52f5-a9bc-a4836787356f"
   },
   {
     "scope": {
       "component": "progress-bar",
-      "property": "spacing"
+      "property": "gap",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (field label to progress bar)",
-    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "e2b5b880-8918-5ac2-bcf9-8ed7f71cad81"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "e22bd77e-50e6-5a01-b25e-e31a2dc87c58"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "79605781-c82e-5d8b-ba47-174bfdcc78ed"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "gap",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (field label to progress bar)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to progress bar",
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "1057e470-3436-5bbe-abcb-1cbe58ec29fc"
   },
   {
     "scope": {
@@ -29,7 +81,10 @@
       "property": "spacing"
     },
     "context": "Minimum spacing (field label to text)",
-    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+    "contextRole": ["spacing"],
+    "contextQualifier": "field label to text",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "a135a41f-f525-585b-b9df-f75350d0bd97"
   },
   {
     "scope": {
@@ -37,15 +92,10 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top edge to text)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
-  },
-  {
-    "scope": {
-      "component": "progress-bar",
-      "property": "component-top-to-text-75"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to text",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "uuid": "869e2422-8813-52ba-91d2-c990d4de5edb"
   },
   {
     "scope": {
@@ -53,15 +103,10 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top edge to text)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
-  },
-  {
-    "scope": {
-      "component": "progress-bar",
-      "property": "component-top-to-text-100"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to text",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
+    "uuid": "4dd881d2-198a-5a4e-866c-750b31052d7e"
   },
   {
     "scope": {
@@ -69,15 +114,10 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top edge to text)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
-  },
-  {
-    "scope": {
-      "component": "progress-bar",
-      "property": "component-top-to-text-200"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to text",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
+    "uuid": "0cc51756-4adc-5539-a90e-dfb923fc6990"
   },
   {
     "scope": {
@@ -85,15 +125,10 @@
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top edge to text)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
-  },
-  {
-    "scope": {
-      "component": "progress-bar",
-      "property": "component-top-to-text-300"
-    },
-    "context": "Spacing (top edge to text)",
-    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    "contextRole": ["spacing"],
+    "contextQualifier": "top edge to text",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
+    "uuid": "59edd022-fe40-5129-ac59-d914dd90283a"
   },
   {
     "scope": {
@@ -101,7 +136,10 @@
       "property": "thickness"
     },
     "context": "Thickness (track)",
-    "$ref": "f8881a13-70fb-4797-a3ec-08c3c8432b5a"
+    "contextRole": ["thickness"],
+    "contextPart": "track",
+    "$ref": "5952b589-51da-4733-8606-6a8a93738df1",
+    "uuid": "3fcbd5b4-044e-5160-a54c-de18533622bc"
   },
   {
     "scope": {
@@ -109,7 +147,10 @@
       "property": "thickness"
     },
     "context": "Thickness (track)",
-    "$ref": "ab98c47f-f2e4-4f74-8008-55c65907b6eb"
+    "contextRole": ["thickness"],
+    "contextPart": "track",
+    "$ref": "2680a852-162b-527c-a292-35a053f8bd54",
+    "uuid": "883b053f-a900-53a6-b27f-dd00d748463d"
   },
   {
     "scope": {
@@ -117,7 +158,10 @@
       "property": "thickness"
     },
     "context": "Thickness (track)",
-    "$ref": "0d9f1945-262b-48d0-b584-ff78ec28e012"
+    "contextRole": ["thickness"],
+    "contextPart": "track",
+    "$ref": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e",
+    "uuid": "6bf10d11-c486-5e36-996e-bcb206ae215b"
   },
   {
     "scope": {
@@ -125,7 +169,10 @@
       "property": "thickness"
     },
     "context": "Thickness (track)",
-    "$ref": "d53e3ac6-6091-4c3f-9e1b-b12b716a5f95"
+    "contextRole": ["thickness"],
+    "contextPart": "track",
+    "$ref": "c426f1ca-5b7f-560a-9a83-d6fbba88e8bf",
+    "uuid": "8a7549d0-7001-5500-b654-908941176411"
   },
   {
     "scope": {
@@ -133,7 +180,10 @@
       "property": "thickness"
     },
     "context": "Thickness (track)",
-    "$ref": "f8dfa5e7-efb8-409f-8ab3-6bf3adf2199b"
+    "contextRole": ["thickness"],
+    "contextPart": "track",
+    "$ref": "46d32810-88b6-4c89-9536-965e85455bb0",
+    "uuid": "07af741a-8a73-52e3-bbde-26653bf2046b"
   },
   {
     "scope": {
@@ -141,7 +191,10 @@
       "property": "thickness"
     },
     "context": "Thickness (track)",
-    "$ref": "4b680695-7e42-493c-889b-c76a60ab1f4f"
+    "contextRole": ["thickness"],
+    "contextPart": "track",
+    "$ref": "1167f6f4-6069-5158-af7e-4486c1abff3c",
+    "uuid": "d001bd85-0767-5acc-a4ea-843c8b7ee493"
   },
   {
     "scope": {
@@ -149,7 +202,10 @@
       "property": "thickness"
     },
     "context": "Thickness (track)",
-    "$ref": "71229a29-a2cf-46bc-84d4-d324bffad26b"
+    "contextRole": ["thickness"],
+    "contextPart": "track",
+    "$ref": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc",
+    "uuid": "5655a21e-f8b0-5357-8983-d66be6a1df0c"
   },
   {
     "scope": {
@@ -157,7 +213,10 @@
       "property": "thickness"
     },
     "context": "Thickness (track)",
-    "$ref": "c15e51b3-4a5e-421e-aa4e-e0a82840f1a2"
+    "contextRole": ["thickness"],
+    "contextPart": "track",
+    "$ref": "20a5f904-581b-5438-ace0-a0f9bfa76018",
+    "uuid": "a66845e1-db03-5825-a629-3cca1495926a"
   },
   {
     "scope": {
@@ -165,7 +224,9 @@
       "property": "corner-radius"
     },
     "context": "Rounding",
-    "$ref": "4853520b-bda3-45d1-bd20-8508cac08847"
+    "contextRole": ["rounding"],
+    "$ref": "4853520b-bda3-45d1-bd20-8508cac08847",
+    "uuid": "dbf20548-ff9c-511f-83c3-60b6922e95fc"
   },
   {
     "scope": {
@@ -173,7 +234,9 @@
       "property": "font-family"
     },
     "context": "Value",
-    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+    "contextRole": ["value"],
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
+    "uuid": "c9238f57-31c3-558d-ab73-f927cadfd578"
   },
   {
     "scope": {
@@ -181,7 +244,9 @@
       "property": "font-weight"
     },
     "context": "Value",
-    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+    "contextRole": ["value"],
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "f96d2872-89ff-56b3-9092-4fa6b908d381"
   },
   {
     "scope": {
@@ -189,7 +254,9 @@
       "property": "font-style"
     },
     "context": "Value",
-    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+    "contextRole": ["value"],
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "08f53a4e-1780-52db-a3c3-72a177398130"
   },
   {
     "scope": {
@@ -197,7 +264,9 @@
       "property": "font-size-75"
     },
     "context": "Value",
-    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+    "contextRole": ["value"],
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a",
+    "uuid": "616305e2-b598-5731-81fc-800de2c1386d"
   },
   {
     "scope": {
@@ -205,7 +274,9 @@
       "property": "font-size-75"
     },
     "context": "Value",
-    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+    "contextRole": ["value"],
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c",
+    "uuid": "6e5a7c83-7f38-573f-ae58-21ff8faba238"
   },
   {
     "scope": {
@@ -213,7 +284,9 @@
       "property": "font-size-100"
     },
     "context": "Value",
-    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+    "contextRole": ["value"],
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707",
+    "uuid": "c9141a4e-582e-5444-a620-24009d4f24e5"
   },
   {
     "scope": {
@@ -221,7 +294,9 @@
       "property": "font-size-100"
     },
     "context": "Value",
-    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+    "contextRole": ["value"],
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411",
+    "uuid": "29fd01a3-c47d-52a4-b271-5b9577efaa98"
   },
   {
     "scope": {
@@ -229,7 +304,9 @@
       "property": "font-size-200"
     },
     "context": "Value",
-    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+    "contextRole": ["value"],
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91",
+    "uuid": "d256b145-1721-5ea0-8151-4e41ceee43c6"
   },
   {
     "scope": {
@@ -237,7 +314,9 @@
       "property": "font-size-200"
     },
     "context": "Value",
-    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+    "contextRole": ["value"],
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991",
+    "uuid": "91ccf6e7-4b9d-5bc3-9c21-280de24abfaa"
   },
   {
     "scope": {
@@ -245,7 +324,9 @@
       "property": "font-size-300"
     },
     "context": "Value",
-    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+    "contextRole": ["value"],
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175",
+    "uuid": "86566bdf-d461-5cd4-a501-10d1fa8f9152"
   },
   {
     "scope": {
@@ -253,7 +334,9 @@
       "property": "font-size-300"
     },
     "context": "Value",
-    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+    "contextRole": ["value"],
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7",
+    "uuid": "3e077f43-9879-5dfc-9387-9c6cd70f9812"
   },
   {
     "scope": {
@@ -261,7 +344,9 @@
       "property": "line-height-100"
     },
     "context": "Value",
-    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+    "contextRole": ["value"],
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
+    "uuid": "27853e99-dc45-5a31-990d-cd0533b6fce9"
   },
   {
     "scope": {
@@ -269,7 +354,9 @@
       "property": "line-height-100"
     },
     "context": "Value",
-    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+    "contextRole": ["value"],
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
+    "uuid": "74a60d9e-f831-5966-a6c5-5ad2303f6fb6"
   },
   {
     "scope": {
@@ -277,7 +364,9 @@
       "property": "content-color"
     },
     "context": "Text",
-    "$ref": "7a058b23-341c-4dd3-83d8-358917277836"
+    "contextRole": ["label"],
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
+    "uuid": "ed952d07-27b6-592b-955b-60259eec7c9d"
   },
   {
     "scope": {
@@ -285,7 +374,9 @@
       "property": "color"
     },
     "context": "Track and indicator",
-    "$ref": "6f2bb13a-8579-495c-8fe3-0046b1f99b01"
+    "contextRole": ["track", "control"],
+    "$ref": "6f2bb13a-8579-495c-8fe3-0046b1f99b01",
+    "uuid": "62f659d6-9b24-5b1f-b49a-9d34d11a6838"
   },
   {
     "scope": {
@@ -293,31 +384,87 @@
       "property": "content-color"
     },
     "context": "Track and indicator",
-    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+    "contextRole": ["track", "control"],
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185",
+    "uuid": "e1c86a18-deb1-5d40-a708-2f8e06a2c9dd"
   },
   {
     "scope": {
       "component": "progress-bar",
-      "property": "color"
+      "property": "content-color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Text (white)",
-    "$ref": "13ee65f0-4bb9-4213-905d-92c1b788a702"
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "13ee65f0-4bb9-4213-905d-92c1b788a702",
+    "uuid": "218fa7b5-8f93-586c-abb4-39f2f25a11b7"
   },
   {
     "scope": {
       "component": "progress-bar",
-      "property": "color"
+      "property": "color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and indicator (white)",
-    "$ref": "23791534-8963-4ff8-bfb4-15108da47103"
+    "context": "Track and indicator",
+    "contextRole": ["track", "control"],
+    "$ref": "23791534-8963-4ff8-bfb4-15108da47103",
+    "uuid": "b6ecaa25-23e6-55b5-b8d5-7764013bb36e"
   },
   {
     "scope": {
       "component": "progress-bar",
-      "property": "color"
+      "property": "content-color",
+      "options": {
+        "staticColor": "white"
+      }
     },
-    "context": "Track and indicator (white)",
-    "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f"
+    "context": "Track and indicator",
+    "contextRole": ["track", "control"],
+    "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f",
+    "uuid": "0410adfb-10ea-5de0-a668-13ecc400150b"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "content-color",
+      "options": {
+        "staticColor": "black"
+      }
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "9b7919b5-764c-4f93-b4c7-39d8bf7f2b51",
+    "uuid": "56ae39b9-282c-5820-92d2-fb97bb536295"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "color",
+      "options": {
+        "staticColor": "black"
+      }
+    },
+    "context": "Track and indicator",
+    "contextRole": ["track", "control"],
+    "$ref": "c6d40ce0-bcee-4b56-9e63-a51ee1579ef0",
+    "uuid": "5adc2357-e39f-5025-827a-4d2606b7f49b"
+  },
+  {
+    "scope": {
+      "component": "progress-bar",
+      "property": "content-color",
+      "options": {
+        "staticColor": "black"
+      }
+    },
+    "context": "Track and indicator",
+    "contextRole": ["track", "control"],
+    "$ref": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9",
+    "uuid": "92c7db5f-812f-5e0f-b347-bf69745f9baa"
   },
   {
     "scope": {
@@ -337,7 +484,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
     "uuid": "8dfd4f94-93cc-47dd-92d2-87d1696f4ab7",
-    "legacyKey": "progress-bar-minimum-width"
+    "legacyKey": "progress-bar-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared bar-minimum-width-* scale.",
+      "replacedBy": "3f50af14-ea93-4819-a04f-49b17139b0a0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 230 of the mapping sheet."
   },
   {
     "scope": {
@@ -353,7 +506,13 @@
     "uuid": "71229a29-a2cf-46bc-84d4-d324bffad26b",
     "legacyKey": "progress-bar-thickness-extra-large",
     "setUuid": "2c15f8e9-7fa5-43d6-9797-d1b3249fea3f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 231 of the mapping sheet."
   },
   {
     "scope": {
@@ -369,7 +528,13 @@
     "uuid": "c15e51b3-4a5e-421e-aa4e-e0a82840f1a2",
     "legacyKey": "progress-bar-thickness-extra-large",
     "setUuid": "2c15f8e9-7fa5-43d6-9797-d1b3249fea3f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 231 of the mapping sheet."
   },
   {
     "scope": {
@@ -385,7 +550,13 @@
     "uuid": "f8dfa5e7-efb8-409f-8ab3-6bf3adf2199b",
     "legacyKey": "progress-bar-thickness-large",
     "setUuid": "1254b284-bdec-4235-b13f-9b3eaed7d373",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "46d32810-88b6-4c89-9536-965e85455bb0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 232 of the mapping sheet."
   },
   {
     "scope": {
@@ -401,7 +572,13 @@
     "uuid": "4b680695-7e42-493c-889b-c76a60ab1f4f",
     "legacyKey": "progress-bar-thickness-large",
     "setUuid": "1254b284-bdec-4235-b13f-9b3eaed7d373",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "46d32810-88b6-4c89-9536-965e85455bb0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 232 of the mapping sheet."
   },
   {
     "scope": {
@@ -417,7 +594,13 @@
     "uuid": "0d9f1945-262b-48d0-b584-ff78ec28e012",
     "legacyKey": "progress-bar-thickness-medium",
     "setUuid": "95d7924c-dd4e-48ab-9fc5-5895ba316cdd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 233 of the mapping sheet."
   },
   {
     "scope": {
@@ -433,7 +616,13 @@
     "uuid": "d53e3ac6-6091-4c3f-9e1b-b12b716a5f95",
     "legacyKey": "progress-bar-thickness-medium",
     "setUuid": "95d7924c-dd4e-48ab-9fc5-5895ba316cdd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 233 of the mapping sheet."
   },
   {
     "scope": {
@@ -449,7 +638,13 @@
     "uuid": "f8881a13-70fb-4797-a3ec-08c3c8432b5a",
     "legacyKey": "progress-bar-thickness-small",
     "setUuid": "d45eab8f-f956-46c1-9dd7-bddf5b5dde4c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 234 of the mapping sheet."
   },
   {
     "scope": {
@@ -465,6 +660,12 @@
     "uuid": "ab98c47f-f2e4-4f74-8008-55c65907b6eb",
     "legacyKey": "progress-bar-thickness-small",
     "setUuid": "d45eab8f-f956-46c1-9dd7-bddf5b5dde4c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.8.0",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 234 of the mapping sheet."
   }
 ]

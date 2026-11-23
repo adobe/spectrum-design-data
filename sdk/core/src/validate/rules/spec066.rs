@@ -1,0 +1,459 @@
+// Copyright 2026 Adobe. All rights reserved.
+// This file is licensed to you under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License. You may obtain a copy
+// of the License at http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under
+// the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+// OF ANY KIND, either express or implied. See the License for the specific language
+// governing permissions and limitations under the License.
+
+//! SPEC-066: visual-covers-component
+//!
+//! Every option and state a component declares SHOULD either affect its visual
+//! recipe or be listed in the recipe's `notVisual` array. A name counts as used
+//! when a `when` condition or the `presentWhen` of an anatomy part the recipe draws
+//! names it, when a token the recipe
+//! binds carries the state, or when it is implied: `size` by `sizeScale`,
+//! `label` by a text part, and `isDisabled` / `isSelected` by the `disabled` /
+//! `selected` states (and the reverse). `notVisual` names MUST be declared and
+//! SHOULD NOT also be used. A part's `repeat` block reads its array option through the
+//! slot it names; its `with` keys MUST be declared options, and its `label` and `with`
+//! fields MUST be properties of that option's item schema (when it lists any).
+
+use std::collections::BTreeSet;
+
+use serde_json::Value;
+
+use crate::graph::VisualRecord;
+use crate::report::Diagnostic;
+use crate::validate::rule::{ValidationContext, ValidationRule};
+use crate::validate::rules::visual_util::{
+    component_of, component_relationships, expand_selector, option_entries, size_entries,
+    tokens_matching, walk_objects, warning,
+};
+use crate::visual::{collection_slot, option_template_names};
+use crate::visual::{name_states, OPTION_STATES};
+
+pub struct Rule;
+
+#[derive(Default)]
+struct Used {
+    options: BTreeSet<String>,
+    states: BTreeSet<String>,
+}
+
+fn conditions(node: &Value) -> Vec<&Value> {
+    let mut out = Vec::new();
+    for key in ["when", "visibleWhen"] {
+        match node.get(key) {
+            Some(Value::Array(a)) => out.extend(a.iter()),
+            Some(v @ Value::Object(_)) => out.push(v),
+            _ => {}
+        }
+    }
+    out
+}
+
+/// The `repeat` declarations of a recipe's parts, with the part that holds each and the array
+/// option their slot names (empty when the slot is not a collection slot; SPEC-060 reports it).
+fn repeats<'a>(
+    v: &'a VisualRecord,
+    comp: Option<&'a Value>,
+) -> Vec<(&'a str, &'a serde_json::Map<String, Value>, &'a str)> {
+    let parts = v.raw.get("parts").and_then(Value::as_object);
+    parts
+        .into_iter()
+        .flatten()
+        .filter_map(|(k, p)| {
+            let rep = p.get("repeat")?.as_object()?;
+            let slot = rep.get("slot")?.as_str()?;
+            let option = comp.and_then(|c| collection_slot(c, slot)).map(|(_, o)| o);
+            Some((k.as_str(), rep, option.unwrap_or("")))
+        })
+        .collect()
+}
+
+fn used_by(ctx: &ValidationContext<'_>, v: &VisualRecord) -> Used {
+    let mut used = Used::default();
+    let graph = ctx.graph;
+    let sizes = size_entries(&v.raw);
+    let options = option_entries(ctx.graph, v);
+    let rels = component_relationships(graph, &v.component);
+    let Some(parts) = v.raw.get("parts") else {
+        return used;
+    };
+    walk_objects(parts, "/parts", &mut |_, node| {
+        for cond in conditions(node) {
+            if let Some(o) = cond.get("options").and_then(Value::as_object) {
+                used.options.extend(o.keys().cloned());
+            }
+            if let Some(s) = cond.get("states").and_then(Value::as_array) {
+                used.states
+                    .extend(s.iter().filter_map(|x| x.as_str().map(String::from)));
+            }
+        }
+        let text_option = node.get("text").and_then(|t| t.get("option"));
+        for name in text_option
+            .into_iter()
+            .chain(node.get("option"))
+            .chain(node.get("dimension"))
+            .chain(
+                node.get("fraction")
+                    .and_then(Value::as_object)
+                    .into_iter()
+                    .flat_map(|f| f.values()),
+            )
+        {
+            used.options.extend(name.as_str().map(String::from));
+        }
+        if let Some(sel) = node.get("relationship").filter(|r| r.is_object()) {
+            used.options.extend(option_template_names(sel));
+            for e in expand_selector(sel, &sizes, &options) {
+                for r in &rels {
+                    if crate::scope::selector_matches(&e, r.record) {
+                        used.states.extend(r.states.iter().cloned());
+                        used.options.extend(r.options.iter().cloned());
+                    }
+                }
+            }
+        }
+        if let Some(sel) = node.get("token").filter(|t| t.is_object()) {
+            used.options.extend(option_template_names(sel));
+            for e in expand_selector(sel, &sizes, &options) {
+                if let Some(m) = e.as_object() {
+                    for t in tokens_matching(graph, m) {
+                        used.states.extend(name_states(t.raw.get("name")));
+                    }
+                }
+            }
+        }
+    });
+    let comp = component_of(graph, v).map(|c| &c.raw);
+    // A part's presence condition lives on its anatomy part, not in the recipe.
+    let drawn = parts.as_object();
+    for part in comp
+        .and_then(|c| c.get("anatomy"))
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter(|a| {
+            let name = a.get("name").and_then(Value::as_str).unwrap_or_default();
+            drawn.is_some_and(|d| d.contains_key(name))
+        })
+    {
+        let Some(cond) = part.get("presentWhen") else {
+            continue;
+        };
+        if let Some(o) = cond.get("options").and_then(Value::as_object) {
+            used.options.extend(o.keys().cloned());
+        }
+        if let Some(s) = cond.get("states").and_then(Value::as_array) {
+            used.states
+                .extend(s.iter().filter_map(|x| x.as_str().map(String::from)));
+        }
+    }
+    for (_, _, option) in repeats(v, comp) {
+        if !option.is_empty() {
+            used.options.insert(option.into());
+        }
+    }
+    if !sizes.is_empty() {
+        used.options.insert("size".into());
+    }
+    let has_text = parts.as_object().is_some_and(|m| {
+        m.values()
+            .any(|p| p.get("kind").and_then(Value::as_str) == Some("text"))
+    });
+    if has_text {
+        used.options.insert("label".into());
+    }
+    for (opt, state) in OPTION_STATES {
+        if used.options.contains(*opt) {
+            used.states.insert((*state).into());
+        }
+        if used.states.contains(*state) {
+            used.options.insert((*opt).into());
+        }
+    }
+    used
+}
+
+impl ValidationRule for Rule {
+    fn id(&self) -> &'static str {
+        "SPEC-066"
+    }
+
+    fn name(&self) -> &'static str {
+        "visual-covers-component"
+    }
+
+    fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
+        let mut out = Vec::new();
+        for v in &ctx.graph.visuals {
+            let Some(comp) = component_of(ctx.graph, v) else {
+                continue; // SPEC-060 covers undeclared component
+            };
+            let options: BTreeSet<String> = comp
+                .raw
+                .get("options")
+                .and_then(Value::as_object)
+                .map(|m| m.keys().cloned().collect())
+                .unwrap_or_default();
+            let states: BTreeSet<String> = comp
+                .raw
+                .get("states")
+                .and_then(Value::as_array)
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|s| s.get("name").and_then(Value::as_str).map(String::from))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let not_visual: BTreeSet<String> = v
+                .raw
+                .get("notVisual")
+                .and_then(Value::as_array)
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|x| x.as_str().map(String::from))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let used = used_by(ctx, v);
+            let name = &v.component;
+
+            for opt in options.difference(&used.options) {
+                if !not_visual.contains(opt) {
+                    out.push(warning(
+                        self.id(),
+                        v,
+                        "/component",
+                        format!(
+                            "Option '{opt}' of '{name}' does not affect the recipe; use it in a condition or list it in notVisual"
+                        ),
+                    ));
+                }
+            }
+            for state in states.difference(&used.states) {
+                if !not_visual.contains(state) {
+                    out.push(warning(
+                        self.id(),
+                        v,
+                        "/component",
+                        format!(
+                            "State '{state}' of '{name}' does not affect the recipe; use it in a condition or list it in notVisual"
+                        ),
+                    ));
+                }
+            }
+            for (key, rep, opt) in repeats(v, Some(&comp.raw)) {
+                if opt.is_empty() {
+                    continue; // SPEC-060 reports a slot that is not a collection slot
+                }
+                let base = format!("/parts/{key}/repeat");
+                let def = comp.raw.pointer(&format!("/options/{opt}"));
+                let mut bad = |path: &str, msg: String| {
+                    out.push(warning(self.id(), v, path, msg));
+                };
+                // A collection that is not a declared array option is SPEC-104's to report.
+                match def.filter(|d| d.get("type").and_then(Value::as_str) == Some("array")) {
+                    None => {}
+                    Some(d) => {
+                        let fields = d.pointer("/items/properties").and_then(Value::as_object);
+                        let with = rep.get("with").and_then(Value::as_object);
+                        let mapped = with.into_iter().flatten().filter_map(|(k, f)| {
+                            if !options.contains(k) {
+                                bad(
+                                    &format!("{base}/with"),
+                                    format!("repeat sets '{k}', which '{name}' does not declare as an option"),
+                                );
+                            }
+                            f.as_str()
+                        });
+                        let label = rep.get("label").and_then(Value::as_str);
+                        for f in mapped.chain(label).collect::<Vec<_>>() {
+                            if fields.is_some_and(|p| !p.contains_key(f)) {
+                                bad(
+                                    &base,
+                                    format!("repeat reads entry field '{f}', which the items of '{opt}' do not declare"),
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+            for nv in &not_visual {
+                let path = "/notVisual";
+                if !options.contains(nv) && !states.contains(nv) {
+                    out.push(warning(
+                        self.id(),
+                        v,
+                        path,
+                        format!("notVisual lists '{nv}', which '{name}' does not declare as an option or state"),
+                    ));
+                } else if used.options.contains(nv) || used.states.contains(nv) {
+                    out.push(warning(
+                        self.id(),
+                        v,
+                        path,
+                        format!("notVisual lists '{nv}', but the recipe uses it"),
+                    ));
+                }
+            }
+        }
+        out
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::path::PathBuf;
+
+    use serde_json::json;
+
+    use crate::graph::{ComponentRecord, Layer, TokenGraph, VisualRecord};
+    use crate::registry::RegistryData;
+    use crate::report::Severity;
+    use crate::validate::rule::{ValidationContext, ValidationRule};
+    use crate::validate::rules::spec066::Rule;
+
+    fn run(
+        recipe: serde_json::Value,
+        component: serde_json::Value,
+    ) -> Vec<crate::report::Diagnostic> {
+        let mut g = TokenGraph::default();
+        g.components.push(ComponentRecord {
+            name: "switch".into(),
+            file: PathBuf::from("dataset.json"),
+            raw: component,
+            layer: Layer::Foundation,
+        });
+        g.visuals.push(VisualRecord {
+            component: "switch".into(),
+            file: PathBuf::from("visuals/switch.json"),
+            raw: recipe,
+            layer: crate::graph::Layer::Foundation,
+        });
+        let exceptions = std::collections::HashSet::new();
+        let registry = RegistryData::embedded();
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry,
+            manifest: None,
+        };
+        Rule.validate(&ctx)
+    }
+
+    fn component() -> serde_json::Value {
+        json!({
+            "name": "switch",
+            "options": {"isSelected": {"type": "boolean"}, "isReadOnly": {"type": "boolean"}},
+            "states": [{"name": "hover"}, {"name": "selected"}]
+        })
+    }
+
+    fn recipe(extra: serde_json::Value) -> serde_json::Value {
+        let mut r = json!({
+            "component": "switch",
+            "root": "track",
+            "parts": {"track": {"kind": "box", "props": {"fill": [
+                {"token": {"property": "color"}},
+                {"when": {"options": {"isSelected": true}, "states": ["hover"]}, "token": {"property": "color"}}
+            ]}}}
+        });
+        r.as_object_mut()
+            .unwrap()
+            .extend(extra.as_object().unwrap().clone());
+        r
+    }
+
+    #[test]
+    fn unused_option_warns() {
+        let diags = run(recipe(json!({})), component());
+        assert_eq!(diags.len(), 1, "{diags:?}");
+        assert_eq!(diags[0].severity, Severity::Warning);
+        assert!(diags[0].message.contains("'isReadOnly'"));
+    }
+
+    #[test]
+    fn repeat_reads_known_fields_of_the_slots_option() {
+        let comp = json!({
+            "name": "switch",
+            "options": {
+                "isSelected": {"type": "boolean"},
+                "isReadOnly": {"type": "boolean"},
+                "items": {"type": "array", "items": {"type": "object", "properties": {"label": {}, "on": {}}}}
+            },
+            "slots": [{"name": "default", "part": "row", "collection": "items"}],
+            "states": [{"name": "hover"}, {"name": "selected"}]
+        });
+        let r = |rep: serde_json::Value| {
+            let mut recipe = recipe(json!({"notVisual": ["isReadOnly"]}));
+            recipe["parts"]["track"]["repeat"] = rep;
+            let d = run(recipe, comp.clone());
+            d.into_iter().map(|d| d.message).collect::<Vec<_>>()
+        };
+        let ok = json!({"slot": "default", "label": "label", "with": {"isSelected": "on"}});
+        assert!(r(ok).is_empty());
+        let m = r(
+            json!({"slot": "default", "label": "title", "with": {"nope": "on", "isSelected": "gone"}}),
+        );
+        assert_eq!(m.len(), 3, "{m:?}");
+    }
+
+    #[test]
+    fn not_visual_silences_it() {
+        let diags = run(recipe(json!({"notVisual": ["isReadOnly"]})), component());
+        assert!(diags.is_empty(), "{diags:?}");
+    }
+
+    #[test]
+    fn selected_option_covers_selected_state() {
+        let diags = run(recipe(json!({"notVisual": ["isReadOnly"]})), component());
+        assert!(diags.iter().all(|d| !d.message.contains("'selected'")));
+    }
+
+    #[test]
+    fn undeclared_not_visual_name_warns() {
+        let diags = run(
+            recipe(json!({"notVisual": ["isReadOnly", "nope"]})),
+            component(),
+        );
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0].message.contains("'nope'"));
+    }
+
+    #[test]
+    fn not_visual_on_a_used_name_warns() {
+        let diags = run(
+            recipe(json!({"notVisual": ["isReadOnly", "isSelected"]})),
+            component(),
+        );
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0].message.contains("uses it"));
+    }
+
+    #[test]
+    fn option_used_only_through_a_selector_placeholder_is_used() {
+        let component = json!({
+            "name": "switch",
+            "options": {"style": {"type": "string", "values": [{"value": "a"}, {"value": "b"}]}},
+            "states": [{"name": "hover"}]
+        });
+        let recipe = json!({
+            "component": "switch",
+            "root": "track",
+            "parts": {"track": {"kind": "box", "props": {"fill": [
+                {"token": {"variant": "{style}", "property": "color"}},
+                {"when": {"states": ["hover"]}, "token": {"property": "color"}}
+            ]}}}
+        });
+        let diags = run(recipe, component);
+        assert!(
+            diags.iter().all(|d| !d.message.contains("'style'")),
+            "{diags:?}"
+        );
+    }
+}

@@ -62,22 +62,104 @@
           "minLength": 1,
           "description": "The stylistic attribute this relationship describes (e.g. color, width, padding)."
         },
+        "between": {
+          "type": "object",
+          "minProperties": 1,
+          "description": "The two endpoints of a gap or padding (for example space-between, padding, edge-to-content). Either end may be omitted. Each end is a position, a generic anatomy term, or an anatomy part declared on the component (SPEC-101, same vocabulary as a space-between token endpoint, SPEC-047).",
+          "properties": {
+            "from": { "type": "string", "minLength": 1 },
+            "to": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
+        "attribute": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A sub-quality of the property (for example border, background, dash, shadow, corner, overlay, gradient; registry/attributes.json, SPEC-101). Part of the relationship's identity with property, part and between."
+        },
+        "object": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The styling surface (registry/token-objects.json, SPEC-101)."
+        },
+        "position": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Location relative to another object or edge (registry/positions.json, SPEC-101)."
+        },
+        "itemPosition": {
+          "type": "string",
+          "enum": ["first", "middle", "last", "only"],
+          "description": "The place of one drawn copy of a repeated part (a collection slot's part) among the copies drawn: first, middle, last, or only (a single copy; neither first nor last). Valid only when scope.part is that repeated part or a part inside it (SPEC-107). Counts as one satisfied condition when the renderer resolves the record per copy. Unlike scope.position, which names a side or corner."
+        },
+        "structure": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A reusable visual pattern (registry/structures.json, SPEC-101)."
+        },
+        "qualifier": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A behavioral or layout modifier that is not a state, variant or position (registry/qualifiers.json, SPEC-101)."
+        },
+        "icon": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Icon identity (registry/icon-terms.json, SPEC-101)."
+        },
         "options": {
           "type": "object",
-          "description": "Option-scoped narrowing (e.g. variant, size, style, arbitrary component option keys). Each key's value MUST validate against the referenced component's options.<key>.values (SPEC-053), except `state`, which is an ordered array of atomic state ids validated against the component's declared states (SPEC-054).",
+          "description": "Option-scoped narrowing (e.g. variant, size, style, arbitrary component option keys). Each string value MUST validate against the referenced component's options.<key>.values (SPEC-053); a boolean option (for example isSelected) takes `true` or `false`; a numeric option (for example scaleIndex) takes a number; an array matches when any listed value matches. `state` is the exception: an ordered array of atomic state ids validated against the component's declared states (SPEC-054).",
           "properties": {
             "state": {
               "type": "array",
               "items": {
-                "type": "string",
-                "pattern": "^[a-z][a-z0-9-]*$"
+                "oneOf": [
+                  { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "anyOf": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9-]*$"
+                        },
+                        "minItems": 2,
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": ["anyOf"],
+                    "additionalProperties": false
+                  }
+                ]
               },
               "minItems": 1,
-              "description": "Ordered array of atomic state ids (e.g. [\"hover\"], [\"selected\", \"hover\"])."
+              "description": "Ordered array of state ids that must all be active (e.g. [\"hover\"], [\"selected\", \"hover\"]). An element may be { \"anyOf\": [state, ...] }: at least one of the listed states is active (proposal 017). Each id is validated against the component's declared states (SPEC-054)."
+            },
+            "anyOf": {
+              "type": "array",
+              "minItems": 2,
+              "uniqueItems": true,
+              "description": "An any-of across option conditions (proposal 017): the record applies when its other pins match and at least one alternative matches. Each alternative is an object of option pins in the same form as this object, without `state`, `scale`, `colorScheme` or `anyOf`. `anyOf` is reserved and cannot be a component option name.",
+              "items": {
+                "type": "object",
+                "minProperties": 1,
+                "propertyNames": {
+                  "not": { "enum": ["state", "scale", "colorScheme", "anyOf"] }
+                },
+                "additionalProperties": {
+                  "type": ["string", "number", "boolean", "array"],
+                  "items": { "type": ["string", "number", "boolean"] },
+                  "minItems": 1
+                }
+              }
             }
           },
           "additionalProperties": {
-            "type": "string"
+            "type": ["string", "number", "boolean", "array"],
+            "items": { "type": ["string", "number", "boolean"] },
+            "minItems": 1
           }
         }
       },
@@ -85,7 +167,7 @@
     },
     "ctrWithValue": {
       "type": "object",
-      "required": ["scope", "value"],
+      "required": ["scope", "value", "uuid"],
       "not": {
         "required": ["$ref"]
       },
@@ -102,7 +184,23 @@
         },
         "context": {
           "type": "string",
-          "description": "Human-readable label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). Purely descriptive — not validated."
+          "description": "Label for how this CTR is used (maps to a Figma Token Group label). A visual recipe binds on this exact string (trimmed), so it is an identity key. Grammar: a main word (or a compound of main words) with an optional parenthesised part or qualifier. The main word is checked against registry/relationship-contexts.json (SPEC-091)."
+        },
+        "contextRole": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "minItems": 1,
+          "description": "Registry term ids (registry/relationship-contexts.json) for the main word of `context`, in order. Several ids make a compound main word, for example [\"background\", \"border\"] for `Background and border`. When `context` is also present it MUST equal the label derived from these fields (SPEC-090)."
+        },
+        "contextPart": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The parenthesised part of `context`, such as an anatomy part (`Dot`) or a pair of parts (`icon to label`). Mutually exclusive with contextQualifier. Requires contextRole."
+        },
+        "contextQualifier": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The parenthesised qualifier of `context`, such as `semantic`, `default` or `minimum`. Mutually exclusive with contextPart. Requires contextRole."
         },
         "$valueType": {
           "type": "string",
@@ -123,7 +221,7 @@
         "uuid": {
           "type": "string",
           "format": "uuid",
-          "description": "MUST be globally unique across all relationship entries in the same layer (SPEC-056)."
+          "description": "Required stable identity (SPEC-084). MUST be globally unique across all relationship entries in the same layer (SPEC-056) and never change once assigned."
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"
@@ -155,7 +253,7 @@
     },
     "ctrWithRef": {
       "type": "object",
-      "required": ["scope", "$ref"],
+      "required": ["scope", "$ref", "uuid"],
       "not": {
         "required": ["value"]
       },
@@ -172,7 +270,23 @@
         },
         "context": {
           "type": "string",
-          "description": "Human-readable label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). Purely descriptive — not validated."
+          "description": "Label for how this CTR is used (maps to a Figma Token Group label). A visual recipe binds on this exact string (trimmed), so it is an identity key. Grammar: a main word (or a compound of main words) with an optional parenthesised part or qualifier. The main word is checked against registry/relationship-contexts.json (SPEC-091)."
+        },
+        "contextRole": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "minItems": 1,
+          "description": "Registry term ids (registry/relationship-contexts.json) for the main word of `context`, in order. Several ids make a compound main word, for example [\"background\", \"border\"] for `Background and border`. When `context` is also present it MUST equal the label derived from these fields (SPEC-090)."
+        },
+        "contextPart": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The parenthesised part of `context`, such as an anatomy part (`Dot`) or a pair of parts (`icon to label`). Mutually exclusive with contextQualifier. Requires contextRole."
+        },
+        "contextQualifier": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The parenthesised qualifier of `context`, such as `semantic`, `default` or `minimum`. Mutually exclusive with contextPart. Requires contextRole."
         },
         "$valueType": {
           "type": "string",
@@ -187,7 +301,7 @@
         "uuid": {
           "type": "string",
           "format": "uuid",
-          "description": "MUST be globally unique across all relationship entries in the same layer (SPEC-056)."
+          "description": "Required stable identity (SPEC-084). MUST be globally unique across all relationship entries in the same layer (SPEC-056) and never change once assigned."
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle"

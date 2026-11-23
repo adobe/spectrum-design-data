@@ -1,0 +1,325 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tooltip",
+  "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
+  "releases": [
+    {
+      "release": "2.7.0",
+      "version": "1.0.1",
+      "bump": "patch",
+      "date": "2026-09-03",
+      "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+      "commits": [
+        {
+          "commit": "5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63",
+          "date": "2026-09-03",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1394,"title":"fix(design-data): re-point CTR refs off deprecated tokens, add guard rail","url":"https://github.com/adobe/spectrum-design-data/pull/1394"},
+          "entries": [
+            {"id":"5e22a7a1-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"component-edge-to-text-75","options":null},"record":"component-edge-to-text-75#Spacing (start/end edges)","name":"component-edge-to-text-75","fields":[{"path":"$ref","before":"40778817-6e47-4b58-a495-c4f34cee78df","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
+            {"id":"5e22a7a1-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"component-edge-to-text-75","options":null},"record":"component-edge-to-text-75#Spacing (start/end edges)","name":"component-edge-to-text-75","fields":[{"path":"$ref","before":"942f0f34-611a-4318-9b0e-3632e7f520b3","after":"ba072414-2cdd-4773-86a5-11ca47c08e23"}]},
+            {"id":"5e22a7a1-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top/bottom edge to text)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"477d659b-6489-4e90-84db-75a93174559a","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-top-to-text-75","options":null},"record":"component-top-to-text-75#Spacing (top/bottom edge to text)","name":"component-top-to-text-75","fields":[{"path":"$ref","before":"54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-bottom-to-text-75","options":null},"record":"component-bottom-to-text-75#Spacing (top/bottom edge to text)","name":"component-bottom-to-text-75","fields":[{"path":"$ref","before":"923c46e1-b6f7-4d8a-844d-b4c0661b5e60","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]},
+            {"id":"5e22a7a1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-bottom-to-text-75","options":null},"record":"component-bottom-to-text-75#Spacing (top/bottom edge to text)","name":"component-bottom-to-text-75","fields":[{"path":"$ref","before":"0f1a6c63-bc4f-444c-9a18-67b6c35464b1","after":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.0.0",
+      "version": "1.0.2",
+      "bump": "patch",
+      "date": "2026-09-08",
+      "commit": "569b7abcb96ebeaa549c1c1a1cb44975b30bff59",
+      "commits": [
+        {
+          "commit": "6005339a0678226eee3e827fd5bbfa793f5bccc7",
+          "date": "2026-09-08",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1428,"title":"feat(tokens)!: add conceptId as canonical concept-level UUID, retire set_uuid","url":"https://github.com/adobe/spectrum-design-data/pull/1428"},
+          "entries": [],
+          "metadata": {"count":24,"fields":["conceptId","set_uuid"]}
+        }
+      ]
+    },
+    {
+      "release": "3.3.0",
+      "version": "1.0.3",
+      "bump": "patch",
+      "date": "2026-09-30",
+      "commit": "51ac62471300dc7514bb716907bf81d94aad4777",
+      "commits": [
+        {
+          "commit": "b9888b8ce9a0e4ec5b607e088942999629d5d43d",
+          "date": "2026-09-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1513,"title":"feat(data): add S2 implementation metadata","url":"https://github.com/adobe/spectrum-design-data/pull/1513"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["implementation added"]}
+        }
+      ]
+    },
+    {
+      "release": "3.4.0",
+      "version": "1.1.0",
+      "bump": "minor",
+      "date": "2026-10-01",
+      "commit": "b07a196c22db3f99c93307e6240f196b72535d13",
+      "commits": [
+        {
+          "commit": "ec3376fa833f2c31dd0b2340590134b2747b00c4",
+          "date": "2026-10-01",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1524,"title":"feat(design-data): promote public Spectrum Hub guidance to main","url":"https://github.com/adobe/spectrum-design-data/pull/1524"},
+          "entries": [
+            {"id":"ec3376fa-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/0","name":"guideline: Text overflow.\n\nWhen the label is too long for t","fields":[{"path":"content","before":"Tooltips display contextual information related to a specific component. They appear on hover or focus to clarify purpose or behavior.","after":"Text overflow.\n\nWhen the label is too long for the available horizontal space, it wraps to form another line."}]},
+            {"id":"ec3376fa-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/1","name":"guideline: Animation.\n\nA tooltip fades in and out when show","fields":[{"path":"content","before":"All tooltips have a label. The label communicates the contextual help or information about specific components when a user hovers over or focuses on them.","after":"Animation.\n\nA tooltip fades in and out when showing and hiding, and slides a short distance from the source to indicate its origin. The direction of the slide (left, right, top, bottom) depends on the placement of the tooltip. The animation attributes (duration, easing, offset) are the same whether it's showing or hiding."}]},
+            {"id":"ec3376fa-2","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/2","name":"guideline: Immediate or delayed appearance.\n\nTooltips attac","fields":[{"path":"content","before":"By default, tooltips are the neutral variant. These are the most common variant because most tooltips are used to only disclose additional information, without conveying a semantic meaning. The neutral variant never includes an icon.","after":"Immediate or delayed appearance.\n\nTooltips attached to help icons appear immediately. For conventional UI elements where a tooltip appearing immediately would be intrusive, delay appearance with a warmup period."}]},
+            {"id":"ec3376fa-3","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/3","name":"guideline: Warmup and cooldown.\n\nThe warmup period is a glo","fields":[{"path":"content","before":"Tooltips also come in semantic variants: informative (blue), and negative (red). An icon is required for these variants to ensure information isn’t conveyed by color alone.","after":"Warmup and cooldown.\n\nThe warmup period is a global timer that requires the cursor to remain on a UI element for the allotted time before a tooltip appears. Once this period is complete, a tooltip appears instantly on any hovered-upon UI element until the cursor is in an area that does not trigger a tooltip for the duration of the cooldown period."}]},
+            {"id":"ec3376fa-4","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/4","name":"guideline: Use tooltips to describe icons.\n\nIcons are not a","fields":[{"path":"content","before":"2 of the 3 tooltip variants (informative and negative) can include an icon to supplement the messaging. These icons are predefined and can not be customized. Unless it's being used to provide context about the exact same icon, a semantic tooltip should always show an icon. Doing this is essential for helping users with color vision deficiency to discern the message tone.","after":"Use tooltips to describe icons.\n\nIcons are not always easy to identify on their own. When you use components that don't have labels — for example, icon-only action buttons and tabs — make sure to use tooltips to provide context for the icons."}]},
+            {"id":"ec3376fa-5","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/5","name":"guideline: Be concise.\n\nTooltips should be as concise and c","fields":[{"path":"content","before":"A tooltip is positioned in relation to its target.","after":"Be concise.\n\nTooltips should be as concise and clear as possible. Keep the text to 1 or 2 short sentences. If the information you need to communicate is longer than that, look into using a different design. If a tooltip is written in a full sentence (or is 2 or more sentences), include a period at the end. If it's a short phrase or is only the name of a tool, action, or icon, don't add a period to the end."}]},
+            {"id":"ec3376fa-6","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/6","name":"guideline: RTL.\n\nFor RTL (right-to-left) languages, the lay","fields":[{"path":"content","before":"This option determines whether or not a tooltip should be able to switch sides when constrained by space. A tooltip placed at the top would flip to be placed at the bottom (and vice versa), and a tooltip placed at the left would flip to be placed at the right (and vice versa).","after":"RTL.\n\nFor RTL (right-to-left) languages, the layout of the tooltip is mirrored. The icon is placed on the right side of the text."}]},
+            {"id":"ec3376fa-7","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/7","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Tabb","fields":[{"path":"content","before":"The offset is the distance between the end of the tip and the target.","after":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into an item that has a tooltip associated with it (e.g., an icon) shows the tooltip. Esc Hides the tooltip."}]},
+            {"id":"ec3376fa-8","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/8","name":"guideline: Cursor guidelines.\n\nCursor Usage Pointer If the ","fields":[{"path":"content","before":"To make sure that the tooltip will stay within certain boundaries (e.g., a browser window) it’s possible to define a container and a container padding value to respect.","after":"Cursor guidelines.\n\nCursor Usage Pointer If the trigger is a button or link, or a focus-only element (like an info icon that shows a tooltip on hover), use the pointer cursor. Default (Arrow) If the trigger is an icon that is not clickable, use the default cursor. Pointer If the tooltip has a link, use the pointer cursor when interacting with the link."}]},
+            {"id":"ec3376fa-9","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/9","name":"guideline: WCAG 2.2 compliance.\n\nAny criterion not mention ","fields":[{"path":"content","before":"When the label is too long for the available horizontal space, it wraps to form another line.","after":"WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in tooltips and icons that trigger tooltips—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Tooltips should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in tooltips. Tooltips use color to reinforce their meaning, but every tooltip also includes a clear text label that communicates purpose. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Resize text 1.4.4 AA Tooltips should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size in wrapped tooltips. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."}]},
+            {"id":"ec3376fa-10","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/10","name":"guideline: A tooltip fades in and out when showing and hidi","fields":[],"before":{"type":"guideline","content":"A tooltip fades in and out when showing and hiding, and slides a short distance from the source to indicate its origin. The direction of the slide (left, right, top, bottom) depends on the placement of the tooltip. The animation attributes (duration, easing, offset) are the same whether it’s showing or hiding."}},
+            {"id":"ec3376fa-11","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/11","name":"guideline: Tooltips attached to help icons appear immediate","fields":[],"before":{"type":"guideline","content":"Tooltips attached to help icons appear immediately. For conventional UI elements where a tooltip appearing immediately would be intrusive, delay appearance with a warmup period."}},
+            {"id":"ec3376fa-12","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/12","name":"guideline: The warmup period is a global timer that require","fields":[],"before":{"type":"guideline","content":"The warmup period is a global timer that requires the cursor to remain on a UI element for the allotted time before a tooltip appears. Once this period is complete, a tooltip appears instantly on any hovered-upon UI element until the cursor is in an area that does not trigger a tooltip for the duration of the cooldown period."}},
+            {"id":"ec3376fa-13","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/13","name":"guideline: Icons are not always easy to identify on their o","fields":[],"before":{"type":"guideline","content":"Icons are not always easy to identify on their own. When you use components that don’t have labels — for example, icon-only action buttons and tabs — make sure to use tooltips to provide context for the icons."}},
+            {"id":"ec3376fa-14","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/14","name":"guideline: For example, in a scenario where a user is enter","fields":[],"before":{"type":"guideline","content":"For example, in a scenario where a user is entering their password into a field, the crucial information would be to state the password requirements. Supplementary context would be a message about how to get help if they have forgotten their password."}},
+            {"id":"ec3376fa-15","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/15","name":"guideline: Tooltips should be as concise and clear as possi","fields":[],"before":{"type":"guideline","content":"Tooltips should be as concise and clear as possible. Keep the text to 1 or 2 short sentences. If the information you need to communicate is longer than that, look into using a different design."}},
+            {"id":"ec3376fa-16","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/16","name":"guideline: If a tooltip is written in a full sentence (or i","fields":[],"before":{"type":"guideline","content":"If a tooltip is written in a full sentence (or is 2 or more sentences), include a period at the end. If it's a short phrase or is only the name of a tool, action, or icon, don't add a period to the end."}},
+            {"id":"ec3376fa-17","kind":"document-block","change":"removed","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/17","name":"guideline: Tooltips appear only on hover or when in keyboar","fields":[],"before":{"type":"guideline","content":"Tooltips appear only on hover or when in keyboard focus. They should not contain actions or links."}},
+            {"id":"ec3376fa-18","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/18","name":"do-dont: Don't use tooltips to communicate crucial inform","fields":[],"after":{"type":"do-dont","content":"Don't use tooltips to communicate crucial information","dont":"Show crucial information at all times, not just when a tooltip is displayed. A tooltip should only be used to provide supplementary context or hints to the message shown in help text. For example, in a scenario where a user is entering their password into a field, the crucial information would be to state the password requirements. Supplementary context would be a message about how to get help if they have forgotten their password."}},
+            {"id":"ec3376fa-19","kind":"document-block","change":"added","class":"documentation","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/documentBlocks/19","name":"do-dont: Don't place actions inside a tooltip","fields":[],"after":{"type":"do-dont","content":"Don't place actions inside a tooltip","dont":"Tooltips appear only on hover or when in keyboard focus. They should not contain actions or links."}}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.7.1",
+      "version": "1.1.1",
+      "bump": "patch",
+      "date": "2026-10-31",
+      "commit": "6c59c1ffc26ee80e11b1354c8e97d1479023af30",
+      "commits": [
+        {
+          "commit": "a60aeea243b2ac4e812d46bbd9f7140c9f62f398",
+          "date": "2026-10-31",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1572,"title":"fix(design-data): point the second duplicate relationship at the mobile token","url":"https://github.com/adobe/spectrum-design-data/pull/1572"},
+          "entries": [
+            {"id":"a60aeea2-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"component-edge-to-text-75","options":null},"record":"component-edge-to-text-75#Spacing (start/end edges)","name":"component-edge-to-text-75","fields":[{"path":"$ref","before":"ba072414-2cdd-4773-86a5-11ca47c08e23","after":"6b43633d-8f29-4c24-b26e-687d6f161bce"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.9.1",
+      "version": "1.1.2",
+      "bump": "patch",
+      "date": "2026-11-06",
+      "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+      "commits": [
+        {
+          "commit": "c2236288e5cfa47bfe9f4099abb24d03f7c10acf",
+          "date": "2026-11-06",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1678,"title":"fix(design-data): remove duplicate relationship records, resolve setUuid refs in spec sheets","url":"https://github.com/adobe/spectrum-design-data/pull/1678"},
+          "entries": [],
+          "metadata": {"count":2,"fields":["relationship removed"]}
+        }
+      ]
+    },
+    {
+      "release": "3.11.4",
+      "version": "1.1.3",
+      "bump": "patch",
+      "date": "2026-11-12",
+      "commit": "6bf292db462f14344b6112f027dfc56cd886fa11",
+      "commits": [
+        {
+          "commit": "e3479b3ea0c5855942b51e88e44b748045acae8d",
+          "date": "2026-11-12",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1770,"title":"feat(design-data): backfill structured context fields on existing relationship records","url":"https://github.com/adobe/spectrum-design-data/pull/1770"},
+          "entries": [],
+          "metadata": {"count":33,"fields":["contextPart","contextQualifier","contextRole"]}
+        }
+      ]
+    },
+    {
+      "release": "3.15.1",
+      "version": "1.1.4",
+      "bump": "patch",
+      "date": "2026-11-15",
+      "commit": "254adf11b565f4768a69340a5ccadc1e72303dbe",
+      "commits": [
+        {
+          "commit": "17451d427120a5a0e9148c5ae8223855cfad8e4b",
+          "date": "2026-11-15",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1841,"title":"fix(design-data): pin variant in tooltip relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1841"},
+          "entries": [
+            {"id":"17451d42-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":null},"record":"efe07ae2-329d-51e6-b054-e0114ed1930f","name":"color","fields":[{"path":"context","before":"Background (Neutral)","after":"Background"}]},
+            {"id":"17451d42-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"bf3825dc-6705-5b0e-a63a-43c0b1307d82","name":"color[variant=informative]","fields":[{"path":"context","before":"Background (Informative)","after":"Background"}]},
+            {"id":"17451d42-2","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"6b057e3d-4ec1-5ee7-bd2d-3b3eaf2581de","name":"color[variant=informative]","fields":[{"path":"context","before":"Background (Informative)","after":"Background"}]},
+            {"id":"17451d42-3","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative"}},"record":"8f8e46f1-f322-5887-82d9-5ddbe4d3d7c1","name":"color[variant=informative]","fields":[{"path":"context","before":"Background (Informative)","after":"Background"}]},
+            {"id":"17451d42-4","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"048f5cb6-c584-5af4-91ba-c336760c34f6","name":"color[variant=negative]","fields":[{"path":"context","before":"Background (Negative)","after":"Background"}]},
+            {"id":"17451d42-5","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"6eda90cd-ecb4-592b-be49-7fd356107e37","name":"color[variant=negative]","fields":[{"path":"context","before":"Background (Negative)","after":"Background"}]},
+            {"id":"17451d42-6","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative"}},"record":"7877fbc1-fb07-5888-aac9-d2e008090b36","name":"color[variant=negative]","fields":[{"path":"context","before":"Background (Negative)","after":"Background"}]}
+          ],
+          "metadata": {"count":7,"fields":["contextQualifier","scope.options.variant"]}
+        }
+      ]
+    },
+    {
+      "release": "3.18.0",
+      "version": "1.2.0",
+      "bump": "minor",
+      "date": "2026-11-16",
+      "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+      "commits": [
+        {
+          "commit": "12ddd7e78e685a853d7a1afb4ba837ab13a9660b",
+          "date": "2026-11-16",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1896,"title":"feat(design-data): draft anatomy for 63 components; add prefix and opacity-checkerboard terms","url":"https://github.com/adobe/spectrum-design-data/pull/1896"},
+          "entries": [
+            {"id":"12ddd7e7-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/container","name":"container","fields":[],"after":{"name":"container","description":"Rounded bubble holding the text.","required":true,"contains":["label","icon"]}},
+            {"id":"12ddd7e7-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/icon","name":"icon","fields":[],"after":{"name":"icon","description":"Optional status icon, shown with hasIcon."}},
+            {"id":"12ddd7e7-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/label","name":"label","fields":[],"after":{"name":"label","description":"Tooltip message text.","required":true}},
+            {"id":"12ddd7e7-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip","name":"tip","fields":[],"after":{"name":"tip","description":"Small pointer on the bubble edge toward the source. Absent with no tip placement."}},
+            {"id":"12ddd7e7-4","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","after":"Figma S2 Web (Tooltip: text plus Tip vector). Icon (hasIcon option, not in Figma) is tracked by a separate bead (Spectrum-1-only check). Tip is drawn outside the bubble, so container does not enclose it."}]}
+          ],
+          "metadata": {"count":1,"fields":["anatomyReview.reviewedIn","anatomyReview.status"]}
+        }
+      ]
+    },
+    {
+      "release": "3.22.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-18",
+      "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+      "commits": [
+        {
+          "commit": "0b8924f15646d42b4787537648f079eb86d0c9c3",
+          "date": "2026-11-18",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1503,"title":"fix(design-data): refine size token taxonomy","url":"https://github.com/adobe/spectrum-design-data/pull/1503"},
+          "entries": [
+            {"id":"0b8924f1-0","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"f70d4c16-f588-4fa9-9318-b7184a739193","name":"component-height-75[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"e41a0142-7428-43bf-aedc-3b8d9c70bdf1"}],"rationale":"Deprecated via refine-from-sheets from row 134 of the mapping sheet."},
+            {"id":"0b8924f1-1","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"f70d4c16-f588-4fa9-9318-b7184a739193","name":"component-height-75[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 134 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 134 of the mapping sheet."},
+            {"id":"0b8924f1-2","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"5f363452-6317-4e7c-965a-291b3dfa8a8f","name":"component-height-75[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"e41a0142-7428-43bf-aedc-3b8d9c70bdf1"}],"rationale":"Deprecated via refine-from-sheets from row 134 of the mapping sheet."},
+            {"id":"0b8924f1-3","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"5f363452-6317-4e7c-965a-291b3dfa8a8f","name":"component-height-75[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared base-height-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 134 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 134 of the mapping sheet."},
+            {"id":"0b8924f1-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"component-height-75","options":null},"record":"d3b826e2-28fb-57bf-860c-ac905d3457de","name":"component-height-75","fields":[{"path":"$ref","before":"f70d4c16-f588-4fa9-9318-b7184a739193","after":"e41a0142-7428-43bf-aedc-3b8d9c70bdf1"}]},
+            {"id":"0b8924f1-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"component-height-75","options":null},"record":"04bcf012-6402-5c31-8241-552c8becfe73","name":"component-height-75","fields":[{"path":"$ref","before":"5f363452-6317-4e7c-965a-291b3dfa8a8f","after":"7e113a29-1713-5fba-9ecc-72edf3b2cbd9"}]},
+            {"id":"0b8924f1-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"c5e35920-86dd-57f1-bb75-c4beefbde20f","name":"maximum-width","fields":[{"path":"$ref","before":"e5ba234a-afdd-451e-84e7-51314446cdae","after":"231d919c-9219-4d12-8f3d-d7dc74695137"}]},
+            {"id":"0b8924f1-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":null},"record":"e0711c6d-5f57-5919-85c8-f189d9822773","name":"maximum-width","fields":[{"path":"$ref","before":"6d7623e1-65f5-4af5-8c08-b33b093b85ae","after":"077d4b14-20d9-5a61-81fb-04c364157e4a"}]},
+            {"id":"0b8924f1-8","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"scale":"desktop"}},"record":"e5ba234a-afdd-451e-84e7-51314446cdae","name":"maximum-width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"231d919c-9219-4d12-8f3d-d7dc74695137"}],"rationale":"Deprecated via refine-from-sheets from row 398 of the mapping sheet."},
+            {"id":"0b8924f1-9","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"scale":"desktop"}},"record":"e5ba234a-afdd-451e-84e7-51314446cdae","name":"maximum-width[scale=desktop]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 398 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 398 of the mapping sheet."},
+            {"id":"0b8924f1-10","kind":"token","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"scale":"mobile"}},"record":"6d7623e1-65f5-4af5-8c08-b33b093b85ae","name":"maximum-width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedIn","after":"15.8.0"},{"path":"lifecycle.replacedBy","after":"231d919c-9219-4d12-8f3d-d7dc74695137"}],"rationale":"Deprecated via refine-from-sheets from row 398 of the mapping sheet."},
+            {"id":"0b8924f1-11","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"scale":"mobile"}},"record":"6d7623e1-65f5-4af5-8c08-b33b093b85ae","name":"maximum-width[scale=mobile]","fields":[{"path":"lifecycle.deprecatedComment","after":"Consolidated into the shared container-maximum-width-* scale."},{"path":"rationale","after":"Deprecated via refine-from-sheets from row 398 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 398 of the mapping sheet."},
+            {"id":"0b8924f1-12","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"481757aa-c6b5-4281-9a63-feeb1c88aec6","name":"height[scale=desktop]","fields":[{"path":"value","before":"5px","after":"4px"}],"rationale":"Deprecated via refine-from-sheets from row 399 of the mapping sheet."},
+            {"id":"0b8924f1-13","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"481757aa-c6b5-4281-9a63-feeb1c88aec6","name":"height[scale=desktop]","fields":[{"path":"rationale","after":"Deprecated via refine-from-sheets from row 399 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 399 of the mapping sheet."},
+            {"id":"0b8924f1-14","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"70c9f65f-1e23-4c47-94dd-0c3ddde15743","name":"height[scale=mobile]","fields":[{"path":"value","before":"6px","after":"5px"}],"rationale":"Deprecated via refine-from-sheets from row 399 of the mapping sheet."},
+            {"id":"0b8924f1-15","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"70c9f65f-1e23-4c47-94dd-0c3ddde15743","name":"height[scale=mobile]","fields":[{"path":"rationale","after":"Deprecated via refine-from-sheets from row 399 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 399 of the mapping sheet."},
+            {"id":"0b8924f1-16","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"0732bd0e-c5c0-4e58-8fee-2015c1753237","name":"width[scale=desktop]","fields":[{"path":"value","before":"10px","after":"8px"}],"rationale":"Deprecated via refine-from-sheets from row 400 of the mapping sheet."},
+            {"id":"0b8924f1-17","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"0732bd0e-c5c0-4e58-8fee-2015c1753237","name":"width[scale=desktop]","fields":[{"path":"rationale","after":"Deprecated via refine-from-sheets from row 400 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 400 of the mapping sheet."},
+            {"id":"0b8924f1-18","kind":"token","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"ad2c09a6-c42e-4eef-94a3-6c2180c6e2af","name":"width[scale=mobile]","fields":[{"path":"value","before":"12px","after":"10px"}],"rationale":"Deprecated via refine-from-sheets from row 400 of the mapping sheet."},
+            {"id":"0b8924f1-19","kind":"token","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"ad2c09a6-c42e-4eef-94a3-6c2180c6e2af","name":"width[scale=mobile]","fields":[{"path":"rationale","after":"Deprecated via refine-from-sheets from row 400 of the mapping sheet."}],"rationale":"Deprecated via refine-from-sheets from row 400 of the mapping sheet."}
+          ]
+        }
+      ]
+    },
+    {
+      "release": "3.30.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-20",
+      "commit": "16de304f900ebb1d4021f71f5c57e9c5825668e5",
+      "commits": [
+        {
+          "commit": "de570f2598546e75f64ec6ae4322771c26569e89",
+          "date": "2026-11-20",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2000,"title":"feat(design-data): anatomy review and identity migration of anchored overlays and modal dialogs","url":"https://github.com/adobe/spectrum-design-data/pull/2000"},
+          "entries": [
+            {"id":"de570f25-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"d3b826e2-28fb-57bf-860c-ac905d3457de","name":"minimum-height[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-1","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"minimum-height","options":{"scale":"desktop"}},"record":"d3b826e2-28fb-57bf-860c-ac905d3457de","name":"minimum-height[scale=desktop]","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"component-height-75","after":"minimum-height"}]},
+            {"id":"de570f25-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"04bcf012-6402-5c31-8241-552c8becfe73","name":"minimum-height[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-3","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"scope":{"property":"minimum-height","options":{"scale":"mobile"}},"record":"04bcf012-6402-5c31-8241-552c8becfe73","name":"minimum-height[scale=mobile]","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"component-height-75","after":"minimum-height"}]},
+            {"id":"de570f25-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"scale":"desktop"}},"record":"c5e35920-86dd-57f1-bb75-c4beefbde20f","name":"maximum-width[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Maximum width"],"scope":{"property":"maximum-width","options":{"scale":"mobile"}},"record":"e0711c6d-5f57-5919-85c8-f189d9822773","name":"maximum-width[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"405e2759-9f01-5b07-94d0-3a52c3e744f0","name":"width[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-7","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":{"scale":"desktop"}},"record":"405e2759-9f01-5b07-94d0-3a52c3e744f0","name":"width[scale=desktop]","fields":[{"path":"scope.part","after":"tip"}]},
+            {"id":"de570f25-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"431ec6a8-05d8-5c65-b839-0eee40e2a0f0","name":"width[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-9","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"width","options":{"scale":"mobile"}},"record":"431ec6a8-05d8-5c65-b839-0eee40e2a0f0","name":"width[scale=mobile]","fields":[{"path":"scope.part","after":"tip"}]},
+            {"id":"de570f25-10","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"81f569d3-66d4-5212-aefd-0df9a402b607","name":"height[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-11","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":{"scale":"desktop"}},"record":"81f569d3-66d4-5212-aefd-0df9a402b607","name":"height[scale=desktop]","fields":[{"path":"scope.part","after":"tip"}]},
+            {"id":"de570f25-12","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"6a44d01e-27d6-5064-96d8-9ca1c8da66a4","name":"height[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-13","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Tip"],"scope":{"property":"height","options":{"scale":"mobile"}},"record":"6a44d01e-27d6-5064-96d8-9ca1c8da66a4","name":"height[scale=mobile]","fields":[{"path":"scope.part","after":"tip"}]},
+            {"id":"de570f25-14","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"padding-horizontal","options":{"scale":"desktop"}},"record":"1162de83-3ecf-5cce-8406-69b6618e8bb4","name":"padding-horizontal[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-15","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"padding-horizontal","options":{"scale":"desktop"}},"record":"1162de83-3ecf-5cce-8406-69b6618e8bb4","name":"padding-horizontal[scale=desktop]","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"component-edge-to-text-75","after":"padding-horizontal"}]},
+            {"id":"de570f25-16","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"padding-horizontal","options":{"scale":"mobile"}},"record":"0f1c0ff7-0af2-5ecb-b4ad-3bd0b4089e32","name":"padding-horizontal[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-17","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges)"],"scope":{"property":"padding-horizontal","options":{"scale":"mobile"}},"record":"0f1c0ff7-0af2-5ecb-b4ad-3bd0b4089e32","name":"padding-horizontal[scale=mobile]","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"component-edge-to-text-75","after":"padding-horizontal"}]},
+            {"id":"de570f25-18","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"padding-vertical","options":null},"record":"d4e7f17b-f6f1-5dc5-8c43-d0928112215b","name":"padding-vertical","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"component-top-to-text-75","after":"padding-vertical"}]},
+            {"id":"de570f25-19","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (tip to source)"],"scope":{"property":"margin","options":null},"record":"8e002f89-d2c3-589c-b0a8-10ce245f8f84","name":"margin","fields":[{"path":"scope.part","after":"tip"},{"path":"scope.property","before":"spacing","after":"margin"}]},
+            {"id":"de570f25-20","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Container padding"],"scope":{"property":"margin","options":null},"record":"b06803f2-4c02-5692-9fa0-fa7844230cac","name":"margin","fields":[{"path":"scope.part","after":"container"},{"path":"scope.property","before":"spacing","after":"margin"}]},
+            {"id":"de570f25-21","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-family","options":null},"record":"e0695eb2-9505-5622-ba8a-a929b6afa090","name":"font-family","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"de570f25-22","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-weight","options":null},"record":"d5efb773-8b6c-5691-b586-1674369bd0c8","name":"font-weight","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"de570f25-23","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-style","options":null},"record":"0e5a73f5-a3ba-5ae0-bb06-47bf1d231a93","name":"font-style","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"de570f25-24","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"27010829-c71b-53da-a8a4-fd4fe7ef3dbd","name":"font-size[scale=desktop]","fields":[{"path":"scope.options.scale","after":"desktop"}]},
+            {"id":"de570f25-25","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"27010829-c71b-53da-a8a4-fd4fe7ef3dbd","name":"font-size[scale=desktop]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-75","after":"font-size"}]},
+            {"id":"de570f25-26","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"4230143b-124c-5036-b7df-46438885719f","name":"font-size[scale=mobile]","fields":[{"path":"scope.options.scale","after":"mobile"}]},
+            {"id":"de570f25-27","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"4230143b-124c-5036-b7df-46438885719f","name":"font-size[scale=mobile]","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"font-size-75","after":"font-size"}]},
+            {"id":"de570f25-28","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"line-height","options":null},"record":"f54ed56d-ea9a-5a6e-aea3-7a3f19aaf7eb","name":"line-height","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"de570f25-29","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Label"],"scope":{"property":"line-height","options":null},"record":"8530ee13-5a1b-550c-bb9c-fcaeb4c02c10","name":"line-height","fields":[{"path":"scope.part","after":"label"},{"path":"scope.property","before":"line-height-100","after":"line-height"}]},
+            {"id":"de570f25-30","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"7d67c24f-c53a-57e5-807e-0d3df7de22fc","name":"color[colorScheme=light]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"de570f25-31","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"colorScheme":"light"}},"record":"7d67c24f-c53a-57e5-807e-0d3df7de22fc","name":"color[colorScheme=light]","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"de570f25-32","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"e10ee026-3a10-5ba7-8f81-d12d282b6029","name":"color[colorScheme=dark]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"de570f25-33","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"colorScheme":"dark"}},"record":"e10ee026-3a10-5ba7-8f81-d12d282b6029","name":"color[colorScheme=dark]","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"de570f25-34","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"914581ba-3016-5fd2-9cfc-403ede3692e9","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"de570f25-35","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"color","options":{"colorScheme":"wireframe"}},"record":"914581ba-3016-5fd2-9cfc-403ede3692e9","name":"color[colorScheme=wireframe]","fields":[{"path":"scope.part","after":"label"}]},
+            {"id":"de570f25-36","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"efe07ae2-329d-51e6-b054-e0114ed1930f","name":"color[variant=neutral]","fields":[{"path":"scope.options.variant","after":"neutral"}]},
+            {"id":"de570f25-37","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"neutral"}},"record":"efe07ae2-329d-51e6-b054-e0114ed1930f","name":"color[variant=neutral]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-38","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative","colorScheme":"light"}},"record":"bf3825dc-6705-5b0e-a63a-43c0b1307d82","name":"color[colorScheme=light,variant=informative]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"de570f25-39","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative","colorScheme":"light"}},"record":"bf3825dc-6705-5b0e-a63a-43c0b1307d82","name":"color[colorScheme=light,variant=informative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-40","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative","colorScheme":"dark"}},"record":"6b057e3d-4ec1-5ee7-bd2d-3b3eaf2581de","name":"color[colorScheme=dark,variant=informative]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"de570f25-41","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative","colorScheme":"dark"}},"record":"6b057e3d-4ec1-5ee7-bd2d-3b3eaf2581de","name":"color[colorScheme=dark,variant=informative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-42","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative","colorScheme":"wireframe"}},"record":"8f8e46f1-f322-5887-82d9-5ddbe4d3d7c1","name":"color[colorScheme=wireframe,variant=informative]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"de570f25-43","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"informative","colorScheme":"wireframe"}},"record":"8f8e46f1-f322-5887-82d9-5ddbe4d3d7c1","name":"color[colorScheme=wireframe,variant=informative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-44","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative","colorScheme":"light"}},"record":"048f5cb6-c584-5af4-91ba-c336760c34f6","name":"color[colorScheme=light,variant=negative]","fields":[{"path":"scope.options.colorScheme","after":"light"}]},
+            {"id":"de570f25-45","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative","colorScheme":"light"}},"record":"048f5cb6-c584-5af4-91ba-c336760c34f6","name":"color[colorScheme=light,variant=negative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-46","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative","colorScheme":"dark"}},"record":"6eda90cd-ecb4-592b-be49-7fd356107e37","name":"color[colorScheme=dark,variant=negative]","fields":[{"path":"scope.options.colorScheme","after":"dark"}]},
+            {"id":"de570f25-47","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative","colorScheme":"dark"}},"record":"6eda90cd-ecb4-592b-be49-7fd356107e37","name":"color[colorScheme=dark,variant=negative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-48","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative","colorScheme":"wireframe"}},"record":"7877fbc1-fb07-5888-aac9-d2e008090b36","name":"color[colorScheme=wireframe,variant=negative]","fields":[{"path":"scope.options.colorScheme","after":"wireframe"}]},
+            {"id":"de570f25-49","kind":"relationship","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"variant":"negative","colorScheme":"wireframe"}},"record":"7877fbc1-fb07-5888-aac9-d2e008090b36","name":"color[colorScheme=wireframe,variant=negative]","fields":[{"path":"scope.attribute","after":"background"},{"path":"scope.part","after":"container"}]},
+            {"id":"de570f25-50","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Spacing (top/bottom edge to text)"],"scope":{"property":"component-bottom-to-text-75","options":null},"record":"1aec6506-bda5-5233-a416-a2b12fb533b3","name":"component-bottom-to-text-75","fields":[],"before":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d"},
+            {"id":"de570f25-51","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tooltip/options/hasIcon","name":"hasIcon","fields":[],"before":{"type":"boolean","description":"If the neutral variant, there is never an icon.","default":false}},
+            {"id":"de570f25-52","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tooltip/anatomy/icon","name":"icon","fields":[],"before":{"name":"icon","description":"Optional status icon, shown with hasIcon."}},
+            {"id":"de570f25-53","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/anatomy/container","name":"container","fields":[{"path":"contains","before":["label","icon"],"after":["label"]}]},
+            {"id":"de570f25-54","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/anatomy/container","name":"container","fields":[{"path":"description","before":"Rounded bubble holding the text.","after":"Rounded bubble holding the label. It is the root and carries the rounding, padding, background and size limits."}]},
+            {"id":"de570f25-55","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip","name":"tip","fields":[{"path":"description","before":"Small pointer on the bubble edge toward the source. Absent with no tip placement.","after":"Small pointer on the bubble edge toward the source. A top-level sibling of the container. Absent with the no-tip placement."}]},
+            {"id":"de570f25-56","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web (Tooltip: text plus Tip vector). Icon (hasIcon option, not in Figma) is tracked by a separate bead (Spectrum-1-only check). Tip is drawn outside the bubble, so container does not enclose it.","after":"Figma S2 Web tooltip (bubble, label and a sibling Tip vector; no icon), React Spectrum S2 Tooltip (neutral only, no icon) and SWC gen2 (variant, no icon). Decision C2 (Garth, 2026-11-20): tip is a top-level sibling of container. icon and the hasIcon option are deleted: no source draws them and no record is scoped to them (no-spectrum1-only-options). Tip size differs by source (8x4 data, 10x5 Figma and RSP): tracked as a gap bead."}]}
+          ],
+          "metadata": {"count":10,"fields":["anatomyReview.status","context","contextPart","contextRole","scope.part"]}
+        }
+      ]
+    },
+    {
+      "release": "4.2.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-22",
+      "commit": "87b260bbe5d94c023288877de921a06ef084fed3",
+      "commits": [
+        {
+          "commit": "71a0014bd670c3e6b750ded51b28fa1feee811be",
+          "date": "2026-11-22",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2074,"title":"feat(design-data): add tooltip and popover visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2074"},
+          "entries": [
+            {"id":"71a0014b-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip-bottom","name":"tip-bottom","fields":[],"after":{"name":"tip-bottom","description":"Tip on the bottom edge of the container, drawn when the placement is top.","presentWhen":{"options":{"placement":"top"}}}},
+            {"id":"71a0014b-1","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip-end","name":"tip-end","fields":[],"after":{"name":"tip-end","description":"Tip on the end edge of the container, drawn when the placement is left.","presentWhen":{"options":{"placement":"left"}}}},
+            {"id":"71a0014b-2","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip-start","name":"tip-start","fields":[],"after":{"name":"tip-start","description":"Tip on the start edge of the container, drawn when the placement is right.","presentWhen":{"options":{"placement":"right"}}}},
+            {"id":"71a0014b-3","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip-top","name":"tip-top","fields":[],"after":{"name":"tip-top","description":"Tip on the top edge of the container, drawn when the placement is bottom.","presentWhen":{"options":{"placement":"bottom"}}}},
+            {"id":"71a0014b-4","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/anatomy/tip","name":"tip","fields":[{"path":"description","before":"Small pointer on the bubble edge toward the source. A top-level sibling of the container. Absent with the no-tip placement.","after":"Small pointer on the bubble edge toward the source. A top-level sibling of the container. It is drawn by the placement part that matches the placement: tip-bottom (placement top), tip-top (bottom), tip-end (left) and tip-start (right)."}]},
+            {"id":"71a0014b-5","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/visual","name":"tooltip","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

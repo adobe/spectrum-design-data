@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-072",
+      "severity": "warning",
+      "message_pattern": ".*twice.*mobile counterpart.*aaaaaaaa-0072-4000-8000-000000000002.*"
+    }
+  ]
+}

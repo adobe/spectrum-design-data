@@ -61,6 +61,11 @@
     }
   ],
   "options": {
+    "staticColor": {
+      "type": "string",
+      "description": "Static color for use on colored backgrounds. White draws a light bar, black a dark one. Unset is the regular bar.",
+      "values": [{ "value": "white" }, { "value": "black" }]
+    },
     "variant": {
       "type": "string",
       "default": "informative",
@@ -85,8 +90,54 @@
         { "value": "xl" }
       ]
     },
-    "value": { "type": "number", "minimum": 0, "maximum": 1 },
+    "value": { "type": "number" },
+    "minValue": { "type": "number", "default": 0 },
+    "maxValue": { "type": "number", "default": 100 },
     "helpText": { "type": "string" }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Whole meter: header row, track and optional help text.",
+      "required": true,
+      "contains": ["header", "track", "help-text"]
+    },
+    {
+      "name": "header",
+      "description": "Row that holds the label and the value text above the track. Not drawn when the label is hidden.",
+      "presentWhen": { "options": { "label": true, "hideLabel": false } },
+      "contains": ["label", "value"]
+    },
+    {
+      "name": "label",
+      "description": "Field label above or beside the track. Hidden by hideLabel."
+    },
+    {
+      "name": "value",
+      "description": "Percentage or value text at the end of the header. Hidden when no value label."
+    },
+    {
+      "name": "track",
+      "description": "Rounded bar behind the fill.",
+      "required": true,
+      "contains": ["fill"]
+    },
+    {
+      "name": "fill",
+      "description": "Filled portion of the track, colored by variant.",
+      "required": true
+    },
+    {
+      "name": "help-text",
+      "presentWhen": { "options": { "helpText": true } },
+      "component": "help-text",
+      "description": "Optional supporting text below the track."
+    }
+  ],
+  "anatomyReview": {
+    "status": "reviewed",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Matches Figma S2 Web (Meter): its Header frame is the header part, Track and '.Meter fill' are track and fill. help-text kept because Figma draws it though RSP Meter.tsx has none. Used label (not field-label) to match label contexts."
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
