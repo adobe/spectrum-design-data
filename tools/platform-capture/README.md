@@ -72,7 +72,7 @@ SwiftUI/UIKit variant, and also toggles switches. Output is
 
 * Picker's first Style menu: the default appears only in the `default` shot.
 * Text-field content (Pop-up label's Label Text) is not varied.
-* Switches are labelled by the nearest preceding text, so a second switch on a
+* Switches are labeled by the nearest preceding text, so a second switch on a
   screen may carry the first one's name.
 * Contact-sheet crop assumes 1206x2622 screenshots.
 
@@ -100,7 +100,7 @@ component element (the container); `parts` optionally gives CSS selectors for
 `iframe.html?id=<story>&args=k:v;k2:v2`.
 
 * **Dark mode.** RSP: `document.documentElement.dataset.colorScheme = 'dark'`.
-  SWC: `&globals=theme:dark`. The adapter waits for fonts and colour transitions
+  SWC: `&globals=theme:dark`. The adapter waits for fonts and color transitions
   before measuring.
 * **Output.** `shots/<id>.png` (element screenshot, `--scale` default 2),
   `measured.json` (container: width, height, padding, cornerRadius, fill; label:
@@ -110,7 +110,7 @@ component element (the container); `parts` optionally gives CSS selectors for
 * **Provenance.** RSP records the full commit SHA and the build URL. SWC
   records `Last-Modified`, `ETag`, and the `@adobe/spectrum-wc` version. The
   deployment doesn't expose that version, so it is inferred from npm publish
-  times and labelled so.
+  times and labeled so.
 * **SWC tokens.** The deployed gen2 Storybook uses `--swc-*` variables, not
   `--spectrum-*`; the collector records both prefixes. It lists every matching
   declaration without resolving the cascade.

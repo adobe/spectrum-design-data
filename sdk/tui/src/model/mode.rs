@@ -84,7 +84,7 @@ pub struct PaletteState {
 }
 
 impl PaletteState {
-    /// Open / initialise the palette in command mode.
+    /// Open / initialize the palette in command mode.
     pub fn command() -> Self {
         Self {
             mode: PaletteMode::Command,

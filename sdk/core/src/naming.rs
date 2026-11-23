@@ -224,7 +224,7 @@ pub fn resolve_owner_component(name: &Map<String, Value>) -> Option<String> {
 ///     `property` already contains the full legacy key (possibly with component prefix),
 ///     the result equals `property` directly.
 ///
-/// Returns `None` only when the name is not a recognised shape (neither string nor object
+/// Returns `None` only when the name is not a recognized shape (neither string nor object
 /// with a `property` field).
 pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // String escape hatch: the string IS the legacy key.

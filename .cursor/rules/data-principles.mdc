@@ -56,7 +56,7 @@ A call goes to Garth if it:
 * survives a review round;
 * costs real credits.
 
-Slice agents end their report with "Decisions I made", each labelled `meaning`, `contract`, `local-reversible` or `scope`, and "Questions for Garth", blocking first.
+Slice agents end their report with "Decisions I made", each labeled `meaning`, `contract`, `local-reversible` or `scope`, and "Questions for Garth", blocking first.
 
 ## CLI version
 

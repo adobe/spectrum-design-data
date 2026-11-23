@@ -12,8 +12,8 @@
 // Regenerates icons/ui.json and icons/workflow.json from a React Spectrum checkout at a
 // commit: node scripts/import-icons.mjs <react-spectrum checkout> <sha>
 // Files are read with `git show <sha>:<path>`, so the checkout's working tree is not used
-// and the same SHA always produces the same output. Colour is dropped (every source path
-// fills with var(--iconPrimary, …)); renderers apply the part's colour.
+// and the same SHA always produces the same output. Color is dropped (every source path
+// fills with var(--iconPrimary, …)); renderers apply the part's color.
 
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -78,7 +78,7 @@ const ALLOWED = {
 /**
  * The geometry of one SVG file: its viewBox and every shape as a path (circles become
  * two arcs), keeping each path's fill rule. Throws on anything it cannot keep exactly:
- * other elements or attributes, or fills that are not the icon colour.
+ * other elements or attributes, or fills that are not the icon color.
  */
 export function parseSvg(svg, file) {
   const fail = (why) => {
@@ -103,7 +103,7 @@ export function parseSvg(svg, file) {
       continue;
     }
     if (a.fill === undefined || !/^var\(--iconPrimary\b/.test(a.fill))
-      fail(`<${el}> fill ${a.fill ?? "(none)"} is not the icon colour`);
+      fail(`<${el}> fill ${a.fill ?? "(none)"} is not the icon color`);
     let d = a.d;
     if (el === "circle") {
       // SVG defaults a missing cx or cy to 0; a circle without a radius draws nothing.
@@ -134,7 +134,7 @@ function provenance(sha, path) {
     license: "Apache-2.0",
     copyright: "Copyright 2024 Adobe. All rights reserved.",
     notice:
-      "Path data from React Spectrum S2, licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0). Colour fills were removed; the geometry is unchanged.",
+      "Path data from React Spectrum S2, licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0). Color fills were removed; the geometry is unchanged.",
   };
 }
 

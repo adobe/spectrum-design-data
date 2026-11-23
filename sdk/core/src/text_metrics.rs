@@ -34,7 +34,7 @@ const META_KEY: &str = "meta";
 const REQUIRED_WEIGHTS: &[u32] = &[400, 700];
 /// The committed default table (Source Sans 3), as the file the site ships.
 pub const DEFAULT_TABLE_JSON: &str = include_str!("text-metrics/source-sans-3.json");
-/// The font's licence, shipped next to the default table.
+/// The font's license, shipped next to the default table.
 pub const DEFAULT_TABLE_LICENSE: &str = include_str!("text-metrics/OFL-SourceSans3.txt");
 
 #[derive(Debug)]
@@ -232,7 +232,7 @@ mod tests {
     }
 
     #[test]
-    fn adds_pair_kerning_between_neighbours() {
+    fn adds_pair_kerning_between_neighbors() {
         let t = TextMetrics::parse(&file(500.0, r#"{"ab":-100}"#)).unwrap();
         assert_eq!(t.width("ab", 10.0, 400.0), 9.0);
         assert_eq!(t.width("ba", 10.0, 400.0), 10.0);

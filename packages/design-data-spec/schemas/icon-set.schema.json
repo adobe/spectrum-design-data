@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/icon-set.schema.json",
   "title": "Icon set",
-  "description": "Layer 1 structural schema for one icon set in the icons/ catalog (spec/dataset-layout.md): path geometry keyed by icon id, with the source it was imported from. Paths carry no colour; a renderer fills them with the part's colour. A UI icon has one drawing per size, keyed by the scale index of the icon size tokens.",
+  "description": "Layer 1 structural schema for one icon set in the icons/ catalog (spec/dataset-layout.md): path geometry keyed by icon id, with the source it was imported from. Paths carry no color; a renderer fills them with the part's color. A UI icon has one drawing per size, keyed by the scale index of the icon size tokens.",
   "type": "object",
   "required": ["set", "source", "icons"],
   "properties": {
@@ -20,7 +20,7 @@
     },
     "source": {
       "type": "object",
-      "description": "Provenance and licence of the imported geometry.",
+      "description": "Provenance and license of the imported geometry.",
       "required": ["repository", "commit", "path", "license", "copyright"],
       "properties": {
         "repository": { "type": "string", "format": "uri" },
@@ -35,7 +35,7 @@
         },
         "license": {
           "type": "string",
-          "description": "SPDX licence id."
+          "description": "SPDX license id."
         },
         "copyright": { "type": "string" },
         "notice": { "type": "string" }

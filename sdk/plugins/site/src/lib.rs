@@ -168,7 +168,7 @@ pub fn write_site(
     write("constraints.js", CONSTRAINTS)?;
     write("content-controls.js", CONTENT)?;
     write("platform-switcher.js", SWITCHER)?;
-    // The caller validated an override; with none, ship the default table and its licence.
+    // The caller validated an override; with none, ship the default table and its license.
     write(
         "text-metrics.json",
         text_metrics.unwrap_or(DEFAULT_TABLE_JSON),
@@ -197,7 +197,7 @@ pub fn write_site(
     Ok(compiled.len())
 }
 
-/// One `(relative path, JSON)` per component, size, colour scheme and scale: the document
+/// One `(relative path, JSON)` per component, size, color scheme and scale: the document
 /// `Engine` reads, so the page fetches only the variant it draws.
 fn split_variants(
     compiled: &serde_json::Map<String, serde_json::Value>,

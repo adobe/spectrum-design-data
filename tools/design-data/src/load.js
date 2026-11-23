@@ -13,7 +13,7 @@
  *
  * Walks a directory for *.tokens.json files (cascade array format), merges them,
  * and returns a Dataset built via Dataset.fromTokens(). This mirrors the token-loading
- * behaviour of `design-data query/resolve/validate/diff <dataPath>` but runs in-process.
+ * behavior of `design-data query/resolve/validate/diff <dataPath>` but runs in-process.
  */
 
 import { readFileSync, readdirSync, statSync } from "node:fs";
@@ -101,7 +101,7 @@ export async function buildDataset(tokens) {
 
 /**
  * Synchronous variant using the already-loaded wasm module.
- * The caller is responsible for ensuring the module is initialised first.
+ * The caller is responsible for ensuring the module is initialized first.
  *
  * @param {string} dirPath
  * @param {{ Dataset: typeof import('@adobe/design-data-wasm').Dataset }} wasm

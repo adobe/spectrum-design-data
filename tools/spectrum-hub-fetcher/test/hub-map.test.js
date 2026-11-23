@@ -49,7 +49,7 @@ test("categoryForPath maps each supported prefix to a schema-valid category", (t
   }
 });
 
-test("categoryForPath honours the curated category override table", (t) => {
+test("categoryForPath honors the curated category override table", (t) => {
   // Hub prefix says "support", but the content is developer-facing.
   t.is(categoryForPath("/support/developer-overview"), "developing");
   t.is(categoryForPath("/support/faqs"), "support");
@@ -137,7 +137,7 @@ test("assignSlugs never emits a duplicate slug", (t) => {
   }
 });
 
-test("assignSlugs honours the curated override table", (t) => {
+test("assignSlugs honors the curated override table", (t) => {
   const slugs = assignSlugs([
     "/foundations/support/contact-us",
     "/support/contact-us",
@@ -155,7 +155,7 @@ test("similarity scores identical prose at 1 and disjoint prose at 0", (t) => {
 
 test("dedupeByContent keeps the most recently modified of a duplicate pair", (t) => {
   const shared =
-    "Colour carries meaning and should be applied consistently across the system.";
+    "Color carries meaning and should be applied consistently across the system.";
   const { kept, dropped } = dedupeByContent([
     { path: "/foundations/color/color", text: shared, lastModified: 100 },
     { path: "/foundations/color/colors", text: shared, lastModified: 200 },
@@ -299,7 +299,7 @@ test("buildPageMap emits only schema-valid categories and unique slugs", (t) => 
     {
       path: "/foundations/color/colors",
       isStub: false,
-      text: "Colour guidance one.",
+      text: "Color guidance one.",
       lastModified: 1,
     },
     {

@@ -119,7 +119,7 @@
     },
     {
       "name": "overlay",
-      "description": "Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its colour and opacity."
+      "description": "Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its color and opacity."
     }
   ],
   "anatomyReview": {

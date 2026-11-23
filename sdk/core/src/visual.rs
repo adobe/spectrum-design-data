@@ -793,7 +793,7 @@ pub struct Pattern {
 }
 
 /// An underline: `thickness` of the line and `offset`, the gap between the baseline and the
-/// top of the line. The baseline is taken 0.35 x `font_size` below the centre of the text's
+/// top of the line. The baseline is taken 0.35 x `font_size` below the center of the text's
 /// line box, so SVG and PNG agree whatever the font.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize)]
 pub struct Underline {
@@ -920,7 +920,7 @@ pub struct Scene {
 /// Solved container layout values, so a comparison can check literal (unbound) ones too.
 #[derive(Debug, Clone, Serialize)]
 pub struct Layout {
-    /// Set only when two or more children flow, since a gap needs a neighbour.
+    /// Set only when two or more children flow, since a gap needs a neighbor.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub gap: Option<f64>,
     /// `[top, right, bottom, left]`.
@@ -3233,7 +3233,7 @@ fn split_top_level(s: &str) -> Vec<&str> {
 /// A CSS `linear-gradient(...)` a request can carry in an option read by an `option` value
 /// source, drawn over a `w` by `h` box. Reads an angle in `deg` or a `to` side or corner
 /// (default `180deg`), then two or more `<color> [<percentage>]` stops. A stop with no
-/// position is spread evenly between its neighbours. `None`: not that form, a stop color that
+/// position is spread evenly between its neighbors. `None`: not that form, a stop color that
 /// is not a solid color, a position outside 0 through 100%, or positions that decrease.
 fn parse_css_linear_gradient(s: &str, w: f64, h: f64) -> Option<Gradient> {
     let s = s.trim();
@@ -3288,7 +3288,7 @@ fn parse_css_linear_gradient(s: &str, w: f64, h: f64) -> Option<Gradient> {
         }
         stops.push((color.to_string(), pos));
     }
-    // The first and last stops default to the ends; the rest spread between their neighbours.
+    // The first and last stops default to the ends; the rest spread between their neighbors.
     let last = stops.len() - 1;
     stops[0].1.get_or_insert(0.0);
     stops[last].1.get_or_insert(1.0);
@@ -5058,7 +5058,7 @@ fn solve_root(
                 x,
                 oy + pad_bs
                     + if multi_line && align == "center" && c.kind != "text" {
-                        // Beside a wrapped label a part centres on the first line.
+                        // Beside a wrapped label a part centers on the first line.
                         (line - c.h) / 2.0
                     } else {
                         axis_offset(&align, h - pad_bs - pad_be - c.h)
@@ -6071,9 +6071,9 @@ fn position_fraction(
 }
 
 /// One axis of a `floating.position`: `(start, length)` of the part along `parent`
-/// `(start, length)`. A point axis centres (or `align`s) the part's `own` size on the fraction
+/// `(start, length)`. A point axis centers (or `align`s) the part's `own` size on the fraction
 /// of the parent; a `length` axis spans from the `from` fraction (default 0) to the value's,
-/// and is `None` when empty. No spec: the part is centred on the parent.
+/// and is `None` when empty. No spec: the part is centerd on the parent.
 fn place_axis(
     cx: &mut Ctx,
     id: &str,
@@ -8543,7 +8543,7 @@ mod tests {
     }
 
     #[test]
-    fn a_row_centres_its_content_in_a_min_width_wider_than_the_content() {
+    fn a_row_centers_its_content_in_a_min_width_wider_than_the_content() {
         let (g, _) = load();
         let recipe = serde_json::json!({
             "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
@@ -8704,7 +8704,7 @@ mod tests {
         assert_eq!(hug.nodes[0].h, 20.0);
         assert_eq!(s.nodes[0].h, 20.0 + 12.0 * (lines.len() - 1) as f64);
         assert_eq!(s.nodes[0].w, one * 0.6);
-        // The padding above the first line stays (20 - 12) / 2, and the icon sits centred on
+        // The padding above the first line stays (20 - 12) / 2, and the icon sits centerd on
         // the first line, as for a single line.
         assert_eq!(lines[0].y, s.nodes[0].y + 4.0);
         let icon = s.nodes.iter().find(|n| n.kind == "icon").unwrap();
@@ -10512,11 +10512,11 @@ mod tests {
         };
         assert!(warned(true));
         assert!(!warned(false));
-        let labelled = RenderRequest {
+        let labeled = RenderRequest {
             label: "Go".into(),
             ..req
         };
-        assert!(build_scene(&g, &recipe(true), &labelled)
+        assert!(build_scene(&g, &recipe(true), &labeled)
             .unwrap()
             .diagnostics
             .is_empty());
@@ -11362,7 +11362,7 @@ mod tests {
         assert!(s.nodes[0].w >= 60.0 && s.nodes[0].h >= 30.0);
         assert!(s.measurements.iter().all(|m| m.kind != "gap"));
         assert_eq!(s.layout.gap, None);
-        // Siblings centre on one another, and the nested recipe sits between them.
+        // Siblings center on one another, and the nested recipe sits between them.
         let (a, b) = (part(&s, "a").unwrap(), part(&s, "b").unwrap());
         assert_eq!(a.x + a.w / 2.0, b.x + b.w / 2.0);
         assert_eq!(a.y + a.h / 2.0, b.y + b.h / 2.0);
@@ -12330,8 +12330,8 @@ mod tests {
     }
 
     #[test]
-    fn a_handle_is_centred_on_its_fraction_of_the_track() {
-        // 50 of 0..200 is 0.25 of 100px: centre 25, so a 10px handle starts at 20, centred on y.
+    fn a_handle_is_centerd_on_its_fraction_of_the_track() {
+        // 50 of 0..200 is 0.25 of 100px: center 25, so a 10px handle starts at 20, centerd on y.
         let r = slider_recipe(
             serde_json::json!({ "x": axis(serde_json::json!({})) }),
             serde_json::json!({}),
@@ -12425,7 +12425,7 @@ mod tests {
             serde_json::json!({ "x": axis(serde_json::json!({ "length": true })) }),
             "center",
         );
-        // 0.25 of 100px, from the track's start, centred on y.
+        // 0.25 of 100px, from the track's start, centerd on y.
         assert_eq!(rel(&at(&r, 50.into()), "fill"), (0.0, 8.0, 25.0, 4.0));
         // Inverted: the fill grows from the end.
         let inv = slider_recipe(
@@ -12560,9 +12560,9 @@ mod tests {
             q.options.insert("orientation".into(), o.into());
             build_scene(&g, &r, &q).unwrap()
         };
-        // Horizontal: x from the value, y centred on the 20px track.
+        // Horizontal: x from the value, y centerd on the 20px track.
         assert_eq!(rel(&draw("horizontal"), "handle"), (20.0, 5.0, 10.0, 10.0));
-        // Vertical: x centred on the 100px track, y inverted 0.25 -> 0.75 of 20, minus 5.
+        // Vertical: x centerd on the 100px track, y inverted 0.25 -> 0.75 of 20, minus 5.
         assert_eq!(rel(&draw("vertical"), "handle"), (45.0, 10.0, 10.0, 10.0));
     }
 
@@ -12579,7 +12579,7 @@ mod tests {
         let g = nest_graph(&[]);
         let s = nest_scene(&g, &recipe, "m", &[], &[("value", 100.into())]).unwrap();
         let (r, h) = (part(&s, "r").unwrap(), part(&s, "h").unwrap());
-        // 100 of 0..200 is the middle of the track; the nested root is centred on it and on y.
+        // 100 of 0..200 is the middle of the track; the nested root is centerd on it and on y.
         assert_eq!(h.x - r.x, 50.0 - h.w / 2.0);
         assert_eq!(h.y - r.y, (20.0 - h.h) / 2.0);
         // Its inner parts moved with it.

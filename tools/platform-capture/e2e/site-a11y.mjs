@@ -95,11 +95,11 @@ try {
       ids.length,
       `${where}: duplicate ids ${ids.filter((x, i) => ids.indexOf(x) !== i).slice(0, 5)}`,
     );
-    // Each label span must be the labelledby target of the control right after it.
+    // Each label span must be the labeledby target of the control right after it.
     const loose = await page.$$eval("#controls .f > span", (els) =>
       els
         .filter(
-          (e) => e.nextElementSibling?.getAttribute("aria-labelledby") !== e.id,
+          (e) => e.nextElementSibling?.getAttribute("aria-labeledby") !== e.id,
         )
         .map((e) => e.id),
     );
@@ -152,7 +152,7 @@ try {
       await page.click(`#${id}`);
       const r = await page.evaluate((labelId) => {
         const picker = document.querySelector(
-          `sp-picker[aria-labelledby="${labelId}"]`,
+          `sp-picker[aria-labeledby="${labelId}"]`,
         );
         return {
           focused: document.activeElement === picker,

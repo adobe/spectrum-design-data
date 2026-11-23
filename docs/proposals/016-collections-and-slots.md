@@ -52,7 +52,7 @@ Accordion keeps `isOpen`, `hasActionButton` and `hasSwitch` as options for a sin
 * Entry fields are not checked against the option's item schema.
 * Request states (hover, down) apply to every copy.
 * The spec-sheet markers and the explorer's Anatomy view look up plain part names; with `items` set they see `item-1.title` and so on.
-* `isMultiple` stays in `notVisual`: it changes behaviour, not the picture.
+* `isMultiple` stays in `notVisual`: it changes behavior, not the picture.
 
 ### Next
 

@@ -10,7 +10,7 @@
         "options": { "isSelected": false }
       },
       "status": "accepted",
-      "reason": "Rune has no focus-visible stroke API; the stroke stays at its rest colour.",
+      "reason": "Rune has no focus-visible stroke API; the stroke stays at its rest color.",
       "upstream": "https://github.com/anomalyco/rune/issues/106"
     }
   ]

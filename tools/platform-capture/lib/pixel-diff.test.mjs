@@ -15,7 +15,7 @@ test("identical images have no mismatched pixels", (t) => {
   t.is(comparePair(solid(4, 4, [10, 20, 30]), solid(4, 4, [10, 20, 30])).mismatched, 0);
 });
 
-test("a different colour mismatches every pixel", (t) => {
+test("a different color mismatches every pixel", (t) => {
   t.is(comparePair(solid(4, 4, [0, 0, 0]), solid(4, 4, [255, 255, 255])).mismatched, 16);
 });
 

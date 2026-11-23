@@ -134,7 +134,7 @@ function extractParagraphs(body) {
 /**
  * Normalize a content string to a stable dedup key.
  *
- * Conservative intent: collapse surface-level scrape artefacts (smart quotes,
+ * Conservative intent: collapse surface-level scrape artifacts (smart quotes,
  * punctuation variation, extra whitespace, markdown link syntax) so that
  * near-duplicate blocks produced by the External-links dump and the proper
  * Behaviors/Usage sections get deduplicated.  NOT intended to aggressively
@@ -220,7 +220,7 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
     // On ~64 pages the scraper mislabels a catch-all section "## External links"
     // that actually contains the real prose (Overview, Behaviors, Usage guidelines
     // content).  The content is genuine; near-duplicate blocks that overlap with the
-    // properly-labelled sections are removed by the normalizeForDedup pass below.
+    // properly-labeled sections are removed by the normalizeForDedup pass below.
     // Root cause (parser heading detection) is tracked as a separate follow-up item.
     if (headingKey === "external links") {
       if (section.subsections.length > 0) {
@@ -247,7 +247,7 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
         }
       }
       flags.push(
-        'INFO: "## External links" section contained prose (scraper artefact) — near-duplicate blocks auto-removed.',
+        'INFO: "## External links" section contained prose (scraper artifact) — near-duplicate blocks auto-removed.',
       );
       continue;
     }
@@ -350,14 +350,14 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
 
   // Strip internal _source metadata before deduplicating.
   // _source: "external-links" is a build-time provenance tag added above for the
-  // External-links scraper artefact section.  It is intentionally NOT written to the
+  // External-links scraper artifact section.  It is intentionally NOT written to the
   // output JSON — it is only used here as a processing hint.
   const strippedBlocks = blocks.map(({ _source: _ignored, ...rest }) => rest); // eslint-disable-line no-unused-vars
 
   // Auto-remove near-duplicate content (keep first occurrence).
   // Uses normalizeForDedup() rather than an exact-string comparison so that blocks
   // differing only by smart quotes, markdown link syntax, or punctuation variation
-  // — a common scraper artefact — are also collapsed.
+  // — a common scraper artifact — are also collapsed.
   const seen = new Set();
   const dedupedBlocks = [];
   let removedCount = 0;
@@ -372,7 +372,7 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
   }
   if (removedCount > 0) {
     flags.push(
-      `INFO: removed ${removedCount} near-duplicate block(s) — partial-scrape artefact auto-cleaned.`,
+      `INFO: removed ${removedCount} near-duplicate block(s) — partial-scrape artifact auto-cleaned.`,
     );
   }
 

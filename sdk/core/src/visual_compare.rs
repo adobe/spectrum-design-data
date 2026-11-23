@@ -31,7 +31,7 @@ pub const REPORT_FORMAT: &str = "design-data-comparison/1";
 const R2_CAUSE: &str = "r2-text-width-estimate";
 
 /// Largest difference that still counts as equal. Sizes are in the scene's unit (CSS px on
-/// the web, pt on iOS); colours are the largest channel difference on a 0-255 scale, with
+/// the web, pt on iOS); colors are the largest channel difference on a 0-255 scale, with
 /// alpha scaled to 0-255.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 #[serde(default, rename_all = "camelCase")]
@@ -116,7 +116,7 @@ pub struct Difference {
     pub expected: Value,
     /// The platform value (measured).
     pub measured: Value,
-    /// `measured - expected` for numbers; the channel distance for colours.
+    /// `measured - expected` for numbers; the channel distance for colors.
     pub delta: f64,
     pub tolerance: f64,
     /// `px`, `channel` or `weight`.
@@ -510,7 +510,7 @@ fn compare_state(
                         skip(
                             &mut out,
                             property,
-                            format!("unparseable colour: {value} vs {exp}"),
+                            format!("unparseable color: {value} vs {exp}"),
                         );
                         continue;
                     };
@@ -651,7 +651,7 @@ pub fn to_markdown(r: &Report) -> String {
     }
     s += &format!(
         "{} state(s), {} value(s) compared, **{} difference(s)**, {} skipped. \
-         Tolerances: size ±{}, font size ±{}, font weight ±{}, colour ±{} (of 255).\n\n",
+         Tolerances: size ±{}, font size ±{}, font weight ±{}, color ±{} (of 255).\n\n",
         r.summary.states,
         r.summary.compared,
         r.summary.differences,
@@ -786,7 +786,7 @@ mod tests {
     }
 
     #[test]
-    fn colour_and_weight_differences_and_token_layer() {
+    fn color_and_weight_differences_and_token_layer() {
         let r = run(
             json!({"container": {"fill": "rgb(0, 0, 0)"}, "label": {"fontWeight": "bold"}}),
             None,
@@ -846,7 +846,7 @@ mod tests {
     }
 
     #[test]
-    fn colour_parsing() {
+    fn color_parsing() {
         let c = |s| parse_color(s).unwrap();
         assert_eq!(c("#fff"), c("rgb(255 255 255)"));
         assert_eq!(c("rgba(0, 0, 0, 0.5)"), c("rgb(0 0 0 / 50%)"));
@@ -898,7 +898,7 @@ mod tests {
         assert!(run(json!({"container": {"strokeWidth": 2}}), None).is_clean());
         let r = run(json!({"container": {"stroke": "none"}}), None);
         assert_eq!(diff(&r, "stroke").unit, "channel");
-        // A stroke colour without a width is not drawn, so it is compared as none.
+        // A stroke color without a width is not drawn, so it is compared as none.
         let mut s = scene();
         s["nodes"][0]["stroke_width"] = json!(0.0);
         let scenes = BTreeMap::from([("s1".to_string(), s)]);
@@ -931,7 +931,7 @@ mod tests {
     }
 
     #[test]
-    fn unbound_padding_is_compared_from_the_solved_layout_and_labelled() {
+    fn unbound_padding_is_compared_from_the_solved_layout_and_labeled() {
         // paddingLeft is token-bound in the scene; paddingTop is a literal.
         let r = run(
             json!({"container": {"paddingLeft": 14, "paddingTop": 6}}),

@@ -118,7 +118,7 @@ export function renderSections(sections = []) {
   return sections
     .map(
       (s) =>
-        `<section class="spec-section" id="section-${esc(s.key)}" aria-labelledby="section-${esc(s.key)}-h"><h2 id="section-${esc(s.key)}-h">${esc(s.title)}</h2>${s.blocks.map(sectionBlock).join("")}</section>`,
+        `<section class="spec-section" id="section-${esc(s.key)}" aria-labeledby="section-${esc(s.key)}-h"><h2 id="section-${esc(s.key)}-h">${esc(s.title)}</h2>${s.blocks.map(sectionBlock).join("")}</section>`,
     )
     .join("");
 }

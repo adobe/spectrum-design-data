@@ -137,7 +137,7 @@
         {
           "commit": "d1123a17afa74644b4fab739e70d55077d1cd40f",
           "date": "2026-11-12",
-          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1763,"title":"fix(design-data): pin variant on status-light dot colour relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1763"},
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1763,"title":"fix(design-data): pin variant on status-light dot color relationships","url":"https://github.com/adobe/spectrum-design-data/pull/1763"},
           "entries": [],
           "metadata": {"count":57,"fields":["scope.options.variant"]}
         }

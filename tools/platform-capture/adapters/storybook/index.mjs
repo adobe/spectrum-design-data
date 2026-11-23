@@ -97,7 +97,7 @@ export async function captureState(page, src, state, { outDir, trackProps }) {
   const url = storyUrl(src.base, state.story, { args: state.args, globals });
   await page.goto(url, { waitUntil: "networkidle" });
   if (dark && src.dark.dataset) await page.evaluate((k) => { document.documentElement.dataset[k] = "dark"; }, src.dark.dataset);
-  // Fonts and colour transitions (a scheme switch animates) must settle before measuring.
+  // Fonts and color transitions (a scheme switch animates) must settle before measuring.
   await page.evaluate(async () => {
     await document.fonts.ready;
     await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));

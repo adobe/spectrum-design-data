@@ -168,7 +168,7 @@
         {
           "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
           "date": "2026-11-20",
-          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): color anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
           "entries": [
             {"id":"23810aed-0","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"state":["keyboard-focus"],"scale":"desktop"}},"record":"d31ec6a9-6706-52e2-832a-e8a9cec70827","name":"size[scale=desktop,state=?]","fields":[{"path":"context","before":"Size (keyboard focus)","after":"Size"}]},
             {"id":"23810aed-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Size"],"scope":{"property":"size","options":{"state":["keyboard-focus"],"scale":"mobile"}},"record":"e5a2b468-d872-5164-b453-c5619dd2187f","name":"size[scale=mobile,state=?]","fields":[{"path":"context","before":"Size (keyboard focus)","after":"Size"}]},

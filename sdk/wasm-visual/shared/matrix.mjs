@@ -40,7 +40,7 @@ const COMPONENTS = [
 // button-ios and switch-ios (the site entries named `button` and `switch`).
 export const PLATFORMS = { foundation: COMPONENTS, ios: ["button", "switch"] };
 
-// A table with every advance 15% wider, to prove a request's own table is honoured.
+// A table with every advance 15% wider, to prove a request's own table is honored.
 export const wide = structuredClone(defaultTable);
 for (const w of Object.values(wide))
   if (w.adv) w.adv = w.adv.map((a) => Math.round(a * 1.15));

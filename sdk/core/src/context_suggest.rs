@@ -23,7 +23,7 @@
 //!   `scope.part` and object agrees on one context.
 //! * `template`: built from `scope.part`, `scope.options` and the property. Only as good
 //!   as the measured agreement (see [`quality`]); below [`TEMPLATE_USABLE`] it is
-//!   labelled "needs review".
+//!   labeled "needs review".
 //!
 //! Vocabulary is the relationship-contexts registry; a head word outside it is proposed
 //! anyway and reported as a registry gap, never added.

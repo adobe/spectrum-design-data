@@ -63,7 +63,7 @@
     "variant": {
       "type": "string",
       "default": "default",
-      "description": "Visual emphasis of the step list: default draws neutral colours, emphasized draws accent colours.",
+      "description": "Visual emphasis of the step list: default draws neutral colors, emphasized draws accent colors.",
       "values": [
         {
           "value": "default"

@@ -331,7 +331,7 @@ enum Commands {
         /// Text-measurement table (advances and kerning per weight); default: committed Source Sans 3
         #[arg(long, value_name = "FILE")]
         text_metrics: Option<PathBuf>,
-        /// Exit 1 when the render reports any diagnostic, such as a binding that does not resolve (a part drawn without its colour or type).
+        /// Exit 1 when the render reports any diagnostic, such as a binding that does not resolve (a part drawn without its color or type).
         /// Output is still written; the warnings are on stderr
         #[arg(long)]
         strict: bool,

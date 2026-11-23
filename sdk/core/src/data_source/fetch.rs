@@ -66,7 +66,7 @@ use super::SourceConfig;
 /// Errors that can occur during remote fetch / cache operations.
 #[derive(Debug, Error)]
 pub enum FetchError {
-    /// The source type is recognised but not yet implemented.
+    /// The source type is recognized but not yet implemented.
     #[error("source type '{source_type}' is not yet fully implemented: {reason}")]
     NotYetSupported {
         source_type: &'static str,

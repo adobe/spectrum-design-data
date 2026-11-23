@@ -117,6 +117,16 @@ tasks:
       cache: false
   # Verifies .ai/ sources are valid and generated AI resources (instructions,
   # repo index, llms.txt) are current. Fix drift with `pnpm ai:sync`.
+  # Fails on British spellings (the repo uses US English); see scripts/check-us-spelling.mjs.
+  check-us-spelling:
+    command:
+      - node
+      - scripts/check-us-spelling.mjs
+    inputs:
+      - "/**/*.{md,js,mjs,ts,tsx,rs,json,yml,yaml,html,css,toml}"
+      - "!/**/CHANGELOG.md"
+      - "!/**/node_modules/**"
+      - "!/sdk/target/**"
   ai-check:
     command:
       - node

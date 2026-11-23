@@ -14,10 +14,10 @@
 //! name-object field and (b) matches a declared `component.options.<key>` with a
 //! `values[]` list, the token's value MUST appear in that `values[]` list.
 //!
-//! This generalises SPEC-019 (`component-variant-valid`, Error) to the remaining
+//! This generalizes SPEC-019 (`component-variant-valid`, Error) to the remaining
 //! option-enum fields such as `style`, `size`, `staticColor`, etc. Severity is
 //! Warning (advisory) so real datasets can absorb the new check incrementally;
-//! promotion to Error is deferred until the option catalog stabilises.
+//! promotion to Error is deferred until the option catalog stabilizes.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};

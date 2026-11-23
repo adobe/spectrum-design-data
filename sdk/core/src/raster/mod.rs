@@ -1015,7 +1015,7 @@ mod tests {
             size: 4.0,
         });
         let (img, d) = render(&scene(16.0, 16.0, vec![n]), 1.0);
-        // Pixel centres inside the four cells of one tile: fill, alt / alt, fill.
+        // Pixel centers inside the four cells of one tile: fill, alt / alt, fill.
         assert_eq!(at(&img, 2, 2), [255, 255, 255, 255]);
         assert_eq!(at(&img, 6, 2), [0, 0, 0, 255]);
         assert_eq!(at(&img, 2, 6), [0, 0, 0, 255]);
@@ -1383,7 +1383,7 @@ mod tests {
     }
 
     #[test]
-    fn an_icon_honours_even_odd_fill_rule() {
+    fn an_icon_honors_even_odd_fill_rule() {
         let d = "M0 0h10v10H0zM3 3h4v4H3z";
         let center = |rule| {
             let n = icon(Some(drawing(d, rule)), "#000000");

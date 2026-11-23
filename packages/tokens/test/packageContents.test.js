@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 /**
  * Asserts that the pnpm-published tarball for @adobe/spectrum-tokens contains every
  * file that consumers depend on. Uses `pnpm pack --json` rather than plain
- * filesystem checks so the test honours `files`, `.npmignore`, and npm defaults —
+ * filesystem checks so the test honors `files`, `.npmignore`, and npm defaults —
  * the same rules that govern what actually gets published.
  *
  * pnpm is used (not npm) per the project's pnpm-only mandate. pnpm 10 supports

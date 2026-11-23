@@ -1127,7 +1127,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "field",
       "label": "Field",
-      "description": "The box of an input component: the bordered or filled area that holds the value and its in-field icons and buttons (text-field, number-field, combo-box, picker, etc.). The labelled whole is the container.",
+      "description": "The box of an input component: the bordered or filled area that holds the value and its in-field icons and buttons (text-field, number-field, combo-box, picker, etc.). The labeled whole is the container.",
       "usedIn": ["tokens", "s2-docs"],
       "standaloneScope": true
     },
@@ -1600,7 +1600,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "overlay",
       "label": "Overlay",
-      "description": "Semi-transparent backdrop behind a modal dialog (alert-dialog, standard-dialog, takeover-dialog); a top-level part that owns the overlay colour and opacity",
+      "description": "Semi-transparent backdrop behind a modal dialog (alert-dialog, standard-dialog, takeover-dialog); a top-level part that owns the overlay color and opacity",
       "usedIn": ["s2-docs"],
       "standaloneScope": true,
       "aliases": ["underlay", "modal-overlay"]

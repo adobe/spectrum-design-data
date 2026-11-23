@@ -46,16 +46,16 @@ ARIA (Accessible Rich Internet Applications) is the primary web accessibility AP
 
 ### `intents`
 
-| Foundation intent | Web guidance                                                                                      |
-| ----------------- | ------------------------------------------------------------------------------------------------- |
-| `trigger`         | Ensure the element has an accessible name via `aria-label`, `aria-labelledby`, or a visible label |
-| `select`          | Set `aria-selected` on child options; the container gets `role="listbox"` or `role="combobox"`    |
-| `navigate`        | Use `<a href>` or `role="link"`; ensure the destination is announced                              |
-| `expand`          | Set `aria-expanded="true"` / `"false"` on the trigger element                                     |
-| `collapse`        | Toggle `aria-expanded` to `"false"`                                                               |
-| `input`           | Associate a visible `<label>` or `aria-label`; use `aria-describedby` for hints                   |
-| `choose`          | Use `aria-valuenow`, `aria-valuemin`, `aria-valuemax` for range inputs                            |
-| `dismiss`         | Return focus to the trigger element on close; announce the closure if needed                      |
+| Foundation intent | Web guidance                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------ |
+| `trigger`         | Ensure the element has an accessible name via `aria-label`, `aria-labeledby`, or a visible label |
+| `select`          | Set `aria-selected` on child options; the container gets `role="listbox"` or `role="combobox"`   |
+| `navigate`        | Use `<a href>` or `role="link"`; ensure the destination is announced                             |
+| `expand`          | Set `aria-expanded="true"` / `"false"` on the trigger element                                    |
+| `collapse`        | Toggle `aria-expanded` to `"false"`                                                              |
+| `input`           | Associate a visible `<label>` or `aria-label`; use `aria-describedby` for hints                  |
+| `choose`          | Use `aria-valuenow`, `aria-valuemin`, `aria-valuemax` for range inputs                           |
+| `dismiss`         | Return focus to the trigger element on close; announce the closure if needed                     |
 
 ### `focusable`
 

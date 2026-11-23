@@ -224,7 +224,7 @@ test("re-rendering replaces the root frame instead of adding another", async (t)
   );
 });
 
-test("measurements are drawn from the scene and labelled by the sheet", async (t) => {
+test("measurements are drawn from the scene and labeled by the sheet", async (t) => {
   const { figma, page } = mock();
   await figma.ui.onmessage({ type: "render-sheet", sheet, pages: ["Layout"] });
   const legends = [];
@@ -330,7 +330,7 @@ test("falls back to Inter when Adobe Clean cannot be loaded", async (t) => {
   );
 });
 
-test("blocks generated from context-less records are marked and inline values are labelled", async (t) => {
+test("blocks generated from context-less records are marked and inline values are labeled", async (t) => {
   const { figma, page, messages } = mock();
   for (const name of ["heading", "text-area"]) {
     await figma.ui.onmessage({ type: "render-sheet", sheet: generate(name) });
@@ -720,7 +720,7 @@ test("undrawn markers get an outlined row badge and a note under the visual", as
 });
 
 // Each icon part is the catalog drawing from createNodeFromSvg: the part's own viewBox fitted
-// into the part box, filled with the resolved colour, rotated about the centre.
+// into the part box, filled with the resolved color, rotated about the center.
 const hex = (color) =>
   "#" +
   color
@@ -808,7 +808,7 @@ test("an icon Figma cannot import draws the placeholder instead of failing the s
   t.true(placeholder.length > 0);
 });
 
-test("a comma-separated viewBox still centres the rotation", async (t) => {
+test("a comma-separated viewBox still centers the rotation", async (t) => {
   const s = structuredClone(generate("accordion"));
   let n = 0;
   for (const node of s.pages
@@ -915,7 +915,7 @@ test("rings, stroke opacity and text underlines in a scene are drawn", async (t)
     pages: ["Layout"],
   });
   t.true(m.page.findAll((n) => n.name === "text underline").length > 0);
-  // A ring in any scene is a stroke-only rectangle on the centre line.
+  // A ring in any scene is a stroke-only rectangle on the center line.
   const rg = found("button", (n) => n.kind === "ring");
   if (rg.block) {
     m = mock();

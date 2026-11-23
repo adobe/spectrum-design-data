@@ -167,7 +167,7 @@
         {
           "commit": "23810aed8b8f2fc745bbaa75b3e24a6be61c5c8a",
           "date": "2026-11-20",
-          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): colour anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":1996,"title":"feat(design-data): color anatomy apply and identity migration (A7)","url":"https://github.com/adobe/spectrum-design-data/pull/1996"},
           "entries": [
             {"id":"23810aed-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"outer"}},"record":"ee5a2569-aa3c-5a32-8408-a20135c41170","name":"border-width[position=outer]","fields":[{"path":"scope.options.position","after":"outer"}]},
             {"id":"23810aed-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"border-width","options":{"position":"inner"}},"record":"dfc2b4db-8554-53ca-8463-d6f818381692","name":"border-width[position=inner]","fields":[{"path":"scope.options.position","after":"inner"}]},

@@ -134,7 +134,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         ),
     ];
     // Badge wraps its label (`overflow`): a narrow width forces two lines, and the icon
-    // centres on the first.
+    // centers on the first.
     if name == "badge" {
         let narrow = |icon: bool| {
             let mut r = req(vec![], HashMap::new(), "light", "desktop");
@@ -1055,7 +1055,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push((label, r));
         }
     }
-    // Meter: variants set the fill colour through relationships, and a static colour must win over
+    // Meter: variants set the fill color through relationships, and a static color must win over
     // the variant. The defaults (no value) show an empty bar.
     if name == "meter" {
         let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
@@ -1087,7 +1087,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         ));
     }
     // Help text: the alert icon shows only for the negative variant, and a disabled state wins over
-    // the variant colour, so the icon and text are both grey.
+    // the variant color, so the icon and text are both grey.
     if name == "help-text" {
         let with = |opts: &[(&str, Value)]| -> HashMap<String, Value> {
             opts.iter()
@@ -2547,8 +2547,8 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
-    // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static colour
-    // over the dark scheme, where the neutral colours would not show.
+    // Close button: the hover fill (gray-200 here), the keyboard-focus ring, and a static color
+    // over the dark scheme, where the neutral colors would not show.
     if name == "close-button" {
         out.push((
             "hover",
@@ -2563,7 +2563,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "desktop",
             ),
         ));
-        // Disabled wins over a state for the static cross colour: both records pin two options.
+        // Disabled wins over a state for the static cross color: both records pin two options.
         out.push((
             "static-black-disabled-hover",
             req(
@@ -2588,7 +2588,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     }
     // Link: the underline appears on a quiet standalone link only on hover or keyboard focus (the
     // ring follows the label's corner radius), an inline link is regular weight and always
-    // underlined, and a static colour over the dark scheme.
+    // underlined, and a static color over the dark scheme.
     if name == "link" {
         let with = |pairs: &[(&str, Value)]| -> HashMap<String, Value> {
             pairs
@@ -2793,7 +2793,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ));
         }
     }
-    // Divider: every size, both orientations, and each static colour. The regular fill and the
+    // Divider: every size, both orientations, and each static color. The regular fill and the
     // static fills are separate relationships, so this guards which one wins.
     if name == "divider" {
         for size in ["s", "m", "l"] {

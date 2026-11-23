@@ -15,7 +15,7 @@ governing permissions and limitations under the License.
  *
  * Reuse the same fixture corpus as the Rust unit tests in `sdk/core/src/`.
  * All tests use `Dataset.fromTokens()` — no compiled .redb blob is required.
- * The wasm module is initialised once in a `test.before()` hook.
+ * The wasm module is initialized once in a `test.before()` hook.
  */
 
 import { readFileSync } from "node:fs";
@@ -48,7 +48,7 @@ function readText(...parts) {
 let wasm;
 
 test.before(async () => {
-  // The bundler-target wasm module self-initialises on import (wbindgen_start).
+  // The bundler-target wasm module self-initializes on import (wbindgen_start).
   // No explicit init() call is required.
   wasm = await import(WASM_PKG);
 });
@@ -166,7 +166,7 @@ test('getFieldValues returns a non-empty array for "property"', (t) => {
   t.true(values.includes("color"));
 });
 
-test("getFieldValues returns undefined for an unrecognised field", (t) => {
+test("getFieldValues returns undefined for an unrecognized field", (t) => {
   t.is(wasm.getFieldValues("totally-made-up-field"), undefined);
 });
 

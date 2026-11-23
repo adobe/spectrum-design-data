@@ -836,7 +836,7 @@
         const lbl = e.target.closest?.('span[id^="lbl-"]');
         if (!lbl) return;
         const ctl = lbl.parentElement.querySelector(
-          `sp-picker[aria-labelledby="${lbl.id}"]`,
+          `sp-picker[aria-labeledby="${lbl.id}"]`,
         );
         ctl?.focus();
         ctl?.forceFocusVisible?.();
@@ -1041,7 +1041,7 @@
         controlOpts = {};
         const rows = [];
         const picker = (id, title, values, value, extra = "") =>
-          `<div class="f ${extra}" id="${id}-wrap"><span id="lbl-${id}">${title}</span><sp-picker id="${id}" aria-labelledby="lbl-${id}" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></div>`;
+          `<div class="f ${extra}" id="${id}-wrap"><span id="lbl-${id}">${title}</span><sp-picker id="${id}" aria-labeledby="lbl-${id}" label="${title}" value="${value}" ${extra.includes("off") ? "disabled" : ""}>${values.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></div>`;
         const mode = (id, title, values) =>
           picker(id, title, values, values[0][0]);
         for (const [name, def] of Object.entries(opts)) {
@@ -1083,7 +1083,7 @@
             ).concat(vals.map((v) => [v, shown(name, v)]));
             const label = humanize(name);
             const sel = def.default === undefined ? NONE : def.default;
-            return `<div class="f ${supported ? "" : "off"}"><span id="lbl-opt-${name}">${label}</span><sp-picker id="opt-${name}" aria-labelledby="lbl-opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></div>`;
+            return `<div class="f ${supported ? "" : "off"}"><span id="lbl-opt-${name}">${label}</span><sp-picker id="opt-${name}" aria-labeledby="lbl-opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></div>`;
           }
           return `<sp-switch id="opt-${name}" data-label="${humanize(name)}" ${dis} ${def.default ? "checked" : ""}>${humanize(name)}</sp-switch>`;
         };
@@ -1113,10 +1113,10 @@
         const start = readContentParams(new URLSearchParams(location.search));
         if (content.label)
           rows.push(
-            `<label class="f" id="content-label-wrap"><span id="lbl-content-label">Label text</span><input type="text" id="content-label" aria-labelledby="lbl-content-label" class="content" value="${attr(start.label)}" /></label>`,
+            `<label class="f" id="content-label-wrap"><span id="lbl-content-label">Label text</span><input type="text" id="content-label" aria-labeledby="lbl-content-label" class="content" value="${attr(start.label)}" /></label>`,
           );
         rows.push(
-          `<label class="f" id="content-width-wrap"><span id="lbl-content-width">Width (px)</span><input type="number" id="content-width" aria-labelledby="lbl-content-width" class="content" min="1" step="1" placeholder="Hug" /></label>`,
+          `<label class="f" id="content-width-wrap"><span id="lbl-content-width">Width (px)</span><input type="number" id="content-width" aria-labeledby="lbl-content-width" class="content" min="1" step="1" placeholder="Hug" /></label>`,
         );
         if (content.icon) {
           const choices = iconChoices(
@@ -1130,17 +1130,17 @@
         }
         rows.push(group(order.filter((n) => controlOpts[n].supported)));
         const unsupported = order.filter((n) => !controlOpts[n].supported);
-        const behaviour = new Set(C.recipe.notVisual ?? []);
-        const notDrawn = unsupported.filter((n) => !behaviour.has(n));
-        const behaviourOnly = unsupported.filter((n) => behaviour.has(n));
+        const behavior = new Set(C.recipe.notVisual ?? []);
+        const notDrawn = unsupported.filter((n) => !behavior.has(n));
+        const behaviorOnly = unsupported.filter((n) => behavior.has(n));
         if (notDrawn.length)
           rows.push(`<h5>Not in the recipe yet</h5>${group(notDrawn)}`);
-        if (behaviourOnly.length)
-          rows.push(`<h5>Behaviour only</h5>${group(behaviourOnly)}`);
+        if (behaviorOnly.length)
+          rows.push(`<h5>Behavior only</h5>${group(behaviorOnly)}`);
         const stateNames = (C.states ?? []).map((st) => st.name);
         if (stateNames.length)
           rows.push(
-            `<div class="f hidden" id="state-wrap"><span id="lbl-state">State</span><sp-picker id="state" aria-labelledby="lbl-state" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></div>`,
+            `<div class="f hidden" id="state-wrap"><span id="lbl-state">State</span><sp-picker id="state" aria-labeledby="lbl-state" label="State" value="${NONE}"><sp-menu-item value="${NONE}">default</sp-menu-item>${stateNames.map((n) => `<sp-menu-item value="${n}">${n}</sp-menu-item>`).join("")}</sp-picker></div>`,
           );
         rows.push(
           '<div id="support" class="support" role="status" aria-live="polite"></div>',
@@ -1363,7 +1363,7 @@
         return { x: vbx, y: vby };
       }
 
-      // Switch label size. A fitted view refits; otherwise the point at the centre of the
+      // Switch label size. A fitted view refits; otherwise the point at the center of the
       // stage stays there.
       function setLabels(large) {
         try {
@@ -1377,7 +1377,7 @@
           if (vp.kind === "diagram") drawDiagram();
           return;
         }
-        const [px, py] = centre();
+        const [px, py] = center();
         const K = vp.z / vp.sigma;
         const sx = ((px - vp.tx) / vp.sigma + vp.vbx - PAD_X) / K,
           sy = ((py - vp.ty) / vp.sigma + vp.vby - PAD_Y) / K;
@@ -1422,11 +1422,11 @@
         vp.ty = py - (PAD_Y + sy * K2 - vb.y) * vp.sigma;
         paint();
       }
-      const centre = () => {
+      const center = () => {
         const { w, h } = stageSize();
         return [w / 2, h / 2];
       };
-      const step = (f) => zoomTo(vp.z * f, ...centre());
+      const step = (f) => zoomTo(vp.z * f, ...center());
 
       // Wheel and pinch redraw at most once per frame.
       let queued = null;
@@ -1513,7 +1513,7 @@
           "-": () => step(0.8),
           _: () => step(0.8),
           0: fitView,
-          1: () => zoomTo(1, ...centre()),
+          1: () => zoomTo(1, ...center()),
           f: toggleFull,
           l: () => setLabels(!$("z-labels").selected),
           ArrowLeft: () => panBy(big, 0),
@@ -1529,7 +1529,7 @@
 
       $("z-in").addEventListener("click", () => step(1.25));
       $("z-out").addEventListener("click", () => step(0.8));
-      $("z-level").addEventListener("click", () => zoomTo(1, ...centre()));
+      $("z-level").addEventListener("click", () => zoomTo(1, ...center()));
       $("z-fit").addEventListener("click", fitView);
       $("z-labels").addEventListener("change", () =>
         setLabels($("z-labels").selected),
@@ -1932,8 +1932,8 @@
         };
       })();
       const pillW = (text, mono) => Math.ceil(measure(text, mono)) + 28;
-      // A label: x is its left, middle or right edge by anchor, y its vertical centre.
-      // The text sits at the centre of the box, which is sized from the measured text.
+      // A label: x is its left, middle or right edge by anchor, y its vertical center.
+      // The text sits at the center of the box, which is sized from the measured text.
       const pill = (x, y, text, color, mono, anchor = "start") => {
         const w = pillW(text, mono);
         const left =

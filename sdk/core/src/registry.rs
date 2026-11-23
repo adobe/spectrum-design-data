@@ -77,7 +77,7 @@ pub struct FieldCatalog {
 impl FieldCatalog {
     /// Return the catalog embedded at compile time (generated from `packages/design-data/fields/`).
     ///
-    /// Initialised once via `OnceLock`; subsequent calls return the same allocation
+    /// Initialized once via `OnceLock`; subsequent calls return the same allocation
     /// with no extra parsing or heap work.
     pub fn embedded() -> &'static Self {
         static INSTANCE: OnceLock<FieldCatalog> = OnceLock::new();
@@ -306,7 +306,7 @@ impl RegistryData {
     /// by running `moon run sdk:codegen`. Adding a new field declaration and
     /// re-running codegen is all that's needed to extend SPEC-009.
     ///
-    /// Initialised once via `OnceLock` — the 21 `serde_json::from_str` calls in
+    /// Initialized once via `OnceLock` — the 21 `serde_json::from_str` calls in
     /// `build_registry_map` run only on the first call per process.
     pub fn embedded() -> &'static Self {
         static INSTANCE: OnceLock<RegistryData> = OnceLock::new();

@@ -273,7 +273,7 @@ function copyDependencyTree(
  * Copy the runtime-only files for a package into destDir.
  *
  * For workspace-source packages (resolved to a source tree, not a published store
- * entry), we honour the package's `files` allowlist (the same set npm would publish),
+ * entry), we honor the package's `files` allowlist (the same set npm would publish),
  * plus always-included files (package.json, README*, LICENSE*). This avoids copying
  * Rust sources, test fixtures, build configs, and nested devDep node_modules.
  *
@@ -301,7 +301,7 @@ function copyPackageFiles(pkgDir, destDir, packageName, pkgJson) {
     // Always include package.json and top-level README / LICENSE files.
     const alwaysInclude = ["package.json"];
     for (const entry of fs.readdirSync(pkgDir)) {
-      if (/^(readme|license|licence)/i.test(entry)) alwaysInclude.push(entry);
+      if (/^(readme|license)/i.test(entry)) alwaysInclude.push(entry);
     }
 
     const toCopy = [...new Set([...pkgJson.files, ...alwaysInclude])];
@@ -407,7 +407,7 @@ function resolvePackageDir(packageName, fromDir) {
 /**
  * Copy a directory tree, dereferencing symlinks (flattens pnpm workspace symlinks).
  * Used to copy `src/` into the staging root. Not used by copyDependencyTree — that
- * calls copyPackageFiles instead, which honours the package's `files` allowlist.
+ * calls copyPackageFiles instead, which honors the package's `files` allowlist.
  */
 function copyDirectory(from, to) {
   fs.mkdirSync(path.dirname(to), { recursive: true });

@@ -1436,7 +1436,7 @@ fn gallery_item(title: &str, mut render: Value) -> Value {
 }
 
 /// Adds a measurement for each derived context the block highlights: the band from the
-/// container edge that the formula gives over the solved scene, labelled as derived from
+/// container edge that the formula gives over the solved scene, labeled as derived from
 /// height. It joins `scene.measurements`, so views draw it like any other span, and a note
 /// states the formula.
 fn add_derived_measurements(

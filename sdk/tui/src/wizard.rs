@@ -176,7 +176,7 @@ impl WizardState {
         // Ctrl-C is handled globally above us (never reaches here).
         // Ctrl-S on Screen 4 opens the schema URL editor; all other Ctrl combos fall
         // through to the screen handlers so tui-input's readline bindings (Ctrl-A/E/W/U)
-        // work in text fields — matching the behaviour of the palette and naming wizard.
+        // work in text fields — matching the behavior of the palette and naming wizard.
         if key.modifiers.contains(KeyModifiers::CONTROL)
             && key.code == KeyCode::Char('s')
             && self.screen == WizardScreen::Confirm
