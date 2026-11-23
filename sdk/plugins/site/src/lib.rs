@@ -160,7 +160,27 @@ pub fn write_site(
     let write = |name: &str, body: &str| -> Result<(), String> {
         std::fs::write(out.join(name), body).map_err(|e| format!("failed to write {name}: {e}"))
     };
-    write("index.html", INDEX)?;
+    let table = text_metrics.unwrap_or(DEFAULT_TABLE_JSON);
+    let data_json = serde_json::to_string(&data).map_err(|e| e.to_string())?;
+    let fixed = [
+        INDEX,
+        BACKEND,
+        DRAW,
+        CONTENT,
+        CONSTRAINTS,
+        SWITCHER,
+        CONTROLS,
+        table,
+        &data_json,
+    ];
+    let id = build_id(
+        fixed
+            .iter()
+            .map(|s| s.as_bytes())
+            .chain(variants.iter().map(|(_, b)| b.as_bytes()))
+            .chain(engine_files.iter().map(|(_, b)| b.as_slice())),
+    );
+    write("index.html", &INDEX.replace("__BUILD_ID__", &id))?;
     write("backend.js", BACKEND)?;
     write("draw-helpers.js", DRAW)?;
     write("spectrum-controls.js", CONTROLS)?;
@@ -169,17 +189,11 @@ pub fn write_site(
     write("content-controls.js", CONTENT)?;
     write("platform-switcher.js", SWITCHER)?;
     // The caller validated an override; with none, ship the default table and its license.
-    write(
-        "text-metrics.json",
-        text_metrics.unwrap_or(DEFAULT_TABLE_JSON),
-    )?;
+    write("text-metrics.json", table)?;
     if text_metrics.is_none() {
         write("OFL-SourceSans3.txt", DEFAULT_TABLE_LICENSE)?;
     }
-    write(
-        "data.json",
-        &serde_json::to_string(&data).map_err(|e| e.to_string())?,
-    )?;
+    write("data.json", &data_json)?;
     write(".nojekyll", "")?;
     for (rel, body) in &variants {
         let path = out.join(rel);
@@ -195,6 +209,52 @@ pub fn write_site(
         }
     }
     Ok(compiled.len())
+}
+
+/// Content hash (FNV-1a, 64 bits) of everything the page loads. `index.html` stamps it into
+/// every script, data and engine URL (`?v=<id>`), so a redeploy that keeps file names still
+/// makes browsers fetch the new files. Deterministic: same inputs, same id.
+fn build_id<'a>(chunks: impl Iterator<Item = &'a [u8]>) -> String {
+    let mut h: u64 = 0xcbf2_9ce4_8422_2325;
+    for chunk in chunks {
+        // JSON is hashed with sorted keys: the generator's map order varies run to run, and the
+        // id must change only when content does.
+        let canon = serde_json::from_slice::<serde_json::Value>(chunk)
+            .ok()
+            .map(|v| sorted(&v));
+        for b in canon.as_deref().unwrap_or(chunk).iter().chain(&[0xff]) {
+            h = (h ^ u64::from(*b)).wrapping_mul(0x0100_0000_01b3);
+        }
+    }
+    format!("{h:016x}")
+}
+
+fn sorted(v: &serde_json::Value) -> Vec<u8> {
+    use serde_json::Value;
+    match v {
+        Value::Object(m) => {
+            let mut keys: Vec<_> = m.keys().collect();
+            keys.sort();
+            let mut out = b"{".to_vec();
+            for k in keys {
+                out.extend(format!("{k:?}:").bytes());
+                out.extend(sorted(&m[k]));
+                out.push(b',');
+            }
+            out.push(b'}');
+            out
+        }
+        Value::Array(a) => {
+            let mut out = b"[".to_vec();
+            for x in a {
+                out.extend(sorted(x));
+                out.push(b',');
+            }
+            out.push(b']');
+            out
+        }
+        other => other.to_string().into_bytes(),
+    }
 }
 
 /// One `(relative path, JSON)` per component, size, color scheme and scale: the document

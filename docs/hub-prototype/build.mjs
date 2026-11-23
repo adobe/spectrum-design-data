@@ -12,6 +12,7 @@
 // landing page. To add a platform, add one entry here.
 
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
   copyFileSync,
   cpSync,
@@ -156,3 +157,58 @@ const stray = [];
 })(join(dist, "specs"));
 if (stray.length)
   throw new Error(`text-metrics table in the spec output: ${stray.join(", ")}`);
+
+// Cache-busting. The deploy replaces files but keeps their names, so a plain refresh could
+// keep stale data. Every page loads its scripts and data as `?v=<build id>`: the explorer's
+// id is stamped by `design-data site`, and the spec pages get theirs here from a content
+// hash of everything in dist/ (deterministic: no timestamp).
+const files = [];
+(function list(dir) {
+  for (const f of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, f.name);
+    if (f.isDirectory()) list(p);
+    else files.push(p);
+  }
+})(dist);
+const hash = createHash("sha256");
+for (const p of files.sort()) {
+  hash.update(p.slice(dist.length) + "\0");
+  hash.update(readFileSync(p));
+}
+const buildId = hash.digest("hex").slice(0, 16);
+const specModules = ["sections.js", "fetch-v.js", "specs.js", "index.js"];
+const importMap = JSON.stringify({
+  imports: Object.fromEntries(
+    specModules.map((m) => [`./${m}`, `./${m}?v=${buildId}`]),
+  ),
+});
+for (const page of ["index.html", "sheet.html"]) {
+  const p = join(dist, "specs", page);
+  const html = readFileSync(p, "utf8")
+    .replace(
+      /<script type="module" src="([\w-]+\.js)"><\/script>/,
+      `<script type="importmap">${importMap}</script>\n    <script type="module" src="$1?v=${buildId}"></script>`,
+    )
+    .replace('href="specs.css"', `href="specs.css?v=${buildId}"`);
+  if (!html.includes(`?v=${buildId}"></script>`))
+    throw new Error(`could not stamp the build id into specs/${page}`);
+  writeFileSync(p, html);
+}
+const gitOut = (...a) =>
+  execFileSync("git", ["-c", "core.fileMode=false", ...a], {
+    cwd: root,
+    encoding: "utf8",
+  }).trim();
+writeFileSync(
+  join(dist, "build-info.json"),
+  JSON.stringify(
+    {
+      commit: gitOut("rev-parse", "HEAD"),
+      dirty: gitOut("status", "--porcelain", "--untracked-files=no") !== "",
+      buildId,
+    },
+    null,
+    2,
+  ) + "\n",
+);
+console.log(`dist build id ${buildId}`);

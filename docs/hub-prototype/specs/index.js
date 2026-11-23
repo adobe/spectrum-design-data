@@ -1,5 +1,7 @@
 // Copyright 2026 Adobe. All rights reserved.
 
+import { fetchV } from "./fetch-v.js";
+
 // Lists every generated sheet from data/sheets/index.json (`design-data spec-sheet --all`):
 // version and latest release come from each component's changelog, and the visual flag from
 // the sheet. The page reads those fields and derives nothing.
@@ -13,12 +15,12 @@ const FIGMA_TIP =
   "Generated Figma spec file. It is in a test folder, so only people with access can open it.";
 const figmaUrl = (e) =>
   `https://www.figma.com/design/${encodeURIComponent(e.fileKey)}`;
-const figmaFiles = await fetch("data/figma-files.json")
+const figmaFiles = await fetchV("data/figma-files.json")
   .then((r) => (r.ok ? r.json() : null))
   .catch(() => null);
 const figmaFile = (c) =>
   figmaFiles?.files?.[c]?.fileKey ? figmaFiles.files[c] : null;
-const res = await fetch("data/sheets/index.json");
+const res = await fetchV("data/sheets/index.json");
 if (!res.ok) {
   document.getElementById("summary").textContent =
     "No sheets yet. Run the hub-prototype build to generate them.";
