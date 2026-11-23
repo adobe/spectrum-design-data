@@ -591,6 +591,24 @@
     "density=\"spacious\",hideDivider=true,hideDragHandle=true,isFloating=true,orientation=\"vertical\",style=\"primary\"": "e60d34977c1d7461",
     "density=\"spacious\",hideDivider=true,hideDragHandle=true,isFloating=true,orientation=\"vertical\",style=\"secondary\"": "af5c2dcff87821af"
   },
+  "breadcrumbs": {
+    "isCurrent=false,isDisabled=false,isMultiline=false,separator=\"chevron\"": "4452113bc25b22fd",
+    "isCurrent=false,isDisabled=false,isMultiline=false,separator=\"none\"": "8d542909fa829de1",
+    "isCurrent=false,isDisabled=false,isMultiline=true,separator=\"chevron\"": "616eb48824e72237",
+    "isCurrent=false,isDisabled=false,isMultiline=true,separator=\"none\"": "1029f13c9b383423",
+    "isCurrent=false,isDisabled=true,isMultiline=false,separator=\"chevron\"": "d9be6946be5a48a9",
+    "isCurrent=false,isDisabled=true,isMultiline=false,separator=\"none\"": "c7ed2edb710b8355",
+    "isCurrent=false,isDisabled=true,isMultiline=true,separator=\"chevron\"": "0f9adf1847b914cb",
+    "isCurrent=false,isDisabled=true,isMultiline=true,separator=\"none\"": "8e63a17cd99afa0f",
+    "isCurrent=true,isDisabled=false,isMultiline=false,separator=\"chevron\"": "9c912b7f4d0c7129",
+    "isCurrent=true,isDisabled=false,isMultiline=false,separator=\"none\"": "7d7c4ae9dfd3a9dd",
+    "isCurrent=true,isDisabled=false,isMultiline=true,separator=\"chevron\"": "2426f889c9ea518f",
+    "isCurrent=true,isDisabled=false,isMultiline=true,separator=\"none\"": "47c804f666b3c183",
+    "isCurrent=true,isDisabled=true,isMultiline=false,separator=\"chevron\"": "d5bba00ff902f5a5",
+    "isCurrent=true,isDisabled=true,isMultiline=false,separator=\"none\"": "b30faf6621b99811",
+    "isCurrent=true,isDisabled=true,isMultiline=true,separator=\"chevron\"": "bdce1b7482bc40d3",
+    "isCurrent=true,isDisabled=true,isMultiline=true,separator=\"none\"": "5dedf0e580cbcbff"
+  },
   "button": {
     "isDisabled=false,isLabelHidden=false,isPending=false,staticColor=\"black\",style=\"fill\",variant=\"accent\"": "93962fbbd5bc6688",
     "isDisabled=false,isLabelHidden=false,isPending=false,staticColor=\"black\",style=\"fill\",variant=\"negative\"": "5d83c49ea08e3624",

@@ -172,6 +172,24 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         let opts = HashMap::from([("items".to_string(), items)]);
         out.push(("three-items", req(vec![], opts, "light", "desktop")));
     }
+    // Breadcrumbs: links, a disabled one and the current page, at both sizes and scales.
+    if name == "breadcrumbs" {
+        let items = serde_json::json!([
+            { "label": "My computer" },
+            { "label": "Estimates" },
+            { "label": "Archive", "isDisabled": true },
+            { "label": "Drafts", "isCurrent": true }
+        ]);
+        let with = || HashMap::from([("items".to_string(), items.clone())]);
+        out.push(("four-items", req(vec![], with(), "light", "desktop")));
+        let mut r = req(vec![], with(), "light", "desktop");
+        r.size = "l".into();
+        out.push(("four-items-size-l", r));
+        out.push((
+            "four-items-dark-mobile",
+            req(vec![], with(), "dark", "mobile"),
+        ));
+    }
     // Collections: selected, unselected and disabled items side by side, in each layout the
     // recipe draws (tabs horizontal and vertical, segmented control with and without a track).
     if name == "tabs" || name == "segmented-control" {

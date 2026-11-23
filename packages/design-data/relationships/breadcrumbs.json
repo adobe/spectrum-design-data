@@ -41,7 +41,8 @@
         "to": "separator"
       },
       "options": {
-        "isMultiline": false
+        "isMultiline": false,
+        "size": "l"
       }
     },
     "context": "Spacing (breadcrumb item/title to separator icon)",
@@ -60,7 +61,8 @@
         "to": "text"
       },
       "options": {
-        "isMultiline": false
+        "isMultiline": false,
+        "size": "l"
       }
     },
     "context": "Spacing (start and end edge to text)",
@@ -167,7 +169,8 @@
         "to": "separator"
       },
       "options": {
-        "isMultiline": false
+        "isMultiline": false,
+        "size": "l"
       }
     },
     "context": "Spacing (top and bottom edge to separator icon)",
@@ -186,7 +189,8 @@
         "to": "separator"
       },
       "options": {
-        "isMultiline": false
+        "isMultiline": false,
+        "size": "l"
       }
     },
     "context": "Spacing (top and bottom edge to separator icon)",
@@ -403,7 +407,10 @@
     "scope": {
       "component": "breadcrumbs",
       "part": "breadcrumb-item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Breadcrumb item and title",
     "contextRole": ["breadcrumb-item", "label"],

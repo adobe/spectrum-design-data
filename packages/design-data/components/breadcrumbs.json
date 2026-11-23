@@ -144,6 +144,16 @@
           "value": "xl"
         }
       ]
+    },
+    "isCurrent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered item is the current page. Per-item in a data-driven component is items[].isCurrent."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered item is disabled. Per-item in a data-driven component is items[].isDisabled."
     }
   },
   "slots": [
@@ -173,7 +183,12 @@
     },
     {
       "name": "separator",
-      "description": "Chevron after an item. Absent on the last item."
+      "description": "Chevron after an item. Absent on the last item.",
+      "presentWhen": {
+        "options": {
+          "separator": "chevron"
+        }
+      }
     },
     {
       "name": "breadcrumb-title",
@@ -182,7 +197,9 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused item.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     }
   ],
   "anatomyReview": {

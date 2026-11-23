@@ -378,6 +378,7 @@ recipe_tests! {
     avatar => "avatar",
     badge => "badge",
     bar_panel => "bar-panel",
+    breadcrumbs => "breadcrumbs",
     button => "button",
     button_group => "button-group",
     checkbox => "checkbox",
