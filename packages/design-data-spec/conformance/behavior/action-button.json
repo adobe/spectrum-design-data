@@ -1,0 +1,272 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "action-button",
+  "vectors": [
+    {
+      "name": "activate raises press",
+      "start": {},
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          },
+          "emit": [
+            {
+              "press": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "disabled ignores activation",
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a completed press raises press",
+      "start": {},
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": true
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false
+          },
+          "emit": [
+            {
+              "press": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a cancelled press raises nothing",
+      "start": {},
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-cancel"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "press-end without press-start raises nothing",
+      "start": {},
+      "steps": [
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "press-end after press-cancel raises nothing",
+      "start": {},
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-cancel"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "keyboard focus shows focus-visible",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "pointer focus does not show focus-visible",
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "pointer"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "hover follows the pointer",
+      "needs": ["pointer-hover"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "pointer-leave"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hovered": true
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "hovered": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "disabled takes no focus",
+      "needs": ["keyboard"],
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": false,
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "disabled takes no press",
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "disabled takes no hover",
+      "needs": ["pointer-hover"],
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hovered": false
+          }
+        }
+      ]
+    }
+  ]
+}

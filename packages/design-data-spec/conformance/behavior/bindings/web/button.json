@@ -1,0 +1,170 @@
+{
+  "platform": "web",
+  "role": "button",
+  "vectors": [
+    {
+      "name": "Enter presses on key down",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": false
+          },
+          "emit": [
+            {
+              "press": {}
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "facets": {},
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Space presses on key up, not on key down",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": true
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false
+          },
+          "emit": [
+            {
+              "press": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Enter ignores a disabled control",
+      "needs": ["keyboard"],
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Space ignores a disabled control",
+      "needs": ["keyboard"],
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Escape does nothing",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    }
+  ]
+}

@@ -151,6 +151,7 @@
     "introduced": "1.0.0-draft"
   },
   "accessibility": {
+    "role": "radiogroup",
     "intents": ["choose"],
     "focusable": false,
     "wcag": [

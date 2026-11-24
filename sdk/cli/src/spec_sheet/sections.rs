@@ -534,11 +534,18 @@ mod tests {
 
     /// A499: for each component with a contract, the accessibility section built from the contract
     /// equals the one built from the `accessibility` block, and the contract answers every field
-    /// itself (no fallback to the block) except the component-level `intents` labels.
+    /// itself (no fallback to the block) except the component-level `intents` labels, a roving
+    /// focus model (`focusable` is not derivable from it) and a group that declares no role.
     #[test]
-    fn contract_derived_accessibility_equals_the_block_for_switch_and_checkbox() {
+    fn contract_derived_accessibility_equals_the_block() {
         let (legacy, derived) = (graph(false), graph(true));
-        for name in ["switch", "checkbox"] {
+        for name in [
+            "switch",
+            "checkbox",
+            "radio-button",
+            "radio-group",
+            "action-button",
+        ] {
             let raw = component_raw(&legacy, name).unwrap();
             let contract = derived
                 .behaviors
@@ -548,12 +555,20 @@ mod tests {
             let v = accessibility_view(&contract.raw, &derived.behavior_patterns);
             let a = &raw["accessibility"];
             assert_eq!(v.role.as_deref(), a["role"].as_str(), "{name} role");
-            assert_eq!(v.focusable, a["focusable"].as_bool(), "{name} focusable");
-            assert_eq!(
-                json!(v.keyboard_intents),
-                a["keyboardIntents"],
-                "{name} keyboardIntents"
-            );
+            if name == "radio-button" {
+                assert_eq!(v.focusable, None, "{name}: roving focus is not derivable");
+            } else {
+                assert_eq!(v.focusable, a["focusable"].as_bool(), "{name} focusable");
+            }
+            if a["keyboardIntents"].is_null() {
+                assert!(v.keyboard_intents.is_empty(), "{name} keyboardIntents");
+            } else {
+                assert_eq!(
+                    json!(v.keyboard_intents),
+                    a["keyboardIntents"],
+                    "{name} keyboardIntents"
+                );
+            }
             assert_eq!(json!(v.wcag), a["wcag"], "{name} wcag");
             assert_eq!(
                 accessibility(&legacy, raw, name),

@@ -77,10 +77,12 @@ impl ValidationRule for Rule {
                     .into_iter()
                     .flatten()
                 {
-                    if let Some(s) = s.as_str().filter(|s| !options.contains(*s)) {
+                    if let Some(s) = s.as_str().filter(|s| {
+                        !options.contains(*s) && ctx.registry.environment_property(s).is_none()
+                    }) {
                         problem(
                             "/state",
-                            format!("lists '{s}', which is not an option of the component"),
+                            format!("lists '{s}', which is not an option of the component or a registered environment property"),
                         );
                     }
                 }

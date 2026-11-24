@@ -525,3 +525,33 @@ fn semantics_expose_aria_readonly_and_aria_checked() {
     assert_eq!(box_["checked"]["ariaState"], "aria-checked");
     assert_eq!(box_["checked"]["map"]["indeterminate"], "mixed");
 }
+
+#[test]
+fn an_environment_property_comes_from_the_registry() {
+    let (contract, vectors, patterns) = load("radio-group");
+    let mut bad = vectors[2].clone();
+    assert_eq!(bad["start"]["direction"], "rtl");
+    bad["start"]["direction"] = json!("sideways");
+    assert_eq!(failures(&contract, &[bad], &patterns), 1);
+    // Left out, `direction` starts at the registered initial value (ltr): a horizontal group is natural.
+    let mut ltr = vectors[1].clone();
+    ltr["start"].as_object_mut().unwrap().remove("direction");
+    assert_eq!(failures(&contract, &[ltr], &patterns), 0);
+}
+
+#[test]
+fn radio_binds_no_home_or_end() {
+    let web: Value =
+        serde_json::from_str(&std::fs::read_to_string(dirs().0.join("bindings/web.json")).unwrap())
+            .unwrap();
+    let keys: Vec<&str> = web["roles"]["radio"]["keyboard"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter_map(|e| e["key"].as_str())
+        .collect();
+    assert!(
+        !keys.contains(&"Home") && !keys.contains(&"End"),
+        "{keys:?}"
+    );
+}

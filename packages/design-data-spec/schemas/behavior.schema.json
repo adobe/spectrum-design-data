@@ -250,7 +250,7 @@
         "needs": { "$ref": "#/$defs/needs" },
         "start": {
           "type": "object",
-          "description": "Start values of options, plus start properties such as `orientation`."
+          "description": "Start values of options, plus environment properties such as `direction` (`ltr`, `rtl`)."
         },
         "steps": {
           "type": "array",

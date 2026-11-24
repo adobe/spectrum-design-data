@@ -3949,6 +3949,22 @@ const FACETS_JSON: &str = r##"{
       "from": ["isReadOnly"]
     },
     {
+      "id": "orientation",
+      "label": "Orientation",
+      "description": "Whether a group lays its items out horizontally or vertically. Derived from `orientation`.",
+      "source": "state-group",
+      "values": ["horizontal", "vertical"],
+      "from": ["orientation"]
+    },
+    {
+      "id": "arrowOrder",
+      "label": "Arrow order",
+      "description": "Whether a group's Left and Right arrows swap: `mirrored` only when the group is horizontal and `direction` is `rtl`, else `natural`. Up and Down never swap.",
+      "source": "state-group",
+      "values": ["natural", "mirrored"],
+      "from": ["orientation", "direction"]
+    },
+    {
       "id": "hovered",
       "label": "Hovered",
       "description": "Whether a pointer is over the control.",
@@ -4154,6 +4170,21 @@ const CAPABILITIES_JSON: &str = r##"{
       "id": "assistive-activation",
       "label": "Assistive activation",
       "description": "The platform lets assistive technology activate a control directly (a VoiceOver double tap, a screen reader activate action)."
+    }
+  ]
+}
+"##;
+const ENVIRONMENT_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "environment",
+  "description": "Properties of the environment a behavior contract may list in `state` and a vector may set in `start` (spec/behavior-contract.md). They are not options of any component: the platform supplies them. `values` lists the allowed value ids and `initial` the one a run starts with.",
+  "values": [
+    {
+      "id": "direction",
+      "label": "Direction",
+      "description": "The text direction of the layout. A horizontal group swaps its Left and Right arrows when it is `rtl`.",
+      "values": ["ltr", "rtl"],
+      "initial": "ltr"
     }
   ]
 }
@@ -4397,6 +4428,7 @@ pub(crate) fn build_registry_map(
     map.insert("facets".to_string(), parse_registry(FACETS_JSON));
     map.insert("intents".to_string(), parse_registry(INTENTS_JSON));
     map.insert("capabilities".to_string(), parse_registry(CAPABILITIES_JSON));
+    map.insert("environment".to_string(), parse_registry(ENVIRONMENT_JSON));
     map.insert("exemption-reasons".to_string(), parse_registry(EXEMPTION_REASONS_JSON));
     map.insert("behavior-exemptions".to_string(), parse_registry(BEHAVIOR_EXEMPTIONS_JSON));
     map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));

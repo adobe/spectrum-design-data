@@ -1,0 +1,340 @@
+{
+  "platform": "web",
+  "role": "radio",
+  "vectors": [
+    {
+      "name": "Space selects on key up, not on key down",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "unchecked",
+            "pressed": true
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Space on a selected radio changes nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Space ignores a disabled radio",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Enter does not select",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "ArrowDown lands on a radio and selects it on key down",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowRight lands on a radio and selects it on key down",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowUp lands on a radio and selects it on key down",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowLeft lands on a radio and selects it on key down",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an arrow that lands on a disabled radio does not select it (the adapter skips it; this pins the guard)",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Home does not move selection",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "End does not move selection",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    }
+  ]
+}

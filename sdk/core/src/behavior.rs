@@ -17,7 +17,8 @@
 //!
 //! Semantics, in one place:
 //!
-//! * Options are the state. A missing option reads as `false`.
+//! * Options are the state. A missing option reads as `false`; an environment property
+//!   (`environment.json`, for example `direction`) starts at its registered initial value.
 //! * A facet's value is the first `values` entry whose option match holds.
 //! * An intent fires the first transition whose `on` matches, whose `via` (when set) equals the
 //!   step's `via`, whose `needs` the runner has and whose `guard` holds. Guards and `not` values
@@ -389,15 +390,31 @@ fn run_vector(
         .get("steps")
         .and_then(Value::as_array)
         .ok_or("has no steps")?;
+    let mut options = v
+        .get("start")
+        .and_then(Value::as_object)
+        .cloned()
+        .unwrap_or_default();
+    // Environment properties (`direction`) come from the registry: a run starts at the default,
+    // and a start value the registry does not list is a failure, not a silent no-match.
+    for (name, env) in registry.environment_properties() {
+        match options.get(name).and_then(Value::as_str) {
+            None => {
+                options.insert(name.clone(), json!(env.initial));
+            }
+            Some(x) if !env.values.contains(x) => {
+                return Err(format!(
+                    "starts environment property '{name}' at '{x}', which the environment registry does not list"
+                ));
+            }
+            Some(_) => {}
+        }
+    }
     let mut run = Run {
         m,
         registry,
         caps,
-        options: v
-            .get("start")
-            .and_then(Value::as_object)
-            .cloned()
-            .unwrap_or_default(),
+        options,
         interaction: m.published.iter().map(|p| (p.clone(), false)).collect(),
         depth: 0,
     };
