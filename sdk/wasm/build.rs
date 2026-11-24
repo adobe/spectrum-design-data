@@ -48,6 +48,16 @@ fn main() {
     )
     .expect("write embedded icons source");
     std::fs::write(
+        output.join("embedded_behaviors.rs"),
+        embed_dir("behaviors", "EMBEDDED_BEHAVIORS"),
+    )
+    .expect("write embedded behaviors source");
+    std::fs::write(
+        output.join("embedded_behavior_patterns.rs"),
+        embed_dir("behaviors/patterns", "EMBEDDED_BEHAVIOR_PATTERNS"),
+    )
+    .expect("write embedded behavior patterns source");
+    std::fs::write(
         output.join("embedded_visuals.rs"),
         embed_dir("visuals", "EMBEDDED_VISUALS"),
     )

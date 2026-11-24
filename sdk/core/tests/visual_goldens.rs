@@ -52,6 +52,8 @@ fn load_graph() -> TokenGraph {
     )
     .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
     .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
+    .with_behaviors_dir(&d.join("behaviors"))
+    .expect("behaviors")
 }
 
 /// The option values for one golden: `pick` maps an option definition to a value or skips it.
@@ -3031,4 +3033,39 @@ fn recipe_renders_match_the_golden_svgs() {
         }
     }
     assert!(problems.is_empty(), "{}", problems.join("\n"));
+}
+
+/// A recipe that reads `facets` draws what the option form draws. This graph loads the contracts,
+/// so the clause resolves; without them it would never match.
+#[test]
+fn a_facets_clause_draws_the_same_scene_as_the_option_form() {
+    let g = load_graph();
+    let recipe = g
+        .visual_recipe("switch")
+        .expect("switch recipe")
+        .raw
+        .clone();
+    let mut faceted = recipe.clone();
+    *faceted
+        .pointer_mut("/parts/track/props/fill/1/when")
+        .expect("track fill rule") = serde_json::json!({ "facets": { "checked": "checked" } });
+    assert_ne!(recipe, faceted);
+    let svg = |recipe: &Value, selected: bool| {
+        let req = RenderRequest {
+            component: "switch".into(),
+            size: "m".into(),
+            options: HashMap::from([("isSelected".to_string(), Value::Bool(selected))]),
+            mode: HashMap::from([
+                ("colorScheme".to_string(), "light".to_string()),
+                ("scale".to_string(), "desktop".to_string()),
+            ]),
+            label: "Label".into(),
+            ..Default::default()
+        };
+        let scene = build_scene_cached(&g, recipe, &req, &SceneCache::default()).expect("scene");
+        scene_to_svg(&scene)
+    };
+    assert_eq!(svg(&recipe, true), svg(&faceted, true));
+    assert_eq!(svg(&recipe, false), svg(&faceted, false));
+    assert_ne!(svg(&faceted, true), svg(&faceted, false));
 }

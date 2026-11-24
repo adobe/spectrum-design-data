@@ -8,6 +8,13 @@ Slim solve-only WebAssembly engine for component visual recipes.
 * Repository-wide rules are in [the root AGENTS.md](../../AGENTS.md). The [repository index](../../docs/repo-index.md) lists every project.
 * No layout code lives here: it calls `design_data_core::visual::solve`. See [README.md](README.md).
 
+## Facets
+
+The engine embeds no behavior contracts and must not. A recipe `facets` clause is folded into
+`options` and `states` when the recipe is compiled (`design_data_core::behavior::expand_facets`),
+and the variants this package ships come from `design-data site --data-only`, which loads the
+contracts. `solve` never sees a `facets` clause.
+
 ## Commands
 
 ```bash

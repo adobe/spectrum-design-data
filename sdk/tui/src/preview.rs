@@ -218,6 +218,20 @@ impl PreviewSource {
                     dir.display()
                 )
             })?;
+            // `behaviors/` sits next to `visuals/`, as in `design-data render`; a recipe
+            // `facets` clause only resolves against the contracts.
+            if let Some(dir) = dir
+                .parent()
+                .map(|p| p.join("behaviors"))
+                .filter(|d| d.is_dir())
+            {
+                graph = graph.with_behaviors_dir(&dir).map_err(|e| {
+                    format!(
+                        "preview: failed to load behaviors from {}: {e}",
+                        dir.display()
+                    )
+                })?;
+            }
         }
         manifest::apply_configured(&mut graph, r)
             .map_err(|e| format!("preview: failed to apply the platform manifest: {e}"))?;
