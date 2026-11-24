@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": patch
+"@adobe/design-data-wasm": patch
 ---
 
 The color slider and color area `color` option defaults to `#3b63fb` (Figma's sample color).
