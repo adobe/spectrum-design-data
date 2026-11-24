@@ -11,8 +11,9 @@ Checkbox extend, and a read-only Checkbox.
   `readOnly` facets and the `activate` transition. Switch extends it as is;
   Checkbox overrides `checked` (adds indeterminate) and `activate` (also
   clears `isIndeterminate`).
-* Checkbox gains an `isReadOnly` option: it keeps focus, ignores activation
-  and exposes `aria-readonly`. The component data and spec sheet option list
+* Checkbox gains an `isReadOnly` option: it keeps focus and hover and press
+  feedback, ignores activation and exposes `aria-readonly` (Switch's contract
+  exposes it too). The component data and spec sheet option list
   gain the option; no distinct read-only visual. Scenes list it in
   `optionDefaults`; every other render is unchanged.
 * Activating a checkbox with `isSelected` and `isIndeterminate` both true

@@ -508,16 +508,20 @@ fn a_derived_pattern_overrides_its_base() {
     assert_eq!(failures(&contract, &vectors, &patterns), 0);
 }
 
-/// The vectors cannot see `semantics`, so pin what Checkbox exposes for read-only and indeterminate.
+/// The vectors cannot see `semantics`, so pin what Switch and Checkbox expose for read-only.
 #[test]
-fn checkbox_semantics_expose_aria_readonly_and_aria_checked() {
+fn semantics_expose_aria_readonly_and_aria_checked() {
+    for (component, part) in [("switch", "track"), ("checkbox", "box")] {
+        let (contract, _, _) = load(component);
+        let read_only = &contract["semantics"][part]["readOnly"];
+        assert_eq!(read_only["ariaState"], "aria-readonly", "{component}");
+        assert_eq!(
+            read_only["map"],
+            json!({ "false": "false", "true": "true" })
+        );
+    }
     let (contract, _, _) = load("checkbox");
     let box_ = &contract["semantics"]["box"];
-    assert_eq!(box_["readOnly"]["ariaState"], "aria-readonly");
-    assert_eq!(
-        box_["readOnly"]["map"],
-        json!({ "false": "false", "true": "true" })
-    );
     assert_eq!(box_["checked"]["ariaState"], "aria-checked");
     assert_eq!(box_["checked"]["map"]["indeterminate"], "mixed");
 }

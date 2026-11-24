@@ -18,6 +18,13 @@
           "unchecked": "false",
           "checked": "true"
         }
+      },
+      "readOnly": {
+        "ariaState": "aria-readonly",
+        "map": {
+          "false": "false",
+          "true": "true"
+        }
       }
     }
   },

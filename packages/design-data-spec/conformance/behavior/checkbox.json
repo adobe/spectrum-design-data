@@ -655,6 +655,61 @@
       ]
     },
     {
+      "name": "read-only still shows pressed on press-start",
+      "start": {
+        "isSelected": false,
+        "isReadOnly": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": true,
+            "readOnly": true,
+            "checked": "unchecked"
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "read-only still shows hover",
+      "needs": ["pointer-hover"],
+      "start": {
+        "isSelected": false,
+        "isReadOnly": true
+      },
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hovered": true
+          }
+        }
+      ]
+    },
+    {
       "name": "press-end without press-start does not activate",
       "start": {
         "isSelected": false

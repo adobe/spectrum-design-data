@@ -96,7 +96,7 @@
     "isReadOnly": {
       "type": "boolean",
       "default": false,
-      "description": "Behavior only: the checkbox stays focusable, does not toggle, and exposes aria-readonly. No distinct read-only visual is defined in react-spectrum S2; whether hover and press feedback shows is undecided (bead hd0g.1.4)."
+      "description": "Behavior only: the checkbox stays focusable and shows hover and press feedback but does not change value, and exposes aria-readonly. No distinct read-only visual is defined in react-spectrum S2."
     },
     "isError": { "type": "boolean", "default": false }
   },
