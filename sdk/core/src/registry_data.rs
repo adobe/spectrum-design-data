@@ -3979,7 +3979,7 @@ const FACETS_JSON: &str = r##"{
 const INTENTS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "intent",
-  "description": "Interaction intents: the vocabulary of the `intents` and `keyboardIntents` arrays of a component `accessibility` block (spec/accessibility.md), reused unchanged as the events a behavior contract transition or conformance vector names (spec/behavior-contract.md). `usedAs` says which accessibility array carries the value today; `defaultKeys` is informative.",
+  "description": "Interaction intents: the vocabulary of the `intents` and `keyboardIntents` arrays of a component `accessibility` block (spec/accessibility.md), reused unchanged as the events a behavior contract transition or conformance vector names (spec/behavior-contract.md). `usedAs` says which accessibility array carries the value today.",
   "values": [
     {
       "id": "trigger",
@@ -4003,15 +4003,13 @@ const INTENTS_JSON: &str = r##"{
       "id": "expand",
       "label": "Expand",
       "description": "Reveals additional content",
-      "usedAs": ["intents", "keyboardIntents"],
-      "defaultKeys": "Space, Enter, ArrowDown"
+      "usedAs": ["intents", "keyboardIntents"]
     },
     {
       "id": "collapse",
       "label": "Collapse",
       "description": "Conceals content",
-      "usedAs": ["intents", "keyboardIntents"],
-      "defaultKeys": "Escape, ArrowUp"
+      "usedAs": ["intents", "keyboardIntents"]
     },
     {
       "id": "input",
@@ -4029,50 +4027,43 @@ const INTENTS_JSON: &str = r##"{
       "id": "dismiss",
       "label": "Dismiss",
       "description": "Closes or removes an element",
-      "usedAs": ["intents", "keyboardIntents"],
-      "defaultKeys": "Escape"
+      "usedAs": ["intents", "keyboardIntents"]
     },
     {
       "id": "activate",
       "label": "Activate",
       "description": "Triggers the component's primary action",
-      "usedAs": ["keyboardIntents"],
-      "defaultKeys": "Enter, Space"
+      "usedAs": ["keyboardIntents"]
     },
     {
       "id": "navigate-options",
       "label": "Navigate options",
       "description": "Moves focus through a list of options",
-      "usedAs": ["keyboardIntents"],
-      "defaultKeys": "ArrowUp, ArrowDown"
+      "usedAs": ["keyboardIntents"]
     },
     {
       "id": "navigate-items",
       "label": "Navigate items",
       "description": "Moves focus between peer elements (tabs, toolbar items)",
-      "usedAs": ["keyboardIntents"],
-      "defaultKeys": "ArrowLeft, ArrowRight"
+      "usedAs": ["keyboardIntents"]
     },
     {
       "id": "increment",
       "label": "Increment",
       "description": "Increases a numeric or ranged value",
-      "usedAs": ["keyboardIntents"],
-      "defaultKeys": "ArrowUp, ArrowRight"
+      "usedAs": ["keyboardIntents"]
     },
     {
       "id": "decrement",
       "label": "Decrement",
       "description": "Decreases a numeric or ranged value",
-      "usedAs": ["keyboardIntents"],
-      "defaultKeys": "ArrowDown, ArrowLeft"
+      "usedAs": ["keyboardIntents"]
     },
     {
       "id": "select-all",
       "label": "Select all",
       "description": "Selects all items in a collection",
-      "usedAs": ["keyboardIntents"],
-      "defaultKeys": "Ctrl+A"
+      "usedAs": ["keyboardIntents"]
     }
   ]
 }
