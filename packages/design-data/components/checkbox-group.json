@@ -145,7 +145,14 @@
       "part": "options",
       "accepts": ["checkbox"],
       "min": 1,
-      "description": "The checkboxes of the group (at least 1)."
+      "description": "The checkboxes of the group (at least 1).",
+      "demo": [
+        { "component": "checkbox", "options": { "label": "Label" } },
+        { "component": "checkbox", "options": { "label": "Label" } },
+        { "component": "checkbox", "options": { "label": "Label" } },
+        { "component": "checkbox", "options": { "label": "Label" } },
+        { "component": "checkbox", "options": { "label": "Label" } }
+      ]
     }
   ],
   "anatomyReview": {

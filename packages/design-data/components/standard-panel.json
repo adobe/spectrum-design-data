@@ -181,7 +181,12 @@
       "name": "default",
       "part": "content",
       "accepts": ["accordion"],
-      "description": "The panel content. With sections, an accordion fills it."
+      "description": "The panel content. With sections, an accordion fills it.",
+      "demo": [
+        { "component": "accordion", "options": { "label": "Label" } },
+        { "component": "accordion", "options": { "label": "Label" } },
+        { "component": "accordion", "options": { "label": "Label" } }
+      ]
     }
   ]
 }

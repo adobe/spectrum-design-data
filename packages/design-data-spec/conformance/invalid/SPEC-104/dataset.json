@@ -16,7 +16,8 @@
       "anatomy": [
         { "name": "container", "contains": ["row"] },
         { "name": "row" },
-        { "name": "actions" }
+        { "name": "actions" },
+        { "name": "footer" }
       ],
       "slots": [
         { "name": "default", "part": "row", "collection": "size" },
@@ -27,8 +28,28 @@
           "accepts": ["ghost"],
           "min": 3,
           "max": 2
+        },
+        {
+          "name": "footer",
+          "part": "footer",
+          "accepts": ["chip"],
+          "max": 1,
+          "demo": [
+            { "component": "chip", "options": { "nope": 1 } },
+            { "component": "list" }
+          ]
         }
       ]
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/chip.json",
+      "name": "chip",
+      "displayName": "Chip",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/chip/"
+      },
+      "options": { "tone": { "type": "string" } }
     }
   ]
 }

@@ -127,7 +127,39 @@
       "part": "swatches",
       "accepts": ["swatch"],
       "min": 1,
-      "description": "The swatch in the group. Any number of swatches, at least one."
+      "description": "The swatch in the group. Any number of swatches, at least one.",
+      "demo": [
+        {
+          "component": "swatch",
+          "options": { "preview": "rgb(113, 113, 113)" }
+        },
+        {
+          "component": "swatch",
+          "options": { "preview": "rgb(255, 118, 101)" }
+        },
+        { "component": "swatch", "options": { "preview": "rgb(252, 125, 0)" } },
+        { "component": "swatch", "options": { "preview": "rgb(210, 149, 0)" } },
+        {
+          "component": "swatch",
+          "options": { "preview": "rgb(18, 184, 103)" }
+        },
+        {
+          "component": "swatch",
+          "options": { "preview": "rgb(13, 181, 149)" }
+        },
+        {
+          "component": "swatch",
+          "options": { "preview": "rgb(114, 158, 253)" }
+        },
+        {
+          "component": "swatch",
+          "options": { "preview": "rgb(191, 138, 238)" }
+        },
+        {
+          "component": "swatch",
+          "options": { "preview": "rgb(255, 112, 159)" }
+        }
+      ]
     }
   ],
   "anatomyReview": {

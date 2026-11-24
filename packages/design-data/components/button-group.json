@@ -136,7 +136,29 @@
       "part": "buttons",
       "accepts": ["button"],
       "min": 1,
-      "description": "The button in the group. Any number of buttons, at least one."
+      "description": "The button in the group. Any number of buttons, at least one.",
+      "demo": [
+        {
+          "component": "button",
+          "options": {
+            "label": "Label",
+            "variant": "secondary",
+            "style": "outline"
+          }
+        },
+        {
+          "component": "button",
+          "options": {
+            "label": "Label",
+            "variant": "secondary",
+            "style": "outline"
+          }
+        },
+        {
+          "component": "button",
+          "options": { "label": "Label", "variant": "accent", "style": "fill" }
+        }
+      ]
     }
   ],
   "anatomyReview": {

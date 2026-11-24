@@ -61,7 +61,11 @@
       "name": "actions",
       "part": "actions",
       "accepts": ["action-button"],
-      "description": "The action buttons in the bar."
+      "description": "The action buttons in the bar.",
+      "demo": [
+        { "component": "action-button", "options": { "label": "Label" } },
+        { "component": "action-button", "options": { "label": "Label" } }
+      ]
     }
   ],
   "anatomyReview": {

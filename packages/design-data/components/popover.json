@@ -167,7 +167,12 @@
       "name": "default",
       "part": "content",
       "description": "The popover content. Free content, no restriction on what goes in; accepts lists what a recipe draws today (acceptsOnly stays false).",
-      "accepts": ["action-button", "link"]
+      "accepts": ["action-button", "link"],
+      "demo": [
+        { "component": "action-button", "options": { "label": "Edit" } },
+        { "component": "action-button", "options": { "label": "Copy" } },
+        { "component": "action-button", "options": { "label": "Delete" } }
+      ]
     }
   ],
   "anatomy": [

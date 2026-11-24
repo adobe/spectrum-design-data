@@ -172,7 +172,11 @@
       "accepts": ["action-button"],
       "acceptsOnly": true,
       "max": 3,
-      "description": "Action buttons at the end of the row."
+      "description": "Action buttons at the end of the row.",
+      "demo": [
+        { "component": "action-button", "options": { "label": "Label" } },
+        { "component": "action-button", "options": { "label": "Label" } }
+      ]
     }
   ]
 }

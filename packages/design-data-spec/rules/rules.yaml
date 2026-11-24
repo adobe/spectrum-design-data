@@ -1417,7 +1417,10 @@ rules:
       array option; (4) a `collection` slot has a `part` with an anatomy parent (a part listing it
       in `contains`), and that parent hosts at most one collection slot; (5) `min` <= `max` and
       `max` >= 1; (6) `acceptsOnly` requires `accepts`; (7) slot names are unique (several slots
-      may share one part). (8) A slot SHOULD be named `default` or after its part.
+      may share one part). (8) A slot SHOULD be named `default` or after its part. (9) A slot's `demo`
+      is on a slot with a `part` and no `collection`; each entry names a component in `accepts`
+      and options that component declares, except `label` (a listed `values` set limits the value); the number of
+      entries is within `min` and `max`.
     message: "Slot '{slot}' of '{component}' names part '{part}', which is not a declared anatomy part"
     spec_ref: spec/component-format.md#slots
     introduced_in: "1.0.0-draft"

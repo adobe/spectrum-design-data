@@ -195,7 +195,14 @@
       "part": "options",
       "accepts": ["radio-button"],
       "min": 2,
-      "description": "The radio buttons of the group (at least 2)."
+      "description": "The radio buttons of the group (at least 2).",
+      "demo": [
+        { "component": "radio-button", "options": { "label": "Label" } },
+        { "component": "radio-button", "options": { "label": "Label" } },
+        { "component": "radio-button", "options": { "label": "Label" } },
+        { "component": "radio-button", "options": { "label": "Label" } },
+        { "component": "radio-button", "options": { "label": "Label" } }
+      ]
     }
   ],
   "anatomyReview": {
