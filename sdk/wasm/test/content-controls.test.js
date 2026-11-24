@@ -3,6 +3,8 @@
 import test from "ava";
 import {
   iconChoices,
+  isNumberOption,
+  isTextOption,
   iconRequest,
   labelText,
   readContentParams,
@@ -72,4 +74,28 @@ test("zooming restores the label text, but an off Label switch keeps what was ty
   t.is(labelText("", true), undefined);
   t.is(labelText("Save", true), "Save");
   t.is(labelText(undefined, false), undefined);
+});
+
+test("string and number options without listed values get an input box", (t) => {
+  t.true(isTextOption("value", { type: "string" }));
+  t.true(isTextOption("src", { type: "string" }));
+  t.false(isTextOption("label", { type: "string" }));
+  t.false(isTextOption("size", { type: "string", values: [{ value: "m" }] }));
+  t.false(isTextOption("icon", { type: "string", $ref: "#/icon" }));
+  t.false(isTextOption("isError", { type: "boolean" }));
+  t.true(isNumberOption("value", { type: "number" }));
+  t.false(isNumberOption("width", { type: "number" }));
+  t.false(isNumberOption("size", { type: "number", values: [{ value: 50 }] }));
+});
+
+test("an empty text or number box sends nothing", (t) => {
+  t.deepEqual(
+    sceneQuery({
+      name: "combo-box",
+      label: "L",
+      "opt.value": "",
+      "opt.minValue": "0",
+    }),
+    { name: "combo-box", label: "L", "opt.minValue": "0" },
+  );
 });

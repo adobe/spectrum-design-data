@@ -838,6 +838,8 @@
         labelText,
         sceneQuery,
         iconChoices,
+        isNumberOption,
+        isTextOption,
         readContentParams,
         writeContentParams,
       } from "./content-controls.js";
@@ -985,6 +987,7 @@
           : "";
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported || name === "size" || name === "label") continue;
+          if (isField(controlOpts[name].type)) continue;
           const el = $(`opt-${name}`);
           const bad = (v) =>
             errorsOf(matching(constraints, { ...combo, [name]: v }));
@@ -1062,8 +1065,20 @@
               ? "enum"
               : def.type === "boolean"
                 ? "bool"
-                : null;
+                : isTextOption(name, def)
+                  ? "text"
+                  : isNumberOption(name, def)
+                    ? "number"
+                    : null;
           if (!type) continue;
+          // A text or number option the recipe leaves out is shown only when it is not
+          // behavior-only, so the Behavior only group stays free of input boxes.
+          if (
+            isField(type) &&
+            !used.has(name) &&
+            (C.recipe.notVisual ?? []).includes(name)
+          )
+            continue;
           controlOpts[name] = {
             type,
             supported: used.has(name),
@@ -1093,6 +1108,14 @@
             const sel = def.default === undefined ? NONE : def.default;
             return `<div class="f ${supported ? "" : "off"}"><span id="lbl-opt-${name}">${label}</span><sp-picker id="opt-${name}" aria-labeledby="lbl-opt-${name}" label="${label}" value="${sel}" ${dis}>${items.map(([v, t]) => `<sp-menu-item value="${v}">${t}</sp-menu-item>`).join("")}</sp-picker></div>`;
           }
+          if (isField(type)) {
+            const label = humanize(name);
+            const range =
+              type === "number"
+                ? ` min="${numberBound(name, def, "minimum", "minValue")}" max="${numberBound(name, def, "maximum", "maxValue")}" step="any"`
+                : "";
+            return `<label class="f ${supported ? "" : "off"}"><span id="lbl-opt-${name}">${label}</span><input type="${type}" id="opt-${name}" class="content" value="${attr(def.default ?? "")}"${range} ${dis} /></label>`;
+          }
           return `<sp-switch id="opt-${name}" data-label="${humanize(name)}" ${dis} ${def.default ? "checked" : ""}>${humanize(name)}</sp-switch>`;
         };
         rows.push(
@@ -1109,9 +1132,14 @@
         );
         const group = (names) => {
           const enums = names.filter((n) => controlOpts[n].type === "enum");
-          const bools = names.filter((n) => controlOpts[n].type !== "enum");
+          const texts = names.filter((n) => isField(controlOpts[n].type));
+          const bools = names.filter(
+            (n) =>
+              controlOpts[n].type !== "enum" && !isField(controlOpts[n].type),
+          );
           return (
             enums.map(ctl).join("") +
+            texts.map(ctl).join("") +
             (bools.length
               ? `<div class="switches">${bools.map(ctl).join("")}</div>`
               : "")
@@ -1160,6 +1188,16 @@
         };
         $("content-label")?.addEventListener("input", contentChanged);
         $("content-width").addEventListener("input", contentChanged);
+        // Typing redraws once the user pauses, not on every keystroke.
+        let typing;
+        $("controls")
+          .querySelectorAll("input[id^='opt-']")
+          .forEach((e) =>
+            e.addEventListener("input", () => {
+              clearTimeout(typing);
+              typing = setTimeout(contentChanged, 250);
+            }),
+          );
         $("content-icon")?.addEventListener("change", contentChanged);
         $("controls")
           .querySelectorAll("sp-picker:not(#content-icon), sp-switch")
@@ -1173,6 +1211,15 @@
 
       // sp-picker has no empty value, so "no selection" travels as a sentinel.
       const NONE = "__none";
+      const isField = (type) => type === "text" || type === "number";
+      // Bounds for a number box: the schema's own, else the sibling min/max option's default
+      // (value, x-value take minValue, x-minValue); empty when neither is given.
+      const numberBound = (name, def, key, sibling) =>
+        def[key] ??
+        (name.endsWith("value")
+          ? C.options[`${name.slice(0, -5)}${sibling}`]?.default
+          : undefined) ??
+        "";
       const SIZES = {
         xs: "Extra small",
         s: "Small",
@@ -1602,6 +1649,8 @@
             el.checked = req.label !== "";
           } else if (type === "bool") {
             el.checked = !!req[`opt.${name}`];
+          } else if (isField(type)) {
+            el.value = req[`opt.${name}`] ?? "";
           } else if (req[`opt.${name}`] !== undefined) {
             write(el, req[`opt.${name}`]);
           }
@@ -1700,6 +1749,7 @@
               !k.startsWith("opt.") ||
               structural.has(k.slice(4)) ||
               !controlOpts[k.slice(4)] ||
+              isField(controlOpts[k.slice(4)].type) ||
               (controlOpts[k.slice(4)].type === "enum" &&
                 !appearance.includes(k.slice(4))),
           ),
