@@ -10,8 +10,9 @@
 
 // Build the slim engine: `node scripts/build.mjs [nodejs|web]` writes pkg/<target>/.
 // The size profile is passed to cargo here so it does not change the workspace's release
-// profile (the CLI). `s`, not `z`: `z` is 10 KB smaller but a scene takes 0.2 ms against
-// 0.125 ms, over the latency budget. wasm-opt is off (see Cargo.toml).
+// profile (the CLI). `s` overall; the solver crate at `z` and the JSON and hash-map crates
+// at `3`. A global `z` is 10% smaller than `s` but a scene takes 0.28 ms against 0.2 ms: the
+// latency cost comes from those hot crates, not the solver. wasm-opt is off (see Cargo.toml).
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -26,6 +27,17 @@ const profile = {
   "codegen-units": "1",
   panic: '"abort"',
   strip: "true",
+  "package.design-data-core.opt-level": '"z"',
+  ...Object.fromEntries(
+    [
+      "serde_json",
+      "serde_core",
+      "zmij",
+      "itoa",
+      "hashbrown",
+      "indexmap",
+    ].map((c) => [`package.${c}.opt-level`, "3"]),
+  ),
 };
 
 execFileSync(
