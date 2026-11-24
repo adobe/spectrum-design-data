@@ -4,16 +4,18 @@
 // of the License at http://www.apache.org/licenses/LICENSE-2.0
 
 // Fails on British spellings. Only listed forms are flagged, so `cancelled`,
-// `grey-300` token ids and `minimist` pass. Usage: node scripts/check-us-spelling.mjs [files...]
+// `grey-300` token ids, `minimist` and ARIA `labelledby` pass. Generated release
+// history (packages/design-data/changelog/*.json) is skipped: it quotes old before/after text verbatim.
+// Usage: node scripts/check-us-spelling.mjs [files...]
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 
 const BRITISH = new RegExp(
-  "\\b\\w*(?:behaviour|colour|centre|centred|centring|neighbour|honour|artefact|licence|labelled|labelling" +
+  "\\b\\w*(?:behaviour|colour|centre|centred|centring|neighbour|honour|artefact|licence|labelled(?!by)|labelling" +
     "|(?:initial|normal|serial|recogn|general|stabil|organ|material|custom|optim|summar|util|visual|categor|priorit|local|capital|standard|author|final)is(?:e|ed|es|ing|ation|ations|able))\\w*\\b",
   "i",
 );
-const SKIP = /(^|\/)(pnpm-lock\.yaml|Cargo\.lock|CHANGELOG\.md|node_modules\/|scripts\/check-us-spelling\.mjs$)/;
+const SKIP = /(^|\/)(packages\/design-data\/changelog\/[^/]+\.json|pnpm-lock\.yaml|Cargo\.lock|CHANGELOG\.md|node_modules\/|scripts\/check-us-spelling\.mjs$)/;
 
 const files = (
   process.argv.length > 2
