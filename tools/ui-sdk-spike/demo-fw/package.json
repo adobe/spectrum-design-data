@@ -1,0 +1,27 @@
+{
+  "name": "ui-sdk-frameworks-spike-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@solidjs/web": "^2.0.0",
+    "@ui-sdk/core": "latest",
+    "@ui-sdk/solid": "latest",
+    "@ui-sdk/svelte": "latest",
+    "@ui-sdk/vue": "latest",
+    "@ui-sdk/web": "latest",
+    "solid-js": "^2.0.0",
+    "svelte": "^5.0.0",
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.13",
+    "@solidjs/babel-plugin": "^2.0.2",
+    "@solidjs/vite-plugin": "^3.0.1",
+    "@sveltejs/vite-plugin-svelte": "^7.3.2",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "vite": "^8.3.8"
+  }
+}
