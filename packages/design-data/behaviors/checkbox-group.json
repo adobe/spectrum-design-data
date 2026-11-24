@@ -1,0 +1,38 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "checkbox-group",
+  "state": ["orientation", "isDisabled"],
+  "facets": {
+    "orientation": {
+      "from": "orientation",
+      "values": {
+        "horizontal": "horizontal",
+        "vertical": "vertical"
+      }
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": {
+        "false": false,
+        "true": true
+      }
+    }
+  },
+  "parts": {
+    "container": {
+      "focus": "none"
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "1.3.1",
+      "level": "A",
+      "title": "Info and Relationships"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}

@@ -846,3 +846,77 @@ fn a_broken_semantic_fails_a_display_vector() {
         );
     }
 }
+
+/// Each break of a group contract must be reported: a role, focus mode or state change by the
+/// pins, a facet that no longer follows its option by a vector. A group that declares no role
+/// (checkbox-group) fails when one is invented.
+#[test]
+fn a_mutated_group_contract_fails_its_pins_or_a_vector() {
+    for c in [
+        "button-group",
+        "swatch-group",
+        "checkbox-group",
+        "avatar-group",
+    ] {
+        let (contract, vectors, patterns) = load(c);
+        let pins = pins_of(c);
+        assert_eq!(failures(&contract, &vectors, &patterns), 0, "{c}");
+        let mut pinned: Vec<(&str, Mutation)> = vec![
+            (
+                "focus roving",
+                Box::new(|m| m["parts"]["container"]["focus"] = json!("roving")),
+            ),
+            (
+                "role changed",
+                Box::new(|m| m["parts"]["container"]["role"] = json!("toolbar")),
+            ),
+        ];
+        if contract["parts"]["container"]["role"].is_string() {
+            pinned.push((
+                "role dropped",
+                Box::new(|m| {
+                    m["parts"]["container"]
+                        .as_object_mut()
+                        .unwrap()
+                        .remove("role");
+                }),
+            ));
+        }
+        if contract["state"]
+            .as_array()
+            .is_some_and(|s| s.contains(&json!("isDisabled")))
+        {
+            pinned.push((
+                "isDisabled dropped from state",
+                Box::new(|m| {
+                    m["state"]
+                        .as_array_mut()
+                        .unwrap()
+                        .retain(|x| x != "isDisabled")
+                }),
+            ));
+        }
+        for (what, mutate) in pinned {
+            let mut m = contract.clone();
+            mutate(&mut m);
+            assert!(
+                !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+                "{c}: {what} went unnoticed"
+            );
+        }
+        if contract["facets"]["orientation"].is_object() {
+            let mut m = contract.clone();
+            m["facets"]["orientation"]["values"] =
+                json!({ "horizontal": "vertical", "vertical": "horizontal" });
+            assert!(failures(&m, &vectors, &patterns) > 0, "{c}: orientation");
+            let mut m = contract.clone();
+            m["facets"]["orientation"]["from"] = json!("isDisabled");
+            assert!(failures(&m, &vectors, &patterns) > 0, "{c}: start property");
+        }
+        if contract["facets"]["disabled"].is_object() {
+            let mut m = contract.clone();
+            m["facets"]["disabled"]["values"] = json!({ "false": true, "true": false });
+            assert!(failures(&m, &vectors, &patterns) > 0, "{c}: disabled");
+        }
+    }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "avatar-group",
+  "pins": {
+    "state": [],
+    "parts": {
+      "container": {
+        "role": "group",
+        "focus": "none"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "the group raises no event of its own: focus, press and pointer steps emit nothing",
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        },
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": []
+        }
+      ]
+    }
+  ]
+}
