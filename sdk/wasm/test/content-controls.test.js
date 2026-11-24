@@ -1,7 +1,9 @@
 // Copyright 2026 Adobe. All rights reserved.
 
+import { readdirSync, readFileSync } from "node:fs";
 import test from "ava";
 import {
+  demoSlots,
   iconChoices,
   isNumberOption,
   isTextOption,
@@ -98,4 +100,62 @@ test("an empty text or number box sends nothing", (t) => {
     }),
     { name: "combo-box", label: "L", "opt.minValue": "0" },
   );
+});
+
+const dataDir = new URL("../../../packages/design-data/", import.meta.url);
+const readJson = (path) => JSON.parse(readFileSync(new URL(path, dataDir)));
+const byName = Object.fromEntries(
+  readdirSync(new URL("components/", dataDir)).map((f) => [
+    f.replace(/\.json$/, ""),
+    readJson(`components/${f}`),
+  ]),
+);
+
+// Slots that accept nothing in particular (free content) have no demo fill yet.
+const FREE_SLOTS = [
+  "accordion/content",
+  "standard-dialog/body",
+  "standard-dialog/header-content",
+];
+
+test("every slot-hosting component's explorer default fills each slot that lists accepts", (t) => {
+  const missing = [];
+  let hosts = 0;
+  for (const f of readdirSync(new URL("visuals/", dataDir))) {
+    const name = f.replace(/\.json$/, "");
+    const recipe = readJson(`visuals/${f}`);
+    const slotParts = Object.entries(recipe.parts ?? {})
+      .filter(([, p]) => p.kind === "slot")
+      .map(([id]) => id);
+    if (!slotParts.length) continue;
+    hosts++;
+    const fills = demoSlots(byName[name], byName);
+    for (const s of byName[name].slots.filter((x) =>
+      slotParts.includes(x.part),
+    )) {
+      const key = `${name}/${s.name}`;
+      if (s.collection) continue;
+      if (s.accepts?.length) {
+        if (!fills[s.name]?.length) missing.push(key);
+        else t.true(fills[s.name].every((x) => byName[x.component]));
+      } else if (!FREE_SLOTS.includes(key)) missing.push(key);
+    }
+  }
+  t.is(hosts, 13);
+  t.deepEqual(missing, []);
+});
+
+test("demo fills are labeled, capped by max, and give swatches a color", (t) => {
+  const radio = demoSlots(byName["radio-group"], byName).default;
+  t.deepEqual(
+    radio.map((f) => f.options.label),
+    ["Radio button 1", "Radio button 2", "Radio button 3"],
+  );
+  t.is(demoSlots(byName["coach-mark"], byName)["button-group"].length, 1);
+  t.is(demoSlots(byName["popover"], byName).default.length, 3);
+  t.regex(
+    demoSlots(byName["swatch-group"], byName).default[0].options.preview,
+    /^#/,
+  );
+  t.deepEqual(demoSlots(byName["checkbox"], byName), {});
 });

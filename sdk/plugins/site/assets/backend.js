@@ -14,7 +14,7 @@
 // WASM) lays it out. No server; all URLs are relative so the site works under any base path.
 // Nothing loads at import time, so a failed fetch surfaces as a rejection the page shows.
 
-import { iconRequest } from "./content-controls.js";
+import { demoSlots, iconRequest } from "./content-controls.js";
 
 // The build id the page stamped on this module's URL (`backend.js?v=<id>`); every fetch carries
 // it so a redeploy that keeps file names cannot serve stale data. Empty when loaded bare.
@@ -132,6 +132,7 @@ export const backend = {
       label: q.label ?? "Label",
       width: q.width ? Number(q.width) : undefined,
       icon: iconRequest(q.icon),
+      slots: demoSlots(data.byName[q.name], data.byName),
     });
     const scene = JSON.parse(
       engine.scene(`${request.slice(0, -1)},"textMetrics":${metrics}}`),

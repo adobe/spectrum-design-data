@@ -23,6 +23,45 @@ export const isTextOption = (name, def) =>
 export const isNumberOption = (name, def) =>
   name !== "width" && !def.$ref && def.type === "number" && !def.values;
 
+const DEMO_ITEMS = 3;
+const DEMO_COLORS = ["#9197fe", "#e68619", "#2d9d78"];
+
+// Interim explorer demo content, until a recipe or component can say what a demo slot holds:
+// each slot that has a recipe part (not a collection) and lists the components it `accepts`
+// gets fills of the first one, labeled "<Component> n" (a `preview` option, as a swatch has,
+// gets a color). The `default` slot (the list of a group) gets three, any other named slot
+// (a dialog's footer, a header's actions) its `min`, at least one; `max` caps both. Slots
+// that accept nothing in particular (free content) stay empty. `byName` is the site data's
+// component map.
+export function demoSlots(def, byName) {
+  const slots = {};
+  for (const s of def?.slots ?? []) {
+    const name = s.accepts?.[0];
+    if (!s.part || s.collection || !name) continue;
+    const options = byName[name]?.options ?? {};
+    const title =
+      name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, " ");
+    slots[s.name] = Array.from(
+      {
+        length: Math.min(
+          s.max ?? DEMO_ITEMS,
+          s.name === "default" ? DEMO_ITEMS : (s.min ?? 1),
+        ),
+      },
+      (_, i) => ({
+        component: name,
+        options: {
+          label: `${title} ${i + 1}`,
+          ...(options.preview && {
+            preview: DEMO_COLORS[i % DEMO_COLORS.length],
+          }),
+        },
+      }),
+    );
+  }
+  return slots;
+}
+
 // Picker choices as [value, text]; the empty value keeps the recipe's own icon.
 export function iconChoices(icons, optional) {
   const names = Object.keys(icons ?? {}).sort();
