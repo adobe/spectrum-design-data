@@ -87,11 +87,13 @@
     },
     "color": {
       "type": "string",
+      "default": "#ff0000",
       "description": "The color whose two channels the area adjusts (S2 value). The gradient is computed from it and the channels. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
     },
     "colorSpace": {
       "type": "string",
-      "description": "The color space of the two channels (S2 colorSpace). Defaults to the color's own space.",
+      "default": "hsb",
+      "description": "The color space of the two channels (S2 colorSpace). Defaults to hsb.",
       "values": [
         {
           "value": "rgb"
@@ -106,6 +108,7 @@
     },
     "xChannel": {
       "type": "string",
+      "default": "saturation",
       "description": "The color channel on the horizontal axis (S2 xChannel). Must differ from yChannel.",
       "values": [
         {
@@ -133,6 +136,7 @@
     },
     "yChannel": {
       "type": "string",
+      "default": "brightness",
       "description": "The color channel on the vertical axis (S2 yChannel). Must differ from xChannel.",
       "values": [
         {

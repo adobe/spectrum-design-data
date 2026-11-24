@@ -198,6 +198,7 @@
     },
     "clear-button": {
       "kind": "component",
+      "inherit": ["contentColor"],
       "sizeMap": {
         "s": "s",
         "m": "m",

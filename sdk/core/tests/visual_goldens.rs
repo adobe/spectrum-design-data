@@ -2514,7 +2514,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     }
     // Color slider and color area: the ramps are computed from the color and the channels, so
     // these set a color and the channels, the handle at several values (start, middle, end,
-    // unset), both orientations, disabled, dark and mobile. The options have no defaults.
+    // unset), both orientations, disabled, dark and mobile. They pass every option explicitly.
     if name == "color-slider" || name == "color-area" {
         let s = |v: &str| Value::String(v.into());
         type Opts = Vec<(&'static str, Value)>;

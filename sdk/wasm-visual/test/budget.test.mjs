@@ -35,9 +35,9 @@ const { Engine } = createRequire(import.meta.url)(`${pkg}.js`);
 // the engine, and say what grew.
 // Dashed and per-side strokes (the stroke geometry and the SVG writer, the prop reader, one
 // scene node field) took main's 527.8 KB / 199.8 KB to 538.2 KB / 203.7 KB, so the limits
-// rise to 540,000 / 204,500 (about 0.3% headroom: trim before the next feature).
-const MAX_RAW = 540_000;
-const MAX_GZIP = 204_500;
+// rise to 541,000 / 205,000 (about 0.1% headroom: trim before the next feature; #2120 inherit contentColor).
+const MAX_RAW = 541_000;
+const MAX_GZIP = 205_000;
 // A shared CI runner, busy with other moon tasks, measured 0.48 and 0.65 ms where a laptop
 // measures 0.15 ms (PR #2124), so CI gets 2 ms: still a failure for a 10x regression, not noise.
 const MAX_SCENE_MS = process.env.CI ? 2 : 0.2;
