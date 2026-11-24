@@ -255,7 +255,7 @@ pub fn flatten(run: &Run) -> Vec<[f64; 2]> {
                 pts.push(*b);
             }
             Seg::Arc { c, r, k } => {
-                let a0 = (f64::from(*k) - 1.0) * std::f64::consts::FRAC_PI_2;
+                let a0 = (f64::from(*k) + 2.0) * std::f64::consts::FRAC_PI_2;
                 let steps = ((r * std::f64::consts::FRAC_PI_2) / 0.5).ceil().max(4.0) as usize;
                 for i in 0..=steps {
                     let a = a0 + std::f64::consts::FRAC_PI_2 * i as f64 / steps as f64;
@@ -371,6 +371,27 @@ mod tests {
         assert_eq!(r.iter().map(|r| r.offset).collect::<Vec<_>>(), [10.0, 10.0]);
         // Both sides run left to right whatever their clockwise direction.
         assert!(r.iter().all(|r| r.segs[0].start()[0] < r.segs[0].end()[0]));
+    }
+
+    #[test]
+    fn a_flattened_arc_runs_from_the_svg_start_to_the_svg_end() {
+        for k in 0..4u8 {
+            let seg = Seg::Arc {
+                c: [10.0, 10.0],
+                r: 4.0,
+                k,
+            };
+            let pts = flatten(&Run {
+                segs: vec![seg.clone()],
+                offset: 0.0,
+            });
+            let (a, b) = (pts[0], *pts.last().unwrap());
+            let near = |p: [f64; 2], q: [f64; 2]| (p[0] - q[0]).hypot(p[1] - q[1]) < 1e-9;
+            assert!(
+                near(a, seg.start()) && near(b, seg.end()),
+                "corner {k}: {a:?} {b:?}"
+            );
+        }
     }
 
     #[test]

@@ -34,7 +34,7 @@ const { Engine } = createRequire(import.meta.url)(`${pkg}.js`);
 // 199.4 KB. The limits keep about 1.4% headroom. Raise them only with the commit that grows
 // the engine, and say what grew.
 // Dashed and per-side strokes (the stroke geometry and the SVG writer, the prop reader, one
-// scene node field) took main's 527.8 KB / 199.8 KB to 538.2 KB / 203.2 KB, so the limits
+// scene node field) took main's 527.8 KB / 199.8 KB to 538.2 KB / 203.7 KB, so the limits
 // rise to 540,000 / 204,500 (about 0.3% headroom: trim before the next feature).
 const MAX_RAW = 540_000;
 const MAX_GZIP = 204_500;

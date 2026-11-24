@@ -1150,6 +1150,29 @@ mod tests {
     }
 
     #[test]
+    fn a_styled_stroke_follows_the_rounded_corner_arc() {
+        let mut n = node("box", "root", 0.0, 0.0, 24.0, 12.0);
+        n.radius = 6.0;
+        n.stroke = Some("#ff0000".into());
+        n.stroke_width = 2.0;
+        n.stroke_style = Some(crate::stroke::StrokeStyle {
+            dash: Some([200.0, 1.0]),
+            round_cap: false,
+            sides: Some([true, false, true, true]),
+            scene_anchor: false,
+        });
+        let (img, _) = render(&scene(24.0, 12.0, vec![n]), 1.0);
+        // The top-left arc is centered on (6, 6) with radius 5: its 45 degree point is drawn,
+        // and the inside of the corner and the cell's outer corner are not.
+        assert_eq!(at(&img, 2, 2), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 4, 4), [0, 0, 0, 0]);
+        assert_eq!(at(&img, 0, 0)[3], 0);
+        // The same at the bottom-left, and the undrawn right side stays empty.
+        assert_eq!(at(&img, 2, 9), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 23, 6)[3], 0);
+    }
+
+    #[test]
     fn per_corner_radii_round_only_that_corner() {
         let mut n = filled("#000000");
         n.radii = Some([0.0, 6.0, 0.0, 0.0]);
