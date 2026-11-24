@@ -10,7 +10,7 @@ Add behavior contracts for Link, Floating action button and In-field button
 * Data: `link.json` extends `interactive` and raises `press` on `activate`
   (the link declares no `isDisabled`). `in-field-button.json` and
   `floating-action-button.json` extend `press`. The floating action button
-  data declares no `isDisabled`, so SPEC-118 warns once (open decision).
+  data declares no `isDisabled`, so SPEC-118 warns once (accepted, A559).
 * Bindings: web role `link` (Enter on key down, Space unbound), measured.
 * Vectors: suites for the three components and the `link` key vectors.
 * No accessibility block changed; the Link sheet derived from the contract
