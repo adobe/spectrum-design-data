@@ -33,8 +33,11 @@ const { Engine } = createRequire(import.meta.url)(`${pkg}.js`);
 // opt-levels in scripts/build.mjs (core `z`, serde and hash crates `3`) cut it to 527.8 KB /
 // 199.4 KB. The limits keep about 1.4% headroom. Raise them only with the commit that grows
 // the engine, and say what grew.
-const MAX_RAW = 535_000;
-const MAX_GZIP = 203_000;
+// Dashed and per-side strokes (the stroke geometry and the SVG writer, the prop reader, one
+// scene node field) took main's 527.8 KB / 199.8 KB to 538.2 KB / 203.2 KB, so the limits
+// rise to 540,000 / 204,500 (about 0.3% headroom: trim before the next feature).
+const MAX_RAW = 540_000;
+const MAX_GZIP = 204_500;
 // A shared CI runner, busy with other moon tasks, measured 0.48 and 0.65 ms where a laptop
 // measures 0.15 ms (PR #2124), so CI gets 2 ms: still a failure for a 10x regression, not noise.
 const MAX_SCENE_MS = process.env.CI ? 2 : 0.2;

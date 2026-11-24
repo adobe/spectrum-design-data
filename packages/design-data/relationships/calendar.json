@@ -455,5 +455,30 @@
     "contextRole": ["thickness"],
     "$ref": "3766d95f-33c6-4b9d-84c8-1a546ee98d32",
     "uuid": "48db65be-3fe3-5cd5-8016-2285c16de6f5"
+  },
+  {
+    "scope": {
+      "component": "calendar",
+      "part": "range-fill",
+      "property": "border-width"
+    },
+    "context": "Track (border)",
+    "contextRole": ["track"],
+    "contextQualifier": "border",
+    "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
+    "uuid": "da38a622-b0c5-5fc1-8e72-15294c204eb9"
+  },
+  {
+    "scope": {
+      "component": "calendar",
+      "part": "range-fill",
+      "property": "color",
+      "attribute": "border",
+      "options": { "isError": true }
+    },
+    "context": "Day values",
+    "contextRole": ["value"],
+    "$ref": "6effed65-3d52-465f-9eb2-7994f1ee90fb",
+    "uuid": "87e84f21-8eac-5f3b-a069-ab6661c1e9ba"
   }
 ]

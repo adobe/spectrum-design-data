@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-118",
+      "severity": "error",
+      "message_pattern": ".*part 'container'.*strokeDash 0 is not a positive number.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "error",
+      "message_pattern": ".*part 'band'.*strokeSides top left.*"
+    }
+  ]
+}
