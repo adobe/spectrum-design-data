@@ -88,6 +88,8 @@ pub(crate) struct Machine {
     pub(crate) parts: Map<String, Value>,
     pub(crate) transitions: Vec<Value>,
     pub(crate) published: Vec<String>,
+    /// The contract's own `semantics` (a pattern carries none).
+    pub(crate) semantics: Map<String, Value>,
 }
 
 fn extends(raw: &Value) -> Vec<String> {
@@ -122,6 +124,11 @@ pub(crate) fn flatten(
         parts: Map::new(),
         transitions: Vec::new(),
         published: Vec::new(),
+        semantics: contract
+            .get("semantics")
+            .and_then(Value::as_object)
+            .cloned()
+            .unwrap_or_default(),
     };
     let own = [contract];
     // Base first, so a derived pattern and then the contract override what they extend.
@@ -202,6 +209,39 @@ fn derive(
     }
     for (name, on) in interaction {
         out.insert(name.clone(), on.to_string());
+    }
+    out
+}
+
+/// The accessibility attributes the contract's `semantics` expose in the current state: attribute
+/// name to its value, `None` when absent. A facet entry (`map`) reads the facet's value; a `copy`
+/// entry reads the option itself and is absent while the option is unset or `absentWhen` holds.
+fn aria_state(
+    m: &Machine,
+    options: &Map<String, Value>,
+    facets: &BTreeMap<String, String>,
+) -> BTreeMap<String, Option<String>> {
+    let mut out = BTreeMap::new();
+    for entries in m.semantics.values().filter_map(Value::as_object) {
+        for (key, sem) in entries {
+            let Some(attr) = sem.get("ariaState").and_then(Value::as_str) else {
+                continue;
+            };
+            let value = if sem.get("copy") == Some(&Value::Bool(true)) {
+                let absent = sem
+                    .get("absentWhen")
+                    .and_then(Value::as_object)
+                    .is_some_and(|w| w.iter().all(|(k, v)| options.get(k) == Some(v)));
+                options.get(key).filter(|_| !absent).map(show)
+            } else {
+                facets
+                    .get(key)
+                    .and_then(|f| sem.pointer(&format!("/map/{f}")))
+                    .and_then(Value::as_str)
+                    .map(String::from)
+            };
+            out.insert(attr.to_string(), value);
+        }
     }
     out
 }
@@ -494,6 +534,26 @@ fn run_vector(
                     Some(got) if *got != show(want) => failures.push(format!(
                         "after step {n}: facet '{f}' want {} got {got}",
                         show(want)
+                    )),
+                    _ => {}
+                }
+            }
+            let aria = aria_state(m, &run.options, &facets);
+            for (attr, want) in e
+                .get("aria")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flatten()
+            {
+                let want = want.as_str();
+                match aria.get(attr) {
+                    None => failures.push(format!(
+                        "after step {n}: the contract's semantics expose no attribute '{attr}'"
+                    )),
+                    Some(got) if got.as_deref() != want => failures.push(format!(
+                        "after step {n}: '{attr}' want {} got {}",
+                        want.unwrap_or("absent"),
+                        got.as_deref().unwrap_or("absent")
                     )),
                     _ => {}
                 }

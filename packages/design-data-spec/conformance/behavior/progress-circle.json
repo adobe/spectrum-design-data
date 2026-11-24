@@ -1,0 +1,204 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "progress-circle",
+  "pins": {
+    "state": ["value", "minValue", "maxValue", "isIndeterminate"],
+    "parts": {
+      "track": {
+        "role": "progressbar",
+        "focus": "none"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a determinate value maps to valuenow, valuemin and valuemax",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "40",
+            "aria-valuemin": "0",
+            "aria-valuemax": "100"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a custom range maps as given",
+      "start": {
+        "value": 3,
+        "minValue": 1,
+        "maxValue": 5,
+        "isIndeterminate": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "3",
+            "aria-valuemin": "1",
+            "aria-valuemax": "5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a value of zero is exposed, not absent",
+      "start": {
+        "value": 0,
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a fractional value is exposed as given",
+      "start": {
+        "value": 12.5,
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "12.5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no value set leaves valuenow absent",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "indeterminate exposes no value, minimum or maximum",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": null,
+            "aria-valuemin": null,
+            "aria-valuemax": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "no interaction changes anything: focus, press and pointer raise no event",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": false
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        },
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": [],
+          "aria": {
+            "aria-valuenow": "40"
+          }
+        }
+      ]
+    }
+  ]
+}

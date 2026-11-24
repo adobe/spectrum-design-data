@@ -621,6 +621,8 @@ fn emit_is_exact_unless_a_vector_lists_options() {
     }
 }
 
+type Mutation = Box<dyn Fn(&mut Value)>;
+
 fn pins_of(component: &str) -> Value {
     let (_, s) = dirs();
     let suite: Value = serde_json::from_str(
@@ -649,7 +651,7 @@ fn a_mutated_focus_state_or_role_fails_the_pins() {
             .next()
             .unwrap()
             .clone();
-        let mutations: Vec<(&str, Box<dyn Fn(&mut Value)>)> = vec![
+        let mutations: Vec<(&str, Mutation)> = vec![
             ("focus none", {
                 let p = part.clone();
                 Box::new(move |c| c["parts"][&p]["focus"] = json!("none"))
@@ -759,4 +761,74 @@ fn a_key_suite_for_a_role_the_bindings_lack_fails_the_run() {
     assert!(results.iter().any(
         |r| matches!(&r.status, Status::Fail(f) if f[0].contains("no entry for role 'button'"))
     ));
+}
+
+#[test]
+fn display_contracts_expose_the_value_and_handle_no_intent() {
+    for c in [
+        "progress-bar",
+        "progress-circle",
+        "meter",
+        "in-field-progress-circle",
+    ] {
+        let (contract, vectors, patterns) = load(c);
+        assert_eq!(failures(&contract, &vectors, &patterns), 0, "{c}");
+        // A state-changing intent is not handled: nothing here is operable.
+        let press = vec![json!({
+            "name": "activate", "start": {},
+            "steps": [{ "intent": "activate" }], "expect": [{ "after": 1, "emit": [] }]
+        })];
+        assert_eq!(failures(&contract, &press, &patterns), 1, "{c} activate");
+    }
+}
+
+/// Each break of the display semantics must fail a vector.
+#[test]
+fn a_broken_semantic_fails_a_display_vector() {
+    for (c, part, edits) in [
+        (
+            "progress-bar",
+            "container",
+            vec![
+                ("/value/ariaState", json!("aria-valuetext")),
+                ("/value/absentWhen", json!({ "isIndeterminate": false })),
+                ("/minValue/ariaState", json!("aria-valuemax")),
+                ("/maxValue/copy", json!(false)),
+            ],
+        ),
+        (
+            "meter",
+            "container",
+            vec![
+                ("/value/ariaState", json!("aria-valuemin")),
+                ("/maxValue/ariaState", json!("aria-valuenow")),
+            ],
+        ),
+    ] {
+        let (contract, vectors, patterns) = load(c);
+        for (path, value) in edits {
+            let mut mutated = contract.clone();
+            *mutated["semantics"][part].pointer_mut(path).unwrap() = value;
+            assert!(
+                failures(&mutated, &vectors, &patterns) > 0,
+                "{c}: {path} went unnoticed"
+            );
+        }
+        let mut mutated = contract.clone();
+        mutated["semantics"][part]
+            .as_object_mut()
+            .unwrap()
+            .remove("value");
+        assert!(
+            failures(&mutated, &vectors, &patterns) > 0,
+            "{c}: value dropped"
+        );
+        let pins = pins_of(c);
+        mutated = contract.clone();
+        mutated["parts"][part]["focus"] = json!("tab-stop");
+        assert!(
+            !design_data_core::behavior::check_contract(&mutated, &patterns, Some(&pins))
+                .is_empty()
+        );
+    }
 }
