@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "meter",
+  "state": ["value", "minValue", "maxValue", "valueLabel", "label"],
+  "parts": {
+    "container": {
+      "role": "meter",
+      "focus": "none"
+    }
+  },
+  "semantics": {
+    "container": {
+      "value": {
+        "ariaState": "aria-valuenow",
+        "copy": true
+      },
+      "minValue": {
+        "ariaState": "aria-valuemin",
+        "copy": true
+      },
+      "maxValue": {
+        "ariaState": "aria-valuemax",
+        "copy": true
+      },
+      "valueLabel": {
+        "ariaState": "aria-valuetext",
+        "copy": true
+      },
+      "label": {
+        "ariaState": "aria-label",
+        "copy": true
+      }
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}

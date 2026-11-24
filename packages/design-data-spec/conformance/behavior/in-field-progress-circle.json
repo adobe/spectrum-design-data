@@ -1,0 +1,71 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "in-field-progress-circle",
+  "pins": {
+    "state": [],
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      },
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ],
+    "parts": {
+      "track": {
+        "role": "progressbar",
+        "focus": "none"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "no interaction changes anything: focus, press and pointer raise no event",
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        },
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": []
+        }
+      ]
+    }
+  ]
+}

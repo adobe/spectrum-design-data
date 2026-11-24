@@ -58,6 +58,36 @@
       "type": "array",
       "items": { "$ref": "#/$defs/vector" },
       "description": "Conformance vectors: start state, intents, expected facets and events."
+    },
+    "pins": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/name" },
+          "uniqueItems": true
+        },
+        "wcag": { "$ref": "#/$defs/wcag" },
+        "parts": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/name" },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string", "minLength": 1 },
+              "focus": { "enum": ["tab-stop", "roving", "none"] },
+              "press": { "$ref": "#/$defs/intent" },
+              "handles": {
+                "type": "array",
+                "items": { "$ref": "#/$defs/intent" }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "Conformance suites only. What the suite holds true of the contract regardless of its vectors: the `state` list, the contract's `wcag` and each part's `role`, `focus`, `press` and `handles`. The runner fails a contract that differs."
     }
   },
   "additionalProperties": false,
@@ -231,14 +261,29 @@
     },
     "semantic": {
       "type": "object",
-      "required": ["ariaState", "map"],
+      "required": ["ariaState"],
       "properties": {
         "ariaState": { "type": "string", "minLength": 1 },
         "map": {
           "type": "object",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": { "type": "string" },
+          "description": "The key is a facet id: facet value to the attribute's value."
+        },
+        "copy": {
+          "const": true,
+          "description": "The key is an option id (listed in `state`): the attribute is the option's value as given, and absent while the option is unset."
+        },
+        "absentWhen": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": ["boolean", "string", "number"] },
+          "description": "With `copy`: the attribute is absent while every listed option has the listed value (an indeterminate progress bar has no value)."
         }
       },
+      "oneOf": [
+        { "required": ["map"], "not": { "required": ["absentWhen"] } },
+        { "required": ["copy"] }
+      ],
       "additionalProperties": false
     },
     "vector": {
@@ -308,6 +353,12 @@
               "emit": {
                 "type": "array",
                 "items": { "type": "object", "minProperties": 1 }
+              },
+              "aria": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": { "type": ["string", "null"] },
+                "description": "Accessibility attributes the contract's `semantics` expose after the step: attribute name to its value, or `null` when it is absent."
               }
             },
             "additionalProperties": false

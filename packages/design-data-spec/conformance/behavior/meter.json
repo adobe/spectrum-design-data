@@ -1,0 +1,290 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "meter",
+  "pins": {
+    "state": ["value", "minValue", "maxValue", "valueLabel", "label"],
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "container": {
+        "role": "meter",
+        "focus": "none"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a label is exposed as aria-label",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "label": "Uploading"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": "Uploading"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no label leaves aria-label absent",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "a hidden label is still aria-label",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "label": "Uploading",
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": "Uploading"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a value label is exposed as valuetext",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "valueLabel": "40 of 100 MB"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuetext": "40 of 100 MB"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no value label leaves valuetext absent",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuetext": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "a determinate value maps to valuenow, valuemin and valuemax",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "40",
+            "aria-valuemin": "0",
+            "aria-valuemax": "100"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a custom range maps as given",
+      "start": {
+        "value": 3,
+        "minValue": 1,
+        "maxValue": 5
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "3",
+            "aria-valuemin": "1",
+            "aria-valuemax": "5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a value of zero is exposed, not absent",
+      "start": {
+        "value": 0,
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a fractional value is exposed as given",
+      "start": {
+        "value": 12.5,
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "12.5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no value set leaves valuenow absent",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "no interaction changes anything: focus, press and pointer raise no event",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        },
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": [],
+          "aria": {
+            "aria-valuenow": "40"
+          }
+        }
+      ]
+    }
+  ]
+}

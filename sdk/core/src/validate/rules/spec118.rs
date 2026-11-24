@@ -146,6 +146,22 @@ impl ValidationRule for Rule {
             {
                 for (facet, sem) in facets.as_object().into_iter().flatten() {
                     let path = format!("/semantics/{part}/{facet}");
+                    if sem.get("copy") == Some(&Value::Bool(true)) {
+                        let absent = sem
+                            .get("absentWhen")
+                            .and_then(Value::as_object)
+                            .into_iter()
+                            .flat_map(|w| w.keys());
+                        for o in std::iter::once(facet).chain(absent) {
+                            if !state.contains(o) {
+                                problem(
+                                    &path,
+                                    format!("copies '{o}' into an attribute, but `state` does not list it"),
+                                );
+                            }
+                        }
+                        continue;
+                    }
                     let Some(values) = facet_values(ctx.graph, b, ctx.registry, facet) else {
                         problem(
                             &path,
@@ -298,6 +314,19 @@ mod tests {
             (
                 Box::new(|c| c["semantics"]["track"]["checked"]["map"]["maybe"] = json!("x")),
                 "not a value of facet",
+            ),
+            (
+                Box::new(|c| {
+                    c["semantics"]["track"]["isGhost"] =
+                        json!({ "ariaState": "aria-valuenow", "copy": true })
+                }),
+                "`state` does not list",
+            ),
+            (
+                Box::new(
+                    |c| c["semantics"]["track"]["isSelected"] = json!({ "ariaState": "aria-valuenow", "copy": true, "absentWhen": { "isGhost": true } }),
+                ),
+                "'isGhost'",
             ),
         ];
         for (edit, why) in cases {

@@ -549,6 +549,10 @@ mod tests {
             "close-button",
             "link",
             "clear-button",
+            "progress-bar",
+            "progress-circle",
+            "in-field-progress-circle",
+            "meter",
         ] {
             let raw = component_raw(&legacy, name).unwrap();
             let contract = derived

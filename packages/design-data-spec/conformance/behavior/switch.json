@@ -1,6 +1,28 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "switch",
+  "pins": {
+    "state": ["isSelected", "isDisabled", "isReadOnly"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "track": {
+        "role": "switch",
+        "focus": "tab-stop",
+        "press": "activate"
+      }
+    }
+  },
   "vectors": [
     {
       "name": "activate turns it on",

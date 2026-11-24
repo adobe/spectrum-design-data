@@ -422,6 +422,8 @@ fn a_platform_without_a_keyboard_makes_key_vectors_not_applicable() {
     let mut touch = web_bindings();
     touch["platform"] = json!("touch");
     touch["capabilities"] = json!(["assistive-activation"]);
+    // No keyboard and no role bindings: still not applicable, not a failure.
+    touch["roles"] = json!({});
     std::fs::write(bindings.join("touch.json"), touch.to_string()).unwrap();
     let suites = tmp.join("suites");
     std::fs::create_dir_all(suites.join("bindings/touch")).unwrap();
@@ -617,6 +619,230 @@ fn emit_is_exact_unless_a_vector_lists_options() {
         assert!(
             mutated > 0 || component == "radio-group",
             "{component} has no vector with an emit payload"
+        );
+    }
+}
+
+type Mutation = Box<dyn Fn(&mut Value)>;
+
+fn pins_of(component: &str) -> Value {
+    let (_, s) = dirs();
+    let suite: Value = serde_json::from_str(
+        &std::fs::read_to_string(s.join(format!("{component}.json"))).unwrap(),
+    )
+    .unwrap();
+    suite["pins"].clone()
+}
+
+/// Focus mode, the `state` list and the part role are not seen by any vector (a mutation of each
+/// left a suite at 17 of 17), so the suite pins them: each mutation must now be reported.
+#[test]
+fn a_mutated_focus_state_or_role_fails_the_pins() {
+    for component in ["close-button", "radio-button", "switch", "radio-group"] {
+        let (contract, _, patterns) = load(component);
+        let pins = pins_of(component);
+        assert_eq!(
+            design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)),
+            Vec::<String>::new(),
+            "{component} baseline"
+        );
+        let part = contract["parts"]
+            .as_object()
+            .unwrap()
+            .keys()
+            .next()
+            .unwrap()
+            .clone();
+        let mutations: Vec<(&str, Mutation)> = vec![
+            ("focus none", {
+                let p = part.clone();
+                Box::new(move |c| c["parts"][&p]["focus"] = json!("none"))
+            }),
+            ("focus roving", {
+                let p = part.clone();
+                Box::new(move |c| c["parts"][&p]["focus"] = json!("roving"))
+            }),
+            ("focus removed", {
+                let p = part.clone();
+                Box::new(move |c| {
+                    c["parts"][&p].as_object_mut().unwrap().remove("focus");
+                })
+            }),
+            ("role mistyped", {
+                let p = part.clone();
+                Box::new(move |c| c["parts"][&p]["role"] = json!("buton"))
+            }),
+            ("role removed", {
+                let p = part.clone();
+                Box::new(move |c| {
+                    c["parts"][&p].as_object_mut().unwrap().remove("role");
+                })
+            }),
+            (
+                "wcag changed",
+                Box::new(|c| c["wcag"][0]["criterion"] = json!("2.4.7")),
+            ),
+            (
+                "isDisabled dropped from state",
+                Box::new(|c| {
+                    let s = c["state"].as_array_mut().unwrap();
+                    s.retain(|x| x != "isDisabled");
+                }),
+            ),
+        ];
+        for (what, mutate) in mutations {
+            let mut mutated = contract.clone();
+            mutate(&mut mutated);
+            if mutated == contract {
+                continue;
+            }
+            let issues =
+                design_data_core::behavior::check_contract(&mutated, &patterns, Some(&pins));
+            assert!(!issues.is_empty(), "{component}: {what} went unnoticed");
+        }
+    }
+}
+
+#[test]
+fn a_suite_without_pins_fails_and_a_facet_source_missing_from_state_fails() {
+    let (contract, _, patterns) = load("close-button");
+    let issues = design_data_core::behavior::check_contract(&contract, &patterns, None);
+    assert!(issues.iter().any(|i| i.contains("no `pins`")), "{issues:?}");
+    let mut broken = contract.clone();
+    broken["state"] = json!([]);
+    let issues = design_data_core::behavior::check_contract(&broken, &patterns, None);
+    assert!(
+        issues
+            .iter()
+            .any(|i| i.contains("derives from 'isDisabled'")),
+        "{issues:?}"
+    );
+}
+
+#[test]
+fn a_key_step_on_a_role_with_no_binding_is_an_error_not_a_silent_skip() {
+    let (contract, _, patterns) = load("close-button");
+    let vectors = key_suite("button");
+    let mut bindings = web_bindings();
+    bindings["roles"].as_object_mut().unwrap().remove("button");
+    let results = run_vectors(
+        &contract,
+        &patterns,
+        &vectors,
+        RegistryData::embedded(),
+        &all_capabilities(),
+        Some(&bindings),
+    );
+    let failed: Vec<_> = results
+        .iter()
+        .filter(
+            |r| matches!(&r.status, Status::Fail(f) if f[0].contains("no entry for role 'button'")),
+        )
+        .collect();
+    assert_eq!(failed.len(), vectors.len(), "{results:?}");
+}
+
+#[test]
+fn a_key_suite_for_a_role_the_bindings_lack_fails_the_run() {
+    let tmp = std::env::temp_dir().join(format!("role-unbound-{}", std::process::id()));
+    let (b, s) = dirs();
+    std::fs::create_dir_all(tmp.join("bindings")).unwrap();
+    std::fs::create_dir_all(tmp.join("patterns")).unwrap();
+    std::fs::copy(b.join("close-button.json"), tmp.join("close-button.json")).unwrap();
+    for f in ["interactive.json", "press.json"] {
+        std::fs::copy(b.join("patterns").join(f), tmp.join("patterns").join(f)).unwrap();
+    }
+    let mut bindings = web_bindings();
+    bindings["roles"].as_object_mut().unwrap().remove("button");
+    std::fs::write(tmp.join("bindings/web.json"), bindings.to_string()).unwrap();
+    let suites = tmp.join("suites");
+    std::fs::create_dir_all(suites.join("bindings/web")).unwrap();
+    std::fs::copy(
+        s.join("bindings/web/button.json"),
+        suites.join("bindings/web/button.json"),
+    )
+    .unwrap();
+    let results = run_dir(&tmp, &suites, None, None, &all_capabilities()).unwrap();
+    std::fs::remove_dir_all(&tmp).unwrap();
+    assert!(results.iter().any(
+        |r| matches!(&r.status, Status::Fail(f) if f[0].contains("no entry for role 'button'"))
+    ));
+}
+
+#[test]
+fn display_contracts_expose_the_value_and_handle_no_intent() {
+    for c in [
+        "progress-bar",
+        "progress-circle",
+        "meter",
+        "in-field-progress-circle",
+    ] {
+        let (contract, vectors, patterns) = load(c);
+        assert_eq!(failures(&contract, &vectors, &patterns), 0, "{c}");
+        // A state-changing intent is not handled: nothing here is operable.
+        let press = vec![json!({
+            "name": "activate", "start": {},
+            "steps": [{ "intent": "activate" }], "expect": [{ "after": 1, "emit": [] }]
+        })];
+        assert_eq!(failures(&contract, &press, &patterns), 1, "{c} activate");
+    }
+}
+
+/// Each break of the display semantics must fail a vector.
+#[test]
+fn a_broken_semantic_fails_a_display_vector() {
+    for (c, part, edits) in [
+        (
+            "progress-bar",
+            "container",
+            vec![
+                ("/value/ariaState", json!("aria-valuetext")),
+                ("/value/absentWhen", json!({ "isIndeterminate": false })),
+                ("/minValue/ariaState", json!("aria-valuemax")),
+                ("/maxValue/copy", json!(false)),
+                ("/valueLabel/ariaState", json!("aria-label")),
+                ("/label/ariaState", json!("aria-valuetext")),
+                (
+                    "/valueLabel/absentWhen",
+                    json!({ "isIndeterminate": false }),
+                ),
+            ],
+        ),
+        (
+            "meter",
+            "container",
+            vec![
+                ("/value/ariaState", json!("aria-valuemin")),
+                ("/maxValue/ariaState", json!("aria-valuenow")),
+                ("/valueLabel/ariaState", json!("aria-valuenow")),
+                ("/label/ariaState", json!("aria-valuetext")),
+            ],
+        ),
+    ] {
+        let (contract, vectors, patterns) = load(c);
+        for (path, value) in edits {
+            let mut mutated = contract.clone();
+            *mutated["semantics"][part].pointer_mut(path).unwrap() = value;
+            assert!(
+                failures(&mutated, &vectors, &patterns) > 0,
+                "{c}: {path} went unnoticed"
+            );
+        }
+        let mut mutated = contract.clone();
+        mutated["semantics"][part]
+            .as_object_mut()
+            .unwrap()
+            .remove("value");
+        assert!(
+            failures(&mutated, &vectors, &patterns) > 0,
+            "{c}: value dropped"
+        );
+        let pins = pins_of(c);
+        mutated = contract.clone();
+        mutated["parts"][part]["focus"] = json!("tab-stop");
+        assert!(
+            !design_data_core::behavior::check_contract(&mutated, &patterns, Some(&pins))
+                .is_empty()
         );
     }
 }
