@@ -83,11 +83,21 @@ impl ValidationRule for Rule {
                         .into_iter()
                         .flat_map(|o| o.keys())
                     {
-                        if !options.contains(k) {
-                            problem(
+                        match ctx.registry.environment_property(k) {
+                            Some(env) => {
+                                let v = v["start"][k].as_str().unwrap_or_default();
+                                if !env.values.contains(v) {
+                                    problem(
+                                        "/start",
+                                        format!("starts environment property '{k}' at '{v}', which the environment registry does not list"),
+                                    );
+                                }
+                            }
+                            None if !options.contains(k) => problem(
                                 "/start",
-                                format!("starts '{k}', which is not an option of the component"),
-                            );
+                                format!("starts '{k}', which is not an option of the component or a registered environment property"),
+                            ),
+                            None => {}
                         }
                     }
                 }
@@ -182,6 +192,10 @@ mod tests {
             (
                 Box::new(|c| c["vectors"][0]["start"] = json!({ "isGhost": true })),
                 "not an option",
+            ),
+            (
+                Box::new(|c| c["vectors"][0]["start"] = json!({ "direction": "sideways" })),
+                "environment registry",
             ),
             (
                 Box::new(|c| c["vectors"][0]["steps"][0]["intent"] = json!("tap")),

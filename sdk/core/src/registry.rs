@@ -126,8 +126,18 @@ pub struct RegistryData {
     context_words: HashMap<String, String>,
     /// Facet id → entry (`facets.json`), for behavior contract checks.
     facets: HashMap<String, FacetEntry>,
+    /// Environment property id → entry (`environment.json`), for behavior contract checks.
+    environment: HashMap<String, EnvironmentEntry>,
     /// Component name → exemption reason (`behavior-exemptions.json`).
     behavior_exemptions: HashMap<String, String>,
+}
+
+/// A property of the environment from `environment.json` (for example `direction`): the values it
+/// may take and the one a run starts with (`initial`). It is not an option of any component.
+#[derive(Debug, Clone)]
+pub struct EnvironmentEntry {
+    pub values: HashSet<String>,
+    pub initial: String,
 }
 
 /// A facet from `facets.json`: its allowed values and whether it comes from the shared
@@ -237,6 +247,27 @@ fn parse_registry(json_str: &str) -> HashSet<String> {
         }
     }
     set
+}
+
+/// Parse `environment.json` into property id → entry.
+fn parse_environment(json_str: &str) -> HashMap<String, EnvironmentEntry> {
+    let v: Value = serde_json::from_str(json_str).expect("embedded registry JSON must be valid");
+    v.get("values")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|e| {
+            let id = e.get("id")?.as_str()?.to_string();
+            let values = e
+                .get("values")?
+                .as_array()?
+                .iter()
+                .filter_map(|x| x.as_str().map(String::from))
+                .collect();
+            let initial = e.get("initial")?.as_str()?.to_string();
+            Some((id, EnvironmentEntry { values, initial }))
+        })
+        .collect()
 }
 
 /// Parse `facets.json` into facet id → entry.
@@ -391,6 +422,7 @@ impl RegistryData {
                 context_words,
                 registries,
                 facets: parse_facets(FACETS_JSON),
+                environment: parse_environment(ENVIRONMENT_JSON),
                 behavior_exemptions: parse_behavior_exemptions(BEHAVIOR_EXEMPTIONS_JSON),
                 token_names: build_token_name_map(),
                 anatomy_standalone_scope: parse_standalone_scope_ids(ANATOMY_TERMS_JSON),
@@ -509,6 +541,16 @@ impl RegistryData {
     /// Derived from field declarations with `validation: "advisory"` and a registry.
     pub fn advisory_fields(&self) -> &[&str] {
         FIELD_ADVISORY_FIELDS
+    }
+
+    /// A registered environment property (`environment.json`), or `None` for an unregistered one.
+    pub fn environment_property(&self, name: &str) -> Option<&EnvironmentEntry> {
+        self.environment.get(name)
+    }
+
+    /// Every registered environment property, by id.
+    pub fn environment_properties(&self) -> impl Iterator<Item = (&String, &EnvironmentEntry)> {
+        self.environment.iter()
     }
 
     /// A registered behavior facet (`facets.json`), or `None` for an unregistered one.

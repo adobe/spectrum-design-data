@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "environment",
+  "description": "Properties of the environment a behavior contract may list in `state` and a vector may set in `start` (spec/behavior-contract.md). They are not options of any component: the platform supplies them. `values` lists the allowed value ids and `initial` the one a run starts with.",
+  "values": [
+    {
+      "id": "direction",
+      "label": "Direction",
+      "description": "The text direction of the layout. A horizontal group swaps its Left and Right arrows when it is `rtl`.",
+      "values": ["ltr", "rtl"],
+      "initial": "ltr"
+    }
+  ]
+}

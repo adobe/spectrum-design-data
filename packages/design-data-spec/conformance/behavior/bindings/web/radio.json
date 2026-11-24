@@ -258,7 +258,7 @@
       ]
     },
     {
-      "name": "an arrow never selects a disabled radio",
+      "name": "an arrow that lands on a disabled radio does not select it (the adapter skips it; this pins the guard)",
       "needs": ["keyboard"],
       "start": {
         "isSelected": false,

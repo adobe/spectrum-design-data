@@ -204,7 +204,7 @@
       ]
     },
     {
-      "name": "navigation never lands on a disabled radio",
+      "name": "navigation onto a disabled radio does not select it (the adapter skips it; this pins the guard)",
       "start": {
         "isSelected": false,
         "isDisabled": true

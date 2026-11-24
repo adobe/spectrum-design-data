@@ -106,12 +106,13 @@ if (!attributesEmbedded) {
   generated += `const ATTRIBUTES_JSON: &str = r##"${readFileSync(attributesPath, "utf-8")}"##;\n`;
 }
 
-// Embed the behavior contract registries (facets, intents, capabilities) for SPEC-118..120.
+// Embed the behavior contract registries (facets, intents, capabilities, environment) for SPEC-118..120.
 // They validate behaviors/*.json, not a name-object field, so they live outside the field catalog.
 const behaviorRegistries = [
   ["FACETS_JSON", "facets"],
   ["INTENTS_JSON", "intents"],
   ["CAPABILITIES_JSON", "capabilities"],
+  ["ENVIRONMENT_JSON", "environment"],
   ["EXEMPTION_REASONS_JSON", "exemption-reasons"],
   ["BEHAVIOR_EXEMPTIONS_JSON", "behavior-exemptions"],
 ];

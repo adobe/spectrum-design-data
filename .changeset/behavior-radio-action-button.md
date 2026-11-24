@@ -12,11 +12,13 @@ the shared `press` pattern (proposal 022).
   `radio-button.json` selects on `activate` and when arrow navigation lands
   on it; `radio-group.json` carries `orientation`, `direction` and the
   `arrowOrder` facet (Left and Right swap only when horizontal and rtl).
-* Registry: facets `orientation` and `arrowOrder`. `direction` is an
-  environment property a contract may list in `state` and a vector set.
+* Registry: facets `orientation` and `arrowOrder`, and a new
+  `environment.json` (`direction`: ltr, rtl, initial ltr) that contracts may
+  list in `state` and vectors set in `start`. Radio group now has the role
+  `radiogroup` in its accessibility block and its contract.
 * Web key bindings for `button` (Enter on key down, Space on key up) and
   `radio` (Space on key up, arrows, no Home or End), with key vectors and
   component vectors. The `accessibility` blocks are unchanged and the spec
   sheets derived from the contracts equal them.
 * Proposal 022 evidence table: measured button, link and radio keys.
-* No render or spec sheet changes.
+* The component explorer data gains the radio-group role; no render changes.

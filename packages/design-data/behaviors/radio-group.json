@@ -22,6 +22,7 @@
   },
   "parts": {
     "container": {
+      "role": "radiogroup",
       "focus": "none"
     }
   },
