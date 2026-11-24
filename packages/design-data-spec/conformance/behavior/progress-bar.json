@@ -2,7 +2,7 @@
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "progress-bar",
   "pins": {
-    "state": ["value", "minValue", "maxValue", "isIndeterminate"],
+    "state": ["value", "minValue", "maxValue", "isIndeterminate", "valueLabel"],
     "parts": {
       "container": {
         "role": "progressbar",
@@ -11,6 +11,74 @@
     }
   },
   "vectors": [
+    {
+      "name": "a value label is exposed as valuetext",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": false,
+        "valueLabel": "40 of 100 MB"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuetext": "40 of 100 MB"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no value label leaves valuetext absent",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuetext": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "indeterminate exposes no valuetext",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "isIndeterminate": true,
+        "valueLabel": "Loading"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuetext": null
+          }
+        }
+      ]
+    },
     {
       "name": "a determinate value maps to valuenow, valuemin and valuemax",
       "start": {

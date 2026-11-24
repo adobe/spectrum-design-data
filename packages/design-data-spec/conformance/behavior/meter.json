@@ -2,7 +2,7 @@
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "meter",
   "pins": {
-    "state": ["value", "minValue", "maxValue"],
+    "state": ["value", "minValue", "maxValue", "valueLabel"],
     "parts": {
       "container": {
         "role": "meter",
@@ -11,6 +11,49 @@
     }
   },
   "vectors": [
+    {
+      "name": "a value label is exposed as valuetext",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "valueLabel": "40 of 100 MB"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuetext": "40 of 100 MB"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no value label leaves valuetext absent",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuetext": null
+          }
+        }
+      ]
+    },
     {
       "name": "a determinate value maps to valuenow, valuemin and valuemax",
       "start": {

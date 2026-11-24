@@ -13,6 +13,7 @@ Add behavior contracts for the display components and harden the runner.
 - Format: `semantics` may copy an option to an attribute (`copy`, with
   `absentWhen`), and a vector may expect `aria` attributes.
 - Data: contracts for Progress bar, Progress circle, In-field progress
-  circle and Meter (role, `focus: none`, value attributes, no transitions),
+  circle and Meter (role, `focus: none`, value and `valueLabel` attributes, no
+  transitions),
   with vectors. No accessibility block changed; renders and spec sheets are
   unchanged.

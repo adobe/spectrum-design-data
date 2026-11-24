@@ -794,6 +794,11 @@ fn a_broken_semantic_fails_a_display_vector() {
                 ("/value/absentWhen", json!({ "isIndeterminate": false })),
                 ("/minValue/ariaState", json!("aria-valuemax")),
                 ("/maxValue/copy", json!(false)),
+                ("/valueLabel/ariaState", json!("aria-label")),
+                (
+                    "/valueLabel/absentWhen",
+                    json!({ "isIndeterminate": false }),
+                ),
             ],
         ),
         (
@@ -802,6 +807,7 @@ fn a_broken_semantic_fails_a_display_vector() {
             vec![
                 ("/value/ariaState", json!("aria-valuemin")),
                 ("/maxValue/ariaState", json!("aria-valuenow")),
+                ("/valueLabel/ariaState", json!("aria-valuenow")),
             ],
         ),
     ] {
