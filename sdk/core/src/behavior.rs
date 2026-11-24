@@ -80,11 +80,11 @@ pub struct VectorResult {
 }
 
 /// A contract flattened with the patterns it extends.
-struct Machine {
-    facets: Map<String, Value>,
-    parts: Map<String, Value>,
-    transitions: Vec<Value>,
-    published: Vec<String>,
+pub(crate) struct Machine {
+    pub(crate) facets: Map<String, Value>,
+    pub(crate) parts: Map<String, Value>,
+    pub(crate) transitions: Vec<Value>,
+    pub(crate) published: Vec<String>,
 }
 
 fn extends(raw: &Value) -> Vec<String> {
@@ -96,7 +96,10 @@ fn extends(raw: &Value) -> Vec<String> {
         .collect()
 }
 
-fn flatten(contract: &Value, patterns: &[BehaviorPatternRecord]) -> Result<Machine, String> {
+pub(crate) fn flatten(
+    contract: &Value,
+    patterns: &[BehaviorPatternRecord],
+) -> Result<Machine, String> {
     let mut chain: Vec<&Value> = Vec::new();
     let mut seen: HashSet<String> = HashSet::new();
     let mut queue = extends(contract);
@@ -118,7 +121,8 @@ fn flatten(contract: &Value, patterns: &[BehaviorPatternRecord]) -> Result<Machi
         published: Vec::new(),
     };
     let own = [contract];
-    for raw in chain.iter().copied().chain(own) {
+    // Base first, so a derived pattern and then the contract override what they extend.
+    for raw in chain.iter().rev().copied().chain(own) {
         for (key, into) in [("facets", &mut m.facets), ("parts", &mut m.parts)] {
             for (k, v) in raw
                 .get(key)
@@ -696,10 +700,18 @@ pub struct AccessibilityView {
     pub wcag: Vec<Value>,
 }
 
-pub fn accessibility_view(contract: &Value) -> AccessibilityView {
-    let parts: Vec<&Value> = contract
-        .get("parts")
-        .and_then(Value::as_object)
+pub fn accessibility_view(
+    contract: &Value,
+    patterns: &[BehaviorPatternRecord],
+) -> AccessibilityView {
+    // A contract that extends an unknown pattern is SPEC-118's to flag; its own fields still answer.
+    let m = flatten(contract, patterns).ok();
+    let own_parts = contract.get("parts").and_then(Value::as_object);
+    let own_transitions = contract.get("transitions").and_then(Value::as_array);
+    let parts: Vec<&Value> = m
+        .as_ref()
+        .map(|m| &m.parts)
+        .or(own_parts)
         .map(|p| p.values().collect())
         .unwrap_or_default();
     let roles: Vec<&str> = parts
@@ -723,9 +735,10 @@ pub fn accessibility_view(contract: &Value) -> AccessibilityView {
             keyboard_intents.push(i.to_string());
         }
     };
-    for t in contract
-        .get("transitions")
-        .and_then(Value::as_array)
+    for t in m
+        .as_ref()
+        .map(|m| m.transitions.as_slice())
+        .or(own_transitions.map(Vec::as_slice))
         .into_iter()
         .flatten()
     {
@@ -800,9 +813,10 @@ pub fn facet_match(
             )),
         };
     }
-    let decl = contract
-        .raw
-        .pointer(&format!("/facets/{facet}"))
+    let decl = flatten(&contract.raw, &graph.behavior_patterns)
+        .map_err(|e| format!("contract of '{component}' {e}"))?
+        .facets
+        .remove(facet)
         .ok_or_else(|| format!("the contract of '{component}' does not declare facet '{facet}'"))?;
     let values = decl
         .get("values")

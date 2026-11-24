@@ -108,7 +108,7 @@
     "isReadOnly": {
       "type": "boolean",
       "default": false,
-      "description": "Behavior only: the switch keeps its default or selected appearance and does not respond to hover or press. No distinct read-only visual is defined in Figma (Web POC), react-spectrum S2, or Spectrum Web Components 1st-gen."
+      "description": "Behavior only: the switch stays focusable and shows hover and press feedback but does not change value, and exposes aria-readonly. No distinct read-only visual is defined in Figma (Web POC), react-spectrum S2, or Spectrum Web Components 1st-gen."
     },
     "hideLabel": { "type": "boolean", "default": false }
   },

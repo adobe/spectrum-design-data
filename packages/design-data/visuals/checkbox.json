@@ -9,6 +9,7 @@
     "l": 200,
     "xl": 300
   },
+  "notVisual": ["isReadOnly"],
   "derived": [
     {
       "context": "Spacing (top edge to control)",

@@ -85,13 +85,8 @@ impl ValidationRule for Rule {
                     }
                 }
             }
-            for (name, facet) in b
-                .raw
-                .get("facets")
-                .and_then(Value::as_object)
-                .into_iter()
-                .flatten()
-            {
+            let own = crate::behavior::flatten(&b.raw, &ctx.graph.behavior_patterns).ok();
+            for (name, facet) in own.iter().flat_map(|m| m.facets.iter()) {
                 let path = format!("/facets/{name}");
                 let Some(registered) = ctx.registry.facet(name) else {
                     problem(

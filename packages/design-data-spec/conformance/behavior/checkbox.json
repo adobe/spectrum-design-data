@@ -377,6 +377,339 @@
       ]
     },
     {
+      "name": "activate on selected and indeterminate unchecks it",
+      "start": {
+        "isSelected": true,
+        "isIndeterminate": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isIndeterminate": false,
+                "isSelected": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "activate clears indeterminate, then toggles normally",
+      "start": {
+        "isSelected": false,
+        "isIndeterminate": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        },
+        {
+          "intent": "activate"
+        },
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isIndeterminate": false,
+                "isSelected": true
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isIndeterminate": false,
+                "isSelected": false
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isIndeterminate": false,
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a completed press on indeterminate checks it",
+      "start": {
+        "isSelected": false,
+        "isIndeterminate": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isIndeterminate": false,
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a completed press on selected and indeterminate unchecks it",
+      "start": {
+        "isSelected": true,
+        "isIndeterminate": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isIndeterminate": false,
+                "isSelected": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "disabled indeterminate ignores activation",
+      "start": {
+        "isSelected": false,
+        "isIndeterminate": true,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "indeterminate",
+            "disabled": true
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "read-only keeps focus and ignores activation",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false,
+        "isReadOnly": true
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": true,
+            "readOnly": true
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "read-only selected stays selected on activation",
+      "start": {
+        "isSelected": true,
+        "isReadOnly": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked",
+            "readOnly": true
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "read-only indeterminate stays indeterminate on activation",
+      "start": {
+        "isSelected": false,
+        "isIndeterminate": true,
+        "isReadOnly": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "indeterminate",
+            "readOnly": true
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a completed press on a read-only checkbox does not toggle",
+      "start": {
+        "isSelected": false,
+        "isReadOnly": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "read-only still shows pressed on press-start",
+      "start": {
+        "isSelected": false,
+        "isReadOnly": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": true,
+            "readOnly": true,
+            "checked": "unchecked"
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "read-only still shows hover",
+      "needs": ["pointer-hover"],
+      "start": {
+        "isSelected": false,
+        "isReadOnly": true
+      },
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hovered": true
+          }
+        }
+      ]
+    },
+    {
       "name": "press-end without press-start does not activate",
       "start": {
         "isSelected": false

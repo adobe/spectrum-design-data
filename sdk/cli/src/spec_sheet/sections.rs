@@ -234,7 +234,7 @@ fn accessibility(graph: &TokenGraph, component: &Value, name: &str) -> Option<Ve
     let a = component.get("accessibility").and_then(Value::as_object)?;
     let mut a = Value::Object(a.clone());
     if let Some(c) = graph.behaviors.iter().find(|b| b.component == name) {
-        let v = design_data_core::behavior::accessibility_view(&c.raw);
+        let v = design_data_core::behavior::accessibility_view(&c.raw, &graph.behavior_patterns);
         let obj = a.as_object_mut()?;
         if let Some(role) = v.role {
             obj.insert("role".into(), json!(role));
@@ -525,6 +525,9 @@ mod tests {
         .unwrap();
         if with_contracts {
             g.behaviors = TokenGraph::load_spec_behaviors(&packages.join("behaviors")).unwrap();
+            g.behavior_patterns =
+                TokenGraph::load_spec_behavior_patterns(&packages.join("behaviors/patterns"))
+                    .unwrap();
         }
         g
     }
@@ -542,7 +545,7 @@ mod tests {
                 .iter()
                 .find(|b| b.component == name)
                 .unwrap();
-            let v = accessibility_view(&contract.raw);
+            let v = accessibility_view(&contract.raw, &derived.behavior_patterns);
             let a = &raw["accessibility"];
             assert_eq!(v.role.as_deref(), a["role"].as_str(), "{name} role");
             assert_eq!(v.focusable, a["focusable"].as_bool(), "{name} focusable");

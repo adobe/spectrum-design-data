@@ -100,28 +100,31 @@ fn failures(
     .count()
 }
 
-/// Each break of a contract must fail at least one vector, or the vectors prove nothing.
+/// Each break of a contract, or of the toggle pattern it extends, must fail at least one vector,
+/// or the vectors prove nothing. A pointer starting `toggle:` edits the pattern.
 #[test]
 fn a_broken_transition_fails_a_vector() {
-    for (component, edits) in [
+    let toggle = [
         (
-            "switch",
-            vec![
-                (
-                    "/transitions/0/do",
-                    json!({ "set": { "isSelected": true } }),
-                ),
-                (
-                    "/transitions/0/guard",
-                    json!({ "facet": "disabled", "is": "false" }),
-                ),
-                ("/transitions/0/emit", json!("changed")),
-                (
-                    "/facets/checked/values",
-                    json!({ "unchecked": true, "checked": false }),
-                ),
-            ],
+            "toggle:/transitions/0/do",
+            json!({ "set": { "isSelected": true } }),
         ),
+        (
+            "toggle:/transitions/0/guard",
+            json!({ "facet": "disabled", "is": "false" }),
+        ),
+        (
+            "toggle:/transitions/0/guard",
+            json!({ "facet": "readOnly", "is": "true" }),
+        ),
+        ("toggle:/transitions/0/emit", json!("changed")),
+        (
+            "toggle:/facets/checked/values",
+            json!({ "unchecked": true, "checked": false }),
+        ),
+    ];
+    for (component, edits) in [
+        ("switch", toggle.to_vec()),
         (
             "checkbox",
             vec![
@@ -129,7 +132,15 @@ fn a_broken_transition_fails_a_vector() {
                 ("/transitions/0/do/set/isIndeterminate", json!(true)),
                 (
                     "/transitions/0/guard",
-                    json!({ "facet": "disabled", "is": "true" }),
+                    json!({ "all": [{ "facet": "disabled", "is": "true" }, { "facet": "readOnly", "is": "false" }] }),
+                ),
+                (
+                    "/transitions/0/guard",
+                    json!({ "all": [{ "facet": "disabled", "is": "false" }, { "facet": "readOnly", "is": "true" }] }),
+                ),
+                (
+                    "/facets/checked/values/indeterminate",
+                    json!({ "isIndeterminate": false }),
                 ),
             ],
         ),
@@ -137,10 +148,19 @@ fn a_broken_transition_fails_a_vector() {
         let (contract, vectors, patterns) = load(component);
         assert_eq!(failures(&contract, &vectors, &patterns), 0);
         for (pointer, value) in edits {
-            let mut broken = contract.clone();
-            *broken.pointer_mut(pointer).unwrap() = value;
+            let (mut broken, mut broken_patterns) = (contract.clone(), patterns.clone());
+            match pointer.strip_prefix("toggle:") {
+                Some(p) => {
+                    let t = broken_patterns
+                        .iter_mut()
+                        .find(|p| p.pattern == "toggle")
+                        .unwrap();
+                    *t.raw.pointer_mut(p).unwrap() = value;
+                }
+                None => *broken.pointer_mut(pointer).unwrap() = value,
+            }
             assert!(
-                failures(&broken, &vectors, &patterns) > 0,
+                failures(&broken, &vectors, &broken_patterns) > 0,
                 "{component}: breaking {pointer} failed no vector"
             );
         }
@@ -165,7 +185,7 @@ fn an_intent_the_contract_does_not_cover_fails_unless_a_part_handles_it() {
     assert_eq!(failures(&contract, &[vector], &patterns), 0);
 }
 
-fn rewrite_to_facets(node: &mut Value, count: &mut usize) {
+fn rewrite_to_facets(node: &mut Value, mapping: &[(&str, &str, &str)], count: &mut usize) {
     match node {
         Value::Object(map) => {
             for key in ["when", "visibleWhen"] {
@@ -174,10 +194,7 @@ fn rewrite_to_facets(node: &mut Value, count: &mut usize) {
                 };
                 let mut facets = serde_json::Map::new();
                 if let Some(opts) = cond.get_mut("options").and_then(Value::as_object_mut) {
-                    for (opt, facet, value) in [
-                        ("isSelected", "checked", "checked"),
-                        ("isDisabled", "disabled", "true"),
-                    ] {
+                    for (opt, facet, value) in mapping.iter().copied() {
                         if opts.get(opt) == Some(&Value::Bool(true)) {
                             opts.remove(opt);
                             facets.insert(facet.into(), json!(value));
@@ -202,10 +219,12 @@ fn rewrite_to_facets(node: &mut Value, count: &mut usize) {
                 }
             }
             for v in map.values_mut() {
-                rewrite_to_facets(v, count);
+                rewrite_to_facets(v, mapping, count);
             }
         }
-        Value::Array(items) => items.iter_mut().for_each(|v| rewrite_to_facets(v, count)),
+        Value::Array(items) => items
+            .iter_mut()
+            .for_each(|v| rewrite_to_facets(v, mapping, count)),
         _ => {}
     }
 }
@@ -242,7 +261,11 @@ fn facet_conditions_compile_to_the_equivalent_option_conditions() {
             .collect();
     let mut faceted = recipe.clone();
     let mut count = 0;
-    rewrite_to_facets(&mut faceted, &mut count);
+    let switch_map = [
+        ("isSelected", "checked", "checked"),
+        ("isDisabled", "disabled", "true"),
+    ];
+    rewrite_to_facets(&mut faceted, &switch_map, &mut count);
     assert!(
         count >= 9,
         "the switch recipe should have facet-able conditions, got {count}"
@@ -251,6 +274,33 @@ fn facet_conditions_compile_to_the_equivalent_option_conditions() {
     let want = compile_recipe(&g, &recipe, "switch", &[mode.clone()]).unwrap();
     let got = compile_recipe(&g, &faceted, "switch", &[mode.clone()]).unwrap();
     assert_eq!(want, got);
+
+    // Checkbox: only `indeterminate` selects exactly one option. `checked` also needs
+    // `isIndeterminate: false`, which would add that option to the compiled scene conditions, so
+    // the recipe keeps `isSelected` in option form.
+    let recipe = g
+        .visuals
+        .iter()
+        .find(|v| v.component == "checkbox")
+        .unwrap()
+        .raw
+        .clone();
+    let mut faceted = recipe.clone();
+    let mut count = 0;
+    let map = [("isIndeterminate", "checked", "indeterminate")];
+    rewrite_to_facets(&mut faceted, &map, &mut count);
+    assert_eq!(count, 2);
+    let want = compile_recipe(&g, &recipe, "checkbox", &[mode.clone()]).unwrap();
+    let got = compile_recipe(&g, &faceted, "checkbox", &[mode.clone()]).unwrap();
+    assert_eq!(want, got);
+    let mut selected = recipe.clone();
+    rewrite_to_facets(
+        &mut selected,
+        &[("isSelected", "checked", "checked")],
+        &mut 0,
+    );
+    let got = compile_recipe(&g, &selected, "checkbox", &[mode.clone()]).unwrap();
+    assert_ne!(want, got, "`checked` is not the option form of isSelected");
 
     // Mutation guard: a facet that selects a different option changes the compile.
     let mut wrong = faceted.clone();
@@ -266,10 +316,7 @@ fn facet_conditions_compile_to_the_equivalent_option_conditions() {
 #[test]
 fn a_raise_cycle_fails_the_vector_instead_of_overflowing() {
     let (mut contract, vectors, patterns) = load("switch");
-    contract["transitions"]
-        .as_array_mut()
-        .unwrap()
-        .insert(0, json!({ "on": "activate", "do": { "raise": "press" } }));
+    contract["transitions"] = json!([{ "on": "activate", "do": { "raise": "press" } }]);
     let r = run_vectors(
         &contract,
         &patterns,
@@ -369,11 +416,9 @@ fn a_platform_without_a_keyboard_makes_key_vectors_not_applicable() {
     for f in ["switch.json", "checkbox.json"] {
         std::fs::copy(b.join(f), tmp.join(f)).unwrap();
     }
-    std::fs::copy(
-        b.join("patterns/interactive.json"),
-        tmp.join("patterns/interactive.json"),
-    )
-    .unwrap();
+    for f in ["interactive.json", "toggle.json"] {
+        std::fs::copy(b.join("patterns").join(f), tmp.join("patterns").join(f)).unwrap();
+    }
     let mut touch = web_bindings();
     touch["platform"] = json!("touch");
     touch["capabilities"] = json!(["assistive-activation"]);
@@ -446,4 +491,37 @@ fn an_input_step_without_bindings_fails() {
     assert!(r
         .iter()
         .all(|r| matches!(&r.status, Status::Fail(f) if f[0].contains("no key bindings"))));
+}
+
+/// A derived pattern's facet wins over its base's, and the contract's over both.
+#[test]
+fn a_derived_pattern_overrides_its_base() {
+    let (contract, vectors, mut patterns) = load("switch");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let base = patterns
+        .iter_mut()
+        .find(|p| p.pattern == "interactive")
+        .unwrap();
+    base.raw["facets"] = json!({ "checked": {
+        "from": "isSelected", "values": { "unchecked": true, "checked": false }
+    } });
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+}
+
+/// The vectors cannot see `semantics`, so pin what Switch and Checkbox expose for read-only.
+#[test]
+fn semantics_expose_aria_readonly_and_aria_checked() {
+    for (component, part) in [("switch", "track"), ("checkbox", "box")] {
+        let (contract, _, _) = load(component);
+        let read_only = &contract["semantics"][part]["readOnly"];
+        assert_eq!(read_only["ariaState"], "aria-readonly", "{component}");
+        assert_eq!(
+            read_only["map"],
+            json!({ "false": "false", "true": "true" })
+        );
+    }
+    let (contract, _, _) = load("checkbox");
+    let box_ = &contract["semantics"]["box"];
+    assert_eq!(box_["checked"]["ariaState"], "aria-checked");
+    assert_eq!(box_["checked"]["map"]["indeterminate"], "mixed");
 }

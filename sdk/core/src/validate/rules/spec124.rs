@@ -16,10 +16,25 @@
 
 use serde_json::Value;
 
+use crate::behavior::{flatten, Machine, INTERACTION_EVENTS};
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
 pub struct Rule;
+
+/// Whether a flattened contract does something with `intent`: an event intent, a transition on it,
+/// or a part that handles it.
+fn handles(m: &Machine, intent: &str) -> bool {
+    INTERACTION_EVENTS.contains(&intent)
+        || m.transitions
+            .iter()
+            .any(|t| t.get("on").and_then(Value::as_str) == Some(intent))
+        || m.parts.values().any(|p| {
+            p.get("handles")
+                .and_then(Value::as_array)
+                .is_some_and(|a| a.iter().any(|i| i.as_str() == Some(intent)))
+        })
+}
 
 fn names(v: Option<&Value>) -> Vec<&str> {
     match v {
@@ -69,6 +84,17 @@ impl ValidationRule for Rule {
                 .flatten()
             {
                 let keyboard = r.get("keyboard").and_then(Value::as_array);
+                let contracts: Vec<_> = ctx
+                    .graph
+                    .behaviors
+                    .iter()
+                    .filter_map(|c| flatten(&c.raw, &ctx.graph.behavior_patterns).ok())
+                    .filter(|m| {
+                        m.parts
+                            .values()
+                            .any(|p| p.get("role").and_then(Value::as_str) == Some(role))
+                    })
+                    .collect();
                 if keyboard.is_some_and(|k| !k.is_empty()) && !capabilities.contains(&"keyboard") {
                     problem(
                         format!("/roles/{role}/keyboard"),
@@ -82,6 +108,13 @@ impl ValidationRule for Rule {
                                 problem(
                                     format!("/roles/{role}/keyboard/{i}/{phase}"),
                                     format!("bind role '{role}' to intent '{intent}', which is not in the intents registry"),
+                                );
+                            } else if !contracts.is_empty()
+                                && !contracts.iter().any(|m| handles(m, intent))
+                            {
+                                problem(
+                                    format!("/roles/{role}/keyboard/{i}/{phase}"),
+                                    format!("bind role '{role}' to intent '{intent}', which no contract with that role (or the patterns it extends) handles"),
                                 );
                             }
                         }
@@ -143,5 +176,28 @@ mod tests {
             assert_eq!(m.len(), 1, "{want}: {m:?}");
             assert!(m[0].contains(want), "{want}: {m:?}");
         }
+    }
+
+    #[test]
+    fn flags_an_intent_the_role_contract_does_not_handle() {
+        let mut g = graph(vec![
+            crate::validate::rules::behavior_util::test_util::good(),
+        ]);
+        let mut c = good();
+        g.behavior_bindings.push(BehaviorBindingsRecord {
+            platform: "web".into(),
+            file: PathBuf::from("behaviors/bindings/web.json"),
+            raw: c.clone(),
+        });
+        assert!(run(&Rule, &g).is_empty());
+        // `increment` is registered, but the switch contract neither transitions on it nor handles it.
+        c["roles"]["switch"]["keyboard"][0]["down"] = json!("increment");
+        g.behavior_bindings[0].raw = c.clone();
+        let m = run(&Rule, &g);
+        assert!(m.len() == 1 && m[0].contains("handles"), "{m:?}");
+        // A role with no contract in the dataset is not checked.
+        c["roles"] = json!({ "slider": c["roles"]["switch"].clone() });
+        g.behavior_bindings[0].raw = c;
+        assert!(run(&Rule, &g).is_empty());
     }
 }

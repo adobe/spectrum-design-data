@@ -83,6 +83,9 @@ tasks:
       - "registry/**/*.json"
       - "scripts/validate-behaviors.js"
       - "/packages/design-data-spec/schemas/behavior.schema.json"
+      - "/packages/design-data-spec/schemas/behavior-pattern.schema.json"
+      - "/packages/design-data-spec/schemas/behavior-bindings.schema.json"
+      - "/packages/design-data-spec/conformance/behavior/**/*.json"
       - "/packages/design-data-spec/conformance/valid/behavior-contract/dataset.json"
 
   # Self-tests of the icon importer and the fused-property codemod, plus invariants of the committed icons/ files. Regenerate with: node scripts/import-icons.mjs <react-spectrum checkout> <sha>

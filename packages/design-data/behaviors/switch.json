@@ -1,31 +1,8 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "switch",
-  "extends": ["interactive"],
+  "extends": ["toggle"],
   "state": ["isSelected", "isDisabled", "isReadOnly"],
-  "facets": {
-    "checked": {
-      "from": "isSelected",
-      "values": {
-        "unchecked": false,
-        "checked": true
-      }
-    },
-    "disabled": {
-      "from": "isDisabled",
-      "values": {
-        "false": false,
-        "true": true
-      }
-    },
-    "readOnly": {
-      "from": "isReadOnly",
-      "values": {
-        "false": false,
-        "true": true
-      }
-    }
-  },
   "parts": {
     "track": {
       "role": "switch",
@@ -33,27 +10,6 @@
       "press": "activate"
     }
   },
-  "transitions": [
-    {
-      "on": "activate",
-      "guard": {
-        "all": [
-          {
-            "facet": "disabled",
-            "is": "false"
-          },
-          {
-            "facet": "readOnly",
-            "is": "false"
-          }
-        ]
-      },
-      "do": {
-        "toggle": "isSelected"
-      },
-      "emit": "change"
-    }
-  ],
   "semantics": {
     "track": {
       "checked": {
@@ -61,6 +17,13 @@
         "map": {
           "unchecked": "false",
           "checked": "true"
+        }
+      },
+      "readOnly": {
+        "ariaState": "aria-readonly",
+        "map": {
+          "false": "false",
+          "true": "true"
         }
       }
     }

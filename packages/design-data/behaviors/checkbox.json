@@ -1,8 +1,8 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "checkbox",
-  "extends": ["interactive"],
-  "state": ["isSelected", "isIndeterminate", "isDisabled"],
+  "extends": ["toggle"],
+  "state": ["isSelected", "isIndeterminate", "isDisabled", "isReadOnly"],
   "facets": {
     "checked": {
       "from": ["isSelected", "isIndeterminate"],
@@ -20,13 +20,6 @@
         }
       },
       "order": "first match wins"
-    },
-    "disabled": {
-      "from": "isDisabled",
-      "values": {
-        "false": false,
-        "true": true
-      }
     }
   },
   "parts": {
@@ -40,18 +33,21 @@
     {
       "on": "activate",
       "guard": {
-        "facet": "disabled",
-        "is": "false"
+        "all": [
+          {
+            "facet": "disabled",
+            "is": "false"
+          },
+          {
+            "facet": "readOnly",
+            "is": "false"
+          }
+        ]
       },
       "do": {
+        "toggle": "isSelected",
         "set": {
-          "isIndeterminate": false,
-          "isSelected": {
-            "not": {
-              "facet": "checked",
-              "is": "checked"
-            }
-          }
+          "isIndeterminate": false
         }
       },
       "emit": "change"
@@ -65,6 +61,13 @@
           "unchecked": "false",
           "checked": "true",
           "indeterminate": "mixed"
+        }
+      },
+      "readOnly": {
+        "ariaState": "aria-readonly",
+        "map": {
+          "false": "false",
+          "true": "true"
         }
       }
     }
