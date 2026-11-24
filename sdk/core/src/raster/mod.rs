@@ -289,6 +289,83 @@ fn stroke_color(n: &SceneNode, diags: &mut Vec<String>) -> Option<Rgba> {
     Some(c.with_alpha(o))
 }
 
+/// Signed distance from `(x, y)` to a stroke of half-width `hw` along `poly`: round caps and
+/// joins, or flat caps with round joins inside the polyline.
+fn dash_sdf(poly: &[[f64; 2]], x: f64, y: f64, hw: f64, round_cap: bool) -> f64 {
+    let mut best = f64::INFINITY;
+    for (i, w) in poly.windows(2).enumerate() {
+        let (a, b) = (w[0], w[1]);
+        let (dx, dy) = (b[0] - a[0], b[1] - a[1]);
+        let len = dx.hypot(dy).max(1e-12);
+        let t = ((x - a[0]) * dx + (y - a[1]) * dy) / len;
+        let perp = ((x - a[0]) * dy - (y - a[1]) * dx).abs() / len;
+        let d = if round_cap {
+            let to_segment = if t < 0.0 {
+                (x - a[0]).hypot(y - a[1])
+            } else if t > len {
+                (x - b[0]).hypot(y - b[1])
+            } else {
+                perp
+            };
+            to_segment - hw
+        } else {
+            let flat = (perp - hw).max((-t).max(t - len));
+            if i > 0 {
+                flat.min((x - a[0]).hypot(y - a[1]) - hw)
+            } else {
+                flat
+            }
+        };
+        best = best.min(d);
+    }
+    best
+}
+
+/// A dashed or per-side stroke: the runs of `stroke::node_runs`, cut into dashes and drawn as
+/// one shape, so overlapping pieces do not blend twice.
+fn draw_styled_stroke(cv: &mut Canvas, xf: Xf, n: &SceneNode, color: Rgba) {
+    let (Some(st), Some(runs)) = (&n.stroke_style, crate::stroke::node_runs(n)) else {
+        return;
+    };
+    let hw = n.stroke_width / 2.0;
+    let pieces: Vec<(Vec<[f64; 2]>, [f64; 4])> = runs
+        .iter()
+        .flat_map(|r| crate::stroke::dashes(&crate::stroke::flatten(r), st.dash, r.offset))
+        .filter(|p| p.len() > 1)
+        .map(|p| {
+            let bb = p
+                .iter()
+                .fold([f64::MAX, f64::MAX, f64::MIN, f64::MIN], |b, q| {
+                    [
+                        b[0].min(q[0]),
+                        b[1].min(q[1]),
+                        b[2].max(q[0]),
+                        b[3].max(q[1]),
+                    ]
+                });
+            (p, bb)
+        })
+        .collect();
+    let reach = hw + 1.0 / xf.s.max(1e-3);
+    let sdf = |x: f64, y: f64| {
+        pieces
+            .iter()
+            .filter(|(_, b)| {
+                x >= b[0] - reach && x <= b[2] + reach && y >= b[1] - reach && y <= b[3] + reach
+            })
+            .map(|(p, _)| dash_sdf(p, x, y, hw, st.round_cap))
+            .fold(f64::INFINITY, f64::min)
+    };
+    paint(
+        cv,
+        xf,
+        (n.x - hw, n.y - hw, n.x + n.w + hw, n.y + n.h + hw),
+        color,
+        Paint::Fill,
+        sdf,
+    );
+}
+
 fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &mut Vec<String>) {
     let bounds = |pad: f64| (n.x - pad, n.y - pad, n.x + n.w + pad, n.y + n.h + pad);
     match n.kind.as_str() {
@@ -350,7 +427,11 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
             if let Some(img) = n.image.as_ref().filter(|i| !i.href.is_empty()) {
                 draw_image(cv, xf, n, img, diags);
             }
-            if n.stroke_width > 0.0 {
+            if n.stroke_style.is_some() {
+                if let Some(c) = stroke_color(n, diags) {
+                    draw_styled_stroke(cv, xf, n, c);
+                }
+            } else if n.stroke_width > 0.0 {
                 if let Some(c) = stroke_color(n, diags) {
                     // The SVG strokes the box inset by half the width, so the band is inside it.
                     let i = n.stroke_width / 2.0;
@@ -367,6 +448,11 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
                         )
                     });
                 }
+            }
+        }
+        "ring" if n.stroke_style.is_some() => {
+            if let Some(c) = stroke_color(n, diags) {
+                draw_styled_stroke(cv, xf, n, c);
             }
         }
         "ring" => {
@@ -828,6 +914,7 @@ mod tests {
             path: None,
             stroke_opacity: None,
             tokens: vec![],
+            stroke_style: None,
         }
     }
 
@@ -1035,6 +1122,54 @@ mod tests {
         assert_eq!(at(&img, 8, 8)[3], 0);
         assert_eq!(at(&img, 10, 24), [0, 0, 255, 255]);
         assert_eq!(at(&img, 40, 24), [255, 255, 255, 255]);
+    }
+
+    #[test]
+    fn a_dashed_stroke_alternates_dashes_and_gaps_on_the_sides_it_draws() {
+        let mut n = node("box", "root", 0.0, 0.0, 24.0, 10.0);
+        n.stroke = Some("#ff0000".into());
+        n.stroke_width = 2.0;
+        n.stroke_style = Some(crate::stroke::StrokeStyle {
+            dash: Some([4.0, 4.0]),
+            round_cap: false,
+            sides: Some([true, false, true, false]),
+            scene_anchor: false,
+        });
+        let (img, d) = render(&scene(24.0, 10.0, vec![n]), 1.0);
+        assert!(d.is_empty(), "{d:?}");
+        // Top edge: dash over x 0..4, gap 4..8, dash 8..12.
+        assert_eq!(at(&img, 2, 1), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 6, 1), [0, 0, 0, 0]);
+        assert_eq!(at(&img, 10, 1), [255, 0, 0, 255]);
+        // The bottom edge is drawn too (its pattern starts at the right end, going clockwise),
+        // the left and right sides are not.
+        assert_eq!(at(&img, 21, 8), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 17, 8), [0, 0, 0, 0]);
+        assert_eq!(at(&img, 0, 5), [0, 0, 0, 0]);
+        assert_eq!(at(&img, 23, 5), [0, 0, 0, 0]);
+    }
+
+    #[test]
+    fn a_styled_stroke_follows_the_rounded_corner_arc() {
+        let mut n = node("box", "root", 0.0, 0.0, 24.0, 12.0);
+        n.radius = 6.0;
+        n.stroke = Some("#ff0000".into());
+        n.stroke_width = 2.0;
+        n.stroke_style = Some(crate::stroke::StrokeStyle {
+            dash: Some([200.0, 1.0]),
+            round_cap: false,
+            sides: Some([true, false, true, true]),
+            scene_anchor: false,
+        });
+        let (img, _) = render(&scene(24.0, 12.0, vec![n]), 1.0);
+        // The top-left arc is centered on (6, 6) with radius 5: its 45 degree point is drawn,
+        // and the inside of the corner and the cell's outer corner are not.
+        assert_eq!(at(&img, 2, 2), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 4, 4), [0, 0, 0, 0]);
+        assert_eq!(at(&img, 0, 0)[3], 0);
+        // The same at the bottom-left, and the undrawn right side stays empty.
+        assert_eq!(at(&img, 2, 9), [255, 0, 0, 255]);
+        assert_eq!(at(&img, 23, 6)[3], 0);
     }
 
     #[test]

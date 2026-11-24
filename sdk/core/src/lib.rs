@@ -45,6 +45,7 @@ pub mod schema;
 pub mod scope;
 pub mod specificity;
 pub mod status;
+pub mod stroke;
 pub mod suggest;
 pub mod text_metrics;
 pub mod token_tier;
@@ -727,7 +728,7 @@ mod validation_conformance {
         for id in [
             "SPEC-074", "SPEC-106", "SPEC-107", "SPEC-108", "SPEC-109", "SPEC-110", "SPEC-111",
             "SPEC-112", "SPEC-113", "SPEC-114", "SPEC-115", "SPEC-116", "SPEC-117", "SPEC-118",
-            "SPEC-119", "SPEC-120",
+            "SPEC-119", "SPEC-120", "SPEC-121",
         ] {
             assert!(registered.contains(id), "{id} is not in default_rules()");
         }
