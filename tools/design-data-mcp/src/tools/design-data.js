@@ -343,6 +343,25 @@ function componentBindings(ds, component) {
   return [...bindings.values()];
 }
 
+/** Collapse a binding's per-mode `values` to one `value` for the requested modes. */
+function pickMode(binding, modes) {
+  let out = binding;
+  for (const [mode, wanted] of Object.entries(modes)) {
+    const byMode = out.values?.[mode];
+    if (!wanted || !byMode || !(wanted in byMode)) continue;
+    const { [mode]: _picked, ...rest } = out.values;
+    out = {
+      ...out,
+      values: undefined,
+      ...(Object.keys(rest).length
+        ? { values: rest }
+        : { value: byMode[wanted] }),
+    };
+    if (out.values === undefined) delete out.values;
+  }
+  return out;
+}
+
 const TIER_RANK = { primitive: 0, semantic: 1, component: 2 };
 
 /** Most specific first: tier, then purpose-field count (both from the token's name). */
@@ -672,7 +691,9 @@ export function createDesignDataTools() {
         "`focus-+-not-hover` and `keyboard-focus`; they are different states) and lists the other " +
         "states that have bindings in `otherStates`, so a state with no binding of its own is " +
         "visible without a second call; at most `limit` (default 40) are shown, so narrow the filter when `total` is " +
-        "larger. If the component has no binding for something, the data has none: say so " +
+        'larger. Narrow by option values with `options` (e.g. {"variant":"accent","style":"fill"}) and ' +
+        "collapse per-mode values to one with `colorScheme` and `scale`. Options like isDisabled are not " +
+        "states: pass them in `options`. If the component has no binding for something, the data has none: say so " +
         "instead of guessing.",
       inputSchema: {
         type: "object",
@@ -697,6 +718,22 @@ export function createDesignDataTools() {
             description:
               'Only bindings that apply in this state, e.g. "hover" (bindings with no state are included)',
           },
+          options: {
+            type: "object",
+            description:
+              'Only bindings that apply under these option values, e.g. {"variant":"accent","style":"fill","isSelected":true}. A binding that does not pin an option is kept; one that pins it to other values is dropped.',
+            additionalProperties: true,
+          },
+          colorScheme: {
+            type: "string",
+            description:
+              'Collapse `values.colorScheme` to the single `value` for this scheme, e.g. "dark"',
+          },
+          scale: {
+            type: "string",
+            description:
+              'Collapse `values.scale` to the single `value` for this scale, "desktop" or "mobile"',
+          },
           limit: {
             type: "integer",
             minimum: 1,
@@ -713,6 +750,9 @@ export function createDesignDataTools() {
         context,
         property,
         state,
+        options,
+        colorScheme,
+        scale,
         limit = DEFAULT_COMPONENT_TOKENS_LIMIT,
       }) {
         const ds = await getDataset();
@@ -732,7 +772,16 @@ export function createDesignDataTools() {
         }
         if (property)
           bindings = bindings.filter((b) => b.property === property);
+        if (options) {
+          bindings = bindings.filter((b) =>
+            Object.entries(options).every(([key, value]) => {
+              const pinned = b.when?.[key];
+              return pinned === undefined || [pinned].flat().includes(value);
+            }),
+          );
+        }
         let otherStates;
+        let unpinnedState = false;
         if (state) {
           const applies = (b) =>
             !b.when?.state || appliesInState(b.when.state, state);
@@ -746,6 +795,11 @@ export function createDesignDataTools() {
                 ),
             ),
           ];
+          unpinnedState =
+            state !== "default" &&
+            !bindings.some(
+              (b) => b.when?.state && appliesInState(b.when.state, state),
+            );
           bindings = bindings.filter(applies);
         }
         const cap = Math.min(
@@ -759,9 +813,14 @@ export function createDesignDataTools() {
           component,
           total: bindings.length,
           shown: Math.min(bindings.length, cap),
-          bindings: bindings.slice(0, cap),
+          bindings: bindings
+            .slice(0, cap)
+            .map((b) => pickMode(b, { colorScheme, scale })),
         };
         if (otherStates?.length) out.otherStates = otherStates;
+        if (unpinnedState) {
+          out.stateHint = `No binding pins state "${state}", so only bindings that apply in every state are shown. Options such as isDisabled or isSelected are not states: pass them in \`options\`.`;
+        }
         if (bindings.length > cap) {
           out.hint = `Showing ${cap} of ${bindings.length}. Narrow with context, property or state.`;
         }
