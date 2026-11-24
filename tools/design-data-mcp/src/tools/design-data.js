@@ -343,6 +343,25 @@ function componentBindings(ds, component) {
   return [...bindings.values()];
 }
 
+/** Collapse a binding's per-mode `values` to one `value` for the requested modes. */
+function pickMode(binding, modes) {
+  let out = binding;
+  for (const [mode, wanted] of Object.entries(modes)) {
+    const byMode = out.values?.[mode];
+    if (!wanted || !byMode || !(wanted in byMode)) continue;
+    const { [mode]: _picked, ...rest } = out.values;
+    out = {
+      ...out,
+      values: undefined,
+      ...(Object.keys(rest).length
+        ? { values: rest }
+        : { value: byMode[wanted] }),
+    };
+    if (out.values === undefined) delete out.values;
+  }
+  return out;
+}
+
 const TIER_RANK = { primitive: 0, semantic: 1, component: 2 };
 
 /** Most specific first: tier, then purpose-field count (both from the token's name). */
@@ -697,6 +716,22 @@ export function createDesignDataTools() {
             description:
               'Only bindings that apply in this state, e.g. "hover" (bindings with no state are included)',
           },
+          options: {
+            type: "object",
+            description:
+              'Only bindings that apply under these option values, e.g. {"variant":"accent","style":"fill","isSelected":true}. A binding that does not pin an option is kept; one that pins it to other values is dropped.',
+            additionalProperties: true,
+          },
+          colorScheme: {
+            type: "string",
+            description:
+              'Collapse `values.colorScheme` to the single `value` for this scheme, e.g. "dark"',
+          },
+          scale: {
+            type: "string",
+            description:
+              'Collapse `values.scale` to the single `value` for this scale, "desktop" or "mobile"',
+          },
           limit: {
             type: "integer",
             minimum: 1,
@@ -713,6 +748,9 @@ export function createDesignDataTools() {
         context,
         property,
         state,
+        options,
+        colorScheme,
+        scale,
         limit = DEFAULT_COMPONENT_TOKENS_LIMIT,
       }) {
         const ds = await getDataset();
@@ -732,6 +770,14 @@ export function createDesignDataTools() {
         }
         if (property)
           bindings = bindings.filter((b) => b.property === property);
+        if (options) {
+          bindings = bindings.filter((b) =>
+            Object.entries(options).every(([key, value]) => {
+              const pinned = b.when?.[key];
+              return pinned === undefined || [pinned].flat().includes(value);
+            }),
+          );
+        }
         let otherStates;
         if (state) {
           const applies = (b) =>
@@ -759,7 +805,9 @@ export function createDesignDataTools() {
           component,
           total: bindings.length,
           shown: Math.min(bindings.length, cap),
-          bindings: bindings.slice(0, cap),
+          bindings: bindings
+            .slice(0, cap)
+            .map((b) => pickMode(b, { colorScheme, scale })),
         };
         if (otherStates?.length) out.otherStates = otherStates;
         if (bindings.length > cap) {
