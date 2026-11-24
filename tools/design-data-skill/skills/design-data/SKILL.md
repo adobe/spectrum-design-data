@@ -15,7 +15,7 @@ when_to_use: >
   "Spectrum component options", design-data primer, query tokens, suggest token,
   resolve token value, component schema, Spectrum guideline, render a component, component
   preview or image (SVG or PNG), Adobe Clean font, @adobe/design-data-mcp.
-allowed-tools: mcp__plugin_spectrum-design-data_design-data__design-data-primer, mcp__plugin_spectrum-design-data_design-data__design-data-query, mcp__plugin_spectrum-design-data_design-data__design-data-suggest, mcp__plugin_spectrum-design-data_design-data__design-data-refinements, mcp__plugin_spectrum-design-data_design-data__design-data-component-tokens, mcp__plugin_spectrum-design-data_design-data__design-data-contrast, mcp__plugin_spectrum-design-data_design-data__design-data-component, mcp__plugin_spectrum-design-data_design-data__design-data-component-search, mcp__plugin_spectrum-design-data_design-data__design-data-resolve, mcp__plugin_spectrum-design-data_design-data__design-data-guideline-list, mcp__plugin_spectrum-design-data_design-data__design-data-guideline, mcp__plugin_spectrum-design-data_design-data__design-data-visual-recipe, mcp__plugin_spectrum-design-data_design-data__design-data-render, mcp__plugin_spectrum-design-data_design-data__design-data-font-status
+allowed-tools: mcp__plugin_spectrum-design-data_design-data__design-data-primer, mcp__plugin_spectrum-design-data_design-data__design-data-query, mcp__plugin_spectrum-design-data_design-data__design-data-suggest, mcp__plugin_spectrum-design-data_design-data__design-data-refinements, mcp__plugin_spectrum-design-data_design-data__design-data-component-tokens, mcp__plugin_spectrum-design-data_design-data__design-data-token-usage, mcp__plugin_spectrum-design-data_design-data__design-data-contrast, mcp__plugin_spectrum-design-data_design-data__design-data-component, mcp__plugin_spectrum-design-data_design-data__design-data-component-search, mcp__plugin_spectrum-design-data_design-data__design-data-resolve, mcp__plugin_spectrum-design-data_design-data__design-data-guideline-list, mcp__plugin_spectrum-design-data_design-data__design-data-guideline, mcp__plugin_spectrum-design-data_design-data__design-data-visual-recipe, mcp__plugin_spectrum-design-data_design-data__design-data-render, mcp__plugin_spectrum-design-data_design-data__design-data-font-status
 ---
 
 # Spectrum Design Data
@@ -110,6 +110,14 @@ returns tokens but not what each one is for. If the component has no binding for
 data has none; say so instead of guessing. `state` matches the component's declared state ids
 exactly, and states differ (`focus-+-not-hover` is not `keyboard-focus`); `otherStates` lists the
 other states with bindings, so check it before concluding a state has nothing.
+
+### `design-data-token-usage`
+
+The reverse of `design-data-component-tokens`: which components use a token. Required: `token`
+(name, uuid or conceptId). Optional: `limit` (default 20 components). Returns
+`{ token, tier, total, shown, usedBy }`, each entry a `component` with its `uses` (`context`,
+`property`, `part`, `when`, and `via` when the component binds an alias of the token, up to 3
+hops). Use it to see what else a value change moves.
 
 ### `design-data-contrast`
 

@@ -212,6 +212,19 @@ function conceptRows(ds) {
   return _conceptRows;
 }
 
+let _aliasChildren;
+/** uuid -> the tokens that alias it (by `$ref` or `aliasTarget`), built once. */
+function aliasChildren(ds) {
+  if (!_aliasChildren) {
+    _aliasChildren = new Map();
+    for (const t of ds.query("")) {
+      const ref = t.aliasTarget ?? t.raw.$ref;
+      if (ref) _aliasChildren.set(ref, [...(_aliasChildren.get(ref) ?? []), t]);
+    }
+  }
+  return _aliasChildren;
+}
+
 /** Every mode row of the token that `text` names: a uuid, conceptId, legacy name or token label. */
 function findTokenRows(ds, text) {
   const name = String(text).replace(/^\{|\}$/g, "");
@@ -876,6 +889,106 @@ export function createDesignDataTools() {
         }
         if (bindings.length > cap) {
           out.hint = `Showing ${cap} of ${bindings.length}. Narrow with context, property or state.`;
+        }
+        return out;
+      },
+    },
+
+    // ── token usage ─────────────────────────────────────────────────────────
+    {
+      name: "design-data-token-usage",
+      annotations: {
+        title: "Design Data: Token Usage",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "Which components bind a token, and for what: the reverse of design-data-component-tokens. " +
+        "Returns the components, parts, contexts and properties whose relationships use the token, " +
+        "directly or through tokens that alias it (`via` names the alias), so you can see what " +
+        "else a value change moves. Pass a token name (legacy name or `property=... colorFamily=...` " +
+        "label), uuid or conceptId. At most `limit` components (default 20) are listed.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          token: {
+            type: "string",
+            description:
+              "Token name, uuid or conceptId, e.g. accent-background-color-default",
+          },
+          limit: {
+            type: "integer",
+            minimum: 1,
+            maximum: MAX_QUERY_LIMIT,
+            description: "Maximum components to list (default 20)",
+            default: 20,
+          },
+        },
+        required: ["token"],
+        additionalProperties: false,
+      },
+      async handler({ token, limit = 20 }) {
+        const [wasm, ds] = await Promise.all([getWasm(), getDataset()]);
+        const rows = findTokenRows(ds, token);
+        if (!rows.length) {
+          throw new Error(
+            `No token found for "${token}". Use a token name, uuid or conceptId from design-data-query.`,
+          );
+        }
+        // Concepts that carry the token's value: itself, then up to 3 hops of aliases.
+        const carriers = new Map(); // conceptId -> label of the alias, or undefined for the token itself
+        const self = rows[0].raw.conceptId ?? rows[0].uuid;
+        carriers.set(self, undefined);
+        let frontier = rows.map((r) => r.uuid);
+        for (let hop = 0; hop < 3; hop++) {
+          const next = [];
+          for (const uuid of frontier) {
+            for (const child of aliasChildren(ds).get(uuid) ?? []) {
+              const id = child.raw.conceptId ?? child.uuid;
+              if (!carriers.has(id)) carriers.set(id, tokenLabel(child));
+              next.push(child.uuid);
+            }
+          }
+          frontier = next;
+        }
+        const usedBy = [];
+        for (const component of wasm.getFieldValues("component") ?? []) {
+          const uses = new Map();
+          for (const record of ds.componentRelationships(component)) {
+            if (!record.$ref) continue;
+            const id =
+              uuidIndex(ds).get(record.$ref)?.raw.conceptId ?? record.$ref;
+            if (!carriers.has(id)) continue;
+            const use = {
+              context: record.context,
+              property: record.scope?.property,
+            };
+            if (record.scope?.part) use.part = record.scope.part;
+            if (carriers.get(id)) use.via = carriers.get(id);
+            if (
+              record.scope?.options &&
+              Object.keys(record.scope.options).length
+            ) {
+              use.when = record.scope.options;
+            }
+            uses.set(JSON.stringify(use), use);
+          }
+          if (uses.size) usedBy.push({ component, uses: [...uses.values()] });
+        }
+        const cap = Math.min(
+          Math.max(Math.trunc(Number(limit)) || 20, 1),
+          MAX_QUERY_LIMIT,
+        );
+        const out = {
+          token: tokenLabel(rows[0]),
+          tier: rows[0].tier,
+          total: usedBy.length,
+          shown: Math.min(usedBy.length, cap),
+          usedBy: usedBy.slice(0, cap),
+        };
+        if (!usedBy.length) {
+          out.hint =
+            "No component relationship binds this token or an alias of it within 3 hops. It may be used by tokens or recipes directly.";
         }
         return out;
       },
