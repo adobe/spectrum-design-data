@@ -10,6 +10,14 @@ access, no CLI binary, and no configuration required.
 
 `npm install @adobe/design-data-mcp`
 
+## How the data works
+
+- Layers: tokens hold values (primitive, semantic, component tier; semantic tokens carry intent such as accent or neutral). Relationships say which token a component uses for what. Visual recipes say how a component is drawn from those bindings.
+- More `purposeFields` means a more specific token. Prefer a semantic token over the primitive it points at.
+- No binding, or a `stateHint`, means the data has none: assume a value and say so.
+- To build or customize something with no component of its own, pick the nearest component, reuse its bindings, and note which values you chose yourself.
+- Component `constraints` (error or advisory) and guideline blocks are what the system states about itself.
+
 ## Documentation
 
 - [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md): usage and API overview

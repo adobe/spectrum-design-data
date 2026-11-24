@@ -391,6 +391,19 @@ function compactToken(ds, token) {
   return out;
 }
 
+/**
+ * How the dataset is organized, for an agent that has to choose, not just look up. It states what
+ * the data says about itself and never what an author may change: the data has constraints and
+ * guidelines; whether to follow them is the author's call.
+ */
+const HOW_IT_WORKS = [
+  "Layers: tokens hold values (primitive, semantic, component tier; semantic tokens carry intent, e.g. accent vs neutral). Relationships say which token a component uses for what (`context`, `part`, under which `options` and `state`): read them with design-data-component-tokens. Visual recipes say how a component is drawn from those bindings: design-data-visual-recipe, design-data-render.",
+  "Tokens: more purposeFields (object, colorRole, anatomy) means a more specific token. Prefer a semantic token over the primitive it points at; changing a semantic token's value moves every component that binds it (design-data-token-usage lists them).",
+  "No binding, or a stateHint saying no binding pins a state, means the data has none: assume a value, say you assumed it, and do not present it as Spectrum's. Options such as isDisabled are not states; pass them in `options`.",
+  "To build or customize something with no component of its own, pick the nearest component (design-data-component-search, then its design-data-component anatomy and states), reuse its bindings for the parts you share, and note which values you chose yourself.",
+  "A component declaration includes `constraints` (severity error: not valid in the system; advisory: recommended) and guideline blocks. They are what the system states about itself, not a list of what you may not do.",
+];
+
 export function createDesignDataTools() {
   return [
     // ── primer ─────────────────────────────────────────────────────────────
@@ -474,6 +487,7 @@ export function createDesignDataTools() {
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
           guidelines: guidelinesSummary,
+          howItWorks: HOW_IT_WORKS,
           provenance: datasetStatus
             ? { ...provenance, datasetStatus }
             : provenance,

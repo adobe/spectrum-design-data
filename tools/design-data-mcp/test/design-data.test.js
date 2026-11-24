@@ -1011,6 +1011,20 @@ test("design-data-component-tokens lists what a component uses, by context and s
   await t.throwsAsync(() => tool.handler({ component: "no-such-component" }));
 });
 
+test("design-data-primer explains how the data is organized", async (t) => {
+  const { howItWorks } = await byName()["design-data-primer"].handler({});
+  const text = howItWorks.join(" ");
+  t.true(howItWorks.length >= 4);
+  for (const word of [
+    "Relationships",
+    "purposeFields",
+    "stateHint",
+    "nearest component",
+  ]) {
+    t.true(text.includes(word), word);
+  }
+});
+
 test("design-data-component-tokens narrows by option values and collapses a mode to one value", async (t) => {
   const tool = byName()["design-data-component-tokens"];
   const all = await tool.handler({ component: "button", limit: 500 });
