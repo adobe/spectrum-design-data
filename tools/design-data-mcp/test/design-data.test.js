@@ -33,6 +33,7 @@ const EXPECTED_TOOLS = [
   "design-data-refinements",
   "design-data-component-tokens",
   "design-data-token-usage",
+  "design-data-contrast",
   "design-data-component",
   "design-data-component-search",
   "design-data-resolve",
@@ -250,9 +251,9 @@ test("design-data-render rejects a component without a recipe", async (t) => {
 
 // ── structural tests ──────────────────────────────────────────────────────────
 
-test("createDesignDataTools exposes fourteen tools", (t) => {
+test("createDesignDataTools exposes fifteen tools", (t) => {
   const tools = createDesignDataTools();
-  t.is(tools.length, 14);
+  t.is(tools.length, 15);
   t.deepEqual(
     tools.map(({ name }) => name),
     EXPECTED_TOOLS,
@@ -1041,6 +1042,29 @@ test("design-data-token-usage lists the components that bind a token, directly o
   });
   t.true(primitive.usedBy.length > 0);
   await t.throwsAsync(() => tool.handler({ token: "no-such-token" }));
+});
+
+test("design-data-contrast computes WCAG ratios for colors and tokens", async (t) => {
+  const tool = byName()["design-data-contrast"];
+  const bw = await tool.handler({ foreground: "#000", background: "#ffffff" });
+  t.is(bw.ratio, 21);
+  t.true(bw.meets["7:1"]);
+  const brand = await tool.handler({
+    foreground: "#7B3FE4",
+    background: "rgb(17, 17, 17)",
+  });
+  t.true(brand.ratio > 1 && brand.ratio < 21);
+  t.is(brand.meets["3:1"], brand.ratio >= 3);
+  const token = await tool.handler({
+    foreground: "neutral-content-color-default",
+    background: "#ffffff",
+    colorScheme: "light",
+  });
+  t.is(typeof token.foreground.value, "string");
+  t.true(token.ratio > 7);
+  await t.throwsAsync(() =>
+    tool.handler({ foreground: "nope", background: "#fff" }),
+  );
 });
 
 test("design-data-component-tokens narrows by option values and collapses a mode to one value", async (t) => {
