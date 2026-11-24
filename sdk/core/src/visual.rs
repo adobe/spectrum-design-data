@@ -6299,6 +6299,8 @@ struct Nested {
 /// request has its own component and size, the host's mode and text metrics, no states (the
 /// host's hover, down and focus do not reach it) and no icon override; `with`
 /// options (and its `label`, the nested text) are literals or `{ "option": name }`, read from the host request.
+/// A `label` that reads a presence flag (`true`, the host has no string `label` option) takes the
+/// request's label; `false` or an empty request label leaves the nested label empty.
 fn inherits(part: &Value, name: &str) -> bool {
     part.get("inherit")
         .and_then(Value::as_array)
@@ -6403,6 +6405,9 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
         if name == "label" {
             if let Some(s) = v.as_str() {
                 label = s.to_string();
+            } else if v == Value::Bool(true) {
+                // The host's label option is a presence flag: the request label is the copy.
+                label = cx.req.label.clone();
             }
         } else if !v.is_null() {
             options.insert(name.clone(), v);
@@ -7658,7 +7663,7 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
 /// same change whenever a solver or layout-semantics change alters how existing recipes render
 /// (a changed `recipe-snapshots.json`). A data-only snapshot change (same geometry and resolved
 /// values) does not bump it.
-pub const LAYOUT_REVISION: u32 = 7;
+pub const LAYOUT_REVISION: u32 = 8;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
 /// [`LAYOUT_REVISION`]. `None` when they match or `root` holds no recipes.

@@ -1,12 +1,1 @@
-{
-  "checkbox-group": ["field-label.label"],
-  "color-slider": ["field-label.label"],
-  "combo-box": ["field-label.label"],
-  "number-field": ["field-label.label"],
-  "picker": ["field-label.label"],
-  "radio-group": ["field-label.label"],
-  "search-field": ["field-label.label"],
-  "slider": ["field-label.label"],
-  "text-area": ["field-label.label"],
-  "text-field": ["field-label.label"]
-}
+{}
