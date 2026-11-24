@@ -226,7 +226,7 @@ and a negative one:
 
 ## Per-platform key bindings
 
-**Status:** proposed, not decided. Decision A512 (Garth, 2026-11-24): the behavior contracts must be able to express which keys act on a component per platform (Space versus Enter on a switch or checkbox, bead `qkj5.398`, a source conflict). Today a contract names intents only and the spec page says a vector "says nothing about keys", so no key-level vector exists. This is a format change beyond what is merged, and it pulls against principle 12 above (intents stay platform-agnostic; keys are per-platform bindings). The shapes below keep the intent layer intact and differ only in where the key facts live.
+**Status:** decided (A517 to A521, 2026-11-24): shape B, below, is implemented. Decision A512 (Garth, 2026-11-24): the behavior contracts must be able to express which keys act on a component per platform (Space versus Enter on a switch or checkbox, bead `qkj5.398`, a source conflict). Before this section a contract named intents only and a vector said nothing about keys, so no key-level vector existed. This is a format change beyond what is merged, and it pulls against principle 12 above (intents stay platform-agnostic; keys are per-platform bindings). The shapes below keep the intent layer intact and differ only in where the key facts live.
 
 ### Recommendation
 
@@ -280,7 +280,7 @@ A vector step gains `key` (and the platform it runs on):
 
 ### Shape B: a bindings file per platform, keyed by role (recommended)
 
-Bindings live outside the contract, next to the platform that owns them. Incubating location: `platforms/<id>/extensions/behavior-bindings/<platform>.json` (the manifest extension tree already holds platform-local data); a team that extracts its manifest repo takes the file with it. Foundation-level `web` bindings, which every web implementation shares, could instead sit in `packages/design-data/behaviors/bindings/web.json`; see Question 2.
+Bindings live outside the contract, next to the platform that owns them. Incubating location: `platforms/<id>/extensions/behavior-bindings/<platform>.json` (the manifest extension tree already holds platform-local data); a team that extracts its manifest repo takes the file with it. Foundation-level `web` bindings, which every web implementation shares, could instead sit in `packages/design-data/behaviors/bindings/web.json`; decided: A518, see Decided below.
 
 ```json
 {
@@ -348,7 +348,7 @@ The contract names a **gesture class** (`toggle`, `press`, `follow`), a registry
 
 * **Timing and holding.** Space on key up versus Enter on key down, and key repeat (holding Enter on a button fires repeatedly), are not captured by a (key, phase) entry. Starting vocabulary covers down and up only; repeat is out of scope (add when a component needs it).
 * **Role granularity.** Browsers differ on edge cases (a `role="button"` span versus `<button>`, Space on a radio). The bindings describe the **Spectrum-intended** behavior per role, sourced from React Spectrum S2 and verified by vectors, not the browser's.
-* **The conflict bead stays a meaning call.** A binding of `Space` only for switch and checkbox encodes the recommendation in `qkj5.398`. Design has not confirmed it, and the guideline text still says "Space or Enter". Land the binding only after the decision, or mark the vector `needs-decision`.
+* **The conflict bead stays a meaning call.** A binding of `Space` only for switch and checkbox encodes the recommendation in `qkj5.398`. Garth decided it (A520) and the guideline text now says Space.
 * **iOS and Android entries are unverified.** I did not check hardware-keyboard behavior (Full Keyboard Access on iOS) or Android TalkBack; those entries stay empty until an owner supplies them.
 * **Right-to-left and arrow keys.** Arrow flipping belongs to the `navigate-*` intents; bindings map physical arrows to `navigate-*` and the platform flips them, so a binding never encodes RTL.
 
@@ -359,9 +359,17 @@ The contract names a **gesture class** (`toggle`, `press`, `follow`), a registry
 * A platform owner wants to ship its mapping without touching foundation data: reinforces B (platform manifest location).
 * Fewer than about 10 roles ever need distinct keys, and only web needs bindings: A is then cheap and B is more structure than needed.
 
-### Not decided here
+### Decided
 
-No schema or data changes ship with this section. The merged spec page sentence "a vector says nothing about keys" stays true until a shape is chosen and the slice that implements it lands.
+Garth decided shape B and its open points (2026-11-24):
+
+* **A517:** a bindings file per platform, keyed by role (shape B).
+* **A518:** the files live in `packages/design-data/behaviors/bindings/<platform>.json`, `web` now; a platform extensions folder later, when a platform team owns one.
+* **A519:** key vectors are per platform and role; per component only for overrides.
+* **A520:** Space alone toggles a switch and a checkbox on web; Enter does not. The Switch and Checkbox guideline text, which said "Space or Enter", now says Space.
+* **A521:** the timing vocabulary is `down` and `up` only; there is no `repeat`.
+
+The slice that implements it adds `behavior-bindings.schema.json`, `bindings/web.json` with only the verified entries (switch and checkbox), the `input` vector step, `design-data behavior test --platform`, SPEC-124 and the Switch and Checkbox key vectors. Button, link and radio entries, and every other platform, stay empty until verified; the spec page ("Key bindings") states what is enforced.
 
 ## Appearance interface
 
@@ -404,7 +412,7 @@ The vectors in this proposal were written as plain JSON with a small Playwright 
 
 * **React Spectrum S2, Checkbox:** `isIndeterminate` is a plain prop. A click or Space checks the box, but the indeterminate state stays set until the app clears it, so the checkbox keeps reading as indeterminate. The vectors expect activation to clear it (native input behavior, ui-sdk). Whether S2 or the contract is right is a `meaning` call.
 * **SWC gen 1, Switch and Checkbox:** read-only is a natively disabled input. It is not focusable and exposes no `aria-readonly`, so the vector "read-only keeps focus" fails.
-* **Enter, all implementations:** none of the four toggles on Enter. The design data's switch and checkbox guideline blocks say "Space or Enter toggles". Recorded as bead `spectrum-design-data-qkj5.398`.
+* **Enter, all implementations:** none of the four toggles on Enter. The design data's switch and checkbox guideline blocks say "Space or Enter toggles". Recorded as bead `spectrum-design-data-qkj5.398`; decided as Space only (A520) and the guideline text fixed.
 * **SWC gen 2:** no Switch, Checkbox or selectable action button (`toggles` and `selected` moved to a toggle button that is "coming soon"). Its radio group passes all 12 vectors.
 
 **A change to the contract the radio vectors forced.** Arrow keys mirror in right-to-left layouts only when the group is horizontal. React Spectrum S2 and SWC gen 1 default to a vertical group, where Left and Right do not swap, so the first RTL vectors failed on both until the group was made horizontal (S2: fixed and passes 20/20; SWC gen 1 not rerun, 18/20). A radio-group contract therefore needs an `orientation` start property, and the RTL vectors apply only to horizontal groups.

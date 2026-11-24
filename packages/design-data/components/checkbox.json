@@ -52,7 +52,7 @@
     },
     {
       "type": "guideline",
-      "content": "Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Space or Enter Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected)."
+      "content": "Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected)."
     },
     {
       "type": "guideline",

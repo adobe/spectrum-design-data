@@ -27,7 +27,19 @@ const schema = JSON.parse(
   readFileSync(join(specDir, "schemas", "behavior.schema.json"), "utf-8"),
 );
 const ajv = new Ajv2020({ strict: false, allErrors: true });
+// behavior.schema.json refers to the key names in the bindings schema, so add that one first.
+const bindingsSchema = JSON.parse(
+  readFileSync(
+    join(specDir, "schemas", "behavior-bindings.schema.json"),
+    "utf-8",
+  ),
+);
+ajv.addSchema(bindingsSchema);
 const validate = ajv.compile(schema);
+const validateBindings = ajv.compile(bindingsSchema);
+const validateBindingsSuite = ajv.compile({
+  $ref: `${bindingsSchema.$id}#/$defs/suite`,
+});
 const validatePattern = ajv.compile(
   JSON.parse(
     readFileSync(
@@ -74,6 +86,38 @@ if (existsSync(suitesDir)) {
     ]);
   }
 }
+// Key bindings (behaviors/bindings/<platform>.json) and their per platform and role suites
+// (conformance/behavior/bindings/<platform>/<role>.json); the file path must match its fields.
+const bindings = [];
+const bindingSuites = [];
+const bindingsDir = join(behaviorsDir, "bindings");
+if (existsSync(bindingsDir)) {
+  for (const file of readdirSync(bindingsDir)
+    .filter((f) => f.endsWith(".json"))
+    .sort()) {
+    bindings.push([
+      `behaviors/bindings/${file}`,
+      JSON.parse(readFileSync(join(bindingsDir, file), "utf-8")),
+      file.replace(/\.json$/, ""),
+    ]);
+  }
+}
+const suiteBindingsDir = join(suitesDir, "bindings");
+if (existsSync(suiteBindingsDir)) {
+  for (const platform of readdirSync(suiteBindingsDir).sort()) {
+    for (const file of readdirSync(join(suiteBindingsDir, platform))
+      .filter((f) => f.endsWith(".json"))
+      .sort()) {
+      bindingSuites.push([
+        `conformance/behavior/bindings/${platform}/${file}`,
+        JSON.parse(
+          readFileSync(join(suiteBindingsDir, platform, file), "utf-8"),
+        ),
+        `${platform}/${file.replace(/\.json$/, "")}`,
+      ]);
+    }
+  }
+}
 const baseline = JSON.parse(
   readFileSync(
     join(specDir, "conformance", "valid", "behavior-contract", "dataset.json"),
@@ -96,6 +140,30 @@ for (const [name, contract] of [...contracts, ...patterns]) {
   for (const err of check.errors) {
     console.error(`   ${err.instancePath || "root"}: ${err.message}`);
   }
+}
+
+for (const [name, file, expected, check, got] of [
+  ...bindings.map(([n, f, id]) => [n, f, id, validateBindings, f.platform]),
+  ...bindingSuites.map(([n, f, id]) => [
+    n,
+    f,
+    id,
+    validateBindingsSuite,
+    `${f.platform}/${f.role}`,
+  ]),
+]) {
+  const problems = check(file)
+    ? []
+    : check.errors.map((e) => `${e.instancePath || "root"}: ${e.message}`);
+  if (got !== expected)
+    problems.push(`fields say '${got}', path says '${expected}'`);
+  if (problems.length === 0) {
+    console.log(`✅ ${name}`);
+    continue;
+  }
+  hasErrors = true;
+  console.error(`❌ ${name}`);
+  for (const p of problems) console.error(`   ${p}`);
 }
 
 // The exemptions registry (SPEC-123) must name real components, with registered reasons, that
@@ -123,5 +191,5 @@ for (const { id, reason } of readJson(
 
 if (hasErrors) process.exit(1);
 console.log(
-  `\n✅ ${contracts.length + patterns.length} behavior file(s) match their schemas\n`,
+  `\n✅ ${contracts.length + patterns.length + bindings.length + bindingSuites.length} behavior file(s) match their schemas\n`,
 );

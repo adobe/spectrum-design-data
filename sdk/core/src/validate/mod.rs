@@ -196,6 +196,10 @@ pub fn validate_all_with_platform(
             graph.behavior_patterns =
                 TokenGraph::load_spec_behavior_patterns(&dir.join("patterns"))?;
         }
+        if dir.join("bindings").is_dir() {
+            graph.behavior_bindings =
+                TokenGraph::load_spec_behavior_bindings(&dir.join("bindings"))?;
+        }
     }
     if let Some(dir) = icons_path {
         if dir.is_dir() {

@@ -39,7 +39,8 @@
     "./schemas/dataset.schema.json": "./schemas/dataset.schema.json",
     "./schemas/guideline.schema.json": "./schemas/guideline.schema.json",
     "./schemas/behavior.schema.json": "./schemas/behavior.schema.json",
-    "./schemas/behavior-pattern.schema.json": "./schemas/behavior-pattern.schema.json"
+    "./schemas/behavior-pattern.schema.json": "./schemas/behavior-pattern.schema.json",
+    "./schemas/behavior-bindings.schema.json": "./schemas/behavior-bindings.schema.json"
   },
   "files": [
     "conformance",

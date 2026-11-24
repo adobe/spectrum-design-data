@@ -1,0 +1,14 @@
+{
+  "tokens": [],
+  "behaviorBindings": [
+    {
+      "platform": "web",
+      "capabilities": ["pointer-hover"],
+      "roles": {
+        "switch": {
+          "keyboard": [{ "key": "Space", "down": "press-start", "up": "tap" }]
+        }
+      }
+    }
+  ]
+}

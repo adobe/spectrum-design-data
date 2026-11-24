@@ -92,7 +92,7 @@ For RTL (right-to-left) languages, the layout of the switch is mirrored. The tra
 
 ### Keyboard interactions
 
-Key Interaction Tab Moves focus to the next item or group of items. Shift + Tab Moves focus to the previous item or group of items. Space or Enter Toggles the switch between on and off.
+Key Interaction Tab Moves focus to the next item or group of items. Shift + Tab Moves focus to the previous item or group of items. Space Toggles the switch between on and off.
 
 ### Cursor guidelines
 

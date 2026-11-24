@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-bindings.schema.json",
+  "platform": "web",
+  "capabilities": ["pointer-hover", "keyboard", "assistive-activation"],
+  "roles": {
+    "switch": {
+      "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }]
+    },
+    "checkbox": {
+      "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }]
+    }
+  }
+}

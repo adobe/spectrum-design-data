@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-124",
+      "severity": "warning",
+      "message_pattern": ".*'web'.*no `keyboard` capability.*"
+    },
+    {
+      "rule_id": "SPEC-124",
+      "severity": "warning",
+      "message_pattern": ".*'web'.*intent 'tap'.*not in the intents registry.*"
+    }
+  ]
+}
