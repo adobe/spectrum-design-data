@@ -641,6 +641,19 @@ mod validation_conformance {
             );
         }
 
+        if let Some(bindings) = dataset.get("behaviorBindings").and_then(|v| v.as_array()) {
+            graph.behavior_bindings = bindings
+                .iter()
+                .filter_map(|raw| {
+                    Some(crate::graph::BehaviorBindingsRecord {
+                        platform: raw.get("platform")?.as_str()?.to_string(),
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: raw.clone(),
+                    })
+                })
+                .collect();
+        }
+
         if let Some(icons) = dataset.get("icons").and_then(|v| v.as_array()) {
             let icon_records: Vec<crate::graph::IconSetRecord> = icons
                 .iter()

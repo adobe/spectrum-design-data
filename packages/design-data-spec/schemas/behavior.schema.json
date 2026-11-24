@@ -256,13 +256,36 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "type": "object",
-            "required": ["intent"],
-            "properties": {
-              "intent": { "$ref": "#/$defs/intent" },
-              "via": { "enum": ["keyboard", "pointer", "programmatic"] }
-            },
-            "additionalProperties": false
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["intent"],
+                "properties": {
+                  "intent": { "$ref": "#/$defs/intent" },
+                  "via": { "enum": ["keyboard", "pointer", "programmatic"] }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": ["input"],
+                "properties": {
+                  "input": {
+                    "type": "object",
+                    "required": ["key", "phase"],
+                    "properties": {
+                      "key": {
+                        "$ref": "behavior-bindings.schema.json#/$defs/key"
+                      },
+                      "phase": { "enum": ["down", "up"] }
+                    },
+                    "additionalProperties": false,
+                    "description": "A key press phase, resolved to intents through the platform's bindings for the role of the contract's role-carrying part. A key with no binding raises nothing."
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
           }
         },
         "expect": {

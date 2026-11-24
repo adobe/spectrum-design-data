@@ -1776,3 +1776,22 @@ rules:
     message: "Component '{component}' {problem}"
     spec_ref: spec/behavior-contract.md#exemptions
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-124
+    name: behavior-bindings-well-formed
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      A platform's key bindings (`behaviors/bindings/<platform>.json`) map a role, a key and a
+      phase (`down` or `up`) to existing event intents, so a contract names no key. Only verified
+      entries belong in a file; a role or platform with no verified binding stays empty. Whether
+      the bindings are right is the key vectors' job (`design-data behavior test`); this rule
+      checks that the file refers to things that exist.
+    assert: >
+      A bindings file's `capabilities` MUST be registered capabilities, it MUST list `keyboard`
+      when any role binds keys, and every intent in a `down` or `up` entry MUST be a registered
+      intent.
+    message: "Key bindings of platform '{platform}' {problem}"
+    spec_ref: spec/behavior-contract.md#key-bindings
+    introduced_in: "1.0.0-draft"

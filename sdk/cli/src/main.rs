@@ -771,6 +771,10 @@ enum BehaviorSub {
         /// Run as a platform without this capability (repeatable): its vectors are not applicable
         #[arg(long = "without", value_name = "CAPABILITY")]
         without: Vec<String>,
+        /// Run as this platform (`behaviors/bindings/<platform>.json`): its capabilities and
+        /// key bindings, and only its key vectors (default: every platform's key vectors)
+        #[arg(long, value_name = "PLATFORM")]
+        platform: Option<String>,
     },
 }
 
@@ -2181,6 +2185,7 @@ fn run_behavior_test(
     behaviors_path: Option<PathBuf>,
     suites_path: Option<PathBuf>,
     without: &[String],
+    platform: Option<String>,
 ) -> miette::Result<ExitCode> {
     use design_data_core::behavior::{all_capabilities, run_dir, Status};
     let behaviors = probe_dir(behaviors_path, "packages/design-data/behaviors")?;
@@ -2194,7 +2199,14 @@ fn run_behavior_test(
             miette::bail!("unknown capability '{w}'");
         }
     }
-    let results = run_dir(&behaviors, &suites, component.as_deref(), &caps).into_diagnostic()?;
+    let results = run_dir(
+        &behaviors,
+        &suites,
+        component.as_deref(),
+        platform.as_deref(),
+        &caps,
+    )
+    .into_diagnostic()?;
     if results.is_empty() {
         miette::bail!(
             "no conformance suite found for {}",
@@ -5521,7 +5533,8 @@ fn main() -> ExitCode {
                 behaviors_path,
                 suites_path,
                 without,
-            } => run_behavior_test(component, behaviors_path, suites_path, &without),
+                platform,
+            } => run_behavior_test(component, behaviors_path, suites_path, &without, platform),
         },
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),

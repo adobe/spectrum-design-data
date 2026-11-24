@@ -1,0 +1,144 @@
+{
+  "platform": "web",
+  "role": "checkbox",
+  "vectors": [
+    {
+      "name": "Space toggles on key up, not on key down",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        },
+        {
+          "after": 3,
+          "facets": {
+            "checked": "checked"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Space turns it off",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "checked": "unchecked"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter does not toggle",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Space ignores a disabled control",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    }
+  ]
+}

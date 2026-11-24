@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-bindings.schema.json",
+  "title": "Behavior key bindings",
+  "description": "Layer 1 structural schema for a platform's key bindings, `behaviors/bindings/<platform>.json` (spec/behavior-contract.md, proposal 022 \"Per-platform key bindings\"). It maps a role and a key phase to existing event intents, so a contract names no key. Semantic rules (registered intents and capabilities) are Layer 2 (SPEC-124).",
+  "type": "object",
+  "required": ["platform", "capabilities", "roles"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "platform": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Platform id (registry/platforms.json): the file name without `.json`."
+    },
+    "capabilities": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+      "uniqueItems": true,
+      "description": "Capabilities (registry/capabilities.json) the platform has. A vector that needs another is not applicable on this platform."
+    },
+    "roles": {
+      "type": "object",
+      "propertyNames": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+      "additionalProperties": { "$ref": "#/$defs/role" },
+      "description": "Per role (the `role` of a contract part, ARIA names), the bindings the platform has verified. A role absent here has no key binding on this platform."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "key": {
+      "enum": [
+        "Space",
+        "Enter",
+        "Escape",
+        "Tab",
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowLeft",
+        "ArrowRight",
+        "Home",
+        "End",
+        "PageUp",
+        "PageDown"
+      ],
+      "description": "Key names. Arrow keys are physical: right-to-left mirroring stays in the `navigate-*` intents, never in a binding."
+    },
+    "intents": {
+      "oneOf": [
+        { "$ref": "#/$defs/intent" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/$defs/intent" },
+          "minItems": 1
+        }
+      ],
+      "description": "Event intent, or intents in order, the key raises in that phase."
+    },
+    "intent": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "binding": {
+      "type": "object",
+      "required": ["key"],
+      "minProperties": 2,
+      "properties": {
+        "key": { "$ref": "#/$defs/key" },
+        "down": { "$ref": "#/$defs/intents" },
+        "up": { "$ref": "#/$defs/intents" }
+      },
+      "additionalProperties": false
+    },
+    "role": {
+      "type": "object",
+      "properties": {
+        "keyboard": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/binding" },
+          "description": "Key bindings. Other input kinds (touch, assistive) are added when a platform owner supplies verified entries."
+        }
+      },
+      "additionalProperties": false
+    },
+    "suite": {
+      "type": "object",
+      "required": ["platform", "role", "vectors"],
+      "properties": {
+        "$schema": { "type": "string" },
+        "platform": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "role": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "vectors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "behavior.schema.json#/$defs/vector"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "Key vectors for one platform and role (`conformance/behavior/bindings/<platform>/<role>.json`), run against every component whose role-carrying part has that role."
+    }
+  }
+}

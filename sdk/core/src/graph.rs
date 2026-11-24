@@ -169,6 +169,16 @@ pub struct BehaviorPatternRecord {
     pub raw: Value,
 }
 
+/// One platform's key bindings (`behaviors/bindings/<platform>.json`,
+/// `behavior-bindings.schema.json`): role, key and phase to event intents.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct BehaviorBindingsRecord {
+    /// The file's `platform` field.
+    pub platform: String,
+    pub file: PathBuf,
+    pub raw: Value,
+}
+
 /// One icon set (`icons/<set>.json`, `icon-set.schema.json`): path geometry keyed by
 /// icon id. UI icons hold one drawing per size under `sizes`, keyed by scale index.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -230,6 +240,8 @@ pub struct TokenGraph {
     pub behaviors: Vec<BehaviorRecord>,
     /// Shared base contracts from `behaviors/patterns/`.
     pub behavior_patterns: Vec<BehaviorPatternRecord>,
+    /// Per-platform key bindings from `behaviors/bindings/`.
+    pub behavior_bindings: Vec<BehaviorBindingsRecord>,
     /// Icon sets from the `icons/` catalog.
     pub icons: Vec<IconSetRecord>,
     /// Cache: CTR `legacyKey` → synthetic leaf [`TokenRecord`] for inline-value
@@ -684,6 +696,7 @@ impl TokenGraph {
             visuals: Vec::new(),
             behaviors: Vec::new(),
             behavior_patterns: Vec::new(),
+            behavior_bindings: Vec::new(),
             icons: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
@@ -732,6 +745,7 @@ impl TokenGraph {
             visuals: Vec::new(),
             behaviors: Vec::new(),
             behavior_patterns: Vec::new(),
+            behavior_bindings: Vec::new(),
             icons: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
@@ -2026,6 +2040,28 @@ impl TokenGraph {
             if let Some(pattern) = value.get("pattern").and_then(|v| v.as_str()) {
                 out.push(BehaviorPatternRecord {
                     pattern: pattern.to_string(),
+                    file: path,
+                    raw: value,
+                });
+            }
+        }
+        Ok(out)
+    }
+
+    /// Load per-platform key bindings from a `behaviors/bindings/` directory. Files without a
+    /// string `platform` field are skipped (Layer 1 reports their structure).
+    pub fn load_spec_behavior_bindings(
+        dir: &Path,
+    ) -> Result<Vec<BehaviorBindingsRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!("{}: invalid JSON: {e}", path.display()))
+            })?;
+            if let Some(platform) = value.get("platform").and_then(|v| v.as_str()) {
+                out.push(BehaviorBindingsRecord {
+                    platform: platform.to_string(),
                     file: path,
                     raw: value,
                 });

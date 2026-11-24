@@ -51,7 +51,7 @@ A transition or vector may require a capability from [`registry/capabilities.jso
 * `parts` keys are anatomy part names. `role` is a role from the [accessibility role vocabulary](accessibility.md#role); a component-level role goes on the root or primary part, chosen per component (Switch: `track`, Checkbox: `box`). `focus` is `tab-stop` (in the tab order), `roving` (one peer is the tab stop at a time) or `none`. `press` is the intent a completed press produces. `handles` lists the intents the part handles that **change no state** (`navigate-items`, `increment`): an intent that changes state is a transition instead.
 * A `guard` is `{ "facet", "is" }`, or `all`, `any` or `not` of guards. `do` is `{ "toggle": option }` or `{ "set": { option: value } }`, where a value is a literal or `{ "not": guard }`. `emit` names the event raised.
 * `semantics` maps a facet value to what assistive technology reads, per part. `ariaState` is the ARIA attribute for web; other platforms map the same facet value through their own adapter.
-* A vector is a `start` state, `steps` (an `intent`, with `via` for focus), and `expect` entries giving the facets and emitted events after a numbered step. `emit` in an expectation lists the events raised by that step only (`{ "change": { "isSelected": true } }`: the event name and the options it changed). A facet expectation may be a string or a boolean (`focusVisible: true`). A vector says nothing about keys: Space versus Enter is a platform mapping of `activate`, not part of a contract. A radio-group vector carries `orientation` in `start`, because arrow keys mirror in right-to-left layouts only when the group is horizontal.
+* A vector is a `start` state, `steps` (an `intent`, with `via` for focus, or an `input`), and `expect` entries giving the facets and emitted events after a numbered step. `emit` in an expectation lists the events raised by that step only (`{ "change": { "isSelected": true } }`: the event name and the options it changed). A facet expectation may be a string or a boolean (`focusVisible: true`). A vector in a contract or a component suite names intents, not keys: Space versus Enter is a platform binding (see Key bindings), not part of a contract. A key-level vector is an `input` step in a bindings suite. A radio-group vector carries `orientation` in `start`, because arrow keys mirror in right-to-left layouts only when the group is horizontal.
 
 ### `wcag`
 
@@ -101,6 +101,28 @@ A component that takes no interaction has no contract. [`registry/behavior-exemp
 
 An exemption is a claim about interaction, not a permanent one: if a platform makes an exempt component pressable or selectable (a selectable thumbnail in a collection), remove the entry and write a contract. A component with an `accessibility.role` reaches its contract through the role and needs no entry. Every other component has a contract or an exemption, never both (SPEC-123).
 
+## Key bindings
+
+A contract names intents, never keys (principle 12). Which key raises which intent is a **per-platform binding**, one file per platform, keyed by `role` (the `role` of a contract part): `behaviors/bindings/<platform>.json`, shaped by [`behavior-bindings.schema.json`](../schemas/behavior-bindings.schema.json). `web` is the only file today. A platform extension may own its file later.
+
+```json
+{
+  "platform": "web",
+  "capabilities": ["pointer-hover", "keyboard", "assistive-activation"],
+  "roles": {
+    "switch": { "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }] },
+    "checkbox": { "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }] }
+  }
+}
+```
+
+* A `keyboard` entry maps one `key` to the event intents (one, or a list in order) it raises on `down` and on `up`. They are the existing press intents, so Space on key up and Enter on key down are both expressible. Timing is `down` and `up` only; key repeat is not a phase. Key names are a fixed list (`Space`, `Enter`, `Escape`, `Tab`, the arrows, `Home`, `End`, `PageUp`, `PageDown`) in the schema. Arrow keys are physical: right-to-left mirroring stays in the `navigate-*` intents.
+* A file holds only entries that were verified against an implementation. A role with no entry has no key binding on that platform; a platform with no keyboard omits `keyboard` from `capabilities` and binds no keys. Touch and assistive entries for other platforms are added when a platform owner supplies verified ones.
+* **Web, Switch and Checkbox:** Space toggles, on key up; Enter does not (decision A520). The same holds for the native input, React Spectrum S2, `@ui-sdk/react` and Spectrum Web Components generation 1, as measured by the vector spike.
+* **Key vectors** are per platform and role, at `conformance/behavior/bindings/<platform>/<role>.json` (`{ "platform", "role", "vectors" }`), and run against every component whose role-carrying part has that role. A component suite carries a key vector only to override its role's binding. A step is `{ "input": { "key", "phase" } }`. The runner takes the role of the contract's role-carrying part, finds the entries for the key, runs the `down` or `up` intents as steps `via` the keyboard, and does nothing when no entry matches: "Enter does not toggle" is a vector that expects `emit: []`. Key vectors need `keyboard`, so on a platform without it they are not applicable.
+* `design-data behavior test <component|--all> [--platform <id>]`: with `--platform` the run has that platform's capabilities (and its key vectors only); without it every platform's key vectors run with that platform's bindings.
+* **SPEC-124** `behavior-bindings-well-formed`: a bindings file lists registered capabilities, binds keys only with `keyboard`, and names registered intents.
+
 ## Reference runner
 
 `design-data behavior test <component|--all>` runs each conformance vector in `conformance/behavior/<component>.json` (`{ "component", "vectors" }`, the shape of a contract with only `vectors`) against `behaviors/<component>.json`, with no browser. Library function: `design_data_core::behavior::run_dir`. The run has all capabilities unless `--without <capability>` removes one; a vector that needs a missing capability is **not applicable**, neither pass nor fail. The exit code is 1 when any vector fails. Rules the runner applies:
@@ -138,3 +160,4 @@ The schema shape is checked by `design-data:validate-behaviors` (AJV), which als
 * **SPEC-120** `behavior-vectors-well-formed`: a vector's component, capabilities, steps, start options and expectations resolve.
 * **SPEC-122** `recipe-facets-resolve`: a recipe `facets` clause names a facet its component's contract can publish, with a value options or a state can select.
 * **SPEC-123** `component-has-contract-or-exemption`: a component with no `accessibility.role` has a contract or a registered exemption, not both, and an exemption's reason is registered.
+* **SPEC-124** `behavior-bindings-well-formed`: a platform's key bindings list registered capabilities, bind keys only with `keyboard`, and name registered intents.

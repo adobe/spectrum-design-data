@@ -33,7 +33,7 @@ fn dirs() -> (PathBuf, PathBuf) {
 #[test]
 fn every_conformance_vector_passes() {
     let (b, s) = dirs();
-    let results = run_dir(&b, &s, None, &all_capabilities()).unwrap();
+    let results = run_dir(&b, &s, None, None, &all_capabilities()).unwrap();
     assert!(
         results.len() >= 20,
         "expected the switch and checkbox suites"
@@ -50,7 +50,7 @@ fn every_conformance_vector_passes() {
 fn vectors_needing_a_missing_capability_are_not_applicable() {
     let (b, s) = dirs();
     let touch: HashSet<String> = HashSet::new();
-    let results = run_dir(&b, &s, Some("switch"), &touch).unwrap();
+    let results = run_dir(&b, &s, Some("switch"), None, &touch).unwrap();
     assert!(results.iter().any(|r| r.name == "hover follows the pointer"
         && r.status == Status::NotApplicable(vec!["pointer-hover".into()])));
     assert!(results.iter().all(|r| !matches!(r.status, Status::Fail(_))));
@@ -93,6 +93,7 @@ fn failures(
         vectors,
         RegistryData::embedded(),
         &all_capabilities(),
+        None,
     )
     .iter()
     .filter(|r| matches!(r.status, Status::Fail(_)))
@@ -275,6 +276,7 @@ fn a_raise_cycle_fails_the_vector_instead_of_overflowing() {
         &vectors[..1],
         RegistryData::embedded(),
         &all_capabilities(),
+        None,
     );
     assert!(
         matches!(&r[0].status, Status::Fail(f) if f[0].contains("raise")),
@@ -299,6 +301,7 @@ fn raise_without_a_part_press_fails_the_vector() {
         &v,
         RegistryData::embedded(),
         &all_capabilities(),
+        None,
     );
     assert!(matches!(&r[0].status, Status::Fail(f) if f[0].contains("no part declares")));
     let _ = vectors;
@@ -321,4 +324,126 @@ fn the_event_intent_list_matches_the_registry() {
     want.sort();
     have.sort();
     assert_eq!(have, want);
+}
+
+fn web_bindings() -> Value {
+    serde_json::from_str(
+        &std::fs::read_to_string(packages().join("design-data/behaviors/bindings/web.json"))
+            .unwrap(),
+    )
+    .unwrap()
+}
+
+fn key_suite(role: &str) -> Vec<Value> {
+    let (_, s) = dirs();
+    let suite: Value = serde_json::from_str(
+        &std::fs::read_to_string(s.join(format!("bindings/web/{role}.json"))).unwrap(),
+    )
+    .unwrap();
+    suite["vectors"].as_array().unwrap().clone()
+}
+
+#[test]
+fn key_vectors_run_for_every_component_with_the_role() {
+    let (b, s) = dirs();
+    let results = run_dir(&b, &s, None, Some("web"), &all_capabilities()).unwrap();
+    for c in ["switch", "checkbox"] {
+        let names: Vec<&str> = results
+            .iter()
+            .filter(|r| r.component == c)
+            .map(|r| r.name.as_str())
+            .collect();
+        assert!(names.contains(&"Enter does not toggle"), "{c}: {names:?}");
+        assert!(names.contains(&"Space turns it off"), "{c}: {names:?}");
+    }
+    assert!(run_dir(&b, &s, None, Some("ios"), &all_capabilities()).is_err());
+}
+
+#[test]
+fn a_platform_without_a_keyboard_makes_key_vectors_not_applicable() {
+    let tmp = std::env::temp_dir().join(format!("bindings-no-keyboard-{}", std::process::id()));
+    let (b, s) = dirs();
+    let bindings = tmp.join("bindings");
+    std::fs::create_dir_all(&bindings).unwrap();
+    std::fs::create_dir_all(tmp.join("patterns")).unwrap();
+    for f in ["switch.json", "checkbox.json"] {
+        std::fs::copy(b.join(f), tmp.join(f)).unwrap();
+    }
+    std::fs::copy(
+        b.join("patterns/interactive.json"),
+        tmp.join("patterns/interactive.json"),
+    )
+    .unwrap();
+    let mut touch = web_bindings();
+    touch["platform"] = json!("touch");
+    touch["capabilities"] = json!(["assistive-activation"]);
+    std::fs::write(bindings.join("touch.json"), touch.to_string()).unwrap();
+    let suites = tmp.join("suites");
+    std::fs::create_dir_all(suites.join("bindings/touch")).unwrap();
+    let mut suite: Value =
+        serde_json::from_str(&std::fs::read_to_string(s.join("bindings/web/switch.json")).unwrap())
+            .unwrap();
+    suite["platform"] = json!("touch");
+    std::fs::write(suites.join("bindings/touch/switch.json"), suite.to_string()).unwrap();
+    let results = run_dir(&tmp, &suites, None, Some("touch"), &all_capabilities()).unwrap();
+    std::fs::remove_dir_all(&tmp).unwrap();
+    assert_eq!(results.len(), 4);
+    assert!(results
+        .iter()
+        .all(|r| r.status == Status::NotApplicable(vec!["keyboard".into()])));
+}
+
+/// Each break of the bindings must fail a key vector, or the vectors prove nothing.
+#[test]
+fn a_wrong_binding_fails_a_key_vector() {
+    let (contract, _, patterns) = load("switch");
+    let vectors = key_suite("switch");
+    let run = |bindings: &Value| {
+        run_vectors(
+            &contract,
+            &patterns,
+            &vectors,
+            RegistryData::embedded(),
+            &all_capabilities(),
+            Some(bindings),
+        )
+        .iter()
+        .filter(|r| matches!(r.status, Status::Fail(_)))
+        .count()
+    };
+    assert_eq!(run(&web_bindings()), 0);
+    for (pointer, value) in [
+        ("/roles/switch/keyboard/0/key", json!("Enter")),
+        ("/roles/switch/keyboard/0/up", json!("press-cancel")),
+        (
+            "/roles/switch/keyboard/0/down",
+            json!(["press-start", "press-end"]),
+        ),
+    ] {
+        let mut broken = web_bindings();
+        *broken.pointer_mut(pointer).unwrap() = value;
+        assert!(run(&broken) > 0, "breaking {pointer} failed no vector");
+    }
+    let mut also_enter = web_bindings();
+    also_enter["roles"]["switch"]["keyboard"]
+        .as_array_mut()
+        .unwrap()
+        .push(json!({ "key": "Enter", "down": "press-start", "up": "press-end" }));
+    assert!(run(&also_enter) > 0, "Enter binding failed no vector");
+}
+
+#[test]
+fn an_input_step_without_bindings_fails() {
+    let (contract, _, patterns) = load("switch");
+    let r = run_vectors(
+        &contract,
+        &patterns,
+        &key_suite("switch"),
+        RegistryData::embedded(),
+        &all_capabilities(),
+        None,
+    );
+    assert!(r
+        .iter()
+        .all(|r| matches!(&r.status, Status::Fail(f) if f[0].contains("no key bindings"))));
 }

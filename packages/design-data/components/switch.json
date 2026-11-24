@@ -72,7 +72,7 @@
     },
     {
       "type": "guideline",
-      "content": "Keyboard interactions.\n\nKey Interaction Tab Moves focus to the next item or group of items. Shift + Tab Moves focus to the previous item or group of items. Space or Enter Toggles the switch between on and off."
+      "content": "Keyboard interactions.\n\nKey Interaction Tab Moves focus to the next item or group of items. Shift + Tab Moves focus to the previous item or group of items. Space Toggles the switch between on and off."
     },
     {
       "type": "guideline",

@@ -28,6 +28,11 @@
 //!   first part that declares one. Nothing about them is built in.
 //! * A facet's `blocksInteraction` (facets registry) makes the listed events do nothing while the
 //!   facet is `true`.
+//! * An `input` step (`{ key, phase }`) is resolved through the platform's key bindings
+//!   (`behaviors/bindings/<platform>.json`): the role of the contract's role-carrying part picks
+//!   the entries, the key and `down`/`up` phase pick the event intents, which then run as steps
+//!   `via` the keyboard. A key with no binding raises nothing, which is how "Enter does not
+//!   toggle" passes.
 //! * `emit` lists the events a step raised (`{ name: { option: new value } }`), not a running
 //!   total. A vector that needs a capability the run lacks is not applicable, neither pass nor fail.
 
@@ -346,10 +351,34 @@ impl Run<'_> {
     }
 }
 
+/// The event intents `bindings` raise for `key` in `phase` on `role`.
+fn binding_intents(bindings: &Value, role: &str, key: &str, phase: &str) -> Vec<String> {
+    let entries = bindings
+        .get("roles")
+        .and_then(|r| r.get(role))
+        .and_then(|r| r.get("keyboard"))
+        .and_then(Value::as_array);
+    let mut out = Vec::new();
+    for e in entries.into_iter().flatten() {
+        if e.get("key").and_then(Value::as_str) != Some(key) {
+            continue;
+        }
+        match e.get(phase) {
+            Some(Value::String(i)) => out.push(i.clone()),
+            Some(Value::Array(a)) => {
+                out.extend(a.iter().filter_map(|i| i.as_str().map(String::from)))
+            }
+            _ => {}
+        }
+    }
+    out
+}
+
 fn run_vector(
     m: &Machine,
     registry: &RegistryData,
     caps: &HashSet<String>,
+    bindings: Option<&Value>,
     v: &Value,
 ) -> Result<Vec<String>, String> {
     let steps = v
@@ -372,13 +401,29 @@ fn run_vector(
     let expects = v.get("expect").and_then(Value::as_array);
     for (i, s) in steps.iter().enumerate() {
         let n = i + 1;
-        let intent = s
-            .get("intent")
-            .and_then(Value::as_str)
-            .ok_or_else(|| format!("step {n} has no intent"))?;
-        let raised = run
-            .step(intent, s.get("via").and_then(Value::as_str))
-            .map_err(|e| format!("step {n}: {e}"))?;
+        let raised = if let Some(input) = s.get("input") {
+            let field = |f: &str| input.get(f).and_then(Value::as_str).unwrap_or_default();
+            let bindings = bindings.ok_or_else(|| {
+                format!("step {n} is an `input` step, but the run has no key bindings")
+            })?;
+            let role = part_role(&m.parts)
+                .ok_or_else(|| format!("step {n} is an `input` step, but no part has a role"))?;
+            let mut raised = Vec::new();
+            for i in binding_intents(bindings, role, field("key"), field("phase")) {
+                raised.extend(
+                    run.step(&i, Some("keyboard"))
+                        .map_err(|e| format!("step {n}: {e}"))?,
+                );
+            }
+            raised
+        } else {
+            let intent = s
+                .get("intent")
+                .and_then(Value::as_str)
+                .ok_or_else(|| format!("step {n} has no intent"))?;
+            run.step(intent, s.get("via").and_then(Value::as_str))
+                .map_err(|e| format!("step {n}: {e}"))?
+        };
         let facets = run.facets();
         for e in expects
             .into_iter()
@@ -423,13 +468,15 @@ fn run_vector(
 }
 
 /// Run `vectors` against `contract`. `capabilities` are the ones the run has: a vector that needs
-/// another is reported not applicable.
+/// another is reported not applicable. `bindings` is the platform's key bindings file, which an
+/// `input` step needs.
 pub fn run_vectors(
     contract: &Value,
     patterns: &[BehaviorPatternRecord],
     vectors: &[Value],
     registry: &RegistryData,
     capabilities: &HashSet<String>,
+    bindings: Option<&Value>,
 ) -> Vec<VectorResult> {
     let component = contract
         .get("component")
@@ -459,7 +506,7 @@ pub fn run_vectors(
             } else {
                 match &machine {
                     Err(e) => Status::Fail(vec![e.clone()]),
-                    Ok(m) => match run_vector(m, registry, capabilities, v) {
+                    Ok(m) => match run_vector(m, registry, capabilities, bindings, v) {
                         Ok(f) if f.is_empty() => Status::Pass,
                         Ok(f) => Status::Fail(f),
                         Err(e) => Status::Fail(vec![e]),
@@ -475,13 +522,53 @@ pub fn run_vectors(
         .collect()
 }
 
-/// Run every conformance suite in `suites_dir` (`<component>.json`: `{ component, vectors }`)
-/// against the contract of the same component in `behaviors_dir` (patterns in its `patterns/`).
-/// `only` limits the run to one component. A suite with no contract fails.
+fn part_role(parts: &Map<String, Value>) -> Option<&str> {
+    parts
+        .values()
+        .find_map(|p| p.get("role").and_then(Value::as_str))
+}
+
+fn capabilities_of(file: &Value, caps: &HashSet<String>) -> HashSet<String> {
+    let has: HashSet<&str> = file
+        .get("capabilities")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(Value::as_str)
+        .collect();
+    caps.iter()
+        .filter(|c| has.contains(c.as_str()))
+        .cloned()
+        .collect()
+}
+
+fn read_json(path: &Path) -> Result<Value, CoreError> {
+    let text = std::fs::read_to_string(path)?;
+    serde_json::from_str(&text)
+        .map_err(|e| CoreError::ParseError(format!("{}: invalid JSON: {e}", path.display())))
+}
+
+fn suite_failure(component: &str, why: String) -> VectorResult {
+    VectorResult {
+        component: component.to_string(),
+        name: "(suite)".into(),
+        status: Status::Fail(vec![why]),
+    }
+}
+
+/// Run every conformance suite in `suites_dir` against the contracts in `behaviors_dir`
+/// (patterns in its `patterns/`, platform key bindings in its `bindings/<platform>.json`).
+/// A component suite (`<component>.json`: `{ component, vectors }`) runs against the contract of
+/// that component; a suite with no contract fails. A bindings suite (`{ platform, role, vectors }`)
+/// runs against every contract whose role-carrying part has that role, with that platform's
+/// bindings; it has only the capabilities the platform file lists, so a platform with no keyboard
+/// makes key vectors not applicable. `only` limits the run to one component; `platform` to one
+/// platform (its capabilities then limit component suites too) and fails when it has no file.
 pub fn run_dir(
     behaviors_dir: &Path,
     suites_dir: &Path,
     only: Option<&str>,
+    platform: Option<&str>,
     capabilities: &HashSet<String>,
 ) -> Result<Vec<VectorResult>, CoreError> {
     let contracts = TokenGraph::load_spec_behaviors(behaviors_dir)?;
@@ -491,39 +578,97 @@ pub fn run_dir(
     } else {
         Vec::new()
     };
+    let mut bindings: BTreeMap<String, Value> = BTreeMap::new();
+    let bindings_dir = behaviors_dir.join("bindings");
+    if bindings_dir.is_dir() {
+        for path in crate::discovery::discover_json_files(&bindings_dir)? {
+            let file = read_json(&path)?;
+            if let Some(id) = file.get("platform").and_then(Value::as_str) {
+                bindings.insert(id.to_string(), file.clone());
+            }
+        }
+    }
+    if let Some(p) = platform {
+        if !bindings.contains_key(p) {
+            return Err(CoreError::ParseError(format!(
+                "no key bindings file for platform '{p}' in {}",
+                bindings_dir.display()
+            )));
+        }
+    }
     let registry = RegistryData::embedded();
+    let component_caps = match platform.and_then(|p| bindings.get(p)) {
+        Some(file) => capabilities_of(file, capabilities),
+        None => capabilities.clone(),
+    };
     let mut out = Vec::new();
     for path in crate::discovery::discover_json_files(suites_dir)? {
-        let text = std::fs::read_to_string(&path)?;
-        let suite: Value = serde_json::from_str(&text)
-            .map_err(|e| CoreError::ParseError(format!("{}: invalid JSON: {e}", path.display())))?;
-        let Some(component) = suite.get("component").and_then(Value::as_str) else {
-            continue;
-        };
-        if only.is_some_and(|o| o != component) {
-            continue;
-        }
+        let suite = read_json(&path)?;
         let vectors = suite
             .get("vectors")
             .and_then(Value::as_array)
             .cloned()
             .unwrap_or_default();
-        match contracts.iter().find(|c| c.component == component) {
-            Some(c) => out.extend(run_vectors(
-                &c.raw,
-                &patterns,
-                &vectors,
-                registry,
-                capabilities,
-            )),
-            None => out.push(VectorResult {
-                component: component.to_string(),
-                name: "(suite)".into(),
-                status: Status::Fail(vec![format!(
-                    "no contract for '{component}' in {}",
-                    behaviors_dir.display()
-                )]),
-            }),
+        if let Some(component) = suite.get("component").and_then(Value::as_str) {
+            if only.is_some_and(|o| o != component) {
+                continue;
+            }
+            match contracts.iter().find(|c| c.component == component) {
+                Some(c) => out.extend(run_vectors(
+                    &c.raw,
+                    &patterns,
+                    &vectors,
+                    registry,
+                    &component_caps,
+                    platform.and_then(|p| bindings.get(p)),
+                )),
+                None => out.push(suite_failure(
+                    component,
+                    format!(
+                        "no contract for '{component}' in {}",
+                        behaviors_dir.display()
+                    ),
+                )),
+            }
+        } else if let (Some(plat), Some(role)) = (
+            suite.get("platform").and_then(Value::as_str),
+            suite.get("role").and_then(Value::as_str),
+        ) {
+            if platform.is_some_and(|p| p != plat) {
+                continue;
+            }
+            let label = format!("{plat}/{role}");
+            let Some(file) = bindings.get(plat) else {
+                out.push(suite_failure(
+                    &label,
+                    format!("no key bindings file for platform '{plat}'"),
+                ));
+                continue;
+            };
+            let caps = capabilities_of(file, capabilities);
+            let mut matched = false;
+            for c in &contracts {
+                let carries =
+                    flatten(&c.raw, &patterns).is_ok_and(|m| part_role(&m.parts) == Some(role));
+                if !carries || only.is_some_and(|o| o != c.component) {
+                    continue;
+                }
+                matched = true;
+                out.extend(run_vectors(
+                    &c.raw,
+                    &patterns,
+                    &vectors,
+                    registry,
+                    &caps,
+                    Some(file),
+                ));
+            }
+            if !matched && only.is_none() {
+                out.push(suite_failure(
+                    &label,
+                    format!("no contract has a part with role '{role}'"),
+                ));
+            }
         }
     }
     Ok(out)
