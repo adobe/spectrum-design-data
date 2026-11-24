@@ -74,7 +74,8 @@
               "level": "A",
               "title": "Name, Role, Value"
             }
-          ]
+          ],
+          "handles": ["navigate-sideways"]
         }
       },
       "transitions": [
@@ -161,6 +162,12 @@
           ]
         }
       ]
+    }
+  ],
+  "behaviorPatterns": [
+    {
+      "pattern": "interactive",
+      "publishes": ["hovered", "pressed", "focusVisible"]
     }
   ]
 }

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "checkbox",
+  "extends": ["interactive"],
+  "state": ["isSelected", "isIndeterminate", "isDisabled"],
+  "facets": {
+    "checked": {
+      "from": ["isSelected", "isIndeterminate"],
+      "values": {
+        "indeterminate": {
+          "isIndeterminate": true
+        },
+        "checked": {
+          "isIndeterminate": false,
+          "isSelected": true
+        },
+        "unchecked": {
+          "isIndeterminate": false,
+          "isSelected": false
+        }
+      },
+      "order": "first match wins"
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": {
+        "false": false,
+        "true": true
+      }
+    }
+  },
+  "parts": {
+    "box": {
+      "role": "checkbox",
+      "focus": "tab-stop",
+      "press": "activate"
+    }
+  },
+  "transitions": [
+    {
+      "on": "activate",
+      "guard": {
+        "facet": "disabled",
+        "is": "false"
+      },
+      "do": {
+        "set": {
+          "isIndeterminate": false,
+          "isSelected": {
+            "not": {
+              "facet": "checked",
+              "is": "checked"
+            }
+          }
+        }
+      },
+      "emit": "change"
+    }
+  ],
+  "semantics": {
+    "box": {
+      "checked": {
+        "ariaState": "aria-checked",
+        "map": {
+          "unchecked": "false",
+          "checked": "true",
+          "indeterminate": "mixed"
+        }
+      }
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "1.3.1",
+      "level": "A",
+      "title": "Info and Relationships"
+    },
+    {
+      "criterion": "2.1.1",
+      "level": "A",
+      "title": "Keyboard"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}

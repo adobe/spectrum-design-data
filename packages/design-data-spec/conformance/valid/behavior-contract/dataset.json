@@ -162,5 +162,11 @@
         }
       ]
     }
+  ],
+  "behaviorPatterns": [
+    {
+      "pattern": "interactive",
+      "publishes": ["hovered", "pressed", "focusVisible"]
+    }
   ]
 }

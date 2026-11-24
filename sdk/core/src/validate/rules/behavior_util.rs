@@ -74,6 +74,7 @@ pub(crate) fn state_ids(b: &BehaviorRecord) -> HashSet<String> {
 /// The values a facet may take in this contract: its own declaration, else the registry value
 /// list of an interaction facet. `None` when the contract cannot read the facet.
 pub(crate) fn facet_values(
+    graph: &TokenGraph,
     b: &BehaviorRecord,
     registry: &RegistryData,
     name: &str,
@@ -87,8 +88,40 @@ pub(crate) fn facet_values(
     }
     registry
         .facet(name)
-        .filter(|f| f.interaction)
+        .filter(|f| f.interaction && published_by_extended(graph, b, name))
         .map(|f| f.values.clone())
+}
+
+/// Whether a pattern this contract extends (transitively) publishes the interaction facet.
+fn published_by_extended(graph: &TokenGraph, b: &BehaviorRecord, facet: &str) -> bool {
+    let mut seen: HashSet<String> = HashSet::new();
+    let mut queue = extends_of(&b.raw);
+    while let Some(name) = queue.pop() {
+        if !seen.insert(name.clone()) {
+            continue;
+        }
+        if let Some(p) = graph.behavior_patterns.iter().find(|p| p.pattern == name) {
+            if p.raw
+                .get("publishes")
+                .and_then(Value::as_array)
+                .is_some_and(|a| a.iter().any(|v| v.as_str() == Some(facet)))
+            {
+                return true;
+            }
+            queue.extend(extends_of(&p.raw));
+        }
+    }
+    false
+}
+
+/// The `extends` names of a contract or pattern.
+pub(crate) fn extends_of(raw: &Value) -> Vec<String> {
+    raw.get("extends")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|s| s.as_str().map(String::from))
+        .collect()
 }
 
 #[cfg(test)]
@@ -117,6 +150,15 @@ pub(crate) mod test_util {
             }),
             layer: Layer::Foundation,
         });
+        g.behavior_patterns
+            .push(crate::graph::BehaviorPatternRecord {
+                pattern: "interactive".into(),
+                file: PathBuf::from("behaviors/patterns/interactive.json"),
+                raw: json!({
+                    "pattern": "interactive",
+                    "publishes": ["hovered", "pressed", "focusVisible"]
+                }),
+            });
         for raw in contracts {
             g.behaviors.push(BehaviorRecord {
                 component: raw["component"].as_str().unwrap_or("switch").into(),

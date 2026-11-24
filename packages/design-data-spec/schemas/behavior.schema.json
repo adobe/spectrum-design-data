@@ -18,7 +18,7 @@
       "type": "array",
       "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
       "uniqueItems": true,
-      "description": "Shared base contracts (for example `interactive`, which publishes the interaction facets)."
+      "description": "Shared base contracts: names of pattern files in `behaviors/patterns/` (for example `interactive`, which publishes the interaction facets)."
     },
     "state": {
       "type": "array",
@@ -133,6 +133,12 @@
           "description": "tab-stop: in the tab order. roving: one peer is the tab stop at a time. none: not focusable."
         },
         "press": { "$ref": "#/$defs/intent" },
+        "handles": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/intent" },
+          "uniqueItems": true,
+          "description": "Intents the part handles that change no state (for example `navigate-items`, `increment`). Intents that change state are `transitions`."
+        },
         "wcag": { "$ref": "#/$defs/wcag" }
       },
       "additionalProperties": false
@@ -261,7 +267,7 @@
               "after": { "type": "integer", "minimum": 1 },
               "facets": {
                 "type": "object",
-                "additionalProperties": { "type": "string" }
+                "additionalProperties": { "type": ["string", "boolean"] }
               },
               "emit": {
                 "type": "array",

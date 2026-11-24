@@ -69,6 +69,21 @@ impl ValidationRule for Rule {
                 .into_iter()
                 .flatten()
             {
+                for i in p
+                    .get("handles")
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                    .filter_map(Value::as_str)
+                    .filter(|i| !ctx.registry.intents().contains(*i))
+                {
+                    problem(
+                        format!("/parts/{part}/handles"),
+                        format!(
+                            "has part '{part}' handling '{i}', which is not in the intents registry"
+                        ),
+                    );
+                }
                 if let Some(i) = p
                     .get("press")
                     .and_then(Value::as_str)
@@ -122,7 +137,7 @@ impl ValidationRule for Rule {
                     }
                 }
                 for (facet, is) in guards {
-                    match facet_values(b, ctx.registry, facet) {
+                    match facet_values(ctx.graph, b, ctx.registry, facet) {
                         None => problem(format!("{at}/guard"), format!("has a transition reading facet '{facet}', which the contract does not declare")),
                         Some(values) => {
                             if let Some(is) = is.filter(|is| !values.contains(*is)) {
@@ -187,6 +202,10 @@ mod tests {
             (
                 Box::new(|c| c["parts"]["track"]["press"] = json!("tap")),
                 "not in the intents registry",
+            ),
+            (
+                Box::new(|c| c["parts"]["track"]["handles"] = json!(["navigate-sideways"])),
+                "handling 'navigate-sideways'",
             ),
             (
                 Box::new(|c| c["transitions"][0]["needs"] = json!(["telepathy"])),

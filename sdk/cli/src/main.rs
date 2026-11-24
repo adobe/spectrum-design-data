@@ -154,6 +154,11 @@ fn with_relationships_for_theme(
 #[allow(clippy::large_enum_variant)]
 #[derive(Subcommand)]
 enum Commands {
+    /// Behavior contracts (`behaviors/<component>.json`): run the conformance vectors
+    Behavior {
+        #[command(subcommand)]
+        sub: BehaviorSub,
+    },
     /// Inspect configured `[platforms.<id>]` manifest profiles (h890.27.6)
     Platform {
         #[command(subcommand)]
@@ -745,6 +750,28 @@ enum Commands {
     },
     /// Launch the interactive TUI (same as running with no arguments)
     Tui(TuiArgs),
+}
+
+#[derive(Subcommand)]
+enum BehaviorSub {
+    /// Run the conformance vectors against the contract state machines (reference runner, no browser)
+    Test {
+        /// Component to run
+        #[arg(value_name = "COMPONENT", required_unless_present = "all")]
+        component: Option<String>,
+        /// Run every suite
+        #[arg(long, conflicts_with = "component")]
+        all: bool,
+        /// Directory of behavior contracts (default: packages/design-data/behaviors)
+        #[arg(long, value_name = "DIR")]
+        behaviors_path: Option<PathBuf>,
+        /// Directory of conformance suites (default: packages/design-data-spec/conformance/behavior)
+        #[arg(long, value_name = "DIR")]
+        suites_path: Option<PathBuf>,
+        /// Run as a platform without this capability (repeatable): its vectors are not applicable
+        #[arg(long = "without", value_name = "CAPABILITY")]
+        without: Vec<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -2115,6 +2142,74 @@ fn resolve_spec_schemas(
     candidates
         .into_iter()
         .find(|c| c.join("field.schema.json").is_file())
+}
+
+/// First of `explicit`, then the in-repo `rel` under the cwd or its parent.
+fn probe_dir(explicit: Option<PathBuf>, rel: &str) -> miette::Result<PathBuf> {
+    if let Some(p) = explicit {
+        return Ok(p);
+    }
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    [cwd.join(rel), cwd.join("..").join(rel)]
+        .into_iter()
+        .find(|p| p.is_dir())
+        .ok_or_else(|| miette::miette!("cannot find {rel}; pass the directory explicitly"))
+}
+
+/// `design-data behavior test`: exit 1 when any vector fails.
+fn run_behavior_test(
+    component: Option<String>,
+    behaviors_path: Option<PathBuf>,
+    suites_path: Option<PathBuf>,
+    without: &[String],
+) -> miette::Result<ExitCode> {
+    use design_data_core::behavior::{all_capabilities, run_dir, Status};
+    let behaviors = probe_dir(behaviors_path, "packages/design-data/behaviors")?;
+    let suites = probe_dir(
+        suites_path,
+        "packages/design-data-spec/conformance/behavior",
+    )?;
+    let mut caps = all_capabilities();
+    for w in without {
+        if !caps.remove(w) {
+            miette::bail!("unknown capability '{w}'");
+        }
+    }
+    let results = run_dir(&behaviors, &suites, component.as_deref(), &caps).into_diagnostic()?;
+    if results.is_empty() {
+        miette::bail!(
+            "no conformance suite found for {}",
+            component.unwrap_or_default()
+        );
+    }
+    let (mut pass, mut fail, mut na) = (0, 0, 0);
+    for r in &results {
+        match &r.status {
+            Status::Pass => pass += 1,
+            Status::NotApplicable(missing) => {
+                na += 1;
+                println!(
+                    "n/a  {} / {} (needs {})",
+                    r.component,
+                    r.name,
+                    missing.join(", ")
+                );
+            }
+            Status::Fail(why) => {
+                fail += 1;
+                println!("FAIL {} / {}", r.component, r.name);
+                for w in why {
+                    println!("       {w}");
+                }
+            }
+        }
+    }
+    println!("{pass} passed, {fail} failed, {na} not applicable");
+    Ok(if fail == 0 {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::FAILURE
+    })
 }
 
 /// Validate a whole dataset directory: SPEC-044 structure pre-check, token rules,
@@ -5400,6 +5495,15 @@ fn main() -> ExitCode {
     }
 
     let result = match command {
+        Commands::Behavior { sub } => match sub {
+            BehaviorSub::Test {
+                component,
+                all: _,
+                behaviors_path,
+                suites_path,
+                without,
+            } => run_behavior_test(component, behaviors_path, suites_path, &without),
+        },
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),
             PlatformSub::Show { id, format } => run_platform_show(&id, format),

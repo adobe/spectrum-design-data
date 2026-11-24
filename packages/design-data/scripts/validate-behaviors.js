@@ -26,8 +26,15 @@ const specDir = dirname(
 const schema = JSON.parse(
   readFileSync(join(specDir, "schemas", "behavior.schema.json"), "utf-8"),
 );
-const validate = new Ajv2020({ strict: false, allErrors: true }).compile(
-  schema,
+const ajv = new Ajv2020({ strict: false, allErrors: true });
+const validate = ajv.compile(schema);
+const validatePattern = ajv.compile(
+  JSON.parse(
+    readFileSync(
+      join(specDir, "schemas", "behavior-pattern.schema.json"),
+      "utf-8",
+    ),
+  ),
 );
 
 // No component has a contract yet, so behaviors/ may not exist. The conformance baseline holds
@@ -43,6 +50,30 @@ if (existsSync(behaviorsDir)) {
     ]);
   }
 }
+// Patterns (behaviors/patterns/) and conformance suites ({ component, vectors }) have their own shapes.
+const patterns = [];
+const patternsDir = join(behaviorsDir, "patterns");
+if (existsSync(patternsDir)) {
+  for (const file of readdirSync(patternsDir)
+    .filter((f) => f.endsWith(".json"))
+    .sort()) {
+    patterns.push([
+      `behaviors/patterns/${file}`,
+      JSON.parse(readFileSync(join(patternsDir, file), "utf-8")),
+    ]);
+  }
+}
+const suitesDir = join(specDir, "conformance", "behavior");
+if (existsSync(suitesDir)) {
+  for (const file of readdirSync(suitesDir)
+    .filter((f) => f.endsWith(".json"))
+    .sort()) {
+    contracts.push([
+      `conformance/behavior/${file}`,
+      JSON.parse(readFileSync(join(suitesDir, file), "utf-8")),
+    ]);
+  }
+}
 const baseline = JSON.parse(
   readFileSync(
     join(specDir, "conformance", "valid", "behavior-contract", "dataset.json"),
@@ -54,17 +85,20 @@ for (const [i, b] of baseline.behaviors.entries()) {
 }
 
 let hasErrors = false;
-for (const [name, contract] of contracts) {
-  if (validate(contract)) {
+for (const [name, contract] of [...contracts, ...patterns]) {
+  const check = patterns.some(([n]) => n === name) ? validatePattern : validate;
+  if (check(contract)) {
     console.log(`✅ ${name}`);
     continue;
   }
   hasErrors = true;
   console.error(`❌ ${name}`);
-  for (const err of validate.errors) {
+  for (const err of check.errors) {
     console.error(`   ${err.instancePath || "root"}: ${err.message}`);
   }
 }
 
 if (hasErrors) process.exit(1);
-console.log(`\n✅ ${contracts.length} behavior contract(s) match the schema\n`);
+console.log(
+  `\n✅ ${contracts.length + patterns.length} behavior file(s) match their schemas\n`,
+);

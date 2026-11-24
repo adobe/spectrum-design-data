@@ -1,0 +1,80 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "switch",
+  "extends": ["interactive"],
+  "state": ["isSelected", "isDisabled", "isReadOnly"],
+  "facets": {
+    "checked": {
+      "from": "isSelected",
+      "values": {
+        "unchecked": false,
+        "checked": true
+      }
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": {
+        "false": false,
+        "true": true
+      }
+    },
+    "readOnly": {
+      "from": "isReadOnly",
+      "values": {
+        "false": false,
+        "true": true
+      }
+    }
+  },
+  "parts": {
+    "track": {
+      "role": "switch",
+      "focus": "tab-stop",
+      "press": "activate"
+    }
+  },
+  "transitions": [
+    {
+      "on": "activate",
+      "guard": {
+        "all": [
+          {
+            "facet": "disabled",
+            "is": "false"
+          },
+          {
+            "facet": "readOnly",
+            "is": "false"
+          }
+        ]
+      },
+      "do": {
+        "toggle": "isSelected"
+      },
+      "emit": "change"
+    }
+  ],
+  "semantics": {
+    "track": {
+      "checked": {
+        "ariaState": "aria-checked",
+        "map": {
+          "unchecked": "false",
+          "checked": "true"
+        }
+      }
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "2.1.1",
+      "level": "A",
+      "title": "Keyboard"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}
