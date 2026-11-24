@@ -456,6 +456,11 @@ fn run_vector(
             })?;
             let role = part_role(&m.parts)
                 .ok_or_else(|| format!("step {n} is an `input` step, but no part has a role"))?;
+            if bindings.get("roles").and_then(|r| r.get(role)).is_none() {
+                return Err(format!(
+                    "step {n} is an `input` step, but the key bindings have no entry for role '{role}' (a mistyped role, or a role with no binding)"
+                ));
+            }
             let mut raised = Vec::new();
             for i in binding_intents(bindings, role, field("key"), field("phase")) {
                 raised.extend(
@@ -576,6 +581,105 @@ fn part_role(parts: &Map<String, Value>) -> Option<&str> {
         .find_map(|p| p.get("role").and_then(Value::as_str))
 }
 
+/// What a component suite must hold true of its contract, independent of the vectors: the
+/// contract's `state` list and every part's `role`, `focus`, `press` and `handles`. A vector
+/// cannot see these (focus mode is not an intent, an unused option is not a facet, and an unbound
+/// role only drops key vectors), so a suite pins them in `pins`:
+/// `{ "state": [...], "parts": { "<part>": { "role", "focus", "press", "handles" } } }`.
+/// A contract that extends patterns is compared after flattening. The runner also fails a contract
+/// whose facets derive from, or whose transitions change, an option its `state` does not list.
+/// Returns what is wrong; empty means conformant.
+pub fn check_contract(
+    contract: &Value,
+    patterns: &[BehaviorPatternRecord],
+    pins: Option<&Value>,
+) -> Vec<String> {
+    let m = match flatten(contract, patterns) {
+        Ok(m) => m,
+        Err(e) => return vec![e],
+    };
+    let state: Vec<&str> = contract
+        .get("state")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(Value::as_str)
+        .collect();
+    let mut out = Vec::new();
+    for (name, f) in &m.facets {
+        let from: Vec<&str> = match f.get("from") {
+            Some(Value::String(s)) => vec![s.as_str()],
+            Some(Value::Array(a)) => a.iter().filter_map(Value::as_str).collect(),
+            _ => vec![],
+        };
+        for s in from.iter().filter(|s| !state.contains(*s)) {
+            out.push(format!(
+                "facet '{name}' derives from '{s}', which `state` does not list"
+            ));
+        }
+    }
+    for t in &m.transitions {
+        let set = t
+            .pointer("/do/set")
+            .and_then(Value::as_object)
+            .into_iter()
+            .flat_map(|o| o.keys().map(String::as_str));
+        let toggle = t.pointer("/do/toggle").and_then(Value::as_str);
+        for o in set.chain(toggle) {
+            if !m.published.iter().any(|p| p == o) && !state.contains(&o) {
+                out.push(format!(
+                    "a transition changes '{o}', which `state` does not list"
+                ));
+            }
+        }
+    }
+    let Some(pins) = pins else {
+        if !m.parts.is_empty() || !state.is_empty() {
+            out.push(
+                "the suite has no `pins`: it must pin the contract's `state` and parts".into(),
+            );
+        }
+        return out;
+    };
+    let mut want: Vec<&str> = pins
+        .get("state")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(Value::as_str)
+        .collect();
+    let mut have = state.clone();
+    want.sort_unstable();
+    have.sort_unstable();
+    if want != have {
+        out.push(format!("`state` is {have:?}, the suite pins {want:?}"));
+    }
+    let pinned = pins.get("parts").and_then(Value::as_object);
+    for name in pinned.iter().flat_map(|p| p.keys()) {
+        if !m.parts.contains_key(name) {
+            out.push(format!(
+                "the suite pins part '{name}', which the contract lacks"
+            ));
+        }
+    }
+    for (name, part) in &m.parts {
+        let Some(pin) = pinned.and_then(|p| p.get(name)) else {
+            out.push(format!("part '{name}' is not pinned by the suite"));
+            continue;
+        };
+        for k in ["role", "focus", "press", "handles"] {
+            if part.get(k) != pin.get(k) {
+                out.push(format!(
+                    "part '{name}' `{k}` is {}, the suite pins {}",
+                    part.get(k).map_or("unset".into(), Value::to_string),
+                    pin.get(k).map_or("unset".into(), Value::to_string)
+                ));
+            }
+        }
+    }
+    out
+}
+
 fn capabilities_of(file: &Value, caps: &HashSet<String>) -> HashSet<String> {
     let has: HashSet<&str> = file
         .get("capabilities")
@@ -662,14 +766,25 @@ pub fn run_dir(
                 continue;
             }
             match contracts.iter().find(|c| c.component == component) {
-                Some(c) => out.extend(run_vectors(
-                    &c.raw,
-                    &patterns,
-                    &vectors,
-                    registry,
-                    &component_caps,
-                    platform.and_then(|p| bindings.get(p)),
-                )),
+                Some(c) => {
+                    out.extend(run_vectors(
+                        &c.raw,
+                        &patterns,
+                        &vectors,
+                        registry,
+                        &component_caps,
+                        platform.and_then(|p| bindings.get(p)),
+                    ));
+                    // Reported only when it fails, so a conformant suite's vector count is its own.
+                    let issues = check_contract(&c.raw, &patterns, suite.get("pins"));
+                    if !issues.is_empty() {
+                        out.push(VectorResult {
+                            component: component.to_string(),
+                            name: "(pins)".into(),
+                            status: Status::Fail(issues),
+                        });
+                    }
+                }
                 None => out.push(suite_failure(
                     component,
                     format!(
@@ -693,6 +808,13 @@ pub fn run_dir(
                 ));
                 continue;
             };
+            if file.get("roles").and_then(|r| r.get(role)).is_none() {
+                out.push(suite_failure(
+                    &label,
+                    format!("the '{plat}' key bindings have no entry for role '{role}', so its key vectors would prove nothing"),
+                ));
+                continue;
+            }
             let caps = capabilities_of(file, capabilities);
             let mut matched = false;
             for c in &contracts {

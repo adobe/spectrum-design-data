@@ -58,6 +58,35 @@
       "type": "array",
       "items": { "$ref": "#/$defs/vector" },
       "description": "Conformance vectors: start state, intents, expected facets and events."
+    },
+    "pins": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/name" },
+          "uniqueItems": true
+        },
+        "parts": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/name" },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string", "minLength": 1 },
+              "focus": { "enum": ["tab-stop", "roving", "none"] },
+              "press": { "$ref": "#/$defs/intent" },
+              "handles": {
+                "type": "array",
+                "items": { "$ref": "#/$defs/intent" }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "Conformance suites only. What the suite holds true of the contract regardless of its vectors: the `state` list and each part's `role`, `focus`, `press` and `handles`. The runner fails a contract that differs."
     }
   },
   "additionalProperties": false,

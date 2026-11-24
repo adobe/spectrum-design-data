@@ -1,6 +1,15 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "radio-group",
+  "pins": {
+    "state": ["orientation", "direction", "isDisabled"],
+    "parts": {
+      "container": {
+        "role": "radiogroup",
+        "focus": "none"
+      }
+    }
+  },
   "vectors": [
     {
       "name": "a vertical group keeps its arrows",
