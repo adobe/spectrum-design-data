@@ -1351,6 +1351,13 @@ fn exporters() -> Vec<Box<dyn TokenExporter>> {
     vec![Box::new(dtcg::DtcgExporter)]
 }
 
+/// Built-in scene renderers, looked up by `format_id()`. PNG is wired separately
+/// until it moves to its own plugin.
+fn scene_renderers() -> Vec<Box<dyn design_data_core::scene_render::SceneRenderer>> {
+    use design_data_core::scene_render::{SceneJsonRenderer, SvgRenderer};
+    vec![Box::new(SvgRenderer), Box::new(SceneJsonRenderer)]
+}
+
 /// Merge each winner's single-key DTCG document into one flat DTCG document.
 fn winners_to_dtcg_doc(
     graph: &TokenGraph,
@@ -1790,16 +1797,16 @@ fn run_render(
             .wrap_err_with(|| format!("failed to write {}", p.display()))?;
         return Ok(exit);
     }
-    let svg = if format == "scene" {
-        serde_json::to_string_pretty(&scene).into_diagnostic()?
-    } else {
-        visual::scene_to_svg(&scene)
-    };
+    let renderer = scene_renderers()
+        .into_iter()
+        .find(|r| r.format_id() == format)
+        .ok_or_else(|| miette::miette!("unknown render format '{format}'"))?;
+    let bytes = renderer.render(&scene).map_err(|e| miette::miette!(e))?;
     match output {
-        Some(p) => std::fs::write(&p, svg)
+        Some(p) => std::fs::write(&p, bytes)
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to write {}", p.display()))?,
-        None => println!("{svg}"),
+        None => println!("{}", String::from_utf8_lossy(&bytes)),
     }
     Ok(exit)
 }
