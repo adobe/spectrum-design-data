@@ -547,6 +547,7 @@ mod tests {
             "action-button",
             "button",
             "close-button",
+            "link",
         ] {
             let raw = component_raw(&legacy, name).unwrap();
             let contract = derived
