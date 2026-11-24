@@ -136,8 +136,12 @@ export const backend = {
     });
     const full = `${request.slice(0, -1)},"textMetrics":${metrics}}`;
     const scene = JSON.parse(engine.scene(full));
-    // The engine's own drawing of the scene: the page paints this, never the nodes.
-    scene.svg = engine.svg(full);
+    // The engine's own drawing of the scene: the page paints this, never the nodes. Solved on
+    // first read, so probes that only compare nodes (fingerprints, part counts) skip it.
+    let svg;
+    Object.defineProperty(scene, "svg", {
+      get: () => (svg ??= engine.svg(full)),
+    });
     const id = data.platform?.id;
     if (id)
       scene.diagnostics = scene.diagnostics.map(
