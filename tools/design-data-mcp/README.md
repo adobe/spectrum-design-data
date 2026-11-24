@@ -74,6 +74,7 @@ any network failure (offline/air-gapped use is unaffected); set
 | `design-data-suggest`          | Natural-language token suggestions with Jaccard similarity confidence scores                                                     |
 | `design-data-refinements`      | A token's specificity and its narrower and broader same-property tokens, drop-in or consider                                     |
 | `design-data-component-tokens` | Which tokens a component uses for what, with final values; filter by context, property, state, `options`, `colorScheme`, `scale` |
+| `design-data-token-usage`      | Which components, parts and contexts bind a token, directly or through an alias                                                  |
 | `design-data-component`        | Full component schema (variants, sizes, states, props) by kebab-case ID                                                          |
 | `design-data-component-search` | Search components by name, description, or docs text; returns id, category, snippet                                              |
 | `design-data-resolve`          | Resolve a token's concrete value for a mode context (colorScheme, scale, contrast)                                               |
