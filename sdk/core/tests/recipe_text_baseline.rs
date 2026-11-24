@@ -17,7 +17,8 @@
 //! parts are looked up in the nested recipe (`field-label.label`). The recipe snapshots hash the
 //! SVG, so a label that silently drew nothing still matched its snapshot.
 //!
-//! The flagged parts are committed in `tests/fixtures/recipe-text-baseline.json`. A new one
+//! The baseline is empty since the nested label follows the request label (layout revision 8):
+//! keep it empty. The flagged parts, if any, are committed in `tests/fixtures/recipe-text-baseline.json`. A new one
 //! fails the test, and a fixed one must be removed from the baseline. Regenerate with:
 //! `UPDATE_RECIPE_TEXT_BASELINE=1 cargo test -p design-data-core --test recipe_text_baseline`
 
@@ -66,6 +67,58 @@ fn takes_the_request_label(part: &Value) -> bool {
             .get("text")
             .and_then(|t| t.get("option"))
             .is_none_or(|o| o.as_str() == Some("label"))
+}
+
+fn graph() -> TokenGraph {
+    let d = data_dir();
+    TokenGraph::from_json_dir_with_catalogs(
+        &d.join("tokens"),
+        Some(&d.join("mode-sets")),
+        Some(&d.join("components")),
+    )
+    .expect("graph")
+    .with_relationships(
+        TokenGraph::load_spec_relationships(&d.join("relationships")).expect("rels"),
+    )
+    .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
+    .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
+}
+
+fn nested_label(label: &str, option: Option<Value>) -> String {
+    let mut req = RenderRequest {
+        component: "text-field".into(),
+        size: "m".into(),
+        label: label.into(),
+        ..Default::default()
+    };
+    if let Some(v) = option {
+        req.options.insert("label".into(), v);
+    }
+    let scene = build_scene_cached(
+        &graph(),
+        &recipe("text-field").unwrap(),
+        &req,
+        &SceneCache::default(),
+    )
+    .expect("scene");
+    scene
+        .nodes
+        .iter()
+        .find(|n| n.part == "field-label.label")
+        .and_then(|n| n.text.clone())
+        .unwrap_or_default()
+}
+
+#[test]
+fn the_nested_label_follows_the_request_label_and_the_label_option() {
+    assert_eq!(nested_label("Hello", None), "Hello");
+    assert_eq!(nested_label("Hello", Some(Value::Bool(true))), "Hello");
+    assert_eq!(nested_label("Hello", Some(Value::Bool(false))), "");
+    assert_eq!(nested_label("", None), "");
+    assert_eq!(
+        nested_label("Hello", Some(Value::String("Opt".into()))),
+        "Opt"
+    );
 }
 
 fn flagged(graph: &TokenGraph, name: &str) -> Vec<String> {
