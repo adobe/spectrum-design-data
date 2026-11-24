@@ -222,6 +222,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "2.2.1",
+      "bump": "patch",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "96efb8e7adeb5ed093c4c755df110675e0ff7db3",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2146,"title":"fix(design-data): default color-slider and color-area color so the gradient draws","url":"https://github.com/adobe/spectrum-design-data/pull/2146"},
+          "entries": [
+            {"id":"96efb8e7-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-area/options/color","name":"color","fields":[{"path":"default","after":"#ff0000"}]},
+            {"id":"96efb8e7-1","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-area/options/colorSpace","name":"colorSpace","fields":[{"path":"default","after":"hsb"}]},
+            {"id":"96efb8e7-2","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-area/options/colorSpace","name":"colorSpace","fields":[{"path":"description","before":"The color space of the two channels (S2 colorSpace). Defaults to the color's own space.","after":"The color space of the two channels (S2 colorSpace). Defaults to hsb."}]},
+            {"id":"96efb8e7-3","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-area/options/xChannel","name":"xChannel","fields":[{"path":"default","after":"saturation"}]},
+            {"id":"96efb8e7-4","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-area/options/yChannel","name":"yChannel","fields":[{"path":"default","after":"brightness"}]}
+          ]
+        }
+      ]
     }
   ]
 }

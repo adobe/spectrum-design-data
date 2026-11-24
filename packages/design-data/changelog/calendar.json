@@ -278,6 +278,33 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "b1da3859c7cd25a64dab4f98fe3046d518b0a969",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2142,"title":"feat(design-data): dashed and per-side strokes in the visual engine; calendar range outline","url":"https://github.com/adobe/spectrum-design-data/pull/2142"},
+          "entries": [
+            {"id":"b1da3859-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Track (border)"],"scope":{"property":"border-width","options":null},"record":"da38a622-b0c5-5fc1-8e72-15294c204eb9","name":"border-width","fields":[],"after":"b5525080-28e7-4eb7-aee9-fb2c71a16f68"},
+            {"id":"b1da3859-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Day values"],"scope":{"property":"color","options":{"isError":true}},"record":"87e84f21-8eac-5f3b-a069-ab6661c1e9ba","name":"color[isError=?]","fields":[],"after":"6effed65-3d52-465f-9eb2-7994f1ee90fb"},
+            {"id":"b1da3859-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"calendar/visual/parts/range-fill","name":"range-fill","fields":[{"path":"props.stroke","after":[{"relationship":{"property":"color","part":"range-fill","attribute":"border"}},{"when":{"options":{"isRangeStart":true,"isRangeEnd":true}},"value":"transparent","priority":10},{"when":{"options":{"isRangeStart":true},"rowPosition":["last","only"]},"value":"transparent","priority":10},{"when":{"options":{"isRangeEnd":true},"rowPosition":["first","only"]},"value":"transparent","priority":10}]},{"path":"props.strokeDash.value","after":3},{"path":"props.strokeDashAnchor.value","after":"scene"},{"path":"props.strokeSides","after":[{"value":"top bottom"},{"when":{"rowPosition":"first"},"value":"top bottom start"},{"when":{"rowPosition":"last"},"value":"top bottom end"},{"when":{"rowPosition":"only"},"value":"all"}]},{"path":"props.strokeWidth.relationship.part","after":"range-fill"},{"path":"props.strokeWidth.relationship.property","after":"border-width"}]}
+          ]
+        },
+        {
+          "commit": "bceef532dc1943f67280563cc997f1cc40b57f81",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2157,"title":"fix(design-data): remove retired combo-box, calendar and close-button data","url":"https://github.com/adobe/spectrum-design-data/pull/2157"},
+          "entries": [
+            {"id":"bceef532-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Current day"],"scope":{"property":"content-color","options":null},"record":"f9439955-3785-578e-b357-0f2cf3982902","name":"content-color","fields":[],"before":"d236bdc5-037b-4838-8401-8a0d5136936c"}
+          ]
+        }
+      ]
     }
   ]
 }

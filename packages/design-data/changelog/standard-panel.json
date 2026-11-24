@@ -140,6 +140,23 @@
           "metadata": {"count":1,"fields":["scope.options.qualifier","scope.options.type"]}
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "9ac6deb925ea33b70d6c99cdb630cf5b4997d2e5",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2137,"title":"feat(design-data): demo field on component slots; explorer and goldens read it","url":"https://github.com/adobe/spectrum-design-data/pull/2137"},
+          "entries": [
+            {"id":"9ac6deb9-0","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"standard-panel/slots/default","name":"default","fields":[{"path":"demo","after":[{"component":"accordion","options":{"label":"Label"}},{"component":"accordion","options":{"label":"Label"}},{"component":"accordion","options":{"label":"Label"}}]}]}
+          ]
+        }
+      ]
     }
   ]
 }
