@@ -134,9 +134,10 @@ export const backend = {
       icon: iconRequest(q.icon),
       slots: demoSlots(data.byName[q.name], data.byName),
     });
-    const scene = JSON.parse(
-      engine.scene(`${request.slice(0, -1)},"textMetrics":${metrics}}`),
-    );
+    const full = `${request.slice(0, -1)},"textMetrics":${metrics}}`;
+    const scene = JSON.parse(engine.scene(full));
+    // The engine's own drawing of the scene: the page paints this, never the nodes.
+    scene.svg = engine.svg(full);
     const id = data.platform?.id;
     if (id)
       scene.diagnostics = scene.diagnostics.map(

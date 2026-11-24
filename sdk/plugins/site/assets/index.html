@@ -611,7 +611,7 @@
         vertical-align: -2px;
         margin-right: 6px;
       }
-      .pn.hl {
+      #zg [data-part].hl {
         filter: drop-shadow(0 0 3px #d83790);
       }
       .co.hl line {
@@ -816,7 +816,6 @@
         "imports": {
           "./backend.js": "./backend.js?v=__BUILD_ID__",
           "./platform-switcher.js": "./platform-switcher.js?v=__BUILD_ID__",
-          "./draw-helpers.js": "./draw-helpers.js?v=__BUILD_ID__",
           "./content-controls.js": "./content-controls.js?v=__BUILD_ID__",
           "./constraints.js": "./constraints.js?v=__BUILD_ID__",
           "./engine/design_data_wasm_visual.js": "./engine/design_data_wasm_visual.js?v=__BUILD_ID__"
@@ -827,12 +826,6 @@
     <script type="module">
       import { backend } from "./backend.js";
       import { platformSwitcher } from "./platform-switcher.js";
-      import {
-        cssFontWeight,
-        iconSvg,
-        boxSvg,
-        progressSvg,
-      } from "./draw-helpers.js";
       import {
         DEFAULT_LABEL,
         labelText,
@@ -1012,36 +1005,11 @@
       }
 
       // ---- scene -> SVG ------------------------------------------------------
-      function nodeSvg(n) {
-        const so =
-          n.stroke_opacity !== undefined
-            ? ` stroke-opacity="${n.stroke_opacity}"`
-            : "";
-        if (n.kind === "box") return boxSvg(n, so);
-        if (n.kind === "ring")
-          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"${so}/>`;
-        if (n.kind === "icon")
-          return (
-            iconSvg(n) ??
-            `<circle cx="${n.x + n.w / 2}" cy="${n.y + n.h / 2}" r="${n.w * 0.4}" fill="none" stroke="${n.color}" stroke-width="1.5"/>`
-          );
-        if (n.kind === "progress") return progressSvg(n);
-        if (n.kind === "text") {
-          const u = n.underline;
-          // The renderer's rule: the baseline is 0.35 x the font size below the line box center.
-          const line = u
-            ? `<rect x="${n.x}" y="${n.y + n.h / 2 + 0.35 * n.font_size + u.offset}" width="${n.w}" height="${u.thickness}" fill="${n.color}"/>`
-            : "";
-          return `<text x="${n.x}" y="${n.y + n.h * 0.75}" font-size="${n.font_size}" font-weight="${cssFontWeight(n.font_weight)}" fill="${n.color}">${esc(n.text)}</text>${line}`;
-        }
-        return "";
-      }
-      const dimAttr = (s) =>
-        s.opacity !== undefined ? ` opacity="${s.opacity}"` : "";
-      const sceneSvg = (s, k = 1) => {
-        const body = s.nodes.map(nodeSvg).join("");
-        return `<svg width="${s.width * k}" height="${s.height * k}" viewBox="0 0 ${s.width} ${s.height}">${s.opacity !== undefined ? `<g${dimAttr(s)}>${body}</g>` : body}</svg>`;
-      };
+      // The engine draws (scene.svg, from Engine.svg); the page only places it. Each part's
+      // first element carries data-part and data-tokens.
+      const sceneSvg = (s) => s.svg;
+      const svgInner = (s) =>
+        s.svg.replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "");
       const node = (s, part) => s.nodes.find((n) => n.part === part);
       const tok = (n, prop) => n?.tokens.find((t) => t.prop === prop);
 
@@ -1954,7 +1922,7 @@
           lit(on, "#tokens tr.tr", "data-token", token);
           lit(on, ".mono-pill", "data-token", token);
         } else if (part) {
-          lit(on, ".pn, .co", "data-part", part);
+          lit(on, "#zg [data-part], .co", "data-part", part);
           lit(on, "#tokens details", "data-part", part);
         }
       }
@@ -2208,11 +2176,8 @@
           );
         }
 
-        // The pressed scale applies to the drawing only; measurements stay at rest size.
+        // The engine's SVG applies the pressed scale to the drawing; measurements stay at rest size.
         const pr = s.press;
-        const pressAttr = pr
-          ? ` transform="translate(${pr.cx} ${pr.cy}) scale(${pr.scale}) translate(${-pr.cx} ${-pr.cy})"`
-          : "";
         if (pr) {
           const pd = tok(root, "pressDifference");
           const pt = (pr.part && node(s, pr.part)) || root;
@@ -2230,7 +2195,7 @@
           );
         }
 
-        return `<g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"${dimAttr(s)}><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap">${view.mode === "specs" ? `<g class="ov ov-specs">${out.join("")}</g>` : `<g class="ov ov-anatomy">${callouts.join("")}</g>`}</g>`;
+        return `<g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})">${svgInner(s)}</g></g><g id="ovwrap">${view.mode === "specs" ? `<g class="ov ov-specs">${out.join("")}</g>` : `<g class="ov ov-anatomy">${callouts.join("")}</g>`}</g>`;
       }
 
       // ---- page chrome --------------------------------------------------------
