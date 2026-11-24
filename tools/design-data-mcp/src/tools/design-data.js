@@ -691,7 +691,9 @@ export function createDesignDataTools() {
         "`focus-+-not-hover` and `keyboard-focus`; they are different states) and lists the other " +
         "states that have bindings in `otherStates`, so a state with no binding of its own is " +
         "visible without a second call; at most `limit` (default 40) are shown, so narrow the filter when `total` is " +
-        "larger. If the component has no binding for something, the data has none: say so " +
+        'larger. Narrow by option values with `options` (e.g. {"variant":"accent","style":"fill"}) and ' +
+        "collapse per-mode values to one with `colorScheme` and `scale`. Options like isDisabled are not " +
+        "states: pass them in `options`. If the component has no binding for something, the data has none: say so " +
         "instead of guessing.",
       inputSchema: {
         type: "object",
@@ -779,6 +781,7 @@ export function createDesignDataTools() {
           );
         }
         let otherStates;
+        let unpinnedState = false;
         if (state) {
           const applies = (b) =>
             !b.when?.state || appliesInState(b.when.state, state);
@@ -792,6 +795,11 @@ export function createDesignDataTools() {
                 ),
             ),
           ];
+          unpinnedState =
+            state !== "default" &&
+            !bindings.some(
+              (b) => b.when?.state && appliesInState(b.when.state, state),
+            );
           bindings = bindings.filter(applies);
         }
         const cap = Math.min(
@@ -810,6 +818,9 @@ export function createDesignDataTools() {
             .map((b) => pickMode(b, { colorScheme, scale })),
         };
         if (otherStates?.length) out.otherStates = otherStates;
+        if (unpinnedState) {
+          out.stateHint = `No binding pins state "${state}", so only bindings that apply in every state are shown. Options such as isDisabled or isSelected are not states: pass them in \`options\`.`;
+        }
         if (bindings.length > cap) {
           out.hint = `Showing ${cap} of ${bindings.length}. Narrow with context, property or state.`;
         }

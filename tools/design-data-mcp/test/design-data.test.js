@@ -1029,6 +1029,20 @@ test("design-data-component-tokens narrows by option values and collapses a mode
   t.true(accent.bindings.some((b) => typeof b.value === "string"));
 });
 
+test("design-data-component-tokens says when no binding pins the requested state", async (t) => {
+  const tool = byName()["design-data-component-tokens"];
+  const disabled = await tool.handler({
+    component: "action-button",
+    state: "disabled",
+  });
+  t.regex(disabled.stateHint, /isDisabled/);
+  const hover = await tool.handler({
+    component: "action-button",
+    state: "hover",
+  });
+  t.is(hover.stateHint, undefined);
+});
+
 test("design-data-query filters by purpose fields and sorts by specificity", async (t) => {
   const query = byName()["design-data-query"];
   const accent = await query.handler({
