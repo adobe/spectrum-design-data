@@ -18,7 +18,7 @@ the shared `press` pattern (proposal 022).
   `radiogroup` in its accessibility block and its contract.
 * Web key bindings for `button` (Enter on key down, Space on key up) and
   `radio` (Space on key up, arrows, no Home or End), with key vectors and
-  component vectors. The `accessibility` blocks are unchanged and the spec
-  sheets derived from the contracts equal them.
+  component vectors. Only radio-group's `accessibility` block changed (role
+  `radiogroup`); sheets derived from the contracts equal the block-derived.
 * Proposal 022 evidence table: measured button, link and radio keys.
 * The component explorer data gains the radio-group role; no render changes.
