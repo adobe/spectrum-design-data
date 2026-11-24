@@ -92,18 +92,15 @@
             "relationship": { "property": "color", "part": "track" }
           },
           {
-            "when": { "facets": { "checked": "checked" } },
+            "when": { "options": { "isSelected": true } },
             "relationship": { "property": "background-color", "part": "track" }
           },
           {
-            "when": {
-              "options": { "isEmphasized": true },
-              "facets": { "checked": "checked" }
-            },
+            "when": { "options": { "isSelected": true, "isEmphasized": true } },
             "relationship": { "property": "content-color", "part": "track" }
           },
           {
-            "when": { "facets": { "checked": "checked", "disabled": "true" } },
+            "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": { "property": "background-color", "part": "track" },
             "priority": 10
           }
@@ -113,18 +110,15 @@
             "relationship": { "property": "border-color", "part": "track" }
           },
           {
-            "when": { "facets": { "checked": "checked" } },
+            "when": { "options": { "isSelected": true } },
             "relationship": { "property": "background-color", "part": "track" }
           },
           {
-            "when": {
-              "options": { "isEmphasized": true },
-              "facets": { "checked": "checked" }
-            },
+            "when": { "options": { "isSelected": true, "isEmphasized": true } },
             "relationship": { "property": "content-color", "part": "track" }
           },
           {
-            "when": { "facets": { "checked": "checked", "disabled": "true" } },
+            "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": { "property": "background-color", "part": "track" },
             "priority": 11
           }
@@ -150,18 +144,18 @@
         },
         "justify": [
           { "value": "start" },
-          { "when": { "facets": { "checked": "checked" } }, "value": "end" }
+          { "when": { "options": { "isSelected": true } }, "value": "end" }
         ],
         "fill": [
           {
             "relationship": { "property": "background-color", "part": "handle" }
           },
           {
-            "when": { "facets": { "checked": "checked" } },
+            "when": { "options": { "isSelected": true } },
             "relationship": { "property": "color", "part": "track" }
           },
           {
-            "when": { "facets": { "checked": "checked", "disabled": "true" } },
+            "when": { "options": { "isSelected": true, "isDisabled": true } },
             "relationship": { "property": "color", "part": "track" },
             "priority": 11
           }

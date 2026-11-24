@@ -115,8 +115,8 @@
           },
           {
             "when": {
-              "facets": {
-                "checked": "indeterminate"
+              "options": {
+                "isIndeterminate": true
               }
             },
             "value": 0,
@@ -137,8 +137,8 @@
           },
           {
             "when": {
-              "facets": {
-                "checked": "indeterminate"
+              "options": {
+                "isIndeterminate": true
               }
             },
             "relationship": { "property": "background-color", "part": "box" }

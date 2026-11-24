@@ -218,19 +218,6 @@ impl PreviewSource {
                     dir.display()
                 )
             })?;
-            // Recipes read facets, which only a contract resolves (`behaviors/` beside `visuals/`).
-            let behaviors = dir.with_file_name("behaviors");
-            if behaviors.is_dir() {
-                let load = |e: design_data_core::CoreError| {
-                    format!("preview: failed to load behaviors: {e}")
-                };
-                graph.behaviors = TokenGraph::load_spec_behaviors(&behaviors).map_err(load)?;
-                if behaviors.join("patterns").is_dir() {
-                    graph.behavior_patterns =
-                        TokenGraph::load_spec_behavior_patterns(&behaviors.join("patterns"))
-                            .map_err(load)?;
-                }
-            }
         }
         manifest::apply_configured(&mut graph, r)
             .map_err(|e| format!("preview: failed to apply the platform manifest: {e}"))?;

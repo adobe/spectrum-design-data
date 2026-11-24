@@ -17,7 +17,6 @@ Checkbox extend, and a read-only Checkbox.
   `optionDefaults`; every other render is unchanged.
 * Activating a checkbox with `isSelected` and `isIndeterminate` both true
   unchecks it, as a native input does.
-* Switch and Checkbox recipes read facets where they read the same options.
 * Validation: SPEC-118 to SPEC-120 follow `extends` for facets, patterns may
   toggle options, SPEC-124 warns when a binding targets an intent the role
   does not handle. The spec page maps DOM keys to key names.
