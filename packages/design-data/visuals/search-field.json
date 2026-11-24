@@ -39,17 +39,15 @@
         "gap": {
           "value": 0
         },
-        "width": [
-          {
-            "dimension": "width"
-          },
-          {
+        "width": {
+          "dimension": "width",
+          "fallback": {
             "relationship": {
               "property": "width",
               "part": "container"
             }
           }
-        ]
+        }
       }
     },
     "field-label": {

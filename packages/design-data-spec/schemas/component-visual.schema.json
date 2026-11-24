@@ -645,12 +645,19 @@
           "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
           "description": "A size in pixels the request carries in this numeric option, for an extent no token holds. An unset option uses the component's declared default; a value that is not a positive number is dropped with a diagnostic."
         },
+        "fallback": {
+          "$ref": "#/$defs/conditionalValueSource",
+          "description": "Only with `dimension`: the value source used when the option is unset or not a positive number, so a recipe can read an optional size and otherwise a relationship."
+        },
         "token": {
           "$ref": "#/$defs/tokenSelector"
         },
         "relationship": {
           "$ref": "#/$defs/relationshipSelector"
         }
+      },
+      "dependentRequired": {
+        "fallback": ["dimension"]
       },
       "additionalProperties": false,
       "oneOf": [
