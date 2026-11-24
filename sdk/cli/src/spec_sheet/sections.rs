@@ -226,9 +226,29 @@ const DEFAULT_KEYS: [(&str, &str); 9] = [
 // shortcut: hard-coded annotation, replace when anatomy parts carry `accessibility`.
 const PART_ROLES: [(&str, &str, &str); 1] = [("accordion", "header", "button")];
 
-fn accessibility(component: &Value, name: &str) -> Option<Vec<Value>> {
+/// The accessibility section. When the component has a behavior contract (A499), role, focus,
+/// keyboard intents and WCAG criteria come from it and the `accessibility` block fills only what
+/// the contract cannot say; the component-level `intents` labels have no contract field yet, so
+/// they still come from the block. A field the contract cannot answer exactly keeps the block's.
+fn accessibility(graph: &TokenGraph, component: &Value, name: &str) -> Option<Vec<Value>> {
     let a = component.get("accessibility").and_then(Value::as_object)?;
-    let a = Value::Object(a.clone());
+    let mut a = Value::Object(a.clone());
+    if let Some(c) = graph.behaviors.iter().find(|b| b.component == name) {
+        let v = design_data_core::behavior::accessibility_view(&c.raw);
+        let obj = a.as_object_mut()?;
+        if let Some(role) = v.role {
+            obj.insert("role".into(), json!(role));
+        }
+        if let Some(f) = v.focusable {
+            obj.insert("focusable".into(), json!(f));
+        }
+        if !v.keyboard_intents.is_empty() {
+            obj.insert("keyboardIntents".into(), json!(v.keyboard_intents));
+        }
+        if !v.wcag.is_empty() {
+            obj.insert("wcag".into(), Value::Array(v.wcag));
+        }
+    }
     let list = |k: &str| {
         a.get(k)
             .and_then(Value::as_array)
@@ -475,7 +495,7 @@ pub fn fill(
         ));
         set_blocks(sections, "anatomy", anatomy);
     }
-    if let Some(blocks) = accessibility(raw, component) {
+    if let Some(blocks) = accessibility(graph, raw, component) {
         set_blocks(sections, "accessibility", blocks);
     }
     if let Some(blocks) = states(graph, component, raw) {
@@ -486,5 +506,74 @@ pub fn fill(
     }
     if let Some(blocks) = usage(raw) {
         set_blocks(sections, "usage", blocks);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use design_data_core::behavior::accessibility_view;
+
+    fn graph(with_contracts: bool) -> TokenGraph {
+        let packages =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data");
+        let mut g = TokenGraph::from_json_dir_with_catalogs(
+            &packages.join("tokens"),
+            Some(&packages.join("mode-sets")),
+            Some(&packages.join("components")),
+        )
+        .unwrap();
+        if with_contracts {
+            g.behaviors = TokenGraph::load_spec_behaviors(&packages.join("behaviors")).unwrap();
+        }
+        g
+    }
+
+    /// A499: for each component with a contract, the accessibility section built from the contract
+    /// equals the one built from the `accessibility` block, and the contract answers every field
+    /// itself (no fallback to the block) except the component-level `intents` labels.
+    #[test]
+    fn contract_derived_accessibility_equals_the_block_for_switch_and_checkbox() {
+        let (legacy, derived) = (graph(false), graph(true));
+        for name in ["switch", "checkbox"] {
+            let raw = component_raw(&legacy, name).unwrap();
+            let contract = derived
+                .behaviors
+                .iter()
+                .find(|b| b.component == name)
+                .unwrap();
+            let v = accessibility_view(&contract.raw);
+            let a = &raw["accessibility"];
+            assert_eq!(v.role.as_deref(), a["role"].as_str(), "{name} role");
+            assert_eq!(v.focusable, a["focusable"].as_bool(), "{name} focusable");
+            assert_eq!(
+                json!(v.keyboard_intents),
+                a["keyboardIntents"],
+                "{name} keyboardIntents"
+            );
+            assert_eq!(json!(v.wcag), a["wcag"], "{name} wcag");
+            assert_eq!(
+                accessibility(&legacy, raw, name),
+                accessibility(&derived, raw, name),
+                "{name} section"
+            );
+        }
+    }
+
+    /// Mutation guard: a contract that disagrees with the block changes the section.
+    #[test]
+    fn a_contract_that_disagrees_changes_the_section() {
+        let mut g = graph(true);
+        let c = g
+            .behaviors
+            .iter_mut()
+            .find(|b| b.component == "switch")
+            .unwrap();
+        c.raw["parts"]["track"]["focus"] = json!("none");
+        let raw = component_raw(&g, "switch").unwrap();
+        assert_ne!(
+            accessibility(&g, raw, "switch"),
+            accessibility(&graph(false), raw, "switch")
+        );
     }
 }

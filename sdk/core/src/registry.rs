@@ -136,6 +136,8 @@ pub struct FacetEntry {
     pub values: HashSet<String>,
     /// Event intents that do nothing while the facet is `true` (`blocksInteraction`).
     pub blocks_interaction: HashSet<String>,
+    /// The interaction state name (`states.json`) an interaction facet resolves against.
+    pub state_name: Option<String>,
 }
 
 /// Split a relationship `context` into its main word and the text inside a trailing
@@ -256,6 +258,7 @@ fn parse_facets(json_str: &str) -> HashMap<String, FacetEntry> {
                 FacetEntry {
                     interaction,
                     values,
+                    state_name: e.get("stateName").and_then(Value::as_str).map(String::from),
                     blocks_interaction: e
                         .get("blocksInteraction")
                         .and_then(Value::as_array)

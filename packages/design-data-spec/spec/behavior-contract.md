@@ -65,6 +65,10 @@ A shared base contract is a file in `behaviors/patterns/<pattern>.json` ([`behav
 
 A registered facet may list `blocksInteraction`: the event intents that do nothing while the facet is `true`. `disabled` lists `focus`, `press-start` and `pointer-enter`: a disabled control takes no focus, press or hover. `activate` stays an explicit transition guard, as in the Switch example, because a read-only control keeps focus and ignores only activation.
 
+## Facets in recipes
+
+A recipe `when` or `visibleWhen` may carry `facets: { "<facet>": "<value>" }` beside `options` and `states` (`component-visual.schema.json`). It is opt-in and additive: when a recipe compiles, each facet clause folds into the `options` (a state-group facet: the option values its contract maps to that value) and `states` (an interaction facet selected as `"true"`: its `stateName`, for example `hovered` to `hover`) that the solver already reads, so no recipe that omits `facets` changes and a recipe that uses it compiles to the same output as its option form. A facet that cannot be selected never matches, and SPEC-122 warns: no contract, a facet the contract does not declare, an interaction facet no extended pattern publishes, a value the facet lacks, `"false"` on an interaction facet (a recipe cannot test a state's absence), or a value that overlaps an earlier one under first match wins. A facet clause counts as one satisfied condition per option it folds into when conditions are ranked.
+
 ## Reference runner
 
 `design-data behavior test <component|--all>` runs each conformance vector in `conformance/behavior/<component>.json` (`{ "component", "vectors" }`, the shape of a contract with only `vectors`) against `behaviors/<component>.json`, with no browser. Library function: `design_data_core::behavior::run_dir`. The run has all capabilities unless `--without <capability>` removes one; a vector that needs a missing capability is **not applicable**, neither pass nor fail. The exit code is 1 when any vector fails. Rules the runner applies:
@@ -72,6 +76,10 @@ A registered facet may list `blocksInteraction`: the event intents that do nothi
 * Options are the state; a missing option reads as `false`. A facet is the first `values` entry that matches.
 * `focus` via `keyboard` sets `focusVisible`; `blur` clears it; `press-start` and `press-cancel` set and clear `pressed`; `pointer-enter` and `pointer-leave` set and clear `hovered`; `press-end` clears `pressed` and raises the `press` intent of the first part that has one. These apply only to facets a pattern publishes.
 * Any other intent fires the first transition for it whose `needs` the run has and whose `guard` holds, reading the facets from before the step. An intent that no transition, event or `handles` entry covers fails the vector.
+
+## Spec sheet derivation
+
+The Figma spec sheet's accessibility section reads role, focus, keyboard intents and WCAG criteria from the contract when the component has one (`design-data spec-sheet`); otherwise from the `accessibility` block. Role is the role of the only part that has one; focus is `true` when any part is a `tab-stop` and `false` when every part is `none` (`roving` is not derivable); keyboard intents are the non-event intents of the transitions, then each part's `press` and `handles`; `wcag` is the contract's list. A field the contract cannot answer exactly keeps the block's value. The component-level `intents` labels (`choose`) have no contract field, so they still come from the block. For Switch and Checkbox the section built from the contract is equal to the one built from the block (a unit test proves it), so sheets are unchanged.
 
 ## Where each `accessibility` field goes
 
@@ -88,12 +96,13 @@ A registered facet may list `blocksInteraction`: the event intents that do nothi
 
 1. **Expand.** The schema, the facet, intent and capability registries, patterns, the reference runner and the warnings below exist. The `accessibility` block stays; nothing reads the contract at render time.
 2. **Migrate.** A component gains `behaviors/<component>.json` carrying everything its `accessibility` block says, per the table above. Both forms coexist, and renders and spec sheets stay byte-identical. Recipes then move from options to facets in their `when` clauses, per component.
-3. **Contract.** When every component has a contract or a registered exemption, the `accessibility` block is removed from the schema and the data, and the SPEC-118 to SPEC-120 warnings become errors, per component at zero.
+3. **Contract.** When every component has a contract or a registered exemption, the `accessibility` block is removed from the schema and the data, and the SPEC-118 to SPEC-120 and SPEC-122 warnings become errors, per component at zero.
 
 ## Validation
 
-The schema shape is checked by `design-data:validate-behaviors` (AJV), which also checks the conformance baseline, as `validate-visuals` does for recipes. The SDK loads `behaviors/` (a sibling of `visuals/`, so a dataset without the directory is valid) and runs three rules, all **warnings** until components migrate:
+The schema shape is checked by `design-data:validate-behaviors` (AJV), which also checks the conformance baseline, as `validate-visuals` does for recipes. The SDK loads `behaviors/` (a sibling of `visuals/`, so a dataset without the directory is valid) and runs these rules, all **warnings** until components migrate:
 
 * **SPEC-118** `behavior-references-resolve`: the component, `state` options, facets, parts and semantics resolve.
 * **SPEC-119** `behavior-transitions-well-formed`: intents, capabilities, guards and `do` resolve.
 * **SPEC-120** `behavior-vectors-well-formed`: a vector's component, capabilities, steps, start options and expectations resolve.
+* **SPEC-122** `recipe-facets-resolve`: a recipe `facets` clause names a facet its component's contract can publish, with a value options or a state can select.

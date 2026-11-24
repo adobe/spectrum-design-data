@@ -3712,6 +3712,7 @@ fn parts_with_presence(
         .and_then(|c| c.raw.get("anatomy")?.as_array());
     let mut parts = parts.clone();
     for (name, part) in parts.iter_mut() {
+        crate::behavior::expand_facets(graph, component, part);
         let when = anatomy
             .and_then(|a| {
                 a.iter()
