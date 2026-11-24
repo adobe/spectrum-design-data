@@ -73,6 +73,7 @@ export path; the Phase B foundation-corpus write-path redirect that gated this h
 | [018 Structured relationship identity](proposals/018-structured-relationship-identity.md)                           | Draft; spike on switch and checkbox                                                                      |
 | [019 Platform deviations](proposals/019-platform-deviations.md)                                                     | Draft; spec and schema only (issue [#1746](https://github.com/adobe/spectrum-design-data/issues/1746))   |
 | [021 Option kind, state groups and an accessibility cross-check](proposals/021-option-kind-and-state-attributes.md) | Draft; no data changes (RFC [#2098](https://github.com/adobe/spectrum-design-data/discussions/2098))     |
+| [022 Behavior contract](proposals/022-behavior-contract.md)                                                         | Draft; no data changes (RFC [#2098](https://github.com/adobe/spectrum-design-data/discussions/2098))     |
 
 ## How to use this file
 
