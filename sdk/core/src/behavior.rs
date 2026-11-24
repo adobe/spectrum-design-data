@@ -121,7 +121,8 @@ pub(crate) fn flatten(
         published: Vec::new(),
     };
     let own = [contract];
-    for raw in chain.iter().copied().chain(own) {
+    // Base first, so a derived pattern and then the contract override what they extend.
+    for raw in chain.iter().rev().copied().chain(own) {
         for (key, into) in [("facets", &mut m.facets), ("parts", &mut m.parts)] {
             for (k, v) in raw
                 .get(key)

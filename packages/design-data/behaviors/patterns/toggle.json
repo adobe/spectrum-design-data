@@ -1,7 +1,7 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-pattern.schema.json",
   "pattern": "toggle",
-  "description": "The shared base of every two-state control (switch, checkbox): it reads `isSelected` as the `checked` facet, blocks activation while the control is disabled or read-only, and toggles `isSelected` on `activate`. A component that differs overrides the `checked` facet (checkbox adds indeterminate) or the `activate` transition (checkbox also clears `isIndeterminate`). The extending contract lists `isSelected`, `isDisabled` and `isReadOnly` in its `state`.",
+  "description": "The shared base of every two-state control (switch, checkbox): it reads `isSelected` as the `checked` facet, blocks activation while the control is disabled or read-only, and toggles `isSelected` on `activate`. A component that differs overrides the `checked` facet (checkbox adds indeterminate) or adds its own `activate` transition, tried first (checkbox also clears `isIndeterminate`). The extending contract lists `isSelected`, `isDisabled` and `isReadOnly` in its `state`.",
   "extends": ["interactive"],
   "facets": {
     "checked": {

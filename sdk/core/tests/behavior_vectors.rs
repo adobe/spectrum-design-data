@@ -492,3 +492,32 @@ fn an_input_step_without_bindings_fails() {
         .iter()
         .all(|r| matches!(&r.status, Status::Fail(f) if f[0].contains("no key bindings"))));
 }
+
+/// A derived pattern's facet wins over its base's, and the contract's over both.
+#[test]
+fn a_derived_pattern_overrides_its_base() {
+    let (contract, vectors, mut patterns) = load("switch");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let base = patterns
+        .iter_mut()
+        .find(|p| p.pattern == "interactive")
+        .unwrap();
+    base.raw["facets"] = json!({ "checked": {
+        "from": "isSelected", "values": { "unchecked": true, "checked": false }
+    } });
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+}
+
+/// The vectors cannot see `semantics`, so pin what Checkbox exposes for read-only and indeterminate.
+#[test]
+fn checkbox_semantics_expose_aria_readonly_and_aria_checked() {
+    let (contract, _, _) = load("checkbox");
+    let box_ = &contract["semantics"]["box"];
+    assert_eq!(box_["readOnly"]["ariaState"], "aria-readonly");
+    assert_eq!(
+        box_["readOnly"]["map"],
+        json!({ "false": "false", "true": "true" })
+    );
+    assert_eq!(box_["checked"]["ariaState"], "aria-checked");
+    assert_eq!(box_["checked"]["map"]["indeterminate"], "mixed");
+}

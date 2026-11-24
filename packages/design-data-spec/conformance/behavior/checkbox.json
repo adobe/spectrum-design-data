@@ -498,6 +498,37 @@
       ]
     },
     {
+      "name": "a completed press on selected and indeterminate unchecks it",
+      "start": {
+        "isSelected": true,
+        "isIndeterminate": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isIndeterminate": false,
+                "isSelected": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "disabled indeterminate ignores activation",
       "start": {
         "isSelected": false,
