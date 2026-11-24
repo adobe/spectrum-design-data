@@ -1677,6 +1677,9 @@ impl<'a> CompileCx<'a> {
     /// A selector that uses `{option}` placeholders compiles once per declared value of that
     /// option, and each candidate pins that option, so the solver picks by the request.
     fn compile_source(&self, prop: &str, entry: &mut Value) {
+        if let Some(fallback) = entry.get_mut("fallback") {
+            self.compile_source(prop, fallback);
+        }
         let Some(obj) = entry.as_object_mut() else {
             return;
         };
@@ -2853,12 +2856,18 @@ impl Ctx<'_> {
                     gradient: None,
                 }),
                 None => {
+                    let fallback = chosen.get("fallback");
                     if !v.is_null() {
+                        let then = if fallback.is_some() {
+                            "using the fallback"
+                        } else {
+                            "drawing the unset size"
+                        };
                         self.diags.push(format!(
-                            "option '{name}' value {v} is not a positive number of pixels; drawing the unset size"
+                            "option '{name}' value {v} is not a positive number of pixels; {then}"
                         ));
                     }
-                    None
+                    self.eval(fallback)
                 }
             };
         }
@@ -8395,6 +8404,52 @@ mod tests {
             diags.iter().any(|d| d.contains("positive number")),
             "{diags:?}"
         );
+    }
+
+    #[test]
+    fn a_dimension_fallback_applies_when_the_option_is_unset_or_not_a_size() {
+        let (g, _) = load();
+        let recipe = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "props": {
+                "width": { "dimension": "extent", "fallback": { "value": 20 } }
+            } } }
+        });
+        let at = |v: Option<Value>| {
+            let mut r = req(&[]);
+            if let Some(v) = v {
+                r.options.insert("extent".into(), v);
+            }
+            let s = build_scene(&g, &recipe, &r).unwrap();
+            (s.nodes[0].w, s.diagnostics)
+        };
+        assert_eq!(at(Some(32.into())), (32.0, vec![]));
+        assert_eq!(at(None), (20.0, vec![]));
+        let (w, diags) = at(Some("big".into()));
+        assert_eq!(w, 20.0);
+        assert!(
+            diags.iter().any(|d| d.contains("using the fallback")),
+            "{diags:?}"
+        );
+        // A nested relationship fallback is compiled like any binding: it draws the token's size.
+        let (_, real) = load();
+        let expected = build_scene(&g, &real, &req(&[])).unwrap().nodes[0].h;
+        let rel = serde_json::json!({
+            "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
+            "parts": { "r": { "kind": "box", "props": { "height": {
+                "dimension": "extent",
+                "fallback": { "relationship": { "property": "component-height-100", "context": "Height" } }
+            } } } }
+        });
+        let h = |v: Option<Value>| {
+            let mut r = req(&[]);
+            if let Some(v) = v {
+                r.options.insert("extent".into(), v);
+            }
+            build_scene(&g, &rel, &r).unwrap().nodes[0].h
+        };
+        assert_eq!(h(None), expected);
+        assert_eq!(h(Some(50.into())), 50.0);
     }
 
     #[test]
