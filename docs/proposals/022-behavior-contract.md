@@ -213,7 +213,7 @@ Popups and overlays, collections and lists, text input and IME, drag and drop, l
 
 ## Open questions
 
-1. **Replace or sit beside?** Does the contract replace `accessibility` (this draft), or sit beside it, derived from it? Replacing follows principles 1, 12 and 14; deriving is a smaller first step but leaves a second home.
+1. ~~**Replace or sit beside?**~~ **Decided 2026-11-24 (owner): replace.** The contract replaces `accessibility`, and proposal 021's `accessibility` cross-check is dropped. Replacing follows principles 1, 12 and 14.
 2. **Contract per pattern or per component?** A "toggle" pattern shared by switch, checkbox, radio and a chip toggle would let an agent that builds a new component pick a pattern and get its vectors. Do patterns live in `behaviors/patterns/` and components `extends` them?
 3. **Table or statechart?** Is a guarded transition table enough for the first slice, with a statechart form kept for components that need hierarchy or history?
 4. **Facet vocabulary.** `checked` against `selected`, `pressed` against `down`: should facets reuse today's state names, or be a separate set mapped to them?
