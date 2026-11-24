@@ -15,6 +15,5 @@ The close button is used inside of other components, like a toast or an action b
 | Property | Type | Values | Default | Required | Description |
 | --- | --- | --- | --- | --- | --- |
 | size | string | s, m, l, xl | m | No | - |
-| iconSize | string | - | - | No | - |
 | staticColor | string | white, black | - | No | Static color must not be set for the default version of this component. |
 | isDisabled | boolean | - | false | No | - |

@@ -356,17 +356,6 @@
   {
     "scope": {
       "component": "calendar",
-      "part": "current-day-indicator",
-      "property": "content-color"
-    },
-    "context": "Current day",
-    "contextRole": ["value"],
-    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
-    "uuid": "f9439955-3785-578e-b357-0f2cf3982902"
-  },
-  {
-    "scope": {
-      "component": "calendar",
       "part": "range-fill",
       "property": "color",
       "attribute": "background"
