@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-// Budgets: the .wasm stays within 580 KB raw and 214 KB gzip, and one scene (JSON in, JSON
+// Budgets: the .wasm stays within 535 KB raw and 203 KB gzip, and one scene (JSON in, JSON
 // out) solves in under 0.2 ms. Run after `node scripts/build.mjs`; `node --test test/`.
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -29,11 +29,12 @@ const { Engine } = createRequire(import.meta.url)(`${pkg}.js`);
 
 // Measured 2026-11-23 on main with the pinned toolchain: 570.9 KB raw / 210.0 KB gzip, up
 // from 321.6 KB / 123.7 KB at nested recipes (#1703). The growth is solver features (slot
-// fills, gradients and ramps, drop shadows, floating parts, images, grid), not a build flag.
-// The limits keep about 1.6% headroom, as before. Raise them only with the commit that grows
+// fills, gradients and ramps, drop shadows, floating parts, images, grid). Per-crate
+// opt-levels in scripts/build.mjs (core `z`, serde and hash crates `3`) cut it to 527.8 KB /
+// 199.4 KB. The limits keep about 1.4% headroom. Raise them only with the commit that grows
 // the engine, and say what grew.
-const MAX_RAW = 580_000;
-const MAX_GZIP = 214_000;
+const MAX_RAW = 535_000;
+const MAX_GZIP = 203_000;
 // A shared CI runner, busy with other moon tasks, measured 0.48 and 0.65 ms where a laptop
 // measures 0.15 ms (PR #2124), so CI gets 2 ms: still a failure for a 10x regression, not noise.
 const MAX_SCENE_MS = process.env.CI ? 2 : 0.2;
