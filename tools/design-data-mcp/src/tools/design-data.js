@@ -212,6 +212,59 @@ function conceptRows(ds) {
   return _conceptRows;
 }
 
+/** Every mode row of the token that `text` names: a uuid, conceptId, legacy name or token label. */
+function findTokenRows(ds, text) {
+  const name = String(text).replace(/^\{|\}$/g, "");
+  const byUuid = uuidIndex(ds).get(name);
+  const concept =
+    byUuid?.raw.conceptId ??
+    (conceptRows(ds).has(name) ? name : undefined) ??
+    ds
+      .query("")
+      .find((t) => t.raw.name?.legacyKey === name || tokenLabel(t) === name)
+      ?.raw.conceptId;
+  if (concept) return conceptRows(ds).get(concept) ?? [];
+  return byUuid ? [byUuid] : [];
+}
+
+/** Parse `#rgb`, `#rrggbb`, `rgb(r, g, b)` or `rgba(r, g, b, a)` to { r, g, b, a }, or undefined. */
+function parseColor(text) {
+  const value = String(text).trim().toLowerCase();
+  const hex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/.exec(value);
+  if (hex) {
+    const h =
+      hex[1].length === 3 ? [...hex[1]].map((c) => c + c).join("") : hex[1];
+    return {
+      r: parseInt(h.slice(0, 2), 16),
+      g: parseInt(h.slice(2, 4), 16),
+      b: parseInt(h.slice(4, 6), 16),
+      a: 1,
+    };
+  }
+  const rgb =
+    /^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+%?))?\s*\)$/.exec(
+      value,
+    );
+  if (rgb) {
+    const a =
+      rgb[4] === undefined
+        ? 1
+        : rgb[4].endsWith("%")
+          ? parseFloat(rgb[4]) / 100
+          : parseFloat(rgb[4]);
+    return { r: +rgb[1], g: +rgb[2], b: +rgb[3], a };
+  }
+}
+
+/** WCAG 2 relative luminance of an opaque color. */
+function luminance({ r, g, b }) {
+  const lin = (c) => {
+    const v = c / 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+}
+
 /** A token's name without its mode fields, e.g. `property=color colorFamily=gray scaleIndex=300`. */
 function tokenLabel(token) {
   const { legacyKey, ...fields } = token.raw.name ?? {};
@@ -824,6 +877,97 @@ export function createDesignDataTools() {
         if (bindings.length > cap) {
           out.hint = `Showing ${cap} of ${bindings.length}. Narrow with context, property or state.`;
         }
+        return out;
+      },
+    },
+
+    // ── contrast ────────────────────────────────────────────────────────────
+    {
+      name: "design-data-contrast",
+      annotations: {
+        title: "Design Data: Contrast Ratio",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
+      description:
+        "WCAG 2 contrast ratio between two colors, each a hex or rgb() value or a token name, uuid or " +
+        "conceptId (resolved for `colorScheme`, default light). Returns the ratio and whether it meets " +
+        "3:1 (non-text, large text), 4.5:1 (text) and 7:1. A semi-transparent color is flattened over the " +
+        "background (when the foreground is transparent) and the result says so. This reports a fact; " +
+        "whether a combination is acceptable is the author's call.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          foreground: { type: "string", description: "Hex, rgb() or token" },
+          background: { type: "string", description: "Hex, rgb() or token" },
+          colorScheme: {
+            type: "string",
+            description:
+              'Mode to resolve tokens in, "light" (default), "dark" or "wireframe"',
+          },
+        },
+        required: ["foreground", "background"],
+        additionalProperties: false,
+      },
+      async handler({ foreground, background, colorScheme = "light" }) {
+        const ds = await getDataset();
+        const resolve = (input) => {
+          const direct = parseColor(input);
+          if (direct) return { color: direct, from: String(input) };
+          const rows = findTokenRows(ds, input);
+          if (!rows.length) {
+            throw new Error(
+              `"${input}" is not a color (hex or rgb()) or a known token.`,
+            );
+          }
+          const result = rowsValue(ds, rows);
+          const value =
+            result.value ?? result.values?.colorScheme?.[colorScheme];
+          const color =
+            typeof value === "string" ? parseColor(value) : undefined;
+          if (!color) {
+            throw new Error(
+              `Token "${input}" has no color value for colorScheme "${colorScheme}".`,
+            );
+          }
+          return { color, from: tokenLabel(rows[0]), value };
+        };
+        const fg = resolve(foreground);
+        const bg = resolve(background);
+        const notes = [];
+        if (bg.color.a < 1)
+          notes.push(
+            "Background is semi-transparent; it was treated as opaque.",
+          );
+        let top = fg.color;
+        if (top.a < 1) {
+          const over = (c, b) => Math.round(c * top.a + b * (1 - top.a));
+          top = {
+            r: over(top.r, bg.color.r),
+            g: over(top.g, bg.color.g),
+            b: over(top.b, bg.color.b),
+            a: 1,
+          };
+          notes.push(
+            "Foreground is semi-transparent; it was flattened over the background.",
+          );
+        }
+        const [hi, lo] = [luminance(top), luminance(bg.color)].sort(
+          (a, b) => b - a,
+        );
+        const ratio = Math.round(((hi + 0.05) / (lo + 0.05)) * 100) / 100;
+        const out = {
+          ratio,
+          meets: {
+            "3:1": ratio >= 3,
+            "4.5:1": ratio >= 4.5,
+            "7:1": ratio >= 7,
+          },
+          foreground: fg.value ? { token: fg.from, value: fg.value } : fg.from,
+          background: bg.value ? { token: bg.from, value: bg.value } : bg.from,
+          colorScheme,
+        };
+        if (notes.length) out.notes = notes;
         return out;
       },
     },
