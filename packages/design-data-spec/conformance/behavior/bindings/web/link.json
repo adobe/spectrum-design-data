@@ -1,0 +1,71 @@
+{
+  "platform": "web",
+  "role": "link",
+  "vectors": [
+    {
+      "name": "Enter activates on key down",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": false
+          },
+          "emit": [
+            {
+              "press": {}
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "facets": {},
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Space does not activate",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    }
+  ]
+}
