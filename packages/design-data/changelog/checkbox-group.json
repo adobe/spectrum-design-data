@@ -101,6 +101,31 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "1.2.1",
+      "bump": "patch",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "9ac6deb925ea33b70d6c99cdb630cf5b4997d2e5",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2137,"title":"feat(design-data): demo field on component slots; explorer and goldens read it","url":"https://github.com/adobe/spectrum-design-data/pull/2137"},
+          "entries": [
+            {"id":"9ac6deb9-0","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"checkbox-group/slots/default","name":"default","fields":[{"path":"demo","after":[{"component":"checkbox","options":{"label":"Label"}},{"component":"checkbox","options":{"label":"Label"}},{"component":"checkbox","options":{"label":"Label"}},{"component":"checkbox","options":{"label":"Label"}},{"component":"checkbox","options":{"label":"Label"}}]}]}
+          ]
+        },
+        {
+          "commit": "511dd9587e541cadb7be3fb345a7765756095c08",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2152,"title":"feat(spec): shared toggle behavior pattern and read-only Checkbox","url":"https://github.com/adobe/spectrum-design-data/pull/2152"},
+          "entries": [
+            {"id":"511dd958-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"checkbox-group/documentBlocks/0","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Tabb","fields":[{"path":"content","before":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Arrow keys Moves focus through the group of checkboxes. Page Up or Page Down Moves focus to the previous or next checkbox in the group (last becomes first, and first becomes last). Home or End Moves focus to the first or last checkbox in the group. Space or Enter Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected).","after":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Arrow keys Moves focus through the group of checkboxes. Page Up or Page Down Moves focus to the previous or next checkbox in the group (last becomes first, and first becomes last). Home or End Moves focus to the first or last checkbox in the group. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected)."}]}
+          ]
+        }
+      ]
     }
   ]
 }

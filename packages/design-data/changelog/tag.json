@@ -601,6 +601,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "3.1.2",
+      "bump": "patch",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "6d455abbccf06bba76ab55ea12aef8f431894a03",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2147,"title":"feat(design-data): nested component part can inherit the host's content color","url":"https://github.com/adobe/spectrum-design-data/pull/2147"},
+          "entries": [
+            {"id":"6d455abb-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"tag/visual/parts/clear-button","name":"clear-button","fields":[{"path":"inherit","after":["contentColor"]}]}
+          ]
+        }
+      ]
     }
   ]
 }

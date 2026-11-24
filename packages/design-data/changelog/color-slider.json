@@ -284,6 +284,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "2.2.1",
+      "bump": "patch",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "96efb8e7adeb5ed093c4c755df110675e0ff7db3",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2146,"title":"fix(design-data): default color-slider and color-area color so the gradient draws","url":"https://github.com/adobe/spectrum-design-data/pull/2146"},
+          "entries": [
+            {"id":"96efb8e7-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/options/channel","name":"channel","fields":[{"path":"default","before":"hue","after":"blue"}]},
+            {"id":"96efb8e7-1","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/options/label","name":"label","fields":[{"path":"default","after":"Blue"}]},
+            {"id":"96efb8e7-2","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/options/color","name":"color","fields":[{"path":"default","after":"#3b63fb"}]},
+            {"id":"96efb8e7-3","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/options/colorSpace","name":"colorSpace","fields":[{"path":"description","before":"The color space the channel belongs to (S2 colorSpace). Defaults to the color's own space.","after":"The color space the channel belongs to (S2 colorSpace). Defaults to the color's own space, or the one the channel belongs to."}]},
+            {"id":"96efb8e7-4","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"color-slider/constraints","name":"constraints","fields":[{"path":"constraints","after":[{"when":{"colorSpace":"rgb"},"require":{"channel":["red","green","blue","alpha"]},"severity":"error","description":"The rgb color space has the red, green, blue and alpha channels."},{"when":{"colorSpace":"hsl"},"require":{"channel":["hue","saturation","lightness","alpha"]},"severity":"error","description":"The hsl color space has the hue, saturation, lightness and alpha channels."},{"when":{"colorSpace":"hsb"},"require":{"channel":["hue","saturation","brightness","alpha"]},"severity":"error","description":"The hsb color space has the hue, saturation, brightness and alpha channels."}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -921,6 +921,25 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "5.0.0",
+      "bump": "major",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "bceef532dc1943f67280563cc997f1cc40b57f81",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2157,"title":"fix(design-data): remove retired combo-box, calendar and close-button data","url":"https://github.com/adobe/spectrum-design-data/pull/2157"},
+          "entries": [
+            {"id":"bceef532-0","kind":"anatomy-part","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"combo-box/anatomy/placeholder","name":"placeholder","fields":[],"before":{"name":"placeholder","description":"Hint text shown while the field is empty."}},
+            {"id":"bceef532-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"combo-box/anatomy/field","name":"field","fields":[{"path":"contains","before":["leading-icon","prefix","value","placeholder","error-icon","in-field-progress-circle","in-field-button","focus-indicator"],"after":["leading-icon","prefix","value","error-icon","in-field-progress-circle","in-field-button","focus-indicator"]}]},
+            {"id":"bceef532-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"combo-box/anatomy/prefix","name":"prefix","fields":[{"path":"description","before":"Short fixed text shown before the value or placeholder.","after":"Short fixed text shown before the value."}]}
+          ]
+        }
+      ]
     }
   ]
 }

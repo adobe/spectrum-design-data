@@ -443,6 +443,31 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "1.4.5",
+      "bump": "patch",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "16c95907ff7452b367417d03c123ac79f5751c65",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2151,"title":"feat(spec): per-platform behavior key bindings, web Space-only for switch and checkbox","url":"https://github.com/adobe/spectrum-design-data/pull/2151"},
+          "entries": [
+            {"id":"16c95907-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"switch/documentBlocks/0","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"Keyboard interactions.\n\nKey Interaction Tab Moves focus to the next item or group of items. Shift + Tab Moves focus to the previous item or group of items. Space or Enter Toggles the switch between on and off.","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus to the next item or group of items. Shift + Tab Moves focus to the previous item or group of items. Space Toggles the switch between on and off."}]}
+          ]
+        },
+        {
+          "commit": "511dd9587e541cadb7be3fb345a7765756095c08",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2152,"title":"feat(spec): shared toggle behavior pattern and read-only Checkbox","url":"https://github.com/adobe/spectrum-design-data/pull/2152"},
+          "entries": [
+            {"id":"511dd958-0","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"switch/options/isReadOnly","name":"isReadOnly","fields":[{"path":"description","before":"Behavior only: the switch keeps its default or selected appearance and does not respond to hover or press. No distinct read-only visual is defined in Figma (Web POC), react-spectrum S2, or Spectrum Web Components 1st-gen.","after":"Behavior only: the switch stays focusable and shows hover and press feedback but does not change value, and exposes aria-readonly. No distinct read-only visual is defined in Figma (Web POC), react-spectrum S2, or Spectrum Web Components 1st-gen."}]}
+          ]
+        }
+      ]
     }
   ]
 }

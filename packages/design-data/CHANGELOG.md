@@ -1,5 +1,209 @@
 # @adobe/spectrum-design-data
 
+## 4.6.0
+
+### Minor Changes
+
+- [#2155](https://github.com/adobe/spectrum-design-data/pull/2155) [`ea5fa64`](https://github.com/adobe/spectrum-design-data/commit/ea5fa640075f81854392f207f22c5004eaef5f06) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for Button and Close button on the `press` pattern, and
+  selected and pending behavior for Action button (proposal 022).
+  - Data: `button.json` and `close-button.json` extend `press`. Button adds a
+    `pending` facet and a rule that a pending button ignores `activate`. Action
+    button now toggles `isSelected` on `activate` (emits `press` with the new
+    value, exposes `aria-pressed`) and ignores `activate` while `isPending`.
+    The hold icon stays out. In-field progress button has no data, so no contract.
+  - Registry: facets `selected` and `pending`.
+  - Runner and spec: `emit` stays exact; a vector may set `emitOptions: "listed"`
+    (used by the shared `button` role key vectors) to check only listed options.
+  - Vectors: Button, Close button and Action button suites, including selected
+    plus press and pending. The `button` role key vectors now run on all three.
+  - No accessibility block changed; sheets derived from the contracts equal the
+    block-derived ones. No render or spec sheet output changes.
+
+- [#2158](https://github.com/adobe/spectrum-design-data/pull/2158) [`cfa233d`](https://github.com/adobe/spectrum-design-data/commit/cfa233d29d01dec8de0f25feb7a795ef68c3e9ed) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior contract for Clear button (proposal 022).
+  - Data: `clear-button.json` extends `press` and raises `press` on `activate`,
+    the same shape as Close button. It is a subcomponent; the flag does not
+    change any contract rule.
+  - Bindings: the existing web role `button` applies without edits.
+  - Vectors: a suite for the component.
+  - No accessibility block changed; the Clear button sheet derived from the
+    contract equals the block-derived one. No render or spec sheet output changes.
+
+- [#2143](https://github.com/adobe/spectrum-design-data/pull/2143) [`ff59961`](https://github.com/adobe/spectrum-design-data/commit/ff59961021dd08b03a9490948cdfb112ea97c04b) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior contract reference runner, event intents and patterns
+  (proposal 022), expand step. No render or spec sheet changes.
+  - Registry: `intents.json` gains the `event` intents (`focus`, `blur`,
+    `press-start`, `press-end`, `press-cancel`, `pointer-enter`, `pointer-leave`,
+    `navigate-next`, `navigate-previous`, `navigate-first`, `navigate-last`).
+    `facets.json` gains `blocksInteraction` (the `disabled` facet blocks focus,
+    press and hover).
+  - Spec: `parts.<part>.handles` lists intents that change no state; shared base
+    contracts live in `behaviors/patterns/` (`behavior-pattern.schema.json`,
+    first pattern `interactive`). SPEC-118 warns on an unresolved `extends`,
+    SPEC-119 on an unregistered `handles` intent.
+  - `design-data behavior test <component|--all>` runs conformance vectors against
+    the contract state machines with no browser; `conformance/behavior/` holds the
+    Switch and Checkbox suites, and `behaviors/switch.json` and `checkbox.json`
+    are their contracts.
+  - The `accessibility` block is untouched.
+
+- [#2139](https://github.com/adobe/spectrum-design-data/pull/2139) [`3d02271`](https://github.com/adobe/spectrum-design-data/commit/3d022713e7f332d6f8eb7912b5155fad6a06b03b) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior contract format (proposal 022), expand step only. No
+  component has a contract yet and renders are unchanged.
+  - Spec: `spec/behavior-contract.md` and `schemas/behavior.schema.json` for
+    `behaviors/<component>.json` (state options, facets, intents, parts, guarded
+    transitions, `wcag`, conformance vectors).
+  - Registries `facets.json`, `intents.json` (today's `intents` and
+    `keyboardIntents` vocabulary, nothing else) and `capabilities.json`, embedded
+    in the SDK.
+  - Rules SPEC-118 to SPEC-120 (warnings) check that a contract's options,
+    facets, parts, intents, capabilities and vectors resolve. `behaviors/` is read
+    as a sibling of `visuals/`; a dataset without it is unaffected.
+  - `design-data:validate-behaviors` checks contracts against the schema.
+  - The `accessibility` block stays; the contract is planned to replace it.
+
+- [#2148](https://github.com/adobe/spectrum-design-data/pull/2148) [`184612a`](https://github.com/adobe/spectrum-design-data/commit/184612abb1695edca5b0415ae58c90351777cda3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior exemptions registry (proposal 022), expand step. No render or
+  spec sheet changes.
+  - Registry: `exemption-reasons.json` (`static-text`, `static-display`,
+    `container`, `sub-part`, `decorative`) and `behavior-exemptions.json`, which lists the 26
+    components that take no interaction and so have no contract, each with a
+    reason.
+  - New rule SPEC-123 (warning): a component with no `accessibility.role` needs a
+    contract or an exemption, not both, and an exemption's reason must be
+    registered. Components with neither are the migration backlog.
+  - Spec: new Exemptions section in the behavior contract page.
+
+- [#2144](https://github.com/adobe/spectrum-design-data/pull/2144) [`51696d4`](https://github.com/adobe/spectrum-design-data/commit/51696d4007e14d86aaaf70b76ba9a1a47ac79b31) Thanks [@GarthDB](https://github.com/GarthDB)! - Add facets to recipe conditions and a contract-driven spec sheet section
+  (proposal 022), expand step. No render or spec sheet changes.
+  - Recipes: `when` and `visibleWhen` accept `facets: { checked: "indeterminate" }`
+    beside `options` and `states`. Opt-in: a facet clause folds into the options
+    and states the compiler already solves, so recipes without it are unchanged.
+    New rule SPEC-122 (warning) flags a facet the component's contract cannot
+    publish.
+  - Spec sheet: for a component with a behavior contract (Switch, Checkbox), the
+    accessibility section reads role, focus, keyboard intents and WCAG criteria
+    from the contract. The result equals the one built from the `accessibility`
+    block; the component-level `intents` labels still come from the block.
+
+- [#2151](https://github.com/adobe/spectrum-design-data/pull/2151) [`16c9590`](https://github.com/adobe/spectrum-design-data/commit/16c95907ff7452b367417d03c123ac79f5751c65) Thanks [@GarthDB](https://github.com/GarthDB)! - Add per-platform key bindings to the behavior contract (proposal 022), and say
+  that Space alone toggles Switch and Checkbox. No render or spec sheet changes.
+  - Schema: `behavior-bindings.schema.json` for a bindings file keyed by role;
+    a vector step may be an `input` (`key`, `phase` of `down` or `up`).
+  - Data: `behaviors/bindings/web.json` (Space on Switch and Checkbox); key
+    vectors per platform and role in `conformance/behavior/bindings/web/`,
+    including "Space toggles" and "Enter does not toggle".
+  - Runner: `design-data behavior test --platform <id>`; a platform with no
+    keyboard makes key vectors not applicable.
+  - SPEC-124 checks a bindings file. Spec page and proposal text updated.
+  - Switch and Checkbox keyboard guideline text said "Space or Enter toggles";
+    it now says Space.
+
+- [#2156](https://github.com/adobe/spectrum-design-data/pull/2156) [`22a48fd`](https://github.com/adobe/spectrum-design-data/commit/22a48fda909f8a786ca8b4a3470cc6c1d54b36d3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for Link, Floating action button and In-field button
+  (proposal 022).
+  - Data: `link.json` extends `interactive` and raises `press` on `activate`
+    (the link declares no `isDisabled`). `in-field-button.json` and
+    `floating-action-button.json` extend `press`. The floating action button
+    data declares no `isDisabled`, so SPEC-118 warns once (accepted, A559).
+  - Bindings: web role `link` (Enter on key down, Space unbound), measured.
+  - Vectors: suites for the three components and the `link` key vectors.
+  - No accessibility block changed; the Link sheet derived from the contract
+    equals the block-derived one. No render or spec sheet output changes.
+
+- [#2149](https://github.com/adobe/spectrum-design-data/pull/2149) [`af2f1e8`](https://github.com/adobe/spectrum-design-data/commit/af2f1e805cb9b96ff9adfccf62fc848b9cabec71) Thanks [@GarthDB](https://github.com/GarthDB)! - Carry the interaction event transitions as data in the `interactive` behavior
+  pattern (proposal 022). No render or spec sheet changes.
+  - Schema: a transition may name the event's `via`, and `do` may `raise` the
+    part's `press` intent. A pattern's `do.set` may set the interaction facets it
+    publishes.
+  - Data: `behaviors/patterns/interactive.json` holds what `focus`, `blur`,
+    `press-start`, `press-end`, `press-cancel`, `pointer-enter` and
+    `pointer-leave` do to `focusVisible`, `pressed` and `hovered`.
+  - `press-end` without a prior `press-start` (or after `press-cancel`) no longer
+    raises `press`. Two new vectors each for Switch and Checkbox cover it.
+  - SPEC-119 now also checks a pattern's transitions. Spec page and proposal
+    text updated.
+
+- [#2153](https://github.com/adobe/spectrum-design-data/pull/2153) [`064fd46`](https://github.com/adobe/spectrum-design-data/commit/064fd46c901e7b9133929242c088a9e37a528a19) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for Radio button, Radio group and Action button, and
+  the shared `press` pattern (proposal 022).
+  - Data: `behaviors/patterns/press.json` (extends `interactive`; `disabled`
+    facet, `activate` emits `press`) is the base of Action button.
+    `radio-button.json` selects on `activate` and when arrow navigation lands
+    on it; `radio-group.json` carries `orientation`, `direction` and the
+    `arrowOrder` facet (Left and Right swap only when horizontal and rtl).
+  - Registry: facets `orientation` and `arrowOrder`, and a new
+    `environment.json` (`direction`: ltr, rtl, initial ltr) that contracts may
+    list in `state` and vectors set in `start`. Radio group now has the role
+    `radiogroup` in its accessibility block and its contract.
+  - Web key bindings for `button` (Enter on key down, Space on key up) and
+    `radio` (Space on key up, arrows, no Home or End), with key vectors and
+    component vectors. Only radio-group's `accessibility` block changed (role
+    `radiogroup`); sheets derived from the contracts equal the block-derived.
+  - Proposal 022 evidence table: measured button, link and radio keys.
+  - The component explorer data gains the radio-group role; no render changes.
+
+- [#2152](https://github.com/adobe/spectrum-design-data/pull/2152) [`511dd95`](https://github.com/adobe/spectrum-design-data/commit/511dd9587e541cadb7be3fb345a7765756095c08) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the shared `toggle` behavior pattern (proposal 022) that Switch and
+  Checkbox extend, and a read-only Checkbox.
+  - Data: `behaviors/patterns/toggle.json` holds the `checked`, `disabled` and
+    `readOnly` facets and the `activate` transition. Switch extends it as is;
+    Checkbox overrides `checked` (adds indeterminate) and `activate` (also
+    clears `isIndeterminate`).
+  - Checkbox gains an `isReadOnly` option: it keeps focus and hover and press
+    feedback, ignores activation and exposes `aria-readonly` (Switch's contract
+    exposes it too). The component data and spec sheet option list
+    gain the option; no distinct read-only visual. Scenes list it in
+    `optionDefaults`; every other render is unchanged.
+  - Activating a checkbox with `isSelected` and `isIndeterminate` both true
+    unchecks it, as a native input does.
+  - Validation: SPEC-118 to SPEC-120 follow `extends` for facets, patterns may
+    toggle options, SPEC-124 warns when a binding targets an intent the role
+    does not handle. The spec page maps DOM keys to key names.
+  - The Checkbox group keyboard guideline says Space, not "Space or Enter".
+
+- [#2142](https://github.com/adobe/spectrum-design-data/pull/2142) [`b1da385`](https://github.com/adobe/spectrum-design-data/commit/b1da3859c7cd25a64dab4f98fe3046d518b0a969) Thanks [@GarthDB](https://github.com/GarthDB)! - The engine draws dashed and per-side strokes; the calendar range band gets its dashed outline.
+  - **@adobe/design-data-spec**: new optional box and root props `strokeDash`, `strokeGap`,
+    `strokeCap`, `strokeSides` and `strokeDashAnchor` (component-visuals.md, "Dashed and per-side
+    strokes"). A recipe that binds none draws what it did before. `strokeSides` lists top, end,
+    bottom, start; a corner arc is drawn where both its sides are, and a `scene` anchor lines up
+    the dashes of boxes that touch. New SPEC-121 checks the literal values.
+  - **@adobe/spectrum-design-data**: the calendar `range-fill` binds a 1px dashed stroke (3 on,
+    3 off) that outlines the joined band: top and bottom on every cell, start on the row's first
+    cell, end on its last. Color is the focus indicator, or the negative border for an error range
+    (two new relationship records: border width, error border color). Figma's stroke is solid; the
+    component docs say dashed.
+  - **@adobe/design-data-wasm**: the SVG writes `stroke-dasharray`, `stroke-dashoffset` and
+    `stroke-linecap` paths; scene nodes carry `stroke_style`; the PNG rasterizer draws the same.
+
+- [#2137](https://github.com/adobe/spectrum-design-data/pull/2137) [`9ac6deb`](https://github.com/adobe/spectrum-design-data/commit/9ac6deb925ea33b70d6c99cdb630cf5b4997d2e5) Thanks [@GarthDB](https://github.com/GarthDB)! - A component slot can declare `demo`, the fills a host shows it with.
+  - **@adobe/design-data-spec**: new optional `demo` array on a slot declaration (component schema,
+    component-format.md "Slot demo"). Entries have the shape of a render request slot fill
+    (`{component, options}`), so a host passes them through as `slots`. SPEC-104 checks them: the
+    slot has a part and is not a collection, each entry names an accepted component, options are
+    declared by it (and listed values respected), and the count is within `min` and `max`.
+  - **@adobe/spectrum-design-data**: `demo` on the 13 components that host slot fills
+    (radio-group, checkbox-group, button-group, action-group, swatch-group, popover, accordion,
+    alert-dialog, standard-dialog, coach-mark, bar-panel, stack-item, standard-panel), following
+    the Figma Web POC where it shows content.
+  - **@adobe/design-data-tui**: SPEC-104 validates `demo`; the explorer reads it (the first-accepted
+    component heuristic stays as the fallback for a slot without `demo`).
+
+### Patch Changes
+
+- [#2146](https://github.com/adobe/spectrum-design-data/pull/2146) [`96efb8e`](https://github.com/adobe/spectrum-design-data/commit/96efb8e7adeb5ed093c4c755df110675e0ff7db3) Thanks [@GarthDB](https://github.com/GarthDB)! - The color slider and color area default to Figma's default variants, so they draw a gradient
+  instead of a bare checkerboard or an empty square.
+  - **color-slider**: `color` `#3b63fb`, `channel` blue and `label` Blue. `colorSpace` has no
+    default: the space follows the channel and the color. It declares that each `colorSpace` only
+    has its own
+    channels (`hue` is not an `rgb` channel), and lists the spaces as hsl, hsb, rgb.
+  - **color-area**: `color` `#ff0000`, `xChannel` saturation, `yChannel` brightness and
+    `colorSpace` hsb, which is Figma's red square.
+
+- [#2157](https://github.com/adobe/spectrum-design-data/pull/2157) [`bceef53`](https://github.com/adobe/spectrum-design-data/commit/bceef532dc1943f67280563cc997f1cc40b57f81) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove stale data the Design decisions retired. No render changes.
+  - `combo-box`: remove the unused `placeholder` anatomy part (React Spectrum has none).
+  - `calendar`: remove the unused `current-day-indicator` content-color relationship; the
+    recipe already binds the day content color through the `day` relationship.
+  - `close-button` docs no longer list the removed `iconSize` option.
+
+- [#2147](https://github.com/adobe/spectrum-design-data/pull/2147) [`6d455ab`](https://github.com/adobe/spectrum-design-data/commit/6d455abbccf06bba76ab55ea12aef8f431894a03) Thanks [@GarthDB](https://github.com/GarthDB)! - A nested `component` part can list `inherit: ["contentColor"]`: its icon and
+  text parts take the color of the host root's first icon or text child instead
+  of their own. The tag's clear button uses it, so the cross is drawn in the
+  label's color in every selected, emphasized and color scheme look (#2120).
+
 ## 4.5.0
 
 ### Minor Changes
