@@ -20,6 +20,7 @@ use std::collections::HashSet;
 
 use serde_json::Value;
 
+use crate::behavior::INTERACTION_EVENTS;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::behavior_util::{extends_of, facet_values, state_ids, warning};
@@ -101,6 +102,41 @@ impl ValidationRule for Rule {
                     );
                 }
             }
+            for o in state
+                .iter()
+                .filter(|o| ctx.registry.facet(o).is_some_and(|f| f.interaction))
+            {
+                problem(
+                    "/state".into(),
+                    format!("lists option '{o}', which is also an interaction facet"),
+                );
+            }
+            let raises = |raw: &Value| {
+                raw.get("transitions")
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                    .any(|t| t.pointer("/do/raise").is_some())
+            };
+            let patterns: Vec<&Value> = extends_of(&b.raw)
+                .iter()
+                .filter_map(|n| ctx.graph.behavior_patterns.iter().find(|p| &p.pattern == n))
+                .map(|p| &p.raw)
+                .collect();
+            let has_press = |raw: &Value| {
+                raw.get("parts")
+                    .and_then(Value::as_object)
+                    .is_some_and(|o| o.values().any(|p| p.get("press").is_some()))
+            };
+            if (raises(&b.raw) || patterns.iter().any(|p| raises(p)))
+                && !has_press(&b.raw)
+                && !patterns.iter().any(|p| has_press(p))
+            {
+                problem(
+                    "/parts".into(),
+                    "raises `press` but no part declares `press`".into(),
+                );
+            }
             for (n, t) in b
                 .raw
                 .get("transitions")
@@ -130,6 +166,16 @@ impl ValidationRule for Rule {
                     if !ctx.registry.capabilities().contains(c) {
                         problem(format!("{at}/needs"), format!("has a transition needing '{c}', which is not in the capabilities registry"));
                     }
+                }
+                if let Some(i) = t
+                    .get("on")
+                    .and_then(Value::as_str)
+                    .filter(|i| t.pointer("/do/raise").is_some() && !INTERACTION_EVENTS.contains(i))
+                {
+                    problem(
+                        format!("{at}/do/raise"),
+                        format!("has a transition raising `press` on '{i}', which is not an event intent"),
+                    );
                 }
                 let mut guards = Vec::new();
                 if let Some(g) = t.get("guard") {
@@ -223,6 +269,13 @@ impl ValidationRule for Rule {
                     .filter(|c| !ctx.registry.capabilities().contains(*c))
                 {
                     problems.push((format!("{at}/needs"), format!("has a transition needing '{c}', which is not in the capabilities registry")));
+                }
+                if let Some(i) = t
+                    .get("on")
+                    .and_then(Value::as_str)
+                    .filter(|i| t.pointer("/do/raise").is_some() && !INTERACTION_EVENTS.contains(i))
+                {
+                    problems.push((format!("{at}/do/raise"), format!("has a transition raising `press` on '{i}', which is not an event intent")));
                 }
                 let mut guards = Vec::new();
                 if let Some(g) = t.get("guard") {
@@ -376,6 +429,24 @@ mod tests {
             (
                 Box::new(|c| c["transitions"][0]["guard"]["is"] = json!("maybe")),
                 "not one of its values",
+            ),
+            (
+                Box::new(|c| {
+                    c["transitions"][0]["do"] =
+                        json!({ "set": { "isSelected": true }, "raise": "press" })
+                }),
+                "not an event intent",
+            ),
+            (
+                Box::new(|c| {
+                    c["transitions"] = json!([{ "on": "press-end", "do": { "raise": "press" } }]);
+                    c["parts"]["track"].as_object_mut().unwrap().remove("press");
+                }),
+                "no part declares `press`",
+            ),
+            (
+                Box::new(|c| c["state"] = json!(["isSelected", "isDisabled", "pressed"])),
+                "also an interaction facet",
             ),
             (
                 Box::new(|c| c["transitions"][0]["do"] = json!({ "toggle": "isGhost" })),

@@ -40,6 +40,8 @@ use crate::graph::{BehaviorPatternRecord, TokenGraph};
 use crate::registry::RegistryData;
 use crate::CoreError;
 
+const MAX_RAISE_DEPTH: usize = 8;
+
 /// Event intents (`category: event` in the intents registry). What they do is pattern data; the
 /// list only tells the runner that one with no transition is a no-op, and the spec sheet that it
 /// is not a keyboard intent.
@@ -228,6 +230,7 @@ struct Run<'a> {
     caps: &'a HashSet<String>,
     options: Map<String, Value>,
     interaction: BTreeMap<String, bool>,
+    depth: usize,
 }
 
 impl Run<'_> {
@@ -235,8 +238,20 @@ impl Run<'_> {
         derive(self.m, &self.options, &self.interaction)
     }
 
-    /// Apply one intent; returns the events it raised.
+    /// Apply one intent; returns the events it raised. `raise` nests a step, so depth is bounded.
     fn step(&mut self, intent: &str, via: Option<&str>) -> Result<Vec<Value>, String> {
+        if self.depth >= MAX_RAISE_DEPTH {
+            return Err(format!(
+                "intent '{intent}' raises intents more than {MAX_RAISE_DEPTH} deep (a `raise` cycle?)"
+            ));
+        }
+        self.depth += 1;
+        let out = self.step_once(intent, via);
+        self.depth -= 1;
+        out
+    }
+
+    fn step_once(&mut self, intent: &str, via: Option<&str>) -> Result<Vec<Value>, String> {
         let before = self.facets();
         for (name, value) in &before {
             if value == "true"
@@ -309,9 +324,8 @@ impl Run<'_> {
                     .values()
                     .find_map(|p| p.get("press").and_then(Value::as_str))
                     .map(String::from);
-                if let Some(press) = press {
-                    raised.extend(self.step(&press, None)?);
-                }
+                let press = press.ok_or("`raise: press` but no part declares `press`")?;
+                raised.extend(self.step(&press, None)?);
             }
             if let Some(name) = t.get("emit").and_then(Value::as_str) {
                 raised.push(json!({ name: options_changed }));
@@ -352,6 +366,7 @@ fn run_vector(
             .cloned()
             .unwrap_or_default(),
         interaction: m.published.iter().map(|p| (p.clone(), false)).collect(),
+        depth: 0,
     };
     let mut failures = Vec::new();
     let expects = v.get("expect").and_then(Value::as_array);

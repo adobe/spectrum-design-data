@@ -63,7 +63,7 @@ A shared base contract is a file in `behaviors/patterns/<pattern>.json` ([`behav
 
 #### Interaction transitions
 
-What an event intent does to an interaction facet is pattern data, in the same transition format as a contract. A transition may add `via` (`keyboard`, `pointer` or `programmatic`: it applies only to an event carrying that `via`) and, in `do.set`, name an interaction facet the pattern publishes with `true` or `false`. `do.raise: "press"` fires the `press` intent of the first part that declares one. Transitions are tried in order and the first that matches fires; an event that matches none changes nothing, so a platform without the capability a transition `needs` (`pointer-hover`, `keyboard`) never sets that facet. The `interactive` pattern carries:
+What an event intent does to an interaction facet is pattern data, in the same transition format as a contract. A transition may add `via` (`keyboard`, `pointer` or `programmatic`: it applies only to an event carrying that `via`) and, in `do.set`, name an interaction facet the pattern publishes with `true` or `false`. `do.raise: "press"` fires the `press` intent of the first part that declares one. It carries no `via`, and it is allowed only on a transition for an event intent, so it cannot re-trigger itself (the runner also stops a nest deeper than 8 as a failure). Transitions are tried in order and the first that matches fires; an event that matches none changes nothing, so a platform without the capability a transition `needs` (`pointer-hover`, `keyboard`) never sets that facet. The `interactive` pattern carries:
 
 | `on`                     | Applies when                | `do`                                 |
 | ------------------------ | --------------------------- | ------------------------------------ |
@@ -77,7 +77,7 @@ What an event intent does to an interaction facet is pattern data, in the same t
 | `pointer-enter`          | the run has `pointer-hover` | `set hovered: true`                  |
 | `pointer-leave`          |                             | `set hovered: false`                 |
 
-A `press-end` with no prior `press-start` (or after `press-cancel`, or while a facet's `blocksInteraction` stopped the start) raises no `press`: a press completes only if it began. SPEC-119 checks a pattern's transitions: registered intents and capabilities, guards reading only published facets with their values, and `do` setting only a published facet to a boolean.
+A `press-end` with no prior `press-start` (or after `press-cancel`, or while a facet's `blocksInteraction` stopped the start) raises no `press`: a press completes only if it began. SPEC-119 warns when `raise` is on a non-event intent, when a contract (or a pattern it extends) raises `press` and no part declares one, and when a `state` option is named like an interaction facet. It also checks a pattern's transitions: registered intents and capabilities, guards reading only published facets with their values, and `do` setting only a published facet to a boolean.
 
 ### `blocksInteraction`
 
