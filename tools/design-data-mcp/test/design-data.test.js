@@ -1053,6 +1053,48 @@ test("design-data-token-usage lists the components that bind a token, directly o
   await t.throwsAsync(() => tool.handler({ token: "no-such-token" }));
 });
 
+test("design-data-component-tokens view states gives one row per context with a value per state", async (t) => {
+  const tool = byName()["design-data-component-tokens"];
+  const all = await tool.handler({ component: "button", limit: 500 });
+  const view = await tool.handler({
+    component: "button",
+    view: "states",
+    options: { variant: "accent", style: "fill", size: "m" },
+    colorScheme: "light",
+    scale: "desktop",
+  });
+  t.is(view.view, "states");
+  t.true(JSON.stringify(view).length < JSON.stringify(all).length / 4);
+  const background = view.rows.find((r) => r.context === "Background");
+  t.regex(background.default, /accent-background-color-default/);
+  t.regex(background.hover, /accent-background-color-hover/);
+  t.truthy(background.disabled);
+  const secondary = await tool.handler({
+    component: "button",
+    view: "states",
+    options: { variant: "secondary", style: "fill", size: "m" },
+    colorScheme: "light",
+    scale: "desktop",
+  });
+  const fill = secondary.rows.find((r) => r.context === "Background");
+  t.regex(fill.default, /gray scaleIndex=100: rgb\(233/);
+  t.notRegex(
+    fill.default,
+    /transparent/,
+    "static-color bindings are not a default",
+  );
+  t.false(
+    view.rows.some((r) => /small|large|-75|-200|-300/.test(r.default ?? "")),
+    "only the requested size is listed",
+  );
+  const noState = await tool.handler({
+    component: "switch",
+    view: "states",
+    options: { size: "m" },
+  });
+  t.regex(noState.stateHint, /design-data-query/);
+});
+
 test("design-data-component-tokens narrows by option values and collapses a mode to one value", async (t) => {
   const tool = byName()["design-data-component-tokens"];
   const all = await tool.handler({ component: "button", limit: 500 });

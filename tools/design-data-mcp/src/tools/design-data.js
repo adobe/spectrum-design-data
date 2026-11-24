@@ -428,6 +428,106 @@ function pickMode(binding, modes) {
   return out;
 }
 
+const SIZE_MARKERS = {
+  xs: ["50", "extra-small"],
+  s: ["75", "small"],
+  m: ["100", "medium"],
+  l: ["200", "large"],
+  xl: ["300", "extra-large"],
+  xxl: ["400", "extra-extra-large"],
+};
+
+/** Whether a binding is for the given size. Sizes live in the property (`-100`) or token (`-medium`) name suffix. */
+function matchesSize(binding, size) {
+  const want = SIZE_MARKERS[size];
+  if (!want) return true;
+  const num = /-(50|75|100|200|300|400)$/.exec(
+    String(binding.property ?? ""),
+  )?.[1];
+  const word =
+    /-(extra-extra-large|extra-large|extra-small|small|medium|large)$/.exec(
+      String(binding.token ?? ""),
+    )?.[1];
+  const named = /(?:^|\s)size=([a-z0-9]+)/.exec(
+    String(binding.token ?? ""),
+  )?.[1];
+  return (
+    (!num || num === want[0]) &&
+    (!word || word === want[1]) &&
+    (!named || named === size)
+  );
+}
+
+const pinnedDisabledOnly = (b) => {
+  const pins = [b.when?.isDisabled].flat().filter((v) => v !== undefined);
+  return pins.length > 0 && pins.every((v) => v === true);
+};
+
+const optionPins = (b) =>
+  Object.keys(b.when ?? {}).filter((k) => k !== "state").length;
+
+const hasValue = (b) => b.value !== undefined || b.values !== undefined;
+
+const cellText = (b) => {
+  const value = b.value ?? b.values;
+  const text =
+    typeof value === "object" && value !== null
+      ? JSON.stringify(value)
+      : String(value);
+  return b.token ? `${b.token}: ${text}` : text;
+};
+
+/**
+ * One row per context and part, with a value for each state: the binding a renderer would pick.
+ * Within a row, a state with a binding of its own wins over the default; more pinned options win
+ * over fewer. A state whose cell equals the default is left out, and `disabled` comes from the
+ * bindings pinned to isDisabled true.
+ */
+function statesView(bindings, modes) {
+  const groups = new Map();
+  for (const b of bindings) {
+    if (!hasValue(b)) continue;
+    const key = JSON.stringify([b.context, b.part, b.property]);
+    groups.set(key, [...(groups.get(key) ?? []), b]);
+  }
+  const best = (list) => list.sort((a, b) => optionPins(b) - optionPins(a))[0];
+  const rows = [];
+  for (const group of groups.values()) {
+    const enabled = group.filter((b) => !pinnedDisabledOnly(b));
+    const pick = (state) => {
+      const own = enabled.filter(
+        (b) => b.when?.state && appliesInState(b.when.state, state),
+      );
+      const stateless = enabled.filter((b) => !b.when?.state);
+      return best(own.length ? own : stateless);
+    };
+    const base = best(enabled.filter((b) => !b.when?.state));
+    const row = { context: group[0].context };
+    if (group[0].part) row.part = group[0].part;
+    if (base) row.default = cellText(pickMode(base, modes));
+    for (const state of ["hover", "down", "keyboard-focus"]) {
+      const b = pick(state);
+      if (!b || b === base) continue;
+      const text = cellText(pickMode(b, modes));
+      if (text !== row.default) row[state] = text;
+    }
+    const disabled = best(group.filter(pinnedDisabledOnly));
+    if (disabled) row.disabled = cellText(pickMode(disabled, modes));
+    row.property = group[0].property;
+    if (Object.keys(row).length > (row.part ? 3 : 2)) rows.push(row);
+  }
+  // A property only helps tell apart rows that share a context and part.
+  const seen = new Map();
+  for (const r of rows) {
+    const k = `${r.context}|${r.part ?? ""}`;
+    seen.set(k, (seen.get(k) ?? 0) + 1);
+  }
+  for (const r of rows) {
+    if (seen.get(`${r.context}|${r.part ?? ""}`) === 1) delete r.property;
+  }
+  return rows;
+}
+
 const TIER_RANK = { primitive: 0, semantic: 1, component: 2 };
 
 /** Most specific first: tier, then purpose-field count (both from the token's name). */
@@ -759,8 +859,9 @@ export function createDesignDataTools() {
         "visible without a second call; at most `limit` (default 40) are shown, so narrow the filter when `total` is " +
         'larger. Narrow by option values with `options` (e.g. {"variant":"accent","style":"fill"}) and ' +
         "collapse per-mode values to one with `colorScheme` and `scale`. Options like isDisabled are not " +
-        "states: pass them in `options`. If the component has no binding for something, the data has none: say so " +
-        "instead of guessing.",
+        "states: pass them in `options`. For one row per context with a value per state (far smaller), use " +
+        '`view: "states"` with `options`, `colorScheme` and `scale`. If the component has no binding for ' +
+        "something, the data has none: assume a value and say you assumed it; do not present it as Spectrum's.",
       inputSchema: {
         type: "object",
         properties: {
@@ -783,6 +884,12 @@ export function createDesignDataTools() {
             type: "string",
             description:
               'Only bindings that apply in this state, e.g. "hover" (bindings with no state are included)',
+          },
+          view: {
+            type: "string",
+            enum: ["bindings", "states"],
+            description:
+              'Output shape. "bindings" (default) lists every binding. "states" returns one row per context and part with the token and value for default, hover, down, keyboard-focus and disabled, for the requested `options`, `colorScheme` and `scale`; sizes are collapsed to `options.size`. Much smaller.',
           },
           options: {
             type: "object",
@@ -816,6 +923,7 @@ export function createDesignDataTools() {
         context,
         property,
         state,
+        view,
         options,
         colorScheme,
         scale,
@@ -839,12 +947,62 @@ export function createDesignDataTools() {
         if (property)
           bindings = bindings.filter((b) => b.property === property);
         if (options) {
+          const asked =
+            view === "states"
+              ? Object.entries(options).filter(([key]) => key !== "isDisabled")
+              : Object.entries(options);
           bindings = bindings.filter((b) =>
-            Object.entries(options).every(([key, value]) => {
+            asked.every(([key, value]) => {
               const pinned = b.when?.[key];
               return pinned === undefined || [pinned].flat().includes(value);
             }),
           );
+        }
+        if (view === "states") {
+          // An option the caller did not name takes its declared default; a binding pinned to a
+          // declared option that has no default (staticColor) is for a case nobody asked for.
+          const declared = loadDataFile("components", component)?.options ?? {};
+          const effective = { ...options };
+          for (const [key, def] of Object.entries(declared)) {
+            if (effective[key] === undefined && def?.default !== undefined) {
+              effective[key] = def.default;
+            }
+          }
+          bindings = bindings.filter((b) =>
+            Object.entries(b.when ?? {}).every(([key, pins]) => {
+              if (
+                key === "state" ||
+                key === "isDisabled" ||
+                !(key in declared)
+              ) {
+                return true;
+              }
+              return (
+                effective[key] !== undefined &&
+                [pins].flat().includes(effective[key])
+              );
+            }),
+          );
+          bindings = bindings.filter((b) => matchesSize(b, options?.size));
+          const rows = statesView(bindings, { colorScheme, scale });
+          const out = {
+            component,
+            view: "states",
+            options: options ?? {},
+            total: rows.length,
+            rows,
+            note: "A state not listed in a row uses its default. `disabled` is the isDisabled option, not a state. No row for something means the data has none: assume a value and say so.",
+          };
+          if (options?.size === undefined)
+            out.sizeNote = "No options.size given, so every size is listed.";
+          if (
+            !rows.some((r) =>
+              ["hover", "down", "keyboard-focus"].some((st) => r[st]),
+            )
+          ) {
+            out.stateHint = `No relationship of ${component} pins a state, so no hover, down or keyboard-focus column is shown. Look for state tokens with design-data-query filter "component=${component},state=hover".`;
+          }
+          return out;
         }
         let otherStates;
         let unpinnedState = false;
@@ -889,6 +1047,10 @@ export function createDesignDataTools() {
         }
         if (bindings.length > cap) {
           out.hint = `Showing ${cap} of ${bindings.length}. Narrow with context, property or state.`;
+        }
+        if (bindings.length > 40 && !options) {
+          out.viewHint =
+            'For one row per context with a value per state, call again with view: "states" and options (e.g. {"variant":"accent","style":"fill","size":"m"}), colorScheme and scale.';
         }
         return out;
       },
@@ -1097,7 +1259,11 @@ export function createDesignDataTools() {
         "Get the full component declaration for a Spectrum component by ID. " +
         "Returns the component's displayName, description, and all available options " +
         "(variants, sizes, states, boolean props, etc.). " +
-        "Component IDs are kebab-case, e.g. button, action-button, text-field, picker.",
+        "Component IDs are kebab-case, e.g. button, action-button, text-field, picker. " +
+        "`constraints` (severity error: not valid in the system; advisory: recommended) and `documentBlocks` " +
+        "(guideline text) are what the system states about the component: context to weigh, not a list of " +
+        "what you may not do. For something with no component of its own, reuse the nearest component's " +
+        "bindings (design-data-component-tokens) and say which values you chose yourself.",
       inputSchema: {
         type: "object",
         properties: {

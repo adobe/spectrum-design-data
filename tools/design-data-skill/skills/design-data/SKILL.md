@@ -100,8 +100,11 @@ narrower, narrowerTotal, broader, broaderTotal }`; each neighbor has `name`, `fi
 ### `design-data-component-tokens`
 
 Which tokens a component uses for what. Required: `component` (kebab-case ID). Optional:
-`context` (text the binding's context contains, e.g. `border`), `property`, `state` and `limit`
-(default 40). Returns `{ component, total, shown, bindings }`. Each binding has `context`
+`context` (text the binding's context contains, e.g. `border`), `property`, `state`, `options`
+(option values, e.g. `{"variant":"accent","style":"fill","size":"m"}`), `colorScheme`, `scale`
+and `limit` (default 40). Prefer `view: "states"` with `options`, `colorScheme` and `scale`: one
+row per context and part with the token and value for default, hover, down, keyboard-focus and
+disabled, for one size, in about 3-5K characters instead of 15-45K. Returns `{ component, total, shown, bindings }`. Each binding has `context`
 (Background, Border, Label, ...), `property`, `part`, `when` (the options and `state` it applies
 under), `token`, `tier` and its value (`values` by mode when it differs). A binding without
 `when` is the default; one with `when` replaces it under those options. Prefer this over
