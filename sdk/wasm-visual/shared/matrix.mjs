@@ -193,6 +193,7 @@ export function cliRender(dir, states) {
       label: s.request.label,
       width: s.request.width,
       icon: s.request.icon,
+      slots: s.request.slots,
     }));
     const file = join(dir, `${name}-batch.json`);
     const outDir = join(dir, `${name}-out`);
