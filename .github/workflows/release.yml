@@ -147,6 +147,8 @@ jobs:
           version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          # The version commit is machine-generated; developer hooks (lint-staged) must not block it.
+          HUSKY: "0"
 
   # ── Phase 2a: build — runs only when CLI version is not yet released ────────
   # Builds design-data-wasm's pkg/** (gitignored, rebuilt from source) via
