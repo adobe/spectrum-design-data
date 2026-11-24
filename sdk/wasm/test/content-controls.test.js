@@ -111,15 +111,16 @@ const byName = Object.fromEntries(
   ]),
 );
 
-// Slots that accept nothing in particular (free content) have no demo fill yet.
+// Slots that accept nothing in particular (free content) have no demo: a fill is a component
+// the slot accepts, and there is no text component yet.
 const FREE_SLOTS = [
   "accordion/content",
   "standard-dialog/body",
   "standard-dialog/header-content",
 ];
 
-test("every slot-hosting component's explorer default fills each slot that lists accepts", (t) => {
-  const missing = [];
+test("every slot-hosting component declares demo fills the slot accepts, within min and max", (t) => {
+  const problems = [];
   let hosts = 0;
   for (const f of readdirSync(new URL("visuals/", dataDir))) {
     const name = f.replace(/\.json$/, "");
@@ -135,27 +136,52 @@ test("every slot-hosting component's explorer default fills each slot that lists
     )) {
       const key = `${name}/${s.name}`;
       if (s.collection) continue;
-      if (s.accepts?.length) {
-        if (!fills[s.name]?.length) missing.push(key);
-        else t.true(fills[s.name].every((x) => byName[x.component]));
-      } else if (!FREE_SLOTS.includes(key)) missing.push(key);
+      if (!s.accepts?.length) {
+        if (!FREE_SLOTS.includes(key)) problems.push(`${key}: not listed free`);
+        continue;
+      }
+      const list = fills[s.name] ?? [];
+      if (!s.demo) problems.push(`${key}: no demo`);
+      if (list.some((x) => !s.accepts.includes(x.component)))
+        problems.push(`${key}: fill the slot does not accept`);
+      if (list.length < (s.min ?? 1) || list.length > (s.max ?? Infinity))
+        problems.push(`${key}: ${list.length} fills outside min and max`);
     }
   }
   t.is(hosts, 13);
-  t.deepEqual(missing, []);
+  t.deepEqual(problems, []);
 });
 
-test("demo fills are labeled, capped by max, and give swatches a color", (t) => {
-  const radio = demoSlots(byName["radio-group"], byName).default;
+test("a slot's demo reaches the request as declared", (t) => {
+  const group = demoSlots(byName["button-group"], byName).default;
+  t.is(group, byName["button-group"].slots[0].demo);
   t.deepEqual(
-    radio.map((f) => f.options.label),
-    ["Radio button 1", "Radio button 2", "Radio button 3"],
+    group.map((f) => f.options.variant),
+    ["secondary", "secondary", "accent"],
   );
-  t.is(demoSlots(byName["coach-mark"], byName)["button-group"].length, 1);
-  t.is(demoSlots(byName["popover"], byName).default.length, 3);
+  t.is(demoSlots(byName["radio-group"], byName).default.length, 5);
+  t.is(demoSlots(byName["alert-dialog"], byName)["button-group"].length, 2);
   t.regex(
     demoSlots(byName["swatch-group"], byName).default[0].options.preview,
-    /^#/,
+    /^rgb\(/,
   );
   t.deepEqual(demoSlots(byName["checkbox"], byName), {});
+});
+
+test("a slot without a demo falls back to fills of its first accepted component", (t) => {
+  const def = {
+    slots: [
+      { name: "default", part: "p", accepts: ["radio-button"], max: 2 },
+      { name: "footer", part: "f", accepts: ["swatch"], min: 2 },
+      { name: "free", part: "x" },
+    ],
+  };
+  const slots = demoSlots(def, byName);
+  t.deepEqual(
+    slots.default.map((f) => f.options.label),
+    ["Radio button 1", "Radio button 2"],
+  );
+  t.is(slots.footer.length, 2);
+  t.regex(slots.footer[0].options.preview, /^#/);
+  t.false("free" in slots);
 });

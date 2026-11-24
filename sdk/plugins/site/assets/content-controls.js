@@ -26,18 +26,22 @@ export const isNumberOption = (name, def) =>
 const DEMO_ITEMS = 3;
 const DEMO_COLORS = ["#9197fe", "#e68619", "#2d9d78"];
 
-// Interim explorer demo content, until a recipe or component can say what a demo slot holds:
-// each slot that has a recipe part (not a collection) and lists the components it `accepts`
-// gets fills of the first one, labeled "<Component> n" (a `preview` option, as a swatch has,
-// gets a color). The `default` slot (the list of a group) gets three, any other named slot
-// (a dialog's footer, a header's actions) its `min`, at least one; `max` caps both. Slots
-// that accept nothing in particular (free content) stay empty. `byName` is the site data's
-// component map.
+// Demo content for the explorer: a slot's `demo` fills, as the component data declares them (the
+// request `slots` shape). A slot with a part and `accepts` but no `demo` falls back to an interim
+// heuristic: fills of the first accepted component labeled "<Component> n" (a `preview` option,
+// as a swatch has, gets a color); the `default` slot gets three, any other named slot its `min`,
+// at least one; `max` caps both. Slots that accept nothing in particular (free content) stay
+// empty. `byName` is the site data's component map.
 export function demoSlots(def, byName) {
   const slots = {};
   for (const s of def?.slots ?? []) {
+    if (!s.part || s.collection) continue;
+    if (s.demo) {
+      slots[s.name] = s.demo;
+      continue;
+    }
     const name = s.accepts?.[0];
-    if (!s.part || s.collection || !name) continue;
+    if (!name) continue;
     const options = byName[name]?.options ?? {};
     const title =
       name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, " ");

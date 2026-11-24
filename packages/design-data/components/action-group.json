@@ -148,7 +148,11 @@
       "part": "action-buttons",
       "accepts": ["action-button"],
       "min": 1,
-      "description": "The action button in the group. Any number of action buttons, at least one."
+      "description": "The action button in the group. Any number of action buttons, at least one.",
+      "demo": [
+        { "component": "action-button", "options": { "label": "Label" } },
+        { "component": "action-button", "options": { "label": "Label" } }
+      ]
     }
   ],
   "anatomyReview": {

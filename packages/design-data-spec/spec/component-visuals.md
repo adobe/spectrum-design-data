@@ -174,7 +174,7 @@ A part of kind `component` draws another component's recipe inside this one. The
 
 ### Slot parts
 
-A `slot` part draws the **fills** a render request puts in one of the component's slots ([Slots](component-format.md#slots)). The slot is the one of the component whose `part` is this recipe part (not a collection slot), so the recipe names neither the slot nor what it accepts. The request carries the fills as `slots`: `{"<slot name>": [{"component": "<name>", "options": {...}}]}`. Each fill is drawn through the nested-component path (see [Nested recipes](#nested-recipes)): `sizeMap` chooses its size from the host's, and the part's `with` gives default options (a literal or a host binding, as for a `component` part) applied to each accepted component that declares the option, while a fill's own `options` win.
+A `slot` part draws the **fills** a render request puts in one of the component's slots ([Slots](component-format.md#slots)). The slot is the one of the component whose `part` is this recipe part (not a collection slot), so the recipe names neither the slot nor what it accepts. The request carries the fills as `slots`: `{"<slot name>": [{"component": "<name>", "options": {...}}]}`. A component's slot `demo` ([Slot demo](component-format.md#slot-demo)) is a ready-made list of such fills for showing the component with content. Each fill is drawn through the nested-component path (see [Nested recipes](#nested-recipes)): `sizeMap` chooses its size from the host's, and the part's `with` gives default options (a literal or a host binding, as for a `component` part) applied to each accepted component that declares the option, while a fill's own `options` win.
 
 ```json
 "actions": {

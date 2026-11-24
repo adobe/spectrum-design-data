@@ -19,7 +19,9 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 use design_data_core::graph::TokenGraph;
-use design_data_core::visual::{build_scene_cached, scene_to_svg, RenderRequest, SceneCache};
+use design_data_core::visual::{
+    build_scene_cached, scene_to_svg, RenderRequest, SceneCache, SlotFill,
+};
 use serde_json::Value;
 
 fn data_dir() -> PathBuf {
@@ -74,6 +76,20 @@ fn enum_at(first: bool) -> impl Fn(&Value) -> Option<Value> {
 
 fn bools(def: &Value) -> Option<Value> {
     (def.get("type").and_then(Value::as_str) == Some("boolean")).then_some(Value::Bool(true))
+}
+
+/// The `demo` fills of a component's slots, as a render request's `slots`.
+fn demo_slots(component: &Value) -> HashMap<String, Vec<SlotFill>> {
+    component
+        .get("slots")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|s| {
+            let fills = serde_json::from_value(s.get("demo")?.clone()).expect("demo fills");
+            Some((s.get("name")?.as_str()?.to_string(), fills))
+        })
+        .collect()
 }
 
 fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str, RenderRequest)> {
@@ -2913,7 +2929,64 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         r.width = Some(100.0);
         out.push(("wrapped-label-narrow", r));
     }
+    // A component whose slots declare a `demo` draws it: the content every host shows.
+    let demo = demo_slots(component);
+    if !demo.is_empty() {
+        let mut r = req(vec![], HashMap::new(), "light", "desktop");
+        r.slots = demo;
+        out.push(("demo", r));
+    }
     out
+}
+
+/// Every demo fill is drawn: no diagnostics, and each slot's recipe part holds exactly as many
+/// nested items as the slot's `demo` lists, within its `max`.
+#[test]
+fn demo_slots_draw_every_fill_they_declare() {
+    let graph = load_graph();
+    let cache = SceneCache::default();
+    let mut hosts = 0;
+    for (name, recipe, component, req) in std::fs::read_dir(data_dir().join("components"))
+        .expect("components dir")
+        .filter_map(|e| e.ok())
+        .filter_map(|e| {
+            let name = e.path().file_stem()?.to_string_lossy().into_owned();
+            let component = read_json(e.path());
+            if demo_slots(&component).is_empty() {
+                return None;
+            }
+            let recipe = read_json(data_dir().join(format!("visuals/{name}.json")));
+            let (_, req) = requests(&name, &recipe, &component)
+                .into_iter()
+                .find(|(g, _)| *g == "demo")?;
+            Some((name, recipe, component, req))
+        })
+    {
+        hosts += 1;
+        let scene = build_scene_cached(&graph, &recipe, &req, &cache).expect("scene");
+        assert!(
+            scene.diagnostics.is_empty(),
+            "{name}: {:?}",
+            scene.diagnostics
+        );
+        for slot in component["slots"].as_array().unwrap() {
+            let Some(demo) = slot.get("demo").and_then(Value::as_array) else {
+                continue;
+            };
+            let part = slot["part"].as_str().unwrap();
+            let drawn = (1..=demo.len() + 1)
+                .filter(|n| {
+                    let id = format!("{part}-{n}");
+                    scene.nodes.iter().any(|node| node.part == id)
+                })
+                .count();
+            assert_eq!(drawn, demo.len(), "{name}/{}: fills drawn", slot["name"]);
+            if let Some(max) = slot.get("max").and_then(Value::as_u64) {
+                assert!(drawn as u64 <= max, "{name}/{}: over max", slot["name"]);
+            }
+        }
+    }
+    assert_eq!(hosts, 13);
 }
 
 #[test]

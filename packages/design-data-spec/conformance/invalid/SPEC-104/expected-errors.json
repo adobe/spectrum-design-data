@@ -25,6 +25,21 @@
       "rule_id": "SPEC-104",
       "severity": "warning",
       "message_pattern": ".*'badge'.*neither 'default' nor after its part.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*Demo of slot 'footer'.*has 2 fills, outside its min and max.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*fills it with 'list', which the slot does not accept.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*sets option 'nope', which 'chip' does not declare.*"
     }
   ]
 }

@@ -195,6 +195,69 @@ impl ValidationRule for Rule {
                         ),
                     );
                 }
+                if let Some(demo) = slot.get("demo").and_then(Value::as_array) {
+                    let accepts: Vec<&str> = slot
+                        .get("accepts")
+                        .and_then(Value::as_array)
+                        .map(|a| a.iter().filter_map(Value::as_str).collect())
+                        .unwrap_or_default();
+                    let count = demo.len() as u64;
+                    if part.is_none() || slot.get("collection").is_some() {
+                        err(
+                            at("demo"),
+                            format!("Slot '{slot_name}' of '{name}' has a demo but is not a slot with a part and no collection"),
+                        );
+                    }
+                    if min.is_some_and(|lo| count < lo) || max.is_some_and(|hi| count > hi) {
+                        err(
+                            at("demo"),
+                            format!("Demo of slot '{slot_name}' of '{name}' has {count} fills, outside its min and max"),
+                        );
+                    }
+                    for (j, fill) in demo.iter().enumerate() {
+                        let Some(c) = fill.get("component").and_then(Value::as_str) else {
+                            continue;
+                        };
+                        if !accepts.contains(&c) {
+                            err(
+                                format!("/slots/{i}/demo/{j}/component"),
+                                format!("Demo of slot '{slot_name}' of '{name}' fills it with '{c}', which the slot does not accept"),
+                            );
+                            continue;
+                        }
+                        let Some(target) = components.get(c) else {
+                            continue;
+                        };
+                        for (key, value) in fill
+                            .get("options")
+                            .and_then(Value::as_object)
+                            .into_iter()
+                            .flatten()
+                        {
+                            if key == "label" {
+                                continue;
+                            }
+                            let path = format!("/slots/{i}/demo/{j}/options/{key}");
+                            match target.raw.pointer(&format!("/options/{key}")) {
+                                None => err(
+                                    path,
+                                    format!("Demo of slot '{slot_name}' of '{name}' sets option '{key}', which '{c}' does not declare"),
+                                ),
+                                Some(def) => {
+                                    let listed = def.get("values").and_then(Value::as_array);
+                                    if listed.is_some_and(|vs| {
+                                        !vs.iter().any(|v| v.get("value") == Some(value))
+                                    }) {
+                                        err(
+                                            path,
+                                            format!("Demo of slot '{slot_name}' of '{name}' sets option '{key}' of '{c}' to a value it does not list"),
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 if slot_name != "default" && part != Some(slot_name) {
                     out.push(diag(
                         self.id(),
@@ -346,6 +409,38 @@ mod tests {
         });
         let d = run(vec![c]);
         assert!(d.is_empty(), "{}", msgs(&d));
+    }
+
+    #[test]
+    fn a_demo_names_accepted_components_within_min_and_max_with_declared_options() {
+        let chip = json!({"name": "chip", "options": {
+            "tone": {"type": "string", "values": [{"value": "calm"}, {"value": "loud"}]},
+            "isSelected": {"type": "boolean"}
+        }});
+        let with_demo = |demo: Value| {
+            let mut c = list();
+            c["slots"] = json!([{
+                "name": "actions", "part": "actions", "accepts": ["chip"],
+                "min": 1, "max": 2, "demo": demo
+            }]);
+            run(vec![c, chip.clone()])
+        };
+        let ok = json!([
+            {"component": "chip", "options": {"tone": "calm", "label": "Label"}},
+            {"component": "chip", "options": {"isSelected": true}}
+        ]);
+        assert!(with_demo(ok).is_empty());
+        let d = with_demo(json!([{"component": "list"}]));
+        assert!(msgs(&d).contains("does not accept"), "{}", msgs(&d));
+        let d = with_demo(json!([{"component": "chip", "options": {"nope": 1}}]));
+        assert!(msgs(&d).contains("does not declare"), "{}", msgs(&d));
+        let d = with_demo(json!([{"component": "chip", "options": {"tone": "bold"}}]));
+        assert!(msgs(&d).contains("does not list"), "{}", msgs(&d));
+        let three = json!([{"component": "chip"}, {"component": "chip"}, {"component": "chip"}]);
+        assert!(msgs(&with_demo(three)).contains("outside its min and max"));
+        let mut c = list();
+        c["slots"] = json!([{"name": "footer", "demo": [{"component": "chip"}]}]);
+        assert!(msgs(&run(vec![c, chip.clone()])).contains("not a slot with a part"));
     }
 
     #[test]

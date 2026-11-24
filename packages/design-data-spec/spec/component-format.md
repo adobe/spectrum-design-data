@@ -230,6 +230,7 @@ The `slots` block declares the component's named **content injection points** â€
 | `min`         | integer          | OPTIONAL | Fewest fills, or entries for a collection. `0` or absent means optional; `1` or more makes the slot required. This replaces the earlier `required` flag.                                                |
 | `max`         | integer          | OPTIONAL | Most fills, or entries for a collection. At least `1`; absent means no limit. **MUST NOT** be less than `min`.                                                                                          |
 | `collection`  | string           | OPTIONAL | The name of a declared array option whose entries are drawn as copies of `part`. Requires `part`.                                                                                                       |
+| `demo`        | array of objects | OPTIONAL | What a demo of the slot holds: fills in the render request shape (see [Slot demo](#slot-demo)). Not for a `collection` slot.                                                                            |
 
 ### The part link
 
@@ -254,6 +255,32 @@ The `slots` block declares the component's named **content injection points** â€
   { "name": "content", "part": "content" }
 ]
 ```
+
+### Slot demo
+
+A slot **MAY** declare `demo`: the fills a host puts in it to show the component with content (the design-data explorer, golden renders, spec sheets). It is data about the slot, like `accepts`, not about how a recipe draws it. Each entry has the shape of a fill in a render request's `slots` ([Slot parts](component-visuals.md#slot-parts)), so a host passes the array through unchanged as `slots["<slot name>"]`:
+
+| Field       | Type   | Required | Description                                                                                           |
+| ----------- | ------ | -------- | ----------------------------------------------------------------------------------------------------- |
+| `component` | string | REQUIRED | An accepted component.                                                                                |
+| `options`   | object | OPTIONAL | Options of that component. Absent options take the nested component's defaults and the request label. |
+
+```json
+{
+  "name": "default",
+  "part": "options",
+  "accepts": ["radio-button"],
+  "min": 2,
+  "demo": [
+    { "component": "radio-button", "options": { "label": "Label" } },
+    { "component": "radio-button", "options": { "label": "Label" } }
+  ]
+}
+```
+
+**NORMATIVE:** The slot **MUST** have a `part` and **MUST NOT** be a `collection` slot. Every entry **MUST** name a component in the slot's `accepts`. The number of entries **MUST** be within `min` and `max`. Every option other than `label` (the text a fill draws, which any component with a text part takes, as in a request fill) **MUST** be declared by the named component and, when the component lists `values` for it, **MUST** be one of them (SPEC-104). A slot with no `accepts` (free content) has no `demo`: a fill is always a component. Renderers and validators other than SPEC-104 ignore `demo`; a recipe never reads it.
+
+A host with no `demo` for a slot **MAY** leave it empty or choose its own content.
 
 ### Slot naming
 

@@ -134,7 +134,10 @@
       "accepts": ["action-button", "switch"],
       "acceptsOnly": true,
       "max": 2,
-      "description": "Direct actions on the trailing edge of the item header."
+      "description": "Direct actions on the trailing edge of the item header.",
+      "demo": [
+        { "component": "action-button", "options": { "label": "Label" } }
+      ]
     },
     {
       "name": "content",
