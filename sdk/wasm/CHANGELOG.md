@@ -1,5 +1,130 @@
 # @adobe/design-data-wasm
 
+## 0.38.4
+
+### Patch Changes
+
+- [#2117](https://github.com/adobe/spectrum-design-data/pull/2117) [`e7dd109`](https://github.com/adobe/spectrum-design-data/commit/e7dd109667fb380b6b7ef38d6ee9fe3d176e0e6d) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix Button keyboard-focus and outline down colors.
+  - Keyboard-focus now takes the hover look for secondary and outline buttons: the
+    label and icon use `gray-900` (they stayed `gray-800`), and the outline border
+    uses `gray-900` (primary) or `gray-400` (secondary).
+  - Outline buttons get a `gray-100` background on keyboard-focus (it was
+    transparent). The visual recipe has a matching `keyboard-focus` fill entry.
+    Static outline buttons now draw the static overlay on focus as well.
+  - The outline `down` background is `gray-100`, the same as hover (it was
+    `gray-200`).
+
+  Figma draws only Default, Hover and Disabled for Button. React Spectrum S2 and
+  Spectrum Web Components gen 2 both give hover, pressed and focus the same colors.
+
+- [#2102](https://github.com/adobe/spectrum-design-data/pull/2102) [`53d831f`](https://github.com/adobe/spectrum-design-data/commit/53d831fc76fde3f2bb934c01256dc8229de9ccd6) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw range selection in the calendar recipe.
+  - Anatomy: `range-fill` moves from `month` to `day`, and `day` gains a
+    `day-fill` part (the circle behind the number, new registry term
+    `day-fill`). `label` is now drawn on the day.
+  - A selected day in `selectionMode` range draws the range band behind its
+    number: the whole 40px day cell for a day inside the range, half a cell
+    for the two ends (`isRangeStart`, `isRangeEnd`), which also draw the
+    selected circle, so the band meets the circle flush and is continuous.
+    The band is capped (pill ends) at the ends of a week row. A one-day
+    range draws only the circle. A single selected day in `single` mode is
+    unchanged.
+  - Relationships: error range-fill band (red subtle background) and the
+    neutral day number inside a range (it is not white like the end circles).
+  - Day and weekday cells are 40 wide with no column gap (32 plus the 8
+    weekday gap), so the band is continuous within a week row.
+  - Not drawn: band stroke, unavailable strike.
+  - Snapshots and goldens are regenerated. Legacy token output is unchanged.
+
+- [#2116](https://github.com/adobe/spectrum-design-data/pull/2116) [`36748e9`](https://github.com/adobe/spectrum-design-data/commit/36748e96392f05b8e41c6b2aecfe480ec614b8af) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw the calendar today marker.
+  - A day with `isToday` draws a 4px dot at the bottom of its cell (4px above the
+    edge, centered), the `current-day-indicator` anatomy part, as in Figma
+    `.Day` (Current day indicator) and React Spectrum S2 (bottom 12.5%).
+  - The dot takes the day's content color relationship, so it is white on a
+    selected or error day, gray on a disabled day and neutral otherwise.
+  - `isToday` leaves the recipe's `notVisual` list. The day box gains 4px block
+    padding (centered children do not move) so the dot can sit at the bottom
+    with the stack child `align: end`.
+  - The Figma-bound relationship on `current-day-indicator` (neutral hover
+    content color) is not used by the recipe.
+  - Goldens and snapshots are regenerated. Legacy token output is unchanged.
+
+- [#2101](https://github.com/adobe/spectrum-design-data/pull/2101) [`ac0d750`](https://github.com/adobe/spectrum-design-data/commit/ac0d75035b589ab4df3f3b2fe040068080b20767) Thanks [@GarthDB](https://github.com/GarthDB)! - Rename `hideImage` to `showImage` on `standard-dialog` and `coach-mark`, with Figma defaults.
+  - `standard-dialog` `showImage` defaults to false (Figma "Show preview" is false).
+  - `coach-mark` `showImage` defaults to true (Figma "Show cover image" is true).
+  - Migration: replace `hideImage: false` with `showImage: true` and drop `hideImage: true`.
+    A bare `standard-dialog` no longer includes the cover image.
+  - No other component nests either one, and neither recipe draws the cover image, so no
+    render changes.
+
+- [#2112](https://github.com/adobe/spectrum-design-data/pull/2112) [`5f32e67`](https://github.com/adobe/spectrum-design-data/commit/5f32e67bef710b6d1fc5dca1fca661ff06df8392) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe engine features for the calendar range band (all opt-in, no layout revision change).
+  - A stack child that binds no `direction` places itself with its own `justify` and `align`;
+    its `width` may be a fraction of the stack (`relativeTo: parent`).
+  - A flowed box below the root draws per-corner radii (`cornerRadiusStartStart`, ...).
+  - `when.rowPosition` (`first`, `middle`, `last`, `only`): a repeat inside a grid tells each copy
+    its place in its grid row. SPEC-061 validates it. Spec and schema updated.
+  - The calendar band is flush with the range end circles, continuous, and capped at week row
+    edges. Goldens and snapshots are regenerated. Legacy token output is unchanged.
+  - Not done: the dashed range border (needs per-side stroke and dashed stroke support).
+
+- [#2119](https://github.com/adobe/spectrum-design-data/pull/2119) [`f3dbfc8`](https://github.com/adobe/spectrum-design-data/commit/f3dbfc82b22d5bf72b1edbda8ca95cc999313b7e) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe engine: a `dimension` source may carry a `fallback` (opt-in, no layout revision change).
+  - `{"dimension": "width", "fallback": {"relationship": {...}}}` reads the numeric option when
+    it is a positive number, else resolves the fallback (usually the default width relationship).
+    Before, an unset `dimension` hugged the content and could not fall back.
+  - The combo-box and search-field recipes use it: hosts that pass the `width` option
+    (`--option width=300`, WASM `opt.width`) now get that width, and no option keeps the
+    relationship default (144/192/240/288). Search-field's `width` option was dead before.
+    The explorer's Width (px) control sets the demo width and is unchanged.
+  - A renderer that does not read `fallback` treats the size as unset (hug), as before.
+  - Limits: `fallback` is one source (not a `when` list); spec sheets do not read it.
+
+- [#2125](https://github.com/adobe/spectrum-design-data/pull/2125) [`b32eb66`](https://github.com/adobe/spectrum-design-data/commit/b32eb6630a42f5f17cff4f59214e50afcbe1385d) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe engine: a nested component's label follows the request label (layout revision 8).
+  - A `with.label` that reads the host's `label` option got an empty label unless that option was a
+    string. The explorer and `design-data render --label "x"` send the label as the request label,
+    so the field label of checkbox-group, color-slider, combo-box, number-field, picker,
+    radio-group, search-field, slider, text-area and text-field drew nothing. The request label
+    now flows to the nested label when the option is a presence flag (`true`).
+  - An empty request label, a `label` option of `false` and a string option behave as before.
+  - Output changes for those ten recipes only (their snapshots and 29 goldens); every other
+    recipe is byte-identical. `LAYOUT_REVISION` and the dataset `layoutRevision` are now 8;
+    `requires.cli` stays at the unreleased 0.63.5, which carries revision 7 and 8 together.
+
+- [#2108](https://github.com/adobe/spectrum-design-data/pull/2108) [`5129ac5`](https://github.com/adobe/spectrum-design-data/commit/5129ac567430ed2f752db1d35f0f78b55e8e101a) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix two layout bugs in the visual recipe engine (layout revision 7).
+  - An icon that is a direct child of the root flow now honors its `rotation`.
+    The in-field button chevron (and so the combo-box chevron) points down, as in
+    Figma and React Spectrum S2.
+  - A row box now honors its `justify` (`start`, `center`, `end`). Before, it
+    packed items at the start whatever the recipe said. An unbound row box still
+    packs at the start. The alert dialog button row (`justify: end`) now draws at
+    the end, and the combo-box in-field button sits at the field end when empty.
+  - `LAYOUT_REVISION` and the dataset `layoutRevision` move to 7, and the dataset
+    `requires.cli` is raised to the unreleased 0.63.5. Goldens and recipe
+    snapshots are regenerated. Legacy token output is unchanged.
+
+- [#2118](https://github.com/adobe/spectrum-design-data/pull/2118) [`db18b8f`](https://github.com/adobe/spectrum-design-data/commit/db18b8fc7cc699d4a73bf5cf09e73269b9f90d1b) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw the explorer's progress-circle track and fill as one ring.
+  - The explorer drew a stroked `box` with a centered stroke (half of it outside the
+    box) and a `progress` arc with its own radius and a thickness of a ninth of the
+    diameter, so the fill was thicker than the track and sat at a different radius.
+  - `draw-helpers.js` now has `boxSvg` (border drawn inside the box) and `progressSvg`
+    (bound thickness, ring inside the bounds, the scene's `sweep`), which match
+    `design-data render`. This also fixes every explorer box whose border was drawn
+    half outside its bounds.
+  - `sdk/wasm-visual/test/progress-ring.test.mjs` checks track and fill share radius
+    and stroke width for sizes s, m and l, determinate and indeterminate.
+  - No engine, recipe or token change; goldens and snapshots are unchanged.
+
+- [#2105](https://github.com/adobe/spectrum-design-data/pull/2105) [`84a4efe`](https://github.com/adobe/spectrum-design-data/commit/84a4efed661b6b64348fe86f36e4ed8726f6661f) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the combo-box visual recipe, which drew every state as a tiny empty square.
+  - The container width now binds the `width` relationship (field-width-\*), so the
+    field has a size without a width option. `width` is listed in `notVisual`,
+    like picker and text-field.
+  - The field draws the in-field menu trigger button (the `in-field-button`
+    component) at the end and the alert icon when `isError` is set. The
+    `error-icon` anatomy part gains `presentWhen: isError`.
+  - Not drawn: the chevron points right (the engine ignores `rotation` on a root
+    icon), the button sits at the field start while there is no value (nested row
+    `justify` is not supported), the placeholder, autocomplete suggestion,
+    loading circle and the label position.
+  - Goldens and recipe snapshots are regenerated. Legacy token output is unchanged.
+
 ## 0.38.3
 
 ### Patch Changes

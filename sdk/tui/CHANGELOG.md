@@ -1,5 +1,37 @@
 # @adobe/design-data-tui
 
+## 0.23.0
+
+### Minor Changes
+
+- [#1512](https://github.com/adobe/spectrum-design-data/pull/1512) [`67396e5`](https://github.com/adobe/spectrum-design-data/commit/67396e52d68657e0c29ce2187236c21028f63242) Thanks [@GarthDB](https://github.com/GarthDB)! - Add shadcn registry exports for Spectrum tokens and component metadata.
+  - **design-data-tui**: add `export --format shadcn-theme` for light/dark
+    `registry:theme` output. Light and dark values resolve per scheme, and
+    keys are unprefixed (`spectrum-*`) so shadcn emits valid `var()` references.
+    Scheme-independent non-color values go in `cssVars.theme` to avoid
+    self-referencing `@theme inline` entries (closes spectrum-design-data-t19s).
+  - **design-data-tui**: add a `shadcn registry` subcommand that writes
+    metadata-only `registry:component` items and a `registry.json` index. It
+    reads the platform-merged catalog when a platform manifest is selected.
+  - **design-data-tui**: add `shadcn registry --base-url URL` for a flat, hosted
+    layout (`{component}.json`, `spectrum-theme.json`) with the theme dependency
+    pointing at the hosted URL (closes spectrum-design-data-ajc7).
+  - **sdk/moon.yml**: add the `sdk:shadcn-registry` task, run by deploy-docs to
+    publish `/r/` on GitHub Pages. The output is not committed.
+
+### Patch Changes
+
+- [#2110](https://github.com/adobe/spectrum-design-data/pull/2110) [`c95e16d`](https://github.com/adobe/spectrum-design-data/commit/c95e16dc1d35250ffe1043b43850463b846fbc4c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the shadcn theme export (`export --format shadcn-theme`).
+  - **design-data-tui**: include the component-scoped legacy tokens
+    (`avatar-border-width`, `action-bar-height` and about 1,280 more). The export
+    never loaded the relationships catalog, so they were missing.
+  - **design-data-tui**: write `*-font-weight` tokens as numbers (300 to 900)
+    instead of `light`, `medium`, `bold` and so on, which are not valid CSS.
+  - **design-data-tui**: write `corner-radius-*` and `gradient-stop-*` fractions
+    as percentages (`corner-radius-full` is `50%`, not `0.5`).
+  - **design-data-tui**: add `spectrum-sans-font-family-stack`, a font stack that
+    falls back to system fonts.
+
 ## 0.22.1
 
 ### Patch Changes

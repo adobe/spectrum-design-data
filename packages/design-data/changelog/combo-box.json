@@ -890,6 +890,37 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.5.0",
+      "version": "4.2.0",
+      "bump": "minor",
+      "date": "2026-11-23",
+      "commit": "eb04d44c026bf9667f7bcede2ea19a6b79c7f2c0",
+      "commits": [
+        {
+          "commit": "84a4efed661b6b64348fe86f36e4ed8726f6661f",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2105,"title":"fix(design-data): combo-box recipe draws a sized field, the menu trigger button and the error icon","url":"https://github.com/adobe/spectrum-design-data/pull/2105"},
+          "entries": [
+            {"id":"84a4efed-0","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"combo-box/anatomy/error-icon","name":"error-icon","fields":[{"path":"presentWhen.options.isError","after":true}]},
+            {"id":"84a4efed-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"combo-box/visual/parts/container","name":"container","fields":[{"path":"props.width.dimension","before":"width"},{"path":"props.width.relationship.part","after":"container"},{"path":"props.width.relationship.property","after":"width"}]},
+            {"id":"84a4efed-2","kind":"visual-part","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"combo-box/visual/parts/error-icon","name":"error-icon","fields":[]},
+            {"id":"84a4efed-3","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"combo-box/visual/parts/field","name":"field","fields":[{"path":"children","before":["value"],"after":["value","error-icon","in-field-button"]},{"path":"props.justify.value","after":"end"}]},
+            {"id":"84a4efed-4","kind":"visual-part","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"combo-box/visual/parts/in-field-button","name":"in-field-button","fields":[]},
+            {"id":"84a4efed-5","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"combo-box/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["labelPosition","hasAutocomplete","menuTrigger","isReadOnly","errorMessage","hover-button-area"],"after":["labelPosition","width","hasAutocomplete","menuTrigger","isReadOnly","errorMessage","hover-button-area"]}]}
+          ]
+        },
+        {
+          "commit": "f3dbfc82b22d5bf72b1edbda8ca95cc999313b7e",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2119,"title":"feat(design-data): dimension fallback for the width option (combo-box, search-field)","url":"https://github.com/adobe/spectrum-design-data/pull/2119"},
+          "entries": [
+            {"id":"f3dbfc82-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"combo-box/visual/parts/container","name":"container","fields":[{"path":"props.width.dimension","after":"width"},{"path":"props.width.fallback.relationship.part","after":"container"},{"path":"props.width.fallback.relationship.property","after":"width"},{"path":"props.width.relationship.part","before":"container"},{"path":"props.width.relationship.property","before":"width"}]},
+            {"id":"f3dbfc82-1","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"combo-box/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["labelPosition","width","hasAutocomplete","menuTrigger","isReadOnly","errorMessage","hover-button-area"],"after":["labelPosition","hasAutocomplete","menuTrigger","isReadOnly","errorMessage","hover-button-area"]}]}
+          ]
+        }
+      ]
     }
   ]
 }

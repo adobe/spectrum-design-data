@@ -1,5 +1,12 @@
 # @adobe/component-options-editor
 
+## 1.1.111
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@7.1.4
+
 ## 1.1.110
 
 ### Patch Changes

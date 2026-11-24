@@ -373,6 +373,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.5.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-23",
+      "commit": "eb04d44c026bf9667f7bcede2ea19a6b79c7f2c0",
+      "commits": [
+        {
+          "commit": "462d974f56b5d11a198c0ac5eb1ccda8d5c35369",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2109,"title":"chore: use US English spelling and add a spelling guard","url":"https://github.com/adobe/spectrum-design-data/pull/2109"},
+          "entries": [
+            {"id":"462d974f-0","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"toast/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Owner decisions (A137, 2026-11-20): explicit root part container; icon (registry alias alert-icon, Figma workflow icon); text part named text; the toast stack is a future Pattern (no part). RSP Toast.tsx:622 (close button always drawn), Toast.tsx:331-333 (neutral has no icon), Toast.tsx:605-618 (optional action button). The Background colour records are pinned to a variant by the bold-fill token they alias in in-line-alert.","after":"Owner decisions (A137, 2026-11-20): explicit root part container; icon (registry alias alert-icon, Figma workflow icon); text part named text; the toast stack is a future Pattern (no part). RSP Toast.tsx:622 (close button always drawn), Toast.tsx:331-333 (neutral has no icon), Toast.tsx:605-618 (optional action button). The Background color records are pinned to a variant by the bold-fill token they alias in in-line-alert."}]}
+          ]
+        }
+      ]
     }
   ]
 }

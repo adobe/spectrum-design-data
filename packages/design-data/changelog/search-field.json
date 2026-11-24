@@ -704,6 +704,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.5.0",
+      "version": "1.5.1",
+      "bump": "patch",
+      "date": "2026-11-23",
+      "commit": "eb04d44c026bf9667f7bcede2ea19a6b79c7f2c0",
+      "commits": [
+        {
+          "commit": "f3dbfc82b22d5bf72b1edbda8ca95cc999313b7e",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2119,"title":"feat(design-data): dimension fallback for the width option (combo-box, search-field)","url":"https://github.com/adobe/spectrum-design-data/pull/2119"},
+          "entries": [
+            {"id":"f3dbfc82-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"search-field/visual/parts/container","name":"container","fields":[{"path":"props.width","before":[{"dimension":"width"},{"relationship":{"property":"width","part":"container"}}],"after":{"dimension":"width","fallback":{"relationship":{"property":"width","part":"container"}}}}]}
+          ]
+        }
+      ]
     }
   ]
 }

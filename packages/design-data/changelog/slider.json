@@ -626,6 +626,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.5.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-23",
+      "commit": "eb04d44c026bf9667f7bcede2ea19a6b79c7f2c0",
+      "commits": [
+        {
+          "commit": "462d974f56b5d11a198c0ac5eb1ccda8d5c35369",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2109,"title":"chore: use US English spelling and add a spelling guard","url":"https://github.com/adobe/spectrum-design-data/pull/2109"},
+          "entries": [
+            {"id":"462d974f-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"slider/documentBlocks/0","name":"guideline: Value placement.\n\nThe value follows the placemen","fields":[{"path":"content","before":"Value placement.\n\nThe value follows the placement of the label: on top when the label is on top, and on the side when the label is on the side. The exception to this rule is when the value is editable in a text field, either standard or quiet style. In that case, the editable input is always placed on the side and should include an ARIA label for accessibility, using either aria-labelledby or aria-label.","after":"Value placement.\n\nThe value follows the placement of the label: on top when the label is on top, and on the side when the label is on the side. The exception to this rule is when the value is editable in a text field, either standard or quiet style. In that case, the editable input is always placed on the side and should include an ARIA label for accessibility, using either aria-labeledby or aria-label."}]},
+            {"id":"462d974f-1","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"slider/documentBlocks/1","name":"guideline: Review label-less designs.\n\nIn rare cases where ","fields":[{"path":"content","before":"Review label-less designs.\n\nIn rare cases where context is sufficient and a label could be absent, make sure to have the design reviewed and approved by an accessibility expert. These sliders must still include an ARIA label in HTML, using either aria-label or aria-labelledby depending on context.","after":"Review label-less designs.\n\nIn rare cases where context is sufficient and a label could be absent, make sure to have the design reviewed and approved by an accessibility expert. These sliders must still include an ARIA label in HTML, using either aria-label or aria-labeledby depending on context."}]}
+          ]
+        }
+      ]
     }
   ]
 }
