@@ -211,6 +211,26 @@ React Aria and ui-sdk are what a web implementation would use to satisfy the con
 
 Popups and overlays, collections and lists, text input and IME, drag and drop, long press and other gestures, animation timing, internationalized key maps beyond right-to-left reversal. Each needs its own intents and probably a statechart.
 
+## Vector spike results (2026-11-24)
+
+The vectors in this proposal were written as plain JSON with a small Playwright runner, and run in headless Chrome against a native-input baseline, `@ui-sdk/react` 0.1.0-beta.16, React Spectrum S2 1.8.2 (`@react-spectrum/s2`) and Spectrum Web Components. SWC gen 2 has no Switch or Checkbox, so Switch and Checkbox ran on gen 1 (Spectrum 1) 1.12.6; radio group and action button ran on both generations. The scripts live outside the repository (bead `spectrum-design-data-9fe.13` notes). An adapter is a small page per library; the runner reads facets from the DOM (role, `aria-checked`, `:focus-visible`) and emitted changes from a log, so it does not depend on a library's internals.
+
+| Set                           | Vectors | Native input | ui-sdk | React Spectrum S2 | SWC gen 1 | SWC gen 2    |
+| ----------------------------- | ------- | ------------ | ------ | ----------------- | --------- | ------------ |
+| Switch and Checkbox           | 26      | 26           | 26     | 24                | 24        | no component |
+| Radio group and action button | 20      | 20           | 20     | 20                | 18        | 17           |
+
+**Divergences found**
+
+* **React Spectrum S2, Checkbox:** `isIndeterminate` is a plain prop. A click or Space checks the box, but the indeterminate state stays set until the app clears it, so the checkbox keeps reading as indeterminate. The vectors expect activation to clear it (native input behavior, ui-sdk). Whether S2 or the contract is right is a `meaning` call.
+* **SWC gen 1, Switch and Checkbox:** read-only is a natively disabled input. It is not focusable and exposes no `aria-readonly`, so the vector "read-only keeps focus" fails.
+* **Enter, all implementations:** none of the four toggles on Enter. The design data's switch and checkbox guideline blocks say "Space or Enter toggles". Recorded as bead `spectrum-design-data-qkj5.398`.
+* **SWC gen 2:** no Switch, Checkbox or selectable action button (`toggles` and `selected` moved to a toggle button that is "coming soon"). Its radio group passes all 12 vectors.
+
+**A change to the contract the radio vectors forced.** Arrow keys mirror in right-to-left layouts only when the group is horizontal. React Spectrum S2 and SWC gen 1 default to a vertical group, where Left and Right do not swap, so the first RTL vectors failed on both until the group was made horizontal (S2: fixed and passes 20/20; SWC gen 1 not rerun, 18/20). A radio-group contract therefore needs an `orientation` start property, and the RTL vectors apply only to horizontal groups.
+
+**What the spike says about the cost.** Of 46 vectors on five targets there were two library divergences and one data-versus-implementation conflict, all on Switch and Checkbox, and none on radio group or action button. Vectors found assumptions and coverage gaps more than bugs. That suggests a use beyond pass or fail: a coverage report per implementation (which components and behaviors exist, which vectors apply, which pass), generated from the same vectors, so a team can see where its implementation has no equivalent. I have not built that report.
+
 ## Open questions
 
 1. ~~**Replace or sit beside?**~~ **Decided 2026-11-24 (owner): replace.** The contract replaces `accessibility`, and proposal 021's `accessibility` cross-check is dropped. Replacing follows principles 1, 12 and 14.
@@ -218,12 +238,12 @@ Popups and overlays, collections and lists, text input and IME, drag and drop, l
 3. **Table or statechart?** Is a guarded transition table enough for the first slice, with a statechart form kept for components that need hierarchy or history?
 4. **Facet vocabulary.** `checked` against `selected`, `pressed` against `down`: should facets reuse today's state names, or be a separate set mapped to them?
 5. **Groups.** Is a radio group a collection (proposal 016) or a pattern of its own?
-6. **Who owns the vectors?** The data team, per component, with Design reviewing meaning, or the implementing teams contributing as they find gaps?
-7. **Where do vectors run?** In this repo's CI against the reference runner only, or also against implementations that opt in?
+6. **Who owns the vectors?** The data team, per component, with Design reviewing meaning, or the implementing teams contributing as they find gaps? Evidence: the divergences above are meaning calls (S2 indeterminate, SWC read-only, Enter), so the data team can write vectors but the owner and Design have to decide who is right; implementing teams cannot settle them alone.
+7. **Where do vectors run?** In this repo's CI against the reference runner only, or also against implementations that opt in? Evidence: adapters are small (one page per library) and run in headless Chrome in about a minute per library; the work is writing and maintaining the adapters, not running them. Running them in this repository against implementations we do not own would need pinned versions.
 8. **Capability list.** Is `pointer-hover`, `keyboard`, `assistive-activation` the right starting set?
 
 ## Evidence and risks
 
 * The ui-sdk spikes (branches `spike/ui-sdk-switch`, `spike/ui-sdk-checkbox`, `spike/ui-sdk-frameworks`) show state, attributes and part names can be generated from data once they are declared; they say nothing about transitions.
-* I have not tested whether an agent does better with the contract than with today's data. An agent probe (bead under epic `9fe`) is running; its findings should be read before this leaves draft.
+* The agent probes (bead `spectrum-design-data-9fe.14`) did not find behavior to be what blocked agents: ui-sdk supplied it every time. The value of the contract is conformance checking, as the vector spike above shows, not agent context.
 * Cost: a new file type and vocabulary, migration of 33 components, and vectors to maintain against behavior we do not own. The gain is a conformance check that does not exist today.
