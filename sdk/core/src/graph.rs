@@ -159,6 +159,16 @@ pub struct BehaviorRecord {
     pub raw: Value,
 }
 
+/// One shared base contract (`behaviors/patterns/<pattern>.json`, `behavior-pattern.schema.json`)
+/// that component contracts name in `extends`.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct BehaviorPatternRecord {
+    /// The pattern's `pattern` field.
+    pub pattern: String,
+    pub file: PathBuf,
+    pub raw: Value,
+}
+
 /// One icon set (`icons/<set>.json`, `icon-set.schema.json`): path geometry keyed by
 /// icon id. UI icons hold one drawing per size under `sizes`, keyed by scale index.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -218,6 +228,8 @@ pub struct TokenGraph {
     pub visuals: Vec<VisualRecord>,
     /// Behavior contracts from the `behaviors/` catalog.
     pub behaviors: Vec<BehaviorRecord>,
+    /// Shared base contracts from `behaviors/patterns/`.
+    pub behavior_patterns: Vec<BehaviorPatternRecord>,
     /// Icon sets from the `icons/` catalog.
     pub icons: Vec<IconSetRecord>,
     /// Cache: CTR `legacyKey` → synthetic leaf [`TokenRecord`] for inline-value
@@ -671,6 +683,7 @@ impl TokenGraph {
             relationships: Vec::new(),
             visuals: Vec::new(),
             behaviors: Vec::new(),
+            behavior_patterns: Vec::new(),
             icons: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
@@ -718,6 +731,7 @@ impl TokenGraph {
             relationships: Vec::new(),
             visuals: Vec::new(),
             behaviors: Vec::new(),
+            behavior_patterns: Vec::new(),
             icons: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
@@ -1996,6 +2010,34 @@ impl TokenGraph {
             }
         }
         Ok(out)
+    }
+
+    /// Load shared base contracts from a `behaviors/patterns/` directory. Files without a string
+    /// `pattern` field are skipped (Layer 1 reports their structure).
+    pub fn load_spec_behavior_patterns(
+        dir: &Path,
+    ) -> Result<Vec<BehaviorPatternRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text).map_err(|e| {
+                CoreError::ParseError(format!("{}: invalid JSON: {e}", path.display()))
+            })?;
+            if let Some(pattern) = value.get("pattern").and_then(|v| v.as_str()) {
+                out.push(BehaviorPatternRecord {
+                    pattern: pattern.to_string(),
+                    file: path,
+                    raw: value,
+                });
+            }
+        }
+        Ok(out)
+    }
+
+    /// Attach behavior pattern records loaded from `behaviors/patterns/`.
+    pub fn with_behavior_patterns(mut self, patterns: Vec<BehaviorPatternRecord>) -> Self {
+        self.behavior_patterns = patterns;
+        self
     }
 
     /// Attach behavior contract records loaded from a behaviors catalog directory.

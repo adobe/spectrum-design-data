@@ -42,10 +42,10 @@ The contract is separate from appearance by construction: the contract never men
 ```text
 behaviors/<component>.json
   component        the component id
-  extends          optional shared base contracts ("interactive")
+  extends          optional shared base contracts: files in behaviors/patterns/ ("interactive")
   state            option ids this contract owns (kind: state, proposal 021)
   facets           what the appearance layer may read, each derived from state
-  parts            per anatomy part: role, focus, press
+  parts            per anatomy part: role, focus, press, handles
   transitions      intent, guard, action
   semantics        facet to accessibility state/trait, per part
   vectors          conformance tests
@@ -77,6 +77,8 @@ A facet is a named, finite-valued view of state. It comes from one of two places
 
 The registry `registry/facets.json` lists the ids and values, so a recipe can be validated against it.
 
+A part's `handles` lists the intents it handles that change no state (`navigate-items`, `increment`, `decrement`, `select-all`): keyboard behavior that has no transition because no option changes. An intent that changes state is a transition. A shared base contract is a file in `behaviors/patterns/` (decided 2026-11-24: patterns are data, not hard-wired); a contract reads an interaction facet only when a pattern it extends publishes it. A facet may list `blocksInteraction`, the event intents that do nothing while it is `true` (`disabled` blocks `focus`, `press-start` and `pointer-enter`), so a disabled control takes no focus. The role of a component is carried by its root or primary part, chosen per component, and contracts keep ARIA names (`aria-checked`); other platforms map them through adapters. A `wcag` list on the contract, a facet or a part carries the criteria the `accessibility` block carries today.
+
 ## Worked example: Switch
 
 ```json
@@ -85,9 +87,18 @@ The registry `registry/facets.json` lists the ids and values, so a recipe can be
   "extends": ["interactive"],
   "state": ["isSelected", "isDisabled", "isReadOnly"],
   "facets": {
-    "checked": { "from": "isSelected", "values": { "unchecked": false, "checked": true } },
-    "disabled": { "from": "isDisabled", "values": { "false": false, "true": true } },
-    "readOnly": { "from": "isReadOnly", "values": { "false": false, "true": true } }
+    "checked": {
+      "from": "isSelected",
+      "values": { "unchecked": false, "checked": true }
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": { "false": false, "true": true }
+    },
+    "readOnly": {
+      "from": "isReadOnly",
+      "values": { "false": false, "true": true }
+    }
   },
   "parts": {
     "track": { "role": "switch", "focus": "tab-stop", "press": "activate" }
@@ -95,13 +106,23 @@ The registry `registry/facets.json` lists the ids and values, so a recipe can be
   "transitions": [
     {
       "on": "activate",
-      "guard": { "all": [{ "facet": "disabled", "is": "false" }, { "facet": "readOnly", "is": "false" }] },
+      "guard": {
+        "all": [
+          { "facet": "disabled", "is": "false" },
+          { "facet": "readOnly", "is": "false" }
+        ]
+      },
       "do": { "toggle": "isSelected" },
       "emit": "change"
     }
   ],
   "semantics": {
-    "track": { "checked": { "ariaState": "aria-checked", "map": { "unchecked": "false", "checked": "true" } } }
+    "track": {
+      "checked": {
+        "ariaState": "aria-checked",
+        "map": { "unchecked": "false", "checked": "true" }
+      }
+    }
   }
 }
 ```
@@ -126,17 +147,33 @@ The registry `registry/facets.json` lists the ids and values, so a recipe can be
       "order": "first match wins"
     }
   },
-  "parts": { "box": { "role": "checkbox", "focus": "tab-stop", "press": "activate" } },
+  "parts": {
+    "box": { "role": "checkbox", "focus": "tab-stop", "press": "activate" }
+  },
   "transitions": [
     {
       "on": "activate",
       "guard": { "facet": "disabled", "is": "false" },
-      "do": { "set": { "isIndeterminate": false, "isSelected": { "not": { "facet": "checked", "is": "checked" } } } },
+      "do": {
+        "set": {
+          "isIndeterminate": false,
+          "isSelected": { "not": { "facet": "checked", "is": "checked" } }
+        }
+      },
       "emit": "change"
     }
   ],
   "semantics": {
-    "box": { "checked": { "ariaState": "aria-checked", "map": { "unchecked": "false", "checked": "true", "indeterminate": "mixed" } } }
+    "box": {
+      "checked": {
+        "ariaState": "aria-checked",
+        "map": {
+          "unchecked": "false",
+          "checked": "true",
+          "indeterminate": "mixed"
+        }
+      }
+    }
   }
 }
 ```
@@ -158,13 +195,17 @@ Vectors live next to the contract and run from `packages/design-data-spec/confor
   "name": "space on an indeterminate checkbox checks it",
   "needs": ["keyboard"],
   "start": { "isSelected": false, "isIndeterminate": true },
-  "steps": [
-    { "intent": "focus", "via": "keyboard" },
-    { "intent": "activate" }
-  ],
+  "steps": [{ "intent": "focus", "via": "keyboard" }, { "intent": "activate" }],
   "expect": [
-    { "after": 1, "facets": { "focusVisible": true, "checked": "indeterminate" } },
-    { "after": 2, "facets": { "checked": "checked" }, "emit": [{ "change": { "isSelected": true, "isIndeterminate": false } }] }
+    {
+      "after": 1,
+      "facets": { "focusVisible": true, "checked": "indeterminate" }
+    },
+    {
+      "after": 2,
+      "facets": { "checked": "checked" },
+      "emit": [{ "change": { "isSelected": true, "isIndeterminate": false } }]
+    }
   ]
 }
 ```
@@ -234,7 +275,7 @@ The vectors in this proposal were written as plain JSON with a small Playwright 
 ## Open questions
 
 1. ~~**Replace or sit beside?**~~ **Decided 2026-11-24 (owner): replace.** The contract replaces `accessibility`, and proposal 021's `accessibility` cross-check is dropped. Replacing follows principles 1, 12 and 14.
-2. **Contract per pattern or per component?** A "toggle" pattern shared by switch, checkbox, radio and a chip toggle would let an agent that builds a new component pick a pattern and get its vectors. Do patterns live in `behaviors/patterns/` and components `extends` them?
+2. ~~**Contract per pattern or per component?**~~ **Decided 2026-11-24 (owner): patterns live in `behaviors/patterns/` and components `extends` them; none is hard-wired.** A "toggle" pattern shared by switch, checkbox, radio and a chip toggle would let an agent that builds a new component pick a pattern and get its vectors. Do patterns live in `behaviors/patterns/` and components `extends` them?
 3. **Table or statechart?** Is a guarded transition table enough for the first slice, with a statechart form kept for components that need hierarchy or history?
 4. **Facet vocabulary.** `checked` against `selected`, `pressed` against `down`: should facets reuse today's state names, or be a separate set mapped to them?
 5. **Groups.** Is a radio group a collection (proposal 016) or a pattern of its own?

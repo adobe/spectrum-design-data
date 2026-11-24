@@ -12,6 +12,7 @@
 
 pub mod anatomy_suggest;
 pub mod authoring;
+pub mod behavior;
 #[cfg(feature = "cache")]
 pub mod cache;
 pub mod cascade;
@@ -622,6 +623,21 @@ mod validation_conformance {
                 })
                 .collect();
             graph = graph.with_behaviors(records);
+        }
+
+        if let Some(patterns) = dataset.get("behaviorPatterns").and_then(|v| v.as_array()) {
+            graph = graph.with_behavior_patterns(
+                patterns
+                    .iter()
+                    .filter_map(|raw| {
+                        Some(crate::graph::BehaviorPatternRecord {
+                            pattern: raw.get("pattern")?.as_str()?.to_string(),
+                            file: std::path::PathBuf::from("dataset.json"),
+                            raw: raw.clone(),
+                        })
+                    })
+                    .collect(),
+            );
         }
 
         if let Some(icons) = dataset.get("icons").and_then(|v| v.as_array()) {

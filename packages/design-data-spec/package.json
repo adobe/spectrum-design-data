@@ -38,7 +38,8 @@
     "./schemas/platform-extension.json": "./schemas/platform-extension.json",
     "./schemas/dataset.schema.json": "./schemas/dataset.schema.json",
     "./schemas/guideline.schema.json": "./schemas/guideline.schema.json",
-    "./schemas/behavior.schema.json": "./schemas/behavior.schema.json"
+    "./schemas/behavior.schema.json": "./schemas/behavior.schema.json",
+    "./schemas/behavior-pattern.schema.json": "./schemas/behavior-pattern.schema.json"
   },
   "files": [
     "conformance",

@@ -35,7 +35,7 @@
   "behaviors": [
     {
       "component": "checkbox",
-      "extends": ["interactive"],
+      "extends": ["interactive", "ghost"],
       "state": ["isSelected", "isIndeterminate", "isDisabled", "isGhost"],
       "facets": {
         "checked": {
@@ -164,6 +164,12 @@
           ]
         }
       ]
+    }
+  ],
+  "behaviorPatterns": [
+    {
+      "pattern": "interactive",
+      "publishes": ["hovered", "pressed", "focusVisible"]
     }
   ]
 }

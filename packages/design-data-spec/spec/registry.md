@@ -64,7 +64,7 @@ Validates the `category` field on component declarations.
 
 ### Behavior contract registries
 
-`facets.json`, `intents.json` and `capabilities.json` validate `behaviors/<component>.json` (SPEC-118 to SPEC-120; see [Behavior contract](behavior-contract.md)). `intents.json` holds exactly today's `intents` and `keyboardIntents` vocabulary from the [`accessibility`](accessibility.md) block, with `usedAs` naming the array that carries each value. They are not name-object fields, so no field declaration points at them.
+`facets.json`, `intents.json` and `capabilities.json` validate `behaviors/<component>.json` (SPEC-118 to SPEC-120; see [Behavior contract](behavior-contract.md)). `intents.json` holds today's `intents` and `keyboardIntents` vocabulary from the [`accessibility`](accessibility.md) block, with `usedAs` naming the array that carries each value, plus the `category: event` intents (`focus`, `press-start`, `navigate-next`, ...) that only contracts use. `facets.json` entries may carry `blocksInteraction`. They are not name-object fields, so no field declaration points at them.
 
 ## ID scoping
 

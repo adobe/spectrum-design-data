@@ -192,6 +192,10 @@ pub fn validate_all_with_platform(
         .filter(|d| d.is_dir())
     {
         graph.behaviors = TokenGraph::load_spec_behaviors(&dir)?;
+        if dir.join("patterns").is_dir() {
+            graph.behavior_patterns =
+                TokenGraph::load_spec_behavior_patterns(&dir.join("patterns"))?;
+        }
     }
     if let Some(dir) = icons_path {
         if dir.is_dir() {

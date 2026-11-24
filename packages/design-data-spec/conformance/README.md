@@ -9,6 +9,8 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 
 **Valid** baselines live under `valid/`.
 
+**Behavior** vector suites live under `behavior/<component>.json` (`{ "component", "vectors" }`). They are run, not validated: `design-data behavior test <component|--all>` executes each vector against `packages/design-data/behaviors/<component>.json` (see [Behavior contract](../spec/behavior-contract.md#reference-runner)). Platform adapters run the same vectors against a real implementation.
+
 | Folder             | Rule     | Intent                                                                                                                                                                                             |
 | ------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `invalid/SPEC-001` | SPEC-001 | Alias target does not exist.                                                                                                                                                                       |

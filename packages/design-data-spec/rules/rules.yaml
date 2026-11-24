@@ -1675,7 +1675,9 @@ rules:
       of the component. Each facet MUST be in the facets registry, derive from options listed in
       `state`, and use only values that registry lists for it. Each `parts` and `semantics` key
       MUST be an anatomy part of the component, and each `semantics` entry MUST name a facet the
-      contract can read and map only values of that facet.
+      contract can read and map only values of that facet. Each `extends` name MUST be a pattern
+      in `behaviors/patterns/`, and a pattern MUST extend only patterns and publish only
+      registered interaction facets.
     message: "Behavior contract of '{component}' {problem}"
     spec_ref: spec/behavior-contract.md#validation
     introduced_in: "1.0.0-draft"
@@ -1686,12 +1688,12 @@ rules:
     layer: 2
     category: component
     note: >
-      Intents come from registry/intents.json, which holds today's `intents` and
-      `keyboardIntents` vocabulary and nothing else. A transition on an intent that is not in it
-      (`focus`, `press-start`, `pointer-enter`) warns until the registry grows; see the open
-      questions of proposal 022.
+      Intents come from registry/intents.json: today's `intents` and `keyboardIntents`
+      vocabulary and the `event` intents of proposal 022 (`focus`, `press-start`,
+      `pointer-enter`, `navigate-next`).
     assert: >
-      Each transition `on` and each part `press` MUST be an intent in the intents registry, and
+      Each transition `on`, each part `press` and each part `handles` entry MUST be an intent in
+      the intents registry, and
       each `needs` a capability in the capabilities registry. A guard MUST read only facets the
       contract declares or interaction facets, with values those facets have. `do` MUST change
       only options listed in `state`.
@@ -1706,7 +1708,7 @@ rules:
     category: component
     note: >
       Vectors are checked for well-formedness only. Running them against the data model is the
-      reference runner's job (a later slice).
+      reference runner's job (`design-data behavior test`).
     assert: >
       A vector's `component`, when present, MUST be the contract's. Its `needs` MUST be
       registered capabilities, each step intent a registered intent, each `start` key an option of

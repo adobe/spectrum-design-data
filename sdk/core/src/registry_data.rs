@@ -3921,7 +3921,7 @@ const ATTRIBUTES_JSON: &str = r##"{
 const FACETS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "facet",
-  "description": "Facets: named, finite-valued views of a component's state that the appearance layer may read (spec/behavior-contract.md). `source: state-group` facets derive from state options a component declares, through the `from` and `values` mapping in its behavior contract; `source: interaction` facets come from the shared `interactive` base. `values` lists the allowed value ids. `stateName` maps an interaction facet to the interaction state name (states.json) a recipe resolves against.",
+  "description": "Facets: named, finite-valued views of a component's state that the appearance layer may read (spec/behavior-contract.md). `source: state-group` facets derive from state options a component declares, through the `from` and `values` mapping in its behavior contract; `source: interaction` facets come from the shared `interactive` base. `values` lists the allowed value ids. `stateName` maps an interaction facet to the interaction state name (states.json) a recipe resolves against. `blocksInteraction` lists the event intents that do nothing while the facet is `true` (a disabled control takes no focus, press or hover). A transition still guards `activate` itself.",
   "values": [
     {
       "id": "checked",
@@ -3937,7 +3937,8 @@ const FACETS_JSON: &str = r##"{
       "description": "Whether the control ignores all interaction and focus.",
       "source": "state-group",
       "values": ["false", "true"],
-      "from": ["isDisabled"]
+      "from": ["isDisabled"],
+      "blocksInteraction": ["focus", "press-start", "pointer-enter"]
     },
     {
       "id": "readOnly",
@@ -3979,7 +3980,7 @@ const FACETS_JSON: &str = r##"{
 const INTENTS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "intent",
-  "description": "Interaction intents: the vocabulary of the `intents` and `keyboardIntents` arrays of a component `accessibility` block (spec/accessibility.md), reused unchanged as the events a behavior contract transition or conformance vector names (spec/behavior-contract.md). `usedAs` says which accessibility array carries the value today.",
+  "description": "Interaction intents: the vocabulary of the `intents` and `keyboardIntents` arrays of a component `accessibility` block (spec/accessibility.md), reused unchanged as the events a behavior contract transition or conformance vector names (spec/behavior-contract.md). `usedAs` says which accessibility array carries the value today. Values with `category: event` are the proposal 022 event intents a platform maps a gesture to (focus, press, pointer, logical navigation); they exist only in behavior contracts, never in `accessibility`.",
   "values": [
     {
       "id": "trigger",
@@ -4064,6 +4065,72 @@ const INTENTS_JSON: &str = r##"{
       "label": "Select all",
       "description": "Selects all items in a collection",
       "usedAs": ["keyboardIntents"]
+    },
+    {
+      "id": "focus",
+      "label": "Focus",
+      "description": "The part receives focus. `via` (`keyboard`, `pointer`, `programmatic`) decides `focusVisible`.",
+      "category": "event"
+    },
+    {
+      "id": "blur",
+      "label": "Blur",
+      "description": "Focus leaves the part.",
+      "category": "event"
+    },
+    {
+      "id": "press-start",
+      "label": "Press start",
+      "description": "A press begins on the part.",
+      "category": "event"
+    },
+    {
+      "id": "press-end",
+      "label": "Press end",
+      "description": "A press completes on the part; the part's `press` intent follows.",
+      "category": "event"
+    },
+    {
+      "id": "press-cancel",
+      "label": "Press cancel",
+      "description": "A press ends somewhere other than the part.",
+      "category": "event"
+    },
+    {
+      "id": "pointer-enter",
+      "label": "Pointer enter",
+      "description": "A pointer moves over the part. Needs `pointer-hover`.",
+      "category": "event"
+    },
+    {
+      "id": "pointer-leave",
+      "label": "Pointer leave",
+      "description": "A pointer moves off the part. Needs `pointer-hover`.",
+      "category": "event"
+    },
+    {
+      "id": "navigate-next",
+      "label": "Navigate next",
+      "description": "Logical movement to the next peer. The platform maps arrows and flips them for right-to-left.",
+      "category": "event"
+    },
+    {
+      "id": "navigate-previous",
+      "label": "Navigate previous",
+      "description": "Logical movement to the previous peer.",
+      "category": "event"
+    },
+    {
+      "id": "navigate-first",
+      "label": "Navigate first",
+      "description": "Logical movement to the first peer.",
+      "category": "event"
+    },
+    {
+      "id": "navigate-last",
+      "label": "Navigate last",
+      "description": "Logical movement to the last peer.",
+      "category": "event"
     }
   ]
 }

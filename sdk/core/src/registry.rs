@@ -134,6 +134,8 @@ pub struct RegistryData {
 pub struct FacetEntry {
     pub interaction: bool,
     pub values: HashSet<String>,
+    /// Event intents that do nothing while the facet is `true` (`blocksInteraction`).
+    pub blocks_interaction: HashSet<String>,
 }
 
 /// Split a relationship `context` into its main word and the text inside a trailing
@@ -254,6 +256,13 @@ fn parse_facets(json_str: &str) -> HashMap<String, FacetEntry> {
                 FacetEntry {
                     interaction,
                     values,
+                    blocks_interaction: e
+                        .get("blocksInteraction")
+                        .and_then(Value::as_array)
+                        .into_iter()
+                        .flatten()
+                        .filter_map(|x| x.as_str().map(String::from))
+                        .collect(),
                 },
             ))
         })

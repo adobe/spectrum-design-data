@@ -119,7 +119,7 @@
           },
           "steps": [
             {
-              "intent": "focus"
+              "intent": "tap"
             }
           ],
           "expect": [
@@ -161,6 +161,12 @@
           ]
         }
       ]
+    }
+  ],
+  "behaviorPatterns": [
+    {
+      "pattern": "interactive",
+      "publishes": ["hovered", "pressed", "focusVisible"]
     }
   ]
 }

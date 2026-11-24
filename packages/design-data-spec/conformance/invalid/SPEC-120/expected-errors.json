@@ -4,7 +4,7 @@
     {
       "rule_id": "SPEC-120",
       "severity": "warning",
-      "message_pattern": ".*activate on an indeterminate.*'focus'.*not in the intents registry.*"
+      "message_pattern": ".*activate on an indeterminate.*'tap'.*not in the intents registry.*"
     }
   ]
 }

@@ -20,7 +20,7 @@ use serde_json::Value;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::behavior_util::{
-    facet_values, option_names, part_names, state_ids, warning,
+    extends_of, facet_values, option_names, part_names, state_ids, warning,
 };
 
 pub struct Rule;
@@ -45,6 +45,19 @@ impl ValidationRule for Rule {
                     format!("Behavior contract of '{}' {msg}", b.component),
                 ));
             };
+            for name in extends_of(&b.raw) {
+                if !ctx
+                    .graph
+                    .behavior_patterns
+                    .iter()
+                    .any(|p| p.pattern == name)
+                {
+                    problem(
+                        "/extends",
+                        format!("extends '{name}', which is not a pattern in behaviors/patterns/"),
+                    );
+                }
+            }
             if !ctx.graph.components.is_empty()
                 && !ctx.graph.components.iter().any(|c| c.name == b.component)
             {
@@ -98,7 +111,10 @@ impl ValidationRule for Rule {
                         format!("derives facet '{name}' from '{s}', which is not in `state`"),
                     );
                 }
-                for v in facet_values(b, ctx.registry, name).into_iter().flatten() {
+                for v in facet_values(ctx.graph, b, ctx.registry, name)
+                    .into_iter()
+                    .flatten()
+                {
                     if !registered.values.contains(&v) {
                         problem(&path, format!("gives facet '{name}' the value '{v}', which the facets registry does not list"));
                     }
@@ -133,7 +149,7 @@ impl ValidationRule for Rule {
             {
                 for (facet, sem) in facets.as_object().into_iter().flatten() {
                     let path = format!("/semantics/{part}/{facet}");
-                    let Some(values) = facet_values(b, ctx.registry, facet) else {
+                    let Some(values) = facet_values(ctx.graph, b, ctx.registry, facet) else {
                         problem(
                             &path,
                             format!("exposes facet '{facet}', which the contract does not declare"),
@@ -153,6 +169,47 @@ impl ValidationRule for Rule {
                             );
                         }
                     }
+                }
+            }
+        }
+        for p in &ctx.graph.behavior_patterns {
+            let mut problem = |path: &str, msg: String| {
+                out.push(Diagnostic {
+                    file: p.file.clone(),
+                    token: None,
+                    rule_id: Some(self.id().to_string()),
+                    severity: crate::report::Severity::Warning,
+                    message: format!("Behavior pattern '{}' {msg}", p.pattern),
+                    instance_path: Some(path.to_string()),
+                    schema_path: None,
+                });
+            };
+            for name in extends_of(&p.raw) {
+                if !ctx
+                    .graph
+                    .behavior_patterns
+                    .iter()
+                    .any(|q| q.pattern == name)
+                {
+                    problem(
+                        "/extends",
+                        format!("extends '{name}', which is not a pattern in behaviors/patterns/"),
+                    );
+                }
+            }
+            for f in p
+                .raw
+                .get("publishes")
+                .and_then(Value::as_array)
+                .into_iter()
+                .flatten()
+                .filter_map(Value::as_str)
+            {
+                if !ctx.registry.facet(f).is_some_and(|e| e.interaction) {
+                    problem(
+                        "/publishes",
+                        format!("publishes '{f}', which is not an interaction facet in the facets registry"),
+                    );
                 }
             }
         }
@@ -179,6 +236,23 @@ mod tests {
     }
 
     #[test]
+    fn flags_a_pattern_that_extends_or_publishes_wrongly() {
+        let mut g = graph(vec![]);
+        g.behavior_patterns
+            .push(crate::graph::BehaviorPatternRecord {
+                pattern: "p".into(),
+                file: "behaviors/patterns/p.json".into(),
+                raw: json!({ "pattern": "p", "extends": ["ghost"], "publishes": ["checked"] }),
+            });
+        let m = run(&Rule, &g);
+        assert!(m.iter().any(|m| m.contains("not a pattern")), "{m:?}");
+        assert!(
+            m.iter().any(|m| m.contains("not an interaction facet")),
+            "{m:?}"
+        );
+    }
+
+    #[test]
     fn no_behaviors_directory_is_clean() {
         assert!(run(&Rule, &graph(vec![])).is_empty());
     }
@@ -187,6 +261,10 @@ mod tests {
     fn flags_each_unresolved_reference() {
         let cases: Vec<Case> = vec![
             (Box::new(|c| c["component"] = json!("nope")), "not declared"),
+            (
+                Box::new(|c| c["extends"] = json!(["interactive", "ghost"])),
+                "not a pattern",
+            ),
             (
                 Box::new(|c| c["state"] = json!(["isSelected", "isGhost"])),
                 "not an option",

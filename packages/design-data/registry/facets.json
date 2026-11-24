@@ -1,7 +1,7 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "facet",
-  "description": "Facets: named, finite-valued views of a component's state that the appearance layer may read (spec/behavior-contract.md). `source: state-group` facets derive from state options a component declares, through the `from` and `values` mapping in its behavior contract; `source: interaction` facets come from the shared `interactive` base. `values` lists the allowed value ids. `stateName` maps an interaction facet to the interaction state name (states.json) a recipe resolves against.",
+  "description": "Facets: named, finite-valued views of a component's state that the appearance layer may read (spec/behavior-contract.md). `source: state-group` facets derive from state options a component declares, through the `from` and `values` mapping in its behavior contract; `source: interaction` facets come from the shared `interactive` base. `values` lists the allowed value ids. `stateName` maps an interaction facet to the interaction state name (states.json) a recipe resolves against. `blocksInteraction` lists the event intents that do nothing while the facet is `true` (a disabled control takes no focus, press or hover). A transition still guards `activate` itself.",
   "values": [
     {
       "id": "checked",
@@ -17,7 +17,8 @@
       "description": "Whether the control ignores all interaction and focus.",
       "source": "state-group",
       "values": ["false", "true"],
-      "from": ["isDisabled"]
+      "from": ["isDisabled"],
+      "blocksInteraction": ["focus", "press-start", "pointer-enter"]
     },
     {
       "id": "readOnly",

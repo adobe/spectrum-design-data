@@ -5,6 +5,11 @@
       "rule_id": "SPEC-119",
       "severity": "warning",
       "message_pattern": ".*checkbox.*'tap'.*not in the intents registry.*"
+    },
+    {
+      "rule_id": "SPEC-119",
+      "severity": "warning",
+      "message_pattern": ".*handling 'navigate-sideways'.*not in the intents registry.*"
     }
   ]
 }

@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-pattern.schema.json",
+  "title": "Behavior contract pattern",
+  "description": "Layer 1 structural schema for a shared base contract, `behaviors/patterns/<pattern>.json` (spec/behavior-contract.md). A component contract names it in `extends`. A pattern has no `component`, `state` or `vectors`: it holds what several components share.",
+  "type": "object",
+  "required": ["pattern"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "pattern": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Pattern id: the file name without `.json`."
+    },
+    "description": {
+      "type": "string"
+    },
+    "extends": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "uniqueItems": true,
+      "description": "Shared base contracts: names of pattern files in `behaviors/patterns/` (for example `interactive`, which publishes the interaction facets)."
+    },
+    "publishes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/name"
+      },
+      "uniqueItems": true,
+      "description": "Registered interaction facets (registry/facets.json, `source: interaction`) an extending contract may read."
+    },
+    "facets": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/name"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/facet"
+      },
+      "description": "What the appearance layer may read, each derived from state, keyed by facet id (registry/facets.json)."
+    },
+    "parts": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/name"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/part"
+      },
+      "description": "Per anatomy part: role, focus model and press behavior. Keys are anatomy part names."
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/transition"
+      },
+      "description": "What each intent does to state: a guarded table, never a DOM event."
+    },
+    "wcag": {
+      "$ref": "#/$defs/wcag"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$"
+    },
+    "intent": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "capability": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "needs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/capability"
+      },
+      "uniqueItems": true,
+      "description": "Capabilities (registry/capabilities.json) the platform must have for this to apply."
+    },
+    "wcagEntry": {
+      "type": "object",
+      "required": ["criterion", "level"],
+      "properties": {
+        "criterion": {
+          "type": "string",
+          "pattern": "^[1-4]\\.[0-9]+\\.[0-9]+$"
+        },
+        "level": {
+          "type": "string",
+          "enum": ["A", "AA", "AAA"]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "wcag": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/wcagEntry"
+      },
+      "uniqueItems": true,
+      "description": "Applicable WCAG 2.x success criteria, for the contract, a facet or a part."
+    },
+    "facet": {
+      "type": "object",
+      "required": ["from", "values"],
+      "properties": {
+        "from": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/name"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/name"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          ],
+          "description": "The option id, or ids, the facet derives from."
+        },
+        "values": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": ["boolean", "string", "number", "object"],
+            "description": "Single source option: the option value that selects the facet value. Several: an object of option values that must all match."
+          },
+          "description": "Facet value id to the option value (one source) or option-to-value match (several sources) that selects it."
+        },
+        "order": {
+          "const": "first match wins"
+        },
+        "wcag": {
+          "$ref": "#/$defs/wcag"
+        }
+      },
+      "additionalProperties": false
+    },
+    "part": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Semantic role (spec/accessibility.md role vocabulary)."
+        },
+        "focus": {
+          "enum": ["tab-stop", "roving", "none"],
+          "description": "tab-stop: in the tab order. roving: one peer is the tab stop at a time. none: not focusable."
+        },
+        "press": {
+          "$ref": "#/$defs/intent"
+        },
+        "wcag": {
+          "$ref": "#/$defs/wcag"
+        },
+        "handles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/intent"
+          },
+          "uniqueItems": true,
+          "description": "Intents the part handles that change no state (for example `navigate-items`, `increment`). Intents that change state are `transitions`."
+        }
+      },
+      "additionalProperties": false
+    },
+    "guard": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["facet", "is"],
+          "properties": {
+            "facet": {
+              "$ref": "#/$defs/name"
+            },
+            "is": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["all"],
+          "properties": {
+            "all": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/guard"
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["any"],
+          "properties": {
+            "any": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/guard"
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["not"],
+          "properties": {
+            "not": {
+              "$ref": "#/$defs/guard"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "action": {
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "toggle": {
+          "$ref": "#/$defs/name"
+        },
+        "set": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/name"
+          },
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": ["boolean", "string", "number"]
+              },
+              {
+                "type": "object",
+                "required": ["not"],
+                "properties": {
+                  "not": {
+                    "$ref": "#/$defs/guard"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "transition": {
+      "type": "object",
+      "required": ["on", "do"],
+      "properties": {
+        "on": {
+          "$ref": "#/$defs/intent"
+        },
+        "needs": {
+          "$ref": "#/$defs/needs"
+        },
+        "guard": {
+          "$ref": "#/$defs/guard"
+        },
+        "do": {
+          "$ref": "#/$defs/action"
+        },
+        "emit": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -125,7 +125,7 @@ impl ValidationRule for Rule {
                         .into_iter()
                         .flatten()
                     {
-                        match facet_values(b, ctx.registry, facet) {
+                        match facet_values(ctx.graph, b, ctx.registry, facet) {
                             None => problem(
                                 "/expect",
                                 format!(
@@ -133,7 +133,11 @@ impl ValidationRule for Rule {
                                 ),
                             ),
                             Some(values) => {
-                                if let Some(x) = value.as_str().filter(|x| !values.contains(*x)) {
+                                let x = match value {
+                                    Value::Bool(b) => Some(b.to_string()),
+                                    v => v.as_str().map(String::from),
+                                };
+                                if let Some(x) = x.filter(|x| !values.contains(x)) {
                                     problem("/expect", format!("expects facet '{facet}' to be '{x}', which is not one of its values"));
                                 }
                             }

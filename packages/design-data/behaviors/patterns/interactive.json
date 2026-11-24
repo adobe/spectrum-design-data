@@ -1,0 +1,6 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-pattern.schema.json",
+  "pattern": "interactive",
+  "description": "The shared base of every pointer or keyboard control: it publishes the interaction facets a recipe resolves hover, down and keyboard focus from. The event intents (focus, blur, press, pointer) move them; the reference runner and each platform adapter give those intents their meaning.",
+  "publishes": ["hovered", "pressed", "focusVisible"]
+}
