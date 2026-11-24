@@ -467,6 +467,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.6.0",
+      "version": "3.1.0",
+      "bump": "minor",
+      "date": "2026-11-24",
+      "commit": "5b27625e31d7c3969edf8ec6bb9f982092761193",
+      "commits": [
+        {
+          "commit": "16c95907ff7452b367417d03c123ac79f5751c65",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2151,"title":"feat(spec): per-platform behavior key bindings, web Space-only for switch and checkbox","url":"https://github.com/adobe/spectrum-design-data/pull/2151"},
+          "entries": [
+            {"id":"16c95907-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/documentBlocks/0","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Tabb","fields":[{"path":"content","before":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Space or Enter Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected).","after":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected)."}]}
+          ]
+        },
+        {
+          "commit": "511dd9587e541cadb7be3fb345a7765756095c08",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2152,"title":"feat(spec): shared toggle behavior pattern and read-only Checkbox","url":"https://github.com/adobe/spectrum-design-data/pull/2152"},
+          "entries": [
+            {"id":"511dd958-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"checkbox/options/isReadOnly","name":"isReadOnly","fields":[],"after":{"type":"boolean","default":false,"description":"Behavior only: the checkbox stays focusable and shows hover and press feedback but does not change value, and exposes aria-readonly. No distinct read-only visual is defined in react-spectrum S2."}},
+            {"id":"511dd958-1","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","after":["isReadOnly"]}]}
+          ]
+        }
+      ]
     }
   ]
 }

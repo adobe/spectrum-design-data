@@ -1,5 +1,30 @@
 # @adobe/design-data-skill
 
+## 2.2.34
+
+### Patch Changes
+
+- [#2138](https://github.com/adobe/spectrum-design-data/pull/2138) [`beecbcb`](https://github.com/adobe/spectrum-design-data/commit/beecbcbf15b219dbbcc8dd0dd76f62c8ae25707c) Thanks [@GarthDB](https://github.com/GarthDB)! - `design-data-component-tokens` gets `view: "states"`: one row per context and part
+  with the token and value for default, hover, down, keyboard-focus and disabled,
+  for the requested `options`, `colorScheme` and `scale`. Sizes are collapsed to
+  `options.size` (recognized from the `-75`/`-100`/... property or `-small`/`-medium`
+  token suffix), and `disabled` comes from the bindings pinned to `isDisabled`. For
+  a button this is about 4-5K characters instead of 24-44K.
+  - A component with no state-pinned relationships (switch) gets a `stateHint`
+    pointing at `design-data-query` with `component=` and `state=`.
+  - The default view adds a `viewHint` when a call returns more than 40 bindings.
+  - `design-data-component` and `design-data-component-tokens` descriptions now say
+    what a missing binding means and that `constraints` and guideline text are what
+    the system states, not a list of what is not allowed.
+
+- [#2134](https://github.com/adobe/spectrum-design-data/pull/2134) [`63c5350`](https://github.com/adobe/spectrum-design-data/commit/63c535056a497d21a4f340d0a6e372715f26c4c1) Thanks [@GarthDB](https://github.com/GarthDB)! - Name `design-data-contrast` in the skill's `allowed-tools` and tool list, so the plugin
+  can call the new MCP tool.
+
+- [#2135](https://github.com/adobe/spectrum-design-data/pull/2135) [`0d6193b`](https://github.com/adobe/spectrum-design-data/commit/0d6193bc248a68aee62eb5f88cae24915e0d5944) Thanks [@GarthDB](https://github.com/GarthDB)! - Name `design-data-token-usage` in the skill's `allowed-tools` and tool list, so the plugin
+  can call the new MCP tool.
+- Updated dependencies [[`07f5375`](https://github.com/adobe/spectrum-design-data/commit/07f53752810a26eba3c38cda1b10ecca95e499f5), [`beecbcb`](https://github.com/adobe/spectrum-design-data/commit/beecbcbf15b219dbbcc8dd0dd76f62c8ae25707c), [`63c5350`](https://github.com/adobe/spectrum-design-data/commit/63c535056a497d21a4f340d0a6e372715f26c4c1), [`0d6193b`](https://github.com/adobe/spectrum-design-data/commit/0d6193bc248a68aee62eb5f88cae24915e0d5944)]:
+  - @adobe/design-data-mcp@1.18.0
+
 ## 2.2.33
 
 ### Patch Changes

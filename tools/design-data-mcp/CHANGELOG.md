@@ -1,5 +1,53 @@
 # @adobe/design-data-mcp
 
+## 1.18.0
+
+### Minor Changes
+
+- [#2138](https://github.com/adobe/spectrum-design-data/pull/2138) [`beecbcb`](https://github.com/adobe/spectrum-design-data/commit/beecbcbf15b219dbbcc8dd0dd76f62c8ae25707c) Thanks [@GarthDB](https://github.com/GarthDB)! - `design-data-component-tokens` gets `view: "states"`: one row per context and part
+  with the token and value for default, hover, down, keyboard-focus and disabled,
+  for the requested `options`, `colorScheme` and `scale`. Sizes are collapsed to
+  `options.size` (recognized from the `-75`/`-100`/... property or `-small`/`-medium`
+  token suffix), and `disabled` comes from the bindings pinned to `isDisabled`. For
+  a button this is about 4-5K characters instead of 24-44K.
+  - A component with no state-pinned relationships (switch) gets a `stateHint`
+    pointing at `design-data-query` with `component=` and `state=`.
+  - The default view adds a `viewHint` when a call returns more than 40 bindings.
+  - `design-data-component` and `design-data-component-tokens` descriptions now say
+    what a missing binding means and that `constraints` and guideline text are what
+    the system states, not a list of what is not allowed.
+
+- [#2134](https://github.com/adobe/spectrum-design-data/pull/2134) [`63c5350`](https://github.com/adobe/spectrum-design-data/commit/63c535056a497d21a4f340d0a6e372715f26c4c1) Thanks [@GarthDB](https://github.com/GarthDB)! - New tool `design-data-contrast`: the WCAG 2 contrast ratio of two colors, each a
+  hex or `rgb()` value or a token name, uuid or conceptId (resolved for a
+  `colorScheme`, default light). It reports the ratio and whether it meets 3:1,
+  4.5:1 and 7:1, and flattens a semi-transparent foreground over the background.
+  It reports a fact; whether a combination is acceptable stays the author's call.
+
+- [#2135](https://github.com/adobe/spectrum-design-data/pull/2135) [`0d6193b`](https://github.com/adobe/spectrum-design-data/commit/0d6193bc248a68aee62eb5f88cae24915e0d5944) Thanks [@GarthDB](https://github.com/GarthDB)! - New tool `design-data-token-usage`: which components, parts and contexts bind a
+  token, directly or through tokens that alias it (up to 3 hops, `via` names the
+  alias). It is the reverse of `design-data-component-tokens`, so an agent that
+  changes a value can see what else it moves. Pass a token name, uuid or conceptId.
+
+### Patch Changes
+
+- [#2131](https://github.com/adobe/spectrum-design-data/pull/2131) [`07f5375`](https://github.com/adobe/spectrum-design-data/commit/07f53752810a26eba3c38cda1b10ecca95e499f5) Thanks [@GarthDB](https://github.com/GarthDB)! - Narrow `design-data-component-tokens` output.
+  - New `options` argument keeps only bindings that apply under the given option
+    values (for example `{ "variant": "accent", "style": "fill" }`). A binding that
+    does not pin an option is kept.
+  - New `colorScheme` and `scale` arguments collapse a binding's per-mode `values`
+    to one `value`.
+  - A `state` that no binding pins (such as `disabled`, which is an option) now
+    returns a `stateHint` saying so, instead of silently returning the same
+    bindings as the default state.
+
+  On a button, `options` plus `colorScheme` and `scale` cut the call from about
+  44K to 15K characters.
+
+- Updated dependencies [[`ea5fa64`](https://github.com/adobe/spectrum-design-data/commit/ea5fa640075f81854392f207f22c5004eaef5f06), [`cfa233d`](https://github.com/adobe/spectrum-design-data/commit/cfa233d29d01dec8de0f25feb7a795ef68c3e9ed), [`ff59961`](https://github.com/adobe/spectrum-design-data/commit/ff59961021dd08b03a9490948cdfb112ea97c04b), [`3d02271`](https://github.com/adobe/spectrum-design-data/commit/3d022713e7f332d6f8eb7912b5155fad6a06b03b), [`184612a`](https://github.com/adobe/spectrum-design-data/commit/184612abb1695edca5b0415ae58c90351777cda3), [`51696d4`](https://github.com/adobe/spectrum-design-data/commit/51696d4007e14d86aaaf70b76ba9a1a47ac79b31), [`16c9590`](https://github.com/adobe/spectrum-design-data/commit/16c95907ff7452b367417d03c123ac79f5751c65), [`22a48fd`](https://github.com/adobe/spectrum-design-data/commit/22a48fda909f8a786ca8b4a3470cc6c1d54b36d3), [`af2f1e8`](https://github.com/adobe/spectrum-design-data/commit/af2f1e805cb9b96ff9adfccf62fc848b9cabec71), [`064fd46`](https://github.com/adobe/spectrum-design-data/commit/064fd46c901e7b9133929242c088a9e37a528a19), [`511dd95`](https://github.com/adobe/spectrum-design-data/commit/511dd9587e541cadb7be3fb345a7765756095c08), [`96efb8e`](https://github.com/adobe/spectrum-design-data/commit/96efb8e7adeb5ed093c4c755df110675e0ff7db3), [`bceef53`](https://github.com/adobe/spectrum-design-data/commit/bceef532dc1943f67280563cc997f1cc40b57f81), [`b1da385`](https://github.com/adobe/spectrum-design-data/commit/b1da3859c7cd25a64dab4f98fe3046d518b0a969), [`6d455ab`](https://github.com/adobe/spectrum-design-data/commit/6d455abbccf06bba76ab55ea12aef8f431894a03), [`9ac6deb`](https://github.com/adobe/spectrum-design-data/commit/9ac6deb925ea33b70d6c99cdb630cf5b4997d2e5)]:
+  - @adobe/spectrum-design-data@4.6.0
+  - @adobe/design-data-wasm@0.39.0
+  - @adobe/design-data@3.4.7
+
 ## 1.17.6
 
 ### Patch Changes
