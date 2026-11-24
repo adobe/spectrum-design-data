@@ -2,12 +2,43 @@
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "action-button",
   "extends": ["press"],
-  "state": ["isDisabled"],
+  "state": ["isDisabled", "isSelected", "isPending"],
+  "facets": {
+    "selected": {
+      "from": "isSelected",
+      "values": { "unselected": false, "selected": true }
+    },
+    "pending": {
+      "from": "isPending",
+      "values": { "false": false, "true": true }
+    }
+  },
   "parts": {
     "container": {
       "role": "button",
       "focus": "tab-stop",
       "press": "activate"
+    }
+  },
+  "transitions": [
+    {
+      "on": "activate",
+      "guard": { "facet": "pending", "is": "true" },
+      "do": { "set": {} }
+    },
+    {
+      "on": "activate",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "toggle": "isSelected" },
+      "emit": "press"
+    }
+  ],
+  "semantics": {
+    "container": {
+      "selected": {
+        "ariaState": "aria-pressed",
+        "map": { "unselected": "false", "selected": "true" }
+      }
     }
   },
   "wcag": [

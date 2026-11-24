@@ -35,7 +35,9 @@
 //!   `via` the keyboard. A key with no binding raises nothing, which is how "Enter does not
 //!   toggle" passes.
 //! * `emit` lists the events a step raised (`{ name: { option: new value } }`), not a running
-//!   total. A vector that needs a capability the run lacks is not applicable, neither pass nor fail.
+//!   total. An expected event matches when the name is equal and every option it lists has that
+//!   value; options it leaves out are not checked (a press that also toggles `isSelected` still
+//!   matches `{ press: {} }`). A vector that needs a capability the run lacks is not applicable, neither pass nor fail.
 
 use std::collections::{BTreeMap, HashSet};
 use std::path::Path;
@@ -356,6 +358,26 @@ impl Run<'_> {
     }
 }
 
+/// `want` (a list of `{ name: { option: value } }`) matches `got` when both list the same events
+/// in order and each wanted option has the raised value; extra raised options are not checked.
+fn emits_match(want: &Value, got: &[Value]) -> bool {
+    let Some(want) = want.as_array().filter(|w| w.len() == got.len()) else {
+        return false;
+    };
+    want.iter().zip(got).all(|(w, g)| {
+        let (Some(w), Some(g)) = (w.as_object(), g.as_object()) else {
+            return false;
+        };
+        w.len() == 1
+            && w.iter().all(|(name, opts)| {
+                match (opts.as_object(), g.get(name).and_then(Value::as_object)) {
+                    (Some(o), Some(r)) => o.iter().all(|(k, v)| r.get(k) == Some(v)),
+                    _ => false,
+                }
+            })
+    })
+}
+
 /// The event intents `bindings` raise for `key` in `phase` on `role`.
 fn binding_intents(bindings: &Value, role: &str, key: &str, phase: &str) -> Vec<String> {
     let entries = bindings
@@ -467,7 +489,7 @@ fn run_vector(
                 }
             }
             if let Some(want) = e.get("emit") {
-                if *want != Value::Array(raised.clone()) {
+                if !emits_match(want, &raised) {
                     failures.push(format!(
                         "after step {n}: emit want {want} got {}",
                         Value::Array(raised.clone())

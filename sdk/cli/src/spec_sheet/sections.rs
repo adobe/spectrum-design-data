@@ -545,6 +545,8 @@ mod tests {
             "radio-button",
             "radio-group",
             "action-button",
+            "button",
+            "close-button",
         ] {
             let raw = component_raw(&legacy, name).unwrap();
             let contract = derived

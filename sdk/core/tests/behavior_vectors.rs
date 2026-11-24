@@ -555,3 +555,14 @@ fn radio_binds_no_home_or_end() {
         "{keys:?}"
     );
 }
+
+#[test]
+fn action_button_exposes_aria_pressed() {
+    let (contract, _, _) = load("action-button");
+    let selected = &contract["semantics"]["container"]["selected"];
+    assert_eq!(selected["ariaState"], "aria-pressed");
+    assert_eq!(
+        selected["map"],
+        json!({ "unselected": "false", "selected": "true" })
+    );
+}

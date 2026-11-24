@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "button",
+  "extends": ["press"],
+  "state": ["isDisabled", "isPending"],
+  "facets": {
+    "pending": {
+      "from": "isPending",
+      "values": { "false": false, "true": true }
+    }
+  },
+  "parts": {
+    "container": {
+      "role": "button",
+      "focus": "tab-stop",
+      "press": "activate"
+    }
+  },
+  "transitions": [
+    {
+      "on": "activate",
+      "guard": { "facet": "pending", "is": "true" },
+      "do": { "set": {} }
+    }
+  ],
+  "wcag": [
+    { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+    { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+  ]
+}

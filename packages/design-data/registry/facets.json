@@ -45,6 +45,22 @@
       "from": ["orientation", "direction"]
     },
     {
+      "id": "selected",
+      "label": "Selected",
+      "description": "Whether a pressable control is toggled on (aria-pressed). Derived from `isSelected`.",
+      "source": "state-group",
+      "values": ["unselected", "selected"],
+      "from": ["isSelected"]
+    },
+    {
+      "id": "pending",
+      "label": "Pending",
+      "description": "Whether the control is waiting on work and ignores presses. Derived from `isPending`.",
+      "source": "state-group",
+      "values": ["false", "true"],
+      "from": ["isPending"]
+    },
+    {
       "id": "hovered",
       "label": "Hovered",
       "description": "Whether a pointer is over the control.",
