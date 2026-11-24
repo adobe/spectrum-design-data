@@ -79,23 +79,41 @@ pub(crate) fn facet_values(
     registry: &RegistryData,
     name: &str,
 ) -> Option<HashSet<String>> {
-    if let Some(f) = b
-        .raw
-        .pointer(&format!("/facets/{name}/values"))
-        .and_then(Value::as_object)
+    facet_values_of(graph, &b.raw, registry, name)
+}
+
+/// [`facet_values`] for a contract or pattern body: facets it declares or inherits from the
+/// patterns it extends, else an interaction facet those patterns publish.
+pub(crate) fn facet_values_of(
+    graph: &TokenGraph,
+    raw: &Value,
+    registry: &RegistryData,
+    name: &str,
+) -> Option<HashSet<String>> {
+    if let Some(f) = crate::behavior::flatten(raw, &graph.behavior_patterns)
+        .ok()
+        .and_then(|m| m.facets.get(name)?.get("values")?.as_object().cloned())
     {
         return Some(f.keys().cloned().collect());
     }
     registry
         .facet(name)
-        .filter(|f| f.interaction && published_by_extended(graph, b, name))
+        .filter(|f| {
+            f.interaction && (publishes(raw, name) || published_by_extended(graph, raw, name))
+        })
         .map(|f| f.values.clone())
 }
 
+fn publishes(raw: &Value, facet: &str) -> bool {
+    raw.get("publishes")
+        .and_then(Value::as_array)
+        .is_some_and(|a| a.iter().any(|v| v.as_str() == Some(facet)))
+}
+
 /// Whether a pattern this contract extends (transitively) publishes the interaction facet.
-fn published_by_extended(graph: &TokenGraph, b: &BehaviorRecord, facet: &str) -> bool {
+fn published_by_extended(graph: &TokenGraph, raw: &Value, facet: &str) -> bool {
     let mut seen: HashSet<String> = HashSet::new();
-    let mut queue = extends_of(&b.raw);
+    let mut queue = extends_of(raw);
     while let Some(name) = queue.pop() {
         if !seen.insert(name.clone()) {
             continue;

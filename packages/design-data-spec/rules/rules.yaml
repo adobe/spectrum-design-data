@@ -1791,7 +1791,9 @@ rules:
     assert: >
       A bindings file's `capabilities` MUST be registered capabilities, it MUST list `keyboard`
       when any role binds keys, and every intent in a `down` or `up` entry MUST be a registered
-      intent.
+      intent. When a loaded contract has a part with the entry's role, some contract with that
+      role MUST handle the intent (an event intent, a transition on it, or a part `handles`
+      entry, counting the patterns it extends).
     message: "Key bindings of platform '{platform}' {problem}"
     spec_ref: spec/behavior-contract.md#key-bindings
     introduced_in: "1.0.0-draft"

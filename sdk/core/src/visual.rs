@@ -7887,7 +7887,12 @@ mod tests {
         .with_relationships(
             TokenGraph::load_spec_relationships(&r.join("relationships")).expect("rels"),
         )
-        .with_icons(TokenGraph::load_spec_icons(&r.join("icons")).expect("icons"));
+        .with_icons(TokenGraph::load_spec_icons(&r.join("icons")).expect("icons"))
+        .with_behaviors(TokenGraph::load_spec_behaviors(&r.join("behaviors")).expect("behaviors"))
+        .with_behavior_patterns(
+            TokenGraph::load_spec_behavior_patterns(&r.join("behaviors/patterns"))
+                .expect("patterns"),
+        );
         let recipe: Value = serde_json::from_str(
             &std::fs::read_to_string(r.join("visuals/action-button.json")).unwrap(),
         )

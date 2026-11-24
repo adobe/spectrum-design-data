@@ -93,6 +93,11 @@
     },
     "isEmphasized": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Behavior only: the checkbox keeps focus and its current appearance, does not toggle, and exposes aria-readonly. No distinct read-only visual is defined in react-spectrum S2."
+    },
     "isError": { "type": "boolean", "default": false }
   },
   "constraints": [

@@ -36,7 +36,7 @@ For RTL (right-to-left) languages, the layout of the checkbox group (and its com
 
 ### Keyboard interactions
 
-Key Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Arrow keys Moves focus through the group of checkboxes. Page Up or Page Down Moves focus to the previous or next checkbox in the group (last becomes first, and first becomes last). Home or End Moves focus to the first or last checkbox in the group. Space or Enter Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected).
+Key Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Arrow keys Moves focus through the group of checkboxes. Page Up or Page Down Moves focus to the previous or next checkbox in the group (last becomes first, and first becomes last). Home or End Moves focus to the first or last checkbox in the group. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected).
 
 ### Cursor guidelines
 

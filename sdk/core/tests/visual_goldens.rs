@@ -52,6 +52,10 @@ fn load_graph() -> TokenGraph {
     )
     .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
     .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
+    .with_behaviors(TokenGraph::load_spec_behaviors(&d.join("behaviors")).expect("behaviors"))
+    .with_behavior_patterns(
+        TokenGraph::load_spec_behavior_patterns(&d.join("behaviors/patterns")).expect("patterns"),
+    )
 }
 
 /// The option values for one golden: `pick` maps an option definition to a value or skips it.

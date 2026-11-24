@@ -100,28 +100,31 @@ fn failures(
     .count()
 }
 
-/// Each break of a contract must fail at least one vector, or the vectors prove nothing.
+/// Each break of a contract, or of the toggle pattern it extends, must fail at least one vector,
+/// or the vectors prove nothing. A pointer starting `toggle:` edits the pattern.
 #[test]
 fn a_broken_transition_fails_a_vector() {
-    for (component, edits) in [
+    let toggle = [
         (
-            "switch",
-            vec![
-                (
-                    "/transitions/0/do",
-                    json!({ "set": { "isSelected": true } }),
-                ),
-                (
-                    "/transitions/0/guard",
-                    json!({ "facet": "disabled", "is": "false" }),
-                ),
-                ("/transitions/0/emit", json!("changed")),
-                (
-                    "/facets/checked/values",
-                    json!({ "unchecked": true, "checked": false }),
-                ),
-            ],
+            "toggle:/transitions/0/do",
+            json!({ "set": { "isSelected": true } }),
         ),
+        (
+            "toggle:/transitions/0/guard",
+            json!({ "facet": "disabled", "is": "false" }),
+        ),
+        (
+            "toggle:/transitions/0/guard",
+            json!({ "facet": "readOnly", "is": "true" }),
+        ),
+        ("toggle:/transitions/0/emit", json!("changed")),
+        (
+            "toggle:/facets/checked/values",
+            json!({ "unchecked": true, "checked": false }),
+        ),
+    ];
+    for (component, edits) in [
+        ("switch", toggle.to_vec()),
         (
             "checkbox",
             vec![
@@ -129,7 +132,15 @@ fn a_broken_transition_fails_a_vector() {
                 ("/transitions/0/do/set/isIndeterminate", json!(true)),
                 (
                     "/transitions/0/guard",
-                    json!({ "facet": "disabled", "is": "true" }),
+                    json!({ "all": [{ "facet": "disabled", "is": "true" }, { "facet": "readOnly", "is": "false" }] }),
+                ),
+                (
+                    "/transitions/0/guard",
+                    json!({ "all": [{ "facet": "disabled", "is": "false" }, { "facet": "readOnly", "is": "true" }] }),
+                ),
+                (
+                    "/facets/checked/values/indeterminate",
+                    json!({ "isIndeterminate": false }),
                 ),
             ],
         ),
@@ -137,10 +148,19 @@ fn a_broken_transition_fails_a_vector() {
         let (contract, vectors, patterns) = load(component);
         assert_eq!(failures(&contract, &vectors, &patterns), 0);
         for (pointer, value) in edits {
-            let mut broken = contract.clone();
-            *broken.pointer_mut(pointer).unwrap() = value;
+            let (mut broken, mut broken_patterns) = (contract.clone(), patterns.clone());
+            match pointer.strip_prefix("toggle:") {
+                Some(p) => {
+                    let t = broken_patterns
+                        .iter_mut()
+                        .find(|p| p.pattern == "toggle")
+                        .unwrap();
+                    *t.raw.pointer_mut(p).unwrap() = value;
+                }
+                None => *broken.pointer_mut(pointer).unwrap() = value,
+            }
             assert!(
-                failures(&broken, &vectors, &patterns) > 0,
+                failures(&broken, &vectors, &broken_patterns) > 0,
                 "{component}: breaking {pointer} failed no vector"
             );
         }
@@ -165,47 +185,38 @@ fn an_intent_the_contract_does_not_cover_fails_unless_a_part_handles_it() {
     assert_eq!(failures(&contract, &[vector], &patterns), 0);
 }
 
-fn rewrite_to_facets(node: &mut Value, count: &mut usize) {
+/// The option form of a recipe's `facets` clauses: what they fold into.
+fn rewrite_to_options(node: &mut Value, count: &mut usize) {
     match node {
         Value::Object(map) => {
             for key in ["when", "visibleWhen"] {
                 let Some(cond) = map.get_mut(key).and_then(Value::as_object_mut) else {
                     continue;
                 };
-                let mut facets = serde_json::Map::new();
-                if let Some(opts) = cond.get_mut("options").and_then(Value::as_object_mut) {
-                    for (opt, facet, value) in [
-                        ("isSelected", "checked", "checked"),
-                        ("isDisabled", "disabled", "true"),
-                    ] {
-                        if opts.get(opt) == Some(&Value::Bool(true)) {
-                            opts.remove(opt);
-                            facets.insert(facet.into(), json!(value));
-                        }
-                    }
-                    if opts.is_empty() {
-                        cond.remove("options");
-                    }
+                let Some(Value::Object(facets)) = cond.remove("facets") else {
+                    continue;
+                };
+                let mut opts = cond
+                    .remove("options")
+                    .and_then(|o| o.as_object().cloned())
+                    .unwrap_or_default();
+                for (facet, value) in facets {
+                    let (opt, v) = match (facet.as_str(), value.as_str().unwrap()) {
+                        ("checked", "checked") => ("isSelected", true),
+                        ("checked", "indeterminate") => ("isIndeterminate", true),
+                        ("disabled", "true") => ("isDisabled", true),
+                        other => panic!("no option form for {other:?}"),
+                    };
+                    opts.insert(opt.into(), json!(v));
+                    *count += 1;
                 }
-                if let Some(states) = cond.get_mut("states").and_then(Value::as_array_mut) {
-                    if states.iter().any(|s| s == "hover") {
-                        states.retain(|s| s != "hover");
-                        facets.insert("hovered".into(), json!("true"));
-                    }
-                    if states.is_empty() {
-                        cond.remove("states");
-                    }
-                }
-                *count += facets.len();
-                if !facets.is_empty() {
-                    cond.insert("facets".into(), Value::Object(facets));
-                }
+                cond.insert("options".into(), Value::Object(opts));
             }
             for v in map.values_mut() {
-                rewrite_to_facets(v, count);
+                rewrite_to_options(v, count);
             }
         }
-        Value::Array(items) => items.iter_mut().for_each(|v| rewrite_to_facets(v, count)),
+        Value::Array(items) => items.iter_mut().for_each(|v| rewrite_to_options(v, count)),
         _ => {}
     }
 }
@@ -228,29 +239,41 @@ fn facet_conditions_compile_to_the_equivalent_option_conditions() {
     g.visuals = TokenGraph::load_spec_visuals(&pkg.join("visuals")).unwrap();
     g.behaviors = TokenGraph::load_spec_behaviors(&b).unwrap();
     g.behavior_patterns = TokenGraph::load_spec_behavior_patterns(&b.join("patterns")).unwrap();
-    let recipe = g
+    let mode: std::collections::HashMap<String, String> =
+        [("colorScheme", "light"), ("scale", "desktop")]
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect();
+    let mut want_all = Vec::new();
+    for (component, at_least) in [("switch", 9), ("checkbox", 2)] {
+        let faceted = g
+            .visuals
+            .iter()
+            .find(|v| v.component == component)
+            .unwrap()
+            .raw
+            .clone();
+        let mut optioned = faceted.clone();
+        let mut count = 0;
+        rewrite_to_options(&mut optioned, &mut count);
+        assert!(
+            count >= at_least,
+            "the {component} recipe should read facets, got {count}"
+        );
+        assert_ne!(faceted, optioned);
+        let want = compile_recipe(&g, &optioned, component, &[mode.clone()]).unwrap();
+        let got = compile_recipe(&g, &faceted, component, &[mode.clone()]).unwrap();
+        assert_eq!(want, got, "{component}");
+        want_all.push((component, want));
+    }
+    let faceted = g
         .visuals
         .iter()
         .find(|v| v.component == "switch")
         .unwrap()
         .raw
         .clone();
-    let mode: std::collections::HashMap<String, String> =
-        [("colorScheme", "light"), ("scale", "desktop")]
-            .iter()
-            .map(|(k, v)| (k.to_string(), v.to_string()))
-            .collect();
-    let mut faceted = recipe.clone();
-    let mut count = 0;
-    rewrite_to_facets(&mut faceted, &mut count);
-    assert!(
-        count >= 9,
-        "the switch recipe should have facet-able conditions, got {count}"
-    );
-    assert_ne!(recipe, faceted);
-    let want = compile_recipe(&g, &recipe, "switch", &[mode.clone()]).unwrap();
-    let got = compile_recipe(&g, &faceted, "switch", &[mode.clone()]).unwrap();
-    assert_eq!(want, got);
+    let want = want_all.remove(0).1;
 
     // Mutation guard: a facet that selects a different option changes the compile.
     let mut wrong = faceted.clone();
@@ -266,10 +289,7 @@ fn facet_conditions_compile_to_the_equivalent_option_conditions() {
 #[test]
 fn a_raise_cycle_fails_the_vector_instead_of_overflowing() {
     let (mut contract, vectors, patterns) = load("switch");
-    contract["transitions"]
-        .as_array_mut()
-        .unwrap()
-        .insert(0, json!({ "on": "activate", "do": { "raise": "press" } }));
+    contract["transitions"] = json!([{ "on": "activate", "do": { "raise": "press" } }]);
     let r = run_vectors(
         &contract,
         &patterns,
@@ -369,11 +389,9 @@ fn a_platform_without_a_keyboard_makes_key_vectors_not_applicable() {
     for f in ["switch.json", "checkbox.json"] {
         std::fs::copy(b.join(f), tmp.join(f)).unwrap();
     }
-    std::fs::copy(
-        b.join("patterns/interactive.json"),
-        tmp.join("patterns/interactive.json"),
-    )
-    .unwrap();
+    for f in ["interactive.json", "toggle.json"] {
+        std::fs::copy(b.join("patterns").join(f), tmp.join("patterns").join(f)).unwrap();
+    }
     let mut touch = web_bindings();
     touch["platform"] = json!("touch");
     touch["capabilities"] = json!(["assistive-activation"]);

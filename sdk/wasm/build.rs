@@ -52,4 +52,11 @@ fn main() {
         embed_dir("visuals", "EMBEDDED_VISUALS"),
     )
     .expect("write embedded visuals source");
+    // Recipes read facets, which only a contract resolves, so the contracts travel with them.
+    std::fs::write(
+        output.join("embedded_behaviors.rs"),
+        embed_dir("behaviors", "EMBEDDED_BEHAVIORS")
+            + &embed_dir("behaviors/patterns", "EMBEDDED_BEHAVIOR_PATTERNS"),
+    )
+    .expect("write embedded behaviors source");
 }

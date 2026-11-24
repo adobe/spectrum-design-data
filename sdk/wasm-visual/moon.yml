@@ -19,6 +19,7 @@ language: rust
 fileGroups:
   renderer:
     - "/sdk/core/src/visual*.rs"
+    - "/sdk/core/src/graph.rs"
     - "/sdk/core/src/text_metrics.rs"
     - "/sdk/core/src/text-metrics/*"
     - "/sdk/core/Cargo.toml"

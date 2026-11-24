@@ -23,7 +23,9 @@ use serde_json::Value;
 use crate::behavior::INTERACTION_EVENTS;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::behavior_util::{extends_of, facet_values, state_ids, warning};
+use crate::validate::rules::behavior_util::{
+    extends_of, facet_values, facet_values_of, state_ids, warning,
+};
 
 pub struct Rule;
 
@@ -215,6 +217,44 @@ impl ValidationRule for Rule {
                 }
             }
         }
+        for b in &ctx.graph.behaviors {
+            let state = state_ids(b);
+            let own = b
+                .raw
+                .get("transitions")
+                .and_then(Value::as_array)
+                .map_or(0, Vec::len);
+            let Ok(m) = crate::behavior::flatten(&b.raw, &ctx.graph.behavior_patterns) else {
+                continue;
+            };
+            for t in m.transitions.iter().skip(own) {
+                let mut changed: Vec<&str> = t
+                    .pointer("/do/toggle")
+                    .and_then(Value::as_str)
+                    .into_iter()
+                    .collect();
+                changed.extend(
+                    t.pointer("/do/set")
+                        .and_then(Value::as_object)
+                        .into_iter()
+                        .flat_map(|o| o.keys().map(String::as_str)),
+                );
+                for o in changed
+                    .into_iter()
+                    .filter(|o| !state.contains(*o) && !m.published.iter().any(|p| p == o))
+                {
+                    out.push(warning(
+                        self.id(),
+                        b,
+                        "/extends",
+                        format!(
+                            "Behavior contract of '{}' extends a pattern whose transition changes '{o}', which is not in `state`",
+                            b.component
+                        ),
+                    ));
+                }
+            }
+        }
         for p in &ctx.graph.behavior_patterns {
             let mut published: HashSet<String> = HashSet::new();
             let mut seen: HashSet<String> = HashSet::new();
@@ -282,14 +322,10 @@ impl ValidationRule for Rule {
                     guard_facets(g, &mut guards);
                 }
                 for (facet, is) in guards {
-                    let values = ctx
-                        .registry
-                        .facet(facet)
-                        .filter(|_| published.contains(facet));
-                    match values {
-                        None => problems.push((format!("{at}/guard"), format!("has a transition reading facet '{facet}', which the pattern does not publish"))),
-                        Some(f) => {
-                            if let Some(is) = is.filter(|is| !f.values.contains(*is)) {
+                    match facet_values_of(ctx.graph, &p.raw, ctx.registry, facet) {
+                        None => problems.push((format!("{at}/guard"), format!("has a transition reading facet '{facet}', which the pattern neither declares nor publishes"))),
+                        Some(values) => {
+                            if let Some(is) = is.filter(|is| !values.contains(*is)) {
                                 problems.push((format!("{at}/guard"), format!("has a transition testing facet '{facet}' for '{is}', which is not one of its values")));
                             }
                         }
@@ -297,15 +333,10 @@ impl ValidationRule for Rule {
                 }
                 if let Some(set) = t.pointer("/do/set").and_then(Value::as_object) {
                     for (o, v) in set {
-                        if !published.contains(o) {
-                            problems.push((format!("{at}/do"), format!("has a transition changing '{o}', which the pattern does not publish")));
-                        } else if !v.is_boolean() {
+                        if published.contains(o) && !v.is_boolean() {
                             problems.push((format!("{at}/do"), format!("has a transition setting interaction facet '{o}' to a value other than true or false")));
                         }
                     }
-                }
-                if t.pointer("/do/toggle").is_some() {
-                    problems.push((format!("{at}/do"), "has a transition that toggles, which a pattern cannot do (it has no `state`)".into()));
                 }
                 for (path, msg) in problems {
                     out.push(Diagnostic {
@@ -375,32 +406,56 @@ mod tests {
                 "capabilities registry",
             ),
             (
-                Box::new(|p| {
-                    p["transitions"][0]["do"] = json!({ "set": { "focusVisible": true } })
-                }),
-                "does not publish",
-            ),
-            (
                 Box::new(|p| p["transitions"][0]["do"] = json!({ "set": { "pressed": "yes" } })),
                 "other than true or false",
             ),
             (
                 Box::new(|p| p["transitions"][1]["guard"]["facet"] = json!("focusVisible")),
-                "does not publish",
+                "neither declares nor publishes",
             ),
             (
                 Box::new(|p| p["transitions"][1]["guard"]["is"] = json!("maybe")),
                 "not one of its values",
-            ),
-            (
-                Box::new(|p| p["transitions"][0]["do"] = json!({ "toggle": "pressed" })),
-                "cannot do",
             ),
         ];
         for (edit, why) in cases {
             let m = pattern_graph(edit);
             assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
         }
+    }
+
+    #[test]
+    fn a_pattern_may_change_state_the_extending_contract_lists() {
+        let toggle = json!({
+            "pattern": "toggle",
+            "extends": ["interactive"],
+            "facets": { "disabled": { "from": "isDisabled", "values": { "false": false, "true": true } } },
+            "transitions": [{ "on": "activate", "guard": { "facet": "disabled", "is": "false" }, "do": { "toggle": "isSelected" } }]
+        });
+        let mut ok = good();
+        ok["extends"] = json!(["toggle"]);
+        ok["transitions"] = json!([]);
+        let mut g = graph(vec![ok.clone()]);
+        g.behavior_patterns
+            .push(crate::graph::BehaviorPatternRecord {
+                pattern: "toggle".into(),
+                file: "behaviors/patterns/toggle.json".into(),
+                raw: toggle.clone(),
+            });
+        assert!(run(&Rule, &g).is_empty(), "{:?}", run(&Rule, &g));
+        ok["state"] = json!(["isDisabled"]);
+        let mut g = graph(vec![ok]);
+        g.behavior_patterns
+            .push(crate::graph::BehaviorPatternRecord {
+                pattern: "toggle".into(),
+                file: "behaviors/patterns/toggle.json".into(),
+                raw: toggle,
+            });
+        let m = run(&Rule, &g);
+        assert!(
+            m.iter().any(|m| m.contains("changes 'isSelected'")),
+            "{m:?}"
+        );
     }
 
     #[test]
