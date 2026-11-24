@@ -44,6 +44,7 @@ pub mod schema;
 pub mod scope;
 pub mod specificity;
 pub mod status;
+pub mod stroke;
 pub mod suggest;
 pub mod text_metrics;
 pub mod token_tier;
