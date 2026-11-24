@@ -975,6 +975,37 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         }
         r.slots = fills();
         out.push(("fills-s-variant", r));
+        // Labeled fills in different states (selected, disabled), as the explorer's demo
+        // content and a real host would send them.
+        let mixed: Vec<(&str, Value)> = match item {
+            "button" => vec![("variant", "accent".into()), ("style", "outline".into())],
+            "swatch" => vec![("preview", "#9197fe".into()), ("isSelected", true.into())],
+            _ => vec![("isSelected", true.into())],
+        };
+        let mut r = req(vec![], HashMap::new(), "light", "desktop");
+        r.slots = HashMap::from([(
+            "default".to_string(),
+            (0..3)
+                .map(|i| design_data_core::visual::SlotFill {
+                    component: item.to_string(),
+                    options: match i {
+                        0 => mixed
+                            .iter()
+                            .map(|(k, v)| (k.to_string(), v.clone()))
+                            .collect(),
+                        2 => HashMap::from([("isDisabled".to_string(), Value::Bool(true))]),
+                        _ => HashMap::new(),
+                    }
+                    .into_iter()
+                    .chain([(
+                        "label".to_string(),
+                        Value::from(format!("Option {}", i + 1)),
+                    )])
+                    .collect(),
+                })
+                .collect(),
+        )]);
+        out.push(("fills-mixed", r));
     }
     // Progress bar: the fill is a share of the track and the value text a percentage, so the
     // defaults (no value) show an empty bar. These show a half-full bar and an indeterminate one.
