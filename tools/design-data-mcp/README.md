@@ -12,7 +12,7 @@ access, no CLI binary, and no configuration required.
    [releases page](https://github.com/adobe/spectrum-design-data/releases) carries the same
    file for that version).
 2. Drag it into **Claude Desktop → Settings → Extensions**, or double-click it.
-3. Check it works: start a new chat and ask _"Use the design-data primer."_
+3. Check it works: start a new chat and ask *"Use the design-data primer."*
 
 No API keys or configuration needed. The extension installs and runs offline.
 

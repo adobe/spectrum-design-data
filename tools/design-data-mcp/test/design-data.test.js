@@ -1051,6 +1051,7 @@ test("design-data-token-usage lists the components that bind a token, directly o
   });
   t.true(primitive.usedBy.length > 0);
   await t.throwsAsync(() => tool.handler({ token: "no-such-token" }));
+});
 
 test("design-data-component-tokens view states gives one row per context with a value per state", async (t) => {
   const tool = byName()["design-data-component-tokens"];
