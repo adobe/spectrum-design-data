@@ -1661,6 +1661,62 @@ rules:
     introduced_in: "1.0.0-draft"
 
   - id: SPEC-118
+    name: behavior-references-resolve
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Behavior contracts (`behaviors/<component>.json`, spec/behavior-contract.md) are new and
+      no component has one yet, so the rules are warnings until a component migrates (expand,
+      migrate, contract). Skipped for a component that is not loaded. Schema shape is checked
+      by `design-data:validate-behaviors` (AJV), as for recipes.
+    assert: >
+      A behavior contract MUST name a declared component. Each `state` entry MUST be an option
+      of the component. Each facet MUST be in the facets registry, derive from options listed in
+      `state`, and use only values that registry lists for it. Each `parts` and `semantics` key
+      MUST be an anatomy part of the component, and each `semantics` entry MUST name a facet the
+      contract can read and map only values of that facet.
+    message: "Behavior contract of '{component}' {problem}"
+    spec_ref: spec/behavior-contract.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-119
+    name: behavior-transitions-well-formed
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Intents come from registry/intents.json, which holds today's `intents` and
+      `keyboardIntents` vocabulary and nothing else. A transition on an intent that is not in it
+      (`focus`, `press-start`, `pointer-enter`) warns until the registry grows; see the open
+      questions of proposal 022.
+    assert: >
+      Each transition `on` and each part `press` MUST be an intent in the intents registry, and
+      each `needs` a capability in the capabilities registry. A guard MUST read only facets the
+      contract declares or interaction facets, with values those facets have. `do` MUST change
+      only options listed in `state`.
+    message: "Behavior contract of '{component}' {problem}"
+    spec_ref: spec/behavior-contract.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-120
+    name: behavior-vectors-well-formed
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      Vectors are checked for well-formedness only. Running them against the data model is the
+      reference runner's job (a later slice).
+    assert: >
+      A vector's `component`, when present, MUST be the contract's. Its `needs` MUST be
+      registered capabilities, each step intent a registered intent, each `start` key an option of
+      the component, and each `expect` a step that exists, facets the contract can read and
+      values those facets have.
+    message: "Vector '{vector}' of '{component}' {problem}"
+    spec_ref: spec/behavior-contract.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-121
     name: stroke-style-well-formed
     severity: error
     layer: 2

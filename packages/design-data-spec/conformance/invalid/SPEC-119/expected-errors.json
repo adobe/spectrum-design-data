@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-119",
+      "severity": "warning",
+      "message_pattern": ".*checkbox.*'tap'.*not in the intents registry.*"
+    }
+  ]
+}

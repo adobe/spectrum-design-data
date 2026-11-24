@@ -8,46 +8,22 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! SPEC-118: stroke-style-well-formed
+//! SPEC-118: behavior-references-resolve
 //!
-//! Error. A literal `strokeDash` or `strokeGap` of a part is a positive number, `strokeCap` is
-//! `butt` or `round`, `strokeDashAnchor` is `box` or `scene`, and `strokeSides` lists only
-//! `top`, `end`, `bottom`, `start`, `all` or `none`. A value from a token, relationship or
-//! option is not judged here (the solver reports it at render time).
+//! Warning. A behavior contract names things the rest of the dataset declares: its component
+//! and the `state` options exist, each facet derives from a `state` option and is a registered
+//! facet whose values are registry values, and each `parts` and `semantics` key is an anatomy
+//! part. Skipped for a component that is not loaded.
 
 use serde_json::Value;
 
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::visual_util::error;
+use crate::validate::rules::behavior_util::{
+    facet_values, option_names, part_names, state_ids, warning,
+};
 
 pub struct Rule;
-
-const SIDES: &[&str] = &["top", "end", "bottom", "start", "all", "none"];
-
-/// What is wrong with a literal `value` of `prop`, if anything.
-fn problem(prop: &str, value: &Value) -> Option<String> {
-    let text = match value {
-        Value::String(s) => s.trim().to_string(),
-        other => other.to_string(),
-    };
-    let bad = match prop {
-        "strokeDash" | "strokeGap" => !text
-            .trim_end_matches("px")
-            .trim()
-            .parse::<f64>()
-            .is_ok_and(|n| n.is_finite() && n > 0.0),
-        "strokeCap" => !matches!(text.as_str(), "butt" | "round"),
-        "strokeDashAnchor" => !matches!(text.as_str(), "box" | "scene"),
-        _ => text.is_empty() || text.split_whitespace().any(|w| !SIDES.contains(&w)),
-    };
-    bad.then(|| match prop {
-        "strokeDash" | "strokeGap" => format!("{prop} {text} is not a positive number"),
-        "strokeCap" => format!("strokeCap {text} is not butt or round"),
-        "strokeDashAnchor" => format!("strokeDashAnchor {text} is not box or scene"),
-        _ => format!("strokeSides {text} is not a list of top, end, bottom, start, all or none"),
-    })
-}
 
 impl ValidationRule for Rule {
     fn id(&self) -> &'static str {
@@ -55,45 +31,126 @@ impl ValidationRule for Rule {
     }
 
     fn name(&self) -> &'static str {
-        "stroke-style-well-formed"
+        "behavior-references-resolve"
     }
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
-        for v in &ctx.graph.visuals {
-            let Some(parts) = v.raw.get("parts").and_then(Value::as_object) else {
-                continue;
+        for b in &ctx.graph.behaviors {
+            let mut problem = |path: &str, msg: String| {
+                out.push(warning(
+                    self.id(),
+                    b,
+                    path,
+                    format!("Behavior contract of '{}' {msg}", b.component),
+                ));
             };
-            for (id, part) in parts {
-                for prop in [
-                    "strokeDash",
-                    "strokeGap",
-                    "strokeCap",
-                    "strokeDashAnchor",
-                    "strokeSides",
-                ] {
-                    let Some(source) = part.pointer(&format!("/props/{prop}")) else {
+            if !ctx.graph.components.is_empty()
+                && !ctx.graph.components.iter().any(|c| c.name == b.component)
+            {
+                problem(
+                    "/component",
+                    "names a component that is not declared".into(),
+                );
+                continue;
+            }
+            let options = option_names(ctx.graph, b);
+            let state = state_ids(b);
+            if let Some(options) = &options {
+                for s in b
+                    .raw
+                    .get("state")
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                {
+                    if let Some(s) = s.as_str().filter(|s| !options.contains(*s)) {
+                        problem(
+                            "/state",
+                            format!("lists '{s}', which is not an option of the component"),
+                        );
+                    }
+                }
+            }
+            for (name, facet) in b
+                .raw
+                .get("facets")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flatten()
+            {
+                let path = format!("/facets/{name}");
+                let Some(registered) = ctx.registry.facet(name) else {
+                    problem(
+                        &path,
+                        format!("declares facet '{name}', which is not in the facets registry"),
+                    );
+                    continue;
+                };
+                let sources = match facet.get("from") {
+                    Some(Value::String(s)) => vec![s.as_str()],
+                    Some(Value::Array(a)) => a.iter().filter_map(Value::as_str).collect(),
+                    _ => vec![],
+                };
+                for s in sources.iter().filter(|s| !state.contains(**s)) {
+                    problem(
+                        &path,
+                        format!("derives facet '{name}' from '{s}', which is not in `state`"),
+                    );
+                }
+                for v in facet_values(b, ctx.registry, name).into_iter().flatten() {
+                    if !registered.values.contains(&v) {
+                        problem(&path, format!("gives facet '{name}' the value '{v}', which the facets registry does not list"));
+                    }
+                }
+            }
+            if let Some(parts) = part_names(ctx.graph, b) {
+                for key in ["parts", "semantics"] {
+                    for part in b
+                        .raw
+                        .get(key)
+                        .and_then(Value::as_object)
+                        .into_iter()
+                        .flat_map(|o| o.keys())
+                    {
+                        if !parts.contains(part) {
+                            problem(
+                                &format!("/{key}/{part}"),
+                                format!(
+                                    "names part '{part}' in `{key}`, which is not an anatomy part"
+                                ),
+                            );
+                        }
+                    }
+                }
+            }
+            for (part, facets) in b
+                .raw
+                .get("semantics")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flatten()
+            {
+                for (facet, sem) in facets.as_object().into_iter().flatten() {
+                    let path = format!("/semantics/{part}/{facet}");
+                    let Some(values) = facet_values(b, ctx.registry, facet) else {
+                        problem(
+                            &path,
+                            format!("exposes facet '{facet}', which the contract does not declare"),
+                        );
                         continue;
                     };
-                    let entries: Vec<(String, &Value)> = match source {
-                        Value::Array(a) => a
-                            .iter()
-                            .enumerate()
-                            .map(|(i, e)| (format!("/parts/{id}/props/{prop}/{i}"), e))
-                            .collect(),
-                        other => vec![(format!("/parts/{id}/props/{prop}"), other)],
-                    };
-                    for (path, entry) in entries {
-                        let Some(value) = entry.get("value") else {
-                            continue;
-                        };
-                        if let Some(p) = problem(prop, value) {
-                            out.push(error(
-                                self.id(),
-                                v,
-                                &format!("{path}/value"),
-                                format!("Stroke style of part '{id}' of '{}': {p}", v.component),
-                            ));
+                    for v in sem
+                        .get("map")
+                        .and_then(Value::as_object)
+                        .into_iter()
+                        .flat_map(|m| m.keys())
+                    {
+                        if !values.contains(v) {
+                            problem(
+                                &path,
+                                format!("maps '{v}', which is not a value of facet '{facet}'"),
+                            );
                         }
                     }
                 }
@@ -108,68 +165,69 @@ mod tests {
     use serde_json::json;
 
     use super::Rule;
-    use crate::validate::rules::visual_util::test_util::{graph, run};
+    use crate::validate::rules::behavior_util::test_util::{good, graph, run, Case};
 
-    fn check(props: serde_json::Value) -> Vec<String> {
-        let g = graph(
-            json!({"name": "card"}),
-            vec![],
-            vec![],
-            vec![(
-                "card",
-                json!({ "component": "card", "root": "r",
-                    "parts": { "r": { "kind": "box", "props": props } } }),
-            )],
-        );
-        run(&Rule, &g).into_iter().map(|d| d.message).collect()
+    fn check(edit: impl FnOnce(&mut serde_json::Value)) -> Vec<String> {
+        let mut c = good();
+        edit(&mut c);
+        run(&Rule, &graph(vec![c]))
     }
 
     #[test]
-    fn a_well_formed_stroke_style_is_clean() {
-        assert!(check(json!({
-            "strokeDash": { "value": 3 },
-            "strokeGap": { "value": "2px" },
-            "strokeCap": { "value": "round" },
-            "strokeDashAnchor": { "value": "scene" },
-            "strokeSides": [
-                { "value": "top bottom" },
-                { "when": { "rowPosition": "only" }, "value": "all" },
-            ],
-        }))
-        .is_empty());
-        // A token or relationship is not judged here.
-        assert!(check(json!({ "strokeDash": { "token": { "property": "x" } } })).is_empty());
+    fn a_resolving_contract_is_clean() {
+        assert!(check(|_| {}).is_empty());
     }
 
     #[test]
-    fn flags_each_bad_value() {
-        for (props, why) in [
-            (json!({ "strokeDash": { "value": 0 } }), "strokeDash 0"),
-            (json!({ "strokeDash": { "value": -2 } }), "positive"),
+    fn no_behaviors_directory_is_clean() {
+        assert!(run(&Rule, &graph(vec![])).is_empty());
+    }
+
+    #[test]
+    fn flags_each_unresolved_reference() {
+        let cases: Vec<Case> = vec![
+            (Box::new(|c| c["component"] = json!("nope")), "not declared"),
             (
-                json!({ "strokeGap": { "value": "wide" } }),
-                "strokeGap wide",
+                Box::new(|c| c["state"] = json!(["isSelected", "isGhost"])),
+                "not an option",
             ),
             (
-                json!({ "strokeCap": { "value": "square" } }),
-                "butt or round",
+                Box::new(|c| c["facets"]["checked"]["from"] = json!("isOther")),
+                "not in `state`",
             ),
             (
-                json!({ "strokeDashAnchor": { "value": "page" } }),
-                "box or scene",
+                Box::new(|c| {
+                    c["facets"]["glow"] = json!({ "from": "isSelected", "values": { "on": true } })
+                }),
+                "not in the facets registry",
             ),
             (
-                json!({ "strokeSides": { "value": "top left" } }),
-                "strokeSides",
+                Box::new(|c| c["facets"]["checked"]["values"]["maybe"] = json!(true)),
+                "does not list",
             ),
-            (json!({ "strokeSides": { "value": "" } }), "strokeSides"),
             (
-                json!({ "strokeSides": [{ "value": "top" }, { "when": {}, "value": "up" }] }),
-                "strokeSides up",
+                Box::new(|c| c["parts"]["ghost"] = json!({ "role": "switch" })),
+                "not an anatomy part",
             ),
-        ] {
-            let m = check(props.clone());
-            assert!(m.iter().any(|m| m.contains(why)), "{props}: {m:?}");
+            (
+                Box::new(|c| c["semantics"]["ghost"] = json!({})),
+                "not an anatomy part",
+            ),
+            (
+                Box::new(|c| {
+                    c["semantics"]["track"]["readOnly"] =
+                        json!({ "ariaState": "aria-readonly", "map": {} })
+                }),
+                "does not declare",
+            ),
+            (
+                Box::new(|c| c["semantics"]["track"]["checked"]["map"]["maybe"] = json!("x")),
+                "not a value of facet",
+            ),
+        ];
+        for (edit, why) in cases {
+            let m = check(edit);
+            assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
         }
     }
 }

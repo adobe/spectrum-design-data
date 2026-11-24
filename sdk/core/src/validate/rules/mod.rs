@@ -53,6 +53,7 @@ mod spec043;
 // SPEC-044 (dataset-structure) is a filesystem pre-pass, not a graph rule — it
 // inspects the on-disk directory layout before the graph is built. See
 // `crate::validate::dataset_structure` and `validate::validate_dataset`.
+mod behavior_util;
 mod deviation_util;
 pub mod manifest_bindings;
 pub mod manifest_extensions;
@@ -127,6 +128,9 @@ mod spec115;
 mod spec116;
 mod spec117;
 mod spec118;
+mod spec119;
+mod spec120;
+mod spec121;
 mod visual_util;
 
 use std::collections::HashSet;
@@ -341,6 +345,9 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec116::Rule),
         Box::new(spec117::Rule),
         Box::new(spec118::Rule),
+        Box::new(spec119::Rule),
+        Box::new(spec120::Rule),
+        Box::new(spec121::Rule),
     ]
 }
 

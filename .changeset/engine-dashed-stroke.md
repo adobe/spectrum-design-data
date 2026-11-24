@@ -10,7 +10,7 @@ The engine draws dashed and per-side strokes; the calendar range band gets its d
   `strokeCap`, `strokeSides` and `strokeDashAnchor` (component-visuals.md, "Dashed and per-side
   strokes"). A recipe that binds none draws what it did before. `strokeSides` lists top, end,
   bottom, start; a corner arc is drawn where both its sides are, and a `scene` anchor lines up
-  the dashes of boxes that touch. New SPEC-118 checks the literal values.
+  the dashes of boxes that touch. New SPEC-121 checks the literal values.
 - **@adobe/spectrum-design-data**: the calendar `range-fill` binds a 1px dashed stroke (3 on,
   3 off) that outlines the joined band: top and bottom on every cell, start on the row's first
   cell, end on its last. Color is the focus indicator, or the negative border for an error range

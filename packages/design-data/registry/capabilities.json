@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "capability",
+  "description": "Platform capabilities a behavior contract transition or vector may require (spec/behavior-contract.md). An implementation on a platform without a capability neither runs nor fails the vectors that need it.",
+  "values": [
+    {
+      "id": "pointer-hover",
+      "label": "Pointer hover",
+      "description": "The platform has a pointer that can hover without pressing. Without it (touch), the `hovered` facet never becomes true."
+    },
+    {
+      "id": "keyboard",
+      "label": "Keyboard",
+      "description": "The platform has a keyboard, so focus can arrive by keyboard and `focusVisible` can become true."
+    },
+    {
+      "id": "assistive-activation",
+      "label": "Assistive activation",
+      "description": "The platform lets assistive technology activate a control directly (a VoiceOver double tap, a screen reader activate action)."
+    }
+  ]
+}

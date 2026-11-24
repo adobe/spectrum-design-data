@@ -44,7 +44,6 @@ pub mod schema;
 pub mod scope;
 pub mod specificity;
 pub mod status;
-pub mod stroke;
 pub mod suggest;
 pub mod text_metrics;
 pub mod token_tier;
@@ -611,6 +610,20 @@ mod validation_conformance {
             graph = graph.with_visuals(visual_records);
         }
 
+        if let Some(behaviors) = dataset.get("behaviors").and_then(|v| v.as_array()) {
+            let records: Vec<crate::graph::BehaviorRecord> = behaviors
+                .iter()
+                .filter_map(|raw| {
+                    Some(crate::graph::BehaviorRecord {
+                        component: raw.get("component")?.as_str()?.to_string(),
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: raw.clone(),
+                    })
+                })
+                .collect();
+            graph = graph.with_behaviors(records);
+        }
+
         if let Some(icons) = dataset.get("icons").and_then(|v| v.as_array()) {
             let icon_records: Vec<crate::graph::IconSetRecord> = icons
                 .iter()
@@ -698,6 +711,7 @@ mod validation_conformance {
         for id in [
             "SPEC-074", "SPEC-106", "SPEC-107", "SPEC-108", "SPEC-109", "SPEC-110", "SPEC-111",
             "SPEC-112", "SPEC-113", "SPEC-114", "SPEC-115", "SPEC-116", "SPEC-117", "SPEC-118",
+            "SPEC-119", "SPEC-120", "SPEC-121",
         ] {
             assert!(registered.contains(id), "{id} is not in default_rules()");
         }
@@ -834,6 +848,16 @@ mod validation_conformance {
             // Deliberate policy: only error-severity diagnostics fail the valid
             // fixture. Warnings (e.g. undocumented custom states/slots) may still
             // fire on intentionally minimal valid fixtures.
+            // The behavior contract baseline is the worked example: it must not warn either.
+            if case == "behavior-contract" {
+                for d in diagnostics.iter().filter(|d| {
+                    d.rule_id
+                        .as_deref()
+                        .is_some_and(|r| ["SPEC-118", "SPEC-119", "SPEC-120"].contains(&r))
+                }) {
+                    failures.push(format!("{case}: unexpected {}", d.message));
+                }
+            }
             if !errors.is_empty() {
                 failures.push(format!(
                     "{case}: expected no errors but got: {}",
