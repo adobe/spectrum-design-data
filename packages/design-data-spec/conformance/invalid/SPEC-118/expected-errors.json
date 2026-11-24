@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*checkbox.*isGhost.*not an option.*"
+    }
+  ]
+}

@@ -106,6 +106,18 @@ if (!attributesEmbedded) {
   generated += `const ATTRIBUTES_JSON: &str = r##"${readFileSync(attributesPath, "utf-8")}"##;\n`;
 }
 
+// Embed the behavior contract registries (facets, intents, capabilities) for SPEC-118..120.
+// They validate behaviors/*.json, not a name-object field, so they live outside the field catalog.
+const behaviorRegistries = [
+  ["FACETS_JSON", "facets"],
+  ["INTENTS_JSON", "intents"],
+  ["CAPABILITIES_JSON", "capabilities"],
+];
+for (const [constName, stem] of behaviorRegistries) {
+  const p = join(repoRoot, `packages/design-data/registry/${stem}.json`);
+  generated += `const ${constName}: &str = r##"${readFileSync(p, "utf-8")}"##;\n`;
+}
+
 // Generate FIELD_ADVISORY_FIELDS — the list of semantic fields that SPEC-009 checks
 const advisoryFieldNames = advisoryFields.map((d) => `"${d.name}"`).join(", ");
 generated += `\npub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &[${advisoryFieldNames}];\n`;
@@ -132,6 +144,9 @@ for (const decl of registryFields) {
   }
 }
 generated += `    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));\n`;
+for (const [constName, stem] of behaviorRegistries) {
+  generated += `    map.insert("${stem}".to_string(), parse_registry(${constName}));\n`;
+}
 generated += `    map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));\n`;
 if (!attributesEmbedded) {
   generated += `    map.insert("attribute".to_string(), parse_registry(ATTRIBUTES_JSON));\n`;

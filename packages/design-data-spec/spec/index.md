@@ -31,6 +31,7 @@ The specification defines:
 16. **Authoring workflow** — normative contract for authoring design data via tooling: authoritative source location, lifecycle operations (create / edit / deprecate / rename / alias-rewire / mode-set management), taxonomy-aware decomposition requirement, and output-generation obligations ([Authoring workflow](authoring-workflow.md)).
 17. **Relationship format** — Component/Token Relationship (CTR): the anonymous-token entity binding a component to a token alongside token name-object scope fields, explicit relationship context, options validation, and interim legacy-compatibility fields ([Relationship format](relationship-format.md)).
 18. **Component visuals** — renderer-neutral visual recipes (part tree, layout, token-bound paint) that drive SVG, PNG, and Figma output ([Component visuals](component-visuals.md); draft RFC).
+19. **Behavior contract** — per-component `behaviors/<component>.json`: state options, facets, intents, parts, guarded transitions and conformance vectors ([Behavior contract](behavior-contract.md); draft).
 
 This specification intentionally defines the Design Data-owned contract and links to external standards for platform-native implementation semantics instead of restating those contracts as normative local rules. The repository owns taxonomy, validation, lifecycle, and schema rules; the authoritative source for native format behavior remains the external standard it describes.
 
@@ -97,6 +98,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Authoring workflow](authoring-workflow.md)         | Normative authoring contract: authoritative source location, lifecycle operations, taxonomy-aware decomposition, and output-generation obligations.   |
 | [Relationship format](relationship-format.md)       | Component/Token Relationship (CTR): shape, explicit relationship context, options validation, and interim legacy-compatibility fields (SPEC-051–057). |
 | [Component visuals](component-visuals.md)           | Draft RFC: visual recipe shape, value sources and conditions, scene graph, and renderer decisions.                                                    |
+| [Behavior contract](behavior-contract.md)           | Draft: behavior file shape, facets, intents, capabilities, `accessibility` migration and SPEC-118–120.                                                |
 
 ## JSON Schema `$id` and versioning
 

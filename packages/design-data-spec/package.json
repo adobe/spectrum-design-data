@@ -37,7 +37,8 @@
     "./schemas/registry-value.json": "./schemas/registry-value.json",
     "./schemas/platform-extension.json": "./schemas/platform-extension.json",
     "./schemas/dataset.schema.json": "./schemas/dataset.schema.json",
-    "./schemas/guideline.schema.json": "./schemas/guideline.schema.json"
+    "./schemas/guideline.schema.json": "./schemas/guideline.schema.json",
+    "./schemas/behavior.schema.json": "./schemas/behavior.schema.json"
   },
   "files": [
     "conformance",

@@ -6,6 +6,8 @@ This chapter defines the **semantic accessibility vocabulary** that component de
 
 This mirrors how the cascade defines foundation→platform layering for tokens: the spec ships the vocabulary; platform repos ship the mapping.
 
+> **Draft:** [Behavior contract](behavior-contract.md) (proposal 022) is planned to replace this block. Both forms coexist until each component migrates; the contract carries `role`, `focusable` and `wcag`.
+
 Scoped under planned RFC-B. See [rfc-coordination.md](../docs/rfc-coordination.md).
 
 ## Accessibility declaration
@@ -184,7 +186,10 @@ A `button` component with a complete accessibility declaration and two states ca
 {
   "name": "button",
   "displayName": "Button",
-  "meta": { "category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/" },
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
   "accessibility": {
     "role": "button",
     "intents": ["trigger"],
