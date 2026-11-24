@@ -1,0 +1,4 @@
+{
+  "id": "beads-roadmap",
+  "requirements": { "paseo": ">=0.16.0" }
+}
