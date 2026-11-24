@@ -51,11 +51,10 @@
     "root:validate-platform-recipes",
     "root:test-platform-recipes-e2e",
     "figma-spec-plugin:test",
-    "sdk-wasm-visual:test-progress-ring"
+    "sdk-wasm-visual:test"
   ],
   "excludedFromCI": [
     "sdk-wasm-visual:build",
-    "sdk-wasm-visual:test",
     "sdk-wasm-visual:build-web",
     "sdk-wasm-visual:build-package",
     "sdk-wasm-visual:verify-package",

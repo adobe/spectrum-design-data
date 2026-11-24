@@ -50,6 +50,6 @@ Engine.fromCompiled(compiledJson, "m|light|desktop"); // one variant out of a si
 
 * Package: `moon run sdk-wasm-visual:build-package` writes `pkg/`, `variants/` and `catalog.json` (the variants come from `design-data site --data-only`); `moon run sdk-wasm-visual:verify-package` packs it and renders a packed variant. Released by `release.yml` (`build-wasm` job builds it, `release` verifies and publishes).
 * Build: `moon run sdk-wasm-visual:build` (`pkg/node`) and `moon run sdk-wasm-visual:build-web` (`pkg/web`, what `design-data site --engine` copies into the site); never committed.
-* Test: `moon run sdk-wasm-visual:test`: byte equality with `design-data render` (foundation and the iOS platform build), and budgets (both targets) of 326 KB raw, 127 KB gzip and 0.2 ms per scene.
-* Not in `.github/ci-targets.json`; its Moon inputs are the renderer sources, so unrelated PRs hit the cache.
+* Test: `moon run sdk-wasm-visual:test`: byte equality with `design-data render` (foundation and the iOS platform build), and budgets (both targets) of 580,000 B raw, 214,000 B gzip and 0.2 ms per scene (2 ms when `CI` is set, for shared runners). The size limits are a ratchet at the 2026-11-23 size (570.9 KB), accepted by Garth; a size reduction analysis is planned.
+* `sdk-wasm-visual:test` runs in the Rust CI job (`.github/ci-targets.json`); its Moon inputs are the renderer sources, so unrelated PRs hit the cache.
 * Site parity: `moon run sdk-wasm-visual:browser-parity` loads a built site's engine in headless Chrome (Chrome and `pnpm install` for `playwright-core` needed) and compares its SVG with `design-data render` over the same matrix (`shared/matrix.mjs`). Excluded from CI.
