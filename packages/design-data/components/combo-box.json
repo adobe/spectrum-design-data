@@ -200,7 +200,6 @@
         "leading-icon",
         "prefix",
         "value",
-        "placeholder",
         "error-icon",
         "in-field-progress-circle",
         "in-field-button",
@@ -213,16 +212,12 @@
     },
     {
       "name": "prefix",
-      "description": "Short fixed text shown before the value or placeholder."
+      "description": "Short fixed text shown before the value."
     },
     {
       "name": "value",
       "description": "Text the user entered or the selected item.",
       "presentWhen": { "options": { "value": true } }
-    },
-    {
-      "name": "placeholder",
-      "description": "Hint text shown while the field is empty."
     },
     {
       "name": "error-icon",

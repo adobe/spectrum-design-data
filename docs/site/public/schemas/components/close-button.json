@@ -14,9 +14,6 @@
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
-    "iconSize": {
-      "type": "string"
-    },
     "staticColor": {
       "type": "string",
       "enum": ["white", "black"],
