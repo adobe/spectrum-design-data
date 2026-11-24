@@ -2,7 +2,7 @@
   "layer": 2,
   "errors": [
     {
-      "rule_id": "SPEC-121",
+      "rule_id": "SPEC-122",
       "severity": "warning",
       "message_pattern": ".*checkbox.*facet 'checked'.*no value 'mixed'.*"
     }

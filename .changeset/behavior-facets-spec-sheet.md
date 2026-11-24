@@ -10,7 +10,7 @@ Add facets to recipe conditions and a contract-driven spec sheet section
 - Recipes: `when` and `visibleWhen` accept `facets: { checked: "indeterminate" }`
   beside `options` and `states`. Opt-in: a facet clause folds into the options
   and states the compiler already solves, so recipes without it are unchanged.
-  New rule SPEC-121 (warning) flags a facet the component's contract cannot
+  New rule SPEC-122 (warning) flags a facet the component's contract cannot
   publish.
 - Spec sheet: for a component with a behavior contract (Switch, Checkbox), the
   accessibility section reads role, focus, keyboard intents and WCAG criteria

@@ -1718,7 +1718,7 @@ rules:
     spec_ref: spec/behavior-contract.md#validation
     introduced_in: "1.0.0-draft"
 
-  - id: SPEC-121
+  - id: SPEC-122
     name: recipe-facets-resolve
     severity: warning
     layer: 2

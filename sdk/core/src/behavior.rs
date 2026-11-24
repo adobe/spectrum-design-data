@@ -687,7 +687,7 @@ pub fn facet_match(
 
 /// Fold every `facets` clause of a recipe `when` / `visibleWhen` under `node` into `options` and
 /// `states` (see [`facet_match`]). A clause that cannot be resolved gets an option no request
-/// carries, so it never matches; SPEC-121 reports it. A recipe with no `facets` clause is not
+/// carries, so it never matches; SPEC-122 reports it. A recipe with no `facets` clause is not
 /// touched.
 pub fn expand_facets(graph: &TokenGraph, component: &str, node: &mut Value) {
     match node {

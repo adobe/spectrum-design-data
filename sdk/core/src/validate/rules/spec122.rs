@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! SPEC-121: recipe-facets-resolve
+//! SPEC-122: recipe-facets-resolve
 //!
 //! Warning. A `facets` clause in a recipe `when` or `visibleWhen` names a facet the component's
 //! behavior contract can publish (declared state-group facet, or an interaction facet a pattern it
@@ -25,7 +25,7 @@ pub struct Rule;
 
 impl ValidationRule for Rule {
     fn id(&self) -> &'static str {
-        "SPEC-121"
+        "SPEC-122"
     }
 
     fn name(&self) -> &'static str {
