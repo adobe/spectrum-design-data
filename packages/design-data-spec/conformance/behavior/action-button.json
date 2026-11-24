@@ -18,7 +18,9 @@
           },
           "emit": [
             {
-              "press": {}
+              "press": {
+                "isSelected": true
+              }
             }
           ]
         }
@@ -70,7 +72,9 @@
           },
           "emit": [
             {
-              "press": {}
+              "press": {
+                "isSelected": true
+              }
             }
           ]
         }

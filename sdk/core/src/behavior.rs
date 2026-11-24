@@ -35,9 +35,9 @@
 //!   `via` the keyboard. A key with no binding raises nothing, which is how "Enter does not
 //!   toggle" passes.
 //! * `emit` lists the events a step raised (`{ name: { option: new value } }`), not a running
-//!   total. An expected event matches when the name is equal and every option it lists has that
-//!   value; options it leaves out are not checked (a press that also toggles `isSelected` still
-//!   matches `{ press: {} }`). A vector that needs a capability the run lacks is not applicable, neither pass nor fail.
+//!   total. An expected event matches exactly (same options and values). A vector may set
+//!   `emitOptions: "listed"` to check only the options it lists: for a role key vector that runs on
+//!   components that differ (a press that also toggles `isSelected` still matches `{ press: {} }`). A vector that needs a capability the run lacks is not applicable, neither pass nor fail.
 
 use std::collections::{BTreeMap, HashSet};
 use std::path::Path;
@@ -358,9 +358,13 @@ impl Run<'_> {
     }
 }
 
-/// `want` (a list of `{ name: { option: value } }`) matches `got` when both list the same events
-/// in order and each wanted option has the raised value; extra raised options are not checked.
-fn emits_match(want: &Value, got: &[Value]) -> bool {
+/// `want` (a list of `{ name: { option: value } }`) matches `got` when both list the same events in
+/// order. With `listed`, each wanted option need only have the raised value and extra raised
+/// options are not checked; otherwise the options must be equal.
+fn emits_match(want: &Value, got: &[Value], listed: bool) -> bool {
+    if !listed {
+        return *want == Value::Array(got.to_vec());
+    }
     let Some(want) = want.as_array().filter(|w| w.len() == got.len()) else {
         return false;
     };
@@ -412,6 +416,7 @@ fn run_vector(
         .get("steps")
         .and_then(Value::as_array)
         .ok_or("has no steps")?;
+    let listed = v.get("emitOptions").and_then(Value::as_str) == Some("listed");
     let mut options = v
         .get("start")
         .and_then(Value::as_object)
@@ -489,7 +494,7 @@ fn run_vector(
                 }
             }
             if let Some(want) = e.get("emit") {
-                if !emits_match(want, &raised) {
+                if !emits_match(want, &raised, listed) {
                     failures.push(format!(
                         "after step {n}: emit want {want} got {}",
                         Value::Array(raised.clone())

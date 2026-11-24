@@ -248,6 +248,11 @@
         "component": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
         "name": { "type": "string", "minLength": 1 },
         "needs": { "$ref": "#/$defs/needs" },
+        "emitOptions": {
+          "enum": ["exact", "listed"],
+          "default": "exact",
+          "description": "How an expected `emit` event is compared: `exact` (default) needs the same options and values; `listed` checks only the options the expectation lists. For a role key vector that runs on components that differ."
+        },
         "start": {
           "type": "object",
           "description": "Start values of options, plus environment properties such as `direction` (`ltr`, `rtl`)."
