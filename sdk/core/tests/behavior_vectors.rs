@@ -555,3 +555,68 @@ fn radio_binds_no_home_or_end() {
         "{keys:?}"
     );
 }
+
+#[test]
+fn action_button_exposes_aria_pressed() {
+    let (contract, _, _) = load("action-button");
+    let selected = &contract["semantics"]["container"]["selected"];
+    assert_eq!(selected["ariaState"], "aria-pressed");
+    assert_eq!(
+        selected["map"],
+        json!({ "unselected": "false", "selected": "true" })
+    );
+}
+
+/// `emit` is compared exactly unless a vector opts in with `emitOptions: "listed"`: dropping an
+/// option from an expected event (the same as a press raising a stray option change) fails.
+#[test]
+fn emit_is_exact_unless_a_vector_lists_options() {
+    for component in [
+        "switch",
+        "checkbox",
+        "radio-button",
+        "radio-group",
+        "action-button",
+    ] {
+        let (contract, vectors, patterns) = load(component);
+        let mut mutated = 0;
+        for v in &vectors {
+            let mut bad = v.clone();
+            let mut changed = false;
+            for e in bad["expect"].as_array_mut().unwrap() {
+                for ev in e
+                    .get_mut("emit")
+                    .and_then(Value::as_array_mut)
+                    .into_iter()
+                    .flatten()
+                {
+                    for opts in ev.as_object_mut().unwrap().values_mut() {
+                        if let Some(o) = opts.as_object_mut().filter(|o| !o.is_empty()) {
+                            o.clear();
+                            changed = true;
+                        }
+                    }
+                }
+            }
+            if !changed {
+                continue;
+            }
+            mutated += 1;
+            assert_eq!(
+                failures(&contract, &[bad.clone()], &patterns),
+                1,
+                "{component}"
+            );
+            bad["emitOptions"] = json!("listed");
+            assert_eq!(
+                failures(&contract, &[bad.clone()], &patterns),
+                0,
+                "{component} {bad}"
+            );
+        }
+        assert!(
+            mutated > 0 || component == "radio-group",
+            "{component} has no vector with an emit payload"
+        );
+    }
+}

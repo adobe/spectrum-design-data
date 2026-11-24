@@ -37,7 +37,8 @@
           "facets": {},
           "emit": []
         }
-      ]
+      ],
+      "emitOptions": "listed"
     },
     {
       "name": "Space presses on key up, not on key down",
@@ -76,7 +77,8 @@
             }
           ]
         }
-      ]
+      ],
+      "emitOptions": "listed"
     },
     {
       "name": "Enter ignores a disabled control",

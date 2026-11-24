@@ -18,7 +18,9 @@
           },
           "emit": [
             {
-              "press": {}
+              "press": {
+                "isSelected": true
+              }
             }
           ]
         }
@@ -70,7 +72,9 @@
           },
           "emit": [
             {
-              "press": {}
+              "press": {
+                "isSelected": true
+              }
             }
           ]
         }
@@ -265,6 +269,274 @@
           "facets": {
             "hovered": false
           }
+        }
+      ]
+    },
+    {
+      "name": "activate selects an unselected button",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "selected": "selected"
+          },
+          "emit": [
+            {
+              "press": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "activate deselects a selected button",
+      "start": {
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "selected": "unselected"
+          },
+          "emit": [
+            {
+              "press": {
+                "isSelected": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a completed press toggles selection",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": true,
+            "selected": "unselected"
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "selected": "selected"
+          },
+          "emit": [
+            {
+              "press": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pressing a selected button deselects it",
+      "start": {
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": true,
+            "selected": "selected"
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "selected": "unselected"
+          },
+          "emit": [
+            {
+              "press": {
+                "isSelected": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a cancelled press leaves selection",
+      "start": {
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-cancel"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "selected": "selected"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "disabled keeps a selected button selected",
+      "start": {
+        "isDisabled": true,
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true,
+            "selected": "selected"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "pending blocks activation",
+      "start": {
+        "isPending": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pending": true,
+            "selected": "unselected"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "pending blocks a completed press",
+      "start": {
+        "isPending": true
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pending": true,
+            "pressed": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "pending keeps a selected button selected",
+      "start": {
+        "isPending": true,
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pending": true,
+            "selected": "selected"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "activation works again once pending ends",
+      "start": {
+        "isPending": false
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pending": false,
+            "selected": "selected"
+          },
+          "emit": [
+            {
+              "press": {
+                "isSelected": true
+              }
+            }
+          ]
         }
       ]
     }
