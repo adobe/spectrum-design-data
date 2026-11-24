@@ -645,7 +645,7 @@ fn part_role(parts: &Map<String, Value>) -> Option<&str> {
 /// contract's `state` list and every part's `role`, `focus`, `press` and `handles`. A vector
 /// cannot see these (focus mode is not an intent, an unused option is not a facet, and an unbound
 /// role only drops key vectors), so a suite pins them in `pins`:
-/// `{ "state": [...], "parts": { "<part>": { "role", "focus", "press", "handles" } } }`.
+/// `{ "state": [...], "wcag": [...], "parts": { "<part>": { "role", "focus", "press", "handles" } } }`.
 /// A contract that extends patterns is compared after flattening. The runner also fails a contract
 /// whose facets derive from, or whose transitions change, an option its `state` does not list.
 /// Returns what is wrong; empty means conformant.
@@ -713,6 +713,9 @@ pub fn check_contract(
     have.sort_unstable();
     if want != have {
         out.push(format!("`state` is {have:?}, the suite pins {want:?}"));
+    }
+    if pins.get("wcag") != contract.get("wcag") {
+        out.push("`wcag` differs from the suite's pinned `wcag`".into());
     }
     let pinned = pins.get("parts").and_then(Value::as_object);
     for name in pinned.iter().flat_map(|p| p.keys()) {
@@ -868,7 +871,9 @@ pub fn run_dir(
                 ));
                 continue;
             };
-            if file.get("roles").and_then(|r| r.get(role)).is_none() {
+            let has_keyboard = capabilities_of(file, capabilities).contains("keyboard");
+            // A platform with no keyboard binds no keys: its key vectors are not applicable.
+            if has_keyboard && file.get("roles").and_then(|r| r.get(role)).is_none() {
                 out.push(suite_failure(
                     &label,
                     format!("the '{plat}' key bindings have no entry for role '{role}', so its key vectors would prove nothing"),

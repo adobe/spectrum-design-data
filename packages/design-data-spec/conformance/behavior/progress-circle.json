@@ -3,6 +3,18 @@
   "component": "progress-circle",
   "pins": {
     "state": ["value", "minValue", "maxValue", "isIndeterminate"],
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      },
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ],
     "parts": {
       "track": {
         "role": "progressbar",

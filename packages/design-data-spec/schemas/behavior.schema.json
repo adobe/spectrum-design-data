@@ -67,6 +67,7 @@
           "items": { "$ref": "#/$defs/name" },
           "uniqueItems": true
         },
+        "wcag": { "$ref": "#/$defs/wcag" },
         "parts": {
           "type": "object",
           "propertyNames": { "$ref": "#/$defs/name" },
@@ -86,7 +87,7 @@
         }
       },
       "additionalProperties": false,
-      "description": "Conformance suites only. What the suite holds true of the contract regardless of its vectors: the `state` list and each part's `role`, `focus`, `press` and `handles`. The runner fails a contract that differs."
+      "description": "Conformance suites only. What the suite holds true of the contract regardless of its vectors: the `state` list, the contract's `wcag` and each part's `role`, `focus`, `press` and `handles`. The runner fails a contract that differs."
     }
   },
   "additionalProperties": false,

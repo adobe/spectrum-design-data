@@ -422,6 +422,8 @@ fn a_platform_without_a_keyboard_makes_key_vectors_not_applicable() {
     let mut touch = web_bindings();
     touch["platform"] = json!("touch");
     touch["capabilities"] = json!(["assistive-activation"]);
+    // No keyboard and no role bindings: still not applicable, not a failure.
+    touch["roles"] = json!({});
     std::fs::write(bindings.join("touch.json"), touch.to_string()).unwrap();
     let suites = tmp.join("suites");
     std::fs::create_dir_all(suites.join("bindings/touch")).unwrap();
@@ -677,6 +679,10 @@ fn a_mutated_focus_state_or_role_fails_the_pins() {
                 })
             }),
             (
+                "wcag changed",
+                Box::new(|c| c["wcag"][0]["criterion"] = json!("2.4.7")),
+            ),
+            (
                 "isDisabled dropped from state",
                 Box::new(|c| {
                     let s = c["state"].as_array_mut().unwrap();
@@ -795,6 +801,7 @@ fn a_broken_semantic_fails_a_display_vector() {
                 ("/minValue/ariaState", json!("aria-valuemax")),
                 ("/maxValue/copy", json!(false)),
                 ("/valueLabel/ariaState", json!("aria-label")),
+                ("/label/ariaState", json!("aria-valuetext")),
                 (
                     "/valueLabel/absentWhen",
                     json!({ "isIndeterminate": false }),
@@ -808,6 +815,7 @@ fn a_broken_semantic_fails_a_display_vector() {
                 ("/value/ariaState", json!("aria-valuemin")),
                 ("/maxValue/ariaState", json!("aria-valuenow")),
                 ("/valueLabel/ariaState", json!("aria-valuenow")),
+                ("/label/ariaState", json!("aria-valuetext")),
             ],
         ),
     ] {

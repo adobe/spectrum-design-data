@@ -2,7 +2,14 @@
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "meter",
   "pins": {
-    "state": ["value", "minValue", "maxValue", "valueLabel"],
+    "state": ["value", "minValue", "maxValue", "valueLabel", "label"],
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
     "parts": {
       "container": {
         "role": "meter",
@@ -11,6 +18,72 @@
     }
   },
   "vectors": [
+    {
+      "name": "a label is exposed as aria-label",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "label": "Uploading"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": "Uploading"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no label leaves aria-label absent",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "a hidden label is still aria-label",
+      "start": {
+        "value": 40,
+        "minValue": 0,
+        "maxValue": 100,
+        "label": "Uploading",
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": "Uploading"
+          }
+        }
+      ]
+    },
     {
       "name": "a value label is exposed as valuetext",
       "start": {

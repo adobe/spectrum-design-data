@@ -1,7 +1,7 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
   "component": "meter",
-  "state": ["value", "minValue", "maxValue", "valueLabel"],
+  "state": ["value", "minValue", "maxValue", "valueLabel", "label"],
   "parts": {
     "container": {
       "role": "meter",
@@ -24,6 +24,10 @@
       },
       "valueLabel": {
         "ariaState": "aria-valuetext",
+        "copy": true
+      },
+      "label": {
+        "ariaState": "aria-label",
         "copy": true
       }
     }
