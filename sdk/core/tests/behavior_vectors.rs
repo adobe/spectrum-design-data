@@ -261,3 +261,64 @@ fn facet_conditions_compile_to_the_equivalent_option_conditions() {
     swap(&mut wrong);
     assert_ne!(want, compile_recipe(&g, &wrong, "switch", &[mode]).unwrap());
 }
+
+#[test]
+fn a_raise_cycle_fails_the_vector_instead_of_overflowing() {
+    let (mut contract, vectors, patterns) = load("switch");
+    contract["transitions"]
+        .as_array_mut()
+        .unwrap()
+        .insert(0, json!({ "on": "activate", "do": { "raise": "press" } }));
+    let r = run_vectors(
+        &contract,
+        &patterns,
+        &vectors[..1],
+        RegistryData::embedded(),
+        &all_capabilities(),
+    );
+    assert!(
+        matches!(&r[0].status, Status::Fail(f) if f[0].contains("raise")),
+        "{:?}",
+        r[0].status
+    );
+}
+
+#[test]
+fn raise_without_a_part_press_fails_the_vector() {
+    let (mut contract, vectors, patterns) = load("switch");
+    contract["parts"]["track"]
+        .as_object_mut()
+        .unwrap()
+        .remove("press");
+    let v = [
+        json!({ "name": "x", "start": {}, "steps": [{ "intent": "press-start" }, { "intent": "press-end" }], "expect": [] }),
+    ];
+    let r = run_vectors(
+        &contract,
+        &patterns,
+        &v,
+        RegistryData::embedded(),
+        &all_capabilities(),
+    );
+    assert!(matches!(&r[0].status, Status::Fail(f) if f[0].contains("no part declares")));
+    let _ = vectors;
+}
+
+#[test]
+fn the_event_intent_list_matches_the_registry() {
+    let reg: Value = serde_json::from_str(
+        &std::fs::read_to_string(packages().join("design-data/registry/intents.json")).unwrap(),
+    )
+    .unwrap();
+    let mut want: Vec<&str> = reg["values"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|e| e["category"] == "event")
+        .map(|e| e["id"].as_str().unwrap())
+        .collect();
+    let mut have: Vec<&str> = design_data_core::behavior::INTERACTION_EVENTS.to_vec();
+    want.sort();
+    have.sort();
+    assert_eq!(have, want);
+}

@@ -10,6 +10,11 @@
       "rule_id": "SPEC-119",
       "severity": "warning",
       "message_pattern": ".*handling 'navigate-sideways'.*not in the intents registry.*"
+    },
+    {
+      "rule_id": "SPEC-119",
+      "severity": "warning",
+      "message_pattern": ".*checkbox.*raising `press` on 'activate'.*not an event intent.*"
     }
   ]
 }

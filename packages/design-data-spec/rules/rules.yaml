@@ -1697,6 +1697,9 @@ rules:
       each `needs` a capability in the capabilities registry. A guard MUST read only facets the
       contract declares or interaction facets, with values those facets have. `do` MUST change
       only options listed in `state`.
+      A pattern's transitions are held to the same: `do` MUST set only an interaction facet the
+      pattern (or one it extends) publishes, to `true` or `false`, and a guard MUST read only
+      published facets.
     message: "Behavior contract of '{component}' {problem}"
     spec_ref: spec/behavior-contract.md#validation
     introduced_in: "1.0.0-draft"

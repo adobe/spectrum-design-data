@@ -12,13 +12,18 @@
 //!
 //! Warning. Each transition and each part `press` names a registered intent, `needs` names
 //! registered capabilities, a guard reads only facets the contract can read (declared, or an
-//! interaction facet) with a value that facet has, and `do` changes only options in `state`.
+//! interaction facet) with a value that facet has, and `do` changes only options in `state`. A
+//! pattern's transitions are checked the same way, except that `do` may change only the
+//! interaction facets the pattern (or one it extends) publishes, and only to `true` or `false`.
+
+use std::collections::HashSet;
 
 use serde_json::Value;
 
+use crate::behavior::INTERACTION_EVENTS;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::behavior_util::{facet_values, state_ids, warning};
+use crate::validate::rules::behavior_util::{extends_of, facet_values, state_ids, warning};
 
 pub struct Rule;
 
@@ -97,6 +102,41 @@ impl ValidationRule for Rule {
                     );
                 }
             }
+            for o in state
+                .iter()
+                .filter(|o| ctx.registry.facet(o).is_some_and(|f| f.interaction))
+            {
+                problem(
+                    "/state".into(),
+                    format!("lists option '{o}', which is also an interaction facet"),
+                );
+            }
+            let raises = |raw: &Value| {
+                raw.get("transitions")
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                    .any(|t| t.pointer("/do/raise").is_some())
+            };
+            let patterns: Vec<&Value> = extends_of(&b.raw)
+                .iter()
+                .filter_map(|n| ctx.graph.behavior_patterns.iter().find(|p| &p.pattern == n))
+                .map(|p| &p.raw)
+                .collect();
+            let has_press = |raw: &Value| {
+                raw.get("parts")
+                    .and_then(Value::as_object)
+                    .is_some_and(|o| o.values().any(|p| p.get("press").is_some()))
+            };
+            if (raises(&b.raw) || patterns.iter().any(|p| raises(p)))
+                && !has_press(&b.raw)
+                && !patterns.iter().any(|p| has_press(p))
+            {
+                problem(
+                    "/parts".into(),
+                    "raises `press` but no part declares `press`".into(),
+                );
+            }
             for (n, t) in b
                 .raw
                 .get("transitions")
@@ -126,6 +166,16 @@ impl ValidationRule for Rule {
                     if !ctx.registry.capabilities().contains(c) {
                         problem(format!("{at}/needs"), format!("has a transition needing '{c}', which is not in the capabilities registry"));
                     }
+                }
+                if let Some(i) = t
+                    .get("on")
+                    .and_then(Value::as_str)
+                    .filter(|i| t.pointer("/do/raise").is_some() && !INTERACTION_EVENTS.contains(i))
+                {
+                    problem(
+                        format!("{at}/do/raise"),
+                        format!("has a transition raising `press` on '{i}', which is not an event intent"),
+                    );
                 }
                 let mut guards = Vec::new();
                 if let Some(g) = t.get("guard") {
@@ -165,6 +215,111 @@ impl ValidationRule for Rule {
                 }
             }
         }
+        for p in &ctx.graph.behavior_patterns {
+            let mut published: HashSet<String> = HashSet::new();
+            let mut seen: HashSet<String> = HashSet::new();
+            let mut queue = vec![p.pattern.clone()];
+            while let Some(name) = queue.pop() {
+                if !seen.insert(name.clone()) {
+                    continue;
+                }
+                for q in ctx
+                    .graph
+                    .behavior_patterns
+                    .iter()
+                    .filter(|q| q.pattern == name)
+                {
+                    published.extend(
+                        q.raw
+                            .get("publishes")
+                            .and_then(Value::as_array)
+                            .into_iter()
+                            .flatten()
+                            .filter_map(|v| v.as_str().map(String::from)),
+                    );
+                    queue.extend(extends_of(&q.raw));
+                }
+            }
+            for (n, t) in p
+                .raw
+                .get("transitions")
+                .and_then(Value::as_array)
+                .into_iter()
+                .flatten()
+                .enumerate()
+            {
+                let mut problems: Vec<(String, String)> = Vec::new();
+                let at = format!("/transitions/{n}");
+                if let Some(i) = t
+                    .get("on")
+                    .and_then(Value::as_str)
+                    .filter(|i| !ctx.registry.intents().contains(*i))
+                {
+                    problems.push((
+                        format!("{at}/on"),
+                        format!("has a transition on '{i}', which is not in the intents registry"),
+                    ));
+                }
+                for c in t
+                    .get("needs")
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                    .filter_map(Value::as_str)
+                    .filter(|c| !ctx.registry.capabilities().contains(*c))
+                {
+                    problems.push((format!("{at}/needs"), format!("has a transition needing '{c}', which is not in the capabilities registry")));
+                }
+                if let Some(i) = t
+                    .get("on")
+                    .and_then(Value::as_str)
+                    .filter(|i| t.pointer("/do/raise").is_some() && !INTERACTION_EVENTS.contains(i))
+                {
+                    problems.push((format!("{at}/do/raise"), format!("has a transition raising `press` on '{i}', which is not an event intent")));
+                }
+                let mut guards = Vec::new();
+                if let Some(g) = t.get("guard") {
+                    guard_facets(g, &mut guards);
+                }
+                for (facet, is) in guards {
+                    let values = ctx
+                        .registry
+                        .facet(facet)
+                        .filter(|_| published.contains(facet));
+                    match values {
+                        None => problems.push((format!("{at}/guard"), format!("has a transition reading facet '{facet}', which the pattern does not publish"))),
+                        Some(f) => {
+                            if let Some(is) = is.filter(|is| !f.values.contains(*is)) {
+                                problems.push((format!("{at}/guard"), format!("has a transition testing facet '{facet}' for '{is}', which is not one of its values")));
+                            }
+                        }
+                    }
+                }
+                if let Some(set) = t.pointer("/do/set").and_then(Value::as_object) {
+                    for (o, v) in set {
+                        if !published.contains(o) {
+                            problems.push((format!("{at}/do"), format!("has a transition changing '{o}', which the pattern does not publish")));
+                        } else if !v.is_boolean() {
+                            problems.push((format!("{at}/do"), format!("has a transition setting interaction facet '{o}' to a value other than true or false")));
+                        }
+                    }
+                }
+                if t.pointer("/do/toggle").is_some() {
+                    problems.push((format!("{at}/do"), "has a transition that toggles, which a pattern cannot do (it has no `state`)".into()));
+                }
+                for (path, msg) in problems {
+                    out.push(Diagnostic {
+                        file: p.file.clone(),
+                        token: None,
+                        rule_id: Some(self.id().to_string()),
+                        severity: crate::report::Severity::Warning,
+                        message: format!("Behavior pattern '{}' {msg}", p.pattern),
+                        instance_path: Some(path),
+                        schema_path: None,
+                    });
+                }
+            }
+        }
         out
     }
 }
@@ -190,6 +345,62 @@ mod tests {
             c["transitions"][0]["needs"] = json!(["pointer-hover"]);
         })
         .is_empty());
+    }
+
+    fn pattern_graph(edit: impl FnOnce(&mut serde_json::Value)) -> Vec<String> {
+        let mut g = graph(vec![]);
+        let mut raw = json!({
+            "pattern": "interactive",
+            "publishes": ["hovered", "pressed"],
+            "transitions": [
+                { "on": "press-start", "do": { "set": { "pressed": true } } },
+                { "on": "press-end", "guard": { "facet": "pressed", "is": "true" }, "do": { "set": { "pressed": false }, "raise": "press" } }
+            ]
+        });
+        edit(&mut raw);
+        g.behavior_patterns[0].raw = raw;
+        run(&Rule, &g)
+    }
+
+    #[test]
+    fn pattern_transitions_are_checked() {
+        assert!(pattern_graph(|_| {}).is_empty());
+        let cases: Vec<Case> = vec![
+            (
+                Box::new(|p| p["transitions"][0]["on"] = json!("tap")),
+                "not in the intents registry",
+            ),
+            (
+                Box::new(|p| p["transitions"][0]["needs"] = json!(["telepathy"])),
+                "capabilities registry",
+            ),
+            (
+                Box::new(|p| {
+                    p["transitions"][0]["do"] = json!({ "set": { "focusVisible": true } })
+                }),
+                "does not publish",
+            ),
+            (
+                Box::new(|p| p["transitions"][0]["do"] = json!({ "set": { "pressed": "yes" } })),
+                "other than true or false",
+            ),
+            (
+                Box::new(|p| p["transitions"][1]["guard"]["facet"] = json!("focusVisible")),
+                "does not publish",
+            ),
+            (
+                Box::new(|p| p["transitions"][1]["guard"]["is"] = json!("maybe")),
+                "not one of its values",
+            ),
+            (
+                Box::new(|p| p["transitions"][0]["do"] = json!({ "toggle": "pressed" })),
+                "cannot do",
+            ),
+        ];
+        for (edit, why) in cases {
+            let m = pattern_graph(edit);
+            assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
+        }
     }
 
     #[test]
@@ -218,6 +429,24 @@ mod tests {
             (
                 Box::new(|c| c["transitions"][0]["guard"]["is"] = json!("maybe")),
                 "not one of its values",
+            ),
+            (
+                Box::new(|c| {
+                    c["transitions"][0]["do"] =
+                        json!({ "set": { "isSelected": true }, "raise": "press" })
+                }),
+                "not an event intent",
+            ),
+            (
+                Box::new(|c| {
+                    c["transitions"] = json!([{ "on": "press-end", "do": { "raise": "press" } }]);
+                    c["parts"]["track"].as_object_mut().unwrap().remove("press");
+                }),
+                "no part declares `press`",
+            ),
+            (
+                Box::new(|c| c["state"] = json!(["isSelected", "isDisabled", "pressed"])),
+                "also an interaction facet",
             ),
             (
                 Box::new(|c| c["transitions"][0]["do"] = json!({ "toggle": "isGhost" })),
