@@ -1563,6 +1563,25 @@ fn load_visual_graph(
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to load recipes from {}", visuals_dir.display()))?;
     }
+    // shortcut: `behaviors/` is the sibling of `visuals/`, as in `validate`; read for the spec
+    // sheet's contract-driven accessibility section.
+    if load_visuals {
+        if let Some(dir) = visuals_dir
+            .parent()
+            .map(|p| p.join("behaviors"))
+            .filter(|d| d.is_dir())
+        {
+            graph.behaviors = TokenGraph::load_spec_behaviors(&dir)
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to load behaviors from {}", dir.display()))?;
+            if dir.join("patterns").is_dir() {
+                graph.behavior_patterns =
+                    TokenGraph::load_spec_behavior_patterns(&dir.join("patterns"))
+                        .into_diagnostic()
+                        .wrap_err("failed to load behavior patterns")?;
+            }
+        }
+    }
     // Foundation→Platform cascade, after the relationships and recipes load so
     // extension relationships and recipes layer onto them. A no-op when no platform
     // is selected.

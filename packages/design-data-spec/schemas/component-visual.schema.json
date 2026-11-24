@@ -483,6 +483,11 @@
           },
           "uniqueItems": true
         },
+        "facets": {
+          "type": "object",
+          "description": "Facets (registry/facets.json) the component's behavior contract publishes, each with the value that must hold, for example `{ \"checked\": \"indeterminate\" }`. Folded into `options` and `states` when the recipe compiles, beside any `options` clause (SPEC-121).",
+          "additionalProperties": { "type": "string" }
+        },
         "modes": {
           "type": "object",
           "additionalProperties": {

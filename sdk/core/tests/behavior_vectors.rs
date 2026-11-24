@@ -163,3 +163,101 @@ fn an_intent_the_contract_does_not_cover_fails_unless_a_part_handles_it() {
     contract["parts"]["track"]["handles"] = json!(["increment"]);
     assert_eq!(failures(&contract, &[vector], &patterns), 0);
 }
+
+fn rewrite_to_facets(node: &mut Value, count: &mut usize) {
+    match node {
+        Value::Object(map) => {
+            for key in ["when", "visibleWhen"] {
+                let Some(cond) = map.get_mut(key).and_then(Value::as_object_mut) else {
+                    continue;
+                };
+                let mut facets = serde_json::Map::new();
+                if let Some(opts) = cond.get_mut("options").and_then(Value::as_object_mut) {
+                    for (opt, facet, value) in [
+                        ("isSelected", "checked", "checked"),
+                        ("isDisabled", "disabled", "true"),
+                    ] {
+                        if opts.get(opt) == Some(&Value::Bool(true)) {
+                            opts.remove(opt);
+                            facets.insert(facet.into(), json!(value));
+                        }
+                    }
+                    if opts.is_empty() {
+                        cond.remove("options");
+                    }
+                }
+                if let Some(states) = cond.get_mut("states").and_then(Value::as_array_mut) {
+                    if states.iter().any(|s| s == "hover") {
+                        states.retain(|s| s != "hover");
+                        facets.insert("hovered".into(), json!("true"));
+                    }
+                    if states.is_empty() {
+                        cond.remove("states");
+                    }
+                }
+                *count += facets.len();
+                if !facets.is_empty() {
+                    cond.insert("facets".into(), Value::Object(facets));
+                }
+            }
+            for v in map.values_mut() {
+                rewrite_to_facets(v, count);
+            }
+        }
+        Value::Array(items) => items.iter_mut().for_each(|v| rewrite_to_facets(v, count)),
+        _ => {}
+    }
+}
+
+/// A recipe that reads facets compiles to exactly what the equivalent option and state
+/// conditions compile to, so a render cannot change; a recipe with no `facets` clause is untouched.
+#[test]
+fn facet_conditions_compile_to_the_equivalent_option_conditions() {
+    use design_data_core::visual::compile_recipe;
+    let pkg = packages().join("design-data");
+    let (b, _) = dirs();
+    let mut g = TokenGraph::from_json_dir_with_catalogs(
+        &pkg.join("tokens"),
+        Some(&pkg.join("mode-sets")),
+        Some(&pkg.join("components")),
+    )
+    .unwrap()
+    .with_relationships(TokenGraph::load_spec_relationships(&pkg.join("relationships")).unwrap())
+    .with_icons(TokenGraph::load_spec_icons(&pkg.join("icons")).unwrap());
+    g.visuals = TokenGraph::load_spec_visuals(&pkg.join("visuals")).unwrap();
+    g.behaviors = TokenGraph::load_spec_behaviors(&b).unwrap();
+    g.behavior_patterns = TokenGraph::load_spec_behavior_patterns(&b.join("patterns")).unwrap();
+    let recipe = g
+        .visuals
+        .iter()
+        .find(|v| v.component == "switch")
+        .unwrap()
+        .raw
+        .clone();
+    let mode: std::collections::HashMap<String, String> =
+        [("colorScheme", "light"), ("scale", "desktop")]
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect();
+    let mut faceted = recipe.clone();
+    let mut count = 0;
+    rewrite_to_facets(&mut faceted, &mut count);
+    assert!(
+        count >= 9,
+        "the switch recipe should have facet-able conditions, got {count}"
+    );
+    assert_ne!(recipe, faceted);
+    let want = compile_recipe(&g, &recipe, "switch", &[mode.clone()]).unwrap();
+    let got = compile_recipe(&g, &faceted, "switch", &[mode.clone()]).unwrap();
+    assert_eq!(want, got);
+
+    // Mutation guard: a facet that selects a different option changes the compile.
+    let mut wrong = faceted.clone();
+    let swap = |n: &mut Value| {
+        if let Some(c) = n.pointer_mut("/parts/track/props/fill/1/when/facets") {
+            *c = json!({ "disabled": "true" });
+        }
+    };
+    swap(&mut wrong);
+    assert_ne!(want, compile_recipe(&g, &wrong, "switch", &[mode]).unwrap());
+}

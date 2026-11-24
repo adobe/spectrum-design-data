@@ -1717,3 +1717,23 @@ rules:
     message: "Vector '{vector}' of '{component}' {problem}"
     spec_ref: spec/behavior-contract.md#validation
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-121
+    name: recipe-facets-resolve
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      A `facets` clause in a recipe `when` or `visibleWhen` is opt-in and additive: it folds into
+      the `options` and `states` the recipe compiler already solves, so a recipe that does not use
+      it renders as before. An unresolved facet never matches. An interaction facet can be selected
+      only as `true` (`hovered`, `pressed`, `focusVisible`); a recipe cannot test a state's absence.
+    assert: >
+      Each facet a recipe condition names MUST be in the facets registry and, for a state-group
+      facet, declared by the component's behavior contract, or, for an interaction facet,
+      published by a pattern that contract extends. Its value MUST be one the facet has, and an
+      earlier value of the same facet MUST NOT overlap it (first match wins), so options alone can
+      select it.
+    message: "Recipe of '{component}' reads facet '{facet}': {problem}"
+    spec_ref: spec/behavior-contract.md#facets-in-recipes
+    introduced_in: "1.0.0-draft"

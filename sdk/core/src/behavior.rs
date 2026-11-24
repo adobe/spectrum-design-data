@@ -38,7 +38,7 @@ use crate::registry::RegistryData;
 use crate::CoreError;
 
 /// Event intents the runner gives built-in meaning to (`category: event` in the intents registry).
-const INTERACTION_EVENTS: &[&str] = &[
+pub const INTERACTION_EVENTS: &[&str] = &[
     "focus",
     "blur",
     "press-start",
@@ -520,4 +520,236 @@ pub fn run_dir(
 /// Every capability in the registry: a reference run with a pointer and a keyboard.
 pub fn all_capabilities() -> HashSet<String> {
     RegistryData::embedded().capabilities().clone()
+}
+
+/// What a contract says about the fields the `accessibility` block carries, for a consumer that
+/// derives them from the contract (the Figma spec sheet). A field is `None` when the contract
+/// cannot answer it exactly (several roles, no part, no `focus`), so the caller keeps its
+/// existing source instead of guessing.
+#[derive(Debug, Clone, PartialEq)]
+pub struct AccessibilityView {
+    /// The role of the only part that has one.
+    pub role: Option<String>,
+    /// `tab-stop` on any part is `true`; every part `none` is `false`; `roving` is not derivable.
+    pub focusable: Option<bool>,
+    /// Non-event intents the contract acts on: transitions' `on`, then each part's `press` and
+    /// `handles`, first occurrence kept.
+    pub keyboard_intents: Vec<String>,
+    /// The contract's own `wcag` list.
+    pub wcag: Vec<Value>,
+}
+
+pub fn accessibility_view(contract: &Value) -> AccessibilityView {
+    let parts: Vec<&Value> = contract
+        .get("parts")
+        .and_then(Value::as_object)
+        .map(|p| p.values().collect())
+        .unwrap_or_default();
+    let roles: Vec<&str> = parts
+        .iter()
+        .filter_map(|p| p.get("role").and_then(Value::as_str))
+        .collect();
+    let focus: Vec<&str> = parts
+        .iter()
+        .filter_map(|p| p.get("focus").and_then(Value::as_str))
+        .collect();
+    let focusable = if focus.contains(&"tab-stop") {
+        Some(true)
+    } else if !focus.is_empty() && focus.iter().all(|f| *f == "none") {
+        Some(false)
+    } else {
+        None
+    };
+    let mut keyboard_intents: Vec<String> = Vec::new();
+    let mut add = |i: &str| {
+        if !INTERACTION_EVENTS.contains(&i) && !keyboard_intents.iter().any(|k| k == i) {
+            keyboard_intents.push(i.to_string());
+        }
+    };
+    for t in contract
+        .get("transitions")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+    {
+        t.get("on").and_then(Value::as_str).map(&mut add);
+    }
+    for p in &parts {
+        p.get("press").and_then(Value::as_str).map(&mut add);
+        for i in p
+            .get("handles")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(Value::as_str)
+        {
+            add(i);
+        }
+    }
+    AccessibilityView {
+        role: (roles.len() == 1).then(|| roles[0].to_string()),
+        focusable,
+        keyboard_intents,
+        wcag: contract
+            .get("wcag")
+            .and_then(Value::as_array)
+            .cloned()
+            .unwrap_or_default(),
+    }
+}
+
+/// What a recipe `when` clause `facets: { <facet>: <value> }` means for `component`: the option
+/// values and interaction states that select that facet value, so the recipe compiler can fold a
+/// facet condition into the `options` and `states` it already solves. `Err` says why the facet
+/// value cannot be selected (no contract, not declared, unknown value, or overlapping values).
+///
+/// shortcut: a facet condition counts as one satisfied condition per option it derives from, not
+/// one, so it can outrank a hand-written `options` condition; revisit at the first migration.
+pub fn facet_match(
+    graph: &TokenGraph,
+    component: &str,
+    facet: &str,
+    value: &str,
+) -> Result<(Map<String, Value>, Vec<String>), String> {
+    let canonical = graph.canonical_component(component);
+    let contract = graph
+        .behaviors
+        .iter()
+        .find(|b| b.component == component || b.component == canonical)
+        .ok_or_else(|| format!("'{component}' has no behavior contract"))?;
+    let registry = RegistryData::embedded();
+    let entry = registry
+        .facet(facet)
+        .ok_or_else(|| format!("facet '{facet}' is not in the facets registry"))?;
+    if !entry.values.contains(value) {
+        return Err(format!("facet '{facet}' has no value '{value}'"));
+    }
+    if entry.interaction {
+        let patterns = &graph.behavior_patterns;
+        let published = flatten(&contract.raw, patterns)
+            .map_err(|e| format!("contract of '{component}' {e}"))?
+            .published
+            .iter()
+            .any(|p| p == facet);
+        if !published {
+            return Err(format!(
+                "the contract of '{component}' extends no pattern that publishes '{facet}'"
+            ));
+        }
+        return match (value, &entry.state_name) {
+            ("true", Some(state)) => Ok((Map::new(), vec![state.clone()])),
+            _ => Err(format!(
+                "interaction facet '{facet}' can only be selected as 'true': a recipe cannot test for a state's absence"
+            )),
+        };
+    }
+    let decl = contract
+        .raw
+        .pointer(&format!("/facets/{facet}"))
+        .ok_or_else(|| format!("the contract of '{component}' does not declare facet '{facet}'"))?;
+    let values = decl
+        .get("values")
+        .and_then(Value::as_object)
+        .ok_or_else(|| format!("facet '{facet}' has no values"))?;
+    let from: Vec<&str> = match decl.get("from") {
+        Some(Value::String(s)) => vec![s.as_str()],
+        Some(Value::Array(a)) => a.iter().filter_map(Value::as_str).collect(),
+        _ => vec![],
+    };
+    let spec = |v: &Value| -> Map<String, Value> {
+        match (v, from.as_slice()) {
+            (Value::Object(o), _) => o.clone(),
+            (v, [only]) => Map::from_iter([(only.to_string(), v.clone())]),
+            _ => Map::new(),
+        }
+    };
+    let wanted = values.get(value).map(spec).ok_or_else(|| {
+        format!("the contract of '{component}' gives facet '{facet}' no value '{value}'")
+    })?;
+    // First match wins: a value after another can be selected by options alone only if no
+    // earlier value can hold at the same time.
+    for (earlier, v) in values {
+        if earlier == value {
+            break;
+        }
+        let other = spec(v);
+        let apart = other
+            .iter()
+            .any(|(k, x)| wanted.get(k).is_some_and(|w| w != x));
+        if !apart {
+            return Err(format!(
+                "facet '{facet}' value '{value}' overlaps the earlier value '{earlier}', so options alone cannot select it"
+            ));
+        }
+    }
+    Ok((wanted, vec![]))
+}
+
+/// Fold every `facets` clause of a recipe `when` / `visibleWhen` under `node` into `options` and
+/// `states` (see [`facet_match`]). A clause that cannot be resolved gets an option no request
+/// carries, so it never matches; SPEC-121 reports it. A recipe with no `facets` clause is not
+/// touched.
+pub fn expand_facets(graph: &TokenGraph, component: &str, node: &mut Value) {
+    match node {
+        Value::Object(map) => {
+            for key in ["when", "visibleWhen"] {
+                if let Some(cond) = map.get_mut(key).and_then(Value::as_object_mut) {
+                    if let Some(Value::Object(facets)) = cond.remove("facets") {
+                        for (facet, want) in facets {
+                            let resolved = want
+                                .as_str()
+                                .ok_or_else(|| format!("facet '{facet}' wants a string value"))
+                                .and_then(|w| facet_match(graph, component, &facet, w));
+                            match resolved {
+                                Ok((options, states)) => {
+                                    let opts = cond
+                                        .entry("options")
+                                        .or_insert_with(|| Value::Object(Map::new()))
+                                        .as_object_mut()
+                                        .expect("options is an object");
+                                    for (k, v) in options {
+                                        if opts.get(&k).is_some_and(|have| *have != v) {
+                                            opts.insert(
+                                                format!("facet:{facet}"),
+                                                Value::Bool(true),
+                                            );
+                                        } else {
+                                            opts.insert(k, v);
+                                        }
+                                    }
+                                    for s in states {
+                                        let list = cond
+                                            .entry("states")
+                                            .or_insert_with(|| Value::Array(vec![]))
+                                            .as_array_mut()
+                                            .expect("states is an array");
+                                        if !list.iter().any(|x| x.as_str() == Some(&s)) {
+                                            list.push(Value::String(s));
+                                        }
+                                    }
+                                }
+                                Err(_) => {
+                                    let opts = cond
+                                        .entry("options")
+                                        .or_insert_with(|| Value::Object(Map::new()))
+                                        .as_object_mut()
+                                        .expect("options is an object");
+                                    opts.insert(format!("facet:{facet}"), Value::Bool(true));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for v in map.values_mut() {
+                expand_facets(graph, component, v);
+            }
+        }
+        Value::Array(items) => {
+            for v in items {
+                expand_facets(graph, component, v);
+            }
+        }
+        _ => {}
+    }
 }
