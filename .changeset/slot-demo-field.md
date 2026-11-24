@@ -2,6 +2,7 @@
 "@adobe/design-data-spec": minor
 "@adobe/spectrum-design-data": minor
 "@adobe/design-data-tui": minor
+"@adobe/design-data-wasm": minor
 ---
 
 A component slot can declare `demo`, the fills a host shows it with.
