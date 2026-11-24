@@ -124,6 +124,16 @@ pub struct RegistryData {
     context_labels: HashMap<String, String>,
     /// Lower-cased label or alias → relationship-context term id.
     context_words: HashMap<String, String>,
+    /// Facet id → entry (`facets.json`), for behavior contract checks.
+    facets: HashMap<String, FacetEntry>,
+}
+
+/// A facet from `facets.json`: its allowed values and whether it comes from the shared
+/// `interactive` base (`source: interaction`) rather than from a component's state options.
+#[derive(Debug, Clone)]
+pub struct FacetEntry {
+    pub interaction: bool,
+    pub values: HashSet<String>,
 }
 
 /// Split a relationship `context` into its main word and the text inside a trailing
@@ -221,6 +231,33 @@ fn parse_registry(json_str: &str) -> HashSet<String> {
         }
     }
     set
+}
+
+/// Parse `facets.json` into facet id → entry.
+fn parse_facets(json_str: &str) -> HashMap<String, FacetEntry> {
+    let v: Value = serde_json::from_str(json_str).expect("embedded registry JSON must be valid");
+    v.get("values")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|e| {
+            let id = e.get("id")?.as_str()?.to_string();
+            let values = e
+                .get("values")?
+                .as_array()?
+                .iter()
+                .filter_map(|x| x.as_str().map(String::from))
+                .collect();
+            let interaction = e.get("source")?.as_str()? == "interaction";
+            Some((
+                id,
+                FacetEntry {
+                    interaction,
+                    values,
+                },
+            ))
+        })
+        .collect()
 }
 
 /// Parse `anatomy-terms.json` into its ids and an alias → id map. Unlike other registries,
@@ -323,6 +360,7 @@ impl RegistryData {
                 context_labels,
                 context_words,
                 registries,
+                facets: parse_facets(FACETS_JSON),
                 token_names: build_token_name_map(),
                 anatomy_standalone_scope: parse_standalone_scope_ids(ANATOMY_TERMS_JSON),
                 state_precedence: parse_state_precedence(STATES_JSON),
@@ -440,6 +478,21 @@ impl RegistryData {
     /// Derived from field declarations with `validation: "advisory"` and a registry.
     pub fn advisory_fields(&self) -> &[&str] {
         FIELD_ADVISORY_FIELDS
+    }
+
+    /// A registered behavior facet (`facets.json`), or `None` for an unregistered one.
+    pub fn facet(&self, facet: &str) -> Option<&FacetEntry> {
+        self.facets.get(facet)
+    }
+
+    /// Registered intent ids (`intents.json`): today's `intents` and `keyboardIntents` vocabulary.
+    pub fn intents(&self) -> &HashSet<String> {
+        &self.registries["intents"]
+    }
+
+    /// Registered capability ids (`capabilities.json`).
+    pub fn capabilities(&self) -> &HashSet<String> {
+        &self.registries["capabilities"]
     }
 
     /// The set of valid component category ids from the categories registry.

@@ -1,0 +1,169 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/checkbox.json",
+      "name": "checkbox",
+      "displayName": "Checkbox",
+      "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
+      },
+      "options": {
+        "isSelected": {
+          "type": "boolean",
+          "default": false
+        },
+        "isIndeterminate": {
+          "type": "boolean",
+          "default": false
+        },
+        "isDisabled": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "anatomy": [
+        {
+          "name": "box",
+          "description": "The box.",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "behaviors": [
+    {
+      "component": "checkbox",
+      "extends": ["interactive"],
+      "state": ["isSelected", "isIndeterminate", "isDisabled", "isGhost"],
+      "facets": {
+        "checked": {
+          "from": ["isSelected", "isIndeterminate"],
+          "values": {
+            "indeterminate": {
+              "isIndeterminate": true
+            },
+            "checked": {
+              "isIndeterminate": false,
+              "isSelected": true
+            },
+            "unchecked": {
+              "isIndeterminate": false,
+              "isSelected": false
+            }
+          },
+          "order": "first match wins"
+        },
+        "disabled": {
+          "from": "isDisabled",
+          "values": {
+            "false": false,
+            "true": true
+          }
+        }
+      },
+      "parts": {
+        "box": {
+          "role": "checkbox",
+          "focus": "tab-stop",
+          "press": "activate",
+          "wcag": [
+            {
+              "criterion": "4.1.2",
+              "level": "A",
+              "title": "Name, Role, Value"
+            }
+          ]
+        },
+        "ghost": {
+          "role": "checkbox"
+        }
+      },
+      "transitions": [
+        {
+          "on": "activate",
+          "guard": {
+            "facet": "disabled",
+            "is": "false"
+          },
+          "do": {
+            "set": {
+              "isIndeterminate": false,
+              "isSelected": {
+                "not": {
+                  "facet": "checked",
+                  "is": "checked"
+                }
+              }
+            }
+          },
+          "emit": "change"
+        }
+      ],
+      "semantics": {
+        "box": {
+          "checked": {
+            "ariaState": "aria-checked",
+            "map": {
+              "unchecked": "false",
+              "checked": "true",
+              "indeterminate": "mixed"
+            }
+          }
+        }
+      },
+      "vectors": [
+        {
+          "name": "activate on an indeterminate checkbox checks it",
+          "start": {
+            "isSelected": false,
+            "isIndeterminate": true
+          },
+          "steps": [
+            {
+              "intent": "activate"
+            }
+          ],
+          "expect": [
+            {
+              "after": 1,
+              "facets": {
+                "checked": "checked"
+              },
+              "emit": [
+                {
+                  "change": {
+                    "isSelected": true,
+                    "isIndeterminate": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "disabled ignores activation",
+          "start": {
+            "isSelected": false,
+            "isDisabled": true
+          },
+          "steps": [
+            {
+              "intent": "activate"
+            }
+          ],
+          "expect": [
+            {
+              "after": 1,
+              "facets": {
+                "checked": "unchecked"
+              },
+              "emit": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

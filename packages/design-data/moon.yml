@@ -71,6 +71,18 @@ tasks:
       - "scripts/validate-visuals.js"
       - "/packages/design-data-spec/schemas/component-visual.schema.json"
 
+  # Validate behavior contracts (behaviors/, when present) and the conformance baseline
+  # against behavior.schema.json (AJV).
+  validate-behaviors:
+    command: node
+    args:
+      - scripts/validate-behaviors.js
+    inputs:
+      - "behaviors/**/*.json"
+      - "scripts/validate-behaviors.js"
+      - "/packages/design-data-spec/schemas/behavior.schema.json"
+      - "/packages/design-data-spec/conformance/valid/behavior-contract/dataset.json"
+
   # Self-tests of the icon importer and the fused-property codemod, plus invariants of the committed icons/ files. Regenerate with: node scripts/import-icons.mjs <react-spectrum checkout> <sha>
   test:
     command: node
@@ -153,6 +165,7 @@ tasks:
       - ~:validate-dataset
       - ~:validate-registry
       - ~:validate-visuals
+      - ~:validate-behaviors
     inputs:
       - "@globs(tokens)"
       - "@globs(catalogs)"

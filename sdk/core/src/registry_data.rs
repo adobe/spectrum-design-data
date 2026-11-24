@@ -3918,6 +3918,188 @@ const ATTRIBUTES_JSON: &str = r##"{
   ]
 }
 "##;
+const FACETS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "facet",
+  "description": "Facets: named, finite-valued views of a component's state that the appearance layer may read (spec/behavior-contract.md). `source: state-group` facets derive from state options a component declares, through the `from` and `values` mapping in its behavior contract; `source: interaction` facets come from the shared `interactive` base. `values` lists the allowed value ids. `stateName` maps an interaction facet to the interaction state name (states.json) a recipe resolves against.",
+  "values": [
+    {
+      "id": "checked",
+      "label": "Checked",
+      "description": "Whether a control is checked. Derived from `isSelected`, and for a tri-state control also `isIndeterminate` (first matching value wins; Checkbox is the worked example).",
+      "source": "state-group",
+      "values": ["unchecked", "checked", "indeterminate"],
+      "from": ["isSelected", "isIndeterminate"]
+    },
+    {
+      "id": "disabled",
+      "label": "Disabled",
+      "description": "Whether the control ignores all interaction and focus.",
+      "source": "state-group",
+      "values": ["false", "true"],
+      "from": ["isDisabled"]
+    },
+    {
+      "id": "readOnly",
+      "label": "Read only",
+      "description": "Whether the control keeps focus and announces its state but ignores activation.",
+      "source": "state-group",
+      "values": ["false", "true"],
+      "from": ["isReadOnly"]
+    },
+    {
+      "id": "hovered",
+      "label": "Hovered",
+      "description": "Whether a pointer is over the control.",
+      "source": "interaction",
+      "values": ["false", "true"],
+      "needs": ["pointer-hover"],
+      "stateName": "hover"
+    },
+    {
+      "id": "pressed",
+      "label": "Pressed",
+      "description": "Whether a press is in progress on the control.",
+      "source": "interaction",
+      "values": ["false", "true"],
+      "stateName": "down"
+    },
+    {
+      "id": "focusVisible",
+      "label": "Focus visible",
+      "description": "Whether focus is shown, which is when it arrived by keyboard.",
+      "source": "interaction",
+      "values": ["false", "true"],
+      "needs": ["keyboard"],
+      "stateName": "keyboard-focus"
+    }
+  ]
+}
+"##;
+const INTENTS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "intent",
+  "description": "Interaction intents: the vocabulary of the `intents` and `keyboardIntents` arrays of a component `accessibility` block (spec/accessibility.md), reused unchanged as the events a behavior contract transition or conformance vector names (spec/behavior-contract.md). `usedAs` says which accessibility array carries the value today; `defaultKeys` is informative.",
+  "values": [
+    {
+      "id": "trigger",
+      "label": "Trigger",
+      "description": "Activates or invokes an action",
+      "usedAs": ["intents"]
+    },
+    {
+      "id": "select",
+      "label": "Select",
+      "description": "Selects from a set of options",
+      "usedAs": ["intents"]
+    },
+    {
+      "id": "navigate",
+      "label": "Navigate",
+      "description": "Moves the user to another context",
+      "usedAs": ["intents"]
+    },
+    {
+      "id": "expand",
+      "label": "Expand",
+      "description": "Reveals additional content",
+      "usedAs": ["intents", "keyboardIntents"],
+      "defaultKeys": "Space, Enter, ArrowDown"
+    },
+    {
+      "id": "collapse",
+      "label": "Collapse",
+      "description": "Conceals content",
+      "usedAs": ["intents", "keyboardIntents"],
+      "defaultKeys": "Escape, ArrowUp"
+    },
+    {
+      "id": "input",
+      "label": "Input",
+      "description": "Accepts user-typed text",
+      "usedAs": ["intents"]
+    },
+    {
+      "id": "choose",
+      "label": "Choose",
+      "description": "Picks a value from a range or discrete set",
+      "usedAs": ["intents"]
+    },
+    {
+      "id": "dismiss",
+      "label": "Dismiss",
+      "description": "Closes or removes an element",
+      "usedAs": ["intents", "keyboardIntents"],
+      "defaultKeys": "Escape"
+    },
+    {
+      "id": "activate",
+      "label": "Activate",
+      "description": "Triggers the component's primary action",
+      "usedAs": ["keyboardIntents"],
+      "defaultKeys": "Enter, Space"
+    },
+    {
+      "id": "navigate-options",
+      "label": "Navigate options",
+      "description": "Moves focus through a list of options",
+      "usedAs": ["keyboardIntents"],
+      "defaultKeys": "ArrowUp, ArrowDown"
+    },
+    {
+      "id": "navigate-items",
+      "label": "Navigate items",
+      "description": "Moves focus between peer elements (tabs, toolbar items)",
+      "usedAs": ["keyboardIntents"],
+      "defaultKeys": "ArrowLeft, ArrowRight"
+    },
+    {
+      "id": "increment",
+      "label": "Increment",
+      "description": "Increases a numeric or ranged value",
+      "usedAs": ["keyboardIntents"],
+      "defaultKeys": "ArrowUp, ArrowRight"
+    },
+    {
+      "id": "decrement",
+      "label": "Decrement",
+      "description": "Decreases a numeric or ranged value",
+      "usedAs": ["keyboardIntents"],
+      "defaultKeys": "ArrowDown, ArrowLeft"
+    },
+    {
+      "id": "select-all",
+      "label": "Select all",
+      "description": "Selects all items in a collection",
+      "usedAs": ["keyboardIntents"],
+      "defaultKeys": "Ctrl+A"
+    }
+  ]
+}
+"##;
+const CAPABILITIES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "capability",
+  "description": "Platform capabilities a behavior contract transition or vector may require (spec/behavior-contract.md). An implementation on a platform without a capability neither runs nor fails the vectors that need it.",
+  "values": [
+    {
+      "id": "pointer-hover",
+      "label": "Pointer hover",
+      "description": "The platform has a pointer that can hover without pressing. Without it (touch), the `hovered` facet never becomes true."
+    },
+    {
+      "id": "keyboard",
+      "label": "Keyboard",
+      "description": "The platform has a keyboard, so focus can arrive by keyboard and `focusVisible` can become true."
+    },
+    {
+      "id": "assistive-activation",
+      "label": "Assistive activation",
+      "description": "The platform lets assistive technology activate a control directly (a VoiceOver double tap, a screen reader activate action)."
+    }
+  ]
+}
+"##;
 
 pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "role", "icon"];
 
@@ -3977,6 +4159,9 @@ pub(crate) fn build_registry_map(
     map.insert("icon".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("icon-terms".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
+    map.insert("facets".to_string(), parse_registry(FACETS_JSON));
+    map.insert("intents".to_string(), parse_registry(INTENTS_JSON));
+    map.insert("capabilities".to_string(), parse_registry(CAPABILITIES_JSON));
     map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));
     map.insert("attribute".to_string(), parse_registry(ATTRIBUTES_JSON));
     map

@@ -62,6 +62,10 @@ Validates the `category` field on component declarations.
 **Validated by:** SPEC-034 (advisory — `meta.category` field values SHOULD match the categories registry)\
 **See also:** [Component format](component-format.md)
 
+### Behavior contract registries
+
+`facets.json`, `intents.json` and `capabilities.json` validate `behaviors/<component>.json` (SPEC-118 to SPEC-120; see [Behavior contract](behavior-contract.md)). `intents.json` holds exactly today's `intents` and `keyboardIntents` vocabulary from the [`accessibility`](accessibility.md) block, with `usedAs` naming the array that carries each value. They are not name-object fields, so no field declaration points at them.
+
 ## ID scoping
 
 Registry IDs are scoped to their registry. The same ID **MAY** appear in multiple registries when the same word is a valid term in each registry's distinct validation context. For example, `actions` is a legitimate anatomy term (a group of action controls within a list item) and also a component category — these are unrelated concepts that happen to share a label.

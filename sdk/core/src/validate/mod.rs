@@ -184,6 +184,15 @@ pub fn validate_all_with_platform(
             graph.visuals = TokenGraph::load_spec_visuals(dir)?;
         }
     }
+    // shortcut: `behaviors/` is found as the sibling of `visuals/` (the dataset layout), so no
+    // new path argument reaches the CLI; add `--behaviors-path` if a dataset ever splits them.
+    if let Some(dir) = visuals_path
+        .and_then(Path::parent)
+        .map(|p| p.join("behaviors"))
+        .filter(|d| d.is_dir())
+    {
+        graph.behaviors = TokenGraph::load_spec_behaviors(&dir)?;
+    }
     if let Some(dir) = icons_path {
         if dir.is_dir() {
             graph.icons = TokenGraph::load_spec_icons(dir)?;
