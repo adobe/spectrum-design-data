@@ -4221,6 +4221,12 @@ fn solve_root(
                 _ => Some(v),
             }
         }),
+        content_color: None,
+    };
+    let content_color = host_content_color(&mut cx, root, parts);
+    let host = Host {
+        content_color: content_color.as_deref(),
+        ..host
     };
     let gap = gap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
     let direction = rp(&mut cx, root, "direction");
@@ -6376,14 +6382,37 @@ fn scene_extent(
 
 /// The host root's box a `component` part can `inherit` from: its inner size (outer size
 /// less padding) and corner radius, where the root fixes them.
-#[derive(Default)]
-struct Host {
+#[derive(Default, Clone, Copy)]
+struct Host<'a> {
     /// The width is not known yet: this is the first pass, which leaves the nested root's own
     /// width and reports nothing; the second pass reports.
     defer_width: bool,
     width: Option<f64>,
     height: Option<f64>,
     corner_radius: Option<f64>,
+    /// The color of the host root's first icon or text part, for `inherit: contentColor`.
+    content_color: Option<&'a str>,
+}
+
+/// The host root's content color, for `inherit: contentColor`: that of its first icon or text
+/// child that has one. Read only when a component child inherits it.
+fn host_content_color(
+    cx: &mut Ctx,
+    root: &Value,
+    parts: &serde_json::Map<String, Value>,
+) -> Option<String> {
+    let kids: Vec<&Value> = root["children"]
+        .as_array()?
+        .iter()
+        .filter_map(|id| parts.get(id.as_str()?))
+        .collect();
+    if !kids.iter().any(|p| inherits(p, "contentColor")) {
+        return None;
+    }
+    kids.into_iter()
+        .filter(|p| matches!(p["kind"].as_str(), Some("icon" | "text")))
+        .find_map(|p| cx.eval(p["props"].get("color")))
+        .map(|r| r.value)
 }
 
 /// A `component` part solved on its own: its root size and its nodes, relative to the root's
@@ -6440,7 +6469,7 @@ fn floating_subtree_ids(parts: &serde_json::Map<String, Value>) -> Vec<String> {
     ids
 }
 
-fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<Nested> {
+fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host<'_>) -> Option<Nested> {
     let mut nested = part.get("nested")?.clone();
     for name in part
         .get("inherit")
@@ -6451,9 +6480,10 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
     {
         let value = match name {
             "width" if host.defer_width => continue,
-            "width" => host.width,
-            "height" => host.height,
-            _ => host.corner_radius,
+            "width" => host.width.map(Value::from),
+            "height" => host.height.map(Value::from),
+            "contentColor" => host.content_color.map(Value::from),
+            _ => host.corner_radius.map(Value::from),
         };
         let Some(value) = value else {
             if !host.defer_width {
@@ -6463,8 +6493,17 @@ fn solve_component(cx: &mut Ctx, id: &str, part: &Value, host: &Host) -> Option<
             }
             continue;
         };
+        let bound = serde_json::json!({ "value": value });
+        if name == "contentColor" {
+            for p in nested["parts"].as_object_mut()?.values_mut() {
+                if matches!(p["kind"].as_str(), Some("icon" | "text")) {
+                    p["props"]["color"] = bound.clone();
+                }
+            }
+            continue;
+        }
         let root = nested["root"].as_str().unwrap_or_default().to_string();
-        nested["parts"][&root]["props"][name] = serde_json::json!({ "value": value });
+        nested["parts"][&root]["props"][name] = bound;
     }
     let variant = match CompiledVariant::from_value(&nested) {
         Ok(v) => v,
