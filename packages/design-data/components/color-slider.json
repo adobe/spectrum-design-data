@@ -49,7 +49,7 @@
   "options": {
     "channel": {
       "type": "string",
-      "default": "hue",
+      "default": "blue",
       "description": "Which channel of the color this slider controls. Use 'alpha' for opacity.",
       "values": [
         {
@@ -117,28 +117,62 @@
     },
     "label": {
       "type": "string",
+      "default": "Blue",
       "description": "The field label text (Figma Show label, RSP label)."
     },
     "color": {
       "type": "string",
+      "default": "#3b63fb",
       "description": "The color whose channel the slider adjusts (S2 value). The gradient ramp is computed from it and the channel. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
     },
     "colorSpace": {
       "type": "string",
-      "description": "The color space the channel belongs to (S2 colorSpace). Defaults to the color's own space.",
+      "description": "The color space the channel belongs to (S2 colorSpace). Defaults to the color's own space, or the one the channel belongs to.",
       "values": [
-        {
-          "value": "rgb"
-        },
         {
           "value": "hsl"
         },
         {
           "value": "hsb"
+        },
+        {
+          "value": "rgb"
         }
       ]
     }
   },
+  "constraints": [
+    {
+      "when": {
+        "colorSpace": "rgb"
+      },
+      "require": {
+        "channel": ["red", "green", "blue", "alpha"]
+      },
+      "severity": "error",
+      "description": "The rgb color space has the red, green, blue and alpha channels."
+    },
+    {
+      "when": {
+        "colorSpace": "hsl"
+      },
+      "require": {
+        "channel": ["hue", "saturation", "lightness", "alpha"]
+      },
+      "severity": "error",
+      "description": "The hsl color space has the hue, saturation, lightness and alpha channels."
+    },
+    {
+      "when": {
+        "colorSpace": "hsb"
+      },
+      "require": {
+        "channel": ["hue", "saturation", "brightness", "alpha"]
+      },
+      "severity": "error",
+      "description": "The hsb color space has the hue, saturation, brightness and alpha channels."
+    }
+  ],
   "anatomy": [
     {
       "name": "container",
