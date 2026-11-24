@@ -324,6 +324,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.5.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-23",
+      "commit": "eb04d44c026bf9667f7bcede2ea19a6b79c7f2c0",
+      "commits": [
+        {
+          "commit": "462d974f56b5d11a198c0ac5eb1ccda8d5c35369",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2109,"title":"chore: use US English spelling and add a spelling guard","url":"https://github.com/adobe/spectrum-design-data/pull/2109"},
+          "entries": [
+            {"id":"462d974f-0","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"alert-dialog/anatomy/overlay","name":"overlay","fields":[{"path":"description","before":"Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its colour and opacity.","after":"Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its color and opacity."}]}
+          ]
+        }
+      ]
     }
   ]
 }

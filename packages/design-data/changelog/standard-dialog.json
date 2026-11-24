@@ -252,6 +252,35 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.5.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-23",
+      "commit": "eb04d44c026bf9667f7bcede2ea19a6b79c7f2c0",
+      "commits": [
+        {
+          "commit": "ac0d75035b589ab4df3f3b2fe040068080b20767",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2101,"title":"feat(design-data): rename standard-dialog and coach-mark hideImage to showImage","url":"https://github.com/adobe/spectrum-design-data/pull/2101"},
+          "entries": [
+            {"id":"ac0d7503-0","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"standard-dialog/options/hideImage","name":"hideImage","fields":[],"before":{"type":"boolean","default":false,"description":"Optional image to display in dialog."}},
+            {"id":"ac0d7503-1","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"standard-dialog/options/showImage","name":"showImage","fields":[],"after":{"type":"boolean","default":false,"description":"Shows the optional cover image at the top of the dialog."}},
+            {"id":"ac0d7503-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/cover-image","name":"cover-image","fields":[{"path":"description","before":"Optional image at the top. Hidden with hideImage.","after":"Optional image at the top. Shown with showImage."}]},
+            {"id":"ac0d7503-3","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["hideImage","footerContent","primaryActionLabel","secondaryActionLabel","cancelActionLabel","hideCloseButton"],"after":["showImage","footerContent","primaryActionLabel","secondaryActionLabel","cancelActionLabel","hideCloseButton"]}]}
+          ]
+        },
+        {
+          "commit": "462d974f56b5d11a198c0ac5eb1ccda8d5c35369",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2109,"title":"chore: use US English spelling and add a spelling guard","url":"https://github.com/adobe/spectrum-design-data/pull/2109"},
+          "entries": [
+            {"id":"462d974f-0","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomy/overlay","name":"overlay","fields":[{"path":"description","before":"Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its colour and opacity.","after":"Semi-transparent backdrop behind the dialog. A top-level part, not drawn inside the surface; it owns its color and opacity."}]},
+            {"id":"462d974f-1","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"standard-dialog/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"Figma S2 Web standard dialog (image, header, body slot plus Description text, footer content and Button group instance, close button), React Spectrum S2 Dialog and AlertDialog slot contexts. Decisions (Garth, 2026-11-20): C3 the backdrop is a top-level overlay part (colour, opacity); C4 the three action parts are one button-group component part; C5 the secondary text is description, with body kept only as the region that hosts the default slot; C6 (default) cover image is cover-image. The Figma standard and alert sets do not draw the overlay; RSP has the Modal underlay. Max widths conflict across sources (gap bead).","after":"Figma S2 Web standard dialog (image, header, body slot plus Description text, footer content and Button group instance, close button), React Spectrum S2 Dialog and AlertDialog slot contexts. Decisions (Garth, 2026-11-20): C3 the backdrop is a top-level overlay part (color, opacity); C4 the three action parts are one button-group component part; C5 the secondary text is description, with body kept only as the region that hosts the default slot; C6 (default) cover image is cover-image. The Figma standard and alert sets do not draw the overlay; RSP has the Modal underlay. Max widths conflict across sources (gap bead)."}]}
+          ]
+        }
+      ]
     }
   ]
 }

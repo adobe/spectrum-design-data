@@ -1,5 +1,43 @@
 # @adobe/design-data-spec
 
+## 7.6.0
+
+### Minor Changes
+
+- [#2112](https://github.com/adobe/spectrum-design-data/pull/2112) [`5f32e67`](https://github.com/adobe/spectrum-design-data/commit/5f32e67bef710b6d1fc5dca1fca661ff06df8392) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe engine features for the calendar range band (all opt-in, no layout revision change).
+  - A stack child that binds no `direction` places itself with its own `justify` and `align`;
+    its `width` may be a fraction of the stack (`relativeTo: parent`).
+  - A flowed box below the root draws per-corner radii (`cornerRadiusStartStart`, ...).
+  - `when.rowPosition` (`first`, `middle`, `last`, `only`): a repeat inside a grid tells each copy
+    its place in its grid row. SPEC-061 validates it. Spec and schema updated.
+  - The calendar band is flush with the range end circles, continuous, and capped at week row
+    edges. Goldens and snapshots are regenerated. Legacy token output is unchanged.
+  - Not done: the dashed range border (needs per-side stroke and dashed stroke support).
+
+- [#2119](https://github.com/adobe/spectrum-design-data/pull/2119) [`f3dbfc8`](https://github.com/adobe/spectrum-design-data/commit/f3dbfc82b22d5bf72b1edbda8ca95cc999313b7e) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe engine: a `dimension` source may carry a `fallback` (opt-in, no layout revision change).
+  - `{"dimension": "width", "fallback": {"relationship": {...}}}` reads the numeric option when
+    it is a positive number, else resolves the fallback (usually the default width relationship).
+    Before, an unset `dimension` hugged the content and could not fall back.
+  - The combo-box and search-field recipes use it: hosts that pass the `width` option
+    (`--option width=300`, WASM `opt.width`) now get that width, and no option keeps the
+    relationship default (144/192/240/288). Search-field's `width` option was dead before.
+    The explorer's Width (px) control sets the demo width and is unchanged.
+  - A renderer that does not read `fallback` treats the size as unset (hug), as before.
+  - Limits: `fallback` is one source (not a `when` list); spec sheets do not read it.
+
+### Patch Changes
+
+- [#2125](https://github.com/adobe/spectrum-design-data/pull/2125) [`b32eb66`](https://github.com/adobe/spectrum-design-data/commit/b32eb6630a42f5f17cff4f59214e50afcbe1385d) Thanks [@GarthDB](https://github.com/GarthDB)! - Recipe engine: a nested component's label follows the request label (layout revision 8).
+  - A `with.label` that reads the host's `label` option got an empty label unless that option was a
+    string. The explorer and `design-data render --label "x"` send the label as the request label,
+    so the field label of checkbox-group, color-slider, combo-box, number-field, picker,
+    radio-group, search-field, slider, text-area and text-field drew nothing. The request label
+    now flows to the nested label when the option is a presence flag (`true`).
+  - An empty request label, a `label` option of `false` and a string option behave as before.
+  - Output changes for those ten recipes only (their snapshots and 29 goldens); every other
+    recipe is byte-identical. `LAYOUT_REVISION` and the dataset `layoutRevision` are now 8;
+    `requires.cli` stays at the unreleased 0.63.5, which carries revision 7 and 8 together.
+
 ## 7.5.0
 
 ### Minor Changes

@@ -95,6 +95,23 @@
           "metadata": {"count":4,"fields":["scope.options.size"]}
         }
       ]
+    },
+    {
+      "release": "4.5.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-23",
+      "commit": "eb04d44c026bf9667f7bcede2ea19a6b79c7f2c0",
+      "commits": [
+        {
+          "commit": "5129ac567430ed2f752db1d35f0f78b55e8e101a",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2108,"title":"fix(design-data): honor row box justify and root icon rotation (layout revision 7)","url":"https://github.com/adobe/spectrum-design-data/pull/2108"},
+          "entries": [
+            {"id":"5129ac56-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"in-field-button/visual/parts/icon","name":"icon","fields":[{"path":"props.rotation.value","after":90}]}
+          ]
+        }
+      ]
     }
   ]
 }

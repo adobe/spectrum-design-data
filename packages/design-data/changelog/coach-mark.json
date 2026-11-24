@@ -255,6 +255,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.5.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-23",
+      "commit": "eb04d44c026bf9667f7bcede2ea19a6b79c7f2c0",
+      "commits": [
+        {
+          "commit": "ac0d75035b589ab4df3f3b2fe040068080b20767",
+          "date": "2026-11-23",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2101,"title":"feat(design-data): rename standard-dialog and coach-mark hideImage to showImage","url":"https://github.com/adobe/spectrum-design-data/pull/2101"},
+          "entries": [
+            {"id":"ac0d7503-0","kind":"option","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"coach-mark/options/hideImage","name":"hideImage","fields":[],"before":{"type":"boolean","default":false,"description":"Optional image to display in dialog."}},
+            {"id":"ac0d7503-1","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"coach-mark/options/showImage","name":"showImage","fields":[],"after":{"type":"boolean","default":true,"description":"Shows the optional cover image at the top of the coach mark."}},
+            {"id":"ac0d7503-2","kind":"anatomy-part","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"coach-mark/anatomy/cover-image","name":"cover-image","fields":[{"path":"description","before":"Optional image at the top, 16:9 or 4:3. Hidden with hideImage.","after":"Optional image at the top, 16:9 or 4:3. Shown with showImage."}]},
+            {"id":"ac0d7503-3","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"coach-mark/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["actions","hideImage"],"after":["actions","showImage"]}]}
+          ]
+        }
+      ]
     }
   ]
 }
