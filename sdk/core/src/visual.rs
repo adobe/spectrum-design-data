@@ -7815,10 +7815,12 @@ pub fn progress_geometry(n: &SceneNode) -> (f64, f64, f64, f64) {
     (n.x + n.w / 2.0, n.y + n.h / 2.0, side / 2.0 - sw / 2.0, sw)
 }
 
-/// Layout revision of this solver. Bump it, and `packages/design-data/dataset.json`, in the
-/// same change whenever a solver or layout-semantics change alters how existing recipes render
-/// (a changed `recipe-snapshots.json`). A data-only snapshot change (same geometry and resolved
-/// values) does not bump it.
+/// Layout revision of this solver. Bump it only when the engine changes how existing recipes lay
+/// out in a way an old CLI cannot reproduce from the same dataset (a geometry or structure change
+/// to existing scenes). A resolved color or value from new data, or from a new feature old CLIs
+/// ignore (a recipe prop, default or option), is not a bump: `requires.cli` covers that. A rev-N
+/// dataset is refused by a CLI below N, so bump this, the CLI version, `layoutRevision` and
+/// `requires.cli` together in one PR after the previous release is tagged.
 pub const LAYOUT_REVISION: u32 = 8;
 
 /// Warn when the dataset's `layoutRevision` (`dataset.json`; absent is 0) differs from
