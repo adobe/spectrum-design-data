@@ -32,6 +32,7 @@ const EXPECTED_TOOLS = [
   "design-data-suggest",
   "design-data-refinements",
   "design-data-component-tokens",
+  "design-data-token-usage",
   "design-data-contrast",
   "design-data-component",
   "design-data-component-search",
@@ -250,9 +251,9 @@ test("design-data-render rejects a component without a recipe", async (t) => {
 
 // ── structural tests ──────────────────────────────────────────────────────────
 
-test("createDesignDataTools exposes fourteen tools", (t) => {
+test("createDesignDataTools exposes fifteen tools", (t) => {
   const tools = createDesignDataTools();
-  t.is(tools.length, 14);
+  t.is(tools.length, 15);
   t.deepEqual(
     tools.map(({ name }) => name),
     EXPECTED_TOOLS,
@@ -1033,6 +1034,23 @@ test("design-data-contrast computes WCAG ratios for colors and tokens", async (t
   await t.throwsAsync(() =>
     tool.handler({ foreground: "nope", background: "#fff" }),
   );
+});
+
+test("design-data-token-usage lists the components that bind a token, directly or through an alias", async (t) => {
+  const tool = byName()["design-data-token-usage"];
+  const accent = await tool.handler({
+    token: "accent-background-color-default",
+    limit: 50,
+  });
+  t.true(accent.total > 1);
+  const button = accent.usedBy.find((u) => u.component === "button");
+  t.true(button.uses.some((u) => u.context === "Background"));
+  const primitive = await tool.handler({
+    token: "property=color colorFamily=gray scaleIndex=100",
+    limit: 50,
+  });
+  t.true(primitive.usedBy.length > 0);
+  await t.throwsAsync(() => tool.handler({ token: "no-such-token" }));
 });
 
 test("design-data-component-tokens narrows by option values and collapses a mode to one value", async (t) => {
