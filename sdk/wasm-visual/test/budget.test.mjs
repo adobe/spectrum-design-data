@@ -34,9 +34,9 @@ const { Engine } = createRequire(import.meta.url)(`${pkg}.js`);
 // the engine, and say what grew.
 const MAX_RAW = 580_000;
 const MAX_GZIP = 214_000;
-// A shared CI runner, busy with other moon tasks, measured 0.48 ms where a laptop measures
-// 0.15 ms (PR #2124), so CI gets 1 ms: still a failure for a 5x regression, not for noise.
-const MAX_SCENE_MS = process.env.CI ? 1 : 0.2;
+// A shared CI runner, busy with other moon tasks, measured 0.48 and 0.65 ms where a laptop
+// measures 0.15 ms (PR #2124), so CI gets 2 ms: still a failure for a 10x regression, not noise.
+const MAX_SCENE_MS = process.env.CI ? 2 : 0.2;
 
 it("the wasm fits its size budget (node and web targets)", () => {
   const web = new URL(
