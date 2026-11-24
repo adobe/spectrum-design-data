@@ -28,13 +28,19 @@ describe("the explorer paints no SVG of its own", () => {
       for (const re of [
         /\bnodeSvg\b|\bboxSvg\b|\bprogressSvg\b|\biconSvg\b|\broundedPath\b/,
         /<(rect|circle|path|text)\b[^>]*\$\{\s*n\.(x|fill|stroke|font_size)/,
-        /\.nodes\s*\.\s*map\([^)]*Svg/,
+        /\.nodes\s*\.\s*(?:map|flatMap|forEach)\([^;\n]*(?:Svg|paint|draw)/i,
+        // Whatever it is called: a node-taking function that returns a shape, or a
+        // node field spliced into markup.
+        /\b(?:paint|draw|render)\w*(?:Node|Nodes|Scene)\b/i,
+        /\b(?:n|node)\)?\s*=>\s*[`"'(]*\s*<(?:rect|circle|ellipse|path|text|image|line|polygon|g)\b/,
+        /function\s*\w*\s*\(\s*(?:n|node)\b[^)]*\)\s*\{[^}]*<(?:rect|circle|ellipse|path|text|image|line|polygon|g)\b/,
+        /\$\{[^}]*\b(?:n|node)\.[a-z_]+/,
       ])
         assert.doesNotMatch(src, re, `${f} paints scene nodes`);
   });
 
   it("backend.js hands the page the engine's svg", () => {
     const b = sources.find(([f]) => f === "backend.js")[1];
-    assert.match(b, /scene\.svg = engine\.svg\(/);
+    assert.match(b, /defineProperty\(scene, "svg"[\s\S]*?engine\.svg\(/);
   });
 });

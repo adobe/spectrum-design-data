@@ -1006,7 +1006,7 @@
 
       // ---- scene -> SVG ------------------------------------------------------
       // The engine draws (scene.svg, from Engine.svg); the page only places it. Each part's
-      // first element carries data-part and data-tokens.
+      // first element carries data-part and data-tokens; linkParts() copies the name onto the rest.
       const sceneSvg = (s) => s.svg;
       const svgInner = (s) =>
         s.svg.replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "");
@@ -1282,6 +1282,7 @@
       });
       const setWorld = (html) => {
         $("world").innerHTML = html;
+        linkParts();
       };
 
       function paint() {
@@ -1910,6 +1911,21 @@
       }
 
       // Hover links the stage and the table by part name and token name.
+      // The engine puts data-part on a part's first element only. The elements after it
+      // (stroke, image, pattern overlay) belong to the same part: give them its name.
+      function linkParts() {
+        let part;
+        for (const e of $("zg")?.querySelectorAll(
+          "[data-part], rect, path, circle, ellipse, image, text, line, polygon, polyline",
+        ) ?? []) {
+          if (e.dataset.part) part = e.dataset.part;
+          else if (
+            part &&
+            !e.closest("defs, pattern, clipPath, mask, [data-part]")
+          )
+            e.dataset.part = part;
+        }
+      }
       const lit = (on, sel, attr, val) =>
         document
           .querySelectorAll(`${sel}[${attr}="${CSS.escape(val)}"]`)
@@ -1922,7 +1938,8 @@
           lit(on, "#tokens tr.tr", "data-token", token);
           lit(on, ".mono-pill", "data-token", token);
         } else if (part) {
-          lit(on, "#zg [data-part], .co", "data-part", part);
+          lit(on, "#zg [data-part]", "data-part", part);
+          lit(on, ".co", "data-part", part);
           lit(on, "#tokens details", "data-part", part);
         }
       }
