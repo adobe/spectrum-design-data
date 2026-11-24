@@ -11667,6 +11667,31 @@ mod tests {
     }
 
     #[test]
+    fn a_nested_recipe_can_inherit_the_host_roots_content_color() {
+        let g = nest_graph(&[]);
+        let mut r = host(serde_json::json!({
+            "r": { "kind": "box", "children": ["t", "a"], "props": lit_props(&[("width", 100.0)]) },
+            "t": { "kind": "text", "props": { "color": { "value": "rgb(1, 2, 3)" } } },
+            "a": comp("clear-button", serde_json::json!({}))
+        }));
+        let cross = |s: &Scene| part(s, "a.icon").unwrap().color.clone();
+        let own = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_ne!(cross(&own).as_deref(), Some("rgb(1, 2, 3)"));
+        r["parts"]["a"]["inherit"] = serde_json::json!(["contentColor"]);
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(cross(&s).as_deref(), Some("rgb(1, 2, 3)"));
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        // A host with no icon or text color reports it and the nested recipe keeps its own.
+        r["parts"]["t"]["props"] = serde_json::json!({});
+        let s = nest_scene(&g, &r, "m", &[], &[]).unwrap();
+        assert_eq!(cross(&s), cross(&own));
+        assert!(s
+            .diagnostics
+            .iter()
+            .any(|d| d.contains("cannot inherit contentColor")));
+    }
+
+    #[test]
     fn an_inherited_width_fills_a_hugging_host_after_its_other_parts() {
         let g = nest_graph(&[]);
         let mut r = host(serde_json::json!({

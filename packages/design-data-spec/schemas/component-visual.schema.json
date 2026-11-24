@@ -199,7 +199,7 @@
           "items": {
             "enum": ["width", "height", "cornerRadius", "contentColor"]
           },
-          "description": "For a component part that is a flowed child of the root: which of the host root's own values the nested root takes: its inner width or height (outer size less padding) its corner radius, or `contentColor` (the color of the host root's first icon or text child, which replaces the color of the nested recipe's icon and text parts). A value the root does not fix is reported and the nested recipe keeps its own."
+          "description": "For a component part that is a flowed child of the root: which of the host root's own values the nested root takes: its inner width or height (outer size less padding), its corner radius, or `contentColor` (the color of the host root's first icon or text child, which replaces the color of the nested recipe's icon and text parts). A value the root does not fix is reported and the nested recipe keeps its own."
         },
         "with": {
           "type": "object",
