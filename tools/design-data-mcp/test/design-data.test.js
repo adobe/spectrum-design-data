@@ -1011,6 +1011,38 @@ test("design-data-component-tokens lists what a component uses, by context and s
   await t.throwsAsync(() => tool.handler({ component: "no-such-component" }));
 });
 
+test("design-data-component-tokens narrows by option values and collapses a mode to one value", async (t) => {
+  const tool = byName()["design-data-component-tokens"];
+  const all = await tool.handler({ component: "button", limit: 500 });
+  const accent = await tool.handler({
+    component: "button",
+    limit: 500,
+    options: { variant: "accent", style: "fill" },
+    colorScheme: "light",
+  });
+  t.true(accent.total > 0 && accent.total < all.total);
+  for (const b of accent.bindings) {
+    const variant = b.when?.variant;
+    t.true(variant === undefined || [variant].flat().includes("accent"));
+    t.is(b.values?.colorScheme, undefined);
+  }
+  t.true(accent.bindings.some((b) => typeof b.value === "string"));
+});
+
+test("design-data-component-tokens says when no binding pins the requested state", async (t) => {
+  const tool = byName()["design-data-component-tokens"];
+  const disabled = await tool.handler({
+    component: "action-button",
+    state: "disabled",
+  });
+  t.regex(disabled.stateHint, /isDisabled/);
+  const hover = await tool.handler({
+    component: "action-button",
+    state: "hover",
+  });
+  t.is(hover.stateHint, undefined);
+});
+
 test("design-data-query filters by purpose fields and sorts by specificity", async (t) => {
   const query = byName()["design-data-query"];
   const accent = await query.handler({
