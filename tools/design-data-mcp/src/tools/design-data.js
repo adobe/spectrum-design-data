@@ -959,6 +959,30 @@ export function createDesignDataTools() {
           );
         }
         if (view === "states") {
+          // An option the caller did not name takes its declared default; a binding pinned to a
+          // declared option that has no default (staticColor) is for a case nobody asked for.
+          const declared = loadDataFile("components", component)?.options ?? {};
+          const effective = { ...options };
+          for (const [key, def] of Object.entries(declared)) {
+            if (effective[key] === undefined && def?.default !== undefined) {
+              effective[key] = def.default;
+            }
+          }
+          bindings = bindings.filter((b) =>
+            Object.entries(b.when ?? {}).every(([key, pins]) => {
+              if (
+                key === "state" ||
+                key === "isDisabled" ||
+                !(key in declared)
+              ) {
+                return true;
+              }
+              return (
+                effective[key] !== undefined &&
+                [pins].flat().includes(effective[key])
+              );
+            }),
+          );
           bindings = bindings.filter((b) => matchesSize(b, options?.size));
           const rows = statesView(bindings, { colorScheme, scale });
           const out = {

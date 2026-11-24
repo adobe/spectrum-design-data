@@ -1068,6 +1068,20 @@ test("design-data-component-tokens view states gives one row per context with a 
   t.regex(background.default, /accent-background-color-default/);
   t.regex(background.hover, /accent-background-color-hover/);
   t.truthy(background.disabled);
+  const secondary = await tool.handler({
+    component: "button",
+    view: "states",
+    options: { variant: "secondary", style: "fill", size: "m" },
+    colorScheme: "light",
+    scale: "desktop",
+  });
+  const fill = secondary.rows.find((r) => r.context === "Background");
+  t.regex(fill.default, /gray scaleIndex=100: rgb\(233/);
+  t.notRegex(
+    fill.default,
+    /transparent/,
+    "static-color bindings are not a default",
+  );
   t.false(
     view.rows.some((r) => /small|large|-75|-200|-300/.test(r.default ?? "")),
     "only the requested size is listed",
