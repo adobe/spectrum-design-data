@@ -29,6 +29,22 @@
       "from": ["isReadOnly"]
     },
     {
+      "id": "orientation",
+      "label": "Orientation",
+      "description": "Whether a group lays its items out horizontally or vertically. Derived from `orientation`.",
+      "source": "state-group",
+      "values": ["horizontal", "vertical"],
+      "from": ["orientation"]
+    },
+    {
+      "id": "arrowOrder",
+      "label": "Arrow order",
+      "description": "Whether a group's Left and Right arrows swap: `mirrored` only when the group is horizontal and `direction` is `rtl`, else `natural`. Up and Down never swap.",
+      "source": "state-group",
+      "values": ["natural", "mirrored"],
+      "from": ["orientation", "direction"]
+    },
+    {
       "id": "hovered",
       "label": "Hovered",
       "description": "Whether a pointer is over the control.",

@@ -8,6 +8,21 @@
     },
     "checkbox": {
       "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }]
+    },
+    "button": {
+      "keyboard": [
+        { "key": "Enter", "down": ["press-start", "press-end"] },
+        { "key": "Space", "down": "press-start", "up": "press-end" }
+      ]
+    },
+    "radio": {
+      "keyboard": [
+        { "key": "Space", "down": "press-start", "up": "press-end" },
+        { "key": "ArrowDown", "down": "navigate-next" },
+        { "key": "ArrowRight", "down": "navigate-next" },
+        { "key": "ArrowUp", "down": "navigate-previous" },
+        { "key": "ArrowLeft", "down": "navigate-previous" }
+      ]
     }
   }
 }

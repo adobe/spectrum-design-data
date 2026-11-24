@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-pattern.schema.json",
+  "pattern": "press",
+  "description": "The shared base of a control that is pressed and changes no value (action-button now, the buttons later): it reads `isDisabled` as the `disabled` facet and answers `activate` with a `press` event while the control is not disabled. A completed press (`press-end` after `press-start`) reaches `activate` through the part's `press`, as in the interactive pattern. The extending contract lists `isDisabled` in its `state`.",
+  "extends": ["interactive"],
+  "facets": {
+    "disabled": {
+      "from": "isDisabled",
+      "values": {
+        "false": false,
+        "true": true
+      }
+    }
+  },
+  "transitions": [
+    {
+      "on": "activate",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "set": {} },
+      "emit": "press"
+    }
+  ]
+}

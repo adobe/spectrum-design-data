@@ -1,0 +1,348 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "radio-button",
+  "vectors": [
+    {
+      "name": "activate selects it",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "activate on a selected radio changes nothing",
+      "start": {
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a completed press selects it",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": true,
+            "checked": "unchecked"
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a cancelled press does not select",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-cancel"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "disabled ignores activation",
+      "start": {
+        "isSelected": false,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "unchecked",
+            "disabled": true
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "navigating onto a radio selects it (next)",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigating onto a radio selects it (previous)",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigating onto the selected radio changes nothing",
+      "start": {
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "checked": "checked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "navigation never lands on a disabled radio",
+      "start": {
+        "isSelected": false,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        },
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "navigate-first and navigate-last do not select",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "navigate-first"
+        },
+        {
+          "intent": "navigate-last"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "keyboard focus shows focus-visible",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": true,
+            "checked": "unchecked"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pointer focus does not show focus-visible",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "pointer"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "hover follows the pointer",
+      "needs": ["pointer-hover"],
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "pointer-leave"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hovered": true
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "hovered": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "disabled takes no focus",
+      "needs": ["keyboard"],
+      "start": {
+        "isSelected": false,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": false,
+            "disabled": true
+          }
+        }
+      ]
+    }
+  ]
+}

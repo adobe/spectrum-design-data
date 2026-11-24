@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "action-button",
+  "extends": ["press"],
+  "state": ["isDisabled"],
+  "parts": {
+    "container": {
+      "role": "button",
+      "focus": "tab-stop",
+      "press": "activate"
+    }
+  },
+  "wcag": [
+    { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+    { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+  ]
+}

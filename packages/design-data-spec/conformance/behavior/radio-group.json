@@ -1,0 +1,109 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "radio-group",
+  "vectors": [
+    {
+      "name": "a vertical group keeps its arrows",
+      "start": {
+        "orientation": "vertical"
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "orientation": "vertical",
+            "arrowOrder": "natural"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a horizontal left-to-right group keeps its arrows",
+      "start": {
+        "orientation": "horizontal",
+        "direction": "ltr"
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "orientation": "horizontal",
+            "arrowOrder": "natural"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a horizontal right-to-left group mirrors Left and Right",
+      "start": {
+        "orientation": "horizontal",
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "orientation": "horizontal",
+            "arrowOrder": "mirrored"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a vertical right-to-left group keeps its arrows",
+      "start": {
+        "orientation": "vertical",
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "orientation": "vertical",
+            "arrowOrder": "natural"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled group reads as disabled",
+      "start": {
+        "orientation": "vertical",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    }
+  ]
+}

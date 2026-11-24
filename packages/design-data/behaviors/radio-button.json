@@ -1,0 +1,71 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "radio-button",
+  "extends": ["interactive"],
+  "state": ["isSelected", "isDisabled"],
+  "facets": {
+    "checked": {
+      "from": "isSelected",
+      "values": { "unchecked": false, "checked": true }
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": { "false": false, "true": true }
+    }
+  },
+  "parts": {
+    "control": {
+      "role": "radio",
+      "focus": "roving",
+      "press": "activate"
+    }
+  },
+  "transitions": [
+    {
+      "on": "activate",
+      "guard": {
+        "all": [
+          { "facet": "disabled", "is": "false" },
+          { "facet": "checked", "is": "unchecked" }
+        ]
+      },
+      "do": { "set": { "isSelected": true } },
+      "emit": "change"
+    },
+    {
+      "on": "navigate-next",
+      "guard": {
+        "all": [
+          { "facet": "disabled", "is": "false" },
+          { "facet": "checked", "is": "unchecked" }
+        ]
+      },
+      "do": { "set": { "isSelected": true } },
+      "emit": "change"
+    },
+    {
+      "on": "navigate-previous",
+      "guard": {
+        "all": [
+          { "facet": "disabled", "is": "false" },
+          { "facet": "checked", "is": "unchecked" }
+        ]
+      },
+      "do": { "set": { "isSelected": true } },
+      "emit": "change"
+    }
+  ],
+  "semantics": {
+    "control": {
+      "checked": {
+        "ariaState": "aria-checked",
+        "map": { "unchecked": "false", "checked": "true" }
+      }
+    }
+  },
+  "wcag": [
+    { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+    { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+    { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+  ]
+}

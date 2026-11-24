@@ -36,6 +36,10 @@ pub(crate) fn warning(
     }
 }
 
+/// Properties of the environment, not options, that a contract may list in `state` and a vector
+/// may set in `start`: the text direction a group reads its arrow keys against.
+pub(crate) const ENVIRONMENT_PROPERTIES: &[&str] = &["direction"];
+
 /// Option names the component declares, or `None` when it is not loaded (rules skip then).
 pub(crate) fn option_names(graph: &TokenGraph, b: &BehaviorRecord) -> Option<HashSet<String>> {
     let c = graph.components.iter().find(|c| c.name == b.component)?;
@@ -46,6 +50,10 @@ pub(crate) fn option_names(graph: &TokenGraph, b: &BehaviorRecord) -> Option<Has
             .map(|o| o.keys().cloned().collect())
             .unwrap_or_default(),
     )
+    .map(|mut names: HashSet<String>| {
+        names.extend(ENVIRONMENT_PROPERTIES.iter().map(|p| p.to_string()));
+        names
+    })
 }
 
 /// Anatomy part names the component declares, or `None` when it declares no anatomy.
