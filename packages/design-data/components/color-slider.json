@@ -121,6 +121,7 @@
     },
     "color": {
       "type": "string",
+      "default": "#3b63fb",
       "description": "The color whose channel the slider adjusts (S2 value). The gradient ramp is computed from it and the channel. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
     },
     "colorSpace": {
@@ -139,6 +140,26 @@
       ]
     }
   },
+  "constraints": [
+    {
+      "when": { "colorSpace": "rgb" },
+      "require": { "channel": ["red", "green", "blue", "alpha"] },
+      "severity": "error",
+      "description": "The rgb color space has the red, green, blue and alpha channels."
+    },
+    {
+      "when": { "colorSpace": "hsl" },
+      "require": { "channel": ["hue", "saturation", "lightness", "alpha"] },
+      "severity": "error",
+      "description": "The hsl color space has the hue, saturation, lightness and alpha channels."
+    },
+    {
+      "when": { "colorSpace": "hsb" },
+      "require": { "channel": ["hue", "saturation", "brightness", "alpha"] },
+      "severity": "error",
+      "description": "The hsb color space has the hue, saturation, brightness and alpha channels."
+    }
+  ],
   "anatomy": [
     {
       "name": "container",

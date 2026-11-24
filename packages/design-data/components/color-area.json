@@ -87,6 +87,7 @@
     },
     "color": {
       "type": "string",
+      "default": "#3b63fb",
       "description": "The color whose two channels the area adjusts (S2 value). The gradient is computed from it and the channels. Accepts a CSS color string: #rgb, #rgba, #rrggbb, #rrggbbaa, rgb(), rgba(), hsl(), hsla(), hsb(), hsba() or transparent (the forms the ramp engine parses)."
     },
     "colorSpace": {
