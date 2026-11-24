@@ -127,8 +127,7 @@
     },
     "colorSpace": {
       "type": "string",
-      "default": "rgb",
-      "description": "The color space the channel belongs to (S2 colorSpace). Defaults to rgb.",
+      "description": "The color space the channel belongs to (S2 colorSpace). Defaults to the color's own space, or the one the channel belongs to.",
       "values": [
         {
           "value": "rgb"
