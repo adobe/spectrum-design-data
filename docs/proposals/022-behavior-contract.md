@@ -224,6 +224,145 @@ and a negative one:
 
 **Running them.** An implementation provides a small adapter: set the start options, map each intent to a real event (dispatch a key event, call the native method, send an accessibility action), then read the facets back from its own state attributes. The SDK ships a reference runner for the data model itself. Each implementation reports pass, fail or not applicable (missing capability). A failure is either a bug in the implementation or in the contract; deciding which is a `meaning` call.
 
+## Per-platform key bindings
+
+**Status:** proposed, not decided. Decision A512 (Garth, 2026-11-24): the behavior contracts must be able to express which keys act on a component per platform (Space versus Enter on a switch or checkbox, bead `qkj5.398`, a source conflict). Today a contract names intents only and the spec page says a vector "says nothing about keys", so no key-level vector exists. This is a format change beyond what is merged, and it pulls against principle 12 above (intents stay platform-agnostic; keys are per-platform bindings). The shapes below keep the intent layer intact and differ only in where the key facts live.
+
+### Recommendation
+
+**Shape B: bindings keyed by role, in a per-platform bindings file; key vectors are ordinary conformance vectors with an `input` step.** The contract files for Switch and Checkbox do not change. Reasons:
+
+* Keys vary by **role**, not by component: switch and checkbox share "Space activates, Enter does not"; button is "Enter and Space"; link is "Enter". Roles are already in the contract (`parts.<part>.role`). One binding per role (about 20 roles in use) beats repeating the same map in 33 contracts, and cannot drift per component (principle 1).
+* The contract stays platform-agnostic (principle 12) and a new platform adds one file, not an edit to every contract.
+* It honors A512 in effect: a key-level vector exists per platform and fails if the key mapping is wrong. It departs from the most literal reading ("the contract names keys"), which is Shape A. If Garth wants the keys visible in each contract file, take A.
+
+### Evidence: what implementations do
+
+| Role              | Space                                           | Enter                            | Source                                                                                                                                           |
+| ----------------- | ----------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| switch / checkbox | toggles (on key up)                             | does **not** toggle              | Vector spike: native input, React Spectrum S2 1.8.2, `@ui-sdk/react` 0.1.0-beta.16, SWC gen 1 1.12.6 all pass "Enter does not toggle". Measured. |
+| button            | activates (on key up; shows pressed while held) | activates (on key down)          | HTML native `<button>` and React Aria `usePress`. From the platform's documented behavior, not measured in the spike.                            |
+| link              | does not activate                               | activates                        | HTML native `<a href>` and React Aria `useLink`. Not measured in the spike.                                                                      |
+| radio             | selects the focused radio when none is selected | does not select (submits a form) | Native input. Not measured; the spike's radio vectors exercised arrows only.                                                                     |
+
+Two facts matter for the format: the **event timing differs** (Space fires on key up, Enter on key down for a button), and the same physical key means different things per role. The existing press model already has the pieces (`press-start`, `press-end`, `press`, `activate`), so a binding maps a key and phase to those event intents rather than straight to `activate`.
+
+### Shape A: keys inside the contract, per platform
+
+The contract carries a `bindings` map, per part, keyed by platform id.
+
+```json
+"parts": {
+  "track": {
+    "role": "switch", "focus": "tab-stop", "press": "activate",
+    "bindings": {
+      "web":     { "keyboard": { "Space": "activate" } },
+      "ios":     { "touch": { "tap": "activate" } },
+      "android": { "touch": { "tap": "activate" } }
+    }
+  }
+}
+```
+
+A vector step gains `key` (and the platform it runs on):
+
+```json
+{ "name": "Enter does not toggle", "needs": ["keyboard"], "platform": "web",
+  "start": { "isSelected": false },
+  "steps": [{ "intent": "focus", "via": "keyboard" }, { "key": "Enter" }],
+  "expect": [{ "after": 2, "facets": { "checked": "unchecked" }, "emit": [] }] }
+```
+
+* **No keyboard (iOS touch):** the `ios` entry has no `keyboard` key, and key vectors are `needs: ["keyboard"]`, so they are not applicable.
+* **Runner:** resolves the `key` step through the part's `bindings[platform]` to an intent, then runs the existing transition code. `--platform web` selects the map.
+* **Schema:** `parts.<part>.bindings` (platform id to input kind to key to intent), step `oneOf` `intent` or `key`, a key-name registry. SPEC-119 resolves intents; a new warning for a binding naming an unregistered platform or key.
+* **Cost:** the Space-only fact is copied into Switch, Checkbox, and every future toggle (principle 1 pressure). Every new platform edits every contract. Contracts stop being platform-agnostic, which is the cost principle 12 warns about. Benefit: everything about a component is in one file; this is the literal reading of A512.
+
+### Shape B: a bindings file per platform, keyed by role (recommended)
+
+Bindings live outside the contract, next to the platform that owns them. Incubating location: `platforms/<id>/extensions/behavior-bindings/<platform>.json` (the manifest extension tree already holds platform-local data); a team that extracts its manifest repo takes the file with it. Foundation-level `web` bindings, which every web implementation shares, could instead sit in `packages/design-data/behaviors/bindings/web.json`; see Question 2.
+
+```json
+{
+  "$schema": ".../behavior-bindings.schema.json",
+  "platform": "web",
+  "capabilities": ["keyboard", "pointer-hover", "assistive-activation"],
+  "roles": {
+    "switch":   { "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }] },
+    "checkbox": { "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }] },
+    "button":   { "keyboard": [
+      { "key": "Enter", "down": ["press-start", "press-end"] },
+      { "key": "Space", "down": "press-start", "up": "press-end" }
+    ] },
+    "link":     { "keyboard": [{ "key": "Enter", "down": ["press-start", "press-end"] }] }
+  }
+}
+```
+
+An `ios` file has `"capabilities": ["assistive-activation"]` and `"roles": { "switch": { "touch": [{ "gesture": "tap", "down": "press-start", "up": "press-end" }], "assistive": [{ "action": "activate", "down": "activate" }] } }`: no keyboard entries, so keyboard vectors are not applicable. A platform with no keyboard at all simply omits `keyboard` from `capabilities`.
+
+Key vectors are contract-shaped conformance files, one per platform and role, not one per component, so Switch and Checkbox reuse them:
+
+```json
+{ "platform": "web", "role": "switch",
+  "vectors": [
+    { "name": "Space toggles", "needs": ["keyboard"],
+      "steps": [{ "intent": "focus", "via": "keyboard" },
+                { "input": { "key": "Space", "phase": "down" } },
+                { "input": { "key": "Space", "phase": "up" } }],
+      "expect": [{ "after": 3, "emit": [{ "change": { "isSelected": true } }] }] },
+    { "name": "Enter does not toggle", "needs": ["keyboard"],
+      "steps": [{ "intent": "focus", "via": "keyboard" },
+                { "input": { "key": "Enter", "phase": "down" } },
+                { "input": { "key": "Enter", "phase": "up" } }],
+      "expect": [{ "after": 3, "emit": [] }] }
+  ] }
+```
+
+Placed at `conformance/behavior/bindings/web/switch.json`, applied to every component whose role-carrying part has that role.
+
+* **Runner:** `design-data behavior test --platform web`. For an `input` step it looks up the focused part's `role` in the platform file, turns (key, phase) into the event intents, and feeds them to the existing path. If no binding matches the key, the step produces no intent, which is how "Enter does not toggle" passes. Existing intent vectors run unchanged and unchanged contracts keep working.
+* **Schema:** one new schema `behavior-bindings.schema.json` (platform, capabilities, roles to input kinds to entries); the vector `steps` `oneOf` gains `input`; key names are a small registry (`Space`, `Enter`, `Escape`, arrows, `Home`, `End`, `PageUp`, `PageDown`, `Tab`) aligned with the existing `navigate-*` intents; two warnings (binding names an unregistered key or intent; a platform's role has no binding but a vector needs one).
+* **Cost:** one new file type and one new vector step kind; the contract does not grow. The runner gains a lookup. Roles must be fine-grained enough that a binding is unambiguous; a component whose key behavior is not role-determined (a button that is Enter-only) needs a role override, which is the escape hatch to Shape A.
+
+### Shape C: abstract key classes in the contract, physical keys in the platform file
+
+The contract names a **gesture class** (`toggle`, `press`, `follow`), a registry entry; the platform file maps each class to physical input. Switch: `"press": "activate", "gesture": "toggle"`; the `web` file says `toggle` is Space, `press` is Enter and Space, `follow` is Enter.
+
+* **Pros:** each contract states its keyboard intent without naming a key, and the web mapping is one table; a reader of one contract sees "toggle, not press".
+* **Cons:** a second vocabulary (gesture classes) next to roles and intents (principle 4); the class is almost a restatement of the role; a registry nobody else uses. Roughly the cost of B plus a contract field and a registry. I would not pick it unless B's role granularity proves too coarse.
+
+### Comparison
+
+|                                            | A: in contract               | B: bindings file by role   | C: class in contract                     |
+| ------------------------------------------ | ---------------------------- | -------------------------- | ---------------------------------------- |
+| Switch/Checkbox contract file              | gains `bindings`             | unchanged                  | gains `gesture`                          |
+| Where "Space only" lives                   | each contract, each platform | once per platform and role | once per platform and class              |
+| New platform                               | edits every contract         | one new file               | one new file                             |
+| Principle 12 (platform-agnostic intents)   | strained                     | kept                       | kept                                     |
+| New schema                                 | field on parts               | new schema plus step kind  | field plus registry plus platform schema |
+| Key vector expresses "Space yes, Enter no" | per component, per platform  | per role, per platform     | per class, per platform                  |
+| Literal reading of A512                    | yes                          | no, same effect            | partly                                   |
+
+### Risks
+
+* **Timing and holding.** Space on key up versus Enter on key down, and key repeat (holding Enter on a button fires repeatedly), are not captured by a (key, phase) entry. Starting vocabulary covers down and up only; repeat is out of scope (add when a component needs it).
+* **Role granularity.** Browsers differ on edge cases (a `role="button"` span versus `<button>`, Space on a radio). The bindings describe the **Spectrum-intended** behavior per role, sourced from React Spectrum S2 and verified by vectors, not the browser's.
+* **The conflict bead stays a meaning call.** A binding of `Space` only for switch and checkbox encodes the recommendation in `qkj5.398`. Design has not confirmed it, and the guideline text still says "Space or Enter". Land the binding only after the decision, or mark the vector `needs-decision`.
+* **iOS and Android entries are unverified.** I did not check hardware-keyboard behavior (Full Keyboard Access on iOS) or Android TalkBack; those entries stay empty until an owner supplies them.
+* **Right-to-left and arrow keys.** Arrow flipping belongs to the `navigate-*` intents; bindings map physical arrows to `navigate-*` and the platform flips them, so a binding never encodes RTL.
+
+### What would change the answer
+
+* The owner wants every key visible beside its component in one file (reviewers read one contract): choose A.
+* More than a few components need key behavior that is not determined by role: choose A for those or C.
+* A platform owner wants to ship its mapping without touching foundation data: reinforces B (platform manifest location).
+* Fewer than about 10 roles ever need distinct keys, and only web needs bindings: A is then cheap and B is more structure than needed.
+
+### Not decided here
+
+No schema or data changes ship with this section. The merged spec page sentence "a vector says nothing about keys" stays true until a shape is chosen and the slice that implements it lands.
+
 ## Appearance interface
 
 A recipe's `when` may reference only facets (and size and appearance options). Today a Switch recipe reads `isSelected`, `isDisabled` and the interaction states; after migration it reads `checked`, `disabled`, `hovered`, `pressed`, `focusVisible`. The renderer resolves facets from options plus the requested interaction states, so a render is unchanged. Neutrality is proved the usual way: byte-identical recipe snapshots (`recipe-snapshots.json`) before and after, per component.
