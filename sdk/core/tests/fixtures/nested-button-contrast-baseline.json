@@ -1,0 +1,6 @@
+[
+  "tag isRemovable isSelected=true isEmphasized=false light",
+  "tag isRemovable isSelected=true isEmphasized=false dark",
+  "tag isRemovable isSelected=true isEmphasized=true light",
+  "tag isRemovable isSelected=true isEmphasized=true dark"
+]
