@@ -51,27 +51,28 @@ export path; the Phase B foundation-corpus write-path redirect that gated this h
 
 [`docs/proposals/`](proposals/) holds smaller design proposals that sit under the RFCs. Several are still drafts.
 
-| Proposal                                                                                  | Status                                                                                                   |
-| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| [001 Typography taxonomy](proposals/001-typography-taxonomy.md)                           | Partially adopted (2026-07-08)                                                                           |
-| [002 Component property axes](proposals/002-component-property-axes.md)                   | Draft; in tension with [#1453](https://github.com/adobe/spectrum-design-data/discussions/1453)           |
-| [003 Numeric scale index](proposals/003-numeric-scale-index.md)                           | Implemented                                                                                              |
-| [004 Drop shadow classification](proposals/004-drop-shadow-classification.md)             | Implemented                                                                                              |
-| [005 Compound states](proposals/005-compound-states.md)                                   | Superseded by 006                                                                                        |
-| [006 Compound states as an array](proposals/006-compound-states-as-array.md)              | Accepted                                                                                                 |
-| [006 Vocabulary gaps](proposals/006-vocabulary-gaps.md)                                   | Partly implemented (the number 006 is used twice)                                                        |
-| [007 Configurable name object](proposals/007-configurable-name-object.md)                 | Draft                                                                                                    |
-| [008 Ordinal rank field](proposals/008-ordinal-rank-field.md)                             | Draft                                                                                                    |
-| [009 Typography scale composite](proposals/009-typography-scale-composite.md)             | Draft                                                                                                    |
-| [010 Composite token support](proposals/010-composite-token-support.md)                   | Draft                                                                                                    |
-| [011 String name escape hatch](proposals/011-string-name-escape-hatch.md)                 | Draft                                                                                                    |
-| [012 Space-between decompose](proposals/012-space-between-decompose.md)                   | Complete                                                                                                 |
-| [013 Multimodal model spike samples](proposals/013-multimodal-model-spike-samples.md)     | Complete                                                                                                 |
-| [014 Platform-owned visual recipes](proposals/014-platform-owned-visual-recipes.md)       | Approved (revision 4)                                                                                    |
-| [015 Single visual engine](proposals/015-single-visual-engine.md)                         | Accepted 2026-11-07                                                                                      |
-| [016 Collections and slots](proposals/016-collections-and-slots.md)                       | Collections built; slots are RFC [#1801](https://github.com/adobe/spectrum-design-data/discussions/1801) |
-| [018 Structured relationship identity](proposals/018-structured-relationship-identity.md) | Draft; spike on switch and checkbox                                                                      |
-| [019 Platform deviations](proposals/019-platform-deviations.md)                           | Draft; spec and schema only (issue [#1746](https://github.com/adobe/spectrum-design-data/issues/1746))   |
+| Proposal                                                                                                            | Status                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| [001 Typography taxonomy](proposals/001-typography-taxonomy.md)                                                     | Partially adopted (2026-07-08)                                                                           |
+| [002 Component property axes](proposals/002-component-property-axes.md)                                             | Draft; in tension with [#1453](https://github.com/adobe/spectrum-design-data/discussions/1453)           |
+| [003 Numeric scale index](proposals/003-numeric-scale-index.md)                                                     | Implemented                                                                                              |
+| [004 Drop shadow classification](proposals/004-drop-shadow-classification.md)                                       | Implemented                                                                                              |
+| [005 Compound states](proposals/005-compound-states.md)                                                             | Superseded by 006                                                                                        |
+| [006 Compound states as an array](proposals/006-compound-states-as-array.md)                                        | Accepted                                                                                                 |
+| [006 Vocabulary gaps](proposals/006-vocabulary-gaps.md)                                                             | Partly implemented (the number 006 is used twice)                                                        |
+| [007 Configurable name object](proposals/007-configurable-name-object.md)                                           | Draft                                                                                                    |
+| [008 Ordinal rank field](proposals/008-ordinal-rank-field.md)                                                       | Draft                                                                                                    |
+| [009 Typography scale composite](proposals/009-typography-scale-composite.md)                                       | Draft                                                                                                    |
+| [010 Composite token support](proposals/010-composite-token-support.md)                                             | Draft                                                                                                    |
+| [011 String name escape hatch](proposals/011-string-name-escape-hatch.md)                                           | Draft                                                                                                    |
+| [012 Space-between decompose](proposals/012-space-between-decompose.md)                                             | Complete                                                                                                 |
+| [013 Multimodal model spike samples](proposals/013-multimodal-model-spike-samples.md)                               | Complete                                                                                                 |
+| [014 Platform-owned visual recipes](proposals/014-platform-owned-visual-recipes.md)                                 | Approved (revision 4)                                                                                    |
+| [015 Single visual engine](proposals/015-single-visual-engine.md)                                                   | Accepted 2026-11-07                                                                                      |
+| [016 Collections and slots](proposals/016-collections-and-slots.md)                                                 | Collections built; slots are RFC [#1801](https://github.com/adobe/spectrum-design-data/discussions/1801) |
+| [018 Structured relationship identity](proposals/018-structured-relationship-identity.md)                           | Draft; spike on switch and checkbox                                                                      |
+| [019 Platform deviations](proposals/019-platform-deviations.md)                                                     | Draft; spec and schema only (issue [#1746](https://github.com/adobe/spectrum-design-data/issues/1746))   |
+| [021 Option kind, state groups and an accessibility cross-check](proposals/021-option-kind-and-state-attributes.md) | Draft; no data changes (RFC [#2098](https://github.com/adobe/spectrum-design-data/discussions/2098))     |
 
 ## How to use this file
 
