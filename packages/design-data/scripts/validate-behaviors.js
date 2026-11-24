@@ -98,6 +98,29 @@ for (const [name, contract] of [...contracts, ...patterns]) {
   }
 }
 
+// The exemptions registry (SPEC-123) must name real components, with registered reasons, that
+// have no contract. Checked here because the rule only sees the components of one dataset.
+const registryDir = join(__dirname, "..", "registry");
+const readJson = (p) => JSON.parse(readFileSync(p, "utf-8"));
+const reasons = new Set(
+  readJson(join(registryDir, "exemption-reasons.json")).values.map((v) => v.id),
+);
+for (const { id, reason } of readJson(
+  join(registryDir, "behavior-exemptions.json"),
+).values) {
+  const problem = !existsSync(join(__dirname, "..", "components", `${id}.json`))
+    ? "is not a component"
+    : !reasons.has(reason)
+      ? `has unregistered reason '${reason}'`
+      : existsSync(join(behaviorsDir, `${id}.json`))
+        ? "is exempt but has a contract"
+        : null;
+  if (problem) {
+    hasErrors = true;
+    console.error(`❌ behavior-exemptions.json: '${id}' ${problem}`);
+  }
+}
+
 if (hasErrors) process.exit(1);
 console.log(
   `\n✅ ${contracts.length + patterns.length} behavior file(s) match their schemas\n`,

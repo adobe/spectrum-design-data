@@ -4158,6 +4158,183 @@ const CAPABILITIES_JSON: &str = r##"{
   ]
 }
 "##;
+const EXEMPTION_REASONS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "exemption-reason",
+  "description": "Reasons a component may have no behavior contract (spec/behavior-contract.md#exemptions). A component is exempt only because it takes no interaction; `behavior-exemptions.json` pairs each exempt component with one of these reasons.",
+  "values": [
+    {
+      "id": "static-text",
+      "label": "Static text",
+      "description": "Text that is read, not operated: a heading, a body paragraph, a label or help text. Nothing to press, focus or change."
+    },
+    {
+      "id": "static-display",
+      "label": "Static display",
+      "description": "Presents information or an image and takes no input: a badge, a status light, an avatar, a divider. If a platform makes one pressable or selectable, it needs a contract instead."
+    },
+    {
+      "id": "container",
+      "label": "Container",
+      "description": "Lays out, groups or wraps other components and has no interaction of its own: a card, a panel, a form item. Any behavior belongs to the components inside it."
+    },
+    {
+      "id": "decorative",
+      "label": "Decorative",
+      "description": "Visual embellishment with no meaning for assistive technology: a checkerboard behind a transparent color, a pulsing marker. The component it decorates carries any behavior."
+    },
+    {
+      "id": "sub-part",
+      "label": "Sub-part",
+      "description": "Part of another component, covered by the parent's contract: a draggable handle inside a color area, slider or wheel. It is not a stand-alone control, so the parent's contract carries its behavior."
+    }
+  ]
+}
+"##;
+const BEHAVIOR_EXEMPTIONS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "behavior-exemption",
+  "description": "Components that deliberately have no behavior contract, each with a reason from `exemption-reasons.json` (spec/behavior-contract.md#exemptions). `id` is a component name. SPEC-123 reads this list: a component with no `accessibility.role` needs a contract or an entry here, and an entry MUST NOT also have a contract.",
+  "values": [
+    {
+      "id": "body",
+      "label": "Body",
+      "reason": "static-text"
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "reason": "static-text"
+    },
+    {
+      "id": "detail",
+      "label": "Detail",
+      "reason": "static-text"
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "reason": "static-text"
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "reason": "static-text"
+    },
+    {
+      "id": "field-label",
+      "label": "Field label",
+      "reason": "static-text"
+    },
+    {
+      "id": "help-text",
+      "label": "Help text",
+      "reason": "static-text"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "reason": "static-display"
+    },
+    {
+      "id": "status-light",
+      "label": "Status light",
+      "reason": "static-display"
+    },
+    {
+      "id": "illustrated-message",
+      "label": "Illustrated message",
+      "reason": "static-display"
+    },
+    {
+      "id": "color-loupe",
+      "label": "Color loupe",
+      "reason": "static-display"
+    },
+    {
+      "id": "divider",
+      "label": "Divider",
+      "reason": "static-display"
+    },
+    {
+      "id": "avatar",
+      "label": "Avatar",
+      "reason": "static-display",
+      "description": "A pressable avatar is carried by the component that contains it (avatar-group)."
+    },
+    {
+      "id": "thumbnail",
+      "label": "Thumbnail",
+      "reason": "static-display",
+      "description": "Exempt unless selectable in a collection; a selectable thumbnail needs a contract through that collection."
+    },
+    {
+      "id": "opacity-checkerboard",
+      "label": "Opacity checkerboard",
+      "reason": "decorative"
+    },
+    {
+      "id": "coach-indicator",
+      "label": "Coach indicator",
+      "reason": "decorative",
+      "description": "Coach mark carries the behavior."
+    },
+    {
+      "id": "bar-panel",
+      "label": "Bar panel",
+      "reason": "container"
+    },
+    {
+      "id": "card",
+      "label": "Card",
+      "reason": "container"
+    },
+    {
+      "id": "card-horizontal",
+      "label": "Card horizontal",
+      "reason": "container"
+    },
+    {
+      "id": "collection-card",
+      "label": "Collection card",
+      "reason": "container"
+    },
+    {
+      "id": "user-card",
+      "label": "User card",
+      "reason": "container"
+    },
+    {
+      "id": "stack-item",
+      "label": "Stack item",
+      "reason": "container"
+    },
+    {
+      "id": "standard-panel",
+      "label": "Standard panel",
+      "reason": "container"
+    },
+    {
+      "id": "field",
+      "label": "Field",
+      "reason": "container",
+      "description": "The label and description association rule goes in the contract of each control."
+    },
+    {
+      "id": "form-item",
+      "label": "Form item",
+      "reason": "container",
+      "description": "The label and description association rule goes in the contract of each control."
+    },
+    {
+      "id": "color-handle",
+      "label": "Color handle",
+      "reason": "sub-part",
+      "description": "A sub-part of color-area, color-slider and color-wheel, covered by their contracts."
+    }
+  ]
+}
+"##;
 
 pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "role", "icon"];
 
@@ -4220,6 +4397,8 @@ pub(crate) fn build_registry_map(
     map.insert("facets".to_string(), parse_registry(FACETS_JSON));
     map.insert("intents".to_string(), parse_registry(INTENTS_JSON));
     map.insert("capabilities".to_string(), parse_registry(CAPABILITIES_JSON));
+    map.insert("exemption-reasons".to_string(), parse_registry(EXEMPTION_REASONS_JSON));
+    map.insert("behavior-exemptions".to_string(), parse_registry(BEHAVIOR_EXEMPTIONS_JSON));
     map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));
     map.insert("attribute".to_string(), parse_registry(ATTRIBUTES_JSON));
     map

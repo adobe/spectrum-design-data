@@ -79,6 +79,8 @@ tasks:
       - scripts/validate-behaviors.js
     inputs:
       - "behaviors/**/*.json"
+      - "components/**/*.json"
+      - "registry/**/*.json"
       - "scripts/validate-behaviors.js"
       - "/packages/design-data-spec/schemas/behavior.schema.json"
       - "/packages/design-data-spec/conformance/valid/behavior-contract/dataset.json"

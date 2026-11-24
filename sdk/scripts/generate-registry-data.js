@@ -112,6 +112,8 @@ const behaviorRegistries = [
   ["FACETS_JSON", "facets"],
   ["INTENTS_JSON", "intents"],
   ["CAPABILITIES_JSON", "capabilities"],
+  ["EXEMPTION_REASONS_JSON", "exemption-reasons"],
+  ["BEHAVIOR_EXEMPTIONS_JSON", "behavior-exemptions"],
 ];
 for (const [constName, stem] of behaviorRegistries) {
   const p = join(repoRoot, `packages/design-data/registry/${stem}.json`);

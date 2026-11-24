@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-123",
+      "severity": "warning",
+      "message_pattern": ".*'tabs'.*no accessibility.role, no behavior contract and no exemption.*"
+    },
+    {
+      "rule_id": "SPEC-123",
+      "severity": "warning",
+      "message_pattern": ".*'avatar'.*exempt.*also has one.*"
+    }
+  ]
+}

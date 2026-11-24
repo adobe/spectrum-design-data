@@ -1753,3 +1753,23 @@ rules:
     message: "Recipe of '{component}' reads facet '{facet}': {problem}"
     spec_ref: spec/behavior-contract.md#facets-in-recipes
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-123
+    name: component-has-contract-or-exemption
+    severity: warning
+    layer: 2
+    category: component
+    note: >
+      A component with an `accessibility.role` reaches its contract through the role, which the
+      `accessibility` migration carries into `parts.<part>.role`. Every other component is judged
+      here. The registry `behavior-exemptions.json` lists the components that deliberately have no
+      contract because they take no interaction, each with a reason from `exemption-reasons.json`.
+      Components with no contract and no exemption are the migration backlog; the severity becomes
+      `error` once that backlog reaches zero.
+    assert: >
+      A component with no `accessibility.role` MUST have a behavior contract or an entry in
+      `behavior-exemptions.json`, and MUST NOT have both. An entry's `reason` MUST be in
+      `exemption-reasons.json`.
+    message: "Component '{component}' {problem}"
+    spec_ref: spec/behavior-contract.md#exemptions
+    introduced_in: "1.0.0-draft"

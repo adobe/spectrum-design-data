@@ -69,6 +69,20 @@ A registered facet may list `blocksInteraction`: the event intents that do nothi
 
 A recipe `when` or `visibleWhen` may carry `facets: { "<facet>": "<value>" }` beside `options` and `states` (`component-visual.schema.json`). It is opt-in and additive: when a recipe compiles, each facet clause folds into the `options` (a state-group facet: the option values its contract maps to that value) and `states` (an interaction facet selected as `"true"`: its `stateName`, for example `hovered` to `hover`) that the solver already reads, so no recipe that omits `facets` changes and a recipe that uses it compiles to the same output as its option form. A facet that cannot be selected never matches, and SPEC-122 warns: no contract, a facet the contract does not declare, an interaction facet no extended pattern publishes, a value the facet lacks, `"false"` on an interaction facet (a recipe cannot test a state's absence), or a value that overlaps an earlier one under first match wins. A facet clause counts as one satisfied condition per option it folds into when conditions are ranked.
 
+## Exemptions
+
+A component that takes no interaction has no contract. [`registry/behavior-exemptions.json`](registry.md#behavior-contract-registries) lists each one by component name with a `reason` from [`registry/exemption-reasons.json`](registry.md#behavior-contract-registries):
+
+| Reason           | Meaning                                                                                     |
+| ---------------- | ------------------------------------------------------------------------------------------- |
+| `static-text`    | Text that is read, not operated (heading, body, label, help text).                          |
+| `static-display` | Presents information or an image and takes no input (badge, status light, avatar, divider). |
+| `container`      | Lays out, groups or wraps other components; behavior lives in what it contains.             |
+| `sub-part`       | Part of another component, covered by the parent's contract (a color handle).               |
+| `decorative`     | Visual embellishment with no meaning for assistive technology.                              |
+
+An exemption is a claim about interaction, not a permanent one: if a platform makes an exempt component pressable or selectable (a selectable thumbnail in a collection), remove the entry and write a contract. A component with an `accessibility.role` reaches its contract through the role and needs no entry. Every other component has a contract or an exemption, never both (SPEC-123).
+
 ## Reference runner
 
 `design-data behavior test <component|--all>` runs each conformance vector in `conformance/behavior/<component>.json` (`{ "component", "vectors" }`, the shape of a contract with only `vectors`) against `behaviors/<component>.json`, with no browser. Library function: `design_data_core::behavior::run_dir`. The run has all capabilities unless `--without <capability>` removes one; a vector that needs a missing capability is **not applicable**, neither pass nor fail. The exit code is 1 when any vector fails. Rules the runner applies:
@@ -96,7 +110,7 @@ The Figma spec sheet's accessibility section reads role, focus, keyboard intents
 
 1. **Expand.** The schema, the facet, intent and capability registries, patterns, the reference runner and the warnings below exist. The `accessibility` block stays; nothing reads the contract at render time.
 2. **Migrate.** A component gains `behaviors/<component>.json` carrying everything its `accessibility` block says, per the table above. Both forms coexist, and renders and spec sheets stay byte-identical. Recipes then move from options to facets in their `when` clauses, per component.
-3. **Contract.** When every component has a contract or a registered exemption, the `accessibility` block is removed from the schema and the data, and the SPEC-118 to SPEC-120 and SPEC-122 warnings become errors, per component at zero.
+3. **Contract.** When every component has a contract or a registered exemption, the `accessibility` block is removed from the schema and the data, and the SPEC-118 to SPEC-120, SPEC-122 and SPEC-123 warnings become errors, per component at zero.
 
 ## Validation
 
@@ -106,3 +120,4 @@ The schema shape is checked by `design-data:validate-behaviors` (AJV), which als
 * **SPEC-119** `behavior-transitions-well-formed`: intents, capabilities, guards and `do` resolve.
 * **SPEC-120** `behavior-vectors-well-formed`: a vector's component, capabilities, steps, start options and expectations resolve.
 * **SPEC-122** `recipe-facets-resolve`: a recipe `facets` clause names a facet its component's contract can publish, with a value options or a state can select.
+* **SPEC-123** `component-has-contract-or-exemption`: a component with no `accessibility.role` has a contract or a registered exemption, not both, and an exemption's reason is registered.
