@@ -1718,6 +1718,22 @@ rules:
     spec_ref: spec/behavior-contract.md#validation
     introduced_in: "1.0.0-draft"
 
+  - id: SPEC-121
+    name: stroke-style-well-formed
+    severity: error
+    layer: 2
+    category: component
+    note: >
+      A part may bind a dashed stroke and the sides it is drawn on. The engine ignores a value it
+      cannot read, so a literal that cannot be read is an authoring mistake, reported here.
+    assert: >
+      A literal `strokeDash` or `strokeGap` MUST be a positive number, `strokeCap` MUST be `butt`
+      or `round`, `strokeDashAnchor` MUST be `box` or `scene`, and `strokeSides` MUST list only
+      `top`, `end`, `bottom`, `start`, `all` or `none`. A value bound from a token or
+      relationship is not judged.
+    message: "Stroke style of part '{part}' of '{component}': {problem}"
+    spec_ref: spec/component-visuals.md#dashed-and-per-side-strokes
+
   - id: SPEC-122
     name: recipe-facets-resolve
     severity: warning

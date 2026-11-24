@@ -147,6 +147,11 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "strokeWidth",
             "strokeOpacity",
             "strokeOver",
+            "strokeDash",
+            "strokeGap",
+            "strokeCap",
+            "strokeSides",
+            "strokeDashAnchor",
             "innerStroke",
             "innerStrokeWidth",
             "innerStrokeOpacity",
@@ -177,6 +182,11 @@ pub const READ_PROPS: &[(&str, &[&str])] = &[
             "stroke",
             "strokeWidth",
             "strokeOpacity",
+            "strokeDash",
+            "strokeGap",
+            "strokeCap",
+            "strokeSides",
+            "strokeDashAnchor",
             "patternFill",
             "patternSize",
             "justify",
@@ -437,6 +447,9 @@ pub struct SceneNode {
     /// Alpha of `stroke` (0 to 1), set when the recipe binds `strokeOpacity`; unset is opaque.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub stroke_opacity: Option<f64>,
+    /// A dashed or per-side stroke (`strokeDash`, `strokeSides`); unset draws the plain border.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub stroke_style: Option<crate::stroke::StrokeStyle>,
     /// Fraction of a `progress` ring the arc covers (0 to 1); unset draws the fixed spinner arc.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sweep: Option<f64>,
@@ -2724,6 +2737,70 @@ impl Ctx<'_> {
         }
     }
 
+    /// The dashed or per-side stroke a box part binds (`strokeDash`, `strokeGap`, `strokeCap`,
+    /// `strokeSides`, `strokeDashAnchor`). A value that cannot be read is reported and ignored:
+    /// that prop draws as unset.
+    fn stroke_style(&mut self, id: &str, part: &Value) -> Option<crate::stroke::StrokeStyle> {
+        let props = part.get("props")?;
+        let [dash, gap, cap, sides, anchor] = [
+            "strokeDash",
+            "strokeGap",
+            "strokeCap",
+            "strokeSides",
+            "strokeDashAnchor",
+        ]
+        .map(|name| self.eval(props.get(name)));
+        let mut bad = |what: &str, got: &str| {
+            self.diags.push(format!(
+                "part '{id}': {what} '{got}' is not a valid stroke style value; ignored"
+            ));
+        };
+        let mut length = |what: &str, r: &Option<Resolved>| {
+            let r = r.as_ref()?;
+            let v = r.num().filter(|v| *v > 0.0);
+            if v.is_none() {
+                bad(what, &r.value);
+            }
+            v
+        };
+        let (d, g) = (length("strokeDash", &dash), length("strokeGap", &gap));
+        let mut flag = |what: &str, r: &Option<Resolved>, yes: &str, no: &str| {
+            let v = r.as_ref().map(|r| r.value.trim())?;
+            if v != yes && v != no {
+                bad(what, v);
+            }
+            Some(v == yes)
+        };
+        let round_cap = flag("strokeCap", &cap, "round", "butt").unwrap_or(false);
+        let scene_anchor = flag("strokeDashAnchor", &anchor, "scene", "box").unwrap_or(false);
+        let sides = sides.as_ref().and_then(|r| {
+            let mut on = [false; 4];
+            for word in r.value.split_whitespace() {
+                match ["top", "end", "bottom", "start"]
+                    .iter()
+                    .position(|s| *s == word)
+                {
+                    Some(i) => on[i] = true,
+                    None if word == "all" => on = [true; 4],
+                    None if word == "none" => {}
+                    None => {
+                        bad("strokeSides", &r.value);
+                        return None;
+                    }
+                }
+            }
+            Some(on)
+        });
+        let dash = d.map(|d| [d, g.unwrap_or(d)]);
+        let sides = sides.filter(|s| *s != [true; 4]);
+        (dash.is_some() || sides.is_some()).then_some(crate::stroke::StrokeStyle {
+            dash,
+            round_cap: round_cap && dash.is_some(),
+            sides,
+            scene_anchor: scene_anchor && dash.is_some(),
+        })
+    }
+
     /// The drop shadows a `shadow` source describes. A layer whose `x`, `y`, `blur` or `color`
     /// does not resolve (or whose `blur` or `spread` is not a number, `blur` not below 0) is
     /// dropped with a diagnostic; `spread` defaults to 0.
@@ -4597,6 +4674,7 @@ fn solve_root(
                             shadow: Vec::new(),
                             path: None,
                             stroke_opacity: None,
+                            stroke_style: None,
                             tokens: Vec::new(),
                         };
                         let nw = rp(&mut cx, np, "width");
@@ -5019,6 +5097,7 @@ fn solve_root(
         stroke: stroke.clone().filter(|_| !stroke_over).map(|s| s.value),
         stroke_width: stroke_w.as_ref().and_then(Resolved::num).unwrap_or(0.0),
         stroke_opacity: stroke_o.as_ref().and_then(Resolved::num),
+        stroke_style: None,
         sweep: None,
         radius: root_radius,
         radii,
@@ -5233,6 +5312,7 @@ fn solve_root(
             stroke: c.stroke,
             stroke_width: c.stroke_width,
             stroke_opacity: c.stroke_opacity,
+            stroke_style: None,
             sweep: c.sweep,
             radius: 0.0,
             radii: None,
@@ -5403,6 +5483,7 @@ fn solve_root(
                     shadow: Vec::new(),
                     path: None,
                     stroke_opacity: None,
+                    stroke_style: None,
                     tokens,
                 });
                 continue;
@@ -5455,6 +5536,7 @@ fn solve_root(
                 stroke: nstroke.map(|s| s.value),
                 stroke_width: nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0),
                 stroke_opacity: nso.as_ref().and_then(Resolved::num),
+                stroke_style: None,
                 sweep: None,
                 radius: clamp_radius(px(&nradius, h2), w2, h2),
                 radii: None,
@@ -5512,6 +5594,7 @@ fn solve_root(
             shadow: Vec::new(),
             path: None,
             stroke_opacity: None,
+            stroke_style: None,
             tokens,
         });
     }
@@ -5883,6 +5966,7 @@ fn solve_root(
             stroke: stroke.map(|s| s.value),
             stroke_width: sw_n,
             stroke_opacity: so.as_ref().and_then(Resolved::num),
+            stroke_style: None,
             sweep: None,
             radius: (r0 + off).max(0.0),
             radii: None,
@@ -6023,6 +6107,24 @@ fn solve_root(
                 .push(format!("part '{}': {e}; drawing the plain box", n.part)),
         }
     }
+    for n in nodes.iter_mut().filter(|n| {
+        n.kind == "box"
+            && n.path.is_none()
+            && (n.stroke.is_some() || (stroke_over && n.part == root_id))
+    }) {
+        let Some(part) = parts.get(&n.part) else {
+            continue;
+        };
+        let style = cx.stroke_style(&n.part, part);
+        if style.is_some() && n.stroke_width <= 0.0 {
+            cx.diags.push(format!(
+                "part '{}' binds a dashed or per-side stroke but draws no stroke width; ignored",
+                n.part
+            ));
+        } else {
+            n.stroke_style = style;
+        }
+    }
     // `strokeOver`: the root's border is drawn after everything else, as a ring node, so it
     // lies over the children. Same band as the box stroke: inside the box.
     if stroke_over && radii.is_some() {
@@ -6041,6 +6143,7 @@ fn solve_root(
             border.stroke = Some(c.value.clone());
             border.stroke_width = sw;
             border.stroke_opacity = nodes[0].stroke_opacity;
+            border.stroke_style = nodes[0].stroke_style.clone();
             nodes.push(border);
         }
     }
@@ -6994,6 +7097,7 @@ fn blank_node(part: &str, kind: &str) -> SceneNode {
         shadow: Vec::new(),
         path: None,
         stroke_opacity: None,
+        stroke_style: None,
         tokens: Vec::new(),
     }
 }
@@ -7539,7 +7643,9 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                 write_image(&mut s, n);
                 if let (Some(c), true) = (n.stroke.as_deref(), n.stroke_width > 0.0) {
                     let i = n.stroke_width / 2.0;
-                    if let Some(r) = n.radii {
+                    if n.stroke_style.is_some() {
+                        crate::stroke::write_svg(&mut s, n, &esc(c), &so);
+                    } else if let Some(r) = n.radii {
                         let _ = write!(
                             s,
                             "<path d=\"{}\" fill=\"none\" stroke=\"{}\" stroke-width=\"{}\"{so}/>",
@@ -7567,6 +7673,16 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                         );
                     }
                 }
+            }
+            "ring" if n.stroke_style.is_some() => {
+                let _ = write!(s, "<g {attrs}>");
+                crate::stroke::write_svg(
+                    &mut s,
+                    n,
+                    &esc(n.stroke.as_deref().unwrap_or("none")),
+                    &so,
+                );
+                s.push_str("</g>");
             }
             "ring" => {
                 let _ = write!(
@@ -13846,5 +13962,90 @@ mod tests {
         let day = part(&s, "day-1").unwrap();
         assert_eq!((b.x - day.x, b.y - day.y), (10.0, 0.0));
         assert_eq!(b.radii, Some([1.5, 0.0, 0.0, 1.5]));
+    }
+
+    /// Three-column grid of 20x10 cells, each holding a band that binds the given stroke props.
+    fn banded_scene(props: Value) -> Scene {
+        let mut band = cell(20.0, 4.0, "#aaaaaa");
+        band["props"]["stroke"] = serde_json::json!({ "value": "#ff0000" });
+        band["props"]["strokeWidth"] = lit_num(1.0);
+        for (k, v) in props.as_object().unwrap() {
+            band["props"][k] = v.clone();
+        }
+        let parts = serde_json::json!({
+            "root": { "kind": "box", "children": ["day"],
+                "props": { "direction": { "value": "grid" }, "columns": lit_num(3.0) },
+                "repeat": { "slot": "days" } },
+            "day": { "kind": "box", "children": ["band"],
+                "props": { "direction": { "value": "stack" }, "width": lit_num(20.0),
+                    "height": lit_num(10.0) } },
+            "band": band
+        });
+        let objs = Value::Array((0..3).map(|_| serde_json::json!({})).collect());
+        subtree_scene(
+            parts,
+            serde_json::json!([{ "name": "days", "part": "day", "collection": "days" }]),
+            &[("days", objs)],
+        )
+    }
+
+    #[test]
+    fn a_band_draws_a_dashed_stroke_on_the_sides_its_row_place_asks_for() {
+        let side = |rp: &str, sides: &str| serde_json::json!({ "when": { "rowPosition": rp }, "value": sides });
+        let s = banded_scene(serde_json::json!({
+            "strokeDash": lit_num(3.0),
+            "strokeCap": { "value": "round" },
+            "strokeDashAnchor": { "value": "scene" },
+            "strokeSides": [
+                { "value": "top bottom" },
+                side("first", "top bottom start"),
+                side("last", "top bottom end"),
+            ],
+        }));
+        assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
+        let style = |n: usize| {
+            part(&s, &format!("day-{n}.band"))
+                .unwrap()
+                .stroke_style
+                .clone()
+        };
+        let sides: Vec<_> = (1..=3).map(|n| style(n).unwrap().sides.unwrap()).collect();
+        assert_eq!(
+            sides,
+            [
+                [true, false, true, true],
+                [true, false, true, false],
+                [true, true, true, false]
+            ]
+        );
+        // The gap defaults to the dash length.
+        let st = style(2).unwrap();
+        assert_eq!(
+            (st.dash, st.round_cap, st.scene_anchor),
+            (Some([3.0, 3.0]), true, true)
+        );
+        let svg = scene_to_svg(&s);
+        // One path per drawn straight side (3 + 2 + 3), none of them a plain `<rect>` border.
+        assert_eq!(svg.matches("stroke-dasharray=\"3 3\"").count(), 8);
+        assert_eq!(svg.matches("stroke-linecap=\"round\"").count(), 8);
+        assert!(!svg.contains("<rect x=\"0.5\""));
+        // The scene node says so too.
+        let json = serde_json::to_value(part(&s, "day-1.band").unwrap()).unwrap();
+        assert_eq!(json["stroke_style"]["dash"], serde_json::json!([3.0, 3.0]));
+    }
+
+    #[test]
+    fn a_bad_stroke_style_is_reported_and_draws_the_plain_border() {
+        let s = banded_scene(serde_json::json!({
+            "strokeDash": lit_num(0.0),
+            "strokeSides": { "value": "top diagonal" },
+            "strokeCap": { "value": "square" },
+        }));
+        assert_eq!(s.diagnostics.len(), 9, "{:?}", s.diagnostics);
+        assert!(part(&s, "day-1.band").unwrap().stroke_style.is_none());
+        assert!(!scene_to_svg(&s).contains("stroke-dasharray"));
+        // Every side listed is the plain border, with no style on the node.
+        let s = banded_scene(serde_json::json!({ "strokeSides": { "value": "all" } }));
+        assert!(part(&s, "day-1.band").unwrap().stroke_style.is_none());
     }
 }

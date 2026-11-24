@@ -355,6 +355,65 @@
             "value": "transparent",
             "priority": 10
           }
+        ],
+        "stroke": [
+          {
+            "relationship": {
+              "property": "color",
+              "part": "range-fill",
+              "attribute": "border"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeStart": true,
+                "isRangeEnd": true
+              }
+            },
+            "value": "transparent",
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeStart": true
+              },
+              "rowPosition": ["last", "only"]
+            },
+            "value": "transparent",
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "isRangeEnd": true
+              },
+              "rowPosition": ["first", "only"]
+            },
+            "value": "transparent",
+            "priority": 10
+          }
+        ],
+        "strokeWidth": {
+          "relationship": { "property": "border-width", "part": "range-fill" }
+        },
+        "strokeDash": { "value": 3 },
+        "strokeDashAnchor": { "value": "scene" },
+        "strokeSides": [
+          { "value": "top bottom" },
+          {
+            "when": { "rowPosition": "first" },
+            "value": "top bottom start"
+          },
+          {
+            "when": { "rowPosition": "last" },
+            "value": "top bottom end"
+          },
+          {
+            "when": { "rowPosition": "only" },
+            "value": "all"
+          }
         ]
       }
     },
