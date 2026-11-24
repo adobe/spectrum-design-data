@@ -56,6 +56,7 @@ Repository housekeeping, release, taxonomy, and authoring tools. Not intended fo
 | [`tools/markdown-generator`](../tools/markdown-generator/) | `markdown-generator` | active | no | no | Generates markdown from tokens and schemas for docs and chatbot indexing. |
 | [`tools/platform-capture`](../tools/platform-capture/) | `@adobe/platform-capture` | active | no | no | Captures platform reference renderings (iOS simulator, Storybook) for comparison with renderer output. Images stay out of the repo. |
 | [`tools/release-analyzer`](../tools/release-analyzer/) | `release-analyzer` | active | no | no | Analyzes release history for the release-timeline visualization. |
+| [`tools/roadmap/paseo-plugin`](../tools/roadmap/paseo-plugin/) | `paseo-beads-roadmap` | active | no | no | Paseo plugin: live roadmap of beads epics with a Discuss action for the orchestrator. |
 | [`tools/s2-docs-to-document-blocks`](../tools/s2-docs-to-document-blocks/) | `@adobe/s2-docs-to-document-blocks` | active | no | no | Transforms s2-docs Markdown into documentBlocks for design-data. |
 | [`tools/s2-implementation-metadata`](../tools/s2-implementation-metadata/) | — | active | no | no | Verification scripts for S2 implementation metadata. |
 | [`tools/spectrum-hub-fetcher`](../tools/spectrum-hub-fetcher/) | `@adobe/spectrum-hub-fetcher` | active | no | no | Fetches public Spectrum Hub pages into s2-docs Markdown. |

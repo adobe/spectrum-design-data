@@ -335,6 +335,15 @@
       "summary": "Analyzes release history for the release-timeline visualization."
     },
     {
+      "path": "tools/roadmap/paseo-plugin",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Paseo plugin: live roadmap of beads epics with a Discuss action for the orchestrator."
+    },
+    {
       "path": "tools/s2-docs-mcp",
       "kind": "package",
       "audience": "consumer",
