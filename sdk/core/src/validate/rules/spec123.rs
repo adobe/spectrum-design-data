@@ -14,10 +14,30 @@
 //! so it MUST have a behavior contract or an entry in the exemptions registry
 //! (`behavior-exemptions.json`), and not both. An exemption's reason MUST be a registered one.
 
+use std::collections::HashSet;
+
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
 pub struct Rule;
+
+fn problem(
+    reason: Option<&str>,
+    reasons: &HashSet<String>,
+    has_contract: bool,
+    has_role: bool,
+) -> Option<String> {
+    match (reason, has_contract) {
+        (Some(_), true) => Some("is exempt from a behavior contract and also has one".to_string()),
+        (Some(r), false) if !reasons.contains(r) => Some(format!(
+            "is exempt for reason '{r}', which is not registered"
+        )),
+        (None, false) if !has_role => {
+            Some("has no accessibility.role, no behavior contract and no exemption".to_string())
+        }
+        _ => None,
+    }
+}
 
 impl ValidationRule for Rule {
     fn id(&self) -> &'static str {
@@ -37,18 +57,12 @@ impl ValidationRule for Rule {
                 .is_some_and(|r| r.is_string());
             let has_contract = ctx.graph.behaviors.iter().any(|b| b.component == c.name);
             let reason = ctx.registry.behavior_exemption(&c.name);
-            let problem = match (reason, has_contract) {
-                (Some(_), true) => {
-                    Some("is exempt from a behavior contract and also has one".to_string())
-                }
-                (Some(r), false) if !ctx.registry.exemption_reasons().contains(r) => Some(format!(
-                    "is exempt for reason '{r}', which is not registered"
-                )),
-                (None, false) if !has_role => Some(
-                    "has no accessibility.role, no behavior contract and no exemption".to_string(),
-                ),
-                _ => None,
-            };
+            let problem = problem(
+                reason,
+                ctx.registry.exemption_reasons(),
+                has_contract,
+                has_role,
+            );
             if let Some(p) = problem {
                 out.push(Diagnostic {
                     file: c.file.clone(),
@@ -69,7 +83,9 @@ impl ValidationRule for Rule {
 mod tests {
     use serde_json::json;
 
-    use super::Rule;
+    use std::collections::HashSet;
+
+    use super::{problem, Rule};
     use crate::graph::{ComponentRecord, Layer};
     use crate::validate::rules::behavior_util::test_util::{good, graph, run};
 
@@ -114,5 +130,16 @@ mod tests {
         let m = run(&Rule, &g);
         assert_eq!(m.len(), 1, "{m:?}");
         assert!(m[0].contains("exempt") && m[0].contains("also has one"));
+    }
+
+    #[test]
+    fn flags_an_exemption_with_an_unregistered_reason() {
+        let reasons: HashSet<String> = ["container".to_string()].into();
+        let m = problem(Some("sub-part"), &reasons, false, false).unwrap();
+        assert!(
+            m.contains("'sub-part'") && m.contains("not registered"),
+            "{m}"
+        );
+        assert!(problem(Some("container"), &reasons, false, false).is_none());
     }
 }
