@@ -1,6 +1,48 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-pattern.schema.json",
   "pattern": "interactive",
-  "description": "The shared base of every pointer or keyboard control: it publishes the interaction facets a recipe resolves hover, down and keyboard focus from. The event intents (focus, blur, press, pointer) move them; the reference runner and each platform adapter give those intents their meaning.",
-  "publishes": ["hovered", "pressed", "focusVisible"]
+  "description": "The shared base of every pointer or keyboard control: it publishes the interaction facets a recipe resolves hover, down and keyboard focus from, and the transitions that move them. A platform adapter maps its gestures to these event intents.",
+  "publishes": ["hovered", "pressed", "focusVisible"],
+  "transitions": [
+    {
+      "on": "focus",
+      "via": "keyboard",
+      "needs": ["keyboard"],
+      "do": { "set": { "focusVisible": true } }
+    },
+    {
+      "on": "focus",
+      "do": { "set": { "focusVisible": false } }
+    },
+    {
+      "on": "blur",
+      "do": { "set": { "focusVisible": false } }
+    },
+    {
+      "on": "press-start",
+      "do": { "set": { "pressed": true } }
+    },
+    {
+      "on": "press-cancel",
+      "do": { "set": { "pressed": false } }
+    },
+    {
+      "on": "press-end",
+      "guard": { "facet": "pressed", "is": "true" },
+      "do": { "set": { "pressed": false }, "raise": "press" }
+    },
+    {
+      "on": "press-end",
+      "do": { "set": { "pressed": false } }
+    },
+    {
+      "on": "pointer-enter",
+      "needs": ["pointer-hover"],
+      "do": { "set": { "hovered": true } }
+    },
+    {
+      "on": "pointer-leave",
+      "do": { "set": { "hovered": false } }
+    }
+  ]
 }

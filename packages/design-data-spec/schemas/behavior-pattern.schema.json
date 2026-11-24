@@ -242,6 +242,10 @@
         "toggle": {
           "$ref": "#/$defs/name"
         },
+        "raise": {
+          "const": "press",
+          "description": "After the transition, fire the `press` intent of the first part that declares one (`press-end` in the interactive pattern)."
+        },
         "set": {
           "type": "object",
           "propertyNames": {
@@ -277,6 +281,10 @@
         },
         "needs": {
           "$ref": "#/$defs/needs"
+        },
+        "via": {
+          "enum": ["keyboard", "pointer", "programmatic"],
+          "description": "The event's `via` this transition applies to (for example `keyboard` on `focus`). Absent: any."
         },
         "guard": {
           "$ref": "#/$defs/guard"

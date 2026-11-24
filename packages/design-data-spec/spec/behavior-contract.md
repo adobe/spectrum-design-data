@@ -61,6 +61,24 @@ The contract carries the WCAG criteria that `accessibility.wcag` carries today, 
 
 A shared base contract is a file in `behaviors/patterns/<pattern>.json` ([`behavior-pattern.schema.json`](../schemas/behavior-pattern.schema.json)): a `pattern` id, an optional `description`, `extends`, and the contract fields several components share (`facets`, `parts`, `transitions`, `wcag`). `publishes` lists the registered interaction facets an extending contract may read. A contract reads `hovered`, `pressed` or `focusVisible` only when a pattern it extends publishes it, so the base is data, not code. `interactive` is the first pattern. SPEC-118 warns when `extends` names no pattern, a pattern extends no pattern, or a pattern publishes a facet that is not a registered interaction facet.
 
+#### Interaction transitions
+
+What an event intent does to an interaction facet is pattern data, in the same transition format as a contract. A transition may add `via` (`keyboard`, `pointer` or `programmatic`: it applies only to an event carrying that `via`) and, in `do.set`, name an interaction facet the pattern publishes with `true` or `false`. `do.raise: "press"` fires the `press` intent of the first part that declares one. Transitions are tried in order and the first that matches fires; an event that matches none changes nothing, so a platform without the capability a transition `needs` (`pointer-hover`, `keyboard`) never sets that facet. The `interactive` pattern carries:
+
+| `on`                     | Applies when                | `do`                                 |
+| ------------------------ | --------------------------- | ------------------------------------ |
+| `focus`, `via: keyboard` | the run has `keyboard`      | `set focusVisible: true`             |
+| `focus`                  | any other `via`             | `set focusVisible: false`            |
+| `blur`                   |                             | `set focusVisible: false`            |
+| `press-start`            |                             | `set pressed: true`                  |
+| `press-cancel`           |                             | `set pressed: false`                 |
+| `press-end`              | `pressed` is `true`         | `set pressed: false`, `raise: press` |
+| `press-end`              | otherwise                   | `set pressed: false`                 |
+| `pointer-enter`          | the run has `pointer-hover` | `set hovered: true`                  |
+| `pointer-leave`          |                             | `set hovered: false`                 |
+
+A `press-end` with no prior `press-start` (or after `press-cancel`, or while a facet's `blocksInteraction` stopped the start) raises no `press`: a press completes only if it began. SPEC-119 checks a pattern's transitions: registered intents and capabilities, guards reading only published facets with their values, and `do` setting only a published facet to a boolean.
+
 ### `blocksInteraction`
 
 A registered facet may list `blocksInteraction`: the event intents that do nothing while the facet is `true`. `disabled` lists `focus`, `press-start` and `pointer-enter`: a disabled control takes no focus, press or hover. `activate` stays an explicit transition guard, as in the Switch example, because a read-only control keeps focus and ignores only activation.
@@ -88,8 +106,7 @@ An exemption is a claim about interaction, not a permanent one: if a platform ma
 `design-data behavior test <component|--all>` runs each conformance vector in `conformance/behavior/<component>.json` (`{ "component", "vectors" }`, the shape of a contract with only `vectors`) against `behaviors/<component>.json`, with no browser. Library function: `design_data_core::behavior::run_dir`. The run has all capabilities unless `--without <capability>` removes one; a vector that needs a missing capability is **not applicable**, neither pass nor fail. The exit code is 1 when any vector fails. Rules the runner applies:
 
 * Options are the state; a missing option reads as `false`. A facet is the first `values` entry that matches.
-* `focus` via `keyboard` sets `focusVisible`; `blur` clears it; `press-start` and `press-cancel` set and clear `pressed`; `pointer-enter` and `pointer-leave` set and clear `hovered`; `press-end` clears `pressed` and raises the `press` intent of the first part that has one. These apply only to facets a pattern publishes.
-* Any other intent fires the first transition for it whose `needs` the run has and whose `guard` holds, reading the facets from before the step. An intent that no transition, event or `handles` entry covers fails the vector.
+* An intent fires the first transition for it, in the contract and then in the patterns it extends, whose `via` equals the step's `via` (when the transition has one), whose `needs` the run has and whose `guard` holds, reading the facets from before the step. What the event intents do is the `interactive` pattern's transitions (see Patterns), not code. An intent that no transition, `handles` entry or event intent covers fails the vector.
 
 ## Spec sheet derivation
 

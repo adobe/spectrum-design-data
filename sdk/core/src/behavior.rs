@@ -19,12 +19,15 @@
 //!
 //! * Options are the state. A missing option reads as `false`.
 //! * A facet's value is the first `values` entry whose option match holds.
-//! * Event intents (`focus`, `blur`, `press-*`, `pointer-*`) move the interaction facets a pattern
-//!   publishes (`hovered`, `pressed`, `focusVisible`). `press-end` then raises the `press` intent
-//!   of the first part that declares one. A facet's `blocksInteraction` (facets registry) makes
-//!   the listed events do nothing while the facet is `true`.
-//! * Any other intent fires the first transition whose `on` matches, whose `needs` the runner has
-//!   and whose `guard` holds. Guards and `not` values read the facets from before the step.
+//! * An intent fires the first transition whose `on` matches, whose `via` (when set) equals the
+//!   step's `via`, whose `needs` the runner has and whose `guard` holds. Guards and `not` values
+//!   read the facets from before the step. Transitions come from the contract, then from the
+//!   patterns it extends: the event intents (`focus`, `blur`, `press-*`, `pointer-*`) are
+//!   transitions of the `interactive` pattern that `set` the interaction facets it publishes
+//!   (`hovered`, `pressed`, `focusVisible`), and `raise: press` fires the `press` intent of the
+//!   first part that declares one. Nothing about them is built in.
+//! * A facet's `blocksInteraction` (facets registry) makes the listed events do nothing while the
+//!   facet is `true`.
 //! * `emit` lists the events a step raised (`{ name: { option: new value } }`), not a running
 //!   total. A vector that needs a capability the run lacks is not applicable, neither pass nor fail.
 
@@ -37,7 +40,9 @@ use crate::graph::{BehaviorPatternRecord, TokenGraph};
 use crate::registry::RegistryData;
 use crate::CoreError;
 
-/// Event intents the runner gives built-in meaning to (`category: event` in the intents registry).
+/// Event intents (`category: event` in the intents registry). What they do is pattern data; the
+/// list only tells the runner that one with no transition is a no-op, and the spec sheet that it
+/// is not a keyboard intent.
 pub const INTERACTION_EVENTS: &[&str] = &[
     "focus",
     "blur",
@@ -230,13 +235,6 @@ impl Run<'_> {
         derive(self.m, &self.options, &self.interaction)
     }
 
-    fn set_interaction(&mut self, facet: &str, on: bool, needs: Option<&str>) {
-        if self.m.published.iter().any(|p| p == facet) {
-            let usable = needs.is_none_or(|c| self.caps.contains(c));
-            self.interaction.insert(facet.to_string(), on && usable);
-        }
-    }
-
     /// Apply one intent; returns the events it raised.
     fn step(&mut self, intent: &str, via: Option<&str>) -> Result<Vec<Value>, String> {
         let before = self.facets();
@@ -250,37 +248,19 @@ impl Run<'_> {
                 return Ok(vec![]);
             }
         }
-        let event = INTERACTION_EVENTS.contains(&intent);
-        match intent {
-            "focus" => {
-                self.set_interaction("focusVisible", via == Some("keyboard"), Some("keyboard"))
-            }
-            "blur" => self.set_interaction("focusVisible", false, None),
-            "press-start" => self.set_interaction("pressed", true, None),
-            "press-cancel" => self.set_interaction("pressed", false, None),
-            "pointer-enter" => self.set_interaction("hovered", true, Some("pointer-hover")),
-            "pointer-leave" => self.set_interaction("hovered", false, None),
-            _ => {}
-        }
         let mut raised = Vec::new();
-        if intent == "press-end" {
-            self.set_interaction("pressed", false, None);
-            let press = self
-                .m
-                .parts
-                .values()
-                .find_map(|p| p.get("press").and_then(Value::as_str))
-                .map(String::from);
-            if let Some(press) = press {
-                raised.extend(self.step(&press, None)?);
-            }
-        }
-        let mut handled = event;
+        let mut handled = INTERACTION_EVENTS.contains(&intent);
         for t in &self.m.transitions {
             if t.get("on").and_then(Value::as_str) != Some(intent) {
                 continue;
             }
             handled = true;
+            if t.get("via")
+                .and_then(Value::as_str)
+                .is_some_and(|v| Some(v) != via)
+            {
+                continue;
+            }
             let needs_ok = t
                 .get("needs")
                 .and_then(Value::as_array)
@@ -313,11 +293,28 @@ impl Run<'_> {
                 };
                 changed.insert(o.clone(), v);
             }
-            for (o, v) in &changed {
-                self.options.insert(o.clone(), v.clone());
+            let mut options_changed = Map::new();
+            for (o, v) in changed {
+                if self.m.published.contains(&o) {
+                    self.interaction.insert(o, v == Value::Bool(true));
+                } else {
+                    self.options.insert(o.clone(), v.clone());
+                    options_changed.insert(o, v);
+                }
+            }
+            if t.pointer("/do/raise").and_then(Value::as_str) == Some("press") {
+                let press = self
+                    .m
+                    .parts
+                    .values()
+                    .find_map(|p| p.get("press").and_then(Value::as_str))
+                    .map(String::from);
+                if let Some(press) = press {
+                    raised.extend(self.step(&press, None)?);
+                }
             }
             if let Some(name) = t.get("emit").and_then(Value::as_str) {
-                raised.push(json!({ name: changed }));
+                raised.push(json!({ name: options_changed }));
             }
             break;
         }

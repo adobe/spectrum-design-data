@@ -375,6 +375,60 @@
           ]
         }
       ]
+    },
+    {
+      "name": "press-end without press-start does not activate",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": "false",
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "press-end after press-cancel does not activate",
+      "start": {
+        "isSelected": false
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-cancel"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": "false"
+          }
+        },
+        {
+          "after": 3,
+          "facets": {
+            "pressed": "false",
+            "checked": "unchecked"
+          },
+          "emit": []
+        }
+      ]
     }
   ]
 }
