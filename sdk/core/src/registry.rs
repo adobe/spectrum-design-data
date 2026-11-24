@@ -126,6 +126,8 @@ pub struct RegistryData {
     context_words: HashMap<String, String>,
     /// Facet id → entry (`facets.json`), for behavior contract checks.
     facets: HashMap<String, FacetEntry>,
+    /// Component name → exemption reason (`behavior-exemptions.json`).
+    behavior_exemptions: HashMap<String, String>,
 }
 
 /// A facet from `facets.json`: its allowed values and whether it comes from the shared
@@ -272,6 +274,22 @@ fn parse_facets(json_str: &str) -> HashMap<String, FacetEntry> {
         .collect()
 }
 
+/// Parse `behavior-exemptions.json` into component name → reason.
+fn parse_behavior_exemptions(json_str: &str) -> HashMap<String, String> {
+    let v: Value = serde_json::from_str(json_str).expect("embedded registry JSON must be valid");
+    v.get("values")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|e| {
+            Some((
+                e.get("id")?.as_str()?.to_string(),
+                e.get("reason")?.as_str()?.to_string(),
+            ))
+        })
+        .collect()
+}
+
 /// Parse `anatomy-terms.json` into its ids and an alias → id map. Unlike other registries,
 /// an anatomy alias is not a valid value: it only documents another implementation's name.
 fn parse_anatomy_terms(json_str: &str) -> (HashSet<String>, HashMap<String, String>) {
@@ -373,6 +391,7 @@ impl RegistryData {
                 context_words,
                 registries,
                 facets: parse_facets(FACETS_JSON),
+                behavior_exemptions: parse_behavior_exemptions(BEHAVIOR_EXEMPTIONS_JSON),
                 token_names: build_token_name_map(),
                 anatomy_standalone_scope: parse_standalone_scope_ids(ANATOMY_TERMS_JSON),
                 state_precedence: parse_state_precedence(STATES_JSON),
@@ -495,6 +514,16 @@ impl RegistryData {
     /// A registered behavior facet (`facets.json`), or `None` for an unregistered one.
     pub fn facet(&self, facet: &str) -> Option<&FacetEntry> {
         self.facets.get(facet)
+    }
+
+    /// The reason a component is exempt from a behavior contract (`behavior-exemptions.json`).
+    pub fn behavior_exemption(&self, component: &str) -> Option<&str> {
+        self.behavior_exemptions.get(component).map(String::as_str)
+    }
+
+    /// Registered exemption reason ids (`exemption-reasons.json`).
+    pub fn exemption_reasons(&self) -> &HashSet<String> {
+        &self.registries["exemption-reasons"]
     }
 
     /// Registered intent ids (`intents.json`): today's `intents` and `keyboardIntents` vocabulary.

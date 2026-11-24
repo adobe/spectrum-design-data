@@ -1,0 +1,49 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tabs.json",
+      "name": "tabs",
+      "displayName": "Tabs",
+      "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/tabs/"
+      }
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/avatar.json",
+      "name": "avatar",
+      "displayName": "Avatar",
+      "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/avatar/"
+      }
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/divider.json",
+      "name": "divider",
+      "displayName": "Divider",
+      "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/divider/"
+      }
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/slider.json",
+      "name": "slider",
+      "displayName": "Slider",
+      "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+      },
+      "accessibility": {
+        "role": "slider"
+      }
+    }
+  ],
+  "behaviors": [
+    {
+      "component": "avatar"
+    }
+  ]
+}

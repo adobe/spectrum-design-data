@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "exemption-reason",
+  "description": "Reasons a component may have no behavior contract (spec/behavior-contract.md#exemptions). A component is exempt only because it takes no interaction; `behavior-exemptions.json` pairs each exempt component with one of these reasons.",
+  "values": [
+    {
+      "id": "static-text",
+      "label": "Static text",
+      "description": "Text that is read, not operated: a heading, a body paragraph, a label or help text. Nothing to press, focus or change."
+    },
+    {
+      "id": "static-display",
+      "label": "Static display",
+      "description": "Presents information or an image and takes no input: a badge, a status light, an avatar, a divider. If a platform makes one pressable or selectable, it needs a contract instead."
+    },
+    {
+      "id": "container",
+      "label": "Container",
+      "description": "Lays out, groups or wraps other components, or is a sub-part of one, and has no interaction of its own: a card, a panel, a form item. Any behavior belongs to the components inside it, or to the parent component's contract."
+    },
+    {
+      "id": "decorative",
+      "label": "Decorative",
+      "description": "Visual embellishment with no meaning for assistive technology: a checkerboard behind a transparent color, a pulsing marker. The component it decorates carries any behavior."
+    }
+  ]
+}
