@@ -12,7 +12,7 @@ access, no CLI binary, and no configuration required.
    [releases page](https://github.com/adobe/spectrum-design-data/releases) carries the same
    file for that version).
 2. Drag it into **Claude Desktop → Settings → Extensions**, or double-click it.
-3. Check it works: start a new chat and ask *"Use the design-data primer."*
+3. Check it works: start a new chat and ask _"Use the design-data primer."_
 
 No API keys or configuration needed. The extension installs and runs offline.
 
@@ -67,23 +67,23 @@ any network failure (offline/air-gapped use is unaffected); set
 
 ## Tools
 
-| Tool                           | Description                                                                                                                      |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `design-data-primer`           | Session-start overview: token count, mode-sets, components, guidelines, provenance                                               |
-| `design-data-query`            | Filter tokens by query expression; capped, compact, final values (`component=button`)                                            |
-| `design-data-suggest`          | Natural-language token suggestions with Jaccard similarity confidence scores                                                     |
-| `design-data-refinements`      | A token's specificity and its narrower and broader same-property tokens, drop-in or consider                                     |
-| `design-data-component-tokens` | Which tokens a component uses for what, with final values; filter by context, property, state, `options`, `colorScheme`, `scale` |
-| `design-data-token-usage`      | Which components, parts and contexts bind a token, directly or through an alias                                                  |
-| `design-data-contrast`         | WCAG contrast ratio of two colors or tokens against 3:1, 4.5:1 and 7:1                                                           |
-| `design-data-component`        | Full component schema (variants, sizes, states, props) by kebab-case ID                                                          |
-| `design-data-component-search` | Search components by name, description, or docs text; returns id, category, snippet                                              |
-| `design-data-resolve`          | Resolve a token's concrete value for a mode context (colorScheme, scale, contrast)                                               |
-| `design-data-guideline-list`   | List available Spectrum design guideline pages, optionally filtered by category                                                  |
-| `design-data-guideline`        | Full guideline document by slug ID (purpose, rules, accessibility, examples)                                                     |
-| `design-data-visual-recipe`    | Visual recipe (parts, layout, token bindings) for components that have one                                                       |
-| `design-data-render`           | Render a component with a recipe to SVG (default) or PNG for a size, states, mode                                                |
-| `design-data-font-status`      | Which font draws PNG text: Adobe Clean Spectrum VF, else Adobe Clean VF, else bundled                                            |
+| Tool                           | Description                                                                                                                                                                                       |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `design-data-primer`           | Session-start overview: token count, mode-sets, components, guidelines, provenance                                                                                                                |
+| `design-data-query`            | Filter tokens by query expression; capped, compact, final values (`component=button`)                                                                                                             |
+| `design-data-suggest`          | Natural-language token suggestions with Jaccard similarity confidence scores                                                                                                                      |
+| `design-data-refinements`      | A token's specificity and its narrower and broader same-property tokens, drop-in or consider                                                                                                      |
+| `design-data-component-tokens` | Which tokens a component uses for what, with final values; filter by context, property, state, `options`, `colorScheme`, `scale`; `view: "states"` for one row per context with a value per state |
+| `design-data-token-usage`      | Which components, parts and contexts bind a token, directly or through an alias                                                                                                                   |
+| `design-data-contrast`         | WCAG contrast ratio of two colors or tokens against 3:1, 4.5:1 and 7:1                                                                                                                            |
+| `design-data-component`        | Full component schema (variants, sizes, states, props) by kebab-case ID                                                                                                                           |
+| `design-data-component-search` | Search components by name, description, or docs text; returns id, category, snippet                                                                                                               |
+| `design-data-resolve`          | Resolve a token's concrete value for a mode context (colorScheme, scale, contrast)                                                                                                                |
+| `design-data-guideline-list`   | List available Spectrum design guideline pages, optionally filtered by category                                                                                                                   |
+| `design-data-guideline`        | Full guideline document by slug ID (purpose, rules, accessibility, examples)                                                                                                                      |
+| `design-data-visual-recipe`    | Visual recipe (parts, layout, token bindings) for components that have one                                                                                                                        |
+| `design-data-render`           | Render a component with a recipe to SVG (default) or PNG for a size, states, mode                                                                                                                 |
+| `design-data-font-status`      | Which font draws PNG text: Adobe Clean Spectrum VF, else Adobe Clean VF, else bundled                                                                                                             |
 
 ## Fonts for PNG renders
 
