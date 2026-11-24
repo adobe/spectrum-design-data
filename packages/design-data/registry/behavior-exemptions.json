@@ -136,8 +136,8 @@
     {
       "id": "color-handle",
       "label": "Color handle",
-      "reason": "container",
-      "description": "A sub-part of color-area, color-slider and color-wheel, covered by their contracts. No registered reason names a sub-part exactly; container is the closest."
+      "reason": "sub-part",
+      "description": "A sub-part of color-area, color-slider and color-wheel, covered by their contracts."
     }
   ]
 }

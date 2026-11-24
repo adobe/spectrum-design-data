@@ -73,12 +73,13 @@ A recipe `when` or `visibleWhen` may carry `facets: { "<facet>": "<value>" }` be
 
 A component that takes no interaction has no contract. [`registry/behavior-exemptions.json`](registry.md#behavior-contract-registries) lists each one by component name with a `reason` from [`registry/exemption-reasons.json`](registry.md#behavior-contract-registries):
 
-| Reason           | Meaning                                                                                                            |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `static-text`    | Text that is read, not operated (heading, body, label, help text).                                                 |
-| `static-display` | Presents information or an image and takes no input (badge, status light, avatar, divider).                        |
-| `container`      | Lays out, groups or wraps other components, or is a sub-part of one; behavior lives in what it contains or parent. |
-| `decorative`     | Visual embellishment with no meaning for assistive technology.                                                     |
+| Reason           | Meaning                                                                                     |
+| ---------------- | ------------------------------------------------------------------------------------------- |
+| `static-text`    | Text that is read, not operated (heading, body, label, help text).                          |
+| `static-display` | Presents information or an image and takes no input (badge, status light, avatar, divider). |
+| `container`      | Lays out, groups or wraps other components; behavior lives in what it contains.             |
+| `sub-part`       | Part of another component, covered by the parent's contract (a color handle).               |
+| `decorative`     | Visual embellishment with no meaning for assistive technology.                              |
 
 An exemption is a claim about interaction, not a permanent one: if a platform makes an exempt component pressable or selectable (a selectable thumbnail in a collection), remove the entry and write a contract. A component with an `accessibility.role` reaches its contract through the role and needs no entry. Every other component has a contract or an exemption, never both (SPEC-123).
 

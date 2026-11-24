@@ -4176,12 +4176,17 @@ const EXEMPTION_REASONS_JSON: &str = r##"{
     {
       "id": "container",
       "label": "Container",
-      "description": "Lays out, groups or wraps other components, or is a sub-part of one, and has no interaction of its own: a card, a panel, a form item. Any behavior belongs to the components inside it, or to the parent component's contract."
+      "description": "Lays out, groups or wraps other components and has no interaction of its own: a card, a panel, a form item. Any behavior belongs to the components inside it."
     },
     {
       "id": "decorative",
       "label": "Decorative",
       "description": "Visual embellishment with no meaning for assistive technology: a checkerboard behind a transparent color, a pulsing marker. The component it decorates carries any behavior."
+    },
+    {
+      "id": "sub-part",
+      "label": "Sub-part",
+      "description": "Part of another component, covered by the parent's contract: a draggable handle inside a color area, slider or wheel. It is not a stand-alone control, so the parent's contract carries its behavior."
     }
   ]
 }
@@ -4324,8 +4329,8 @@ const BEHAVIOR_EXEMPTIONS_JSON: &str = r##"{
     {
       "id": "color-handle",
       "label": "Color handle",
-      "reason": "container",
-      "description": "A sub-part of color-area, color-slider and color-wheel, covered by their contracts. No registered reason names a sub-part exactly; container is the closest."
+      "reason": "sub-part",
+      "description": "A sub-part of color-area, color-slider and color-wheel, covered by their contracts."
     }
   ]
 }
