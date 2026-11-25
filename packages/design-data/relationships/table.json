@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "sort-icon",
       "property": "size"
     },
     "context": "Header icons",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "sort-icon",
       "property": "size"
     },
     "context": "Header icons",
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Note: desktop 6px, mobile 6px;",
@@ -31,7 +34,11 @@
   {
     "scope": {
       "component": "table",
-      "property": "component-height-100"
+      "part": "column-header-row",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Column header row height",
     "contextRole": ["height"],
@@ -41,7 +48,11 @@
   {
     "scope": {
       "component": "table",
-      "property": "component-height-100"
+      "part": "column-header-row",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Column header row height",
     "contextRole": ["height"],
@@ -51,7 +62,11 @@
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "column-header-row",
+      "property": "space-between",
+      "between": {
+        "to": "text"
+      }
     },
     "context": "Spacing (column header row top/bottom to text)",
     "contextRole": ["spacing"],
@@ -62,6 +77,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "height",
       "options": {
         "density": "compact"
@@ -76,6 +92,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "height"
     },
     "context": "Row height (minimum)",
@@ -87,6 +104,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "height"
     },
     "context": "Row height (minimum)",
@@ -98,6 +116,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "height",
       "options": {
         "density": "spacious"
@@ -112,6 +131,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "height",
       "options": {
         "density": "spacious"
@@ -126,9 +146,13 @@
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "space-between",
       "options": {
         "density": "compact"
+      },
+      "between": {
+        "to": "text"
       }
     },
     "context": "Spacing (row top/bottom to text)",
@@ -140,18 +164,26 @@
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "row",
+      "property": "space-between",
+      "between": {
+        "to": "text"
+      }
     },
-    "context": "Note: desktop 11px, mobile 14px;",
+    "context": "Spacing (row top/bottom to text)",
     "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
     "uuid": "8cefd8c5-1068-5f53-949f-8c492fc01bbd"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "space-between",
       "options": {
         "density": "spacious"
+      },
+      "between": {
+        "to": "text"
       }
     },
     "context": "Spacing (row top/bottom to text)",
@@ -163,7 +195,11 @@
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "cell",
+      "property": "space-between",
+      "between": {
+        "from": "text"
+      }
     },
     "context": "Spacing (text to start/end edge or divider)",
     "contextRole": ["spacing"],
@@ -174,7 +210,12 @@
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "cell",
+      "property": "space-between",
+      "between": {
+        "from": "visual",
+        "to": "text"
+      }
     },
     "context": "Note: desktop 8px, mobile 10px; This applies to icon, avatar, and thumbnail.",
     "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
@@ -183,6 +224,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "container",
       "property": "width"
     },
     "context": "Border and column divider width",
@@ -192,7 +234,12 @@
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "row",
+      "property": "space-between",
+      "between": {
+        "from": "row-checkbox",
+        "to": "text"
+      }
     },
     "context": "Spacing (checkbox to text)",
     "contextRole": ["spacing"],
@@ -203,43 +250,73 @@
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "row",
+      "property": "space-between",
+      "between": {
+        "from": "row-checkbox",
+        "to": "top-edge"
+      }
     },
-    "context": "Note: desktop 8px, mobile 11px;",
+    "context": "Spacing (checkbox to top)",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "a1b394fb-aba5-5d22-b8a5-933eabde3919"
   },
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "row",
+      "property": "space-between",
+      "between": {
+        "from": "row-checkbox",
+        "to": "top-edge"
+      },
+      "options": {
+        "density": "compact"
+      }
     },
-    "context": "Note: desktop 8px, mobile 11px;",
+    "context": "Spacing (checkbox to top)",
     "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae",
     "uuid": "3fcb3ab0-6ebb-5453-9be3-ad8f7c738a5c"
   },
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "row",
+      "property": "space-between",
+      "between": {
+        "from": "row-checkbox",
+        "to": "top-edge"
+      },
+      "options": {
+        "density": "regular"
+      }
     },
-    "context": "Note: desktop 12px, mobile 16px;",
+    "context": "Spacing (checkbox to top)",
     "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
     "uuid": "c17c382a-20cd-504c-830a-8956a6fe7cb6"
   },
   {
     "scope": {
       "component": "table",
-      "property": "space-between"
+      "part": "row",
+      "property": "space-between",
+      "between": {
+        "from": "row-checkbox",
+        "to": "top-edge"
+      },
+      "options": {
+        "density": "spacious"
+      }
     },
-    "context": "Note: desktop 16px, mobile 21px;",
+    "context": "Spacing (checkbox to top)",
     "$ref": "a775a186-802e-4256-947c-7fda3ac53caa",
     "uuid": "ff932c8e-b02e-5dac-94fb-d1be16e69d25"
   },
   {
     "scope": {
       "component": "table",
-      "property": "row-height"
+      "part": "section-header",
+      "property": "height"
     },
     "context": "Section header row height",
     "contextRole": ["height"],
@@ -249,7 +326,8 @@
   {
     "scope": {
       "component": "table",
-      "property": "row-height"
+      "part": "section-header",
+      "property": "height"
     },
     "context": "Section header row height",
     "contextRole": ["height"],
@@ -259,7 +337,15 @@
   {
     "scope": {
       "component": "table",
-      "property": "component-top-to-text-100"
+      "part": "section-header",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (section header row top/bottom to text)",
     "contextRole": ["spacing"],
@@ -270,7 +356,15 @@
   {
     "scope": {
       "component": "table",
-      "property": "component-bottom-to-text-100"
+      "part": "section-header",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (section header row top/bottom to text)",
     "contextRole": ["spacing"],
@@ -281,6 +375,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "row-checkbox",
       "property": "content-color"
     },
     "context": "Selection indicator",
@@ -291,6 +386,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "container",
       "property": "border-width"
     },
     "context": "Note: 1px;",
@@ -300,6 +396,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "cell",
       "property": "corner-radius"
     },
     "context": "Focus indicator (cell)",
@@ -311,6 +408,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "thickness"
     },
     "context": "Focus indicator (row)",
@@ -322,6 +420,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "column-header",
       "property": "color"
     },
     "context": "Column header and row (text)",
@@ -333,69 +432,77 @@
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "content-color"
     },
-    "context": "Row: not selected",
+    "context": "Row",
     "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
     "uuid": "0f3b5b99-58af-500e-8b8a-53c0ceeddae9"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "content-color"
     },
-    "context": "Row: not selected",
+    "context": "Row",
     "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6",
     "uuid": "091ab5dd-8730-5210-b854-0571a59fa93f"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "content-color"
     },
-    "context": "Row: not selected",
+    "context": "Row",
     "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3",
     "uuid": "83f9c38b-8953-55f8-b3e8-b489393abecc"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "content-color"
     },
-    "context": "Row: selected, checkbox & highlight",
+    "context": "Row",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "23b4cd98-a363-5882-a02b-2f2be5ea40be"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "content-color"
     },
-    "context": "Row: selected, checkbox & highlight",
+    "context": "Row",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "0c714170-267c-50df-8973-6f7073239e57"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "content-color"
     },
-    "context": "Row: selected, checkbox & highlight",
+    "context": "Row",
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "4b5fe68c-e5cf-5ffc-8843-4a1098c94aa7"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "content-color"
     },
-    "context": "Row: selected, checkbox & highlight",
+    "context": "Row",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "1ead4997-427b-5002-af66-541377f7e403"
   },
   {
     "scope": {
       "component": "table",
+      "part": "sort-icon",
       "property": "content-color"
     },
     "context": "Sort UI icon asset",
@@ -405,6 +512,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "container",
       "property": "color"
     },
     "context": "Note: change applies to both desktop and mobile.",
@@ -414,6 +522,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "container",
       "property": "color"
     },
     "context": "Note: change applies to both desktop and mobile.",
@@ -423,6 +532,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "container",
       "property": "color"
     },
     "context": "Note: change applies to both desktop and mobile.",
@@ -432,7 +542,9 @@
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "column-header-row",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Column header and row (background, border and divider)",
     "contextRole": ["layout", "layout"],
@@ -443,7 +555,9 @@
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "column-header-row",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Column header and row (background, border and divider)",
     "contextRole": ["layout", "layout"],
@@ -454,7 +568,9 @@
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "column-header-row",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Column header and row (background, border and divider)",
     "contextRole": ["layout", "layout"],
@@ -465,7 +581,9 @@
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "column-header-row",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Column header and row (background, border and divider)",
     "contextRole": ["layout", "layout"],
@@ -476,7 +594,9 @@
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "column-header-row",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Column header and row (background, border and divider)",
     "contextRole": ["layout", "layout"],
@@ -487,7 +607,9 @@
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "column-header-row",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Column header and row (background, border and divider)",
     "contextRole": ["layout", "layout"],
@@ -498,160 +620,175 @@
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Summary row (background)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "background",
     "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4",
     "uuid": "640fb1e5-51a2-5b1e-a6e3-d26c6c60ad6d"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Summary row (background)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "background",
     "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2",
     "uuid": "c5f11f31-42a4-5fb4-926c-6b0a7978e454"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Summary row (background)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "background",
     "$ref": "eaad36fe-2827-4404-8876-060de75c2b34",
     "uuid": "b22fdcc8-2e1a-5e70-976a-7e9699346427"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (disabled)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "disabled",
     "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
     "uuid": "ff2e9674-43ca-5139-8a73-8e78108dd7ba"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (disabled)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "disabled",
     "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f",
     "uuid": "f8a54b09-9c0c-5d8e-ad9a-4bb4c2050ad5"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (disabled)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "disabled",
     "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8",
     "uuid": "3d82e7c8-5109-5bb3-83ba-5b882a7ff3b0"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (disabled)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "disabled",
     "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
     "uuid": "c8f516f5-a02e-5d39-bbb7-f97a0c640c78"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (disabled)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "disabled",
     "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
     "uuid": "5201d056-8158-59af-8f49-6a2c75e08598"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (disabled)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "disabled",
     "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
     "uuid": "1eadf879-ca14-5ff2-bc5d-9e1abd856c00"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (not selected, hover)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "not selected, hover",
     "$ref": "022a6244-ce6c-4c3f-82a1-e2f5118d3c5e",
     "uuid": "fa6e2eb3-d381-540c-9853-26cfc5d225b9"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (checkbox selection)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "checkbox selection",
     "$ref": "128c4963-471a-44e3-9fb5-328d92d0266d",
     "uuid": "e3fae6bb-b981-5cd4-a770-2cbb7b511f3f"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (checkbox selection, hover)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "checkbox selection, hover",
     "$ref": "a1bcd6c6-ef3e-42e4-8d88-2fafe2b318da",
     "uuid": "7c85fd37-6dbf-5fcb-a7bf-42bbab71fe29"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (checkbox selection, down)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "checkbox selection, down",
     "$ref": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
     "uuid": "b8d22e2a-5135-5f94-9cc4-32ab39a6f124"
   },
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Row (checkbox selection, keyboard focus)",
+    "context": "Row",
     "contextRole": ["layout"],
-    "contextQualifier": "checkbox selection, keyboard focus",
     "$ref": "93f433f2-2d0b-4225-8b39-b10000808360",
     "uuid": "d8b73ea1-bba5-57ea-b259-e3f8cc264aa8"
   },
   {
     "scope": {
       "component": "table",
+      "part": "cell",
       "property": "color"
     },
     "context": "Focus indicator (cell)",
@@ -663,6 +800,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "cell",
       "property": "font-family"
     },
     "context": "Column header and row",
@@ -673,6 +811,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "cell",
       "property": "font-weight"
     },
     "context": "Column header and row",
@@ -683,6 +822,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "cell",
       "property": "font-style"
     },
     "context": "Column header and row",
@@ -693,7 +833,11 @@
   {
     "scope": {
       "component": "table",
-      "property": "font-size-100"
+      "part": "cell",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Column header and row",
     "contextRole": ["layout", "layout"],
@@ -703,7 +847,11 @@
   {
     "scope": {
       "component": "table",
-      "property": "font-size-100"
+      "part": "cell",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Column header and row",
     "contextRole": ["layout", "layout"],
@@ -713,7 +861,8 @@
   {
     "scope": {
       "component": "table",
-      "property": "line-height-100"
+      "part": "cell",
+      "property": "line-height"
     },
     "context": "Column header and row",
     "contextRole": ["layout", "layout"],
@@ -723,7 +872,8 @@
   {
     "scope": {
       "component": "table",
-      "property": "line-height-100"
+      "part": "cell",
+      "property": "line-height"
     },
     "context": "Column header and row",
     "contextRole": ["layout", "layout"],
@@ -733,6 +883,7 @@
   {
     "scope": {
       "component": "table",
+      "part": "cell",
       "property": "font-weight"
     },
     "context": "Column header and row",
@@ -743,60 +894,64 @@
   {
     "scope": {
       "component": "table",
-      "property": "color"
+      "part": "row",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "S1 Row (not selected, hover)",
+    "context": "Row",
     "$ref": "44aedb76-5483-4ac3-a6f5-8cf71c2bd376",
     "uuid": "6baf569c-3079-5164-afff-0b2bffc98557"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "opacity"
     },
-    "context": "S1 Row (not selected, hover)",
+    "context": "Background",
     "$ref": "e287d553-3712-4d6e-98f0-6075107e85fe",
     "uuid": "97f297e9-310e-5e6b-8638-d9ab086a8494"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "opacity"
     },
-    "context": "S1 Row (checkbox selection, down)",
+    "context": "Background",
     "$ref": "75ae742c-e96e-494f-9880-746bb2849575",
     "uuid": "50085bf1-2bf5-57d9-8ef1-ee136530a034"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "color"
     },
-    "context": "Background (selected row, highlight selection)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, highlight selection",
     "$ref": "b7537f50-bd49-44b6-a171-19943d443d24",
     "uuid": "f4dd8ece-3499-51e6-9c43-bb1ffe668a67"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "opacity"
     },
-    "context": "Background (selected row, highlight selection)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, highlight selection",
     "$ref": "61b3aa04-0e7e-44b8-a4c8-8442a4ebf549",
     "uuid": "2a854d3e-9d57-5535-a83d-fe4bb4b95702"
   },
   {
     "scope": {
       "component": "table",
+      "part": "row",
       "property": "opacity"
     },
-    "context": "Background (selected row, highlight selection, hover)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, highlight selection, hover",
     "$ref": "ce2851bc-8ae1-4b27-8cd6-f191c9cd7fe9",
     "uuid": "460db317-aecb-5367-bb64-096f8e82970b"
   },
@@ -812,7 +967,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "75ae742c-e96e-494f-9880-746bb2849575",
-    "legacyKey": "table-row-down-opacity"
+    "legacyKey": "table-row-down-opacity",
+    "context": "Background"
   },
   {
     "scope": {
@@ -826,7 +982,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
     "uuid": "44aedb76-5483-4ac3-a6f5-8cf71c2bd376",
-    "legacyKey": "table-row-hover-color"
+    "legacyKey": "table-row-hover-color",
+    "context": "Background"
   },
   {
     "scope": {
@@ -840,7 +997,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.07",
     "uuid": "e287d553-3712-4d6e-98f0-6075107e85fe",
-    "legacyKey": "table-row-hover-opacity"
+    "legacyKey": "table-row-hover-opacity",
+    "context": "Background"
   },
   {
     "scope": {
@@ -855,7 +1013,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b40c677-e046-4a49-b421-8a4451844512",
     "uuid": "b7537f50-bd49-44b6-a171-19943d443d24",
-    "legacyKey": "table-selected-row-background-color"
+    "legacyKey": "table-selected-row-background-color",
+    "context": "Background"
   },
   {
     "scope": {
@@ -868,9 +1027,8 @@
         "object": "background"
       }
     },
-    "context": "Background (selected row, checkbox selection)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, checkbox selection",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
     "uuid": "8578067a-6ce0-4059-84ad-4688c71df156",
@@ -889,7 +1047,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "61b3aa04-0e7e-44b8-a4c8-8442a4ebf549",
-    "legacyKey": "table-selected-row-background-opacity"
+    "legacyKey": "table-selected-row-background-opacity",
+    "context": "Background"
   },
   {
     "scope": {
@@ -904,7 +1063,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "ce2851bc-8ae1-4b27-8cd6-f191c9cd7fe9",
-    "legacyKey": "table-selected-row-background-opacity-hover"
+    "legacyKey": "table-selected-row-background-opacity-hover",
+    "context": "Background"
   },
   {
     "scope": {
@@ -917,9 +1077,8 @@
         "emphasis": "non-emphasized"
       }
     },
-    "context": "Background (selected row, checkbox selection)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, checkbox selection",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "1ef41e27-3dea-4589-ad7a-140a03a77384",
@@ -936,9 +1095,8 @@
         "emphasis": "non-emphasized"
       }
     },
-    "context": "Background (selected row, checkbox selection, hover)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected row, checkbox selection, hover",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "6a093ea1-f07e-4673-b52f-5b28a2e080d0",
@@ -956,7 +1114,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "b6f2536c-deda-409f-8667-a5a99abdfa46",
-    "legacyKey": "table-border-divider-width"
+    "legacyKey": "table-border-divider-width",
+    "context": "Border and column divider width"
   },
   {
     "scope": {
@@ -3360,7 +3519,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
     "uuid": "b4b86a59-041d-451c-a0be-cc82e997a1d2",
-    "legacyKey": "table-row-height-medium-compact"
+    "legacyKey": "table-row-height-medium-compact",
+    "context": "Row height (minimum)"
   },
   {
     "scope": {
@@ -3424,7 +3584,8 @@
     "uuid": "697f4b63-14b9-4d58-9d16-b9dfd72ff391",
     "legacyKey": "table-row-height-medium-spacious",
     "setUuid": "f5f3982f-4902-4a3f-9915-de8e1489bc24",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Row height (minimum)"
   },
   {
     "scope": {
@@ -3442,7 +3603,8 @@
     "uuid": "572d1c5f-62a1-4bfc-a3e0-520a999545fe",
     "legacyKey": "table-row-height-medium-spacious",
     "setUuid": "f5f3982f-4902-4a3f-9915-de8e1489bc24",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Row height (minimum)"
   },
   {
     "scope": {

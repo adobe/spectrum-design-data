@@ -2,7 +2,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size"
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -12,7 +13,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size"
     },
     "context": "Icon size",
     "contextRole": ["size"],
@@ -22,6 +24,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "minimum-height"
     },
     "context": "Component height",
@@ -32,6 +35,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "minimum-height"
     },
     "context": "Component height",
@@ -42,6 +46,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "minimum-width"
     },
     "context": "Component width",
@@ -52,6 +57,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "minimum-width"
     },
     "context": "Component width",
@@ -62,6 +68,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "corner-radius"
     },
     "context": "Item rounding",
@@ -72,7 +79,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "drag-handle"
+      }
     },
     "context": "Spacing (edge to drag handle)",
     "contextRole": ["spacing"],
@@ -83,7 +95,11 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "from": "drag-handle"
+      }
     },
     "context": "Spacing (drag handle to checkbox, to visual, to text)",
     "contextRole": ["spacing"],
@@ -94,7 +110,11 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge"
+      }
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
     "contextRole": ["spacing"],
@@ -105,7 +125,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-edge-to-text-100"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
     "contextRole": ["spacing"],
@@ -116,7 +141,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-edge-to-text-100"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
     "contextRole": ["spacing"],
@@ -127,7 +157,11 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "to": "text"
+      }
     },
     "context": "Spacing (content items to text)",
     "contextRole": ["spacing"],
@@ -138,7 +172,11 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "to": "end-edge"
+      }
     },
     "context": "Spacing (navigation indicator to edge, actions to edge)",
     "contextRole": ["spacing"],
@@ -149,7 +187,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "drill-in-chevron"
+      }
     },
     "context": "Spacing (edge to Navigation icon)",
     "contextRole": ["spacing"],
@@ -160,6 +203,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "vertical-align-items"
     },
     "context": "Spacing (vertical)",
@@ -171,6 +215,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "minimum-padding-vertical"
     },
     "context": "Spacing (vertical)",
@@ -182,6 +227,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "minimum-padding-vertical"
     },
     "context": "Spacing (vertical)",
@@ -193,7 +239,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "list-item",
+      "property": "space-between",
+      "between": {
+        "from": "label",
+        "to": "description"
+      }
     },
     "context": "Spacing (navigation indicator)",
     "contextRole": ["spacing"],
@@ -204,6 +255,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "border-width"
     },
     "context": "Border width (selected - highlight)",
@@ -215,6 +267,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus",
@@ -225,6 +278,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus (drag handle)",
@@ -236,6 +290,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "x"
     },
     "context": "Dragged shadow",
@@ -246,6 +301,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "y"
     },
     "context": "Dragged shadow",
@@ -256,6 +312,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "blur"
     },
     "context": "Dragged shadow",
@@ -266,7 +323,9 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "list-item",
+      "property": "color",
+      "attribute": "shadow"
     },
     "context": "Dragged shadow",
     "contextRole": ["shadow"],
@@ -276,7 +335,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-height-100"
+      "part": "section-header",
+      "property": "height"
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -286,7 +346,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-height-100"
+      "part": "section-header",
+      "property": "height"
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -296,6 +357,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "section-header",
       "property": "minimum-width"
     },
     "context": "Width",
@@ -306,6 +368,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "section-header",
       "property": "minimum-width"
     },
     "context": "Width",
@@ -316,7 +379,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-edge-to-text-100"
+      "part": "section-header",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (horizontal)",
     "contextRole": ["spacing"],
@@ -327,7 +395,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-edge-to-text-100"
+      "part": "section-header",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (horizontal)",
     "contextRole": ["spacing"],
@@ -338,7 +411,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-top-to-text-100"
+      "part": "section-header",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (vertical)",
     "contextRole": ["spacing"],
@@ -349,7 +427,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-bottom-to-text-100"
+      "part": "section-header",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (vertical)",
     "contextRole": ["spacing"],
@@ -360,7 +443,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "section-header",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "workflow-icon"
+      }
     },
     "context": "Spacing (vertical)",
     "contextRole": ["spacing"],
@@ -371,7 +459,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "section-header",
+        "to": "list-item"
+      }
     },
     "context": "Spacing (vertically, between list view header to list view items)",
     "contextRole": ["spacing"],
@@ -382,7 +475,12 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "section-header",
+        "to": "list-item"
+      }
     },
     "context": "Spacing (vertically, between list view header to list view items)",
     "contextRole": ["spacing"],
@@ -393,7 +491,9 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -403,7 +503,9 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -413,7 +515,9 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -423,61 +527,67 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "list-item",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
     "$ref": "128c4963-471a-44e3-9fb5-328d92d0266d",
     "uuid": "0c7b49c0-f2ab-513c-9517-7c32fa93194d"
   },
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "list-item",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
     "$ref": "a1bcd6c6-ef3e-42e4-8d88-2fafe2b318da",
     "uuid": "d816d7af-37bf-5fec-bf95-5ab59a68e518"
   },
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "list-item",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
     "$ref": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
     "uuid": "5fd1bc4d-cfc0-5349-a8d2-5b2430fbd484"
   },
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "list-item",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Background (selected, checkbox)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, checkbox",
     "$ref": "93f433f2-2d0b-4225-8b39-b10000808360",
     "uuid": "f26db715-2422-5edd-a3b9-07ef4ba8c4a2"
   },
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "list-item",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
     "$ref": "beaff99a-634a-4ce8-b2f4-54c63202d45b",
     "uuid": "7c212439-efb9-576a-a699-f01e80b16974"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "opacity"
     },
     "context": "Background (selected, highlight)",
@@ -489,6 +599,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "list-item",
       "property": "content-color"
     },
     "context": "Border (selected, highlight)",
@@ -500,7 +611,9 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -510,7 +623,9 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -520,7 +635,9 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -530,116 +647,118 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (non-selected)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "non-selected",
     "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
     "uuid": "e9289155-2a6d-5e84-bb31-0b2fd59b9f4a"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (non-selected)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "non-selected",
     "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6",
     "uuid": "92f69f5c-a44f-5daf-95cd-d770a3e82b56"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (non-selected)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "non-selected",
     "$ref": "8ab4accc-bd95-48e0-ae3a-539740a07cc6",
     "uuid": "e9d4b056-fd46-5a56-9275-ed338d05933e"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (non-selected)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "non-selected",
     "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3",
     "uuid": "d5f40677-53db-5279-aebe-7d13d2fe64d9"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (selected, checkbox and highlight)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "selected, checkbox and highlight",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
     "uuid": "e4670741-fc1e-5c4f-a1b3-5a88f54ad494"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (selected, checkbox and highlight)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "selected, checkbox and highlight",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "uuid": "7caaec7b-2985-5e44-bf53-71926fac58ce"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (selected, checkbox and highlight)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "selected, checkbox and highlight",
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
     "uuid": "69f541dc-54f3-5a14-bff1-a6492868077d"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (selected, checkbox and highlight)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "selected, checkbox and highlight",
     "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
     "uuid": "905bb9fb-17b9-5d94-9c28-72e279365c3d"
   },
   {
     "scope": {
       "component": "list-view",
-      "property": "color"
+      "part": "list-item",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Background (disabled)",
+    "context": "Background",
     "contextRole": ["background"],
-    "contextQualifier": "disabled",
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
     "uuid": "90633243-9771-50bb-a031-6be0a1428b11"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "content-color"
     },
-    "context": "Label and icon (disabled)",
+    "context": "Label and icon",
     "contextRole": ["label", "icon"],
-    "contextQualifier": "disabled",
     "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
     "uuid": "087fb1d5-02ca-5083-ae8e-329b49bb2f89"
   },
   {
     "scope": {
       "component": "list-view",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus indicator",
@@ -650,6 +769,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "section-header",
       "property": "color"
     },
     "context": "Title label and icon",
@@ -659,6 +779,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Text (List view item)",
@@ -670,6 +791,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Text (List view item)",
@@ -681,6 +803,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Text (List view item)",
@@ -692,7 +815,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size"
     },
     "context": "Text (List view item)",
     "contextRole": ["label"],
@@ -703,7 +827,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size"
     },
     "context": "Text (List view item)",
     "contextRole": ["label"],
@@ -714,7 +839,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Text (List view item)",
     "contextRole": ["label"],
@@ -725,7 +851,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Text (List view item)",
     "contextRole": ["label"],
@@ -736,7 +863,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "font-size-75"
+      "part": "description",
+      "property": "font-size"
     },
     "context": "Text (List view description)",
     "contextRole": ["label"],
@@ -747,7 +875,8 @@
   {
     "scope": {
       "component": "list-view",
-      "property": "font-size-75"
+      "part": "description",
+      "property": "font-size"
     },
     "context": "Text (List view description)",
     "contextRole": ["label"],
@@ -758,6 +887,7 @@
   {
     "scope": {
       "component": "list-view",
+      "part": "section-header",
       "property": "font-weight"
     },
     "context": "Text (List view title)",
