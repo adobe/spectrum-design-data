@@ -1,6 +1,7 @@
 ---
 "@adobe/design-data-spec": minor
 "@adobe/spectrum-design-data": minor
+"@adobe/design-data-wasm": patch
 ---
 
 Add behavior contracts for Swatch and Swatch group.
@@ -13,3 +14,4 @@ Add behavior contracts for Swatch and Swatch group.
   stay. Arrow keys have no web binding until the role is decided.
 - 23 group vectors and 7 swatch vectors; mutation tests fail when a traversal flag, choose mode
   or guard is broken. No render or spec sheet change.
+- Embedded contracts and the facets registry change, hence the wasm patch.
