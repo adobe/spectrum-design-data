@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "container",
       "property": "minimum-width"
     },
     "context": "Minimum width",
@@ -12,6 +13,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "container",
       "property": "maximum-width"
     },
     "context": "Maximum width",
@@ -22,7 +24,11 @@
   {
     "scope": {
       "component": "meter",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -32,7 +38,11 @@
   {
     "scope": {
       "component": "meter",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -42,7 +52,11 @@
   {
     "scope": {
       "component": "meter",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -52,7 +66,11 @@
   {
     "scope": {
       "component": "meter",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -62,7 +80,11 @@
   {
     "scope": {
       "component": "meter",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -72,7 +94,11 @@
   {
     "scope": {
       "component": "meter",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -82,7 +108,11 @@
   {
     "scope": {
       "component": "meter",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -92,7 +122,11 @@
   {
     "scope": {
       "component": "meter",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -102,7 +136,8 @@
   {
     "scope": {
       "component": "meter",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -112,7 +147,8 @@
   {
     "scope": {
       "component": "meter",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -122,6 +158,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "container",
       "property": "gap",
       "options": {
         "size": "s"
@@ -136,6 +173,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "container",
       "property": "gap",
       "options": {
         "size": "m"
@@ -150,6 +188,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "container",
       "property": "gap",
       "options": {
         "size": "l"
@@ -164,6 +203,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "container",
       "property": "gap",
       "options": {
         "size": "xl"
@@ -178,7 +218,15 @@
   {
     "scope": {
       "component": "meter",
-      "property": "component-top-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top edge to text)",
     "contextRole": ["spacing"],
@@ -189,7 +237,15 @@
   {
     "scope": {
       "component": "meter",
-      "property": "component-top-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top edge to text)",
     "contextRole": ["spacing"],
@@ -200,7 +256,15 @@
   {
     "scope": {
       "component": "meter",
-      "property": "component-top-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top edge to text)",
     "contextRole": ["spacing"],
@@ -211,7 +275,15 @@
   {
     "scope": {
       "component": "meter",
-      "property": "component-top-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top edge to text)",
     "contextRole": ["spacing"],
@@ -222,6 +294,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "header",
       "property": "spacing"
     },
     "context": "Minimum spacing (field label to text)",
@@ -233,6 +306,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Meter (thickness)",
@@ -244,6 +318,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Meter (thickness)",
@@ -255,6 +330,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Meter (thickness)",
@@ -266,6 +342,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Meter (thickness)",
@@ -277,6 +354,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Meter (thickness)",
@@ -288,6 +366,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Meter (thickness)",
@@ -299,6 +378,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Meter (thickness)",
@@ -310,6 +390,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "thickness"
     },
     "context": "Meter (thickness)",
@@ -321,6 +402,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "corner-radius"
     },
     "context": "Meter (rounding)",
@@ -332,6 +414,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Text",
@@ -342,6 +425,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "color"
     },
     "context": "Track and indicator",
@@ -352,6 +436,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "label",
       "property": "content-color",
       "options": {
         "staticColor": "black"
@@ -365,6 +450,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "color",
       "options": {
         "staticColor": "black"
@@ -378,6 +464,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "content-color",
       "options": {
         "staticColor": "black"
@@ -391,6 +478,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "label",
       "property": "content-color",
       "options": {
         "staticColor": "white"
@@ -404,6 +492,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "color",
       "options": {
         "staticColor": "white"
@@ -417,6 +506,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "track",
       "property": "content-color",
       "options": {
         "staticColor": "white"
@@ -448,12 +538,14 @@
   {
     "scope": {
       "component": "meter",
+      "part": "container",
       "property": "maximum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "768px",
     "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9",
-    "legacyKey": "meter-maximum-width"
+    "legacyKey": "meter-maximum-width",
+    "context": "Maximum width"
   },
   {
     "scope": {
@@ -698,6 +790,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Text",
@@ -708,6 +801,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Text",
@@ -718,6 +812,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Text",
@@ -728,6 +823,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "informative"
@@ -741,6 +837,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "informative"
@@ -754,6 +851,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "informative"
@@ -767,6 +865,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "positive"
@@ -780,6 +879,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "positive"
@@ -793,6 +893,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "positive"
@@ -806,6 +907,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "notice"
@@ -819,6 +921,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "notice"
@@ -832,6 +935,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "notice"
@@ -845,6 +949,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "negative"
@@ -858,6 +963,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "negative"
@@ -871,6 +977,7 @@
   {
     "scope": {
       "component": "meter",
+      "part": "fill",
       "property": "content-color",
       "options": {
         "variant": "negative"
