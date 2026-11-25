@@ -24,7 +24,7 @@ use crate::behavior::INTERACTION_EVENTS;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::behavior_util::{
-    extends_of, facet_values, facet_values_of, state_ids, warning,
+    collection_item, extends_of, facet_values, facet_values_of, state_ids, warning,
 };
 
 pub struct Rule;
@@ -209,11 +209,52 @@ impl ValidationRule for Rule {
                         .into_iter()
                         .flat_map(|o| o.keys().map(String::as_str)),
                 );
+                changed.extend(t.pointer("/do/choose").and_then(Value::as_str));
                 for o in changed.into_iter().filter(|o| !state.contains(*o)) {
                     problem(
                         format!("{at}/do"),
                         format!("has a transition changing '{o}', which is not in `state`"),
                     );
+                }
+            }
+        }
+        for b in &ctx.graph.behaviors {
+            let Some(traversal) = b.raw.pointer("/collection/traversal") else {
+                continue;
+            };
+            let item = collection_item(ctx.graph, b);
+            for (key, on_item) in [("mirror", false), ("skip", true)] {
+                let mut guards = Vec::new();
+                if let Some(g) = traversal.get(key) {
+                    guard_facets(g, &mut guards);
+                }
+                for (facet, is) in guards {
+                    let values = if on_item {
+                        let Some(i) = &item else { continue };
+                        facet_values_of(ctx.graph, &i.raw, ctx.registry, facet)
+                    } else {
+                        facet_values(ctx.graph, b, ctx.registry, facet)
+                    };
+                    let whose = if on_item { "item" } else { "group" };
+                    let at = format!("/collection/traversal/{key}");
+                    match values {
+                        None => out.push(warning(
+                            self.id(),
+                            b,
+                            &at,
+                            format!("Behavior contract of '{}' has a traversal `{key}` reading facet '{facet}', which the {whose} contract does not declare", b.component),
+                        )),
+                        Some(values) => {
+                            if let Some(is) = is.filter(|is| !values.contains(*is)) {
+                                out.push(warning(
+                                    self.id(),
+                                    b,
+                                    &at,
+                                    format!("Behavior contract of '{}' has a traversal `{key}` testing facet '{facet}' for '{is}', which is not one of its values", b.component),
+                                ));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -239,6 +280,7 @@ impl ValidationRule for Rule {
                         .into_iter()
                         .flat_map(|o| o.keys().map(String::as_str)),
                 );
+                changed.extend(t.pointer("/do/choose").and_then(Value::as_str));
                 for o in changed
                     .into_iter()
                     .filter(|o| !state.contains(*o) && !m.published.iter().any(|p| p == o))
@@ -512,6 +554,34 @@ mod tests {
                     |c| c["transitions"][0]["do"] = json!({ "set": { "isSelected": { "not": { "facet": "checked", "is": "mixed" } } } }),
                 ),
                 "not one of its values",
+            ),
+        ];
+        for (edit, why) in cases {
+            let m = check(edit);
+            assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
+        }
+    }
+
+    #[test]
+    fn flags_a_collection_traversal_and_choose_that_do_not_resolve() {
+        let cases: Vec<Case> = vec![
+            (
+                Box::new(|c| {
+                    c["collection"] = json!({ "slot": "default", "item": "switch",
+                        "traversal": { "skip": { "facet": "ghost", "is": "true" } } })
+                }),
+                "traversal `skip` reading facet 'ghost'",
+            ),
+            (
+                Box::new(|c| {
+                    c["collection"] = json!({ "slot": "default", "item": "switch",
+                        "traversal": { "mirror": { "facet": "disabled", "is": "maybe" } } })
+                }),
+                "not one of its values",
+            ),
+            (
+                Box::new(|c| c["transitions"][0]["do"] = json!({ "choose": "isGhost" })),
+                "changing 'isGhost'",
             ),
         ];
         for (edit, why) in cases {

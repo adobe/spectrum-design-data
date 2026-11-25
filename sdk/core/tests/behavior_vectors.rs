@@ -14,7 +14,9 @@
 use std::collections::HashSet;
 use std::path::PathBuf;
 
-use design_data_core::behavior::{all_capabilities, run_dir, run_vectors, Status};
+use design_data_core::behavior::{
+    all_capabilities, run_dir, run_vectors, run_vectors_with, Status,
+};
 use design_data_core::graph::TokenGraph;
 use design_data_core::registry::RegistryData;
 use serde_json::{json, Value};
@@ -87,17 +89,27 @@ fn failures(
     vectors: &[Value],
     patterns: &[design_data_core::graph::BehaviorPatternRecord],
 ) -> usize {
-    run_vectors(
+    run_vectors_with(
         contract,
         patterns,
         vectors,
         RegistryData::embedded(),
         &all_capabilities(),
         None,
+        &all_contracts(),
     )
     .iter()
     .filter(|r| matches!(r.status, Status::Fail(_)))
     .count()
+}
+
+/// Every contract, for a group whose `collection` names its item.
+fn all_contracts() -> Vec<Value> {
+    TokenGraph::load_spec_behaviors(&dirs().0)
+        .unwrap()
+        .into_iter()
+        .map(|c| c.raw)
+        .collect()
 }
 
 /// Each break of a contract, or of the toggle pattern it extends, must fail at least one vector,
@@ -546,16 +558,18 @@ fn radio_binds_no_home_or_end() {
     let web: Value =
         serde_json::from_str(&std::fs::read_to_string(dirs().0.join("bindings/web.json")).unwrap())
             .unwrap();
-    let keys: Vec<&str> = web["roles"]["radio"]["keyboard"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .filter_map(|e| e["key"].as_str())
-        .collect();
-    assert!(
-        !keys.contains(&"Home") && !keys.contains(&"End"),
-        "{keys:?}"
-    );
+    for role in ["radio", "radiogroup"] {
+        let keys: Vec<&str> = web["roles"][role]["keyboard"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter_map(|e| e["key"].as_str())
+            .collect();
+        assert!(
+            !keys.contains(&"Home") && !keys.contains(&"End"),
+            "{role}: {keys:?}"
+        );
+    }
 }
 
 #[test]
@@ -918,4 +932,301 @@ fn a_mutated_group_contract_fails_its_pins_or_a_vector() {
             assert!(failures(&m, &vectors, &patterns) > 0, "{c}: disabled");
         }
     }
+}
+
+/// The radio group's component suite and key suite, run with the web bindings.
+fn radio_group_failures(
+    contract: &Value,
+    bindings: &Value,
+    patterns: &[design_data_core::graph::BehaviorPatternRecord],
+    contracts: &[Value],
+) -> usize {
+    let (_, component_vectors, _) = load("radio-group");
+    let mut n = 0;
+    for (vectors, b) in [
+        (component_vectors, None),
+        (key_suite("radiogroup"), Some(bindings)),
+    ] {
+        n += run_vectors_with(
+            contract,
+            patterns,
+            &vectors,
+            RegistryData::embedded(),
+            &all_capabilities(),
+            b,
+            contracts,
+        )
+        .iter()
+        .filter(|r| matches!(r.status, Status::Fail(_)))
+        .count();
+    }
+    n
+}
+
+/// Each traversal, choose and item rule of the radio group must be pinned by a vector: wrap, skip,
+/// mirror (and a swapped binding), select-on-move and the choose mode.
+#[test]
+fn a_broken_collection_rule_or_swapped_arrow_binding_fails_a_vector() {
+    let (contract, _, patterns) = load("radio-group");
+    let contracts = all_contracts();
+    let bindings = web_bindings();
+    assert_eq!(
+        radio_group_failures(&contract, &bindings, &patterns, &contracts),
+        0
+    );
+    let group_edits = [
+        ("wrap off", "/collection/traversal/wrap", json!(false)),
+        (
+            "no skip",
+            "/collection/traversal/skip",
+            json!({ "facet": "disabled", "is": "false" }),
+        ),
+        (
+            "select on move off",
+            "/collection/traversal/selectOnMove",
+            json!(false),
+        ),
+        (
+            "mirror never",
+            "/collection/traversal/mirror",
+            json!({ "facet": "arrowOrder", "is": "natural" }),
+        ),
+        (
+            "mirror always",
+            "/collection/traversal/mirror",
+            json!({ "facet": "orientation", "is": "vertical" }),
+        ),
+        (
+            "choose multiple",
+            "/collection/choose/mode",
+            json!("multiple"),
+        ),
+        ("choose none", "/collection/choose/mode", json!("none")),
+    ];
+    for (what, pointer, value) in group_edits {
+        let mut m = contract.clone();
+        *m.pointer_mut(pointer).unwrap() = value;
+        assert!(
+            radio_group_failures(&m, &bindings, &patterns, &contracts) > 0,
+            "{what} failed no vector"
+        );
+    }
+    let mut m = contract.clone();
+    m["collection"]["traversal"]
+        .as_object_mut()
+        .unwrap()
+        .remove("mirror");
+    assert!(
+        radio_group_failures(&m, &bindings, &patterns, &contracts) > 0,
+        "no mirror"
+    );
+    // The item: choosing by `set` leaves the other radios on.
+    let mut broken: Vec<Value> = contracts.clone();
+    let radio = broken
+        .iter_mut()
+        .find(|c| c["component"] == "radio-button")
+        .unwrap();
+    radio["transitions"][0]["do"] = json!({ "set": { "isSelected": true } });
+    assert!(
+        radio_group_failures(&contract, &bindings, &patterns, &broken) > 0,
+        "set instead of choose"
+    );
+    // Bindings: swapped arrows, each pair.
+    for (a, b) in [(0, 2), (1, 3), (0, 3), (1, 2)] {
+        let mut swapped = web_bindings();
+        let keys = swapped["roles"]["radiogroup"]["keyboard"]
+            .as_array_mut()
+            .unwrap();
+        let (ka, kb) = (keys[a]["key"].clone(), keys[b]["key"].clone());
+        keys[a]["key"] = kb;
+        keys[b]["key"] = ka;
+        assert!(
+            radio_group_failures(&contract, &swapped, &patterns, &contracts) > 0,
+            "swapping bindings {a} and {b} failed no vector"
+        );
+    }
+    let mut also_home = web_bindings();
+    also_home["roles"]["radiogroup"]["keyboard"]
+        .as_array_mut()
+        .unwrap()
+        .push(json!({ "key": "End", "down": "navigate-last" }));
+    // `last` is not set, so End still moves nothing: the contract, not the key, decides.
+    assert_eq!(
+        radio_group_failures(&contract, &also_home, &patterns, &contracts),
+        0
+    );
+    let mut last = contract.clone();
+    last["collection"]["traversal"]["last"] = json!(true);
+    assert!(
+        radio_group_failures(&last, &also_home, &patterns, &contracts) > 0,
+        "End with `last` set"
+    );
+}
+
+fn inline_group(mode: Value, allows_empty: Value) -> Value {
+    json!({
+        "component": "swatch-group",
+        "state": ["selectionMode", "allowsEmpty"],
+        "facets": {
+            "selectionMode": { "from": "selectionMode", "values": { "none": "none", "single": "single", "multiple": "multiple" } },
+            "emptyAllowed": { "from": "allowsEmpty", "values": { "false": false, "true": true } }
+        },
+        "parts": { "container": { "role": "group", "focus": "none" } },
+        "collection": {
+            "slot": "default",
+            "item": {
+                "state": ["isSelected", "isDisabled"],
+                "facets": {
+                    "checked": { "from": "isSelected", "values": { "unchecked": false, "checked": true } },
+                    "disabled": { "from": "isDisabled", "values": { "false": false, "true": true } }
+                },
+                "parts": { "cell": { "press": "activate" } },
+                "transitions": [{ "on": "activate", "guard": { "facet": "disabled", "is": "false" }, "do": { "choose": "isSelected" }, "emit": "change" }]
+            },
+            "choose": { "mode": mode, "allowsEmpty": allows_empty },
+            "traversal": { "wrap": false, "skip": { "facet": "disabled", "is": "true" }, "first": true, "last": true }
+        }
+    })
+}
+
+fn choose_vector(start: Value, steps: &[usize], emit: Value, items: Value) -> Value {
+    json!({
+        "name": "choose",
+        "start": start,
+        "steps": steps.iter().map(|i| json!({ "item": i, "intent": "activate" })).collect::<Vec<_>>(),
+        "expect": [{ "after": steps.len(), "emit": emit, "items": items }]
+    })
+}
+
+/// An inline item contract (a `collection: items` slot) and every choose mode: single turns the
+/// others off, multiple toggles, neither turns off the last item unless the group allows empty,
+/// and `none` does nothing. The mode and `allowsEmpty` may come from group facets.
+#[test]
+fn the_choose_modes_follow_the_group() {
+    let patterns = vec![];
+    let on = |l: Value| {
+        let l = l.as_array().unwrap();
+        json!(l
+            .iter()
+            .map(|x| json!({ "checked": x }))
+            .collect::<Vec<_>>())
+    };
+    let start = |m: &str, e: bool, sel: [bool; 3]| {
+        json!({
+            "selectionMode": m,
+            "allowsEmpty": e,
+            "items": sel.iter().map(|s| json!({ "isSelected": s })).collect::<Vec<_>>()
+        })
+    };
+    let (u, c) = ("unchecked", "checked");
+    let cases = [
+        (
+            json!("single"),
+            json!(false),
+            start("single", false, [true, false, false]),
+            vec![1],
+            json!([{ "change": { "isSelected": [1] } }]),
+            on(json!([u, c, u])),
+        ),
+        // The last on item is not turned off without allowsEmpty.
+        (
+            json!("single"),
+            json!(false),
+            start("single", false, [true, false, false]),
+            vec![0],
+            json!([]),
+            on(json!([c, u, u])),
+        ),
+        (
+            json!("single"),
+            json!(true),
+            start("single", true, [true, false, false]),
+            vec![0],
+            json!([{ "change": { "isSelected": [] } }]),
+            on(json!([u, u, u])),
+        ),
+        (
+            json!("multiple"),
+            json!(false),
+            start("multiple", false, [true, false, false]),
+            vec![1],
+            json!([{ "change": { "isSelected": [0, 1] } }]),
+            on(json!([c, c, u])),
+        ),
+        (
+            json!("multiple"),
+            json!(false),
+            start("multiple", false, [true, true, false]),
+            vec![0, 1],
+            json!([]),
+            on(json!([u, c, u])),
+        ),
+        (
+            json!("multiple"),
+            json!(true),
+            start("multiple", true, [true, false, false]),
+            vec![0],
+            json!([{ "change": { "isSelected": [] } }]),
+            on(json!([u, u, u])),
+        ),
+        (
+            json!("none"),
+            json!(true),
+            start("none", true, [false, false, false]),
+            vec![1],
+            json!([]),
+            on(json!([u, u, u])),
+        ),
+        // The mode and allowsEmpty read from the group's facets.
+        (
+            json!({ "facet": "selectionMode" }),
+            json!({ "facet": "emptyAllowed" }),
+            start("multiple", true, [true, false, false]),
+            vec![0],
+            json!([{ "change": { "isSelected": [] } }]),
+            on(json!([u, u, u])),
+        ),
+        (
+            json!({ "facet": "selectionMode" }),
+            json!({ "facet": "emptyAllowed" }),
+            start("single", false, [true, false, false]),
+            vec![2],
+            json!([{ "change": { "isSelected": [2] } }]),
+            on(json!([u, u, c])),
+        ),
+    ];
+    for (n, (mode, empty, start, steps, emit, items)) in cases.into_iter().enumerate() {
+        let contract = inline_group(mode, empty);
+        let mut v = choose_vector(start, &steps, emit, items);
+        // Facet expectations name item facets; the last step is the one checked.
+        v["expect"][0]["after"] = json!(steps.len());
+        let r = run_vectors_with(
+            &contract,
+            &patterns,
+            &[v],
+            RegistryData::embedded(),
+            &all_capabilities(),
+            None,
+            &[],
+        );
+        assert_eq!(r[0].status, Status::Pass, "case {n}");
+    }
+    // A disabled item is skipped by first and last.
+    let contract = inline_group(json!("single"), json!(false));
+    let v = json!({
+        "name": "ends",
+        "start": { "selectionMode": "single", "allowsEmpty": false, "focused": 1, "items": [{ "isDisabled": true }, {}, {}, { "isDisabled": true }] },
+        "steps": [{ "intent": "navigate-first" }, { "intent": "navigate-last" }],
+        "expect": [{ "after": 1, "focused": 1 }, { "after": 2, "focused": 2 }]
+    });
+    let r = run_vectors_with(
+        &contract,
+        &[],
+        &[v],
+        RegistryData::embedded(),
+        &all_capabilities(),
+        None,
+        &[],
+    );
+    assert_eq!(r[0].status, Status::Pass);
 }

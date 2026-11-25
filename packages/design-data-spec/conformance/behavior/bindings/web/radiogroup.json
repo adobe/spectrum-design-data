@@ -1,0 +1,539 @@
+{
+  "platform": "web",
+  "role": "radiogroup",
+  "vectors": [
+    {
+      "name": "ArrowDown skips a disabled radio and selects the next",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "vertical",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isDisabled": true
+          },
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            }
+          ],
+          "focused": 2,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowDown on the last radio wraps to the first",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "vertical",
+        "items": [
+          {},
+          {},
+          {
+            "isSelected": true
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 0,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [0]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowUp on the first radio wraps to the last",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "vertical",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            }
+          ],
+          "focused": 2,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowUp moves to the previous radio",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "vertical",
+        "items": [
+          {},
+          {
+            "isSelected": true
+          },
+          {}
+        ],
+        "focused": 1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 0,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [0]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a horizontal left-to-right group moves with ArrowRight and ArrowLeft",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "horizontal",
+        "direction": "ltr",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 1,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 0,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [0]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a horizontal right-to-left group: ArrowLeft moves to the next radio",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "horizontal",
+        "direction": "rtl",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 1,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a horizontal right-to-left group: ArrowRight moves to the previous radio",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "horizontal",
+        "direction": "rtl",
+        "items": [
+          {},
+          {
+            "isSelected": true
+          },
+          {}
+        ],
+        "focused": 1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 0,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [0]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a horizontal right-to-left group keeps ArrowDown and ArrowUp",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "horizontal",
+        "direction": "rtl",
+        "items": [
+          {},
+          {
+            "isSelected": true
+          },
+          {}
+        ],
+        "focused": 1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            }
+          ],
+          "focused": 2,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [2]
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 1,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a vertical right-to-left group keeps ArrowLeft and ArrowRight",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "vertical",
+        "direction": "rtl",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 1,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Home and End move nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "orientation": "vertical",
+        "items": [
+          {},
+          {
+            "isSelected": true
+          },
+          {}
+        ],
+        "focused": 1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 1,
+          "emit": []
+        }
+      ]
+    }
+  ]
+}

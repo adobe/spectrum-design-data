@@ -29,29 +29,7 @@
           { "facet": "checked", "is": "unchecked" }
         ]
       },
-      "do": { "set": { "isSelected": true } },
-      "emit": "change"
-    },
-    {
-      "on": "navigate-next",
-      "guard": {
-        "all": [
-          { "facet": "disabled", "is": "false" },
-          { "facet": "checked", "is": "unchecked" }
-        ]
-      },
-      "do": { "set": { "isSelected": true } },
-      "emit": "change"
-    },
-    {
-      "on": "navigate-previous",
-      "guard": {
-        "all": [
-          { "facet": "disabled", "is": "false" },
-          { "facet": "checked", "is": "unchecked" }
-        ]
-      },
-      "do": { "set": { "isSelected": true } },
+      "do": { "choose": "isSelected" },
       "emit": "change"
     }
   ],

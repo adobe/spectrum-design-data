@@ -159,82 +159,9 @@
       ]
     },
     {
-      "name": "navigating onto a radio selects it (next)",
+      "name": "a radio on its own does not select on navigation (select-on-move belongs to its group)",
       "start": {
         "isSelected": false
-      },
-      "steps": [
-        {
-          "intent": "navigate-next"
-        }
-      ],
-      "expect": [
-        {
-          "after": 1,
-          "facets": {
-            "checked": "checked"
-          },
-          "emit": [
-            {
-              "change": {
-                "isSelected": true
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "navigating onto a radio selects it (previous)",
-      "start": {
-        "isSelected": false
-      },
-      "steps": [
-        {
-          "intent": "navigate-previous"
-        }
-      ],
-      "expect": [
-        {
-          "after": 1,
-          "facets": {
-            "checked": "checked"
-          },
-          "emit": [
-            {
-              "change": {
-                "isSelected": true
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "navigating onto the selected radio changes nothing",
-      "start": {
-        "isSelected": true
-      },
-      "steps": [
-        {
-          "intent": "navigate-next"
-        }
-      ],
-      "expect": [
-        {
-          "after": 1,
-          "facets": {
-            "checked": "checked"
-          },
-          "emit": []
-        }
-      ]
-    },
-    {
-      "name": "navigation onto a disabled radio does not select it (the adapter skips it; this pins the guard)",
-      "start": {
-        "isSelected": false,
-        "isDisabled": true
       },
       "steps": [
         {
@@ -242,29 +169,6 @@
         },
         {
           "intent": "navigate-previous"
-        }
-      ],
-      "expect": [
-        {
-          "after": 2,
-          "facets": {
-            "checked": "unchecked"
-          },
-          "emit": []
-        }
-      ]
-    },
-    {
-      "name": "navigate-first and navigate-last do not select",
-      "start": {
-        "isSelected": false
-      },
-      "steps": [
-        {
-          "intent": "navigate-first"
-        },
-        {
-          "intent": "navigate-last"
         }
       ],
       "expect": [

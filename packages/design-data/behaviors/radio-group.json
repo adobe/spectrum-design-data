@@ -26,6 +26,17 @@
       "focus": "none"
     }
   },
+  "collection": {
+    "slot": "default",
+    "item": "radio-button",
+    "choose": { "mode": "single", "allowsEmpty": false },
+    "traversal": {
+      "wrap": true,
+      "skip": { "facet": "disabled", "is": "true" },
+      "selectOnMove": true,
+      "mirror": { "facet": "arrowOrder", "is": "mirrored" }
+    }
+  },
   "semantics": {
     "container": {
       "orientation": {

@@ -19,8 +19,10 @@
       "keyboard": [{ "key": "Enter", "down": ["press-start", "press-end"] }]
     },
     "radio": {
+      "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }]
+    },
+    "radiogroup": {
       "keyboard": [
-        { "key": "Space", "down": "press-start", "up": "press-end" },
         { "key": "ArrowDown", "down": "navigate-next" },
         { "key": "ArrowRight", "down": "navigate-next" },
         { "key": "ArrowUp", "down": "navigate-previous" },

@@ -60,6 +60,46 @@ pub(crate) fn part_names(graph: &TokenGraph, b: &BehaviorRecord) -> Option<HashS
     )
 }
 
+/// The item contract of a group's `collection`: its flattened body and the option ids an item may
+/// start with. A named item is another component's contract and options; an inline item (a
+/// `collection: items` slot) lists its options in its own `state`.
+pub(crate) struct Item {
+    pub raw: Value,
+    pub options: Option<HashSet<String>>,
+}
+
+pub(crate) fn collection_item(graph: &TokenGraph, b: &BehaviorRecord) -> Option<Item> {
+    match b.raw.pointer("/collection/item")? {
+        Value::String(name) => {
+            let contract = graph.behaviors.iter().find(|c| &c.component == name)?;
+            let options = graph.components.iter().find(|c| &c.name == name).map(|c| {
+                c.raw
+                    .get("options")
+                    .and_then(Value::as_object)
+                    .map(|o| o.keys().cloned().collect())
+                    .unwrap_or_default()
+            });
+            Some(Item {
+                raw: contract.raw.clone(),
+                options,
+            })
+        }
+        inline @ Value::Object(_) => Some(Item {
+            options: Some(
+                inline
+                    .get("state")
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                    .filter_map(|s| s.as_str().map(String::from))
+                    .collect(),
+            ),
+            raw: inline.clone(),
+        }),
+        _ => None,
+    }
+}
+
 /// The `state` option ids a contract lists.
 pub(crate) fn state_ids(b: &BehaviorRecord) -> HashSet<String> {
     b.raw
