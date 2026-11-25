@@ -1218,11 +1218,13 @@ rules:
     category: relationship
     note: >
       A recipe binds on `(property, context)`, so a context-less record is only reachable through
-      an alias chain from a contexted record. Deprecated records are exempt. Existing data is
+      an alias chain from a contexted record. Deprecated records are exempt, and so is a record
+      with a non-empty `legacyKey`, which the legacy token name addresses. Existing data is
       held at a baseline until the contexts are applied.
     assert: >
-      A live relationship with no `context` SHOULD be referenced, directly or through other
-      relationships' `$ref` uuids, by a relationship that has a `context`.
+      A live relationship with no `context` and no `legacyKey` SHOULD be referenced, directly or
+      through other relationships' `$ref` uuids, by a relationship that has a `context`. A live
+      relationship with a non-empty `legacyKey` is exempt.
     message: "Relationship {scope} has no context and no contexted record references it; add a context so a recipe can bind it"
     spec_ref: spec/relationship-format.md#context
     introduced_in: "1.0.0-draft"

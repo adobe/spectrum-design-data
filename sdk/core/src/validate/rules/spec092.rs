@@ -14,7 +14,9 @@
 //! `context` can only be reached through an alias chain: a contexted record whose `$ref`
 //! is the record's `uuid`, directly or through other records. A live record with no
 //! context that no contexted record reaches is unaddressable and should get a context.
-//! Deprecated records are exempt.
+//! Deprecated records are exempt, and so is a record with a `legacyKey`: the legacy token
+//! name addresses it, so it is a token another record or the legacy output reads by that
+//! name, not an unaddressable one. An empty `legacyKey` does not count.
 //!
 //! Warning, held at a baseline by `tests/recipe_lint_baseline.rs`.
 
@@ -90,7 +92,12 @@ pub fn flagged(rels: &[RelationshipRecord]) -> Vec<usize> {
                 .get("lifecycle")
                 .and_then(|l| l.get("deprecatedIn"))
                 .is_some_and(|d| !d.is_null());
+            let pinned = raw
+                .get("legacyKey")
+                .and_then(Value::as_str)
+                .is_some_and(|k| !k.is_empty());
             !(deprecated
+                || pinned
                 || has_context(raw)
                 || rel.uuid.as_deref().is_some_and(|u| reached.contains(u)))
         })
@@ -179,5 +186,22 @@ mod tests {
             rec(1, "b", json!({"$ref": "a"})),
         ]);
         assert_eq!(n, 0);
+    }
+
+    #[test]
+    fn a_legacy_key_record_is_not_flagged_but_a_plain_one_still_is() {
+        let pinned = run(vec![rec(
+            0,
+            "a",
+            json!({"$ref": "t", "legacyKey": "body-size-m"}),
+        )]);
+        let plain = run(vec![rec(0, "a", json!({"$ref": "t"}))]);
+        assert_eq!((pinned, plain), (0, 1));
+    }
+
+    #[test]
+    fn an_empty_legacy_key_does_not_exempt() {
+        let n = run(vec![rec(0, "a", json!({"$ref": "t", "legacyKey": ""}))]);
+        assert_eq!(n, 1);
     }
 }

@@ -1,6 +1,5 @@
 {
   "action-button": 2,
-  "body": 2,
   "breadcrumbs": 1,
   "button": 4,
   "card": 2,
@@ -11,7 +10,6 @@
   "contextual-help": 1,
   "detail": 3,
   "drop-zone": 6,
-  "heading": 2,
   "illustrated-message": 1,
   "in-line-alert": 4,
   "list-view": 1,
