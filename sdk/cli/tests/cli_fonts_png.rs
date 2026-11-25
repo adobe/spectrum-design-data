@@ -210,3 +210,13 @@ fn a_supplied_font_also_drives_svg_layout() {
     );
     assert!((default - with_font).abs() / default < 0.1);
 }
+
+#[test]
+fn render_rejects_an_unknown_format() {
+    let home = tempfile::tempdir().unwrap();
+    cli(home.path())
+        .args(["render", "badge", "--format", "bmp"])
+        .assert()
+        .failure()
+        .stderr(predicates::str::contains("invalid value 'bmp'"));
+}

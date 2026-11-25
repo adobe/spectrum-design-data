@@ -41,6 +41,7 @@ pub mod raster;
 pub mod record_diff;
 pub mod registry;
 pub mod report;
+pub mod scene_render;
 pub mod schema;
 pub mod scope;
 pub mod specificity;
