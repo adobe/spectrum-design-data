@@ -4013,6 +4013,14 @@ const FACETS_JSON: &str = r##"{
       "from": ["isMultiple"]
     },
     {
+      "id": "open",
+      "label": "Open",
+      "description": "Whether the tooltip is showing. Derived from `isOpen`. The trigger carries `aria-describedby` pointing at the tooltip exactly while this is `true`.",
+      "source": "state-group",
+      "values": ["false", "true"],
+      "from": ["isOpen"]
+    },
+    {
       "id": "hovered",
       "label": "Hovered",
       "description": "Whether a pointer is over the control.",
