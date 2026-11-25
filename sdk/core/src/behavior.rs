@@ -100,6 +100,8 @@ pub(crate) struct Machine {
     pub(crate) published: Vec<String>,
     /// The contract's own `semantics` (a pattern carries none).
     pub(crate) semantics: Map<String, Value>,
+    /// The contract's own `state` list: the options a vector may start it with.
+    pub(crate) state: Vec<String>,
 }
 
 fn extends(raw: &Value) -> Vec<String> {
@@ -139,6 +141,13 @@ pub(crate) fn flatten(
             .and_then(Value::as_object)
             .cloned()
             .unwrap_or_default(),
+        state: contract
+            .get("state")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(|s| s.as_str().map(String::from))
+            .collect(),
     };
     let own = [contract];
     // Base first, so a derived pattern and then the contract override what they extend.
@@ -556,6 +565,18 @@ fn run_vector(
     };
     let mut failures = Vec::new();
     let expects = v.get("expect").and_then(Value::as_array);
+    if group.is_none() {
+        for e in expects.into_iter().flatten() {
+            if let Some(k) = ["items", "focused"]
+                .into_iter()
+                .find(|k| e.get(k).is_some())
+            {
+                return Err(format!(
+                    "expects `{k}`, but the vector starts no `items`, so there is no group to check"
+                ));
+            }
+        }
+    }
     for (i, s) in steps.iter().enumerate() {
         let n = i + 1;
         let raised = if let Some(input) = s.get("input") {

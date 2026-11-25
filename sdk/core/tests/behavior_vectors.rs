@@ -1230,3 +1230,136 @@ fn the_choose_modes_follow_the_group() {
     );
     assert_eq!(r[0].status, Status::Pass);
 }
+
+fn run_inline(contract: &Value, v: Value) -> Status {
+    run_vectors_with(
+        contract,
+        &[],
+        &[v],
+        RegistryData::embedded(),
+        &all_capabilities(),
+        None,
+        &[],
+    )
+    .remove(0)
+    .status
+}
+
+/// A choose vector on an inline group: the items start as `on`, and the emit and the items after
+/// the steps are what the vector expects.
+fn choose_status(
+    mode: &str,
+    on: [bool; 3],
+    steps: &[usize],
+    emit: Value,
+    after: [bool; 3],
+) -> Status {
+    let contract = inline_group(json!(mode), json!(false));
+    let item = |s: bool| json!({ "checked": if s { "checked" } else { "unchecked" } });
+    let v = choose_vector(
+        json!({
+            "selectionMode": mode,
+            "allowsEmpty": false,
+            "items": on.iter().map(|s| json!({ "isSelected": s })).collect::<Vec<_>>()
+        }),
+        steps,
+        emit,
+        json!(after.iter().map(|s| item(*s)).collect::<Vec<_>>()),
+    );
+    run_inline(&contract, v)
+}
+
+/// Mutation guards for group.rs, none reachable through the radio group: each pins one branch of
+/// the runner by itself. Mutate the branch and the named test must fail.
+#[test]
+fn navigate_last_goes_to_the_last_item_not_the_first() {
+    let contract = inline_group(json!("single"), json!(false));
+    let v = json!({
+        "name": "last then first",
+        "start": { "selectionMode": "single", "allowsEmpty": false, "items": [{}, {}, {}] },
+        "steps": [{ "intent": "navigate-last" }, { "intent": "navigate-first" }],
+        "expect": [{ "after": 1, "focused": 2 }, { "after": 2, "focused": 0 }]
+    });
+    assert_eq!(run_inline(&contract, v), Status::Pass);
+}
+
+#[test]
+fn multiple_never_turns_off_the_only_item_that_is_on() {
+    assert_eq!(
+        choose_status(
+            "multiple",
+            [false, true, false],
+            &[1],
+            json!([]),
+            [false, true, false]
+        ),
+        Status::Pass
+    );
+}
+
+#[test]
+fn single_never_turns_off_the_item_that_is_on() {
+    assert_eq!(
+        choose_status(
+            "single",
+            [false, true, false],
+            &[1],
+            json!([]),
+            [false, true, false]
+        ),
+        Status::Pass
+    );
+}
+
+#[test]
+fn a_choose_that_changes_nothing_emits_nothing() {
+    assert_eq!(
+        choose_status(
+            "none",
+            [false, true, false],
+            &[0],
+            json!([]),
+            [false, true, false]
+        ),
+        Status::Pass
+    );
+}
+
+#[test]
+fn an_expectation_on_items_or_focus_needs_a_group() {
+    let contract = inline_group(json!("single"), json!(false));
+    for (k, want) in [
+        ("items", json!([{ "checked": "checked" }])),
+        ("focused", json!(0)),
+    ] {
+        let mut v = json!({
+            "name": "no group",
+            "start": { "selectionMode": "single", "allowsEmpty": false },
+            "steps": [{ "intent": "navigate-next" }],
+            "expect": [{ "after": 1 }]
+        });
+        v["expect"][0][k] = want;
+        match run_inline(&contract, v) {
+            Status::Fail(f) => assert!(f[0].contains(&format!("expects `{k}`")), "{f:?}"),
+            s => panic!("{k}: {s:?}"),
+        }
+    }
+}
+
+#[test]
+fn a_start_item_option_the_item_does_not_declare_fails() {
+    let contract = inline_group(json!("single"), json!(false));
+    let v = |opt: &str| {
+        json!({
+            "name": "typo",
+            "start": { "selectionMode": "single", "allowsEmpty": false, "items": [{ opt: true }] },
+            "steps": [{ "intent": "navigate-next" }],
+            "expect": [{ "after": 1, "focused": 0 }]
+        })
+    };
+    assert_eq!(run_inline(&contract, v("isDisabled")), Status::Pass);
+    match run_inline(&contract, v("isDisabeld")) {
+        Status::Fail(f) => assert!(f[0].contains("isDisabeld"), "{f:?}"),
+        s => panic!("{s:?}"),
+    }
+}
