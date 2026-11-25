@@ -1,5 +1,13 @@
 # @adobe/token-naming-audit
 
+## 0.1.120
+
+### Patch Changes
+
+- Updated dependencies [[`d574a13`](https://github.com/adobe/spectrum-design-data/commit/d574a1313b6ba5b5137639a0712891c53024dbda), [`6a03010`](https://github.com/adobe/spectrum-design-data/commit/6a03010383dfd24e91f6e40ea85d71ee3fc25f61), [`c0f615a`](https://github.com/adobe/spectrum-design-data/commit/c0f615a7a84012535d6f917459ec02b1dec2e554), [`2da7210`](https://github.com/adobe/spectrum-design-data/commit/2da721047556bfaa4347f1c9d6621545191c5d54), [`9fe574d`](https://github.com/adobe/spectrum-design-data/commit/9fe574d74025256d5cac834679c922ddd1e7a56f), [`bd1b27a`](https://github.com/adobe/spectrum-design-data/commit/bd1b27a7fd52b809ed92b3b734a59070ea71e4e2), [`93ab1a2`](https://github.com/adobe/spectrum-design-data/commit/93ab1a2903998c6e224e9b408015921bace540fa), [`a8a24d2`](https://github.com/adobe/spectrum-design-data/commit/a8a24d29a699a6bed5677050e24de236e3b4e72d), [`6e41b8e`](https://github.com/adobe/spectrum-design-data/commit/6e41b8e3231c197d72d751d0fd9554fe478c02ca), [`5f0cdaf`](https://github.com/adobe/spectrum-design-data/commit/5f0cdafd9ff88a89df8e0afb1dfca63072fe24da), [`a1f1b76`](https://github.com/adobe/spectrum-design-data/commit/a1f1b76b9d71353b17afb51de938cd09ad86ee80), [`2db54c1`](https://github.com/adobe/spectrum-design-data/commit/2db54c11a255a8425466b50901f39e4b6aed82fc), [`0751b09`](https://github.com/adobe/spectrum-design-data/commit/0751b091c67e1d1f6864749bc27ade960ec4306a), [`7ff7975`](https://github.com/adobe/spectrum-design-data/commit/7ff79759a691b3c885d3339fba0d7be0b091c61a), [`2ea6a24`](https://github.com/adobe/spectrum-design-data/commit/2ea6a246ae569a68facce12ae4440f81f59e5ce6), [`2db54c1`](https://github.com/adobe/spectrum-design-data/commit/2db54c11a255a8425466b50901f39e4b6aed82fc), [`4efe4f6`](https://github.com/adobe/spectrum-design-data/commit/4efe4f68e158e46f06ccfec0c65e1227050da038)]:
+  - @adobe/spectrum-design-data@4.7.0
+  - @adobe/design-data-wasm@0.40.0
+
 ## 0.1.119
 
 ### Patch Changes
