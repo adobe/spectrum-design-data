@@ -28,10 +28,10 @@ use std::sync::{Arc, OnceLock};
 use design_data_core::data_source::ResolvedData;
 use design_data_core::graph::TokenGraph;
 use design_data_core::manifest;
-use design_data_core::raster::font::resolve::{Resolved, TARGET_FAMILY};
-use design_data_core::raster::font::{discover, Font};
-use design_data_core::raster::{self, FontSource, RasterOptions};
 use design_data_core::visual::{build_scene, RenderRequest};
+use design_data_png::font::resolve::{Resolved, TARGET_FAMILY};
+use design_data_png::font::{discover, Font};
+use design_data_png::{FontSource, RasterOptions};
 use serde::{Deserialize, Serialize};
 
 /// Pixels per scene unit the picture is rasterized at. Drawing resamples from this, so a
@@ -241,7 +241,11 @@ impl PreviewSource {
     /// The text font, chosen once: the installed Adobe Clean Spectrum VF, else the bundled fallback.
     fn font(&self) -> &Resolved {
         self.font.get_or_init(|| {
-            discover::discover(TARGET_FAMILY, &self.env, Some(raster::fallback_font()))
+            discover::discover(
+                TARGET_FAMILY,
+                &self.env,
+                Some(design_data_png::fallback_font()),
+            )
         })
     }
 
@@ -305,7 +309,7 @@ impl PreviewSource {
             background: None,
         };
         let (image, raster_notes) =
-            raster::rasterize(&scene, &fonts, &opts).map_err(|e| e.to_string())?;
+            design_data_png::rasterize(&scene, &fonts, &opts).map_err(|e| e.to_string())?;
         let mut notes = scene.diagnostics.clone();
         notes.extend(raster_notes);
         Ok(PreviewState {

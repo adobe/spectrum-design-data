@@ -12,9 +12,9 @@
 //! files itself; these functions let it identify a file from just its `name` table and pick
 //! the right one, with the same rules and wording as the native CLI.
 
-use design_data_core::raster::font::names_in_table;
-use design_data_core::raster::font::resolve::{Resolver, INTERMEDIATE_FAMILY, TARGET_FAMILY};
-use design_data_core::raster::font::{Flavor, Inspect};
+use design_data_png::font::names_in_table;
+use design_data_png::font::resolve::{Resolver, INTERMEDIATE_FAMILY, TARGET_FAMILY};
+use design_data_png::font::{Flavor, Inspect};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
@@ -76,7 +76,7 @@ pub fn choose_font(
     for c in &candidates {
         resolver.offer_info(&c.origin, &c.info);
     }
-    let fallback = fallback_name.map(|origin| design_data_core::raster::FontSource {
+    let fallback = fallback_name.map(|origin| design_data_png::FontSource {
         data: vec![],
         origin,
     });

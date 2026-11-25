@@ -36,8 +36,6 @@ pub mod platform_impact;
 pub mod primer;
 pub mod query;
 pub mod ramp;
-#[cfg(feature = "raster")]
-pub mod raster;
 pub mod record_diff;
 pub mod registry;
 pub mod report;

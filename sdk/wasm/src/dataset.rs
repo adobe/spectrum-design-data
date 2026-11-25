@@ -370,7 +370,7 @@ impl Dataset {
         request: JsValue,
         fonts: Option<JsValue>,
     ) -> Result<String, JsValue> {
-        use design_data_core::raster::font::Font;
+        use design_data_png::font::Font;
         let fonts = fonts.unwrap_or(JsValue::UNDEFINED);
         let mut request: design_data_core::visual::RenderRequest =
             serde_wasm_bindgen::from_value(request).map_err(js_err)?;
@@ -415,7 +415,7 @@ impl Dataset {
         fonts: JsValue,
         options: JsValue,
     ) -> Result<JsValue, JsValue> {
-        use design_data_core::raster::{font::Font, scene_to_png, RasterOptions};
+        use design_data_png::{font::Font, scene_to_png, RasterOptions};
         let mut request: design_data_core::visual::RenderRequest =
             serde_wasm_bindgen::from_value(request).map_err(js_err)?;
         request.component = self
@@ -860,7 +860,7 @@ impl Dataset {
 /// The font entries of a `renderComponentPng` call, and the index of the one layout follows.
 fn read_fonts(
     fonts: &JsValue,
-) -> Result<(Vec<design_data_core::raster::FontSource>, Option<usize>), JsValue> {
+) -> Result<(Vec<design_data_png::FontSource>, Option<usize>), JsValue> {
     use wasm_bindgen::JsCast;
     let mut out = Vec::new();
     let mut layout = None;
@@ -883,7 +883,7 @@ fn read_fonts(
         if layout.is_none() && !fallback {
             layout = Some(out.len());
         }
-        out.push(design_data_core::raster::FontSource {
+        out.push(design_data_png::FontSource {
             data: data.to_vec(),
             origin,
         });

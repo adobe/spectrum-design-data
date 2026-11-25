@@ -18,7 +18,7 @@ use std::path::PathBuf;
 /// Source Sans 3 VF (SIL OFL): the bundled fallback, reused here as a font to point at.
 fn font_path() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../core/src/raster/fonts/SourceSans3VF-Upright.ttf")
+        .join("../plugins/png/src/fonts/SourceSans3VF-Upright.ttf")
 }
 
 fn cli(home: &std::path::Path) -> Command {

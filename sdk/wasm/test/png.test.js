@@ -17,7 +17,7 @@ import {
 } from "../pkg/node/design_data_wasm.js";
 
 const font = new URL(
-  "../../core/src/raster/fonts/SourceSans3VF-Upright.ttf",
+  "../../plugins/png/src/fonts/SourceSans3VF-Upright.ttf",
   import.meta.url,
 );
 const fontBytes = () => new Uint8Array(readFileSync(font));

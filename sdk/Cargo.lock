@@ -652,6 +652,7 @@ dependencies = [
  "design-data-core",
  "design-data-dtcg",
  "design-data-figma",
+ "design-data-png",
  "design-data-shadcn",
  "design-data-site",
  "design-data-tui",
@@ -716,6 +717,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "design-data-png"
+version = "0.1.0"
+dependencies = [
+ "design-data-core",
+ "serde",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
 name = "design-data-shadcn"
 version = "0.1.0"
 dependencies = [
@@ -741,6 +752,7 @@ dependencies = [
  "clap",
  "crossterm",
  "design-data-core",
+ "design-data-png",
  "dirs",
  "insta",
  "miette",
@@ -763,6 +775,7 @@ version = "0.0.1"
 dependencies = [
  "console_error_panic_hook",
  "design-data-core",
+ "design-data-png",
  "js-sys",
  "serde",
  "serde-wasm-bindgen",

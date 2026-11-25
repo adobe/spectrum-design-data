@@ -11,7 +11,7 @@
 //! Text measurement from a font, so layout and paint use the same advances.
 
 use super::Font;
-use crate::text_metrics::TextMetrics;
+use design_data_core::text_metrics::TextMetrics;
 
 /// Weights tabulated (CSS 100..=900), so interpolating between them stays close to the font.
 const WEIGHTS: [u32; 9] = [100, 200, 300, 400, 500, 600, 700, 800, 900];
@@ -74,5 +74,5 @@ mod tests {
         }
     }
 
-    use crate::text_metrics::TextMetrics;
+    use design_data_core::text_metrics::TextMetrics;
 }

@@ -340,7 +340,7 @@ enum Commands {
         #[arg(long, value_name = "PATH")]
         path: Option<PathBuf>,
         /// Output format: `svg`, `png` (needs --output) or `scene` (resolved scene graph as JSON)
-        #[arg(long, default_value = "svg", value_parser = ["svg", "png", "scene"])]
+        #[arg(long, default_value = "svg", value_parser = render_formats())]
         format: String,
         /// Pixels per unit for `--format png`
         #[arg(
@@ -1477,11 +1477,20 @@ fn exporters() -> Vec<Box<dyn TokenExporter>> {
     ]
 }
 
-/// Built-in scene renderers, looked up by `format_id()`. PNG is wired separately
-/// until it moves to its own plugin.
+/// Built-in scene renderers, looked up by `format_id()`. A renderer added here is also
+/// accepted by `render --format` (see [`render_formats`]).
 fn scene_renderers() -> Vec<Box<dyn design_data_core::scene_render::SceneRenderer>> {
     use design_data_core::scene_render::{SceneJsonRenderer, SvgRenderer};
-    vec![Box::new(SvgRenderer), Box::new(SceneJsonRenderer)]
+    vec![
+        Box::new(SvgRenderer),
+        Box::new(design_data_png::PngRenderer),
+        Box::new(SceneJsonRenderer),
+    ]
+}
+
+/// The values `render --format` accepts: one per registered scene renderer.
+fn render_formats() -> clap::builder::PossibleValuesParser {
+    clap::builder::PossibleValuesParser::new(scene_renderers().iter().map(|r| r.format_id()))
 }
 
 /// Merge each winner's single-key DTCG document into one flat DTCG document.
@@ -1828,15 +1837,19 @@ fn run_render(
     text_metrics: Option<PathBuf>,
     strict: bool,
 ) -> miette::Result<ExitCode> {
-    if format == "png" && output.is_none() {
-        miette::bail!("--format png writes binary data: pass --output <FILE>");
+    let renderer = scene_renderers()
+        .into_iter()
+        .find(|r| r.format_id() == format)
+        .ok_or_else(|| miette::miette!("unknown render format '{format}'"))?;
+    if renderer.binary() && output.is_none() {
+        miette::bail!("--format {format} writes binary data: pass --output <FILE>");
     }
     let mut text_metrics = load_text_metrics(text_metrics.as_deref())?;
-    let mut sources = fonts
+    let sources = fonts
         .iter()
         .map(|p| {
             std::fs::read(p)
-                .map(|data| design_data_core::raster::FontSource {
+                .map(|data| design_data_core::scene_render::FontSource {
                     data,
                     origin: p.display().to_string(),
                 })
@@ -1844,31 +1857,23 @@ fn run_render(
                 .wrap_err_with(|| format!("failed to read --font {}", p.display()))
         })
         .collect::<miette::Result<Vec<_>>>()?;
-    // Without --font a PNG looks for Adobe Clean Spectrum VF on this machine, else uses the
-    // bundled Source Sans 3 and says so.
-    let mut font_status = None;
-    if sources.is_empty() && format == "png" {
-        use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
-        let found = discover::discover(
-            TARGET_FAMILY,
-            &discover::Env::current(),
-            Some(design_data_core::raster::fallback_font()),
-        );
-        sources.extend(found.font);
-        font_status = Some(found.status);
-    }
-    // A chosen font sets the layout widths too, so boxes fit the text drawn in them; an
-    // explicit --text-metrics still wins. The fallback is the committed table's own font.
-    let chosen = font_status.as_ref().is_none_or(|s| s.installed);
-    if text_metrics.is_none() && chosen {
+    // The renderer settles its options (a PNG chooses its font) before layout, since a chosen
+    // font sets the layout widths too; an explicit --text-metrics still wins.
+    // A font the user supplies sets the layout for every format, not only the one drawing it.
+    if text_metrics.is_none() {
         if let Some(first) = sources.first() {
-            let font = design_data_core::raster::font::Font::parse(first.data.clone())
-                .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?;
-            text_metrics = Some(
-                font.text_metrics()
-                    .map_err(|e| miette::miette!("--font {}: {e}", first.origin))?,
-            );
+            text_metrics =
+                Some(design_data_png::layout_metrics(first).map_err(|e| miette::miette!(e))?);
         }
+    }
+    let prepared = renderer
+        .prepare(design_data_core::scene_render::RenderOptions {
+            pixel_ratio,
+            fonts: sources,
+        })
+        .map_err(|e| miette::miette!(e))?;
+    if text_metrics.is_none() {
+        text_metrics = prepared.text_metrics;
     }
     if let (Some(file), Some(dir)) = (&batch, &out) {
         return render_batch::run_batch(file, dir, visuals_path, path, text_metrics, strict);
@@ -1931,30 +1936,16 @@ fn run_render(
             None => eprintln!("warning: {d}"),
         }
     }
-    if format == "png" {
-        let opts = design_data_core::raster::RasterOptions {
-            scale: pixel_ratio,
-            background: None,
-        };
-        if let Some(st) = font_status.as_ref().filter(|s| s.fallback) {
-            eprintln!("warning: {}", st.help);
-        }
-        let out = design_data_core::raster::scene_to_png(&scene, &sources, &opts)
-            .map_err(|e| miette::miette!("{e}"))?;
-        for d in &out.diagnostics {
-            eprintln!("warning: {d}");
-        }
-        let p = output.expect("checked above");
-        std::fs::write(&p, out.png)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to write {}", p.display()))?;
-        return Ok(exit);
+    for d in &prepared.diagnostics {
+        eprintln!("warning: {d}");
     }
-    let renderer = scene_renderers()
-        .into_iter()
-        .find(|r| r.format_id() == format)
-        .ok_or_else(|| miette::miette!("unknown render format '{format}'"))?;
-    let bytes = renderer.render(&scene).map_err(|e| miette::miette!(e))?;
+    let rendered = renderer
+        .render(&scene, &prepared.options)
+        .map_err(|e| miette::miette!(e))?;
+    for d in &rendered.diagnostics {
+        eprintln!("warning: {d}");
+    }
+    let bytes = rendered.bytes;
     match output {
         Some(p) => std::fs::write(&p, bytes)
             .into_diagnostic()
@@ -4918,11 +4909,11 @@ fn run_shadcn_registry(
 }
 
 fn run_fonts(json: bool) -> miette::Result<ExitCode> {
-    use design_data_core::raster::font::{discover, resolve::TARGET_FAMILY};
+    use design_data_png::font::{discover, resolve::TARGET_FAMILY};
     let found = discover::discover(
         TARGET_FAMILY,
         &discover::Env::current(),
-        Some(design_data_core::raster::fallback_font()),
+        Some(design_data_png::fallback_font()),
     );
     let st = &found.status;
     if json {

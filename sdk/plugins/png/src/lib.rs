@@ -13,33 +13,33 @@
 //! The scene is already laid out, so this is only painting: [`shape`] turns signed distances
 //! into anti-aliased coverage and [`png`] writes the result. Arithmetic is plain `f64`, so
 //! the same scene gives the same pixels on every target. Fonts are supplied by the caller as
-//! bytes (this crate never reads the filesystem or embeds one).
+//! bytes (the `fallback-font` feature bundles one open font for callers that supply none).
 
 pub mod canvas;
 pub mod font;
 pub mod path;
 pub mod png;
+// Font discovery reads the disk, which wasm32 cannot, so the renderer plugin is native only.
+#[cfg(not(target_arch = "wasm32"))]
+pub mod renderer;
 pub mod shape;
+#[cfg(test)]
+mod testutil;
 
-use crate::visual::{icon_fit, Scene, SceneNode};
 use canvas::{parse_color, Canvas, Rgba};
+pub use design_data_core::scene_render::FontSource;
+use design_data_core::visual::{icon_fit, Scene, SceneNode};
 use font::{contour_polygon, Font};
+#[cfg(not(target_arch = "wasm32"))]
+pub use renderer::{layout_metrics, PngRenderer};
 use serde_json::Value;
 use shape::{paint, paint_with, rrect_sdf, Paint, Xf};
 
 /// Pixels allowed in one image, so a bad `scale` cannot allocate without bound.
 const MAX_PIXELS: f64 = 64.0e6;
 
-/// A font file the caller supplies. `origin` says where it came from (a path, or `bundled`)
-/// for diagnostics.
-#[derive(Debug, Clone)]
-pub struct FontSource {
-    pub data: Vec<u8>,
-    pub origin: String,
-}
-
 /// The bundled text font: Source Sans 3 (SIL Open Font License, `fonts/OFL-SourceSans3.txt`).
-#[cfg(feature = "raster-fallback-font")]
+#[cfg(feature = "fallback-font")]
 pub fn fallback_font() -> FontSource {
     FontSource {
         data: include_bytes!("fonts/SourceSans3VF-Upright.ttf").to_vec(),
@@ -149,7 +149,7 @@ pub fn rasterize(
         }
     }
     let base = Xf::scale(opts.scale);
-    let press_xf = |p: &crate::visual::Press| base.pressed(p.scale, p.cx, p.cy);
+    let press_xf = |p: &design_data_core::visual::Press| base.pressed(p.scale, p.cx, p.cy);
     let global = scene.press.as_ref().filter(|p| p.part.is_none());
     let whole = global.map_or(base, press_xf);
     // The scaled span wraps the target part and the nodes nested in it, which follow it.
@@ -238,7 +238,7 @@ fn checker_sdf(u: f64, v: f64, size: f64) -> f64 {
 /// projection on the gradient line, in pixels, picks the segment, and the two stops' colors mix
 /// (not premultiplied, as SVG does). Working in pixels keeps the bands square to the line.
 fn gradient_color(
-    g: &crate::visual::Gradient,
+    g: &design_data_core::visual::Gradient,
     stops: &[(f64, Rgba)],
     (bx, by, bw, bh): (f64, f64, f64, f64),
     (x, y): (f64, f64),
@@ -324,13 +324,19 @@ fn dash_sdf(poly: &[[f64; 2]], x: f64, y: f64, hw: f64, round_cap: bool) -> f64 
 /// A dashed or per-side stroke: the runs of `stroke::node_runs`, cut into dashes and drawn as
 /// one shape, so overlapping pieces do not blend twice.
 fn draw_styled_stroke(cv: &mut Canvas, xf: Xf, n: &SceneNode, color: Rgba) {
-    let (Some(st), Some(runs)) = (&n.stroke_style, crate::stroke::node_runs(n)) else {
+    let (Some(st), Some(runs)) = (&n.stroke_style, design_data_core::stroke::node_runs(n)) else {
         return;
     };
     let hw = n.stroke_width / 2.0;
     let pieces: Vec<(Vec<[f64; 2]>, [f64; 4])> = runs
         .iter()
-        .flat_map(|r| crate::stroke::dashes(&crate::stroke::flatten(r), st.dash, r.offset))
+        .flat_map(|r| {
+            design_data_core::stroke::dashes(
+                &design_data_core::stroke::flatten(r),
+                st.dash,
+                r.offset,
+            )
+        })
         .filter(|p| p.len() > 1)
         .map(|p| {
             let bb = p
@@ -468,7 +474,7 @@ fn draw_node(cv: &mut Canvas, xf: Xf, n: &SceneNode, fonts: &[Loaded], diags: &m
             draw_underline(cv, xf, n, diags);
         }
         "progress" => {
-            let (cx, cy, r, sw) = crate::visual::progress_geometry(n);
+            let (cx, cy, r, sw) = design_data_core::visual::progress_geometry(n);
             let reach = (r + sw) * 2.0;
             let bb = (
                 cx - reach / 2.0,
@@ -511,10 +517,10 @@ fn draw_image(
     cv: &mut Canvas,
     xf: Xf,
     n: &SceneNode,
-    img: &crate::visual::ImageFill,
+    img: &design_data_core::visual::ImageFill,
     diags: &mut Vec<String>,
 ) {
-    let px = match crate::image::decode_data_uri(&img.href) {
+    let px = match design_data_core::image::decode_data_uri(&img.href) {
         Ok(p) => p,
         Err(e) => {
             diags.push(format!("part '{}': image not drawn: {e}", n.part));
@@ -622,7 +628,7 @@ fn draw_path_box(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>
     let own = at(0.0, 0.0);
     for sh in n.shadow.iter().rev() {
         if let Some(c) = color_of(Some(sh.color.as_str()), "shadow", &n.part, diags) {
-            let sigma = sh.blur.min(crate::visual::MAX_SHADOW_BLUR) / 2.0 * xf.s;
+            let sigma = sh.blur.min(design_data_core::visual::MAX_SHADOW_BLUR) / 2.0 * xf.s;
             big(
                 path::paint_shadow(cv, &at(sh.x, sh.y), &own, rule, sigma, c),
                 "shadow",
@@ -670,7 +676,7 @@ fn draw_path_box(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>
 
 /// A CSS `font-weight` as a number; anything unreadable is 400, as the layout measures it.
 fn css_weight(w: Option<&str>) -> f64 {
-    Some(crate::visual::css_font_weight(w))
+    Some(design_data_core::visual::css_font_weight(w))
         .filter(|w| w.bytes().all(|b| b.is_ascii_digit() || b == b'.'))
         .and_then(|w| w.parse().ok())
         .unwrap_or(400.0)
@@ -883,7 +889,7 @@ fn draw_icon(cv: &mut Canvas, xf: Xf, n: &SceneNode, diags: &mut Vec<String>) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::visual::{Layout, Press};
+    use design_data_core::visual::{Layout, Press};
 
     fn node(kind: &str, part: &str, x: f64, y: f64, w: f64, h: f64) -> SceneNode {
         SceneNode {
@@ -968,7 +974,7 @@ mod tests {
     fn a_drop_shadow_blurs_outside_the_box_and_never_inside_it() {
         let mut n = node("box", "root", 20.0, 20.0, 20.0, 20.0);
         n.fill = Some("rgba(255, 255, 255, 0)".into());
-        n.shadow = vec![crate::visual::Shadow {
+        n.shadow = vec![design_data_core::visual::Shadow {
             x: 0.0,
             y: 4.0,
             blur: 8.0,
@@ -991,8 +997,8 @@ mod tests {
         assert_eq!(render(&s, 1.0).0.rgba, img.rgba);
     }
 
-    fn shadow(x: f64, y: f64, blur: f64, color: &str) -> crate::visual::Shadow {
-        crate::visual::Shadow {
+    fn shadow(x: f64, y: f64, blur: f64, color: &str) -> design_data_core::visual::Shadow {
+        design_data_core::visual::Shadow {
             x,
             y,
             blur,
@@ -1052,7 +1058,7 @@ mod tests {
     #[test]
     fn a_drop_shadow_with_no_blur_is_a_hard_offset_copy() {
         let mut n = node("box", "root", 10.0, 10.0, 10.0, 10.0);
-        n.shadow = vec![crate::visual::Shadow {
+        n.shadow = vec![design_data_core::visual::Shadow {
             x: 5.0,
             y: 0.0,
             blur: 0.0,
@@ -1073,7 +1079,7 @@ mod tests {
             (0.5, color("#0000ff")),
             (1.0, color("#00ff00")),
         ];
-        let g = crate::visual::Gradient {
+        let g = design_data_core::visual::Gradient {
             from: [0.0, 0.5],
             to: [1.0, 0.5],
             stops: Vec::new(),
@@ -1097,7 +1103,7 @@ mod tests {
     fn a_pattern_alternates_squares_starting_with_the_fill() {
         let mut n = node("box", "root", 0.0, 0.0, 16.0, 16.0);
         n.fill = Some("#ffffff".into());
-        n.pattern = Some(crate::visual::Pattern {
+        n.pattern = Some(design_data_core::visual::Pattern {
             alt: "#000000".into(),
             size: 4.0,
         });
@@ -1129,7 +1135,7 @@ mod tests {
         let mut n = node("box", "root", 0.0, 0.0, 24.0, 10.0);
         n.stroke = Some("#ff0000".into());
         n.stroke_width = 2.0;
-        n.stroke_style = Some(crate::stroke::StrokeStyle {
+        n.stroke_style = Some(design_data_core::stroke::StrokeStyle {
             dash: Some([4.0, 4.0]),
             round_cap: false,
             sides: Some([true, false, true, false]),
@@ -1155,7 +1161,7 @@ mod tests {
         n.radius = 6.0;
         n.stroke = Some("#ff0000".into());
         n.stroke_width = 2.0;
-        n.stroke_style = Some(crate::stroke::StrokeStyle {
+        n.stroke_style = Some(design_data_core::stroke::StrokeStyle {
             dash: Some([200.0, 1.0]),
             round_cap: false,
             sides: Some([true, false, true, true]),
@@ -1348,7 +1354,7 @@ mod tests {
         n.text = Some("Hi".into());
         n.font_size = 10.0;
         n.color = Some("#ff0000".into());
-        n.underline = Some(crate::visual::Underline {
+        n.underline = Some(design_data_core::visual::Underline {
             thickness: 2.0,
             offset: 1.0,
         });
@@ -1478,7 +1484,7 @@ mod tests {
     fn icon(drawing: Option<serde_json::Value>, color: &str) -> SceneNode {
         let mut n = node("icon", "mark", 0.0, 0.0, 10.0, 10.0);
         n.color = Some(color.into());
-        n.icon = Some(crate::visual::IconRef {
+        n.icon = Some(design_data_core::visual::IconRef {
             set: "ui".into(),
             name: "t".into(),
             drawing,
@@ -1599,7 +1605,7 @@ mod tests {
     fn path_node(d: &str, fill: Option<&str>) -> SceneNode {
         let mut n = node("box", "p", 10.0, 10.0, 20.0, 20.0);
         n.fill = fill.map(String::from);
-        n.path = Some(crate::visual::PathShape {
+        n.path = Some(design_data_core::visual::PathShape {
             d: d.into(),
             even_odd: false,
         });
@@ -1685,7 +1691,7 @@ mod tests {
     #[test]
     fn a_path_pattern_is_clipped_to_the_shape() {
         let mut n = path_node("M0 0L20 0L0 20Z", Some("#ffffff"));
-        n.pattern = Some(crate::visual::Pattern {
+        n.pattern = Some(design_data_core::visual::Pattern {
             alt: "#cccccc".into(),
             size: 4.0,
         });
@@ -1711,9 +1717,9 @@ mod tests {
 
     mod image_fill {
         use super::*;
-        use crate::graph::TokenGraph;
-        use crate::image::{test_png, test_uri};
-        use crate::visual::{build_scene, RenderRequest};
+        use crate::testutil::{test_png, test_uri};
+        use design_data_core::graph::TokenGraph;
+        use design_data_core::visual::{build_scene, RenderRequest};
         use serde_json::{json, Value};
 
         const RED: [u8; 4] = [255, 0, 0, 255];
@@ -1984,7 +1990,7 @@ mod tests {
         #[test]
         fn the_svg_clips_the_image_to_the_rounded_box() {
             let (_, _, scene) = draw(src(), Some(photo().into()), 12);
-            let svg = crate::visual::scene_to_svg(&scene);
+            let svg = design_data_core::visual::scene_to_svg(&scene);
             assert_eq!(svg.matches("<image ").count(), 1, "{svg}");
             assert!(svg.contains("preserveAspectRatio=\"none\""));
             assert!(svg.contains("<clipPath id=\"image-clip-") && svg.contains("rx=\"12\""));
@@ -2019,15 +2025,16 @@ mod tests {
                 );
                 let svg = dir.join("a.svg");
                 let png = dir.join("a.png");
-                std::fs::write(&svg, crate::visual::scene_to_svg(&scene)).unwrap();
+                std::fs::write(&svg, design_data_core::visual::scene_to_svg(&scene)).unwrap();
                 let st = std::process::Command::new("resvg")
                     .args([svg.to_str().unwrap(), png.to_str().unwrap()])
                     .status()
                     .unwrap();
                 assert!(st.success());
-                let theirs =
-                    crate::image::decode_data_uri(&test_uri(&std::fs::read(&png).unwrap()))
-                        .unwrap();
+                let theirs = design_data_core::image::decode_data_uri(&test_uri(
+                    &std::fs::read(&png).unwrap(),
+                ))
+                .unwrap();
                 assert_eq!((theirs.width, theirs.height), (img.width, img.height));
                 // Edge pixels of a rounded box differ by each renderer's anti-aliasing, so the
                 // interior (opaque in both) is held to a tighter bound than the whole image.

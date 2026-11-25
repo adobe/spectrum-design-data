@@ -330,7 +330,7 @@ fn help(s: &FontStatus) -> String {
 #[cfg(test)]
 pub(crate) mod tests {
     use super::*;
-    use crate::raster::font::tests::{font, SS3};
+    use crate::font::tests::{font, SS3};
 
     /// A minimal font file with only a `name` table: enough to identify, not to draw.
     pub fn fake_font(flavor: &[u8; 4], family: &str, subfamily: &str) -> Vec<u8> {

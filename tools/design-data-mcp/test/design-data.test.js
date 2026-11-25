@@ -653,7 +653,7 @@ test("design-data-primer reports mode-set modes", async (t) => {
 
 const FONT_FIXTURE = fileURLToPath(
   new URL(
-    "../../../sdk/core/src/raster/fonts/SourceSans3VF-Upright.ttf",
+    "../../../sdk/plugins/png/src/fonts/SourceSans3VF-Upright.ttf",
     import.meta.url,
   ),
 );
