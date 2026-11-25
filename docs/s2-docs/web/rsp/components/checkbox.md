@@ -72,7 +72,7 @@ For RTL (right-to-left) languages, the layout of the checkbox is mirrored. The c
 
 ### Keyboard interactions
 
-Key Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected).
+Key Interaction Tab Moves focus to the checkbox (each checkbox is its own tab stop). Shift + Tab Moves focus to the previous checkbox, or to the previous item before it. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected).
 
 ### Cursor guidelines
 
