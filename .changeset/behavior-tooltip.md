@@ -15,6 +15,9 @@ Add the behavior contract for Tooltip's trigger semantics.
   warmup), one open tooltip at a time and `aria-describedby` on the trigger are adapter-owned.
 * Vectors: 23 contract vectors and 4 Escape key vectors. Mutation tests fail when a transition,
   guard, fallback, facet or the Escape binding is broken.
+* Tooltip declares the options `isOpen` and `isDisabled` (boolean, default false) that the contract
+  lists in `state`, and its recipe lists them in `notVisual`. The spec sheet options table gains
+  two rows.
 * The Tooltip accessibility block gains `keyboardIntents: ["dismiss"]`, so its spec sheet gains a
   Keyboard table. No render or other spec sheet changes. The registry change touches the embedded
   registry data, hence the wasm patch.
