@@ -557,6 +557,7 @@ mod tests {
             "swatch-group",
             "checkbox-group",
             "avatar-group",
+            "accordion",
         ] {
             let raw = component_raw(&legacy, name).unwrap();
             let contract = derived
@@ -567,12 +568,15 @@ mod tests {
             let v = accessibility_view(&contract.raw, &derived.behavior_patterns);
             let a = &raw["accessibility"];
             assert_eq!(v.role.as_deref(), a["role"].as_str(), "{name} role");
-            if name == "radio-button" {
-                assert_eq!(v.focusable, None, "{name}: roving focus is not derivable");
+            // Radio button: roving focus is not derivable. Accordion: its header is a part of the
+            // inline item contract, which the view does not read.
+            if name == "radio-button" || name == "accordion" {
+                assert_eq!(v.focusable, None, "{name}: focus is not derivable");
             } else {
                 assert_eq!(v.focusable, a["focusable"].as_bool(), "{name} focusable");
             }
-            if a["keyboardIntents"].is_null() {
+            // Accordion's block lists expand and collapse, which no contract field answers yet.
+            if name == "accordion" || a["keyboardIntents"].is_null() {
                 assert!(v.keyboard_intents.is_empty(), "{name} keyboardIntents");
             } else {
                 assert_eq!(

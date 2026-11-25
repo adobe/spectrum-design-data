@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "accordion",
+  "state": ["isMultiple", "isDisabled"],
+  "facets": {
+    "expansion": {
+      "from": "isMultiple",
+      "values": { "single": false, "multiple": true }
+    }
+  },
+  "collection": {
+    "slot": "default",
+    "item": {
+      "extends": ["interactive"],
+      "state": ["isExpanded", "isDisabled"],
+      "facets": {
+        "expanded": {
+          "from": "isExpanded",
+          "values": { "collapsed": false, "expanded": true }
+        },
+        "disabled": {
+          "from": "isDisabled",
+          "values": { "false": false, "true": true }
+        }
+      },
+      "parts": {
+        "header": {
+          "role": "button",
+          "focus": "tab-stop",
+          "press": "activate"
+        }
+      },
+      "transitions": [
+        {
+          "on": "activate",
+          "guard": { "facet": "disabled", "is": "false" },
+          "do": { "choose": "isExpanded" },
+          "emit": "change"
+        }
+      ]
+    },
+    "choose": { "mode": { "facet": "expansion" }, "allowsEmpty": true }
+  },
+  "wcag": [
+    { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+    { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+  ]
+}

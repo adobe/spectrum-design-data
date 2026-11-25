@@ -3981,6 +3981,22 @@ const FACETS_JSON: &str = r##"{
       "from": ["isPending"]
     },
     {
+      "id": "expanded",
+      "label": "Expanded",
+      "description": "Whether a disclosure item shows its content (aria-expanded). Derived from `isExpanded`.",
+      "source": "state-group",
+      "values": ["collapsed", "expanded"],
+      "from": ["isExpanded"]
+    },
+    {
+      "id": "expansion",
+      "label": "Expansion",
+      "description": "Whether a group of disclosure items lets one item or several be expanded at once. Derived from `isMultiple`.",
+      "source": "state-group",
+      "values": ["single", "multiple"],
+      "from": ["isMultiple"]
+    },
+    {
       "id": "hovered",
       "label": "Hovered",
       "description": "Whether a pointer is over the control.",
