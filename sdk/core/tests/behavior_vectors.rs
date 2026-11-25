@@ -848,8 +848,7 @@ fn a_broken_semantic_fails_a_display_vector() {
 }
 
 /// Each break of a group contract must be reported: a role, focus mode or state change by the
-/// pins, a facet that no longer follows its option by a vector. A group that declares no role
-/// (checkbox-group) fails when one is invented.
+/// pins, a facet that no longer follows its option by a vector.
 #[test]
 fn a_mutated_group_contract_fails_its_pins_or_a_vector() {
     for c in [

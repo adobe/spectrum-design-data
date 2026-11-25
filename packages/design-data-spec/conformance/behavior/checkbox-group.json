@@ -17,6 +17,7 @@
     ],
     "parts": {
       "container": {
+        "role": "group",
         "focus": "none"
       }
     }

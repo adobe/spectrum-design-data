@@ -534,8 +534,8 @@ mod tests {
 
     /// A499: for each component with a contract, the accessibility section built from the contract
     /// equals the one built from the `accessibility` block, and the contract answers every field
-    /// itself (no fallback to the block) except the component-level `intents` labels, a roving
-    /// focus model (`focusable` is not derivable from it) and a group that declares no role (checkbox-group: the section keeps "Not declared").
+    /// itself (no fallback to the block) except the component-level `intents` labels and a roving
+    /// focus model (`focusable` is not derivable from it).
     #[test]
     fn contract_derived_accessibility_equals_the_block() {
         let (legacy, derived) = (graph(false), graph(true));
