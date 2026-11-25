@@ -208,3 +208,34 @@ test("a swatch reads its preview color, draws a translucent border and a selecti
     ds.free();
   }
 });
+
+test("a recipe that reads facets renders like the option form", (t) => {
+  const switchRecipe = JSON.parse(
+    readFileSync(
+      new URL(
+        "../../../packages/design-data/visuals/switch.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  const withWhen = (when) => {
+    const r = structuredClone(switchRecipe);
+    r.parts.track.props.fill[1] = { when, value: "#ff0000" };
+    return r;
+  };
+  const option = withWhen({ options: { isSelected: true } });
+  const facets = withWhen({ facets: { checked: "checked" } });
+  const req = (isSelected) => ({
+    ...request({ isSelected }),
+    component: "switch",
+  });
+  const ds = Dataset.embedded();
+  try {
+    t.is(ds.renderSvg(facets, req(true)), ds.renderSvg(option, req(true)));
+    t.is(ds.renderSvg(facets, req(false)), ds.renderSvg(option, req(false)));
+    t.not(ds.renderSvg(facets, req(true)), ds.renderSvg(facets, req(false)));
+  } finally {
+    ds.free();
+  }
+});

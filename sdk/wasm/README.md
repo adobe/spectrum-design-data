@@ -93,7 +93,7 @@ const results = ds.query("property=color");
 
 `ds.legacyOutput()` returns a plain object keyed by legacy output filename.
 Each file contains token entries keyed by legacy name, including reconstructed
-mode sets and aliases. The embedded dataset includes component/token relationships.
+mode sets and aliases. The embedded dataset includes component/token relationships, visual recipes and the behavior contracts and patterns, so a recipe that reads `facets` resolves as it does in `design-data render`.
 Non-default contrast records are excluded, matching native graph legacy output.
 
 ```js

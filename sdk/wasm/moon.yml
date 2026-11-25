@@ -68,6 +68,7 @@ tasks:
       - "/packages/design-data/relationships/*.json"
       - "/packages/design-data/icons/*.json"
       - "/packages/design-data/visuals/*.json"
+      - "/packages/design-data/behaviors/**/*.json"
       - "src/embedded_cache.redb"
       - "scripts/build.mjs"
       # Changes the output (wasm-opt skipped), so it must change the task hash.

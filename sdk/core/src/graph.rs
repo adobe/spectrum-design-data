@@ -2134,6 +2134,18 @@ impl TokenGraph {
         self
     }
 
+    /// Attach the behavior contracts of a `behaviors/` catalog directory and its `patterns/`
+    /// subdirectory, which a recipe `facets` clause needs to resolve. A missing `patterns/`
+    /// is fine; a missing `dir` is the caller's to check.
+    pub fn with_behaviors_dir(mut self, dir: &Path) -> Result<Self, CoreError> {
+        self.behaviors = Self::load_spec_behaviors(dir)?;
+        let patterns = dir.join("patterns");
+        if patterns.is_dir() {
+            self.behavior_patterns = Self::load_spec_behavior_patterns(&patterns)?;
+        }
+        Ok(self)
+    }
+
     /// Load icon sets from an `icons/` catalog directory. Files without a string
     /// `set` field are skipped (Layer 1 reports their structure).
     pub fn load_spec_icons(dir: &Path) -> Result<Vec<IconSetRecord>, CoreError> {

@@ -307,3 +307,68 @@ fn a_tiny_terminal_does_not_panic() {
         let _ = render_to_buffer(&mut model, w, h);
     }
 }
+
+/// A scratch dataset that borrows the repo's tokens and contracts and carries one recipe, the
+/// switch's, with a red track fill on hover, written as `states: ["hover"]`, or as
+/// `facets: { hovered: "true" }` when `faceted`.
+fn scratch_source(dir: &std::path::Path, faceted: bool) -> PreviewSource {
+    use std::os::unix::fs::symlink;
+    let data = repo_root().join("packages/design-data");
+    std::fs::create_dir_all(dir.join("tokens")).unwrap();
+    std::fs::create_dir_all(dir.join("visuals")).unwrap();
+    for entry in std::fs::read_dir(data.join("tokens")).unwrap() {
+        let path = entry.unwrap().path();
+        symlink(&path, dir.join("tokens").join(path.file_name().unwrap())).unwrap();
+    }
+    symlink(data.join("behaviors"), dir.join("behaviors")).unwrap();
+    let mut recipe: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(data.join("visuals/switch.json")).unwrap())
+            .unwrap();
+    let when = if faceted {
+        serde_json::json!({ "facets": { "hovered": "true" } })
+    } else {
+        serde_json::json!({ "states": ["hover"] })
+    };
+    *recipe.pointer_mut("/parts/track/props/fill/1").unwrap() =
+        serde_json::json!({ "when": when, "value": "#ff0000" });
+    std::fs::write(
+        dir.join("visuals/switch.json"),
+        serde_json::to_string(&recipe).unwrap(),
+    )
+    .unwrap();
+    let resolved = data_source::resolve(&repo_root(), &CliPathOverrides::default()).unwrap();
+    let no_fonts = Env {
+        os: Os::Linux,
+        home: None,
+        win_dir: None,
+        local_app_data: None,
+        app_data: None,
+        font_override: None,
+    };
+    PreviewSource::new(dir.join("tokens"), Arc::new(resolved)).with_font_env(no_fonts)
+}
+
+#[test]
+fn a_facets_clause_previews_the_same_picture_as_the_option_form() {
+    let option = tempfile::tempdir().unwrap();
+    let facets = tempfile::tempdir().unwrap();
+    let (option, facets) = (
+        scratch_source(option.path(), false),
+        scratch_source(facets.path(), true),
+    );
+    let at = |states: &[&str]| PreviewRequest {
+        states: states.iter().map(|s| s.to_string()).collect(),
+        ..PreviewRequest::parse("switch").unwrap()
+    };
+    let hover = at(&["hover"]);
+    let (want, got) = (
+        option.render(&hover).unwrap(),
+        facets.render(&hover).unwrap(),
+    );
+    assert_eq!(want.rgba, got.rgba);
+    assert_ne!(
+        facets.render(&at(&[])).unwrap().rgba,
+        got.rgba,
+        "the hovered facet changes the picture"
+    );
+}

@@ -78,6 +78,12 @@ include!(concat!(env!("OUT_DIR"), "/embedded_icons.rs"));
 include!(concat!(env!("OUT_DIR"), "/embedded_visuals.rs"));
 
 #[cfg(feature = "embedded")]
+include!(concat!(env!("OUT_DIR"), "/embedded_behaviors.rs"));
+
+#[cfg(feature = "embedded")]
+include!(concat!(env!("OUT_DIR"), "/embedded_behavior_patterns.rs"));
+
+#[cfg(feature = "embedded")]
 fn load_embedded_graph() -> Result<TokenGraph, String> {
     let graph = cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())?;
     let mut relationships = Vec::new();
@@ -116,10 +122,38 @@ fn load_embedded_graph() -> Result<TokenGraph, String> {
             });
         }
     }
-    Ok(graph
+    // A recipe `facets` clause resolves against the contracts and patterns, as in the CLI.
+    let mut behaviors = Vec::new();
+    for (filename, text) in EMBEDDED_BEHAVIORS {
+        let raw: serde_json::Value =
+            serde_json::from_str(text).map_err(|e| format!("{filename}: {e}"))?;
+        if let Some(component) = raw.get("component").and_then(|v| v.as_str()) {
+            behaviors.push(design_data_core::graph::BehaviorRecord {
+                component: component.to_string(),
+                file: std::path::PathBuf::from("behaviors").join(filename),
+                raw: raw.clone(),
+            });
+        }
+    }
+    let mut patterns = Vec::new();
+    for (filename, text) in EMBEDDED_BEHAVIOR_PATTERNS {
+        let raw: serde_json::Value =
+            serde_json::from_str(text).map_err(|e| format!("{filename}: {e}"))?;
+        if let Some(pattern) = raw.get("pattern").and_then(|v| v.as_str()) {
+            patterns.push(design_data_core::graph::BehaviorPatternRecord {
+                pattern: pattern.to_string(),
+                file: std::path::PathBuf::from("behaviors/patterns").join(filename),
+                raw: raw.clone(),
+            });
+        }
+    }
+    let mut graph = graph
         .with_relationships(relationships)
         .with_icons(icons)
-        .with_visuals(visuals))
+        .with_visuals(visuals);
+    graph.behaviors = behaviors;
+    graph.behavior_patterns = patterns;
+    Ok(graph)
 }
 
 // ---------------------------------------------------------------------------
