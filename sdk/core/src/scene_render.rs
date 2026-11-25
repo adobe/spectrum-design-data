@@ -86,8 +86,24 @@ mod tests {
     }
 
     #[test]
-    fn scene_json_renderer_emits_json() {
-        let out = SceneJsonRenderer.render(&empty_scene()).unwrap();
-        assert!(serde_json::from_slice::<serde_json::Value>(&out).is_ok());
+    fn scene_json_renderer_matches_pretty_json() {
+        let scene = empty_scene();
+        let out = SceneJsonRenderer.render(&scene).unwrap();
+        assert_eq!(
+            out,
+            serde_json::to_string_pretty(&scene).unwrap().into_bytes()
+        );
+    }
+
+    #[test]
+    fn renderers_report_stable_ids_and_media_types() {
+        let ids: Vec<_> = [&SvgRenderer as &dyn SceneRenderer, &SceneJsonRenderer]
+            .iter()
+            .map(|r| (r.format_id(), r.media_type()))
+            .collect();
+        assert_eq!(
+            ids,
+            [("svg", "image/svg+xml"), ("scene", "application/json")]
+        );
     }
 }

@@ -16,7 +16,7 @@ accurate as the code evolves.
 ## Today: compiled-in, in-monorepo plugins
 
 A plugin is a crate under `sdk/plugins/` that depends on `design-data-core`
-through its public API. There are three shapes, matching the kinds of export
+through its public API. There are several shapes, matching the kinds of export
 target that actually exist:
 
 * **Pure exporters** — a one-shot `TokenGraph` + resolved winners -> document
@@ -61,6 +61,16 @@ target that actually exist:
   explorer from the graph and the `visuals/` recipes. It takes the graph
   directly and has its own `design-data site` subcommand, so it doesn't
   implement `TokenExporter`.
+
+* **Scene renderers** — a solved visual-recipe `Scene` -> one output format's
+  bytes. These implement \[`design_data_core::scene_render::SceneRenderer`]
+  (`format_id`, `media_type`, `render(scene) -> Result<Vec<u8>, String>`).
+  `SvgRenderer` (`svg`) and `SceneJsonRenderer` (`scene`) live in core. The CLI
+  looks a renderer up by `format_id()` from a static registry
+  (`cli/src/main.rs::scene_renderers()`); a plugin crate adds its renderer to
+  that list. Options a format needs (fonts, pixel ratio) belong to the renderer
+  value, not the trait. PNG still takes its own path in `run_render`; moving it
+  and the spec sheet into plugin crates follows in p6ga.36.2 and p6ga.36.3.
 
 **Adding a new in-monorepo plugin**: create `sdk/plugins/<name>/`, depend on
 `design-data-core` by path, implement `TokenExporter` if it accepts resolved
