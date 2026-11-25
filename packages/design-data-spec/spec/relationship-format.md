@@ -143,11 +143,7 @@ A **type-style record** gives a component part its type style. Its `scope.proper
 
 ```json
 {
-  "scope": {
-    "component": "text-field",
-    "part": "label",
-    "property": "type-style"
-  },
+  "scope": { "component": "text-field", "part": "label", "property": "type-style" },
   "context": "Label",
   "$ref": "<uuid of component-m-regular>"
 }

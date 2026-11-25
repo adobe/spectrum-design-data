@@ -16,7 +16,7 @@
 //! context that no contexted record reaches is unaddressable and should get a context.
 //! Deprecated records are exempt, and so is a record with a `legacyKey`: the legacy token
 //! name addresses it, so it is a token another record or the legacy output reads by that
-//! name, not an unaddressable one.
+//! name, not an unaddressable one. An empty `legacyKey` does not count.
 //!
 //! Warning, held at a baseline by `tests/recipe_lint_baseline.rs`.
 
@@ -92,7 +92,10 @@ pub fn flagged(rels: &[RelationshipRecord]) -> Vec<usize> {
                 .get("lifecycle")
                 .and_then(|l| l.get("deprecatedIn"))
                 .is_some_and(|d| !d.is_null());
-            let pinned = raw.get("legacyKey").and_then(Value::as_str).is_some();
+            let pinned = raw
+                .get("legacyKey")
+                .and_then(Value::as_str)
+                .is_some_and(|k| !k.is_empty());
             !(deprecated
                 || pinned
                 || has_context(raw)
@@ -194,5 +197,11 @@ mod tests {
         )]);
         let plain = run(vec![rec(0, "a", json!({"$ref": "t"}))]);
         assert_eq!((pinned, plain), (0, 1));
+    }
+
+    #[test]
+    fn an_empty_legacy_key_does_not_exempt() {
+        let n = run(vec![rec(0, "a", json!({"$ref": "t", "legacyKey": ""}))]);
+        assert_eq!(n, 1);
     }
 }
