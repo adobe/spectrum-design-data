@@ -15,7 +15,7 @@ identity. The legacy `@adobe/spectrum-tokens` output and every rendered SVG are 
   `component-top|bottom-to-text-*` becomes `space-between` between `top-edge` or `bottom-edge` and
   `label`, each with a `size` pin.
 - Radio-button records get a `scope.part` and `between` from the anatomy. The recipes bind by
-  property, part and `between` instead of `context` (radio-button context selectors 24 to 0).
+  property, part and `between` instead of `context` (radio-button context selectors 24 to 1: the carved-out `background-color` records have no part, so that one binding keeps its `context`).
 - 25 `legacyKey` records get the `context` of their alias record, which clears the identity
   collisions. No uuid, `legacyKey` or `$ref` change; deprecated records are untouched.
 - The switch, checkbox and radio-button spec sheets lose four duplicate bottom-edge rows each, and
