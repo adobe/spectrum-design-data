@@ -143,7 +143,7 @@
       ]
     },
     {
-      "name": "a disabled group reads as disabled",
+      "name": "a disabled group reads as disabled (the runner still navigates it: isDisabled reaches the items in the adapter)",
       "start": {
         "orientation": "vertical",
         "isDisabled": true,

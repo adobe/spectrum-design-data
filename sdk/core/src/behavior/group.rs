@@ -67,6 +67,14 @@ impl<'a> Group<'a> {
                 .as_object()
                 .cloned()
                 .ok_or_else(|| format!("start item {i} is not an object of options"))?;
+            if let Some(k) = options
+                .keys()
+                .find(|k| !item_m.state.contains(k) && registry.environment_property(k).is_none())
+            {
+                return Err(format!(
+                    "start item {i} sets '{k}', which the item contract does not list in `state`"
+                ));
+            }
             items.push(Run {
                 m: item_m,
                 registry,

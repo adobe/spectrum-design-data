@@ -308,7 +308,7 @@
             },
             "focus": {
               "enum": ["tab-stop", "roving", "none"],
-              "description": "Overrides the focus model of the item's part, when the group sets one."
+              "description": "Overrides the focus model of the item's part, when the group sets one. Metadata only; the runner does not model focus."
             }
           },
           "additionalProperties": false,

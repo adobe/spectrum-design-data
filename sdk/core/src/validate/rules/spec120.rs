@@ -158,9 +158,13 @@ impl ValidationRule for Rule {
                         .and_then(Value::as_array)
                         .into_iter()
                         .flatten()
-                        .filter_map(|e| e.get("items")?.as_array())
-                        .flatten()
-                        .enumerate()
+                        .flat_map(|e| {
+                            e.get("items")
+                                .and_then(Value::as_array)
+                                .into_iter()
+                                .flatten()
+                                .enumerate()
+                        })
                     {
                         let Some(item) = &item else { continue };
                         if i >= items {
@@ -304,6 +308,38 @@ mod tests {
             let m = check(edit);
             assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
         }
+    }
+
+    #[test]
+    fn items_are_numbered_per_expectation() {
+        let group = |c: &mut serde_json::Value| {
+            c["collection"] = json!({ "slot": "default", "item": "switch" });
+            c["vectors"][0]["start"] = json!({ "items": [{}, {}, {}] });
+            c["vectors"][0]["steps"] =
+                json!([{ "intent": "navigate-next" }, { "intent": "navigate-next" }]);
+        };
+        let three = || json!([{ "checked": "unchecked" }, {}, {}]);
+        let m = check(|c| {
+            group(c);
+            c["vectors"][0]["expect"] = json!([
+                { "after": 1, "items": three() },
+                { "after": 2, "items": three() }
+            ]);
+        });
+        assert!(m.is_empty(), "{m:?}");
+        let m = check(|c| {
+            group(c);
+            c["vectors"][0]["expect"] = json!([
+                { "after": 1, "items": three() },
+                { "after": 2, "items": [{}, {}, {}, {}] }
+            ]);
+        });
+        assert!(
+            m.iter()
+                .any(|m| m.contains("expects item 3, but has 3 items")),
+            "{m:?}"
+        );
+        assert_eq!(m.len(), 1, "{m:?}");
     }
 
     #[test]
