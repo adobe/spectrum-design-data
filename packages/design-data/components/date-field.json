@@ -67,14 +67,6 @@
       "trigger": "interaction"
     },
     {
-      "name": "focus-+-hover",
-      "trigger": "prop"
-    },
-    {
-      "name": "focus-+-not-hover",
-      "trigger": "prop"
-    },
-    {
       "name": "keyboard-focus",
       "trigger": "interaction"
     }
