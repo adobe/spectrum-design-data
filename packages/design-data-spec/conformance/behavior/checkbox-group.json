@@ -1,0 +1,150 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "checkbox-group",
+  "pins": {
+    "state": ["orientation", "isDisabled"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "container": {
+        "focus": "none"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a vertical group reads as vertical",
+      "start": {
+        "orientation": "vertical"
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "orientation": "vertical"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a horizontal group reads as horizontal",
+      "start": {
+        "orientation": "horizontal"
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "orientation": "horizontal"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled group reads as disabled",
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "an enabled group reads as enabled",
+      "start": {
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "the group raises no event of its own: focus, press and pointer steps emit nothing",
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        },
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": []
+        }
+      ]
+    }
+  ]
+}

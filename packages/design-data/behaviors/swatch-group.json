@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "swatch-group",
+  "state": ["enableSelection", "selectionMode", "allowsEmptySelection"],
+  "parts": {
+    "container": {
+      "role": "group",
+      "focus": "none"
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}

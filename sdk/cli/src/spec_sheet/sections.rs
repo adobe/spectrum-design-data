@@ -535,7 +535,7 @@ mod tests {
     /// A499: for each component with a contract, the accessibility section built from the contract
     /// equals the one built from the `accessibility` block, and the contract answers every field
     /// itself (no fallback to the block) except the component-level `intents` labels, a roving
-    /// focus model (`focusable` is not derivable from it) and a group that declares no role.
+    /// focus model (`focusable` is not derivable from it) and a group that declares no role (checkbox-group: the section keeps "Not declared").
     #[test]
     fn contract_derived_accessibility_equals_the_block() {
         let (legacy, derived) = (graph(false), graph(true));
@@ -553,6 +553,10 @@ mod tests {
             "progress-circle",
             "in-field-progress-circle",
             "meter",
+            "button-group",
+            "swatch-group",
+            "checkbox-group",
+            "avatar-group",
         ] {
             let raw = component_raw(&legacy, name).unwrap();
             let contract = derived
@@ -577,7 +581,12 @@ mod tests {
                     "{name} keyboardIntents"
                 );
             }
-            assert_eq!(json!(v.wcag), a["wcag"], "{name} wcag");
+            // A block without `wcag` (avatar-group) is a contract without `wcag`.
+            assert_eq!(
+                json!(v.wcag),
+                a.get("wcag").cloned().unwrap_or(json!([])),
+                "{name} wcag"
+            );
             assert_eq!(
                 accessibility(&legacy, raw, name),
                 accessibility(&derived, raw, name),
