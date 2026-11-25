@@ -1435,7 +1435,7 @@ fn a_broken_swatch_group_rule_fails_a_vector() {
 }
 
 /// The tooltip's rules are the `trigger-reveal` pattern's transitions: breaking any one of them
-/// (what opens it, what closes it, what keeps it open, what is emitted) must fail a vector, and the
+/// (what opens it, what closes it, what each ending clears, what is emitted) must fail a vector, and the
 /// pins hold the part. Escape is a binding, so an unbound or wrong key fails its key suite.
 #[test]
 fn a_mutated_tooltip_fails_a_vector() {
@@ -1462,9 +1462,17 @@ fn a_mutated_tooltip_fails_a_vector() {
     for (on, n, option) in [
         ("focus", 0, "isOpen"),
         ("blur", 0, "isOpen"),
+        ("blur", 0, "hovered"),
+        ("blur", 0, "focusVisible"),
+        ("blur", 1, "hovered"),
+        ("blur", 1, "focusVisible"),
         ("pointer-enter", 0, "isOpen"),
         ("pointer-enter", 0, "hovered"),
         ("pointer-leave", 0, "isOpen"),
+        ("pointer-leave", 0, "hovered"),
+        ("pointer-leave", 0, "focusVisible"),
+        ("pointer-leave", 1, "hovered"),
+        ("pointer-leave", 1, "focusVisible"),
         ("press-start", 0, "isOpen"),
         ("press-start", 0, "hovered"),
         ("press-start", 0, "focusVisible"),

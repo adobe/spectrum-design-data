@@ -146,15 +146,15 @@ A tooltip is shown by its trigger, so its contract describes the trigger's side 
 | `focus`, other `via`            |                                 | `focusVisible` false; never opens (pointer or programmatic focus does not show a tooltip) |
 | `pointer-enter`                 | closed, run has `pointer-hover` | opens; `hovered` true; emits `change`                                                     |
 | `pointer-enter`                 | already open                    | `hovered` true, no event                                                                  |
-| `blur`                          | open and not hovered            | closes; `focusVisible` false; emits `change`                                              |
-| `blur`                          | otherwise                       | `focusVisible` false: hover still holds it open                                           |
-| `pointer-leave`                 | open and not keyboard-focused   | closes; `hovered` false; emits `change`                                                   |
-| `pointer-leave`                 | otherwise                       | `hovered` false: keyboard focus still holds it open                                       |
+| `blur`                          | open                            | closes; clears `focusVisible` and `hovered`; emits `change`                               |
+| `blur`                          | closed                          | clears `focusVisible` and `hovered`                                                       |
+| `pointer-leave`                 | open                            | closes; clears `hovered` and `focusVisible`; emits `change`                               |
+| `pointer-leave`                 | closed                          | clears `hovered` and `focusVisible`                                                       |
 | `press-start` (trigger pressed) | open                            | closes, clears `hovered` and `focusVisible`; emits `change`                               |
 | `press-start`                   | closed                          | clears `hovered` and `focusVisible`                                                       |
 | `dismiss`                       | open                            | closes; emits `change`; hover and focus are left as they are                              |
 
-The tooltip is open while hover **or** keyboard focus holds it: the pointer leaving does not close it while the trigger has keyboard focus, and blur does not close it while the pointer is on the trigger or the tooltip. This follows Spectrum Web Components; React Spectrum S2 closes on either (see decisions in the change). `disabled` blocks `focus`, `press-start` and `pointer-enter` (`blocksInteraction`), so a disabled tooltip never opens; it can still close (`blur`, `pointer-leave`, `dismiss`) if `isOpen` was set.
+The tooltip closes as soon as either signal ends, whether or not the other still holds it: `pointer-leave` and `blur` each clear both `hovered` and `focusVisible`, as React Spectrum S2 does (`useTooltipTrigger` clears both refs on hover end and on blur). After a close the tooltip reopens only on a new `focus` (keyboard) or `pointer-enter`; keyboard focus that is still on the trigger does not reopen it by itself. Spectrum Web Components keeps it open while the other signal still holds (decision A627 chose the S2 behavior). `disabled` blocks `focus`, `press-start` and `pointer-enter` (`blocksInteraction`), so a disabled tooltip never opens; it can still close (`blur`, `pointer-leave`, `dismiss`) if `isOpen` was set.
 
 **Escape** is a web key binding on the `tooltip` role: `Escape` raises `dismiss` on key down (React Spectrum S2 closes on key down; Spectrum Web Components on key up, which the binding does not follow). A DOM adapter listens for it on the document while the tooltip is open, because focus is on the trigger, not on the tooltip. `dismiss` leaves `hovered` as it is, so the tooltip does not reopen until the pointer leaves and enters again.
 

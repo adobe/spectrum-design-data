@@ -260,7 +260,7 @@
       ]
     },
     {
-      "name": "leaving keeps a tooltip that keyboard focus holds open",
+      "name": "leaving closes a tooltip that hover and keyboard focus both hold, and clears both",
       "needs": ["keyboard", "pointer-hover"],
       "start": {},
       "steps": [
@@ -288,16 +288,22 @@
         {
           "after": 3,
           "facets": {
-            "open": true,
+            "open": false,
             "hovered": false,
-            "focusVisible": true
+            "focusVisible": false
           },
-          "emit": []
+          "emit": [
+            {
+              "change": {
+                "isOpen": false
+              }
+            }
+          ]
         }
       ]
     },
     {
-      "name": "blur keeps a tooltip that hover holds open, and leaving then closes it",
+      "name": "blur closes a tooltip that hover and keyboard focus both hold, and clears both",
       "needs": ["keyboard", "pointer-hover"],
       "start": {},
       "steps": [
@@ -310,9 +316,6 @@
         },
         {
           "intent": "blur"
-        },
-        {
-          "intent": "pointer-leave"
         }
       ],
       "expect": [
@@ -327,15 +330,6 @@
         },
         {
           "after": 3,
-          "facets": {
-            "open": true,
-            "hovered": true,
-            "focusVisible": false
-          },
-          "emit": []
-        },
-        {
-          "after": 4,
           "facets": {
             "open": false,
             "hovered": false,
@@ -691,6 +685,209 @@
       "expect": [
         {
           "after": 2,
+          "facets": {
+            "open": false,
+            "focusVisible": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "after leaving, keyboard focus alone does not reopen the tooltip",
+      "needs": ["keyboard", "pointer-hover"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "pointer-leave"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "open": false,
+            "focusVisible": false
+          },
+          "emit": [
+            {
+              "change": {
+                "isOpen": false
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "facets": {
+            "open": false,
+            "focusVisible": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a new keyboard focus reopens a tooltip that leaving closed",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "pointer-leave"
+        },
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "open": true,
+            "focusVisible": true
+          },
+          "emit": [
+            {
+              "change": {
+                "isOpen": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a new hover reopens a tooltip that blur closed",
+      "needs": ["pointer-hover"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "blur"
+        },
+        {
+          "intent": "pointer-enter"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "open": false,
+            "hovered": false
+          },
+          "emit": [
+            {
+              "change": {
+                "isOpen": false
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "facets": {
+            "open": true,
+            "hovered": true
+          },
+          "emit": [
+            {
+              "change": {
+                "isOpen": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "leaving after dismiss clears keyboard focus",
+      "needs": ["keyboard", "pointer-hover"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "dismiss"
+        },
+        {
+          "intent": "pointer-leave"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "open": false,
+            "hovered": false,
+            "focusVisible": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "blur after dismiss clears hover",
+      "needs": ["keyboard", "pointer-hover"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "dismiss"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "open": false,
+            "hovered": false,
+            "focusVisible": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "blur after dismiss clears keyboard focus",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "dismiss"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
           "facets": {
             "open": false,
             "focusVisible": false
