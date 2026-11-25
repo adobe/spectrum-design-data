@@ -25,6 +25,93 @@ use crate::validate::rules::behavior_util::{
 
 pub struct Rule;
 
+/// The slot of the component a `collection` names, then its item and the facets its `choose` and
+/// `selectOnMove` read.
+fn check_collection(
+    ctx: &ValidationContext<'_>,
+    b: &crate::graph::BehaviorRecord,
+    col: &Value,
+    problem: &mut dyn FnMut(&str, String),
+) {
+    let component = ctx.graph.components.iter().find(|c| c.name == b.component);
+    let slot = col.get("slot").and_then(Value::as_str).unwrap_or_default();
+    let decl = component.and_then(|c| {
+        c.raw
+            .get("slots")
+            .and_then(Value::as_array)?
+            .iter()
+            .find(|s| s.get("name").and_then(Value::as_str) == Some(slot))
+    });
+    if component.is_some() && decl.is_none() {
+        problem(
+            "/collection/slot",
+            format!("names slot '{slot}' in `collection`, which the component does not declare"),
+        );
+    }
+    match col.get("item") {
+        Some(Value::String(item)) => {
+            if !ctx.graph.behaviors.iter().any(|c| &c.component == item) {
+                problem(
+                    "/collection/item",
+                    format!("names item '{item}' in `collection`, which has no behavior contract"),
+                );
+            }
+            let accepted = decl
+                .and_then(|d| d.get("accepts").and_then(Value::as_array))
+                .is_some_and(|a| a.iter().any(|x| x.as_str() == Some(item)));
+            if decl.is_some_and(|d| d.get("accepts").is_some()) && !accepted {
+                problem(
+                    "/collection/item",
+                    format!(
+                        "names item '{item}' in `collection`, which slot '{slot}' does not accept"
+                    ),
+                );
+            }
+        }
+        Some(Value::Object(_)) => {
+            if decl.is_some_and(|d| d.get("collection").is_none()) {
+                problem(
+                    "/collection/item",
+                    format!("has an inline item in `collection`, but slot '{slot}' is not a `collection` slot"),
+                );
+            }
+        }
+        _ => {}
+    }
+    for (path, values) in [
+        (
+            "/collection/choose/mode",
+            &["none", "single", "multiple"][..],
+        ),
+        ("/collection/choose/allowsEmpty", &["true", "false"][..]),
+        ("/collection/traversal/selectOnMove", &["true", "false"][..]),
+    ] {
+        let Some(facet) = col
+            .pointer(&path["/collection".len()..])
+            .and_then(|v| v.get("facet"))
+            .and_then(Value::as_str)
+        else {
+            continue;
+        };
+        match facet_values(ctx.graph, b, ctx.registry, facet) {
+            None => problem(
+                path,
+                format!(
+                    "reads facet '{facet}' in `collection`, which the contract does not declare"
+                ),
+            ),
+            Some(have) => {
+                for v in have.iter().filter(|v| !values.contains(&v.as_str())) {
+                    problem(
+                        path,
+                        format!("reads facet '{facet}' in `collection`, whose value '{v}' is not one of {values:?}"),
+                    );
+                }
+            }
+        }
+    }
+}
+
 impl ValidationRule for Rule {
     fn id(&self) -> &'static str {
         "SPEC-118"
@@ -86,6 +173,9 @@ impl ValidationRule for Rule {
                         );
                     }
                 }
+            }
+            if let Some(col) = b.raw.get("collection") {
+                check_collection(ctx, b, col, &mut problem);
             }
             let own = crate::behavior::flatten(&b.raw, &ctx.graph.behavior_patterns).ok();
             for (name, facet) in own.iter().flat_map(|m| m.facets.iter()) {
@@ -327,6 +417,38 @@ mod tests {
                     |c| c["semantics"]["track"]["isSelected"] = json!({ "ariaState": "aria-valuenow", "copy": true, "absentWhen": { "isGhost": true } }),
                 ),
                 "'isGhost'",
+            ),
+        ];
+        for (edit, why) in cases {
+            let m = check(edit);
+            assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
+        }
+    }
+
+    #[test]
+    fn flags_an_unresolved_collection() {
+        let cases: Vec<Case> = vec![
+            (
+                Box::new(|c| c["collection"] = json!({ "slot": "default", "item": "ghost" })),
+                "has no behavior contract",
+            ),
+            (
+                Box::new(|c| c["collection"] = json!({ "slot": "default", "item": "switch" })),
+                "does not declare",
+            ),
+            (
+                Box::new(|c| {
+                    c["collection"] = json!({ "slot": "default", "item": "switch",
+                        "choose": { "mode": { "facet": "ghost" } } })
+                }),
+                "does not declare",
+            ),
+            (
+                Box::new(|c| {
+                    c["collection"] = json!({ "slot": "default", "item": "switch",
+                        "choose": { "mode": { "facet": "disabled" } } })
+                }),
+                "is not one of",
             ),
         ];
         for (edit, why) in cases {

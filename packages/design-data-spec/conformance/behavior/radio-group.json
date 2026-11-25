@@ -26,7 +26,15 @@
     {
       "name": "a vertical group keeps its arrows",
       "start": {
-        "orientation": "vertical"
+        "orientation": "vertical",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
       },
       "steps": [
         {
@@ -39,7 +47,8 @@
           "facets": {
             "orientation": "vertical",
             "arrowOrder": "natural"
-          }
+          },
+          "focused": 1
         }
       ]
     },
@@ -47,7 +56,15 @@
       "name": "a horizontal left-to-right group keeps its arrows",
       "start": {
         "orientation": "horizontal",
-        "direction": "ltr"
+        "direction": "ltr",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
       },
       "steps": [
         {
@@ -60,7 +77,8 @@
           "facets": {
             "orientation": "horizontal",
             "arrowOrder": "natural"
-          }
+          },
+          "focused": 1
         }
       ]
     },
@@ -68,7 +86,15 @@
       "name": "a horizontal right-to-left group mirrors Left and Right",
       "start": {
         "orientation": "horizontal",
-        "direction": "rtl"
+        "direction": "rtl",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
       },
       "steps": [
         {
@@ -81,7 +107,8 @@
           "facets": {
             "orientation": "horizontal",
             "arrowOrder": "mirrored"
-          }
+          },
+          "focused": 1
         }
       ]
     },
@@ -89,7 +116,15 @@
       "name": "a vertical right-to-left group keeps its arrows",
       "start": {
         "orientation": "vertical",
-        "direction": "rtl"
+        "direction": "rtl",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
       },
       "steps": [
         {
@@ -102,7 +137,8 @@
           "facets": {
             "orientation": "vertical",
             "arrowOrder": "natural"
-          }
+          },
+          "focused": 1
         }
       ]
     },
@@ -110,7 +146,15 @@
       "name": "a disabled group reads as disabled",
       "start": {
         "orientation": "vertical",
-        "isDisabled": true
+        "isDisabled": true,
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
       },
       "steps": [
         {
@@ -123,6 +167,485 @@
           "facets": {
             "disabled": true
           }
+        }
+      ]
+    },
+    {
+      "name": "navigate-next skips a disabled radio and selects the next",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isDisabled": true
+          },
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            }
+          ],
+          "focused": 2,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigate-next on the last radio wraps to the first and selects it",
+      "start": {
+        "items": [
+          {},
+          {},
+          {
+            "isSelected": true
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 0,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [0]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigate-previous on the first radio wraps to the last and selects it",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            }
+          ],
+          "focused": 2,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigate-previous skips a disabled radio",
+      "start": {
+        "items": [
+          {},
+          {
+            "isDisabled": true
+          },
+          {
+            "isSelected": true
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 0,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [0]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigation turns the previous selection off and leaves one selected",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        },
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 1,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            }
+          ],
+          "focused": 2,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigation with every other radio disabled stays put",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isDisabled": true
+          },
+          {
+            "isDisabled": true
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        },
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            null,
+            null
+          ],
+          "focused": 0,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "navigate-first and navigate-last move nothing (no Home or End)",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-last"
+        },
+        {
+          "intent": "navigate-first"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "focused": 0,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "choose is single: activating a radio selects it and turns the others off",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "item": 2,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": [2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "activating the selected radio changes nothing",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "activating a disabled radio changes nothing",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isDisabled": true
+          },
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a completed press on a radio selects it and turns the others off",
+      "start": {
+        "items": [
+          {
+            "isSelected": true
+          },
+          {},
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "press-start"
+        },
+        {
+          "item": 1,
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "items": [
+            {
+              "checked": "unchecked"
+            },
+            {
+              "checked": "checked"
+            },
+            {
+              "checked": "unchecked"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ]
         }
       ]
     }

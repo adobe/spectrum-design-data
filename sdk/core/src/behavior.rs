@@ -34,6 +34,13 @@
 //!   the entries, the key and `down`/`up` phase pick the event intents, which then run as steps
 //!   `via` the keyboard. A key with no binding raises nothing, which is how "Enter does not
 //!   toggle" passes.
+//! * A group contract with a `collection` block runs its vectors over items: `start.items` (one
+//!   option set per item) and `start.focused` give a machine `Run` per item and a logical focus
+//!   index. `navigate-*` on the group moves the focus by index over items the traversal `skip`
+//!   does not skip (wrapping when `wrap` is set) and, with `selectOnMove`, fires the item's
+//!   `press` intent on arrival; a key step swaps ArrowLeft and ArrowRight first while the
+//!   traversal `mirror` guard holds. An item's `do.choose` is applied by the group's `choose`
+//!   mode and raises one group event listing the indices that are on (`behavior/group.rs`).
 //! * `emit` lists the events a step raised (`{ name: { option: new value } }`), not a running
 //!   total. An expected event matches exactly (same options and values). A vector may set
 //!   `emitOptions: "listed"` to check only the options it lists: for a role key vector that runs on
@@ -47,6 +54,9 @@ use serde_json::{json, Map, Value};
 use crate::graph::{BehaviorPatternRecord, TokenGraph};
 use crate::registry::RegistryData;
 use crate::CoreError;
+
+mod group;
+use group::{Group, NAVIGATION};
 
 const MAX_RAISE_DEPTH: usize = 8;
 
@@ -283,6 +293,10 @@ struct Run<'a> {
     options: Map<String, Value>,
     interaction: BTreeMap<String, bool>,
     depth: usize,
+    /// An item of a group: `do.choose` is left to the group, which owns the siblings.
+    in_group: bool,
+    /// `(option, emit)` of each `do.choose` the group still has to apply.
+    pending: Vec<(String, Option<String>)>,
 }
 
 impl Run<'_> {
@@ -360,6 +374,17 @@ impl Run<'_> {
                 };
                 changed.insert(o.clone(), v);
             }
+            let mut choose_emit = None;
+            if let Some(o) = t.pointer("/do/choose").and_then(Value::as_str) {
+                if self.in_group {
+                    let emit = t.get("emit").and_then(Value::as_str).map(String::from);
+                    self.pending.push((o.to_string(), emit));
+                    choose_emit = Some(());
+                } else {
+                    let now = option(&self.options, o) != Value::Bool(true);
+                    changed.insert(o.to_string(), Value::Bool(now));
+                }
+            }
             let mut options_changed = Map::new();
             for (o, v) in changed {
                 if self.m.published.contains(&o) {
@@ -379,7 +404,11 @@ impl Run<'_> {
                 let press = press.ok_or("`raise: press` but no part declares `press`")?;
                 raised.extend(self.step(&press, None)?);
             }
-            if let Some(name) = t.get("emit").and_then(Value::as_str) {
+            if let Some(name) = t
+                .get("emit")
+                .and_then(Value::as_str)
+                .filter(|_| choose_emit.is_none())
+            {
                 raised.push(json!({ name: options_changed }));
             }
             break;
@@ -445,25 +474,12 @@ fn binding_intents(bindings: &Value, role: &str, key: &str, phase: &str) -> Vec<
     out
 }
 
-fn run_vector(
-    m: &Machine,
+/// Environment properties (`direction`) come from the registry: a run starts at the default,
+/// and a start value the registry does not list is a failure, not a silent no-match.
+fn init_options(
     registry: &RegistryData,
-    caps: &HashSet<String>,
-    bindings: Option<&Value>,
-    v: &Value,
-) -> Result<Vec<String>, String> {
-    let steps = v
-        .get("steps")
-        .and_then(Value::as_array)
-        .ok_or("has no steps")?;
-    let listed = v.get("emitOptions").and_then(Value::as_str) == Some("listed");
-    let mut options = v
-        .get("start")
-        .and_then(Value::as_object)
-        .cloned()
-        .unwrap_or_default();
-    // Environment properties (`direction`) come from the registry: a run starts at the default,
-    // and a start value the registry does not list is a failure, not a silent no-match.
+    mut options: Map<String, Value>,
+) -> Result<Map<String, Value>, String> {
     for (name, env) in registry.environment_properties() {
         match options.get(name).and_then(Value::as_str) {
             None => {
@@ -477,6 +493,57 @@ fn run_vector(
             Some(_) => {}
         }
     }
+    Ok(options)
+}
+
+/// An intent on the group: a collection resolves `navigate-*` itself, else the group machine runs.
+fn dispatch(
+    run: &mut Run,
+    group: &mut Option<Group>,
+    intent: &str,
+    via: Option<&str>,
+) -> Result<Vec<Value>, String> {
+    match group {
+        Some(g) if NAVIGATION.contains(&intent) => g.navigate(&run.facets(), run.registry, intent),
+        _ => run.step(intent, via),
+    }
+}
+
+fn run_vector(
+    m: &Machine,
+    registry: &RegistryData,
+    caps: &HashSet<String>,
+    bindings: Option<&Value>,
+    collection: Option<&Value>,
+    item: Option<&Result<Machine, String>>,
+    v: &Value,
+) -> Result<Vec<String>, String> {
+    let steps = v
+        .get("steps")
+        .and_then(Value::as_array)
+        .ok_or("has no steps")?;
+    let listed = v.get("emitOptions").and_then(Value::as_str) == Some("listed");
+    let mut start = v
+        .get("start")
+        .and_then(Value::as_object)
+        .cloned()
+        .unwrap_or_default();
+    let mut group = match (start.get("items"), collection) {
+        (None, _) => None,
+        (Some(_), Some(col)) => {
+            let item_m = item
+                .ok_or("the contract has a `collection`, but no item contract")?
+                .as_ref()
+                .map_err(Clone::clone)?;
+            Some(Group::new(col, item_m, registry, caps, &start)?)
+        }
+        (Some(_), None) => {
+            return Err("start lists `items`, but the contract has no `collection`".into())
+        }
+    };
+    start.remove("items");
+    start.remove("focused");
+    let options = init_options(registry, start)?;
     let mut run = Run {
         m,
         registry,
@@ -484,6 +551,8 @@ fn run_vector(
         options,
         interaction: m.published.iter().map(|p| (p.clone(), false)).collect(),
         depth: 0,
+        in_group: false,
+        pending: Vec::new(),
     };
     let mut failures = Vec::new();
     let expects = v.get("expect").and_then(Value::as_array);
@@ -501,21 +570,52 @@ fn run_vector(
                     "step {n} is an `input` step, but the key bindings have no entry for role '{role}' (a mistyped role, or a role with no binding)"
                 ));
             }
+            let mut key = field("key");
+            if let Some(g) = &group {
+                let swap = g
+                    .mirrors(&run.facets())
+                    .map_err(|e| format!("step {n}: {e}"))?;
+                key = match (swap, key) {
+                    (true, "ArrowLeft") => "ArrowRight",
+                    (true, "ArrowRight") => "ArrowLeft",
+                    (_, k) => k,
+                };
+            }
             let mut raised = Vec::new();
-            for i in binding_intents(bindings, role, field("key"), field("phase")) {
+            for i in binding_intents(bindings, role, key, field("phase")) {
                 raised.extend(
-                    run.step(&i, Some("keyboard"))
+                    dispatch(&mut run, &mut group, &i, Some("keyboard"))
                         .map_err(|e| format!("step {n}: {e}"))?,
                 );
             }
             raised
+        } else if let Some(at) = s.get("item").and_then(Value::as_u64) {
+            let g = group.as_mut().ok_or_else(|| {
+                format!("step {n} addresses an item, but the vector has no `items`")
+            })?;
+            let intent = s
+                .get("intent")
+                .and_then(Value::as_str)
+                .ok_or_else(|| format!("step {n} has no intent"))?;
+            g.item_step(
+                &run.facets(),
+                at as usize,
+                intent,
+                s.get("via").and_then(Value::as_str),
+            )
+            .map_err(|e| format!("step {n}: {e}"))?
         } else {
             let intent = s
                 .get("intent")
                 .and_then(Value::as_str)
                 .ok_or_else(|| format!("step {n} has no intent"))?;
-            run.step(intent, s.get("via").and_then(Value::as_str))
-                .map_err(|e| format!("step {n}: {e}"))?
+            dispatch(
+                &mut run,
+                &mut group,
+                intent,
+                s.get("via").and_then(Value::as_str),
+            )
+            .map_err(|e| format!("step {n}: {e}"))?
         };
         let facets = run.facets();
         for e in expects
@@ -558,6 +658,9 @@ fn run_vector(
                     _ => {}
                 }
             }
+            if let Some(g) = &group {
+                g.check(n, e, &mut failures);
+            }
             if let Some(want) = e.get("emit") {
                 if !emits_match(want, &raised, listed) {
                     failures.push(format!(
@@ -591,12 +694,44 @@ pub fn run_vectors(
     capabilities: &HashSet<String>,
     bindings: Option<&Value>,
 ) -> Vec<VectorResult> {
+    run_vectors_with(
+        contract,
+        patterns,
+        vectors,
+        registry,
+        capabilities,
+        bindings,
+        &[],
+    )
+}
+
+/// [`run_vectors`] for a contract whose `collection` names an item component: `contracts` are the
+/// contracts that name can be found in (an inline `item` needs none).
+pub fn run_vectors_with(
+    contract: &Value,
+    patterns: &[BehaviorPatternRecord],
+    vectors: &[Value],
+    registry: &RegistryData,
+    capabilities: &HashSet<String>,
+    bindings: Option<&Value>,
+    contracts: &[Value],
+) -> Vec<VectorResult> {
     let component = contract
         .get("component")
         .and_then(Value::as_str)
         .unwrap_or_default()
         .to_string();
     let machine = flatten(contract, patterns);
+    let collection = contract.get("collection");
+    let item: Option<Result<Machine, String>> = collection.map(|c| match c.get("item") {
+        Some(Value::String(n)) => contracts
+            .iter()
+            .find(|x| x.get("component").and_then(Value::as_str) == Some(n))
+            .ok_or_else(|| format!("the collection item '{n}' has no behavior contract"))
+            .and_then(|x| flatten(x, patterns)),
+        Some(inline @ Value::Object(_)) => flatten(inline, patterns),
+        _ => Err("the `collection` has no `item`".to_string()),
+    });
     vectors
         .iter()
         .map(|v| {
@@ -619,11 +754,21 @@ pub fn run_vectors(
             } else {
                 match &machine {
                     Err(e) => Status::Fail(vec![e.clone()]),
-                    Ok(m) => match run_vector(m, registry, capabilities, bindings, v) {
-                        Ok(f) if f.is_empty() => Status::Pass,
-                        Ok(f) => Status::Fail(f),
-                        Err(e) => Status::Fail(vec![e]),
-                    },
+                    Ok(m) => {
+                        match run_vector(
+                            m,
+                            registry,
+                            capabilities,
+                            bindings,
+                            collection,
+                            item.as_ref(),
+                            v,
+                        ) {
+                            Ok(f) if f.is_empty() => Status::Pass,
+                            Ok(f) => Status::Fail(f),
+                            Err(e) => Status::Fail(vec![e]),
+                        }
+                    }
                 }
             };
             VectorResult {
@@ -685,7 +830,8 @@ pub fn check_contract(
             .into_iter()
             .flat_map(|o| o.keys().map(String::as_str));
         let toggle = t.pointer("/do/toggle").and_then(Value::as_str);
-        for o in set.chain(toggle) {
+        let choose = t.pointer("/do/choose").and_then(Value::as_str);
+        for o in set.chain(toggle).chain(choose) {
             if !m.published.iter().any(|p| p == o) && !state.contains(&o) {
                 out.push(format!(
                     "a transition changes '{o}', which `state` does not list"
@@ -816,6 +962,7 @@ pub fn run_dir(
         Some(file) => capabilities_of(file, capabilities),
         None => capabilities.clone(),
     };
+    let raws: Vec<Value> = contracts.iter().map(|c| c.raw.clone()).collect();
     let mut out = Vec::new();
     for path in crate::discovery::discover_json_files(suites_dir)? {
         let suite = read_json(&path)?;
@@ -830,13 +977,14 @@ pub fn run_dir(
             }
             match contracts.iter().find(|c| c.component == component) {
                 Some(c) => {
-                    out.extend(run_vectors(
+                    out.extend(run_vectors_with(
                         &c.raw,
                         &patterns,
                         &vectors,
                         registry,
                         &component_caps,
                         platform.and_then(|p| bindings.get(p)),
+                        &raws,
                     ));
                     // Reported only when it fails, so a conformant suite's vector count is its own.
                     let issues = check_contract(&c.raw, &patterns, suite.get("pins"));
@@ -889,13 +1037,14 @@ pub fn run_dir(
                     continue;
                 }
                 matched = true;
-                out.extend(run_vectors(
+                out.extend(run_vectors_with(
                     &c.raw,
                     &patterns,
                     &vectors,
                     registry,
                     &caps,
                     Some(file),
+                    &raws,
                 ));
             }
             if !matched && only.is_none() {

@@ -53,6 +53,7 @@
       },
       "description": "Per anatomy part, facet id to the accessibility state it exposes."
     },
+    "collection": { "$ref": "#/$defs/collection" },
     "wcag": { "$ref": "#/$defs/wcag" },
     "vectors": {
       "type": "array",
@@ -216,10 +217,115 @@
         }
       ]
     },
+    "facetRef": {
+      "type": "object",
+      "required": ["facet"],
+      "properties": { "facet": { "$ref": "#/$defs/name" } },
+      "additionalProperties": false,
+      "description": "The value of a facet of the group contract, read when the intent runs."
+    },
+    "collection": {
+      "type": "object",
+      "required": ["slot", "item"],
+      "properties": {
+        "slot": {
+          "$ref": "#/$defs/name",
+          "description": "The slot of the component whose fills are the group's items."
+        },
+        "item": {
+          "oneOf": [
+            { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+            {
+              "type": "object",
+              "properties": {
+                "extends": { "type": "array", "items": { "type": "string" } },
+                "state": {
+                  "type": "array",
+                  "items": { "$ref": "#/$defs/name" }
+                },
+                "facets": { "type": "object" },
+                "parts": { "type": "object" },
+                "transitions": {
+                  "type": "array",
+                  "items": { "$ref": "#/$defs/transition" }
+                }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "description": "The item's contract: the name of a component with a contract (an `accepts` slot), or an inline contract body (a `collection: items` slot, whose items are entries of an array option)."
+        },
+        "choose": {
+          "type": "object",
+          "required": ["mode"],
+          "properties": {
+            "mode": {
+              "oneOf": [
+                { "enum": ["none", "single", "multiple"] },
+                { "$ref": "#/$defs/facetRef" }
+              ],
+              "description": "`none`: choosing does nothing. `single`: choosing turns the item on and the others off. `multiple`: choosing toggles the item. A facet reference names a group facet whose values are these."
+            },
+            "allowsEmpty": {
+              "oneOf": [{ "type": "boolean" }, { "$ref": "#/$defs/facetRef" }],
+              "default": false,
+              "description": "Whether the group may have no item on. When false, choosing never turns the last item off. A facet reference names a group facet with values `true` and `false`."
+            }
+          },
+          "additionalProperties": false,
+          "description": "What the `choose` action (`do.choose`) does in this group. The group's value is derived from its items, never stored."
+        },
+        "traversal": {
+          "type": "object",
+          "properties": {
+            "wrap": {
+              "type": "boolean",
+              "default": false,
+              "description": "`navigate-next` on the last item goes to the first, and `navigate-previous` on the first to the last."
+            },
+            "skip": {
+              "$ref": "#/$defs/guard",
+              "description": "A guard over the item's facets: an item it holds for is passed over (for example `disabled` is `true`)."
+            },
+            "first": {
+              "type": "boolean",
+              "default": false,
+              "description": "`navigate-first` moves to the first item that is not skipped."
+            },
+            "last": {
+              "type": "boolean",
+              "default": false,
+              "description": "`navigate-last` moves to the last item that is not skipped."
+            },
+            "selectOnMove": {
+              "oneOf": [{ "type": "boolean" }, { "$ref": "#/$defs/facetRef" }],
+              "default": false,
+              "description": "Moving onto an item fires the item's `press` intent, so selection follows focus."
+            },
+            "mirror": {
+              "$ref": "#/$defs/guard",
+              "description": "A guard over the group's facets: while it holds, the runner swaps ArrowLeft and ArrowRight before it looks the key up in the bindings."
+            },
+            "focus": {
+              "enum": ["tab-stop", "roving", "none"],
+              "description": "Overrides the focus model of the item's part, when the group sets one."
+            }
+          },
+          "additionalProperties": false,
+          "description": "How `navigate-*` intents on the group move a logical focus over its items, by index."
+        }
+      },
+      "additionalProperties": false,
+      "description": "A group of items (a group is a collection, proposal 022 question 5). The group contract carries the traversal and choosing rules; the item contract keeps what one item does."
+    },
     "action": {
       "type": "object",
       "minProperties": 1,
       "properties": {
+        "choose": {
+          "$ref": "#/$defs/name",
+          "description": "An item option the enclosing group's `collection.choose` decides (single: on, others off; multiple: toggle; never the last off unless `allowsEmpty`). The group raises one event with the indices that are on. Outside a group it toggles the option."
+        },
         "toggle": { "$ref": "#/$defs/name" },
         "raise": {
           "const": "press",
@@ -300,6 +406,18 @@
         },
         "start": {
           "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": { "type": "object" },
+              "description": "A group contract: one option set per item, run as the item contract."
+            },
+            "focused": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "A group contract: the index of the item the logical focus starts on (default 0)."
+            }
+          },
           "description": "Start values of options, plus environment properties such as `direction` (`ltr`, `rtl`)."
         },
         "steps": {
@@ -312,7 +430,12 @@
                 "required": ["intent"],
                 "properties": {
                   "intent": { "$ref": "#/$defs/intent" },
-                  "via": { "enum": ["keyboard", "pointer", "programmatic"] }
+                  "via": { "enum": ["keyboard", "pointer", "programmatic"] },
+                  "item": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "A group contract: run the intent on this item (by index) instead of on the group."
+                  }
                 },
                 "additionalProperties": false
               },
@@ -353,6 +476,24 @@
               "emit": {
                 "type": "array",
                 "items": { "type": "object", "minProperties": 1 }
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    { "type": "null" },
+                    {
+                      "type": "object",
+                      "additionalProperties": { "type": ["string", "boolean"] }
+                    }
+                  ]
+                },
+                "description": "A group contract: per item, the facet values it must have after the step; `null` is an item not checked."
+              },
+              "focused": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "A group contract: the index the logical focus is on after the step."
               },
               "aria": {
                 "type": "object",

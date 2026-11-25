@@ -18,7 +18,9 @@ use serde_json::Value;
 
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
-use crate::validate::rules::behavior_util::{facet_values, option_names, warning};
+use crate::validate::rules::behavior_util::{
+    collection_item, facet_values, facet_values_of, option_names, warning,
+};
 
 pub struct Rule;
 
@@ -82,6 +84,7 @@ impl ValidationRule for Rule {
                         .and_then(Value::as_object)
                         .into_iter()
                         .flat_map(|o| o.keys())
+                        .filter(|k| !matches!(k.as_str(), "items" | "focused"))
                     {
                         match ctx.registry.environment_property(k) {
                             Some(env) => {
@@ -98,6 +101,87 @@ impl ValidationRule for Rule {
                                 format!("starts '{k}', which is not an option of the component or a registered environment property"),
                             ),
                             None => {}
+                        }
+                    }
+                }
+                let items = v
+                    .pointer("/start/items")
+                    .and_then(Value::as_array)
+                    .map_or(0, Vec::len);
+                if v.get("start").is_some_and(|s| s.get("items").is_some()) {
+                    let item = collection_item(ctx.graph, b);
+                    if b.raw.get("collection").is_none() {
+                        problem(
+                            "/start",
+                            "starts `items`, but the contract has no `collection`".into(),
+                        );
+                    }
+                    for (i, o) in v
+                        .pointer("/start/items")
+                        .and_then(Value::as_array)
+                        .into_iter()
+                        .flatten()
+                        .enumerate()
+                    {
+                        let known = item.as_ref().and_then(|i| i.options.as_ref());
+                        for k in o.as_object().into_iter().flat_map(|o| o.keys()) {
+                            if known.is_some_and(|known| !known.contains(k)) {
+                                problem("/start/items", format!("starts item {i} with '{k}', which is not an option of the item"));
+                            }
+                        }
+                    }
+                    if let Some(f) = v
+                        .pointer("/start/focused")
+                        .and_then(Value::as_u64)
+                        .filter(|f| *f as usize >= items)
+                    {
+                        problem(
+                            "/start/focused",
+                            format!("starts focused on item {f}, but has {items} items"),
+                        );
+                    }
+                    for at in v
+                        .get("steps")
+                        .and_then(Value::as_array)
+                        .into_iter()
+                        .flatten()
+                        .filter_map(|s| s.get("item")?.as_u64())
+                        .filter(|at| *at as usize >= items)
+                    {
+                        problem(
+                            "/steps",
+                            format!("has a step on item {at}, but has {items} items"),
+                        );
+                    }
+                    for (i, want) in v
+                        .get("expect")
+                        .and_then(Value::as_array)
+                        .into_iter()
+                        .flatten()
+                        .filter_map(|e| e.get("items")?.as_array())
+                        .flatten()
+                        .enumerate()
+                    {
+                        let Some(item) = &item else { continue };
+                        if i >= items {
+                            problem(
+                                "/expect",
+                                format!("expects item {i}, but has {items} items"),
+                            );
+                        }
+                        for (facet, value) in want.as_object().into_iter().flatten() {
+                            match facet_values_of(ctx.graph, &item.raw, ctx.registry, facet) {
+                                None => problem("/expect", format!("expects facet '{facet}' of item {i}, which the item contract does not declare")),
+                                Some(values) => {
+                                    let x = match value {
+                                        Value::Bool(b) => Some(b.to_string()),
+                                        v => v.as_str().map(String::from),
+                                    };
+                                    if let Some(x) = x.filter(|x| !values.contains(x)) {
+                                        problem("/expect", format!("expects facet '{facet}' of item {i} to be '{x}', which is not one of its values"));
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -214,6 +298,53 @@ mod tests {
                     c["vectors"][0]["expect"][0]["facets"] = json!({ "checked": "mixed" })
                 }),
                 "not one of its values",
+            ),
+        ];
+        for (edit, why) in cases {
+            let m = check(edit);
+            assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
+        }
+    }
+
+    #[test]
+    fn flags_a_bad_group_vector() {
+        let group = |c: &mut serde_json::Value| {
+            c["collection"] = json!({ "slot": "default", "item": "switch" });
+        };
+        let cases: Vec<Case> = vec![
+            (
+                Box::new(move |c| {
+                    group(c);
+                    c["vectors"][0]["start"] = json!({ "items": [{ "isGhost": true }] });
+                }),
+                "not an option of the item",
+            ),
+            (
+                Box::new(move |c| {
+                    group(c);
+                    c["vectors"][0]["start"] = json!({ "items": [{}], "focused": 2 });
+                }),
+                "starts focused on item 2",
+            ),
+            (
+                Box::new(move |c| {
+                    group(c);
+                    c["vectors"][0]["start"] = json!({ "items": [{}] });
+                    c["vectors"][0]["steps"][0]["item"] = json!(3);
+                }),
+                "step on item 3",
+            ),
+            (
+                Box::new(move |c| {
+                    group(c);
+                    c["vectors"][0]["start"] = json!({ "items": [{}] });
+                    c["vectors"][0]["expect"][0]["items"] = json!([{ "checked": "mixed" }]);
+                }),
+                "not one of its values",
+            ),
+            (
+                Box::new(|c| c["vectors"][0]["start"] = json!({ "items": [{}] })),
+                "no `collection`",
             ),
         ];
         for (edit, why) in cases {
