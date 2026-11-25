@@ -1477,6 +1477,7 @@ fn a_mutated_tooltip_fails_a_vector() {
         ("press-start", 0, "hovered"),
         ("press-start", 0, "focusVisible"),
         ("press-start", 1, "hovered"),
+        ("press-start", 1, "focusVisible"),
         ("dismiss", 0, "isOpen"),
     ] {
         assert!(
@@ -1518,6 +1519,30 @@ fn a_mutated_tooltip_fails_a_vector() {
                 ts[i].as_object_mut().unwrap().remove("guard");
             }) > 0,
             "{on} #{n} guard dropped went unnoticed"
+        );
+    }
+    // A platform without a capability never opens the tooltip with that gesture.
+    for (cap, name) in [
+        ("keyboard", "keyboard focus opens the tooltip"),
+        ("pointer-hover", "hover opens the tooltip"),
+    ] {
+        let mut bad = vectors.iter().find(|v| v["name"] == name).unwrap().clone();
+        assert_eq!(bad["needs"], json!([cap]), "{name}");
+        bad.as_object_mut().unwrap().remove("needs");
+        let mut caps = all_capabilities();
+        caps.remove(cap);
+        let r = run_vectors_with(
+            &contract,
+            &patterns,
+            &[bad],
+            RegistryData::embedded(),
+            &caps,
+            None,
+            &all_contracts(),
+        );
+        assert!(
+            matches!(r[0].status, Status::Fail(_)),
+            "without {cap} the tooltip opened"
         );
     }
     let pins = pins_of("tooltip");

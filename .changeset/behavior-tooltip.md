@@ -6,19 +6,13 @@
 
 Add the behavior contract for Tooltip's trigger semantics.
 
-* Data: `behaviors/tooltip.json` (part `container`, role `tooltip`, `focus: none`; state `isOpen`
-  and `isDisabled`) extends the new `trigger-reveal` pattern. Keyboard focus and hover open the
-  tooltip; pointer and programmatic focus do not. Leaving, blur, a press on the trigger and
-  `dismiss` close it; leaving and blur close it even while the other signal holds it (React
-  Spectrum S2). A disabled tooltip does not open. The `open` facet is registered. Escape is bound
-  to `dismiss` for the web role `tooltip`.
-* Spec: a "Tooltip" section in the behavior contract page. Delays (warmup, cooldown, global
-  warmup), one open tooltip at a time and `aria-describedby` on the trigger are adapter-owned.
-* Vectors: 29 contract vectors and 4 Escape key vectors. Mutation tests fail when a transition,
-  guard, fallback, facet or the Escape binding is broken.
-* Tooltip declares the options `isOpen` and `isDisabled` (boolean, default false) that the contract
-  lists in `state`, and its recipe lists them in `notVisual`. The spec sheet options table gains
-  two rows.
-* The Tooltip accessibility block gains `keyboardIntents: ["dismiss"]`, so its spec sheet gains a
-  Keyboard table. No render or other spec sheet changes. The registry change touches the embedded
-  registry data, hence the wasm patch.
+* Data: `behaviors/tooltip.json` extends the new `trigger-reveal` pattern (state `isOpen`,
+  `isDisabled`; part `container`, role `tooltip`, `focus: none`). Keyboard focus and hover open
+  it; pointer and programmatic focus do not. Leaving, blur, a press on the trigger and `dismiss`
+  close it, and leaving or blur closes it even while the other signal holds it (React Spectrum S2).
+  A disabled tooltip does not open. Escape is bound to `dismiss` on key down, as in S2 and SWC.
+* Tooltip declares the options `isOpen` and `isDisabled`, listed in its recipe's `notVisual`; its
+  spec sheet gains two option rows and a Keyboard table (`keyboardIntents: ["dismiss"]`).
+* Spec: a "Tooltip" section. Delays, one open tooltip at a time, `aria-describedby` and closing on
+  `isDisabled` are adapter-owned. The `open` facet is registered (hence the wasm patch).
+* Vectors: 31 contract and 4 Escape key vectors, plus mutation tests.

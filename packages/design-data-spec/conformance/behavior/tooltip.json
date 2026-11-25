@@ -895,6 +895,97 @@
           "emit": []
         }
       ]
+    },
+    {
+      "name": "pressing a closed trigger clears keyboard focus",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "dismiss"
+        },
+        {
+          "intent": "press-start"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "open": false,
+            "focusVisible": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a hover cycle after dismiss closes the tooltip and clears keyboard focus too",
+      "needs": ["keyboard", "pointer-hover"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "dismiss"
+        },
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "pointer-leave"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "open": true,
+            "hovered": true,
+            "focusVisible": true
+          },
+          "emit": [
+            {
+              "change": {
+                "isOpen": true
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "facets": {
+            "open": false,
+            "hovered": false,
+            "focusVisible": false
+          },
+          "emit": [
+            {
+              "change": {
+                "isOpen": false
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "facets": {
+            "open": false,
+            "hovered": false,
+            "focusVisible": false
+          },
+          "emit": []
+        }
+      ]
     }
   ]
 }
