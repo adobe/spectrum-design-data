@@ -1,0 +1,486 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "accordion",
+  "pins": {
+    "state": ["isMultiple", "isDisabled"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {}
+  },
+  "vectors": [
+    {
+      "name": "a single accordion opening an item closes the open one",
+      "start": {
+        "items": [
+          {
+            "isExpanded": true
+          },
+          {},
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 2,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "expansion": "single"
+          },
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "expanded"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": [2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a single accordion closing the open item leaves none open",
+      "start": {
+        "items": [
+          {
+            "isExpanded": true
+          },
+          {},
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a single accordion with none open opens the activated item",
+      "start": {
+        "items": [{}, {}, {}]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "expanded"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a multiple accordion opening an item leaves the others open",
+      "start": {
+        "isMultiple": true,
+        "items": [
+          {
+            "isExpanded": true
+          },
+          {},
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 2,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "expansion": "multiple"
+          },
+          "items": [
+            {
+              "expanded": "expanded"
+            },
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "expanded"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": [0, 2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a multiple accordion closing an item leaves the others open",
+      "start": {
+        "isMultiple": true,
+        "items": [
+          {
+            "isExpanded": true
+          },
+          {
+            "isExpanded": true
+          },
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "expanded"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a multiple accordion may close its last open item",
+      "start": {
+        "isMultiple": true,
+        "items": [
+          {
+            "isExpanded": true
+          },
+          {},
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a disabled item does not open",
+      "start": {
+        "items": [
+          {
+            "isExpanded": true
+          },
+          {
+            "isDisabled": true
+          },
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "expanded"
+            },
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a disabled item does not open in a multiple accordion",
+      "start": {
+        "isMultiple": true,
+        "items": [
+          {},
+          {
+            "isDisabled": true
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a disabled open item does not close",
+      "start": {
+        "items": [
+          {
+            "isExpanded": true,
+            "isDisabled": true
+          },
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "expanded"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a completed press on a header opens its item",
+      "start": {
+        "items": [
+          {
+            "isExpanded": true
+          },
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "press-start"
+        },
+        {
+          "item": 1,
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "expanded"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": []
+        },
+        {
+          "after": 2,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "expanded"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a press that never started opens nothing",
+      "start": {
+        "items": [{}, {}]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "collapsed"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a group isDisabled reaches the items in the adapter, so the runner still opens an item",
+      "start": {
+        "isDisabled": true,
+        "items": [{}, {}]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "expanded"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": [1]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
