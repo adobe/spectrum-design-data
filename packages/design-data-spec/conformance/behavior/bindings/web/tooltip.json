@@ -1,0 +1,152 @@
+{
+  "platform": "web",
+  "role": "tooltip",
+  "vectors": [
+    {
+      "name": "Escape closes an open tooltip on key down",
+      "needs": ["keyboard"],
+      "start": {
+        "isOpen": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "open": false
+          },
+          "emit": [
+            {
+              "change": {
+                "isOpen": false
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "facets": {
+            "open": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Escape on a closed tooltip does nothing",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "open": false
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Escape closes a tooltip that keyboard focus opened",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "open": true
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "open": false,
+            "focusVisible": true
+          },
+          "emit": [
+            {
+              "change": {
+                "isOpen": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Enter and Space do not close the tooltip",
+      "needs": ["keyboard"],
+      "start": {
+        "isOpen": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 4,
+          "facets": {
+            "open": true
+          },
+          "emit": []
+        }
+      ]
+    }
+  ]
+}

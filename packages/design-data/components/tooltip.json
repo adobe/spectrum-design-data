@@ -133,6 +133,16 @@
       "type": "number",
       "default": 8,
       "description": "units: pixels"
+    },
+    "isOpen": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the tooltip is showing. Its trigger's focus, hover, press and Escape change it."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the tooltip is prevented from opening on hover or keyboard focus."
     }
   },
   "anatomy": [
@@ -199,6 +209,7 @@
   "accessibility": {
     "role": "tooltip",
     "focusable": false,
+    "keyboardIntents": ["dismiss"],
     "wcag": [
       {
         "criterion": "1.4.13",

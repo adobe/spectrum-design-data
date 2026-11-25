@@ -28,6 +28,9 @@
         { "key": "ArrowUp", "down": "navigate-previous" },
         { "key": "ArrowLeft", "down": "navigate-previous" }
       ]
+    },
+    "tooltip": {
+      "keyboard": [{ "key": "Escape", "down": "dismiss" }]
     }
   }
 }
