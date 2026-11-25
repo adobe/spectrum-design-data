@@ -1,5 +1,146 @@
 # @adobe/spectrum-design-data
 
+## 4.7.0
+
+### Minor Changes
+
+- [#2176](https://github.com/adobe/spectrum-design-data/pull/2176) [`d574a13`](https://github.com/adobe/spectrum-design-data/commit/d574a1313b6ba5b5137639a0712891c53024dbda) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the Accordion behavior contract, the second to use the `collection` block.
+  - Data: Accordion has an inline item contract. Its header has role `button`,
+    `tab-stop` focus and `press: activate`. `activate` chooses `isExpanded`
+    unless the item is disabled, and emits `change`. The `choose` mode comes
+    from the new facet `expansion` (`isMultiple`: single or multiple) and
+    `allowsEmpty` is true, so closing the open item leaves none open. There is
+    no `traversal`: headers are not an arrow-key group.
+  - Registry: facets `expanded` (`collapsed`, `expanded`) and `expansion`
+    (`single`, `multiple`).
+  - Spec: 12 conformance vectors; the Collections section names Accordion.
+  - The `accessibility` block stays; the spec sheet and the render are
+    unchanged. The embedded registry changes, hence the wasm patch.
+
+- [#2172](https://github.com/adobe/spectrum-design-data/pull/2172) [`c0f615a`](https://github.com/adobe/spectrum-design-data/commit/c0f615a7a84012535d6f917459ec02b1dec2e554) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `collection` block to behavior contracts; the radio group's rules become data.
+  - Spec: a group contract may carry `collection` (`slot`, `item`, `choose`, `traversal`). The new
+    item action `do.choose` is resolved by the group (single, multiple or none; `allowsEmpty`) and
+    raises one group `change` with the indices that are on. Traversal says `wrap`, `skip`,
+    `first`, `last`, `selectOnMove` and `mirror` (swaps ArrowLeft and ArrowRight while a group
+    guard holds). Vectors gain `start.items`, `start.focused`, item steps, `expect.items` and
+    `expect.focused`. SPEC-118 to SPEC-120 check them. New "Collections" section answers proposal
+    022 question 5 (a group is a collection).
+  - Data: Radio group declares its `collection` (single choice, wrap, skip a disabled radio,
+    select on move, mirror while `arrowOrder` is `mirrored`). Radio button's `activate` uses
+    `choose`, and its `navigate-next` and `navigate-previous` transitions are removed. The arrow
+    bindings move from role `radio` to role `radiogroup`. The four dead group vectors and the
+    "lands on a radio" key vectors are replaced by group vectors.
+  - Runner: executes a group over its items by index. Mutation tests fail when wrap, skip, mirror,
+    select-on-move, a choose mode or a pair of arrow bindings is broken.
+  - No render or spec sheet change. Embedded contracts change slightly, hence the wasm patch.
+
+- [#2160](https://github.com/adobe/spectrum-design-data/pull/2160) [`2da7210`](https://github.com/adobe/spectrum-design-data/commit/2da721047556bfaa4347f1c9d6621545191c5d54) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for the display components and harden the runner.
+  - Runner: a suite now pins its contract's `state`, `wcag` and each part's
+    `role`, `focus`, `press` and `handles` (`pins`); a changed focus mode, a
+    dropped `isDisabled` or a mistyped role fails. A key step or key suite for
+    a role with no binding fails instead of skipping. The CLI is 0.63.7 (the
+    runner is in the binary); `requires.cli` is unchanged.
+  - Format: `semantics` may copy an option to an attribute (`copy`, with
+    `absentWhen`), and a vector may expect `aria` attributes.
+  - Data: contracts for Progress bar, Progress circle, In-field progress
+    circle and Meter (role, `focus: none`, value, `aria-valuetext` and
+    `aria-label` attributes, no transitions), with vectors. No accessibility
+    block changed; renders and spec sheets are unchanged.
+
+- [#2165](https://github.com/adobe/spectrum-design-data/pull/2165) [`9fe574d`](https://github.com/adobe/spectrum-design-data/commit/9fe574d74025256d5cac834679c922ddd1e7a56f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for the group components.
+  - Data: contracts for Button group, Swatch group, Checkbox group and
+    Avatar group: a `container` part with `focus: none` and the role the
+    component declares (Checkbox group declares none, so none is carried),
+    the `orientation` and `disabled` facets where the options exist, and
+    vectors with `pins`. Item behavior stays in the item contracts.
+  - No accessibility block, format, runner or CLI change; renders and spec
+    sheets are unchanged. Open questions are beads under hd0g.4.
+
+- [#2177](https://github.com/adobe/spectrum-design-data/pull/2177) [`bd1b27a`](https://github.com/adobe/spectrum-design-data/commit/bd1b27a7fd52b809ed92b3b734a59070ea71e4e2) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for Swatch and Swatch group.
+  - Swatch: states `isSelected` and `isDisabled`; `activate` chooses it while enabled. No role yet
+    (open question), tab stop focus.
+  - Swatch group: `selection` (from `enableSelection` and `selectionMode`) and `allowsEmpty` facets,
+    registered in the facets registry, and a `collection` of swatches: choose by selection mode,
+    no wrap, skip a disabled swatch, no select on move. Role `group` and the accessibility blocks
+    stay. Arrow keys have no web binding until the role is decided.
+  - 23 group vectors and 7 swatch vectors; mutation tests fail when a traversal flag, choose mode
+    or guard is broken. No render or spec sheet change.
+  - Embedded contracts and the facets registry change, hence the wasm patch.
+
+- [#2174](https://github.com/adobe/spectrum-design-data/pull/2174) [`93ab1a2`](https://github.com/adobe/spectrum-design-data/commit/93ab1a2903998c6e224e9b408015921bace540fa) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior contract for Tooltip's trigger semantics.
+  - Data: `behaviors/tooltip.json` extends the new `trigger-reveal` pattern (state `isOpen`,
+    `isDisabled`; part `container`, role `tooltip`, `focus: none`). Keyboard focus and hover open
+    it; pointer and programmatic focus do not. Leaving, blur, a press on the trigger and `dismiss`
+    close it, and leaving or blur closes it even while the other signal holds it (React Spectrum S2).
+    A disabled tooltip does not open. Escape is bound to `dismiss` on key down, as in S2 and SWC.
+  - Tooltip declares the options `isOpen` and `isDisabled`, listed in its recipe's `notVisual`; its
+    spec sheet gains two option rows and a Keyboard table (`keyboardIntents: ["dismiss"]`).
+  - Spec: a "Tooltip" section. Delays, one open tooltip at a time, `aria-describedby` and closing on
+    `isDisabled` are adapter-owned. The `open` facet is registered (hence the wasm patch).
+  - Vectors: 31 contract and 4 Escape key vectors, plus mutation tests.
+
+- [#2166](https://github.com/adobe/spectrum-design-data/pull/2166) [`6e41b8e`](https://github.com/adobe/spectrum-design-data/commit/6e41b8e3231c197d72d751d0fd9554fe478c02ca) Thanks [@GarthDB](https://github.com/GarthDB)! - Declare role `group` for the Checkbox group.
+  - Data: the Checkbox group `accessibility` block gains `role: "group"` (the only
+    block change; nothing else in any block changes) and its behavior contract
+    carries the same role on the `container` part, pinned in its conformance suite.
+    Spec sheets and renders are unchanged: Checkbox group has no spec sheet.
+  - The contract still carries no arrow-key navigation: the usage prose says arrows
+    move focus, while React Spectrum S2 and Web Components give each checkbox its
+    own tab stop. This is an open decision (hd0g.4.15), not modeled.
+  - The wasm package embeds the contract, so it ships the changed data.
+
+### Patch Changes
+
+- [#2168](https://github.com/adobe/spectrum-design-data/pull/2168) [`a8a24d2`](https://github.com/adobe/spectrum-design-data/commit/a8a24d29a699a6bed5677050e24de236e3b4e72d) Thanks [@GarthDB](https://github.com/GarthDB)! - Correct the Checkbox group keyboard text: no arrow-key navigation.
+  - Each checkbox is its own tab stop; Tab and Shift + Tab move between them.
+  - The arrow keys, Page Up/Down and Home/End rows are removed: React Spectrum S2 and
+    Web Components do no roving focus in a checkbox group.
+  - Data text only. No render or spec sheet changes.
+
+- [#2175](https://github.com/adobe/spectrum-design-data/pull/2175) [`5f0cdaf`](https://github.com/adobe/spectrum-design-data/commit/5f0cdafd9ff88a89df8e0afb1dfca63072fe24da) Thanks [@GarthDB](https://github.com/GarthDB)! - Correct the Checkbox keyboard text: no group focus handling.
+  - Each checkbox is its own tab stop; Tab and Shift + Tab move between them.
+  - Removes "Tabbing into a group places the focus on the first checkbox".
+  - Data text only. No render or spec sheet changes.
+
+- [#2179](https://github.com/adobe/spectrum-design-data/pull/2179) [`a1f1b76`](https://github.com/adobe/spectrum-design-data/commit/a1f1b76b9d71353b17afb51de938cd09ad86ee80) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove the unused composite states `focus-+-hover` and `focus-+-not-hover` from the
+  date-field, time-field and tag-field component declarations. No relationship, recipe
+  or visual uses them there, so renders and spec sheets are unchanged. The other field
+  components keep them: pinning `focus` there changes which record keyboard-focus
+  renders select.
+
+- [#2170](https://github.com/adobe/spectrum-design-data/pull/2170) [`2db54c1`](https://github.com/adobe/spectrum-design-data/commit/2db54c11a255a8425466b50901f39e4b6aed82fc) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate body and heading relationship records to structured identity (level 2). The status check
+  now reads level 3 for both (the recipe check is not applicable: one anatomy part, `text`, and no
+  recipe). The legacy `@adobe/spectrum-tokens` output is byte-identical.
+  - All 119 live records already had `scope.part: text`. Ten identities (property, part) mixed
+    records with `context: "Text"` and records with no `context`. The 101 `Text` records lose that
+    `context` (37 in body, 64 in heading), so each identity has one authored context. The 15
+    context-less records, which other components reference by uuid as scoped tokens, are not
+    touched. No uuid, `legacyKey`, `$ref`, option or `contextRole` changes; deprecated records are
+    untouched.
+  - Spec sheets for body and heading change shape: the 37 and 64 records that sat in one `Text`
+    block now sit in per-property blocks with their siblings. Every record still appears once.
+    Renders and every other component's sheet are unchanged.
+
+- [#2178](https://github.com/adobe/spectrum-design-data/pull/2178) [`0751b09`](https://github.com/adobe/spectrum-design-data/commit/0751b091c67e1d1f6864749bc27ade960ec4306a) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate progress-bar and meter relationship records and recipes to structured identity. Both
+  components move from status level 1 to level 3. The legacy `@adobe/spectrum-tokens` output and the
+  rendered SVGs are unchanged.
+  - All 97 live records get a `scope.part` (container, header, label, track, fill) from the
+    components' anatomy. The fused names decompose: `font-size-75..300` becomes `font-size` with a
+    `size` pin, `line-height-100` becomes `line-height`, `component-top-to-text-75..300` becomes
+    `space-between` between `top-edge` and `text` with a `size` pin.
+  - The recipes bind by part and identity instead of by `context`. Their context selectors go to 0.
+  - The `maximum-width` record pinned by `legacyKey` gets the same `context` as its alias record,
+    which clears the last identity collision in each component. No uuid, `legacyKey`, `$ref` or
+    `contextRole` change; deprecated records are untouched.
+  - The progress-bar and meter spec sheets drop one duplicate inline `maximum-width` row each and
+    regroup the size-dependent rows; the other 90 sheets are unchanged.
+
+- [#2162](https://github.com/adobe/spectrum-design-data/pull/2162) [`2ea6a24`](https://github.com/adobe/spectrum-design-data/commit/2ea6a246ae569a68facce12ae4440f81f59e5ce6) Thanks [@GarthDB](https://github.com/GarthDB)! - Raise the dataset `requires.cli` from 0.63.5 to 0.63.6, the released CLI that draws this data.
+  - Older CLIs now refuse the data with a `requires.cli` message instead of drawing it wrongly.
+    0.63.5 reads `inherit` contentColor as cornerRadius and ignores strokeDash, per-side stroke
+    properties, the new recipe features, and the color-slider and color-area defaults.
+  - `layoutRevision` stays at 8. No recipe, data or engine change.
+
 ## 4.6.0
 
 ### Minor Changes
