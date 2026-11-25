@@ -1002,10 +1002,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-100"
+      "property": "line-height"
     },
-    "context": "Font size",
-    "contextRole": ["size"],
+    "context": "Label",
+    "contextRole": ["label"],
     "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b",
     "uuid": "e940949b-45f6-55d3-b55e-8c08abe98e16"
   },
@@ -1013,10 +1013,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-100"
+      "property": "line-height"
     },
-    "context": "Font size",
-    "contextRole": ["size"],
+    "context": "Label",
+    "contextRole": ["label"],
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
     "uuid": "c3bf30d7-0f09-5075-9ef7-4f4d0bb92ce1"
   },
