@@ -101,6 +101,7 @@
     "introduced": "1.0.0-draft"
   },
   "accessibility": {
+    "role": "group",
     "intents": ["choose"],
     "focusable": false,
     "wcag": [
