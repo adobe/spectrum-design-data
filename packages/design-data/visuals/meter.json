@@ -24,13 +24,13 @@
         "minWidth": {
           "relationship": {
             "property": "minimum-width",
-            "context": "Minimum width"
+            "part": "container"
           }
         },
         "gap": {
           "relationship": {
             "property": "gap",
-            "context": "Spacing (field label to progress bar)"
+            "part": "container"
           }
         }
       }
@@ -48,7 +48,7 @@
         "gap": {
           "relationship": {
             "property": "spacing",
-            "context": "Minimum spacing (field label to text)"
+            "part": "header"
           }
         }
       }
@@ -58,26 +58,26 @@
       "props": {
         "fontSize": {
           "relationship": {
-            "property": "font-size-{sizeIndex}",
-            "context": "Text"
+            "property": "font-size",
+            "part": "label"
           }
         },
         "lineHeight": {
           "relationship": {
-            "property": "line-height-100",
-            "context": "Text"
+            "property": "line-height",
+            "part": "label"
           }
         },
         "fontWeight": {
           "relationship": {
             "property": "font-weight",
-            "context": "Text"
+            "part": "label"
           }
         },
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Text"
+            "part": "label"
           }
         },
         "grow": {
@@ -90,26 +90,26 @@
       "props": {
         "fontSize": {
           "relationship": {
-            "property": "font-size-{sizeIndex}",
-            "context": "Text"
+            "property": "font-size",
+            "part": "label"
           }
         },
         "lineHeight": {
           "relationship": {
-            "property": "line-height-100",
-            "context": "Text"
+            "property": "line-height",
+            "part": "label"
           }
         },
         "fontWeight": {
           "relationship": {
             "property": "font-weight",
-            "context": "Text"
+            "part": "label"
           }
         },
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Text"
+            "part": "label"
           }
         }
       },
@@ -129,7 +129,7 @@
         "height": {
           "relationship": {
             "property": "thickness",
-            "context": "Meter (thickness)"
+            "part": "track"
           }
         },
         "grow": {
@@ -138,14 +138,14 @@
         "cornerRadius": {
           "relationship": {
             "property": "corner-radius",
-            "context": "Meter (rounding)"
+            "part": "track"
           },
           "relativeTo": "height"
         },
         "fill": {
           "relationship": {
             "property": "color",
-            "context": "Track and indicator"
+            "part": "track"
           }
         }
       }
@@ -163,7 +163,7 @@
         "cornerRadius": {
           "relationship": {
             "property": "corner-radius",
-            "context": "Meter (rounding)"
+            "part": "track"
           },
           "relativeTo": "height"
         },
@@ -171,7 +171,7 @@
           {
             "relationship": {
               "property": "content-color",
-              "context": "Control"
+              "part": "fill"
             }
           },
           {
@@ -182,7 +182,7 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Track and indicator"
+              "part": "track"
             }
           }
         ]
@@ -193,26 +193,26 @@
       "props": {
         "fontSize": {
           "relationship": {
-            "property": "font-size-{sizeIndex}",
-            "context": "Text"
+            "property": "font-size",
+            "part": "label"
           }
         },
         "lineHeight": {
           "relationship": {
-            "property": "line-height-100",
-            "context": "Text"
+            "property": "line-height",
+            "part": "label"
           }
         },
         "fontWeight": {
           "relationship": {
             "property": "font-weight",
-            "context": "Text"
+            "part": "label"
           }
         },
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Text"
+            "part": "label"
           }
         }
       },
