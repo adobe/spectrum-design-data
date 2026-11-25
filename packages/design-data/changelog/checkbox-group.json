@@ -126,6 +126,31 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.7.0",
+      "version": "1.2.2",
+      "bump": "patch",
+      "date": "2026-11-25",
+      "commit": "93ab1a2903998c6e224e9b408015921bace540fa",
+      "commits": [
+        {
+          "commit": "6e41b8e3231c197d72d751d0fd9554fe478c02ca",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2166,"title":"feat(spec): role group for the checkbox group, in its block and contract","url":"https://github.com/adobe/spectrum-design-data/pull/2166"},
+          "entries": [
+            {"id":"6e41b8e3-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"checkbox-group/accessibility","name":"accessibility","fields":[{"path":"accessibility.role","after":"group"}]}
+          ]
+        },
+        {
+          "commit": "a8a24d29a699a6bed5677050e24de236e3b4e72d",
+          "date": "2026-11-24",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2168,"title":"fix(design-data): checkbox group keyboard text has no arrow-key navigation","url":"https://github.com/adobe/spectrum-design-data/pull/2168"},
+          "entries": [
+            {"id":"a8a24d29-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"checkbox-group/documentBlocks/0","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Arrow keys Moves focus through the group of checkboxes. Page Up or Page Down Moves focus to the previous or next checkbox in the group (last becomes first, and first becomes last). Home or End Moves focus to the first or last checkbox in the group. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected).","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus to each checkbox in the group in turn (each checkbox is its own tab stop), then out of the group. Shift + Tab Moves focus to the previous checkbox, or to the previous item before the group. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected)."}]}
+          ]
+        }
+      ]
     }
   ]
 }

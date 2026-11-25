@@ -399,6 +399,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.7.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-25",
+      "commit": "93ab1a2903998c6e224e9b408015921bace540fa",
+      "commits": [
+        {
+          "commit": "a1f1b76b9d71353b17afb51de938cd09ad86ee80",
+          "date": "2026-11-25",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2179,"title":"fix(design-data): drop unused composite focus states from date-field, time-field and tag-field","url":"https://github.com/adobe/spectrum-design-data/pull/2179"},
+          "entries": [
+            {"id":"a1f1b76b-0","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tag-field/states/focus-+-hover","name":"focus-+-hover","fields":[],"before":{"name":"focus-+-hover","trigger":"prop"}},
+            {"id":"a1f1b76b-1","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"tag-field/states/focus-+-not-hover","name":"focus-+-not-hover","fields":[],"before":{"name":"focus-+-not-hover","trigger":"prop"}}
+          ]
+        }
+      ]
     }
   ]
 }

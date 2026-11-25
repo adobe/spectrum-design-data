@@ -320,6 +320,26 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.7.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-25",
+      "commit": "93ab1a2903998c6e224e9b408015921bace540fa",
+      "commits": [
+        {
+          "commit": "93ab1a2903998c6e224e9b408015921bace540fa",
+          "date": "2026-11-25",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2174,"title":"feat(spec): behavior contract for Tooltip trigger semantics","url":"https://github.com/adobe/spectrum-design-data/pull/2174"},
+          "entries": [
+            {"id":"93ab1a29-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/options/isOpen","name":"isOpen","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the tooltip is showing. Its trigger's focus, hover, press and Escape change it."}},
+            {"id":"93ab1a29-1","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"tooltip/options/isDisabled","name":"isDisabled","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the tooltip is prevented from opening on hover or keyboard focus."}},
+            {"id":"93ab1a29-2","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/accessibility","name":"accessibility","fields":[{"path":"accessibility.keyboardIntents","after":["dismiss"]}]},
+            {"id":"93ab1a29-3","kind":"visual","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"tooltip/visual/notVisual","name":"notVisual","fields":[{"path":"notVisual","before":["maxWidth","shouldFlip","offset","containerPadding"],"after":["maxWidth","shouldFlip","offset","containerPadding","isOpen","isDisabled"]}]}
+          ]
+        }
+      ]
     }
   ]
 }

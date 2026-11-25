@@ -493,6 +493,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.7.0",
+      "version": "3.1.1",
+      "bump": "patch",
+      "date": "2026-11-25",
+      "commit": "93ab1a2903998c6e224e9b408015921bace540fa",
+      "commits": [
+        {
+          "commit": "5f0cdafd9ff88a89df8e0afb1dfca63072fe24da",
+          "date": "2026-11-25",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2175,"title":"fix(design-data): checkbox keyboard text has no group focus handling","url":"https://github.com/adobe/spectrum-design-data/pull/2175"},
+          "entries": [
+            {"id":"5f0cdafd-0","kind":"document-block","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"checkbox/documentBlocks/0","name":"guideline: Keyboard interactions.\n\nKey Interaction Tab Move","fields":[{"path":"content","before":"Keyboard interactions.\n\nKey Interaction Tab Tabbing into a group of checkboxes places the focus on the first checkbox (only one checkbox receives the keyboard focus at a time). Shift + Tab Moves focus to the previous item or group of items. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected).","after":"Keyboard interactions.\n\nKey Interaction Tab Moves focus to the checkbox (each checkbox is its own tab stop). Shift + Tab Moves focus to the previous checkbox, or to the previous item before it. Space Toggles the checkbox between selected and not selected. If the checkbox is partially selected initially, the checkbox becomes selected first (subsequent toggles alternate normally between selected and not selected)."}]}
+          ]
+        }
+      ]
     }
   ]
 }

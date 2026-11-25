@@ -74,6 +74,22 @@
           "metadata": {"count":48,"fields":["anatomyReview.status","scope.options.position","scope.options.structure","scope.part","scope.property"]}
         }
       ]
+    },
+    {
+      "release": "4.7.0",
+      "version": "1.2.2",
+      "bump": "patch",
+      "date": "2026-11-25",
+      "commit": "93ab1a2903998c6e224e9b408015921bace540fa",
+      "commits": [
+        {
+          "commit": "2db54c11a255a8425466b50901f39e4b6aed82fc",
+          "date": "2026-11-25",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2170,"title":"feat(design-data): migrate body and heading to level 3","url":"https://github.com/adobe/spectrum-design-data/pull/2170"},
+          "entries": [],
+          "metadata": {"count":37,"fields":["context"]}
+        }
+      ]
     }
   ]
 }

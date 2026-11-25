@@ -1,5 +1,13 @@
 # @adobe/design-data-visual
 
+## 0.1.2
+
+### Patch Changes
+
+- [#2171](https://github.com/adobe/spectrum-design-data/pull/2171) [`9d8c72a`](https://github.com/adobe/spectrum-design-data/commit/9d8c72ab95cf9025e90afbe3c32fa1447927178a) Thanks [@GarthDB](https://github.com/GarthDB)! - Shrink the slim visual engine by 13.0 KB raw and 3.9 KB gzip. The default text-metrics
+  table is now compiled in as a packed binary file instead of JSON text. Label widths and
+  scenes are byte-identical.
+
 ## 0.1.1
 
 ### Patch Changes
