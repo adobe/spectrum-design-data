@@ -3,7 +3,10 @@
     "scope": {
       "component": "switch",
       "part": "container",
-      "property": "component-height-75"
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -14,7 +17,10 @@
     "scope": {
       "component": "switch",
       "part": "container",
-      "property": "component-height-75"
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -25,7 +31,10 @@
     "scope": {
       "component": "switch",
       "part": "container",
-      "property": "component-height-100"
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -36,7 +45,10 @@
     "scope": {
       "component": "switch",
       "part": "container",
-      "property": "component-height-100"
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -47,7 +59,10 @@
     "scope": {
       "component": "switch",
       "part": "container",
-      "property": "component-height-200"
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -58,7 +73,10 @@
     "scope": {
       "component": "switch",
       "part": "container",
-      "property": "component-height-200"
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -69,7 +87,10 @@
     "scope": {
       "component": "switch",
       "part": "container",
-      "property": "component-height-300"
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -80,7 +101,10 @@
     "scope": {
       "component": "switch",
       "part": "container",
-      "property": "component-height-300"
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -501,6 +525,9 @@
       "between": {
         "from": "control",
         "to": "label"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (control to label)",
@@ -516,6 +543,9 @@
       "between": {
         "from": "control",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (control to label)",
@@ -531,6 +561,9 @@
       "between": {
         "from": "control",
         "to": "label"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (control to label)",
@@ -546,6 +579,9 @@
       "between": {
         "from": "control",
         "to": "label"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (control to label)",
@@ -561,6 +597,9 @@
       "between": {
         "from": "top",
         "to": "control"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top edge to control)",
@@ -576,6 +615,9 @@
       "between": {
         "from": "top",
         "to": "control"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top edge to control)",
@@ -591,6 +633,9 @@
       "between": {
         "from": "top",
         "to": "control"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top edge to control)",
@@ -606,6 +651,9 @@
       "between": {
         "from": "top",
         "to": "control"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top edge to control)",
@@ -617,10 +665,13 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "top",
+        "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -632,10 +683,13 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "top",
+        "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -647,10 +701,13 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "top",
+        "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -662,10 +719,13 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-top-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "top",
+        "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -677,10 +737,13 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "bottom",
+        "from": "bottom-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -692,10 +755,13 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "bottom",
+        "from": "bottom-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -707,10 +773,13 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "bottom",
+        "from": "bottom-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -722,10 +791,13 @@
   {
     "scope": {
       "component": "switch",
-      "property": "component-bottom-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "bottom",
+        "from": "bottom-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -796,7 +868,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "font-size-75"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Font size",
     "contextRole": ["size"],
@@ -807,7 +882,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "font-size-75"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Font size",
     "contextRole": ["size"],
@@ -818,7 +896,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Font size",
     "contextRole": ["size"],
@@ -829,7 +910,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Font size",
     "contextRole": ["size"],
@@ -840,7 +924,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Font size",
     "contextRole": ["size"],
@@ -851,7 +938,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Font size",
     "contextRole": ["size"],
@@ -862,7 +952,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Font size",
     "contextRole": ["size"],
@@ -873,7 +966,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Font size",
     "contextRole": ["size"],
@@ -1285,7 +1381,8 @@
     "uuid": "f3102afd-e5df-4912-9203-8226ce37fed5",
     "legacyKey": "switch-control-width-extra-large",
     "setUuid": "588dd683-2e48-4f76-9e6f-56f266b94e83",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Track (size)"
   },
   {
     "scope": {
@@ -1302,7 +1399,8 @@
     "uuid": "4e9d9b63-989a-4b63-b74d-22b5188f8df7",
     "legacyKey": "switch-control-width-extra-large",
     "setUuid": "588dd683-2e48-4f76-9e6f-56f266b94e83",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Track (size)"
   },
   {
     "scope": {
@@ -1319,7 +1417,8 @@
     "uuid": "cef839a5-2ba7-4e47-9a85-d94260a8ff10",
     "legacyKey": "switch-control-width-large",
     "setUuid": "96ab7508-15ea-4910-bed7-51d9dc6af3a2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Track (size)"
   },
   {
     "scope": {
@@ -1336,7 +1435,8 @@
     "uuid": "5c7bdcc9-63f8-4c4b-b26f-97b39f53dbea",
     "legacyKey": "switch-control-width-large",
     "setUuid": "96ab7508-15ea-4910-bed7-51d9dc6af3a2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Track (size)"
   },
   {
     "scope": {
@@ -1353,7 +1453,8 @@
     "uuid": "d329eda6-f13d-4a44-b962-ff06c371ed93",
     "legacyKey": "switch-control-width-medium",
     "setUuid": "fe075ee5-298a-458b-b8fd-0dbb7ef4534b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Track (size)"
   },
   {
     "scope": {
@@ -1370,7 +1471,8 @@
     "uuid": "ec2f3b6b-80db-4c43-bdd2-caee98796775",
     "legacyKey": "switch-control-width-medium",
     "setUuid": "fe075ee5-298a-458b-b8fd-0dbb7ef4534b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Track (size)"
   },
   {
     "scope": {
@@ -1387,7 +1489,8 @@
     "uuid": "f4d6fe1a-70bd-473a-9fa5-477865ea898e",
     "legacyKey": "switch-control-width-small",
     "setUuid": "2451e056-68d0-4cb1-b046-2ccb989f8909",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Track (size)"
   },
   {
     "scope": {
@@ -1404,7 +1507,8 @@
     "uuid": "ca939c4d-9369-498c-81cb-61df1397f657",
     "legacyKey": "switch-control-width-small",
     "setUuid": "2451e056-68d0-4cb1-b046-2ccb989f8909",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Track (size)"
   },
   {
     "scope": {
@@ -1422,7 +1526,8 @@
     "uuid": "272949bf-1503-4e7b-80d5-859c1ce57169",
     "legacyKey": "switch-handle-selected-size-extra-large",
     "setUuid": "70965b4b-f180-400e-9057-4535278a4e91",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1440,7 +1545,8 @@
     "uuid": "63c42c0c-3976-4d4e-a86f-0234a3a72243",
     "legacyKey": "switch-handle-selected-size-extra-large",
     "setUuid": "70965b4b-f180-400e-9057-4535278a4e91",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1458,7 +1564,8 @@
     "uuid": "83d7ed85-236a-4266-a57f-d33a5f1785ff",
     "legacyKey": "switch-handle-selected-size-large",
     "setUuid": "1d41ac92-9a33-4a02-9b62-57483d406732",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1476,7 +1583,8 @@
     "uuid": "eadbe025-3d4a-4874-89ad-b6f667a62837",
     "legacyKey": "switch-handle-selected-size-large",
     "setUuid": "1d41ac92-9a33-4a02-9b62-57483d406732",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1494,7 +1602,8 @@
     "uuid": "29e7e1f1-d789-4d3c-9288-a139c7ae07ad",
     "legacyKey": "switch-handle-selected-size-medium",
     "setUuid": "e1c5dba8-cdef-4f72-82f6-46e34c83748a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1512,7 +1621,8 @@
     "uuid": "12f8e465-8241-4b1a-91f8-27e91e5a01bf",
     "legacyKey": "switch-handle-selected-size-medium",
     "setUuid": "e1c5dba8-cdef-4f72-82f6-46e34c83748a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1530,7 +1640,8 @@
     "uuid": "507c0319-747b-448c-8962-5a73097ddfe2",
     "legacyKey": "switch-handle-selected-size-small",
     "setUuid": "ea9efd4a-6c56-4113-9be6-253612442a13",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1548,7 +1659,8 @@
     "uuid": "14b85a33-6501-4366-90d3-e0c5375c522b",
     "legacyKey": "switch-handle-selected-size-small",
     "setUuid": "ea9efd4a-6c56-4113-9be6-253612442a13",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1565,7 +1677,8 @@
     "uuid": "cfa167e1-39e9-4d05-b757-bdd616830358",
     "legacyKey": "switch-handle-size-extra-large",
     "setUuid": "64a39d20-3456-42ad-81ee-86d1cb33feb1",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1582,7 +1695,8 @@
     "uuid": "daee9fb3-c94c-4f91-90d5-99e40034c1fd",
     "legacyKey": "switch-handle-size-extra-large",
     "setUuid": "64a39d20-3456-42ad-81ee-86d1cb33feb1",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1599,7 +1713,8 @@
     "uuid": "2216638d-6dc7-4bfa-8364-99fe8eab2b3b",
     "legacyKey": "switch-handle-size-large",
     "setUuid": "c4bde48c-dc55-438e-b3e8-75abc7727133",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1616,7 +1731,8 @@
     "uuid": "91764817-6e5d-4273-b856-6751e40eb548",
     "legacyKey": "switch-handle-size-large",
     "setUuid": "c4bde48c-dc55-438e-b3e8-75abc7727133",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1633,7 +1749,8 @@
     "uuid": "6b885dfc-af50-4c44-8ee5-bf6b03624203",
     "legacyKey": "switch-handle-size-medium",
     "setUuid": "5110087c-9fa1-4260-9de9-40d0d9af090c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1650,7 +1767,8 @@
     "uuid": "6263739c-dd33-4670-819a-d3aa0b9056b4",
     "legacyKey": "switch-handle-size-medium",
     "setUuid": "5110087c-9fa1-4260-9de9-40d0d9af090c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1667,7 +1785,8 @@
     "uuid": "459a9b8c-b59b-4c9c-bc2d-c840d463040a",
     "legacyKey": "switch-handle-size-small",
     "setUuid": "d206243f-5d89-4c05-b1bb-60ff1ecacb70",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -1684,7 +1803,8 @@
     "uuid": "8ccf8d0c-13a8-48da-a6dd-790ad728083f",
     "legacyKey": "switch-handle-size-small",
     "setUuid": "d206243f-5d89-4c05-b1bb-60ff1ecacb70",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "context": "Handle (size)"
   },
   {
     "scope": {
@@ -2081,7 +2201,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-font-size-75"
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -2092,7 +2215,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-font-size-75"
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -2103,7 +2229,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-font-size-100"
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -2114,7 +2243,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-font-size-100"
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -2125,7 +2257,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-font-size-200"
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -2136,7 +2271,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-font-size-200"
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -2147,7 +2285,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-font-size-300"
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -2158,7 +2299,10 @@
     "scope": {
       "component": "switch",
       "part": "label",
-      "property": "line-height-font-size-300"
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],

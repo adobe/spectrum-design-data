@@ -2,6 +2,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "size"
     },
     "context": "Control (size)",
@@ -13,6 +14,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "size"
     },
     "context": "Control (size)",
@@ -24,6 +26,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "size"
     },
     "context": "Control (size)",
@@ -35,6 +38,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "size"
     },
     "context": "Control (size)",
@@ -46,6 +50,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "size"
     },
     "context": "Control (size)",
@@ -57,6 +62,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "size"
     },
     "context": "Control (size)",
@@ -68,6 +74,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "size"
     },
     "context": "Control (size)",
@@ -79,6 +86,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "size"
     },
     "context": "Control (size)",
@@ -90,7 +98,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -101,7 +116,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -112,7 +134,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -123,7 +152,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top",
+        "to": "control"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top edge to control)",
     "contextRole": ["spacing"],
@@ -134,7 +170,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -144,7 +184,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -154,7 +198,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -164,7 +212,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -174,7 +226,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -184,7 +240,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -194,7 +254,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -204,7 +268,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -214,6 +282,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "container",
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
@@ -225,6 +294,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "container",
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
@@ -236,6 +306,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "container",
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
@@ -247,6 +318,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "border-width"
     },
     "context": "Control (border)",
@@ -258,6 +330,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "corner-radius"
     },
     "context": "Control (rounding)",
@@ -269,7 +342,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -280,7 +360,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -291,7 +378,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -302,7 +396,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "control",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (control to label)",
     "contextRole": ["spacing"],
@@ -313,7 +414,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-top-to-text-75"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -324,7 +432,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-top-to-text-100"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -335,7 +450,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-top-to-text-200"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -346,7 +468,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-top-to-text-300"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -357,7 +486,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-bottom-to-text-75"
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -368,7 +504,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-bottom-to-text-100"
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -379,7 +522,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-bottom-to-text-200"
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -390,7 +540,14 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "component-bottom-to-text-300"
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -401,6 +558,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus ring",
@@ -411,6 +569,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus ring",
@@ -421,6 +580,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "selection-indicator",
       "property": "width"
     },
     "context": "Selection indicator",
@@ -431,6 +591,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "container",
       "property": "spacing"
     },
     "context": "Radio group spacing (horizontal)",
@@ -442,6 +603,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label",
@@ -452,6 +614,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label",
@@ -462,6 +625,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label",
@@ -472,6 +636,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label",
@@ -482,6 +647,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "color"
     },
     "context": "Control",
@@ -492,6 +658,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "color"
     },
     "context": "Control",
@@ -502,6 +669,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "color"
     },
     "context": "Control",
@@ -551,6 +719,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "content-color"
     },
     "context": "Control",
@@ -561,6 +730,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "content-color"
     },
     "context": "Control",
@@ -571,6 +741,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "content-color"
     },
     "context": "Control",
@@ -581,6 +752,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "content-color"
     },
     "context": "Control",
@@ -591,6 +763,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "content-color",
       "options": {
         "isDisabled": true
@@ -660,6 +833,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "label",
       "property": "content-color",
       "options": {
         "isDisabled": true
@@ -673,6 +847,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -683,24 +858,27 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "color"
     },
-    "context": "Radio button colors",
+    "context": "Control",
     "$ref": "0b469d2e-7c66-4188-b6bf-bbc379f75538",
     "uuid": "eaf9d821-6fa3-5b7f-8fb1-873978555b9d"
   },
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "color"
     },
-    "context": "Radio button colors",
+    "context": "Control",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
     "uuid": "6958ba2b-80e7-5204-a3e6-b1e604c56a19"
   },
   {
     "scope": {
       "component": "radio-button",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Label",
@@ -711,6 +889,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Label",
@@ -721,6 +900,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Label",
@@ -731,7 +911,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -741,7 +925,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -751,7 +939,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -761,7 +953,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -771,7 +967,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -781,7 +981,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -791,7 +995,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -801,7 +1009,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -811,7 +1023,8 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -821,7 +1034,8 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1024,7 +1238,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "a7fc6bdb-5b9c-42d4-8f78-d34021ac0708",
-    "legacyKey": "radio-button-selection-indicator"
+    "legacyKey": "radio-button-selection-indicator",
+    "context": "Selection indicator"
   },
   {
     "scope": {
@@ -1213,7 +1428,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-font-size-75"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1223,7 +1442,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-font-size-75"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1233,7 +1456,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-font-size-100"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1243,7 +1470,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-font-size-100"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1253,7 +1484,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-font-size-200"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1263,7 +1498,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-font-size-200"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1273,7 +1512,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-font-size-300"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1283,7 +1526,11 @@
   {
     "scope": {
       "component": "radio-button",
-      "property": "line-height-font-size-300"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
