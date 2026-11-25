@@ -12,8 +12,8 @@
 //! font weight, so label widths do not depend on a font parser or the viewer's fonts.
 //!
 //! The default table is Source Sans 3 (SIL OFL), committed at
-//! `text-metrics/source-sans-3.json`. The site ships the
-//! same file to the slim WASM engine, which runs this code. A different table (the same format) can be
+//! `text-metrics/source-sans-3.json`. The engine reads the same numbers from the compact
+//! `source-sans-3.bin` beside it (a unit test keeps the two equal), and the site ships the JSON. A different table (the same format) can be
 //! passed per request or with the CLI's `--text-metrics`.
 
 use std::collections::HashMap;
@@ -34,6 +34,10 @@ const META_KEY: &str = "meta";
 const REQUIRED_WEIGHTS: &[u32] = &[400, 700];
 /// The committed default table (Source Sans 3), as the file the site ships.
 pub const DEFAULT_TABLE_JSON: &str = include_str!("text-metrics/source-sans-3.json");
+/// The same table packed for the engine: per weight (400, 700) the 95 advances as zigzag varint
+/// deltas, then one list of kerning groups shared by both weights (first character, pair count,
+/// then per pair the second character and each weight's kerning as zigzag varints).
+const DEFAULT_TABLE_BIN: &[u8] = include_bytes!("text-metrics/source-sans-3.bin");
 /// The font's license, shipped next to the default table.
 pub const DEFAULT_TABLE_LICENSE: &str = include_str!("text-metrics/OFL-SourceSans3.txt");
 
@@ -56,7 +60,43 @@ impl TextMetrics {
     pub fn default_table() -> &'static TextMetrics {
         static T: OnceLock<TextMetrics> = OnceLock::new();
         T.get_or_init(|| {
-            Self::parse(DEFAULT_TABLE_JSON).expect("committed text-metrics table is valid")
+            let mut r = DEFAULT_TABLE_BIN;
+            let mut weights: Vec<(u32, Weight)> = [400, 700]
+                .iter()
+                .map(|&w| {
+                    let mut prev = 0;
+                    let adv = (0..ADVANCES)
+                        .map(|_| {
+                            prev += unzigzag(&mut r);
+                            prev as f64
+                        })
+                        .collect();
+                    (
+                        w,
+                        Weight {
+                            adv,
+                            kern: HashMap::new(),
+                        },
+                    )
+                })
+                .collect();
+            for _ in 0..varint(&mut r) {
+                let a = char::from(FIRST_CHAR as u8 + varint(&mut r) as u8);
+                for _ in 0..varint(&mut r) {
+                    let b = char::from(FIRST_CHAR as u8 + varint(&mut r) as u8);
+                    let mut k = 0;
+                    for (_, w) in &mut weights {
+                        k += unzigzag(&mut r);
+                        if k != 0 {
+                            w.kern.insert((a, b), k as f64);
+                        }
+                    }
+                }
+            }
+            Self {
+                weights: Arc::new(weights),
+                meta: None,
+            }
         })
     }
 
@@ -147,6 +187,24 @@ impl<'de> serde::Deserialize<'de> for TextMetrics {
     }
 }
 
+fn varint(r: &mut &[u8]) -> u64 {
+    let (mut v, mut shift) = (0, 0);
+    loop {
+        let b = r[0];
+        *r = &r[1..];
+        v |= u64::from(b & 127) << shift;
+        if b < 128 {
+            return v;
+        }
+        shift += 7;
+    }
+}
+
+fn unzigzag(r: &mut &[u8]) -> i64 {
+    let v = varint(r);
+    (v >> 1) as i64 ^ -((v & 1) as i64)
+}
+
 fn parse_weight(key: &str, v: &Value) -> Result<Weight, String> {
     let at = |what: &str| format!("weight {key}: {what}");
     let obj = v.as_object().ok_or_else(|| at("must be an object"))?;
@@ -208,6 +266,76 @@ mod tests {
 
     fn near(a: f64, b: f64) {
         assert!((a - b).abs() < 1e-9, "{a} != {b}");
+    }
+
+    fn put(out: &mut Vec<u8>, mut v: u64) {
+        while v >= 128 {
+            out.push((v & 127) as u8 | 128);
+            v >>= 7;
+        }
+        out.push(v as u8);
+    }
+
+    fn put_signed(out: &mut Vec<u8>, v: i64) {
+        put(out, ((v << 1) ^ (v >> 63)) as u64);
+    }
+
+    /// The packed form of `DEFAULT_TABLE_JSON`, see `DEFAULT_TABLE_BIN`.
+    fn pack(t: &TextMetrics) -> Vec<u8> {
+        let mut out = Vec::new();
+        for (_, w) in t.weights.iter() {
+            let mut prev = 0;
+            for a in &w.adv {
+                put_signed(&mut out, *a as i64 - prev);
+                prev = *a as i64;
+            }
+        }
+        let mut groups =
+            std::collections::BTreeMap::<char, std::collections::BTreeSet<char>>::new();
+        for (_, w) in t.weights.iter() {
+            for (a, b) in w.kern.keys() {
+                groups.entry(*a).or_default().insert(*b);
+            }
+        }
+        put(&mut out, groups.len() as u64);
+        for (a, bs) in groups {
+            put(&mut out, u64::from(a) - u64::from(FIRST_CHAR));
+            put(&mut out, bs.len() as u64);
+            for b in bs {
+                put(&mut out, u64::from(b) - u64::from(FIRST_CHAR));
+                let mut prev = 0;
+                for (_, w) in t.weights.iter() {
+                    let k = w.kern.get(&(a, b)).copied().unwrap_or(0.0) as i64;
+                    put_signed(&mut out, k - prev);
+                    prev = k;
+                }
+            }
+        }
+        out
+    }
+
+    /// `UPDATE_TEXT_METRICS_BIN=1 cargo test -p design-data-core text_metrics` rewrites the
+    /// packed table after the JSON changes.
+    #[test]
+    fn packed_default_table_equals_the_json() {
+        let json = TextMetrics::parse(DEFAULT_TABLE_JSON).unwrap();
+        let bin = pack(&json);
+        if std::env::var_os("UPDATE_TEXT_METRICS_BIN").is_some() {
+            let path = concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/text-metrics/source-sans-3.bin"
+            );
+            std::fs::write(path, &bin).unwrap();
+            return;
+        }
+        assert_eq!(bin, DEFAULT_TABLE_BIN, "run with UPDATE_TEXT_METRICS_BIN=1");
+        let packed = table();
+        assert_eq!(packed.weights.len(), json.weights.len());
+        for ((wa, a), (wb, b)) in packed.weights.iter().zip(json.weights.iter()) {
+            assert_eq!(wa, wb);
+            assert_eq!(a.adv, b.adv);
+            assert_eq!(a.kern, b.kern);
+        }
     }
 
     fn table() -> &'static TextMetrics {
