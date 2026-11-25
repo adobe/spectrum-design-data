@@ -1363,3 +1363,73 @@ fn a_start_item_option_the_item_does_not_declare_fails() {
         s => panic!("{s:?}"),
     }
 }
+
+/// Each swatch group rule (choose mode and allowsEmpty, selection facet, wrap, skip, select on
+/// move) and each swatch rule (guard, choose) must be pinned by a vector.
+#[test]
+fn a_broken_swatch_group_rule_fails_a_vector() {
+    let edits = [
+        (
+            "swatch-group",
+            vec![
+                ("wrap on", "/collection/traversal/wrap", json!(true)),
+                (
+                    "no skip",
+                    "/collection/traversal/skip",
+                    json!({ "facet": "disabled", "is": "false" }),
+                ),
+                (
+                    "select on move",
+                    "/collection/traversal/selectOnMove",
+                    json!(true),
+                ),
+                ("mode single", "/collection/choose/mode", json!("single")),
+                (
+                    "mode multiple",
+                    "/collection/choose/mode",
+                    json!("multiple"),
+                ),
+                ("mode none", "/collection/choose/mode", json!("none")),
+                (
+                    "empty allowed",
+                    "/collection/choose/allowsEmpty",
+                    json!(true),
+                ),
+                (
+                    "empty refused",
+                    "/collection/choose/allowsEmpty",
+                    json!(false),
+                ),
+                (
+                    "selection always single",
+                    "/facets/selection/values",
+                    json!({ "single": {} }),
+                ),
+            ],
+        ),
+        (
+            "swatch",
+            vec![
+                (
+                    "guard dropped",
+                    "/transitions/0/guard",
+                    json!({ "facet": "disabled", "is": "true" }),
+                ),
+                (
+                    "choose becomes a set",
+                    "/transitions/0/do",
+                    json!({ "set": {} }),
+                ),
+            ],
+        ),
+    ];
+    for (component, list) in edits {
+        let (contract, vectors, patterns) = load(component);
+        assert_eq!(failures(&contract, &vectors, &patterns), 0, "{component}");
+        for (what, pointer, value) in list {
+            let mut m = contract.clone();
+            *m.pointer_mut(pointer).unwrap() = value;
+            assert!(failures(&m, &vectors, &patterns) > 0, "{component}: {what}");
+        }
+    }
+}

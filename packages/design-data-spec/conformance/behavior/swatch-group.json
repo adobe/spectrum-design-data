@@ -61,6 +61,902 @@
           "emit": []
         }
       ]
+    },
+    {
+      "name": "single, empty not allowed: activating another swatch moves the selection",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 2,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": [2]
+              }
+            }
+          ],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "single, empty not allowed: activating the selected swatch keeps it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "single, empty allowed: activating the selected swatch clears it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "allowsEmptySelection": true,
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": []
+              }
+            }
+          ],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "single with nothing selected: activating a swatch selects it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "multiple: activating adds to the selection and lists every index",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 2,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": [0, 2]
+              }
+            }
+          ],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "multiple: activating a selected swatch turns it off while another stays on",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "multiple, empty not allowed: the last selected swatch stays",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "multiple, empty allowed: the last selected swatch turns off",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "allowsEmptySelection": true,
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": []
+              }
+            }
+          ],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "selection off: activation selects nothing",
+      "start": {
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "facets": {
+            "selection": "none"
+          },
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "selection off keeps a swatch that is already on",
+      "start": {
+        "enableSelection": false,
+        "selectionMode": "multiple",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        },
+        {
+          "item": 2,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "facets": {
+            "selection": "none"
+          },
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [],
+          "after": 2
+        }
+      ]
+    },
+    {
+      "name": "selection mode single is read when selection is enabled",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single"
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "facets": {
+            "selection": "single",
+            "allowsEmpty": false
+          },
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "selection mode multiple is read when selection is enabled",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "allowsEmptySelection": true
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "facets": {
+            "selection": "multiple",
+            "allowsEmpty": true
+          },
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "a disabled swatch is not chosen",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isDisabled": true
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "arrows move focus by index and do not select",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        },
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "focused": 2,
+          "emit": [],
+          "after": 2
+        }
+      ]
+    },
+    {
+      "name": "navigate-previous moves back and does not select",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "focused": 1,
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "navigation skips a disabled swatch",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isDisabled": true
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "focused": 2,
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "navigation skips a disabled swatch going back",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isDisabled": true
+          },
+          {
+            "isSelected": true
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "focused": 0,
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "no wrap at the last swatch",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": true
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "focused": 2,
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "no wrap at the first swatch",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "focused": 0,
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "navigation with selection off moves focus and selects nothing",
+      "start": {
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "focused": 1,
+          "emit": [],
+          "after": 1
+        }
+      ]
+    },
+    {
+      "name": "activating a swatch after moving to it selects it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        },
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "focused": 1,
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ],
+          "after": 2
+        }
+      ]
+    },
+    {
+      "name": "a completed press on a swatch chooses it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "press-start"
+        },
+        {
+          "item": 1,
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isSelected": [1]
+              }
+            }
+          ],
+          "after": 2
+        }
+      ]
     }
   ]
 }
