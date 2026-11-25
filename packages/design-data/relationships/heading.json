@@ -9,7 +9,6 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -26,7 +25,6 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -42,7 +40,6 @@
         "script": "cjk"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "034892ba-eff6-4193-b4c5-61d20c8f22eb",
@@ -58,7 +55,6 @@
         "script": "cjk"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -74,7 +70,6 @@
         "script": "cjk"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -91,7 +86,6 @@
         "emphasis": "heavy-emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -108,7 +102,6 @@
         "emphasis": "heavy-emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -125,7 +118,6 @@
         "emphasis": "heavy"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -142,7 +134,6 @@
         "emphasis": "heavy"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -159,7 +150,6 @@
         "emphasis": "heavy-strong-emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -176,7 +166,6 @@
         "emphasis": "heavy-strong-emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -193,7 +182,6 @@
         "emphasis": "heavy-strong"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -210,7 +198,6 @@
         "emphasis": "heavy-strong"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -362,7 +349,6 @@
         "script": "cjk"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
@@ -379,7 +365,6 @@
         "size": "l"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a6fc0d3-e584-4ce6-82d8-be8c275c865e",
@@ -396,7 +381,6 @@
         "size": "m"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7560656c-41c2-4b51-ba29-b04aa3cd386b",
@@ -413,7 +397,6 @@
         "size": "s"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "278998ed-3a83-4c4d-aed3-ab5f6e1b218a",
@@ -430,7 +413,6 @@
         "size": "xl"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d46d987e-44dd-4113-81b3-1b28c0f5cfe6",
@@ -447,7 +429,6 @@
         "size": "xs"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fe457dd7-582a-4f0a-badc-7850adfd8cb7",
@@ -464,7 +445,6 @@
         "size": "xxl"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "200d964e-b6f4-4011-a40d-33b1bfb7aa68",
@@ -498,7 +478,6 @@
         "size": "xxxl"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbd67b04-f114-4549-8e36-223b7d7007c7",
@@ -515,7 +494,6 @@
         "size": "xxxxl"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "21c1f04f-3a63-4bf8-9f60-e9afa0e672a2",
@@ -532,7 +510,6 @@
         "emphasis": "strong-emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -549,7 +526,6 @@
         "emphasis": "strong-emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -566,7 +542,6 @@
         "emphasis": "strong"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -583,7 +558,6 @@
         "emphasis": "strong"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -654,7 +628,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -671,7 +644,6 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -730,7 +702,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -747,7 +718,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -764,7 +734,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -781,7 +750,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -798,7 +766,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -815,7 +782,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -832,7 +798,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -849,7 +814,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1002,7 +966,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -1019,7 +982,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1036,7 +998,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -1053,7 +1014,6 @@
         "family": "sans-serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1070,7 +1030,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -1087,7 +1046,6 @@
         "emphasis": "emphasized"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
@@ -1103,7 +1061,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7f83198f-26ec-4156-9573-826dd7feb718",
@@ -1119,7 +1076,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -1135,7 +1091,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
@@ -1152,7 +1107,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -1169,7 +1123,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1186,7 +1139,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -1203,7 +1155,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1220,7 +1171,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -1237,7 +1187,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1254,7 +1203,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -1271,7 +1219,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1424,7 +1371,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -1441,7 +1387,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1458,7 +1403,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -1475,7 +1419,6 @@
         "family": "serif"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -1505,7 +1448,6 @@
         "size": "m"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "935af8c5-6f70-49ee-b5ba-5e9650682753",
@@ -1521,7 +1463,6 @@
         "size": "s"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7560656c-41c2-4b51-ba29-b04aa3cd386b",
@@ -1537,7 +1478,6 @@
         "size": "xl"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cf1791b4-dcc2-4620-a508-d95bbd44504b",
@@ -1553,7 +1493,6 @@
         "size": "xs"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "278998ed-3a83-4c4d-aed3-ab5f6e1b218a",
@@ -1569,7 +1508,6 @@
         "size": "xxl"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "202a2c3e-5bfc-4871-9481-13c771bdc8dc",
@@ -1601,7 +1539,6 @@
         "size": "xxxl"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "760d6969-7e0e-4744-b1c6-d89d3a02af8d",
@@ -1617,7 +1554,6 @@
         "size": "xxxxl"
       }
     },
-    "context": "Text",
     "contextRole": ["label"],
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d59c0cd1-efb8-4f5b-9d5a-7ecbcd79f758",
