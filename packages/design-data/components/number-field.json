@@ -186,8 +186,7 @@
   },
   "states": [
     { "name": "hover", "trigger": "interaction" },
-    { "name": "focus-+-hover", "trigger": "prop" },
-    { "name": "focus-+-not-hover", "trigger": "prop" },
+    { "name": "focus", "trigger": "interaction" },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
