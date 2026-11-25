@@ -109,6 +109,15 @@
       "summary": "Figma variables import, export, and diff plugin."
     },
     {
+      "path": "sdk/plugins/png",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "PNG scene renderer: pure-Rust rasterizer, font discovery and the bundled fallback font."
+    },
+    {
       "path": "sdk/plugins/shadcn",
       "kind": "crate",
       "audience": "consumer",

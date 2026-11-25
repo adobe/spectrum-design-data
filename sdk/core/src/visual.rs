@@ -7284,7 +7284,7 @@ fn css_font_family(f: Option<&str>) -> String {
 }
 
 /// SVG needs numeric weights; tokens carry names such as `medium`.
-pub(crate) fn css_font_weight(w: Option<&str>) -> String {
+pub fn css_font_weight(w: Option<&str>) -> String {
     match w.unwrap_or("400") {
         "thin" => "100",
         "extra-light" | "ultra-light" => "200",
@@ -12225,38 +12225,6 @@ mod tests {
         assert!(huge.height <= 3.0 * MAX_FLOATING, "{}", huge.height);
     }
 
-    #[cfg(feature = "raster")]
-    #[test]
-    fn png_draws_the_whole_shadow_and_the_floating_part() {
-        let opts = crate::raster::RasterOptions {
-            scale: 1.0,
-            background: None,
-        };
-        let px = |img: &crate::raster::Image, x: u32, y: u32| {
-            let i = ((y * img.width + x) * 4) as usize;
-            img.rgba[i..i + 4].to_vec()
-        };
-        let scene = solve_width(
-            &shadow_recipe(serde_json::json!({ "shadow": [layer(0, 6, 16, "#000000")] })),
-            None,
-        );
-        let (img, _) = crate::raster::rasterize(&scene, &[], &opts).unwrap();
-        assert_eq!((img.width, img.height), (88, 68));
-        // Below the root (bottom at y 38) the shadow is still visible at y 50, beyond the old 8px margin.
-        assert!(px(&img, 44, 50)[3] > 0);
-        assert_eq!(px(&img, 44, 28), vec![255, 255, 255, 255]);
-        let tip = open_scene(&floating_recipe(
-            serde_json::json!({ "side": "top", "offset": lit(10.into()) }),
-            serde_json::json!({}),
-        ));
-        let (img, _) = crate::raster::rasterize(&tip, &[], &opts).unwrap();
-        assert_eq!((img.width, img.height), (56, 44));
-        // The tip is 10x6 at (23, 0); the root starts at y 16.
-        assert_eq!(px(&img, 28, 3), vec![255, 0, 0, 255]);
-        assert_eq!(px(&img, 28, 9)[3], 0);
-        assert_eq!(px(&img, 28, 20), vec![255, 255, 255, 255]);
-    }
-
     // --- floating subtrees and path shapes ---
 
     const TEARDROP: &str =
@@ -12420,17 +12388,6 @@ mod tests {
                 s.height
             );
             assert!(s.diagnostics.iter().any(|d| d.contains("beyond")), "{key}");
-            // Both renderers see the same small canvas.
-            let (img, _) = crate::raster::rasterize(
-                &s,
-                &[],
-                &crate::raster::RasterOptions {
-                    scale: 1.0,
-                    background: None,
-                },
-            )
-            .unwrap();
-            assert_eq!(img.width as f64, s.width.ceil());
             assert!(scene_to_svg(&s).contains(&format!("width=\"{}\"", s.width)));
         }
     }
@@ -12535,31 +12492,6 @@ mod tests {
         assert!(svg.contains("data-shadow=\"true\"") && svg.contains("<pattern"));
         // The box is not drawn as a rect for a path part.
         assert!(!svg.contains("data-part=\"loupe\" x="));
-    }
-
-    #[test]
-    fn png_draws_the_teardrop_its_checker_and_a_shadow_outside_it() {
-        let opts = crate::raster::RasterOptions {
-            scale: 1.0,
-            background: None,
-        };
-        let s = open_scene(&loupe_recipe(
-            serde_json::json!({ "side": "top", "offset": lit(2.into()) }),
-        ));
-        let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
-        let px = |x: f64, y: f64| {
-            let i = ((y as u32 * img.width + x as u32) * 4) as usize;
-            img.rgba[i..i + 4].to_vec()
-        };
-        let l = node_of(&s, "loupe");
-        // Inside the round top the checker (cells of 4, top-left cell is the plain fill) alternates.
-        let at = |dx: f64, dy: f64| px(l.x + dx, l.y + dy);
-        assert_eq!(at(10.5, 10.5), vec![255, 255, 255, 255]);
-        assert_eq!(at(10.5, 6.5), vec![204, 204, 204, 255]);
-        // The corner of the box is outside the teardrop: only the blurred shadow (or nothing).
-        assert!(at(0.5, 0.5)[3] < 20, "{:?}", at(0.5, 0.5));
-        // The point at the bottom is narrow: the bottom corners are empty too.
-        assert!(at(1.5, 23.5)[3] < 20);
     }
 
     #[test]
@@ -12881,31 +12813,6 @@ mod tests {
         assert_eq!(rel(&at(&r, 50.into()), "handle"), (20.0, 10.0, 10.0, 10.0));
     }
 
-    #[cfg(feature = "raster")]
-    #[test]
-    fn png_draws_the_handle_and_fill_at_their_fraction() {
-        let opts = crate::raster::RasterOptions {
-            scale: 1.0,
-            background: None,
-        };
-        let r = slider_recipe(
-            serde_json::json!({ "x": axis(serde_json::json!({})) }),
-            serde_json::json!({ "x": axis(serde_json::json!({ "length": true })) }),
-            "center",
-        );
-        let s = at(&r, 100.into());
-        let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
-        let px = |x: u32, y: u32| {
-            let i = ((y * img.width + x) * 4) as usize;
-            img.rgba[i..i + 4].to_vec()
-        };
-        // Track at (8, 8); the handle spans x 53..63, y 13..23; the fill 8..58 at y 16..20.
-        assert_eq!(px(58, 14), vec![255, 0, 0, 255]);
-        assert_eq!(px(30, 18), vec![0, 0, 255, 255]);
-        assert_eq!(px(70, 18), vec![255, 255, 255, 255]);
-        assert_eq!(px(30, 10), vec![255, 255, 255, 255]);
-    }
-
     #[test]
     fn a_floating_leaf_reads_a_corner_radius_relative_to_its_height() {
         let mut r = slider_recipe(
@@ -13054,34 +12961,6 @@ mod tests {
             .collect()
     }
 
-    #[cfg(feature = "raster")]
-    fn pixels(s: &Scene) -> impl Fn(f64, f64) -> [u8; 4] {
-        let opts = crate::raster::RasterOptions {
-            scale: 1.0,
-            background: None,
-        };
-        let (img, _) = crate::raster::rasterize(s, &[], &opts).unwrap();
-        move |x: f64, y: f64| {
-            let i = ((y as u32 * img.width + x as u32) * 4) as usize;
-            [
-                img.rgba[i],
-                img.rgba[i + 1],
-                img.rgba[i + 2],
-                img.rgba[i + 3],
-            ]
-        }
-    }
-
-    #[cfg(feature = "raster")]
-    fn near(got: [u8; 4], want: [f64; 3]) {
-        for i in 0..3 {
-            assert!(
-                (f64::from(got[i]) - want[i]).abs() <= 2.0,
-                "{got:?} vs {want:?}"
-            );
-        }
-    }
-
     fn hue_ramp() -> Value {
         serde_json::json!({
             "color": { "option": "color" }, "channel": { "value": "hue" }
@@ -13162,78 +13041,6 @@ mod tests {
         );
     }
 
-    #[cfg(feature = "raster")]
-    #[test]
-    fn png_blends_a_hue_ramp_between_its_stops() {
-        let r = ramp_recipe(ramp_fill(hue_ramp(), [0.0, 0.0], [1.0, 0.0]));
-        let s = ramp_scene(&r, &[("color", "hsl(0, 100%, 50%)".into())]);
-        let c = s.nodes.iter().find(|n| n.part == "c").unwrap();
-        let px = pixels(&s);
-        let at = |t: f64| px(c.x + (t * 100.0).floor(), c.y + 5.0);
-        // x = 50.5 of 100: offset 0.505, 3% into the cyan to blue segment: green 255 * 0.97.
-        near(at(0.50), [0.0, 255.0 * (1.0 - 0.03), 255.0]);
-        // x = 8.5: offset 0.085 in the red to yellow segment: green 255 * 0.085 / (1/6).
-        near(at(0.08), [255.0, 255.0 * 0.085 / (1.0 / 6.0), 0.0]);
-        near(
-            at(0.99),
-            [255.0, 0.0, 255.0 * (1.0 - (0.995 - 5.0 / 6.0) * 6.0)],
-        );
-    }
-
-    #[cfg(feature = "raster")]
-    #[test]
-    fn an_alpha_ramp_shows_the_checkerboard_through_its_start() {
-        let ramp = serde_json::json!({
-            "color": { "option": "color" }, "channel": { "value": "alpha" }
-        });
-        let r = ramp_recipe(ramp_fill(ramp, [0.0, 0.0], [1.0, 0.0]));
-        let s = ramp_scene(&r, &[("color", "#336699".into())]);
-        let c = s.nodes.iter().find(|n| n.part == "c").unwrap();
-        let px = pixels(&s);
-        // x = 95.5, offset 0.955: the square (9, 0) is the pattern's second color (black),
-        // the square (9, 1) at y 10..20 is white.
-        let a = 0.955;
-        let over = |back: f64| {
-            [
-                51.0 * a + back * (1.0 - a),
-                102.0 * a + back * (1.0 - a),
-                153.0 * a + back * (1.0 - a),
-            ]
-        };
-        near(px(c.x + 95.0, c.y + 5.0), over(0.0));
-        near(px(c.x + 95.0, c.y + 15.0), over(255.0));
-        // the start is almost clear: the first square is the pattern's own fill, white
-        near(px(c.x, c.y + 5.0), [254.0, 254.0, 254.0]);
-        near(
-            px(c.x + 10.0, c.y + 5.0),
-            [51.0 * 0.105, 102.0 * 0.105, 153.0 * 0.105],
-        );
-    }
-
-    #[cfg(feature = "raster")]
-    #[test]
-    fn a_vertical_track_starts_at_the_bottom_and_rtl_at_the_right() {
-        let ramp = serde_json::json!({
-            "color": { "option": "color" }, "channel": { "value": "red" }
-        });
-        let (g, _) = load();
-        let mut rq = req(&[]);
-        rq.options.insert("color".into(), "rgb(0, 0, 0)".into());
-        for (from, to, probe_min, probe_max) in [
-            ([0.0, 1.0], [0.0, 0.0], (50.0, 19.0), (50.0, 0.0)),
-            ([1.0, 0.0], [0.0, 0.0], (99.0, 10.0), (0.0, 10.0)),
-        ] {
-            let r = ramp_recipe(ramp_fill(ramp.clone(), from, to));
-            let s = build_scene(&g, &r, &rq).unwrap();
-            let c = s.nodes.iter().find(|n| n.part == "c").unwrap();
-            let px = pixels(&s);
-            let lo = px(c.x + probe_min.0, c.y + probe_min.1);
-            let hi = px(c.x + probe_max.0, c.y + probe_max.1);
-            assert!(lo[0] < 20, "{lo:?}");
-            assert!(hi[0] > 235, "{hi:?}");
-        }
-    }
-
     /// A 100x100 hsl color area: the base (z = hue) as the root fill, the saturation layer
     /// (left to right) and the lightness layer (bottom to top) floating over it.
     fn area_recipe() -> Value {
@@ -13295,29 +13102,6 @@ mod tests {
         let order: Vec<&str> = s.nodes.iter().map(|n| n.part.as_str()).collect();
         assert_eq!(order, ["r", "a-sat", "b-light"]);
         assert!(s.diagnostics.is_empty(), "{:?}", s.diagnostics);
-    }
-
-    #[cfg(feature = "raster")]
-    #[test]
-    fn png_composites_a_color_area_like_css_stacked_gradients() {
-        let s = ramp_scene(&area_recipe(), &[("color", "hsl(120, 80%, 30%)".into())]);
-        let r = s.nodes.iter().find(|n| n.part == "r").unwrap();
-        let px = pixels(&s);
-        for (x, y) in [(80.0, 75.0), (10.0, 75.0), (50.0, 20.0), (90.0, 90.0)] {
-            // saturation grey fades out to the right over the green base, then black fades out
-            // up to the middle and white fades in above it (to top: 0 at the bottom).
-            let (tx, ty) = ((x + 0.5) / 100.0, (100.0 - y - 0.5) / 100.0);
-            let a1 = 1.0 - tx;
-            let c1 = [128.0 * a1, 128.0 * a1 + 255.0 * (1.0 - a1), 128.0 * a1];
-            let want: [f64; 3] = if ty < 0.5 {
-                let a2 = 1.0 - ty / 0.5;
-                c1.map(|v| v * (1.0 - a2))
-            } else {
-                let a2 = (ty - 0.5) / 0.5;
-                c1.map(|v| v * (1.0 - a2) + 255.0 * a2)
-            };
-            near(px(r.x + x, r.y + y), want);
-        }
     }
 
     #[test]
@@ -13516,7 +13300,7 @@ mod tests {
     }
 
     #[test]
-    fn a_grid_is_drawn_by_svg_and_png_at_the_same_cells() {
+    fn a_grid_is_drawn_by_svg_at_its_cells() {
         let s = grid_scene(
             &[(20.0, 10.0); 4],
             serde_json::json!({ "columns": lit_num(2.0), "gap": lit_num(4.0) }),
@@ -13529,25 +13313,6 @@ mod tests {
             svg.contains("x=\"32\" y=\"22\" width=\"20\" height=\"10\""),
             "{svg}"
         );
-        #[cfg(feature = "raster")]
-        {
-            let opts = crate::raster::RasterOptions {
-                scale: 1.0,
-                background: None,
-            };
-            let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
-            let px = |x: u32, y: u32| {
-                let i = ((y * img.width + x) * 4) as usize;
-                img.rgba[i..i + 4].to_vec()
-            };
-            assert_eq!(
-                px(42, 27),
-                vec![255, 0, 0, 255],
-                "the cell at column 1, row 1"
-            );
-            assert_eq!(px(28, 27)[3], 0, "the gap between columns is empty");
-            assert_eq!(px(42, 20)[3], 0, "the gap between rows is empty");
-        }
     }
 
     #[test]
@@ -13880,21 +13645,6 @@ mod tests {
             svg.contains("data-part=\"day-8\"")
                 && svg.contains("x=\"8\" y=\"42\" width=\"10\" height=\"10\"")
         );
-        #[cfg(feature = "raster")]
-        {
-            let opts = crate::raster::RasterOptions {
-                scale: 1.0,
-                background: None,
-            };
-            let (img, _) = crate::raster::rasterize(&s, &[], &opts).unwrap();
-            let px = |x: u32, y: u32| {
-                let i = ((y * img.width + x) * 4) as usize;
-                img.rgba[i..i + 4].to_vec()
-            };
-            assert_eq!(px(13, 47), vec![255, 0, 0, 255], "day 8, row 2 column 0");
-            assert_eq!(px(13, 25), vec![0, 255, 0, 255], "weekday 0");
-            assert_eq!(px(19, 47)[3], 0, "the gap between day columns is empty");
-        }
     }
 
     #[test]

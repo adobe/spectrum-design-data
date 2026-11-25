@@ -180,7 +180,7 @@ pub fn paint_shadow(
         return;
     }
     let sr = r.map(|v| (v + spread).max(0.0));
-    let sigma = blur.min(crate::visual::MAX_SHADOW_BLUR) / 2.0 * xf.s;
+    let sigma = blur.min(design_data_core::visual::MAX_SHADOW_BLUR) / 2.0 * xf.s;
     let reach = (3.0 * sigma).ceil() as i64;
     // The buffer covers the shadow plus its blur reach, cut to the canvas plus that reach (a
     // pixel farther out cannot blur onto the canvas), so a huge offset costs nothing.

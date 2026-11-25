@@ -10,13 +10,63 @@
 
 //! The compiled-in plugin seam for scene renderers: a solved visual-recipe
 //! [`Scene`] in, one output format's bytes out. SVG and scene JSON live here;
-//! other formats (PNG, ...) implement the trait from `sdk/plugins/`. Options a
-//! format needs (fonts, pixel ratio) belong to the renderer value, not the trait.
+//! other formats (PNG, ...) implement the trait from `sdk/plugins/`.
+//!
+//! A host calls [`SceneRenderer::prepare`] before it lays the scene out (a format
+//! that draws text may need to choose its font first, because the font sets the
+//! text widths), then [`SceneRenderer::render`] with the options `prepare` returned.
 
+use crate::text_metrics::TextMetrics;
 use crate::visual::{scene_to_svg, Scene};
 
 #[cfg(test)]
 use crate::visual::Layout;
+
+/// A font file the caller supplies. `origin` says where it came from (a path, or
+/// `bundled`) for diagnostics.
+#[derive(Debug, Clone)]
+pub struct FontSource {
+    pub data: Vec<u8>,
+    pub origin: String,
+}
+
+/// What a renderer may be asked for beyond the scene. Formats ignore what they do
+/// not use.
+#[derive(Debug, Clone)]
+pub struct RenderOptions {
+    /// Pixels per scene unit, for raster formats.
+    pub pixel_ratio: f64,
+    /// Fonts the user chose. Empty lets the renderer look for one itself.
+    pub fonts: Vec<FontSource>,
+}
+
+impl Default for RenderOptions {
+    fn default() -> Self {
+        Self {
+            pixel_ratio: 2.0,
+            fonts: Vec::new(),
+        }
+    }
+}
+
+/// The result of [`SceneRenderer::prepare`].
+#[derive(Debug, Clone, Default)]
+pub struct Prepared {
+    /// The options to pass to `render`, with the font choice filled in.
+    pub options: RenderOptions,
+    /// Text-measurement table for the font the renderer will draw with, so layout
+    /// matches it. `None` keeps the committed default table.
+    pub text_metrics: Option<TextMetrics>,
+    /// Things the user should hear about before the render (such as a font fallback).
+    pub diagnostics: Vec<String>,
+}
+
+/// The bytes a renderer produced and what it could not draw faithfully.
+#[derive(Debug, Clone, Default)]
+pub struct Rendered {
+    pub bytes: Vec<u8>,
+    pub diagnostics: Vec<String>,
+}
 
 pub trait SceneRenderer {
     /// Stable identifier matched against a CLI `--format <id>` flag.
@@ -25,7 +75,20 @@ pub trait SceneRenderer {
     /// MIME type of the bytes `render` returns.
     fn media_type(&self) -> &'static str;
 
-    fn render(&self, scene: &Scene) -> Result<Vec<u8>, String>;
+    /// True when the bytes are not text, so a host must not write them to a terminal.
+    fn binary(&self) -> bool {
+        false
+    }
+
+    /// Settle the options (choose a font, say) before the scene is laid out.
+    fn prepare(&self, options: RenderOptions) -> Result<Prepared, String> {
+        Ok(Prepared {
+            options,
+            ..Prepared::default()
+        })
+    }
+
+    fn render(&self, scene: &Scene, options: &RenderOptions) -> Result<Rendered, String>;
 }
 
 pub struct SvgRenderer;
@@ -37,8 +100,11 @@ impl SceneRenderer for SvgRenderer {
     fn media_type(&self) -> &'static str {
         "image/svg+xml"
     }
-    fn render(&self, scene: &Scene) -> Result<Vec<u8>, String> {
-        Ok(scene_to_svg(scene).into_bytes())
+    fn render(&self, scene: &Scene, _: &RenderOptions) -> Result<Rendered, String> {
+        Ok(Rendered {
+            bytes: scene_to_svg(scene).into_bytes(),
+            ..Rendered::default()
+        })
     }
 }
 
@@ -52,8 +118,11 @@ impl SceneRenderer for SceneJsonRenderer {
     fn media_type(&self) -> &'static str {
         "application/json"
     }
-    fn render(&self, scene: &Scene) -> Result<Vec<u8>, String> {
-        serde_json::to_vec_pretty(scene).map_err(|e| e.to_string())
+    fn render(&self, scene: &Scene, _: &RenderOptions) -> Result<Rendered, String> {
+        Ok(Rendered {
+            bytes: serde_json::to_vec_pretty(scene).map_err(|e| e.to_string())?,
+            ..Rendered::default()
+        })
     }
 }
 
@@ -81,14 +150,20 @@ mod tests {
     #[test]
     fn svg_renderer_matches_scene_to_svg() {
         let scene = empty_scene();
-        let out = SvgRenderer.render(&scene).unwrap();
+        let out = SvgRenderer
+            .render(&scene, &RenderOptions::default())
+            .unwrap()
+            .bytes;
         assert_eq!(out, scene_to_svg(&scene).into_bytes());
     }
 
     #[test]
     fn scene_json_renderer_matches_pretty_json() {
         let scene = empty_scene();
-        let out = SceneJsonRenderer.render(&scene).unwrap();
+        let out = SceneJsonRenderer
+            .render(&scene, &RenderOptions::default())
+            .unwrap()
+            .bytes;
         assert_eq!(
             out,
             serde_json::to_string_pretty(&scene).unwrap().into_bytes()

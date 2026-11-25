@@ -63,14 +63,27 @@ target that actually exist:
   implement `TokenExporter`.
 
 * **Scene renderers** — a solved visual-recipe `Scene` -> one output format's
-  bytes. These implement \[`design_data_core::scene_render::SceneRenderer`]
-  (`format_id`, `media_type`, `render(scene) -> Result<Vec<u8>, String>`).
-  `SvgRenderer` (`svg`) and `SceneJsonRenderer` (`scene`) live in core. The CLI
-  looks a renderer up by `format_id()` from a static registry
-  (`cli/src/main.rs::scene_renderers()`); a plugin crate adds its renderer to
-  that list. Options a format needs (fonts, pixel ratio) belong to the renderer
-  value, not the trait. PNG still takes its own path in `run_render`; moving it
-  and the spec sheet into plugin crates follows in p6ga.36.2 and p6ga.36.3.
+  bytes. These implement \[`design_data_core::scene_render::SceneRenderer`]:
+  `format_id`, `media_type`, `binary` (true when the bytes must not go to a
+  terminal), `prepare(options) -> Prepared` and
+  `render(scene, options) -> Rendered`. `prepare` runs before layout, because a
+  format that draws text may need to choose its font first (the font sets the
+  text widths): it returns the settled `RenderOptions` (pixel ratio, user fonts),
+  an optional `TextMetrics` for layout, and diagnostics to show before the render.
+  `render` returns the bytes and the diagnostics for what it could not draw
+  faithfully. `SvgRenderer` (`svg`) and `SceneJsonRenderer` (`scene`) live in
+  core and keep the default `prepare`. `design-data-png`'s `PngRenderer` (`png`,
+  `image/png`) owns the pure-Rust rasterizer (`canvas`, `shape`, `path`, `png`),
+  the TrueType and variable-font reader, font discovery and resolution
+  (`font/`), and the bundled Source Sans 3 fallback font with its OFL text
+  (`src/fonts/`, behind the default `fallback-font` feature). The CLI looks a
+  renderer up by `format_id()` from a static registry
+  (`cli/src/main.rs::scene_renderers()`), and `render --format` accepts exactly
+  the ids in that list, so a plugin is added in one place. The TUI preview and
+  `sdk/wasm` (`renderPng`, `describeFont`, `chooseFont`) call the PNG crate's
+  functions directly; `sdk/wasm` turns `fallback-font` off because the MCP server
+  hands it the fonts it reads. `sdk/wasm-visual` does not depend on it. The
+  spec-sheet renderer follows in p6ga.36.3.
 
 **Adding a new in-monorepo plugin**: create `sdk/plugins/<name>/`, depend on
 `design-data-core` by path, implement `TokenExporter` if it accepts resolved

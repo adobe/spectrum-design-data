@@ -24,7 +24,7 @@ import * as wasm from "@adobe/design-data-wasm";
 import { fontDirs, findFont, resetFontCache } from "../src/fonts.js";
 
 const CORE_FONT = new URL(
-  "../../../sdk/core/src/raster/fonts/SourceSans3VF-Upright.ttf",
+  "../../../sdk/plugins/png/src/fonts/SourceSans3VF-Upright.ttf",
   import.meta.url,
 );
 const BUNDLED = new URL(

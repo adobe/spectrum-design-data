@@ -17,7 +17,7 @@ use common::{empty_graph, key, render_to_buffer, settle, update_ctx_builder};
 
 use crossterm::event::KeyCode;
 use design_data_core::data_source::{self, CliPathOverrides};
-use design_data_core::raster::font::discover::{Env, Os};
+use design_data_png::font::discover::{Env, Os};
 use design_data_tui::app::Modal;
 use design_data_tui::preview::{PreviewRequest, PreviewSource, PreviewState};
 use design_data_tui::{Message, Model};
