@@ -559,6 +559,7 @@ mod tests {
             "checkbox-group",
             "avatar-group",
             "accordion",
+            "tooltip",
         ] {
             let raw = component_raw(&legacy, name).unwrap();
             let contract = derived

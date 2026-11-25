@@ -199,6 +199,7 @@
   "accessibility": {
     "role": "tooltip",
     "focusable": false,
+    "keyboardIntents": ["dismiss"],
     "wcag": [
       {
         "criterion": "1.4.13",

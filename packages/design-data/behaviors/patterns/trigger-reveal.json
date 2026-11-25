@@ -1,0 +1,179 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-pattern.schema.json",
+  "pattern": "trigger-reveal",
+  "description": "The shared base of a part that its trigger shows and hides (Tooltip): it reads `isOpen` as the `open` facet and `isDisabled` as `disabled`, and tracks the trigger's hover, keyboard focus and press as the `hovered` and `focusVisible` facets. Keyboard focus and hover open it; the trigger being left, blurred or pressed, and `dismiss`, close it. It stays open while hover or keyboard focus still holds it. The delays before it opens or closes are not here: a platform adapter applies them before it sends `pointer-enter` and `pointer-leave`. The extending contract lists `isOpen` and `isDisabled` in its `state`.",
+  "publishes": ["hovered", "focusVisible"],
+  "facets": {
+    "open": {
+      "from": "isOpen",
+      "values": {
+        "false": false,
+        "true": true
+      }
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": {
+        "false": false,
+        "true": true
+      }
+    }
+  },
+  "transitions": [
+    {
+      "on": "focus",
+      "via": "keyboard",
+      "needs": ["keyboard"],
+      "guard": {
+        "facet": "open",
+        "is": "false"
+      },
+      "do": {
+        "set": {
+          "focusVisible": true,
+          "isOpen": true
+        }
+      },
+      "emit": "change"
+    },
+    {
+      "on": "focus",
+      "via": "keyboard",
+      "needs": ["keyboard"],
+      "do": {
+        "set": {
+          "focusVisible": true
+        }
+      }
+    },
+    {
+      "on": "focus",
+      "do": {
+        "set": {
+          "focusVisible": false
+        }
+      }
+    },
+    {
+      "on": "blur",
+      "guard": {
+        "all": [
+          {
+            "facet": "open",
+            "is": "true"
+          },
+          {
+            "facet": "hovered",
+            "is": "false"
+          }
+        ]
+      },
+      "do": {
+        "set": {
+          "focusVisible": false,
+          "isOpen": false
+        }
+      },
+      "emit": "change"
+    },
+    {
+      "on": "pointer-enter",
+      "needs": ["pointer-hover"],
+      "guard": {
+        "facet": "open",
+        "is": "false"
+      },
+      "do": {
+        "set": {
+          "hovered": true,
+          "isOpen": true
+        }
+      },
+      "emit": "change"
+    },
+    {
+      "on": "pointer-leave",
+      "guard": {
+        "all": [
+          {
+            "facet": "open",
+            "is": "true"
+          },
+          {
+            "facet": "focusVisible",
+            "is": "false"
+          }
+        ]
+      },
+      "do": {
+        "set": {
+          "hovered": false,
+          "isOpen": false
+        }
+      },
+      "emit": "change"
+    },
+    {
+      "on": "press-start",
+      "guard": {
+        "facet": "open",
+        "is": "true"
+      },
+      "do": {
+        "set": {
+          "hovered": false,
+          "focusVisible": false,
+          "isOpen": false
+        }
+      },
+      "emit": "change"
+    },
+    {
+      "on": "press-start",
+      "do": {
+        "set": {
+          "hovered": false,
+          "focusVisible": false
+        }
+      }
+    },
+    {
+      "on": "dismiss",
+      "guard": {
+        "facet": "open",
+        "is": "true"
+      },
+      "do": {
+        "set": {
+          "isOpen": false
+        }
+      },
+      "emit": "change"
+    },
+    {
+      "on": "blur",
+      "do": {
+        "set": {
+          "focusVisible": false
+        }
+      }
+    },
+    {
+      "on": "pointer-enter",
+      "needs": ["pointer-hover"],
+      "do": {
+        "set": {
+          "hovered": true
+        }
+      }
+    },
+    {
+      "on": "pointer-leave",
+      "do": {
+        "set": {
+          "hovered": false
+        }
+      }
+    }
+  ]
+}

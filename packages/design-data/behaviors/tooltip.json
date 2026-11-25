@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "tooltip",
+  "extends": ["trigger-reveal"],
+  "state": ["isOpen", "isDisabled"],
+  "parts": {
+    "container": {
+      "role": "tooltip",
+      "focus": "none"
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "1.4.13",
+      "level": "AA",
+      "title": "Content on Hover or Focus"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}

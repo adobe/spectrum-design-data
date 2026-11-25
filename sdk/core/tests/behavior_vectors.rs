@@ -1433,3 +1433,93 @@ fn a_broken_swatch_group_rule_fails_a_vector() {
         }
     }
 }
+
+/// The tooltip's rules are the `trigger-reveal` pattern's transitions: breaking any one of them
+/// (what opens it, what closes it, what keeps it open, what is emitted) must fail a vector, and the
+/// pins hold the part. Escape is a binding, so an unbound or wrong key fails its key suite.
+#[test]
+fn a_mutated_tooltip_fails_a_vector() {
+    let (contract, vectors, patterns) = load("tooltip");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let with = |mutate: &dyn Fn(&mut Vec<Value>)| {
+        let mut p = patterns.clone();
+        let reveal = p
+            .iter_mut()
+            .find(|p| p.pattern == "trigger-reveal")
+            .unwrap();
+        mutate(reveal.raw["transitions"].as_array_mut().unwrap());
+        failures(&contract, &vectors, &p)
+    };
+    let nth = |ts: &Vec<Value>, on: &str, n: usize| {
+        ts.iter()
+            .enumerate()
+            .filter(|(_, t)| t["on"] == on)
+            .nth(n)
+            .unwrap()
+            .0
+    };
+    // (intent, nth transition for it, option dropped from `do.set`)
+    for (on, n, option) in [
+        ("focus", 0, "isOpen"),
+        ("blur", 0, "isOpen"),
+        ("pointer-enter", 0, "isOpen"),
+        ("pointer-enter", 0, "hovered"),
+        ("pointer-leave", 0, "isOpen"),
+        ("press-start", 0, "isOpen"),
+        ("press-start", 0, "hovered"),
+        ("press-start", 0, "focusVisible"),
+        ("press-start", 1, "hovered"),
+        ("dismiss", 0, "isOpen"),
+    ] {
+        assert!(
+            with(&|ts| {
+                let i = nth(ts, on, n);
+                ts[i]["do"]["set"].as_object_mut().unwrap().remove(option);
+            }) > 0,
+            "{on} #{n} without {option} went unnoticed"
+        );
+    }
+    // Each fallback (the transition that applies when the guarded one does not) and each guard.
+    for (on, n) in [
+        ("focus", 1),
+        ("focus", 2),
+        ("blur", 1),
+        ("pointer-enter", 1),
+        ("pointer-leave", 1),
+        ("press-start", 1),
+        ("dismiss", 0),
+    ] {
+        assert!(
+            with(&|ts| {
+                let i = nth(ts, on, n);
+                ts.remove(i);
+            }) > 0,
+            "{on} #{n} removed went unnoticed"
+        );
+    }
+    for (on, n) in [
+        ("focus", 0),
+        ("blur", 0),
+        ("pointer-enter", 0),
+        ("pointer-leave", 0),
+        ("dismiss", 0),
+    ] {
+        assert!(
+            with(&|ts| {
+                let i = nth(ts, on, n);
+                ts[i].as_object_mut().unwrap().remove("guard");
+            }) > 0,
+            "{on} #{n} guard dropped went unnoticed"
+        );
+    }
+    let pins = pins_of("tooltip");
+    for mutate in [
+        (|m: &mut Value| m["parts"]["container"]["focus"] = json!("tab-stop")) as fn(&mut Value),
+        |m| m["parts"]["container"]["role"] = json!("dialog"),
+        |m| m["state"] = json!(["isOpen"]),
+    ] {
+        let mut m = contract.clone();
+        mutate(&mut m);
+        assert!(!design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty());
+    }
+}
