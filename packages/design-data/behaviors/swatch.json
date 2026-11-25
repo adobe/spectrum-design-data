@@ -1,0 +1,53 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "swatch",
+  "extends": ["interactive"],
+  "state": ["isSelected", "isDisabled"],
+  "facets": {
+    "selected": {
+      "from": "isSelected",
+      "values": {
+        "unselected": false,
+        "selected": true
+      }
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": {
+        "false": false,
+        "true": true
+      }
+    }
+  },
+  "parts": {
+    "container": {
+      "focus": "tab-stop",
+      "press": "activate"
+    }
+  },
+  "transitions": [
+    {
+      "on": "activate",
+      "guard": {
+        "facet": "disabled",
+        "is": "false"
+      },
+      "do": {
+        "choose": "isSelected"
+      },
+      "emit": "change"
+    }
+  ],
+  "wcag": [
+    {
+      "criterion": "2.1.1",
+      "level": "A",
+      "title": "Keyboard"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}

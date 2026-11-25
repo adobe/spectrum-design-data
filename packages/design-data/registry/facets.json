@@ -53,6 +53,22 @@
       "from": ["isSelected"]
     },
     {
+      "id": "selection",
+      "label": "Selection",
+      "description": "How a group of items is chosen: `none` (selection is off), `single` or `multiple`. Derived from `enableSelection` and `selectionMode` (first matching value wins).",
+      "source": "state-group",
+      "values": ["none", "single", "multiple"],
+      "from": ["enableSelection", "selectionMode"]
+    },
+    {
+      "id": "allowsEmpty",
+      "label": "Allows empty",
+      "description": "Whether a group may have no item chosen. Derived from `allowsEmptySelection`.",
+      "source": "state-group",
+      "values": ["false", "true"],
+      "from": ["allowsEmptySelection"]
+    },
+    {
       "id": "pending",
       "label": "Pending",
       "description": "Whether the control is waiting on work and ignores presses. Derived from `isPending`.",

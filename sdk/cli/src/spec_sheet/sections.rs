@@ -542,6 +542,7 @@ mod tests {
         for name in [
             "switch",
             "checkbox",
+            "swatch",
             "radio-button",
             "radio-group",
             "action-button",

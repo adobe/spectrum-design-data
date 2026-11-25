@@ -1,0 +1,201 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "swatch",
+  "pins": {
+    "state": ["isSelected", "isDisabled"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "container": {
+        "focus": "tab-stop",
+        "press": "activate"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "activate selects an unselected swatch",
+      "start": {},
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "selected": "selected"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "activate on a standalone selected swatch turns it off",
+      "start": {
+        "isSelected": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "selected": "unselected"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "disabled ignores activation",
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "selected": "unselected",
+            "disabled": true
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a completed press selects it",
+      "start": {},
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": true,
+            "selected": "unselected"
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "selected": "selected"
+          },
+          "emit": [
+            {
+              "change": {
+                "isSelected": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a cancelled press does not select",
+      "start": {},
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-cancel"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "facets": {
+            "pressed": false,
+            "selected": "unselected"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "keyboard focus shows focus-visible",
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "disabled takes no focus, press or hover",
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "pointer-enter"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "facets": {
+            "focusVisible": false,
+            "pressed": false,
+            "hovered": false
+          }
+        }
+      ]
+    }
+  ]
+}
