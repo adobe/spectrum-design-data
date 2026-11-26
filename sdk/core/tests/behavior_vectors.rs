@@ -1656,3 +1656,28 @@ fn an_item_key_step_item_aria_and_a_traversal_less_group_are_pinned() {
         "an item part with no role"
     );
 }
+
+#[test]
+fn item_aria_on_a_vector_with_no_items_fails() {
+    let (contract, _, patterns) = load("accordion");
+    let vectors = vec![json!({
+        "name": "itemAria without start.items",
+        "start": {},
+        "steps": [{ "intent": "blur" }],
+        "expect": [{ "after": 1, "itemAria": [{ "aria-expanded": "bogus" }] }]
+    })];
+    let r = run_vectors_with(
+        &contract,
+        &patterns,
+        &vectors,
+        RegistryData::embedded(),
+        &all_capabilities(),
+        None,
+        &all_contracts(),
+    );
+    assert!(
+        matches!(&r[0].status, Status::Fail(f) if f[0].contains("itemAria") && f[0].contains("no group to check")),
+        "{:?}",
+        r[0].status
+    );
+}

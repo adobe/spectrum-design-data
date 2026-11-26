@@ -567,7 +567,7 @@ fn run_vector(
     let expects = v.get("expect").and_then(Value::as_array);
     if group.is_none() {
         for e in expects.into_iter().flatten() {
-            if let Some(k) = ["items", "focused"]
+            if let Some(k) = ["items", "focused", "itemAria"]
                 .into_iter()
                 .find(|k| e.get(k).is_some())
             {
