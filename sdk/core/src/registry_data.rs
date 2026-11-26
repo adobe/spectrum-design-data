@@ -4133,6 +4133,30 @@ const INTENTS_JSON: &str = r##"{
       "usedAs": ["keyboardIntents"]
     },
     {
+      "id": "increment-page",
+      "label": "Increment page",
+      "description": "Increases a ranged value by a page",
+      "usedAs": ["keyboardIntents"]
+    },
+    {
+      "id": "decrement-page",
+      "label": "Decrement page",
+      "description": "Decreases a ranged value by a page",
+      "usedAs": ["keyboardIntents"]
+    },
+    {
+      "id": "set-min",
+      "label": "Set min",
+      "description": "Sets a ranged value to its minimum",
+      "usedAs": ["keyboardIntents"]
+    },
+    {
+      "id": "set-max",
+      "label": "Set max",
+      "description": "Sets a ranged value to its maximum",
+      "usedAs": ["keyboardIntents"]
+    },
+    {
       "id": "select-all",
       "label": "Select all",
       "description": "Selects all items in a collection",
@@ -4202,6 +4226,12 @@ const INTENTS_JSON: &str = r##"{
       "id": "navigate-last",
       "label": "Navigate last",
       "description": "Logical movement to the last peer.",
+      "category": "event"
+    },
+    {
+      "id": "move",
+      "label": "Move",
+      "description": "A pointer drag moves a ranged value to a logical position, 0 to 1 from the minimum; the adapter resolves geometry and direction.",
       "category": "event"
     }
   ]

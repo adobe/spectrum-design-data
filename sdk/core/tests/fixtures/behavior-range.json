@@ -1,0 +1,1186 @@
+{
+  "contract": {
+    "component": "range-fixture",
+    "extends": ["range"],
+    "state": [
+      "isDisabled",
+      "value",
+      "minValue",
+      "maxValue",
+      "step",
+      "direction"
+    ],
+    "range": {
+      "value": "value",
+      "min": "minValue",
+      "max": "maxValue",
+      "step": "step",
+      "page": {
+        "fraction": 0.1
+      },
+      "mirror": {
+        "facet": "arrowOrder",
+        "is": "mirrored"
+      }
+    },
+    "facets": {
+      "arrowOrder": {
+        "from": "direction",
+        "values": {
+          "mirrored": "rtl",
+          "natural": "ltr"
+        }
+      }
+    },
+    "parts": {
+      "thumb": {
+        "role": "slider",
+        "focus": "tab-stop"
+      }
+    },
+    "semantics": {
+      "thumb": {
+        "value": {
+          "ariaState": "aria-valuenow",
+          "copy": true
+        }
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a whole number stays whole",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 40.0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 41.0
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "41"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a whole number written as a float reads whole",
+      "start": {
+        "value": 100.0,
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "aria-valuenow": "100"
+          }
+        }
+      ]
+    },
+    {
+      "name": "an off-step value snaps to the step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 5,
+        "value": 42
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 45
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "45"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 40
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "40"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a half step rounds away from the minimum",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 10,
+        "value": 15
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "snapping counts from a non-zero minimum",
+      "start": {
+        "minValue": 3,
+        "maxValue": 100,
+        "step": 10,
+        "value": 8
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 23
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "23"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a snap past the maximum clamps",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 5,
+        "value": 99
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "100"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [],
+          "aria": {
+            "aria-valuenow": "100"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a snap below the minimum clamps",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 5,
+        "value": 1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [],
+          "aria": {
+            "aria-valuenow": "0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a page is a tenth of the span",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 60
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 40
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page follows the span",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1000,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page is never below one step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 25,
+        "value": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 25
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page rounds to the step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 8,
+        "value": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Home and End set the bounds",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 40
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "End sets the maximum even off the step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 10,
+        "step": 3,
+        "value": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a drag is press, moves and release, and release raises nothing",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "press-start",
+          "via": "pointer"
+        },
+        {
+          "intent": "move",
+          "position": 0.25
+        },
+        {
+          "intent": "move",
+          "position": 0.755
+        },
+        {
+          "intent": "press-end",
+          "via": "pointer"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "pressed": "true"
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 25
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 76
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "facets": {
+            "pressed": "false"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a move snaps to the step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 25,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.4
+        },
+        {
+          "intent": "move",
+          "position": 0
+        },
+        {
+          "intent": "move",
+          "position": 1
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move to where the value is emits nothing",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "aria-valuenow": "50"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a float step has no float noise",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.1,
+        "value": 0.2
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.3
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0.3"
+          }
+        }
+      ]
+    },
+    {
+      "name": "right to left swaps Left and Right",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 49
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "left to right does not",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move is not mirrored",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 0,
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.25
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 25
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a disabled range ignores keys and moves",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        },
+        {
+          "intent": "move",
+          "position": 1
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "aria-valuenow": "50"
+          }
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a decimal half rounds away from the minimum on a move",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.35
+        },
+        {
+          "intent": "move",
+          "position": 0.15
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.4
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal half rounds away from the minimum on a key",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.1,
+        "value": 0.35
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.5
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0.5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a 0.05 step rounds halves and keeps no float noise",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.05,
+        "value": 0.1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "intent": "move",
+          "position": 0.125
+        },
+        {
+          "intent": "move",
+          "position": 0.175
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.15
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0.15"
+          }
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "0.1 plus 0.2 reads 0.3",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.1,
+        "value": 0.1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0.3
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0.3"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a move counts from a non-zero minimum",
+      "start": {
+        "minValue": 50,
+        "maxValue": 150,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "position": 0
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a drag to the end gives the last lattice point, End the maximum",
+      "start": {
+        "minValue": 0,
+        "maxValue": 10,
+        "step": 3,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 1
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 9
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

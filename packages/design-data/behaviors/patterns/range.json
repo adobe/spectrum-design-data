@@ -1,0 +1,57 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-pattern.schema.json",
+  "pattern": "range",
+  "description": "The shared base of a single-thumb ranged control (slider): it reads `isDisabled` as the `disabled` facet and answers the value intents with `do.adjust`, which the runner resolves against the contract's `range` block (snap, clamp, page). A pointer drag is `press-start`, `move` with a logical position, then `press-end`; a range has no press, so its `press-end` raises nothing. Each adjust emits `change` only when the value changed. The extending contract lists `isDisabled` and the options its `range` names in its `state`.",
+  "extends": ["interactive"],
+  "facets": {
+    "disabled": {
+      "from": "isDisabled",
+      "values": { "false": false, "true": true }
+    }
+  },
+  "transitions": [
+    { "on": "press-end", "do": { "set": { "pressed": false } } },
+    {
+      "on": "increment",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "adjust": { "by": 1, "unit": "step" } },
+      "emit": "change"
+    },
+    {
+      "on": "decrement",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "adjust": { "by": -1, "unit": "step" } },
+      "emit": "change"
+    },
+    {
+      "on": "increment-page",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "adjust": { "by": 1, "unit": "page" } },
+      "emit": "change"
+    },
+    {
+      "on": "decrement-page",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "adjust": { "by": -1, "unit": "page" } },
+      "emit": "change"
+    },
+    {
+      "on": "set-min",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "adjust": { "to": "min" } },
+      "emit": "change"
+    },
+    {
+      "on": "set-max",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "adjust": { "to": "max" } },
+      "emit": "change"
+    },
+    {
+      "on": "move",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": { "adjust": { "to": "position" } },
+      "emit": "change"
+    }
+  ]
+}
