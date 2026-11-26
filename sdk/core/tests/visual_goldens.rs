@@ -1657,6 +1657,12 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     // Message family (in-line alert, alert banner, toast): the defaults draw an empty message,
     // so these set the copy and cover each variant, the in-line alert styles, a dismissible
     // banner, the dark and wireframe schemes, the mobile scale and a wrapped message.
+    // The wrapped-label corner radius is its own state; the all-on golden keeps the default one.
+    if name == "button" {
+        for (_, r) in out.iter_mut() {
+            r.options.insert("isLabelWrapped".into(), false.into());
+        }
+    }
     if matches!(name, "in-line-alert" | "alert-banner" | "toast") {
         type Case = (
             &'static str,
