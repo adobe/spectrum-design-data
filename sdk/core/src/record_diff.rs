@@ -343,6 +343,9 @@ fn scope_label(rec: &Value) -> String {
     {
         q.push(format!("itemPosition={p}"));
     }
+    if let Some(n) = scope.and_then(|s| s.get("ordinal")).and_then(Value::as_u64) {
+        q.push(format!("ordinal={n}"));
+    }
     q.sort();
     if q.is_empty() {
         prop.to_string()

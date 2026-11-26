@@ -46,6 +46,7 @@ const SCOPE_KEYS: &[&str] = &[
     "qualifier",
     "icon",
     "itemPosition",
+    "ordinal",
 ];
 
 /// The values of `scope.itemPosition`: the place of one drawn copy of a repeated part.
@@ -232,6 +233,14 @@ fn unsupported_descriptive(raw: &Value) -> Option<String> {
     {
         return Some(format!(
             "scope.itemPosition has a value this engine does not support ({v}). {NEWER}"
+        ));
+    }
+    if let Some(v) = scope
+        .get("ordinal")
+        .filter(|v| v.as_u64().is_none_or(|n| n < 1))
+    {
+        return Some(format!(
+            "scope.ordinal has a value this engine does not support ({v}). {NEWER}"
         ));
     }
     let between = scope.get("between")?;
@@ -434,14 +443,16 @@ pub fn option_names(options: &Map<String, Value>) -> Vec<String> {
 
 /// The identity fields a structured selector may name, as `(selector key, record pointer)`.
 /// `contextRole` and `contextQualifier` are label inputs, not identity.
-const IDENTITY_FIELDS: [(&str, &str); 3] = [
+const IDENTITY_FIELDS: [(&str, &str); 4] = [
     ("attribute", "/scope/attribute"),
     ("part", "/scope/part"),
     ("between", "/scope/between"),
+    ("ordinal", "/scope/ordinal"),
 ];
 
 /// The record's identity as one line, `property / attribute / part / between`, with `-` for a field it
-/// does not have. Two records with the same line are one identity.
+/// does not have, and ` / #N` after it when the record has `scope.ordinal`. Two records with the
+/// same line are one identity.
 pub fn relationship_identity(rec: &Value) -> String {
     let text = |p: &str| match rec.pointer(p) {
         Some(Value::String(s)) => s.clone(),
@@ -460,6 +471,9 @@ pub fn relationship_identity(rec: &Value) -> String {
     ]
     .map(text)
     .join(" / ")
+        + &rec
+            .pointer("/scope/ordinal")
+            .map_or(String::new(), |n| format!(" / #{n}"))
 }
 
 /// Whether a recipe relationship selector names `rec` apart from its `property`: the same
@@ -612,6 +626,42 @@ mod tests {
         assert!(!sel(
             json!({"property": "space-between", "between": {"from": "a", "to": "c"}})
         ));
+    }
+
+    #[test]
+    fn an_ordinal_makes_records_that_differ_only_by_it_distinct_identities() {
+        let rec = |n: Option<u64>| {
+            let mut r = json!({"scope": {"component": "x", "property": "position",
+                "attribute": "gradient", "part": "p"}, "$ref": "t"});
+            if let Some(n) = n {
+                r["scope"]["ordinal"] = json!(n);
+            }
+            r
+        };
+        assert_ne!(
+            relationship_identity(&rec(Some(1))),
+            relationship_identity(&rec(Some(2)))
+        );
+        assert_eq!(
+            relationship_identity(&rec(Some(2))),
+            relationship_identity(&rec(Some(2)))
+        );
+        assert_eq!(
+            relationship_identity(&rec(None)),
+            "position / gradient / p / -"
+        );
+        assert_eq!(
+            relationship_identity(&rec(Some(2))),
+            "position / gradient / p / - / #2"
+        );
+        let sel = json!({"property": "position", "part": "p", "ordinal": 2});
+        assert!(selector_matches(&sel, &rec(Some(2))));
+        assert!(!selector_matches(&sel, &rec(Some(1))));
+        assert!(!selector_matches(&sel, &rec(None)));
+        assert_eq!(unsupported_shape(&rec(Some(3))), None);
+        let mut bad = rec(Some(1));
+        bad["scope"]["ordinal"] = json!(0);
+        assert!(unsupported_shape(&bad).is_some());
     }
 
     #[test]

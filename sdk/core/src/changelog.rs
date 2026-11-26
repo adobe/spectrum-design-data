@@ -175,7 +175,7 @@ fn head(path: &str) -> &str {
 /// A relationship's identity as recipes select it: (property, attribute, part, between).
 /// `options.from`/`to` read as `between`, and `contextPart` as `part`, so a migration to
 /// the structured fields leaves the key unchanged.
-fn identity_of(r: &Value) -> (Value, Value, Value, Value) {
+fn identity_of(r: &Value) -> (Value, Value, Value, Value, Value) {
     let s = &r["scope"];
     let o = &s["options"];
     let between = if s.get("between").is_some() {
@@ -199,6 +199,7 @@ fn identity_of(r: &Value) -> (Value, Value, Value, Value) {
         s["attribute"].clone(),
         part.cloned().unwrap_or(Value::Null),
         between,
+        s["ordinal"].clone(),
     )
 }
 
@@ -251,12 +252,14 @@ fn identity_kept(old: &DatasetSnapshot, new: &DatasetSnapshot, c: &RecordChange)
             .find(|r| r.get("uuid").and_then(Value::as_str) == Some(c.id.as_str()))
             .map(identity_of)
     };
-    let (Some((bp, ba, bpart, bb)), Some((ap, aa, apart, ab))) = (find(old), find(new)) else {
+    let (Some((bp, ba, bpart, bb, bo)), Some((ap, aa, apart, ab, ao))) = (find(old), find(new))
+    else {
         return false;
     };
     bp == ap
         && ba == aa
         && bb == ab
+        && bo == ao
         && (bpart == apart
             || (bpart.is_null() && apart.as_str().is_some_and(|p| is_root(new, comp, p))))
 }
@@ -327,6 +330,7 @@ fn scope_class(f: &PropertyChange, kept: bool) -> Class {
     }
     let mut it = path.split('.').skip(1);
     match (it.next(), it.next()) {
+        (Some("ordinal"), _) => Class::Api,
         (Some("part" | "between" | "property" | "attribute"), _) => {
             if kept && matches!(path.split('.').nth(1), Some("part" | "between")) {
                 Class::Metadata
@@ -1247,6 +1251,17 @@ mod tests {
             with(|r| r["scope"]["part"] = json!("Dot")),
         );
         assert!(c.is_empty() && n > 0, "{c:?}");
+    }
+
+    #[test]
+    fn changing_an_ordinal_is_an_identity_change() {
+        let (c, _) = classes(
+            with(|r| r["scope"]["ordinal"] = json!(1)),
+            with(|r| r["scope"]["ordinal"] = json!(2)),
+        );
+        assert!(c.contains(&Class::Api), "{c:?}");
+        let (c, _) = classes(with(|_| {}), with(|r| r["scope"]["ordinal"] = json!(1)));
+        assert!(c.contains(&Class::Api), "{c:?}");
     }
 
     fn with_anatomy(old: Value, new: Value) -> (Vec<Class>, usize) {

@@ -1799,3 +1799,17 @@ rules:
     message: "Key bindings of platform '{platform}' {problem}"
     spec_ref: spec/behavior-contract.md#key-bindings
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-125
+    name: relationship-ordinal-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      `scope.ordinal` is part of a relationship's identity: records that differ only by it are
+      distinct, such as the stops of one gradient. An ordinal is a position, so it starts at 1.
+    assert: >
+      A relationship's `scope.ordinal` MUST be an integer of 1 or more.
+    message: "scope.ordinal {value} is not an integer of 1 or more"
+    spec_ref: spec/relationship-format.md#identity
+    introduced_in: "1.0.0-draft"

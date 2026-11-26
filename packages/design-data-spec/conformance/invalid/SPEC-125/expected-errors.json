@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-125",
+      "severity": "error",
+      "message_pattern": ".*scope.ordinal 0 is not an integer of 1 or more.*"
+    },
+    {
+      "rule_id": "SPEC-125",
+      "severity": "error",
+      "message_pattern": ".*scope.ordinal -1 is not an integer of 1 or more.*"
+    }
+  ]
+}
