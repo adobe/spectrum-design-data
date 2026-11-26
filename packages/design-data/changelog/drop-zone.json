@@ -404,6 +404,25 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "2.0.3",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Border width and corner radius"],"record":"5582026a-22e6-4e0e-9a21-2a7a43b026a6","name":"dash-gap[structure=drop-target]","fields":[{"path":"name.legacyKey","before":"drop-target-dash-gap"}]},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Border width and corner radius"],"record":"24cd8175-3dc5-46ae-b1af-01632787fcd8","name":"drop-target-dash-length","fields":[{"path":"name.legacyKey","before":"drop-target-dash-length"}]},
+            {"id":"a5c38722-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Component width"],"record":"5f5773d3-e2d0-431b-b461-f472499a7a1f","name":"width[size=xxxl,structure=container]","fields":[{"path":"name.legacyKey","before":"container-width-3x-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"}
+          ]
+        }
+      ]
     }
   ]
 }
