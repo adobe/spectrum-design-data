@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
+"@adobe/design-data-wasm": patch
 ---
 
 Add the `value`, `minValue`, `maxValue` and `step` options to the number-field component.
