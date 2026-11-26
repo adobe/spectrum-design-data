@@ -342,7 +342,7 @@
             "property": "space-between",
             "part": "container",
             "between": {
-              "from": "end-edge",
+              "from": "bottom-edge",
               "to": "hold-icon"
             }
           }

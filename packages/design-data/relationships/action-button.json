@@ -1137,7 +1137,7 @@
       "part": "container",
       "property": "space-between",
       "between": {
-        "from": "end-edge",
+        "from": "bottom-edge",
         "to": "hold-icon"
       },
       "options": {
@@ -1160,6 +1160,25 @@
         "to": "hold-icon"
       },
       "options": {
+        "size": "xs"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "b4d6b11b-240b-4daf-8c24-3661888730d1",
+    "uuid": "e5a3f001-5456-5151-b3e3-466f38ca2e63"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "hold-icon"
+      },
+      "options": {
         "size": "s"
       }
     },
@@ -1176,6 +1195,25 @@
       "property": "space-between",
       "between": {
         "from": "end-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "7789a1e5-3bc8-494d-91c2-1309b4697da9",
+    "uuid": "a39b7cb4-d164-5c8c-98e7-1b790ecad70b"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
         "to": "hold-icon"
       },
       "options": {
@@ -1198,6 +1236,25 @@
         "to": "hold-icon"
       },
       "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "32bdfee6-cc93-4d53-9d08-2591646d38e9",
+    "uuid": "a32e6195-4f7b-50e1-b8b1-596cc584332a"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "hold-icon"
+      },
+      "options": {
         "size": "l"
       }
     },
@@ -1217,6 +1274,25 @@
         "to": "hold-icon"
       },
       "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "31fe1f21-a95a-4354-b6d1-e40dc66990fb",
+    "uuid": "569d1cc7-a599-52a9-9b6d-58f477cbe3a9"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "hold-icon"
+      },
+      "options": {
         "size": "xl"
       }
     },
@@ -1225,6 +1301,25 @@
     "contextQualifier": "edge to hold icon",
     "$ref": "5ddb3980-2cbd-41cb-9b60-2139c5ce9544",
     "uuid": "e947937e-40d7-5aa7-94b5-2cb865c7e08a"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "5ddb3980-2cbd-41cb-9b60-2139c5ce9544",
+    "uuid": "f24b70e6-a707-5cdd-8068-de775415e519"
   },
   {
     "scope": {
