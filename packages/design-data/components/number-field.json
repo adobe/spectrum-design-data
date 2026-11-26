@@ -109,7 +109,14 @@
       "type": "boolean",
       "default": false,
       "description": "If true, hides in-field increment and decrement buttons (stepper)."
-    }
+    },
+    "value": {
+      "type": "number",
+      "description": "from minValue to maxValue"
+    },
+    "minValue": { "type": "number" },
+    "maxValue": { "type": "number" },
+    "step": { "type": "number", "default": 1 }
   },
   "anatomy": [
     {
