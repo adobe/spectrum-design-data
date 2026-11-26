@@ -489,6 +489,35 @@ test("design-data-query follows aliases to a final value", async (t) => {
   t.is(unresolved.length, 0, JSON.stringify(unresolved.slice(0, 2)));
 });
 
+test("design-data-query names every token by its derived legacy name and token-usage still takes the old field text", async (t) => {
+  const tools = byName();
+  const [token] = (
+    await tools["design-data-query"].handler({
+      filter: "uuid=fe914904-a368-414b-a4ac-21c0b0340d05",
+    })
+  ).tokens;
+  t.is(token.name, "focus-indicator-color");
+  t.truthy(
+    token.values?.colorScheme,
+    "a mode-dependent alias keeps its values",
+  );
+  const [full] = (
+    await tools["design-data-query"].handler({
+      filter: "component=accordion,property=padding",
+      limit: 1,
+      detail: "full",
+    })
+  ).tokens;
+  t.truthy(full.legacyName);
+  t.false(full.legacyName.includes("="), full.legacyName);
+  const { legacyKey, colorScheme, scale, contrast, ...fields } = full.raw.name;
+  const oldText = Object.entries(fields)
+    .map(([k, v]) => `${k}=${[v].flat().join("+")}`)
+    .join(" ");
+  const usage = (token) => tools["design-data-token-usage"].handler({ token });
+  t.deepEqual(await usage(oldText), await usage(full.legacyName));
+});
+
 test("design-data-query gives per-mode values when an alias depends on a mode it does not name", async (t) => {
   const query = byName()["design-data-query"];
   const find = async (filter, key) =>
@@ -1077,14 +1106,14 @@ test("design-data-component-tokens view states gives one row per context with a 
     scale: "desktop",
   });
   const fill = secondary.rows.find((r) => r.context === "Background");
-  t.regex(fill.default, /gray scaleIndex=100: rgb\(233/);
+  t.regex(fill.default, /gray-100: rgb\(233/);
   t.notRegex(
     fill.default,
     /transparent/,
     "static-color bindings are not a default",
   );
   t.false(
-    view.rows.some((r) => /small|large|-75|-200|-300/.test(r.default ?? "")),
+    view.rows.some((r) => /small|-75/.test(r.default ?? "")),
     "only the requested size is listed",
   );
   const noState = await tool.handler({

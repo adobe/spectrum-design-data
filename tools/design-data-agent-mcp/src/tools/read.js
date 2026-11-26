@@ -332,7 +332,7 @@ export function createReadTools() {
           token: {
             type: "string",
             description:
-              "Token name (e.g. neutral-content-color-hover), uuid or conceptId. A token without a name shown by query as `property=corner-radius scaleIndex=500` can be passed as that text.",
+              "Token name (e.g. neutral-content-color-hover), uuid or conceptId. The older field text, such as `property=corner-radius scaleIndex=500`, is also accepted.",
           },
           limit: {
             type: "number",
